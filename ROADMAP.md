@@ -14,13 +14,21 @@
 
 - [x] **Task 1: CCXT source setup** — Install CCXT via `mix npm.install ccxt` and clone TS source via sparse checkout. Verify both paths work: QuickBEAM can load the browser bundle, OXC can parse TS files. Create a mix task (`mix ccxt_extract.setup`) that does both.
 
-- [ ] **Task 2: Exchange inventory** — Use QuickBEAM to instantiate all exchanges and list them. Record: id, name, certified, pro (WS support), class hierarchy. Use OXC to find all TS files and their class `extends` chains. How many exchanges? How many have WS? How many are variants of another?
+- [ ] **Task 2: Exchange inventory** — Catalog every exchange with metadata and hierarchy.
+  - [ ] **2a: QuickBEAM exchange list** — Load CCXT via QuickBEAM, extract per-exchange: `id`, `name`, `certified`, `pro`, `version`, `country`, `alias`. Mark aliases explicitly (`alias: true` in describe() = pure re-brands like `huobi`→`htx`). Extract referral URLs from `describe().urls.referral` (two formats: plain string URL, or `{url, discount}` object) — normalize to `{url, discount}` format. Write `priv/discoveries/exchanges.json`. Reuse pattern from `examples/3_quickbeam_describe.exs`.
+  - [ ] **2b: OXC class hierarchy** — Find all `.ts` files in `priv/ccxt/ts/src/` (REST) and `pro/` (WS). Parse each with OXC, extract class name + `extends` target. Build full inheritance tree. Identify which exchanges have WS counterparts. Write `priv/discoveries/class_hierarchy.json`. Reuse pattern from `examples/5_family_variants.exs`.
+  - [ ] **2c: Exchange summary stats** — Combine 2a + 2b outputs: total counts (REST vs WS), alias vs real, family groupings distinguishing aliases from variants, variant count per family. Print summary table. Write `priv/discoveries/exchange_summary.json`.
 
-- [ ] **Task 3: describe() key inventory** — For every exchange, extract the full `describe()` via QuickBEAM. What are ALL the top-level keys? Which keys appear on every exchange? Which are exchange-specific? How deep do the nested structures go? Don't assume you know — catalog what's actually there.
+- [ ] **Task 3: describe() key inventory** — Catalog every key in every exchange's describe().
+  - [ ] **3a: Extract all describe() top-level keys** — Use QuickBEAM to get `describe()` for all exchanges (skip pure aliases). Record all top-level keys and their value types per exchange. Write `priv/discoveries/describe_keys.json`.
+  - [ ] **3b: Key frequency analysis** — From 3a: which keys are universal, which appear on most (>90%, >50%), which are exchange-specific (<5 exchanges)? Max nesting depth per key. Write `priv/discoveries/describe_key_analysis.json`.
 
-- [ ] **Task 4: Method inventory** — For every exchange, use OXC to extract all method names, parameter names, TypeScript types, async/sync, and statement counts. How many methods does each exchange have? What are the common methods across all exchanges? What are unique methods? Catalog the parse*, watch*, handle*, fetch*, create*, cancel* families.
+- [ ] **Task 4: Method inventory** — Catalog every method on every exchange with signatures.
+  - [ ] **4a: REST exchange methods** — Parse every `.ts` in `priv/ccxt/ts/src/` (excluding `pro/`, `abstract/`, `base/`) with OXC. Extract: method name, async/sync, parameter names + TS types, return type, statement count. Write `priv/discoveries/methods_rest.json`. Reuse pattern from `examples/1_parse_exchange.exs`.
+  - [ ] **4b: WS exchange methods** — Same as 4a for `priv/ccxt/ts/src/pro/*.ts`. Write `priv/discoveries/methods_ws.json`.
+  - [ ] **4c: Method family analysis** — From 4a + 4b: group by prefix family (`parse*`, `fetch*`, `create*`, `cancel*`, `watch*`, `handle*`, etc.), universal vs unique methods, method count distribution. Write `priv/discoveries/method_analysis.json`.
 
-- [ ] **Task 5: Document discoveries** — Write a DISCOVERIES.md with what was found. This becomes the design input for later phases. Include: key counts, method counts, family groupings, inheritance patterns, anything surprising.
+- [ ] **Task 5: Document discoveries** — Read all `priv/discoveries/*.json` and write `DISCOVERIES.md`: exchange count/family breakdown, class hierarchy patterns, describe() key catalog, method families/distributions, anything surprising. This becomes the design input for Phase 2.
 
 - [x] **Task 18: Fix QuickBEAM browser global pattern in examples** [D:1/B:3/U:5 → Eff:4.00] [P]
       Examples 3 and 4 use `set_global(rt, "self", :global_this)` which doesn't create true identity with globalThis. Replace with the working `QuickBEAM.eval` pattern for setting browser globals. Discovered during Task 1.

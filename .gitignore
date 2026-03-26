@@ -14,8 +14,8 @@ package-lock.json
 npm.lock
 package.json
 
-# CCXT source (cloned/checked out during setup)
-/priv/ccxt/
+# CCXT source (cloned/symlinked during setup)
+/priv/ccxt
 
 # Extracted output (generated, not committed)
 /priv/output/

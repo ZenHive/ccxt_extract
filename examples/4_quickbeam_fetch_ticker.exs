@@ -20,9 +20,8 @@ end
 bundle = File.read!(bundle_path)
 {:ok, rt} = QuickBEAM.start()
 
-# Browser global stubs
-QuickBEAM.set_global(rt, "self", :global_this)
-QuickBEAM.set_global(rt, "window", :global_this)
+# Browser global stubs — self and window must reference globalThis directly
+QuickBEAM.eval(rt, "globalThis.self = globalThis; globalThis.window = globalThis")
 QuickBEAM.set_global(rt, "navigator", %{"userAgent" => "QuickBEAM"})
 QuickBEAM.set_global(rt, "location", %{"protocol" => "https:"})
 

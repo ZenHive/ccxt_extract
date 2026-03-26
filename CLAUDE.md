@@ -1,5 +1,26 @@
 # CLAUDE.md
 
+@~/.claude/includes/across-instances.md
+@~/.claude/includes/critical-rules.md
+@~/.claude/includes/task-prioritization.md
+@~/.claude/includes/task-writing.md
+@~/.claude/includes/web-command.md
+@~/.claude/includes/code-style.md
+@~/.claude/includes/development-philosophy.md
+@~/.claude/includes/documentation-guidelines.md
+@~/.claude/includes/elixir-patterns.md
+@~/.claude/includes/elixir-setup.md
+@~/.claude/includes/development-commands.md
+@~/.claude/includes/ex-unit-json.md
+@~/.claude/includes/dialyzer-json.md
+@~/.claude/includes/library-design.md
+@~/.claude/includes/elixir-volt.md
+@~/.claude/includes/oxc.md
+@~/.claude/includes/quickbeam.md
+@~/.claude/includes/npm-ci-verify.md
+@~/.claude/includes/npm-security-audit.md
+@~/.claude/includes/npm-dep-analysis.md
+
 ## Mission
 
 Extract **everything** CCXT knows about 111+ cryptocurrency exchanges into language-agnostic data.
@@ -53,8 +74,8 @@ Loads CCXT's pre-bundled browser build and runs it on the BEAM. All 111 exchange
 ```elixir
 bundle = File.read!("node_modules/ccxt/dist/ccxt.browser.min.js")
 {:ok, rt} = QuickBEAM.start()
-QuickBEAM.set_global(rt, "self", :global_this)
-QuickBEAM.set_global(rt, "window", :global_this)
+# self/window must BE globalThis — set_global with atoms converts to strings
+QuickBEAM.eval(rt, "globalThis.self = globalThis; globalThis.window = globalThis")
 QuickBEAM.set_global(rt, "navigator", %{"userAgent" => "QuickBEAM"})
 QuickBEAM.set_global(rt, "location", %{"protocol" => "https:"})
 QuickBEAM.call(rt, "eval", [bundle])
@@ -132,9 +153,33 @@ mix run examples/3_quickbeam_describe.exs binance
 
 The `examples/` directory contains 5 working scripts that demonstrate OXC and QuickBEAM. Run them to understand the tools before building extraction logic. They are the quickest way to see what data is available.
 
+## How CCXT Works: Transpilation Architecture
+
+CCXT is written in TypeScript and transpiled to Go, Python, PHP, C#, and Java. Understanding their pipeline explains why TS is the canonical source and why we extract data rather than transpile code.
+
+**Their three-layer system:**
+
+1. **TypeScript compiler** — parses exchange TS source into a TS AST. (We use OXC instead — 43ms vs the TS compiler which is too heavy for in-process use.)
+
+2. **ast-transpiler** (`ccxt/ast-transpiler` on npm) — their own AST-to-code library. A `BaseTranspiler` with 152 methods walks the AST and prints target language code. Six language backends override ~50-90 methods each for language-specific idioms (Go needs channels for async, structs for classes, explicit types; Python needs `self.`, snake_case, `isinstance`).
+
+3. **Regex post-processing** (the `build/*.ts` files) — thousands of lines of regex substitutions per language target. Handles CCXT-specific naming, crypto function mapping, method name conversion, formatting. 3,161 lines for Python/PHP, 2,734 for Go, 1,472 for C#.
+
+**Why we chose a different path:**
+
+CCXT transpiles *code* (TS method body → Go/Python method body). We extract *data* — the AST itself as JSON, plus runtime-resolved values from QuickBEAM. This means:
+
+- Consumers decide per-method whether to pattern-match the AST or transpile it
+- The output is language-agnostic (JSON, not Elixir/Rust/Go code)
+- No regex post-processing layer needed
+- The raw AST preserves all information; transpilation is lossy
+
+**Do NOT** attempt to build a transpiler, write an Elixir backend for ast-transpiler, or convert AST nodes to Elixir code. That's a consumer concern. This repo extracts data.
+
 ## What This Repo Is NOT
 
 - Not a trading library (no HTTP clients, no signing, no WebSocket)
 - Not an Elixir library with runtime modules (extraction runs at build time or as a tool)
 - Not coupled to any specific consumer
 - Not a port or wrapper of ccxt_ex (that project exists separately)
+- Not a transpiler — we extract data (AST + runtime values), not code

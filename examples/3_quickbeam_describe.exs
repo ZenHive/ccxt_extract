@@ -21,8 +21,9 @@ IO.puts("Loading CCXT (#{div(byte_size(bundle), 1024)}KB)...")
 {:ok, rt} = QuickBEAM.start()
 
 # Stub browser globals that CCXT's browser build expects
-QuickBEAM.set_global(rt, "self", :global_this)
-QuickBEAM.set_global(rt, "window", :global_this)
+# self and window must reference globalThis (not just be defined) so that
+# browser bundles that assign to self.X or window.X attach to the global scope.
+QuickBEAM.eval(rt, "globalThis.self = globalThis; globalThis.window = globalThis")
 QuickBEAM.set_global(rt, "navigator", %{"userAgent" => "QuickBEAM"})
 QuickBEAM.set_global(rt, "location", %{"protocol" => "https:"})
 

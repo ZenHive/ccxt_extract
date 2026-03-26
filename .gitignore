@@ -11,6 +11,8 @@ ccxt_extract-*.tar
 /node_modules/
 /npm-cache/
 package-lock.json
+npm.lock
+package.json
 
 # CCXT source (cloned/checked out during setup)
 /priv/ccxt/

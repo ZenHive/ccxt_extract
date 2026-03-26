@@ -12,7 +12,7 @@
 
 ### Tasks
 
-- [ ] **Task 1: CCXT source setup** — Install CCXT via `mix npm.install ccxt` and clone TS source via sparse checkout. Verify both paths work: QuickBEAM can load the browser bundle, OXC can parse TS files. Create a mix task (`mix ccxt_extract.setup`) that does both.
+- [x] **Task 1: CCXT source setup** — Install CCXT via `mix npm.install ccxt` and clone TS source via sparse checkout. Verify both paths work: QuickBEAM can load the browser bundle, OXC can parse TS files. Create a mix task (`mix ccxt_extract.setup`) that does both.
 
 - [ ] **Task 2: Exchange inventory** — Use QuickBEAM to instantiate all exchanges and list them. Record: id, name, certified, pro (WS support), class hierarchy. Use OXC to find all TS files and their class `extends` chains. How many exchanges? How many have WS? How many are variants of another?
 
@@ -21,6 +21,9 @@
 - [ ] **Task 4: Method inventory** — For every exchange, use OXC to extract all method names, parameter names, TypeScript types, async/sync, and statement counts. How many methods does each exchange have? What are the common methods across all exchanges? What are unique methods? Catalog the parse*, watch*, handle*, fetch*, create*, cancel* families.
 
 - [ ] **Task 5: Document discoveries** — Write a DISCOVERIES.md with what was found. This becomes the design input for later phases. Include: key counts, method counts, family groupings, inheritance patterns, anything surprising.
+
+- [x] **Task 18: Fix QuickBEAM browser global pattern in examples** [D:1/B:3/U:5 → Eff:4.00] [P]
+      Examples 3 and 4 use `set_global(rt, "self", :global_this)` which doesn't create true identity with globalThis. Replace with the working `QuickBEAM.eval` pattern for setting browser globals. Discovered during Task 1.
 
 ---
 
@@ -40,19 +43,19 @@
 
 ## Phase 3: Structural Extraction — OXC AST [D:7/B:9/U:8 -> Eff:1.21]
 
-> OXC parses TypeScript source into AST. Use it for structural data that QuickBEAM can't provide: method bodies, signing logic, error handling patterns, field mappings.
+> OXC parses TypeScript source into AST. Use it for structural data that QuickBEAM can't provide: method bodies, signing logic, error handling patterns, field mappings. **Output raw ESTree AST as JSON** — don't pre-classify or reduce to patterns. Consumers decide whether to pattern-match the AST (parameterized patterns) or transpile it (code generation). The AST is the data.
 
 ### Tasks
 
-- [ ] **Task 9: sign() method extraction** — Extract the `sign()` method body AST for every exchange. This is how each exchange authenticates API requests. Classify what you find — don't start with categories, let the data reveal the patterns. What hash algorithms? Where does the signature go (header, query, body)? What gets signed?
+- [ ] **Task 9: sign() method extraction** — Extract the `sign()` method body as raw ESTree AST (JSON) for every exchange. This is how each exchange authenticates API requests. Output the full AST — don't classify into patterns, don't pre-categorize. Consumers decide whether to pattern-match (e.g., "9 signing patterns") or transpile the AST into target language code. The raw AST is the data.
 
-- [ ] **Task 10: handleErrors() extraction** — Extract `handleErrors()` for every exchange. How does each exchange map HTTP responses to error types? What error codes exist? What broad patterns? Combine with exceptions from describe().
+- [ ] **Task 10: handleErrors() extraction** — Extract `handleErrors()` body as raw ESTree AST for every exchange. How does each exchange map HTTP responses to error types? Output the full method AST alongside the exceptions from describe(). Don't reduce to a lookup table — the AST captures conditional logic, fallthrough, and edge cases that a table would lose.
 
-- [ ] **Task 11: parse*() method extraction** — Extract all `parse*` method bodies (parseTicker, parseOrder, parseTrade, parseBalance, etc.). These contain field-by-field mappings from exchange-specific format to CCXT's unified format. Extract the mapping tables: which exchange field maps to which unified field, with what transformation.
+- [ ] **Task 11: parse*() method extraction** — Extract all `parse*` method bodies as raw ESTree AST (parseTicker, parseOrder, parseTrade, parseBalance, etc.). These contain field-by-field mappings from exchange-specific format to CCXT's unified format. Output the full AST per method. Consumers can extract mapping tables from the AST, or transpile the method body directly — that's their choice, not ours.
 
-- [ ] **Task 12: WS method extraction** — Extract all `watch*` and `handle*` methods from `pro/*.ts`. These define WebSocket subscription and message handling. What channels? What message formats? How does subscription work for each exchange?
+- [ ] **Task 12: WS method extraction** — Extract all `watch*` and `handle*` methods from `pro/*.ts` as raw ESTree AST. These define WebSocket subscription and message handling. Output full method ASTs — channel names, message formats, and subscription logic are all embedded in the code and should be preserved structurally.
 
-- [ ] **Task 13: Class hierarchy and overrides** — Build the complete class hierarchy tree. For each exchange that extends another, identify exactly which methods are overridden. This tells you what's unique about each exchange vs. inherited from its parent.
+- [ ] **Task 13: Class hierarchy and overrides** — Build the complete class hierarchy tree. For each exchange that extends another, identify exactly which methods are overridden and include the override's AST. This tells consumers both what's unique about each exchange AND gives them the code to work with.
 
 ---
 
@@ -62,7 +65,7 @@
 
 ### Tasks
 
-- [ ] **Task 14: Design output schema** — Based on everything discovered in Phases 1-3, design a JSON schema for the per-exchange output. The schema should reflect CCXT's actual structure, not any consumer's needs. Use JSON-native types only (strings, numbers, booleans, arrays, objects, null). Include a formal JSON Schema spec so any language can validate.
+- [ ] **Task 14: Design output schema** — Based on everything discovered in Phases 1-3, design a JSON schema for the per-exchange output. The schema should reflect CCXT's actual structure, not any consumer's needs. Use JSON-native types only (strings, numbers, booleans, arrays, objects, null). Include a formal JSON Schema spec so any language can validate. The output has two layers: (1) resolved runtime data from QuickBEAM (describe, markets — values), and (2) raw ESTree AST from OXC (method bodies — code as data). Both are JSON. Consumers choose per-method whether to interpret the AST as patterns or transpile it.
 
 - [ ] **Task 15: Full extraction pipeline** — Build the pipeline that runs QuickBEAM + OXC extraction for all exchanges and writes per-exchange JSON files. Should be runnable via a single mix task. Deterministic: same input = same output.
 
@@ -78,3 +81,5 @@
 - Phase order matters: Discovery first, then runtime extraction, then structural, then output format
 - The output format in Phase 4 is designed AFTER Phases 1-3 reveal what data actually exists
 - See `examples/` for working OXC and QuickBEAM scripts to understand the tools
+- **AST as data, not as code**: CCXT's own transpiler (ast-transpiler + regex post-processing) converts TS AST → target language code. We take a different approach: extract the AST as JSON data. This gives consumers maximum flexibility — they can pattern-match it (parameterized patterns like "9 signing types"), transpile it (AST → Elixir/Rust code), or analyze it (dashboards, capability discovery). The extraction layer doesn't decide which strategy is right.
+- **Two-layer output**: QuickBEAM gives resolved values (what an exchange IS — config, capabilities, markets). OXC gives structural AST (what an exchange DOES — signing logic, parsing logic, error handling). Both are JSON. Both are complete. Together they capture everything CCXT knows.

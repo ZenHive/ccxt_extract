@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "tidewave": {
+      "type": "http",
+      "url": "http://localhost:4001/tidewave/mcp",
+      "headers": {
+        "Accept-Encoding": "identity"
+      }
+    }
+  }
+}

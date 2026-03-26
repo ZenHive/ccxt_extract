@@ -1,0 +1,19 @@
+/_build/
+/cover/
+/deps/
+/doc/
+/tmp/
+erl_crash.dump
+*.ez
+ccxt_extract-*.tar
+
+# npm packages (installed via mix npm.install)
+/node_modules/
+/npm-cache/
+package-lock.json
+
+# CCXT source (cloned/checked out during setup)
+/priv/ccxt/
+
+# Extracted output (generated, not committed)
+/priv/output/

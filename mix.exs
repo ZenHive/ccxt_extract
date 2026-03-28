@@ -42,6 +42,10 @@ defmodule CcxtExtract.MixProject do
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.39", only: :dev, runtime: false},
       {:doctor, "~> 0.22", only: [:dev, :test], runtime: false},
+
+      # Code analysis tools
+      {:ex_dna, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:ex_ast, "~> 0.2", only: [:dev, :test], runtime: false},
       {:tidewave, "~> 0.5", only: :dev},
       {:bandit, "~> 1.10", only: :dev}
     ]

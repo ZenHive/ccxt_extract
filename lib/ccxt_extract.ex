@@ -17,12 +17,19 @@ defmodule CcxtExtract do
   ## Setup
 
       mix deps.get
-      mix npm.install ccxt
+      mix ccxt_extract.setup
+
+  The setup task installs CCXT from npm, copies the browser bundle to
+  `priv/ccxt_bundle.js`, verifies QuickBEAM/OXC, and records version metadata.
 
   For TypeScript source (OXC parsing), clone CCXT with sparse checkout:
 
       git clone --depth 1 --sparse https://github.com/ccxt/ccxt.git priv/ccxt
       cd priv/ccxt && git sparse-checkout set ts/src
+
+  To also record the TypeScript source version, add `package.json`:
+
+      git sparse-checkout add package.json
 
   ## Examples
 

@@ -1,21 +1,45 @@
 # CcxtExtract
 
-**TODO: Add description**
+Extract CCXT exchange knowledge into language-agnostic JSON using:
 
-## Installation
+- `QuickBEAM` for resolved runtime data from the CCXT browser bundle
+- `OXC` for structural TypeScript AST data from CCXT source files
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `ccxt_extract` to your list of dependencies in `mix.exs`:
+## Setup
 
-```elixir
-def deps do
-  [
-    {:ccxt_extract, "~> 0.1.0"}
-  ]
-end
+Install dependencies and prepare CCXT:
+
+```bash
+mix deps.get
+mix ccxt_extract.setup
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/ccxt_extract>.
+`mix ccxt_extract.setup`:
 
+- installs CCXT from npm
+- copies the browser bundle to `priv/ccxt_bundle.js`
+- verifies QuickBEAM can load CCXT
+- verifies OXC can parse a CCXT exchange file
+- records version metadata in `priv/ccxt_version.json`
+
+For TypeScript source extraction, provide a CCXT checkout at `priv/ccxt`:
+
+```bash
+git clone --depth 1 --sparse https://github.com/ccxt/ccxt.git priv/ccxt
+cd priv/ccxt && git sparse-checkout set ts/src
+```
+
+Optional: include `package.json` too if you want setup to verify the TypeScript
+source version against the npm bundle:
+
+```bash
+git sparse-checkout add package.json
+```
+
+## Examples
+
+```bash
+mix ccxt_extract.exchanges
+mix run examples/3_quickbeam_describe.exs
+mix run examples/1_parse_exchange.exs binance
+```

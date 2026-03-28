@@ -6,6 +6,22 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 2a: QuickBEAM Exchange List
+- `CcxtExtract.QuickbeamRuntime` — shared bootstrap module for all future QuickBEAM extraction tasks (start/stop with browser globals + CCXT bundle)
+- `CcxtExtract.Exchanges` — extracts per-exchange metadata from CCXT runtime: id, name, certified, pro, version, country, alias, referral URL
+- `mix ccxt_extract.exchanges` — CLI task that runs extraction and writes `priv/discoveries/exchanges.json`
+- Referral URL normalization handles four CCXT variants: nil, plain string, object with discount, object without discount (e.g. hibachi)
+- Discovery: CCXT has a fourth referral format — `%{"url" => "..."}` without a `"discount"` key — that wasn't documented in the task spec
+
+### Path Resolution & Release Compatibility
+- `CcxtExtract.Paths` — shared path resolution via `:code.priv_dir(:ccxt_extract)`, works in both Mix dev and compiled releases
+- Setup task now copies CCXT browser bundle from `node_modules/` to `priv/ccxt_bundle.js` — extraction no longer depends on `node_modules/` at runtime
+- All file paths across quickbeam_runtime, exchanges, and setup task now resolve through `CcxtExtract.Paths`
+
+### Task 19: Fix Sparse Checkout Package.json
+- `record_versions/0` now handles missing `priv/ccxt/package.json` gracefully with a warning instead of crashing
+- Users following the sparse checkout instructions (`git sparse-checkout set ts/src`) no longer hit a setup crash
+
 ### Task 1: CCXT Source Setup
 - `mix ccxt_extract.setup` mix task — installs npm bundle, checks TS source, verifies QuickBEAM and OXC
 - Version tracking via `priv/ccxt_version.json` — records npm version, TS source version, git SHA, timestamp
@@ -13,6 +29,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - Supports symlinked CCXT source (e.g., `ln -s ../ccxt priv/ccxt`)
 - Discovery: `set_global(rt, "self", :global_this)` doesn't create `self === globalThis` — must use `QuickBEAM.eval` to set browser globals instead
 - Added `:mix` to dialyzer PLT apps
+
+### Task 18: Fix QuickBEAM Browser Global Pattern
+- Examples 3 and 4 updated: replaced `set_global(rt, "self", :global_this)` with the JS assignment pattern for setting browser globals
+- `set_global` with atoms converts to strings, not globalThis identity — discovered during Task 1
 
 ### Project Setup
 - Initial project creation with OXC, QuickBEAM, and npm_ex dependencies

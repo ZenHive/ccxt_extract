@@ -8,6 +8,8 @@
 @~/.claude/includes/code-style.md
 @~/.claude/includes/development-philosophy.md
 @~/.claude/includes/documentation-guidelines.md
+@~/.claude/includes/workflow-philosophy.md
+@~/.claude/includes/skills-awareness.md
 @~/.claude/includes/elixir-patterns.md
 @~/.claude/includes/elixir-setup.md
 @~/.claude/includes/development-commands.md
@@ -175,6 +177,20 @@ CCXT transpiles *code* (TS method body → Go/Python method body). We extract *d
 - The raw AST preserves all information; transpilation is lossy
 
 **Do NOT** attempt to build a transpiler, write an Elixir backend for ast-transpiler, or convert AST nodes to Elixir code. That's a consumer concern. This repo extracts data.
+
+## Git Commit Configuration
+
+**Configured**: 2026-03-28
+
+### Commit Message Format
+
+**Format**: imperative-mood
+
+#### Imperative Mood Template
+```
+<description>
+```
+Start with imperative verb: Add, Update, Fix, Remove, etc.
 
 ## What This Repo Is NOT
 

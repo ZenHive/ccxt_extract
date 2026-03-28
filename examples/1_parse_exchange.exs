@@ -4,7 +4,7 @@
 # Default: binance
 
 exchange = List.first(System.argv()) || "binance"
-path = "priv/ccxt/ts/src/#{exchange}.ts"
+path = Path.join(CcxtExtract.Paths.ts_src(), "#{exchange}.ts")
 
 if !File.exists?(path) do
   IO.puts("File not found: #{path}")

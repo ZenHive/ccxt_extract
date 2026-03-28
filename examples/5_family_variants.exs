@@ -4,10 +4,11 @@
 # Default: binance (shows binance, binancecoinm, binanceus, binanceusdm)
 
 base = List.first(System.argv()) || "binance"
+ts_src = CcxtExtract.Paths.ts_src()
 
 # Find all variant files
-all_ts = Path.wildcard("priv/ccxt/ts/src/#{base}*.ts")
-all_pro = Path.wildcard("priv/ccxt/ts/src/pro/#{base}*.ts")
+all_ts = Path.wildcard(Path.join(ts_src, "#{base}*.ts"))
+all_pro = Path.wildcard(Path.join(ts_src, "pro/#{base}*.ts"))
 files = (all_ts ++ all_pro) |> Enum.reject(&String.contains?(&1, "abstract")) |> Enum.sort()
 
 if Enum.empty?(files) do
@@ -64,7 +65,7 @@ base_class = Enum.find(results, &(&1.class == base))
 base_methods = if base_class, do: MapSet.new(base_class.methods, & &1.name), else: MapSet.new()
 
 for r <- results do
-  short = String.replace(r.path, "priv/ccxt/ts/src/", "")
+  short = String.replace_prefix(r.path, ts_src <> "/", "")
   IO.puts("#{short}")
   IO.puts("  class #{r.class} extends #{r.super}")
   IO.puts("  #{length(r.methods)} methods")

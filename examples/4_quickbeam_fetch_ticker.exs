@@ -10,10 +10,10 @@ args = System.argv()
 exchange = Enum.at(args, 0) || "binance"
 symbol = Enum.at(args, 1) || "BTC/USDT:USDT"
 
-bundle_path = "node_modules/ccxt/dist/ccxt.browser.min.js"
+bundle_path = CcxtExtract.Paths.bundle()
 
 if !File.exists?(bundle_path) do
-  IO.puts("CCXT browser bundle not found. Run: mix npm.install ccxt")
+  IO.puts("CCXT browser bundle not found. Run: mix ccxt_extract.setup")
   System.halt(1)
 end
 

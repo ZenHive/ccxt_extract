@@ -13,6 +13,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 20 | Integration tests for reference exchanges | Data-driven `for`+`unquote` tests covering T1/T2/DEX across all 3 test files |
 | Task 2c | Exchange summary stats | Family groupings, alias vs variant classification, orphan alias detection |
 | Task 2b | OXC class hierarchy | Inheritance tree, WS counterparts, per-method metadata |
 | Task 2a | QuickBEAM exchange list | 110 exchanges, shared runtime module, referral normalization |
@@ -24,7 +25,7 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 20 | ⬜ | Expand integration tests to cover all reference exchanges (T1+T2+DEX) |
+| Task 20 | ✅ | Expand integration tests to cover all reference exchanges (T1+T2+DEX) |
 | Task 3a `[P]` | ⬜ | describe() key extraction — independent (needs QuickBEAM) |
 | Task 4a `[P]` | ⬜ | REST method inventory — independent (needs OXC) |
 | Task 4b `[P]` | ⬜ | WS method inventory — independent (needs OXC) |
@@ -65,7 +66,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
   - [ ] **4b: WS exchange methods** [D:2/B:7/U:7 → Eff:3.50] `[P]` — Same as 4a for `priv/ccxt/ts/src/pro/*.ts`. Write `priv/discoveries/methods_ws.json`.
   - [ ] **4c: Method family analysis** [D:2/B:7/U:8 → Eff:3.75] — From 4a + 4b: group by prefix family (`parse*`, `fetch*`, `create*`, `cancel*`, `watch*`, `handle*`, etc.), universal vs unique methods, method count distribution. Write `priv/discoveries/method_analysis.json`.
 
-- [ ] **Task 20: Expand integration tests to reference exchanges** [D:3/B:7/U:8 → Eff:2.50] — All integration tests currently only assert against binance. Add known-exchange checks for T1 (binance, bybit, okx, deribit, coinbaseexchange), T2 (kraken, kucoin, gate, htx, bitmex), and DEX (hyperliquid, aster, lighter). Cover exchanges_integration_test, classes_integration_test, and summary_integration_test. Test different family shapes: variants, aliases, standalone, DEX. See CLAUDE.md "Reference Exchanges" section.
+- [x] ~~**Task 20: Expand integration tests to reference exchanges**~~ [D:3/B:7/U:8 → Eff:2.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 5: Document discoveries** [D:2/B:7/U:9 → Eff:4.00] — Read all `priv/discoveries/*.json` and write `DISCOVERIES.md`: exchange count/family breakdown, class hierarchy patterns, describe() key catalog, method families/distributions, anything surprising. This becomes the design input for Phase 2.
 

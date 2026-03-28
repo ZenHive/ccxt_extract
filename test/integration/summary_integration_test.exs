@@ -6,6 +6,20 @@ defmodule CcxtExtract.SummaryIntegrationTest do
   @moduletag :integration
   @moduletag timeout: 120_000
 
+  # {family_root, expected_variant, min_variant_count}
+  @families_with_variants [
+    {"binance", "binanceus", 3},
+    {"okx", "okxus", 1},
+    {"kucoin", "kucoinfutures", 1}
+  ]
+
+  # {family_root, expected_alias}
+  @families_with_aliases [{"htx", "huobi"}, {"gate", "gateio"}]
+
+  @standalone_exchanges ~w(bybit deribit coinbaseexchange kraken bitmex)
+  @dex_exchanges ~w(hyperliquid aster lighter)
+  @non_orphan_aliases ~w(huobi gateio)
+
   # Generate discovery files once for the module.
   # Runs both exchanges (QuickBEAM ~13s) and classes (OXC ~2s) extractions.
   setup_all do
@@ -137,6 +151,70 @@ defmodule CcxtExtract.SummaryIntegrationTest do
     end
   end
 
+  describe "families with variants" do
+    for {root, expected_variant, min_count} <- @families_with_variants do
+      test "#{root} family has #{expected_variant} variant", %{summary: summary} do
+        family = find_family(summary, unquote(root))
+        assert family, "#{unquote(root)} family should exist"
+
+        assert family["variant_count"] >= unquote(min_count),
+               "#{unquote(root)} should have #{unquote(min_count)}+ variants, got #{family["variant_count"]}"
+
+        assert unquote(expected_variant) in family["variants"],
+               "#{unquote(expected_variant)} should be a variant of #{unquote(root)}"
+
+        assert family["has_ws"] == true, "#{unquote(root)} should have WS support"
+      end
+    end
+  end
+
+  describe "families with aliases" do
+    for {root, expected_alias} <- @families_with_aliases do
+      test "#{root} family includes #{expected_alias} alias", %{summary: summary} do
+        family = find_family(summary, unquote(root))
+        assert family, "#{unquote(root)} family should exist"
+
+        assert unquote(expected_alias) in family["aliases"],
+               "#{unquote(expected_alias)} should be an alias of #{unquote(root)}"
+
+        assert family["alias_count"] >= 1
+      end
+    end
+  end
+
+  describe "standalone exchange families" do
+    for id <- @standalone_exchanges do
+      test "#{id} is a standalone single-member family", %{summary: summary} do
+        family = find_family(summary, unquote(id))
+        assert family, "#{unquote(id)} family should exist"
+        assert family["variant_count"] == 0
+        assert family["alias_count"] == 0
+        assert family["total_members"] == 1
+        assert family["has_ws"] == true, "#{unquote(id)} should have WS support"
+      end
+    end
+  end
+
+  describe "DEX exchange families" do
+    for id <- @dex_exchanges do
+      test "#{id} DEX family exists with WS", %{summary: summary} do
+        family = find_family(summary, unquote(id))
+        assert family, "#{unquote(id)} family should exist"
+        assert family["total_members"] >= 1
+        assert family["has_ws"] == true, "#{unquote(id)} should have WS support"
+      end
+    end
+  end
+
+  describe "non-orphan aliases" do
+    for id <- @non_orphan_aliases do
+      test "#{id} is attached to a family, not orphaned", %{summary: summary} do
+        refute unquote(id) in summary["orphan_aliases"],
+               "#{unquote(id)} has a class file and should be in a family, not orphaned"
+      end
+    end
+  end
+
   describe "write!/1" do
     test "writes valid JSON that round-trips", %{summary: summary} do
       output_path = CcxtExtract.Paths.priv("discoveries/exchange_summary.json")
@@ -151,4 +229,6 @@ defmodule CcxtExtract.SummaryIntegrationTest do
       assert reloaded["orphan_aliases"] == summary["orphan_aliases"]
     end
   end
+
+  defp find_family(summary, root), do: Enum.find(summary["families"], &(&1["root"] == root))
 end

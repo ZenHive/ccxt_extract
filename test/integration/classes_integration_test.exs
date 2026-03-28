@@ -6,6 +6,39 @@ defmodule CcxtExtract.ClassesIntegrationTest do
   @moduletag :integration
   @moduletag timeout: 60_000
 
+  # Reference exchange sets from CLAUDE.md
+  @all_reference ~w(binance bybit okx deribit coinbaseexchange kraken kucoin gate htx bitmex hyperliquid aster lighter)
+
+  # {id, min_method_count} — exact observed values (CCXT 4.x)
+  # Breaking on CCXT update is intentional: forces review of what changed
+  @rest_expectations [
+    {"binance", 166},
+    {"bybit", 139},
+    {"okx", 131},
+    {"deribit", 68},
+    {"coinbaseexchange", 42},
+    {"kraken", 67},
+    {"kucoin", 138},
+    {"gate", 125},
+    {"htx", 109},
+    {"bitmex", 66},
+    {"hyperliquid", 109},
+    {"aster", 71},
+    {"lighter", 58}
+  ]
+
+  # {variant_id, parent_id}
+  @variant_inheritance [
+    {"binanceus", "binance"},
+    {"binancecoinm", "binance"},
+    {"binanceusdm", "binance"},
+    {"okxus", "okx"},
+    {"kucoinfutures", "kucoin"}
+  ]
+
+  # {alias_id, parent_id}
+  @alias_inheritance [{"huobi", "htx"}, {"gateio", "gate"}]
+
   # Run extraction once for the module — OXC parsing ~189 files takes a few seconds
   setup_all do
     {:ok, classes, stats} = Classes.extract()
@@ -151,6 +184,68 @@ defmodule CcxtExtract.ClassesIntegrationTest do
     end
   end
 
+  describe "REST class structure for reference exchanges" do
+    for {id, min_methods} <- @rest_expectations do
+      test "#{id} REST class extends Exchange with #{min_methods}+ methods", %{classes: classes} do
+        c = find_rest(classes, unquote(id))
+        assert c, "#{unquote(id)} REST class should exist"
+        assert c["extends_resolved"] == "Exchange"
+        assert c["parent_key"] == "Exchange"
+
+        assert c["method_count"] >= unquote(min_methods),
+               "#{unquote(id)} should have #{unquote(min_methods)}+ methods, got #{c["method_count"]}"
+
+        assert "describe" in c["methods"], "#{unquote(id)} should have describe method"
+        assert "sign" in c["methods"], "#{unquote(id)} should have sign method"
+      end
+    end
+  end
+
+  describe "WS class resolution for reference exchanges" do
+    for id <- @all_reference do
+      test "#{id} WS class resolves to REST parent", %{classes: classes} do
+        ws = find_ws(classes, unquote(id))
+        assert ws, "#{unquote(id)} WS class should exist"
+
+        assert ws["parent_key"] == "rest:#{unquote(id)}",
+               "#{unquote(id)} WS parent_key should be rest:#{unquote(id)}, got #{ws["parent_key"]}"
+      end
+    end
+  end
+
+  describe "variant class inheritance" do
+    for {variant, parent} <- @variant_inheritance do
+      test "#{variant} REST class extends #{parent}", %{classes: classes} do
+        c = find_rest(classes, unquote(variant))
+        assert c, "#{unquote(variant)} REST class should exist"
+        assert c["extends_resolved"] == unquote(parent)
+        assert c["parent_key"] == "rest:#{unquote(parent)}"
+      end
+    end
+  end
+
+  describe "alias class inheritance" do
+    for {alias_id, parent} <- @alias_inheritance do
+      test "#{alias_id} REST class extends #{parent}", %{classes: classes} do
+        c = find_rest(classes, unquote(alias_id))
+        assert c, "#{unquote(alias_id)} REST class should exist"
+        assert c["extends_resolved"] == unquote(parent)
+        assert c["parent_key"] == "rest:#{unquote(parent)}"
+      end
+    end
+  end
+
+  describe "WS counterparts include reference exchanges" do
+    for id <- @all_reference do
+      test "#{id} has WS counterpart", %{classes: classes} do
+        counterparts = Classes.find_ws_counterparts(classes)
+
+        assert unquote(id) in counterparts,
+               "#{unquote(id)} should have a WS counterpart"
+      end
+    end
+  end
+
   describe "write!/1" do
     setup do
       output_path = CcxtExtract.Paths.priv("discoveries/class_hierarchy.json")
@@ -189,4 +284,9 @@ defmodule CcxtExtract.ClassesIntegrationTest do
       assert output["ws_counterparts"] == []
     end
   end
+
+  defp find_class(classes, id, type), do: Enum.find(classes, &(&1["id"] == id and &1["type"] == type))
+
+  defp find_rest(classes, id), do: find_class(classes, id, "rest")
+  defp find_ws(classes, id), do: find_class(classes, id, "ws")
 end

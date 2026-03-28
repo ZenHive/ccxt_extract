@@ -200,7 +200,7 @@ From ccxt_ex priority tiers. All integration tests with known-exchange assertion
 **Tier 2** (valuable): `kraken`, `kucoin`, `gate`, `htx`, `bitmex`
 **DEX** (selected): `hyperliquid`, `aster`, `lighter`
 
-These cover different family shapes: families with variants (binance, okx, kucoin), families with aliases (htx/huobi, gate/gateio, coinbaseexchange/coinbase), standalone exchanges (bybit, kraken, deribit, bitmex), and DEX exchanges (hyperliquid, aster).
+These cover different family shapes: families with variants (binance has binanceus/binancecoinm/binanceusdm, okx has okxus, kucoin has kucoinfutures), families with aliases (htx/huobi, gate/gateio), standalone exchanges (bybit, kraken, deribit, bitmex, coinbaseexchange), and DEX exchanges (hyperliquid, aster, lighter).
 
 ## What This Repo Is NOT
 

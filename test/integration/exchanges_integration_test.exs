@@ -6,6 +6,11 @@ defmodule CcxtExtract.ExchangesIntegrationTest do
   @moduletag :integration
   @moduletag timeout: 60_000
 
+  # Reference exchange sets from CLAUDE.md
+  @all_reference ~w(binance bybit okx deribit coinbaseexchange kraken kucoin gate htx bitmex hyperliquid aster lighter)
+  @known_aliases [{"huobi", "htx"}, {"gateio", "gate"}]
+  @known_variants ~w(binanceus binancecoinm binanceusdm okxus kucoinfutures)
+
   # Run extraction once for the module — QuickBEAM boot is ~13s
   setup_all do
     {:ok, exchanges} = Exchanges.extract()
@@ -68,6 +73,36 @@ defmodule CcxtExtract.ExchangesIntegrationTest do
     end
   end
 
+  describe "reference exchanges exist and are not aliases" do
+    for id <- @all_reference do
+      test "#{id} exists and is not an alias", %{exchanges: exchanges} do
+        ex = find_exchange(exchanges, unquote(id))
+        assert ex, "#{unquote(id)} should exist in exchange list"
+        assert ex["alias"] == false, "#{unquote(id)} should not be an alias"
+      end
+    end
+  end
+
+  describe "known aliases are correctly marked" do
+    for {alias_id, _parent} <- @known_aliases do
+      test "#{alias_id} is marked as alias", %{exchanges: exchanges} do
+        ex = find_exchange(exchanges, unquote(alias_id))
+        assert ex, "#{unquote(alias_id)} should exist in exchange list"
+        assert ex["alias"] == true, "#{unquote(alias_id)} should be marked as alias"
+      end
+    end
+  end
+
+  describe "variants are not aliases" do
+    for id <- @known_variants do
+      test "#{id} exists and is not an alias", %{exchanges: exchanges} do
+        ex = find_exchange(exchanges, unquote(id))
+        assert ex, "#{unquote(id)} should exist in exchange list"
+        assert ex["alias"] == false, "#{unquote(id)} is a variant, not an alias"
+      end
+    end
+  end
+
   describe "write!/1" do
     setup do
       output_path = CcxtExtract.Paths.priv("discoveries/exchanges.json")
@@ -100,4 +135,6 @@ defmodule CcxtExtract.ExchangesIntegrationTest do
       assert hd(output["exchanges"])["id"] == "test_exchange"
     end
   end
+
+  defp find_exchange(exchanges, id), do: Enum.find(exchanges, &(&1["id"] == id))
 end

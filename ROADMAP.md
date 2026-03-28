@@ -25,7 +25,6 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 20 | ✅ | Expand integration tests to cover all reference exchanges (T1+T2+DEX) |
 | Task 3a `[P]` | ⬜ | describe() key extraction — independent (needs QuickBEAM) |
 | Task 4a `[P]` | ⬜ | REST method inventory — independent (needs OXC) |
 | Task 4b `[P]` | ⬜ | WS method inventory — independent (needs OXC) |

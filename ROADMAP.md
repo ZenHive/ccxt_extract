@@ -8,12 +8,13 @@
 
 ## 🎯 Current Focus
 
-**Phase 1: Setup & Discovery** — Setup complete, beginning exchange inventory.
+**Phase 1: Setup & Discovery** — Exchange inventory complete, beginning deep extraction.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
-| Task 2b | OXC class hierarchy | Inheritance tree, WS counterparts, per-method metadata. Fixed: alias resolution, tree dedup, error reporting |
+| Task 2c | Exchange summary stats | Family groupings, alias vs variant classification, orphan alias detection |
+| Task 2b | OXC class hierarchy | Inheritance tree, WS counterparts, per-method metadata |
 | Task 2a | QuickBEAM exchange list | 110 exchanges, shared runtime module, referral normalization |
 | Task 19 | Fix sparse checkout package.json | `record_versions/0` handles missing file gracefully |
 | — | Path resolution refactor | All paths via `:code.priv_dir`, bundle copied to `priv/` |
@@ -23,14 +24,16 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 2c | ⬜ | Exchange summary — depends on 2a ✅ + 2b ✅ (now unblocked!) |
+| Task 20 | ⬜ | Expand integration tests to cover all reference exchanges (T1+T2+DEX) |
 | Task 3a `[P]` | ⬜ | describe() key extraction — independent (needs QuickBEAM) |
 | Task 4a `[P]` | ⬜ | REST method inventory — independent (needs OXC) |
+| Task 4b `[P]` | ⬜ | WS method inventory — independent (needs OXC) |
 
 ### Quick Commands
 ```bash
 mix ccxt_extract.exchanges                 # Extract exchange metadata
 mix ccxt_extract.classes                   # Extract class hierarchy
+mix ccxt_extract.summary                   # Combine into summary stats
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -51,7 +54,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 - [ ] **Task 2: Exchange inventory** — Catalog every exchange with metadata and hierarchy.
   - [x] ~~**2a: QuickBEAM exchange list**~~ [D:3/B:8/U:9 → Eff:2.83] `[P]` — Load CCXT via QuickBEAM, extract per-exchange: `id`, `name`, `certified`, `pro`, `version`, `country`, `alias`. Mark aliases explicitly (`alias: true` in describe() = pure re-brands like `huobi`→`htx`). Extract referral URLs from `describe().urls.referral` (two formats: plain string URL, or `{url, discount}` object) — normalize to `{url, discount}` format. Write `priv/discoveries/exchanges.json`. Reuse pattern from `examples/3_quickbeam_describe.exs`.
   - [x] ~~**2b: OXC class hierarchy**~~ [D:3/B:8/U:9 → Eff:2.83] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-  - [ ] **2c: Exchange summary stats** [D:2/B:6/U:7 → Eff:3.25] — Combine 2a + 2b outputs: total counts (REST vs WS), alias vs real, family groupings distinguishing aliases from variants, variant count per family. Print summary table. Write `priv/discoveries/exchange_summary.json`.
+  - [x] ~~**2c: Exchange summary stats**~~ [D:2/B:6/U:7 → Eff:3.25] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 3: describe() key inventory** — Catalog every key in every exchange's describe().
   - [ ] **3a: Extract all describe() top-level keys** [D:3/B:8/U:8 → Eff:2.67] `[P]` — Use QuickBEAM to get `describe()` for all exchanges (skip pure aliases). Record all top-level keys and their value types per exchange. Write `priv/discoveries/describe_keys.json`.
@@ -61,6 +64,8 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
   - [ ] **4a: REST exchange methods** [D:3/B:8/U:8 → Eff:2.67] `[P]` — Parse every `.ts` in `priv/ccxt/ts/src/` (excluding `pro/`, `abstract/`, `base/`) with OXC. Extract: method name, async/sync, parameter names + TS types, return type, statement count. Write `priv/discoveries/methods_rest.json`. Reuse pattern from `examples/1_parse_exchange.exs`.
   - [ ] **4b: WS exchange methods** [D:2/B:7/U:7 → Eff:3.50] `[P]` — Same as 4a for `priv/ccxt/ts/src/pro/*.ts`. Write `priv/discoveries/methods_ws.json`.
   - [ ] **4c: Method family analysis** [D:2/B:7/U:8 → Eff:3.75] — From 4a + 4b: group by prefix family (`parse*`, `fetch*`, `create*`, `cancel*`, `watch*`, `handle*`, etc.), universal vs unique methods, method count distribution. Write `priv/discoveries/method_analysis.json`.
+
+- [ ] **Task 20: Expand integration tests to reference exchanges** [D:3/B:7/U:8 → Eff:2.50] — All integration tests currently only assert against binance. Add known-exchange checks for T1 (binance, bybit, okx, deribit, coinbaseexchange), T2 (kraken, kucoin, gate, htx, bitmex), and DEX (hyperliquid, aster, lighter). Cover exchanges_integration_test, classes_integration_test, and summary_integration_test. Test different family shapes: variants, aliases, standalone, DEX. See CLAUDE.md "Reference Exchanges" section.
 
 - [ ] **Task 5: Document discoveries** [D:2/B:7/U:9 → Eff:4.00] — Read all `priv/discoveries/*.json` and write `DISCOVERIES.md`: exchange count/family breakdown, class hierarchy patterns, describe() key catalog, method families/distributions, anything surprising. This becomes the design input for Phase 2.
 

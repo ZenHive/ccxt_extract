@@ -192,6 +192,16 @@ CCXT transpiles *code* (TS method body → Go/Python method body). We extract *d
 ```
 Start with imperative verb: Add, Update, Fix, Remove, etc.
 
+## Reference Exchanges for Integration Testing
+
+From ccxt_ex priority tiers. All integration tests with known-exchange assertions must cover these:
+
+**Tier 1** (must have): `binance`, `bybit`, `okx`, `deribit`, `coinbaseexchange`
+**Tier 2** (valuable): `kraken`, `kucoin`, `gate`, `htx`, `bitmex`
+**DEX** (selected): `hyperliquid`, `aster`, `lighter`
+
+These cover different family shapes: families with variants (binance, okx, kucoin), families with aliases (htx/huobi, gate/gateio, coinbaseexchange/coinbase), standalone exchanges (bybit, kraken, deribit, bitmex), and DEX exchanges (hyperliquid, aster).
+
 ## What This Repo Is NOT
 
 - Not a trading library (no HTTP clients, no signing, no WebSocket)

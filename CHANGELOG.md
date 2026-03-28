@@ -6,6 +6,13 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 2c: Exchange Summary Stats
+- `CcxtExtract.Summary` — reads exchanges.json + class_hierarchy.json, computes aggregate stats and family groupings
+- `mix ccxt_extract.summary` — CLI task with console table output showing top families
+- Family grouping algorithm: inverts inheritance tree, walks each REST class to root ancestor, classifies members as variants (own class) or aliases (alias=true in CCXT)
+- Orphan alias detection: aliases with no class entry are collected separately; aliases with class entries are attached to their parent family
+- Key decision: orphan aliases stored as top-level field rather than guessed into families — preserves data integrity over completeness
+
 ### Task 2b: OXC Class Hierarchy
 - `CcxtExtract.Classes` — parses all CCXT TypeScript files with OXC, extracts class name, superclass, and method list per exchange
 - `mix ccxt_extract.classes` — CLI task that runs extraction and writes `priv/discoveries/class_hierarchy.json`

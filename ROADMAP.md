@@ -13,6 +13,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 2b | OXC class hierarchy | Inheritance tree, WS counterparts, per-method metadata. Fixed: alias resolution, tree dedup, error reporting |
 | Task 2a | QuickBEAM exchange list | 110 exchanges, shared runtime module, referral normalization |
 | Task 19 | Fix sparse checkout package.json | `record_versions/0` handles missing file gracefully |
 | — | Path resolution refactor | All paths via `:code.priv_dir`, bundle copied to `priv/` |
@@ -22,14 +23,14 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 2b `[P]` | ⬜ | OXC class hierarchy — independent |
-| Task 2c | ⬜ | Exchange summary — depends on 2a + 2b |
+| Task 2c | ⬜ | Exchange summary — depends on 2a ✅ + 2b ✅ (now unblocked!) |
 | Task 3a `[P]` | ⬜ | describe() key extraction — independent (needs QuickBEAM) |
 | Task 4a `[P]` | ⬜ | REST method inventory — independent (needs OXC) |
 
 ### Quick Commands
 ```bash
 mix ccxt_extract.exchanges                 # Extract exchange metadata
+mix ccxt_extract.classes                   # Extract class hierarchy
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -49,7 +50,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 
 - [ ] **Task 2: Exchange inventory** — Catalog every exchange with metadata and hierarchy.
   - [x] ~~**2a: QuickBEAM exchange list**~~ [D:3/B:8/U:9 → Eff:2.83] `[P]` — Load CCXT via QuickBEAM, extract per-exchange: `id`, `name`, `certified`, `pro`, `version`, `country`, `alias`. Mark aliases explicitly (`alias: true` in describe() = pure re-brands like `huobi`→`htx`). Extract referral URLs from `describe().urls.referral` (two formats: plain string URL, or `{url, discount}` object) — normalize to `{url, discount}` format. Write `priv/discoveries/exchanges.json`. Reuse pattern from `examples/3_quickbeam_describe.exs`.
-  - [ ] **2b: OXC class hierarchy** [D:3/B:8/U:9 → Eff:2.83] `[P]` — Find all `.ts` files in `priv/ccxt/ts/src/` (REST) and `pro/` (WS). Parse each with OXC, extract class name + `extends` target. Build full inheritance tree. Identify which exchanges have WS counterparts. Write `priv/discoveries/class_hierarchy.json`. Reuse pattern from `examples/5_family_variants.exs`.
+  - [x] ~~**2b: OXC class hierarchy**~~ [D:3/B:8/U:9 → Eff:2.83] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [ ] **2c: Exchange summary stats** [D:2/B:6/U:7 → Eff:3.25] — Combine 2a + 2b outputs: total counts (REST vs WS), alias vs real, family groupings distinguishing aliases from variants, variant count per family. Print summary table. Write `priv/discoveries/exchange_summary.json`.
 
 - [ ] **Task 3: describe() key inventory** — Catalog every key in every exchange's describe().

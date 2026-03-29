@@ -13,6 +13,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 3a | describe() key extraction | Top-level keys + JS types for all non-alias exchanges via QuickBEAM |
 | Task 20 | Integration tests for reference exchanges | Data-driven `for`+`unquote` tests covering T1/T2/DEX across all 3 test files |
 | Task 2c | Exchange summary stats | Family groupings, alias vs variant classification, orphan alias detection |
 | Task 2b | OXC class hierarchy | Inheritance tree, WS counterparts, per-method metadata |
@@ -25,7 +26,7 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 3a `[P]` | ⬜ | describe() key extraction — independent (needs QuickBEAM) |
+| Task 3b | ⬜ | Key frequency analysis — depends on 3a (now complete) |
 | Task 4a `[P]` | ⬜ | REST method inventory — independent (needs OXC) |
 | Task 4b `[P]` | ⬜ | WS method inventory — independent (needs OXC) |
 
@@ -34,6 +35,7 @@
 mix ccxt_extract.exchanges                 # Extract exchange metadata
 mix ccxt_extract.classes                   # Extract class hierarchy
 mix ccxt_extract.summary                   # Combine into summary stats
+mix ccxt_extract.describe_keys             # Extract describe() keys per exchange
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -57,7 +59,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
   - [x] ~~**2c: Exchange summary stats**~~ [D:2/B:6/U:7 → Eff:3.25] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 3: describe() key inventory** — Catalog every key in every exchange's describe().
-  - [ ] **3a: Extract all describe() top-level keys** [D:3/B:8/U:8 → Eff:2.67] `[P]` — Use QuickBEAM to get `describe()` for all exchanges (skip pure aliases). Record all top-level keys and their value types per exchange. Write `priv/discoveries/describe_keys.json`.
+  - [x] ~~**3a: Extract all describe() top-level keys**~~ [D:3/B:8/U:8 → Eff:2.67] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [ ] **3b: Key frequency analysis** [D:2/B:7/U:7 → Eff:3.50] — From 3a: which keys are universal, which appear on most (>90%, >50%), which are exchange-specific (<5 exchanges)? Max nesting depth per key. Write `priv/discoveries/describe_key_analysis.json`.
 
 - [ ] **Task 4: Method inventory** — Catalog every method on every exchange with signatures.

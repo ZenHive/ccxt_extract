@@ -6,6 +6,7 @@ defmodule CcxtExtract.DescribeKeysIntegrationTest do
   alias CcxtExtract.DescribeKeys
 
   @moduletag :integration
+  @moduletag :extraction
   @moduletag timeout: 120_000
 
   # Reference exchanges from CLAUDE.md — all should appear (none are aliases)

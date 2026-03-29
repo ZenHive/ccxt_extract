@@ -6,6 +6,7 @@ defmodule CcxtExtract.LoadMarketsIntegrationTest do
   alias CcxtExtract.LoadMarkets
 
   @moduletag :integration
+  @moduletag :extraction
   # Network calls — generous timeout
   @moduletag timeout: 600_000
 

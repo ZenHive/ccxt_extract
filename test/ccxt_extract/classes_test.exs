@@ -3,6 +3,41 @@ defmodule CcxtExtract.ClassesTest do
 
   alias CcxtExtract.Classes
 
+  describe "write!/1" do
+    @tag :tmp_dir
+    test "writes valid JSON with metadata envelope", %{tmp_dir: tmp_dir} do
+      output_path = Path.join(tmp_dir, "class_hierarchy.json")
+
+      classes = [
+        %{
+          "id" => "test_exchange",
+          "node_key" => "rest:test_exchange",
+          "class_name" => "test_exchange",
+          "extends_raw" => "Exchange",
+          "extends_resolved" => "Exchange",
+          "parent_key" => "Exchange",
+          "type" => "rest",
+          "file" => "test_exchange.ts",
+          "methods" => ["describe"],
+          "method_count" => 1,
+          "method_details" => [
+            %{"name" => "describe", "async" => false, "params" => 0, "statements" => 1}
+          ]
+        }
+      ]
+
+      assert :ok = Classes.write!(classes, output_path)
+      assert File.exists?(output_path)
+
+      output = output_path |> File.read!() |> Jason.decode!()
+      assert is_binary(output["extracted_at"])
+      assert output["count"] == 1
+      assert length(output["classes"]) == 1
+      assert output["tree"] == %{"Exchange" => ["rest:test_exchange"]}
+      assert output["ws_counterparts"] == []
+    end
+  end
+
   describe "build_tree/1" do
     test "groups children under their parent by node_key/parent_key" do
       classes = [

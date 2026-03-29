@@ -1,0 +1,711 @@
+{
+  "describe": {
+    "alias": false,
+    "api": {
+      "private": {
+        "delete": {
+          "api/v1/order": 1,
+          "api/v1/orders": 1
+        },
+        "get": {
+          "api/v1/account": 1,
+          "api/v1/account/limits/borrow": 1,
+          "api/v1/account/limits/order": 1,
+          "api/v1/account/limits/withdrawal": 1,
+          "api/v1/borrowLend/positions": 1,
+          "api/v1/capital": 1,
+          "api/v1/capital/collateral": 1,
+          "api/v1/order": 1,
+          "api/v1/orders": 1,
+          "api/v1/position": 1,
+          "wapi/v1/capital/deposit/address": 1,
+          "wapi/v1/capital/deposits": 1,
+          "wapi/v1/capital/withdrawals": 1,
+          "wapi/v1/history/borrowLend": 1,
+          "wapi/v1/history/borrowLend/positions": 1,
+          "wapi/v1/history/dust": 1,
+          "wapi/v1/history/fills": 1,
+          "wapi/v1/history/funding": 1,
+          "wapi/v1/history/interest": 1,
+          "wapi/v1/history/orders": 1,
+          "wapi/v1/history/quote": 1,
+          "wapi/v1/history/rfq": 1,
+          "wapi/v1/history/settlement": 1,
+          "wapi/v1/history/strategies": 1
+        },
+        "patch": {
+          "api/v1/account": 1
+        },
+        "post": {
+          "api/v1/account/convertDust": 1,
+          "api/v1/borrowLend": 1,
+          "api/v1/order": 1,
+          "api/v1/orders": 1,
+          "api/v1/rfq": 1,
+          "api/v1/rfq/accept": 1,
+          "api/v1/rfq/cancel": 1,
+          "api/v1/rfq/quote": 1,
+          "api/v1/rfq/refresh": 1,
+          "wapi/v1/capital/withdrawals": 1
+        }
+      },
+      "public": {
+        "get": {
+          "api/v1/assets": 1,
+          "api/v1/borrowLend/markets": 1,
+          "api/v1/borrowLend/markets/history": 1,
+          "api/v1/collateral": 1,
+          "api/v1/depth": 1,
+          "api/v1/fundingRates": 1,
+          "api/v1/klines": 1,
+          "api/v1/markPrices": 1,
+          "api/v1/market": 1,
+          "api/v1/markets": 1,
+          "api/v1/openInterest": 1,
+          "api/v1/ping": 1,
+          "api/v1/status": 1,
+          "api/v1/ticker": 1,
+          "api/v1/tickers": 1,
+          "api/v1/time": 1,
+          "api/v1/trades": 1,
+          "api/v1/trades/history": 1,
+          "api/v1/wallets": 1
+        }
+      }
+    },
+    "certified": false,
+    "commonCurrencies": {
+      "BCHSV": "BSV",
+      "XBT": "BTC"
+    },
+    "countries": [
+      "JP"
+    ],
+    "currencies": {},
+    "dex": false,
+    "enableRateLimit": true,
+    "exceptions": {
+      "broad": {},
+      "exact": {
+        "FORBIDDEN": "__function:u",
+        "TIMEOUT": "__function:V",
+        "INVALID_ORDER": "__function:k",
+        "RESOURCE_NOT_FOUND": "__function:L",
+        "UNAUTHORIZED": "__function:a",
+        "INVALID_MARKET": "__function:l",
+        "INVALID_QUANTITY": "__function:h",
+        "INSUFFICIENT_MARGIN": "__function:y",
+        "INSUFFICIENT_SUPPLY": "__function:y",
+        "BORROW_LIMIT": "__function:h",
+        "INVALID_RANGE": "__function:h",
+        "ACCOUNT_LIQUIDATING": "__function:h",
+        "INVALID_ASSET": "__function:h",
+        "MAX_LEVERAGE_REACHED": "__function:y",
+        "SERVER_ERROR": "__function:B",
+        "INVALID_SYMBOL": "__function:l",
+        "TOO_MANY_REQUESTS": "__function:R",
+        "NOT_IMPLEMENTED": "__function:C",
+        "TRADING_PAUSED": "__function:L",
+        "MAINTENANCE": "__function:r",
+        "INVALID_POSITION_ID": "__function:h",
+        "ORDER_LIMIT": "__function:u",
+        "POSITION_LIMIT": "__function:u",
+        "INVALID_CLIENT_REQUEST": "__function:h",
+        "LEND_LIMIT": "__function:h",
+        "INVALID_PRICE": "__function:h",
+        "INSUFFICIENT_FUNDS": "__function:y",
+        "PRECONDITION_FAILED": "__function:C",
+        "INVALID_SOURCE": "__function:h",
+        "BORROW_REQUIRES_LEND_REDEEM": "__function:h",
+        "INVALID_SIGNATURE": "__function:a",
+        "LEND_REQUIRES_BORROW_REPAY": "__function:h",
+        "INVALID_TWO_FACTOR_CODE": "__function:h"
+      }
+    },
+    "features": {
+      "default": {
+        "createOrder": {
+          "attachedStopLossTakeProfit": "__undefined",
+          "hedged": false,
+          "iceberg": false,
+          "leverage": false,
+          "marginMode": false,
+          "marketBuyByCost": true,
+          "marketBuyRequiresPrice": true,
+          "selfTradePrevention": {
+            "EXPIRE_BOTH": true,
+            "EXPIRE_MAKER": true,
+            "EXPIRE_TAKER": true,
+            "NONE": false
+          },
+          "stopLossPrice": true,
+          "takeProfitPrice": true,
+          "timeInForce": {
+            "FOK": true,
+            "GTC": true,
+            "GTD": false,
+            "IOC": true,
+            "PO": true
+          },
+          "trailing": false,
+          "triggerDirection": false,
+          "triggerPrice": true,
+          "triggerPriceType": "__undefined"
+        },
+        "createOrders": {
+          "max": 20
+        },
+        "fetchClosedOrders": "__undefined",
+        "fetchMyTrades": {
+          "daysBack": "__undefined",
+          "limit": 1000,
+          "marginMode": false,
+          "symbolRequired": false,
+          "untilDays": "__undefined"
+        },
+        "fetchOHLCV": {
+          "limit": 1000,
+          "paginate": false
+        },
+        "fetchOpenOrders": {
+          "limit": 1000,
+          "marginMode": false,
+          "symbolRequired": false,
+          "trailing": false,
+          "trigger": true
+        },
+        "fetchOrder": "__undefined",
+        "fetchOrders": {
+          "daysBack": "__undefined",
+          "limit": 1000,
+          "marginMode": false,
+          "symbolRequired": true,
+          "trailing": false,
+          "trigger": true,
+          "untilDays": "__undefined"
+        },
+        "sandbox": false
+      },
+      "future": {
+        "inverse": "__undefined",
+        "linear": "__undefined"
+      },
+      "spot": {
+        "extends": "default"
+      },
+      "swap": {
+        "inverse": "__undefined",
+        "linear": "__undefined"
+      }
+    },
+    "fees": {
+      "funding": {
+        "deposit": {},
+        "percentage": "__undefined",
+        "tierBased": "__undefined",
+        "withdraw": {}
+      },
+      "trading": {
+        "maker": "__undefined",
+        "percentage": "__undefined",
+        "taker": "__undefined",
+        "tierBased": "__undefined"
+      }
+    },
+    "has": {
+      "fetchTradingFee": false,
+      "watchOrdersForSymbols": "__undefined",
+      "fetchMarginAdjustmentHistory": false,
+      "fetchSettlementHistory": "__undefined",
+      "fetchPositionWs": "__undefined",
+      "createTrailingAmountOrderWs": "__undefined",
+      "watchLiquidations": "__undefined",
+      "fetchBorrowRateHistory": "__undefined",
+      "unWatchTickers": "__undefined",
+      "spot": true,
+      "watchOrderBook": "__undefined",
+      "watchMyLiquidations": "__undefined",
+      "setPositionMode": false,
+      "createMarketSellOrderWithCostWs": "__undefined",
+      "createMarketOrderWithCost": true,
+      "fetchTransactions": false,
+      "fetchLiquidations": "__undefined",
+      "createMarketBuyOrderWithCost": true,
+      "watchOHLCV": "__undefined",
+      "setMarginMode": false,
+      "fetchOrderBook": true,
+      "fetchTransfer": "__undefined",
+      "watchBalance": "__undefined",
+      "createStopOrder": "__undefined",
+      "createStopLimitOrderWs": "__undefined",
+      "fetchAllGreeks": false,
+      "fetchFundingHistory": true,
+      "createLimitSellOrderWs": "__undefined",
+      "fetchPositionMode": false,
+      "createReduceOnlyOrder": true,
+      "fetchFundingRate": true,
+      "fetchBalanceWs": "__undefined",
+      "setLeverage": false,
+      "fetchIndexOHLCV": true,
+      "cancelWithdraw": false,
+      "createConvertTrade": false,
+      "fetchGreeks": false,
+      "fetchPositionsRisk": "__undefined",
+      "cancelAllOrdersWs": "__undefined",
+      "createStopLossOrderWs": "__undefined",
+      "fetchTransactionFee": "__undefined",
+      "createMarketSellOrderWithCost": true,
+      "addMargin": false,
+      "repayIsolatedMargin": "__undefined",
+      "editOrder": "emulated",
+      "createMarketOrderWithCostWs": "__undefined",
+      "fetchWithdrawalWhitelist": "__undefined",
+      "fetchMarginMode": false,
+      "createTriggerOrder": true,
+      "fetchIsolatedBorrowRate": "__undefined",
+      "fetchL3OrderBook": "__undefined",
+      "createPostOnlyOrder": true,
+      "fetchOrderBookWs": "__undefined",
+      "repayCrossMargin": "__undefined",
+      "createMarketSellOrderWs": "__undefined",
+      "watchBidsAsks": "__undefined",
+      "fetchOHLCVWs": "__undefined",
+      "fetchADLRank": "__undefined",
+      "fetchTime": true,
+      "fetchDepositWithdrawFees": false,
+      "closeAllPositions": "__undefined",
+      "createMarketBuyOrderWithCostWs": "__undefined",
+      "fetchMarkOHLCV": true,
+      "borrowCrossMargin": "__undefined",
+      "fetchPositionsADLRank": "__undefined",
+      "fetchOrders": true,
+      "fetchDeposits": true,
+      "fetchOrderTrades": false,
+      "createReduceOnlyOrderWs": "__undefined",
+      "unWatchOHLCVForSymbols": "__undefined",
+      "watchOrders": "__undefined",
+      "option": false,
+      "future": false,
+      "fetchOrderBooks": "__undefined",
+      "fetchLedgerEntry": "__undefined",
+      "watchLiquidationsForSymbols": "__undefined",
+      "fetchMarketLeverageTiers": "__undefined",
+      "fetchConvertTrade": false,
+      "watchMyLiquidationsForSymbols": "__undefined",
+      "ws": "__undefined",
+      "fetchPositions": true,
+      "fetchFundingRates": false,
+      "createStopLossOrder": false,
+      "fetchDepositAddress": true,
+      "createOrderWithTakeProfitAndStopLossWs": "__undefined",
+      "fetchBorrowInterest": "__undefined",
+      "fetchStatus": true,
+      "createDepositAddress": false,
+      "unWatchTicker": "__undefined",
+      "unWatchOrderBookForSymbols": "__undefined",
+      "createMarketBuyOrderWs": "__undefined",
+      "fetchDepositsWithdrawals": false,
+      "fetchPositionsHistory": false,
+      "createStopMarketOrderWs": "__undefined",
+      "watchStatus": "__undefined",
+      "fetchConvertTradeHistory": false,
+      "fetchClosedOrders": false,
+      "watchTradesForSymbols": "__undefined",
+      "fetchMarginModes": "__undefined",
+      "fetchLastPrices": "__undefined",
+      "setMargin": false,
+      "createTakeProfitOrderWs": "__undefined",
+      "fetchLongShortRatioHistory": "__undefined",
+      "fetchOpenInterest": true,
+      "fetchDepositAddresses": "__undefined",
+      "fetchTradingFeesWs": "__undefined",
+      "fetchTransfers": false,
+      "unWatchOHLCV": "__undefined",
+      "fetchBorrowRateHistories": "__undefined",
+      "fetchLongShortRatio": "__undefined",
+      "fetchCurrenciesWs": "emulated",
+      "CORS": "__undefined",
+      "createOrderWs": "__undefined",
+      "cancelAllOrders": true,
+      "withdraw": true,
+      "createMarketBuyOrder": true,
+      "deposit": "__undefined",
+      "fetchPositionHistory": false,
+      "fetchWithdrawalsWs": "__undefined",
+      "watchOHLCVForSymbols": "__undefined",
+      "editOrders": "__undefined",
+      "createStopMarketOrder": "__undefined",
+      "fetchPositionADLRank": "__undefined",
+      "createTrailingAmountOrder": false,
+      "fetchLeverage": false,
+      "sandbox": false,
+      "borrowMargin": "__undefined",
+      "fetchMyTradesWs": "__undefined",
+      "fetchMarkets": true,
+      "fetchClosedOrder": false,
+      "fetchWithdrawal": "__undefined",
+      "watchOrderBookForSymbols": "__undefined",
+      "fetchOHLCV": true,
+      "swap": true,
+      "fetchMarketsWs": "__undefined",
+      "fetchBorrowRates": "__undefined",
+      "fetchOrderWithClientOrderId": "__undefined",
+      "fetchOrdersByStatus": "__undefined",
+      "fetchBidsAsks": "__undefined",
+      "cancelOrder": true,
+      "fetchFundingInterval": "__undefined",
+      "fetchOpenInterests": "__undefined",
+      "fetchClosedOrdersWs": "__undefined",
+      "fetchOpenOrders": true,
+      "fetchWithdrawals": true,
+      "unWatchOrderBook": "__undefined",
+      "fetchTickerWs": "__undefined",
+      "fetchTickersWs": "__undefined",
+      "fetchDepositWithdrawFee": "__undefined",
+      "fetchCanceledAndClosedOrders": false,
+      "fetchCrossBorrowRates": "__undefined",
+      "fetchFundingRateHistory": true,
+      "fetchCurrencies": true,
+      "fetchConvertCurrencies": false,
+      "fetchLedger": false,
+      "fetchOption": false,
+      "transfer": false,
+      "fetchPositionsWs": "__undefined",
+      "cancelOrderWithClientOrderId": "__undefined",
+      "editOrderWs": "__undefined",
+      "unWatchPositions": "__undefined",
+      "unWatchMyTrades": "__undefined",
+      "fetchMyTrades": true,
+      "fetchOpenOrder": true,
+      "fetchPremiumIndexOHLCV": false,
+      "createOrder": true,
+      "fetchTransactionFees": "__undefined",
+      "fetchTrades": true,
+      "fetchCanceledOrders": false,
+      "createPostOnlyOrderWs": "__undefined",
+      "fetchBorrowRate": "__undefined",
+      "fetchBorrowRatesPerSymbol": "__undefined",
+      "createLimitOrderWs": "__undefined",
+      "fetchIsolatedPositions": "__undefined",
+      "privateAPI": true,
+      "watchMyTrades": "__undefined",
+      "createOrderWithTakeProfitAndStopLoss": true,
+      "fetchL2OrderBook": true,
+      "margin": true,
+      "fetchConvertQuote": false,
+      "watchPosition": "__undefined",
+      "createTakeProfitOrder": false,
+      "createLimitBuyOrder": true,
+      "cancelOrdersWs": "__undefined",
+      "fetchPosition": false,
+      "fetchMySettlementHistory": "__undefined",
+      "fetchLeverageTiers": false,
+      "fetchFundingIntervals": "__undefined",
+      "watchTrades": "__undefined",
+      "createTrailingPercentOrder": false,
+      "fetchTradesWs": "__undefined",
+      "createLimitSellOrder": true,
+      "createStopLimitOrder": "__undefined",
+      "closePosition": false,
+      "reduceMargin": false,
+      "watchTickers": "__undefined",
+      "unWatchTradesForSymbols": "__undefined",
+      "unWatchTrades": "__undefined",
+      "fetchIsolatedBorrowRates": "__undefined",
+      "createTriggerOrderWs": "__undefined",
+      "cancelOrders": false,
+      "fetchTicker": true,
+      "fetchVolatilityHistory": false,
+      "createMarketOrderWs": true,
+      "fetchCrossBorrowRate": "__undefined",
+      "fetchTickers": true,
+      "createLimitOrder": true,
+      "cancelOrdersWithClientOrderId": "__undefined",
+      "createTrailingPercentOrderWs": "__undefined",
+      "cancelOrderWs": "__undefined",
+      "fetchMarkPrices": "__undefined",
+      "fetchDepositsWs": "__undefined",
+      "createLimitBuyOrderWs": "__undefined",
+      "fetchOpenOrdersWs": "__undefined",
+      "watchTicker": "__undefined",
+      "fetchTradingLimits": "__undefined",
+      "fetchPositionsForSymbolWs": "__undefined",
+      "fetchBalance": true,
+      "fetchMyLiquidations": "__undefined",
+      "editOrderWithClientOrderId": "__undefined",
+      "borrowIsolatedMargin": "__undefined",
+      "fetchPositionsForSymbol": false,
+      "unWatchOrders": "__undefined",
+      "createOrders": true,
+      "fetchOrderWs": "__undefined",
+      "createMarketOrder": true,
+      "fetchDeposit": "__undefined",
+      "fetchLeverages": "__undefined",
+      "fetchOptionChain": false,
+      "createStopOrderWs": "__undefined",
+      "publicAPI": true,
+      "fetchWithdrawAddresses": "__undefined",
+      "fetchOrdersWs": "__undefined",
+      "fetchAccounts": false,
+      "fetchDepositAddressesByNetwork": "__undefined",
+      "cancelAllOrdersAfter": false,
+      "signIn": "__undefined",
+      "createMarketSellOrder": true,
+      "fetchTradingFees": false,
+      "fetchOrder": false,
+      "fetchOpenInterestHistory": true,
+      "fetchUnderlyingAssets": "__undefined",
+      "watchPositions": "__undefined"
+    },
+    "httpExceptions": {
+      "400": "__function:L",
+      "401": "__function:a",
+      "403": "__function:L",
+      "404": "__function:L",
+      "405": "__function:L",
+      "407": "__function:a",
+      "408": "__function:V",
+      "409": "__function:L",
+      "410": "__function:L",
+      "418": "__function:E",
+      "422": "__function:r",
+      "429": "__function:R",
+      "451": "__function:L",
+      "500": "__function:L",
+      "501": "__function:L",
+      "502": "__function:L",
+      "503": "__function:L",
+      "504": "__function:V",
+      "511": "__function:a",
+      "520": "__function:L",
+      "521": "__function:L",
+      "522": "__function:L",
+      "525": "__function:L",
+      "526": "__function:L",
+      "530": "__function:L"
+    },
+    "id": "backpack",
+    "limits": {
+      "amount": {
+        "max": "__undefined",
+        "min": "__undefined"
+      },
+      "cost": {
+        "max": "__undefined",
+        "min": "__undefined"
+      },
+      "leverage": {
+        "max": "__undefined",
+        "min": "__undefined"
+      },
+      "price": {
+        "max": "__undefined",
+        "min": "__undefined"
+      }
+    },
+    "markets": "__undefined",
+    "name": "Backpack",
+    "options": {
+      "adjustForTimeDifference": false,
+      "broker": "",
+      "brokerId": "",
+      "currencyIdsListForParseMarket": "__undefined",
+      "instructions": {
+        "api/v1/account": {
+          "GET": "accountQuery",
+          "PATCH": "accountUpdate"
+        },
+        "api/v1/account/limits/borrow": {
+          "GET": "maxBorrowQuantity"
+        },
+        "api/v1/account/limits/order": {
+          "GET": "maxOrderQuantity"
+        },
+        "api/v1/account/limits/withdrawal": {
+          "GET": "maxWithdrawalQuantity"
+        },
+        "api/v1/borrowLend": {
+          "POST": "borrowLendExecute"
+        },
+        "api/v1/borrowLend/positions": {
+          "GET": "borrowLendPositionQuery"
+        },
+        "api/v1/capital": {
+          "GET": "balanceQuery"
+        },
+        "api/v1/capital/collateral": {
+          "GET": "collateralQuery"
+        },
+        "api/v1/order": {
+          "DELETE": "orderCancel",
+          "GET": "orderQuery",
+          "POST": "orderExecute"
+        },
+        "api/v1/orders": {
+          "DELETE": "orderCancelAll",
+          "GET": "orderQueryAll",
+          "POST": "orderExecute"
+        },
+        "api/v1/position": {
+          "GET": "positionQuery"
+        },
+        "api/v1/rfq/quote": {
+          "POST": "quoteSubmit"
+        },
+        "wapi/v1/capital/deposit/address": {
+          "GET": "depositAddressQuery"
+        },
+        "wapi/v1/capital/deposits": {
+          "GET": "depositQueryAll"
+        },
+        "wapi/v1/capital/withdrawals": {
+          "GET": "withdrawalQueryAll",
+          "POST": "withdraw"
+        },
+        "wapi/v1/history/borrowLend": {
+          "GET": "borrowHistoryQueryAll"
+        },
+        "wapi/v1/history/borrowLend/positions": {
+          "GET": "borrowPositionHistoryQueryAll"
+        },
+        "wapi/v1/history/dust": {
+          "GET": "dustHistoryQueryAll"
+        },
+        "wapi/v1/history/fills": {
+          "GET": "fillHistoryQueryAll"
+        },
+        "wapi/v1/history/funding": {
+          "GET": "fundingHistoryQueryAll"
+        },
+        "wapi/v1/history/interest": {
+          "GET": "interestHistoryQueryAll"
+        },
+        "wapi/v1/history/orders": {
+          "GET": "orderHistoryQueryAll"
+        },
+        "wapi/v1/history/pnl": {
+          "GET": "pnlHistoryQueryAll"
+        },
+        "wapi/v1/history/quote": {
+          "GET": "quoteHistoryQueryAll"
+        },
+        "wapi/v1/history/rfq": {
+          "GET": "rfqHistoryQueryAll"
+        },
+        "wapi/v1/history/settlement": {
+          "GET": "settlementHistoryQueryAll"
+        },
+        "wapi/v1/history/strategies": {
+          "GET": "strategyHistoryQueryAll"
+        }
+      },
+      "networks": {
+        "ADA": "Cardano",
+        "APT": "Aptos",
+        "ARB": "Arbitrum",
+        "AVAX": "Avalanche",
+        "BASE": "Base",
+        "BCH": "BitcoinCash",
+        "BERA": "Berachain",
+        "BSC": "Bsc",
+        "BTC": "Bitcoin",
+        "DOGE": "Dogecoin",
+        "ECLIPSE": "Eclipse",
+        "EQUALSMONEY": "EqualsMoney",
+        "ERC20": "Ethereum",
+        "HYP": "Hyperliquid",
+        "LTC": "Litecoin",
+        "MATIC": "Polygon",
+        "OPTIMISM": "Optimism",
+        "SEI": "Sei",
+        "SOL": "Solana",
+        "STORY": "Story",
+        "SUI": "Sui",
+        "TRC20": "Tron",
+        "XRP": "XRP"
+      },
+      "networksById": {
+        "aptos": "APT",
+        "arbitrum": "ARB",
+        "avalanche": "AVAX",
+        "base": "BASE",
+        "berachain": "BERA",
+        "bitcoin": "BTC",
+        "bitcoincash": "BCH",
+        "bsc": "BSC",
+        "cardano": "ADA",
+        "dogecoin": "DOGE",
+        "eclipse": "ECLIPSE",
+        "equalsmoney": "EQUALSMONEY",
+        "ethereum": "ERC20",
+        "hyperliquid": "HYP",
+        "litecoin": "LTC",
+        "optimism": "OPTIMISM",
+        "polygon": "MATIC",
+        "sei": "SEI",
+        "solana": "SOL",
+        "story": "STORY",
+        "sui": "SUI",
+        "tron": "TRC20",
+        "xrp": "XRP"
+      },
+      "recvWindow": 5000,
+      "timeDifference": 0
+    },
+    "paddingMode": 5,
+    "precisionMode": 4,
+    "pro": true,
+    "rateLimit": 50,
+    "requiredCredentials": {
+      "accountId": false,
+      "apiKey": true,
+      "login": false,
+      "password": false,
+      "privateKey": false,
+      "secret": true,
+      "token": false,
+      "twofa": false,
+      "uid": false,
+      "walletAddress": false
+    },
+    "rollingWindowSize": 60000,
+    "status": {
+      "eta": "__undefined",
+      "status": "ok",
+      "updated": "__undefined",
+      "url": "__undefined"
+    },
+    "timeframes": {
+      "12h": "12h",
+      "15": "15m",
+      "1M": "1month",
+      "1d": "1d",
+      "1h": "1h",
+      "1m": "1m",
+      "1w": "1w",
+      "2h": "2h",
+      "30": "30m",
+      "3d": "3d",
+      "3m": "3m",
+      "4h": "4h",
+      "5m": "5m",
+      "6h": "6h",
+      "8h": "8h"
+    },
+    "timeout": 10000,
+    "urls": {
+      "api": {
+        "private": "https://api.backpack.exchange",
+        "public": "https://api.backpack.exchange"
+      },
+      "doc": "https://docs.backpack.exchange/",
+      "fees": "__undefined",
+      "logo": "https://github.com/user-attachments/assets/cc04c278-679f-4554-9f72-930dd632b80f",
+      "referral": "https://backpack.exchange/join/ccxt",
+      "www": "https://backpack.exchange/"
+    },
+    "version": "v1"
+  },
+  "extracted_at": "2026-03-29T12:26:34.430189Z",
+  "id": "backpack"
+}

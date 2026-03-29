@@ -4,6 +4,7 @@ defmodule CcxtExtract.SummaryIntegrationTest do
   alias CcxtExtract.Summary
 
   @moduletag :integration
+  @moduletag :extraction
   @moduletag timeout: 120_000
 
   # {family_root, expected_variant, min_variant_count}

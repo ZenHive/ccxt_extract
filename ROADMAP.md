@@ -8,21 +8,20 @@
 
 ## 🎯 Current Focus
 
-**Phase 2: Runtime Extraction** — In progress. Tasks 6, 8a, 8b complete. Task 7 (family analysis) and Task 8c (market data validation) next.
+**Phase 2: Runtime Extraction** — In progress. Tasks 6, 8a, 8b, 22 complete. Task 8c (market data validation) and Task 7 (family analysis) next.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 22 | Split integration tests into cached/extraction tiers | Cached tests read tracked fixtures; write!/1 serializer tests in fast tier |
 | Task 8b | Rate-limited loadMarkets() extraction | Most exchanges succeed; parallel extraction with configurable workers |
 | Task 8a | Classify credential requirements | All 107 exchanges advertise fetchMarkets; 13 credential patterns classified |
-| Task 6 | Full describe() extraction | Complete describe() for all 107 exchanges via QuickBEAM, per-exchange JSON files |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 22 | ⬜ | Split integration tests into cached/extraction tiers [D:3/B:8/U:9 → Eff:2.83] 🎯 |
-| Task 7 | ⬜ | Exchange family analysis [D:5/B:7/U:7 → Eff:1.40] |
 | Task 8c | ⬜ | Market data validation [D:3/B:7/U:7 → Eff:2.33] |
+| Task 7 | ⬜ | Exchange family analysis [D:5/B:7/U:7 → Eff:1.40] |
 
 ### Quick Commands
 ```bash
@@ -42,6 +41,9 @@ mix ccxt_extract.load_markets --concurrency 10  # Faster with more parallel work
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
+mix test.json --quiet                      # Fast tests (~0.4s, cached only)
+mix test.json --quiet --include extraction # Full tests (includes QuickBEAM/OXC)
+mix test.json --quiet --only extraction    # Only extraction tests
 ```
 
 ---
@@ -74,7 +76,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 
 - [x] ~~**Task 21: Extract shared test helpers**~~ [D:1/B:4/U:5 → Eff:4.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 22: Split integration tests into cached/extraction tiers** [D:3/B:8/U:9 → Eff:2.83] — Integration tests currently re-boot QuickBEAM and re-extract data every run (~13s per module, 5+ modules). Split into two tiers: (1) **structure tests** that read from cached `priv/discoveries/*.json` files — same assertions, no QuickBEAM, milliseconds; (2) **extraction tests** tagged `:extraction` that boot QuickBEAM and verify the full pipeline — run explicitly with `--only extraction` when CCXT version changes. Default `mix test.json` should complete in seconds, not minutes. Follow the pattern already used by PublicExchanges and MethodAnalysis tests (they read cached output and run in 0.13s). This scales to Phase 3 — every new extraction module would add 13s without this change.
+- [x] ~~**Task 22: Split integration tests into cached/extraction tiers**~~ [D:3/B:8/U:9 → Eff:2.83] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [x] ~~**Task 5: Document discoveries**~~ [D:2/B:7/U:9 → Eff:4.00] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 

@@ -6,6 +6,7 @@ defmodule CcxtExtract.DescribeKeyAnalysisIntegrationTest do
   alias CcxtExtract.DescribeKeyAnalysis
 
   @moduletag :integration
+  @moduletag :extraction
   @moduletag timeout: 120_000
 
   # Keys that every CCXT exchange's describe() should have — must be universal tier

@@ -7,6 +7,7 @@ defmodule CcxtExtract.MixTasksIntegrationTest do
   alias Mix.Tasks.CcxtExtract.Summary
 
   @moduletag :integration
+  @moduletag :extraction
   @moduletag timeout: 120_000
 
   describe "mix ccxt_extract.exchanges" do

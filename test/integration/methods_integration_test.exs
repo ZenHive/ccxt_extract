@@ -4,6 +4,7 @@ defmodule CcxtExtract.MethodsIntegrationTest do
   alias CcxtExtract.Methods
 
   @moduletag :integration
+  @moduletag :extraction
   @moduletag timeout: 60_000
 
   # Reference exchanges from CLAUDE.md — {id, min_method_count}

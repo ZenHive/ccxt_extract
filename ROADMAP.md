@@ -13,6 +13,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 4a+4b | REST + WS method inventory | 110 REST (5,508 methods), 79 WS (2,434 methods), param names+types, return types |
 | Task 3b | Key frequency analysis | Tier classification, type consistency, max nesting depth via QuickBEAM |
 | Task 3a | describe() key extraction | Top-level keys + JS types for all non-alias exchanges via QuickBEAM |
 | Task 20 | Integration tests for reference exchanges | Data-driven `for`+`unquote` tests covering T1/T2/DEX across all 3 test files |
@@ -27,9 +28,10 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 3b | ✅ | Key frequency analysis — complete |
-| Task 4a `[P]` | ⬜ | REST method inventory — independent (needs OXC) |
-| Task 4b `[P]` | ⬜ | WS method inventory — independent (needs OXC) |
+| Task 4a | ✅ | REST method inventory — complete |
+| Task 4b | ✅ | WS method inventory — complete |
+| Task 4c | ⬜ | Method family analysis — unblocked (needs 4a + 4b) |
+| Task 5 | ⬜ | Document discoveries — unblocked after 4c |
 
 ### Quick Commands
 ```bash
@@ -38,6 +40,9 @@ mix ccxt_extract.classes                   # Extract class hierarchy
 mix ccxt_extract.summary                   # Combine into summary stats
 mix ccxt_extract.describe_keys             # Extract describe() keys per exchange
 mix ccxt_extract.describe_key_analysis     # Analyze key frequency and nesting depth
+mix ccxt_extract.methods                   # Extract REST + WS method inventory
+mix ccxt_extract.methods --type rest       # REST only
+mix ccxt_extract.methods --type ws         # WS only
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -65,8 +70,8 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
   - [x] ~~**3b: Key frequency analysis**~~ [D:2/B:7/U:7 → Eff:3.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 4: Method inventory** — Catalog every method on every exchange with signatures.
-  - [ ] **4a: REST exchange methods** [D:3/B:8/U:8 → Eff:2.67] `[P]` — Parse every `.ts` in `priv/ccxt/ts/src/` (excluding `pro/`, `abstract/`, `base/`) with OXC. Extract: method name, async/sync, parameter names + TS types, return type, statement count. Write `priv/discoveries/methods_rest.json`. Reuse pattern from `examples/1_parse_exchange.exs`.
-  - [ ] **4b: WS exchange methods** [D:2/B:7/U:7 → Eff:3.50] `[P]` — Same as 4a for `priv/ccxt/ts/src/pro/*.ts`. Write `priv/discoveries/methods_ws.json`.
+  - [x] ~~**4a: REST exchange methods**~~ [D:3/B:8/U:8 → Eff:2.67] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+  - [x] ~~**4b: WS exchange methods**~~ [D:2/B:7/U:7 → Eff:3.50] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [ ] **4c: Method family analysis** [D:2/B:7/U:8 → Eff:3.75] — From 4a + 4b: group by prefix family (`parse*`, `fetch*`, `create*`, `cancel*`, `watch*`, `handle*`, etc.), universal vs unique methods, method count distribution. Write `priv/discoveries/method_analysis.json`.
 
 - [x] ~~**Task 20: Expand integration tests to reference exchanges**~~ [D:3/B:7/U:8 → Eff:2.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)

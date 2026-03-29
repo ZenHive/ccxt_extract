@@ -13,6 +13,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 3b | Key frequency analysis | Tier classification, type consistency, max nesting depth via QuickBEAM |
 | Task 3a | describe() key extraction | Top-level keys + JS types for all non-alias exchanges via QuickBEAM |
 | Task 20 | Integration tests for reference exchanges | Data-driven `for`+`unquote` tests covering T1/T2/DEX across all 3 test files |
 | Task 2c | Exchange summary stats | Family groupings, alias vs variant classification, orphan alias detection |
@@ -26,7 +27,7 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 3b | ⬜ | Key frequency analysis — depends on 3a (now complete) |
+| Task 3b | ✅ | Key frequency analysis — complete |
 | Task 4a `[P]` | ⬜ | REST method inventory — independent (needs OXC) |
 | Task 4b `[P]` | ⬜ | WS method inventory — independent (needs OXC) |
 
@@ -36,6 +37,7 @@ mix ccxt_extract.exchanges                 # Extract exchange metadata
 mix ccxt_extract.classes                   # Extract class hierarchy
 mix ccxt_extract.summary                   # Combine into summary stats
 mix ccxt_extract.describe_keys             # Extract describe() keys per exchange
+mix ccxt_extract.describe_key_analysis     # Analyze key frequency and nesting depth
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -60,7 +62,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 
 - [ ] **Task 3: describe() key inventory** — Catalog every key in every exchange's describe().
   - [x] ~~**3a: Extract all describe() top-level keys**~~ [D:3/B:8/U:8 → Eff:2.67] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-  - [ ] **3b: Key frequency analysis** [D:2/B:7/U:7 → Eff:3.50] — From 3a: which keys are universal, which appear on most (>90%, >50%), which are exchange-specific (<5 exchanges)? Max nesting depth per key. Write `priv/discoveries/describe_key_analysis.json`.
+  - [x] ~~**3b: Key frequency analysis**~~ [D:2/B:7/U:7 → Eff:3.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 4: Method inventory** — Catalog every method on every exchange with signatures.
   - [ ] **4a: REST exchange methods** [D:3/B:8/U:8 → Eff:2.67] `[P]` — Parse every `.ts` in `priv/ccxt/ts/src/` (excluding `pro/`, `abstract/`, `base/`) with OXC. Extract: method name, async/sync, parameter names + TS types, return type, statement count. Write `priv/discoveries/methods_rest.json`. Reuse pattern from `examples/1_parse_exchange.exs`.
@@ -68,6 +70,8 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
   - [ ] **4c: Method family analysis** [D:2/B:7/U:8 → Eff:3.75] — From 4a + 4b: group by prefix family (`parse*`, `fetch*`, `create*`, `cancel*`, `watch*`, `handle*`, etc.), universal vs unique methods, method count distribution. Write `priv/discoveries/method_analysis.json`.
 
 - [x] ~~**Task 20: Expand integration tests to reference exchanges**~~ [D:3/B:7/U:8 → Eff:2.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+
+- [ ] **Task 21: Extract shared test helpers** [D:1/B:4/U:5 → Eff:4.50] 🎯 — `run_task_capturing_output/2` and `collect_shell_output/1` are duplicated across 3 integration test files. Extract to `test/support/test_helpers.ex` and import in each test module.
 
 - [ ] **Task 5: Document discoveries** [D:2/B:7/U:9 → Eff:4.00] — Read all `priv/discoveries/*.json` and write `DISCOVERIES.md`: exchange count/family breakdown, class hierarchy patterns, describe() key catalog, method families/distributions, anything surprising. This becomes the design input for Phase 2.
 

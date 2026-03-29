@@ -6,6 +6,20 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 4c: Method Family Analysis
+- `CcxtExtract.MethodAnalysis` — reads methods_rest.json + methods_ws.json, produces family analysis with pure functions separate from I/O
+- `mix ccxt_extract.method_analysis` — CLI task that runs analysis and writes `priv/discoveries/method_analysis.json`
+- Prefix family grouping: extracts camelCase prefix (`fetch*`, `parse*`, `create*`, `cancel*`, `watch*`, `handle*`, `sign`, etc.) with 13 known CCXT prefixes; unrecognized prefixes go to "other"
+- Per-family output: method count, per-method exchange count and percentage, sorted by popularity
+- Universality detection: methods present on 100% of exchanges (e.g., `describe`)
+- Unique method detection: methods present on exactly 1 exchange (true uniqueness)
+- Rare method detection: methods on fewer than 5 exchanges (superset of unique)
+- Method count distribution: min/max/median/mean/p25/p75 of per-exchange method counts
+- Cross-type analysis: identifies shared, REST-only, and WS-only method names
+- Added `.dialyzer_ignore.exs` for known MapSet opaque type warnings (elixir-lang/elixir#9078)
+- Key finding: very few methods are shared between REST and WS — CCXT maintains clean separation between `fetch*`/`parse*` (REST) and `watch*`/`handle*` (WS) patterns
+- Integration tests verify per-exchange method coverage: each reference exchange's methods are checked against the family analysis output, not just global assertions
+
 ### Tasks 4a + 4b: REST & WS Method Inventory
 - `CcxtExtract.Methods` — single module with `extract(:rest)` and `extract(:ws)` entry points, parses TS source via OXC
 - `mix ccxt_extract.methods` — CLI task with `--type rest|ws` flag (defaults to both)

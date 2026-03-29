@@ -13,6 +13,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 4c | Method family analysis | Prefix families, universality, distribution, cross-type (REST vs WS) |
 | Task 4a+4b | REST + WS method inventory | 110 REST (5,508 methods), 79 WS (2,434 methods), param names+types, return types |
 | Task 3b | Key frequency analysis | Tier classification, type consistency, max nesting depth via QuickBEAM |
 | Task 3a | describe() key extraction | Top-level keys + JS types for all non-alias exchanges via QuickBEAM |
@@ -30,8 +31,8 @@
 |------|--------|-------|
 | Task 4a | ✅ | REST method inventory — complete |
 | Task 4b | ✅ | WS method inventory — complete |
-| Task 4c | ⬜ | Method family analysis — unblocked (needs 4a + 4b) |
-| Task 5 | ⬜ | Document discoveries — unblocked after 4c |
+| Task 4c | ✅ | Method family analysis — complete |
+| Task 5 | ⬜ | Document discoveries — unblocked |
 
 ### Quick Commands
 ```bash
@@ -43,6 +44,7 @@ mix ccxt_extract.describe_key_analysis     # Analyze key frequency and nesting d
 mix ccxt_extract.methods                   # Extract REST + WS method inventory
 mix ccxt_extract.methods --type rest       # REST only
 mix ccxt_extract.methods --type ws         # WS only
+mix ccxt_extract.method_analysis           # Analyze method families and distribution
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -72,7 +74,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 - [ ] **Task 4: Method inventory** — Catalog every method on every exchange with signatures.
   - [x] ~~**4a: REST exchange methods**~~ [D:3/B:8/U:8 → Eff:2.67] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [x] ~~**4b: WS exchange methods**~~ [D:2/B:7/U:7 → Eff:3.50] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-  - [ ] **4c: Method family analysis** [D:2/B:7/U:8 → Eff:3.75] — From 4a + 4b: group by prefix family (`parse*`, `fetch*`, `create*`, `cancel*`, `watch*`, `handle*`, etc.), universal vs unique methods, method count distribution. Write `priv/discoveries/method_analysis.json`.
+  - [x] ~~**4c: Method family analysis**~~ [D:2/B:7/U:8 → Eff:3.75] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [x] ~~**Task 20: Expand integration tests to reference exchanges**~~ [D:3/B:7/U:8 → Eff:2.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 

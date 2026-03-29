@@ -21,11 +21,20 @@ defmodule Mix.Tasks.CcxtExtract.LoadMarkets do
 
   @impl true
   def run(args) do
-    {opts, _, _} =
+    {opts, leftover, invalid} =
       OptionParser.parse(args,
         strict: [delay: :integer, exchanges: :string, concurrency: :integer],
         aliases: [d: :delay, e: :exchanges, c: :concurrency]
       )
+
+    if invalid != [] do
+      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
+      Mix.raise("Unknown option(s): #{switches}. Supported: --delay, --exchanges, --concurrency")
+    end
+
+    if leftover != [] do
+      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}. This task takes no positional arguments.")
+    end
 
     delay_ms = Keyword.get(opts, :delay)
     concurrency = Keyword.get(opts, :concurrency)

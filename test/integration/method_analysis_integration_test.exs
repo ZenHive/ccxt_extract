@@ -1,6 +1,8 @@
 defmodule CcxtExtract.MethodAnalysisIntegrationTest do
   use ExUnit.Case
 
+  import CcxtExtract.TaskHelpers
+
   alias CcxtExtract.MethodAnalysis
 
   @moduletag :integration
@@ -261,27 +263,6 @@ defmodule CcxtExtract.MethodAnalysisIntegrationTest do
       assert output =~ "WS:"
       assert output =~ "Cross-type:"
       assert output =~ "Output: priv/discoveries/method_analysis.json"
-    end
-  end
-
-  # Helper to capture Mix.shell output during task execution
-  defp run_task_capturing_output(task_module, args \\ []) do
-    original_shell = Mix.shell()
-    Mix.shell(Mix.Shell.Process)
-
-    try do
-      task_module.run(args)
-      collect_shell_output()
-    after
-      Mix.shell(original_shell)
-    end
-  end
-
-  defp collect_shell_output(acc \\ []) do
-    receive do
-      {:mix_shell, :info, [msg]} -> collect_shell_output([msg | acc])
-    after
-      100 -> acc |> Enum.reverse() |> Enum.join("\n")
     end
   end
 end

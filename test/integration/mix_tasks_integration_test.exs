@@ -1,35 +1,13 @@
 defmodule CcxtExtract.MixTasksIntegrationTest do
   use ExUnit.Case
 
+  import CcxtExtract.TaskHelpers
+
   alias Mix.Tasks.CcxtExtract.Setup
   alias Mix.Tasks.CcxtExtract.Summary
 
   @moduletag :integration
   @moduletag timeout: 120_000
-
-  # Helper to capture Mix.shell output during task execution
-  defp run_task_capturing_output(task_module, args \\ []) do
-    # Swap to process shell so Mix.shell().info messages are sent as messages
-    original_shell = Mix.shell()
-    Mix.shell(Mix.Shell.Process)
-
-    try do
-      task_module.run(args)
-
-      # Collect all :mix_shell_input/:info messages
-      collect_shell_output()
-    after
-      Mix.shell(original_shell)
-    end
-  end
-
-  defp collect_shell_output(acc \\ []) do
-    receive do
-      {:mix_shell, :info, [msg]} -> collect_shell_output([msg | acc])
-    after
-      100 -> acc |> Enum.reverse() |> Enum.join("\n")
-    end
-  end
 
   describe "mix ccxt_extract.exchanges" do
     test "extracts exchanges and prints summary" do

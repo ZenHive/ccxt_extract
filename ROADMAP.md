@@ -8,37 +8,27 @@
 
 ## 🎯 Current Focus
 
-**Phase 1: Setup & Discovery** — Complete. See [DISCOVERIES.md](DISCOVERIES.md) for synthesized findings. Ready for Phase 2.
+**Phase 2: Runtime Extraction** — In progress. Task 6 (full describe) complete; Task 7 (family analysis) next.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 6 | Full describe() extraction | Complete describe() for all 107 exchanges via QuickBEAM, per-exchange JSON files |
+| Task 21 | Extract shared test helpers | Deduplicated `run_task_capturing_output` across 4 integration test files |
 | Task 5 | Document discoveries | DISCOVERIES.md synthesizing all Phase 1 findings as Phase 2 design input |
-| Task 4c | Method family analysis | Prefix families, universality, distribution, cross-type (REST vs WS) |
-| Task 4a+4b | REST + WS method inventory | 110 REST (5,508 methods), 79 WS (2,434 methods), param names+types, return types |
-| Task 3b | Key frequency analysis | Tier classification, type consistency, max nesting depth via QuickBEAM |
-| Task 3a | describe() key extraction | Top-level keys + JS types for all non-alias exchanges via QuickBEAM |
-| Task 20 | Integration tests for reference exchanges | Data-driven `for`+`unquote` tests covering T1/T2/DEX across all 3 test files |
-| Task 2c | Exchange summary stats | Family groupings, alias vs variant classification, orphan alias detection |
-| Task 2b | OXC class hierarchy | Inheritance tree, WS counterparts, per-method metadata |
-| Task 2a | QuickBEAM exchange list | 110 exchanges, shared runtime module, referral normalization |
-| Task 19 | Fix sparse checkout package.json | `record_versions/0` handles missing file gracefully |
-| — | Path resolution refactor | All paths via `:code.priv_dir`, bundle copied to `priv/` |
-| Task 1 | CCXT source setup + `mix ccxt_extract.setup` | npm bundle + TS source + version tracking |
-| Task 18 | Fix QuickBEAM browser global pattern | `eval` pattern instead of `set_global` for globalThis |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 21 | ⬜ | Extract shared test helpers [D:1/B:4/U:5 → Eff:4.50] |
-| Task 6 | ⬜ | Full describe() extraction via QuickBEAM [D:4/B:9/U:9 → Eff:2.25] |
 | Task 7 | ⬜ | Exchange family analysis [D:5/B:7/U:7 → Eff:1.40] |
+| Task 8a | ⬜ | Identify public exchanges from Task 6 output [D:2/B:6/U:8 → Eff:3.50] |
 
 ### Quick Commands
 ```bash
 mix ccxt_extract.exchanges                 # Extract exchange metadata
 mix ccxt_extract.classes                   # Extract class hierarchy
 mix ccxt_extract.summary                   # Combine into summary stats
+mix ccxt_extract.describe                  # Extract full describe() per exchange
 mix ccxt_extract.describe_keys             # Extract describe() keys per exchange
 mix ccxt_extract.describe_key_analysis     # Analyze key frequency and nesting depth
 mix ccxt_extract.methods                   # Extract REST + WS method inventory
@@ -78,7 +68,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 
 - [x] ~~**Task 20: Expand integration tests to reference exchanges**~~ [D:3/B:7/U:8 → Eff:2.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 21: Extract shared test helpers** [D:1/B:4/U:5 → Eff:4.50] 🎯 — `run_task_capturing_output/2` and `collect_shell_output/1` are duplicated across 3 integration test files. Extract to `test/support/test_helpers.ex` and import in each test module.
+- [x] ~~**Task 21: Extract shared test helpers**~~ [D:1/B:4/U:5 → Eff:4.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [x] ~~**Task 5: Document discoveries**~~ [D:2/B:7/U:9 → Eff:4.00] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
@@ -90,7 +80,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 
 ### Tasks
 
-- [ ] **Task 6: Full describe() extraction** [D:4/B:9/U:9 → Eff:2.25] — Extract the complete `describe()` for all exchanges via QuickBEAM. Every key, every nested value. Save as one JSON file per exchange. This is the most important extraction — describe() contains has, exceptions, features, urls, api, fees, timeframes, options, commonCurrencies, precisionMode, paddingMode, requiredCredentials, and more.
+- [x] ~~**Task 6: Full describe() extraction**~~ [D:4/B:9/U:9 → Eff:2.25] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 7: Exchange family analysis** [D:5/B:7/U:7 → Eff:1.40] — Group exchanges by inheritance. Which exchanges share a base class? What does each variant override? Use both QuickBEAM (compare describe() output between parent and child) and OXC (compare method lists). Document the family tree.
 

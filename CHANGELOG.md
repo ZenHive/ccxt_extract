@@ -6,6 +6,21 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 6: Full describe() Extraction
+- `CcxtExtract.Describe` — extracts the complete `describe()` for all 107 non-alias exchanges via QuickBEAM
+- `mix ccxt_extract.describe` — CLI task that runs extraction and writes per-exchange JSON files
+- Per-exchange output to `priv/discoveries/describe/<exchange_id>.json` with manifest at `_manifest.json`
+- Function sentinel handling: JS function references (error classes, parseNumber, etc.) serialized as `__function:<name>` strings
+- Undefined sentinel handling: JS `undefined` values (silently dropped by JSON.stringify) preserved as `__undefined` strings
+- Extracts one exchange at a time via Elixir loop to keep memory bounded (not one massive JSON string)
+- 107 exchanges extracted in ~5 seconds with progress logging every 20 exchanges
+- Key finding: binance has 930 function references and 127 undefined values in its describe() — the sentinels capture data that naive JSON.stringify would lose
+
+### Task 21: Extract Shared Test Helpers
+- Created `test/support/task_helpers.ex` with `CcxtExtract.TaskHelpers` module
+- Extracted `run_task_capturing_output/2` and `collect_shell_output/1` from 4 integration test files
+- All test files now `import CcxtExtract.TaskHelpers` instead of defining private duplicates
+
 ### Task 5: Document Discoveries
 - `DISCOVERIES.md` — synthesized findings from all 8 discovery JSON files into a structured design document
 - Five sections: Exchange Landscape, Class Architecture, describe() Configuration, Method Inventory, Surprises & Implications

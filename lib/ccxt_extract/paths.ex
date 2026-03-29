@@ -15,6 +15,10 @@ defmodule CcxtExtract.Paths do
       ├── ccxt_version.json        # Version tracking
       └── discoveries/             # Extraction output
           ├── exchanges.json
+          ├── describe/              # Per-exchange describe() files
+          │   ├── _manifest.json
+          │   ├── binance.json
+          │   └── ...
           └── ...
   """
 

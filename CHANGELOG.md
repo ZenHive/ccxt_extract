@@ -6,6 +6,16 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 8a: Classify Exchange Credential Requirements
+- `CcxtExtract.PublicExchanges` — reads per-exchange describe() JSON files, classifies by credential requirements
+- `mix ccxt_extract.public_exchanges` — CLI task that runs analysis and writes `priv/discoveries/public_exchanges.json`
+- All 107 exchanges advertise `fetchMarkets` capability (`has.fetchMarkets == true` is universal)
+- 13 distinct credential patterns identified — dominant pattern is `["apiKey", "secret"]` (78 exchanges)
+- Only 1 fully public exchange (dydx requires zero credentials); DEX exchanges use `privateKey`/`walletAddress` patterns
+- Pure analysis module — no QuickBEAM needed, reads existing Task 6 output
+- Fails loudly if any manifest-listed describe file is missing (no silent fallback to empty data)
+- Note: "advertises fetchMarkets" ≠ "loadMarkets() works without auth" — actual callability verified in Task 8b
+
 ### Task 6: Full describe() Extraction
 - `CcxtExtract.Describe` — extracts the complete `describe()` for all 107 non-alias exchanges via QuickBEAM
 - `mix ccxt_extract.describe` — CLI task that runs extraction and writes per-exchange JSON files

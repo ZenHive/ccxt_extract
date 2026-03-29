@@ -1,5 +1,5 @@
 defmodule CcxtExtract.DescribeIntegrationTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   import CcxtExtract.TaskHelpers
 
@@ -19,9 +19,11 @@ defmodule CcxtExtract.DescribeIntegrationTest do
   @common_keys ~w(certified countries exceptions fees options precisionMode requiredCredentials timeframes)
 
   # Run extraction once for the module — QuickBEAM boot is ~13s
+  # Also extract exchange list here to avoid a second QuickBEAM boot in the "no alias" test
   setup_all do
     {:ok, results} = Describe.extract()
-    %{results: results}
+    {:ok, all_exchanges} = CcxtExtract.Exchanges.extract()
+    %{results: results, all_exchanges: all_exchanges}
   end
 
   describe "extract/0" do
@@ -43,8 +45,7 @@ defmodule CcxtExtract.DescribeIntegrationTest do
       assert ids == Enum.sort(ids)
     end
 
-    test "no alias exchanges in output", %{results: results} do
-      {:ok, all_exchanges} = CcxtExtract.Exchanges.extract()
+    test "no alias exchanges in output", %{results: results, all_exchanges: all_exchanges} do
       alias_ids = all_exchanges |> Enum.filter(& &1["alias"]) |> MapSet.new(& &1["id"])
       extracted_ids = MapSet.new(results, & &1["id"])
 
@@ -155,11 +156,12 @@ defmodule CcxtExtract.DescribeIntegrationTest do
   end
 
   describe "write!/1" do
-    test "writes per-exchange files and manifest", %{results: results} do
-      # Call the actual function under test
-      Describe.write!(results)
+    @tag :tmp_dir
+    test "writes per-exchange files and manifest", %{results: results, tmp_dir: tmp_dir} do
+      output_dir = Path.join(tmp_dir, "describe")
 
-      output_dir = CcxtExtract.Paths.priv("discoveries/describe")
+      # Call the actual function under test
+      Describe.write!(results, output_dir)
 
       # Verify manifest
       manifest =

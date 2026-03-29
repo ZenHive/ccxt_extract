@@ -69,13 +69,19 @@ defmodule CcxtExtract.Classes do
   Accepts pre-computed `tree` and `ws_counterparts` to avoid recomputation
   when the caller already has them (e.g., the mix task computes them for display).
   """
-  @spec write!([map()]) :: :ok
-  def write!(classes), do: write!(classes, build_tree(classes), find_ws_counterparts(classes))
+  @spec write!([map()], String.t()) :: :ok
+  def write!(classes, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
+    write!(classes, build_tree(classes), find_ws_counterparts(classes), output_path)
+  end
 
   @doc false
-  @spec write!([map()], map(), [String.t()]) :: :ok
-  def write!(classes, tree, ws_counterparts) do
-    output_path = CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))
+  @spec write!([map()], map(), [String.t()], String.t()) :: :ok
+  def write!(
+        classes,
+        tree,
+        ws_counterparts,
+        output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))
+      ) do
     File.mkdir_p!(Path.dirname(output_path))
 
     output = %{

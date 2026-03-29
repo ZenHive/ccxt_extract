@@ -8,20 +8,20 @@
 
 ## 🎯 Current Focus
 
-**Phase 2: Runtime Extraction** — In progress. Task 6 (full describe) complete; Task 7 (family analysis) next.
+**Phase 2: Runtime Extraction** — In progress. Task 8a (public exchanges) complete; Task 7 (family analysis) and Task 8b (rate-limited market extraction) next.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 8a | Classify credential requirements | All 107 exchanges advertise fetchMarkets; 13 credential patterns classified |
 | Task 6 | Full describe() extraction | Complete describe() for all 107 exchanges via QuickBEAM, per-exchange JSON files |
 | Task 21 | Extract shared test helpers | Deduplicated `run_task_capturing_output` across 4 integration test files |
-| Task 5 | Document discoveries | DISCOVERIES.md synthesizing all Phase 1 findings as Phase 2 design input |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 7 | ⬜ | Exchange family analysis [D:5/B:7/U:7 → Eff:1.40] |
-| Task 8a | ⬜ | Identify public exchanges from Task 6 output [D:2/B:6/U:8 → Eff:3.50] |
+| Task 8b | ⬜ | Rate-limited loadMarkets() extraction [D:5/B:8/U:8 → Eff:1.60] |
 
 ### Quick Commands
 ```bash
@@ -35,6 +35,7 @@ mix ccxt_extract.methods                   # Extract REST + WS method inventory
 mix ccxt_extract.methods --type rest       # REST only
 mix ccxt_extract.methods --type ws         # WS only
 mix ccxt_extract.method_analysis           # Analyze method families and distribution
+mix ccxt_extract.public_exchanges          # Identify public exchanges for loadMarkets()
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -85,7 +86,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 - [ ] **Task 7: Exchange family analysis** [D:5/B:7/U:7 → Eff:1.40] — Group exchanges by inheritance. Which exchanges share a base class? What does each variant override? Use both QuickBEAM (compare describe() output between parent and child) and OXC (compare method lists). Document the family tree.
 
 - [ ] **Task 8: loadMarkets() extraction** — For exchanges with public API access (no auth needed), run `loadMarkets()` via QuickBEAM. Extract market listings: symbol formats, precision, limits, market types (spot, swap, future, option), fee structures. This is live API data.
-  - [ ] **8a: Identify public exchanges** [D:2/B:6/U:8 → Eff:3.50] — From Task 6 output, find exchanges where `requiredCredentials` allows unauthenticated market listing.
+  - [x] ~~**8a: Identify public exchanges**~~ [D:2/B:6/U:8 → Eff:3.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [ ] **8b: Rate-limited extraction** [D:5/B:8/U:8 → Eff:1.60] — Build a rate-limited runner that calls `loadMarkets()` per exchange with configurable delay. Save per-exchange market data as JSON.
   - [ ] **8c: Market data validation** [D:3/B:7/U:7 → Eff:2.33] — Spot-check extracted market data against live exchange responses for a sample of exchanges.
 

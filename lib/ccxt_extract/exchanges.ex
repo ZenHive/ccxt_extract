@@ -77,9 +77,8 @@ defmodule CcxtExtract.Exchanges do
   Creates the output directory if needed. Wraps the exchange list in a
   metadata envelope with timestamp and count.
   """
-  @spec write!([map()]) :: :ok
-  def write!(exchanges) do
-    output_path = CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))
+  @spec write!([map()], String.t()) :: :ok
+  def write!(exchanges, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
     File.mkdir_p!(Path.dirname(output_path))
 
     output = %{

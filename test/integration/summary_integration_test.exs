@@ -216,11 +216,11 @@ defmodule CcxtExtract.SummaryIntegrationTest do
   end
 
   describe "write!/1" do
-    test "writes valid JSON that round-trips", %{summary: summary} do
-      output_path = CcxtExtract.Paths.priv("discoveries/exchange_summary.json")
-      on_exit(fn -> File.rm(output_path) end)
+    @tag :tmp_dir
+    test "writes valid JSON that round-trips", %{summary: summary, tmp_dir: tmp_dir} do
+      output_path = Path.join(tmp_dir, "exchange_summary.json")
 
-      assert :ok = Summary.write!(summary)
+      assert :ok = Summary.write!(summary, output_path)
       assert File.exists?(output_path)
 
       reloaded = output_path |> File.read!() |> Jason.decode!()

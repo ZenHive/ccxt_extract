@@ -1,5 +1,5 @@
 defmodule CcxtExtract.ExchangesIntegrationTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias CcxtExtract.Exchanges
 
@@ -104,14 +104,10 @@ defmodule CcxtExtract.ExchangesIntegrationTest do
   end
 
   describe "write!/1" do
-    setup do
-      output_path = CcxtExtract.Paths.priv("discoveries/exchanges.json")
-      File.rm(output_path)
-      on_exit(fn -> File.rm(output_path) end)
-      {:ok, output_path: output_path}
-    end
+    @tag :tmp_dir
+    test "writes valid JSON with metadata envelope", %{tmp_dir: tmp_dir} do
+      output_path = Path.join(tmp_dir, "exchanges.json")
 
-    test "writes valid JSON with metadata envelope", %{output_path: output_path} do
       exchanges = [
         %{
           "id" => "test_exchange",
@@ -125,7 +121,7 @@ defmodule CcxtExtract.ExchangesIntegrationTest do
         }
       ]
 
-      assert :ok = Exchanges.write!(exchanges)
+      assert :ok = Exchanges.write!(exchanges, output_path)
       assert File.exists?(output_path)
 
       output = output_path |> File.read!() |> Jason.decode!()

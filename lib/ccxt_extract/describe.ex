@@ -125,9 +125,8 @@ defmodule CcxtExtract.Describe do
   Creates `priv/discoveries/describe/<exchange_id>.json` for each exchange
   and `priv/discoveries/describe/_manifest.json` with the full exchange list.
   """
-  @spec write!([map()]) :: :ok
-  def write!(results) do
-    output_dir = CcxtExtract.Paths.priv(@output_dir)
+  @spec write!([map()], String.t()) :: :ok
+  def write!(results, output_dir \\ CcxtExtract.Paths.priv(@output_dir)) do
     File.mkdir_p!(output_dir)
 
     # Remove stale .json files from previous runs so the directory only contains

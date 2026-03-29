@@ -1,5 +1,5 @@
 defmodule CcxtExtract.MethodsIntegrationTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias CcxtExtract.Methods
 

@@ -1,5 +1,5 @@
 defmodule CcxtExtract.DescribeKeyAnalysisIntegrationTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   import CcxtExtract.TaskHelpers
 

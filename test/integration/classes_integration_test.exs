@@ -1,5 +1,5 @@
 defmodule CcxtExtract.ClassesIntegrationTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias CcxtExtract.Classes
 
@@ -247,14 +247,10 @@ defmodule CcxtExtract.ClassesIntegrationTest do
   end
 
   describe "write!/1" do
-    setup do
-      output_path = CcxtExtract.Paths.priv("discoveries/class_hierarchy.json")
-      File.rm(output_path)
-      on_exit(fn -> File.rm(output_path) end)
-      {:ok, output_path: output_path}
-    end
+    @tag :tmp_dir
+    test "writes valid JSON with metadata envelope", %{tmp_dir: tmp_dir} do
+      output_path = Path.join(tmp_dir, "class_hierarchy.json")
 
-    test "writes valid JSON with metadata envelope", %{output_path: output_path} do
       classes = [
         %{
           "id" => "test_exchange",
@@ -273,7 +269,7 @@ defmodule CcxtExtract.ClassesIntegrationTest do
         }
       ]
 
-      assert :ok = Classes.write!(classes)
+      assert :ok = Classes.write!(classes, output_path)
       assert File.exists?(output_path)
 
       output = output_path |> File.read!() |> Jason.decode!()

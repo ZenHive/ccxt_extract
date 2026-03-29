@@ -44,9 +44,8 @@ defmodule CcxtExtract.Summary do
   @doc """
   Write summary to `priv/discoveries/exchange_summary.json`.
   """
-  @spec write!(map()) :: :ok
-  def write!(summary) do
-    output_path = CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))
+  @spec write!(map(), String.t()) :: :ok
+  def write!(summary, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
     File.mkdir_p!(Path.dirname(output_path))
 
     json = Jason.encode!(summary, pretty: true)

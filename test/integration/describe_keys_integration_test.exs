@@ -1,5 +1,5 @@
 defmodule CcxtExtract.DescribeKeysIntegrationTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   import CcxtExtract.TaskHelpers
 
@@ -15,9 +15,11 @@ defmodule CcxtExtract.DescribeKeysIntegrationTest do
   @universal_keys ~w(id name has urls api)
 
   # Run extraction once for the module — QuickBEAM boot is ~13s
+  # Also extract all exchanges here to avoid a second QuickBEAM boot in the "no alias" test
   setup_all do
     {:ok, exchanges} = DescribeKeys.extract()
-    %{exchanges: exchanges}
+    {:ok, all_exchanges} = CcxtExtract.Exchanges.extract()
+    %{exchanges: exchanges, all_exchanges: all_exchanges}
   end
 
   describe "extract/0" do
@@ -48,9 +50,7 @@ defmodule CcxtExtract.DescribeKeysIntegrationTest do
       assert ids == Enum.sort(ids)
     end
 
-    test "no alias exchanges in output", %{exchanges: exchanges} do
-      # Load the full exchange list to find aliases
-      {:ok, all_exchanges} = CcxtExtract.Exchanges.extract()
+    test "no alias exchanges in output", %{exchanges: exchanges, all_exchanges: all_exchanges} do
       alias_ids = all_exchanges |> Enum.filter(& &1["alias"]) |> MapSet.new(& &1["id"])
       extracted_ids = MapSet.new(exchanges, & &1["id"])
 

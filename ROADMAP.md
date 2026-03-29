@@ -8,11 +8,12 @@
 
 ## 🎯 Current Focus
 
-**Phase 1: Setup & Discovery** — Exchange inventory complete, beginning deep extraction.
+**Phase 1: Setup & Discovery** — Complete. See [DISCOVERIES.md](DISCOVERIES.md) for synthesized findings. Ready for Phase 2.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 5 | Document discoveries | DISCOVERIES.md synthesizing all Phase 1 findings as Phase 2 design input |
 | Task 4c | Method family analysis | Prefix families, universality, distribution, cross-type (REST vs WS) |
 | Task 4a+4b | REST + WS method inventory | 110 REST (5,508 methods), 79 WS (2,434 methods), param names+types, return types |
 | Task 3b | Key frequency analysis | Tier classification, type consistency, max nesting depth via QuickBEAM |
@@ -29,10 +30,9 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 4a | ✅ | REST method inventory — complete |
-| Task 4b | ✅ | WS method inventory — complete |
-| Task 4c | ✅ | Method family analysis — complete |
-| Task 5 | ⬜ | Document discoveries — unblocked |
+| Task 21 | ⬜ | Extract shared test helpers [D:1/B:4/U:5 → Eff:4.50] |
+| Task 6 | ⬜ | Full describe() extraction via QuickBEAM [D:4/B:9/U:9 → Eff:2.25] |
+| Task 7 | ⬜ | Exchange family analysis [D:5/B:7/U:7 → Eff:1.40] |
 
 ### Quick Commands
 ```bash
@@ -52,9 +52,9 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 
 ---
 
-## Phase 1: Setup & Discovery [D:3/B:9/U:10 → Eff:3.17]
+## Phase 1: Setup & Discovery ✅
 
-> Before building anything, understand what CCXT actually contains. Run the example scripts. Catalog everything.
+> All discovery tasks complete. See [DISCOVERIES.md](DISCOVERIES.md) for synthesized findings.
 
 ### Tasks
 
@@ -62,16 +62,16 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 - [x] ~~Task 18: Fix QuickBEAM browser globals~~ — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 - [x] ~~**Task 19: Fix sparse checkout to include package.json**~~ — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 2: Exchange inventory** — Catalog every exchange with metadata and hierarchy.
+- [x] ~~**Task 2: Exchange inventory**~~ — Catalog every exchange with metadata and hierarchy.
   - [x] ~~**2a: QuickBEAM exchange list**~~ [D:3/B:8/U:9 → Eff:2.83] `[P]` — Load CCXT via QuickBEAM, extract per-exchange: `id`, `name`, `certified`, `pro`, `version`, `country`, `alias`. Mark aliases explicitly (`alias: true` in describe() = pure re-brands like `huobi`→`htx`). Extract referral URLs from `describe().urls.referral` (two formats: plain string URL, or `{url, discount}` object) — normalize to `{url, discount}` format. Write `priv/discoveries/exchanges.json`. Reuse pattern from `examples/3_quickbeam_describe.exs`.
   - [x] ~~**2b: OXC class hierarchy**~~ [D:3/B:8/U:9 → Eff:2.83] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [x] ~~**2c: Exchange summary stats**~~ [D:2/B:6/U:7 → Eff:3.25] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 3: describe() key inventory** — Catalog every key in every exchange's describe().
+- [x] ~~**Task 3: describe() key inventory**~~ — Catalog every key in every exchange's describe().
   - [x] ~~**3a: Extract all describe() top-level keys**~~ [D:3/B:8/U:8 → Eff:2.67] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [x] ~~**3b: Key frequency analysis**~~ [D:2/B:7/U:7 → Eff:3.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 4: Method inventory** — Catalog every method on every exchange with signatures.
+- [x] ~~**Task 4: Method inventory**~~ — Catalog every method on every exchange with signatures.
   - [x] ~~**4a: REST exchange methods**~~ [D:3/B:8/U:8 → Eff:2.67] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [x] ~~**4b: WS exchange methods**~~ [D:2/B:7/U:7 → Eff:3.50] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [x] ~~**4c: Method family analysis**~~ [D:2/B:7/U:8 → Eff:3.75] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
@@ -80,7 +80,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 
 - [ ] **Task 21: Extract shared test helpers** [D:1/B:4/U:5 → Eff:4.50] 🎯 — `run_task_capturing_output/2` and `collect_shell_output/1` are duplicated across 3 integration test files. Extract to `test/support/test_helpers.ex` and import in each test module.
 
-- [ ] **Task 5: Document discoveries** [D:2/B:7/U:9 → Eff:4.00] — Read all `priv/discoveries/*.json` and write `DISCOVERIES.md`: exchange count/family breakdown, class hierarchy patterns, describe() key catalog, method families/distributions, anything surprising. This becomes the design input for Phase 2.
+- [x] ~~**Task 5: Document discoveries**~~ [D:2/B:7/U:9 → Eff:4.00] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 ---
 

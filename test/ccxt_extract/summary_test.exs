@@ -243,6 +243,26 @@ defmodule CcxtExtract.SummaryTest do
     end
   end
 
+  describe "build_families/4 edge cases" do
+    test "handles root key without type prefix (no colon)" do
+      # A class whose root ancestor has no "rest:" prefix — triggers strip_type_prefix [id] branch
+      exchanges = [%{"id" => "Exchange", "alias" => false}]
+
+      classes = [
+        %{"id" => "Exchange", "node_key" => "Exchange", "parent_key" => nil, "type" => "rest"}
+      ]
+
+      # Tree where "Exchange" has no parent — find_root_ancestor returns "Exchange" as-is
+      tree = %{}
+
+      families = Summary.build_families(exchanges, classes, tree, MapSet.new())
+
+      family = Enum.find(families, &(&1["root"] == "Exchange"))
+      assert family
+      assert family["total_members"] == 1
+    end
+  end
+
   describe "build_summary/4" do
     test "computes correct aggregate counts" do
       summary =

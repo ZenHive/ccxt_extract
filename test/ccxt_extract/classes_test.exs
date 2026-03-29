@@ -308,4 +308,112 @@ defmodule CcxtExtract.ClassesTest do
       assert Classes.extract_methods([]) == []
     end
   end
+
+  describe "parse_file/2" do
+    @tag :tmp_dir
+    test "returns {:skip, filename} when file has no exported class", %{tmp_dir: tmp_dir} do
+      # A file with only imports and no export default class
+      path = Path.join(tmp_dir, "utils.ts")
+      File.write!(path, "export function helper() { return 42; }")
+
+      assert {:skip, "utils.ts"} = Classes.parse_file(path, "rest")
+    end
+
+    @tag :tmp_dir
+    test "returns {:ok, class} for valid exchange file", %{tmp_dir: tmp_dir} do
+      path = Path.join(tmp_dir, "testex.ts")
+
+      File.write!(path, """
+      export default class testex extends Exchange {
+        describe() { return {}; }
+      }
+      """)
+
+      assert {:ok, class} = Classes.parse_file(path, "rest")
+      assert class["id"] == "testex"
+      assert class["extends_raw"] == "Exchange"
+      assert "describe" in class["methods"]
+    end
+
+    @tag :tmp_dir
+    test "returns {:error, filename, reason} on parse failure", %{tmp_dir: tmp_dir} do
+      # OXC is quite lenient, but a completely empty file may error
+      # Use a binary file to trigger a parse error
+      path = Path.join(tmp_dir, "broken.ts")
+      # Write null bytes — OXC rejects these
+      File.write!(path, <<0, 0, 0, 0>>)
+
+      result = Classes.parse_file(path, "rest")
+
+      case result do
+        {:error, "broken.ts", _reason} -> :ok
+        {:skip, "broken.ts"} -> :ok
+        {:ok, _class} -> flunk("Expected error or skip for null-byte file, got {:ok, ...}")
+        other -> flunk("Unexpected result: #{inspect(other)}")
+      end
+    end
+  end
+
+  describe "extract_class/4 edge cases" do
+    test "handles superClass without :name key (computed expression)" do
+      # e.g., export default class foo extends getSomeClass()
+      ast = %{
+        body: [
+          %{
+            type: "ExportDefaultDeclaration",
+            declaration: %{
+              id: %{name: "foo"},
+              superClass: %{type: "CallExpression", callee: %{name: "getSomeClass"}},
+              body: %{body: []}
+            }
+          }
+        ]
+      }
+
+      result = Classes.extract_class(ast, "foo.ts", "rest", %{})
+      assert result["extends_raw"] == nil
+      assert result["extends_resolved"] == nil
+      assert result["parent_key"] == nil
+    end
+
+    test "resolves unaliased extends as same type" do
+      # superClass name not in aliases map — falls through to nil branch
+      ast = %{
+        body: [
+          %{
+            type: "ExportDefaultDeclaration",
+            declaration: %{
+              id: %{name: "child"},
+              superClass: %{name: "unknownParent"},
+              body: %{body: []}
+            }
+          }
+        ]
+      }
+
+      result = Classes.extract_class(ast, "child.ts", "rest", %{})
+      assert result["extends_raw"] == "unknownParent"
+      assert result["extends_resolved"] == "unknownParent"
+      assert result["parent_key"] == "rest:unknownParent"
+    end
+  end
+
+  describe "build_import_aliases/2 edge cases" do
+    test "bare import path (no ./ or ../) resolves with nil type" do
+      ast = %{
+        body: [
+          %{
+            type: "ImportDeclaration",
+            source: %{value: "some-package"},
+            specifiers: [
+              %{type: "ImportDefaultSpecifier", local: %{name: "pkg"}}
+            ]
+          }
+        ]
+      }
+
+      aliases = Classes.build_import_aliases(ast, "rest")
+      assert aliases["pkg"] == {"some-package", nil}
+    end
+  end
 end

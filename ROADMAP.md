@@ -8,20 +8,21 @@
 
 ## 🎯 Current Focus
 
-**Phase 2: Runtime Extraction** — In progress. Task 8a (public exchanges) complete; Task 7 (family analysis) and Task 8b (rate-limited market extraction) next.
+**Phase 2: Runtime Extraction** — In progress. Tasks 6, 8a, 8b complete. Task 7 (family analysis) and Task 8c (market data validation) next.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 8b | Rate-limited loadMarkets() extraction | Most exchanges succeed; parallel extraction with configurable workers |
 | Task 8a | Classify credential requirements | All 107 exchanges advertise fetchMarkets; 13 credential patterns classified |
 | Task 6 | Full describe() extraction | Complete describe() for all 107 exchanges via QuickBEAM, per-exchange JSON files |
-| Task 21 | Extract shared test helpers | Deduplicated `run_task_capturing_output` across 4 integration test files |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
+| Task 22 | ⬜ | Split integration tests into cached/extraction tiers [D:3/B:8/U:9 → Eff:2.83] 🎯 |
 | Task 7 | ⬜ | Exchange family analysis [D:5/B:7/U:7 → Eff:1.40] |
-| Task 8b | ⬜ | Rate-limited loadMarkets() extraction [D:5/B:8/U:8 → Eff:1.60] |
+| Task 8c | ⬜ | Market data validation [D:3/B:7/U:7 → Eff:2.33] |
 
 ### Quick Commands
 ```bash
@@ -36,6 +37,8 @@ mix ccxt_extract.methods --type rest       # REST only
 mix ccxt_extract.methods --type ws         # WS only
 mix ccxt_extract.method_analysis           # Analyze method families and distribution
 mix ccxt_extract.public_exchanges          # Identify public exchanges for loadMarkets()
+mix ccxt_extract.load_markets              # Extract loadMarkets() data (live API calls)
+mix ccxt_extract.load_markets --concurrency 10  # Faster with more parallel workers
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -71,6 +74,8 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 
 - [x] ~~**Task 21: Extract shared test helpers**~~ [D:1/B:4/U:5 → Eff:4.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
+- [ ] **Task 22: Split integration tests into cached/extraction tiers** [D:3/B:8/U:9 → Eff:2.83] — Integration tests currently re-boot QuickBEAM and re-extract data every run (~13s per module, 5+ modules). Split into two tiers: (1) **structure tests** that read from cached `priv/discoveries/*.json` files — same assertions, no QuickBEAM, milliseconds; (2) **extraction tests** tagged `:extraction` that boot QuickBEAM and verify the full pipeline — run explicitly with `--only extraction` when CCXT version changes. Default `mix test.json` should complete in seconds, not minutes. Follow the pattern already used by PublicExchanges and MethodAnalysis tests (they read cached output and run in 0.13s). This scales to Phase 3 — every new extraction module would add 13s without this change.
+
 - [x] ~~**Task 5: Document discoveries**~~ [D:2/B:7/U:9 → Eff:4.00] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 ---
@@ -87,7 +92,7 @@ mix run examples/1_parse_exchange.exs binance  # Test OXC
 
 - [ ] **Task 8: loadMarkets() extraction** — For exchanges with public API access (no auth needed), run `loadMarkets()` via QuickBEAM. Extract market listings: symbol formats, precision, limits, market types (spot, swap, future, option), fee structures. This is live API data.
   - [x] ~~**8a: Identify public exchanges**~~ [D:2/B:6/U:8 → Eff:3.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-  - [ ] **8b: Rate-limited extraction** [D:5/B:8/U:8 → Eff:1.60] — Build a rate-limited runner that calls `loadMarkets()` per exchange with configurable delay. Save per-exchange market data as JSON.
+  - [x] ~~**8b: Rate-limited extraction**~~ [D:5/B:8/U:8 → Eff:1.60] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [ ] **8c: Market data validation** [D:3/B:7/U:7 → Eff:2.33] — Spot-check extracted market data against live exchange responses for a sample of exchanges.
 
 ---

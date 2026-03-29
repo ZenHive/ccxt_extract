@@ -6,6 +6,17 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 8b: Rate-Limited loadMarkets() Extraction
+- `CcxtExtract.LoadMarkets` — calls `loadMarkets()` on all non-alias exchanges via QuickBEAM, real HTTP requests to exchange APIs
+- `mix ccxt_extract.load_markets` — CLI task with `--delay`, `--concurrency`, and `--exchanges` options
+- Parallel extraction via `Task.async_stream`: configurable concurrent QuickBEAM runtimes, each with 1GB memory limit
+- Per-exchange output to `priv/discoveries/load_markets/<exchange_id>.json` with manifest at `_manifest.json`
+- Most exchanges succeed without authentication — loadMarkets() is effectively public on nearly all exchanges
+- Permanent failures recorded in manifest with error messages; known categories documented in test module (auth-required, suspended, geo-blocked/WAF)
+- Key design: batched runtime approach solved QuickBEAM OOM — sequential extraction hit default heap limit; parallel runtimes with generous memory handle the full set
+- `QuickbeamRuntime.start/1` now accepts `:memory_limit` option (backwards-compatible)
+- Function and undefined sentinels preserved via the `prepare()` pattern from Task 6
+
 ### Task 8a: Classify Exchange Credential Requirements
 - `CcxtExtract.PublicExchanges` — reads per-exchange describe() JSON files, classifies by credential requirements
 - `mix ccxt_extract.public_exchanges` — CLI task that runs analysis and writes `priv/discoveries/public_exchanges.json`

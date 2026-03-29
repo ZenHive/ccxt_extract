@@ -19,13 +19,23 @@ defmodule CcxtExtract.QuickbeamRuntime do
   Sets browser globals (`self`, `window`, `navigator`, `location`) and loads
   the CCXT browser bundle. Returns `{:ok, runtime}` on success.
 
+  ## Options
+
+    * `:memory_limit` - maximum JS heap size in bytes (default: QuickBEAM default, 256MB)
+
   Raises if the CCXT browser bundle is not installed (run `mix ccxt_extract.setup` first).
   """
-  @spec start() :: {:ok, pid()}
-  def start do
+  @spec start(keyword()) :: {:ok, pid()}
+  def start(opts \\ []) do
     Application.ensure_all_started(:quickbeam)
 
-    {:ok, rt} = QuickBEAM.start()
+    quickbeam_opts =
+      case Keyword.get(opts, :memory_limit) do
+        nil -> []
+        limit -> [memory_limit: limit]
+      end
+
+    {:ok, rt} = QuickBEAM.start(quickbeam_opts)
 
     # self/window must BE globalThis — set_global with atoms converts to strings
     QuickBEAM.eval(rt, "globalThis.self = globalThis; globalThis.window = globalThis")

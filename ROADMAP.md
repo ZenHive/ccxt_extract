@@ -8,14 +8,14 @@
 
 ## 🎯 Current Focus
 
-**Phase 4: Output Format & Validation** — Phase 3 complete. Four tasks remaining to design schema, build pipeline, validate, and report coverage.
+**Phase 4: Output Format & Validation** — Coverage report complete. Three tasks remaining to design schema, build pipeline, and validate.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 17 | Coverage report | 95.7% avg coverage; all 10 layers tracked per exchange; WS layers data-driven (not purely pro-gated); count-based ws_methods checking |
 | Task 13 | Class hierarchy and overrides | 90 derived exchanges, 100 overrides, 2352 new methods; describe is universal override |
 | Task 12 | WS method AST extraction | 79 WS exchanges, 69 with methods, 1574 total (watch* + handle*) |
-| Task 11 | parse*() method AST extraction | 158 unique parse methods, 1500+ instances across 110 exchanges; map-keyed output |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
@@ -23,7 +23,6 @@
 | Task 14 | ⬜ | Design output schema [D:5/B:9/U:9 → Eff:1.80] |
 | Task 15 | ⬜ | Full extraction pipeline [D:5/B:9/U:9 → Eff:1.80] |
 | Task 16 | ⬜ | Validation [D:4/B:8/U:8 → Eff:2.00] |
-| Task 17 | ⬜ | Coverage report [D:3/B:7/U:8 → Eff:2.50] |
 
 ### Quick Commands
 ```bash
@@ -48,6 +47,7 @@ mix ccxt_extract.handle_errors                 # Extract handleErrors() method A
 mix ccxt_extract.parse_methods                 # Extract parse*() method ASTs
 mix ccxt_extract.ws_methods                    # Extract watch*/handle* WS method ASTs
 mix ccxt_extract.overrides                     # Extract method overrides for derived exchanges
+mix ccxt_extract.coverage                      # Generate extraction coverage report
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -141,7 +141,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [ ] **Task 16: Validation** [D:4/B:8/U:8 → Eff:2.00] — Round-trip validate: load each JSON file, compare key sections against QuickBEAM runtime output. Ensure nothing was lost or transformed incorrectly. Report any discrepancies.
 
-- [ ] **Task 17: Coverage report** [D:3/B:7/U:8 → Eff:2.50] — For each exchange, report what was extracted and what wasn't. Are there describe() keys we missed? Methods we didn't catalog? Any exchange that failed extraction? The goal is 100% coverage of what CCXT knows.
+- [x] ~~**Task 17: Coverage report**~~ [D:3/B:7/U:8 → Eff:2.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 ---
 

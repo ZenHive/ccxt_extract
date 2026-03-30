@@ -75,18 +75,32 @@ defmodule CcxtExtract.MarketValidation do
 
     if File.exists?(manifest_path) do
       manifest = manifest_path |> File.read!() |> Jason.decode!()
-
-      exchange_reports =
-        Map.new(manifest["succeeded"], fn id ->
-          path = Path.join(input_dir, "#{id}.json")
-          data = path |> File.read!() |> Jason.decode!()
-          {id, validate_exchange(data)}
-        end)
-
-      report = build_report(exchange_reports, manifest, opts)
-      {:ok, report}
+      validate_with_manifest(manifest, input_dir, opts)
     else
       {:error, {:missing_input, manifest_path}}
+    end
+  end
+
+  # Validates exchange files listed in manifest, returning error if any are missing.
+  defp validate_with_manifest(manifest, input_dir, opts) do
+    missing =
+      Enum.filter(manifest["succeeded"], fn id ->
+        not File.exists?(Path.join(input_dir, "#{id}.json"))
+      end)
+
+    case missing do
+      [] ->
+        exchange_reports =
+          Map.new(manifest["succeeded"], fn id ->
+            path = Path.join(input_dir, "#{id}.json")
+            data = path |> File.read!() |> Jason.decode!()
+            {id, validate_exchange(data)}
+          end)
+
+        {:ok, build_report(exchange_reports, manifest, opts)}
+
+      [first | _] ->
+        {:error, {:missing_input, Path.join(input_dir, "#{first}.json")}}
     end
   end
 

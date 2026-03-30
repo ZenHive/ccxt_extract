@@ -294,6 +294,39 @@ defmodule CcxtExtract.MarketValidationTest do
     end
   end
 
+  describe "validate/1 file-level" do
+    @tag :tmp_dir
+    test "returns error when manifest is missing", %{tmp_dir: tmp_dir} do
+      assert {:error, {:missing_input, path}} = MarketValidation.validate(input_dir: tmp_dir)
+      assert path =~ "_manifest.json"
+    end
+
+    @tag :tmp_dir
+    test "returns error when manifest references missing exchange file", %{tmp_dir: tmp_dir} do
+      manifest = %{"succeeded" => ["ghost_exchange"], "failed" => []}
+      File.write!(Path.join(tmp_dir, "_manifest.json"), Jason.encode!(manifest))
+
+      assert {:error, {:missing_input, path}} = MarketValidation.validate(input_dir: tmp_dir)
+      assert path =~ "ghost_exchange.json"
+    end
+
+    @tag :tmp_dir
+    test "succeeds when all manifest exchange files exist", %{tmp_dir: tmp_dir} do
+      exchange_data = %{
+        "id" => "testex",
+        "market_count" => 1,
+        "markets" => %{"BTC/USDT" => @valid_spot_market}
+      }
+
+      manifest = %{"succeeded" => ["testex"], "failed" => []}
+      File.write!(Path.join(tmp_dir, "_manifest.json"), Jason.encode!(manifest))
+      File.write!(Path.join(tmp_dir, "testex.json"), Jason.encode!(exchange_data))
+
+      assert {:ok, report} = MarketValidation.validate(input_dir: tmp_dir)
+      assert report["exchange_count"] == 1
+    end
+  end
+
   describe "undefined density" do
     test "counts __undefined fields" do
       market =

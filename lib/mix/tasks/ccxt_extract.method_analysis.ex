@@ -47,7 +47,7 @@ defmodule Mix.Tasks.CcxtExtract.MethodAnalysis do
         """)
 
       {:error, {:missing_input, path}} ->
-        Mix.shell().error("Missing input file: #{path}\nRun `mix ccxt_extract.methods` first.")
+        Mix.raise("Missing input file: #{path}\nRun `mix ccxt_extract.methods` first.")
     end
   end
 

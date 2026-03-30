@@ -39,9 +39,7 @@ defmodule Mix.Tasks.CcxtExtract.FamilyAnalysis do
         """)
 
       {:error, {:missing_input, path}} ->
-        Mix.shell().error(
-          "Missing input file: #{path}\nRun `mix ccxt_extract.summary` and `mix ccxt_extract.describe` first."
-        )
+        Mix.raise("Missing input file: #{path}\nRun `mix ccxt_extract.summary` and `mix ccxt_extract.describe` first.")
     end
   end
 

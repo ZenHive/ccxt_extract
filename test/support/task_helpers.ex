@@ -29,12 +29,13 @@ defmodule CcxtExtract.TaskHelpers do
   @receive_timeout_ms 100
 
   @doc false
-  # Collects all {:mix_shell, :info, [msg]} messages until no more arrive
+  # Collects all {:mix_shell, :info|:error, [msg]} messages until no more arrive
   # within the timeout window. Implementation detail of run_task_capturing_output/2.
   @spec collect_shell_output(list()) :: String.t()
   def collect_shell_output(acc \\ []) do
     receive do
       {:mix_shell, :info, [msg]} -> collect_shell_output([msg | acc])
+      {:mix_shell, :error, [msg]} -> collect_shell_output([msg | acc])
     after
       @receive_timeout_ms -> acc |> Enum.reverse() |> Enum.join("\n")
     end

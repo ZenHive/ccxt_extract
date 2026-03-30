@@ -1,5 +1,6 @@
 defmodule CcxtExtract.DescribeIntegrationTest do
-  use ExUnit.Case, async: true
+  # async: false — run_task_capturing_output mutates global Mix.shell
+  use ExUnit.Case, async: false
 
   import CcxtExtract.TaskHelpers
 

@@ -17,6 +17,8 @@ defmodule CcxtExtract.FamilyAnalysis do
       CcxtExtract.FamilyAnalysis.write!(analysis)
   """
 
+  require Logger
+
   @classes_file "class_hierarchy.json"
   @summary_file "exchange_summary.json"
   @describe_dir "describe"
@@ -238,7 +240,8 @@ defmodule CcxtExtract.FamilyAnalysis do
   end
 
   # Load describe() for a root/member pair and diff their top-level keys.
-  # Returns empty list if either describe file is missing.
+  # Returns empty list if either describe file is missing (expected for aliases).
+  # Logs a warning for missing root files, which indicates corrupted upstream data.
   defp diff_describe_for_pair(root_id, member_id, describe_dir) do
     root_path = Path.join(describe_dir, "#{root_id}.json")
     member_path = Path.join(describe_dir, "#{member_id}.json")
@@ -247,7 +250,12 @@ defmodule CcxtExtract.FamilyAnalysis do
          {:ok, member_data} <- read_json(member_path) do
       diff_describe_keys(root_data["describe"], member_data["describe"])
     else
-      _ -> []
+      {:error, {:missing_input, ^root_path}} ->
+        Logger.warning("Missing describe file for root exchange #{root_id}: #{root_path}")
+        []
+
+      {:error, {:missing_input, _member_path}} ->
+        []
     end
   end
 

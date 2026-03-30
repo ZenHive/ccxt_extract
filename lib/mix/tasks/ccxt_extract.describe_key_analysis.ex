@@ -36,7 +36,7 @@ defmodule Mix.Tasks.CcxtExtract.DescribeKeyAnalysis do
         """)
 
       {:error, {:missing_input, path}} ->
-        Mix.shell().error("Missing input file: #{path}\nRun `mix ccxt_extract.describe_keys` first.")
+        Mix.raise("Missing input file: #{path}\nRun `mix ccxt_extract.describe_keys` first.")
     end
   end
 

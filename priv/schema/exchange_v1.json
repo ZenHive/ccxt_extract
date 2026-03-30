@@ -212,7 +212,7 @@
 
     "ClassEntry": {
       "type": "object",
-      "required": ["node_key", "class_name", "extends", "parent_key", "file", "method_count"],
+      "required": ["node_key", "class_name", "extends_resolved", "parent_key", "file", "method_count"],
       "additionalProperties": false,
       "properties": {
         "node_key": {
@@ -223,9 +223,22 @@
           "type": "string",
           "description": "TypeScript class name."
         },
-        "extends": {
+        "id": {
           "type": "string",
-          "description": "Resolved parent class name."
+          "description": "Exchange identifier (same as class_name for most exchanges)."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["rest", "ws"],
+          "description": "Class type: 'rest' for REST exchange, 'ws' for WebSocket exchange."
+        },
+        "extends_raw": {
+          "type": "string",
+          "description": "Raw extends value from AST (may be an import alias, e.g., 'binanceRest')."
+        },
+        "extends_resolved": {
+          "type": "string",
+          "description": "Resolved parent class name (e.g., 'binance' after alias resolution)."
         },
         "parent_key": {
           "type": "string",
@@ -386,19 +399,8 @@
             { "type": "null" },
             {
               "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "broad": {
-                  "type": "object",
-                  "additionalProperties": { "type": "string" },
-                  "description": "Pattern -> error class name mapping."
-                },
-                "exact": {
-                  "type": "object",
-                  "additionalProperties": { "type": "string" },
-                  "description": "Exact string -> error class name mapping."
-                }
-              }
+              "additionalProperties": true,
+              "description": "Exception mappings from describe().exceptions. Keys include 'broad' and 'exact' plus market-type-specific keys (e.g., 'spot', 'inverse', 'linear', 'option'). Values are objects mapping error strings to error class names."
             }
           ],
           "description": "Exception mappings from describe().exceptions. Null if not available."

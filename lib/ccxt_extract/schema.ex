@@ -80,8 +80,8 @@ defmodule CcxtExtract.Schema do
   Returns `:ok` if valid, `{:error, reasons}` with a list of issues otherwise.
   Checks required keys, section shapes (map-or-null), and MethodAST key
   presence. Does NOT enforce scalar types, additionalProperties, or full
-  JSON Schema conformance — that is Task 16 (use `priv/schema/exchange_v1.json`
-  with a JSON Schema validator for full enforcement).
+  JSON Schema conformance — use `CcxtExtract.Validation.validate_schema/2`
+  for full draft 2020-12 enforcement against `priv/schema/exchange_v1.json`.
   """
   @spec validate(map()) :: :ok | {:error, [String.t()]}
   def validate(data) when is_map(data) do

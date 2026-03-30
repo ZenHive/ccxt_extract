@@ -8,11 +8,12 @@
 
 ## 🎯 Current Focus
 
-**Phase 4: Output Format & Validation** — Pipeline built. One task remaining for validation.
+**Phase 4: Output Format & Validation** — Complete. All tasks done.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 16 | Full validation | JSV-based JSON Schema enforcement + round-trip comparison; schema updated to match actual data shapes |
 | Task 15 | Full extraction pipeline | `mix ccxt_extract.pipeline` assembles all discovery data into per-exchange validated JSON; 110 exchanges, 0 validation errors |
 | Task 14 | Output schema design | Formal JSON Schema (exchange_v1.json); two-layer model (runtime + structure); three-state optionality; unified MethodAST shape |
 | Task 17 | Coverage report | 86.7% avg coverage; all 10 layers tracked per exchange; derived exchanges correctly show inherited gaps |
@@ -21,7 +22,7 @@
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 15 | ✅ | Full extraction pipeline — complete |
-| Task 16 | ⬜ | Validation [D:4/B:8/U:8 → Eff:2.00] |
+| Task 16 | ✅ | Full validation — complete |
 
 ### Quick Commands
 ```bash
@@ -48,6 +49,8 @@ mix ccxt_extract.ws_methods                    # Extract watch*/handle* WS metho
 mix ccxt_extract.overrides                     # Extract method overrides for derived exchanges
 mix ccxt_extract.coverage                      # Generate extraction coverage report
 mix ccxt_extract.pipeline                      # Assemble per-exchange JSON output
+mix ccxt_extract.validate                      # Full JSON Schema + round-trip validation
+mix ccxt_extract.validate --strict             # Fail on errors (CI mode)
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -129,9 +132,10 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 ---
 
-## Phase 4: Output Format & Validation [D:5/B:8/U:9 → Eff:1.70]
+## Phase 4: Output Format & Validation ✅
 
-> Design the output format AFTER you know what data exists. Not before.
+> 4 tasks complete. See [CHANGELOG.md](CHANGELOG.md#unreleased) for details.
+> Built: JSON Schema (exchange_v1.json), extraction pipeline, coverage report, full validation (JSV + round-trip).
 
 ### Tasks
 
@@ -139,7 +143,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 15: Full extraction pipeline**~~ [D:5/B:9/U:9 → Eff:1.80] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 16: Validation** [D:4/B:8/U:8 → Eff:2.00] — Round-trip validate: load each JSON file, compare key sections against QuickBEAM runtime output. Ensure nothing was lost or transformed incorrectly. Report any discrepancies.
+- [x] ~~**Task 16: Validation**~~ [D:4/B:8/U:8 → Eff:2.00] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [x] ~~**Task 17: Coverage report**~~ [D:3/B:7/U:8 → Eff:2.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
@@ -148,6 +152,8 @@ mix test.json --quiet --only extraction    # Only extraction tests
 ## Data Quality
 
 - [ ] **Task 23: Resolve __function: and __undefined sentinels in describe data** [D:5/B:7/U:7 → Eff:1.40] — Re-extract describe() exceptions using the unminified CCXT bundle or by mapping minified names back to CCXT error class names. Currently most exchanges have unresolved `__function:` refs in httpExceptions, and several have `__undefined` for exceptions. Affects Task 10 output quality. HandleErrors normalizes `__undefined` to nil at its boundary, but the root cause is in the describe extraction (Task 6).
+
+- [ ] **Task 24: Use Parity.Compare for richer round-trip diff output** [D:3/B:5/U:4 → Eff:1.50] 📋 — Replace `==` equality checks in `Validation.check_data_equality/5` with `Parity.Compare.compare/3` from `../ccxt_parity`. Currently round-trip findings say "data mismatch" — with Parity.Compare they'd show the exact path and expected vs actual values (e.g., "structure.sign_method.statements: value_mismatch expected=12 actual=999"). The `Parity.*` modules are already designed as a generic library. Either add as path dep or extract to hex first. Tolerance rules could suppress known acceptable differences (e.g., float precision in market data).
 
 ---
 

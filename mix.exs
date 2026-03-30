@@ -37,6 +37,10 @@ defmodule CcxtExtract.MixProject do
       # JSON
       {:jason, "~> 1.4"},
 
+      # Validation — runtime: false because the OTP app doesn't need JSV at runtime,
+      # only mix tasks (ccxt_extract.validate) and tests use it
+      {:jsv, "~> 0.16", runtime: false},
+
       # Dev/test tooling
       {:ex_unit_json, "~> 0.4", only: [:dev, :test], runtime: false},
       {:dialyzer_json, "~> 0.1", only: [:dev, :test], runtime: false},

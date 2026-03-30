@@ -85,14 +85,9 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     end
   end
 
-  # Removes fields not needed in per-exchange output (id, type are in the envelope)
+  # Pass through class entry as-is (schema now matches raw data shape)
   defp strip_class_fields(nil), do: nil
-
-  defp strip_class_fields(entry) do
-    entry
-    |> Map.take(~w(node_key class_name parent_key file method_count methods method_details))
-    |> Map.put("extends", entry["extends_resolved"])
-  end
+  defp strip_class_fields(entry), do: entry
 
   # Assembles method inventory for a given exchange
   defp build_methods(id, rest_methods, ws_methods) do

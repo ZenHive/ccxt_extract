@@ -44,7 +44,10 @@ defmodule CcxtExtract.SchemaTest do
   @sample_class_entry %{
     "node_key" => "rest:testex",
     "class_name" => "testex",
-    "extends" => "Exchange",
+    "id" => "testex",
+    "type" => "rest",
+    "extends_raw" => "Exchange",
+    "extends_resolved" => "Exchange",
     "parent_key" => "Exchange",
     "file" => "testex.ts",
     "method_count" => 42,

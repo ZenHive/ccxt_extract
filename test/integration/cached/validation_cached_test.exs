@@ -1,0 +1,125 @@
+defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
+  @moduledoc """
+  Cached integration tests for Validation — runs full JSON Schema validation
+  and round-trip comparison against fixture data in test/fixtures/discoveries/.
+  No QuickBEAM/OXC needed.
+  """
+  use ExUnit.Case, async: true
+
+  alias CcxtExtract.Validation
+
+  @moduletag :integration
+  @moduletag timeout: 120_000
+
+  @fixtures_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @validation_opts [
+    discoveries_dir: @fixtures_dir,
+    ccxt_version: "4.5.45",
+    extracted_at: "2026-03-30T12:00:00Z"
+  ]
+
+  @tier1 ~w(binance bybit okx deribit coinbaseexchange)
+  @tier2 ~w(kraken kucoin gate htx bitmex)
+  @dex ~w(hyperliquid)
+  @all_reference @tier1 ++ @tier2 ++ @dex
+
+  # Run validation once for all tests in this module
+  setup_all do
+    {:ok, report} = Validation.validate_all(@validation_opts)
+    lookup = Map.new(report["exchanges"], &{&1["id"], &1})
+    %{report: report, lookup: lookup}
+  end
+
+  describe "JSON Schema validation" do
+    test "all exchanges pass schema validation", %{report: report} do
+      failures =
+        report["exchanges"]
+        |> Enum.reject(& &1["schema_valid"])
+        |> Enum.map(&{&1["id"], &1["schema_errors"]})
+
+      assert failures == [],
+             "Schema validation failures: #{inspect(failures, limit: 5)}"
+    end
+
+    test "schema_pass count matches exchange count", %{report: report} do
+      assert report["summary"]["schema_pass"] == report["exchange_count"]
+      assert report["summary"]["schema_fail"] == 0
+    end
+  end
+
+  describe "round-trip comparison" do
+    test "reference exchanges were checked", %{report: report} do
+      assert report["summary"]["roundtrip_checked"] == length(@all_reference)
+    end
+
+    for exchange_id <- @tier1 ++ @tier2 ++ @dex do
+      @exchange_id exchange_id
+
+      test "#{@exchange_id} round-trip has no errors", %{lookup: lookup} do
+        result = lookup[@exchange_id]
+        assert result, "#{@exchange_id} not found in validation results"
+
+        errors = Enum.filter(result["roundtrip_findings"], &(&1["severity"] == "error"))
+
+        assert errors == [],
+               "#{@exchange_id} round-trip errors: #{inspect(errors)}"
+      end
+    end
+  end
+
+  describe "report structure" do
+    test "has required top-level keys", %{report: report} do
+      assert is_binary(report["validated_at"])
+      assert is_integer(report["exchange_count"])
+      assert report["exchange_count"] > 100
+      assert report["schema_version"] == "1.0"
+      assert is_map(report["pipeline_stats"])
+    end
+
+    test "pipeline_stats surfaces missing/corrupt entries", %{report: report} do
+      ps = report["pipeline_stats"]
+      assert is_list(ps["missing_entries"])
+      assert is_list(ps["corrupt_entries"])
+      assert is_list(ps["validation_errors"])
+    end
+
+    test "summary has all expected fields", %{report: report} do
+      summary = report["summary"]
+
+      for key <- ~w(schema_pass schema_fail roundtrip_checked roundtrip_clean
+                     roundtrip_with_findings total_errors total_warnings total_info) do
+        assert Map.has_key?(summary, key), "Missing summary key: #{key}"
+        assert is_integer(summary[key]), "#{key} should be integer, got #{inspect(summary[key])}"
+      end
+    end
+
+    test "findings_by_severity has all severity levels", %{report: report} do
+      fbs = report["findings_by_severity"]
+      assert is_list(fbs["error"])
+      assert is_list(fbs["warning"])
+      assert is_list(fbs["info"])
+    end
+
+    test "each exchange result has expected shape", %{report: report} do
+      for result <- report["exchanges"] do
+        assert is_binary(result["id"])
+        assert is_boolean(result["schema_valid"])
+        assert is_list(result["schema_errors"])
+        assert is_list(result["roundtrip_findings"])
+      end
+    end
+  end
+
+  describe "write round-trip" do
+    @tag :tmp_dir
+    test "writes and reads back valid JSON", %{report: report, tmp_dir: tmp_dir} do
+      path = Path.join(tmp_dir, "_validation_report.json")
+      Validation.write!(report, path)
+
+      assert File.exists?(path)
+      loaded = path |> File.read!() |> Jason.decode!()
+      assert loaded["exchange_count"] == report["exchange_count"]
+      assert loaded["summary"]["schema_pass"] == report["summary"]["schema_pass"]
+    end
+  end
+end

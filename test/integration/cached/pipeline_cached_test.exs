@@ -147,6 +147,11 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
       error_count = length(stats.validation_errors)
       assert error_count < 5, "Too many validation errors: #{error_count}"
     end
+
+    test "reports no missing per-exchange entries", %{stats: stats} do
+      assert stats.missing_entries == [],
+             "Missing per-exchange files: #{inspect(stats.missing_entries)}"
+    end
   end
 
   describe "write and read round-trip" do

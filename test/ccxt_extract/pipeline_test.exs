@@ -307,6 +307,146 @@ defmodule CcxtExtract.PipelineTest do
     end
   end
 
+  describe "missing entry tracking" do
+    @tag :tmp_dir
+    test "tracks missing per-exchange describe file", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: ["fakex"],
+        markets_succeeded: []
+      )
+
+      # No describe/fakex.json exists — should be tracked
+      {:ok, _exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert "describe/fakex.json" in stats.missing_entries
+    end
+
+    @tag :tmp_dir
+    test "tracks missing per-exchange load_markets file", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: ["fakex"]
+      )
+
+      # No load_markets/fakex.json exists — should be tracked
+      {:ok, _exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert "load_markets/fakex.json" in stats.missing_entries
+    end
+
+    @tag :tmp_dir
+    test "does not track exchanges absent from manifest", %{tmp_dir: tmp_dir} do
+      # Manifest lists only "fakex", but "other" exists in exchanges.json
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: ["fakex"],
+        markets_succeeded: [],
+        extra_exchanges: [%{"id" => "other", "name" => "Other", "alias" => true}]
+      )
+
+      # Write the describe file for fakex so it's NOT missing
+      write_json(Path.join(tmp_dir, "describe/fakex.json"), %{"describe" => %{"id" => "fakex"}})
+
+      {:ok, _exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      # "other" is not in any manifest — should NOT appear in missing_entries
+      refute Enum.any?(stats.missing_entries, &String.contains?(&1, "other"))
+      assert stats.missing_entries == []
+    end
+
+    @tag :tmp_dir
+    test "successful file reads produce empty missing_entries", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: ["fakex"],
+        markets_succeeded: ["fakex"]
+      )
+
+      # Write both per-exchange files
+      write_json(Path.join(tmp_dir, "describe/fakex.json"), %{"describe" => %{"id" => "fakex"}})
+
+      write_json(Path.join(tmp_dir, "load_markets/fakex.json"), %{
+        "market_count" => 1,
+        "markets" => %{"BTC/USDT" => %{}}
+      })
+
+      {:ok, _exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert stats.missing_entries == []
+    end
+  end
+
+  # --- Fixture Helpers ---
+
+  # Writes the minimum set of discovery files so the pipeline doesn't raise
+  # on missing_files. Per-exchange files are intentionally omitted for testing.
+  defp write_minimal_fixtures(dir, opts) do
+    describe_exchanges = Keyword.get(opts, :describe_exchanges, [])
+    markets_succeeded = Keyword.get(opts, :markets_succeeded, [])
+    extra_exchanges = Keyword.get(opts, :extra_exchanges, [])
+
+    base_exchange = %{
+      "id" => "fakex",
+      "name" => "Fake Exchange",
+      "certified" => false,
+      "pro" => false,
+      "version" => nil,
+      "country" => [],
+      "alias" => false,
+      "referral" => nil
+    }
+
+    all_exchanges = [base_exchange | extra_exchanges]
+
+    # Global files (required to avoid missing_files raise)
+    write_json(Path.join(dir, "exchanges.json"), %{"exchanges" => all_exchanges})
+
+    write_json(Path.join(dir, "class_hierarchy.json"), %{"classes" => []})
+
+    empty_global = %{"exchanges" => []}
+    write_json(Path.join(dir, "methods_rest.json"), empty_global)
+    write_json(Path.join(dir, "methods_ws.json"), empty_global)
+    write_json(Path.join(dir, "sign_methods.json"), empty_global)
+    write_json(Path.join(dir, "handle_errors.json"), empty_global)
+    write_json(Path.join(dir, "parse_methods.json"), empty_global)
+    write_json(Path.join(dir, "ws_methods.json"), empty_global)
+    write_json(Path.join(dir, "overrides.json"), empty_global)
+
+    # Manifests for per-exchange loaders
+    File.mkdir_p!(Path.join(dir, "describe"))
+    write_json(Path.join(dir, "describe/_manifest.json"), %{"exchanges" => describe_exchanges})
+
+    File.mkdir_p!(Path.join(dir, "load_markets"))
+
+    write_json(Path.join(dir, "load_markets/_manifest.json"), %{
+      "succeeded" => markets_succeeded,
+      "failed" => []
+    })
+  end
+
+  defp write_json(path, data) do
+    File.mkdir_p!(Path.dirname(path))
+    File.write!(path, Jason.encode!(data))
+  end
+
   describe "validation" do
     test "full exchange passes schema validation" do
       result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
@@ -332,5 +472,256 @@ defmodule CcxtExtract.PipelineTest do
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
       assert :ok = Schema.validate(result)
     end
+
+    test "overrides with wrong shape fails validation" do
+      # Old flat shape should fail — missing required keys extends/rest/ws
+      bad_overrides = %{
+        "parent_key" => "rest:parentex",
+        "overridden" => %{},
+        "new_methods" => %{},
+        "inherited" => []
+      }
+
+      exchange = build_with_overrides(bad_overrides)
+      assert {:error, reasons} = Schema.validate(exchange)
+      assert Enum.any?(reasons, &String.contains?(&1, "missing required keys"))
+    end
+
+    test "overrides with string new_methods fails validation" do
+      bad_overrides = %{
+        "extends" => "parentex",
+        "rest" => %{
+          "parent_key" => "rest:parentex",
+          "overridden" => %{},
+          "new_methods" => "not a map",
+          "inherited" => []
+        },
+        "ws" => nil
+      }
+
+      exchange = build_with_overrides(bad_overrides)
+      assert {:error, reasons} = Schema.validate(exchange)
+      assert Enum.any?(reasons, &String.contains?(&1, "new_methods"))
+    end
+
+    test "overrides with string inherited fails validation" do
+      bad_overrides = %{
+        "extends" => "parentex",
+        "rest" => %{
+          "parent_key" => "rest:parentex",
+          "overridden" => %{},
+          "new_methods" => %{},
+          "inherited" => "not a list"
+        },
+        "ws" => nil
+      }
+
+      exchange = build_with_overrides(bad_overrides)
+      assert {:error, reasons} = Schema.validate(exchange)
+      assert Enum.any?(reasons, &String.contains?(&1, "inherited"))
+    end
+
+    test "overrides with nil overridden/new_methods fails validation" do
+      bad_overrides = %{
+        "extends" => "parentex",
+        "rest" => %{
+          "parent_key" => "rest:parentex",
+          "overridden" => nil,
+          "new_methods" => nil,
+          "inherited" => []
+        },
+        "ws" => nil
+      }
+
+      exchange = build_with_overrides(bad_overrides)
+      assert {:error, reasons} = Schema.validate(exchange)
+      assert Enum.any?(reasons, &String.contains?(&1, "overridden"))
+      assert Enum.any?(reasons, &String.contains?(&1, "new_methods"))
+    end
+
+    test "overrides with non-string extends fails validation" do
+      bad_overrides = %{
+        "extends" => 42,
+        "rest" => nil,
+        "ws" => nil
+      }
+
+      exchange = build_with_overrides(bad_overrides)
+      assert {:error, reasons} = Schema.validate(exchange)
+      assert Enum.any?(reasons, &String.contains?(&1, "extends"))
+    end
+
+    test "overrides with non-string parent_key fails validation" do
+      bad_overrides = %{
+        "extends" => "parentex",
+        "rest" => %{
+          "parent_key" => 123,
+          "overridden" => %{},
+          "new_methods" => %{},
+          "inherited" => []
+        },
+        "ws" => nil
+      }
+
+      exchange = build_with_overrides(bad_overrides)
+      assert {:error, reasons} = Schema.validate(exchange)
+      assert Enum.any?(reasons, &String.contains?(&1, "parent_key"))
+    end
+
+    test "overrides with non-string inherited elements fails validation" do
+      bad_overrides = %{
+        "extends" => "parentex",
+        "rest" => %{
+          "parent_key" => "rest:parentex",
+          "overridden" => %{},
+          "new_methods" => %{},
+          "inherited" => ["fetchTicker", 123, :atom_val]
+        },
+        "ws" => nil
+      }
+
+      exchange = build_with_overrides(bad_overrides)
+      assert {:error, reasons} = Schema.validate(exchange)
+      assert Enum.any?(reasons, &String.contains?(&1, "non-string elements"))
+    end
+  end
+
+  describe "corrupt entry detection" do
+    @tag :tmp_dir
+    test "corrupt describe file tracked in corrupt_entries", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: ["fakex"],
+        markets_succeeded: []
+      )
+
+      # Write invalid JSON to the describe file
+      File.write!(Path.join(tmp_dir, "describe/fakex.json"), "{not valid json")
+
+      {:ok, _exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert stats.corrupt_entries != []
+      assert Enum.any?(stats.corrupt_entries, &String.contains?(&1, "fakex"))
+      # Should NOT appear in missing_entries
+      refute Enum.any?(stats.missing_entries, &String.contains?(&1, "fakex"))
+    end
+
+    @tag :tmp_dir
+    test "corrupt load_markets file tracked in corrupt_entries", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: ["fakex"]
+      )
+
+      # Write invalid JSON to the load_markets file
+      File.write!(Path.join(tmp_dir, "load_markets/fakex.json"), "<<<corrupt>>>")
+
+      {:ok, _exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert stats.corrupt_entries != []
+      assert Enum.any?(stats.corrupt_entries, &String.contains?(&1, "fakex"))
+      refute Enum.any?(stats.missing_entries, &String.contains?(&1, "fakex"))
+    end
+
+    @tag :tmp_dir
+    test "corrupt global file raises", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: []
+      )
+
+      # Corrupt a global file
+      File.write!(Path.join(tmp_dir, "class_hierarchy.json"), "not json")
+
+      assert_raise RuntimeError, ~r/Corrupt discovery artifact/, fn ->
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+      end
+    end
+
+    @tag :tmp_dir
+    test "describe manifest with non-string IDs raises as corrupt", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: []
+      )
+
+      # Overwrite describe manifest with non-string IDs
+      File.write!(
+        Path.join(tmp_dir, "describe/_manifest.json"),
+        Jason.encode!(%{"exchanges" => [123, "valid", nil]})
+      )
+
+      assert_raise RuntimeError, ~r/non-string IDs/, fn ->
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+      end
+    end
+
+    @tag :tmp_dir
+    test "load_markets manifest with non-string IDs raises as corrupt", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: []
+      )
+
+      # Overwrite load_markets manifest with non-string IDs
+      File.write!(
+        Path.join(tmp_dir, "load_markets/_manifest.json"),
+        Jason.encode!(%{"succeeded" => [123, true], "failed" => []})
+      )
+
+      assert_raise RuntimeError, ~r/non-string IDs/, fn ->
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+      end
+    end
+
+    @tag :tmp_dir
+    test "malformed describe manifest raises as corrupt artifact", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: []
+      )
+
+      # Overwrite describe manifest with valid JSON that lacks "exchanges" key
+      File.write!(Path.join(tmp_dir, "describe/_manifest.json"), Jason.encode!(%{}))
+
+      assert_raise RuntimeError, ~r/Corrupt discovery artifact/, fn ->
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+      end
+    end
+  end
+
+  # --- Helpers ---
+
+  # Builds a full exchange map with custom overrides for validation testing
+  defp build_with_overrides(overrides_value) do
+    data = full_data()
+    meta = full_meta()
+    result = Pipeline.build_exchange_data(meta, data, @schema_opts)
+    put_in(result, ["structure", "overrides"], overrides_value)
   end
 end

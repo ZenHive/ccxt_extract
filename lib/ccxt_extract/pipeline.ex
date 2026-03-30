@@ -62,7 +62,9 @@ defmodule CcxtExtract.Pipeline do
       stats = %{
         exchange_count: length(exchanges),
         validation_errors: Enum.reverse(errors),
-        missing_files: data.missing_files
+        missing_files: data.missing_files,
+        missing_entries: data.missing_entries,
+        corrupt_entries: data.corrupt_entries
       }
 
       {:ok, Enum.reverse(exchanges), stats}
@@ -249,9 +251,10 @@ defmodule CcxtExtract.Pipeline do
   # Loads all discovery files into indexed lookup maps
   defp load_all_data(dir, exchanges_json) do
     missing = []
+    missing_entries = []
 
-    {describe, missing} = load_describe_files(dir, missing)
-    {load_markets, missing} = load_markets_files(dir, missing)
+    {describe, missing, missing_entries} = load_describe_files(dir, missing, missing_entries)
+    {load_markets, missing, missing_entries} = load_markets_files(dir, missing, missing_entries)
     {classes, missing} = load_classes(dir, missing)
     {methods_rest, missing} = load_exchange_field(dir, "methods_rest.json", "methods", missing)
     {methods_ws, missing} = load_exchange_field(dir, "methods_ws.json", "methods", missing)
@@ -273,21 +276,42 @@ defmodule CcxtExtract.Pipeline do
       parse_methods: parse_methods,
       ws_methods: ws_methods,
       overrides: overrides,
-      missing_files: Enum.reverse(missing)
+      missing_files: Enum.reverse(missing),
+      missing_entries: missing_entries |> Enum.reject(&match?({:corrupt, _}, &1)) |> Enum.reverse(),
+      corrupt_entries:
+        missing_entries |> Enum.filter(&match?({:corrupt, _}, &1)) |> Enum.map(&elem(&1, 1)) |> Enum.reverse()
     }
   end
 
   # Load per-exchange describe files using manifest
-  defp load_describe_files(dir, missing) do
+  defp load_describe_files(dir, missing, missing_entries) do
     manifest_path = Path.join(dir, "describe/_manifest.json")
 
     case read_json(manifest_path) do
-      {:ok, manifest} ->
-        lookup = Map.new(manifest["exchanges"], &read_describe_entry(dir, &1))
-        {lookup, missing}
+      {:ok, %{"exchanges" => exchanges}} when is_list(exchanges) ->
+        validate_manifest_ids!(exchanges, manifest_path)
 
-      {:error, _} ->
-        {%{}, ["describe/_manifest.json" | missing]}
+        {lookup, missing_entries} =
+          Enum.reduce(exchanges, {%{}, missing_entries}, &reduce_describe_entry(dir, &1, &2))
+
+        {lookup, missing, missing_entries}
+
+      {:ok, _malformed} ->
+        raise "Corrupt discovery artifact: #{manifest_path} missing or invalid \"exchanges\" key"
+
+      {:error, {:missing_input, _}} ->
+        {%{}, ["describe/_manifest.json" | missing], missing_entries}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery artifact: #{detail}"
+    end
+  end
+
+  defp reduce_describe_entry(dir, id, {acc, entries}) do
+    case read_describe_entry(dir, id) do
+      {:ok, id, data} -> {Map.put(acc, id, data), entries}
+      {:missing, id, path} -> {Map.put(acc, id, nil), [path | entries]}
+      {:corrupt, _id, detail} -> {acc, [{:corrupt, detail} | entries]}
     end
   end
 
@@ -295,23 +319,41 @@ defmodule CcxtExtract.Pipeline do
     path = Path.join(dir, "describe/#{id}.json")
 
     case read_json(path) do
-      {:ok, data} -> {id, data["describe"]}
-      {:error, _} -> {id, nil}
+      {:ok, data} -> {:ok, id, data["describe"]}
+      {:error, {:missing_input, _}} -> {:missing, id, "describe/#{id}.json"}
+      {:error, {:invalid_json, detail}} -> {:corrupt, id, detail}
     end
   end
 
   # Load per-exchange load_markets files using manifest
-  defp load_markets_files(dir, missing) do
+  defp load_markets_files(dir, missing, missing_entries) do
     manifest_path = Path.join(dir, "load_markets/_manifest.json")
 
     case read_json(manifest_path) do
-      {:ok, manifest} ->
-        succeeded = manifest["succeeded"] || []
-        lookup = Map.new(succeeded, &read_markets_entry(dir, &1))
-        {lookup, missing}
+      {:ok, %{"succeeded" => succeeded}} when is_list(succeeded) ->
+        validate_manifest_ids!(Enum.map(succeeded, &markets_entry_id/1), manifest_path)
 
-      {:error, _} ->
-        {%{}, ["load_markets/_manifest.json" | missing]}
+        {lookup, missing_entries} =
+          Enum.reduce(succeeded, {%{}, missing_entries}, &reduce_markets_entry(dir, &1, &2))
+
+        {lookup, missing, missing_entries}
+
+      {:ok, _malformed} ->
+        raise "Corrupt discovery artifact: #{manifest_path} missing or invalid \"succeeded\" key"
+
+      {:error, {:missing_input, _}} ->
+        {%{}, ["load_markets/_manifest.json" | missing], missing_entries}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery artifact: #{detail}"
+    end
+  end
+
+  defp reduce_markets_entry(dir, entry, {acc, entries}) do
+    case read_markets_entry(dir, entry) do
+      {:ok, id, data} -> {Map.put(acc, id, data), entries}
+      {:missing, id, path} -> {Map.put(acc, id, nil), [path | entries]}
+      {:corrupt, _id, detail} -> {acc, [{:corrupt, detail} | entries]}
     end
   end
 
@@ -321,10 +363,26 @@ defmodule CcxtExtract.Pipeline do
 
     case read_json(path) do
       {:ok, data} ->
-        {id, %{"market_count" => data["market_count"], "markets" => data["markets"]}}
+        {:ok, id, %{"market_count" => data["market_count"], "markets" => data["markets"]}}
 
-      {:error, _} ->
-        {id, nil}
+      {:error, {:missing_input, _}} ->
+        {:missing, id, "load_markets/#{id}.json"}
+
+      {:error, {:invalid_json, detail}} ->
+        {:corrupt, id, detail}
+    end
+  end
+
+  # Extract ID from load_markets manifest entries (can be string or map with "id" key)
+  defp markets_entry_id(entry) when is_map(entry), do: entry["id"]
+  defp markets_entry_id(entry), do: entry
+
+  # Validate that all manifest IDs are strings — non-string IDs indicate a corrupt manifest
+  defp validate_manifest_ids!(ids, manifest_path) do
+    non_strings = Enum.reject(ids, &is_binary/1)
+
+    if non_strings != [] do
+      raise "Corrupt discovery artifact: #{manifest_path} contains non-string IDs: #{inspect(non_strings)}"
     end
   end
 
@@ -335,11 +393,13 @@ defmodule CcxtExtract.Pipeline do
     case read_json(path) do
       {:ok, data} ->
         lookup = Enum.group_by(data["classes"], & &1["class_name"])
-
         {lookup, missing}
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         {%{}, ["class_hierarchy.json" | missing]}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery artifact: #{detail}"
     end
   end
 
@@ -356,8 +416,11 @@ defmodule CcxtExtract.Pipeline do
 
         {lookup, missing}
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         {%{}, [filename | missing]}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery artifact: #{detail}"
     end
   end
 
@@ -374,8 +437,11 @@ defmodule CcxtExtract.Pipeline do
 
         {lookup, missing}
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         {%{}, ["sign_methods.json" | missing]}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery artifact: #{detail}"
     end
   end
 
@@ -388,8 +454,11 @@ defmodule CcxtExtract.Pipeline do
         lookup = Map.new(data["exchanges"], fn entry -> {entry["id"], entry} end)
         {lookup, missing}
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         {%{}, [filename | missing]}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery artifact: #{detail}"
     end
   end
 
@@ -402,8 +471,11 @@ defmodule CcxtExtract.Pipeline do
         lookup = Enum.group_by(data["exchanges"], & &1["id"])
         {lookup, missing}
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         {%{}, ["overrides.json" | missing]}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery artifact: #{detail}"
     end
   end
 

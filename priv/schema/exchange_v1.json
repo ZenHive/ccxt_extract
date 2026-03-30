@@ -419,14 +419,37 @@
 
     "OverridesData": {
       "type": "object",
-      "description": "Method override analysis for exchanges that extend another exchange (not Exchange base).",
-      "required": ["extends", "parent_key", "overridden", "new_methods", "inherited"],
+      "description": "Method override analysis for exchanges that extend another exchange. Grouped by REST/WS class.",
+      "required": ["extends", "rest", "ws"],
       "additionalProperties": false,
       "properties": {
         "extends": {
           "type": "string",
           "description": "Parent exchange id (e.g., 'binance' for binanceus)."
         },
+        "rest": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/OverrideEntry" }
+          ],
+          "description": "REST class override details. Null if no REST-specific override."
+        },
+        "ws": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/OverrideEntry" }
+          ],
+          "description": "WS class override details. Null if no WS-specific override."
+        }
+      }
+    },
+
+    "OverrideEntry": {
+      "type": "object",
+      "description": "Override details for a single class (REST or WS).",
+      "required": ["parent_key", "overridden", "new_methods", "inherited"],
+      "additionalProperties": false,
+      "properties": {
         "parent_key": {
           "type": "string",
           "description": "Parent node_key (e.g., 'rest:binance')."
@@ -434,7 +457,7 @@
         "overridden": {
           "type": "object",
           "additionalProperties": { "$ref": "#/$defs/MethodAST" },
-          "description": "Map of overridden method name -> MethodAST. These methods exist on the parent and are redefined in this class."
+          "description": "Map of overridden method name -> MethodAST. These methods exist on the parent and are redefined."
         },
         "new_methods": {
           "type": "object",

@@ -192,7 +192,7 @@ defmodule CcxtExtract.Schema do
     |> check_nullable_map(section, "handle_errors", "structure.handle_errors")
     |> check_nullable_method_map(section, "parse_methods", "structure.parse_methods")
     |> check_nullable_method_map(section, "ws_methods", "structure.ws_methods")
-    |> check_nullable_map(section, "overrides", "structure.overrides")
+    |> check_nullable_overrides(section, "overrides", "structure.overrides")
   end
 
   # Value is nil (allowed) or a map
@@ -246,6 +246,95 @@ defmodule CcxtExtract.Schema do
         ["#{label}.#{name}: expected MethodAST map, got #{type_name(value)}" | acc]
       end
     end)
+  end
+
+  # Value is nil or an OverridesData map with extends/rest/ws keys
+  defp check_nullable_overrides(errors, nil, _key, _label), do: errors
+
+  defp check_nullable_overrides(errors, section, key, label) do
+    case Map.get(section, key) do
+      nil ->
+        errors
+
+      val when is_map(val) ->
+        errors
+        |> check_overrides_required_keys(val, label)
+        |> check_override_entry(val, "rest", "#{label}.rest")
+        |> check_override_entry(val, "ws", "#{label}.ws")
+
+      val ->
+        ["#{label}: expected OverridesData map or null, got #{type_name(val)}" | errors]
+    end
+  end
+
+  @required_overrides_keys ~w(extends rest ws)
+  defp check_overrides_required_keys(errors, overrides, label) do
+    missing = Enum.reject(@required_overrides_keys, &Map.has_key?(overrides, &1))
+
+    case missing do
+      [] -> check_extends_type(errors, overrides["extends"], label)
+      keys -> ["#{label}: missing required keys #{inspect(keys)}" | errors]
+    end
+  end
+
+  defp check_extends_type(errors, val, _label) when is_binary(val), do: errors
+
+  defp check_extends_type(errors, val, label) do
+    ["#{label}.extends: expected string, got #{type_name(val)}" | errors]
+  end
+
+  defp check_parent_key_type(errors, val, _label) when is_binary(val), do: errors
+
+  defp check_parent_key_type(errors, val, label) do
+    ["#{label}.parent_key: expected string, got #{type_name(val)}" | errors]
+  end
+
+  # Type-guard wrapper: only calls check_method_map_values if the field is actually a map
+  # overridden and new_methods are required objects in the JSON Schema (not nullable)
+  defp check_required_method_map_field(errors, parent, key, label) do
+    case Map.get(parent, key) do
+      val when is_map(val) -> check_method_map_values(errors, val, label)
+      val -> ["#{label}: expected map, got #{type_name(val)}" | errors]
+    end
+  end
+
+  defp check_inherited_type(errors, val, label) when is_list(val) do
+    if Enum.all?(val, &is_binary/1) do
+      errors
+    else
+      non_strings = Enum.reject(val, &is_binary/1)
+      ["#{label}.inherited: expected all strings, got non-string elements: #{inspect(non_strings)}" | errors]
+    end
+  end
+
+  defp check_inherited_type(errors, val, label) do
+    ["#{label}.inherited: expected list, got #{type_name(val)}" | errors]
+  end
+
+  @required_override_entry_keys ~w(parent_key overridden new_methods inherited)
+  defp check_override_entry(errors, overrides, key, label) do
+    case Map.get(overrides, key) do
+      nil ->
+        errors
+
+      val when is_map(val) ->
+        missing = Enum.reject(@required_override_entry_keys, &Map.has_key?(val, &1))
+
+        case missing do
+          [] ->
+            errors
+            |> check_parent_key_type(val["parent_key"], label)
+            |> check_required_method_map_field(val, "overridden", "#{label}.overridden")
+            |> check_required_method_map_field(val, "new_methods", "#{label}.new_methods")
+            |> check_inherited_type(Map.get(val, "inherited"), label)
+
+          keys ->
+            ["#{label}: OverrideEntry missing keys #{inspect(keys)}" | errors]
+        end
+
+      val ->
+        ["#{label}: expected OverrideEntry map or null, got #{type_name(val)}" | errors]
+    end
   end
 
   defp type_name(val) when is_binary(val), do: "string"

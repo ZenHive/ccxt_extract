@@ -115,17 +115,34 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     end
   end
 
-  # Assembles overrides section
-  defp build_overrides(entry) do
-    if entry do
-      %{
-        "extends" => entry["extends"],
-        "parent_key" => entry["parent_key"],
-        "overridden" => entry["overrides"] || (entry["new_methods"] && %{}),
-        "new_methods" => entry["new_methods"] || %{},
-        "inherited" => entry["inherited_methods"] || []
-      }
+  # Assembles overrides section — groups REST/WS entries like the pipeline does
+  defp build_overrides(entries) do
+    case entries do
+      [] ->
+        nil
+
+      entries ->
+        rest = Enum.find(entries, &String.starts_with?(&1["parent_key"] || "", "rest:"))
+        ws = Enum.find(entries, &String.starts_with?(&1["parent_key"] || "", "ws:"))
+        primary = rest || ws
+
+        %{
+          "extends" => primary["extends"],
+          "rest" => format_override_entry(rest),
+          "ws" => format_override_entry(ws)
+        }
     end
+  end
+
+  defp format_override_entry(nil), do: nil
+
+  defp format_override_entry(entry) do
+    %{
+      "parent_key" => entry["parent_key"],
+      "overridden" => entry["overrides"] || %{},
+      "new_methods" => entry["new_methods"] || %{},
+      "inherited" => entry["inherited_methods"] || []
+    }
   end
 
   # Builds a complete per-exchange output from fixture data
@@ -138,7 +155,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     he_entry = find_by_id(load_handle_errors(), id)
     pm_entry = find_by_id(load_parse_methods(), id)
     wm_entry = find_by_id(load_ws_methods(), id)
-    ov_entry = find_by_id(load_overrides(), id)
+    ov_entries = Enum.filter(load_overrides(), &(&1["id"] == id))
 
     runtime = %{
       "describe" => load_describe(id),
@@ -152,7 +169,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
       "handle_errors" => build_handle_errors(he_entry),
       "parse_methods" => if(pm_entry, do: pm_entry["parse_methods"]),
       "ws_methods" => if(wm_entry, do: wm_entry["ws_methods"]),
-      "overrides" => build_overrides(ov_entry)
+      "overrides" => build_overrides(ov_entries)
     }
 
     Schema.build_exchange(meta, runtime, structure, @base_opts)
@@ -234,7 +251,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
       ov = exchange["structure"]["overrides"]
       assert is_map(ov)
       assert ov["extends"] == "binance"
-      assert is_list(ov["inherited"])
+      assert is_map(ov["rest"]) or is_map(ov["ws"])
     end
   end
 

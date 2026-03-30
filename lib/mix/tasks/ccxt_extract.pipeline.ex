@@ -10,10 +10,12 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
       mix ccxt_extract.pipeline
       mix ccxt_extract.pipeline --output /tmp/exchange_output
+      mix ccxt_extract.pipeline --strict
 
   ## Options
 
     * `--output` — custom output directory (default: `priv/output`)
+    * `--strict` — fail with non-zero exit if validation errors or missing per-exchange files
   """
 
   use Mix.Task
@@ -23,7 +25,7 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
   @impl true
   def run(args) do
     {opts, leftover, invalid} =
-      OptionParser.parse(args, strict: [output: :string])
+      OptionParser.parse(args, strict: [output: :string, strict: :boolean])
 
     if invalid != [] do
       switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
@@ -44,7 +46,11 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
         CcxtExtract.Pipeline.write!(exchanges, output_dir)
 
         elapsed = System.monotonic_time(:millisecond) - start
-        report_results(exchanges, stats, output_dir, elapsed)
+        has_issues = report_results(exchanges, stats, output_dir, elapsed)
+
+        if opts[:strict] and has_issues do
+          Mix.raise("Pipeline completed with issues (strict mode). See above for details.")
+        end
 
       {:error, {:missing_input, path}} ->
         Mix.raise("Missing required input: #{path}")
@@ -59,15 +65,30 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
     end
   end
 
+  # Returns true if there are issues (for --strict mode)
   defp report_results(exchanges, stats, output_dir, elapsed) do
     error_count = length(stats.validation_errors)
     missing_count = length(stats.missing_files)
+    missing_entry_count = length(stats.missing_entries)
+    corrupt_count = length(stats.corrupt_entries)
 
     Mix.shell().info("""
     Done in #{elapsed}ms. #{length(exchanges)} exchanges assembled.
     #{if error_count > 0, do: "#{error_count} validation error(s).", else: "All exchanges passed validation."}
     #{if missing_count > 0, do: "Missing discovery files: #{Enum.join(stats.missing_files, ", ")}", else: ""}
+    #{if missing_entry_count > 0, do: "Missing per-exchange files (#{missing_entry_count}): #{format_missing_entries(stats.missing_entries)}", else: ""}
+    #{if corrupt_count > 0, do: "Corrupt per-exchange files (#{corrupt_count}): #{format_missing_entries(stats.corrupt_entries)}", else: ""}
     Output: #{output_dir}/
     """)
+
+    error_count > 0 or missing_entry_count > 0 or corrupt_count > 0
+  end
+
+  @max_displayed_entries 10
+
+  defp format_missing_entries(entries) do
+    displayed = Enum.take(entries, @max_displayed_entries)
+    suffix = if length(entries) > @max_displayed_entries, do: ", ...", else: ""
+    Enum.join(displayed, ", ") <> suffix
   end
 end

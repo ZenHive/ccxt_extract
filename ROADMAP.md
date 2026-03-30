@@ -8,19 +8,23 @@
 
 ## 🎯 Current Focus
 
-**Phase 2: Runtime Extraction** — Nearly complete. Tasks 6, 8a, 8b, 8c, 22 done. Task 7 (family analysis) remains.
+**Phase 3: Structural Extraction** — Next up. Five independent `[P]` tasks extracting method ASTs.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
-| Task 8c | Market data validation | Two-layer validation: structural (offline) + spot-check (live API); 100 exchanges, 89k+ markets, zero errors |
+| Task 7 | Exchange family analysis | Multi-member and standalone families identified; describe() universally overridden; variants mostly differ in config, not implementation |
+| Task 8c | Market data validation | Two-layer validation: structural (offline) + spot-check (live API) |
 | Task 22 | Split integration tests into cached/extraction tiers | Cached tests read tracked fixtures; write!/1 serializer tests in fast tier |
-| Task 8b | Rate-limited loadMarkets() extraction | Most exchanges succeed; parallel extraction with configurable workers |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 7 | ⬜ | Exchange family analysis [D:5/B:7/U:7 → Eff:1.40] |
+| Task 9 `[P]` | ⬜ | sign() extraction [D:4/B:9/U:9 → Eff:2.25] |
+| Task 10 `[P]` | ⬜ | handleErrors() extraction [D:4/B:8/U:8 → Eff:2.00] |
+| Task 11 `[P]` | ⬜ | parse*() extraction [D:5/B:9/U:8 → Eff:1.70] |
+| Task 12 `[P]` | ⬜ | WS method extraction [D:5/B:8/U:7 → Eff:1.50] |
+| Task 13 | ⬜ | Class hierarchy and overrides [D:6/B:8/U:8 → Eff:1.33] |
 
 ### Quick Commands
 ```bash
@@ -39,6 +43,7 @@ mix ccxt_extract.load_markets              # Extract loadMarkets() data (live AP
 mix ccxt_extract.load_markets --concurrency 10  # Faster with more parallel workers
 mix ccxt_extract.validate_markets              # Validate cached market data (structural)
 mix ccxt_extract.validate_markets --spot-check # + live spot-check against exchange APIs
+mix ccxt_extract.family_analysis               # Analyze exchange families
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -83,17 +88,18 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 ---
 
-## Phase 2: Runtime Extraction — QuickBEAM [D:5/B:9/U:9 → Eff:1.80]
+## Phase 2: Runtime Extraction — QuickBEAM ✅
 
-> QuickBEAM runs the full CCXT runtime. Use it for everything that requires inheritance resolution, runtime computation, or actual API data.
+> All runtime extraction tasks complete. See [CHANGELOG.md](CHANGELOG.md#unreleased) for details.
+> Built: Full describe() extraction, exchange family analysis, loadMarkets() with validation, credential classification.
 
 ### Tasks
 
 - [x] ~~**Task 6: Full describe() extraction**~~ [D:4/B:9/U:9 → Eff:2.25] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 7: Exchange family analysis** [D:5/B:7/U:7 → Eff:1.40] — Group exchanges by inheritance. Which exchanges share a base class? What does each variant override? Use both QuickBEAM (compare describe() output between parent and child) and OXC (compare method lists). Document the family tree.
+- [x] ~~**Task 7: Exchange family analysis**~~ [D:5/B:7/U:7 → Eff:1.40] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 8: loadMarkets() extraction** — For exchanges with public API access (no auth needed), run `loadMarkets()` via QuickBEAM. Extract market listings: symbol formats, precision, limits, market types (spot, swap, future, option), fee structures. This is live API data.
+- [x] ~~**Task 8: loadMarkets() extraction**~~ — For exchanges with public API access (no auth needed), run `loadMarkets()` via QuickBEAM. Extract market listings: symbol formats, precision, limits, market types (spot, swap, future, option), fee structures. This is live API data.
   - [x] ~~**8a: Identify public exchanges**~~ [D:2/B:6/U:8 → Eff:3.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [x] ~~**8b: Rate-limited extraction**~~ [D:5/B:8/U:8 → Eff:1.60] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [x] ~~**8c: Market data validation**~~ [D:3/B:7/U:7 → Eff:2.33] — See [CHANGELOG.md](CHANGELOG.md#unreleased)

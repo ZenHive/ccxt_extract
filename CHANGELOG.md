@@ -6,6 +6,15 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 7: Exchange Family Analysis
+- `CcxtExtract.FamilyAnalysis` — pure analysis module reading existing discovery JSON (class hierarchy, exchange summary, per-exchange describe)
+- `mix ccxt_extract.family_analysis` — CLI task producing `priv/discoveries/family_analysis.json`
+- Groups exchanges into multi-member families (binance, hitbtc, okx, kucoin, coinbase, gate, htx) and standalone families
+- Per-variant analysis: own methods from OXC class data, top-level describe() key diffs from QuickBEAM data
+- Key finding: `describe()` is the only universally overridden method — variants mostly differ in configuration (id, name, urls, has, options), not implementation
+- Aliases without describe files (skipped in Task 6) get empty describe diffs — correctly handled
+- Completes Phase 2 (Runtime Extraction)
+
 ### Task 8c: Market Data Validation
 - `CcxtExtract.MarketValidation` — two-layer validation of extracted loadMarkets() data
 - **Layer 1 (structural)**: offline validation of cached JSON — required field presence, boolean/map type checks, type↔flag consistency, undefined density reporting

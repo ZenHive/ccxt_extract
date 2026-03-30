@@ -6,6 +6,16 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 9: sign() Method AST Extraction
+- `CcxtExtract.SignMethod` — extracts the `sign()` method body as raw ESTree AST for every REST exchange via OXC
+- `mix ccxt_extract.sign_methods` — CLI task producing `priv/discoveries/sign_methods.json`
+- 110 exchanges scanned, 99 with sign() method — exchanges without sign() included with `"sign": null`
+- Output preserves the complete method AST: parameters (with TS type annotations), return type, async flag, statement count, and the full body as raw ESTree JSON
+- Reuses `Methods.extract_params/1` and `Methods.extract_return_type/1` for parameter/type extraction — avoids duplication
+- Body AST includes byte offsets (`start`/`end`), all node fields — consumers get the raw AST as OXC produces it
+- Key finding: all sign() methods are synchronous; standard signature is `(path, api, method, params, headers, body)` with minor naming variants
+- First Phase 3 (Structural Extraction) task — establishes the pattern for Tasks 10-12
+
 ### Hardening: Error Paths, Test Serialization, and Missing-File Guards
 - **Market validation**: pre-flight check for missing exchange files before `File.read!` — returns `{:error, {:missing_input, path}}` instead of crashing
 - **Family analysis**: explicit error handling in `diff_describe_for_pair/3` — logs warning for missing root describe files (corrupted upstream), silently skips missing member files (expected for aliases)

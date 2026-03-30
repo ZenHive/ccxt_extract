@@ -8,19 +8,18 @@
 
 ## 🎯 Current Focus
 
-**Phase 3: Structural Extraction** — Next up. Five independent `[P]` tasks extracting method ASTs.
+**Phase 3: Structural Extraction** — First task complete. Three remaining independent `[P]` tasks, plus one dependent task.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
-| Task 7 | Exchange family analysis | Multi-member and standalone families identified; describe() universally overridden; variants mostly differ in config, not implementation |
+| Task 9 | sign() method AST extraction | 110 exchanges scanned, 99 with sign(); full ESTree body preserved as raw JSON |
 | Task 8c | Market data validation | Two-layer validation: structural (offline) + spot-check (live API) |
 | Task 22 | Split integration tests into cached/extraction tiers | Cached tests read tracked fixtures; write!/1 serializer tests in fast tier |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 9 `[P]` | ⬜ | sign() extraction [D:4/B:9/U:9 → Eff:2.25] |
 | Task 10 `[P]` | ⬜ | handleErrors() extraction [D:4/B:8/U:8 → Eff:2.00] |
 | Task 11 `[P]` | ⬜ | parse*() extraction [D:5/B:9/U:8 → Eff:1.70] |
 | Task 12 `[P]` | ⬜ | WS method extraction [D:5/B:8/U:7 → Eff:1.50] |
@@ -44,6 +43,7 @@ mix ccxt_extract.load_markets --concurrency 10  # Faster with more parallel work
 mix ccxt_extract.validate_markets              # Validate cached market data (structural)
 mix ccxt_extract.validate_markets --spot-check # + live spot-check against exchange APIs
 mix ccxt_extract.family_analysis               # Analyze exchange families
+mix ccxt_extract.sign_methods                  # Extract sign() method AST
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -112,7 +112,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 ### Tasks
 
-- [ ] **Task 9: sign() method extraction** [D:4/B:9/U:9 → Eff:2.25] `[P]` — Extract the `sign()` method body as raw ESTree AST (JSON) for every exchange. This is how each exchange authenticates API requests. Output the full AST — don't classify into patterns, don't pre-categorize. The raw AST is the data.
+- [x] ~~**Task 9: sign() method extraction**~~ [D:4/B:9/U:9 → Eff:2.25] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 10: handleErrors() extraction** [D:4/B:8/U:8 → Eff:2.00] `[P]` — Extract `handleErrors()` body as raw ESTree AST for every exchange. How does each exchange map HTTP responses to error types? Output the full method AST alongside the exceptions from describe(). Don't reduce to a lookup table — the AST captures conditional logic, fallthrough, and edge cases that a table would lose.
 

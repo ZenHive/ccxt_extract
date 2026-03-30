@@ -6,6 +6,16 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 11: parse*() Method AST Extraction
+- `CcxtExtract.ParseMethods` — extracts all `parse*()` method bodies as raw ESTree AST for every REST exchange via OXC
+- `mix ccxt_extract.parse_methods` — CLI task producing `priv/discoveries/parse_methods.json`
+- Key structural difference from Tasks 9/10: extracts ALL methods matching the `parse*` prefix per exchange (not a single named method), outputting a map keyed by method name
+- Per-exchange output includes `parse_method_count` for quick scanning; exchanges with no parse methods get an empty map
+- Envelope includes `total_methods` count across all exchanges and `with_parse_methods` count
+- Reuses `Methods.extract_params/1` and `Methods.extract_return_type/1` — same shared helpers as Tasks 9 and 10
+- Key finding: all parse methods are synchronous; typical signature is `(data: Dict, market: Market = undefined)` with typed return values (Ticker, Order, Trade, etc.)
+- Third Phase 3 (Structural Extraction) task — completes parse method coverage for REST exchanges
+
 ### Task 10: handleErrors() Method AST Extraction
 - `CcxtExtract.HandleErrors` — extracts the `handleErrors()` method body as raw ESTree AST for every REST exchange via OXC
 - `mix ccxt_extract.handle_errors` — CLI task producing `priv/discoveries/handle_errors.json`

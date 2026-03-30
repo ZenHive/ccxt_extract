@@ -8,19 +8,18 @@
 
 ## 🎯 Current Focus
 
-**Phase 3: Structural Extraction** — Two tasks complete. Two remaining independent `[P]` tasks, plus one dependent task.
+**Phase 3: Structural Extraction** — Three tasks complete. Two remaining: one independent `[P]` task, one dependent.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 11 | parse*() method AST extraction | 158 unique parse methods, 1500+ instances across 110 exchanges; map-keyed output |
 | Task 10 | handleErrors() AST extraction | First extractor combining OXC AST with QuickBEAM describe() exceptions |
 | Task 9 | sign() method AST extraction | 110 exchanges scanned, 99 with sign(); full ESTree body preserved as raw JSON |
-| Task 8c | Market data validation | Two-layer validation: structural (offline) + spot-check (live API) |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 11 `[P]` | ⬜ | parse*() extraction [D:5/B:9/U:8 → Eff:1.70] |
 | Task 12 `[P]` | ⬜ | WS method extraction [D:5/B:8/U:7 → Eff:1.50] |
 | Task 13 | ⬜ | Class hierarchy and overrides [D:6/B:8/U:8 → Eff:1.33] |
 
@@ -44,6 +43,7 @@ mix ccxt_extract.validate_markets --spot-check # + live spot-check against excha
 mix ccxt_extract.family_analysis               # Analyze exchange families
 mix ccxt_extract.sign_methods                  # Extract sign() method AST
 mix ccxt_extract.handle_errors                 # Extract handleErrors() method AST
+mix ccxt_extract.parse_methods                 # Extract parse*() method ASTs
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -116,7 +116,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 10: handleErrors() extraction**~~ [D:4/B:8/U:8 → Eff:2.00] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 11: parse*() method extraction** [D:5/B:9/U:8 → Eff:1.70] `[P]` — Extract all `parse*` method bodies as raw ESTree AST (parseTicker, parseOrder, parseTrade, parseBalance, etc.). These contain field-by-field mappings from exchange-specific format to CCXT's unified format. Output the full AST per method.
+- [x] ~~**Task 11: parse*() method extraction**~~ [D:5/B:9/U:8 → Eff:1.70] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 12: WS method extraction** [D:5/B:8/U:7 → Eff:1.50] `[P]` — Extract all `watch*` and `handle*` methods from `pro/*.ts` as raw ESTree AST. These define WebSocket subscription and message handling. Output full method ASTs — channel names, message formats, and subscription logic are all embedded in the code and should be preserved structurally.
 

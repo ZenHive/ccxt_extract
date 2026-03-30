@@ -1,0 +1,452 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "exchange_v1.json",
+  "title": "CCXT Exchange Extraction Output",
+  "description": "Per-exchange extraction output from ccxt_extract. Contains everything CCXT knows about a single exchange, organized into two layers: runtime values (QuickBEAM) and structural AST (OXC).",
+  "type": "object",
+  "required": ["schema_version", "extracted_at", "ccxt_version", "exchange", "runtime", "structure"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "description": "Schema version. Consumers should check this before parsing."
+    },
+    "extracted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of extraction."
+    },
+    "ccxt_version": {
+      "type": "string",
+      "description": "CCXT npm package version used for extraction."
+    },
+    "exchange": {
+      "$ref": "#/$defs/ExchangeMeta"
+    },
+    "runtime": {
+      "$ref": "#/$defs/RuntimeData"
+    },
+    "structure": {
+      "$ref": "#/$defs/StructureData"
+    }
+  },
+
+  "$defs": {
+    "ExchangeMeta": {
+      "type": "object",
+      "description": "Exchange identity and metadata from CCXT runtime.",
+      "required": ["id", "name", "alias"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "CCXT exchange identifier (e.g., 'binance', 'kraken')."
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable exchange name."
+        },
+        "certified": {
+          "type": "boolean",
+          "description": "Whether the exchange is CCXT-certified."
+        },
+        "pro": {
+          "type": "boolean",
+          "description": "Whether the exchange has WebSocket (pro) support."
+        },
+        "version": {
+          "type": ["string", "null"],
+          "description": "Exchange API version string."
+        },
+        "country": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "ISO country codes where the exchange is based."
+        },
+        "alias": {
+          "type": "boolean",
+          "description": "True if this is a re-brand alias (e.g., huobi -> htx)."
+        },
+        "referral": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/Referral" }
+          ],
+          "description": "Referral URL and discount, if any."
+        }
+      }
+    },
+
+    "Referral": {
+      "type": "object",
+      "required": ["url"],
+      "additionalProperties": false,
+      "properties": {
+        "url": { "type": "string" },
+        "discount": { "type": ["number", "null"] }
+      }
+    },
+
+    "RuntimeData": {
+      "type": "object",
+      "description": "Runtime values extracted via QuickBEAM JavaScript execution. Layer 1: what an exchange IS (configuration, capabilities, markets).",
+      "required": ["describe", "markets"],
+      "additionalProperties": false,
+      "properties": {
+        "describe": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "object", "additionalProperties": true }
+          ],
+          "description": "Complete describe() output from CCXT runtime. Contains all configuration: api endpoints, has capabilities, fees, limits, urls, exceptions, features, timeframes, requiredCredentials, etc. May contain sentinel strings: '__undefined' (JS undefined), '__function:<name>' (JS function references). Null for alias exchanges."
+        },
+        "markets": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/MarketsData" }
+          ],
+          "description": "Result of loadMarkets() call. Null if not extracted or for alias exchanges."
+        }
+      }
+    },
+
+    "MarketsData": {
+      "type": "object",
+      "required": ["market_count", "markets"],
+      "additionalProperties": false,
+      "properties": {
+        "market_count": {
+          "type": "integer",
+          "description": "Number of markets returned by loadMarkets()."
+        },
+        "markets": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Map of symbol -> market object. Keys are CCXT unified symbols (e.g., 'BTC/USDT', 'ETH/USDT:USDT')."
+        }
+      }
+    },
+
+    "StructureData": {
+      "type": "object",
+      "description": "Structural data extracted via OXC TypeScript AST parsing. Layer 2: what an exchange DOES (code structure, method bodies).",
+      "required": ["class_info", "methods", "sign_method", "handle_errors", "parse_methods", "ws_methods", "overrides"],
+      "additionalProperties": false,
+      "properties": {
+        "class_info": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/ClassInfo" }
+          ],
+          "description": "Class hierarchy information. Null for alias exchanges without class entries."
+        },
+        "methods": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/MethodInventory" }
+          ],
+          "description": "Method signature inventory (no AST bodies). Null for alias exchanges."
+        },
+        "sign_method": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/MethodAST" }
+          ],
+          "description": "The sign() method AST for request authentication. Null if the exchange has no sign() method or is an alias."
+        },
+        "handle_errors": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/HandleErrorsData" }
+          ],
+          "description": "The handleErrors() method AST plus exception mappings. Null if the exchange has no handleErrors() or is an alias."
+        },
+        "parse_methods": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": { "$ref": "#/$defs/MethodAST" }
+            }
+          ],
+          "description": "Map of parse method name -> MethodAST (e.g., 'parseTicker', 'parseOrder'). Null for alias exchanges or exchanges with no parse methods."
+        },
+        "ws_methods": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": { "$ref": "#/$defs/MethodAST" }
+            }
+          ],
+          "description": "Map of WS method name -> MethodAST (watch* and handle* methods). Null for non-pro exchanges or aliases."
+        },
+        "overrides": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/OverridesData" }
+          ],
+          "description": "Method override analysis for derived exchanges. Null for root exchanges (those extending Exchange directly)."
+        }
+      }
+    },
+
+    "ClassInfo": {
+      "type": "object",
+      "required": ["rest"],
+      "additionalProperties": false,
+      "properties": {
+        "rest": {
+          "$ref": "#/$defs/ClassEntry",
+          "description": "REST class information."
+        },
+        "ws": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/ClassEntry" }
+          ],
+          "description": "WS class information. Null if no WebSocket implementation."
+        }
+      }
+    },
+
+    "ClassEntry": {
+      "type": "object",
+      "required": ["node_key", "class_name", "extends", "parent_key", "file", "method_count"],
+      "additionalProperties": false,
+      "properties": {
+        "node_key": {
+          "type": "string",
+          "description": "Unique identity: 'rest:<id>' or 'ws:<id>'."
+        },
+        "class_name": {
+          "type": "string",
+          "description": "TypeScript class name."
+        },
+        "extends": {
+          "type": "string",
+          "description": "Resolved parent class name."
+        },
+        "parent_key": {
+          "type": "string",
+          "description": "Parent node_key (e.g., 'Exchange', 'rest:binance')."
+        },
+        "file": {
+          "type": "string",
+          "description": "Source filename (e.g., 'binance.ts')."
+        },
+        "method_count": {
+          "type": "integer",
+          "description": "Number of methods defined in this class."
+        },
+        "methods": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of method names defined in this class."
+        },
+        "method_details": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/MethodDetail" },
+          "description": "Per-method metadata (name, async, param count, statement count)."
+        }
+      }
+    },
+
+    "MethodDetail": {
+      "type": "object",
+      "required": ["name", "async", "params", "statements"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "async": { "type": "boolean" },
+        "params": { "type": "integer", "description": "Parameter count." },
+        "statements": { "type": "integer", "description": "Statement count in method body." }
+      }
+    },
+
+    "MethodInventory": {
+      "type": "object",
+      "required": ["rest"],
+      "additionalProperties": false,
+      "properties": {
+        "rest": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/MethodSignature" },
+          "description": "REST method signatures."
+        },
+        "ws": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/$defs/MethodSignature" }
+            }
+          ],
+          "description": "WS method signatures. Null if no WebSocket implementation."
+        }
+      }
+    },
+
+    "MethodSignature": {
+      "type": "object",
+      "description": "Method signature without AST body.",
+      "required": ["name", "async", "params", "return_type", "statements"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "async": { "type": "boolean" },
+        "params": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/MethodParam" }
+        },
+        "return_type": {
+          "type": ["string", "null"],
+          "description": "TypeScript return type annotation, if present."
+        },
+        "statements": {
+          "type": "integer",
+          "description": "Statement count in method body."
+        }
+      }
+    },
+
+    "MethodParam": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Parameter name."
+        },
+        "type": {
+          "type": ["string", "null"],
+          "description": "TypeScript type annotation, if present."
+        }
+      }
+    },
+
+    "MethodAST": {
+      "type": "object",
+      "description": "Complete method with full ESTree AST body. Used for sign(), handleErrors(), parse*(), watch*(), handle*(), and override methods.",
+      "required": ["async", "params", "return_type", "statements", "body"],
+      "additionalProperties": false,
+      "properties": {
+        "async": { "type": "boolean" },
+        "params": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/MethodParam" }
+        },
+        "return_type": {
+          "type": ["string", "null"]
+        },
+        "statements": {
+          "type": "integer"
+        },
+        "body": {
+          "$ref": "#/$defs/ASTNode",
+          "description": "Complete ESTree BlockStatement AST. Preserves all node types, position info (start/end byte offsets), and nested structure."
+        }
+      }
+    },
+
+    "ASTNode": {
+      "type": "object",
+      "description": "ESTree AST node. Shape varies by node type. Always has 'type' field. Position info via 'start'/'end' byte offsets. Permissive schema — ESTree nodes are too varied to enumerate exhaustively.",
+      "required": ["type"],
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "ESTree node type (e.g., 'BlockStatement', 'VariableDeclaration', 'CallExpression')."
+        },
+        "start": {
+          "type": "integer",
+          "description": "Start byte offset in source file."
+        },
+        "end": {
+          "type": "integer",
+          "description": "End byte offset in source file."
+        }
+      }
+    },
+
+    "HandleErrorsData": {
+      "type": "object",
+      "description": "handleErrors() method AST plus exception mappings from describe().",
+      "required": ["method", "exceptions", "http_exceptions"],
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "$ref": "#/$defs/MethodAST",
+          "description": "The handleErrors() method AST."
+        },
+        "exceptions": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "broad": {
+                  "type": "object",
+                  "additionalProperties": { "type": "string" },
+                  "description": "Pattern -> error class name mapping."
+                },
+                "exact": {
+                  "type": "object",
+                  "additionalProperties": { "type": "string" },
+                  "description": "Exact string -> error class name mapping."
+                }
+              }
+            }
+          ],
+          "description": "Exception mappings from describe().exceptions. Null if not available."
+        },
+        "http_exceptions": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": { "type": "string" },
+              "description": "HTTP status code -> error class name mapping."
+            }
+          ],
+          "description": "HTTP exception mappings from describe().httpExceptions. Null if not available."
+        }
+      }
+    },
+
+    "OverridesData": {
+      "type": "object",
+      "description": "Method override analysis for exchanges that extend another exchange (not Exchange base).",
+      "required": ["extends", "parent_key", "overridden", "new_methods", "inherited"],
+      "additionalProperties": false,
+      "properties": {
+        "extends": {
+          "type": "string",
+          "description": "Parent exchange id (e.g., 'binance' for binanceus)."
+        },
+        "parent_key": {
+          "type": "string",
+          "description": "Parent node_key (e.g., 'rest:binance')."
+        },
+        "overridden": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/MethodAST" },
+          "description": "Map of overridden method name -> MethodAST. These methods exist on the parent and are redefined in this class."
+        },
+        "new_methods": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/MethodAST" },
+          "description": "Map of new method name -> MethodAST. These methods don't exist on the parent."
+        },
+        "inherited": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of method names inherited from the parent (names only, no AST)."
+        }
+      }
+    }
+  }
+}

@@ -8,19 +8,18 @@
 
 ## 🎯 Current Focus
 
-**Phase 4: Output Format & Validation** — Coverage report complete. Three tasks remaining to design schema, build pipeline, and validate.
+**Phase 4: Output Format & Validation** — Schema designed. Two tasks remaining to build pipeline and validate.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
-| Task 17 | Coverage report | 95.7% avg coverage; all 10 layers tracked per exchange; WS layers data-driven (not purely pro-gated); count-based ws_methods checking |
+| Task 14 | Output schema design | Formal JSON Schema (exchange_v1.json); two-layer model (runtime + structure); two-state optionality (present or null); structural validator (full schema enforcement in Task 16) |
+| Task 17 | Coverage report | 86.7% avg coverage; all 10 layers tracked per exchange; derived exchanges correctly show inherited gaps |
 | Task 13 | Class hierarchy and overrides | 90 derived exchanges, 100 overrides, 2352 new methods; describe is universal override |
-| Task 12 | WS method AST extraction | 79 WS exchanges, 69 with methods, 1574 total (watch* + handle*) |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 14 | ⬜ | Design output schema [D:5/B:9/U:9 → Eff:1.80] |
 | Task 15 | ⬜ | Full extraction pipeline [D:5/B:9/U:9 → Eff:1.80] |
 | Task 16 | ⬜ | Validation [D:4/B:8/U:8 → Eff:2.00] |
 
@@ -135,7 +134,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 ### Tasks
 
-- [ ] **Task 14: Design output schema** [D:5/B:9/U:9 → Eff:1.80] — Based on everything discovered in Phases 1-3, design a JSON schema for the per-exchange output. The schema should reflect CCXT's actual structure, not any consumer's needs. Use JSON-native types only (strings, numbers, booleans, arrays, objects, null). Include a formal JSON Schema spec so any language can validate. The output has two layers: (1) resolved runtime data from QuickBEAM (describe, markets — values), and (2) raw ESTree AST from OXC (method bodies — code as data). Both are JSON. Consumers choose per-method whether to interpret the AST as patterns or transpile it.
+- [x] ~~**Task 14: Design output schema**~~ [D:5/B:9/U:9 → Eff:1.80] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 15: Full extraction pipeline** [D:5/B:9/U:9 → Eff:1.80] — Build the pipeline that runs QuickBEAM + OXC extraction for all exchanges and writes per-exchange JSON files. Should be runnable via a single mix task. Deterministic: same input = same output.
 

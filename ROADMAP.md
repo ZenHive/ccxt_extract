@@ -8,19 +8,19 @@
 
 ## 🎯 Current Focus
 
-**Phase 4: Output Format & Validation** — Schema designed. Two tasks remaining to build pipeline and validate.
+**Phase 4: Output Format & Validation** — Pipeline built. One task remaining for validation.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
-| Task 14 | Output schema design | Formal JSON Schema (exchange_v1.json); two-layer model (runtime + structure); two-state optionality (present or null); structural validator (full schema enforcement in Task 16) |
+| Task 15 | Full extraction pipeline | `mix ccxt_extract.pipeline` assembles all discovery data into per-exchange validated JSON; 110 exchanges, 0 validation errors |
+| Task 14 | Output schema design | Formal JSON Schema (exchange_v1.json); two-layer model (runtime + structure); three-state optionality; unified MethodAST shape |
 | Task 17 | Coverage report | 86.7% avg coverage; all 10 layers tracked per exchange; derived exchanges correctly show inherited gaps |
-| Task 13 | Class hierarchy and overrides | 90 derived exchanges, 100 overrides, 2352 new methods; describe is universal override |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 15 | ⬜ | Full extraction pipeline [D:5/B:9/U:9 → Eff:1.80] |
+| Task 15 | ✅ | Full extraction pipeline — complete |
 | Task 16 | ⬜ | Validation [D:4/B:8/U:8 → Eff:2.00] |
 
 ### Quick Commands
@@ -47,6 +47,7 @@ mix ccxt_extract.parse_methods                 # Extract parse*() method ASTs
 mix ccxt_extract.ws_methods                    # Extract watch*/handle* WS method ASTs
 mix ccxt_extract.overrides                     # Extract method overrides for derived exchanges
 mix ccxt_extract.coverage                      # Generate extraction coverage report
+mix ccxt_extract.pipeline                      # Assemble per-exchange JSON output
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -136,7 +137,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 14: Design output schema**~~ [D:5/B:9/U:9 → Eff:1.80] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 15: Full extraction pipeline** [D:5/B:9/U:9 → Eff:1.80] — Build the pipeline that runs QuickBEAM + OXC extraction for all exchanges and writes per-exchange JSON files. Should be runnable via a single mix task. Deterministic: same input = same output.
+- [x] ~~**Task 15: Full extraction pipeline**~~ [D:5/B:9/U:9 → Eff:1.80] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 16: Validation** [D:4/B:8/U:8 → Eff:2.00] — Round-trip validate: load each JSON file, compare key sections against QuickBEAM runtime output. Ensure nothing was lost or transformed incorrectly. Report any discrepancies.
 

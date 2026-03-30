@@ -126,3 +126,8 @@ Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/cove
 
 
 Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/coverage_report.ex:423,5E524B8
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:85,13C119E
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:90,41E2C17
+Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/pipeline.ex:413,66FD1F2
+Traversal.FileModule: Directory Traversal in `File.rm!`,lib/ccxt_extract/pipeline.ex:446,6AB708C
+Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/pipeline.ex:79,F6E426

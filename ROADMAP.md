@@ -8,19 +8,18 @@
 
 ## 🎯 Current Focus
 
-**Phase 3: Structural Extraction** — First task complete. Three remaining independent `[P]` tasks, plus one dependent task.
+**Phase 3: Structural Extraction** — Two tasks complete. Two remaining independent `[P]` tasks, plus one dependent task.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 10 | handleErrors() AST extraction | First extractor combining OXC AST with QuickBEAM describe() exceptions |
 | Task 9 | sign() method AST extraction | 110 exchanges scanned, 99 with sign(); full ESTree body preserved as raw JSON |
 | Task 8c | Market data validation | Two-layer validation: structural (offline) + spot-check (live API) |
-| Task 22 | Split integration tests into cached/extraction tiers | Cached tests read tracked fixtures; write!/1 serializer tests in fast tier |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 10 `[P]` | ⬜ | handleErrors() extraction [D:4/B:8/U:8 → Eff:2.00] |
 | Task 11 `[P]` | ⬜ | parse*() extraction [D:5/B:9/U:8 → Eff:1.70] |
 | Task 12 `[P]` | ⬜ | WS method extraction [D:5/B:8/U:7 → Eff:1.50] |
 | Task 13 | ⬜ | Class hierarchy and overrides [D:6/B:8/U:8 → Eff:1.33] |
@@ -44,6 +43,7 @@ mix ccxt_extract.validate_markets              # Validate cached market data (st
 mix ccxt_extract.validate_markets --spot-check # + live spot-check against exchange APIs
 mix ccxt_extract.family_analysis               # Analyze exchange families
 mix ccxt_extract.sign_methods                  # Extract sign() method AST
+mix ccxt_extract.handle_errors                 # Extract handleErrors() method AST
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -114,7 +114,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 9: sign() method extraction**~~ [D:4/B:9/U:9 → Eff:2.25] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 10: handleErrors() extraction** [D:4/B:8/U:8 → Eff:2.00] `[P]` — Extract `handleErrors()` body as raw ESTree AST for every exchange. How does each exchange map HTTP responses to error types? Output the full method AST alongside the exceptions from describe(). Don't reduce to a lookup table — the AST captures conditional logic, fallthrough, and edge cases that a table would lose.
+- [x] ~~**Task 10: handleErrors() extraction**~~ [D:4/B:8/U:8 → Eff:2.00] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 11: parse*() method extraction** [D:5/B:9/U:8 → Eff:1.70] `[P]` — Extract all `parse*` method bodies as raw ESTree AST (parseTicker, parseOrder, parseTrade, parseBalance, etc.). These contain field-by-field mappings from exchange-specific format to CCXT's unified format. Output the full AST per method.
 
@@ -137,6 +137,12 @@ mix test.json --quiet --only extraction    # Only extraction tests
 - [ ] **Task 16: Validation** [D:4/B:8/U:8 → Eff:2.00] — Round-trip validate: load each JSON file, compare key sections against QuickBEAM runtime output. Ensure nothing was lost or transformed incorrectly. Report any discrepancies.
 
 - [ ] **Task 17: Coverage report** [D:3/B:7/U:8 → Eff:2.50] — For each exchange, report what was extracted and what wasn't. Are there describe() keys we missed? Methods we didn't catalog? Any exchange that failed extraction? The goal is 100% coverage of what CCXT knows.
+
+---
+
+## Data Quality
+
+- [ ] **Task 23: Resolve __function: and __undefined sentinels in describe data** [D:5/B:7/U:7 → Eff:1.40] — Re-extract describe() exceptions using the unminified CCXT bundle or by mapping minified names back to CCXT error class names. Currently most exchanges have unresolved `__function:` refs in httpExceptions, and several have `__undefined` for exceptions. Affects Task 10 output quality. HandleErrors normalizes `__undefined` to nil at its boundary, but the root cause is in the describe extraction (Task 6).
 
 ---
 

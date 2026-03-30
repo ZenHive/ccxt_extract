@@ -6,6 +6,17 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 10: handleErrors() Method AST Extraction
+- `CcxtExtract.HandleErrors` — extracts the `handleErrors()` method body as raw ESTree AST for every REST exchange via OXC
+- `mix ccxt_extract.handle_errors` — CLI task producing `priv/discoveries/handle_errors.json`
+- Scans all REST exchanges — those without handleErrors() included with `"handle_errors": null`
+- **First extractor combining both data sources**: merges OXC AST (method body) with QuickBEAM data (describe exceptions)
+- Per-exchange output includes `exceptions` (exact/broad error string → error class) and `http_exceptions` (HTTP status → error class) from describe() JSON
+- Exchanges without describe files (aliases not extracted in Task 6) get `null` for exception fields
+- Non-map sentinel values (`__undefined` from QuickBEAM) normalized to `null` at extraction boundary
+- Reuses `Methods.extract_params/1` and `Methods.extract_return_type/1` — same shared helpers as Task 9
+- Key finding: all handleErrors() methods are synchronous; typical signature has 9 parameters (code, reason, url, method, headers, body, response, requestHeaders, requestBody)
+
 ### Task 9: sign() Method AST Extraction
 - `CcxtExtract.SignMethod` — extracts the `sign()` method body as raw ESTree AST for every REST exchange via OXC
 - `mix ccxt_extract.sign_methods` — CLI task producing `priv/discoveries/sign_methods.json`

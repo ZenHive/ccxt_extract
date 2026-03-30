@@ -6,6 +6,18 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 8c: Market Data Validation
+- `CcxtExtract.MarketValidation` — two-layer validation of extracted loadMarkets() data
+- **Layer 1 (structural)**: offline validation of cached JSON — required field presence, boolean/map type checks, type↔flag consistency, undefined density reporting
+- **Layer 2 (spot-check)**: re-extracts a sample of exchanges via `LoadMarkets.extract/1`, compares market counts and symbol sets against cached data
+- Findings use severity levels: **error** (extraction bug), **warning** (CCXT data quirk), **info** (density stats)
+- `mix ccxt_extract.validate_markets` — CLI task with `--spot-check` and `--exchanges` options
+- Output: `priv/discoveries/market_validation.json` with per-exchange reports and summary
+- Full extraction run: 100 exchanges succeeded (7 failed — auth/geo-blocked), 89k+ markets validated, zero structural errors
+- Updated `test/fixtures/discoveries/load_markets/` with full extraction data (was dydx-only)
+- Fixed pre-existing `load_markets_cached_test.exs` to handle exchanges with zero markets (coincatch)
+- Key decision: type↔flag mismatches are warnings not errors — CCXT has known inconsistencies on delisted markets
+
 ### Task 22: Split Integration Tests into Cached/Extraction Tiers
 - Two-tier test architecture: **cached tests** (read tracked fixtures, run by default) and **extraction tests** (boot QuickBEAM/OXC, tagged `:extraction`, excluded by default)
 - `ExUnit.configure(exclude: [:extraction])` in `test_helper.exs` — default `mix test.json` completes in ~0.4s instead of minutes

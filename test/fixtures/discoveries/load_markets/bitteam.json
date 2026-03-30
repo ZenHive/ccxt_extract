@@ -1,0 +1,4066 @@
+{
+  "extracted_at": "2026-03-29T23:19:16.542242Z",
+  "id": "bitteam",
+  "market_count": 41,
+  "markets": {
+    "BTC/RUB": {
+      "spot": true,
+      "numericId": 56,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "rub",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "11",
+        "baseStep": "8",
+        "change24": "0.95",
+        "description": "BTC RUB pair",
+        "fullName": "BTC RUB",
+        "highPrice24": "5734653.987624",
+        "id": "56",
+        "lastBuy": "5734653.987624",
+        "lastPrice": "5734653.987624",
+        "lastSell": "5663045.405052",
+        "lowPrice24": "5663045.405052",
+        "makerFee": "200",
+        "name": "btc_rub",
+        "quoteAssetId": "39",
+        "quoteStep": "6",
+        "quoteVolume24": "10607.386437543184",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "100000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2024-12-27T09:53:48.348Z",
+        "updateId": "281",
+        "volume24": "0.00185963",
+        "volume24USD": "108.81394308509911"
+      },
+      "created": 1735293228348,
+      "option": false,
+      "future": false,
+      "symbol": "BTC/RUB",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "btc",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "RUB",
+      "expiryDatetime": "__undefined",
+      "base": "BTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "btc_rub",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ETH/USDT": {
+      "spot": true,
+      "numericId": 2,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "2",
+        "baseStep": "8",
+        "change24": "0.2",
+        "description": "ETH   USDT",
+        "fullName": "ETH USDT",
+        "highPrice24": "2015.170907",
+        "id": "2",
+        "lastBuy": "2224.731764",
+        "lastPrice": "1989.769591",
+        "lastSell": "1989.769591",
+        "lowPrice24": "1989.769591",
+        "makerFee": "200",
+        "name": "eth_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "67.9815834941786",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2021-01-28T09:19:30.706Z",
+        "updateId": "369",
+        "volume24": "0.03393669",
+        "volume24USD": "67.38857015255334"
+      },
+      "created": 1611825570706,
+      "option": false,
+      "future": false,
+      "symbol": "ETH/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "eth",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "eth_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ETH/DEL": {
+      "spot": true,
+      "numericId": 6,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "del",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "2",
+        "baseStep": "8",
+        "change24": "-17.69",
+        "description": "ETH DEL pair",
+        "fullName": "ETH/DEL",
+        "highPrice24": null,
+        "id": "6",
+        "lastBuy": "60086.532103",
+        "lastPrice": "60086.532103",
+        "lastSell": "60086.532103",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "eth_del",
+        "quoteAssetId": "9",
+        "quoteStep": "8",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000000",
+          "price_min": "100",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "200",
+        "timeStart": "2021-02-01T06:10:48.846Z",
+        "updateId": "1",
+        "volume24": "0",
+        "volume24USD": null
+      },
+      "created": 1612159848846,
+      "option": false,
+      "future": false,
+      "symbol": "ETH/DEL",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "eth",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "DEL",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "eth_del",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "PZM/DEL": {
+      "spot": true,
+      "numericId": 26,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "del",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "14",
+        "baseStep": "2",
+        "change24": "0",
+        "description": "This is Prizm DEL",
+        "fullName": "Prizm DEL",
+        "highPrice24": null,
+        "id": "26",
+        "lastBuy": "0.0355",
+        "lastPrice": "0.0355",
+        "lastSell": "0.0355",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "pzm_del",
+        "quoteAssetId": "9",
+        "quoteStep": "8",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "100000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "200",
+        "timeStart": "2021-10-13T12:09:26.621Z",
+        "updateId": "0",
+        "volume24": "0",
+        "volume24USD": null
+      },
+      "created": 1634126966621,
+      "option": false,
+      "future": false,
+      "symbol": "PZM/DEL",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 1.0e-8
+      },
+      "baseId": "pzm",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "DEL",
+      "expiryDatetime": "__undefined",
+      "base": "PZM",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "pzm_del",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BUSD/USDT": {
+      "spot": true,
+      "numericId": 39,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "24",
+        "baseStep": "8",
+        "change24": "-0.07",
+        "description": "BUSD USDT PAIR",
+        "fullName": "BUSD USDT",
+        "highPrice24": null,
+        "id": "39",
+        "lastBuy": "0.999246",
+        "lastPrice": "0.999246",
+        "lastSell": "0.999101",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "busd_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2022-09-15T07:27:13.841Z",
+        "updateId": "2",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1663226833841,
+      "option": false,
+      "future": false,
+      "symbol": "BUSD/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "busd",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "BUSD",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "busd_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "TRX/USDT": {
+      "spot": true,
+      "numericId": 28,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "15",
+        "baseStep": "6",
+        "change24": "0.28",
+        "description": "TRX vs USDT",
+        "fullName": "TRX USDT",
+        "highPrice24": "0.318895",
+        "id": "28",
+        "lastBuy": "0.318895",
+        "lastPrice": "0.3127",
+        "lastSell": "0.3127",
+        "lowPrice24": "0.311815",
+        "makerFee": "200",
+        "name": "trx_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "96.828014757795",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "10000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2021-12-01T03:49:55.501Z",
+        "updateId": "275",
+        "volume24": "307.461342",
+        "volume24USD": "95.87105835573"
+      },
+      "created": 1638330595501,
+      "option": false,
+      "future": false,
+      "symbol": "TRX/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-6,
+        "price": 1.0e-6
+      },
+      "baseId": "trx",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "TRX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "trx_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "TON/USDT": {
+      "spot": true,
+      "numericId": 48,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "31",
+        "baseStep": "8",
+        "change24": "-99.99",
+        "description": "TON USDT pair",
+        "fullName": "TON USDT",
+        "highPrice24": null,
+        "id": "48",
+        "lastBuy": "7.02576",
+        "lastPrice": "7.02576",
+        "lastSell": "7.02576",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "ton_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2024-01-17T12:57:58.671Z",
+        "updateId": "2230",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1705496278671,
+      "option": false,
+      "future": false,
+      "symbol": "TON/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "ton",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "TON",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "ton_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "FLOKI/USDT": {
+      "spot": true,
+      "numericId": 43,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "32",
+        "baseStep": "8",
+        "change24": "0",
+        "description": "FLOKI USDT PAIR",
+        "fullName": "FLOKI USDT",
+        "highPrice24": null,
+        "id": "43",
+        "lastBuy": "0",
+        "lastPrice": "0",
+        "lastSell": "0",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "floki_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "8",
+        "quoteVolume24": null,
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "8",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "8",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2023-03-16T17:19:27.124Z",
+        "updateId": null,
+        "volume24": null,
+        "volume24USD": null
+      },
+      "created": 1678987167124,
+      "option": false,
+      "future": false,
+      "symbol": "FLOKI/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "floki",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "FLOKI",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "floki_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "TON/RUB": {
+      "spot": true,
+      "numericId": 55,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "rub",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "31",
+        "baseStep": "8",
+        "change24": "2.49",
+        "description": "Ton Rub pair",
+        "fullName": "TON RUB",
+        "highPrice24": "106.560942",
+        "id": "55",
+        "lastBuy": "106.560942",
+        "lastPrice": "106.560942",
+        "lastSell": "103.972414",
+        "lowPrice24": "105.590244",
+        "makerFee": "200",
+        "name": "ton_rub",
+        "quoteAssetId": "39",
+        "quoteStep": "6",
+        "quoteVolume24": "7001.519255689855",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2024-06-18T15:32:53.015Z",
+        "updateId": "146",
+        "volume24": "66.00509108",
+        "volume24USD": "70.68589915553791"
+      },
+      "created": 1718724773015,
+      "option": false,
+      "future": false,
+      "symbol": "TON/RUB",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "ton",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "RUB",
+      "expiryDatetime": "__undefined",
+      "base": "TON",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "ton_rub",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "TRX/PZM": {
+      "spot": true,
+      "numericId": 30,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "pzm",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "15",
+        "baseStep": "6",
+        "change24": "0",
+        "description": "TRX vs PZM",
+        "fullName": "TRX PZM",
+        "highPrice24": null,
+        "id": "30",
+        "lastBuy": "0",
+        "lastPrice": "0",
+        "lastSell": "0",
+        "lowPrice24": null,
+        "makerFee": "5000",
+        "name": "trx_pzm",
+        "quoteAssetId": "14",
+        "quoteStep": "2",
+        "quoteVolume24": null,
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "100000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "100000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "5000",
+        "timeStart": "2021-12-01T04:31:17.101Z",
+        "updateId": "0",
+        "volume24": null,
+        "volume24USD": null
+      },
+      "created": 1638333077101,
+      "option": false,
+      "future": false,
+      "symbol": "TRX/PZM",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-6,
+        "price": 0.01
+      },
+      "baseId": "trx",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "PZM",
+      "expiryDatetime": "__undefined",
+      "base": "TRX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "trx_pzm",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BNB/DEL": {
+      "spot": true,
+      "numericId": 32,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "del",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "16",
+        "baseStep": "8",
+        "change24": "-94.92",
+        "description": "BNB vs DEL",
+        "fullName": "BNB DEL",
+        "highPrice24": null,
+        "id": "32",
+        "lastBuy": "5080",
+        "lastPrice": "5080",
+        "lastSell": "5080",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "bnb_del",
+        "quoteAssetId": "9",
+        "quoteStep": "8",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "100000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "200",
+        "timeStart": "2021-12-21T09:02:05.797Z",
+        "updateId": "1",
+        "volume24": "0",
+        "volume24USD": null
+      },
+      "created": 1640077325797,
+      "option": false,
+      "future": false,
+      "symbol": "BNB/DEL",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "bnb",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "DEL",
+      "expiryDatetime": "__undefined",
+      "base": "BNB",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "bnb_del",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BTC/BUSD": {
+      "spot": true,
+      "numericId": 40,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "busd",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "11",
+        "baseStep": "8",
+        "change24": "-3.22",
+        "description": "BTC BUSD PAIR",
+        "fullName": "BTC BUSD",
+        "highPrice24": null,
+        "id": "40",
+        "lastBuy": "40800",
+        "lastPrice": "40800",
+        "lastSell": "40826.21495",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "btc_busd",
+        "quoteAssetId": "24",
+        "quoteStep": "8",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000000",
+          "price_min": "100",
+          "price_tick": "100",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2022-09-15T07:29:04.054Z",
+        "updateId": "0",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1663226944054,
+      "option": false,
+      "future": false,
+      "symbol": "BTC/BUSD",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "btc",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BUSD",
+      "expiryDatetime": "__undefined",
+      "base": "BTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "btc_busd",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BTC/USDT": {
+      "spot": true,
+      "numericId": 22,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "11",
+        "baseStep": "8",
+        "change24": "-1.78",
+        "description": "BTC and USDT",
+        "fullName": "BTC USDT",
+        "highPrice24": "66554.642176",
+        "id": "22",
+        "lastBuy": "66554.642176",
+        "lastPrice": "65741.34716",
+        "lastSell": "65741.34716",
+        "lowPrice24": "65741.34716",
+        "makerFee": "200",
+        "name": "btc_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "108.06539829571369",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2021-03-01T13:04:52.512Z",
+        "updateId": "411",
+        "volume24": "0.00163357",
+        "volume24USD": "107.97519978756893"
+      },
+      "created": 1614603892512,
+      "option": false,
+      "future": false,
+      "symbol": "BTC/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "btc",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "BTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "btc_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "LTC/USDT": {
+      "spot": true,
+      "numericId": 27,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "13",
+        "baseStep": "8",
+        "change24": "-6.72",
+        "description": "This is LTC USDT",
+        "fullName": "LTC USDT",
+        "highPrice24": null,
+        "id": "27",
+        "lastBuy": "53.14",
+        "lastPrice": "53.58",
+        "lastSell": "53.58",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "ltc_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2021-10-13T12:11:05.359Z",
+        "updateId": "30",
+        "volume24": "0",
+        "volume24USD": null
+      },
+      "created": 1634127065359,
+      "option": false,
+      "future": false,
+      "symbol": "LTC/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "ltc",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "LTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "ltc_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BTT/USDT": {
+      "spot": true,
+      "numericId": 35,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "5",
+        "baseStep": "8",
+        "change24": "1.1",
+        "description": "BTT USDT PAIR",
+        "fullName": "BTT USDT",
+        "highPrice24": "0.000193",
+        "id": "35",
+        "lastBuy": "0.000183",
+        "lastPrice": "0.000183",
+        "lastSell": "0.000213",
+        "lowPrice24": "0.000174",
+        "makerFee": "200",
+        "name": "btt_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "4922.451632524615",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "1000000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2022-09-02T08:29:21.093Z",
+        "updateId": "3679",
+        "volume24": "26955026.95266403",
+        "volume24USD": "5552.735552248791"
+      },
+      "created": 1662107361093,
+      "option": false,
+      "future": false,
+      "symbol": "BTT/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "btt",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "BTT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "btt_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "DEL/BNB": {
+      "spot": true,
+      "numericId": 34,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "bnb",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "9",
+        "baseStep": "8",
+        "change24": "0",
+        "description": "DEL BNB pair",
+        "fullName": "DEL BNB",
+        "highPrice24": null,
+        "id": "34",
+        "lastBuy": "0.0000751",
+        "lastPrice": "0.0000751",
+        "lastSell": "0.0000751",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "del_bnb",
+        "quoteAssetId": "16",
+        "quoteStep": "8",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2022-05-20T09:30:03.667Z",
+        "updateId": "33",
+        "volume24": "0",
+        "volume24USD": null
+      },
+      "created": 1653039003667,
+      "option": false,
+      "future": false,
+      "symbol": "DEL/BNB",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "del",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BNB",
+      "expiryDatetime": "__undefined",
+      "base": "DEL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "del_bnb",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "RUB/DEL": {
+      "spot": true,
+      "numericId": 50,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "del",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "39",
+        "baseStep": "2",
+        "change24": null,
+        "description": "RUB DEL Pair",
+        "fullName": "RUB DEL",
+        "highPrice24": null,
+        "id": "50",
+        "lastBuy": "2.46",
+        "lastPrice": "2.46",
+        "lastSell": "2.46",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "rub_del",
+        "quoteAssetId": "9",
+        "quoteStep": "8",
+        "quoteVolume24": null,
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2024-03-19T14:15:17.454Z",
+        "updateId": "239",
+        "volume24": null,
+        "volume24USD": null
+      },
+      "created": 1710857717454,
+      "option": false,
+      "future": false,
+      "symbol": "RUB/DEL",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 1.0e-8
+      },
+      "baseId": "rub",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "DEL",
+      "expiryDatetime": "__undefined",
+      "base": "RUB",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "rub_del",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ETH/BTC": {
+      "spot": true,
+      "numericId": 13,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "btc",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "2",
+        "baseStep": "8",
+        "change24": "3.07",
+        "description": "ETH AND BTC",
+        "fullName": "ETH BTC",
+        "highPrice24": null,
+        "id": "13",
+        "lastBuy": "0.080611",
+        "lastPrice": "0.080611",
+        "lastSell": "0.080013",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "eth_btc",
+        "quoteAssetId": "11",
+        "quoteStep": "8",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000000",
+          "price_min": "100",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2021-02-01T10:09:32.836Z",
+        "updateId": "44",
+        "volume24": "0",
+        "volume24USD": null
+      },
+      "created": 1612174172836,
+      "option": false,
+      "future": false,
+      "symbol": "ETH/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "eth",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "eth_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "PZM/USDT": {
+      "spot": true,
+      "numericId": 25,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "14",
+        "baseStep": "2",
+        "change24": "0.98",
+        "description": "Prizm USDT",
+        "fullName": "Prizm USDT",
+        "highPrice24": null,
+        "id": "25",
+        "lastBuy": "0.001854",
+        "lastPrice": "0.001854",
+        "lastSell": "0.001804",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "pzm_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "100000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "200",
+        "timeStart": "2021-10-13T12:07:43.855Z",
+        "updateId": "18117",
+        "volume24": "0",
+        "volume24USD": null
+      },
+      "created": 1634126863855,
+      "option": false,
+      "future": false,
+      "symbol": "PZM/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 1.0e-6
+      },
+      "baseId": "pzm",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "PZM",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "pzm_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "DEL/BTC": {
+      "spot": true,
+      "numericId": 33,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "btc",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "9",
+        "baseStep": "8",
+        "change24": "50",
+        "description": "DEL BTC pair",
+        "fullName": "DEL BTC",
+        "highPrice24": null,
+        "id": "33",
+        "lastBuy": "0.0000015",
+        "lastPrice": "0.0000015",
+        "lastSell": "0.000001",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "del_btc",
+        "quoteAssetId": "11",
+        "quoteStep": "8",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2022-05-20T08:16:41.480Z",
+        "updateId": "55",
+        "volume24": "0",
+        "volume24USD": null
+      },
+      "created": 1653034601480,
+      "option": false,
+      "future": false,
+      "symbol": "DEL/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "del",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "DEL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "del_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BTC/DEL": {
+      "spot": true,
+      "numericId": 18,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "del",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "11",
+        "baseStep": "8",
+        "change24": "-10.68",
+        "description": "Bitcoin and Decimal",
+        "fullName": "BTC DEL",
+        "highPrice24": null,
+        "id": "18",
+        "lastBuy": "410000.0000001",
+        "lastPrice": "410000.0000001",
+        "lastSell": "410000.0000001",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "btc_del",
+        "quoteAssetId": "9",
+        "quoteStep": "8",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000000",
+          "price_min": "100",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "200",
+        "timeStart": "2021-02-01T10:50:54.440Z",
+        "updateId": "0",
+        "volume24": "0",
+        "volume24USD": null
+      },
+      "created": 1612176654440,
+      "option": false,
+      "future": false,
+      "symbol": "BTC/DEL",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "btc",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "DEL",
+      "expiryDatetime": "__undefined",
+      "base": "BTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "btc_del",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "TRX/RUB": {
+      "spot": true,
+      "numericId": 58,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "rub",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "15",
+        "baseStep": "6",
+        "change24": "4.55",
+        "description": "TRX RUB pair",
+        "fullName": "TRX RUB",
+        "highPrice24": "27.033385",
+        "id": "58",
+        "lastBuy": "27.033385",
+        "lastPrice": "27.033385",
+        "lastSell": "26.003069",
+        "lowPrice24": "26.812603",
+        "makerFee": "200",
+        "name": "trx_rub",
+        "quoteAssetId": "39",
+        "quoteStep": "6",
+        "quoteVolume24": "6429.85033913111",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "10000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2024-12-27T09:56:13.768Z",
+        "updateId": "2031",
+        "volume24": "238.980564",
+        "volume24USD": "65.2746107008223"
+      },
+      "created": 1735293373768,
+      "option": false,
+      "future": false,
+      "symbol": "TRX/RUB",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-6,
+        "price": 1.0e-6
+      },
+      "baseId": "trx",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "RUB",
+      "expiryDatetime": "__undefined",
+      "base": "TRX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "trx_rub",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "UFO/BTC": {
+      "spot": true,
+      "numericId": 38,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "btc",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "17",
+        "baseStep": "8",
+        "change24": "0",
+        "description": "UFO BTC PAIR",
+        "fullName": "UFO BTC",
+        "highPrice24": null,
+        "id": "38",
+        "lastBuy": "2e-8",
+        "lastPrice": "2e-8",
+        "lastSell": "1e-8",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "ufo_btc",
+        "quoteAssetId": "11",
+        "quoteStep": "8",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "200",
+        "timeStart": "2022-09-07T07:47:26.138Z",
+        "updateId": "90",
+        "volume24": "0",
+        "volume24USD": null
+      },
+      "created": 1662536846138,
+      "option": false,
+      "future": false,
+      "symbol": "UFO/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "ufo",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "UFO",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "ufo_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BNB/RUB": {
+      "spot": true,
+      "numericId": 59,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "rub",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "16",
+        "baseStep": "8",
+        "change24": "0.31",
+        "description": "BNB RUB Pair",
+        "fullName": "BNB RUB",
+        "highPrice24": "52217.683507",
+        "id": "59",
+        "lastBuy": "53953.003128",
+        "lastPrice": "52217.683507",
+        "lastSell": "52217.683507",
+        "lowPrice24": "52217.683507",
+        "makerFee": "200",
+        "name": "bnb_rub",
+        "quoteAssetId": "39",
+        "quoteStep": "6",
+        "quoteVolume24": "1857.5046695465612",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2024-12-27T09:57:34.784Z",
+        "updateId": "200",
+        "volume24": "0.03557233",
+        "volume24USD": "19.073670012444246"
+      },
+      "created": 1735293454784,
+      "option": false,
+      "future": false,
+      "symbol": "BNB/RUB",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "bnb",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "RUB",
+      "expiryDatetime": "__undefined",
+      "base": "BNB",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "bnb_rub",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "DEL/USDT": {
+      "spot": true,
+      "numericId": 24,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "9",
+        "baseStep": "8",
+        "change24": "-6.23",
+        "description": "DEL USDT pair",
+        "fullName": "DEL USDT",
+        "highPrice24": "0.0014",
+        "id": "24",
+        "lastBuy": "0.00131",
+        "lastPrice": "0.00131",
+        "lastSell": "0.001301",
+        "lowPrice24": "0.001281",
+        "makerFee": "200",
+        "name": "del_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "105955.44820472292",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2021-03-17T11:59:20.091Z",
+        "updateId": "18871",
+        "volume24": "77617859.32450254",
+        "volume24USD": "109441.1816475486"
+      },
+      "created": 1615982360091,
+      "option": false,
+      "future": false,
+      "symbol": "DEL/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "del",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "DEL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "del_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "HRPT/USDT": {
+      "spot": true,
+      "numericId": 47,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "38",
+        "baseStep": "8",
+        "change24": "-97.78",
+        "description": "HRPT USDT PAIR",
+        "fullName": "HRPT USDT",
+        "highPrice24": null,
+        "id": "47",
+        "lastBuy": "0.004506",
+        "lastPrice": "0.00001",
+        "lastSell": "0.00001",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "hrpt_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2024-01-16T13:06:14.554Z",
+        "updateId": "6",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1705410374554,
+      "option": false,
+      "future": false,
+      "symbol": "HRPT/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "hrpt",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "HRPT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "hrpt_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "DUSD/USDT": {
+      "spot": true,
+      "numericId": 54,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "36",
+        "baseStep": "8",
+        "change24": "0.04",
+        "description": "Bitteam trade DUSD",
+        "fullName": "DUSD USDT",
+        "highPrice24": null,
+        "id": "54",
+        "lastBuy": "1.0002",
+        "lastPrice": "1.0002",
+        "lastSell": "0.99976",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "dusd_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "20",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2024-03-23T05:58:03.203Z",
+        "updateId": "15730",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1711173483203,
+      "option": false,
+      "future": false,
+      "symbol": "DUSD/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "dusd",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "DUSD",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "dusd_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "UFO/USDT": {
+      "spot": true,
+      "numericId": 37,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "17",
+        "baseStep": "8",
+        "change24": "0",
+        "description": "UFO USDT PAIR",
+        "fullName": "UFO USDT",
+        "highPrice24": null,
+        "id": "37",
+        "lastBuy": "0.000398",
+        "lastPrice": "0.000004",
+        "lastSell": "0.000004",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "ufo_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "200",
+        "timeStart": "2022-09-07T06:57:46.901Z",
+        "updateId": "10",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1662533866901,
+      "option": false,
+      "future": false,
+      "symbol": "UFO/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "ufo",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "UFO",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "ufo_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "RUB/USDT": {
+      "spot": true,
+      "numericId": 49,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "39",
+        "baseStep": "2",
+        "change24": "9.57",
+        "description": "Ruble usdt pair",
+        "fullName": "RUB USDT",
+        "highPrice24": null,
+        "id": "49",
+        "lastBuy": "0.0103",
+        "lastPrice": "0.0103",
+        "lastSell": "0.0103",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "rub_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "100",
+          "price_tick": "100",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2024-03-19T14:08:18.829Z",
+        "updateId": "4107",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1710857298829,
+      "option": false,
+      "future": false,
+      "symbol": "RUB/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 1.0e-6
+      },
+      "baseId": "rub",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "RUB",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "rub_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "TRX/DEL": {
+      "spot": true,
+      "numericId": 29,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "del",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "15",
+        "baseStep": "6",
+        "change24": "0.1",
+        "description": "TRX vs DEL",
+        "fullName": "TRX DEL",
+        "highPrice24": null,
+        "id": "29",
+        "lastBuy": "1.101084",
+        "lastPrice": "1.101084",
+        "lastSell": "1.101084",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "trx_del",
+        "quoteAssetId": "9",
+        "quoteStep": "8",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "100000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "100000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "200",
+        "timeStart": "2021-12-01T04:29:51.350Z",
+        "updateId": "64",
+        "volume24": "0",
+        "volume24USD": null
+      },
+      "created": 1638332991350,
+      "option": false,
+      "future": false,
+      "symbol": "TRX/DEL",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-6,
+        "price": 1.0e-8
+      },
+      "baseId": "trx",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "DEL",
+      "expiryDatetime": "__undefined",
+      "base": "TRX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "trx_del",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "FARMS/USDT": {
+      "spot": true,
+      "numericId": 44,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "33",
+        "baseStep": "8",
+        "change24": "-99.94",
+        "description": "FARMS USDTpair",
+        "fullName": "FARMS USDT",
+        "highPrice24": null,
+        "id": "44",
+        "lastBuy": "0.04789",
+        "lastPrice": "0.00003",
+        "lastSell": "0.00003",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "farms_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "200",
+        "timeStart": "2023-08-15T09:41:19.823Z",
+        "updateId": "13",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1692092479823,
+      "option": false,
+      "future": false,
+      "symbol": "FARMS/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "farms",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "FARMS",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "farms_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "USDT/RUB": {
+      "spot": true,
+      "numericId": 53,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "rub",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "3",
+        "baseStep": "6",
+        "change24": "0.69",
+        "description": "USDT RUB Pair",
+        "fullName": "USDT RUB Pair",
+        "highPrice24": "87.298193",
+        "id": "53",
+        "lastBuy": "86.964888",
+        "lastPrice": "86.964888",
+        "lastSell": "83.95",
+        "lowPrice24": "83.95",
+        "makerFee": "200",
+        "name": "usdt_rub",
+        "quoteAssetId": "39",
+        "quoteStep": "6",
+        "quoteVolume24": "11619158.723277943",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "10000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2024-03-22T18:47:34.695Z",
+        "updateId": "5959",
+        "volume24": "135107.278188",
+        "volume24USD": "122320.07393352444"
+      },
+      "created": 1711133254695,
+      "option": false,
+      "future": false,
+      "symbol": "USDT/RUB",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-6,
+        "price": 1.0e-6
+      },
+      "baseId": "usdt",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "RUB",
+      "expiryDatetime": "__undefined",
+      "base": "USDT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "usdt_rub",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "OGZ/USDT": {
+      "spot": true,
+      "numericId": 46,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "37",
+        "baseStep": "8",
+        "change24": "-50",
+        "description": "OGZ USDT PAIR",
+        "fullName": "OGZ USDT PAIR",
+        "highPrice24": null,
+        "id": "46",
+        "lastBuy": "0.0004",
+        "lastPrice": "0.0002",
+        "lastSell": "0.0002",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "ogz_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2023-11-01T08:18:03.076Z",
+        "updateId": "13",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1698826683076,
+      "option": false,
+      "future": false,
+      "symbol": "OGZ/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "ogz",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "OGZ",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "ogz_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "USDT/USDT": {
+      "spot": true,
+      "numericId": 52,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "3",
+        "baseStep": "6",
+        "change24": "0",
+        "description": "USDT USDT pair",
+        "fullName": "USDT USDT",
+        "highPrice24": null,
+        "id": "52",
+        "lastBuy": "0",
+        "lastPrice": "0",
+        "lastSell": "0",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "usdt_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": null,
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "10000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2024-03-22T18:24:56.452Z",
+        "updateId": null,
+        "volume24": null,
+        "volume24USD": null
+      },
+      "created": 1711131896452,
+      "option": false,
+      "future": false,
+      "symbol": "USDT/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-6,
+        "price": 1.0e-6
+      },
+      "baseId": "usdt",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "USDT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "usdt_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "DEL/RUB": {
+      "spot": true,
+      "numericId": 51,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "rub",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "9",
+        "baseStep": "8",
+        "change24": "-6.84",
+        "description": "Del rub pair",
+        "fullName": "DEL RUB",
+        "highPrice24": "0.123156",
+        "id": "51",
+        "lastBuy": "0.113717",
+        "lastPrice": "0.113717",
+        "lastSell": "0.113716",
+        "lowPrice24": "0.113",
+        "makerFee": "200",
+        "name": "del_rub",
+        "quoteAssetId": "39",
+        "quoteStep": "6",
+        "quoteVolume24": "21079196.94006023",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000",
+          "price_min": "100",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2024-03-21T10:24:04.167Z",
+        "updateId": "16993",
+        "volume24": "178393997.20700848",
+        "volume24USD": "222604.38252843704"
+      },
+      "created": 1711016644167,
+      "option": false,
+      "future": false,
+      "symbol": "DEL/RUB",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "del",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "RUB",
+      "expiryDatetime": "__undefined",
+      "base": "DEL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "del_rub",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "LOCKER/USDT": {
+      "spot": true,
+      "numericId": 41,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "25",
+        "baseStep": "8",
+        "change24": "-6.6",
+        "description": "LOCKER vs USDT",
+        "fullName": "LOCKER USDT",
+        "highPrice24": null,
+        "id": "41",
+        "lastBuy": "0.003896",
+        "lastPrice": "0.003639",
+        "lastSell": "0.003639",
+        "lowPrice24": null,
+        "makerFee": "20",
+        "name": "locker_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "100000000",
+          "lot_size_tick": "100000",
+          "lot_size_view_min": "6",
+          "price_max": "100000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "20",
+        "timeStart": "2022-09-19T07:15:50.356Z",
+        "updateId": "158631",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1663571750356,
+      "option": false,
+      "future": false,
+      "symbol": "LOCKER/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "locker",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "LOCKER",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "locker_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "PMS/USDT": {
+      "spot": true,
+      "numericId": 45,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "35",
+        "baseStep": "8",
+        "change24": "81.29",
+        "description": "PMS USDT pair",
+        "fullName": "PMS USDT",
+        "highPrice24": null,
+        "id": "45",
+        "lastBuy": "0.018999",
+        "lastPrice": "0.018999",
+        "lastSell": "0.006012",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "pms_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "200",
+        "timeStart": "2023-09-13T10:11:49.075Z",
+        "updateId": "18",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1694599909075,
+      "option": false,
+      "future": false,
+      "symbol": "PMS/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "pms",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "PMS",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "pms_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BNB/USDT": {
+      "spot": true,
+      "numericId": 31,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "16",
+        "baseStep": "8",
+        "change24": "0",
+        "description": "BNB vs USDT",
+        "fullName": "BNB USDT",
+        "highPrice24": null,
+        "id": "31",
+        "lastBuy": "595.0712",
+        "lastPrice": "595.0712",
+        "lastSell": "599.071199",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "bnb_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2021-12-21T09:00:11.904Z",
+        "updateId": "47",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1640077211904,
+      "option": false,
+      "future": false,
+      "symbol": "BNB/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "bnb",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "BNB",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "bnb_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "REV3L/USDT": {
+      "spot": true,
+      "numericId": 42,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "usdt",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "26",
+        "baseStep": "8",
+        "change24": "19.53",
+        "description": "REVEAL vs USDT",
+        "fullName": "REVEAL USDT",
+        "highPrice24": null,
+        "id": "42",
+        "lastBuy": "0.0062",
+        "lastPrice": "0.0062",
+        "lastSell": "0.005187",
+        "lowPrice24": null,
+        "makerFee": "20",
+        "name": "rev3l_usdt",
+        "quoteAssetId": "3",
+        "quoteStep": "6",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1000000000",
+          "lot_size_tick": "100000",
+          "lot_size_view_min": "6",
+          "price_max": "100000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "2",
+        "takerFee": "20",
+        "timeStart": "2022-11-22T12:18:17.392Z",
+        "updateId": "66",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1669119497392,
+      "option": false,
+      "future": false,
+      "symbol": "REV3L/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "rev3l",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "REV3L",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "rev3l_usdt",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BTT/DEL": {
+      "spot": true,
+      "numericId": 36,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "del",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": false,
+        "baseAssetId": "5",
+        "baseStep": "8",
+        "change24": "8.33",
+        "description": "BTT DEL PAIR",
+        "fullName": "BTT DEL",
+        "highPrice24": null,
+        "id": "36",
+        "lastBuy": "0.03939",
+        "lastPrice": "0.03939",
+        "lastSell": "0.03535",
+        "lowPrice24": null,
+        "makerFee": "200",
+        "name": "btt_del",
+        "quoteAssetId": "9",
+        "quoteStep": "8",
+        "quoteVolume24": "0",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "1000000000000000",
+          "price_min": "100",
+          "price_tick": "100",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "0",
+        "takerFee": "200",
+        "timeStart": "2022-09-02T08:32:21.245Z",
+        "updateId": "412",
+        "volume24": "0",
+        "volume24USD": "0"
+      },
+      "created": 1662107541245,
+      "option": false,
+      "future": false,
+      "symbol": "BTT/DEL",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "btt",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "DEL",
+      "expiryDatetime": "__undefined",
+      "base": "BTT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "btt_del",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ETH/RUB": {
+      "spot": true,
+      "numericId": 57,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "rub",
+      "tierBased": false,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "active": true,
+        "baseAssetId": "2",
+        "baseStep": "8",
+        "change24": "0",
+        "description": "ETH RUB pair",
+        "fullName": "ETH RUB",
+        "highPrice24": "172497.31184",
+        "id": "57",
+        "lastBuy": "171770.497324",
+        "lastPrice": "171770.497324",
+        "lastSell": "171043.682808",
+        "lowPrice24": "171043.682808",
+        "makerFee": "200",
+        "name": "eth_rub",
+        "quoteAssetId": "39",
+        "quoteStep": "6",
+        "quoteVolume24": "5061.226350323443",
+        "settings": {
+          "default_slippage": "10",
+          "limit_usd": "0.1",
+          "lot_size_max": "1000000000000000",
+          "lot_size_min": "1",
+          "lot_size_tick": "1",
+          "lot_size_view_min": "6",
+          "price_max": "10000000000000",
+          "price_min": "1",
+          "price_tick": "1",
+          "price_view_min": "6",
+          "pricescale": "10000"
+        },
+        "status": "1",
+        "takerFee": "200",
+        "timeStart": "2024-12-27T09:55:02.834Z",
+        "updateId": "271",
+        "volume24": "0.02950618",
+        "volume24USD": "52.203399491134064"
+      },
+      "created": 1735293302834,
+      "option": false,
+      "future": false,
+      "symbol": "ETH/RUB",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "eth",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "RUB",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "eth_rub",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    }
+  }
+}

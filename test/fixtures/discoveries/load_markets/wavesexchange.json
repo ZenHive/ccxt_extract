@@ -1,0 +1,2746 @@
+{
+  "extracted_at": "2026-03-29T23:19:16.542242Z",
+  "id": "wavesexchange",
+  "market_count": 33,
+  "markets": {
+    "USDC/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.000000",
+        "24h_volume": "0.000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "79100.553592",
+        "amountAssetDecimals": "6",
+        "amountAssetID": "EbTKFzaVrrc4ZTdybxt6xVN4iNVmMUzxMrxKzBiaihU8",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "USDCu",
+        "amountAssetTotalSupply": "79100.553592",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "836780.205731",
+        "priceAssetDecimals": "6",
+        "priceAssetID": "B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "USDTu",
+        "priceAssetTotalSupply": "836780.205731",
+        "symbol": "USDC/USDT",
+        "timestamp": "1774826251228"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "USDC/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-6,
+        "price": 1.0e-6
+      },
+      "baseId": "EbTKFzaVrrc4ZTdybxt6xVN4iNVmMUzxMrxKzBiaihU8",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "USDC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "EbTKFzaVrrc4ZTdybxt6xVN4iNVmMUzxMrxKzBiaihU8/B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "PWR/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "543.86502485",
+        "24h_high": "549.71891963",
+        "24h_low": "543.86502485",
+        "24h_open": "545.5322353",
+        "24h_priceVolume": "258.59636407",
+        "24h_volume": "0.47330069",
+        "24h_vwap": "546.36802677",
+        "amountAssetCirculatingSupply": "4685.40765339",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "2thsACuHmzDMuNezPM32wg9a3BwUzBWDeSKakgz3cw21",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "POWER",
+        "amountAssetTotalSupply": "4685.40765340",
+        "last_price": "543.86502485",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "PWR/WAVES",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "PWR/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "2thsACuHmzDMuNezPM32wg9a3BwUzBWDeSKakgz3cw21",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "PWR",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "2thsACuHmzDMuNezPM32wg9a3BwUzBWDeSKakgz3cw21/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BONK/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "1071396918.65896672",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "E4NGAyJnCd1auQ25DJuCNCp2BQx29td6C1CNWqioWgqt",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "BONK",
+        "amountAssetTotalSupply": "1071396918.65896672",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "BONK/WAVES",
+        "timestamp": "1774826251228"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BONK/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "E4NGAyJnCd1auQ25DJuCNCp2BQx29td6C1CNWqioWgqt",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "BONK",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "E4NGAyJnCd1auQ25DJuCNCp2BQx29td6C1CNWqioWgqt/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ETH/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "5253.55940786",
+        "24h_high": "5253.55940786",
+        "24h_low": "5040.2453901",
+        "24h_open": "5040.2453901",
+        "24h_priceVolume": "42.11388463",
+        "24h_volume": "0.00822904",
+        "24h_vwap": "5117.71538692",
+        "amountAssetCirculatingSupply": "78.30497959",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "3VuV5WTmDz47Dmdn3QpcYjzbSdipjQE4JMdNe1xZpX13",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "ETH-Ethereum-PPT",
+        "amountAssetTotalSupply": "78.30794432",
+        "last_price": "5253.55940786",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "ETH/WAVES",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ETH/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "3VuV5WTmDz47Dmdn3QpcYjzbSdipjQE4JMdNe1xZpX13",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "3VuV5WTmDz47Dmdn3QpcYjzbSdipjQE4JMdNe1xZpX13/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "Waves Ducks/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "5.74",
+        "24h_high": "5.80574151",
+        "24h_low": "5.71519542",
+        "24h_open": "5.77292466",
+        "24h_priceVolume": "18.20912702",
+        "24h_volume": "3.16410315",
+        "24h_vwap": "5.75490941",
+        "amountAssetCirculatingSupply": "113240.03993522",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "59muEkmqg3qLUkrwSD7L7ZYhVuoDuqkeono4FvDFHv84",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "Arkimals Egg",
+        "amountAssetTotalSupply": "508692.34390862",
+        "last_price": "5.74",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "EGG/WAVES",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "Waves Ducks/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "59muEkmqg3qLUkrwSD7L7ZYhVuoDuqkeono4FvDFHv84",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "Waves Ducks",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "59muEkmqg3qLUkrwSD7L7ZYhVuoDuqkeono4FvDFHv84/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WAVES/XTN": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "DG2xFkPdDwKUoBkzGAhQtLpSGzfXLiCYPEzeKH2Ad24p",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "6.0998",
+        "24h_high": "6.28",
+        "24h_low": "5.6667",
+        "24h_open": "5.81",
+        "24h_priceVolume": "60416.756627",
+        "24h_volume": "10427.35315703",
+        "24h_vwap": "5.794064",
+        "amountAssetCirculatingSupply": "118050712.00000000",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "WAVES",
+        "amountAssetMaxSupply": "118050712.00000000",
+        "amountAssetName": "Waves",
+        "amountAssetTotalSupply": "118050712.00000000",
+        "last_price": "6.0998",
+        "priceAssetCirculatingSupply": "317828441.836285",
+        "priceAssetDecimals": "6",
+        "priceAssetID": "DG2xFkPdDwKUoBkzGAhQtLpSGzfXLiCYPEzeKH2Ad24p",
+        "priceAssetMaxSupply": "408891229.239328",
+        "priceAssetName": "XTN.",
+        "priceAssetTotalSupply": "408891229.239328",
+        "symbol": "WAVES/XTN",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WAVES/XTN",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "WAVES",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "XTN",
+      "expiryDatetime": "__undefined",
+      "base": "WAVES",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "WAVES/DG2xFkPdDwKUoBkzGAhQtLpSGzfXLiCYPEzeKH2Ad24p",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WAVES/WETH": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "AEvGpbS2BkKMtvpQAe2fdKVKg3yampiMvrNVLPXy25ML",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "118050712.00000000",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "WAVES",
+        "amountAssetMaxSupply": "118050712.00000000",
+        "amountAssetName": "Waves",
+        "amountAssetTotalSupply": "118050712.00000000",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "407.44546607",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "AEvGpbS2BkKMtvpQAe2fdKVKg3yampiMvrNVLPXy25ML",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "WETHu",
+        "priceAssetTotalSupply": "407.44546607",
+        "symbol": "WAVES/WETH",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WAVES/WETH",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "WAVES",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WETH",
+      "expiryDatetime": "__undefined",
+      "base": "WAVES",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "WAVES/AEvGpbS2BkKMtvpQAe2fdKVKg3yampiMvrNVLPXy25ML",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "GOAT/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "149390.64510603",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "AzuocvgyXw3ogREs55mSTdUtHpiWD26EBZoFr7ey4TqB",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "GOAT",
+        "amountAssetTotalSupply": "149390.64510603",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "GOAT/WAVES",
+        "timestamp": "1774826251228"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "GOAT/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "AzuocvgyXw3ogREs55mSTdUtHpiWD26EBZoFr7ey4TqB",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "GOAT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "AzuocvgyXw3ogREs55mSTdUtHpiWD26EBZoFr7ey4TqB/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "DOGE/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "89211.49628066",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "G5oe96kRJ1BFF1NAbMWan19tTu2DerZqJqay3HpcyuVa",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "DOGE",
+        "amountAssetTotalSupply": "89211.49628066",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "DOGE/WAVES",
+        "timestamp": "1774826251228"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "DOGE/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "G5oe96kRJ1BFF1NAbMWan19tTu2DerZqJqay3HpcyuVa",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "DOGE",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "G5oe96kRJ1BFF1NAbMWan19tTu2DerZqJqay3HpcyuVa/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "SHIB/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "1473743105.45745777",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "FmbqwD2vwXHGCAS8Usxp6DHu9wLsnQowYSAeTYN3xfMS",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "SHIB",
+        "amountAssetTotalSupply": "1473743105.45745777",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "SHIB/WAVES",
+        "timestamp": "1774826251228"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SHIB/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "FmbqwD2vwXHGCAS8Usxp6DHu9wLsnQowYSAeTYN3xfMS",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "SHIB",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "FmbqwD2vwXHGCAS8Usxp6DHu9wLsnQowYSAeTYN3xfMS/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "L2MP/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0.00577143",
+        "24h_high": "0.00577143",
+        "24h_low": "0.00577143",
+        "24h_open": "0.00577143",
+        "24h_priceVolume": "3.68687177",
+        "24h_volume": "638.81425748",
+        "24h_vwap": "0.00577143",
+        "amountAssetCirculatingSupply": "389047597.56278646",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "7scqyYoVsNrpWbTAc78eRqNVcYLxMPzZs8EQfX7ruJAg",
+        "amountAssetMaxSupply": "389047597.56278648",
+        "amountAssetName": "L2MP",
+        "amountAssetTotalSupply": "389047597.56278648",
+        "last_price": "0.00577143",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "L2MP/WAVES",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "L2MP/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "7scqyYoVsNrpWbTAc78eRqNVcYLxMPzZs8EQfX7ruJAg",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "L2MP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "7scqyYoVsNrpWbTAc78eRqNVcYLxMPzZs8EQfX7ruJAg/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WAVES/WBTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "CPhNn4f754kvEvt7UFbC5NScGT7BNWuZivuEwPF2BpPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "118050712.00000000",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "WAVES",
+        "amountAssetMaxSupply": "118050712.00000000",
+        "amountAssetName": "Waves",
+        "amountAssetTotalSupply": "118050712.00000000",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "9.16582688",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "CPhNn4f754kvEvt7UFbC5NScGT7BNWuZivuEwPF2BpPY",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "WBTCu",
+        "priceAssetTotalSupply": "9.16582688",
+        "symbol": "WAVES/WBTC",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WAVES/WBTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "WAVES",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WBTC",
+      "expiryDatetime": "__undefined",
+      "base": "WAVES",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "WAVES/CPhNn4f754kvEvt7UFbC5NScGT7BNWuZivuEwPF2BpPY",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WEST/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "374919427.84330180",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8",
+        "amountAssetMaxSupply": "374919726.48934176",
+        "amountAssetName": "WEST",
+        "amountAssetTotalSupply": "374919726.48934176",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "WEST/WAVES",
+        "timestamp": "1774826251228"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WEST/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "WEST",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WAVES/USDT-PPT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "G5WWWzzVsWRyzGf32xojbnfp7gXbWrgqJT8RcVWEfLmC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0.406895",
+        "24h_high": "0.430429",
+        "24h_low": "0.405124",
+        "24h_open": "0.416526",
+        "24h_priceVolume": "835.841304",
+        "24h_volume": "2018.36184181",
+        "24h_vwap": "0.414118",
+        "amountAssetCirculatingSupply": "118050712.00000000",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "WAVES",
+        "amountAssetMaxSupply": "118050712.00000000",
+        "amountAssetName": "Waves",
+        "amountAssetTotalSupply": "118050712.00000000",
+        "last_price": "0.406895",
+        "priceAssetCirculatingSupply": "165206.414182",
+        "priceAssetDecimals": "6",
+        "priceAssetID": "G5WWWzzVsWRyzGf32xojbnfp7gXbWrgqJT8RcVWEfLmC",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "USDT-PPT",
+        "priceAssetTotalSupply": "166765.969981",
+        "symbol": "WAVES/USDT-PPT",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WAVES/USDT-PPT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "WAVES",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT-PPT",
+      "expiryDatetime": "__undefined",
+      "base": "WAVES",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "WAVES/G5WWWzzVsWRyzGf32xojbnfp7gXbWrgqJT8RcVWEfLmC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WX/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "759614272.29336185",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on",
+        "amountAssetMaxSupply": "759633840.11909900",
+        "amountAssetName": "WX Network",
+        "amountAssetTotalSupply": "759633840.11909900",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "836780.205731",
+        "priceAssetDecimals": "6",
+        "priceAssetID": "B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "USDTu",
+        "priceAssetTotalSupply": "836780.205731",
+        "symbol": "WX/USDT",
+        "timestamp": "1774826251228"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WX/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "WX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on/B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "POPCAT/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "51656.14784151",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "BAbVZKmAunAKhtE5cLmnyNaEoPy1by8vUBNoyfoAgqhE",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "POPCAT",
+        "amountAssetTotalSupply": "51656.14784151",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "POPCAT/WAVES",
+        "timestamp": "1774826251228"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "POPCAT/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "BAbVZKmAunAKhtE5cLmnyNaEoPy1by8vUBNoyfoAgqhE",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "POPCAT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "BAbVZKmAunAKhtE5cLmnyNaEoPy1by8vUBNoyfoAgqhE/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WX/USDT-PPT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "G5WWWzzVsWRyzGf32xojbnfp7gXbWrgqJT8RcVWEfLmC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "759614272.29336185",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on",
+        "amountAssetMaxSupply": "759633840.11909900",
+        "amountAssetName": "WX Network",
+        "amountAssetTotalSupply": "759633840.11909900",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "165206.414182",
+        "priceAssetDecimals": "6",
+        "priceAssetID": "G5WWWzzVsWRyzGf32xojbnfp7gXbWrgqJT8RcVWEfLmC",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "USDT-PPT",
+        "priceAssetTotalSupply": "166765.969981",
+        "symbol": "WX/USDT-PPT",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WX/USDT-PPT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT-PPT",
+      "expiryDatetime": "__undefined",
+      "base": "WX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on/G5WWWzzVsWRyzGf32xojbnfp7gXbWrgqJT8RcVWEfLmC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "PUZZLE/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "376697.42853758",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "HEB8Qaw9xrWpWs8tHsiATYGBWDBtP2S7kcPALrMu43AS",
+        "amountAssetMaxSupply": "467496.09239637",
+        "amountAssetName": "Puzzle",
+        "amountAssetTotalSupply": "467496.09239637",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "PUZZLE/WAVES",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "PUZZLE/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "HEB8Qaw9xrWpWs8tHsiATYGBWDBtP2S7kcPALrMu43AS",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "PUZZLE",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "HEB8Qaw9xrWpWs8tHsiATYGBWDBtP2S7kcPALrMu43AS/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "CRV-ERC20/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "7564.52203746",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "FmsB2B21fVVetWvZm7Q48cC2Bvs2hEZtft49TBn3guV1",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "CRV-ERC20-PPT",
+        "amountAssetTotalSupply": "7564.52203746",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "CRV-ERC20/WAVES",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "CRV-ERC20/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "FmsB2B21fVVetWvZm7Q48cC2Bvs2hEZtft49TBn3guV1",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "CRV-ERC20",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "FmsB2B21fVVetWvZm7Q48cC2Bvs2hEZtft49TBn3guV1/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "UNIT0/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0.054",
+        "24h_high": "0.055",
+        "24h_low": "0.054",
+        "24h_open": "0.055",
+        "24h_priceVolume": "76.933720",
+        "24h_volume": "1405.55442519",
+        "24h_vwap": "0.054735",
+        "amountAssetCirculatingSupply": "14836319.64556003",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "GjwAHMjqWzYR4LgoNy91CxUKAGJN79h2hseZoae4nU8t",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "UNIT0",
+        "amountAssetTotalSupply": "97562976.97889002",
+        "last_price": "0.054",
+        "priceAssetCirculatingSupply": "836780.205731",
+        "priceAssetDecimals": "6",
+        "priceAssetID": "B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "USDTu",
+        "priceAssetTotalSupply": "836780.205731",
+        "symbol": "UNIT0/USDT",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "UNIT0/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "GjwAHMjqWzYR4LgoNy91CxUKAGJN79h2hseZoae4nU8t",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "UNIT0",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "GjwAHMjqWzYR4LgoNy91CxUKAGJN79h2hseZoae4nU8t/B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WX/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0.00381167",
+        "24h_high": "0.00383852",
+        "24h_low": "0.00378167",
+        "24h_open": "0.00380068",
+        "24h_priceVolume": "169.19908455",
+        "24h_volume": "44477.25824414",
+        "24h_vwap": "0.00380417",
+        "amountAssetCirculatingSupply": "759614272.29336185",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on",
+        "amountAssetMaxSupply": "759633840.11909900",
+        "amountAssetName": "WX Network",
+        "amountAssetTotalSupply": "759633840.11909900",
+        "last_price": "0.00381167",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "WX/WAVES",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WX/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "WX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WAVES/WBTC-PPT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "2Fge5HEBRD3XTeg7Xg3FW5yiB9HVJFQtMXiWMQo72Up6",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "118050712.00000000",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "WAVES",
+        "amountAssetMaxSupply": "118050712.00000000",
+        "amountAssetName": "Waves",
+        "amountAssetTotalSupply": "118050712.00000000",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "0.74108558",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "2Fge5HEBRD3XTeg7Xg3FW5yiB9HVJFQtMXiWMQo72Up6",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "WBTC-ERC20-PPT",
+        "priceAssetTotalSupply": "0.74108558",
+        "symbol": "WAVES/WBTC-PPT",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WAVES/WBTC-PPT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "WAVES",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WBTC-PPT",
+      "expiryDatetime": "__undefined",
+      "base": "WAVES",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "WAVES/2Fge5HEBRD3XTeg7Xg3FW5yiB9HVJFQtMXiWMQo72Up6",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WAVES/USDC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "EbTKFzaVrrc4ZTdybxt6xVN4iNVmMUzxMrxKzBiaihU8",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "118050712.00000000",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "WAVES",
+        "amountAssetMaxSupply": "118050712.00000000",
+        "amountAssetName": "Waves",
+        "amountAssetTotalSupply": "118050712.00000000",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "79100.553592",
+        "priceAssetDecimals": "6",
+        "priceAssetID": "EbTKFzaVrrc4ZTdybxt6xVN4iNVmMUzxMrxKzBiaihU8",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "USDCu",
+        "priceAssetTotalSupply": "79100.553592",
+        "symbol": "WAVES/USDC",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WAVES/USDC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "WAVES",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDC",
+      "expiryDatetime": "__undefined",
+      "base": "WAVES",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "WAVES/EbTKFzaVrrc4ZTdybxt6xVN4iNVmMUzxMrxKzBiaihU8",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BNB/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "1348.87641992",
+        "24h_high": "1348.87641992",
+        "24h_low": "1344.83789397",
+        "24h_open": "1344.83789397",
+        "24h_priceVolume": "2.54111254",
+        "24h_volume": "0.00188670",
+        "24h_vwap": "1346.85564123",
+        "amountAssetCirculatingSupply": "20.76169630",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "66a1br3BrkoaJgP7yEar9hJcSTvJPoH6PYBLqscXcMGo",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "BNB-BSC-PPT",
+        "amountAssetTotalSupply": "20.76169630",
+        "last_price": "1348.87641992",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "BNB/WAVES",
+        "timestamp": "1774826251228"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BNB/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "66a1br3BrkoaJgP7yEar9hJcSTvJPoH6PYBLqscXcMGo",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "BNB",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "66a1br3BrkoaJgP7yEar9hJcSTvJPoH6PYBLqscXcMGo/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "UNIT0/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0.05622196",
+        "24h_high": "0.06",
+        "24h_low": "0.05267238",
+        "24h_open": "0.05610826",
+        "24h_priceVolume": "3753.69607620",
+        "24h_volume": "65906.91898604",
+        "24h_vwap": "0.0569545",
+        "amountAssetCirculatingSupply": "14836319.64556003",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "GjwAHMjqWzYR4LgoNy91CxUKAGJN79h2hseZoae4nU8t",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "UNIT0",
+        "amountAssetTotalSupply": "97562976.97889002",
+        "last_price": "0.05622196",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "UNIT0/WAVES",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "UNIT0/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "GjwAHMjqWzYR4LgoNy91CxUKAGJN79h2hseZoae4nU8t",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "UNIT0",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "GjwAHMjqWzYR4LgoNy91CxUKAGJN79h2hseZoae4nU8t/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "MELANIA/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "2544.039324",
+        "amountAssetDecimals": "6",
+        "amountAssetID": "441TtKJnEWsUzD7C4mCkNX6H58w1as4tCVjj89WnB97Z",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "MELANIA",
+        "amountAssetTotalSupply": "2544.039324",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "MELANIA/WAVES",
+        "timestamp": "1774826251228"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "MELANIA/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-6,
+        "price": 1.0e-8
+      },
+      "baseId": "441TtKJnEWsUzD7C4mCkNX6H58w1as4tCVjj89WnB97Z",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "MELANIA",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "441TtKJnEWsUzD7C4mCkNX6H58w1as4tCVjj89WnB97Z/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ROME/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.000000",
+        "24h_volume": "0.000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "1702996.263761",
+        "amountAssetDecimals": "6",
+        "amountAssetID": "AP4Cb5xLYGH6ZigHreCZHoXpQTWDkPsG2BHqfDUx6taJ",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "ROME",
+        "amountAssetTotalSupply": "1702999.039940",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "836780.205731",
+        "priceAssetDecimals": "6",
+        "priceAssetID": "B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "USDTu",
+        "priceAssetTotalSupply": "836780.205731",
+        "symbol": "ROME/USDT",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ROME/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-6,
+        "price": 1.0e-6
+      },
+      "baseId": "AP4Cb5xLYGH6ZigHreCZHoXpQTWDkPsG2BHqfDUx6taJ",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "ROME",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "AP4Cb5xLYGH6ZigHreCZHoXpQTWDkPsG2BHqfDUx6taJ/B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "TRUMP/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.00000000",
+        "24h_volume": "0.000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "168.276464",
+        "amountAssetDecimals": "6",
+        "amountAssetID": "97nUwSbdKLtzvduu3wdxP8kTQeSWwBTHL81L2FVPL9Hy",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "TRUMP",
+        "amountAssetTotalSupply": "168.276464",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "TRUMP/WAVES",
+        "timestamp": "1774826251228"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "TRUMP/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-6,
+        "price": 1.0e-8
+      },
+      "baseId": "97nUwSbdKLtzvduu3wdxP8kTQeSWwBTHL81L2FVPL9Hy",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "TRUMP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "97nUwSbdKLtzvduu3wdxP8kTQeSWwBTHL81L2FVPL9Hy/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "PETE/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0.68018134",
+        "24h_high": "0.68432601",
+        "24h_low": "0.68018134",
+        "24h_open": "0.68432601",
+        "24h_priceVolume": "23.19662495",
+        "24h_volume": "34.00000000",
+        "24h_vwap": "0.68225367",
+        "amountAssetCirculatingSupply": "926000.00000000",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "GAzAEjApmjMYZKPzri2g2VUXNvTiQGF7KDYZFFsP3AEq",
+        "amountAssetMaxSupply": "926000.00000000",
+        "amountAssetName": "PETE",
+        "amountAssetTotalSupply": "926000.00000000",
+        "last_price": "0.68018134",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "PETE/WAVES",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "PETE/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "GAzAEjApmjMYZKPzri2g2VUXNvTiQGF7KDYZFFsP3AEq",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "PETE",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "GAzAEjApmjMYZKPzri2g2VUXNvTiQGF7KDYZFFsP3AEq/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WAVES/ROME": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "AP4Cb5xLYGH6ZigHreCZHoXpQTWDkPsG2BHqfDUx6taJ",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0.424409",
+        "24h_high": "0.424409",
+        "24h_low": "0.424409",
+        "24h_open": "0.424409",
+        "24h_priceVolume": "1.833719",
+        "24h_volume": "4.32064118",
+        "24h_vwap": "0.424409",
+        "amountAssetCirculatingSupply": "118050712.00000000",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "WAVES",
+        "amountAssetMaxSupply": "118050712.00000000",
+        "amountAssetName": "Waves",
+        "amountAssetTotalSupply": "118050712.00000000",
+        "last_price": "0.424409",
+        "priceAssetCirculatingSupply": "1702996.263761",
+        "priceAssetDecimals": "6",
+        "priceAssetID": "AP4Cb5xLYGH6ZigHreCZHoXpQTWDkPsG2BHqfDUx6taJ",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "ROME",
+        "priceAssetTotalSupply": "1702999.039940",
+        "symbol": "WAVES/ROME",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WAVES/ROME",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "WAVES",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "ROME",
+      "expiryDatetime": "__undefined",
+      "base": "WAVES",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "WAVES/AP4Cb5xLYGH6ZigHreCZHoXpQTWDkPsG2BHqfDUx6taJ",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WAVES/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "118050712.00000000",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "WAVES",
+        "amountAssetMaxSupply": "118050712.00000000",
+        "amountAssetName": "Waves",
+        "amountAssetTotalSupply": "118050712.00000000",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "836780.205731",
+        "priceAssetDecimals": "6",
+        "priceAssetID": "B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "USDTu",
+        "priceAssetTotalSupply": "836780.205731",
+        "symbol": "WAVES/USDT",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WAVES/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "WAVES",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "WAVES",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "WAVES/B45iYkZVC9cudR2yxrsJnrM75StiTrwphbfQ7xkyisip",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "WAVES/USDC-PPT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "3ayH3PhWMkhFsySsUVcC8BvFf1QyxGB5BZuTPyVtmP4v",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0",
+        "24h_high": "0",
+        "24h_low": "0",
+        "24h_open": "0",
+        "24h_priceVolume": "0.000000",
+        "24h_volume": "0.00000000",
+        "24h_vwap": "0",
+        "amountAssetCirculatingSupply": "118050712.00000000",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "WAVES",
+        "amountAssetMaxSupply": "118050712.00000000",
+        "amountAssetName": "Waves",
+        "amountAssetTotalSupply": "118050712.00000000",
+        "last_price": "0",
+        "priceAssetCirculatingSupply": "5431.905883",
+        "priceAssetDecimals": "6",
+        "priceAssetID": "3ayH3PhWMkhFsySsUVcC8BvFf1QyxGB5BZuTPyVtmP4v",
+        "priceAssetMaxSupply": "infinite",
+        "priceAssetName": "USDC-PPT",
+        "priceAssetTotalSupply": "6147.096824",
+        "symbol": "WAVES/USDC-PPT",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WAVES/USDC-PPT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-6
+      },
+      "baseId": "WAVES",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDC-PPT",
+      "expiryDatetime": "__undefined",
+      "base": "WAVES",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "WAVES/3ayH3PhWMkhFsySsUVcC8BvFf1QyxGB5BZuTPyVtmP4v",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "SWOP/WAVES": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "WAVES",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "24h_close": "0.16597124",
+        "24h_high": "0.16625908",
+        "24h_low": "0.16448529",
+        "24h_open": "0.16625908",
+        "24h_priceVolume": "26.72037335",
+        "24h_volume": "161.68590281",
+        "24h_vwap": "0.16526099",
+        "amountAssetCirculatingSupply": "3994129.81229969",
+        "amountAssetDecimals": "8",
+        "amountAssetID": "Ehie5xYpeN8op1Cctc6aGUrqx8jq3jtf1DSjXDbfm7aT",
+        "amountAssetMaxSupply": "infinite",
+        "amountAssetName": "SWOP",
+        "amountAssetTotalSupply": "3994298.81230027",
+        "last_price": "0.16597124",
+        "priceAssetCirculatingSupply": "118050712.00000000",
+        "priceAssetDecimals": "8",
+        "priceAssetID": "WAVES",
+        "priceAssetMaxSupply": "118050712.00000000",
+        "priceAssetName": "Waves",
+        "priceAssetTotalSupply": "118050712.00000000",
+        "symbol": "SWOP/WAVES",
+        "timestamp": "1774826251227"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SWOP/WAVES",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "Ehie5xYpeN8op1Cctc6aGUrqx8jq3jtf1DSjXDbfm7aT",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "WAVES",
+      "expiryDatetime": "__undefined",
+      "base": "SWOP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "Ehie5xYpeN8op1Cctc6aGUrqx8jq3jtf1DSjXDbfm7aT/WAVES",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    }
+  }
+}

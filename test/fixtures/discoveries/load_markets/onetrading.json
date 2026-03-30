@@ -1,0 +1,4124 @@
+{
+  "extracted_at": "2026-03-29T23:19:16.542242Z",
+  "id": "onetrading",
+  "market_count": 29,
+  "markets": {
+    "ADA/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "1",
+        "base": {
+          "code": "ADA",
+          "precision": "2"
+        },
+        "funding_period": "240",
+        "id": "ADA_USD_P",
+        "market_offset": "9",
+        "market_precision": "5",
+        "max_price": "100",
+        "min_price": "0.0001",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USD",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ADA/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.1,
+        "price": 1.0e-5
+      },
+      "baseId": "ADA",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "ADA",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "ADA_USD_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "ADA/USDC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDC",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "1",
+        "base": {
+          "code": "ADA",
+          "precision": "2"
+        },
+        "id": "ADA_USDC",
+        "market_precision": "5",
+        "max_price": "100",
+        "min_price": "0.0001",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USDC",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ADA/USDC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.1,
+        "price": 1.0e-5
+      },
+      "baseId": "ADA",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDC",
+      "expiryDatetime": "__undefined",
+      "base": "ADA",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "ADA_USDC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BTC/EUR": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "EUR",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "5",
+        "base": {
+          "code": "BTC",
+          "precision": "5"
+        },
+        "id": "BTC_EUR",
+        "market_precision": "2",
+        "max_price": "10000000",
+        "min_price": "1000",
+        "min_size": "10.0",
+        "quote": {
+          "code": "EUR",
+          "precision": "2"
+        },
+        "state": "CLOSED",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BTC/EUR",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 0.01
+      },
+      "baseId": "BTC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "EUR",
+      "expiryDatetime": "__undefined",
+      "base": "BTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "BTC_EUR",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BTC/EUR:EUR": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "EUR",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "5",
+        "base": {
+          "code": "BTC",
+          "precision": "5"
+        },
+        "funding_period": "240",
+        "id": "BTC_EUR_P",
+        "market_offset": "0",
+        "market_precision": "2",
+        "max_price": "10000000",
+        "min_price": "1000",
+        "min_size": "10.0",
+        "quote": {
+          "code": "EUR",
+          "precision": "2"
+        },
+        "state": "CLOSED",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BTC/EUR:EUR",
+      "settle": "EUR",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 0.01
+      },
+      "baseId": "BTC",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "EUR",
+      "quote": "EUR",
+      "expiryDatetime": "__undefined",
+      "base": "BTC",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": false,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "BTC_EUR_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "BTC/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "5",
+        "base": {
+          "code": "BTC",
+          "precision": "5"
+        },
+        "funding_period": "240",
+        "id": "BTC_USD_P",
+        "market_offset": "0",
+        "market_precision": "2",
+        "max_price": "10000000",
+        "min_price": "1000",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USD",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BTC/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 0.01
+      },
+      "baseId": "BTC",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "BTC",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "BTC_USD_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "BTC/USDC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDC",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "5",
+        "base": {
+          "code": "BTC",
+          "precision": "5"
+        },
+        "id": "BTC_USDC",
+        "market_precision": "2",
+        "max_price": "10000000",
+        "min_price": "1000",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USDC",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BTC/USDC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 0.01
+      },
+      "baseId": "BTC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDC",
+      "expiryDatetime": "__undefined",
+      "base": "BTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "BTC_USDC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "DOGE/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "1",
+        "base": {
+          "code": "DOGE",
+          "precision": "2"
+        },
+        "funding_period": "240",
+        "id": "DOGE_USD_P",
+        "market_offset": "8",
+        "market_precision": "5",
+        "max_price": "100",
+        "min_price": "0.0001",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USD",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "DOGE/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.1,
+        "price": 1.0e-5
+      },
+      "baseId": "DOGE",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "DOGE",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "DOGE_USD_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "DOGE/USDC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDC",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "1",
+        "base": {
+          "code": "DOGE",
+          "precision": "2"
+        },
+        "id": "DOGE_USDC",
+        "market_precision": "5",
+        "max_price": "100",
+        "min_price": "0.0001",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USDC",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "DOGE/USDC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.1,
+        "price": 1.0e-5
+      },
+      "baseId": "DOGE",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDC",
+      "expiryDatetime": "__undefined",
+      "base": "DOGE",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "DOGE_USDC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ETH/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "3",
+        "base": {
+          "code": "ETH",
+          "precision": "3"
+        },
+        "id": "ETH_BTC",
+        "market_precision": "5",
+        "max_price": "10000",
+        "min_price": "0.0001",
+        "min_size": "0.00022",
+        "quote": {
+          "code": "BTC",
+          "precision": "5"
+        },
+        "state": "CLOSED",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ETH/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.001,
+        "price": 1.0e-5
+      },
+      "baseId": "ETH",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 2.2e-4
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "ETH_BTC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ETH/EUR": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "EUR",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "4",
+        "base": {
+          "code": "ETH",
+          "precision": "4"
+        },
+        "id": "ETH_EUR",
+        "market_precision": "2",
+        "max_price": "10000000",
+        "min_price": "10",
+        "min_size": "10.0",
+        "quote": {
+          "code": "EUR",
+          "precision": "2"
+        },
+        "state": "CLOSED",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ETH/EUR",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.01
+      },
+      "baseId": "ETH",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "EUR",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "ETH_EUR",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ETH/EUR:EUR": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "EUR",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "4",
+        "base": {
+          "code": "ETH",
+          "precision": "4"
+        },
+        "funding_period": "240",
+        "id": "ETH_EUR_P",
+        "market_offset": "0",
+        "market_precision": "2",
+        "max_price": "1000000",
+        "min_price": "10",
+        "min_size": "10.0",
+        "quote": {
+          "code": "EUR",
+          "precision": "2"
+        },
+        "state": "CLOSED",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ETH/EUR:EUR",
+      "settle": "EUR",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.01
+      },
+      "baseId": "ETH",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "EUR",
+      "quote": "EUR",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": false,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "ETH_EUR_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "ETH/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "4",
+        "base": {
+          "code": "ETH",
+          "precision": "4"
+        },
+        "funding_period": "240",
+        "id": "ETH_USD_P",
+        "market_offset": "1",
+        "market_precision": "2",
+        "max_price": "1000000",
+        "min_price": "10",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USD",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ETH/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.01
+      },
+      "baseId": "ETH",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "ETH_USD_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "ETH/USDC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDC",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "4",
+        "base": {
+          "code": "ETH",
+          "precision": "4"
+        },
+        "id": "ETH_USDC",
+        "market_precision": "2",
+        "max_price": "10000000",
+        "min_price": "100",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USDC",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ETH/USDC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.01
+      },
+      "baseId": "ETH",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDC",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "ETH_USDC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "LINK/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "2",
+        "base": {
+          "code": "LINK",
+          "precision": "2"
+        },
+        "funding_period": "240",
+        "id": "LINK_USD_P",
+        "market_offset": "4",
+        "market_precision": "3",
+        "max_price": "10000",
+        "min_price": "0.01",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USD",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "LINK/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.01,
+        "price": 0.001
+      },
+      "baseId": "LINK",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "LINK",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "LINK_USD_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "LINK/USDC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDC",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "2",
+        "base": {
+          "code": "LINK",
+          "precision": "2"
+        },
+        "id": "LINK_USDC",
+        "market_precision": "3",
+        "max_price": "10000",
+        "min_price": "0.01",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USDC",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "LINK/USDC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 0.001
+      },
+      "baseId": "LINK",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDC",
+      "expiryDatetime": "__undefined",
+      "base": "LINK",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "LINK_USDC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "LTC/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "3",
+        "base": {
+          "code": "LTC",
+          "precision": "2"
+        },
+        "funding_period": "240",
+        "id": "LTC_USD_P",
+        "market_offset": "6",
+        "market_precision": "2",
+        "max_price": "10000",
+        "min_price": "1",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USD",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "LTC/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.001,
+        "price": 0.01
+      },
+      "baseId": "LTC",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "LTC",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "LTC_USD_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "LTC/USDC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDC",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "3",
+        "base": {
+          "code": "LTC",
+          "precision": "2"
+        },
+        "id": "LTC_USDC",
+        "market_precision": "2",
+        "max_price": "10000",
+        "min_price": "1",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USDC",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "LTC/USDC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.001,
+        "price": 0.01
+      },
+      "baseId": "LTC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDC",
+      "expiryDatetime": "__undefined",
+      "base": "LTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "LTC_USDC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "SOL/EUR": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "EUR",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "4",
+        "base": {
+          "code": "SOL",
+          "precision": "4"
+        },
+        "id": "SOL_EUR",
+        "market_precision": "3",
+        "max_price": "1000000",
+        "min_price": "0.01",
+        "min_size": "10.0",
+        "quote": {
+          "code": "EUR",
+          "precision": "2"
+        },
+        "state": "CLOSED",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SOL/EUR",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.001
+      },
+      "baseId": "SOL",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "EUR",
+      "expiryDatetime": "__undefined",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "SOL_EUR",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "SOL/EUR:EUR": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "EUR",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "4",
+        "base": {
+          "code": "SOL",
+          "precision": "4"
+        },
+        "funding_period": "240",
+        "id": "SOL_EUR_P",
+        "market_offset": "0",
+        "market_precision": "3",
+        "max_price": "1000000",
+        "min_price": "0.01",
+        "min_size": "10.0",
+        "quote": {
+          "code": "EUR",
+          "precision": "2"
+        },
+        "state": "CLOSED",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SOL/EUR:EUR",
+      "settle": "EUR",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.001
+      },
+      "baseId": "SOL",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "EUR",
+      "quote": "EUR",
+      "expiryDatetime": "__undefined",
+      "base": "SOL",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": false,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "SOL_EUR_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "4",
+        "base": {
+          "code": "SOL",
+          "precision": "4"
+        },
+        "funding_period": "240",
+        "id": "SOL_USD_P",
+        "market_offset": "3",
+        "market_precision": "3",
+        "max_price": "1000000",
+        "min_price": "0.01",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USD",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SOL/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.001
+      },
+      "baseId": "SOL",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "SOL",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "SOL_USD_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDC",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "4",
+        "base": {
+          "code": "SOL",
+          "precision": "4"
+        },
+        "id": "SOL_USDC",
+        "market_precision": "3",
+        "max_price": "1000000",
+        "min_price": "0.01",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USDC",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SOL/USDC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.001
+      },
+      "baseId": "SOL",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDC",
+      "expiryDatetime": "__undefined",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "SOL_USDC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "SUI/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "1",
+        "base": {
+          "code": "SUI",
+          "precision": "2"
+        },
+        "funding_period": "240",
+        "id": "SUI_USD_P",
+        "market_offset": "5",
+        "market_precision": "4",
+        "max_price": "1000",
+        "min_price": "0.1",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USD",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SUI/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.0001
+      },
+      "baseId": "SUI",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "SUI",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "SUI_USD_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SUI/USDC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDC",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "1",
+        "base": {
+          "code": "SUI",
+          "precision": "2"
+        },
+        "id": "SUI_USDC",
+        "market_precision": "4",
+        "max_price": "1000",
+        "min_price": "0.1",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USDC",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SUI/USDC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.0001
+      },
+      "baseId": "SUI",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDC",
+      "expiryDatetime": "__undefined",
+      "base": "SUI",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "SUI_USDC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "TAO/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "4",
+        "base": {
+          "code": "TAO",
+          "precision": "2"
+        },
+        "funding_period": "240",
+        "id": "TAO_USD_P",
+        "market_offset": "7",
+        "market_precision": "2",
+        "max_price": "50000",
+        "min_price": "1",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USD",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "TAO/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.01
+      },
+      "baseId": "TAO",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "TAO",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "TAO_USD_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "USDC/EUR": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "EUR",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "2",
+        "base": {
+          "code": "USDC",
+          "precision": "5"
+        },
+        "id": "USDC_EUR",
+        "market_precision": "5",
+        "max_price": "10",
+        "min_price": "0.1",
+        "min_size": "10.0",
+        "quote": {
+          "code": "EUR",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "USDC/EUR",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 1.0e-5
+      },
+      "baseId": "USDC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "EUR",
+      "expiryDatetime": "__undefined",
+      "base": "USDC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "USDC_EUR",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "XRP/EUR": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "EUR",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "3",
+        "base": {
+          "code": "XRP",
+          "precision": "4"
+        },
+        "id": "XRP_EUR",
+        "market_precision": "4",
+        "max_price": "1000",
+        "min_price": "0.0001",
+        "min_size": "10.0",
+        "quote": {
+          "code": "EUR",
+          "precision": "2"
+        },
+        "state": "CLOSED",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XRP/EUR",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.001,
+        "price": 0.0001
+      },
+      "baseId": "XRP",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "EUR",
+      "expiryDatetime": "__undefined",
+      "base": "XRP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "XRP_EUR",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "XRP/EUR:EUR": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "EUR",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "3",
+        "base": {
+          "code": "XRP",
+          "precision": "4"
+        },
+        "funding_period": "240",
+        "id": "XRP_EUR_P",
+        "market_offset": "0",
+        "market_precision": "4",
+        "max_price": "10",
+        "min_price": "0.5",
+        "min_size": "10.0",
+        "quote": {
+          "code": "EUR",
+          "precision": "2"
+        },
+        "state": "CLOSED",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XRP/EUR:EUR",
+      "settle": "EUR",
+      "precision": {
+        "amount": 0.001,
+        "price": 0.0001
+      },
+      "baseId": "XRP",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "EUR",
+      "quote": "EUR",
+      "expiryDatetime": "__undefined",
+      "base": "XRP",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": false,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "XRP_EUR_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XRP/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": false,
+      "info": {
+        "amount_precision": "3",
+        "base": {
+          "code": "XRP",
+          "precision": "4"
+        },
+        "funding_period": "240",
+        "id": "XRP_USD_P",
+        "market_offset": "2",
+        "market_precision": "4",
+        "max_price": "10",
+        "min_price": "0.5",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USD",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "PERP"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XRP/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.001,
+        "price": 0.0001
+      },
+      "baseId": "XRP",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "XRP",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "XRP_USD_P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XRP/USDC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDC",
+      "tierBased": true,
+      "index": "__undefined",
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "amount_precision": "3",
+        "base": {
+          "code": "XRP",
+          "precision": "4"
+        },
+        "id": "XRP_USDC",
+        "market_precision": "4",
+        "max_price": "1000",
+        "min_price": "0.0001",
+        "min_size": "10.0",
+        "quote": {
+          "code": "USDC",
+          "precision": "2"
+        },
+        "state": "ACTIVE",
+        "type": "SPOT"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XRP/USDC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.001,
+        "price": 0.0001
+      },
+      "baseId": "XRP",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDC",
+      "expiryDatetime": "__undefined",
+      "base": "XRP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0015,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "tiers": [
+        {
+          "maker": [
+            [
+              0,
+              0.001
+            ],
+            [
+              100,
+              0.001
+            ],
+            [
+              250,
+              0.0009
+            ],
+            [
+              1000,
+              7.5e-4
+            ],
+            [
+              5000,
+              0.0006
+            ],
+            [
+              10000,
+              0.0005
+            ],
+            [
+              20000,
+              0.0005
+            ]
+          ],
+          "taker": [
+            [
+              0,
+              0.0015
+            ],
+            [
+              100,
+              0.0013
+            ],
+            [
+              250,
+              0.0013
+            ],
+            [
+              1000,
+              0.001
+            ],
+            [
+              5000,
+              0.0009
+            ],
+            [
+              10000,
+              7.5e-4
+            ],
+            [
+              20000,
+              6.5e-4
+            ]
+          ]
+        }
+      ],
+      "expiry": "__undefined",
+      "id": "XRP_USDC",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    }
+  }
+}

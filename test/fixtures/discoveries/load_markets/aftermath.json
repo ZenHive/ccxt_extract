@@ -1,0 +1,1017 @@
+{
+  "extracted_at": "2026-03-29T23:19:16.542242Z",
+  "id": "aftermath",
+  "market_count": 10,
+  "markets": {
+    "BTC/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-9,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 1.5e-4,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "BTC",
+        "baseId": "BTC",
+        "contract": true,
+        "contractSize": "1e-9",
+        "future": false,
+        "id": "0x95969906ca735c9d44e8a44b5b7791b4dacaddf70fbdfbda40ccd3f8a9fd4920",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "15.0000000015"
+          }
+        },
+        "linear": true,
+        "maker": "0.00015",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "1e-9",
+          "price": "0.0001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "BTC/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BTC/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-9,
+        "price": 0.0001
+      },
+      "baseId": "BTC",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "BTC",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 15.0000000015,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0x95969906ca735c9d44e8a44b5b7791b4dacaddf70fbdfbda40ccd3f8a9fd4920",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "ETH/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-7,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 1.5e-4,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "ETH",
+        "baseId": "ETH",
+        "contract": true,
+        "contractSize": "1e-7",
+        "future": false,
+        "id": "0xaa887396f18c72aef43547028601a0572006b7f204dd7241dad9598f6a21362e",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "10.0"
+          }
+        },
+        "linear": true,
+        "maker": "0.00015",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "1e-7",
+          "price": "0.00001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "ETH/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ETH/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-7,
+        "price": 1.0e-5
+      },
+      "baseId": "ETH",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 10,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0xaa887396f18c72aef43547028601a0572006b7f204dd7241dad9598f6a21362e",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "NG/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-5,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 1.5e-4,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "NG",
+        "baseId": "NG",
+        "contract": true,
+        "contractSize": "0.00001",
+        "future": false,
+        "id": "0xd3f89cddd7445df57647a2f164689bb52d5a3641913c5ef2a68dc4cbb9f9e1d2",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "3.0000000003"
+          }
+        },
+        "linear": true,
+        "maker": "0.00015",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "0.00001",
+          "price": "0.00001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "NG/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "NG/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 1.0e-5
+      },
+      "baseId": "NG",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "NG",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 3.0000000003,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0xd3f89cddd7445df57647a2f164689bb52d5a3641913c5ef2a68dc4cbb9f9e1d2",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-5,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 1.5e-4,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "SOL",
+        "baseId": "SOL",
+        "contract": true,
+        "contractSize": "0.00001",
+        "future": false,
+        "id": "0x8921a93604c71cd69472a2ba585134da4611694017d9f3fedad0f315799f996f",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "10.0"
+          }
+        },
+        "linear": true,
+        "maker": "0.00015",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "0.00001",
+          "price": "0.00001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "SOL/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SOL/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 1.0e-5
+      },
+      "baseId": "SOL",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "SOL",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 10,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0x8921a93604c71cd69472a2ba585134da4611694017d9f3fedad0f315799f996f",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SUI/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-5,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 1.5e-4,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "SUI",
+        "baseId": "SUI",
+        "contract": true,
+        "contractSize": "0.00001",
+        "future": false,
+        "id": "0x5c3eb50f354fb6e518f6877dfadc72e3adf67cf353b6176afb4af2486bd9a30b",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "5.0"
+          }
+        },
+        "linear": true,
+        "maker": "0.00015",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "0.00001",
+          "price": "0.00001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "SUI/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SUI/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 1.0e-5
+      },
+      "baseId": "SUI",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "SUI",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 5,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0x5c3eb50f354fb6e518f6877dfadc72e3adf67cf353b6176afb4af2486bd9a30b",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "US500/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-7,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 1.5e-4,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "US500",
+        "baseId": "US500",
+        "contract": true,
+        "contractSize": "1e-7",
+        "future": false,
+        "id": "0x411538e7fb4877d100a776495296d544bccd14b9be0c278f986e2cb66456c497",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "5.0"
+          }
+        },
+        "linear": true,
+        "maker": "0.00015",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "1e-7",
+          "price": "0.00001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "US500/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "US500/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-7,
+        "price": 1.0e-5
+      },
+      "baseId": "US500",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "US500",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 5,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0x411538e7fb4877d100a776495296d544bccd14b9be0c278f986e2cb66456c497",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "WTI/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-5,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 1.5e-4,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "WTI",
+        "baseId": "WTI",
+        "contract": true,
+        "contractSize": "0.00001",
+        "future": false,
+        "id": "0x3f285d6555292bfca8f8070c7ac3ed98eeddd95b2178e4d3d16c4c0d3167ff77",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "3.0000000003"
+          }
+        },
+        "linear": true,
+        "maker": "0.00015",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "0.00001",
+          "price": "0.00001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "WTI/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "WTI/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 1.0e-5
+      },
+      "baseId": "WTI",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "WTI",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 3.0000000003,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0x3f285d6555292bfca8f8070c7ac3ed98eeddd95b2178e4d3d16c4c0d3167ff77",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XAG/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-5,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 1.5e-4,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "XAG",
+        "baseId": "XAG",
+        "contract": true,
+        "contractSize": "0.00001",
+        "future": false,
+        "id": "0x52c289e031b1ad965c683ffb542003c938f85d2af181a3b0d91d7fd553ed8c9f",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "5.0"
+          }
+        },
+        "linear": true,
+        "maker": "0.00015",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "0.00001",
+          "price": "0.00001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "XAG/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XAG/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 1.0e-5
+      },
+      "baseId": "XAG",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "XAG",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 5,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0x52c289e031b1ad965c683ffb542003c938f85d2af181a3b0d91d7fd553ed8c9f",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XAUT/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-7,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 1.5e-4,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "XAUT",
+        "baseId": "XAUT",
+        "contract": true,
+        "contractSize": "1e-7",
+        "future": false,
+        "id": "0xed358c545b4a6698f757d3840a6b7effd1b958dd31260931bef07691f255b1fa",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "15.0000000015"
+          }
+        },
+        "linear": true,
+        "maker": "0.00015",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "1e-7",
+          "price": "0.0001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "XAUT/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XAUT/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-7,
+        "price": 0.0001
+      },
+      "baseId": "XAUT",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "XAUT",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 15.0000000015,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0xed358c545b4a6698f757d3840a6b7effd1b958dd31260931bef07691f255b1fa",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "ZEC/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-5,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 1.5e-4,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "ZEC",
+        "baseId": "ZEC",
+        "contract": true,
+        "contractSize": "0.00001",
+        "future": false,
+        "id": "0xa94154a4dc8c6ade83ee83105cd0002c271539f1896fdc004b69c5e5258901e1",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "5.0"
+          }
+        },
+        "linear": true,
+        "maker": "0.00015",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "0.00001",
+          "price": "0.00001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "ZEC/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ZEC/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 1.0e-5
+      },
+      "baseId": "ZEC",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "ZEC",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 5,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0xa94154a4dc8c6ade83ee83105cd0002c271539f1896fdc004b69c5e5258901e1",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    }
+  }
+}

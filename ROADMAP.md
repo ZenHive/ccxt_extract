@@ -8,19 +8,18 @@
 
 ## 🎯 Current Focus
 
-**Phase 2: Runtime Extraction** — In progress. Tasks 6, 8a, 8b, 22 complete. Task 8c (market data validation) and Task 7 (family analysis) next.
+**Phase 2: Runtime Extraction** — Nearly complete. Tasks 6, 8a, 8b, 8c, 22 done. Task 7 (family analysis) remains.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 8c | Market data validation | Two-layer validation: structural (offline) + spot-check (live API); 100 exchanges, 89k+ markets, zero errors |
 | Task 22 | Split integration tests into cached/extraction tiers | Cached tests read tracked fixtures; write!/1 serializer tests in fast tier |
 | Task 8b | Rate-limited loadMarkets() extraction | Most exchanges succeed; parallel extraction with configurable workers |
-| Task 8a | Classify credential requirements | All 107 exchanges advertise fetchMarkets; 13 credential patterns classified |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 8c | ⬜ | Market data validation [D:3/B:7/U:7 → Eff:2.33] |
 | Task 7 | ⬜ | Exchange family analysis [D:5/B:7/U:7 → Eff:1.40] |
 
 ### Quick Commands
@@ -38,6 +37,8 @@ mix ccxt_extract.method_analysis           # Analyze method families and distrib
 mix ccxt_extract.public_exchanges          # Identify public exchanges for loadMarkets()
 mix ccxt_extract.load_markets              # Extract loadMarkets() data (live API calls)
 mix ccxt_extract.load_markets --concurrency 10  # Faster with more parallel workers
+mix ccxt_extract.validate_markets              # Validate cached market data (structural)
+mix ccxt_extract.validate_markets --spot-check # + live spot-check against exchange APIs
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -95,7 +96,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 - [ ] **Task 8: loadMarkets() extraction** — For exchanges with public API access (no auth needed), run `loadMarkets()` via QuickBEAM. Extract market listings: symbol formats, precision, limits, market types (spot, swap, future, option), fee structures. This is live API data.
   - [x] ~~**8a: Identify public exchanges**~~ [D:2/B:6/U:8 → Eff:3.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
   - [x] ~~**8b: Rate-limited extraction**~~ [D:5/B:8/U:8 → Eff:1.60] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-  - [ ] **8c: Market data validation** [D:3/B:7/U:7 → Eff:2.33] — Spot-check extracted market data against live exchange responses for a sample of exchanges.
+  - [x] ~~**8c: Market data validation**~~ [D:3/B:7/U:7 → Eff:2.33] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 ---
 

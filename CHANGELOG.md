@@ -6,6 +6,15 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 23: Resolve `__function:` sentinels in describe data
+- **Problem**: The minified CCXT browser bundle mangled error class names — `__function:ExchangeError` appeared as `__function:h`, losing the mapping from error codes to CCXT error classes across all 107 exchanges
+- **Solution**: Build an `_errorNameMap` at runtime by instantiating each Error subclass on the `ccxt` global and reading the `this.name` instance property (set explicitly in CCXT constructors as string literals, which minification cannot mangle)
+- **Result**: All 34 distinct `__function:` sentinel values now carry real class names (e.g. `__function:AuthenticationError`, `__function:RateLimitExceeded`)
+- Applied to both `describe.ex` and `load_markets.ex` (each has its own `prepare()` function and QuickBEAM runtime)
+- `__undefined` sentinels unchanged — they correctly represent JS `undefined` values
+- Key insight: `Function.name` (static property) is mangled by minifiers, but `this.name = 'ExchangeError'` (instance property set in constructor) survives because string literals are never mangled
+- Updated `exchange_v1.json` schema description to document resolved sentinel format
+
 ### Task 16: Full Validation
 - `CcxtExtract.Validation` — two-layer validation module: JSON Schema conformance (draft 2020-12 via JSV) and round-trip comparison against source discovery data
 - `mix ccxt_extract.validate` — CLI task with `--strict` (CI mode) and `--schema-only` flags; writes report via `Paths.priv("output/_validation_report.json")` (resolves under `_build/` in dev, `priv/` in releases)

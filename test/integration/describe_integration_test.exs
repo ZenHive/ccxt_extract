@@ -125,8 +125,8 @@ defmodule CcxtExtract.DescribeIntegrationTest do
       end
     end
 
-    test "function sentinels are preserved", %{results: results} do
-      # exceptions.exact values are error class constructors — should be __function:*
+    test "function sentinels have resolved error class names", %{results: results} do
+      # exceptions.exact values are error class constructors — should be __function:<ClassName>
       binance = Enum.find(results, &(&1["id"] == "binance"))
       assert binance, "binance should be present"
 
@@ -138,13 +138,26 @@ defmodule CcxtExtract.DescribeIntegrationTest do
       assert map_size(exceptions) > 0,
              "binance.exceptions.exact should not be empty"
 
-      has_func_sentinel? =
+      func_sentinels =
         exceptions
         |> Map.values()
-        |> Enum.any?(&(is_binary(&1) and String.starts_with?(&1, "__function:")))
+        |> Enum.filter(&(is_binary(&1) and String.starts_with?(&1, "__function:")))
 
-      assert has_func_sentinel?,
+      assert func_sentinels != [],
              "Expected function sentinels in binance.exceptions.exact, got none"
+
+      # All sentinels should have resolved error class names, not minified single-letter names
+      for sentinel <- func_sentinels do
+        class_name = String.trim_leading(sentinel, "__function:")
+
+        assert String.length(class_name) > 1,
+               "Expected resolved class name, got minified: #{sentinel}"
+      end
+
+      # Verify known CCXT error classes appear in exact exception mappings
+      exact_values = MapSet.new(Map.values(exceptions))
+      assert "__function:AuthenticationError" in exact_values
+      assert "__function:BadRequest" in exact_values
     end
 
     test "undefined sentinels are preserved where expected", %{results: results} do

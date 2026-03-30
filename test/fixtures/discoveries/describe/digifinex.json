@@ -135,195 +135,195 @@
       "broad": {},
       "exact": {
         "20041": [
-          "__function:n",
+          "__function:PermissionDenied",
           "Beyond the daily withdrawal limit"
         ],
         "20013": [
-          "__function:k",
+          "__function:InvalidOrder",
           "No order info found"
         ],
         "20023": [
-          "__function:h",
+          "__function:BadRequest",
           "Invalid transfer type"
         ],
         "20010": [
-          "__function:k",
+          "__function:InvalidOrder",
           "Cash Amount is less than the minimum requirement"
         ],
         "10005": [
-          "__function:E",
+          "__function:DDoSProtection",
           "Request frequency exceeds the limit"
         ],
         "10011": [
-          "__function:d",
+          "__function:AccountSuspended",
           "ApiKey expired. Please go to client side to re-create an ApiKey"
         ],
         "20020": [
-          "__function:E",
+          "__function:DDoSProtection",
           "You have violated the API operation trading rules and temporarily forbid trading. At present, we have certain restrictions on the user's transaction rate and withdrawal rate."
         ],
         "20040": [
-          "__function:R",
+          "__function:RateLimitExceeded",
           "Withdraw too frequently; limitation: 3 times a minute, 100 times a day"
         ],
         "400002": [
-          "__function:h",
+          "__function:BadRequest",
           "Invalid Parameter"
         ],
         "20009": [
-          "__function:k",
+          "__function:InvalidOrder",
           "Amount is less than the minimum requirement"
         ],
         "10008": [
-          "__function:D",
+          "__function:InvalidNonce",
           "Timestamp for this request is invalid, timestamp must within 1 minute"
         ],
         "20022": [
-          "__function:h",
+          "__function:BadRequest",
           "The ending timestamp must be larger than the starting timestamp"
         ],
         "20001": [
-          "__function:n",
+          "__function:PermissionDenied",
           "Trade is not open for this trading pair"
         ],
         "20021": [
-          "__function:h",
+          "__function:BadRequest",
           "Invalid currency"
         ],
         "20026": [
-          "__function:y",
+          "__function:InsufficientFunds",
           "Transfer amount exceed your balance"
         ],
         "10009": [
-          "__function:B",
+          "__function:NetworkError",
           "Unexist endpoint, please check endpoint URL"
         ],
         "10002": [
-          "__function:a",
+          "__function:AuthenticationError",
           "Invalid ApiKey"
         ],
         "20037": [
-          "__function:b",
+          "__function:InvalidAddress",
           "The withdrawal address, Tag or chain type is not included in the withdrawal management list"
         ],
         "20019": [
-          "__function:l",
+          "__function:BadSymbol",
           "Wrong trading pair symbol. Correct format:\"usdt_btc\". Quote asset is in the front"
         ],
         "10006": [
-          "__function:n",
+          "__function:PermissionDenied",
           "Unauthorized to execute this request"
         ],
         "20018": [
-          "__function:n",
+          "__function:PermissionDenied",
           "Your trading rights have been banned by the system"
         ],
         "20038": [
-          "__function:b",
+          "__function:InvalidAddress",
           "The withdrawal address is not on the white list"
         ],
         "20035": [
-          "__function:n",
+          "__function:PermissionDenied",
           "Withdrawal limit"
         ],
         "20032": [
-          "__function:n",
+          "__function:PermissionDenied",
           "Withdrawal limited"
         ],
         "10007": [
-          "__function:n",
+          "__function:PermissionDenied",
           "IP address Unauthorized"
         ],
         "20024": [
-          "__function:h",
+          "__function:BadRequest",
           "Invalid amount"
         ],
         "20007": [
-          "__function:k",
+          "__function:InvalidOrder",
           "Price precision error"
         ],
         "20029": [
-          "__function:n",
+          "__function:PermissionDenied",
           "Transfer amount exceed your daily limit"
         ],
         "20039": [
-          "__function:r",
+          "__function:ExchangeError",
           "Can't be canceled in current status"
         ],
         "20027": [
-          "__function:n",
+          "__function:PermissionDenied",
           "Abnormal account status"
         ],
         "20036": [
-          "__function:r",
+          "__function:ExchangeError",
           "Withdrawal cancellation failed"
         ],
         "20014": [
-          "__function:h",
+          "__function:BadRequest",
           "Invalid date, Valid format: 2018-07-25)"
         ],
         "20003": [
-          "__function:k",
+          "__function:InvalidOrder",
           "Invalid price or amount"
         ],
         "20030": [
-          "__function:h",
+          "__function:BadRequest",
           "You have no position on this trading pair"
         ],
         "20025": [
-          "__function:h",
+          "__function:BadRequest",
           "This currency is not transferable at the moment"
         ],
         "20008": [
-          "__function:k",
+          "__function:InvalidOrder",
           "Amount precision error"
         ],
         "50000": [
-          "__function:r",
+          "__function:ExchangeError",
           "Exception error"
         ],
         "20034": [
-          "__function:n",
+          "__function:PermissionDenied",
           "Withdrawal service of this crypto has been closed"
         ],
         "20015": [
-          "__function:h",
+          "__function:BadRequest",
           "Date exceeds the limit"
         ],
         "20033": [
-          "__function:h",
+          "__function:BadRequest",
           "Wrong Withdrawal ID"
         ],
         "20011": [
-          "__function:y",
+          "__function:InsufficientFunds",
           "Insufficient balance"
         ],
         "10003": [
-          "__function:a",
+          "__function:AuthenticationError",
           "Sign doesn't match"
         ],
         "10004": [
-          "__function:h",
+          "__function:BadRequest",
           "Illegal request parameters"
         ],
         "20042": [
-          "__function:l",
+          "__function:BadSymbol",
           "Current trading pair does not support API trading"
         ],
         "20028": [
-          "__function:n",
+          "__function:PermissionDenied",
           "Blacklist for transfer"
         ],
         "10001": [
-          "__function:h",
+          "__function:BadRequest",
           "Wrong request method, please check it's a GET ot POST request"
         ],
         "20002": [
-          "__function:n",
+          "__function:PermissionDenied",
           "Trade of this trading pair is suspended"
         ],
         "20012": [
-          "__function:h",
+          "__function:BadRequest",
           "Invalid trade type, valid value: buy/sell)"
         ]
       }
@@ -690,31 +690,31 @@
       "watchPositions": "__undefined"
     },
     "httpExceptions": {
-      "400": "__function:L",
-      "401": "__function:a",
-      "403": "__function:L",
-      "404": "__function:L",
-      "405": "__function:L",
-      "407": "__function:a",
-      "408": "__function:V",
-      "409": "__function:L",
-      "410": "__function:L",
-      "418": "__function:E",
-      "422": "__function:r",
-      "429": "__function:R",
-      "451": "__function:L",
-      "500": "__function:L",
-      "501": "__function:L",
-      "502": "__function:L",
-      "503": "__function:L",
-      "504": "__function:V",
-      "511": "__function:a",
-      "520": "__function:L",
-      "521": "__function:L",
-      "522": "__function:L",
-      "525": "__function:L",
-      "526": "__function:L",
-      "530": "__function:L"
+      "400": "__function:ExchangeNotAvailable",
+      "401": "__function:AuthenticationError",
+      "403": "__function:ExchangeNotAvailable",
+      "404": "__function:ExchangeNotAvailable",
+      "405": "__function:ExchangeNotAvailable",
+      "407": "__function:AuthenticationError",
+      "408": "__function:RequestTimeout",
+      "409": "__function:ExchangeNotAvailable",
+      "410": "__function:ExchangeNotAvailable",
+      "418": "__function:DDoSProtection",
+      "422": "__function:ExchangeError",
+      "429": "__function:RateLimitExceeded",
+      "451": "__function:ExchangeNotAvailable",
+      "500": "__function:ExchangeNotAvailable",
+      "501": "__function:ExchangeNotAvailable",
+      "502": "__function:ExchangeNotAvailable",
+      "503": "__function:ExchangeNotAvailable",
+      "504": "__function:RequestTimeout",
+      "511": "__function:AuthenticationError",
+      "520": "__function:ExchangeNotAvailable",
+      "521": "__function:ExchangeNotAvailable",
+      "522": "__function:ExchangeNotAvailable",
+      "525": "__function:ExchangeNotAvailable",
+      "526": "__function:ExchangeNotAvailable",
+      "530": "__function:ExchangeNotAvailable"
     },
     "id": "digifinex",
     "limits": {
@@ -845,6 +845,6 @@
     },
     "version": "v3"
   },
-  "extracted_at": "2026-03-29T12:26:34.430189Z",
+  "extracted_at": "2026-03-30T11:44:01.476361Z",
   "id": "digifinex"
 }

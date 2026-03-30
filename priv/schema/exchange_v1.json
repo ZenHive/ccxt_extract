@@ -98,7 +98,7 @@
             { "type": "null" },
             { "type": "object", "additionalProperties": true }
           ],
-          "description": "Complete describe() output from CCXT runtime. Contains all configuration: api endpoints, has capabilities, fees, limits, urls, exceptions, features, timeframes, requiredCredentials, etc. May contain sentinel strings: '__undefined' (JS undefined), '__function:<name>' (JS function references). Null for alias exchanges."
+          "description": "Complete describe() output from CCXT runtime. Contains all configuration: api endpoints, has capabilities, fees, limits, urls, exceptions, features, timeframes, requiredCredentials, etc. May contain sentinel strings: '__undefined' (JS undefined values), '__function:<ClassName>' (JS function references with resolved CCXT error class names, e.g. '__function:ExchangeError'). Null for alias exchanges."
         },
         "markets": {
           "oneOf": [

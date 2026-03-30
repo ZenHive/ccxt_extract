@@ -87,15 +87,15 @@
     "enableRateLimit": true,
     "exceptions": {
       "broad": {
-        "Access denied.": "__function:a",
-        "Incorrect order ID": "__function:k",
-        "Minimum Order Size ": "__function:k",
-        "Not enough account balance available": "__function:y",
-        "TOO MANY REQUESTS": "__function:R",
-        "max allowed precision": "__function:k"
+        "Access denied.": "__function:AuthenticationError",
+        "Incorrect order ID": "__function:InvalidOrder",
+        "Minimum Order Size ": "__function:InvalidOrder",
+        "Not enough account balance available": "__function:InsufficientFunds",
+        "TOO MANY REQUESTS": "__function:RateLimitExceeded",
+        "max allowed precision": "__function:InvalidOrder"
       },
       "exact": {
-        "No order with given ID": "__function:S"
+        "No order with given ID": "__function:OrderNotFound"
       }
     },
     "features": {
@@ -492,31 +492,31 @@
       "watchPositions": "__undefined"
     },
     "httpExceptions": {
-      "400": "__function:L",
-      "401": "__function:a",
-      "403": "__function:L",
-      "404": "__function:L",
-      "405": "__function:L",
-      "407": "__function:a",
-      "408": "__function:V",
-      "409": "__function:L",
-      "410": "__function:L",
-      "418": "__function:E",
-      "422": "__function:r",
-      "429": "__function:R",
-      "451": "__function:L",
-      "500": "__function:L",
-      "501": "__function:L",
-      "502": "__function:L",
-      "503": "__function:L",
-      "504": "__function:V",
-      "511": "__function:a",
-      "520": "__function:L",
-      "521": "__function:L",
-      "522": "__function:L",
-      "525": "__function:L",
-      "526": "__function:L",
-      "530": "__function:L"
+      "400": "__function:ExchangeNotAvailable",
+      "401": "__function:AuthenticationError",
+      "403": "__function:ExchangeNotAvailable",
+      "404": "__function:ExchangeNotAvailable",
+      "405": "__function:ExchangeNotAvailable",
+      "407": "__function:AuthenticationError",
+      "408": "__function:RequestTimeout",
+      "409": "__function:ExchangeNotAvailable",
+      "410": "__function:ExchangeNotAvailable",
+      "418": "__function:DDoSProtection",
+      "422": "__function:ExchangeError",
+      "429": "__function:RateLimitExceeded",
+      "451": "__function:ExchangeNotAvailable",
+      "500": "__function:ExchangeNotAvailable",
+      "501": "__function:ExchangeNotAvailable",
+      "502": "__function:ExchangeNotAvailable",
+      "503": "__function:ExchangeNotAvailable",
+      "504": "__function:RequestTimeout",
+      "511": "__function:AuthenticationError",
+      "520": "__function:ExchangeNotAvailable",
+      "521": "__function:ExchangeNotAvailable",
+      "522": "__function:ExchangeNotAvailable",
+      "525": "__function:ExchangeNotAvailable",
+      "526": "__function:ExchangeNotAvailable",
+      "530": "__function:ExchangeNotAvailable"
     },
     "id": "coinmate",
     "limits": {
@@ -594,6 +594,6 @@
       "www": "https://coinmate.io"
     }
   },
-  "extracted_at": "2026-03-29T12:26:34.430189Z",
+  "extracted_at": "2026-03-30T11:44:01.476361Z",
   "id": "coinmate"
 }

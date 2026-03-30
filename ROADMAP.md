@@ -1,6 +1,6 @@
 # ROADMAP
 
-**Vision:** Extract everything CCXT knows about 111+ exchanges into language-agnostic JSON data, consumable by any programming language.
+**Vision:** Extract everything CCXT knows about 111+ exchanges into language-agnostic JSON data. The single source of truth for any CCXT consumer library — Elixir, Rust, Go, Python.
 
 **Completed work:** See [CHANGELOG.md](CHANGELOG.md) for finished tasks.
 
@@ -8,21 +8,26 @@
 
 ## 🎯 Current Focus
 
-**Phase 4: Output Format & Validation** — Complete. All tasks done.
+**Phase 5: Distribution** — Make extracted data consumable by any language (Elixir, Rust, Go, Python).
+
+> **Architecture decision**: ccxt_extract replaces ccxt_ex's extraction pipeline. ccxt_ex retires. Consumer libraries (ccxt_client for Elixir, future Rust/Go/Python libs) consume ccxt_extract's JSON output directly. The JSON is the contract — no Hex package needed, just `mix ccxt_extract.pipeline --output <path>`.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
-| Task 16 | Full validation | JSV-based JSON Schema enforcement + round-trip comparison; schema updated to match actual data shapes |
-| Task 15 | Full extraction pipeline | `mix ccxt_extract.pipeline` assembles all discovery data into per-exchange validated JSON; 110 exchanges, 0 validation errors |
-| Task 14 | Output schema design | Formal JSON Schema (exchange_v1.json); two-layer model (runtime + structure); three-state optionality; unified MethodAST shape |
-| Task 17 | Coverage report | 86.7% avg coverage; all 10 layers tracked per exchange; derived exchanges correctly show inherited gaps |
+| Task 23 | Resolve `__function:` sentinels | Error class names now resolved via instance name map |
+| Task 16 | Full validation | JSV schema + round-trip comparison; 110 exchanges, 0 errors |
+| Task 15 | Full extraction pipeline | `mix ccxt_extract.pipeline` assembles per-exchange validated JSON |
+| Task 14 | Output schema design | JSON Schema (exchange_v1.json); two-layer model (runtime + structure) |
+| Task 17 | Coverage report | 86.7% avg coverage; all 10 layers tracked per exchange |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 15 | ✅ | Full extraction pipeline — complete |
-| Task 16 | ✅ | Full validation — complete |
+| Task 25 | ⬜ | Configurable output directory (`--output`) |
+| Task 26 | ⬜ | CCXT version pinning and reproducibility |
+| Task 27 | ⬜ | Schema versioning contract |
+| Task 28 | ⬜ | Update workflow (re-extract on CCXT bump) |
 
 ### Quick Commands
 ```bash
@@ -149,11 +154,45 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 ---
 
+## Phase 5: Distribution ⬜
+
+> Make ccxt_extract's output consumable by any language. The JSON files are the product — delivery is `mix ccxt_extract.pipeline --output <target_dir>`. Consumer libraries (Elixir, Rust, Go) check the JSON into their own repos and build from it.
+
+- [ ] **Task 25: Configurable output directory** [D:2/B:9/U:9 → Eff:4.50] 🎯 — Add `--output <path>` flag to `mix ccxt_extract.pipeline`. Defaults to `priv/output/` (current behavior). When specified, writes all per-exchange JSON + manifest + schema to the target directory. Include `--clean` flag to remove stale exchange files in target that no longer exist in extraction. Pattern: `mix ccxt_extract.pipeline --output ../ccxt_client/priv/specs`.
+
+- [ ] **Task 26: CCXT version pinning and reproducibility** [D:3/B:8/U:8 → Eff:2.67] 🎯 — Record the exact CCXT version (git tag or commit SHA) in the manifest and each per-exchange JSON. Add `--ccxt-version` flag to `mix ccxt_extract.setup` to pin a specific CCXT release tag. Ensure same CCXT version + same extraction code = identical output (deterministic). Document the version in `_manifest.json` so consumers know what they're building from.
+
+- [ ] **Task 27: Schema versioning contract** [D:2/B:7/U:8 → Eff:3.75] 🎯 — Document the schema stability promise: `schema_version` in output JSON is the consumer contract. Patch version (1.0.x) = additive fields only. Minor version (1.x.0) = structural changes that don't break existing field access. Major version (x.0.0) = breaking changes. Add a `SCHEMA.md` documenting the contract and what each version guarantees. Consumers can check `schema_version` and fail fast on incompatible data.
+
+- [ ] **Task 28: Update workflow** [D:3/B:7/U:7 → Eff:2.33] 🎯 — Document and automate the re-extraction workflow when CCXT releases a new version. Steps: update CCXT source (`mix ccxt_extract.setup --latest`), re-run pipeline (`mix ccxt_extract.pipeline --output <target>`), validate (`mix ccxt_extract.validate --strict`). Could be a single `mix ccxt_extract.update --output <target>` that chains all three. Include diff summary: how many exchanges changed, what fields changed.
+
+---
+
 ## Data Quality
 
-- [ ] **Task 23: Resolve __function: and __undefined sentinels in describe data** [D:5/B:7/U:7 → Eff:1.40] — Re-extract describe() exceptions using the unminified CCXT bundle or by mapping minified names back to CCXT error class names. Currently most exchanges have unresolved `__function:` refs in httpExceptions, and several have `__undefined` for exceptions. Affects Task 10 output quality. HandleErrors normalizes `__undefined` to nil at its boundary, but the root cause is in the describe extraction (Task 6).
+- [x] ~~**Task 23: Resolve __function: sentinels in describe data**~~ [D:5/B:7/U:7 → Eff:1.40] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 24: Use Parity.Compare for richer round-trip diff output** [D:3/B:5/U:4 → Eff:1.50] 📋 — Replace `==` equality checks in `Validation.check_data_equality/5` with `Parity.Compare.compare/3` from `../ccxt_parity`. Currently round-trip findings say "data mismatch" — with Parity.Compare they'd show the exact path and expected vs actual values (e.g., "structure.sign_method.statements: value_mismatch expected=12 actual=999"). The `Parity.*` modules are already designed as a generic library. Either add as path dep or extract to hex first. Tolerance rules could suppress known acceptable differences (e.g., float precision in market data).
+- [ ] **Task 24: Use Parity.Compare for richer round-trip diff output** [D:3/B:5/U:4 → Eff:1.50] 📋 — Replace `==` equality checks in `Validation.check_data_equality/5` with `Parity.Compare.compare/3` from `../ccxt_parity`. Currently round-trip findings say "data mismatch" — with Parity.Compare they'd show the exact path and expected vs actual values. Either add as path dep or extract to hex first.
+
+---
+
+## Consumer Architecture
+
+> This section documents how downstream projects consume ccxt_extract's output. Not tasks — reference for future instances.
+
+**The pipeline:**
+```
+ccxt_extract                          Consumer projects
+─────────────                         ─────────────────
+mix ccxt_extract.pipeline \
+  --output ../ccxt_client/priv/specs   →  Elixir: Generator macros read JSON at compile time
+  --output ../ccxt_rust/data           →  Rust: build.rs / serde_json at compile time
+  --output ../ccxt_python/data         →  Python: json.load at import time
+```
+
+**ccxt_ex retires.** Its extraction half is replaced by ccxt_extract. Its runtime half (signing patterns, HTTP client, WS, generator macros) moves to a new ccxt_client that reads ccxt_extract's JSON — not ccxt_ex's specs. The old ccxt_client's data model is NOT the template; only its Req and ZenWebsocket usage patterns are worth referencing.
+
+**The JSON is the contract.** `exchange_v1.json` schema defines what consumers can rely on. Changes follow semver (see Task 27).
 
 ---
 

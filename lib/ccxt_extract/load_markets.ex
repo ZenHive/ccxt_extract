@@ -40,11 +40,29 @@ defmodule CcxtExtract.LoadMarkets do
   # loadMarketsForExchange: instantiates an exchange, calls loadMarkets(),
   #   and returns the full market data as JSON. Uses the prepare() sentinel
   #   pattern from Describe to preserve functions and undefined values.
+  #   In practice, market data contains only __undefined sentinels (no
+  #   __function: refs) — the error name resolution is defensive consistency
+  #   with describe.ex's prepare().
   #   Wrapped in try/catch — returns {ok: data} or {error: message}.
   #
   # Security note: This JS code runs inside QuickBEAM (sandboxed Zig NIF runtime)
   # against the CCXT vendor bundle — no user input is involved.
   @js_setup """
+  // Build map: minified Function.name → real error class name.
+  // Same pattern as describe.ex — each runtime needs its own map.
+  globalThis._errorNameMap = {};
+  for (const k of Object.keys(ccxt)) {
+    const v = ccxt[k];
+    if (typeof v === 'function') {
+      try {
+        const inst = new v();
+        if (inst instanceof Error && inst.name) {
+          _errorNameMap[v.name] = inst.name;
+        }
+      } catch(e) {}
+    }
+  }
+
   globalThis.getNonAliasIds = function() {
     const ids = Object.keys(ccxt).filter(k => {
       try {
@@ -67,7 +85,10 @@ defmodule CcxtExtract.LoadMarkets do
       function prepare(val) {
         if (val === undefined) return '__undefined';
         if (val === null) return null;
-        if (typeof val === 'function') return '__function:' + (val.name || 'anonymous');
+        if (typeof val === 'function') {
+          const resolved = _errorNameMap[val.name] || val.name || 'anonymous';
+          return '__function:' + resolved;
+        }
         if (Array.isArray(val)) return val.map(prepare);
         if (typeof val === 'object') {
           const out = {};

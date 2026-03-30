@@ -29,12 +29,32 @@ defmodule CcxtExtract.Describe do
   # getFullDescribe: returns one exchange's complete describe() as JSON.
   #
   # The prepare() function handles two edge cases before JSON serialization:
-  # - Functions (error classes, parseNumber, etc.) -> "__function:<name>"
+  # - Functions (error classes) -> "__function:<name>" with resolved class names
   # - undefined values (which JSON.stringify would silently drop) -> "__undefined"
+  #
+  # _errorNameMap resolves minified Function.name (e.g. "h") to real error class
+  # names (e.g. "ExchangeError") by instantiating each Error subclass and reading
+  # the this.name property set in CCXT's error constructors.
   #
   # Security note: This JS code runs inside QuickBEAM (sandboxed Zig NIF runtime)
   # against the CCXT vendor bundle — no user input is involved.
   @js_setup """
+  // Build map: minified Function.name → real error class name.
+  // CCXT error classes set this.name = 'ExchangeError' in their constructors,
+  // which survives minification (string literals are never mangled).
+  globalThis._errorNameMap = {};
+  for (const k of Object.keys(ccxt)) {
+    const v = ccxt[k];
+    if (typeof v === 'function') {
+      try {
+        const inst = new v();
+        if (inst instanceof Error && inst.name) {
+          _errorNameMap[v.name] = inst.name;
+        }
+      } catch(e) {}
+    }
+  }
+
   globalThis.getNonAliasIds = function() {
     const ids = Object.keys(ccxt).filter(k => {
       try {
@@ -58,7 +78,10 @@ defmodule CcxtExtract.Describe do
     function prepare(val) {
       if (val === undefined) return '__undefined';
       if (val === null) return null;
-      if (typeof val === 'function') return '__function:' + (val.name || 'anonymous');
+      if (typeof val === 'function') {
+        const resolved = _errorNameMap[val.name] || val.name || 'anonymous';
+        return '__function:' + resolved;
+      }
       if (Array.isArray(val)) return val.map(prepare);
       if (typeof val === 'object') {
         const out = {};

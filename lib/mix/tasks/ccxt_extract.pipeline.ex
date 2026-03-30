@@ -48,7 +48,7 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
         elapsed = System.monotonic_time(:millisecond) - start
         has_issues = report_results(exchanges, stats, output_dir, elapsed)
 
-        if opts[:strict] and has_issues do
+        if opts[:strict] && has_issues do
           Mix.raise("Pipeline completed with issues (strict mode). See above for details.")
         end
 

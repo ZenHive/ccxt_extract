@@ -6,6 +6,17 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 13: Class Hierarchy and Overrides
+- `CcxtExtract.Overrides` — for each exchange extending another, identifies overridden methods (with full AST body), new methods (with full AST body), and inherited methods (names only)
+- `mix ccxt_extract.overrides` — CLI task producing `priv/discoveries/overrides.json`
+- Two-phase extraction: uses `Classes.extract/0` for hierarchy data, then re-parses only derived class TS files for method bodies
+- Memoized ancestor method accumulation walks inheritance chains to compute override/new/inherited sets via MapSet operations
+- 90 derived exchanges analyzed — all 90 override `describe()` (universal override); 100 total overrides, 2352 new methods
+- REST variants (binanceus, binancecoinm, etc.) typically override only `describe` with configuration changes
+- WS exchanges add many new methods (watch*/handle*) on top of their REST parent's inherited methods
+- Key finding: `describe()` is the only universally overridden method — confirms Phase 1 discovery that exchanges differ primarily in configuration, not implementation
+- Completes Phase 3 (Structural Extraction) — all five AST extraction tasks done, unblocking Phase 4 (Output Format & Validation)
+
 ### Task 12: WS Method AST Extraction
 - `CcxtExtract.WsMethods` — extracts all `watch*()` and `handle*()` method bodies as raw ESTree AST for every WS exchange via OXC
 - `mix ccxt_extract.ws_methods` — CLI task producing `priv/discoveries/ws_methods.json`

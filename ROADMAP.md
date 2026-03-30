@@ -8,20 +8,22 @@
 
 ## 🎯 Current Focus
 
-**Phase 3: Structural Extraction** — Four tasks complete. One remaining: class hierarchy and overrides.
+**Phase 4: Output Format & Validation** — Phase 3 complete. Four tasks remaining to design schema, build pipeline, validate, and report coverage.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 13 | Class hierarchy and overrides | 90 derived exchanges, 100 overrides, 2352 new methods; describe is universal override |
 | Task 12 | WS method AST extraction | 79 WS exchanges, 69 with methods, 1574 total (watch* + handle*) |
 | Task 11 | parse*() method AST extraction | 158 unique parse methods, 1500+ instances across 110 exchanges; map-keyed output |
-| Task 10 | handleErrors() AST extraction | First extractor combining OXC AST with QuickBEAM describe() exceptions |
-| Task 9 | sign() method AST extraction | 110 exchanges scanned, 99 with sign(); full ESTree body preserved as raw JSON |
 
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 13 | ⬜ | Class hierarchy and overrides [D:6/B:8/U:8 → Eff:1.33] |
+| Task 14 | ⬜ | Design output schema [D:5/B:9/U:9 → Eff:1.80] |
+| Task 15 | ⬜ | Full extraction pipeline [D:5/B:9/U:9 → Eff:1.80] |
+| Task 16 | ⬜ | Validation [D:4/B:8/U:8 → Eff:2.00] |
+| Task 17 | ⬜ | Coverage report [D:3/B:7/U:8 → Eff:2.50] |
 
 ### Quick Commands
 ```bash
@@ -45,6 +47,7 @@ mix ccxt_extract.sign_methods                  # Extract sign() method AST
 mix ccxt_extract.handle_errors                 # Extract handleErrors() method AST
 mix ccxt_extract.parse_methods                 # Extract parse*() method ASTs
 mix ccxt_extract.ws_methods                    # Extract watch*/handle* WS method ASTs
+mix ccxt_extract.overrides                     # Extract method overrides for derived exchanges
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -107,9 +110,10 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 ---
 
-## Phase 3: Structural Extraction — OXC AST [D:7/B:9/U:8 → Eff:1.21]
+## Phase 3: Structural Extraction — OXC AST ✅
 
-> OXC parses TypeScript source into AST. Use it for structural data that QuickBEAM can't provide: method bodies, signing logic, error handling patterns, field mappings. **Output raw ESTree AST as JSON** — don't pre-classify or reduce to patterns. Consumers decide whether to pattern-match the AST (parameterized patterns) or transpile it (code generation). The AST is the data.
+> 5 tasks complete. See [CHANGELOG.md](CHANGELOG.md#unreleased) for details.
+> Built: sign(), handleErrors(), parse*(), WS methods (watch*/handle*), class hierarchy overrides — all as raw ESTree AST JSON.
 
 ### Tasks
 
@@ -121,7 +125,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 12: WS method extraction**~~ [D:5/B:8/U:7 → Eff:1.50] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 13: Class hierarchy and overrides** [D:6/B:8/U:8 → Eff:1.33] — Build the complete class hierarchy tree. For each exchange that extends another, identify exactly which methods are overridden and include the override's AST. This tells consumers both what's unique about each exchange AND gives them the code to work with.
+- [x] ~~**Task 13: Class hierarchy and overrides**~~ [D:6/B:8/U:8 → Eff:1.33] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 ---
 

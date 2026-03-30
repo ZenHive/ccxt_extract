@@ -1,6 +1,8 @@
 defmodule CcxtExtract.FamilyAnalysisTest do
   use ExUnit.Case, async: true
 
+  import ExUnit.CaptureLog
+
   alias CcxtExtract.FamilyAnalysis
 
   # --- Fixtures ---
@@ -210,6 +212,39 @@ defmodule CcxtExtract.FamilyAnalysisTest do
       # All overridden: describe, transferIn, transferOut (transferIn/Out are new, not in root)
       # Shared = root methods not overridden by anyone = fetchMarkets, sign, handleErrors
       assert result["shared_method_count"] == 3
+    end
+
+    @tag :tmp_dir
+    test "logs warning when root describe file is missing", %{tmp_dir: tmp_dir} do
+      family = Enum.find(sample_families(), &(&1["root"] == "binance"))
+      member_path = Path.join(tmp_dir, "binanceus.json")
+      File.write!(member_path, Jason.encode!(%{"describe" => %{"id" => "binanceus"}}))
+
+      log =
+        capture_log(fn ->
+          result = FamilyAnalysis.analyze_family(family, sample_class_lookup(), tmp_dir)
+          member = Enum.find(result["members"], &(&1["id"] == "binanceus"))
+          assert member["describe_changed_keys"] == []
+        end)
+
+      assert log =~ "Missing describe file for root exchange binance"
+      assert log =~ Path.join(tmp_dir, "binance.json")
+    end
+
+    @tag :tmp_dir
+    test "does not log warning when member describe file is missing", %{tmp_dir: tmp_dir} do
+      family = Enum.find(sample_families(), &(&1["root"] == "binance"))
+      root_path = Path.join(tmp_dir, "binance.json")
+      File.write!(root_path, Jason.encode!(%{"describe" => %{"id" => "binance"}}))
+
+      log =
+        capture_log(fn ->
+          result = FamilyAnalysis.analyze_family(family, sample_class_lookup(), tmp_dir)
+          member = Enum.find(result["members"], &(&1["id"] == "binanceus"))
+          assert member["describe_changed_keys"] == []
+        end)
+
+      assert log == ""
     end
   end
 

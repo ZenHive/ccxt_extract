@@ -325,6 +325,15 @@ defmodule CcxtExtract.MarketValidationTest do
       assert {:ok, report} = MarketValidation.validate(input_dir: tmp_dir)
       assert report["exchange_count"] == 1
     end
+
+    @tag :tmp_dir
+    test "raises when manifest is malformed and succeeded key is missing", %{tmp_dir: tmp_dir} do
+      File.write!(Path.join(tmp_dir, "_manifest.json"), Jason.encode!(%{"failed" => []}))
+
+      assert_raise Protocol.UndefinedError, fn ->
+        MarketValidation.validate(input_dir: tmp_dir)
+      end
+    end
   end
 
   describe "undefined density" do

@@ -21,9 +21,13 @@ defmodule Mix.Tasks.ErrorPathTest do
   describe "mix ccxt_extract.describe_key_analysis" do
     test "raises when describe_keys.json is missing" do
       with_renamed(@describe_keys_path, fn ->
-        assert_raise Mix.Error, ~r/Missing input file/, fn ->
-          DescribeKeyAnalysis.run([])
-        end
+        error =
+          assert_raise Mix.Error, fn ->
+            DescribeKeyAnalysis.run([])
+          end
+
+        assert Exception.message(error) ==
+                 "Missing input file: #{@describe_keys_path}\nRun `mix ccxt_extract.describe_keys` first."
       end)
     end
   end
@@ -31,9 +35,13 @@ defmodule Mix.Tasks.ErrorPathTest do
   describe "mix ccxt_extract.family_analysis" do
     test "raises when class_hierarchy.json is missing" do
       with_renamed(@class_hierarchy_path, fn ->
-        assert_raise Mix.Error, ~r/Missing input file/, fn ->
-          FamilyAnalysis.run([])
-        end
+        error =
+          assert_raise Mix.Error, fn ->
+            FamilyAnalysis.run([])
+          end
+
+        assert Exception.message(error) ==
+                 "Missing input file: #{@class_hierarchy_path}\nRun `mix ccxt_extract.summary` and `mix ccxt_extract.describe` first."
       end)
     end
   end
@@ -41,9 +49,13 @@ defmodule Mix.Tasks.ErrorPathTest do
   describe "mix ccxt_extract.method_analysis" do
     test "raises when methods_rest.json is missing" do
       with_renamed(@methods_rest_path, fn ->
-        assert_raise Mix.Error, ~r/Missing input file/, fn ->
-          MethodAnalysis.run([])
-        end
+        error =
+          assert_raise Mix.Error, fn ->
+            MethodAnalysis.run([])
+          end
+
+        assert Exception.message(error) ==
+                 "Missing input file: #{@methods_rest_path}\nRun `mix ccxt_extract.methods` first."
       end)
     end
   end

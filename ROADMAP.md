@@ -8,11 +8,12 @@
 
 ## 🎯 Current Focus
 
-**Phase 3: Structural Extraction** — Three tasks complete. Two remaining: one independent `[P]` task, one dependent.
+**Phase 3: Structural Extraction** — Four tasks complete. One remaining: class hierarchy and overrides.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 12 | WS method AST extraction | 79 WS exchanges, 69 with methods, 1574 total (watch* + handle*) |
 | Task 11 | parse*() method AST extraction | 158 unique parse methods, 1500+ instances across 110 exchanges; map-keyed output |
 | Task 10 | handleErrors() AST extraction | First extractor combining OXC AST with QuickBEAM describe() exceptions |
 | Task 9 | sign() method AST extraction | 110 exchanges scanned, 99 with sign(); full ESTree body preserved as raw JSON |
@@ -20,7 +21,6 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 12 `[P]` | ⬜ | WS method extraction [D:5/B:8/U:7 → Eff:1.50] |
 | Task 13 | ⬜ | Class hierarchy and overrides [D:6/B:8/U:8 → Eff:1.33] |
 
 ### Quick Commands
@@ -44,6 +44,7 @@ mix ccxt_extract.family_analysis               # Analyze exchange families
 mix ccxt_extract.sign_methods                  # Extract sign() method AST
 mix ccxt_extract.handle_errors                 # Extract handleErrors() method AST
 mix ccxt_extract.parse_methods                 # Extract parse*() method ASTs
+mix ccxt_extract.ws_methods                    # Extract watch*/handle* WS method ASTs
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -118,7 +119,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 11: parse*() method extraction**~~ [D:5/B:9/U:8 → Eff:1.70] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 12: WS method extraction** [D:5/B:8/U:7 → Eff:1.50] `[P]` — Extract all `watch*` and `handle*` methods from `pro/*.ts` as raw ESTree AST. These define WebSocket subscription and message handling. Output full method ASTs — channel names, message formats, and subscription logic are all embedded in the code and should be preserved structurally.
+- [x] ~~**Task 12: WS method extraction**~~ [D:5/B:8/U:7 → Eff:1.50] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 13: Class hierarchy and overrides** [D:6/B:8/U:8 → Eff:1.33] — Build the complete class hierarchy tree. For each exchange that extends another, identify exactly which methods are overridden and include the override's AST. This tells consumers both what's unique about each exchange AND gives them the code to work with.
 

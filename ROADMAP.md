@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 29 | Comparison script vs old ccxt_client specs | 100% coverage; all old keys classified as covered/richer/consumer-specific |
 | Task 23 | Resolve `__function:` sentinels | Error class names now resolved via instance name map |
 | Task 16 | Full validation | JSV schema + round-trip comparison; 110 exchanges, 0 errors |
 | Task 15 | Full extraction pipeline | `mix ccxt_extract.pipeline` assembles per-exchange validated JSON |
@@ -28,6 +29,15 @@
 | Task 26 | ⬜ | CCXT version pinning and reproducibility |
 | Task 27 | ⬜ | Schema versioning contract |
 | Task 28 | ⬜ | Update workflow (re-extract on CCXT bump) |
+
+### 📋 Go Extractor Parity (Phase 6)
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 30 `[P]` | ⬜ | Interface signatures from `abstract/*.ts` (~14k sigs) |
+| Task 31 `[P]` | ⬜ | Base normalizer methods from `Exchange.ts` (~88+ methods) |
+| Task 32 `[P]` | ⬜ | Pagination strategy per method per exchange |
+| Task 33 | ⬜ | Auth assembly decomposition (enriches sign_method) |
+| Task 34 | ⬜ | Handler routing tables (method → handler deps) |
 
 ### Quick Commands
 ```bash
@@ -165,6 +175,22 @@ mix test.json --quiet --only extraction    # Only extraction tests
 - [ ] **Task 27: Schema versioning contract** [D:2/B:7/U:8 → Eff:3.75] 🎯 — Document the schema stability promise: `schema_version` in output JSON is the consumer contract. Patch version (1.0.x) = additive fields only. Minor version (1.x.0) = structural changes that don't break existing field access. Major version (x.0.0) = breaking changes. Add a `SCHEMA.md` documenting the contract and what each version guarantees. Consumers can check `schema_version` and fail fast on incompatible data.
 
 - [ ] **Task 28: Update workflow** [D:3/B:7/U:7 → Eff:2.33] 🎯 — Document and automate the re-extraction workflow when CCXT releases a new version. Steps: update CCXT source (`mix ccxt_extract.setup --latest`), re-run pipeline (`mix ccxt_extract.pipeline --output <target>`), validate (`mix ccxt_extract.validate --strict`). Could be a single `mix ccxt_extract.update --output <target>` that chains all three. Include diff summary: how many exchanges changed, what fields changed.
+
+---
+
+## Phase 6: Go Extractor Parity ⬜
+
+> The Go extractor (ccxt_go_extractor) extracts 5 categories we don't yet cover. All are extractable from TS source via OXC. Achieving parity means ccxt_extract fully supersedes both the old Elixir specs AND the Go extractor.
+
+- [ ] **Task 30: Interface signatures from abstract/*.ts** [D:3/B:8/U:9 → Eff:2.83] 🎯 `[P]` — Parse each `priv/ccxt/ts/src/abstract/<exchange>.ts` with OXC and extract every interface method signature (name, params, return type). These are the generated per-exchange API method type definitions — the Go extractor had ~72k across all exchanges. Add to structure layer as `interface_signatures`. Include in pipeline output and schema.
+
+- [ ] **Task 31: Base normalizer methods from Exchange.ts** [D:3/B:7/U:8 → Eff:2.50] 🎯 `[P]` — Parse `priv/ccxt/ts/src/base/Exchange.ts` with OXC and extract all `parse*()`, `safe*()`, `normalize*()` method definitions — signatures, parameter types, return types. These are the ~88+ base class methods that every exchange inherits. Store once (not per-exchange) in a shared `_base_methods.json` or similar. The Go extractor had ~1,320 items.
+
+- [ ] **Task 32: Pagination strategy extraction** [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — For each exchange, identify which methods use pagination and which strategy (Dynamic, Deterministic, Cursor, Incremental). Parse per-exchange TS source with OXC, find CallExpressions matching `fetchPaginatedCall*` variants. Output per-exchange map of `{method_name: pagination_strategy}`. The Go extractor had ~194 items. Add to structure layer.
+
+- [ ] **Task 33: Auth assembly decomposition** [D:6/B:8/U:8 → Eff:1.33] 📋 — Decompose the existing `sign_method` AST into structured auth assembly steps: which auth type, what gets signed (query/body/headers), which crypto operations (HMAC, RSA, Ed25519), header names. Pattern-match the AST to extract structured signing recipes rather than raw AST trees. The Go extractor had ~411 items. This enriches the existing `sign_method` field rather than replacing it — add `sign_assembly` alongside it.
+
+- [ ] **Task 34: Handler routing extraction** [D:5/B:7/U:7 → Eff:1.40] 📋 — Extract which exchange methods route to which handlers (handleErrors, sign, parse*). Analyze method bodies for `this.handleErrors()`, `this.sign()`, and internal dispatch patterns. Produces a per-exchange routing table showing method → handler dependencies. The Go extractor had ~1,487 items. Add to structure layer as `handler_routing`.
 
 ---
 

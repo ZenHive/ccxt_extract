@@ -6,6 +6,20 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Comparison script — ccxt_extract vs ccxt_go_extractor
+- `examples/compare_go_extractor.exs` compares structural AST data between the TS-based ccxt_extract and the Go-based ccxt_go_extractor across 110 overlapping exchanges
+- Runs Go extractor's `profile` command live via `System.cmd` for each exchange
+- **Key findings**: 98.1% parse method name overlap; Go has 14,181 endpoint stubs vs 8,896 API paths (Go generates per-endpoint functions); WS overlap is 37.3% because TS includes `handle*` internal handlers while Go tracks those separately in `handlers.assembly`
+- Each extractor has unique data: Go provides handler routing, auth assembly, pagination, base normalizers, interface signatures; ccxt_extract provides runtime describe, has flags, markets, overrides
+
+### Task 29: Comparison script — ccxt_extract vs old ccxt_client specs
+- `examples/compare_old_specs.exs` compares new JSON output against old `.exs` specs from `../ccxt_client/priv/specs/extracted/`
+- Classifies each old spec key as **covered** (equivalent in new output), **richer** (new has more detail), **consumer-specific** (computed by ccxt_ex, not from CCXT), or **unknown** (not in any category)
+- Spot-checks covered keys with exact match, key-subset, or presence checks; uses fuzzy normalization to handle camelCase↔snake_case and acronym splitting differences
+- **Result**: 100% coverage across 104 overlapping exchanges — zero unknown keys, all old keys accounted for
+- Remaining spot-check failures are expected: `urls` has 3 ccxt_ex-added keys (`api_sections`, `other`, `sandbox`); `has` has 2 keys removed between CCXT 4.5.42→4.5.45 (`watchMarkPrice`, `watchMarkPrices`)
+- 38 exchanges missing `ws` structure data (exchanges without WebSocket support)
+
 ### Task 23: Resolve `__function:` sentinels in describe data
 - **Problem**: The minified CCXT browser bundle mangled error class names — `__function:ExchangeError` appeared as `__function:h`, losing the mapping from error codes to CCXT error classes across all 107 exchanges
 - **Solution**: Build an `_errorNameMap` at runtime by instantiating each Error subclass on the `ccxt` global and reading the `this.name` instance property (set explicitly in CCXT constructors as string literals, which minification cannot mangle)

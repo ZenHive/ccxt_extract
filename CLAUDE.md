@@ -117,10 +117,51 @@ cd priv/ccxt && git sparse-checkout set ts/src
 ```
 priv/ccxt/ts/src/              # 111 REST exchange classes + base Exchange
 priv/ccxt/ts/src/pro/          # ~78 WS exchange implementations
-priv/ccxt/ts/src/abstract/     # Type definitions per exchange
-priv/ccxt/ts/src/base/         # Base Exchange class + utilities
+priv/ccxt/ts/src/abstract/     # Generated interface files — typed API method signatures per exchange
+priv/ccxt/ts/src/base/         # Base Exchange class (~9k lines) + utilities, errors, types
 node_modules/ccxt/dist/        # Pre-built browser bundle for QuickBEAM
 ```
+
+## Current Output Schema (exchange_v1.json)
+
+Per-exchange JSON has three top-level sections:
+
+```
+{
+  "schema_version": "1.0",
+  "ccxt_version": "4.x.x",
+  "exchange": { id, name, alias },
+  "runtime": {
+    "describe": { ... },          # Resolved describe() via QuickBEAM (has, api, exceptions, etc.)
+    "markets": { ... }            # loadMarkets() data (symbols, precision, limits, fees)
+  },
+  "structure": {
+    "class_info": { ... },        # Class name, parent, file path
+    "methods": { ... },           # REST + WS method inventory (names, async, params)
+    "sign_method": { ... },       # sign() AST body
+    "handle_errors": { ... },     # handleErrors() AST body
+    "parse_methods": { ... },     # parse*() AST bodies
+    "ws_methods": { ... },        # watch*/handle* WS AST bodies
+    "overrides": { ... }          # Methods overridden vs parent class
+  }
+}
+```
+
+All keys always present (null when not applicable). Two-state: data or null.
+
+## Extraction Gaps (vs Go Extractor)
+
+These categories exist in the Go extractor but not yet in ccxt_extract. All are extractable from TS source — see Phase 6 in ROADMAP.md:
+
+| Category | Source | Status |
+|----------|--------|--------|
+| **Interface signatures** | `abstract/*.ts` — per-exchange typed API method definitions | Task 30 |
+| **Auth assembly** | Decomposed signing steps from `sign()` AST | Task 33 |
+| **Pagination strategies** | `fetchPaginatedCall*` patterns in method bodies | Task 32 |
+| **Base normalizers** | `parse*()`, `safe*()` methods in `base/Exchange.ts` | Task 31 |
+| **Handler routing** | Method → handler dispatch tables | Task 34 |
+
+Consumer priority: interface signatures > auth assembly > pagination > base normalizers > handler routing.
 
 ## Output Requirements
 
@@ -153,7 +194,26 @@ mix run examples/3_quickbeam_describe.exs binance
 
 ## Examples
 
-The `examples/` directory contains 5 working scripts that demonstrate OXC and QuickBEAM. Run them to understand the tools before building extraction logic. They are the quickest way to see what data is available.
+The `examples/` directory contains working scripts. The numbered ones demonstrate OXC and QuickBEAM — run them to understand the tools. The `compare_*` scripts measure extraction coverage against other extractors.
+
+### Tool Demos
+```bash
+mix run examples/1_parse_exchange.exs binance    # OXC: parse TS → ESTree AST
+mix run examples/2_extract_describe.exs binance  # OXC: extract describe() from AST
+mix run examples/3_quickbeam_describe.exs binance # QuickBEAM: resolved describe() at runtime
+mix run examples/4_quickbeam_fetch_ticker.exs     # QuickBEAM: live API call
+mix run examples/5_family_variants.exs            # Family analysis (binance → binanceus, etc.)
+```
+
+### Comparison Scripts
+```bash
+# Requires: ../ccxt_go_extractor built (go build -o ccxt-extract ./cmd/ccxt-extract)
+mix run examples/compare_go_extractor.exs   # Compare vs Go extractor — shows what each has
+
+# Requires: ../ccxt_client/priv/specs/extracted/ (old ccxt_client .exs specs)
+mix run examples/compare_old_counts.exs     # Data volume comparison (endpoints, has, exceptions)
+mix run examples/compare_old_specs.exs      # Key-by-key coverage validation
+```
 
 ## How CCXT Works: Transpilation Architecture
 

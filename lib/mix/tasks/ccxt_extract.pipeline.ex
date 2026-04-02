@@ -7,6 +7,7 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
   Each output file combines runtime data (describe, markets) and structural
   data (class hierarchy, method ASTs, overrides) into a single JSON document.
+  The output directory also includes `_manifest.json` and `exchange_v1.json`.
 
       mix ccxt_extract.pipeline
       mix ccxt_extract.pipeline --output /tmp/exchange_output
@@ -14,7 +15,7 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
   ## Options
 
-    * `--output` — custom output directory (default: `priv/output`)
+    * `--output` — custom output directory (default: `priv/output`); stale exchange JSON files are cleaned automatically
     * `--strict` — fail with non-zero exit if validation errors or missing per-exchange files
   """
 

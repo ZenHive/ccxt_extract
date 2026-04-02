@@ -6,6 +6,13 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 25: Configurable output directory
+- Completed the distribution output contract for `mix ccxt_extract.pipeline --output <path>`
+- `CcxtExtract.Pipeline.write!/2` now copies `priv/schema/exchange_v1.json` into the target directory as `exchange_v1.json`
+- Output directories now contain the full consumer artifact set: per-exchange JSON files, `_manifest.json`, and `exchange_v1.json`
+- Preserved the existing automatic stale-file cleanup for exchange JSON files when rewriting a target directory
+- Added regression coverage for schema copy, stale exchange cleanup, and cached fixture-backed custom output writes
+
 ### Audit 5: Pipeline assembly and nullability semantics
 - No confirmed real-artifact nullability defects were found in the tracked cached fixture set for this scope
 - Clarified legitimate `null` cases with cached regression coverage for alias layers, non-pro WS layers, root-exchange overrides, empty `parse_methods`, and source entries that explicitly report `handle_errors: null`

@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 25 | Configurable output directory | `--output` now emits per-exchange JSON, `_manifest.json`, and `exchange_v1.json`; stale exchange files are cleaned automatically |
 | Task 29 | Comparison script vs old ccxt_client specs | 100% coverage; all old keys classified as covered/richer/consumer-specific |
 | Task 23 | Resolve `__function:` sentinels | Error class names now resolved via instance name map |
 | Task 16 | Full validation | JSV schema + round-trip comparison; 110 exchanges, 0 errors |
@@ -25,7 +26,6 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 25 | ⬜ | Configurable output directory (`--output`) |
 | Task 26 | ⬜ | CCXT version pinning and reproducibility |
 | Task 27 | ⬜ | Schema versioning contract |
 | Task 28 | ⬜ | Update workflow (re-extract on CCXT bump) |
@@ -175,7 +175,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 > Make ccxt_extract's output consumable by any language. The JSON files are the product — delivery is `mix ccxt_extract.pipeline --output <target_dir>`. Consumer libraries (Elixir, Rust, Go) check the JSON into their own repos and build from it.
 
-- [ ] **Task 25: Configurable output directory** [D:2/B:9/U:9 → Eff:4.50] 🎯 — Add `--output <path>` flag to `mix ccxt_extract.pipeline`. Defaults to `priv/output/` (current behavior). When specified, writes all per-exchange JSON + manifest + schema to the target directory. Include `--clean` flag to remove stale exchange files in target that no longer exist in extraction. Pattern: `mix ccxt_extract.pipeline --output ../ccxt_client/priv/specs`.
+- [x] ~~**Task 25: Configurable output directory**~~ [D:2/B:9/U:9 → Eff:4.50] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 26: CCXT version pinning and reproducibility** [D:3/B:8/U:8 → Eff:2.67] 🎯 — Record the exact CCXT version (git tag or commit SHA) in the manifest and each per-exchange JSON. Add `--ccxt-version` flag to `mix ccxt_extract.setup` to pin a specific CCXT release tag. Ensure same CCXT version + same extraction code = identical output (deterministic). Document the version in `_manifest.json` so consumers know what they're building from.
 
@@ -212,7 +212,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [ ] **Task 36: Schema migration framework** [D:2/B:5/U:6 → Eff:3.00] 📋 — Add `CcxtExtract.Schema.Migrator` module for future schema version upgrades. Even if v1.0 → v2.0 migration is a no-op initially, the framework should exist: `migrate/2` function that takes `{data, from_version}` and returns `{data, to_version}`. Document migration strategy in `SCHEMA.md`. Future-proofs the project for breaking changes (new required fields, structural reorganizations).
 
-- [ ] **Task 37: Fix Credo compatibility on Elixir 1.18+** [D:2/B:4/U:3 → Eff:1.50] 🔧 — Credo 1.7.x crashes on multi-line `~w` sigils and certain `~r` patterns due to tokenization bug in `Credo.Code.Token.position/1`. Options: (1) upgrade to Credo 1.8+ when available, (2) replace problematic sigils with lists in test files, (3) disable space_around_operators check for sigils. Low impact — `mix test` and `mix dialyzer` both pass, Credo is dev-only.
+- [ ] **Task 37: Fix Credo compatibility on Elixir 1.18+** [D:2/B:4/U:3 → Eff:1.50] 🔧 — Credo 1.7.x crashes on multi-line `~w` sigils and certain `~r` patterns due to tokenization bug in `Credo.Code.Token.position/1`. **Workaround applied:** switched to `github: "rrrene/credo", branch: "release/1.7"` git dep which includes the fix. Remaining: switch back to hex release (`~> 1.8`) when published. Low impact — `mix test` and `mix dialyzer` both pass, Credo is dev-only.
 
 ---
 

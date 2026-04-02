@@ -209,7 +209,7 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
 
   describe "write and read round-trip" do
     @tag :tmp_dir
-    test "writes per-exchange files and manifest", %{exchanges: exchanges, tmp_dir: tmp_dir} do
+    test "writes per-exchange files, schema, and manifest", %{exchanges: exchanges, tmp_dir: tmp_dir} do
       Pipeline.write!(exchanges, tmp_dir)
 
       # Manifest exists
@@ -225,6 +225,10 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
       binance = binance_path |> File.read!() |> Jason.decode!()
       assert binance["exchange"]["id"] == "binance"
       assert :ok = Schema.validate(binance)
+
+      schema_path = Path.join(tmp_dir, "exchange_v1.json")
+      assert File.exists?(schema_path)
+      assert schema_path |> File.read!() |> Jason.decode!() |> is_map()
     end
   end
 end

@@ -74,7 +74,7 @@ defmodule CcxtExtract.Pipeline do
   end
 
   @doc """
-  Write per-exchange JSON files and a manifest.
+  Write per-exchange JSON files, the schema, and a manifest.
 
   Cleans stale files from the output directory before writing.
   """
@@ -92,6 +92,7 @@ defmodule CcxtExtract.Pipeline do
     manifest = build_manifest(exchanges)
     manifest_path = Path.join(output_dir, "_manifest.json")
     File.write!(manifest_path, Jason.encode!(manifest, pretty: true))
+    copy_schema!(output_dir)
 
     :ok
   end
@@ -721,7 +722,7 @@ defmodule CcxtExtract.Pipeline do
     output_dir
     |> File.ls!()
     |> Enum.filter(&String.ends_with?(&1, ".json"))
-    |> Enum.reject(&(&1 == "_manifest.json"))
+    |> Enum.reject(&(&1 in ["_manifest.json", "exchange_v1.json"]))
     |> Enum.each(fn filename ->
       id = String.trim_trailing(filename, ".json")
 
@@ -729,6 +730,12 @@ defmodule CcxtExtract.Pipeline do
         File.rm!(Path.join(output_dir, filename))
       end
     end)
+  end
+
+  defp copy_schema!(output_dir) do
+    schema_source = Paths.priv("schema/exchange_v1.json")
+    schema_target = Path.join(output_dir, "exchange_v1.json")
+    File.cp!(schema_source, schema_target)
   end
 
   defp build_manifest(exchanges) do

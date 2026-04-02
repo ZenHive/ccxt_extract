@@ -1026,6 +1026,40 @@ defmodule CcxtExtract.PipelineTest do
     end
   end
 
+  describe "write!/2" do
+    @tag :tmp_dir
+    test "copies exchange_v1.json into the output directory", %{tmp_dir: tmp_dir} do
+      Pipeline.write!([full_exchange()], tmp_dir)
+
+      schema_path = Path.join(tmp_dir, "exchange_v1.json")
+      assert File.exists?(schema_path)
+      assert schema_path |> File.read!() |> Jason.decode!() |> is_map()
+      assert File.read!(schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v1.json"))
+    end
+
+    @tag :tmp_dir
+    test "removes stale exchange files and refreshes schema and manifest", %{tmp_dir: tmp_dir} do
+      stale_exchange_path = Path.join(tmp_dir, "staleex.json")
+      stale_manifest_path = Path.join(tmp_dir, "_manifest.json")
+      stale_schema_path = Path.join(tmp_dir, "exchange_v1.json")
+
+      File.write!(stale_exchange_path, Jason.encode!(%{"exchange" => %{"id" => "staleex"}}))
+      File.write!(stale_manifest_path, Jason.encode!(%{"exchange_count" => 0, "exchanges" => []}))
+      File.write!(stale_schema_path, ~s({"stale":true}))
+
+      exchange = full_exchange()
+      Pipeline.write!([exchange], tmp_dir)
+
+      refute File.exists?(stale_exchange_path)
+
+      manifest = stale_manifest_path |> File.read!() |> Jason.decode!()
+      assert manifest["exchange_count"] == 1
+      assert manifest["exchanges"] == ["testex"]
+
+      assert File.read!(stale_schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v1.json"))
+    end
+  end
+
   # --- Helpers ---
 
   # Builds a full exchange map with custom overrides for validation testing
@@ -1034,5 +1068,9 @@ defmodule CcxtExtract.PipelineTest do
     meta = full_meta()
     result = Pipeline.build_exchange_data(meta, data, @schema_opts)
     put_in(result, ["structure", "overrides"], overrides_value)
+  end
+
+  defp full_exchange do
+    Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
   end
 end

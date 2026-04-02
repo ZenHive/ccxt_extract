@@ -868,7 +868,7 @@ defmodule CcxtExtract.Validation do
     %{
       "validated_at" => DateTime.to_iso8601(DateTime.utc_now()),
       "exchange_count" => length(exchange_results),
-      "schema_version" => "1.0",
+      "schema_version" => "1.0.0",
       "summary" => %{
         "schema_pass" => schema_pass,
         "schema_fail" => schema_fail,

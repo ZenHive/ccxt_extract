@@ -15,13 +15,10 @@
 @~/.claude/includes/development-commands.md
 @~/.claude/includes/ex-unit-json.md
 @~/.claude/includes/dialyzer-json.md
-@~/.claude/includes/library-design.md
+@~/.claude/includes/cli-aliases.md
 @~/.claude/includes/elixir-volt.md
 @~/.claude/includes/oxc.md
 @~/.claude/includes/quickbeam.md
-@~/.claude/includes/npm-ci-verify.md
-@~/.claude/includes/npm-security-audit.md
-@~/.claude/includes/npm-dep-analysis.md
 
 ## Mission
 
@@ -128,7 +125,7 @@ Per-exchange JSON has three top-level sections:
 
 ```
 {
-  "schema_version": "1.0",
+  "schema_version": "1.0.0",
   "ccxt_version": "4.x.x",
   "exchange": { id, name, alias },
   "runtime": {

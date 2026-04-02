@@ -53,7 +53,7 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
 
     test "all exchanges have consistent envelope", %{exchanges: exchanges} do
       for exchange <- exchanges do
-        assert exchange["schema_version"] == "1.0"
+        assert exchange["schema_version"] == "1.0.0"
         assert exchange["ccxt_version"] == "4.5.45"
         assert exchange["extracted_at"] == "2026-03-30T12:00:00Z"
         assert is_binary(exchange["exchange"]["id"])

@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 27 | Schema versioning contract | `SCHEMA.md` documents semver contract for `schema_version` field; consumer guidance for Elixir/Rust/Python |
 | Task 30 | Interface signatures from `abstract/*.ts` | Fixed: now extracts all 110 exchanges (was 99 — alias exchanges skipped); round-trip validation wired up |
 | Task 25 | Configurable output directory | `--output` now emits per-exchange JSON, `_manifest.json`, and `exchange_v1.json`; stale exchange files are cleaned automatically |
 | Task 29 | Comparison script vs old ccxt_client specs | 100% coverage; all old keys classified as covered/richer/consumer-specific |
@@ -28,7 +29,7 @@
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 26 | ⬜ | CCXT version pinning and reproducibility |
-| Task 27 | ⬜ | Schema versioning contract |
+| Task 27 | ✅ | Schema versioning contract — `SCHEMA.md` |
 | Task 28 | ⬜ | Update workflow (re-extract on CCXT bump) |
 
 ### 📋 Go Extractor Parity (Phase 6)
@@ -181,9 +182,9 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [ ] **Task 26: CCXT version pinning and reproducibility** [D:3/B:8/U:8 → Eff:2.67] 🎯 — Record the exact CCXT version (git tag or commit SHA) in the manifest and each per-exchange JSON. Add `--ccxt-version` flag to `mix ccxt_extract.setup` to pin a specific CCXT release tag. Ensure same CCXT version + same extraction code = identical output (deterministic). Document the version in `_manifest.json` so consumers know what they're building from.
 
-- [ ] **Task 27: Schema versioning contract** [D:2/B:7/U:8 → Eff:3.75] 🎯 — Document the schema stability promise: `schema_version` in output JSON is the consumer contract. Patch version (1.0.x) = additive fields only. Minor version (1.x.0) = structural changes that don't break existing field access. Major version (x.0.0) = breaking changes. Add a `SCHEMA.md` documenting the contract and what each version guarantees. Consumers can check `schema_version` and fail fast on incompatible data.
+- [x] ~~**Task 27: Schema versioning contract**~~ [D:2/B:7/U:8 → Eff:3.75] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 28: Update workflow** [D:3/B:7/U:7 → Eff:2.33] 🎯 — Document and automate the re-extraction workflow when CCXT releases a new version. Steps: update CCXT source (`mix ccxt_extract.setup --latest`), re-run pipeline (`mix ccxt_extract.pipeline --output <target>`), validate (`mix ccxt_extract.validate --strict`). Could be a single `mix ccxt_extract.update --output <target>` that chains all three. Include diff summary: how many exchanges changed, what fields changed.
+- [ ] **Task 28: Update workflow** [D:3/B:7/U:7 → Eff:2.33] 🎯 `[Codex]` — Document and automate the re-extraction workflow when CCXT releases a new version. Steps: update CCXT source (`mix ccxt_extract.setup --latest`), re-run pipeline (`mix ccxt_extract.pipeline --output <target>`), validate (`mix ccxt_extract.validate --strict`). Could be a single `mix ccxt_extract.update --output <target>` that chains all three. Include diff summary: how many exchanges changed, what fields changed.
 
 ---
 
@@ -212,9 +213,9 @@ mix test.json --quiet --only extraction    # Only extraction tests
   - **35b: `CcxtExtract.MethodASTBuilder`** — Extract `extract_method_data/1` — unified MethodAST builder for parse_methods, ws_methods, overrides.
   - **35c: `CcxtExtract.DiscoveryLoader`** — Extract shared data loading from `Pipeline.load_all_data/2` and `Validation.load_source_data/1`. Three modes: `:strict` (raise on missing), `:track` (return `{data, missing_list}`), `:silent` (return `%{}` on error).
 
-- [ ] **Task 36: Schema migration framework** [D:2/B:5/U:6 → Eff:3.00] 📋 — Add `CcxtExtract.Schema.Migrator` module for future schema version upgrades. Even if v1.0 → v2.0 migration is a no-op initially, the framework should exist: `migrate/2` function that takes `{data, from_version}` and returns `{data, to_version}`. Document migration strategy in `SCHEMA.md`. Future-proofs the project for breaking changes (new required fields, structural reorganizations).
+- [ ] **Task 36: Schema migration framework** [D:2/B:5/U:6 → Eff:3.00] 📋 `[Codex]` — Add `CcxtExtract.Schema.Migrator` module for future schema version upgrades. Even if v1.0 → v2.0 migration is a no-op initially, the framework should exist: `migrate/2` function that takes `{data, from_version}` and returns `{data, to_version}`. Document migration strategy in `SCHEMA.md`. Future-proofs the project for breaking changes (new required fields, structural reorganizations).
 
-- [ ] **Task 37: Fix Credo compatibility on Elixir 1.18+** [D:2/B:4/U:3 → Eff:1.50] 🔧 — Credo 1.7.x crashes on multi-line `~w` sigils and certain `~r` patterns due to tokenization bug in `Credo.Code.Token.position/1`. **Workaround applied:** switched to `github: "rrrene/credo", branch: "release/1.7"` git dep which includes the fix. Remaining: switch back to hex release (`~> 1.8`) when published. Low impact — `mix test` and `mix dialyzer` both pass, Credo is dev-only.
+- [ ] **Task 37: Fix Credo compatibility on Elixir 1.18+** [D:2/B:4/U:3 → Eff:1.50] 🔧 `[Codex]` — Credo 1.7.x crashes on multi-line `~w` sigils and certain `~r` patterns due to tokenization bug in `Credo.Code.Token.position/1`. **Workaround applied:** switched to `github: "rrrene/credo", branch: "release/1.7"` git dep which includes the fix. Remaining: switch back to hex release (`~> 1.8`) when published. Low impact — `mix test` and `mix dialyzer` both pass, Credo is dev-only.
 
 ---
 
@@ -248,6 +249,7 @@ mix ccxt_extract.pipeline \
 
 ## Notes
 
+- **`[Codex]` marker** — tasks suitable for Codex/OpenAI delegation: self-contained, well-specified, no OXC/QuickBEAM NIF deps, no cached fixture testing. Phase 6 (Go parity) tasks all require OXC AST work and pipeline integration — keep those in-house.
 - Tasks are written as prompts for Claude to implement — explore the codebase and discover the right approach
 - Phase order matters: Discovery first, then runtime extraction, then structural, then output format
 - The output format in Phase 4 is designed AFTER Phases 1-3 reveal what data actually exists

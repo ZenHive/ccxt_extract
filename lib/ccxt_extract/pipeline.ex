@@ -769,7 +769,7 @@ defmodule CcxtExtract.Pipeline do
       "ccxt_version" => first["ccxt_version"] || "unknown",
       "extracted_at" => first["extracted_at"] || DateTime.to_iso8601(DateTime.utc_now()),
       "exchange_count" => length(exchanges),
-      "exchanges" => Enum.map(exchanges, & &1["exchange"]["id"])
+      "exchanges" => exchanges |> Enum.map(& &1["exchange"]["id"]) |> Enum.sort()
     }
   end
 end

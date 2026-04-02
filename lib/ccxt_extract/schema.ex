@@ -6,6 +6,13 @@ defmodule CcxtExtract.Schema do
   with three top-level sections: `exchange` (metadata), `runtime` (QuickBEAM
   values), and `structure` (OXC AST data).
 
+  ## Schema Versioning
+
+  The `schema_version` field in every output file follows a semver contract
+  documented in `SCHEMA.md`. Consumers check this field to ensure compatibility.
+  See `SCHEMA.md` for the full versioning contract, consumer guidance, and
+  version history.
+
   ## Two-Layer Model
 
   - **runtime** — what an exchange IS: describe() config, loadMarkets() data
@@ -28,9 +35,8 @@ defmodule CcxtExtract.Schema do
       :ok = CcxtExtract.Schema.validate(exchange)
 
   """
-  use GenServer
 
-  @schema_version "1.0"
+  @schema_version "1.0.0"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)

@@ -151,7 +151,7 @@ defmodule CcxtExtract.PipelineTest do
     test "assembles full exchange with all layers" do
       result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
 
-      assert result["schema_version"] == "1.0"
+      assert result["schema_version"] == "1.0.0"
       assert result["ccxt_version"] == "4.5.45"
       assert result["exchange"]["id"] == "testex"
       assert result["exchange"]["pro"] == true

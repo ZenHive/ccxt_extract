@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 30 | Interface signatures from `abstract/*.ts` | Fixed: now extracts all 110 exchanges (was 99 — alias exchanges skipped); round-trip validation wired up |
 | Task 25 | Configurable output directory | `--output` now emits per-exchange JSON, `_manifest.json`, and `exchange_v1.json`; stale exchange files are cleaned automatically |
 | Task 29 | Comparison script vs old ccxt_client specs | 100% coverage; all old keys classified as covered/richer/consumer-specific |
 | Task 23 | Resolve `__function:` sentinels | Error class names now resolved via instance name map |
@@ -33,7 +34,7 @@
 ### 📋 Go Extractor Parity (Phase 6)
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 30 `[P]` | ⬜ | Interface signatures from `abstract/*.ts` (~14k sigs) |
+| Task 30 | ✅ | Interface signatures from `abstract/*.ts` |
 | Task 31 `[P]` | ⬜ | Base normalizer methods from `Exchange.ts` (~88+ methods) |
 | Task 32 `[P]` | ⬜ | Pagination strategy per method per exchange |
 | Task 33 | ⬜ | Auth assembly decomposition (enriches sign_method) |
@@ -69,6 +70,7 @@ mix ccxt_extract.handle_errors                 # Extract handleErrors() method A
 mix ccxt_extract.parse_methods                 # Extract parse*() method ASTs
 mix ccxt_extract.ws_methods                    # Extract watch*/handle* WS method ASTs
 mix ccxt_extract.overrides                     # Extract method overrides for derived exchanges
+mix ccxt_extract.interface_signatures          # Extract interface signatures from abstract/*.ts
 mix ccxt_extract.coverage                      # Generate extraction coverage report
 mix ccxt_extract.pipeline                      # Assemble per-exchange JSON output
 mix ccxt_extract.validate                      # Full JSON Schema + round-trip validation

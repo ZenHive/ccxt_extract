@@ -26,14 +26,16 @@ defmodule CcxtExtract.Schema do
 
       exchange = CcxtExtract.Schema.build_exchange(meta, runtime, structure, ccxt_version: "4.5.45")
       :ok = CcxtExtract.Schema.validate(exchange)
+
   """
+  use GenServer
 
   @schema_version "1.0"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe markets)
-  @required_structure_keys ~w(class_info methods sign_method handle_errors parse_methods ws_methods overrides)
+  @required_structure_keys ~w(class_info methods sign_method handle_errors parse_methods ws_methods interface_signatures overrides)
 
   # --- Public API ---
 
@@ -144,6 +146,7 @@ defmodule CcxtExtract.Schema do
       "handle_errors" => data["handle_errors"],
       "parse_methods" => data["parse_methods"],
       "ws_methods" => data["ws_methods"],
+      "interface_signatures" => data["interface_signatures"],
       "overrides" => data["overrides"]
     }
   end
@@ -194,6 +197,7 @@ defmodule CcxtExtract.Schema do
     |> check_nullable_handle_errors(section, "handle_errors", "structure.handle_errors")
     |> check_nullable_method_map(section, "parse_methods", "structure.parse_methods")
     |> check_nullable_method_map(section, "ws_methods", "structure.ws_methods")
+    |> check_nullable_interface_signature_map(section, "interface_signatures", "structure.interface_signatures")
     |> check_nullable_overrides(section, "overrides", "structure.overrides")
   end
 
@@ -217,6 +221,37 @@ defmodule CcxtExtract.Schema do
       val when is_map(val) -> check_method_ast_shape(errors, val, label)
       val -> ["#{label}: expected MethodAST map or null, got #{type_name(val)}" | errors]
     end
+  end
+
+  # Value is nil or a map of signature_name -> InterfaceSignature (name, params, return_type)
+  defp check_nullable_interface_signature_map(errors, nil, _key, _label), do: errors
+
+  defp check_nullable_interface_signature_map(errors, section, key, label) do
+    case Map.get(section, key) do
+      nil -> errors
+      val when is_map(val) -> check_interface_signature_map_values(errors, val, label)
+      val -> ["#{label}: expected map or null, got #{type_name(val)}" | errors]
+    end
+  end
+
+  @required_interface_signature_keys ~w(name params return_type)
+  defp check_interface_signature_map_values(errors, sig_map, label) do
+    Enum.reduce(sig_map, errors, fn {name, value}, acc ->
+      check_interface_signature_shape(acc, value, "#{label}.#{name}")
+    end)
+  end
+
+  defp check_interface_signature_shape(errors, sig, label) when is_map(sig) do
+    missing = Enum.reject(@required_interface_signature_keys, &Map.has_key?(sig, &1))
+
+    case missing do
+      [] -> errors
+      keys -> ["#{label}: InterfaceSignature missing keys #{inspect(keys)}" | errors]
+    end
+  end
+
+  defp check_interface_signature_shape(errors, value, label) do
+    ["#{label}: expected InterfaceSignature map, got #{type_name(value)}" | errors]
   end
 
   # Value is nil or a map of method_name -> MethodAST

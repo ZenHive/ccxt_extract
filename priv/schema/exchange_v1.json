@@ -130,7 +130,7 @@
     "StructureData": {
       "type": "object",
       "description": "Structural data extracted via OXC TypeScript AST parsing. Layer 2: what an exchange DOES (code structure, method bodies).",
-      "required": ["class_info", "methods", "sign_method", "handle_errors", "parse_methods", "ws_methods", "overrides"],
+      "required": ["class_info", "methods", "sign_method", "handle_errors", "parse_methods", "ws_methods", "interface_signatures", "overrides"],
       "additionalProperties": false,
       "properties": {
         "class_info": {
@@ -180,6 +180,16 @@
             }
           ],
           "description": "Map of WS method name -> MethodAST (watch* and handle* methods). Null for non-pro exchanges, aliases, or when no usable WS-method data was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
+        },
+        "interface_signatures": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": { "$ref": "#/$defs/InterfaceSignature" }
+            }
+          ],
+          "description": "Map of API method name -> InterfaceSignature from abstract/*.ts interface declarations. These are the generated per-exchange typed endpoint methods (e.g., publicGetTicker, privatePostOrder). Null for alias exchanges, exchanges without abstract files, or when no usable data was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
         },
         "overrides": {
           "oneOf": [
@@ -335,6 +345,28 @@
         "type": {
           "type": ["string", "null"],
           "description": "TypeScript type annotation, if present."
+        }
+      }
+    },
+
+    "InterfaceSignature": {
+      "type": "object",
+      "description": "Typed API method signature from abstract interface declaration. Has name, params, and return type but no method body (unlike MethodAST).",
+      "required": ["name", "params", "return_type"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Method name (e.g., 'publicGetTicker', 'privatePostOrder')."
+        },
+        "params": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/MethodParam" },
+          "description": "Parameter list with names and TypeScript type annotations."
+        },
+        "return_type": {
+          "type": ["string", "null"],
+          "description": "TypeScript return type annotation (typically 'Promise<implicitReturnType>')."
         }
       }
     },

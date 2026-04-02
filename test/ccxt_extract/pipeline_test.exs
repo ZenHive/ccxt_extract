@@ -84,6 +84,19 @@ defmodule CcxtExtract.PipelineTest do
           "ws_method_count" => 1
         }
       },
+      interface_signatures: %{
+        "testex" => %{
+          "id" => "testex",
+          "interface_signatures" => %{
+            "publicGetTicker" => %{
+              "name" => "publicGetTicker",
+              "params" => [%{"name" => "params", "type" => "typeliteral"}],
+              "return_type" => "Promise<implicitReturnType>"
+            }
+          },
+          "interface_signature_count" => 1
+        }
+      },
       overrides: %{},
       missing_files: []
     }
@@ -128,6 +141,7 @@ defmodule CcxtExtract.PipelineTest do
       handle_errors: %{},
       parse_methods: %{},
       ws_methods: %{},
+      interface_signatures: %{},
       overrides: %{},
       missing_files: []
     }
@@ -154,6 +168,7 @@ defmodule CcxtExtract.PipelineTest do
       assert result["structure"]["sign_method"]["statements"] == 12
       assert result["structure"]["parse_methods"]["parseTicker"]["statements"] == 12
       assert result["structure"]["ws_methods"]["watchTicker"]["statements"] == 12
+      assert result["structure"]["interface_signatures"]["publicGetTicker"]["name"] == "publicGetTicker"
     end
 
     test "assembles alias exchange with nil layers" do
@@ -168,6 +183,7 @@ defmodule CcxtExtract.PipelineTest do
       assert result["structure"]["handle_errors"] == nil
       assert result["structure"]["parse_methods"] == nil
       assert result["structure"]["ws_methods"] == nil
+      assert result["structure"]["interface_signatures"] == nil
       assert result["structure"]["overrides"] == nil
     end
 
@@ -739,6 +755,7 @@ defmodule CcxtExtract.PipelineTest do
     write_json(Path.join(dir, "handle_errors.json"), empty_global)
     write_json(Path.join(dir, "parse_methods.json"), empty_global)
     write_json(Path.join(dir, "ws_methods.json"), empty_global)
+    write_json(Path.join(dir, "interface_signatures.json"), empty_global)
     write_json(Path.join(dir, "overrides.json"), empty_global)
 
     # Manifests for per-exchange loaders

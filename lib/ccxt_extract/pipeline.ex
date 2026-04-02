@@ -130,6 +130,7 @@ defmodule CcxtExtract.Pipeline do
       "handle_errors" => get_handle_errors(id, data),
       "parse_methods" => get_parse_methods(id, data),
       "ws_methods" => get_ws_methods(id, data),
+      "interface_signatures" => get_interface_signatures(id, data),
       "overrides" => get_overrides(id, data)
     }
 
@@ -216,6 +217,15 @@ defmodule CcxtExtract.Pipeline do
     end
   end
 
+  # Interface signatures: extract the interface_signatures map
+  defp get_interface_signatures(id, data) do
+    case Map.get(data.interface_signatures, id) do
+      nil -> nil
+      %{"interface_signatures" => sigs} when map_size(sigs) > 0 -> sigs
+      _ -> nil
+    end
+  end
+
   # Overrides: group REST/WS entries, rename fields
   # Data is grouped by id (list of entries per exchange) because exchanges
   # with both REST and WS derived classes have two override records.
@@ -268,6 +278,7 @@ defmodule CcxtExtract.Pipeline do
     {handle_errors, stats} = load_exchange_lookup(dir, "handle_errors.json", expected_ids, stats)
     {parse_methods, stats} = load_exchange_lookup(dir, "parse_methods.json", expected_ids, stats)
     {ws_methods, stats} = load_exchange_lookup(dir, "ws_methods.json", expected_ids, stats)
+    {interface_signatures, stats} = load_exchange_lookup(dir, "interface_signatures.json", expected_ids, stats)
     {overrides, stats} = load_overrides(dir, expected_ids, stats)
 
     %{
@@ -281,6 +292,7 @@ defmodule CcxtExtract.Pipeline do
       handle_errors: handle_errors,
       parse_methods: parse_methods,
       ws_methods: ws_methods,
+      interface_signatures: interface_signatures,
       overrides: overrides,
       missing_files: Enum.reverse(stats.missing_files),
       missing_entries: Enum.reverse(stats.missing_entries),
@@ -656,6 +668,17 @@ defmodule CcxtExtract.Pipeline do
 
   defp validate_exchange_lookup_entry(filename, entry) when filename in ["parse_methods.json", "ws_methods.json"] do
     {:corrupt, "#{filename} invalid exchange entry: expected string id, got #{inspect(entry)}"}
+  end
+
+  defp validate_exchange_lookup_entry("interface_signatures.json", %{"id" => id} = entry) when is_binary(id) do
+    with {:ok, sigs} <- fetch_required_key(entry, "interface_signatures", id, "interface_signatures.json"),
+         :ok <- validate_required_map_field("interface_signatures.json", id, "interface_signatures", sigs) do
+      {:ok, id, entry}
+    end
+  end
+
+  defp validate_exchange_lookup_entry("interface_signatures.json", entry) do
+    {:corrupt, "interface_signatures.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
   end
 
   defp validate_exchange_lookup_entry(_filename, %{"id" => id} = entry) when is_binary(id), do: {:ok, id, entry}

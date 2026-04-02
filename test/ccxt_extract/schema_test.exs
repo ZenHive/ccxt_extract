@@ -7,8 +7,6 @@ defmodule CcxtExtract.SchemaTest do
 
   alias CcxtExtract.Schema
 
-  # --- Synthetic data builders ---
-
   @base_opts [ccxt_version: "4.5.45", extracted_at: "2026-03-30T12:00:00Z"]
 
   @full_meta %{
@@ -86,6 +84,13 @@ defmodule CcxtExtract.SchemaTest do
       },
       "parse_methods" => %{"parseTicker" => @sample_method_ast},
       "ws_methods" => %{"watchTicker" => @sample_method_ast},
+      "interface_signatures" => %{
+        "publicGetTicker" => %{
+          "name" => "publicGetTicker",
+          "params" => [%{"name" => "params", "type" => "typeliteral"}],
+          "return_type" => "Promise<implicitReturnType>"
+        }
+      },
       "overrides" => nil
     }
   end
@@ -104,6 +109,7 @@ defmodule CcxtExtract.SchemaTest do
       "handle_errors" => nil,
       "parse_methods" => nil,
       "ws_methods" => nil,
+      "interface_signatures" => nil,
       "overrides" => nil
     }
   end
@@ -293,6 +299,7 @@ defmodule CcxtExtract.SchemaTest do
         "handle_errors" => nil,
         "parse_methods" => nil,
         "ws_methods" => nil,
+        "interface_signatures" => nil,
         "overrides" => nil
       }
 

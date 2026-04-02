@@ -135,6 +135,7 @@ defmodule CcxtExtract.Validation do
     |> check_handle_errors_roundtrip(output, source_data, exchange_id)
     |> check_parse_methods_roundtrip(output, source_data, exchange_id)
     |> check_ws_methods_roundtrip(output, source_data, exchange_id)
+    |> check_interface_signatures_roundtrip(output, source_data, exchange_id)
     |> check_overrides_roundtrip(output, source_data, exchange_id)
     |> Enum.reverse()
   end
@@ -527,6 +528,14 @@ defmodule CcxtExtract.Validation do
     check_method_map(findings, output_wm, source_wm, id, "structure.ws_methods")
   end
 
+  # Compare structure.interface_signatures (signature name → signature map)
+  defp check_interface_signatures_roundtrip(findings, output, source, id) do
+    output_is = get_in(output, ["structure", "interface_signatures"])
+    source_entry = Map.get(source.interface_signatures, id)
+    source_is = source_entry && source_entry["interface_signatures"]
+    check_method_map(findings, output_is, source_is, id, "structure.interface_signatures")
+  end
+
   # Compare structure.overrides (REST and WS sides)
   defp check_overrides_roundtrip(findings, output, source, id) do
     output_ov = get_in(output, ["structure", "overrides"])
@@ -687,6 +696,7 @@ defmodule CcxtExtract.Validation do
       handle_errors: load_json_index(dir, "handle_errors.json"),
       parse_methods: load_json_index(dir, "parse_methods.json"),
       ws_methods: load_json_index(dir, "ws_methods.json"),
+      interface_signatures: load_json_index(dir, "interface_signatures.json"),
       overrides: load_json_group_by(dir, "overrides.json", "exchanges", "id")
     }
   end

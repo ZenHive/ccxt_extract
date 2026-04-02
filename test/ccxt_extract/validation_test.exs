@@ -66,6 +66,12 @@ defmodule CcxtExtract.ValidationTest do
     "statements" => 5
   }
 
+  @sample_interface_sig %{
+    "name" => "publicGetTicker",
+    "params" => [%{"name" => "params", "type" => "typeliteral"}],
+    "return_type" => "Promise<implicitReturnType>"
+  }
+
   defp full_runtime do
     %{
       "describe" => %{"id" => "testex", "has" => %{"fetchTicker" => true}},
@@ -85,6 +91,7 @@ defmodule CcxtExtract.ValidationTest do
       },
       "parse_methods" => %{"parseTicker" => @sample_method_ast},
       "ws_methods" => %{"watchTicker" => @sample_method_ast},
+      "interface_signatures" => %{"publicGetTicker" => @sample_interface_sig},
       "overrides" => nil
     }
   end
@@ -99,6 +106,7 @@ defmodule CcxtExtract.ValidationTest do
       "handle_errors" => nil,
       "parse_methods" => nil,
       "ws_methods" => nil,
+      "interface_signatures" => nil,
       "overrides" => nil
     }
   end
@@ -192,6 +200,9 @@ defmodule CcxtExtract.ValidationTest do
         },
         parse_methods: %{"testex" => %{"parse_methods" => %{"parseTicker" => @sample_method_ast}}},
         ws_methods: %{"testex" => %{"ws_methods" => %{"watchTicker" => @sample_method_ast}}},
+        interface_signatures: %{
+          "testex" => %{"interface_signatures" => %{"publicGetTicker" => @sample_interface_sig}}
+        },
         overrides: %{}
       }
     end
@@ -418,6 +429,33 @@ defmodule CcxtExtract.ValidationTest do
              end)
     end
 
+    test "detects corrupted interface signature data" do
+      corrupted_sig = %{@sample_interface_sig | "params" => [], "return_type" => nil}
+
+      exchange =
+        put_in(build_full_exchange(), ["structure", "interface_signatures"], %{
+          "publicGetTicker" => corrupted_sig
+        })
+
+      findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
+
+      assert Enum.any?(findings, fn f ->
+               f["path"] == "structure.interface_signatures.publicGetTicker" &&
+                 f["severity"] == "error" &&
+                 String.contains?(f["message"], "data mismatch")
+             end)
+    end
+
+    test "detects missing interface signatures when source has data" do
+      exchange = put_in(build_full_exchange(), ["structure", "interface_signatures"], nil)
+
+      findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
+
+      assert Enum.any?(findings, fn f ->
+               f["path"] == "structure.interface_signatures" && f["severity"] == "error"
+             end)
+    end
+
     test "handles alias exchange with all nil sections" do
       exchange = build_alias_exchange()
 
@@ -433,6 +471,7 @@ defmodule CcxtExtract.ValidationTest do
         handle_errors: %{},
         parse_methods: %{},
         ws_methods: %{},
+        interface_signatures: %{},
         overrides: %{}
       }
 

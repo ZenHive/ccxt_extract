@@ -7,6 +7,9 @@ erl_crash.dump
 *.ez
 ccxt_extract-*.tar
 
+# Qwen Code configuration (user-specific hooks and settings)
+/.qwen/
+
 # npm packages (installed via mix npm.install)
 /node_modules/
 /npm-cache/

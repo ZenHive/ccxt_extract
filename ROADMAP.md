@@ -39,6 +39,13 @@
 | Task 33 | ⬜ | Auth assembly decomposition (enriches sign_method) |
 | Task 34 | ⬜ | Handler routing tables (method → handler deps) |
 
+### 📋 Data Quality & Maintenance
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 35 | ⬜ | Extract shared modules — run `mix ex_dna` for patterns |
+| Task 36 | ⬜ | Schema migration framework — future-proof for v2.0 |
+| Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ |
+
 ### Quick Commands
 ```bash
 mix ccxt_extract.exchanges                 # Extract exchange metadata
@@ -191,6 +198,21 @@ mix test.json --quiet --only extraction    # Only extraction tests
 - [ ] **Task 33: Auth assembly decomposition** [D:6/B:8/U:8 → Eff:1.33] 📋 — Decompose the existing `sign_method` AST into structured auth assembly steps: which auth type, what gets signed (query/body/headers), which crypto operations (HMAC, RSA, Ed25519), header names. Pattern-match the AST to extract structured signing recipes rather than raw AST trees. The Go extractor had ~411 items. This enriches the existing `sign_method` field rather than replacing it — add `sign_assembly` alongside it.
 
 - [ ] **Task 34: Handler routing extraction** [D:5/B:7/U:7 → Eff:1.40] 📋 — Extract which exchange methods route to which handlers (handleErrors, sign, parse*). Analyze method bodies for `this.handleErrors()`, `this.sign()`, and internal dispatch patterns. Produces a per-exchange routing table showing method → handler dependencies. The Go extractor had ~1,487 items. Add to structure layer as `handler_routing`.
+
+---
+
+## Phase 7: Data Quality & Maintenance ⬜
+
+> Technical debt and code quality improvements identified during codebase review. These tasks improve maintainability and long-term sustainability.
+
+- [ ] **Task 35: Extract shared modules to reduce duplication** [D:4/B:7/U:8 → Eff:2.00] 📋 — Run `mix ex_dna` to identify current duplication patterns. Refactor into shared modules:
+  - **35a: `CcxtExtract.OXCExtractor`** — Extract common OXC extraction patterns: `parse_file/1`, `extract/0` setup, reduce loops. Add `@callback` behaviour for per-extractor customization.
+  - **35b: `CcxtExtract.MethodASTBuilder`** — Extract `extract_method_data/1` — unified MethodAST builder for parse_methods, ws_methods, overrides.
+  - **35c: `CcxtExtract.DiscoveryLoader`** — Extract shared data loading from `Pipeline.load_all_data/2` and `Validation.load_source_data/1`. Three modes: `:strict` (raise on missing), `:track` (return `{data, missing_list}`), `:silent` (return `%{}` on error).
+
+- [ ] **Task 36: Schema migration framework** [D:2/B:5/U:6 → Eff:3.00] 📋 — Add `CcxtExtract.Schema.Migrator` module for future schema version upgrades. Even if v1.0 → v2.0 migration is a no-op initially, the framework should exist: `migrate/2` function that takes `{data, from_version}` and returns `{data, to_version}`. Document migration strategy in `SCHEMA.md`. Future-proofs the project for breaking changes (new required fields, structural reorganizations).
+
+- [ ] **Task 37: Fix Credo compatibility on Elixir 1.18+** [D:2/B:4/U:3 → Eff:1.50] 🔧 — Credo 1.7.x crashes on multi-line `~w` sigils and certain `~r` patterns due to tokenization bug in `Credo.Code.Token.position/1`. Options: (1) upgrade to Credo 1.8+ when available, (2) replace problematic sigils with lists in test files, (3) disable space_around_operators check for sigils. Low impact — `mix test` and `mix dialyzer` both pass, Credo is dev-only.
 
 ---
 

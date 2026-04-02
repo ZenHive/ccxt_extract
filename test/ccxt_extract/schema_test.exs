@@ -243,6 +243,33 @@ defmodule CcxtExtract.SchemaTest do
       assert Enum.any?(reasons, &String.contains?(&1, "runtime.describe"))
     end
 
+    test "rejects class_info without rest entry" do
+      bad = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
+      bad = put_in(bad, ["structure", "class_info"], %{"rest" => nil, "ws" => @sample_class_entry})
+      assert {:error, reasons} = Schema.validate(bad)
+      assert Enum.any?(reasons, &String.contains?(&1, "structure.class_info.rest"))
+    end
+
+    test "rejects methods inventory without rest list" do
+      bad = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
+      bad = put_in(bad, ["structure", "methods"], %{"rest" => nil, "ws" => [@sample_method_sig]})
+      assert {:error, reasons} = Schema.validate(bad)
+      assert Enum.any?(reasons, &String.contains?(&1, "structure.methods.rest"))
+    end
+
+    test "rejects handle_errors without method key" do
+      bad = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
+
+      bad =
+        put_in(bad, ["structure", "handle_errors"], %{
+          "exceptions" => %{"broad" => %{}, "exact" => %{}},
+          "http_exceptions" => %{}
+        })
+
+      assert {:error, reasons} = Schema.validate(bad)
+      assert Enum.any?(reasons, &String.contains?(&1, "structure.handle_errors"))
+    end
+
     test "rejects non-map structure.parse_methods values" do
       bad = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
       bad = put_in(bad, ["structure", "parse_methods"], %{"bad" => "not a method"})

@@ -71,17 +71,22 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
     missing_count = length(stats.missing_files)
     missing_entry_count = length(stats.missing_entries)
     corrupt_count = length(stats.corrupt_entries)
+    orphan_count = length(stats.orphan_entries)
+    id_mismatch_count = length(stats.id_mismatch_entries)
 
     Mix.shell().info("""
     Done in #{elapsed}ms. #{length(exchanges)} exchanges assembled.
     #{if error_count > 0, do: "#{error_count} validation error(s).", else: "All exchanges passed validation."}
     #{if missing_count > 0, do: "Missing discovery files: #{Enum.join(stats.missing_files, ", ")}", else: ""}
     #{if missing_entry_count > 0, do: "Missing per-exchange files (#{missing_entry_count}): #{format_missing_entries(stats.missing_entries)}", else: ""}
-    #{if corrupt_count > 0, do: "Corrupt per-exchange files (#{corrupt_count}): #{format_missing_entries(stats.corrupt_entries)}", else: ""}
+    #{if corrupt_count > 0, do: "Corrupt discovery entries (#{corrupt_count}): #{format_missing_entries(stats.corrupt_entries)}", else: ""}
+    #{if orphan_count > 0, do: "Orphan artifacts (#{orphan_count}): #{format_missing_entries(stats.orphan_entries)}", else: ""}
+    #{if id_mismatch_count > 0, do: "ID mismatches (#{id_mismatch_count}): #{format_missing_entries(stats.id_mismatch_entries)}", else: ""}
     Output: #{output_dir}/
     """)
 
-    error_count > 0 or missing_entry_count > 0 or corrupt_count > 0
+    error_count > 0 or missing_entry_count > 0 or corrupt_count > 0 or orphan_count > 0 or
+      id_mismatch_count > 0
   end
 
   @max_displayed_entries 10

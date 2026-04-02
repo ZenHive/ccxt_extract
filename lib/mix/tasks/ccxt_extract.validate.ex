@@ -62,7 +62,11 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
     Findings: #{summary["total_errors"]} errors, #{summary["total_warnings"]} warnings, #{summary["total_info"]} info.
     """)
 
-    if ps["missing_entries"] != [] || ps["corrupt_entries"] != [] do
+    has_integrity_gaps =
+      ps["missing_entries"] != [] || ps["corrupt_entries"] != [] || ps["orphan_entries"] != [] ||
+        ps["id_mismatch_entries"] != []
+
+    if has_integrity_gaps do
       Mix.shell().error("Pipeline data gaps:")
 
       for entry <- ps["missing_entries"],
@@ -70,6 +74,12 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
 
       for entry <- ps["corrupt_entries"],
           do: Mix.shell().error("  [corrupt] #{entry}")
+
+      for entry <- ps["orphan_entries"],
+          do: Mix.shell().error("  [orphan] #{entry}")
+
+      for entry <- ps["id_mismatch_entries"],
+          do: Mix.shell().error("  [id_mismatch] #{entry}")
     end
 
     if summary["total_errors"] > 0 do
@@ -82,7 +92,6 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
       end)
     end
 
-    has_data_gaps = ps["missing_entries"] != [] || ps["corrupt_entries"] != []
-    summary["total_errors"] > 0 || has_data_gaps
+    summary["total_errors"] > 0 || has_integrity_gaps
   end
 end

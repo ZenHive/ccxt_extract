@@ -98,14 +98,14 @@
             { "type": "null" },
             { "type": "object", "additionalProperties": true }
           ],
-          "description": "Complete describe() output from CCXT runtime. Contains all configuration: api endpoints, has capabilities, fees, limits, urls, exceptions, features, timeframes, requiredCredentials, etc. May contain sentinel strings: '__undefined' (JS undefined values), '__function:<ClassName>' (JS function references with resolved CCXT error class names, e.g. '__function:ExchangeError'). Null for alias exchanges."
+          "description": "Complete describe() output from CCXT runtime. Contains all configuration: api endpoints, has capabilities, fees, limits, urls, exceptions, features, timeframes, requiredCredentials, etc. May contain sentinel strings: '__undefined' (JS undefined values), '__function:<ClassName>' (JS function references with resolved CCXT error class names, e.g. '__function:ExchangeError'). Null for alias exchanges or when no usable describe data was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
         },
         "markets": {
           "oneOf": [
             { "type": "null" },
             { "$ref": "#/$defs/MarketsData" }
           ],
-          "description": "Result of loadMarkets() call. Null if not extracted or for alias exchanges."
+          "description": "Result of loadMarkets() call. Null for alias exchanges, exchanges without cached market data, or when no usable markets data was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
         }
       }
     },
@@ -138,14 +138,14 @@
             { "type": "null" },
             { "$ref": "#/$defs/ClassInfo" }
           ],
-          "description": "Class hierarchy information. Null for alias exchanges without class entries."
+          "description": "Class hierarchy information. Null for alias exchanges without class entries or when no usable class info was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
         },
         "methods": {
           "oneOf": [
             { "type": "null" },
             { "$ref": "#/$defs/MethodInventory" }
           ],
-          "description": "Method signature inventory (no AST bodies). Null for alias exchanges."
+          "description": "Method signature inventory (no AST bodies). Null for alias exchanges or when no usable method inventory was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
         },
         "sign_method": {
           "oneOf": [
@@ -159,7 +159,7 @@
             { "type": "null" },
             { "$ref": "#/$defs/HandleErrorsData" }
           ],
-          "description": "The handleErrors() method AST plus exception mappings. Null if the exchange has no handleErrors() or is an alias."
+          "description": "The handleErrors() method AST plus exception mappings. Null if the exchange has no handleErrors(), is an alias, or no usable handleErrors data was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
         },
         "parse_methods": {
           "oneOf": [
@@ -169,7 +169,7 @@
               "additionalProperties": { "$ref": "#/$defs/MethodAST" }
             }
           ],
-          "description": "Map of parse method name -> MethodAST (e.g., 'parseTicker', 'parseOrder'). Null for alias exchanges or exchanges with no parse methods."
+          "description": "Map of parse method name -> MethodAST (e.g., 'parseTicker', 'parseOrder'). Null for alias exchanges, exchanges with no parse methods, or when no usable parse-method data was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
         },
         "ws_methods": {
           "oneOf": [
@@ -179,14 +179,14 @@
               "additionalProperties": { "$ref": "#/$defs/MethodAST" }
             }
           ],
-          "description": "Map of WS method name -> MethodAST (watch* and handle* methods). Null for non-pro exchanges or aliases."
+          "description": "Map of WS method name -> MethodAST (watch* and handle* methods). Null for non-pro exchanges, aliases, or when no usable WS-method data was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
         },
         "overrides": {
           "oneOf": [
             { "type": "null" },
             { "$ref": "#/$defs/OverridesData" }
           ],
-          "description": "Method override analysis for derived exchanges. Null for root exchanges (those extending Exchange directly)."
+          "description": "Method override analysis for derived exchanges. Null for root exchanges (those extending Exchange directly) or when no usable override data was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
         }
       }
     },

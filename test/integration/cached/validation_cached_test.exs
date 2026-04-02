@@ -76,10 +76,12 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
       assert is_map(report["pipeline_stats"])
     end
 
-    test "pipeline_stats surfaces missing/corrupt entries", %{report: report} do
+    test "pipeline_stats surfaces integrity entry buckets", %{report: report} do
       ps = report["pipeline_stats"]
       assert is_list(ps["missing_entries"])
       assert is_list(ps["corrupt_entries"])
+      assert is_list(ps["orphan_entries"])
+      assert is_list(ps["id_mismatch_entries"])
       assert is_list(ps["validation_errors"])
     end
 

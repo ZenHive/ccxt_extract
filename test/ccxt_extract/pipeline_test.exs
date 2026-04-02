@@ -354,7 +354,10 @@ defmodule CcxtExtract.PipelineTest do
       )
 
       # Write the describe file for fakex so it's NOT missing
-      write_json(Path.join(tmp_dir, "describe/fakex.json"), %{"describe" => %{"id" => "fakex"}})
+      write_json(Path.join(tmp_dir, "describe/fakex.json"), %{
+        "id" => "fakex",
+        "describe" => %{"id" => "fakex"}
+      })
 
       {:ok, _exchanges, stats} =
         Pipeline.extract(
@@ -376,9 +379,13 @@ defmodule CcxtExtract.PipelineTest do
       )
 
       # Write both per-exchange files
-      write_json(Path.join(tmp_dir, "describe/fakex.json"), %{"describe" => %{"id" => "fakex"}})
+      write_json(Path.join(tmp_dir, "describe/fakex.json"), %{
+        "id" => "fakex",
+        "describe" => %{"id" => "fakex"}
+      })
 
       write_json(Path.join(tmp_dir, "load_markets/fakex.json"), %{
+        "id" => "fakex",
         "market_count" => 1,
         "markets" => %{"BTC/USDT" => %{}}
       })
@@ -391,6 +398,310 @@ defmodule CcxtExtract.PipelineTest do
         )
 
       assert stats.missing_entries == []
+      assert stats.orphan_entries == []
+      assert stats.id_mismatch_entries == []
+    end
+  end
+
+  describe "id mismatch detection" do
+    @tag :tmp_dir
+    test "tracks describe file with mismatched top-level id", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: ["fakex"],
+        markets_succeeded: []
+      )
+
+      write_json(Path.join(tmp_dir, "describe/fakex.json"), %{
+        "id" => "otherex",
+        "describe" => %{"id" => "otherex"}
+      })
+
+      {:ok, exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert Enum.any?(stats.id_mismatch_entries, fn entry ->
+               String.contains?(entry, "describe/fakex.json") and
+                 String.contains?(entry, "expected id")
+             end)
+
+      assert hd(exchanges)["runtime"]["describe"] == nil
+      assert stats.missing_entries == []
+      assert stats.corrupt_entries == []
+    end
+
+    @tag :tmp_dir
+    test "tracks describe file with mismatched nested describe.id", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: ["fakex"],
+        markets_succeeded: []
+      )
+
+      write_json(Path.join(tmp_dir, "describe/fakex.json"), %{
+        "id" => "fakex",
+        "describe" => %{"id" => "otherex"}
+      })
+
+      {:ok, exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert Enum.any?(stats.id_mismatch_entries, fn entry ->
+               String.contains?(entry, "describe/fakex.json") and
+                 String.contains?(entry, "describe.id")
+             end)
+
+      assert hd(exchanges)["runtime"]["describe"] == nil
+      assert stats.missing_entries == []
+      assert stats.corrupt_entries == []
+    end
+
+    @tag :tmp_dir
+    test "tracks load_markets file with mismatched top-level id", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: ["fakex"]
+      )
+
+      write_json(Path.join(tmp_dir, "load_markets/fakex.json"), %{
+        "id" => "otherex",
+        "market_count" => 1,
+        "markets" => %{"BTC/USDT" => %{}}
+      })
+
+      {:ok, exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert Enum.any?(stats.id_mismatch_entries, fn entry ->
+               String.contains?(entry, "load_markets/fakex.json") and
+                 String.contains?(entry, "expected id")
+             end)
+
+      assert hd(exchanges)["runtime"]["markets"] == nil
+      assert stats.missing_entries == []
+      assert stats.corrupt_entries == []
+    end
+  end
+
+  describe "orphan entry detection" do
+    @tag :tmp_dir
+    test "tracks orphan describe file absent from manifest", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: []
+      )
+
+      write_json(Path.join(tmp_dir, "describe/rogue.json"), %{
+        "id" => "rogue",
+        "describe" => %{"id" => "rogue"}
+      })
+
+      {:ok, _exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert "describe/rogue.json" in stats.orphan_entries
+      assert stats.missing_entries == []
+      assert stats.id_mismatch_entries == []
+    end
+
+    @tag :tmp_dir
+    test "tracks orphan load_markets file absent from manifest", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: []
+      )
+
+      write_json(Path.join(tmp_dir, "load_markets/rogue.json"), %{
+        "id" => "rogue",
+        "market_count" => 1,
+        "markets" => %{"BTC/USDT" => %{}}
+      })
+
+      {:ok, _exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert "load_markets/rogue.json" in stats.orphan_entries
+      assert stats.missing_entries == []
+      assert stats.id_mismatch_entries == []
+    end
+
+    @tag :tmp_dir
+    test "tracks orphan ids in global discovery files", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: []
+      )
+
+      write_json(Path.join(tmp_dir, "methods_rest.json"), %{
+        "exchanges" => [
+          %{"id" => "fakex", "methods" => []},
+          %{"id" => "rogue", "methods" => []}
+        ]
+      })
+
+      {:ok, _exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert Enum.any?(stats.orphan_entries, fn entry ->
+               String.contains?(entry, "methods_rest.json") and String.contains?(entry, "rogue")
+             end)
+    end
+  end
+
+  describe "global entry corruption tracking" do
+    @tag :tmp_dir
+    test "tracks corrupt methods_rest entry instead of silently treating it as null", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir, describe_exchanges: [], markets_succeeded: [])
+      write_json(Path.join(tmp_dir, "methods_rest.json"), %{"exchanges" => [%{"id" => "fakex", "methods" => nil}]})
+
+      {:ok, exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert Enum.any?(stats.corrupt_entries, fn entry ->
+               String.contains?(entry, "methods_rest.json") and String.contains?(entry, "invalid methods")
+             end)
+
+      assert hd(exchanges)["structure"]["methods"] == nil
+      assert stats.validation_errors == []
+    end
+
+    @tag :tmp_dir
+    test "tracks corrupt handle_errors entry with missing method key", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir, describe_exchanges: [], markets_succeeded: [])
+
+      write_json(Path.join(tmp_dir, "handle_errors.json"), %{
+        "exchanges" => [
+          %{
+            "id" => "fakex",
+            "exceptions" => %{"broad" => %{}, "exact" => %{}},
+            "http_exceptions" => %{}
+          }
+        ]
+      })
+
+      {:ok, exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert Enum.any?(stats.corrupt_entries, fn entry ->
+               String.contains?(entry, "handle_errors.json") and
+                 String.contains?(entry, "missing required handle_errors key")
+             end)
+
+      assert hd(exchanges)["structure"]["handle_errors"] == nil
+      assert stats.validation_errors == []
+    end
+
+    @tag :tmp_dir
+    test "tracks corrupt parse_methods entry with non-map payload", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir, describe_exchanges: [], markets_succeeded: [])
+
+      write_json(Path.join(tmp_dir, "parse_methods.json"), %{
+        "exchanges" => [
+          %{
+            "id" => "fakex",
+            "parse_methods" => nil,
+            "parse_method_count" => 0
+          }
+        ]
+      })
+
+      {:ok, exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert Enum.any?(stats.corrupt_entries, fn entry ->
+               String.contains?(entry, "parse_methods.json") and String.contains?(entry, "invalid parse_methods")
+             end)
+
+      assert hd(exchanges)["structure"]["parse_methods"] == nil
+      assert stats.validation_errors == []
+    end
+  end
+
+  describe "partial structure validation" do
+    @tag :tmp_dir
+    test "reports validation error when class_info has WS entry without REST entry", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir, describe_exchanges: [], markets_succeeded: [])
+
+      write_json(Path.join(tmp_dir, "class_hierarchy.json"), %{
+        "classes" => [
+          Map.merge(@ws_class, %{
+            "class_name" => "fakex",
+            "id" => "fakex",
+            "node_key" => "ws:fakex",
+            "parent_key" => "rest:fakex",
+            "file" => "fakex.ts"
+          })
+        ]
+      })
+
+      {:ok, exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      class_info = hd(exchanges)["structure"]["class_info"]
+      assert class_info["rest"] == nil
+      assert class_info["ws"]["node_key"] == "ws:fakex"
+
+      assert Enum.any?(stats.validation_errors, fn {id, reasons} ->
+               id == "fakex" and Enum.any?(reasons, &String.contains?(&1, "structure.class_info.rest"))
+             end)
+    end
+
+    @tag :tmp_dir
+    test "reports validation error when methods inventory only has WS methods", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir, describe_exchanges: [], markets_succeeded: [])
+
+      write_json(Path.join(tmp_dir, "methods_ws.json"), %{"exchanges" => [%{"id" => "fakex", "methods" => [@method_sig]}]})
+
+      {:ok, exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert hd(exchanges)["structure"]["methods"] == %{"rest" => nil, "ws" => [@method_sig]}
+
+      assert Enum.any?(stats.validation_errors, fn {id, reasons} ->
+               id == "fakex" and Enum.any?(reasons, &String.contains?(&1, "structure.methods.rest"))
+             end)
     end
   end
 

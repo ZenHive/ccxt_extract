@@ -6,6 +6,22 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Audit 5: Pipeline assembly and nullability semantics
+- No confirmed real-artifact nullability defects were found in the tracked cached fixture set for this scope
+- Clarified legitimate `null` cases with cached regression coverage for alias layers, non-pro WS layers, root-exchange overrides, empty `parse_methods`, and source entries that explicitly report `handle_errors: null`
+- Hardened `CcxtExtract.Pipeline` to validate malformed global discovery entries in `methods_rest.json`, `methods_ws.json`, `handle_errors.json`, `parse_methods.json`, and `ws_methods.json` before indexing them
+- Malformed global discovery entries now surface under `corrupt_entries` instead of silently collapsing into expected-looking `null` output
+- Deepened `Schema.validate/1` so pipeline assembly now rejects partial `class_info`, `methods`, and `handle_errors` maps instead of treating any map-shaped value as valid
+- Added regression tests for corrupt global discovery entries and WS-only partial-structure cases, plus cached integration tests that document real fixture-backed nullability reasons
+
+### Audit 1: Manifest and artifact integrity
+- No confirmed manifest/artifact integrity defects were found in the tracked cached fixture set for this scope
+- Hardened `CcxtExtract.Pipeline` to surface `orphan_entries` and `id_mismatch_entries` alongside existing `missing_entries` and `corrupt_entries`
+- `describe/*.json` now validates both top-level `id` and nested `describe.id` against the manifest/filename expectation; `load_markets/*.json` now validates top-level `id`
+- Added orphan detection for unreferenced per-exchange files in `describe/` and `load_markets/`, plus orphan-id detection for global discovery files whose entries are not present in `exchanges.json`
+- Validation reports and Mix tasks now print all four integrity buckets separately
+- Added regression tests for injected bad-artifact scenarios and cached baseline assertions that the checked-in fixtures remain clean
+
 ### Comparison script — ccxt_extract vs ccxt_go_extractor
 - `examples/compare_go_extractor.exs` compares structural AST data between the TS-based ccxt_extract and the Go-based ccxt_go_extractor across 110 overlapping exchanges
 - Runs Go extractor's `profile` command live via `System.cmd` for each exchange

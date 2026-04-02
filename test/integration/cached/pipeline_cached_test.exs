@@ -24,6 +24,16 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
   @dex ~w(hyperliquid)
   @all_reference @tier1 ++ @tier2 ++ @dex
 
+  defp load_json(path) do
+    path |> File.read!() |> Jason.decode!()
+  end
+
+  defp load_exchange_entries(filename) do
+    load_json(Path.join(@fixtures_dir, filename))["exchanges"]
+  end
+
+  defp find_by_id(entries, id), do: Enum.find(entries, &(&1["id"] == id))
+
   # Run pipeline once for all tests in this module
   setup_all do
     {:ok, exchanges, stats} = Pipeline.extract(@pipeline_opts)
@@ -137,6 +147,40 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
     end
   end
 
+  describe "nullability semantics" do
+    test "bequant keeps handle_errors null when the source fixture has no handleErrors method", %{lookup: lookup} do
+      source = "handle_errors.json" |> load_exchange_entries() |> find_by_id("bequant")
+      assert source["handle_errors"] == nil
+
+      ex = lookup["bequant"]
+      assert ex["exchange"]["alias"] == false
+      assert ex["structure"]["handle_errors"] == nil
+    end
+
+    test "bequant converts empty parse_methods source to null", %{lookup: lookup} do
+      source = "parse_methods.json" |> load_exchange_entries() |> find_by_id("bequant")
+      assert source["parse_method_count"] == 0
+      assert source["parse_methods"] == %{}
+
+      ex = lookup["bequant"]
+      assert ex["structure"]["parse_methods"] == nil
+    end
+
+    test "bitbns uses ws nulls because it is a non-pro exchange", %{lookup: lookup} do
+      ex = lookup["bitbns"]
+      assert ex["exchange"]["pro"] == false
+      assert ex["structure"]["class_info"]["ws"] == nil
+      assert ex["structure"]["methods"]["ws"] == nil
+      assert ex["structure"]["ws_methods"] == nil
+    end
+
+    test "bitbns keeps overrides null because its REST class is a root exchange", %{lookup: lookup} do
+      ex = lookup["bitbns"]
+      assert ex["structure"]["overrides"] == nil
+      assert ex["structure"]["class_info"]["rest"]["extends_resolved"] == "Exchange"
+    end
+  end
+
   describe "stats" do
     test "reports exchange count", %{stats: stats, exchanges: exchanges} do
       assert stats.exchange_count == length(exchanges)
@@ -148,9 +192,18 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
       assert error_count < 5, "Too many validation errors: #{error_count}"
     end
 
-    test "reports no missing per-exchange entries", %{stats: stats} do
+    test "reports no integrity gaps for cached fixtures", %{stats: stats} do
       assert stats.missing_entries == [],
              "Missing per-exchange files: #{inspect(stats.missing_entries)}"
+
+      assert stats.corrupt_entries == [],
+             "Corrupt discovery entries: #{inspect(stats.corrupt_entries)}"
+
+      assert stats.orphan_entries == [],
+             "Orphan artifacts: #{inspect(stats.orphan_entries)}"
+
+      assert stats.id_mismatch_entries == [],
+             "ID mismatches: #{inspect(stats.id_mismatch_entries)}"
     end
   end
 

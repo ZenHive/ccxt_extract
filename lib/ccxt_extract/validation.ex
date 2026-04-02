@@ -646,9 +646,10 @@ defmodule CcxtExtract.Validation do
   # --- Source Data Loading ---
 
   # These loaders duplicate Pipeline's load_* pattern with weaker error handling (silently
-  # returning %{} on error). Pipeline stats (missing_entries, corrupt_entries) are now surfaced
-  # in the validation report, so data gaps are visible. If a third consumer appears, extract
-  # shared loaders using Pipeline.read_json/1's robust error-handling pattern.
+  # returning %{} on error). Pipeline stats (missing_entries, corrupt_entries, orphan_entries,
+  # id_mismatch_entries) are surfaced in the validation report, so integrity gaps are visible.
+  # If a third consumer appears, extract shared loaders using Pipeline.read_json/1's robust
+  # error-handling pattern.
   defp load_source_data(dir) do
     # We need to read the raw discovery files to compare against pipeline output.
     # The pipeline transforms data (renames, groups), so we read the raw sources.
@@ -832,6 +833,8 @@ defmodule CcxtExtract.Validation do
       "pipeline_stats" => %{
         "missing_entries" => pipeline_stats.missing_entries,
         "corrupt_entries" => pipeline_stats.corrupt_entries,
+        "orphan_entries" => pipeline_stats.orphan_entries,
+        "id_mismatch_entries" => pipeline_stats.id_mismatch_entries,
         "validation_errors" => pipeline_stats.validation_errors
       },
       "exchanges" => exchange_results,

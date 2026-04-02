@@ -19,6 +19,8 @@ defmodule CcxtExtract.Schema do
   - **null** — layer is missing, empty, or does not apply to this exchange type
 
   All keys are always materialized (never absent). Consumers check for null.
+  Pipeline integrity stats and validation reports distinguish expected nulls
+  from missing/corrupt discovery inputs that prevented usable data assembly.
 
   ## Usage
 
@@ -186,10 +188,10 @@ defmodule CcxtExtract.Schema do
   defp check_structure_section(errors, section) do
     errors
     |> check_required_keys(section, @required_structure_keys, "structure")
-    |> check_nullable_map(section, "class_info", "structure.class_info")
-    |> check_nullable_map(section, "methods", "structure.methods")
+    |> check_nullable_class_info(section, "class_info", "structure.class_info")
+    |> check_nullable_method_inventory(section, "methods", "structure.methods")
     |> check_nullable_method_ast(section, "sign_method", "structure.sign_method")
-    |> check_nullable_map(section, "handle_errors", "structure.handle_errors")
+    |> check_nullable_handle_errors(section, "handle_errors", "structure.handle_errors")
     |> check_nullable_method_map(section, "parse_methods", "structure.parse_methods")
     |> check_nullable_method_map(section, "ws_methods", "structure.ws_methods")
     |> check_nullable_overrides(section, "overrides", "structure.overrides")
@@ -228,6 +230,71 @@ defmodule CcxtExtract.Schema do
     end
   end
 
+  # Value is nil or a ClassInfo map with required rest entry
+  defp check_nullable_class_info(errors, nil, _key, _label), do: errors
+
+  defp check_nullable_class_info(errors, section, key, label) do
+    case Map.get(section, key) do
+      nil ->
+        errors
+
+      val when is_map(val) ->
+        errors
+        |> check_required_keys(val, ~w(rest), label)
+        |> check_class_entry_field(val, "rest", "#{label}.rest")
+        |> check_nullable_class_entry_field(val, "ws", "#{label}.ws")
+
+      val ->
+        ["#{label}: expected ClassInfo map or null, got #{type_name(val)}" | errors]
+    end
+  end
+
+  # Value is nil or a MethodInventory map with required rest list
+  defp check_nullable_method_inventory(errors, nil, _key, _label), do: errors
+
+  defp check_nullable_method_inventory(errors, section, key, label) do
+    case Map.get(section, key) do
+      nil ->
+        errors
+
+      val when is_map(val) ->
+        errors
+        |> check_required_keys(val, ~w(rest), label)
+        |> check_method_signature_list_field(val, "rest", "#{label}.rest")
+        |> check_nullable_method_signature_list_field(val, "ws", "#{label}.ws")
+
+      val ->
+        ["#{label}: expected MethodInventory map or null, got #{type_name(val)}" | errors]
+    end
+  end
+
+  # Value is nil or a HandleErrorsData map with required method/exceptions/http_exceptions
+  defp check_nullable_handle_errors(errors, nil, _key, _label), do: errors
+
+  defp check_nullable_handle_errors(errors, section, key, label) do
+    case Map.get(section, key) do
+      nil ->
+        errors
+
+      val when is_map(val) ->
+        missing = Enum.reject(~w(method exceptions http_exceptions), &Map.has_key?(val, &1))
+
+        case missing do
+          [] ->
+            errors
+            |> check_required_method_ast_field(val, "method", "#{label}.method")
+            |> check_nullable_map_field(val, "exceptions", "#{label}.exceptions")
+            |> check_nullable_map_field(val, "http_exceptions", "#{label}.http_exceptions")
+
+          keys ->
+            ["#{label}: missing required keys #{inspect(keys)}" | errors]
+        end
+
+      val ->
+        ["#{label}: expected HandleErrorsData map or null, got #{type_name(val)}" | errors]
+    end
+  end
+
   defp check_method_ast_shape(errors, method, label) do
     required = ~w(async params return_type statements body)
     missing = Enum.reject(required, &Map.has_key?(method, &1))
@@ -246,6 +313,100 @@ defmodule CcxtExtract.Schema do
         ["#{label}.#{name}: expected MethodAST map, got #{type_name(value)}" | acc]
       end
     end)
+  end
+
+  @required_class_entry_keys ~w(node_key class_name extends_resolved parent_key file method_count)
+  defp check_class_entry_field(errors, parent, key, label) do
+    case Map.get(parent, key) do
+      val when is_map(val) -> check_class_entry_shape(errors, val, label)
+      val -> ["#{label}: expected ClassEntry map, got #{type_name(val)}" | errors]
+    end
+  end
+
+  defp check_nullable_class_entry_field(errors, parent, key, label) do
+    case Map.get(parent, key) do
+      nil -> errors
+      val when is_map(val) -> check_class_entry_shape(errors, val, label)
+      val -> ["#{label}: expected ClassEntry map or null, got #{type_name(val)}" | errors]
+    end
+  end
+
+  defp check_class_entry_shape(errors, entry, label) do
+    missing = Enum.reject(@required_class_entry_keys, &Map.has_key?(entry, &1))
+
+    case missing do
+      [] ->
+        errors
+        |> check_string_field(entry["node_key"], "#{label}.node_key")
+        |> check_string_field(entry["class_name"], "#{label}.class_name")
+        |> check_string_field(entry["extends_resolved"], "#{label}.extends_resolved")
+        |> check_string_field(entry["parent_key"], "#{label}.parent_key")
+        |> check_string_field(entry["file"], "#{label}.file")
+        |> check_integer_field(entry["method_count"], "#{label}.method_count")
+
+      keys ->
+        ["#{label}: ClassEntry missing keys #{inspect(keys)}" | errors]
+    end
+  end
+
+  @required_method_signature_keys ~w(name async params return_type statements)
+  defp check_method_signature_list_field(errors, parent, key, label) do
+    case Map.get(parent, key) do
+      val when is_list(val) -> check_method_signature_list(errors, val, label)
+      val -> ["#{label}: expected list, got #{type_name(val)}" | errors]
+    end
+  end
+
+  defp check_nullable_method_signature_list_field(errors, parent, key, label) do
+    case Map.get(parent, key) do
+      nil -> errors
+      val when is_list(val) -> check_method_signature_list(errors, val, label)
+      val -> ["#{label}: expected list or null, got #{type_name(val)}" | errors]
+    end
+  end
+
+  defp check_method_signature_list(errors, signatures, label) do
+    signatures
+    |> Enum.with_index()
+    |> Enum.reduce(errors, fn {signature, index}, acc ->
+      check_method_signature_shape(acc, signature, "#{label}[#{index}]")
+    end)
+  end
+
+  defp check_method_signature_shape(errors, signature, label) when is_map(signature) do
+    missing = Enum.reject(@required_method_signature_keys, &Map.has_key?(signature, &1))
+
+    case missing do
+      [] ->
+        errors
+        |> check_string_field(signature["name"], "#{label}.name")
+        |> check_boolean_field(signature["async"], "#{label}.async")
+        |> check_list_field(signature["params"], "#{label}.params")
+        |> check_string_or_nil_field(signature["return_type"], "#{label}.return_type")
+        |> check_integer_field(signature["statements"], "#{label}.statements")
+
+      keys ->
+        ["#{label}: MethodSignature missing keys #{inspect(keys)}" | errors]
+    end
+  end
+
+  defp check_method_signature_shape(errors, signature, label) do
+    ["#{label}: expected MethodSignature map, got #{type_name(signature)}" | errors]
+  end
+
+  defp check_required_method_ast_field(errors, parent, key, label) do
+    case Map.get(parent, key) do
+      val when is_map(val) -> check_method_ast_shape(errors, val, label)
+      val -> ["#{label}: expected MethodAST map, got #{type_name(val)}" | errors]
+    end
+  end
+
+  defp check_nullable_map_field(errors, parent, key, label) do
+    case Map.get(parent, key) do
+      nil -> errors
+      val when is_map(val) -> errors
+      val -> ["#{label}: expected map or null, got #{type_name(val)}" | errors]
+    end
   end
 
   # Value is nil or an OverridesData map with extends/rest/ws keys
@@ -336,6 +497,24 @@ defmodule CcxtExtract.Schema do
         ["#{label}: expected OverrideEntry map or null, got #{type_name(val)}" | errors]
     end
   end
+
+  defp check_string_field(errors, val, _label) when is_binary(val), do: errors
+  defp check_string_field(errors, val, label), do: ["#{label}: expected string, got #{type_name(val)}" | errors]
+
+  defp check_string_or_nil_field(errors, val, _label) when is_binary(val) or is_nil(val), do: errors
+
+  defp check_string_or_nil_field(errors, val, label) do
+    ["#{label}: expected string or null, got #{type_name(val)}" | errors]
+  end
+
+  defp check_boolean_field(errors, val, _label) when is_boolean(val), do: errors
+  defp check_boolean_field(errors, val, label), do: ["#{label}: expected boolean, got #{type_name(val)}" | errors]
+
+  defp check_integer_field(errors, val, _label) when is_integer(val), do: errors
+  defp check_integer_field(errors, val, label), do: ["#{label}: expected integer, got #{type_name(val)}" | errors]
+
+  defp check_list_field(errors, val, _label) when is_list(val), do: errors
+  defp check_list_field(errors, val, label), do: ["#{label}: expected list, got #{type_name(val)}" | errors]
 
   defp type_name(val) when is_binary(val), do: "string"
   defp type_name(val) when is_integer(val), do: "integer"

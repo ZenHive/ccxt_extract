@@ -64,7 +64,9 @@ defmodule CcxtExtract.Pipeline do
         validation_errors: Enum.reverse(errors),
         missing_files: data.missing_files,
         missing_entries: data.missing_entries,
-        corrupt_entries: data.corrupt_entries
+        corrupt_entries: data.corrupt_entries,
+        orphan_entries: data.orphan_entries,
+        id_mismatch_entries: data.id_mismatch_entries
       }
 
       {:ok, Enum.reverse(exchanges), stats}
@@ -153,18 +155,21 @@ defmodule CcxtExtract.Pipeline do
     rest = Enum.find(entries, &(&1["type"] == "rest"))
     ws = Enum.find(entries, &(&1["type"] == "ws"))
 
-    if rest || ws do
-      %{"rest" => rest, "ws" => ws}
-    end
+    %{"rest" => rest, "ws" => ws}
   end
 
   # Methods: combine rest + ws into %{"rest" => [...], "ws" => [...]|nil}
   defp get_methods(id, data) do
+    rest_present? = Map.has_key?(data.methods_rest, id)
+    ws_present? = Map.has_key?(data.methods_ws, id)
     rest = Map.get(data.methods_rest, id)
     ws = Map.get(data.methods_ws, id)
 
-    if rest do
-      %{"rest" => rest, "ws" => ws}
+    if rest_present? || ws_present? do
+      %{
+        "rest" => rest,
+        "ws" => if(ws_present?, do: ws)
+      }
     end
   end
 
@@ -250,19 +255,19 @@ defmodule CcxtExtract.Pipeline do
 
   # Loads all discovery files into indexed lookup maps
   defp load_all_data(dir, exchanges_json) do
-    missing = []
-    missing_entries = []
+    expected_ids = expected_exchange_ids(exchanges_json)
+    stats = empty_integrity_stats()
 
-    {describe, missing, missing_entries} = load_describe_files(dir, missing, missing_entries)
-    {load_markets, missing, missing_entries} = load_markets_files(dir, missing, missing_entries)
-    {classes, missing} = load_classes(dir, missing)
-    {methods_rest, missing} = load_exchange_field(dir, "methods_rest.json", "methods", missing)
-    {methods_ws, missing} = load_exchange_field(dir, "methods_ws.json", "methods", missing)
-    {sign_methods, missing} = load_sign_methods(dir, missing)
-    {handle_errors, missing} = load_exchange_lookup(dir, "handle_errors.json", missing)
-    {parse_methods, missing} = load_exchange_lookup(dir, "parse_methods.json", missing)
-    {ws_methods, missing} = load_exchange_lookup(dir, "ws_methods.json", missing)
-    {overrides, missing} = load_overrides(dir, missing)
+    {describe, stats} = load_describe_files(dir, stats)
+    {load_markets, stats} = load_markets_files(dir, stats)
+    {classes, stats} = load_classes(dir, expected_ids, stats)
+    {methods_rest, stats} = load_exchange_field(dir, "methods_rest.json", "methods", expected_ids, stats)
+    {methods_ws, stats} = load_exchange_field(dir, "methods_ws.json", "methods", expected_ids, stats)
+    {sign_methods, stats} = load_sign_methods(dir, expected_ids, stats)
+    {handle_errors, stats} = load_exchange_lookup(dir, "handle_errors.json", expected_ids, stats)
+    {parse_methods, stats} = load_exchange_lookup(dir, "parse_methods.json", expected_ids, stats)
+    {ws_methods, stats} = load_exchange_lookup(dir, "ws_methods.json", expected_ids, stats)
+    {overrides, stats} = load_overrides(dir, expected_ids, stats)
 
     %{
       exchanges: exchanges_json["exchanges"],
@@ -276,42 +281,52 @@ defmodule CcxtExtract.Pipeline do
       parse_methods: parse_methods,
       ws_methods: ws_methods,
       overrides: overrides,
-      missing_files: Enum.reverse(missing),
-      missing_entries: missing_entries |> Enum.reject(&match?({:corrupt, _}, &1)) |> Enum.reverse(),
-      corrupt_entries:
-        missing_entries |> Enum.filter(&match?({:corrupt, _}, &1)) |> Enum.map(&elem(&1, 1)) |> Enum.reverse()
+      missing_files: Enum.reverse(stats.missing_files),
+      missing_entries: Enum.reverse(stats.missing_entries),
+      corrupt_entries: Enum.reverse(stats.corrupt_entries),
+      orphan_entries: Enum.reverse(stats.orphan_entries),
+      id_mismatch_entries: Enum.reverse(stats.id_mismatch_entries)
     }
   end
 
   # Load per-exchange describe files using manifest
-  defp load_describe_files(dir, missing, missing_entries) do
+  defp load_describe_files(dir, stats) do
     manifest_path = Path.join(dir, "describe/_manifest.json")
 
     case read_json(manifest_path) do
       {:ok, %{"exchanges" => exchanges}} when is_list(exchanges) ->
         validate_manifest_ids!(exchanges, manifest_path)
+        stats = record_directory_orphans(dir, "describe", exchanges, stats)
 
-        {lookup, missing_entries} =
-          Enum.reduce(exchanges, {%{}, missing_entries}, &reduce_describe_entry(dir, &1, &2))
+        {lookup, stats} =
+          Enum.reduce(exchanges, {%{}, stats}, &reduce_describe_entry(dir, &1, &2))
 
-        {lookup, missing, missing_entries}
+        {lookup, stats}
 
       {:ok, _malformed} ->
         raise "Corrupt discovery artifact: #{manifest_path} missing or invalid \"exchanges\" key"
 
       {:error, {:missing_input, _}} ->
-        {%{}, ["describe/_manifest.json" | missing], missing_entries}
+        {%{}, add_stat_entry(stats, :missing_files, "describe/_manifest.json")}
 
       {:error, {:invalid_json, detail}} ->
         raise "Corrupt discovery artifact: #{detail}"
     end
   end
 
-  defp reduce_describe_entry(dir, id, {acc, entries}) do
+  defp reduce_describe_entry(dir, id, {acc, stats}) do
     case read_describe_entry(dir, id) do
-      {:ok, id, data} -> {Map.put(acc, id, data), entries}
-      {:missing, id, path} -> {Map.put(acc, id, nil), [path | entries]}
-      {:corrupt, _id, detail} -> {acc, [{:corrupt, detail} | entries]}
+      {:ok, id, data} ->
+        {Map.put(acc, id, data), stats}
+
+      {:missing, id, path} ->
+        {Map.put(acc, id, nil), add_stat_entry(stats, :missing_entries, path)}
+
+      {:corrupt, _id, detail} ->
+        {acc, add_stat_entry(stats, :corrupt_entries, detail)}
+
+      {:id_mismatch, _id, detail} ->
+        {acc, add_stat_entry(stats, :id_mismatch_entries, detail)}
     end
   end
 
@@ -319,41 +334,67 @@ defmodule CcxtExtract.Pipeline do
     path = Path.join(dir, "describe/#{id}.json")
 
     case read_json(path) do
-      {:ok, data} -> {:ok, id, data["describe"]}
-      {:error, {:missing_input, _}} -> {:missing, id, "describe/#{id}.json"}
-      {:error, {:invalid_json, detail}} -> {:corrupt, id, detail}
+      {:ok, data} ->
+        with :ok <- validate_expected_id(path, "id", id, data["id"]),
+             :ok <- validate_expected_id(path, "describe.id", id, get_in(data, ["describe", "id"])) do
+          {:ok, id, data["describe"]}
+        else
+          {:id_mismatch, detail} -> {:id_mismatch, id, detail}
+        end
+
+      {:error, {:missing_input, _}} ->
+        {:missing, id, "describe/#{id}.json"}
+
+      {:error, {:invalid_json, detail}} ->
+        {:corrupt, id, detail}
     end
   end
 
   # Load per-exchange load_markets files using manifest
-  defp load_markets_files(dir, missing, missing_entries) do
+  defp load_markets_files(dir, stats) do
     manifest_path = Path.join(dir, "load_markets/_manifest.json")
 
     case read_json(manifest_path) do
       {:ok, %{"succeeded" => succeeded}} when is_list(succeeded) ->
         validate_manifest_ids!(Enum.map(succeeded, &markets_entry_id/1), manifest_path)
 
-        {lookup, missing_entries} =
-          Enum.reduce(succeeded, {%{}, missing_entries}, &reduce_markets_entry(dir, &1, &2))
+        stats =
+          record_directory_orphans(
+            dir,
+            "load_markets",
+            Enum.map(succeeded, &markets_entry_id/1),
+            stats
+          )
 
-        {lookup, missing, missing_entries}
+        {lookup, stats} =
+          Enum.reduce(succeeded, {%{}, stats}, &reduce_markets_entry(dir, &1, &2))
+
+        {lookup, stats}
 
       {:ok, _malformed} ->
         raise "Corrupt discovery artifact: #{manifest_path} missing or invalid \"succeeded\" key"
 
       {:error, {:missing_input, _}} ->
-        {%{}, ["load_markets/_manifest.json" | missing], missing_entries}
+        {%{}, add_stat_entry(stats, :missing_files, "load_markets/_manifest.json")}
 
       {:error, {:invalid_json, detail}} ->
         raise "Corrupt discovery artifact: #{detail}"
     end
   end
 
-  defp reduce_markets_entry(dir, entry, {acc, entries}) do
+  defp reduce_markets_entry(dir, entry, {acc, stats}) do
     case read_markets_entry(dir, entry) do
-      {:ok, id, data} -> {Map.put(acc, id, data), entries}
-      {:missing, id, path} -> {Map.put(acc, id, nil), [path | entries]}
-      {:corrupt, _id, detail} -> {acc, [{:corrupt, detail} | entries]}
+      {:ok, id, data} ->
+        {Map.put(acc, id, data), stats}
+
+      {:missing, id, path} ->
+        {Map.put(acc, id, nil), add_stat_entry(stats, :missing_entries, path)}
+
+      {:corrupt, _id, detail} ->
+        {acc, add_stat_entry(stats, :corrupt_entries, detail)}
+
+      {:id_mismatch, _id, detail} ->
+        {acc, add_stat_entry(stats, :id_mismatch_entries, detail)}
     end
   end
 
@@ -363,7 +404,10 @@ defmodule CcxtExtract.Pipeline do
 
     case read_json(path) do
       {:ok, data} ->
-        {:ok, id, %{"market_count" => data["market_count"], "markets" => data["markets"]}}
+        case validate_expected_id(path, "id", id, data["id"]) do
+          :ok -> {:ok, id, %{"market_count" => data["market_count"], "markets" => data["markets"]}}
+          {:id_mismatch, detail} -> {:id_mismatch, id, detail}
+        end
 
       {:error, {:missing_input, _}} ->
         {:missing, id, "load_markets/#{id}.json"}
@@ -387,16 +431,17 @@ defmodule CcxtExtract.Pipeline do
   end
 
   # Load class hierarchy, group by class_name for rest/ws splitting
-  defp load_classes(dir, missing) do
+  defp load_classes(dir, expected_ids, stats) do
     path = Path.join(dir, "class_hierarchy.json")
 
     case read_json(path) do
       {:ok, data} ->
+        stats = record_global_orphans(stats, "class_hierarchy.json", data["classes"], expected_ids)
         lookup = Enum.group_by(data["classes"], & &1["class_name"])
-        {lookup, missing}
+        {lookup, stats}
 
       {:error, {:missing_input, _}} ->
-        {%{}, ["class_hierarchy.json" | missing]}
+        {%{}, add_stat_entry(stats, :missing_files, "class_hierarchy.json")}
 
       {:error, {:invalid_json, detail}} ->
         raise "Corrupt discovery artifact: #{detail}"
@@ -404,20 +449,28 @@ defmodule CcxtExtract.Pipeline do
   end
 
   # Load a global file and index by id, extracting a specific field as value
-  defp load_exchange_field(dir, filename, field, missing) do
+  defp load_exchange_field(dir, filename, field, expected_ids, stats) do
     path = Path.join(dir, filename)
 
     case read_json(path) do
-      {:ok, data} ->
-        lookup =
-          Map.new(data["exchanges"], fn entry ->
-            {entry["id"], entry[field]}
-          end)
+      {:ok, %{"exchanges" => entries}} when is_list(entries) ->
+        stats = record_global_orphans(stats, filename, entries, expected_ids)
 
-        {lookup, missing}
+        Enum.reduce(entries, {%{}, stats}, fn entry, {acc, acc_stats} ->
+          case validate_exchange_field_entry(filename, field, entry) do
+            {:ok, id, value} ->
+              {Map.put(acc, id, value), acc_stats}
+
+            {:corrupt, detail} ->
+              {acc, add_stat_entry(acc_stats, :corrupt_entries, detail)}
+          end
+        end)
+
+      {:ok, _malformed} ->
+        raise "Corrupt discovery artifact: #{path} missing or invalid \"exchanges\" key"
 
       {:error, {:missing_input, _}} ->
-        {%{}, [filename | missing]}
+        {%{}, add_stat_entry(stats, :missing_files, filename)}
 
       {:error, {:invalid_json, detail}} ->
         raise "Corrupt discovery artifact: #{detail}"
@@ -425,20 +478,22 @@ defmodule CcxtExtract.Pipeline do
   end
 
   # Load sign_methods — the value is the "sign" key (MethodAST or nil)
-  defp load_sign_methods(dir, missing) do
+  defp load_sign_methods(dir, expected_ids, stats) do
     path = Path.join(dir, "sign_methods.json")
 
     case read_json(path) do
       {:ok, data} ->
+        stats = record_global_orphans(stats, "sign_methods.json", data["exchanges"], expected_ids)
+
         lookup =
           Map.new(data["exchanges"], fn entry ->
             {entry["id"], entry["sign"]}
           end)
 
-        {lookup, missing}
+        {lookup, stats}
 
       {:error, {:missing_input, _}} ->
-        {%{}, ["sign_methods.json" | missing]}
+        {%{}, add_stat_entry(stats, :missing_files, "sign_methods.json")}
 
       {:error, {:invalid_json, detail}} ->
         raise "Corrupt discovery artifact: #{detail}"
@@ -446,16 +501,28 @@ defmodule CcxtExtract.Pipeline do
   end
 
   # Load a global file and index by id, keeping the full entry
-  defp load_exchange_lookup(dir, filename, missing) do
+  defp load_exchange_lookup(dir, filename, expected_ids, stats) do
     path = Path.join(dir, filename)
 
     case read_json(path) do
-      {:ok, data} ->
-        lookup = Map.new(data["exchanges"], fn entry -> {entry["id"], entry} end)
-        {lookup, missing}
+      {:ok, %{"exchanges" => entries}} when is_list(entries) ->
+        stats = record_global_orphans(stats, filename, entries, expected_ids)
+
+        Enum.reduce(entries, {%{}, stats}, fn entry, {acc, acc_stats} ->
+          case validate_exchange_lookup_entry(filename, entry) do
+            {:ok, id, validated_entry} ->
+              {Map.put(acc, id, validated_entry), acc_stats}
+
+            {:corrupt, detail} ->
+              {acc, add_stat_entry(acc_stats, :corrupt_entries, detail)}
+          end
+        end)
+
+      {:ok, _malformed} ->
+        raise "Corrupt discovery artifact: #{path} missing or invalid \"exchanges\" key"
 
       {:error, {:missing_input, _}} ->
-        {%{}, [filename | missing]}
+        {%{}, add_stat_entry(stats, :missing_files, filename)}
 
       {:error, {:invalid_json, detail}} ->
         raise "Corrupt discovery artifact: #{detail}"
@@ -463,16 +530,17 @@ defmodule CcxtExtract.Pipeline do
   end
 
   # Load overrides, grouped by id (exchanges can have both REST and WS entries)
-  defp load_overrides(dir, missing) do
+  defp load_overrides(dir, expected_ids, stats) do
     path = Path.join(dir, "overrides.json")
 
     case read_json(path) do
       {:ok, data} ->
+        stats = record_global_orphans(stats, "overrides.json", data["exchanges"], expected_ids)
         lookup = Enum.group_by(data["exchanges"], & &1["id"])
-        {lookup, missing}
+        {lookup, stats}
 
       {:error, {:missing_input, _}} ->
-        {%{}, ["overrides.json" | missing]}
+        {%{}, add_stat_entry(stats, :missing_files, "overrides.json")}
 
       {:error, {:invalid_json, detail}} ->
         raise "Corrupt discovery artifact: #{detail}"
@@ -480,6 +548,140 @@ defmodule CcxtExtract.Pipeline do
   end
 
   # --- Helpers ---
+
+  defp expected_exchange_ids(%{"exchanges" => exchanges}) do
+    MapSet.new(exchanges, & &1["id"])
+  end
+
+  defp empty_integrity_stats do
+    %{
+      missing_files: [],
+      missing_entries: [],
+      corrupt_entries: [],
+      orphan_entries: [],
+      id_mismatch_entries: []
+    }
+  end
+
+  defp add_stat_entry(stats, key, entry), do: Map.update!(stats, key, &[entry | &1])
+
+  defp record_directory_orphans(dir, subdir, manifest_ids, stats) do
+    directory = Path.join(dir, subdir)
+    manifest_ids = MapSet.new(manifest_ids)
+
+    case File.ls(directory) do
+      {:ok, filenames} ->
+        filenames
+        |> Enum.filter(&String.ends_with?(&1, ".json"))
+        |> Enum.reject(&(&1 == "_manifest.json"))
+        |> Enum.map(&String.trim_trailing(&1, ".json"))
+        |> Enum.reject(&MapSet.member?(manifest_ids, &1))
+        |> Enum.sort()
+        |> Enum.reduce(stats, fn id, acc ->
+          add_stat_entry(acc, :orphan_entries, "#{subdir}/#{id}.json")
+        end)
+
+      {:error, _reason} ->
+        stats
+    end
+  end
+
+  defp record_global_orphans(stats, filename, entries, expected_ids) when is_list(entries) do
+    entries
+    |> Enum.map(& &1["id"])
+    |> Enum.reject(&(is_binary(&1) and MapSet.member?(expected_ids, &1)))
+    |> Enum.uniq()
+    |> Enum.sort()
+    |> Enum.reduce(stats, fn id, acc ->
+      add_stat_entry(acc, :orphan_entries, "#{filename}#id=#{inspect(id)}")
+    end)
+  end
+
+  defp record_global_orphans(stats, _filename, _entries, _expected_ids), do: stats
+
+  defp validate_expected_id(path, field, expected_id, actual_id) do
+    if actual_id == expected_id do
+      :ok
+    else
+      {:id_mismatch, "#{path}: expected #{field} #{inspect(expected_id)}, got #{inspect(actual_id)}"}
+    end
+  end
+
+  defp validate_exchange_field_entry(filename, field, %{"id" => id} = entry) when is_binary(id) do
+    case Map.fetch(entry, field) do
+      {:ok, value} when is_list(value) ->
+        {:ok, id, value}
+
+      {:ok, value} ->
+        {:corrupt, "#{filename}#id=#{inspect(id)} invalid #{field}: expected list, got #{type_name(value)}"}
+
+      :error ->
+        {:corrupt, "#{filename}#id=#{inspect(id)} missing required #{field} key"}
+    end
+  end
+
+  defp validate_exchange_field_entry(filename, _field, entry) do
+    {:corrupt, "#{filename} invalid exchange entry: expected string id, got #{inspect(entry)}"}
+  end
+
+  defp validate_exchange_lookup_entry("handle_errors.json", %{"id" => id} = entry) when is_binary(id) do
+    with {:ok, method} <- fetch_required_key(entry, "handle_errors", id, "handle_errors.json"),
+         :ok <- validate_optional_map_field("handle_errors.json", id, "handle_errors", method),
+         :ok <- validate_optional_map_field("handle_errors.json", id, "exceptions", entry["exceptions"]),
+         :ok <-
+           validate_optional_map_field(
+             "handle_errors.json",
+             id,
+             "http_exceptions",
+             entry["http_exceptions"]
+           ) do
+      {:ok, id, entry}
+    end
+  end
+
+  defp validate_exchange_lookup_entry("handle_errors.json", entry) do
+    {:corrupt, "handle_errors.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
+  end
+
+  defp validate_exchange_lookup_entry(filename, %{"id" => id} = entry)
+       when filename in ["parse_methods.json", "ws_methods.json"] and is_binary(id) do
+    methods_key = if filename == "parse_methods.json", do: "parse_methods", else: "ws_methods"
+
+    with {:ok, methods} <- fetch_required_key(entry, methods_key, id, filename),
+         :ok <- validate_required_map_field(filename, id, methods_key, methods) do
+      {:ok, id, entry}
+    end
+  end
+
+  defp validate_exchange_lookup_entry(filename, entry) when filename in ["parse_methods.json", "ws_methods.json"] do
+    {:corrupt, "#{filename} invalid exchange entry: expected string id, got #{inspect(entry)}"}
+  end
+
+  defp validate_exchange_lookup_entry(_filename, %{"id" => id} = entry) when is_binary(id), do: {:ok, id, entry}
+
+  defp validate_exchange_lookup_entry(filename, entry) do
+    {:corrupt, "#{filename} invalid exchange entry: expected string id, got #{inspect(entry)}"}
+  end
+
+  defp fetch_required_key(entry, key, id, filename) do
+    case Map.fetch(entry, key) do
+      {:ok, value} -> {:ok, value}
+      :error -> {:corrupt, "#{filename}#id=#{inspect(id)} missing required #{key} key"}
+    end
+  end
+
+  defp validate_required_map_field(_filename, _id, _field, value) when is_map(value), do: :ok
+
+  defp validate_required_map_field(filename, id, field, value) do
+    {:corrupt, "#{filename}#id=#{inspect(id)} invalid #{field}: expected map, got #{type_name(value)}"}
+  end
+
+  defp validate_optional_map_field(_filename, _id, _field, nil), do: :ok
+  defp validate_optional_map_field(_filename, _id, _field, value) when is_map(value), do: :ok
+
+  defp validate_optional_map_field(filename, id, field, value) do
+    {:corrupt, "#{filename}#id=#{inspect(id)} invalid #{field}: expected map or null, got #{type_name(value)}"}
+  end
 
   defp read_json(path) do
     case File.read(path) do
@@ -502,6 +704,15 @@ defmodule CcxtExtract.Pipeline do
       {:error, _} -> "unknown"
     end
   end
+
+  defp type_name(val) when is_binary(val), do: "string"
+  defp type_name(val) when is_integer(val), do: "integer"
+  defp type_name(val) when is_float(val), do: "float"
+  defp type_name(val) when is_boolean(val), do: "boolean"
+  defp type_name(val) when is_list(val), do: "list"
+  defp type_name(val) when is_map(val), do: "map"
+  defp type_name(nil), do: "null"
+  defp type_name(_), do: "unknown"
 
   # Remove JSON files from output dir that aren't in the current exchange set
   defp clean_stale_files(output_dir, exchanges) do

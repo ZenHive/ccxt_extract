@@ -22,12 +22,24 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
   @tier2 ~w(kraken kucoin gate htx bitmex)
   @dex ~w(hyperliquid)
   @all_reference @tier1 ++ @tier2 ++ @dex
+  @audit_aliases ~w(coinbaseadvanced gateio huobi)
+  @audit_roots ~w(binance bybit okx)
+  @audit_derived ~w(bequant binanceusdm okxus)
+  @audit_dex ~w(hyperliquid apex aftermath)
+  @audit_load_markets_failures ~w(alpaca bullish coinbaseexchange)
+  @audit_matrix @audit_aliases ++ @audit_roots ++ @audit_derived ++ @audit_dex ++ @audit_load_markets_failures
 
   # Run validation once for all tests in this module
   setup_all do
     {:ok, report} = Validation.validate_all(@validation_opts)
     lookup = Map.new(report["exchanges"], &{&1["id"], &1})
-    %{report: report, lookup: lookup}
+
+    {:ok, audit_report} =
+      Validation.validate_all(Keyword.put(@validation_opts, :reference_exchanges, @audit_matrix))
+
+    audit_lookup = Map.new(audit_report["exchanges"], &{&1["id"], &1})
+
+    %{report: report, lookup: lookup, audit_report: audit_report, audit_lookup: audit_lookup}
   end
 
   describe "JSON Schema validation" do
@@ -63,6 +75,45 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
 
         assert errors == [],
                "#{@exchange_id} round-trip errors: #{inspect(errors)}"
+      end
+    end
+  end
+
+  describe "Audit 6 widened matrix" do
+    test "audit matrix checks more exchanges than the default reference set", %{audit_report: audit_report} do
+      assert length(@audit_matrix) > length(@all_reference)
+      assert audit_report["summary"]["roundtrip_checked"] == length(@audit_matrix)
+    end
+
+    for exchange_id <- @audit_aliases ++ @audit_roots ++ @audit_derived ++ @audit_dex do
+      @exchange_id exchange_id
+
+      test "#{@exchange_id} stays clean in the widened audit matrix", %{audit_lookup: audit_lookup} do
+        result = audit_lookup[@exchange_id]
+        assert result, "#{@exchange_id} not found in widened audit results"
+        assert result["roundtrip_findings"] == []
+      end
+    end
+
+    for exchange_id <- @audit_load_markets_failures do
+      @exchange_id exchange_id
+
+      test "#{@exchange_id} classifies load_markets manifest failures as info", %{audit_lookup: audit_lookup} do
+        result = audit_lookup[@exchange_id]
+        assert result, "#{@exchange_id} not found in widened audit results"
+
+        errors = Enum.filter(result["roundtrip_findings"], &(&1["severity"] == "error"))
+
+        infos =
+          Enum.filter(result["roundtrip_findings"], fn finding ->
+            finding["severity"] == "info" && finding["path"] == "runtime.markets"
+          end)
+
+        assert errors == [],
+               "#{@exchange_id} widened audit errors: #{inspect(errors)}"
+
+        assert infos != [],
+               "#{@exchange_id} expected an informational load_markets failure finding"
       end
     end
   end

@@ -64,7 +64,7 @@ Use a representative matrix instead of only "happy path" exchanges:
 | Audit 3 `[P]` | ⬜ | QuickBEAM runtime extraction correctness |
 | Audit 4 `[P]` | ⬜ | OXC structural extraction correctness |
 | Audit 5 | ✅ | Complete — legitimate null reasons documented; corrupt global entries and partial structure maps no longer pass silently |
-| Audit 6 | ⬜ | Round-trip validation blind spots |
+| Audit 6 | ✅ | Complete — widened cached matrix stayed clean; loadMarkets manifest failures are now classified explicitly and markets-without-source no longer pass silently |
 | Audit 7 `[P]` | ⬜ | Coverage report consistency |
 | Audit 8 `[P]` | ⬜ | External parity and omission checks |
 | Audit 9 | ⬜ | Regression-test follow-through |
@@ -119,12 +119,19 @@ Use a representative matrix instead of only "happy path" exchanges:
   - `CcxtExtract.Pipeline` now validates those global entry shapes and records malformed entries under `corrupt_entries`; `Schema.validate/1` now checks `class_info`, `methods`, and `handle_errors` deeply enough for pipeline assembly to flag partial structures.
   - Regression coverage now includes synthetic corrupt-entry cases plus cached fixture assertions for legitimate null reasons.
 
-- [ ] **Audit 6: Round-trip validation blind spots** [D:3/B:8/U:9 → Eff:2.83] 🎯
+- [x] **Audit 6: Round-trip validation blind spots** [D:3/B:8/U:9 → Eff:2.83] 🎯
   Current round-trip validation checks a reference subset. Expand the audit to a wider exchange matrix and look for bug classes that schema validation and reference-only round-trips miss. Treat every escaped bug as evidence that the validation surface is too narrow or too shallow.
   Success criteria:
-  - [ ] The audit covers more than the current reference subset.
-  - [ ] Each escaped bug is categorized as a schema gap, round-trip gap, coverage gap, or extraction bug.
-  - [ ] The validator is strengthened only where a real escaped bug justifies it.
+  - [x] The audit covers more than the current reference subset.
+  - [x] Each escaped bug is categorized as a schema gap, round-trip gap, coverage gap, or extraction bug.
+  - [x] The validator is strengthened only where a real escaped bug justifies it.
+
+  Result:
+  - A widened cached audit matrix covering alias exchanges, root REST/WS exchanges, derived REST/WS exchanges, DEX-style exchanges, and manifest-recorded `loadMarkets()` failure cases stayed clean for tracked fixture data.
+  - A full cached sweep across all 110 exchanges also stayed free of round-trip errors in the tracked fixture set for this scope.
+  - The audit did confirm one validator blind spot in the markets layer: `Validation` only loaded succeeded `load_markets` artifacts, so manifest-recorded upstream failures collapsed into clean `nil`/`nil` results, and `runtime.markets` with output data but no source artifact could also pass without any finding.
+  - `CcxtExtract.Validation` now loads failed `load_markets` manifest entries, emits an explicit `info` finding when round-trip comparison is skipped because the source manifest recorded an upstream failure, errors if output markets appear despite a recorded failure, and warns when output markets exist without any source artifact.
+  - Regression coverage now includes unit tests for manifest-failure and output-without-source cases plus cached integration coverage for the widened Audit 6 exchange matrix.
 
 - [ ] **Audit 7: Coverage report consistency** [D:3/B:7/U:7 → Eff:2.33] 🚀 `[P]`
   Compare `coverage_report` claims against actual discovery artifacts and assembled pipeline output. Find false positives, false negatives, or applicability mistakes that could make the project look healthier than it is.
@@ -202,6 +209,18 @@ Audit 5 confirmed a second blind spot in pipeline assembly rather than a tracked
 - Why it escaped: Pipeline assembly relied on shallow map-or-null checks and did not validate the shape of global discovery entries before indexing them
 - Required regression test: Added synthetic corrupt-entry tests for `methods_rest`, `handle_errors`, and `parse_methods`, plus pipeline validation tests for WS-only `class_info` and `methods`
 - Fix owner or next task: Completed in Audit 5; carry the clarified nullability semantics forward in later audits and consumer docs
+
+Audit 6 confirmed a round-trip validation blind spot rather than a tracked-fixture extraction defect:
+
+- Layer: Validation round-trip markets comparison
+- Exchange or artifact: Synthetic `validate_roundtrip/3` sources plus cached `alpaca`, `bullish`, and `coinbaseexchange` load-markets failure fixtures
+- Reproduction command: `mix test.json --quiet test/ccxt_extract/validation_test.exs test/integration/cached/validation_cached_test.exs`
+- Expected behavior: Manifest-recorded `loadMarkets()` failures are classified explicitly, and output markets without a source artifact do not pass as clean
+- Actual behavior: Before the fix, failed `load_markets` manifest entries were ignored during source loading, so `runtime.markets` collapsed into a clean `nil`/`nil` result, and output markets with no source artifact also passed without any finding
+- Existing guard that should have caught it: `Validation.check_markets_roundtrip/4`
+- Why it escaped: The source loader indexed only succeeded market artifacts, and the markets round-trip branch returned the accumulator unchanged when output data existed without source data
+- Required regression test: Added unit tests for manifest-failure info/error classification and missing-source warnings, plus cached integration coverage for the widened Audit 6 matrix
+- Fix owner or next task: Completed in Audit 6; carry the explicit `loadMarkets()` failure classification into later runtime and coverage audits
 
 ## Done Criteria
 

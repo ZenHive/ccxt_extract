@@ -247,16 +247,39 @@ defmodule CcxtExtract.Validation do
   defp check_markets_roundtrip(findings, output, source, id) do
     output_markets = get_in(output, ["runtime", "markets"])
     source_markets = Map.get(source.load_markets, id)
+    source_failure = Map.get(source.load_markets_failed, id)
 
     cond do
-      is_nil(output_markets) && is_nil(source_markets) ->
+      is_nil(output_markets) && is_nil(source_markets) && is_nil(source_failure) ->
         findings
+
+      is_nil(output_markets) && is_nil(source_markets) ->
+        [
+          roundtrip_finding(
+            id,
+            "runtime.markets",
+            "info",
+            "source load_markets failed upstream; round-trip skipped"
+          )
+          | findings
+        ]
 
       is_nil(output_markets) && !is_nil(source_markets) ->
         [roundtrip_finding(id, "runtime.markets", "error", "output is null but source has data") | findings]
 
+      !is_nil(output_markets) && !is_nil(source_failure) ->
+        [
+          roundtrip_finding(
+            id,
+            "runtime.markets",
+            "error",
+            "output has data but source load_markets manifest recorded failure"
+          )
+          | findings
+        ]
+
       !is_nil(output_markets) && is_nil(source_markets) ->
-        findings
+        [roundtrip_finding(id, "runtime.markets", "warning", "output has data but no source artifact") | findings]
 
       true ->
         findings
@@ -656,6 +679,7 @@ defmodule CcxtExtract.Validation do
     %{
       describe: load_describe_lookup(dir),
       load_markets: load_markets_lookup(dir),
+      load_markets_failed: load_markets_failure_lookup(dir),
       classes: load_json_group_by(dir, "class_hierarchy.json", "classes", "class_name"),
       methods_rest: load_json_index_field(dir, "methods_rest.json", "methods"),
       methods_ws: load_json_index_field(dir, "methods_ws.json", "methods"),
@@ -705,6 +729,21 @@ defmodule CcxtExtract.Validation do
       {:ok, content} ->
         %{"succeeded" => entries} = Jason.decode!(content)
         Map.new(entries, &read_markets_entry(dir, &1))
+
+      {:error, _} ->
+        %{}
+    end
+  end
+
+  defp load_markets_failure_lookup(dir) do
+    manifest_path = Path.join(dir, "load_markets/_manifest.json")
+
+    case File.read(manifest_path) do
+      {:ok, content} ->
+        content
+        |> Jason.decode!()
+        |> Map.get("failed", [])
+        |> Map.new(fn entry -> {entry["id"], entry["error"]} end)
 
       {:error, _} ->
         %{}

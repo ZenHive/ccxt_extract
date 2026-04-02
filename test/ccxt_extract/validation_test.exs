@@ -174,6 +174,7 @@ defmodule CcxtExtract.ValidationTest do
         load_markets: %{
           "testex" => %{"market_count" => 100, "markets" => %{"BTC/USDT" => %{"active" => true}}}
         },
+        load_markets_failed: %{},
         classes: %{
           "testex" => [
             %{"type" => "rest", "class_name" => "testex", "method_count" => 42}
@@ -266,6 +267,47 @@ defmodule CcxtExtract.ValidationTest do
       assert Enum.any?(findings, fn f ->
                f["path"] == "runtime.markets" && f["severity"] == "error" &&
                  String.contains?(f["message"], "market data mismatch")
+             end)
+    end
+
+    test "reports load_markets manifest failures as info when output is null" do
+      exchange = put_in(build_full_exchange(), ["runtime", "markets"], nil)
+
+      source =
+        matching_source_data()
+        |> Map.put(:load_markets, %{})
+        |> Map.put(:load_markets_failed, %{"testex" => "requires apiKey credential"})
+
+      findings = Validation.validate_roundtrip(exchange, source, "testex")
+
+      assert Enum.any?(findings, fn f ->
+               f["path"] == "runtime.markets" && f["severity"] == "info" &&
+                 String.contains?(f["message"], "round-trip skipped")
+             end)
+    end
+
+    test "detects markets data when source manifest recorded load_markets failure" do
+      source =
+        matching_source_data()
+        |> Map.put(:load_markets, %{})
+        |> Map.put(:load_markets_failed, %{"testex" => "requires apiKey credential"})
+
+      findings = Validation.validate_roundtrip(build_full_exchange(), source, "testex")
+
+      assert Enum.any?(findings, fn f ->
+               f["path"] == "runtime.markets" && f["severity"] == "error" &&
+                 String.contains?(f["message"], "manifest recorded failure")
+             end)
+    end
+
+    test "warns when output has markets but no source artifact" do
+      source = Map.put(matching_source_data(), :load_markets, %{})
+
+      findings = Validation.validate_roundtrip(build_full_exchange(), source, "testex")
+
+      assert Enum.any?(findings, fn f ->
+               f["path"] == "runtime.markets" && f["severity"] == "warning" &&
+                 String.contains?(f["message"], "no source artifact")
              end)
     end
 
@@ -383,6 +425,7 @@ defmodule CcxtExtract.ValidationTest do
       source = %{
         describe: %{},
         load_markets: %{},
+        load_markets_failed: %{},
         classes: %{},
         methods_rest: %{},
         methods_ws: %{},

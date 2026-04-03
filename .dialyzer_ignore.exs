@@ -7,6 +7,7 @@
   {"lib/ccxt_extract/overrides.ex", :call_without_opaque},
   {"lib/ccxt_extract/overrides.ex", :call_with_opaque},
   {"lib/ccxt_extract/pipeline.ex", :call_without_opaque},
+  {"lib/mix/tasks/ccxt_extract.update.ex", :call_without_opaque},
   {"lib/ccxt_extract/validation.ex", :call_without_opaque},
   # JSV uses runtime: false — Dialyzer can't see its types/functions
   {"lib/ccxt_extract/validation.ex", :unknown_type},

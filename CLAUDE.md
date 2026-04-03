@@ -183,8 +183,10 @@ mix doctor                         # Documentation quality
 mix format                         # Format code (Styler)
 
 # Setup CCXT
-mix npm.install ccxt               # Browser bundle for QuickBEAM
-# Then clone TS source (see above)
+mix ccxt_extract.setup             # Install/verify CCXT sources
+mix ccxt_extract.update            # Full re-extract: setup → pipeline → validate
+mix ccxt_extract.update --latest   # Update to latest CCXT version
+mix ccxt_extract.update --skip-setup  # Re-run pipeline + validate only
 
 # Run examples
 mix run examples/1_parse_exchange.exs binance

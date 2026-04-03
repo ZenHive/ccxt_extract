@@ -1,0 +1,164 @@
+defmodule Mix.Tasks.CcxtExtract.Update do
+  @shortdoc "Re-extract all exchange data (setup → pipeline → validate)"
+
+  @moduledoc """
+  Orchestrates a full re-extraction: updates CCXT sources, runs the pipeline,
+  validates output, and reports what changed.
+
+      mix ccxt_extract.update
+      mix ccxt_extract.update --latest --output /tmp/exchanges
+      mix ccxt_extract.update --ccxt-version 4.5.45 --strict
+      mix ccxt_extract.update --skip-setup --output /tmp/exchanges
+
+  ## Options
+
+    * `--output DIR` — custom output directory (default: `priv/output`)
+    * `--ccxt-version VERSION` — pin a specific CCXT version
+    * `--latest` — force reinstall of the latest CCXT version
+    * `--strict` — fail with non-zero exit on validation errors
+    * `--skip-setup` — skip setup stage (use when sources are already current)
+
+  ## Stages
+
+  1. **Setup** — install/update CCXT sources (`mix ccxt_extract.setup`)
+  2. **Pipeline** — assemble per-exchange JSON (`mix ccxt_extract.pipeline`)
+  3. **Validate** — schema + round-trip validation (`mix ccxt_extract.validate`)
+
+  Each stage's failure halts subsequent stages. After all stages complete,
+  a diff summary shows what changed compared to the previous extraction.
+  """
+
+  use Mix.Task
+
+  @switches [
+    output: :string,
+    ccxt_version: :string,
+    latest: :boolean,
+    strict: :boolean,
+    skip_setup: :boolean
+  ]
+
+  @aliases [v: :ccxt_version]
+
+  @impl true
+  def run(args) do
+    {opts, leftover, invalid} = OptionParser.parse(args, strict: @switches, aliases: @aliases)
+
+    if invalid != [] do
+      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
+      Mix.raise("Unknown option(s): #{switches}")
+    end
+
+    if leftover != [] do
+      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
+    end
+
+    output_dir = opts[:output] || CcxtExtract.Paths.priv("output")
+    manifest_path = Path.join(output_dir, "_manifest.json")
+
+    Mix.shell().info("Starting full update...")
+    start = System.monotonic_time(:millisecond)
+
+    # Snapshot existing manifest before any changes
+    old_manifest = read_manifest(manifest_path)
+
+    # Stage 1: Setup
+    if !opts[:skip_setup] do
+      Mix.shell().info("\n── Stage 1: Setup ──")
+      Mix.Task.rerun("ccxt_extract.setup", build_setup_args(opts))
+    end
+
+    # Stage 2: Pipeline
+    Mix.shell().info("\n── Stage 2: Pipeline ──")
+    Mix.Task.rerun("ccxt_extract.pipeline", build_pipeline_args(opts))
+
+    # Stage 3: Validate
+    Mix.shell().info("\n── Stage 3: Validate ──")
+    Mix.Task.rerun("ccxt_extract.validate", build_validate_args(opts))
+
+    # Diff summary
+    new_manifest = read_manifest(manifest_path)
+    elapsed = System.monotonic_time(:millisecond) - start
+
+    Mix.shell().info("\n── Summary ──")
+    report_diff(old_manifest, new_manifest)
+    Mix.shell().info("Total time: #{format_elapsed(elapsed)}")
+  end
+
+  # Builds arg list for setup task
+  defp build_setup_args(opts) do
+    args = []
+    args = if opts[:ccxt_version], do: ["--ccxt-version", opts[:ccxt_version] | args], else: args
+    args = if opts[:latest], do: ["--latest" | args], else: args
+    args
+  end
+
+  # Builds arg list for pipeline task
+  defp build_pipeline_args(opts) do
+    args = []
+    args = if opts[:output], do: ["--output", opts[:output] | args], else: args
+    args = if opts[:strict], do: ["--strict" | args], else: args
+    args
+  end
+
+  # Builds arg list for validate task
+  defp build_validate_args(opts) do
+    args = []
+    args = if opts[:output], do: ["--output", opts[:output] | args], else: args
+    args = if opts[:strict], do: ["--strict" | args], else: args
+    args
+  end
+
+  @doc false
+  def read_manifest(path) do
+    case File.read(path) do
+      {:ok, content} ->
+        case Jason.decode(content) do
+          {:ok, data} -> data
+          {:error, _} -> nil
+        end
+
+      {:error, _} ->
+        nil
+    end
+  end
+
+  @doc false
+  def report_diff(nil, _new) do
+    Mix.shell().info("First extraction — no previous data to compare.")
+  end
+
+  def report_diff(_old, nil) do
+    Mix.shell().info("Warning: no manifest found after pipeline. Output may have failed.")
+  end
+
+  def report_diff(old, new) do
+    report_version_change(old["ccxt_version"], new["ccxt_version"])
+    report_exchange_change(old["exchanges"] || [], new["exchanges"] || [])
+  end
+
+  defp report_version_change(same, same), do: Mix.shell().info("CCXT version: #{same} (unchanged)")
+
+  defp report_version_change(old, new), do: Mix.shell().info("CCXT: #{old} → #{new}")
+
+  defp report_exchange_change(old_list, new_list) do
+    added = Enum.sort(new_list -- old_list)
+    removed = Enum.sort(old_list -- new_list)
+    delta = length(new_list) - length(old_list)
+
+    delta_str =
+      cond do
+        delta > 0 -> " (+#{delta})"
+        delta < 0 -> " (#{delta})"
+        true -> " (unchanged)"
+      end
+
+    Mix.shell().info("Exchanges: #{length(old_list)} → #{length(new_list)}#{delta_str}")
+
+    if added != [], do: Mix.shell().info("  Added: #{Enum.join(added, ", ")}")
+    if removed != [], do: Mix.shell().info("  Removed: #{Enum.join(removed, ", ")}")
+  end
+
+  defp format_elapsed(ms) when ms < 1_000, do: "#{ms}ms"
+  defp format_elapsed(ms), do: "#{Float.round(ms / 1_000, 1)}s"
+end

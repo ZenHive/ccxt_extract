@@ -78,8 +78,10 @@ defmodule CcxtExtract.Pipeline do
 
   Cleans stale files from the output directory before writing.
   """
-  @spec write!([map()], String.t()) :: :ok
-  def write!(exchanges, output_dir \\ Paths.priv(@output_dir)) do
+  @spec write!([map()], String.t(), keyword()) :: :ok
+  def write!(exchanges, output_dir \\ Paths.priv(@output_dir), opts \\ []) do
+    discoveries_dir = Keyword.get(opts, :discoveries_dir, Paths.priv("discoveries"))
+
     File.mkdir_p!(output_dir)
     clean_stale_files(output_dir, exchanges)
 
@@ -93,6 +95,7 @@ defmodule CcxtExtract.Pipeline do
     manifest_path = Path.join(output_dir, "_manifest.json")
     File.write!(manifest_path, Jason.encode!(manifest, pretty: true))
     copy_schema!(output_dir)
+    copy_base_methods!(output_dir, discoveries_dir)
 
     :ok
   end
@@ -745,7 +748,7 @@ defmodule CcxtExtract.Pipeline do
     output_dir
     |> File.ls!()
     |> Enum.filter(&String.ends_with?(&1, ".json"))
-    |> Enum.reject(&(&1 in ["_manifest.json", "exchange_v1.json"]))
+    |> Enum.reject(&(&1 in ["_manifest.json", "exchange_v1.json", "_base_methods.json"]))
     |> Enum.each(fn filename ->
       id = String.trim_trailing(filename, ".json")
 
@@ -759,6 +762,20 @@ defmodule CcxtExtract.Pipeline do
     schema_source = Paths.priv("schema/exchange_v1.json")
     schema_target = Path.join(output_dir, "exchange_v1.json")
     File.cp!(schema_source, schema_target)
+  end
+
+  # Copy _base_methods.json to the output directory as a shared artifact.
+  # When the source is absent, removes stale target to prevent leftover artifacts.
+  # Run `mix ccxt_extract.base_methods` to generate the source file.
+  defp copy_base_methods!(output_dir, discoveries_dir) do
+    source = Path.join(discoveries_dir, "_base_methods.json")
+    target = Path.join(output_dir, "_base_methods.json")
+
+    if File.exists?(source) do
+      File.cp!(source, target)
+    else
+      File.rm(target)
+    end
   end
 
   defp build_manifest(exchanges) do

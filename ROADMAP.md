@@ -16,6 +16,7 @@
 | Task | Description | Notes |
 |------|-------------|-------|
 | Task 27 | Schema versioning contract | `SCHEMA.md` documents semver contract for `schema_version` field; consumer guidance for Elixir/Rust/Python |
+| Task 31 | Base normalizer methods from `Exchange.ts` | Global artifact `_base_methods.json`: MethodDefinition signatures + PropertyDefinition field aliases, with `source` field |
 | Task 30 | Interface signatures from `abstract/*.ts` | Fixed: now extracts all 110 exchanges (was 99 — alias exchanges skipped); round-trip validation wired up |
 | Task 25 | Configurable output directory | `--output` now emits per-exchange JSON, `_manifest.json`, and `exchange_v1.json`; stale exchange files are cleaned automatically |
 | Task 29 | Comparison script vs old ccxt_client specs | 100% coverage; all old keys classified as covered/richer/consumer-specific |
@@ -36,7 +37,7 @@
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 30 | ✅ | Interface signatures from `abstract/*.ts` |
-| Task 31 `[P]` | ⬜ | Base normalizer methods from `Exchange.ts` (~88+ methods) |
+| Task 31 `[P]` | ✅ | Base normalizer methods from `Exchange.ts` (MethodDefinitions + PropertyDefinitions) |
 | Task 32 `[P]` | ⬜ | Pagination strategy per method per exchange |
 | Task 33 | ⬜ | Auth assembly decomposition (enriches sign_method) |
 | Task 34 | ⬜ | Handler routing tables (method → handler deps) |
@@ -72,6 +73,7 @@ mix ccxt_extract.parse_methods                 # Extract parse*() method ASTs
 mix ccxt_extract.ws_methods                    # Extract watch*/handle* WS method ASTs
 mix ccxt_extract.overrides                     # Extract method overrides for derived exchanges
 mix ccxt_extract.interface_signatures          # Extract interface signatures from abstract/*.ts
+mix ccxt_extract.base_methods                  # Extract base class methods from Exchange.ts
 mix ccxt_extract.coverage                      # Generate extraction coverage report
 mix ccxt_extract.pipeline                      # Assemble per-exchange JSON output
 mix ccxt_extract.validate                      # Full JSON Schema + round-trip validation
@@ -194,7 +196,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [ ] **Task 30: Interface signatures from abstract/*.ts** [D:3/B:8/U:9 → Eff:2.83] 🎯 `[P]` — Parse each `priv/ccxt/ts/src/abstract/<exchange>.ts` with OXC and extract every interface method signature (name, params, return type). These are the generated per-exchange API method type definitions — the Go extractor had ~72k across all exchanges. Add to structure layer as `interface_signatures`. Include in pipeline output and schema.
 
-- [ ] **Task 31: Base normalizer methods from Exchange.ts** [D:3/B:7/U:8 → Eff:2.50] 🎯 `[P]` — Parse `priv/ccxt/ts/src/base/Exchange.ts` with OXC and extract all `parse*()`, `safe*()`, `normalize*()` method definitions — signatures, parameter types, return types. These are the ~88+ base class methods that every exchange inherits. Store once (not per-exchange) in a shared `_base_methods.json` or similar. The Go extractor had ~1,320 items.
+- [x] ~~**Task 31: Base normalizer methods from Exchange.ts**~~ [D:3/B:7/U:8 → Eff:2.50] 🎯 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 32: Pagination strategy extraction** [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — For each exchange, identify which methods use pagination and which strategy (Dynamic, Deterministic, Cursor, Incremental). Parse per-exchange TS source with OXC, find CallExpressions matching `fetchPaginatedCall*` variants. Output per-exchange map of `{method_name: pagination_strategy}`. The Go extractor had ~194 items. Add to structure layer.
 

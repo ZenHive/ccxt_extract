@@ -115,6 +115,24 @@ For complete type definitions (all fields, nesting, and constraints), see `excha
 - **MethodInventory** — `{ rest, ws }` where each is a list of MethodSignature (like MethodAST but without `body`)
 - **ExchangeMeta** — `{ id, name, alias, certified, pro, version, country, referral }` — exchange identity and CCXT metadata
 
+### Shared Artifacts
+
+These files are **global** (not per-exchange) and live alongside `_manifest.json` in the output directory:
+
+#### `_base_methods.json`
+
+Base class method signatures from `Exchange.ts` — shared by all exchanges.
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `extracted_at` | string (ISO 8601) | Extraction timestamp |
+| `source_file` | string | Always `"base/Exchange.ts"` |
+| `method_count` | integer | Total methods extracted |
+| `by_category` | object | Count per category (`parse`, `safe`) |
+| `methods` | map(name -> BaseMethod) | Method signatures keyed by name |
+
+**BaseMethod** — `{ name, category, params, return_type, async, source }` where `category` is `"parse"` or `"safe"`, `params` is a list of MethodParam, `async` is boolean, and `source` is `"method_definition"` (full method with signature) or `"field_assignment"` (class field alias to imported utility — no params/return type available).
+
 ### Manifest (`_manifest.json`)
 
 | Key | Type | Description |

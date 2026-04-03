@@ -1077,6 +1077,53 @@ defmodule CcxtExtract.PipelineTest do
     end
   end
 
+  describe "write!/3 with discoveries_dir" do
+    @tag :tmp_dir
+    test "copies _base_methods.json from custom discoveries_dir", %{tmp_dir: tmp_dir} do
+      discoveries_dir = Path.join(tmp_dir, "discoveries")
+      output_dir = Path.join(tmp_dir, "output")
+      File.mkdir_p!(discoveries_dir)
+
+      base_methods = %{"methods" => %{"safeCurrencyCode" => %{"type" => "method"}}}
+      File.write!(Path.join(discoveries_dir, "_base_methods.json"), Jason.encode!(base_methods))
+
+      Pipeline.write!([full_exchange()], output_dir, discoveries_dir: discoveries_dir)
+
+      target = Path.join(output_dir, "_base_methods.json")
+      assert File.exists?(target)
+      assert Jason.decode!(File.read!(target)) == base_methods
+    end
+
+    @tag :tmp_dir
+    test "removes stale _base_methods.json when source is absent", %{tmp_dir: tmp_dir} do
+      discoveries_dir = Path.join(tmp_dir, "discoveries")
+      output_dir = Path.join(tmp_dir, "output")
+      File.mkdir_p!(discoveries_dir)
+      File.mkdir_p!(output_dir)
+
+      # Simulate a previous run that copied _base_methods.json
+      stale_target = Path.join(output_dir, "_base_methods.json")
+      File.write!(stale_target, Jason.encode!(%{"stale" => true}))
+      assert File.exists?(stale_target)
+
+      # Run write! without a source _base_methods.json
+      Pipeline.write!([full_exchange()], output_dir, discoveries_dir: discoveries_dir)
+
+      refute File.exists?(stale_target)
+    end
+
+    @tag :tmp_dir
+    test "no error when neither source nor stale target exists", %{tmp_dir: tmp_dir} do
+      discoveries_dir = Path.join(tmp_dir, "discoveries")
+      output_dir = Path.join(tmp_dir, "output")
+      File.mkdir_p!(discoveries_dir)
+
+      Pipeline.write!([full_exchange()], output_dir, discoveries_dir: discoveries_dir)
+
+      refute File.exists?(Path.join(output_dir, "_base_methods.json"))
+    end
+  end
+
   # --- Helpers ---
 
   # Builds a full exchange map with custom overrides for validation testing

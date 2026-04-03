@@ -6,6 +6,14 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 31: Base normalizer methods from Exchange.ts
+- New `CcxtExtract.BaseMethods` module extracts `parse*()` and `safe*()` members from the base `Exchange.ts` class — both MethodDefinition (full signatures) and PropertyDefinition (class field aliases to imported utilities)
+- Each entry includes name, category (parse/safe), params with types, return type, async flag, and `source` field (`"method_definition"` or `"field_assignment"`)
+- Global artifact `_base_methods.json` stored once (not per-exchange) — shared by all exchanges
+- Pipeline integration: copies `_base_methods.json` to output directory using `discoveries_dir` option (not hardcoded path)
+- `mix ccxt_extract.base_methods` Mix task for standalone extraction
+- Code review fixes: made `extract_method_data` private, threaded `discoveries_dir` through `write!/3`, removed dead `load_base_methods` from pipeline data map, documented raise behavior
+
 ### Task 27: Schema versioning contract
 - Created `SCHEMA.md` documenting the semver contract for the `schema_version` field in all output JSON
 - Defines patch/minor/major version bump rules: additive fields (patch), structural changes with aliases (minor), breaking changes (major)

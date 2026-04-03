@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 26 | CCXT version pinning and reproducibility | `--ccxt-version` flag on setup, `source_git_sha` in manifest, version info read directly from version file |
 | Task 38 | Pagination data quality fixes | Branch-dependent variants preserved (always arrays), unresolved variable method names captured, provenance tracking via containing_method |
 | Task 32 | Pagination strategy extraction | 4 strategies (dynamic/deterministic/cursor/incremental), 43 exchanges; recursive AST walker for nested calls |
 | Task 27 | Schema versioning contract | `SCHEMA.md` documents semver contract for `schema_version` field; consumer guidance for Elixir/Rust/Python |
@@ -31,7 +32,7 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 26 | ⬜ | CCXT version pinning and reproducibility |
+| Task 26 | ✅ | CCXT version pinning and reproducibility |
 | Task 27 | ✅ | Schema versioning contract — `SCHEMA.md` |
 | Task 28 | ⬜ | Update workflow (re-extract on CCXT bump) |
 
@@ -41,14 +42,14 @@
 | Task 30 | ✅ | Interface signatures from `abstract/*.ts` |
 | Task 31 `[P]` | ✅ | Base normalizer methods from `Exchange.ts` (MethodDefinitions + PropertyDefinitions) |
 | Task 32 `[P]` | ✅ | Pagination strategy per method per exchange |
-| Task 33 | ⬜ | Auth assembly decomposition (enriches sign_method) |
-| Task 34 | ⬜ | Handler routing tables (method → handler deps) |
+| Task 33 | 🔶 Deferred | Auth assembly decomposition — deferred: this is interpretation, not extraction. The raw sign() AST is already extracted. Consumers should classify signing patterns from AST, not consume pre-digested "recipes" that bake in one model. Revisit only if multiple consumers independently request it. |
+| Task 34 | 🔶 Deferred | Handler routing tables — deferred: derivable from existing AST bodies. Adding pre-computed routing tables is analysis, not extraction, and couples the extractor to a specific consumer's view of method dependencies. |
 
 ### 📋 Data Quality & Maintenance
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 35 | ⬜ | Extract shared modules — run `mix ex_dna` for patterns |
-| Task 36 | ⬜ | Schema migration framework — future-proof for v2.0 |
+| Task 36 | 🔶 Deferred | Schema migration framework — deferred: premature. Zero consumers using v1.0 yet. Build migration tooling when a real v2.0 need emerges with concrete requirements, not speculatively. |
 | Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ |
 | Task 38 | ✅ | Pagination data quality: branch-dependent duplicates + variable method names |
 | Task 39 | ⬜ | Add pagination to round-trip validation (validation.ex doesn't load pagination.json for round-trip comparison) |
@@ -187,7 +188,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 25: Configurable output directory**~~ [D:2/B:9/U:9 → Eff:4.50] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 26: CCXT version pinning and reproducibility** [D:3/B:8/U:8 → Eff:2.67] 🎯 — Record the exact CCXT version (git tag or commit SHA) in the manifest and each per-exchange JSON. Add `--ccxt-version` flag to `mix ccxt_extract.setup` to pin a specific CCXT release tag. Ensure same CCXT version + same extraction code = identical output (deterministic). Document the version in `_manifest.json` so consumers know what they're building from.
+- [x] ~~**Task 26: CCXT version pinning and reproducibility**~~ [D:3/B:8/U:8 → Eff:2.67] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [x] ~~**Task 27: Schema versioning contract**~~ [D:2/B:7/U:8 → Eff:3.75] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
@@ -199,15 +200,15 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 > The Go extractor (ccxt_go_extractor) extracts 5 categories we don't yet cover. All are extractable from TS source via OXC. Achieving parity means ccxt_extract fully supersedes both the old Elixir specs AND the Go extractor.
 
-- [ ] **Task 30: Interface signatures from abstract/*.ts** [D:3/B:8/U:9 → Eff:2.83] 🎯 `[P]` — Parse each `priv/ccxt/ts/src/abstract/<exchange>.ts` with OXC and extract every interface method signature (name, params, return type). These are the generated per-exchange API method type definitions — the Go extractor had ~72k across all exchanges. Add to structure layer as `interface_signatures`. Include in pipeline output and schema.
+- [x] ~~**Task 30: Interface signatures from abstract/*.ts**~~ [D:3/B:8/U:9 → Eff:2.83] 🎯 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [x] ~~**Task 31: Base normalizer methods from Exchange.ts**~~ [D:3/B:7/U:8 → Eff:2.50] 🎯 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [x] ~~**Task 32: Pagination strategy extraction**~~ [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 33: Auth assembly decomposition** [D:6/B:8/U:8 → Eff:1.33] 📋 — Decompose the existing `sign_method` AST into structured auth assembly steps: which auth type, what gets signed (query/body/headers), which crypto operations (HMAC, RSA, Ed25519), header names. Pattern-match the AST to extract structured signing recipes rather than raw AST trees. The Go extractor had ~411 items. This enriches the existing `sign_method` field rather than replacing it — add `sign_assembly` alongside it.
+- [ ] **Task 33: Auth assembly decomposition** [D:6/B:8/U:8 → Eff:1.33] 📋 🔶 **Deferred** — Decompose the existing `sign_method` AST into structured auth assembly steps. **Deferred reason:** This crosses from extraction into interpretation. The raw sign() AST is already extracted and complete. Classifying signing patterns (which crypto ops, what gets signed) is consumer-domain work — ccxt_client's 9 signing patterns are *its* abstraction, not a universal truth. Baking one interpretation into the extractor couples it to one consumer's model. Revisit only if multiple consumers independently request structured signing recipes.
 
-- [ ] **Task 34: Handler routing extraction** [D:5/B:7/U:7 → Eff:1.40] 📋 — Extract which exchange methods route to which handlers (handleErrors, sign, parse*). Analyze method bodies for `this.handleErrors()`, `this.sign()`, and internal dispatch patterns. Produces a per-exchange routing table showing method → handler dependencies. The Go extractor had ~1,487 items. Add to structure layer as `handler_routing`.
+- [ ] **Task 34: Handler routing extraction** [D:5/B:7/U:7 → Eff:1.40] 📋 🔶 **Deferred** — Extract method → handler dependency routing tables. **Deferred reason:** This is analysis derivable from existing AST data. Every method body is already extracted — consumers can walk `this.handleErrors()`, `this.sign()` calls themselves. Pre-computing one routing view in the extractor removes consumer flexibility. Revisit only if AST walking proves impractical for multiple consumers.
 
 ---
 
@@ -220,7 +221,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
   - **35b: `CcxtExtract.MethodASTBuilder`** — Extract `extract_method_data/1` — unified MethodAST builder for parse_methods, ws_methods, overrides.
   - **35c: `CcxtExtract.DiscoveryLoader`** — Extract shared data loading from `Pipeline.load_all_data/2` and `Validation.load_source_data/1`. Three modes: `:strict` (raise on missing), `:track` (return `{data, missing_list}`), `:silent` (return `%{}` on error).
 
-- [ ] **Task 36: Schema migration framework** [D:2/B:5/U:6 → Eff:3.00] 📋 `[Codex]` — Add `CcxtExtract.Schema.Migrator` module for future schema version upgrades. Even if v1.0 → v2.0 migration is a no-op initially, the framework should exist: `migrate/2` function that takes `{data, from_version}` and returns `{data, to_version}`. Document migration strategy in `SCHEMA.md`. Future-proofs the project for breaking changes (new required fields, structural reorganizations).
+- [ ] **Task 36: Schema migration framework** [D:2/B:5/U:6 → Eff:3.00] 📋 `[Codex]` 🔶 **Deferred** — Add `CcxtExtract.Schema.Migrator` module for future schema version upgrades. **Deferred reason:** Premature — v1.0.0 has zero consumers yet. Migration needs will be concrete when v2.0 actually arrives. Building a framework for hypothetical future migrations is speculative infrastructure that will likely not match real requirements.
 
 - [ ] **Task 37: Fix Credo compatibility on Elixir 1.18+** [D:2/B:4/U:3 → Eff:1.50] 🔧 `[Codex]` — Credo 1.7.x crashes on multi-line `~w` sigils and certain `~r` patterns due to tokenization bug in `Credo.Code.Token.position/1`. **Workaround applied:** switched to `github: "rrrene/credo", branch: "release/1.7"` git dep which includes the fix. Remaining: switch back to hex release (`~> 1.8`) when published. Low impact — `mix test` and `mix dialyzer` both pass, Credo is dev-only.
 
@@ -230,7 +231,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 23: Resolve __function: sentinels in describe data**~~ [D:5/B:7/U:7 → Eff:1.40] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 24: Use Parity.Compare for richer round-trip diff output** [D:3/B:5/U:4 → Eff:1.50] 📋 — Replace `==` equality checks in `Validation.check_data_equality/5` with `Parity.Compare.compare/3` from `../ccxt_parity`. Currently round-trip findings say "data mismatch" — with Parity.Compare they'd show the exact path and expected vs actual values. Either add as path dep or extract to hex first.
+- [ ] **Task 24: Use Parity.Compare for richer round-trip diff output** [D:3/B:5/U:4 → Eff:1.50] 📋 🔶 **Deferred** — Replace `==` equality checks in `Validation.check_data_equality/5` with `Parity.Compare.compare/3` from `../ccxt_parity`. **Deferred reason:** Adds path dependency on sibling project, coupling the extractor to ccxt_parity. The extractor should be self-contained. If richer diff output is needed, improve it inline rather than importing external deps.
 
 - [x] ~~**Task 38: Pagination data quality — branch-dependent duplicates and variable method names**~~ [D:4/B:6/U:5 → Eff:1.38] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 

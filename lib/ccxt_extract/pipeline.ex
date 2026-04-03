@@ -45,14 +45,15 @@ defmodule CcxtExtract.Pipeline do
         raise "Pipeline cannot run — missing required discovery files: #{Enum.join(data.missing_files, ", ")}"
       end
 
-      ccxt_version = Keyword.get_lazy(opts, :ccxt_version, fn -> read_ccxt_version() end)
+      version_info = Keyword.get_lazy(opts, :version_info, fn -> read_ccxt_version_info() end)
+      ccxt_version = Keyword.get(opts, :ccxt_version) || version_info["npm_version"] || "unknown"
 
       extracted_at =
         Keyword.get_lazy(opts, :extracted_at, fn ->
           DateTime.to_iso8601(DateTime.utc_now())
         end)
 
-      schema_opts = [ccxt_version: ccxt_version, extracted_at: extracted_at]
+      schema_opts = [ccxt_version: ccxt_version, extracted_at: extracted_at, version_info: version_info]
 
       {exchanges, errors} =
         data.exchanges
@@ -91,7 +92,7 @@ defmodule CcxtExtract.Pipeline do
       File.write!(path, Jason.encode!(exchange, pretty: true))
     end
 
-    manifest = build_manifest(exchanges)
+    manifest = build_manifest(exchanges, opts)
     manifest_path = Path.join(output_dir, "_manifest.json")
     File.write!(manifest_path, Jason.encode!(manifest, pretty: true))
     copy_schema!(output_dir)
@@ -754,10 +755,13 @@ defmodule CcxtExtract.Pipeline do
     end
   end
 
-  defp read_ccxt_version do
+  # Returns the full version info map from priv/ccxt_version.json, or an empty
+  # map if the file is missing/corrupt. Used by build_manifest to include
+  # source_git_sha for reproducibility traceability.
+  defp read_ccxt_version_info do
     case read_json(Paths.version_file()) do
-      {:ok, data} -> data["npm_version"] || "unknown"
-      {:error, _} -> "unknown"
+      {:ok, data} -> data
+      {:error, _} -> %{}
     end
   end
 
@@ -807,12 +811,16 @@ defmodule CcxtExtract.Pipeline do
     end
   end
 
-  defp build_manifest(exchanges) do
+  # Manifest derives ccxt_version from exchange data (the source of truth),
+  # not from version_info on disk. version_info is only used for source_git_sha.
+  defp build_manifest(exchanges, opts) do
+    version_info = Keyword.get_lazy(opts, :version_info, fn -> read_ccxt_version_info() end)
     first = List.first(exchanges) || %{}
 
     %{
       "schema_version" => Schema.schema_version(),
       "ccxt_version" => first["ccxt_version"] || "unknown",
+      "source_git_sha" => version_info["source_git_sha"],
       "extracted_at" => first["extracted_at"] || DateTime.to_iso8601(DateTime.utc_now()),
       "exchange_count" => length(exchanges),
       "exchanges" => exchanges |> Enum.map(& &1["exchange"]["id"]) |> Enum.sort()

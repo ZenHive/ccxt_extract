@@ -6,6 +6,12 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 26: CCXT version pinning and reproducibility
+- `mix ccxt_extract.setup` now accepts `--ccxt-version VERSION` to pin a specific CCXT release (e.g., `--ccxt-version 4.5.45`). Verifies installed version matches the requested version after npm install
+- `--latest` flag forces reinstall of newest CCXT even when a bundle already exists (useful in CI for ensuring up-to-date extractions)
+- `_manifest.json` now includes `source_git_sha` for full reproducibility traceability — consumers can verify both the npm package version and the exact source commit
+- Manifest `ccxt_version` derived from exchange data (source of truth), with `source_git_sha` enriched from version file
+
 ### Task 38: Pagination data quality fixes
 - **Branch-dependent duplicates preserved**: Pagination entries that target the same method name from different code paths are now all kept as arrays. Previously `Map.put_new` silently dropped variants (e.g. coinbase fetchAccounts V2/V3 had different cursor configs but only one survived)
 - **Variable method names captured**: Pagination calls with runtime-computed method names (e.g. bydfi `fetchTransactionsHelper` passes `methodName` variable) are now emitted as unresolved entries with `target_method: null` in a separate `pagination_unresolved` list, instead of being silently dropped

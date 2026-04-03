@@ -10,7 +10,18 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
   4. Verifies QuickBEAM can load the browser bundle and count exchanges
   5. Verifies OXC can parse a TypeScript exchange file
 
+  ## Options
+
+    * `--ccxt-version VERSION` — Pin a specific CCXT version (e.g., `4.5.45`).
+      Without this flag, installs the latest version.
+    * `--latest` — Force reinstall of the latest version, even if a bundle
+      already exists. Useful in CI to ensure up-to-date extractions.
+
+  ## Examples
+
       mix ccxt_extract.setup
+      mix ccxt_extract.setup --ccxt-version 4.5.45
+      mix ccxt_extract.setup --latest
   """
 
   use Mix.Task
@@ -20,10 +31,20 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
   @ts_check_file_rel "ccxt/ts/src/binance.ts"
   @ts_package_json_rel "ccxt/package.json"
 
+  # --latest forces reinstall even when bundle exists (ensures actual latest).
+  # --ccxt-version pins a specific version and verifies after install.
+  @switches [ccxt_version: :string, latest: :boolean]
+  @aliases [v: :ccxt_version]
+
   @impl true
-  def run(_args) do
-    install_npm_package()
+  def run(args) do
+    {opts, _rest} = OptionParser.parse!(args, strict: @switches, aliases: @aliases)
+    pinned_version = Keyword.get(opts, :ccxt_version)
+    force_latest? = Keyword.get(opts, :latest, false)
+
+    install_npm_package(pinned_version, force_latest?)
     copy_bundle_to_priv()
+    verify_installed_version(pinned_version)
     check_ts_source()
     versions = record_versions()
     verify_quickbeam()
@@ -33,7 +54,11 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
     Mix.shell().info("CCXT version: #{versions["npm_version"]} (#{String.slice(versions["source_git_sha"], 0..6)})")
   end
 
-  defp install_npm_package do
+  # Installs CCXT npm package. When pinned_version is provided, installs that
+  # exact version (always re-installs to ensure correctness). When force_latest?
+  # is true, always reinstalls even if bundle exists (ensures actual latest).
+  # Otherwise installs latest only if not already present.
+  defp install_npm_package(nil, false = _force_latest?) do
     if File.exists?(@npm_bundle) do
       size_kb = @npm_bundle |> File.stat!() |> Map.get(:size) |> div(1024)
       Mix.shell().info("CCXT browser bundle already installed (#{size_kb}KB), skipping npm install.")
@@ -46,6 +71,39 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
       end
 
       Mix.shell().info("CCXT browser bundle installed.")
+    end
+  end
+
+  defp install_npm_package(nil, true = _force_latest?) do
+    Mix.shell().info("Installing latest CCXT via npm...")
+    Mix.Task.run("npm.install", ["ccxt"])
+
+    if !File.exists?(@npm_bundle) do
+      Mix.raise("npm install completed but #{@npm_bundle} not found")
+    end
+
+    Mix.shell().info("CCXT latest browser bundle installed.")
+  end
+
+  defp install_npm_package(version, _force_latest?) do
+    Mix.shell().info("Installing CCXT version #{version} via npm...")
+    Mix.Task.run("npm.install", ["ccxt@#{version}"])
+
+    if !File.exists?(@npm_bundle) do
+      Mix.raise("npm install completed but #{@npm_bundle} not found")
+    end
+
+    Mix.shell().info("CCXT #{version} browser bundle installed.")
+  end
+
+  # When a specific version was requested, verify the installed package matches.
+  defp verify_installed_version(nil), do: :ok
+
+  defp verify_installed_version(expected) do
+    installed = @npm_package_json |> File.read!() |> Jason.decode!() |> Map.get("version")
+
+    if installed != expected do
+      Mix.raise("Version mismatch: requested #{expected} but npm installed #{installed}")
     end
   end
 

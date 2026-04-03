@@ -1142,6 +1142,53 @@ defmodule CcxtExtract.PipelineTest do
     end
   end
 
+  describe "manifest version fields" do
+    @tag :tmp_dir
+    test "manifest includes source_git_sha from version_info", %{tmp_dir: tmp_dir} do
+      version_info = %{
+        "npm_version" => "4.5.45",
+        "source_version" => "4.5.45",
+        "source_git_sha" => "abc1234def5678",
+        "recorded_at" => "2026-04-03T00:00:00Z"
+      }
+
+      Pipeline.write!([full_exchange()], tmp_dir, version_info: version_info)
+
+      manifest = tmp_dir |> Path.join("_manifest.json") |> File.read!() |> Jason.decode!()
+      assert manifest["ccxt_version"] == "4.5.45"
+      assert manifest["source_git_sha"] == "abc1234def5678"
+      assert manifest["schema_version"] == Schema.schema_version()
+    end
+
+    @tag :tmp_dir
+    test "manifest ccxt_version falls back to exchange data when version_info missing", %{
+      tmp_dir: tmp_dir
+    } do
+      Pipeline.write!([full_exchange()], tmp_dir, version_info: %{})
+
+      manifest = tmp_dir |> Path.join("_manifest.json") |> File.read!() |> Jason.decode!()
+      assert manifest["ccxt_version"] == "4.5.45"
+      assert is_nil(manifest["source_git_sha"])
+    end
+
+    @tag :tmp_dir
+    test "manifest ccxt_version matches exchange data, not version_info on disk", %{
+      tmp_dir: tmp_dir
+    } do
+      # Simulate exchanges built with an override version that differs from version_info.
+      # Manifest must agree with the exchanges (source of truth), not the version file.
+      override_opts = [ccxt_version: "OVERRIDE-1.2.3", extracted_at: "2026-04-03T00:00:00Z"]
+      exchange = Pipeline.build_exchange_data(full_meta(), full_data(), override_opts)
+
+      version_info = %{"npm_version" => "4.5.45", "source_git_sha" => "abc1234"}
+      Pipeline.write!([exchange], tmp_dir, version_info: version_info)
+
+      manifest = tmp_dir |> Path.join("_manifest.json") |> File.read!() |> Jason.decode!()
+      assert manifest["ccxt_version"] == "OVERRIDE-1.2.3"
+      assert manifest["source_git_sha"] == "abc1234"
+    end
+  end
+
   # --- Helpers ---
 
   # Builds a full exchange map with custom overrides for validation testing

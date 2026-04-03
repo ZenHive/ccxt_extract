@@ -842,12 +842,24 @@ defmodule CcxtExtract.ValidationTest do
     end
 
     @tag :tmp_dir
-    test "returns empty report for missing manifest", %{tmp_dir: tmp_dir} do
+    test "reports manifest_error when manifest is missing", %{tmp_dir: tmp_dir} do
       File.mkdir_p!(tmp_dir)
 
       {:ok, report} = Validation.validate_all(output_dir: tmp_dir, schema_only: true)
 
       assert report["exchange_count"] == 0
+      assert report["pipeline_stats"]["manifest_error"] =~ "missing or corrupt"
+    end
+
+    @tag :tmp_dir
+    test "reports manifest_error when manifest is corrupt", %{tmp_dir: tmp_dir} do
+      File.mkdir_p!(tmp_dir)
+      File.write!(Path.join(tmp_dir, "_manifest.json"), "not json{{{")
+
+      {:ok, report} = Validation.validate_all(output_dir: tmp_dir, schema_only: true)
+
+      assert report["exchange_count"] == 0
+      assert report["pipeline_stats"]["manifest_error"] =~ "missing or corrupt"
     end
   end
 

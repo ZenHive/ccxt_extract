@@ -179,7 +179,8 @@ defmodule CcxtExtract.Validation do
 
     if is_nil(manifest) do
       Logger.warning("No valid _manifest.json found in #{output_dir}")
-      {[], empty_file_stats()}
+      stats = Map.put(empty_file_stats(), "manifest_error", "missing or corrupt _manifest.json")
+      {[], stats}
     else
       load_exchanges_from_manifest(output_dir, manifest)
     end

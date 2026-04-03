@@ -77,6 +77,8 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
   end
 
   defp report_integrity_gaps(ps) do
+    manifest_error = ps["manifest_error"]
+
     gap_types = [
       {"missing", ps["missing_entries"]},
       {"corrupt", ps["corrupt_entries"]},
@@ -84,9 +86,13 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
       {"id_mismatch", ps["id_mismatch_entries"]}
     ]
 
-    has_gaps = Enum.any?(gap_types, fn {_, entries} -> entries != [] end)
+    has_gaps = manifest_error != nil || Enum.any?(gap_types, fn {_, entries} -> entries != [] end)
 
-    if has_gaps do
+    if manifest_error do
+      Mix.shell().error("Manifest error: #{manifest_error}")
+    end
+
+    if Enum.any?(gap_types, fn {_, entries} -> entries != [] end) do
       Mix.shell().error("Pipeline data gaps:")
 
       Enum.each(gap_types, fn {label, entries} ->

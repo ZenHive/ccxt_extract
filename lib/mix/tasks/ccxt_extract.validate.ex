@@ -53,7 +53,6 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
   # Returns true if there are errors
   defp report_results(report, elapsed) do
     summary = report["summary"]
-    ps = report["pipeline_stats"]
 
     Mix.shell().info("""
     Done in #{elapsed}ms. #{report["exchange_count"]} exchanges validated.
@@ -62,26 +61,34 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
     Findings: #{summary["total_errors"]} errors, #{summary["total_warnings"]} warnings, #{summary["total_info"]} info.
     """)
 
-    has_integrity_gaps =
-      ps["missing_entries"] != [] || ps["corrupt_entries"] != [] || ps["orphan_entries"] != [] ||
-        ps["id_mismatch_entries"] != []
+    has_gaps = report_integrity_gaps(report["pipeline_stats"])
+    report_top_errors(report, summary)
 
-    if has_integrity_gaps do
+    summary["total_errors"] > 0 || has_gaps
+  end
+
+  defp report_integrity_gaps(ps) do
+    gap_types = [
+      {"missing", ps["missing_entries"]},
+      {"corrupt", ps["corrupt_entries"]},
+      {"orphan", ps["orphan_entries"]},
+      {"id_mismatch", ps["id_mismatch_entries"]}
+    ]
+
+    has_gaps = Enum.any?(gap_types, fn {_, entries} -> entries != [] end)
+
+    if has_gaps do
       Mix.shell().error("Pipeline data gaps:")
 
-      for entry <- ps["missing_entries"],
-          do: Mix.shell().error("  [missing] #{entry}")
-
-      for entry <- ps["corrupt_entries"],
-          do: Mix.shell().error("  [corrupt] #{entry}")
-
-      for entry <- ps["orphan_entries"],
-          do: Mix.shell().error("  [orphan] #{entry}")
-
-      for entry <- ps["id_mismatch_entries"],
-          do: Mix.shell().error("  [id_mismatch] #{entry}")
+      Enum.each(gap_types, fn {label, entries} ->
+        Enum.each(entries, &Mix.shell().error("  [#{label}] #{&1}"))
+      end)
     end
 
+    has_gaps
+  end
+
+  defp report_top_errors(report, summary) do
     if summary["total_errors"] > 0 do
       Mix.shell().error("Errors:")
 
@@ -91,7 +98,5 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
         Mix.shell().error("  [#{f["exchange_id"]}] #{f["path"]}: #{f["message"]}")
       end)
     end
-
-    summary["total_errors"] > 0 || has_integrity_gaps
   end
 end

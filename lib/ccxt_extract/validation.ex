@@ -250,25 +250,20 @@ defmodule CcxtExtract.Validation do
     source_markets = Map.get(source.load_markets, id)
     source_failure = Map.get(source.load_markets_failed, id)
 
-    cond do
-      is_nil(output_markets) && is_nil(source_markets) && is_nil(source_failure) ->
+    case classify_markets_state(output_markets, source_markets, source_failure) do
+      :both_absent ->
         findings
 
-      is_nil(output_markets) && is_nil(source_markets) ->
+      :source_failed_upstream ->
         [
-          roundtrip_finding(
-            id,
-            "runtime.markets",
-            "info",
-            "source load_markets failed upstream; round-trip skipped"
-          )
+          roundtrip_finding(id, "runtime.markets", "info", "source load_markets failed upstream; round-trip skipped")
           | findings
         ]
 
-      is_nil(output_markets) && !is_nil(source_markets) ->
+      :output_missing ->
         [roundtrip_finding(id, "runtime.markets", "error", "output is null but source has data") | findings]
 
-      !is_nil(output_markets) && !is_nil(source_failure) ->
+      :source_failure_mismatch ->
         [
           roundtrip_finding(
             id,
@@ -279,16 +274,24 @@ defmodule CcxtExtract.Validation do
           | findings
         ]
 
-      !is_nil(output_markets) && is_nil(source_markets) ->
+      :source_missing ->
         [roundtrip_finding(id, "runtime.markets", "warning", "output has data but no source artifact") | findings]
 
-      true ->
+      :compare ->
         findings
         |> check_market_count(output_markets, source_markets, id)
         |> check_market_symbols(output_markets, source_markets, id)
         |> check_market_data(output_markets, source_markets, id)
     end
   end
+
+  # Classify the nil/present state of markets data via tuple matching
+  defp classify_markets_state(nil, nil, nil), do: :both_absent
+  defp classify_markets_state(nil, nil, _failure), do: :source_failed_upstream
+  defp classify_markets_state(nil, _source, _failure), do: :output_missing
+  defp classify_markets_state(_output, _source, failure) when not is_nil(failure), do: :source_failure_mismatch
+  defp classify_markets_state(_output, nil, _failure), do: :source_missing
+  defp classify_markets_state(_output, _source, _failure), do: :compare
 
   defp check_market_count(findings, output_markets, source_markets, id) do
     output_count = output_markets["market_count"]

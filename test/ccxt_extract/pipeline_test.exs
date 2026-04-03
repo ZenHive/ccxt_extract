@@ -97,6 +97,22 @@ defmodule CcxtExtract.PipelineTest do
           "interface_signature_count" => 1
         }
       },
+      pagination: %{
+        "testex" => %{
+          "id" => "testex",
+          "pagination" => %{
+            "fetchTrades" => [
+              %{
+                "strategy" => "dynamic",
+                "max_entries_per_request" => 1000,
+                "containing_method" => "fetchTrades",
+                "target_method" => "fetchTrades"
+              }
+            ]
+          },
+          "pagination_count" => 1
+        }
+      },
       overrides: %{},
       missing_files: []
     }
@@ -142,6 +158,7 @@ defmodule CcxtExtract.PipelineTest do
       parse_methods: %{},
       ws_methods: %{},
       interface_signatures: %{},
+      pagination: %{},
       overrides: %{},
       missing_files: []
     }
@@ -756,6 +773,7 @@ defmodule CcxtExtract.PipelineTest do
     write_json(Path.join(dir, "parse_methods.json"), empty_global)
     write_json(Path.join(dir, "ws_methods.json"), empty_global)
     write_json(Path.join(dir, "interface_signatures.json"), empty_global)
+    write_json(Path.join(dir, "pagination.json"), empty_global)
     write_json(Path.join(dir, "overrides.json"), empty_global)
 
     # Manifests for per-exchange loaders

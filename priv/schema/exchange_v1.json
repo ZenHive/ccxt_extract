@@ -130,7 +130,7 @@
     "StructureData": {
       "type": "object",
       "description": "Structural data extracted via OXC TypeScript AST parsing. Layer 2: what an exchange DOES (code structure, method bodies).",
-      "required": ["class_info", "methods", "sign_method", "handle_errors", "parse_methods", "ws_methods", "interface_signatures", "overrides"],
+      "required": ["class_info", "methods", "sign_method", "handle_errors", "parse_methods", "ws_methods", "interface_signatures", "pagination", "overrides"],
       "additionalProperties": false,
       "properties": {
         "class_info": {
@@ -190,6 +190,26 @@
             }
           ],
           "description": "Map of API method name -> InterfaceSignature from abstract/*.ts interface declarations. These are the generated per-exchange typed endpoint methods (e.g., publicGetTicker, privatePostOrder). Null for alias exchanges, exchanges without abstract files, or when no usable data was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
+        },
+        "pagination": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "properties": {
+                "_unresolved": {
+                  "type": "array",
+                  "items": { "$ref": "#/$defs/PaginationEntry" },
+                  "description": "Pagination calls where the target method name is a runtime variable (not a string literal). Each entry has target_method: null and containing_method set to the method body where the call was found."
+                }
+              },
+              "additionalProperties": {
+                "type": "array",
+                "items": { "$ref": "#/$defs/PaginationEntry" }
+              }
+            }
+          ],
+          "description": "Map of target method name -> [PaginationEntry] showing which methods use pagination and what strategy. Values are always arrays (multiple entries when branch-dependent variants exist, e.g. coinbase fetchAccounts V2/V3). Optional _unresolved key holds entries with variable method names. Null for exchanges without pagination calls or when no usable pagination data was assembled."
         },
         "overrides": {
           "oneOf": [
@@ -447,6 +467,48 @@
             }
           ],
           "description": "HTTP exception mappings from describe().httpExceptions. Null if not available."
+        }
+      }
+    },
+
+    "PaginationEntry": {
+      "type": "object",
+      "description": "Pagination strategy and parameters for a single call site. Each entry includes provenance (containing_method, target_method). Strategy-specific fields (cursor_received, cursor_sent, cursor_increment, page_key) are present only for relevant strategies.",
+      "required": ["strategy", "containing_method", "target_method"],
+      "additionalProperties": true,
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": ["dynamic", "deterministic", "cursor", "incremental"],
+          "description": "Pagination strategy type."
+        },
+        "containing_method": {
+          "type": "string",
+          "description": "Name of the method body where this pagination call was found (e.g. 'fetchAccountsV2')."
+        },
+        "target_method": {
+          "type": ["string", "null"],
+          "description": "Target method name passed to fetchPaginatedCall* (first argument). Null when the argument is a runtime variable rather than a string literal."
+        },
+        "max_entries_per_request": {
+          "type": ["integer", "null"],
+          "description": "Maximum entries per paginated API call. Null when not statically resolvable from source."
+        },
+        "cursor_received": {
+          "type": ["string", "null"],
+          "description": "Field name in response to extract next cursor (cursor strategy only)."
+        },
+        "cursor_sent": {
+          "type": ["string", "null"],
+          "description": "Field name to send cursor in request (cursor strategy only)."
+        },
+        "cursor_increment": {
+          "type": ["integer", "null"],
+          "description": "Numeric increment for cursor values (cursor strategy only)."
+        },
+        "page_key": {
+          "type": ["string", "null"],
+          "description": "Parameter name for page number (incremental strategy only)."
         }
       }
     },

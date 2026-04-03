@@ -15,6 +15,8 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 38 | Pagination data quality fixes | Branch-dependent variants preserved (always arrays), unresolved variable method names captured, provenance tracking via containing_method |
+| Task 32 | Pagination strategy extraction | 4 strategies (dynamic/deterministic/cursor/incremental), 43 exchanges; recursive AST walker for nested calls |
 | Task 27 | Schema versioning contract | `SCHEMA.md` documents semver contract for `schema_version` field; consumer guidance for Elixir/Rust/Python |
 | Task 31 | Base normalizer methods from `Exchange.ts` | Global artifact `_base_methods.json`: MethodDefinition signatures + PropertyDefinition field aliases, with `source` field |
 | Task 30 | Interface signatures from `abstract/*.ts` | Fixed: now extracts all 110 exchanges (was 99 — alias exchanges skipped); round-trip validation wired up |
@@ -38,7 +40,7 @@
 |------|--------|-------|
 | Task 30 | ✅ | Interface signatures from `abstract/*.ts` |
 | Task 31 `[P]` | ✅ | Base normalizer methods from `Exchange.ts` (MethodDefinitions + PropertyDefinitions) |
-| Task 32 `[P]` | ⬜ | Pagination strategy per method per exchange |
+| Task 32 `[P]` | ✅ | Pagination strategy per method per exchange |
 | Task 33 | ⬜ | Auth assembly decomposition (enriches sign_method) |
 | Task 34 | ⬜ | Handler routing tables (method → handler deps) |
 
@@ -48,6 +50,8 @@
 | Task 35 | ⬜ | Extract shared modules — run `mix ex_dna` for patterns |
 | Task 36 | ⬜ | Schema migration framework — future-proof for v2.0 |
 | Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ |
+| Task 38 | ✅ | Pagination data quality: branch-dependent duplicates + variable method names |
+| Task 39 | ⬜ | Add pagination to round-trip validation (validation.ex doesn't load pagination.json for round-trip comparison) |
 
 ### Quick Commands
 ```bash
@@ -74,6 +78,7 @@ mix ccxt_extract.ws_methods                    # Extract watch*/handle* WS metho
 mix ccxt_extract.overrides                     # Extract method overrides for derived exchanges
 mix ccxt_extract.interface_signatures          # Extract interface signatures from abstract/*.ts
 mix ccxt_extract.base_methods                  # Extract base class methods from Exchange.ts
+mix ccxt_extract.pagination                    # Extract pagination strategies per exchange
 mix ccxt_extract.coverage                      # Generate extraction coverage report
 mix ccxt_extract.pipeline                      # Assemble per-exchange JSON output
 mix ccxt_extract.validate                      # Full JSON Schema + round-trip validation
@@ -198,7 +203,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 31: Base normalizer methods from Exchange.ts**~~ [D:3/B:7/U:8 → Eff:2.50] 🎯 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 32: Pagination strategy extraction** [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — For each exchange, identify which methods use pagination and which strategy (Dynamic, Deterministic, Cursor, Incremental). Parse per-exchange TS source with OXC, find CallExpressions matching `fetchPaginatedCall*` variants. Output per-exchange map of `{method_name: pagination_strategy}`. The Go extractor had ~194 items. Add to structure layer.
+- [x] ~~**Task 32: Pagination strategy extraction**~~ [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 33: Auth assembly decomposition** [D:6/B:8/U:8 → Eff:1.33] 📋 — Decompose the existing `sign_method` AST into structured auth assembly steps: which auth type, what gets signed (query/body/headers), which crypto operations (HMAC, RSA, Ed25519), header names. Pattern-match the AST to extract structured signing recipes rather than raw AST trees. The Go extractor had ~411 items. This enriches the existing `sign_method` field rather than replacing it — add `sign_assembly` alongside it.
 
@@ -226,6 +231,10 @@ mix test.json --quiet --only extraction    # Only extraction tests
 - [x] ~~**Task 23: Resolve __function: sentinels in describe data**~~ [D:5/B:7/U:7 → Eff:1.40] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 24: Use Parity.Compare for richer round-trip diff output** [D:3/B:5/U:4 → Eff:1.50] 📋 — Replace `==` equality checks in `Validation.check_data_equality/5` with `Parity.Compare.compare/3` from `../ccxt_parity`. Currently round-trip findings say "data mismatch" — with Parity.Compare they'd show the exact path and expected vs actual values. Either add as path dep or extract to hex first.
+
+- [x] ~~**Task 38: Pagination data quality — branch-dependent duplicates and variable method names**~~ [D:4/B:6/U:5 → Eff:1.38] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+
+- [ ] **Task 39: Add pagination to round-trip validation** [D:2/B:5/U:4 → Eff:2.25] 📋 — `Validation.validate_all/1` does not load `pagination.json` into `source_data` and does not compare pagination entries between discovery and pipeline output. JSV catches schema-shape issues, but data-loss/regression between discovery and pipeline stages is undetected. Add pagination to `load_source_data/1` and `check_data_equality/5`.
 
 ---
 

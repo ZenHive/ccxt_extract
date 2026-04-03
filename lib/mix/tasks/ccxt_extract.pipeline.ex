@@ -68,26 +68,39 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
   # Returns true if there are issues (for --strict mode)
   defp report_results(exchanges, stats, output_dir, elapsed) do
-    error_count = length(stats.validation_errors)
-    missing_count = length(stats.missing_files)
-    missing_entry_count = length(stats.missing_entries)
-    corrupt_count = length(stats.corrupt_entries)
-    orphan_count = length(stats.orphan_entries)
-    id_mismatch_count = length(stats.id_mismatch_entries)
+    validation_line =
+      if stats.validation_errors == [],
+        do: "All exchanges passed validation.",
+        else: "#{length(stats.validation_errors)} validation error(s)."
+
+    detail_lines =
+      [
+        stat_line("Missing discovery files", stats.missing_files, &Enum.join(&1, ", ")),
+        stat_line("Missing per-exchange files", stats.missing_entries, &format_missing_entries/1),
+        stat_line("Corrupt discovery entries", stats.corrupt_entries, &format_missing_entries/1),
+        stat_line("Orphan artifacts", stats.orphan_entries, &format_missing_entries/1),
+        stat_line("ID mismatches", stats.id_mismatch_entries, &format_missing_entries/1)
+      ]
+      |> Enum.reject(&is_nil/1)
+      |> Enum.join("\n")
 
     Mix.shell().info("""
     Done in #{elapsed}ms. #{length(exchanges)} exchanges assembled.
-    #{if error_count > 0, do: "#{error_count} validation error(s).", else: "All exchanges passed validation."}
-    #{if missing_count > 0, do: "Missing discovery files: #{Enum.join(stats.missing_files, ", ")}", else: ""}
-    #{if missing_entry_count > 0, do: "Missing per-exchange files (#{missing_entry_count}): #{format_missing_entries(stats.missing_entries)}", else: ""}
-    #{if corrupt_count > 0, do: "Corrupt discovery entries (#{corrupt_count}): #{format_missing_entries(stats.corrupt_entries)}", else: ""}
-    #{if orphan_count > 0, do: "Orphan artifacts (#{orphan_count}): #{format_missing_entries(stats.orphan_entries)}", else: ""}
-    #{if id_mismatch_count > 0, do: "ID mismatches (#{id_mismatch_count}): #{format_missing_entries(stats.id_mismatch_entries)}", else: ""}
+    #{validation_line}
+    #{detail_lines}
     Output: #{output_dir}/
     """)
 
-    error_count > 0 or missing_entry_count > 0 or corrupt_count > 0 or orphan_count > 0 or
-      id_mismatch_count > 0
+    has_data_issues?(stats)
+  end
+
+  defp stat_line(_label, [], _formatter), do: nil
+  defp stat_line(label, entries, formatter), do: "#{label} (#{length(entries)}): #{formatter.(entries)}"
+
+  defp has_data_issues?(stats) do
+    stats.validation_errors != [] or stats.missing_entries != [] or
+      stats.corrupt_entries != [] or stats.orphan_entries != [] or
+      stats.id_mismatch_entries != []
   end
 
   @max_displayed_entries 10

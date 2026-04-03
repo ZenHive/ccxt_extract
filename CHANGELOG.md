@@ -6,6 +6,22 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 38: Pagination data quality fixes
+- **Branch-dependent duplicates preserved**: Pagination entries that target the same method name from different code paths are now all kept as arrays. Previously `Map.put_new` silently dropped variants (e.g. coinbase fetchAccounts V2/V3 had different cursor configs but only one survived)
+- **Variable method names captured**: Pagination calls with runtime-computed method names (e.g. bydfi `fetchTransactionsHelper` passes `methodName` variable) are now emitted as unresolved entries with `target_method: null` in a separate `pagination_unresolved` list, instead of being silently dropped
+- **Provenance tracking**: Every PaginationEntry now includes `containing_method` (which method body the call was found in) and `target_method` (the method name passed to `fetchPaginatedCall*`, nullable for unresolved)
+- **Schema change**: `pagination` value changed from `PaginationEntry` to `[PaginationEntry]` (always arrays). Optional `_unresolved` key in pipeline output for variable method names. `PaginationEntry` now requires `containing_method` and `target_method` fields
+- Extraction count: 193 entries (up from 188 — 5 previously-deduplicated variants recovered), 1 unresolved entry
+
+### Task 32: Pagination strategy extraction
+- New `CcxtExtract.Pagination` module extracts pagination strategies from exchange TS source files using a recursive AST walker
+- Four strategies extracted: dynamic, deterministic, cursor, incremental — with strategy-specific parameters (cursor_received, cursor_sent, page_key, max_entries_per_request)
+- Recursive walker finds `this.fetchPaginatedCall*` calls nested inside method bodies (unlike existing extractors that only inspect top-level class members)
+- Pipeline integration: `pagination` added to structure section as nullable map of method name -> [PaginationEntry]
+- `PaginationEntry` definition added to JSON Schema with strategy enum and nullable strategy-specific fields
+- `mix ccxt_extract.pagination` Mix task for standalone extraction
+- Third Go extractor parity item completed (Phase 6)
+
 ### Task 31: Base normalizer methods from Exchange.ts
 - New `CcxtExtract.BaseMethods` module extracts `parse*()` and `safe*()` members from the base `Exchange.ts` class — both MethodDefinition (full signatures) and PropertyDefinition (class field aliases to imported utilities)
 - Each entry includes name, category (parse/safe), params with types, return type, async flag, and `source` field (`"method_definition"` or `"field_assignment"`)

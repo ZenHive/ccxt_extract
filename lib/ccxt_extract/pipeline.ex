@@ -134,6 +134,7 @@ defmodule CcxtExtract.Pipeline do
       "parse_methods" => get_parse_methods(id, data),
       "ws_methods" => get_ws_methods(id, data),
       "interface_signatures" => get_interface_signatures(id, data),
+      "pagination" => get_pagination(id, data),
       "overrides" => get_overrides(id, data)
     }
 
@@ -229,6 +230,26 @@ defmodule CcxtExtract.Pipeline do
     end
   end
 
+  # Pagination: extract the pagination map (arrays of entries per method) + unresolved
+  defp get_pagination(id, data) do
+    data.pagination
+    |> Map.get(id)
+    |> build_pagination_output()
+  end
+
+  defp build_pagination_output(nil), do: nil
+
+  defp build_pagination_output(exchange_data) do
+    pagination = Map.get(exchange_data, "pagination", %{})
+    unresolved = Map.get(exchange_data, "pagination_unresolved", [])
+
+    case {map_size(pagination), unresolved} do
+      {0, []} -> nil
+      {_, []} -> pagination
+      _ -> Map.put(pagination, "_unresolved", unresolved)
+    end
+  end
+
   # Overrides: group REST/WS entries, rename fields
   # Data is grouped by id (list of entries per exchange) because exchanges
   # with both REST and WS derived classes have two override records.
@@ -282,6 +303,7 @@ defmodule CcxtExtract.Pipeline do
     {parse_methods, stats} = load_exchange_lookup(dir, "parse_methods.json", expected_ids, stats)
     {ws_methods, stats} = load_exchange_lookup(dir, "ws_methods.json", expected_ids, stats)
     {interface_signatures, stats} = load_exchange_lookup(dir, "interface_signatures.json", expected_ids, stats)
+    {pagination, stats} = load_exchange_lookup(dir, "pagination.json", expected_ids, stats)
     {overrides, stats} = load_overrides(dir, expected_ids, stats)
 
     %{
@@ -296,6 +318,7 @@ defmodule CcxtExtract.Pipeline do
       parse_methods: parse_methods,
       ws_methods: ws_methods,
       interface_signatures: interface_signatures,
+      pagination: pagination,
       overrides: overrides,
       missing_files: Enum.reverse(stats.missing_files),
       missing_entries: Enum.reverse(stats.missing_entries),
@@ -472,15 +495,7 @@ defmodule CcxtExtract.Pipeline do
       {:ok, %{"exchanges" => entries}} when is_list(entries) ->
         stats = record_global_orphans(stats, filename, entries, expected_ids)
 
-        Enum.reduce(entries, {%{}, stats}, fn entry, {acc, acc_stats} ->
-          case validate_exchange_field_entry(filename, field, entry) do
-            {:ok, id, value} ->
-              {Map.put(acc, id, value), acc_stats}
-
-            {:corrupt, detail} ->
-              {acc, add_stat_entry(acc_stats, :corrupt_entries, detail)}
-          end
-        end)
+        reduce_validated(entries, stats, &validate_exchange_field_entry(filename, field, &1))
 
       {:ok, _malformed} ->
         raise "Corrupt discovery artifact: #{path} missing or invalid \"exchanges\" key"
@@ -524,15 +539,7 @@ defmodule CcxtExtract.Pipeline do
       {:ok, %{"exchanges" => entries}} when is_list(entries) ->
         stats = record_global_orphans(stats, filename, entries, expected_ids)
 
-        Enum.reduce(entries, {%{}, stats}, fn entry, {acc, acc_stats} ->
-          case validate_exchange_lookup_entry(filename, entry) do
-            {:ok, id, validated_entry} ->
-              {Map.put(acc, id, validated_entry), acc_stats}
-
-            {:corrupt, detail} ->
-              {acc, add_stat_entry(acc_stats, :corrupt_entries, detail)}
-          end
-        end)
+        reduce_validated(entries, stats, &validate_exchange_lookup_entry(filename, &1))
 
       {:ok, _malformed} ->
         raise "Corrupt discovery artifact: #{path} missing or invalid \"exchanges\" key"
@@ -561,6 +568,16 @@ defmodule CcxtExtract.Pipeline do
       {:error, {:invalid_json, detail}} ->
         raise "Corrupt discovery artifact: #{detail}"
     end
+  end
+
+  # Shared reduce for validated entries — flattens nesting in load_exchange_field/load_exchange_lookup
+  defp reduce_validated(entries, stats, validate_fn) do
+    Enum.reduce(entries, {%{}, stats}, fn entry, {acc, acc_stats} ->
+      case validate_fn.(entry) do
+        {:ok, id, value} -> {Map.put(acc, id, value), acc_stats}
+        {:corrupt, detail} -> {acc, add_stat_entry(acc_stats, :corrupt_entries, detail)}
+      end
+    end)
   end
 
   # --- Helpers ---
@@ -682,6 +699,18 @@ defmodule CcxtExtract.Pipeline do
 
   defp validate_exchange_lookup_entry("interface_signatures.json", entry) do
     {:corrupt, "interface_signatures.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
+  end
+
+  defp validate_exchange_lookup_entry("pagination.json", %{"id" => id} = entry) when is_binary(id) do
+    with {:ok, pagination} <- fetch_required_key(entry, "pagination", id, "pagination.json"),
+         :ok <- validate_required_map_field("pagination.json", id, "pagination", pagination) do
+      # pagination_unresolved is optional — only present when variable method names exist
+      {:ok, id, entry}
+    end
+  end
+
+  defp validate_exchange_lookup_entry("pagination.json", entry) do
+    {:corrupt, "pagination.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
   end
 
   defp validate_exchange_lookup_entry(_filename, %{"id" => id} = entry) when is_binary(id), do: {:ok, id, entry}

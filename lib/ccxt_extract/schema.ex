@@ -41,7 +41,7 @@ defmodule CcxtExtract.Schema do
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe markets)
-  @required_structure_keys ~w(class_info methods sign_method handle_errors parse_methods ws_methods interface_signatures overrides)
+  @required_structure_keys ~w(class_info methods sign_method handle_errors parse_methods ws_methods interface_signatures pagination overrides)
 
   # --- Public API ---
 
@@ -153,6 +153,7 @@ defmodule CcxtExtract.Schema do
       "parse_methods" => data["parse_methods"],
       "ws_methods" => data["ws_methods"],
       "interface_signatures" => data["interface_signatures"],
+      "pagination" => data["pagination"],
       "overrides" => data["overrides"]
     }
   end
@@ -204,6 +205,7 @@ defmodule CcxtExtract.Schema do
     |> check_nullable_method_map(section, "parse_methods", "structure.parse_methods")
     |> check_nullable_method_map(section, "ws_methods", "structure.ws_methods")
     |> check_nullable_interface_signature_map(section, "interface_signatures", "structure.interface_signatures")
+    |> check_nullable_pagination_map(section, "pagination", "structure.pagination")
     |> check_nullable_overrides(section, "overrides", "structure.overrides")
   end
 
@@ -258,6 +260,79 @@ defmodule CcxtExtract.Schema do
 
   defp check_interface_signature_shape(errors, value, label) do
     ["#{label}: expected InterfaceSignature map, got #{type_name(value)}" | errors]
+  end
+
+  # Value is nil or a map of method_name -> PaginationEntry (must have "strategy" key)
+  defp check_nullable_pagination_map(errors, nil, _key, _label), do: errors
+
+  defp check_nullable_pagination_map(errors, section, key, label) do
+    case Map.get(section, key) do
+      nil -> errors
+      val when is_map(val) -> check_pagination_map_values(errors, val, label)
+      val -> ["#{label}: expected map or null, got #{type_name(val)}" | errors]
+    end
+  end
+
+  @valid_pagination_strategies ~w(dynamic deterministic cursor incremental)
+  defp check_pagination_map_values(errors, pagination_map, label) do
+    Enum.reduce(pagination_map, errors, fn {name, value}, acc ->
+      check_pagination_entries(acc, value, "#{label}.#{name}")
+    end)
+  end
+
+  # Pagination values are arrays of PaginationEntry maps
+  defp check_pagination_entries(errors, entries, label) when is_list(entries) do
+    entries
+    |> Enum.with_index()
+    |> Enum.reduce(errors, fn {entry, i}, acc ->
+      check_pagination_entry_shape(acc, entry, "#{label}[#{i}]")
+    end)
+  end
+
+  defp check_pagination_entries(errors, value, label) do
+    ["#{label}: expected array of PaginationEntry, got #{type_name(value)}" | errors]
+  end
+
+  defp check_pagination_entry_shape(errors, entry, label) when is_map(entry) do
+    errors
+    |> check_pagination_strategy(entry, label)
+    |> check_pagination_provenance(entry, label)
+  end
+
+  defp check_pagination_entry_shape(errors, value, label) do
+    ["#{label}: expected PaginationEntry map, got #{type_name(value)}" | errors]
+  end
+
+  defp check_pagination_strategy(errors, entry, label) do
+    case Map.get(entry, "strategy") do
+      nil -> ["#{label}: PaginationEntry missing required key \"strategy\"" | errors]
+      s when s in @valid_pagination_strategies -> errors
+      s -> ["#{label}: unknown strategy #{inspect(s)}" | errors]
+    end
+  end
+
+  # containing_method must be a string; target_method must be present (string or nil)
+  defp check_pagination_provenance(errors, entry, label) do
+    errors =
+      case Map.get(entry, "containing_method") do
+        s when is_binary(s) -> errors
+        nil -> ["#{label}: PaginationEntry missing required key \"containing_method\"" | errors]
+        v -> ["#{label}: PaginationEntry \"containing_method\" must be string, got #{type_name(v)}" | errors]
+      end
+
+    case Map.fetch(entry, "target_method") do
+      {:ok, nil} ->
+        errors
+
+      {:ok, s} when is_binary(s) ->
+        errors
+
+      {:ok, v} ->
+        ["#{label}: PaginationEntry \"target_method\" must be string or null, got #{type_name(v)}" | errors]
+
+      :error ->
+        ["#{label}: PaginationEntry missing required key \"target_method\"" | errors]
+    end
   end
 
   # Value is nil or a map of method_name -> MethodAST

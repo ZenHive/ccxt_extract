@@ -91,6 +91,16 @@ defmodule CcxtExtract.SchemaTest do
           "return_type" => "Promise<implicitReturnType>"
         }
       },
+      "pagination" => %{
+        "fetchTrades" => [
+          %{
+            "strategy" => "dynamic",
+            "max_entries_per_request" => 1000,
+            "containing_method" => "fetchTrades",
+            "target_method" => "fetchTrades"
+          }
+        ]
+      },
       "overrides" => nil
     }
   end
@@ -110,6 +120,7 @@ defmodule CcxtExtract.SchemaTest do
       "parse_methods" => nil,
       "ws_methods" => nil,
       "interface_signatures" => nil,
+      "pagination" => nil,
       "overrides" => nil
     }
   end
@@ -291,6 +302,23 @@ defmodule CcxtExtract.SchemaTest do
       assert Enum.any?(reasons, &String.contains?(&1, "sign_method"))
     end
 
+    test "rejects pagination entries with non-string target_method" do
+      bad = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
+
+      bad =
+        put_in(bad, ["structure", "pagination", "fetchTrades"], [
+          %{
+            "strategy" => "dynamic",
+            "max_entries_per_request" => 1000,
+            "containing_method" => "fetchTrades",
+            "target_method" => 123
+          }
+        ])
+
+      assert {:error, reasons} = Schema.validate(bad)
+      assert Enum.any?(reasons, &String.contains?(&1, "target_method"))
+    end
+
     test "accepts null values for optional structure fields" do
       structure = %{
         "class_info" => nil,
@@ -300,6 +328,7 @@ defmodule CcxtExtract.SchemaTest do
         "parse_methods" => nil,
         "ws_methods" => nil,
         "interface_signatures" => nil,
+        "pagination" => nil,
         "overrides" => nil
       }
 

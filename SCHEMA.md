@@ -99,6 +99,7 @@ All keys are always materialized (never absent). Consumers check for `null`, nev
 | `parse_methods` | map(name -> MethodAST) or null | `parse*()` methods with AST bodies |
 | `ws_methods` | map(name -> MethodAST) or null | `watch*()` / `handle*()` WS methods with AST bodies |
 | `interface_signatures` | map(name -> InterfaceSignature) or null | Typed API method signatures from `abstract/*.ts` |
+| `pagination` | map(name -> [PaginationEntry]) or null | Per-method pagination strategy and parameters (always arrays; `_unresolved` key for variable method names) |
 | `overrides` | OverridesData or null | Method override analysis for derived exchanges |
 
 ### Key Type Definitions
@@ -110,6 +111,7 @@ For complete type definitions (all fields, nesting, and constraints), see `excha
 - **MethodParam** — `{ name, type }` where `type` is the TypeScript type annotation or null
 - **ASTNode** — ESTree nodes with `type`, `start`, `end` (byte offsets), plus node-specific fields
 - **HandleErrorsData** — `{ method, exceptions, http_exceptions }` where `method` is a MethodAST, `exceptions` maps error strings to class names (keyed by `broad`/`exact` plus market types), and `http_exceptions` maps HTTP status codes to class names
+- **PaginationEntry** — `{ strategy, containing_method, target_method, max_entries_per_request, ... }` where `strategy` is one of `"dynamic"`, `"deterministic"`, `"cursor"`, `"incremental"`. `containing_method` is the method body where the call was found; `target_method` is the method name passed to `fetchPaginatedCall*` (null for unresolved variable references). Strategy-specific fields: cursor has `cursor_received`, `cursor_sent`, `cursor_increment`; incremental has `page_key`. Null values mean the parameter was not statically resolvable from source.
 - **OverridesData** — `{ extends, rest, ws }` where `extends` is the parent exchange id, and each entry contains `overridden` (methods redefined from parent, with AST), `new_methods` (methods not on parent), and `inherited` (method names only)
 - **ClassInfo** — `{ rest, ws }` where each is a ClassEntry with `class_name`, `extends_resolved`, `parent_key`, `file`, `method_count`, and optional `method_details`
 - **MethodInventory** — `{ rest, ws }` where each is a list of MethodSignature (like MethodAST but without `body`)

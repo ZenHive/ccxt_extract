@@ -140,6 +140,7 @@ Per-exchange JSON has three top-level sections:
     "parse_methods": { ... },     # parse*() AST bodies
     "ws_methods": { ... },        # watch*/handle* WS AST bodies
     "interface_signatures": { ... }, # Typed API method signatures from abstract/*.ts
+    "pagination": { ... },        # Per-method pagination strategy and parameters
     "overrides": { ... }          # Methods overridden vs parent class
   }
 }
@@ -155,7 +156,7 @@ These categories exist in the Go extractor but not yet in ccxt_extract. All are 
 |----------|--------|--------|
 | **Interface signatures** | `abstract/*.ts` — per-exchange typed API method definitions | ✅ Task 30 |
 | **Auth assembly** | Decomposed signing steps from `sign()` AST | Task 33 |
-| **Pagination strategies** | `fetchPaginatedCall*` patterns in method bodies | Task 32 |
+| **Pagination strategies** | `fetchPaginatedCall*` patterns in method bodies | ✅ Task 32 |
 | **Base normalizers** | `parse*()`, `safe*()` methods in `base/Exchange.ts` | ✅ Task 31 |
 | **Handler routing** | Method → handler dispatch tables | Task 34 |
 

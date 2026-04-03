@@ -91,15 +91,45 @@ defmodule CcxtExtract.MixTasksIntegrationTest do
 
   describe "mix ccxt_extract.setup" do
     setup do
-      # Setup.run/1 rewrites ccxt_version.json — save and restore to avoid dirtying worktree
+      # Save all state that setup can mutate — restore in on_exit so tests are hermetic.
+      # Without this, --latest can bump npm to a newer version and leave priv/ccxt
+      # on detached HEAD, polluting subsequent runs.
       version_file = CcxtExtract.Paths.version_file()
-      original = File.read(version_file)
+      bundle_path = CcxtExtract.Paths.bundle()
+      npm_package_json = "node_modules/ccxt/package.json"
+      ccxt_dir = CcxtExtract.Paths.priv("ccxt")
+
+      original_version_file = File.read(version_file)
+      original_bundle = File.read(bundle_path)
+      original_npm_package = File.read(npm_package_json)
+
+      # Save git HEAD so we can restore after tag checkouts or pulls
+      {original_git_head, 0} =
+        System.cmd("git", ["rev-parse", "HEAD"], cd: ccxt_dir, stderr_to_stdout: true)
+
+      original_git_head = String.trim(original_git_head)
 
       on_exit(fn ->
-        case original do
+        # Restore ccxt_version.json
+        case original_version_file do
           {:ok, content} -> File.write!(version_file, content)
           {:error, :enoent} -> :ok
         end
+
+        # Restore priv bundle
+        case original_bundle do
+          {:ok, content} -> File.write!(bundle_path, content)
+          {:error, :enoent} -> :ok
+        end
+
+        # Restore npm package.json (prevents version drift)
+        case original_npm_package do
+          {:ok, content} -> File.write!(npm_package_json, content)
+          {:error, :enoent} -> :ok
+        end
+
+        # Restore git HEAD (undo tag checkouts or pulls)
+        System.cmd("git", ["checkout", original_git_head], cd: ccxt_dir, stderr_to_stdout: true)
       end)
 
       :ok
@@ -118,6 +148,36 @@ defmodule CcxtExtract.MixTasksIntegrationTest do
       assert output =~ "OXC: parsed binance.ts"
       assert output =~ "Setup complete"
       assert output =~ "CCXT version:"
+    end
+
+    test "--latest updates TS source and npm bundle" do
+      output = run_task_capturing_output(Setup, ["--latest"])
+
+      assert output =~ "Updating TS source to latest"
+      assert output =~ "Updating CCXT to latest"
+      assert output =~ "Setup complete"
+      assert output =~ "CCXT version:"
+    end
+
+    test "--ccxt-version with current version succeeds" do
+      # Read the currently installed version so we pin to something that works
+      current_version =
+        "node_modules/ccxt/package.json"
+        |> File.read!()
+        |> Jason.decode!()
+        |> Map.get("version")
+
+      output = run_task_capturing_output(Setup, ["--ccxt-version", current_version])
+
+      assert output =~ "Installing CCXT version #{current_version}"
+      assert output =~ "Updating TS source to v#{current_version}"
+      assert output =~ "Setup complete"
+    end
+
+    test "--ccxt-version with nonexistent version raises" do
+      assert_raise Mix.Error, ~r/Could not checkout v0\.0\.1/, fn ->
+        run_task_capturing_output(Setup, ["--ccxt-version", "0.0.1"])
+      end
     end
   end
 end

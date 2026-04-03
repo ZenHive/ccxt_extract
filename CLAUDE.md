@@ -106,7 +106,7 @@ mix npm.install ccxt
 
 # 2. TypeScript source (for OXC AST parsing)
 git clone --depth 1 --sparse https://github.com/ccxt/ccxt.git priv/ccxt
-cd priv/ccxt && git sparse-checkout set ts/src
+cd priv/ccxt && git sparse-checkout set ts/src package.json
 ```
 
 ### Source Layout

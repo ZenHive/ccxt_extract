@@ -42,11 +42,14 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
     pinned_version = Keyword.get(opts, :ccxt_version)
     force_latest? = Keyword.get(opts, :latest, false)
 
+    version_sensitive? = pinned_version != nil or force_latest?
+
+    check_ts_source()
+    update_ts_source(pinned_version, force_latest?)
     install_npm_package(pinned_version, force_latest?)
     copy_bundle_to_priv()
     verify_installed_version(pinned_version)
-    check_ts_source()
-    versions = record_versions()
+    versions = record_versions(version_sensitive?)
     verify_quickbeam()
     verify_oxc()
 
@@ -75,8 +78,13 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
   end
 
   defp install_npm_package(nil, true = _force_latest?) do
-    Mix.shell().info("Installing latest CCXT via npm...")
-    Mix.Task.run("npm.install", ["ccxt"])
+    Mix.shell().info("Updating CCXT to latest via npm...")
+    # npm.install updates package.json to latest version from registry.
+    # npm.update re-resolves the lockfile and actually installs the new version.
+    # Both steps needed: install alone won't update the lockfile, update alone
+    # won't bump the version specifier in package.json.
+    Mix.Task.rerun("npm.install", ["ccxt"])
+    Mix.Task.rerun("npm.update", ["ccxt"])
 
     if !File.exists?(@npm_bundle) do
       Mix.raise("npm install completed but #{@npm_bundle} not found")
@@ -87,7 +95,8 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
 
   defp install_npm_package(version, _force_latest?) do
     Mix.shell().info("Installing CCXT version #{version} via npm...")
-    Mix.Task.run("npm.install", ["ccxt@#{version}"])
+    Mix.Task.rerun("npm.install", ["ccxt@#{version}"])
+    Mix.Task.rerun("npm.update", ["ccxt"])
 
     if !File.exists?(@npm_bundle) do
       Mix.raise("npm install completed but #{@npm_bundle} not found")
@@ -138,14 +147,108 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
       Either symlink an existing checkout:
           ln -s /path/to/ccxt priv/ccxt
 
-      Or clone via sparse checkout:
+      Or clone via sparse checkout (include package.json for version verification):
           git clone --depth 1 --sparse https://github.com/ccxt/ccxt.git priv/ccxt
-          cd priv/ccxt && git sparse-checkout set ts/src
+          cd priv/ccxt && git sparse-checkout set ts/src package.json
       """)
     end
   end
 
-  defp record_versions do
+  # Updates the TS source git repo to match the requested version.
+  # --latest: git pull to get newest commit on current branch.
+  # --ccxt-version X: fetch tag vX and check it out.
+  # No flag: skip (existing behavior).
+  defp update_ts_source(nil, false), do: :ok
+
+  defp update_ts_source(nil, true) do
+    case resolve_ccxt_dir() do
+      {:ok, dir} ->
+        Mix.shell().info("Updating TS source to latest...")
+        # If on detached HEAD (e.g. after --ccxt-version tag checkout),
+        # checkout the default branch first so pull has a tracking branch.
+        ensure_on_branch(dir)
+
+        case System.cmd("git", ["pull", "--ff-only"], cd: dir, stderr_to_stdout: true) do
+          {output, 0} -> Mix.shell().info(String.trim(output))
+          {output, _} -> Mix.raise("git pull failed: #{String.trim(output)}")
+        end
+
+      :not_git ->
+        Mix.raise("priv/ccxt is not a git repo — cannot update TS source with --latest")
+    end
+  end
+
+  defp update_ts_source(version, _force_latest?) do
+    case resolve_ccxt_dir() do
+      {:ok, dir} ->
+        tag = "v#{version}"
+        Mix.shell().info("Updating TS source to #{tag}...")
+
+        with {_, 0} <- System.cmd("git", ["fetch", "origin", "tag", tag, "--depth", "1"], cd: dir, stderr_to_stdout: true),
+             {_, 0} <- System.cmd("git", ["checkout", tag], cd: dir, stderr_to_stdout: true) do
+          Mix.shell().info("TS source checked out at #{tag}.")
+        else
+          {output, _} ->
+            Mix.raise("Could not checkout #{tag}: #{String.trim(output)}")
+        end
+
+      :not_git ->
+        Mix.raise("priv/ccxt is not a git repo — cannot checkout version #{version}")
+    end
+  end
+
+  # Resolves the real path of priv/ccxt, following symlinks.
+  # Returns {:ok, dir} if it's a git repo, :not_git otherwise.
+  # Handles worktrees/submodules where .git is a file (not a directory).
+  defp resolve_ccxt_dir do
+    ccxt_dir = CcxtExtract.Paths.priv("ccxt")
+
+    ccxt_dir =
+      case File.read_link(ccxt_dir) do
+        {:ok, target} ->
+          if Path.type(target) == :relative do
+            ccxt_dir |> Path.dirname() |> Path.join(target) |> Path.expand()
+          else
+            target
+          end
+
+        _ ->
+          ccxt_dir
+      end
+
+    # .git can be a directory (normal repo) or a file (worktree/submodule)
+    if File.exists?(Path.join(ccxt_dir, ".git")) do
+      {:ok, ccxt_dir}
+    else
+      :not_git
+    end
+  end
+
+  # If HEAD is detached (e.g. after tag checkout), switch back to the default
+  # branch so git pull has a tracking branch. Detects default via remote HEAD.
+  defp ensure_on_branch(dir) do
+    case System.cmd("git", ["rev-parse", "--abbrev-ref", "HEAD"], cd: dir, stderr_to_stdout: true) do
+      {"HEAD\n", 0} ->
+        # Detached — find default branch name from remote
+        default = resolve_default_branch(dir)
+        Mix.shell().info("Switching from detached HEAD to #{default}...")
+        System.cmd("git", ["checkout", default], cd: dir, stderr_to_stdout: true)
+
+      _ ->
+        :ok
+    end
+  end
+
+  defp resolve_default_branch(dir) do
+    case System.cmd("git", ["symbolic-ref", "refs/remotes/origin/HEAD", "--short"], cd: dir, stderr_to_stdout: true) do
+      {ref, 0} -> ref |> String.trim() |> String.replace_prefix("origin/", "")
+      _ -> "master"
+    end
+  end
+
+  # version_sensitive? is true when --latest or --ccxt-version was used,
+  # meaning the user explicitly requested version sync. Mismatches are fatal.
+  defp record_versions(version_sensitive?) do
     npm_version = @npm_package_json |> File.read!() |> Jason.decode!() |> Map.get("version")
 
     ts_package_json = CcxtExtract.Paths.priv(@ts_package_json_rel)
@@ -154,6 +257,10 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
       if File.exists?(ts_package_json) do
         ts_package_json |> File.read!() |> Jason.decode!() |> Map.get("version")
       else
+        if version_sensitive? do
+          Mix.raise("priv/ccxt/package.json not found — cannot verify TS source version matches npm")
+        end
+
         Mix.shell().info("\nWARNING: priv/ccxt/package.json not found — cannot verify TS source version.")
         Mix.shell().info("If using sparse checkout, add package.json: git sparse-checkout add package.json")
         "unknown"
@@ -162,6 +269,10 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
     source_git_sha = resolve_git_sha()
 
     if ts_version != "unknown" and npm_version != ts_version do
+      if version_sensitive? do
+        Mix.raise("Version mismatch: npm bundle #{npm_version} != TS source #{ts_version}")
+      end
+
       Mix.shell().info("\nWARNING: Version mismatch! npm bundle: #{npm_version}, TS source: #{ts_version}")
     end
 
@@ -179,18 +290,15 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
   end
 
   defp resolve_git_sha do
-    ccxt_dir = CcxtExtract.Paths.priv("ccxt")
+    case resolve_ccxt_dir() do
+      {:ok, dir} ->
+        case System.cmd("git", ["rev-parse", "HEAD"], cd: dir, stderr_to_stdout: true) do
+          {sha, 0} -> String.trim(sha)
+          _ -> "unknown"
+        end
 
-    # Follow symlink if priv/ccxt is one
-    ccxt_dir =
-      case File.read_link(ccxt_dir) do
-        {:ok, target} -> target
-        _ -> ccxt_dir
-      end
-
-    case System.cmd("git", ["rev-parse", "HEAD"], cd: ccxt_dir, stderr_to_stdout: true) do
-      {sha, 0} -> String.trim(sha)
-      _ -> "unknown"
+      :not_git ->
+        "unknown"
     end
   end
 

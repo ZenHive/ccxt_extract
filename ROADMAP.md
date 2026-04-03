@@ -15,7 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
-| Task 26 | CCXT version pinning and reproducibility | `--ccxt-version` flag on setup, `source_git_sha` in manifest, version info read directly from version file |
+| Task 26 | CCXT version pinning and reproducibility | `--ccxt-version` and `--latest` flags update both npm bundle and TS source atomically; `source_git_sha` in manifest; manifest version from exchange data |
 | Task 38 | Pagination data quality fixes | Branch-dependent variants preserved (always arrays), unresolved variable method names captured, provenance tracking via containing_method |
 | Task 32 | Pagination strategy extraction | 4 strategies (dynamic/deterministic/cursor/incremental), 43 exchanges; recursive AST walker for nested calls |
 | Task 27 | Schema versioning contract | `SCHEMA.md` documents semver contract for `schema_version` field; consumer guidance for Elixir/Rust/Python |
@@ -192,7 +192,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 27: Schema versioning contract**~~ [D:2/B:7/U:8 → Eff:3.75] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 28: Update workflow** [D:3/B:7/U:7 → Eff:2.33] 🎯 `[Codex]` — Document and automate the re-extraction workflow when CCXT releases a new version. Steps: update CCXT source (`mix ccxt_extract.setup --latest`), re-run pipeline (`mix ccxt_extract.pipeline --output <target>`), validate (`mix ccxt_extract.validate --strict`). Could be a single `mix ccxt_extract.update --output <target>` that chains all three. Include diff summary: how many exchanges changed, what fields changed.
+- [ ] **Task 28: Update workflow** [D:3/B:7/U:7 → Eff:2.33] 🎯 `[Codex]` — Chain setup + pipeline + validate into a single `mix ccxt_extract.update --output <target>` command. Task 26 already added `--latest` and `--ccxt-version` flags to `mix ccxt_extract.setup` with error enforcement. What remains: the orchestration command that runs setup → pipeline → validate in sequence, plus a diff summary showing how many exchanges changed and what fields changed.
 
 ---
 

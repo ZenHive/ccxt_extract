@@ -186,6 +186,16 @@ defmodule CcxtExtract.PipelineTest do
       assert result["structure"]["parse_methods"]["parseTicker"]["statements"] == 12
       assert result["structure"]["ws_methods"]["watchTicker"]["statements"] == 12
       assert result["structure"]["interface_signatures"]["publicGetTicker"]["name"] == "publicGetTicker"
+
+      # Pagination
+      assert result["structure"]["pagination"]["fetchTrades"] == [
+               %{
+                 "strategy" => "dynamic",
+                 "max_entries_per_request" => 1000,
+                 "containing_method" => "fetchTrades",
+                 "target_method" => "fetchTrades"
+               }
+             ]
     end
 
     test "assembles alias exchange with nil layers" do
@@ -201,6 +211,7 @@ defmodule CcxtExtract.PipelineTest do
       assert result["structure"]["parse_methods"] == nil
       assert result["structure"]["ws_methods"] == nil
       assert result["structure"]["interface_signatures"] == nil
+      assert result["structure"]["pagination"] == nil
       assert result["structure"]["overrides"] == nil
     end
 

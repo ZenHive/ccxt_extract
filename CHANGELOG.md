@@ -6,6 +6,13 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 39: Add pagination to round-trip validation
+- `Validation.load_source_data/1` now loads `pagination.json` alongside the other discovery files
+- New `check_pagination_roundtrip/4` compares pipeline pagination output against raw discovery data, mirroring the `build_pagination_output/1` transformation (merging `pagination_unresolved` into `_unresolved` key) for apples-to-apples comparison
+- Uses `check_presence_match` + `check_data_equality` pattern — detects: output nil when source has data, source nil when output has data, and data mismatches between the two
+- Pipeline test now asserts pagination output for both full and alias exchanges
+- Validation test covers: matching data, data mismatch, nil-nil, source-present-output-nil, and `_unresolved` entries
+
 ### Task 26: CCXT version pinning and reproducibility
 - `mix ccxt_extract.setup` now accepts `--ccxt-version VERSION` to pin a specific CCXT release (e.g., `--ccxt-version 4.5.45`). Updates both npm bundle and TS source (git tag checkout). Verifies installed version matches after npm install
 - `--latest` flag updates both npm bundle (`npm.update`) and TS source (`git pull`) to newest version, handling detached HEAD recovery from prior tag checkouts

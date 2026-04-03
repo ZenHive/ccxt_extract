@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 39 | Pagination round-trip validation | Pagination now compared between discovery and pipeline output; presence + data equality checks with `_unresolved` support |
 | Task 26 | CCXT version pinning and reproducibility | `--ccxt-version` and `--latest` flags update both npm bundle and TS source atomically; `source_git_sha` in manifest; manifest version from exchange data |
 | Task 38 | Pagination data quality fixes | Branch-dependent variants preserved (always arrays), unresolved variable method names captured, provenance tracking via containing_method |
 | Task 32 | Pagination strategy extraction | 4 strategies (dynamic/deterministic/cursor/incremental), 43 exchanges; recursive AST walker for nested calls |
@@ -52,7 +53,7 @@
 | Task 36 | 🔶 Deferred | Schema migration framework — deferred: premature. Zero consumers using v1.0 yet. Build migration tooling when a real v2.0 need emerges with concrete requirements, not speculatively. |
 | Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ |
 | Task 38 | ✅ | Pagination data quality: branch-dependent duplicates + variable method names |
-| Task 39 | ⬜ | Add pagination to round-trip validation (validation.ex doesn't load pagination.json for round-trip comparison) |
+| Task 39 | ✅ | Pagination round-trip validation — presence + data equality checks with `_unresolved` support |
 
 ### Quick Commands
 ```bash
@@ -235,7 +236,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 38: Pagination data quality — branch-dependent duplicates and variable method names**~~ [D:4/B:6/U:5 → Eff:1.38] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 39: Add pagination to round-trip validation** [D:2/B:5/U:4 → Eff:2.25] 📋 — `Validation.validate_all/1` does not load `pagination.json` into `source_data` and does not compare pagination entries between discovery and pipeline output. JSV catches schema-shape issues, but data-loss/regression between discovery and pipeline stages is undetected. Add pagination to `load_source_data/1` and `check_data_equality/5`.
+- [x] ~~**Task 39: Add pagination to round-trip validation**~~ [D:2/B:5/U:4 → Eff:2.25] ✅ — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 ---
 

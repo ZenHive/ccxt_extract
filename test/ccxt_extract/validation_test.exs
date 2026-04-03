@@ -92,6 +92,16 @@ defmodule CcxtExtract.ValidationTest do
       "parse_methods" => %{"parseTicker" => @sample_method_ast},
       "ws_methods" => %{"watchTicker" => @sample_method_ast},
       "interface_signatures" => %{"publicGetTicker" => @sample_interface_sig},
+      "pagination" => %{
+        "fetchTrades" => [
+          %{
+            "strategy" => "dynamic",
+            "max_entries_per_request" => 1000,
+            "containing_method" => "fetchTrades",
+            "target_method" => "fetchTrades"
+          }
+        ]
+      },
       "overrides" => nil
     }
   end
@@ -107,6 +117,7 @@ defmodule CcxtExtract.ValidationTest do
       "parse_methods" => nil,
       "ws_methods" => nil,
       "interface_signatures" => nil,
+      "pagination" => nil,
       "overrides" => nil
     }
   end
@@ -202,6 +213,22 @@ defmodule CcxtExtract.ValidationTest do
         ws_methods: %{"testex" => %{"ws_methods" => %{"watchTicker" => @sample_method_ast}}},
         interface_signatures: %{
           "testex" => %{"interface_signatures" => %{"publicGetTicker" => @sample_interface_sig}}
+        },
+        pagination: %{
+          "testex" => %{
+            "id" => "testex",
+            "pagination" => %{
+              "fetchTrades" => [
+                %{
+                  "strategy" => "dynamic",
+                  "max_entries_per_request" => 1000,
+                  "containing_method" => "fetchTrades",
+                  "target_method" => "fetchTrades"
+                }
+              ]
+            },
+            "pagination_count" => 1
+          }
         },
         overrides: %{}
       }
@@ -472,6 +499,7 @@ defmodule CcxtExtract.ValidationTest do
         parse_methods: %{},
         ws_methods: %{},
         interface_signatures: %{},
+        pagination: %{},
         overrides: %{}
       }
 
@@ -613,6 +641,101 @@ defmodule CcxtExtract.ValidationTest do
       assert Enum.any?(findings, fn f ->
                f["path"] == "structure.overrides" && f["severity"] == "error" &&
                  String.contains?(f["message"], "extends mismatch")
+             end)
+    end
+
+    test "detects pagination data mismatch" do
+      exchange = build_full_exchange()
+
+      source =
+        put_in(matching_source_data(), [:pagination, "testex"], %{
+          "id" => "testex",
+          "pagination" => %{
+            "fetchTrades" => [
+              %{
+                "strategy" => "cursor",
+                "max_entries_per_request" => 500,
+                "containing_method" => "fetchTrades",
+                "target_method" => "fetchTrades"
+              }
+            ]
+          },
+          "pagination_count" => 1
+        })
+
+      findings = Validation.validate_roundtrip(exchange, source, "testex")
+
+      assert Enum.any?(findings, fn f ->
+               f["path"] == "structure.pagination" && f["severity"] == "error" &&
+                 String.contains?(f["message"], "data mismatch")
+             end)
+    end
+
+    test "passes when output and source pagination are both nil" do
+      exchange = put_in(build_full_exchange(), ["structure", "pagination"], nil)
+
+      source = put_in(matching_source_data(), [:pagination, "testex"], nil)
+
+      findings = Validation.validate_roundtrip(exchange, source, "testex")
+
+      refute Enum.any?(findings, fn f ->
+               f["path"] == "structure.pagination"
+             end)
+    end
+
+    test "detects pagination present in source but missing from output" do
+      exchange = put_in(build_full_exchange(), ["structure", "pagination"], nil)
+
+      findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
+
+      assert Enum.any?(findings, fn f ->
+               f["path"] == "structure.pagination" && f["severity"] == "error" &&
+                 String.contains?(f["message"], "output is null but source has data")
+             end)
+    end
+
+    test "handles pagination with _unresolved entries" do
+      unresolved_entry = %{
+        "strategy" => "dynamic",
+        "max_entries_per_request" => nil,
+        "containing_method" => "fetchHelper",
+        "target_method" => nil
+      }
+
+      exchange =
+        put_in(build_full_exchange(), ["structure", "pagination"], %{
+          "fetchTrades" => [
+            %{
+              "strategy" => "dynamic",
+              "max_entries_per_request" => 1000,
+              "containing_method" => "fetchTrades",
+              "target_method" => "fetchTrades"
+            }
+          ],
+          "_unresolved" => [unresolved_entry]
+        })
+
+      source =
+        put_in(matching_source_data(), [:pagination, "testex"], %{
+          "id" => "testex",
+          "pagination" => %{
+            "fetchTrades" => [
+              %{
+                "strategy" => "dynamic",
+                "max_entries_per_request" => 1000,
+                "containing_method" => "fetchTrades",
+                "target_method" => "fetchTrades"
+              }
+            ]
+          },
+          "pagination_unresolved" => [unresolved_entry],
+          "pagination_count" => 1
+        })
+
+      findings = Validation.validate_roundtrip(exchange, source, "testex")
+
+      refute Enum.any?(findings, fn f ->
+               f["path"] == "structure.pagination"
              end)
     end
   end

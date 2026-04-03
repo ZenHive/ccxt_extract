@@ -136,6 +136,7 @@ defmodule CcxtExtract.Validation do
     |> check_parse_methods_roundtrip(output, source_data, exchange_id)
     |> check_ws_methods_roundtrip(output, source_data, exchange_id)
     |> check_interface_signatures_roundtrip(output, source_data, exchange_id)
+    |> check_pagination_roundtrip(output, source_data, exchange_id)
     |> check_overrides_roundtrip(output, source_data, exchange_id)
     |> Enum.reverse()
   end
@@ -539,6 +540,31 @@ defmodule CcxtExtract.Validation do
     check_method_map(findings, output_is, source_is, id, "structure.interface_signatures")
   end
 
+  # Compare structure.pagination — mirrors Pipeline.build_pagination_output/1 transformation
+  defp check_pagination_roundtrip(findings, output, source, id) do
+    output_pag = get_in(output, ["structure", "pagination"])
+    source_entry = Map.get(source.pagination, id)
+    source_pag = build_source_pagination(source_entry)
+
+    findings
+    |> check_presence_match(output_pag, source_pag, id, "structure.pagination")
+    |> check_data_equality(output_pag, source_pag, id, "structure.pagination")
+  end
+
+  # Reconstruct what Pipeline.build_pagination_output/1 produces from raw discovery data
+  defp build_source_pagination(nil), do: nil
+
+  defp build_source_pagination(exchange_data) do
+    pagination = Map.get(exchange_data, "pagination", %{})
+    unresolved = Map.get(exchange_data, "pagination_unresolved", [])
+
+    case {map_size(pagination), unresolved} do
+      {0, []} -> nil
+      {_, []} -> pagination
+      _ -> Map.put(pagination, "_unresolved", unresolved)
+    end
+  end
+
   # Compare structure.overrides (REST and WS sides)
   defp check_overrides_roundtrip(findings, output, source, id) do
     output_ov = get_in(output, ["structure", "overrides"])
@@ -700,6 +726,7 @@ defmodule CcxtExtract.Validation do
       parse_methods: load_json_index(dir, "parse_methods.json"),
       ws_methods: load_json_index(dir, "ws_methods.json"),
       interface_signatures: load_json_index(dir, "interface_signatures.json"),
+      pagination: load_json_index(dir, "pagination.json"),
       overrides: load_json_group_by(dir, "overrides.json", "exchanges", "id")
     }
   end

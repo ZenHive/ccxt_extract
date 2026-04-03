@@ -8,9 +8,13 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
       mix ccxt_extract.validate
       mix ccxt_extract.validate --strict
       mix ccxt_extract.validate --schema-only
+      mix ccxt_extract.validate --output /tmp/exchanges
 
   ## Options
 
+    * `--output DIR` — directory of emitted JSON files to validate (default: `priv/output`).
+      Reads per-exchange `*.json` and `_manifest.json` from this directory.
+      The validation report (`_validation_report.json`) is also written here.
     * `--strict` — fail with non-zero exit if any errors found
     * `--schema-only` — skip round-trip comparison (faster)
   """
@@ -20,7 +24,7 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
   @impl true
   def run(args) do
     {opts, leftover, invalid} =
-      OptionParser.parse(args, strict: [strict: :boolean, schema_only: :boolean])
+      OptionParser.parse(args, strict: [output: :string, strict: :boolean, schema_only: :boolean])
 
     if invalid != [] do
       switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
@@ -31,19 +35,24 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
       Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
     end
 
-    Mix.shell().info("Validating pipeline output...")
+    output_dir = opts[:output] || CcxtExtract.Paths.priv("output")
+
+    Mix.shell().info("Validating output in #{output_dir}...")
     start = System.monotonic_time(:millisecond)
 
-    validation_opts = [schema_only: opts[:schema_only] || false]
+    validation_opts = [
+      output_dir: output_dir,
+      schema_only: opts[:schema_only] || false
+    ]
 
     {:ok, report} = CcxtExtract.Validation.validate_all(validation_opts)
 
     elapsed = System.monotonic_time(:millisecond) - start
     has_errors = report_results(report, elapsed)
 
-    output_path = CcxtExtract.Paths.priv("output/_validation_report.json")
-    CcxtExtract.Validation.write!(report, output_path)
-    Mix.shell().info("Report: #{output_path}")
+    report_path = Path.join(output_dir, "_validation_report.json")
+    CcxtExtract.Validation.write!(report, report_path)
+    Mix.shell().info("Report: #{report_path}")
 
     if opts[:strict] && has_errors do
       Mix.raise("Validation found errors (strict mode). See report for details.")

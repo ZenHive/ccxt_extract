@@ -22,7 +22,6 @@ defmodule CcxtExtract.Validation do
   """
 
   alias CcxtExtract.Paths
-  alias CcxtExtract.Pipeline
 
   require Logger
 
@@ -34,28 +33,26 @@ defmodule CcxtExtract.Validation do
   # --- Public API ---
 
   @doc """
-  Run full validation: JSON Schema + round-trip comparison.
+  Run full validation against emitted JSON files on disk.
+
+  Reads per-exchange JSON from `output_dir`, validates each file against
+  the JSON Schema, and optionally runs round-trip comparison against
+  source discovery data.
 
   Options:
-    * `:discoveries_dir` — override fixture directory
-    * `:ccxt_version` — override version string
-    * `:extracted_at` — override timestamp
+    * `:output_dir` — directory containing emitted JSON files (default: `priv/output`)
+    * `:discoveries_dir` — override source discovery directory for round-trip checks
     * `:schema_only` — skip round-trip comparison (default: false)
     * `:reference_exchanges` — override which exchanges get round-trip checks
   """
   @spec validate_all(keyword()) :: {:ok, map()}
   def validate_all(opts \\ []) do
+    output_dir = Keyword.get(opts, :output_dir, Paths.priv("output"))
     schema_only = Keyword.get(opts, :schema_only, false)
     ref_exchanges = Keyword.get(opts, :reference_exchanges, @reference_exchanges)
 
-    # Run pipeline to get assembled exchange data
-    pipeline_opts =
-      opts
-      |> Keyword.take([:discoveries_dir, :ccxt_version, :extracted_at])
-      |> Keyword.put_new(:ccxt_version, "unknown")
-      |> Keyword.put_new(:extracted_at, DateTime.to_iso8601(DateTime.utc_now()))
-
-    {:ok, exchanges, pipeline_stats} = Pipeline.extract(pipeline_opts)
+    # Load exchanges from emitted JSON files on disk
+    {exchanges, file_stats} = load_output_files(output_dir)
 
     # Build JSON Schema root once
     root = build_schema_root()
@@ -93,7 +90,7 @@ defmodule CcxtExtract.Validation do
         }
       end)
 
-    report = build_report(exchange_results, ref_exchanges, schema_only, pipeline_stats)
+    report = build_report(exchange_results, ref_exchanges, schema_only, file_stats)
     {:ok, report}
   end
 
@@ -159,6 +156,97 @@ defmodule CcxtExtract.Validation do
     File.mkdir_p!(Path.dirname(output_path))
     File.write!(output_path, Jason.encode!(report, pretty: true))
     :ok
+  end
+
+  # --- Output File Loading ---
+
+  # Reads _manifest.json + per-exchange JSON files from output_dir.
+  # Returns {exchanges, file_stats} where file_stats tracks integrity.
+  defp load_output_files(output_dir) do
+    manifest_path = Path.join(output_dir, "_manifest.json")
+
+    manifest =
+      case File.read(manifest_path) do
+        {:ok, content} ->
+          case Jason.decode(content) do
+            {:ok, data} -> data
+            {:error, _} -> nil
+          end
+
+        {:error, _} ->
+          nil
+      end
+
+    if is_nil(manifest) do
+      Logger.warning("No valid _manifest.json found in #{output_dir}")
+      {[], empty_file_stats()}
+    else
+      load_exchanges_from_manifest(output_dir, manifest)
+    end
+  end
+
+  # Load each exchange JSON listed in the manifest, tracking file-level integrity
+  defp load_exchanges_from_manifest(output_dir, manifest) do
+    manifest_ids = manifest["exchanges"] || []
+
+    # Load each exchange file listed in manifest
+    {exchanges, missing, corrupt, id_mismatches} =
+      Enum.reduce(manifest_ids, {[], [], [], []}, fn id, acc ->
+        read_exchange_file(output_dir, id, acc)
+      end)
+
+    # Detect orphan files (JSON files in output_dir not listed in manifest)
+    # Also skip exchange_v1.json (schema copy) and _base_methods.json
+
+    manifest_set = MapSet.new(manifest_ids)
+    # Exclude metadata files (_manifest.json, _validation_report.json) and schema copy
+    known_files = MapSet.new(["exchange_v1"])
+
+    orphans =
+      output_dir
+      |> File.ls!()
+      |> Enum.filter(&(String.ends_with?(&1, ".json") && !String.starts_with?(&1, "_")))
+      |> Enum.map(&String.trim_trailing(&1, ".json"))
+      |> Enum.reject(&(MapSet.member?(manifest_set, &1) || MapSet.member?(known_files, &1)))
+
+    file_stats = %{
+      "missing_entries" => Enum.reverse(missing),
+      "corrupt_entries" => Enum.reverse(corrupt),
+      "orphan_entries" => Enum.sort(orphans),
+      "id_mismatch_entries" => Enum.reverse(id_mismatches),
+      "validation_errors" => []
+    }
+
+    {Enum.reverse(exchanges), file_stats}
+  end
+
+  # Read and decode a single exchange JSON file, classifying the result
+  defp read_exchange_file(output_dir, id, {exs, miss, corr, mis}) do
+    path = Path.join(output_dir, "#{id}.json")
+
+    with {:ok, content} <- File.read(path),
+         {:ok, data} <- Jason.decode(content) do
+      file_id = get_in(data, ["exchange", "id"])
+
+      if file_id == id do
+        {[data | exs], miss, corr, mis}
+      else
+        {[data | exs], miss, corr, ["#{id} (file has id=#{file_id})" | mis]}
+      end
+    else
+      {:error, %Jason.DecodeError{}} -> {exs, miss, [id | corr], mis}
+      {:error, _} -> {exs, [id | miss], corr, mis}
+    end
+  end
+
+  defp empty_file_stats do
+    %{
+      "missing_entries" => [],
+      "corrupt_entries" => [],
+      "orphan_entries" => [],
+      "id_mismatch_entries" => [],
+      "validation_errors" => []
+    }
   end
 
   # --- JSON Schema Error Extraction ---
@@ -869,7 +957,7 @@ defmodule CcxtExtract.Validation do
 
   # --- Report Building ---
 
-  defp build_report(exchange_results, ref_exchanges, schema_only, pipeline_stats) do
+  defp build_report(exchange_results, ref_exchanges, schema_only, file_stats) do
     all_findings =
       Enum.flat_map(exchange_results, fn r ->
         schema_findings =
@@ -909,13 +997,7 @@ defmodule CcxtExtract.Validation do
         "total_warnings" => length(Map.get(by_severity, "warning", [])),
         "total_info" => length(Map.get(by_severity, "info", []))
       },
-      "pipeline_stats" => %{
-        "missing_entries" => pipeline_stats.missing_entries,
-        "corrupt_entries" => pipeline_stats.corrupt_entries,
-        "orphan_entries" => pipeline_stats.orphan_entries,
-        "id_mismatch_entries" => pipeline_stats.id_mismatch_entries,
-        "validation_errors" => pipeline_stats.validation_errors
-      },
+      "pipeline_stats" => file_stats,
       "exchanges" => exchange_results,
       "findings_by_severity" => %{
         "error" => Map.get(by_severity, "error", []),

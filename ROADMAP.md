@@ -8,13 +8,14 @@
 
 ## 🎯 Current Focus
 
-**Phase 5: Distribution** — Make extracted data consumable by any language (Elixir, Rust, Go, Python).
+**Phase 7: Data Quality & Maintenance** — Technical debt and code quality improvements.
 
 > **Architecture decision**: ccxt_extract replaces ccxt_ex's extraction pipeline. ccxt_ex retires. Consumer libraries (ccxt_client for Elixir, future Rust/Go/Python libs) consume ccxt_extract's JSON output directly. The JSON is the contract — no Hex package needed, just `mix ccxt_extract.pipeline --output <path>`.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 28 | Update workflow | `mix ccxt_extract.update` chains setup → pipeline → validate with diff summary. Validation reads emitted JSON from disk (not in-memory). |
 | Task 39 | Pagination round-trip validation | Pagination now compared between discovery and pipeline output; presence + data equality checks with `_unresolved` support |
 | Task 26 | CCXT version pinning and reproducibility | `--ccxt-version` and `--latest` flags update both npm bundle and TS source atomically; `source_git_sha` in manifest; manifest version from exchange data |
 | Task 38 | Pagination data quality fixes | Branch-dependent variants preserved (always arrays), unresolved variable method names captured, provenance tracking via containing_method |
@@ -35,7 +36,7 @@
 |------|--------|-------|
 | Task 26 | ✅ | CCXT version pinning and reproducibility |
 | Task 27 | ✅ | Schema versioning contract — `SCHEMA.md` |
-| Task 28 | ⬜ | Update workflow (re-extract on CCXT bump) |
+| Task 28 | ✅ | Update workflow — `mix ccxt_extract.update` |
 
 ### 📋 Go Extractor Parity (Phase 6)
 | Task | Status | Notes |
@@ -85,6 +86,9 @@ mix ccxt_extract.coverage                      # Generate extraction coverage re
 mix ccxt_extract.pipeline                      # Assemble per-exchange JSON output
 mix ccxt_extract.validate                      # Full JSON Schema + round-trip validation
 mix ccxt_extract.validate --strict             # Fail on errors (CI mode)
+mix ccxt_extract.update                        # Full re-extract: setup → pipeline → validate
+mix ccxt_extract.update --latest --output /tmp # Update to latest CCXT, custom output
+mix ccxt_extract.update --skip-setup           # Re-run pipeline + validate only
 mix ccxt_extract.setup                     # Setup CCXT sources
 mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
 mix run examples/1_parse_exchange.exs binance  # Test OXC
@@ -183,9 +187,10 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 ---
 
-## Phase 5: Distribution ⬜
+## Phase 5: Distribution ✅
 
-> Make ccxt_extract's output consumable by any language. The JSON files are the product — delivery is `mix ccxt_extract.pipeline --output <target_dir>`. Consumer libraries (Elixir, Rust, Go) check the JSON into their own repos and build from it.
+> All distribution tasks complete. See [CHANGELOG.md](CHANGELOG.md#unreleased) for details.
+> Built: Configurable output (`--output`), CCXT version pinning (`--ccxt-version`/`--latest`), schema versioning contract (SCHEMA.md), update orchestration (`mix ccxt_extract.update`).
 
 - [x] ~~**Task 25: Configurable output directory**~~ [D:2/B:9/U:9 → Eff:4.50] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
@@ -193,7 +198,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 27: Schema versioning contract**~~ [D:2/B:7/U:8 → Eff:3.75] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 28: Update workflow** [D:3/B:7/U:7 → Eff:2.33] 🎯 `[Codex]` — Chain setup + pipeline + validate into a single `mix ccxt_extract.update --output <target>` command. Task 26 already added `--latest` and `--ccxt-version` flags to `mix ccxt_extract.setup` with error enforcement. What remains: the orchestration command that runs setup → pipeline → validate in sequence, plus a diff summary showing how many exchanges changed and what fields changed.
+- [x] ~~**Task 28: Update workflow**~~ [D:3/B:7/U:7 → Eff:2.33] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 ---
 

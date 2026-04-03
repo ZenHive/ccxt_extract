@@ -6,13 +6,14 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
   """
   use ExUnit.Case, async: true
 
+  alias CcxtExtract.Pipeline
   alias CcxtExtract.Validation
 
   @moduletag :integration
   @moduletag timeout: 120_000
 
   @fixtures_dir Path.expand("../../fixtures/discoveries", __DIR__)
-  @validation_opts [
+  @pipeline_opts [
     discoveries_dir: @fixtures_dir,
     ccxt_version: "4.5.45",
     extracted_at: "2026-03-30T12:00:00Z"
@@ -29,15 +30,25 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
   @audit_load_markets_failures ~w(alpaca bullish coinbaseexchange)
   @audit_matrix @audit_aliases ++ @audit_roots ++ @audit_derived ++ @audit_dex ++ @audit_load_markets_failures
 
-  # Run validation once for all tests in this module
+  # Write pipeline output to a temp dir, then validate the emitted files.
+  # This proves validation reads actual JSON from disk, not in-memory data.
   setup_all do
-    {:ok, report} = Validation.validate_all(@validation_opts)
+    output_dir = Path.join(System.tmp_dir!(), "ccxt_validate_cached_#{:rand.uniform(100_000)}")
+
+    {:ok, exchanges, _stats} = Pipeline.extract(@pipeline_opts)
+    Pipeline.write!(exchanges, output_dir, discoveries_dir: @fixtures_dir)
+
+    validation_opts = [output_dir: output_dir, discoveries_dir: @fixtures_dir]
+
+    {:ok, report} = Validation.validate_all(validation_opts)
     lookup = Map.new(report["exchanges"], &{&1["id"], &1})
 
     {:ok, audit_report} =
-      Validation.validate_all(Keyword.put(@validation_opts, :reference_exchanges, @audit_matrix))
+      Validation.validate_all(Keyword.put(validation_opts, :reference_exchanges, @audit_matrix))
 
     audit_lookup = Map.new(audit_report["exchanges"], &{&1["id"], &1})
+
+    on_exit(fn -> File.rm_rf!(output_dir) end)
 
     %{report: report, lookup: lookup, audit_report: audit_report, audit_lookup: audit_lookup}
   end

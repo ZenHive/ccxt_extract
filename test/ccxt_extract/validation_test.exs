@@ -768,4 +768,101 @@ defmodule CcxtExtract.ValidationTest do
     root = Validation.build_schema_root()
     assert %JSV.Root{} = root
   end
+
+  # --- validate_all from disk ---
+
+  describe "validate_all reads from output directory" do
+    @tag :tmp_dir
+    test "validates well-formed exchange JSON from disk", %{tmp_dir: tmp_dir} do
+      exchange = build_full_exchange()
+      write_output_dir(tmp_dir, [exchange])
+
+      {:ok, report} = Validation.validate_all(output_dir: tmp_dir, schema_only: true)
+
+      assert report["exchange_count"] == 1
+      assert report["summary"]["schema_pass"] == 1
+      assert report["summary"]["schema_fail"] == 0
+    end
+
+    @tag :tmp_dir
+    test "detects missing exchange file", %{tmp_dir: tmp_dir} do
+      # Manifest lists "testex" but no testex.json file exists
+      manifest = %{"exchanges" => ["testex"], "ccxt_version" => "4.5.45"}
+      File.mkdir_p!(tmp_dir)
+      File.write!(Path.join(tmp_dir, "_manifest.json"), Jason.encode!(manifest))
+
+      {:ok, report} = Validation.validate_all(output_dir: tmp_dir, schema_only: true)
+
+      assert report["exchange_count"] == 0
+      assert report["pipeline_stats"]["missing_entries"] == ["testex"]
+    end
+
+    @tag :tmp_dir
+    test "detects corrupt exchange JSON", %{tmp_dir: tmp_dir} do
+      manifest = %{"exchanges" => ["testex"], "ccxt_version" => "4.5.45"}
+      File.mkdir_p!(tmp_dir)
+      File.write!(Path.join(tmp_dir, "_manifest.json"), Jason.encode!(manifest))
+      File.write!(Path.join(tmp_dir, "testex.json"), "not valid json{{{")
+
+      {:ok, report} = Validation.validate_all(output_dir: tmp_dir, schema_only: true)
+
+      assert report["exchange_count"] == 0
+      assert report["pipeline_stats"]["corrupt_entries"] == ["testex"]
+    end
+
+    @tag :tmp_dir
+    test "detects orphan files not in manifest", %{tmp_dir: tmp_dir} do
+      exchange = build_full_exchange()
+      write_output_dir(tmp_dir, [exchange])
+
+      # Write an extra file not in the manifest
+      File.write!(Path.join(tmp_dir, "orphanex.json"), Jason.encode!(%{"extra" => true}))
+
+      {:ok, report} = Validation.validate_all(output_dir: tmp_dir, schema_only: true)
+
+      assert "orphanex" in report["pipeline_stats"]["orphan_entries"]
+    end
+
+    @tag :tmp_dir
+    test "detects id mismatch between filename and content", %{tmp_dir: tmp_dir} do
+      exchange = build_full_exchange()
+      manifest = %{"exchanges" => ["wrongname"], "ccxt_version" => "4.5.45"}
+      File.mkdir_p!(tmp_dir)
+      File.write!(Path.join(tmp_dir, "_manifest.json"), Jason.encode!(manifest))
+      # File named wrongname.json but content has id=testex
+      File.write!(Path.join(tmp_dir, "wrongname.json"), Jason.encode!(exchange, pretty: true))
+
+      {:ok, report} = Validation.validate_all(output_dir: tmp_dir, schema_only: true)
+
+      assert report["exchange_count"] == 1
+      mismatches = report["pipeline_stats"]["id_mismatch_entries"]
+      assert length(mismatches) == 1
+      assert hd(mismatches) =~ "wrongname"
+      assert hd(mismatches) =~ "testex"
+    end
+
+    @tag :tmp_dir
+    test "returns empty report for missing manifest", %{tmp_dir: tmp_dir} do
+      File.mkdir_p!(tmp_dir)
+
+      {:ok, report} = Validation.validate_all(output_dir: tmp_dir, schema_only: true)
+
+      assert report["exchange_count"] == 0
+    end
+  end
+
+  # Writes exchange JSON files + manifest to a temp directory
+  defp write_output_dir(dir, exchanges) do
+    File.mkdir_p!(dir)
+
+    ids =
+      Enum.map(exchanges, fn exchange ->
+        id = exchange["exchange"]["id"]
+        File.write!(Path.join(dir, "#{id}.json"), Jason.encode!(exchange, pretty: true))
+        id
+      end)
+
+    manifest = %{"exchanges" => Enum.sort(ids), "ccxt_version" => "4.5.45"}
+    File.write!(Path.join(dir, "_manifest.json"), Jason.encode!(manifest))
+  end
 end

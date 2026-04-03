@@ -6,6 +6,15 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 28: Update workflow — `mix ccxt_extract.update`
+- New orchestration command chains `setup → pipeline → validate` into a single invocation
+- Forwards flags to appropriate stages: `--ccxt-version`/`--latest` to setup, `--output` to pipeline+validate, `--strict` to pipeline+validate
+- `--skip-setup` flag bypasses setup when sources are already current (useful for re-running pipeline+validate)
+- Diff summary compares old vs new `_manifest.json`: reports CCXT version changes, exchange count delta, and lists added/removed exchanges
+- **Validation reads emitted JSON from disk**: `validate_all` now reads per-exchange `*.json` files from the output directory instead of re-running the pipeline in memory. This proves the actual files consumers will read pass schema and round-trip checks. File-level integrity tracking detects missing files, corrupt JSON, orphan files, and filename/id mismatches.
+- `--output DIR` on validate selects which output tree to validate (not just report location)
+- Completes Phase 5 (Distribution) — ccxt_extract's output pipeline is now fully self-serve
+
 ### Task 39: Add pagination to round-trip validation
 - `Validation.load_source_data/1` now loads `pagination.json` alongside the other discovery files
 - New `check_pagination_roundtrip/4` compares pipeline pagination output against raw discovery data, mirroring the `build_pagination_output/1` transformation (merging `pagination_unresolved` into `_unresolved` key) for apples-to-apples comparison

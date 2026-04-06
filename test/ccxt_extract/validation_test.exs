@@ -75,7 +75,20 @@ defmodule CcxtExtract.ValidationTest do
   defp full_runtime do
     %{
       "describe" => %{"id" => "testex", "has" => %{"fetchTicker" => true}},
-      "markets" => %{"market_count" => 100, "markets" => %{"BTC/USDT" => %{"active" => true}}}
+      "markets" => %{"market_count" => 100, "markets" => %{"BTC/USDT" => %{"active" => true}}},
+      "symbol_patterns" => %{
+        "spot" => %{
+          "id_structure" => "baseId_quoteId",
+          "separator" => "",
+          "case" => "upper",
+          "suffix" => nil,
+          "sample_count" => 1,
+          "anomaly_count" => 0,
+          "anomalies" => [],
+          "examples" => [%{"symbol" => "BTC/USDT", "id" => "BTCUSDT", "baseId" => "BTC", "quoteId" => "USDT"}]
+        },
+        "currency_aliases" => %{}
+      }
     }
   end
 
@@ -106,7 +119,7 @@ defmodule CcxtExtract.ValidationTest do
     }
   end
 
-  defp alias_runtime, do: %{"describe" => nil, "markets" => nil}
+  defp alias_runtime, do: %{"describe" => nil, "markets" => nil, "symbol_patterns" => nil}
 
   defp alias_structure do
     %{
@@ -758,6 +771,28 @@ defmodule CcxtExtract.ValidationTest do
       # Should produce a finding about missing source, not crash
       assert Enum.any?(findings, fn f ->
                f["path"] == "runtime.describe" && f["severity"] == "warning"
+             end)
+    end
+
+    test "detects symbol_patterns present but markets null" do
+      exchange = put_in(build_full_exchange(), ["runtime", "markets"], nil)
+
+      findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
+
+      assert Enum.any?(findings, fn f ->
+               f["path"] == "runtime.symbol_patterns" && f["severity"] == "error" &&
+                 String.contains?(f["message"], "markets is null")
+             end)
+    end
+
+    test "detects symbol_patterns null but markets present" do
+      exchange = put_in(build_full_exchange(), ["runtime", "symbol_patterns"], nil)
+
+      findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
+
+      assert Enum.any?(findings, fn f ->
+               f["path"] == "runtime.symbol_patterns" && f["severity"] == "error" &&
+                 String.contains?(f["message"], "symbol_patterns is null")
              end)
     end
   end

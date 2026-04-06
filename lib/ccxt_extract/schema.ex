@@ -36,11 +36,11 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "1.0.0"
+  @schema_version "1.0.1"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)
-  @required_runtime_keys ~w(describe markets)
+  @required_runtime_keys ~w(describe markets symbol_patterns)
   @required_structure_keys ~w(class_info methods sign_method handle_errors parse_methods ws_methods interface_signatures pagination overrides)
 
   # --- Public API ---
@@ -140,7 +140,8 @@ defmodule CcxtExtract.Schema do
   defp build_runtime_section(data) do
     %{
       "describe" => data["describe"],
-      "markets" => data["markets"]
+      "markets" => data["markets"],
+      "symbol_patterns" => data["symbol_patterns"]
     }
   end
 
@@ -193,6 +194,7 @@ defmodule CcxtExtract.Schema do
     |> check_required_keys(section, @required_runtime_keys, "runtime")
     |> check_nullable_map(section, "describe", "runtime.describe")
     |> check_nullable_map(section, "markets", "runtime.markets")
+    |> check_nullable_map(section, "symbol_patterns", "runtime.symbol_patterns")
   end
 
   defp check_structure_section(errors, section) do

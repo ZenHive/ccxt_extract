@@ -6,6 +6,23 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 40: Symbol pattern derivation from market data
+- New `CcxtExtract.SymbolPatterns` pure module derives formatting rules from `runtime.markets` — separator style, case convention, ID structure, suffixes, and anomalies per market type
+- Output at `runtime.symbol_patterns` with per-type entries (`spot`, `swap`, `future`, `option`) plus `currency_aliases` from `describe().commonCurrencies`
+- Computed inline during pipeline assembly (no separate discovery step, no API calls)
+- Handles all exchange patterns: concatenated (Binance), dash (OKX), underscore (Gate/Deribit), lowercase (HTX), numeric/opaque (Hyperliquid), cryptonym anomalies (Kraken), suffixes (-SWAP, -PERPETUAL, M)
+- 80% dominance threshold for pattern classification; anomalies tracked with IDs for consumer fallback lookup
+- JSON Schema updated with `SymbolPatterns` and `SymbolPatternEntry` definitions
+- **Schema version bumped to 1.0.1** (additive nullable field per SCHEMA.md contract)
+- **Fixed case anomaly detection** — `detected_case` was computed but never passed to `collect_anomalies`, so minority-case IDs were invisible. Now flagged correctly.
+- **Fixed dominant_value nil inflation** — `dominant_value/2` was dropping nil values before computing the 80% threshold, inflating dominance for sparse fields (e.g., 1 letter-containing ID in 284 numeric IDs = 100% "upper"). Now counts against total classifications.
+- **Fixed suffix anomaly undercounting** — markets with nil suffix were excluded from suffix mismatch detection, so exchanges like paradex with `-PERP` suffix wouldn't flag suffixless swap IDs as anomalies.
+- **Added round-trip validation** for `runtime.symbol_patterns` — checks presence consistency with markets (both present or both null, plus currency_aliases key check).
+- **Fixed validation report hardcoded version** — `_validation_report.json` was emitting `"1.0.0"` instead of using `Schema.schema_version()`.
+- **Fixed id_structure anomaly over-flagging** — `collect_anomalies` was not guarding `id_structure` on dominance, so a 50/50 split flagged all markets as anomalous.
+- **All hardcoded `"1.0.0"` removed** from source and tests; all version references now use `Schema.schema_version()` or semver regex for cached fixtures.
+- **Added pipeline test assertions** for `runtime.symbol_patterns` in both full and alias assembly tests
+
 ### Task 35: Extract shared modules to reduce duplication (35a + 35b)
 - **`CcxtExtract.MethodAST`** — Extracted `extract_method_data/1` from 5 modules (ParseMethods, WsMethods, SignMethod, HandleErrors, Overrides) into a single shared module. All had identical implementations converting MethodDefinition AST nodes to normalized maps
 - **`CcxtExtract.OXCExtractor`** — Behaviour with `__using__` macro providing default `extract/0`, `parse_file/1`, and `write!/2`. Each module implements 3 callbacks: `source_dir/0`, `extract_from_ast/2`, `write_stats/1`. Refactored 6 modules: ParseMethods, WsMethods, SignMethod, HandleErrors, InterfaceSignatures, Pagination

@@ -135,6 +135,7 @@ defmodule CcxtExtract.Validation do
     |> check_interface_signatures_roundtrip(output, source_data, exchange_id)
     |> check_pagination_roundtrip(output, source_data, exchange_id)
     |> check_overrides_roundtrip(output, source_data, exchange_id)
+    |> check_symbol_patterns_roundtrip(output, exchange_id)
     |> Enum.reverse()
   end
 
@@ -725,6 +726,41 @@ defmodule CcxtExtract.Validation do
     end
   end
 
+  # symbol_patterns is derived from markets, not independently discovered.
+  # Check presence consistency: if markets exist, symbol_patterns should too.
+  defp check_symbol_patterns_roundtrip(findings, output, id) do
+    markets = get_in(output, ["runtime", "markets"])
+    patterns = get_in(output, ["runtime", "symbol_patterns"])
+
+    findings
+    |> check_symbol_patterns_presence(markets, patterns, id)
+    |> check_symbol_patterns_shape(patterns, id)
+  end
+
+  defp check_symbol_patterns_presence(findings, nil, nil, _id), do: findings
+
+  defp check_symbol_patterns_presence(findings, nil, _patterns, id),
+    do: [
+      roundtrip_finding(id, "runtime.symbol_patterns", "error", "symbol_patterns present but markets is null") | findings
+    ]
+
+  defp check_symbol_patterns_presence(findings, _markets, nil, id),
+    do: [
+      roundtrip_finding(id, "runtime.symbol_patterns", "error", "markets present but symbol_patterns is null") | findings
+    ]
+
+  defp check_symbol_patterns_presence(findings, _markets, _patterns, _id), do: findings
+
+  defp check_symbol_patterns_shape(findings, patterns, _id) when not is_map(patterns), do: findings
+
+  defp check_symbol_patterns_shape(findings, patterns, id) do
+    if Map.has_key?(patterns, "currency_aliases") do
+      findings
+    else
+      [roundtrip_finding(id, "runtime.symbol_patterns", "error", "missing currency_aliases key") | findings]
+    end
+  end
+
   # --- Shared Round-Trip Helpers ---
 
   # Compare two values for equality (skip if either is nil — presence check handles that)
@@ -987,7 +1023,7 @@ defmodule CcxtExtract.Validation do
     %{
       "validated_at" => DateTime.to_iso8601(DateTime.utc_now()),
       "exchange_count" => length(exchange_results),
-      "schema_version" => "1.0.0",
+      "schema_version" => CcxtExtract.Schema.schema_version(),
       "summary" => %{
         "schema_pass" => schema_pass,
         "schema_fail" => schema_fail,

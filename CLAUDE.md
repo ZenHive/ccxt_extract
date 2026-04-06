@@ -130,7 +130,8 @@ Per-exchange JSON has three top-level sections:
   "exchange": { id, name, alias },
   "runtime": {
     "describe": { ... },          # Resolved describe() via QuickBEAM (has, api, exceptions, etc.)
-    "markets": { ... }            # loadMarkets() data (symbols, precision, limits, fees)
+    "markets": { ... },           # loadMarkets() data (symbols, precision, limits, fees)
+    "symbol_patterns": { ... }    # Derived per-type formatting rules (separator, case, suffix, anomalies)
   },
   "structure": {
     "class_info": { ... },        # Class name, parent, file path

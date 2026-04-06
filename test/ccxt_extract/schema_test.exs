@@ -67,7 +67,8 @@ defmodule CcxtExtract.SchemaTest do
   defp full_runtime do
     %{
       "describe" => %{"id" => "testex", "has" => %{"fetchTicker" => true}},
-      "markets" => %{"market_count" => 100, "markets" => %{"BTC/USDT" => %{"active" => true}}}
+      "markets" => %{"market_count" => 100, "markets" => %{"BTC/USDT" => %{"active" => true}}},
+      "symbol_patterns" => %{"spot" => %{"separator" => "", "case" => "upper"}, "currency_aliases" => %{}}
     }
   end
 
@@ -107,7 +108,7 @@ defmodule CcxtExtract.SchemaTest do
 
   # Null runtime for alias exchanges
   defp alias_runtime do
-    %{"describe" => nil, "markets" => nil}
+    %{"describe" => nil, "markets" => nil, "symbol_patterns" => nil}
   end
 
   # Null structure for alias exchanges
@@ -127,8 +128,9 @@ defmodule CcxtExtract.SchemaTest do
 
   # --- schema_version/0 ---
 
-  test "schema_version returns 1.0.0" do
-    assert Schema.schema_version() == "1.0.0"
+  test "schema_version returns a valid semver string" do
+    version = Schema.schema_version()
+    assert version =~ ~r/^\d+\.\d+\.\d+$/
   end
 
   # --- build_exchange/4 ---
@@ -137,7 +139,7 @@ defmodule CcxtExtract.SchemaTest do
     test "builds complete output for a full exchange" do
       result = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
 
-      assert result["schema_version"] == "1.0.0"
+      assert result["schema_version"] == Schema.schema_version()
       assert result["extracted_at"] == "2026-03-30T12:00:00Z"
       assert result["ccxt_version"] == "4.5.45"
 

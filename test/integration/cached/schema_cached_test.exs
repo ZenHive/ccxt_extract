@@ -277,7 +277,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
         exchange = build_from_fixtures(@exchange_id)
         assert :ok = Schema.validate(exchange)
 
-        assert exchange["schema_version"] == "1.0.0"
+        assert exchange["schema_version"] == Schema.schema_version()
         assert exchange["exchange"]["id"] == @exchange_id
         assert is_map(exchange["runtime"])
         assert is_map(exchange["structure"])

@@ -168,7 +168,7 @@ defmodule CcxtExtract.PipelineTest do
     test "assembles full exchange with all layers" do
       result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
 
-      assert result["schema_version"] == "1.0.0"
+      assert result["schema_version"] == Schema.schema_version()
       assert result["ccxt_version"] == "4.5.45"
       assert result["exchange"]["id"] == "testex"
       assert result["exchange"]["pro"] == true
@@ -176,6 +176,7 @@ defmodule CcxtExtract.PipelineTest do
       # Runtime
       assert result["runtime"]["describe"]["has"]["fetchTicker"] == true
       assert result["runtime"]["markets"]["market_count"] == 100
+      assert is_map(result["runtime"]["symbol_patterns"])
 
       # Structure
       assert result["structure"]["class_info"]["rest"]["node_key"] == "rest:testex"
@@ -204,6 +205,7 @@ defmodule CcxtExtract.PipelineTest do
       assert result["exchange"]["alias"] == true
       assert result["runtime"]["describe"] == nil
       assert result["runtime"]["markets"] == nil
+      assert result["runtime"]["symbol_patterns"] == nil
       assert result["structure"]["class_info"] == nil
       assert result["structure"]["methods"] == nil
       assert result["structure"]["sign_method"] == nil

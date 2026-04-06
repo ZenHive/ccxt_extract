@@ -134,7 +134,7 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
       assert is_binary(report["validated_at"])
       assert is_integer(report["exchange_count"])
       assert report["exchange_count"] > 100
-      assert report["schema_version"] == "1.0.0"
+      assert report["schema_version"] == CcxtExtract.Schema.schema_version()
       assert is_map(report["pipeline_stats"])
     end
 

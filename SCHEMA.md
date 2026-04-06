@@ -48,7 +48,7 @@ end
 
 ---
 
-## Version 1.0.0 — Current
+## Version 1.0.1 — Current
 
 **Status:** Active
 
@@ -60,7 +60,7 @@ Every per-exchange JSON file has exactly these top-level keys (all required, nev
 
 | Key | Type | Description |
 |-----|------|-------------|
-| `schema_version` | `"1.0.0"` | This contract version |
+| `schema_version` | `"1.0.1"` | This contract version |
 | `extracted_at` | string (ISO 8601) | When extraction ran |
 | `ccxt_version` | string | CCXT npm package version used |
 | `exchange` | ExchangeMeta | Exchange identity and metadata |
@@ -87,6 +87,7 @@ All keys are always materialized (never absent). Consumers check for `null`, nev
 |-------|------|-------------|
 | `describe` | object or null | Full `describe()` output — api endpoints, `has` capabilities, fees, limits, urls, exceptions, features, timeframes, requiredCredentials |
 | `markets` | MarketsData or null | `loadMarkets()` result — symbol formats, precision, limits, fee structures |
+| `symbol_patterns` | SymbolPatterns or null | Derived symbol formatting patterns per market type — separator, case, ID structure, suffix, anomalies. Consumers use for unified ↔ exchange-native symbol conversion |
 
 ### Structure Layer (`structure`)
 
@@ -151,6 +152,7 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.0.1 | 2026-04 | Add `runtime.symbol_patterns` — derived per-type formatting rules (separator, case, suffix, anomalies) for symbol conversion. |
 | 1.0.0 | 2026-03 | Initial release. Two-layer model (runtime + structure), 110 exchanges, full ESTree AST bodies. |
 
 ---

@@ -122,9 +122,13 @@ defmodule CcxtExtract.Pipeline do
   def build_exchange_data(meta, data, opts) do
     id = meta["id"]
 
+    markets = get_markets(id, data)
+    describe = get_describe(id, data)
+
     runtime_data = %{
-      "describe" => get_describe(id, data),
-      "markets" => get_markets(id, data)
+      "describe" => describe,
+      "markets" => markets,
+      "symbol_patterns" => CcxtExtract.SymbolPatterns.derive(markets, describe)
     }
 
     structure_data = %{

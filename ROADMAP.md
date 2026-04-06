@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 40 | Symbol pattern derivation | Pure derivation from `runtime.markets` — separator, case, structure, suffix, anomalies per market type. Schema 1.0.1. Fixed: case anomaly detection, dominant_value nil inflation, suffix anomaly undercounting. Added round-trip validation. |
 | Task 35 | Extract shared modules | `CcxtExtract.OXCExtractor` behaviour (6 modules) + `CcxtExtract.MethodAST` (5 modules). 35c deferred. |
 | Task 28 | Update workflow | `mix ccxt_extract.update` chains setup → pipeline → validate with diff summary. Validation reads emitted JSON from disk (not in-memory). |
 | Task 39 | Pagination round-trip validation | Pagination now compared between discovery and pipeline output; presence + data equality checks with `_unresolved` support |

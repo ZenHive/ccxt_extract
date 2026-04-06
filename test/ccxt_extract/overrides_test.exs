@@ -165,13 +165,13 @@ defmodule CcxtExtract.OverridesTest do
     end
   end
 
-  describe "extract_method_data/1" do
+  describe "MethodAST.extract/1" do
     test "returns nil for nil input" do
-      assert Overrides.extract_method_data(nil) == nil
+      assert CcxtExtract.MethodAST.extract(nil) == nil
     end
 
     test "extracts all fields from a method" do
-      result = Overrides.extract_method_data(@describe_method)
+      result = CcxtExtract.MethodAST.extract(@describe_method)
 
       assert result["async"] == false
       assert result["params"] == []
@@ -181,7 +181,7 @@ defmodule CcxtExtract.OverridesTest do
     end
 
     test "extracts params with types via Methods helpers" do
-      result = Overrides.extract_method_data(@fetch_ticker_method)
+      result = CcxtExtract.MethodAST.extract(@fetch_ticker_method)
 
       assert length(result["params"]) == 1
       assert Enum.at(result["params"], 0)["name"] == "symbol"
@@ -191,7 +191,7 @@ defmodule CcxtExtract.OverridesTest do
     end
 
     test "body AST preserves raw node" do
-      result = Overrides.extract_method_data(@sign_method)
+      result = CcxtExtract.MethodAST.extract(@sign_method)
 
       assert result["body"].type == "FunctionBody"
       assert result["body"].start == 300
@@ -254,7 +254,7 @@ defmodule CcxtExtract.OverridesTest do
 
   describe "JSON round-trip" do
     test "atom keys become string keys at all nesting depths" do
-      result = Overrides.extract_method_data(@fetch_ticker_method)
+      result = CcxtExtract.MethodAST.extract(@fetch_ticker_method)
 
       json = Jason.encode!(result)
       decoded = Jason.decode!(json)
@@ -279,7 +279,7 @@ defmodule CcxtExtract.OverridesTest do
         "new_method_count" => 0,
         "inherited_count" => 2,
         "overrides" => %{
-          "describe" => Overrides.extract_method_data(@describe_method)
+          "describe" => CcxtExtract.MethodAST.extract(@describe_method)
         },
         "new_methods" => %{},
         "inherited_methods" => ["fetchTicker", "sign"]

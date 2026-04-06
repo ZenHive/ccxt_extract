@@ -6,6 +6,13 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 35: Extract shared modules to reduce duplication (35a + 35b)
+- **`CcxtExtract.MethodAST`** — Extracted `extract_method_data/1` from 5 modules (ParseMethods, WsMethods, SignMethod, HandleErrors, Overrides) into a single shared module. All had identical implementations converting MethodDefinition AST nodes to normalized maps
+- **`CcxtExtract.OXCExtractor`** — Behaviour with `__using__` macro providing default `extract/0`, `parse_file/1`, and `write!/2`. Each module implements 3 callbacks: `source_dir/0`, `extract_from_ast/2`, `write_stats/1`. Refactored 6 modules: ParseMethods, WsMethods, SignMethod, HandleErrors, InterfaceSignatures, Pagination
+- **Excluded from OXCExtractor**: Methods (different API shape — `extract(:rest | :ws)`), Classes (two-directory scan), BaseMethods (single file), Overrides (delegates to Classes)
+- **35c (DiscoveryLoader) deferred**: Pipeline loading code is already well-factored with generic helpers (`load_exchange_lookup/5`, `load_exchange_field/5`)
+- Removed resolved TODO from HandleErrors (Task 11 TODO about shared extraction)
+
 ### Task 28: Update workflow — `mix ccxt_extract.update`
 - New orchestration command chains `setup → pipeline → validate` into a single invocation
 - Forwards flags to appropriate stages: `--ccxt-version`/`--latest` to setup, `--output` to pipeline+validate, `--strict` to pipeline+validate

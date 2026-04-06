@@ -14,9 +14,7 @@ defmodule CcxtExtract.Pagination do
       CcxtExtract.Pagination.write!(exchanges)
   """
 
-  require Logger
-
-  @output_file "pagination.json"
+  use CcxtExtract.OXCExtractor, output_file: "pagination.json"
 
   @strategy_methods %{
     "fetchPaginatedCallDynamic" => "dynamic",
@@ -25,108 +23,10 @@ defmodule CcxtExtract.Pagination do
     "fetchPaginatedCallIncremental" => "incremental"
   }
 
-  @doc """
-  Extract pagination strategies from all REST exchange TypeScript files.
+  @impl true
+  def source_dir, do: CcxtExtract.Paths.ts_src()
 
-  Parses each `.ts` file in `priv/ccxt/ts/src/` via OXC, walks method bodies
-  to find `this.fetchPaginatedCall*` calls, and extracts strategy and parameters.
-
-  Returns `{:ok, exchanges, stats}` where stats has `:skipped` and `:errors` lists.
-  """
-  @spec extract() :: {:ok, [map()], map()}
-  def extract do
-    ts_src = CcxtExtract.Paths.ts_src()
-
-    if !File.dir?(ts_src) do
-      raise "CCXT TypeScript source not found at #{ts_src}. Run `mix ccxt_extract.setup` first."
-    end
-
-    files = Path.wildcard(Path.join(ts_src, "*.ts"))
-
-    if files == [] do
-      raise "No .ts files found in #{ts_src}. CCXT source may be incomplete."
-    end
-
-    {exchanges, skipped, errors} =
-      files
-      |> Enum.map(&parse_file/1)
-      |> Enum.reduce({[], [], []}, fn
-        {:ok, exchange}, {ok, skip, err} -> {[exchange | ok], skip, err}
-        {:skip, file}, {ok, skip, err} -> {ok, [file | skip], err}
-        {:error, file, reason}, {ok, skip, err} -> {ok, skip, [{file, reason} | err]}
-      end)
-
-    for {file, reason} <- errors do
-      Logger.warning("Failed to parse #{file}: #{inspect(reason)}")
-    end
-
-    sorted = Enum.sort_by(exchanges, & &1["id"])
-
-    {:ok, sorted, %{skipped: Enum.reverse(skipped), errors: Enum.reverse(errors)}}
-  end
-
-  @doc """
-  Write extracted pagination data to `priv/discoveries/pagination.json`.
-  """
-  @spec write!([map()], String.t()) :: :ok
-  def write!(exchanges, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
-    File.mkdir_p!(Path.dirname(output_path))
-
-    with_pagination = Enum.count(exchanges, fn e -> e["pagination_count"] > 0 end)
-    total_entries = Enum.sum(Enum.map(exchanges, & &1["pagination_count"]))
-
-    total_unresolved =
-      exchanges
-      |> Enum.map(fn e -> length(Map.get(e, "pagination_unresolved", [])) end)
-      |> Enum.sum()
-
-    output = %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
-      "count" => length(exchanges),
-      "with_pagination" => with_pagination,
-      "total_entries" => total_entries,
-      "total_unresolved" => total_unresolved,
-      "exchanges" => exchanges
-    }
-
-    json = Jason.encode!(output, pretty: true)
-    File.write!(output_path, json)
-    :ok
-  end
-
-  @doc """
-  Parse a single TypeScript file and extract pagination strategies.
-
-  Returns `{:ok, exchange_map}`, `{:skip, filename}` if no exported class,
-  or `{:error, filename, reason}` on parse failure.
-  """
-  @spec parse_file(String.t()) :: {:ok, map()} | {:skip, String.t()} | {:error, String.t(), term()}
-  def parse_file(path) do
-    source = File.read!(path)
-    filename = Path.basename(path)
-
-    case OXC.parse(source, filename) do
-      {:ok, ast} ->
-        case extract_from_ast(ast, filename) do
-          nil -> {:skip, filename}
-          exchange -> {:ok, exchange}
-        end
-
-      {:error, reason} ->
-        {:error, filename, reason}
-    end
-  end
-
-  @doc """
-  Extract pagination strategies from a parsed AST.
-
-  Finds the default-exported class, walks all method bodies to find
-  `this.fetchPaginatedCall*` call expressions, and extracts the strategy
-  type and strategy-specific parameters for each.
-
-  Returns nil if no exported class is found.
-  """
-  @spec extract_from_ast(map(), String.t()) :: map() | nil
+  @impl true
   def extract_from_ast(ast, filename) do
     export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
 
@@ -160,6 +60,20 @@ defmodule CcxtExtract.Pagination do
         Map.put(result, "pagination_unresolved", unresolved)
       end
     end
+  end
+
+  @impl true
+  def write_stats(exchanges) do
+    total_unresolved =
+      exchanges
+      |> Enum.map(fn e -> length(Map.get(e, "pagination_unresolved", [])) end)
+      |> Enum.sum()
+
+    %{
+      "with_pagination" => Enum.count(exchanges, fn e -> e["pagination_count"] > 0 end),
+      "total_entries" => Enum.sum(Enum.map(exchanges, & &1["pagination_count"])),
+      "total_unresolved" => total_unresolved
+    }
   end
 
   @doc """

@@ -240,13 +240,13 @@ defmodule CcxtExtract.ParseMethodsTest do
     end
   end
 
-  describe "extract_method_data/1" do
+  describe "MethodAST.extract/1" do
     test "returns nil for nil input" do
-      assert ParseMethods.extract_method_data(nil) == nil
+      assert CcxtExtract.MethodAST.extract(nil) == nil
     end
 
     test "extracts all fields from parseTicker" do
-      result = ParseMethods.extract_method_data(@parse_ticker)
+      result = CcxtExtract.MethodAST.extract(@parse_ticker)
 
       assert is_list(result["params"])
       assert length(result["params"]) == 2
@@ -257,14 +257,14 @@ defmodule CcxtExtract.ParseMethodsTest do
     end
 
     test "extracts all fields from parseOrder" do
-      result = ParseMethods.extract_method_data(@parse_order)
+      result = CcxtExtract.MethodAST.extract(@parse_order)
 
       assert result["return_type"] == "Order"
       assert result["statements"] == 2
     end
 
     test "body AST is the raw value.body node" do
-      result = ParseMethods.extract_method_data(@parse_ticker)
+      result = CcxtExtract.MethodAST.extract(@parse_ticker)
 
       body = result["body"]
       assert body.type == "FunctionBody"

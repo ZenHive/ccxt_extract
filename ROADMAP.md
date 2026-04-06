@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 35 | Extract shared modules | `CcxtExtract.OXCExtractor` behaviour (6 modules) + `CcxtExtract.MethodAST` (5 modules). 35c deferred. |
 | Task 28 | Update workflow | `mix ccxt_extract.update` chains setup → pipeline → validate with diff summary. Validation reads emitted JSON from disk (not in-memory). |
 | Task 39 | Pagination round-trip validation | Pagination now compared between discovery and pipeline output; presence + data equality checks with `_unresolved` support |
 | Task 26 | CCXT version pinning and reproducibility | `--ccxt-version` and `--latest` flags update both npm bundle and TS source atomically; `source_git_sha` in manifest; manifest version from exchange data |
@@ -34,6 +35,7 @@
 ### 📋 Current Tasks
 | Task | Status | Notes |
 |------|--------|-------|
+| Task 35 | ✅ | Extract shared modules — OXCExtractor + MethodAST |
 | Task 26 | ✅ | CCXT version pinning and reproducibility |
 | Task 27 | ✅ | Schema versioning contract — `SCHEMA.md` |
 | Task 28 | ✅ | Update workflow — `mix ccxt_extract.update` |
@@ -222,10 +224,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 > Technical debt and code quality improvements identified during codebase review. These tasks improve maintainability and long-term sustainability.
 
-- [ ] **Task 35: Extract shared modules to reduce duplication** [D:4/B:7/U:8 → Eff:2.00] 📋 — Run `mix ex_dna` to identify current duplication patterns. Refactor into shared modules:
-  - **35a: `CcxtExtract.OXCExtractor`** — Extract common OXC extraction patterns: `parse_file/1`, `extract/0` setup, reduce loops. Add `@callback` behaviour for per-extractor customization.
-  - **35b: `CcxtExtract.MethodASTBuilder`** — Extract `extract_method_data/1` — unified MethodAST builder for parse_methods, ws_methods, overrides.
-  - **35c: `CcxtExtract.DiscoveryLoader`** — Extract shared data loading from `Pipeline.load_all_data/2` and `Validation.load_source_data/1`. Three modes: `:strict` (raise on missing), `:track` (return `{data, missing_list}`), `:silent` (return `%{}` on error).
+- [x] ~~**Task 35: Extract shared modules to reduce duplication**~~ [D:4/B:7/U:8 → Eff:2.00] ✅ — See [CHANGELOG.md](CHANGELOG.md#unreleased). 35a (OXCExtractor) and 35b (MethodAST) complete. 35c (DiscoveryLoader) deferred — Pipeline loaders already well-factored.
 
 - [ ] **Task 36: Schema migration framework** [D:2/B:5/U:6 → Eff:3.00] 📋 `[Codex]` 🔶 **Deferred** — Add `CcxtExtract.Schema.Migrator` module for future schema version upgrades. **Deferred reason:** Premature — v1.0.0 has zero consumers yet. Migration needs will be concrete when v2.0 actually arrives. Building a framework for hypothetical future migrations is speculative infrastructure that will likely not match real requirements.
 

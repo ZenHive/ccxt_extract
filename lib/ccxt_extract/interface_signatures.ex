@@ -18,104 +18,12 @@ defmodule CcxtExtract.InterfaceSignatures do
       CcxtExtract.InterfaceSignatures.write!(exchanges)
   """
 
-  require Logger
+  use CcxtExtract.OXCExtractor, output_file: "interface_signatures.json"
 
-  @output_file "interface_signatures.json"
+  @impl true
+  def source_dir, do: Path.join(CcxtExtract.Paths.ts_src(), "abstract")
 
-  @doc """
-  Extract interface signatures from all abstract TypeScript files.
-
-  Parses each `.ts` file in `priv/ccxt/ts/src/abstract/` via OXC, finds the
-  interface declaration, and extracts all method signatures.
-
-  Returns `{:ok, exchanges, stats}` where stats has `:skipped` and `:errors` lists.
-  """
-  @spec extract() :: {:ok, [map()], map()}
-  def extract do
-    abstract_dir = abstract_src()
-
-    if !File.dir?(abstract_dir) do
-      raise "CCXT abstract source not found at #{abstract_dir}. Run `mix ccxt_extract.setup` first."
-    end
-
-    files = Path.wildcard(Path.join(abstract_dir, "*.ts"))
-
-    if files == [] do
-      raise "No .ts files found in #{abstract_dir}. CCXT source may be incomplete."
-    end
-
-    {exchanges, skipped, errors} =
-      files
-      |> Enum.map(&parse_file/1)
-      |> Enum.reduce({[], [], []}, fn
-        {:ok, exchange}, {ok, skip, err} -> {[exchange | ok], skip, err}
-        {:skip, file}, {ok, skip, err} -> {ok, [file | skip], err}
-        {:error, file, reason}, {ok, skip, err} -> {ok, skip, [{file, reason} | err]}
-      end)
-
-    for {file, reason} <- errors do
-      Logger.warning("Failed to parse #{file}: #{inspect(reason)}")
-    end
-
-    sorted = Enum.sort_by(exchanges, & &1["id"])
-
-    {:ok, sorted, %{skipped: Enum.reverse(skipped), errors: Enum.reverse(errors)}}
-  end
-
-  @doc """
-  Write extracted interface signatures to `priv/discoveries/interface_signatures.json`.
-  """
-  @spec write!([map()], String.t()) :: :ok
-  def write!(exchanges, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
-    File.mkdir_p!(Path.dirname(output_path))
-
-    with_sigs = Enum.count(exchanges, fn e -> e["interface_signature_count"] > 0 end)
-    total_sigs = Enum.sum(Enum.map(exchanges, & &1["interface_signature_count"]))
-
-    output = %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
-      "count" => length(exchanges),
-      "with_signatures" => with_sigs,
-      "total_signatures" => total_sigs,
-      "exchanges" => exchanges
-    }
-
-    json = Jason.encode!(output, pretty: true)
-    File.write!(output_path, json)
-    :ok
-  end
-
-  @doc """
-  Parse a single abstract TypeScript file and extract interface signatures.
-
-  Returns `{:ok, exchange_map}`, `{:skip, filename}` if no Exchange interface,
-  or `{:error, filename, reason}` on parse failure.
-  """
-  @spec parse_file(String.t()) :: {:ok, map()} | {:skip, String.t()} | {:error, String.t(), term()}
-  def parse_file(path) do
-    source = File.read!(path)
-    filename = Path.basename(path)
-
-    case OXC.parse(source, filename) do
-      {:ok, ast} ->
-        case extract_from_ast(ast, filename) do
-          nil -> {:skip, filename}
-          exchange -> {:ok, exchange}
-        end
-
-      {:error, reason} ->
-        {:error, filename, reason}
-    end
-  end
-
-  @doc """
-  Extract interface signatures from a parsed AST.
-
-  Finds the `TSInterfaceDeclaration` and extracts all `TSMethodSignature`
-  members with their name, params, and return type. Alias exchanges use
-  the parent's interface name (e.g., `interface binance` in binanceus.ts).
-  """
-  @spec extract_from_ast(map(), String.t()) :: map() | nil
+  @impl true
   def extract_from_ast(ast, filename) do
     iface = find_exchange_interface(ast.body)
 
@@ -136,6 +44,14 @@ defmodule CcxtExtract.InterfaceSignatures do
         "interface_signatures" => signatures_map
       }
     end
+  end
+
+  @impl true
+  def write_stats(exchanges) do
+    %{
+      "with_signatures" => Enum.count(exchanges, fn e -> e["interface_signature_count"] > 0 end),
+      "total_signatures" => Enum.sum(Enum.map(exchanges, & &1["interface_signature_count"]))
+    }
   end
 
   @doc """
@@ -159,7 +75,4 @@ defmodule CcxtExtract.InterfaceSignatures do
   defp find_exchange_interface(body) do
     Enum.find(body, &(&1.type == "TSInterfaceDeclaration"))
   end
-
-  # Path to abstract TypeScript source directory
-  defp abstract_src, do: Path.join(CcxtExtract.Paths.ts_src(), "abstract")
 end

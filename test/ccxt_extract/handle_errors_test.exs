@@ -161,13 +161,13 @@ defmodule CcxtExtract.HandleErrorsTest do
     end
   end
 
-  describe "extract_handle_errors_data/1" do
+  describe "MethodAST.extract/1" do
     test "returns nil for nil input" do
-      assert HandleErrors.extract_handle_errors_data(nil) == nil
+      assert CcxtExtract.MethodAST.extract(nil) == nil
     end
 
     test "extracts params, return_type, async, statements, and body" do
-      result = HandleErrors.extract_handle_errors_data(@handle_errors_method)
+      result = CcxtExtract.MethodAST.extract(@handle_errors_method)
 
       assert is_list(result["params"])
       assert length(result["params"]) == 9
@@ -178,7 +178,7 @@ defmodule CcxtExtract.HandleErrorsTest do
     end
 
     test "body AST is the raw value.body node" do
-      result = HandleErrors.extract_handle_errors_data(@handle_errors_method)
+      result = CcxtExtract.MethodAST.extract(@handle_errors_method)
 
       body = result["body"]
       assert body.type == "FunctionBody"

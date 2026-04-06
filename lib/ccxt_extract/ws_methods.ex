@@ -18,106 +18,12 @@ defmodule CcxtExtract.WsMethods do
       CcxtExtract.WsMethods.write!(exchanges)
   """
 
-  require Logger
+  use CcxtExtract.OXCExtractor, output_file: "ws_methods.json"
 
-  @output_file "ws_methods.json"
+  @impl true
+  def source_dir, do: Path.join(CcxtExtract.Paths.ts_src(), "pro")
 
-  @doc """
-  Extract all watch*/handle* method ASTs from all WS exchange TypeScript files.
-
-  Parses each `.ts` file in `priv/ccxt/ts/src/pro/` via OXC, finds all methods
-  whose name starts with "watch" or "handle", and extracts their full AST bodies.
-
-  Exchanges without any WS methods get `"ws_methods" => %{}` in the output.
-
-  Returns `{:ok, exchanges, stats}` where stats has `:skipped` and `:errors` lists.
-  """
-  @spec extract() :: {:ok, [map()], map()}
-  def extract do
-    ts_pro = Path.join(CcxtExtract.Paths.ts_src(), "pro")
-
-    if !File.dir?(ts_pro) do
-      raise "CCXT WS source not found at #{ts_pro}. Run `mix ccxt_extract.setup` first."
-    end
-
-    files = Path.wildcard(Path.join(ts_pro, "*.ts"))
-
-    if files == [] do
-      raise "No .ts files found in #{ts_pro}. CCXT source may be incomplete."
-    end
-
-    {exchanges, skipped, errors} =
-      files
-      |> Enum.map(&parse_file/1)
-      |> Enum.reduce({[], [], []}, fn
-        {:ok, exchange}, {ok, skip, err} -> {[exchange | ok], skip, err}
-        {:skip, file}, {ok, skip, err} -> {ok, [file | skip], err}
-        {:error, file, reason}, {ok, skip, err} -> {ok, skip, [{file, reason} | err]}
-      end)
-
-    for {file, reason} <- errors do
-      Logger.warning("Failed to parse #{file}: #{inspect(reason)}")
-    end
-
-    sorted = Enum.sort_by(exchanges, & &1["id"])
-
-    {:ok, sorted, %{skipped: Enum.reverse(skipped), errors: Enum.reverse(errors)}}
-  end
-
-  @doc """
-  Write extracted WS method data to `priv/discoveries/ws_methods.json`.
-  """
-  @spec write!([map()], String.t()) :: :ok
-  def write!(exchanges, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
-    File.mkdir_p!(Path.dirname(output_path))
-
-    with_ws = Enum.count(exchanges, fn e -> e["ws_method_count"] > 0 end)
-    total_methods = Enum.sum(Enum.map(exchanges, & &1["ws_method_count"]))
-
-    output = %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
-      "count" => length(exchanges),
-      "with_ws_methods" => with_ws,
-      "total_methods" => total_methods,
-      "exchanges" => exchanges
-    }
-
-    json = Jason.encode!(output, pretty: true)
-    File.write!(output_path, json)
-    :ok
-  end
-
-  @doc """
-  Parse a single TypeScript file and extract all watch*/handle* method data.
-
-  Returns `{:ok, exchange_map}`, `{:skip, filename}` if no exported class,
-  or `{:error, filename, reason}` on parse failure.
-  """
-  @spec parse_file(String.t()) :: {:ok, map()} | {:skip, String.t()} | {:error, String.t(), term()}
-  def parse_file(path) do
-    source = File.read!(path)
-    filename = Path.basename(path)
-
-    case OXC.parse(source, filename) do
-      {:ok, ast} ->
-        case extract_from_ast(ast, filename) do
-          nil -> {:skip, filename}
-          exchange -> {:ok, exchange}
-        end
-
-      {:error, reason} ->
-        {:error, filename, reason}
-    end
-  end
-
-  @doc """
-  Extract all watch*/handle* method data from a parsed AST.
-
-  Finds the default-exported class, searches for all MethodDefinitions whose
-  name starts with "watch" or "handle", and extracts their full AST bodies.
-  Returns nil if no exported class is found.
-  """
-  @spec extract_from_ast(map(), String.t()) :: map() | nil
+  @impl true
   def extract_from_ast(ast, filename) do
     export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
 
@@ -130,7 +36,7 @@ defmodule CcxtExtract.WsMethods do
 
       ws_methods_map =
         Map.new(methods, fn method ->
-          {method.key.name, extract_method_data(method)}
+          {method.key.name, CcxtExtract.MethodAST.extract(method)}
         end)
 
       %{
@@ -141,6 +47,14 @@ defmodule CcxtExtract.WsMethods do
         "ws_methods" => ws_methods_map
       }
     end
+  end
+
+  @impl true
+  def write_stats(exchanges) do
+    %{
+      "with_ws_methods" => Enum.count(exchanges, fn e -> e["ws_method_count"] > 0 end),
+      "total_methods" => Enum.sum(Enum.map(exchanges, & &1["ws_method_count"]))
+    }
   end
 
   @doc """
@@ -155,24 +69,5 @@ defmodule CcxtExtract.WsMethods do
         (String.starts_with?(member.key.name, "watch") ||
            String.starts_with?(member.key.name, "handle"))
     end)
-  end
-
-  @doc """
-  Extract method data from a MethodDefinition AST node.
-
-  Returns a map with params, return_type, async, statement count, and the
-  full body AST. Returns nil if the input is nil.
-  """
-  @spec extract_method_data(map() | nil) :: map() | nil
-  def extract_method_data(nil), do: nil
-
-  def extract_method_data(method) do
-    %{
-      "params" => CcxtExtract.Methods.extract_params(method.value.params),
-      "return_type" => CcxtExtract.Methods.extract_return_type(method.value),
-      "async" => method.value.async,
-      "statements" => length(method.value.body.body),
-      "body" => method.value.body
-    }
   end
 end

@@ -325,13 +325,13 @@ defmodule CcxtExtract.WsMethodsTest do
     end
   end
 
-  describe "extract_method_data/1" do
+  describe "MethodAST.extract/1" do
     test "returns nil for nil input" do
-      assert WsMethods.extract_method_data(nil) == nil
+      assert CcxtExtract.MethodAST.extract(nil) == nil
     end
 
     test "extracts all fields from watchTicker" do
-      result = WsMethods.extract_method_data(@watch_ticker)
+      result = CcxtExtract.MethodAST.extract(@watch_ticker)
 
       assert is_list(result["params"])
       assert length(result["params"]) == 2
@@ -342,7 +342,7 @@ defmodule CcxtExtract.WsMethodsTest do
     end
 
     test "extracts all fields from handleTicker" do
-      result = WsMethods.extract_method_data(@handle_ticker)
+      result = CcxtExtract.MethodAST.extract(@handle_ticker)
 
       assert is_list(result["params"])
       assert length(result["params"]) == 2
@@ -353,7 +353,7 @@ defmodule CcxtExtract.WsMethodsTest do
     end
 
     test "body AST is the raw value.body node" do
-      result = WsMethods.extract_method_data(@watch_ticker)
+      result = CcxtExtract.MethodAST.extract(@watch_ticker)
 
       body = result["body"]
       assert body.type == "FunctionBody"

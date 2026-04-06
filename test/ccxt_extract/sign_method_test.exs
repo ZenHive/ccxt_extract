@@ -167,13 +167,13 @@ defmodule CcxtExtract.SignMethodTest do
     end
   end
 
-  describe "extract_sign_data/1" do
+  describe "MethodAST.extract/1" do
     test "returns nil for nil input" do
-      assert SignMethod.extract_sign_data(nil) == nil
+      assert CcxtExtract.MethodAST.extract(nil) == nil
     end
 
     test "extracts params, return_type, async, statements, and body" do
-      result = SignMethod.extract_sign_data(@sign_method)
+      result = CcxtExtract.MethodAST.extract(@sign_method)
 
       assert is_list(result["params"])
       assert length(result["params"]) == 6
@@ -184,7 +184,7 @@ defmodule CcxtExtract.SignMethodTest do
     end
 
     test "body AST is the raw value.body node" do
-      result = SignMethod.extract_sign_data(@sign_method)
+      result = CcxtExtract.MethodAST.extract(@sign_method)
 
       # The body is the raw atom-keyed AST node from OXC
       body = result["body"]

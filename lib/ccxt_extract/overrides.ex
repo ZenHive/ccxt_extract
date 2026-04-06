@@ -105,25 +105,6 @@ defmodule CcxtExtract.Overrides do
   end
 
   @doc """
-  Extract method body data from a MethodDefinition AST node.
-
-  Returns a map with params, return_type, async, statement count, and the
-  full body AST. Returns nil if the input is nil.
-  """
-  @spec extract_method_data(map() | nil) :: map() | nil
-  def extract_method_data(nil), do: nil
-
-  def extract_method_data(method) do
-    %{
-      "params" => CcxtExtract.Methods.extract_params(method.value.params),
-      "return_type" => CcxtExtract.Methods.extract_return_type(method.value),
-      "async" => method.value.async,
-      "statements" => length(method.value.body.body),
-      "body" => method.value.body
-    }
-  end
-
-  @doc """
   Extract specific method bodies from a TypeScript file.
 
   Parses the file with OXC, finds the default-exported class, and extracts
@@ -152,7 +133,7 @@ defmodule CcxtExtract.Overrides do
     if export && export.declaration && Map.get(export.declaration, :body) do
       export.declaration.body.body
       |> Enum.filter(&method_match?(&1, method_names))
-      |> Map.new(fn m -> {m.key.name, extract_method_data(m)} end)
+      |> Map.new(fn m -> {m.key.name, CcxtExtract.MethodAST.extract(m)} end)
     else
       %{}
     end

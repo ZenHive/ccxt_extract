@@ -47,7 +47,7 @@ defmodule CcxtExtract.MixProject do
       {:styler, "~> 1.4", only: [:dev, :test], runtime: false},
       # TODO(Task 37): Using git branch as workaround for Credo 1.7.x crash on Elixir 1.18+ multi-line sigils.
       # Switch back to hex {:credo, "~> 1.8"} when a compatible release is published.
-      {:credo, github: "rrrene/credo", branch: "release/1.7", only: [:dev, :test], runtime: false},
+      {:credo, github: "rrrene/credo", branch: "release/1.7", only: [:dev, :test], runtime: false, override: true},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.39", only: :dev, runtime: false},
@@ -56,6 +56,7 @@ defmodule CcxtExtract.MixProject do
       # Code analysis tools
       {:ex_dna, "~> 1.1", only: [:dev, :test], runtime: false},
       {:ex_ast, "~> 0.2", only: [:dev, :test], runtime: false},
+      {:ex_slop, "~> 0.2.0", only: [:dev, :test], runtime: false},
       {:tidewave, "~> 0.5", only: :dev},
       {:bandit, "~> 1.10", only: :dev}
     ]

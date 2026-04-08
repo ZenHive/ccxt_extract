@@ -8,7 +8,7 @@ defmodule CcxtExtract.Integration.Cached.ExchangesCachedTest do
   @moduletag :integration
   @moduletag timeout: 30_000
 
-  @fixtures_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @fixtures_dir CcxtExtract.Paths.discoveries()
   @discovery_path Path.join(@fixtures_dir, "exchanges.json")
 
   # Reference exchange sets from CLAUDE.md

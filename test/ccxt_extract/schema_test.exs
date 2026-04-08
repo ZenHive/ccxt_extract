@@ -122,7 +122,8 @@ defmodule CcxtExtract.SchemaTest do
       "ws_methods" => nil,
       "interface_signatures" => nil,
       "pagination" => nil,
-      "overrides" => nil
+      "overrides" => nil,
+      "unified_endpoints" => nil
     }
   end
 
@@ -331,7 +332,8 @@ defmodule CcxtExtract.SchemaTest do
         "ws_methods" => nil,
         "interface_signatures" => nil,
         "pagination" => nil,
-        "overrides" => nil
+        "overrides" => nil,
+        "unified_endpoints" => nil
       }
 
       exchange = Schema.build_exchange(@full_meta, full_runtime(), structure, @base_opts)

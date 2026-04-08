@@ -178,9 +178,7 @@ defmodule CcxtExtract.Pagination do
     }
   end
 
-  # Extract a literal value from an AST argument node.
-  # OXC uses ESTree "Literal" nodes for strings, numbers, and booleans.
-  # Returns nil for non-resolvable expressions (variables, complex expressions).
+  # Returns the Elixir value for Literal/Identifier AST nodes, nil otherwise
   defp extract_literal_value(%{type: "Literal", value: v}), do: v
   defp extract_literal_value(%{type: "Identifier", name: "undefined"}), do: nil
   defp extract_literal_value(_), do: nil

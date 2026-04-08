@@ -39,7 +39,7 @@ defmodule CcxtExtract.PaginationTest do
     }
   end
 
-  # Build a this.fetchPaginatedCall* CallExpression
+  # AST node for this.fetchPaginatedCall*(strategy, args...)
   defp pagination_call(strategy_method, args) do
     %{
       type: "CallExpression",

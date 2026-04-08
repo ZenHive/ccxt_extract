@@ -2,13 +2,13 @@ defmodule CcxtExtract.Integration.Cached.BaseMethodsCachedTest do
   @moduledoc """
   Cached integration tests for base methods extraction.
 
-  Uses the fixture at `test/fixtures/discoveries/_base_methods.json` to verify
+  Uses `priv/discoveries/_base_methods.json` to verify
   envelope structure, method counts, and known method signatures without
   requiring CCXT source.
   """
   use ExUnit.Case, async: true
 
-  @fixture_path "test/fixtures/discoveries/_base_methods.json"
+  @fixture_path Path.join(CcxtExtract.Paths.discoveries(), "_base_methods.json")
 
   setup_all do
     data = @fixture_path |> File.read!() |> Jason.decode!()

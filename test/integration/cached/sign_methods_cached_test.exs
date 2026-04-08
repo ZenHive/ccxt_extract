@@ -8,7 +8,7 @@ defmodule CcxtExtract.Integration.Cached.SignMethodsCachedTest do
   @moduletag :integration
   @moduletag timeout: 30_000
 
-  @fixtures_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @fixtures_dir CcxtExtract.Paths.discoveries()
   @fixture_path Path.join(@fixtures_dir, "sign_methods.json")
 
   # Reference exchanges that should have sign()

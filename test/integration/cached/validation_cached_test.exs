@@ -1,7 +1,7 @@
 defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
   @moduledoc """
   Cached integration tests for Validation — runs full JSON Schema validation
-  and round-trip comparison against fixture data in test/fixtures/discoveries/.
+  and round-trip comparison against discovery data in priv/discoveries/.
   No QuickBEAM/OXC needed.
   """
   use ExUnit.Case, async: true
@@ -12,7 +12,7 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
   @moduletag :integration
   @moduletag timeout: 120_000
 
-  @fixtures_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @fixtures_dir CcxtExtract.Paths.discoveries()
   @pipeline_opts [
     discoveries_dir: @fixtures_dir,
     ccxt_version: "4.5.45",
@@ -27,7 +27,13 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
   @audit_roots ~w(binance bybit okx)
   @audit_derived ~w(bequant binanceusdm okxus)
   @audit_dex ~w(hyperliquid apex aftermath)
-  @audit_load_markets_failures ~w(alpaca bullish coinbaseexchange)
+  # Derived from manifest — exchanges that failed loadMarkets() change with each extraction
+  @audit_load_markets_failures @fixtures_dir
+                               |> Path.join("load_markets/_manifest.json")
+                               |> File.read!()
+                               |> Jason.decode!()
+                               |> Map.get("failed", [])
+                               |> Enum.map(& &1["id"])
   @audit_matrix @audit_aliases ++ @audit_roots ++ @audit_derived ++ @audit_dex ++ @audit_load_markets_failures
 
   # Write pipeline output to a temp dir, then validate the emitted files.

@@ -8,7 +8,7 @@ defmodule CcxtExtract.Integration.Cached.DescribeKeyAnalysisCachedTest do
   @moduletag :integration
   @moduletag timeout: 30_000
 
-  @fixtures_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @fixtures_dir CcxtExtract.Paths.discoveries()
   @discovery_path Path.join(@fixtures_dir, "describe_key_analysis.json")
 
   # Keys that every CCXT exchange's describe() should have — must be universal tier

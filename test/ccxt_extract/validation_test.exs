@@ -115,7 +115,8 @@ defmodule CcxtExtract.ValidationTest do
           }
         ]
       },
-      "overrides" => nil
+      "overrides" => nil,
+      "unified_endpoints" => %{"fetchTicker" => ["publicGetTicker"], "fetchBalance" => ["privateGetAccount"]}
     }
   end
 
@@ -131,7 +132,8 @@ defmodule CcxtExtract.ValidationTest do
       "ws_methods" => nil,
       "interface_signatures" => nil,
       "pagination" => nil,
-      "overrides" => nil
+      "overrides" => nil,
+      "unified_endpoints" => nil
     }
   end
 
@@ -241,6 +243,16 @@ defmodule CcxtExtract.ValidationTest do
               ]
             },
             "pagination_count" => 1
+          }
+        },
+        unified_endpoints: %{
+          "testex" => %{
+            "id" => "testex",
+            "unified_endpoints" => %{
+              "fetchTicker" => ["publicGetTicker"],
+              "fetchBalance" => ["privateGetAccount"]
+            },
+            "unified_endpoint_count" => 2
           }
         },
         overrides: %{}
@@ -513,11 +525,58 @@ defmodule CcxtExtract.ValidationTest do
         ws_methods: %{},
         interface_signatures: %{},
         pagination: %{},
+        unified_endpoints: %{},
         overrides: %{}
       }
 
       findings = Validation.validate_roundtrip(exchange, source, "aliasex")
       assert findings == []
+    end
+
+    test "alias with parent-resolved runtime data compares against parent source" do
+      # Alias exchange has parent-resolved describe/markets in output
+      parent_describe = %{"id" => "parentex", "has" => %{"fetchTicker" => true}}
+      parent_markets = %{"market_count" => 50, "markets" => %{"BTC/USDT" => %{"active" => true}}}
+
+      exchange =
+        Schema.build_exchange(
+          @alias_meta,
+          %{"describe" => parent_describe, "markets" => parent_markets, "symbol_patterns" => nil},
+          alias_structure(),
+          @base_opts
+        )
+
+      # Source has parent data but nothing for aliasex directly.
+      # Class hierarchy connects aliasex → parentex.
+      source = %{
+        describe: %{"parentex" => parent_describe},
+        load_markets: %{"parentex" => parent_markets},
+        load_markets_failed: %{},
+        classes: %{
+          "aliasex" => [
+            %{"type" => "rest", "class_name" => "aliasex", "parent_key" => "rest:parentex"}
+          ]
+        },
+        methods_rest: %{},
+        methods_ws: %{},
+        sign_methods: %{},
+        handle_errors: %{},
+        parse_methods: %{},
+        ws_methods: %{},
+        interface_signatures: %{},
+        pagination: %{},
+        unified_endpoints: %{},
+        overrides: %{}
+      }
+
+      findings = Validation.validate_roundtrip(exchange, source, "aliasex")
+
+      # No false "output has data but no source" warnings for describe or markets
+      describe_warnings = Enum.filter(findings, &(&1["path"] == "runtime.describe" && &1["severity"] == "warning"))
+      markets_warnings = Enum.filter(findings, &(&1["path"] == "runtime.markets" && &1["severity"] == "warning"))
+
+      assert describe_warnings == []
+      assert markets_warnings == []
     end
 
     test "detects class_info method_count mismatch" do

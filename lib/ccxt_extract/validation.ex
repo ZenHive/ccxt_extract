@@ -17,7 +17,7 @@ defmodule CcxtExtract.Validation do
 
   ## Usage
 
-      {:ok, report} = CcxtExtract.Validation.validate_all(discoveries_dir: "test/fixtures/discoveries")
+      {:ok, report} = CcxtExtract.Validation.validate_all(discoveries_dir: "priv/discoveries")
       CcxtExtract.Validation.write!(report)
   """
 
@@ -134,6 +134,7 @@ defmodule CcxtExtract.Validation do
     |> check_ws_methods_roundtrip(output, source_data, exchange_id)
     |> check_interface_signatures_roundtrip(output, source_data, exchange_id)
     |> check_pagination_roundtrip(output, source_data, exchange_id)
+    |> check_unified_endpoints_roundtrip(output, source_data, exchange_id)
     |> check_overrides_roundtrip(output, source_data, exchange_id)
     |> check_symbol_patterns_roundtrip(output, exchange_id)
     |> Enum.reverse()
@@ -303,10 +304,11 @@ defmodule CcxtExtract.Validation do
 
   # --- Round-Trip Comparison ---
 
-  # Compare runtime.describe against source describe fixture
+  # Compare runtime.describe against source describe fixture.
+  # Alias exchanges have no own source — compare against parent's source instead.
   defp check_describe_roundtrip(findings, output, source, id) do
     output_describe = get_in(output, ["runtime", "describe"])
-    source_describe = Map.get(source.describe, id)
+    source_describe = Map.get(source.describe, id) || resolve_parent_source(source, id, :describe)
 
     findings
     |> check_presence_match(output_describe, source_describe, id, "runtime.describe")
@@ -335,10 +337,11 @@ defmodule CcxtExtract.Validation do
     end
   end
 
-  # Compare runtime.markets — count, symbol set, and full market data
+  # Compare runtime.markets — count, symbol set, and full market data.
+  # Alias exchanges have no own source — resolve parent's source instead.
   defp check_markets_roundtrip(findings, output, source, id) do
     output_markets = get_in(output, ["runtime", "markets"])
-    source_markets = Map.get(source.load_markets, id)
+    source_markets = Map.get(source.load_markets, id) || resolve_parent_source(source, id, :load_markets)
     source_failure = Map.get(source.load_markets_failed, id)
 
     case classify_markets_state(output_markets, source_markets, source_failure) do
@@ -655,6 +658,64 @@ defmodule CcxtExtract.Validation do
     end
   end
 
+  # Compare structure.unified_endpoints — mirrors Pipeline.get_unified_endpoints/2
+  # Derived exchanges inherit parent endpoints via Pipeline.merge_parent_endpoints/3,
+  # so output legitimately has MORE data than the source (inherited from parent).
+  # We verify: (1) source data not lost, (2) source's own endpoints are a subset of output.
+  defp check_unified_endpoints_roundtrip(findings, output, source, id) do
+    output_ue = get_in(output, ["structure", "unified_endpoints"])
+    source_entry = Map.get(source.unified_endpoints, id)
+    source_ue = build_source_unified_endpoints(source_entry)
+
+    case {output_ue, source_ue} do
+      # Both nil — fine
+      {nil, nil} ->
+        findings
+
+      # Inherited from parent — not a roundtrip concern
+      {_output, nil} ->
+        findings
+
+      # Source has data but output lost it — flag as error
+      {nil, _source} ->
+        check_presence_match(findings, nil, source_ue, id, "structure.unified_endpoints")
+
+      # Both present — verify source's own endpoints are all in output
+      _ ->
+        check_unified_endpoints_subset(findings, output_ue, source_ue, id)
+    end
+  end
+
+  # Verify that every key+value from source appears in output.
+  # Output may have additional inherited entries — that's expected.
+  defp check_unified_endpoints_subset(findings, output_ue, source_ue, id) do
+    Enum.reduce(source_ue, findings, fn {method, source_calls}, acc ->
+      check_unified_endpoint_entry(acc, Map.get(output_ue, method), source_calls, id, method)
+    end)
+  end
+
+  defp check_unified_endpoint_entry(findings, nil, _source_calls, id, method) do
+    [
+      roundtrip_finding(id, "structure.unified_endpoints.#{method}", "error", "source method missing from output")
+      | findings
+    ]
+  end
+
+  defp check_unified_endpoint_entry(findings, output_calls, source_calls, _id, _method) when output_calls == source_calls,
+    do: findings
+
+  defp check_unified_endpoint_entry(findings, output_calls, source_calls, id, method) do
+    msg = "data mismatch: source has #{inspect(source_calls)}, output has #{inspect(output_calls)}"
+    [roundtrip_finding(id, "structure.unified_endpoints.#{method}", "error", msg) | findings]
+  end
+
+  defp build_source_unified_endpoints(nil), do: nil
+
+  defp build_source_unified_endpoints(exchange_data) do
+    endpoints = Map.get(exchange_data, "unified_endpoints", %{})
+    if map_size(endpoints) > 0, do: endpoints
+  end
+
   # Compare structure.overrides (REST and WS sides)
   defp check_overrides_roundtrip(findings, output, source, id) do
     output_ov = get_in(output, ["structure", "overrides"])
@@ -783,6 +844,24 @@ defmodule CcxtExtract.Validation do
 
   defp check_presence_match(findings, _output, _source, _id, _path), do: findings
 
+  # Resolve parent's source data for alias exchanges that have no own discovery files.
+  # Uses same parent lookup pattern as Pipeline.find_parent_exchange_id/2.
+  defp resolve_parent_source(source, id, field) do
+    case Map.get(source.classes, id) do
+      nil ->
+        nil
+
+      entries ->
+        rest = Enum.find(entries, &(&1["type"] == "rest"))
+        parent_key = rest && rest["parent_key"]
+
+        case parent_key do
+          "rest:" <> parent_id -> Map.get(Map.get(source, field, %{}), parent_id)
+          _ -> nil
+        end
+    end
+  end
+
   # Compare method maps (name → MethodAST) — keys + full AST equality per method
   defp check_method_map(findings, output_map, source_map, id, path) do
     output_normalized = normalize_method_map(output_map)
@@ -852,6 +931,7 @@ defmodule CcxtExtract.Validation do
       ws_methods: load_json_index(dir, "ws_methods.json"),
       interface_signatures: load_json_index(dir, "interface_signatures.json"),
       pagination: load_json_index(dir, "pagination.json"),
+      unified_endpoints: load_json_index(dir, "unified_endpoints.json"),
       overrides: load_json_group_by(dir, "overrides.json", "exchanges", "id")
     }
   end

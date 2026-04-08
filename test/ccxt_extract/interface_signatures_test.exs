@@ -211,7 +211,7 @@ defmodule CcxtExtract.InterfaceSignaturesTest do
       assert binance, "binance should exist in extracted exchanges"
       assert binance["interface_signature_count"] > 100
 
-      # Check a signature has expected structure
+      # Verify signature shape: name, params list, return_type
       {_name, sig} = Enum.at(binance["interface_signatures"], 0)
       assert is_binary(sig["name"])
       assert is_list(sig["params"])

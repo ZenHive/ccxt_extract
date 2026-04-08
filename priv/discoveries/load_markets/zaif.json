@@ -1,0 +1,4263 @@
+{
+  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "id": "zaif",
+  "market_count": 56,
+  "markets": {
+    "BORA/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "bora_btc",
+        "description": "Zaifの取引所です。ボラ（BORA）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 214,
+        "is_token": true,
+        "item_japanese": "BORA",
+        "item_unit_min": 1000,
+        "item_unit_step": 1,
+        "name": "BORA/BTC",
+        "seq": 215,
+        "title": "BORA/BTC（ボラ/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BORA/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "BORA",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "BORA",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "bora_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "TRX/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "trx_btc",
+        "description": "Zaifの取引所です。トロン（TRX）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 198,
+        "is_token": true,
+        "item_japanese": "TRX",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "TRX/BTC",
+        "seq": 199,
+        "title": "TRX/BTC（トロン/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "TRX/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "TRX",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "TRX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "trx_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "XEM/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "xem_jpy",
+        "description": "XEM・日本円の取引を行うことができます",
+        "event_number": 0,
+        "id": 4,
+        "is_token": false,
+        "item_japanese": "XEM",
+        "item_unit_min": 0.1,
+        "item_unit_step": 0.1,
+        "name": "XEM/JPY",
+        "seq": 1,
+        "title": "XEM/JPY"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XEM/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.0001
+      },
+      "baseId": "XEM",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "XEM",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "xem_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "POLYGON.ROND/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "polygon.rond_btc",
+        "description": "Zaifの取引所です。ロンド（ROND）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 204,
+        "is_token": true,
+        "item_japanese": "ROND",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "POLYGON.ROND/BTC",
+        "seq": 205,
+        "title": "ROND/BTC（ロンド/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "POLYGON.ROND/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "POLYGON.ROND",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "POLYGON.ROND",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "polygon.rond_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "MOSAIC.CMS/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "mosaic.cms_btc",
+        "description": "Zaifの取引所です。コムサネム（CMS:XEM）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 188,
+        "is_token": true,
+        "item_japanese": "CMS:XEM",
+        "item_unit_min": 10,
+        "item_unit_step": 1,
+        "name": "MOSAIC.CMS/BTC",
+        "seq": 183,
+        "title": "CMS:XEM/BTC（コムサネム/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "MOSAIC.CMS/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "MOSAIC.CMS",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "MOSAIC.CMS",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "mosaic.cms_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "SNPT/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "snpt_btc",
+        "description": "Zaifの取引所です。スナップイット（SNPT）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 216,
+        "is_token": true,
+        "item_japanese": "SNPT",
+        "item_unit_min": 1000,
+        "item_unit_step": 1,
+        "name": "SNPT/BTC",
+        "seq": 217,
+        "title": "SNPT/BTC（スナップイット/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SNPT/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "SNPT",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "SNPT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "snpt_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "COT/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "cot_btc",
+        "description": "Zaifの取引所です。コスプレトークン（COT）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 192,
+        "is_token": true,
+        "item_japanese": "COT",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "COT/BTC",
+        "seq": 193,
+        "title": "COT/BTC（コスプレトークン/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "COT/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "COT",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "COT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "cot_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "CSXEM/XEM": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "XEM",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "XEM",
+        "aux_unit_min": 37000,
+        "aux_unit_point": 0,
+        "aux_unit_step": 1,
+        "currency_pair": "csxem_xem",
+        "description": "Chronoswiss社 Blockchain Series 限定時計 NEM (the harvest)オークション入札。限定101個 XEMにてオークション形式で購入できます。",
+        "event_number": 3,
+        "id": 182,
+        "is_token": true,
+        "item_japanese": "CSXEM",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "CSXEM/XEM",
+        "seq": 185,
+        "title": "CHRONOSWISS Blockchain - ZAIF Exchange"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "CSXEM/XEM",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1
+      },
+      "baseId": "CSXEM",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "XEM",
+      "expiryDatetime": "__undefined",
+      "base": "CSXEM",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 37000
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "csxem_xem",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "POLYGON.MV/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "polygon.mv_btc",
+        "description": "Zaifの取引所です。メタバース（MV）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 202,
+        "is_token": true,
+        "item_japanese": "MV",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "POLYGON.MV/BTC",
+        "seq": 203,
+        "title": "MV/BTC（メタバース/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "POLYGON.MV/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "POLYGON.MV",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "POLYGON.MV",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "polygon.mv_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "XYM/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "xym_jpy",
+        "description": "Zaifの取引所です。ジム・シンボル（XYM）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 189,
+        "is_token": true,
+        "item_japanese": "XYM",
+        "item_unit_min": 0.1,
+        "item_unit_step": 0.1,
+        "name": "XYM/JPY",
+        "seq": 190,
+        "title": "XYM/JPY（ジム・シンボル） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XYM/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.0001
+      },
+      "baseId": "XYM",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "XYM",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "xym_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "SKEB/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "skeb_jpy",
+        "description": "Zaifの取引所です。スケブ（SKEB）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 211,
+        "is_token": true,
+        "item_japanese": "SKEB",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "SKEB/JPY",
+        "seq": 212,
+        "title": "SKEB/JPY（スケブ） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SKEB/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 0.0001
+      },
+      "baseId": "SKEB",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "SKEB",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "skeb_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "NCXC/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "ncxc_jpy",
+        "description": "Zaifの取引所です。ネクスコイン（NCXC）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 172,
+        "is_token": true,
+        "item_japanese": "NCXC",
+        "item_unit_min": 0.1,
+        "item_unit_step": 0.0001,
+        "name": "NCXC/JPY",
+        "seq": 175,
+        "title": "NCXC/JPY（ネクスコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "NCXC/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "NCXC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "NCXC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "ncxc_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BCH/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "bch_btc",
+        "description": "Zaifの取引所です。ビットコインキャッシュ（BCH）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 176,
+        "is_token": true,
+        "item_japanese": "BCH",
+        "item_unit_min": 0.0001,
+        "item_unit_step": 0.0001,
+        "name": "BCH/BTC",
+        "seq": 179,
+        "title": "BCH/BTC（ビットコインキャッシュ/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BCH/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "BCH",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "BCH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.0001
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "bch_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "JOC/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "joc_jpy",
+        "description": "Zaifの取引所です。ジャパンオープンチェーン（JOC）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 222,
+        "is_token": true,
+        "item_japanese": "JOC",
+        "item_unit_min": 0.01,
+        "item_unit_step": 0.001,
+        "name": "JOC/JPY",
+        "seq": 223,
+        "title": "JOC/JPY（ジャパンオープンチェーン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "JOC/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.001,
+        "price": 0.0001
+      },
+      "baseId": "JOC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "JOC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.01
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "joc_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ZAIF/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "zaif_jpy",
+        "description": "Zaifの取引所です。ザイフトークン（ZAIF）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 6,
+        "is_token": true,
+        "item_japanese": "ZAIF",
+        "item_unit_min": 0.1,
+        "item_unit_step": 0.1,
+        "name": "ZAIF/JPY",
+        "seq": 6,
+        "title": "ZAIF/JPY（ザイフトークン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ZAIF/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.0001
+      },
+      "baseId": "ZAIF",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "ZAIF",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "zaif_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "NCXC/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "ncxc_btc",
+        "description": "Zaifの取引所です。ネクスコイン（NCXC）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 173,
+        "is_token": true,
+        "item_japanese": "NCXC",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "NCXC/BTC",
+        "seq": 176,
+        "title": "NCXC/BTC（ネクスコイン/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "NCXC/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "NCXC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "NCXC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "ncxc_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ETH/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "eth_btc",
+        "description": "Zaifの取引所です。イーサリアム（ETH）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 178,
+        "is_token": true,
+        "item_japanese": "ETH",
+        "item_unit_min": 0.0001,
+        "item_unit_step": 0.0001,
+        "name": "ETH/BTC",
+        "seq": 181,
+        "title": "ETH/BTC（イーサリアム/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ETH/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "ETH",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.0001
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "eth_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ERC20.CMS/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "erc20.cms_btc",
+        "description": "Zaifの取引所です。コムサイーサ（CMS:ETH）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 187,
+        "is_token": true,
+        "item_japanese": "CMS:ETH",
+        "item_unit_min": 10,
+        "item_unit_step": 1,
+        "name": "ERC20.CMS/BTC",
+        "seq": 182,
+        "title": "CMS:ETH/BTC（コムサイーサ/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ERC20.CMS/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "ERC20.CMS",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "ERC20.CMS",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "erc20.cms_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ZAIF/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "zaif_btc",
+        "description": "Zaifの取引所です。ザイフトークン（ZAIF）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 7,
+        "is_token": true,
+        "item_japanese": "ZAIF",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "ZAIF/BTC",
+        "seq": 7,
+        "title": "ZAIF/BTC（ザイフトークン/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ZAIF/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "ZAIF",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "ZAIF",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "zaif_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ERC20.CMS/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.01,
+        "aux_unit_point": 2,
+        "aux_unit_step": 0.01,
+        "currency_pair": "erc20.cms_jpy",
+        "description": "Zaifの取引所です。コムサイーサ（CMS:ETH）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 179,
+        "is_token": true,
+        "item_japanese": "CMS:ETH",
+        "item_unit_min": 10,
+        "item_unit_step": 0.0001,
+        "name": "ERC20.CMS/JPY",
+        "seq": 182,
+        "title": "CMS:ETH/JPY（コムサイーサ） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ERC20.CMS/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.01
+      },
+      "baseId": "ERC20.CMS",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "ERC20.CMS",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.01
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "erc20.cms_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "FSCC/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "fscc_btc",
+        "description": "Zaifの取引所です。フィスココイン（FSCC）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 23,
+        "is_token": true,
+        "item_japanese": "FSCC",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "FSCC/BTC",
+        "seq": 23,
+        "title": "FSCC/BTC（フィスココイン/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "FSCC/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "FSCC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "FSCC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "fscc_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ZPGAG/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.1,
+        "aux_unit_point": 1,
+        "aux_unit_step": 0.1,
+        "currency_pair": "zpgag_jpy",
+        "description": "Zaifの取引所です。ジパングコインシルバー（ZPGAG）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 218,
+        "is_token": true,
+        "item_japanese": "ZPGAG",
+        "item_unit_min": 0.01,
+        "item_unit_step": 0.0001,
+        "name": "ZPGAG/JPY",
+        "seq": 219,
+        "title": "ZPGAG/JPY（ジパングコインシルバー） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ZPGAG/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.1
+      },
+      "baseId": "ZPGAG",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "ZPGAG",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.01
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.1
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "zpgag_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "KLAY/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "klay_btc",
+        "description": "Zaifの取引所です。クレイ（KLAY）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 208,
+        "is_token": true,
+        "item_japanese": "KLAY",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "KLAY/BTC",
+        "seq": 209,
+        "title": "KLAY/BTC（クレイ/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "KLAY/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "KLAY",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "KLAY",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "klay_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ZPGPT/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 1,
+        "aux_unit_point": 0,
+        "aux_unit_step": 1,
+        "currency_pair": "zpgpt_jpy",
+        "description": "Zaifの取引所です。ジパングコインプラチナ（ZPGPT）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 219,
+        "is_token": true,
+        "item_japanese": "ZPGPT",
+        "item_unit_min": 0.01,
+        "item_unit_step": 0.0001,
+        "name": "ZPGPT/JPY",
+        "seq": 220,
+        "title": "ZPGPT/JPY（ジパングコインプラチナ） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ZPGPT/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 1
+      },
+      "baseId": "ZPGPT",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "ZPGPT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.01
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "zpgpt_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "XCP/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "xcp_jpy",
+        "description": "Zaifの取引所です。カウンターパーティートークン（XCP）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 8,
+        "is_token": true,
+        "item_japanese": "XCP",
+        "item_unit_min": 0.1,
+        "item_unit_step": 0.1,
+        "name": "XCP/JPY",
+        "seq": 8,
+        "title": "XCP/JPY（カウンターパーティートークン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XCP/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.0001
+      },
+      "baseId": "XCP",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "XCP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "xcp_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "KLAY/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "klay_jpy",
+        "description": "Zaifの取引所です。クレイ（KLAY）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 207,
+        "is_token": true,
+        "item_japanese": "KLAY",
+        "item_unit_min": 0.0001,
+        "item_unit_step": 0.0001,
+        "name": "KLAY/JPY",
+        "seq": 208,
+        "title": "KLAY/JPY（クレイ） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "KLAY/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "KLAY",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "KLAY",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.0001
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "klay_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "SKEB/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "skeb_btc",
+        "description": "Zaifの取引所です。スケブ（SKEB）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 212,
+        "is_token": true,
+        "item_japanese": "SKEB",
+        "item_unit_min": 1000,
+        "item_unit_step": 1,
+        "name": "SKEB/BTC",
+        "seq": 213,
+        "title": "SKEB/BTC（スケブ/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SKEB/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "SKEB",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "SKEB",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "skeb_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "JOC/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "joc_btc",
+        "description": "Zaifの取引所です。ジャパンオープンチェーン（JOC）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 223,
+        "is_token": true,
+        "item_japanese": "JOC",
+        "item_unit_min": 1000,
+        "item_unit_step": 1,
+        "name": "JOC/BTC",
+        "seq": 224,
+        "title": "JOC/BTC（ジャパンオープンチェーン/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "JOC/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "JOC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "JOC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "joc_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "MONA/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.1,
+        "aux_unit_point": 1,
+        "aux_unit_step": 0.1,
+        "currency_pair": "mona_jpy",
+        "description": "モナコイン・日本円の取引を行うことができます",
+        "event_number": 0,
+        "id": 2,
+        "is_token": false,
+        "item_japanese": "MONA",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "MONA/JPY",
+        "seq": 3,
+        "title": "MONA/JPY"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "MONA/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 0.1
+      },
+      "baseId": "MONA",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "MONA",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.1
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "mona_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BCH/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 5,
+        "aux_unit_point": 0,
+        "aux_unit_step": 5,
+        "currency_pair": "bch_jpy",
+        "description": "Zaifの取引所です。ビットコインキャッシュ（BCH）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 175,
+        "is_token": true,
+        "item_japanese": "BCH",
+        "item_unit_min": 0.001,
+        "item_unit_step": 0.0001,
+        "name": "BCH/JPY",
+        "seq": 178,
+        "title": "BCH/JPY（ビットコインキャッシュ） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BCH/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 1
+      },
+      "baseId": "BCH",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "BCH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.001
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 5
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "bch_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BORA/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "bora_jpy",
+        "description": "Zaifの取引所です。ボラ（BORA）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 213,
+        "is_token": true,
+        "item_japanese": "BORA",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "BORA/JPY",
+        "seq": 214,
+        "title": "BORA/JPY（ボラ） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BORA/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 0.0001
+      },
+      "baseId": "BORA",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "BORA",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "bora_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ZPG/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 1,
+        "aux_unit_point": 0,
+        "aux_unit_step": 1,
+        "currency_pair": "zpg_jpy",
+        "description": "Zaifの取引所です。ジパングコイン（ZPG）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 217,
+        "is_token": true,
+        "item_japanese": "ZPG",
+        "item_unit_min": 0.01,
+        "item_unit_step": 0.0001,
+        "name": "ZPG/JPY",
+        "seq": 218,
+        "title": "ZPG/JPY（ジパングコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ZPG/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 1
+      },
+      "baseId": "ZPG",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "ZPG",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.01
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "zpg_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "MOSAIC.CMS/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.01,
+        "aux_unit_point": 2,
+        "aux_unit_step": 0.01,
+        "currency_pair": "mosaic.cms_jpy",
+        "description": "Zaifの取引所です。コムサネム（CMS:XEM）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 180,
+        "is_token": true,
+        "item_japanese": "CMS:XEM",
+        "item_unit_min": 10,
+        "item_unit_step": 0.0001,
+        "name": "MOSAIC.CMS/JPY",
+        "seq": 183,
+        "title": "CMS:XEM/JPY（コムサネム） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "MOSAIC.CMS/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.01
+      },
+      "baseId": "MOSAIC.CMS",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "MOSAIC.CMS",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.01
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "mosaic.cms_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "TRX/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "trx_jpy",
+        "description": "Zaifの取引所です。トロン（TRX）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 197,
+        "is_token": true,
+        "item_japanese": "TRX",
+        "item_unit_min": 0.1,
+        "item_unit_step": 0.0001,
+        "name": "TRX/JPY",
+        "seq": 198,
+        "title": "TRX/JPY（トロン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "TRX/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "TRX",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "TRX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "trx_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "XYM/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "xym_btc",
+        "description": "Zaifの取引所です。ジム・シンボル（XYM）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 190,
+        "is_token": true,
+        "item_japanese": "XYM",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "XYM/BTC",
+        "seq": 191,
+        "title": "XYM/BTC（ジム・シンボル/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XYM/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "XYM",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "XYM",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "xym_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ETH/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 5,
+        "aux_unit_point": 0,
+        "aux_unit_step": 5,
+        "currency_pair": "eth_jpy",
+        "description": "Zaifの取引所です。イーサリアム（ETH）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 177,
+        "is_token": true,
+        "item_japanese": "ETH",
+        "item_unit_min": 0.001,
+        "item_unit_step": 0.0001,
+        "name": "ETH/JPY",
+        "seq": 180,
+        "title": "ETH/JPY（イーサリアム） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ETH/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 1
+      },
+      "baseId": "ETH",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.001
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 5
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "eth_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "COT/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "cot_jpy",
+        "description": "Zaifの取引所です。コスプレトークン（COT）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 191,
+        "is_token": true,
+        "item_japanese": "COT",
+        "item_unit_min": 0.1,
+        "item_unit_step": 0.0001,
+        "name": "COT/JPY",
+        "seq": 192,
+        "title": "COT/JPY（コスプレトークン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "COT/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "COT",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "COT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "cot_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "FSCC/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "fscc_jpy",
+        "description": "Zaifの取引所です。フィスココイン（FSCC）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 22,
+        "is_token": true,
+        "item_japanese": "FSCC",
+        "item_unit_min": 0.1,
+        "item_unit_step": 0.0001,
+        "name": "FSCC/JPY",
+        "seq": 22,
+        "title": "FSCC/JPY（フィスココイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "FSCC/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "FSCC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "FSCC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "fscc_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "SNPT/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "snpt_jpy",
+        "description": "Zaifの取引所です。スナップイット（SNPT）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 215,
+        "is_token": true,
+        "item_japanese": "SNPT",
+        "item_unit_min": 1,
+        "item_unit_step": 0.0001,
+        "name": "SNPT/JPY",
+        "seq": 216,
+        "title": "SNPT/JPY（スナップイット） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SNPT/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "SNPT",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "SNPT",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "snpt_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "CSCMSXEM/MOSAIC.CMS": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "MOSAIC.CMS",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "CMS:XEM",
+        "aux_unit_min": 20000,
+        "aux_unit_point": 0,
+        "aux_unit_step": 1,
+        "currency_pair": "cscmsxem_mosaic.cms",
+        "description": "Chronoswiss社 Blockchain Series 限定時計 COMSA (the token)オークション入札。限定51個 CMS:XEMにてオークション形式で購入できます。",
+        "event_number": 3,
+        "id": 186,
+        "is_token": true,
+        "item_japanese": "CSCMSXEM",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "CSCMSXEM/MOSAIC.CMS",
+        "seq": 189,
+        "title": "CHRONOSWISS Blockchain - ZAIF Exchange"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "CSCMSXEM/MOSAIC.CMS",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1
+      },
+      "baseId": "CSCMSXEM",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "MOSAIC.CMS",
+      "expiryDatetime": "__undefined",
+      "base": "CSCMSXEM",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 20000
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "cscmsxem_mosaic.cms",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "POLYGON.ROND/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "polygon.rond_jpy",
+        "description": "Zaifの取引所です。ロンド（ROND）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 203,
+        "is_token": true,
+        "item_japanese": "ROND",
+        "item_unit_min": 0.01,
+        "item_unit_step": 0.01,
+        "name": "POLYGON.ROND/JPY",
+        "seq": 204,
+        "title": "ROND/JPY（ロンド） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "POLYGON.ROND/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 0.0001
+      },
+      "baseId": "POLYGON.ROND",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "POLYGON.ROND",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.01
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "polygon.rond_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "CICC/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "cicc_btc",
+        "description": "Zaifの取引所です。カイカコイン（CICC）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 171,
+        "is_token": true,
+        "item_japanese": "CICC",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "CICC/BTC",
+        "seq": 174,
+        "title": "CICC/BTC （カイカコイン/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "CICC/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "CICC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "CICC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "cicc_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "XEM/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "xem_btc",
+        "description": "XEM・ビットコインの取引を行うことができます",
+        "event_number": 0,
+        "id": 5,
+        "is_token": false,
+        "item_japanese": "XEM",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "XEM/BTC",
+        "seq": 2,
+        "title": "XEM/BTC"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XEM/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "XEM",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "XEM",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "xem_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "MONA/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "mona_btc",
+        "description": "モナコイン・ビットコインの取引を行うことができます",
+        "event_number": 0,
+        "id": 3,
+        "is_token": false,
+        "item_japanese": "MONA",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "MONA/BTC",
+        "seq": 4,
+        "title": "MONA/BTC"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "MONA/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "MONA",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "MONA",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "mona_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "MATIC/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "matic_jpy",
+        "description": "Zaifの取引所です。ポリゴン（MATIC）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 199,
+        "is_token": true,
+        "item_japanese": "MATIC",
+        "item_unit_min": 0.0001,
+        "item_unit_step": 0.0001,
+        "name": "MATIC/JPY",
+        "seq": 200,
+        "title": "MATIC/JPY（ポリゴン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "MATIC/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "MATIC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "MATIC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.0001
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "matic_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "CICC/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "cicc_jpy",
+        "description": "Zaifの取引所です。カイカコイン（CICC）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 170,
+        "is_token": true,
+        "item_japanese": "CICC",
+        "item_unit_min": 0.1,
+        "item_unit_step": 0.0001,
+        "name": "CICC/JPY",
+        "seq": 173,
+        "title": "CICC/JPY（カイカコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "CICC/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "CICC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "CICC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "cicc_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "DEP/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "dep_jpy",
+        "description": "Zaifの取引所です。ディープ（DEP）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 205,
+        "is_token": true,
+        "item_japanese": "DEP",
+        "item_unit_min": 0.1,
+        "item_unit_step": 0.0001,
+        "name": "DEP/JPY",
+        "seq": 206,
+        "title": "DEP/JPY（ディープ） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "DEP/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "DEP",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "DEP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "dep_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "CSBTC/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "ビットコイン",
+        "aux_unit_min": 0.75,
+        "aux_unit_point": 0,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "csbtc_btc",
+        "description": "Chronoswiss社 Blockchain Series 限定時計 Bitcoin (the currency)オークション入札。限定101個 BTCにてオークション形式で購入できます。",
+        "event_number": 3,
+        "id": 181,
+        "is_token": true,
+        "item_japanese": "CSBTC",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "CSBTC/BTC",
+        "seq": 184,
+        "title": "CHRONOSWISS Blockchain - ZAIF Exchange"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "CSBTC/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1
+      },
+      "baseId": "CSBTC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "CSBTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.75
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "csbtc_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "CSCMSETH/ERC20.CMS": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "ERC20.CMS",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "CMS:ETH",
+        "aux_unit_min": 20000,
+        "aux_unit_point": 0,
+        "aux_unit_step": 1,
+        "currency_pair": "cscmseth_erc20.cms",
+        "description": "Chronoswiss社 Blockchain Series 限定時計 COMSA (the token)オークション入札。限定50個 CMS:ETHにてオークション形式で購入できます。",
+        "event_number": 3,
+        "id": 185,
+        "is_token": true,
+        "item_japanese": "CSCMSETH",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "CSCMSETH/ERC20.CMS",
+        "seq": 188,
+        "title": "CHRONOSWISS Blockchain - ZAIF Exchange"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "CSCMSETH/ERC20.CMS",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1
+      },
+      "baseId": "CSCMSETH",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "ERC20.CMS",
+      "expiryDatetime": "__undefined",
+      "base": "CSCMSETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 20000
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "cscmseth_erc20.cms",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "XCP/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "xcp_btc",
+        "description": "Zaifの取引所です。カウンターパーティートークン（XCP）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 9,
+        "is_token": true,
+        "item_japanese": "XCP",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "XCP/BTC",
+        "seq": 9,
+        "title": "XCP/BTC（カウンターパーティートークン/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XCP/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "XCP",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "XCP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "xcp_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "POLYGON.MV/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 0.0001,
+        "aux_unit_point": 4,
+        "aux_unit_step": 0.0001,
+        "currency_pair": "polygon.mv_jpy",
+        "description": "Zaifの取引所です。メタバース（MV）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 201,
+        "is_token": true,
+        "item_japanese": "MV",
+        "item_unit_min": 0.01,
+        "item_unit_step": 0.01,
+        "name": "POLYGON.MV/JPY",
+        "seq": 202,
+        "title": "MV/JPY（メタバース） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "POLYGON.MV/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 0.0001
+      },
+      "baseId": "POLYGON.MV",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "POLYGON.MV",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.01
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "polygon.mv_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "BTC/JPY": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "JPY",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "JPY",
+        "aux_unit_min": 5,
+        "aux_unit_point": 0,
+        "aux_unit_step": 5,
+        "currency_pair": "btc_jpy",
+        "description": "ビットコイン・日本円の取引を行うことができます",
+        "event_number": 0,
+        "id": 1,
+        "is_token": false,
+        "item_japanese": "BTC",
+        "item_unit_min": 0.001,
+        "item_unit_step": 0.0001,
+        "name": "BTC/JPY",
+        "seq": 0,
+        "title": "BTC/JPY"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BTC/JPY",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 1
+      },
+      "baseId": "BTC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "JPY",
+      "expiryDatetime": "__undefined",
+      "base": "BTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.001
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 5
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "btc_jpy",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "CSZAIF/ZAIF": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "ZAIF",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "ZAIF",
+        "aux_unit_min": 1650000,
+        "aux_unit_point": 0,
+        "aux_unit_step": 1,
+        "currency_pair": "cszaif_zaif",
+        "description": "Chronoswiss社 Blockchain Series 限定時計 Zaif (the exchange)オークション入札。限定101個 ZAIFにてオークション形式で購入できます。",
+        "event_number": 3,
+        "id": 184,
+        "is_token": true,
+        "item_japanese": "CSZAIF",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "CSZAIF/ZAIF",
+        "seq": 187,
+        "title": "CHRONOSWISS Blockchain - ZAIF Exchange"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "CSZAIF/ZAIF",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1
+      },
+      "baseId": "CSZAIF",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "ZAIF",
+      "expiryDatetime": "__undefined",
+      "base": "CSZAIF",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1650000
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "cszaif_zaif",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "DEP/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "dep_btc",
+        "description": "Zaifの取引所です。ディープ（DEP）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 206,
+        "is_token": true,
+        "item_japanese": "DEP",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "DEP/BTC",
+        "seq": 207,
+        "title": "DEP/BTC（ディープ/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "DEP/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "DEP",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "DEP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "dep_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "CSETH/ETH": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "ETH",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "ETH",
+        "aux_unit_min": 0.041,
+        "aux_unit_point": 0,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "cseth_eth",
+        "description": "Chronoswiss社 Blockchain Series 限定時計 Ethereum (the contract)オークション入札。限定101個 ETHにてオークション形式で購入できます。",
+        "event_number": 3,
+        "id": 183,
+        "is_token": true,
+        "item_japanese": "CSETH",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "CSETH/ETH",
+        "seq": 186,
+        "title": "CHRONOSWISS Blockchain - ZAIF Exchange"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "CSETH/ETH",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1
+      },
+      "baseId": "CSETH",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "ETH",
+      "expiryDatetime": "__undefined",
+      "base": "CSETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.041
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "cseth_eth",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "MATIC/BTC": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "BTC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "aux_japanese": "BTC",
+        "aux_unit_min": 1.0e-8,
+        "aux_unit_point": 8,
+        "aux_unit_step": 1.0e-8,
+        "currency_pair": "matic_btc",
+        "description": "Zaifの取引所です。ポリゴン（MATIC）の価格、チャートなどの情報をまとめてチェックできます。暗号資産交換所Zaif（ザイフ）、暗号資産積立、自動売買。",
+        "event_number": 0,
+        "id": 200,
+        "is_token": true,
+        "item_japanese": "MATIC",
+        "item_unit_min": 1,
+        "item_unit_step": 1,
+        "name": "MATIC/BTC",
+        "seq": 201,
+        "title": "MATIC/BTC（ポリゴン/ビットコイン） 暗号資産取引なら - Zaif（ザイフ）"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "MATIC/BTC",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-8
+      },
+      "baseId": "MATIC",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "BTC",
+      "expiryDatetime": "__undefined",
+      "base": "MATIC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 1.0e-8
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "matic_btc",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    }
+  }
+}

@@ -1,0 +1,441 @@
+{
+  "exchange_count": 107,
+  "extracted_at": "2026-04-07T23:38:00.694568Z",
+  "key_count": 38,
+  "keys": [
+    {
+      "count": 107,
+      "key": "alias",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "boolean": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "api",
+      "max_nesting_depth": 8,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "certified",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "boolean": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "commonCurrencies",
+      "max_nesting_depth": 1,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "countries",
+      "max_nesting_depth": 1,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "array": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "currencies",
+      "max_nesting_depth": 6,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "dex",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "boolean": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "enableRateLimit",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "boolean": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "exceptions",
+      "max_nesting_depth": 3,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 101,
+        "undefined": 6
+      }
+    },
+    {
+      "count": 107,
+      "key": "fees",
+      "max_nesting_depth": 6,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "has",
+      "max_nesting_depth": 1,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "httpExceptions",
+      "max_nesting_depth": 1,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "id",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "string": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "limits",
+      "max_nesting_depth": 2,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "markets",
+      "max_nesting_depth": 4,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 4,
+        "undefined": 103
+      }
+    },
+    {
+      "count": 107,
+      "key": "name",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "string": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "paddingMode",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "number": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "precisionMode",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "number": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "pro",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "boolean": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "rateLimit",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "number": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "requiredCredentials",
+      "max_nesting_depth": 1,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "rollingWindowSize",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "number": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "status",
+      "max_nesting_depth": 1,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "timeframes",
+      "max_nesting_depth": 1,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 93,
+        "undefined": 14
+      }
+    },
+    {
+      "count": 107,
+      "key": "timeout",
+      "max_nesting_depth": 0,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "number": 107
+      }
+    },
+    {
+      "count": 107,
+      "key": "urls",
+      "max_nesting_depth": 4,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 107
+      }
+    },
+    {
+      "count": 105,
+      "key": "features",
+      "max_nesting_depth": 5,
+      "percentage": 98.1,
+      "tier": "common",
+      "types": {
+        "object": 105
+      }
+    },
+    {
+      "count": 99,
+      "key": "options",
+      "max_nesting_depth": 5,
+      "percentage": 92.5,
+      "tier": "common",
+      "types": {
+        "object": 99
+      }
+    },
+    {
+      "count": 87,
+      "key": "version",
+      "max_nesting_depth": 0,
+      "percentage": 81.3,
+      "tier": "frequent",
+      "types": {
+        "string": 87
+      }
+    },
+    {
+      "count": 30,
+      "key": "hostname",
+      "max_nesting_depth": 0,
+      "percentage": 28.0,
+      "tier": "uncommon",
+      "types": {
+        "string": 30
+      }
+    },
+    {
+      "count": 12,
+      "key": "userAgent",
+      "max_nesting_depth": 0,
+      "percentage": 11.2,
+      "tier": "uncommon",
+      "types": {
+        "string": 8,
+        "undefined": 4
+      }
+    },
+    {
+      "count": 4,
+      "key": "headers",
+      "max_nesting_depth": 1,
+      "percentage": 3.7,
+      "tier": "rare",
+      "types": {
+        "object": 4
+      }
+    },
+    {
+      "count": 3,
+      "key": "comment",
+      "max_nesting_depth": 0,
+      "percentage": 2.8,
+      "tier": "rare",
+      "types": {
+        "string": 3
+      }
+    },
+    {
+      "count": 3,
+      "key": "quoteJsonNumbers",
+      "max_nesting_depth": 0,
+      "percentage": 2.8,
+      "tier": "rare",
+      "types": {
+        "boolean": 3
+      }
+    },
+    {
+      "count": 1,
+      "key": "handleContentTypeApplicationZip",
+      "max_nesting_depth": 0,
+      "percentage": 0.9,
+      "tier": "rare",
+      "types": {
+        "boolean": 1
+      }
+    },
+    {
+      "count": 1,
+      "key": "orders",
+      "max_nesting_depth": 1,
+      "percentage": 0.9,
+      "tier": "rare",
+      "types": {
+        "object": 1
+      }
+    },
+    {
+      "count": 1,
+      "key": "requiresEddsa",
+      "max_nesting_depth": 0,
+      "percentage": 0.9,
+      "tier": "rare",
+      "types": {
+        "boolean": 1
+      }
+    },
+    {
+      "count": 1,
+      "key": "secret",
+      "max_nesting_depth": 0,
+      "percentage": 0.9,
+      "tier": "rare",
+      "types": {
+        "undefined": 1
+      }
+    }
+  ],
+  "tiers": {
+    "common": [
+      "features",
+      "options"
+    ],
+    "frequent": [
+      "version"
+    ],
+    "rare": [
+      "comment",
+      "handleContentTypeApplicationZip",
+      "headers",
+      "orders",
+      "quoteJsonNumbers",
+      "requiresEddsa",
+      "secret"
+    ],
+    "uncommon": [
+      "hostname",
+      "userAgent"
+    ],
+    "universal": [
+      "alias",
+      "api",
+      "certified",
+      "commonCurrencies",
+      "countries",
+      "currencies",
+      "dex",
+      "enableRateLimit",
+      "exceptions",
+      "fees",
+      "has",
+      "httpExceptions",
+      "id",
+      "limits",
+      "markets",
+      "name",
+      "paddingMode",
+      "precisionMode",
+      "pro",
+      "rateLimit",
+      "requiredCredentials",
+      "rollingWindowSize",
+      "status",
+      "timeframes",
+      "timeout",
+      "urls"
+    ]
+  }
+}

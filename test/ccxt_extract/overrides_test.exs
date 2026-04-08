@@ -201,7 +201,7 @@ defmodule CcxtExtract.OverridesTest do
 
   describe "extract_method_bodies/3" do
     setup do
-      # Create a minimal TS file for OXC to parse
+      # Two-class hierarchy: child overrides parent's fetchTicker
       dir = System.tmp_dir!()
       path = Path.join(dir, "test_exchange.ts")
 

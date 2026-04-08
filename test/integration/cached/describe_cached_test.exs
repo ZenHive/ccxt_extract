@@ -8,7 +8,7 @@ defmodule CcxtExtract.Integration.Cached.DescribeCachedTest do
   @moduletag :integration
   @moduletag timeout: 30_000
 
-  @discoveries_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @discoveries_dir CcxtExtract.Paths.discoveries()
   @manifest_path Path.join(@discoveries_dir, "describe/_manifest.json")
   @exchanges_path Path.join(@discoveries_dir, "exchanges.json")
 

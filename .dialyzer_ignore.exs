@@ -6,6 +6,8 @@
   {"lib/ccxt_extract/family_analysis.ex", :call_without_opaque},
   {"lib/ccxt_extract/overrides.ex", :call_without_opaque},
   {"lib/ccxt_extract/overrides.ex", :call_with_opaque},
+  {"lib/ccxt_extract/unified_endpoints.ex", :call_without_opaque},
+  {"lib/ccxt_extract/unified_endpoints.ex", :call_with_opaque},
   {"lib/ccxt_extract/pipeline.ex", :call_without_opaque},
   {"lib/mix/tasks/ccxt_extract.update.ex", :call_without_opaque},
   {"lib/ccxt_extract/validation.ex", :call_without_opaque},

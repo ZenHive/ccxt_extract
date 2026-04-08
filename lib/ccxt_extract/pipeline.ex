@@ -140,6 +140,7 @@ defmodule CcxtExtract.Pipeline do
       "ws_methods" => get_ws_methods(id, data),
       "interface_signatures" => get_interface_signatures(id, data),
       "pagination" => get_pagination(id, data),
+      "unified_endpoints" => get_unified_endpoints(id, data),
       "overrides" => get_overrides(id, data)
     }
 
@@ -148,11 +149,32 @@ defmodule CcxtExtract.Pipeline do
 
   # --- Data Mapping (pure functions) ---
 
-  # Describe: read the "describe" key from the per-exchange file
-  defp get_describe(id, data), do: Map.get(data.describe, id)
+  # Describe: read the "describe" key from the per-exchange file.
+  # Alias exchanges (e.g. coinbaseadvanced, gateio, huobi) have no own describe data —
+  # fall back to parent exchange's describe via class hierarchy.
+  defp get_describe(id, data) do
+    case Map.get(data.describe, id) do
+      nil -> get_parent_data(id, data, :describe)
+      describe -> describe
+    end
+  end
 
-  # Markets: read market_count + markets from per-exchange file
-  defp get_markets(id, data), do: Map.get(data.load_markets, id)
+  # Markets: read market_count + markets from per-exchange file.
+  # Same parent fallback as describe for alias exchanges.
+  defp get_markets(id, data) do
+    case Map.get(data.load_markets, id) do
+      nil -> get_parent_data(id, data, :load_markets)
+      markets -> markets
+    end
+  end
+
+  # Resolve parent data for alias exchanges that have no own discovery data.
+  defp get_parent_data(id, data, field) do
+    case find_parent_exchange_id(id, data) do
+      nil -> nil
+      parent_id -> Map.get(Map.get(data, field, %{}), parent_id)
+    end
+  end
 
   # Class info: group by type into %{"rest" => entry, "ws" => entry|nil}
   defp get_class_info(id, data) do
@@ -255,6 +277,55 @@ defmodule CcxtExtract.Pipeline do
     end
   end
 
+  # Unified endpoints: extract the unified_endpoints map, merge parent mappings for derived exchanges
+  defp get_unified_endpoints(id, data) do
+    own = extract_unified_endpoints_map(id, data)
+    parent_id = find_parent_exchange_id(id, data)
+    merge_parent_endpoints(own, parent_id, data)
+  end
+
+  # Extract the raw unified_endpoints map from the discovery lookup
+  defp extract_unified_endpoints_map(id, data) do
+    case Map.get(data.unified_endpoints, id) do
+      nil -> nil
+      %{"unified_endpoints" => endpoints} when map_size(endpoints) > 0 -> endpoints
+      _ -> nil
+    end
+  end
+
+  # Find the parent exchange id from class hierarchy (REST class takes precedence).
+  # Single-level lookup only: reads parent from discovery data, not merged pipeline output.
+  # If B extends C, A extends B, and B has no own endpoints, A won't inherit C's endpoints.
+  # Acceptable: CCXT's hierarchy is shallow and derived exchanges typically define own endpoints.
+  defp find_parent_exchange_id(id, data) do
+    case Map.get(data.classes, id) do
+      nil ->
+        nil
+
+      entries ->
+        rest = Enum.find(entries, &(&1["type"] == "rest"))
+        parent_key = rest && rest["parent_key"]
+
+        case parent_key do
+          nil -> nil
+          "Exchange" -> nil
+          "rest:" <> parent_id -> parent_id
+          _ -> nil
+        end
+    end
+  end
+
+  # Merge parent endpoints with child — child overrides take precedence
+  defp merge_parent_endpoints(own, nil, _data), do: own
+  defp merge_parent_endpoints(nil, parent_id, data), do: extract_unified_endpoints_map(parent_id, data)
+
+  defp merge_parent_endpoints(own, parent_id, data) do
+    case extract_unified_endpoints_map(parent_id, data) do
+      nil -> own
+      parent_endpoints -> Map.merge(parent_endpoints, own)
+    end
+  end
+
   # Overrides: group REST/WS entries, rename fields
   # Data is grouped by id (list of entries per exchange) because exchanges
   # with both REST and WS derived classes have two override records.
@@ -309,6 +380,7 @@ defmodule CcxtExtract.Pipeline do
     {ws_methods, stats} = load_exchange_lookup(dir, "ws_methods.json", expected_ids, stats)
     {interface_signatures, stats} = load_exchange_lookup(dir, "interface_signatures.json", expected_ids, stats)
     {pagination, stats} = load_exchange_lookup(dir, "pagination.json", expected_ids, stats)
+    {unified_endpoints, stats} = load_exchange_lookup(dir, "unified_endpoints.json", expected_ids, stats)
     {overrides, stats} = load_overrides(dir, expected_ids, stats)
 
     %{
@@ -324,6 +396,7 @@ defmodule CcxtExtract.Pipeline do
       ws_methods: ws_methods,
       interface_signatures: interface_signatures,
       pagination: pagination,
+      unified_endpoints: unified_endpoints,
       overrides: overrides,
       missing_files: Enum.reverse(stats.missing_files),
       missing_entries: Enum.reverse(stats.missing_entries),
@@ -716,6 +789,19 @@ defmodule CcxtExtract.Pipeline do
 
   defp validate_exchange_lookup_entry("pagination.json", entry) do
     {:corrupt, "pagination.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
+  end
+
+  defp validate_exchange_lookup_entry("unified_endpoints.json", %{"id" => id} = entry) when is_binary(id) do
+    with {:ok, endpoints} <-
+           fetch_required_key(entry, "unified_endpoints", id, "unified_endpoints.json"),
+         :ok <-
+           validate_required_map_field("unified_endpoints.json", id, "unified_endpoints", endpoints) do
+      {:ok, id, entry}
+    end
+  end
+
+  defp validate_exchange_lookup_entry("unified_endpoints.json", entry) do
+    {:corrupt, "unified_endpoints.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
   end
 
   defp validate_exchange_lookup_entry(_filename, %{"id" => id} = entry) when is_binary(id), do: {:ok, id, entry}

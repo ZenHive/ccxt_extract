@@ -9,7 +9,7 @@ defmodule CcxtExtract.Integration.Cached.LoadMarketsCachedTest do
   @moduletag :integration
   @moduletag timeout: 30_000
 
-  @discoveries_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @discoveries_dir CcxtExtract.Paths.discoveries()
   @manifest_path Path.join(@discoveries_dir, "load_markets/_manifest.json")
 
   setup_all do

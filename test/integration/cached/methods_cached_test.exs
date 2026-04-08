@@ -8,7 +8,7 @@ defmodule CcxtExtract.Integration.Cached.MethodsCachedTest do
   @moduletag :integration
   @moduletag timeout: 30_000
 
-  @fixtures_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @fixtures_dir CcxtExtract.Paths.discoveries()
   @rest_path Path.join(@fixtures_dir, "methods_rest.json")
   @ws_path Path.join(@fixtures_dir, "methods_ws.json")
 

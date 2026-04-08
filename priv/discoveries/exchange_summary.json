@@ -1,0 +1,934 @@
+{
+  "counts": {
+    "classes": {
+      "rest": 110,
+      "total": 189,
+      "ws": 79
+    },
+    "exchanges": {
+      "aliases": 3,
+      "real": 107,
+      "total": 110
+    },
+    "exchanges_with_ws": 79,
+    "families": 99,
+    "orphan_aliases": 0
+  },
+  "extracted_at": "2026-04-07T23:39:09.122121Z",
+  "families": [
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "aftermath",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "alpaca",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "apex",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "arkham",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "ascendex",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "aster",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "backpack",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "bigone",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "binance",
+      "total_members": 4,
+      "variant_count": 3,
+      "variants": [
+        "binancecoinm",
+        "binanceus",
+        "binanceusdm"
+      ]
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bingx",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "bit2c",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "bitbank",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "bitbns",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bitfinex",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "bitflyer",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bitget",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bithumb",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bitmart",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bitmex",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bitopro",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bitrue",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "bitso",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bitstamp",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "bitteam",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bittrade",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bitvavo",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "blockchaincom",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "blofin",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "btcbox",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "btcmarkets",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "btcturk",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bullish",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bybit",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "bydfi",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "cex",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 1,
+      "aliases": [
+        "coinbaseadvanced"
+      ],
+      "has_ws": true,
+      "root": "coinbase",
+      "total_members": 2,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "coinbaseexchange",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "coinbaseinternational",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "coincatch",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "coincheck",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "coinex",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "coinmate",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "coinmetro",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "coinone",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "coinsph",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "coinspot",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "cryptocom",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "cryptomus",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "deepcoin",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "delta",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "deribit",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "derive",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "digifinex",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "dydx",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "exmo",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "foxbit",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 1,
+      "aliases": [
+        "gateio"
+      ],
+      "has_ws": true,
+      "root": "gate",
+      "total_members": 2,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "gemini",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "grvt",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "hashkey",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "hibachi",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "hitbtc",
+      "total_members": 3,
+      "variant_count": 2,
+      "variants": [
+        "bequant",
+        "fmfwio"
+      ]
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "hollaex",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 1,
+      "aliases": [
+        "huobi"
+      ],
+      "has_ws": true,
+      "root": "htx",
+      "total_members": 2,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "hyperliquid",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "independentreserve",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "indodax",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "kraken",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "krakenfutures",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "kucoin",
+      "total_members": 2,
+      "variant_count": 1,
+      "variants": [
+        "kucoinfutures"
+      ]
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "latoken",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "lbank",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "lighter",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "luno",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "mercado",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "mexc",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "modetrade",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "ndax",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "novadax",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "okx",
+      "total_members": 3,
+      "variant_count": 2,
+      "variants": [
+        "myokx",
+        "okxus"
+      ]
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "onetrading",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "oxfun",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "p2b",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "paradex",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "paymium",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "phemex",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "poloniex",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "tokocrypto",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "toobit",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "upbit",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "wavesexchange",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "whitebit",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "woo",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "woofipro",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
+      "root": "xt",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "yobit",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "zaif",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "zebpay",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": false,
+      "root": "zonda",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    }
+  ],
+  "orphan_aliases": [],
+  "source_files": {
+    "class_hierarchy": "class_hierarchy.json",
+    "exchanges": "exchanges.json"
+  }
+}

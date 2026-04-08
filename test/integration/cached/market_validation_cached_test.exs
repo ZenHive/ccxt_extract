@@ -1,7 +1,7 @@
 defmodule CcxtExtract.Integration.Cached.MarketValidationCachedTest do
   @moduledoc """
   Validates MarketValidation against cached loadMarkets() data.
-  Reads from test/fixtures/discoveries/load_markets/ — no QuickBEAM needed.
+  Reads from priv/discoveries/load_markets/ — no QuickBEAM needed.
   """
   use ExUnit.Case, async: true
 
@@ -10,7 +10,7 @@ defmodule CcxtExtract.Integration.Cached.MarketValidationCachedTest do
   @moduletag :integration
   @moduletag timeout: 30_000
 
-  @discoveries_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @discoveries_dir CcxtExtract.Paths.discoveries()
   @load_markets_dir Path.join(@discoveries_dir, "load_markets")
 
   setup_all do

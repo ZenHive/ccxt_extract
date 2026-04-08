@@ -142,7 +142,8 @@ Per-exchange JSON has three top-level sections:
     "ws_methods": { ... },        # watch*/handle* WS AST bodies
     "interface_signatures": { ... }, # Typed API method signatures from abstract/*.ts
     "pagination": { ... },        # Per-method pagination strategy and parameters
-    "overrides": { ... }          # Methods overridden vs parent class
+    "overrides": { ... },         # Methods overridden vs parent class
+    "unified_endpoints": { ... }  # Unified method → interface method mappings
   }
 }
 ```
@@ -185,9 +186,13 @@ mix format                         # Format code (Styler)
 
 # Setup CCXT
 mix ccxt_extract.setup             # Install/verify CCXT sources
-mix ccxt_extract.update            # Full re-extract: setup → pipeline → validate
+mix ccxt_extract.update            # Full re-extract: setup → extractors → pipeline → validate
 mix ccxt_extract.update --latest   # Update to latest CCXT version
 mix ccxt_extract.update --skip-setup  # Re-run pipeline + validate only
+
+# After extraction, review and commit changes
+git diff priv/discoveries/                    # See what changed in discovery data
+git add priv/discoveries/ priv/output/        # Commit updated extraction data
 
 # Run examples
 mix run examples/1_parse_exchange.exs binance
@@ -263,6 +268,21 @@ From ccxt_ex priority tiers. All integration tests with known-exchange assertion
 **DEX** (selected): `hyperliquid`, `aster`, `lighter`
 
 These cover different family shapes: families with variants (binance has binanceus/binancecoinm/binanceusdm, okx has okxus, kucoin has kucoinfutures), families with aliases (htx/huobi, gate/gateio), standalone exchanges (bybit, kraken, deribit, bitmex, coinbaseexchange), and DEX exchanges (hyperliquid, aster, lighter).
+
+## Extraction Data
+
+Both `priv/discoveries/` (intermediate discovery JSON) and `priv/output/` (final
+per-exchange JSON) are committed. Cached integration tests read directly from
+`priv/discoveries/` — no separate fixture copy.
+
+**`load_markets` is live-API data.** Unlike OXC-based extractors (deterministic from
+source), `mix ccxt_extract.load_markets` calls real exchange APIs via QuickBEAM.
+Results vary by network/geo/time — exchanges go down, get geo-blocked, or start
+requiring auth. The `--skip-setup` flag on `mix ccxt_extract.update` skips this stage.
+
+After running `mix ccxt_extract.update`, review diffs and commit. The output JSON
+is the primary product of this repo — consumers can clone and use it without
+installing Elixir.
 
 ## What This Repo Is NOT
 

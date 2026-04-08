@@ -1,7 +1,7 @@
 defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
   @moduledoc """
   Cached integration tests for Pipeline — runs the full assembly pipeline
-  against fixture data in test/fixtures/discoveries/.
+  against discovery data in priv/discoveries/.
   No QuickBEAM/OXC needed.
   """
   use ExUnit.Case, async: true
@@ -12,7 +12,7 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
   @moduletag :integration
   @moduletag timeout: 60_000
 
-  @fixtures_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @fixtures_dir CcxtExtract.Paths.discoveries()
   @pipeline_opts [
     discoveries_dir: @fixtures_dir,
     ccxt_version: "4.5.45",
@@ -137,11 +137,15 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
   end
 
   describe "alias exchanges" do
-    test "huobi is an alias with nil layers", %{lookup: lookup} do
+    test "huobi is an alias that inherits parent runtime data from htx", %{lookup: lookup} do
       ex = lookup["huobi"]
       assert ex["exchange"]["alias"] == true
-      assert ex["runtime"]["describe"] == nil
-      assert ex["runtime"]["markets"] == nil
+
+      # Runtime data resolved from parent (htx)
+      assert is_map(ex["runtime"]["describe"]), "alias should inherit parent describe"
+      assert is_map(ex["runtime"]["markets"]), "alias should inherit parent markets"
+
+      # Structural data stays nil — these are per-exchange AST extractions
       assert ex["structure"]["sign_method"] == nil
       assert ex["structure"]["parse_methods"] == nil
     end

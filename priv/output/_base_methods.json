@@ -1,0 +1,2471 @@
+{
+  "by_category": {
+    "parse": 85,
+    "safe": 54
+  },
+  "extracted_at": "2026-04-07T00:42:34.928387Z",
+  "method_count": 139,
+  "methods": {
+    "safeLedgerEntry": {
+      "async": false,
+      "category": "safe",
+      "name": "safeLedgerEntry",
+      "params": [
+        {
+          "name": "entry",
+          "type": "object"
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "safeNumber2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeNumber2",
+      "params": [
+        {
+          "name": "dictionary",
+          "type": "object"
+        },
+        {
+          "name": "key1",
+          "type": "IndexType"
+        },
+        {
+          "name": "key2",
+          "type": "IndexType"
+        },
+        {
+          "name": "d",
+          "type": null
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "parseDepositAddresses": {
+      "async": false,
+      "category": "parse",
+      "name": "parseDepositAddresses",
+      "params": [
+        {
+          "name": "addresses",
+          "type": null
+        },
+        {
+          "name": "codes",
+          "type": "Strings"
+        },
+        {
+          "name": "indexed",
+          "type": null
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "DepositAddress[]",
+      "source": "method_definition"
+    },
+    "parseTradingViewOHLCV": {
+      "async": false,
+      "category": "parse",
+      "name": "parseTradingViewOHLCV",
+      "params": [
+        {
+          "name": "ohlcvs",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": null
+        },
+        {
+          "name": "timeframe",
+          "type": null
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "parseMarginModifications": {
+      "async": false,
+      "category": "parse",
+      "name": "parseMarginModifications",
+      "params": [
+        {
+          "name": "response",
+          "type": "object[]"
+        },
+        {
+          "name": "symbols",
+          "type": "Strings"
+        },
+        {
+          "name": "symbolKey",
+          "type": "Str"
+        },
+        {
+          "name": "marketType",
+          "type": "MarketType"
+        }
+      ],
+      "return_type": "MarginModification[]",
+      "source": "method_definition"
+    },
+    "safeNumber": {
+      "async": false,
+      "category": "safe",
+      "name": "safeNumber",
+      "params": [
+        {
+          "name": "obj",
+          "type": null
+        },
+        {
+          "name": "key",
+          "type": "IndexType"
+        },
+        {
+          "name": "defaultNumber",
+          "type": "Num"
+        }
+      ],
+      "return_type": "Num",
+      "source": "method_definition"
+    },
+    "safeMapToMap": {
+      "async": false,
+      "category": "safe",
+      "name": "safeMapToMap",
+      "params": [
+        {
+          "name": "dict",
+          "type": null
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "parseTrade": {
+      "async": false,
+      "category": "parse",
+      "name": "parseTrade",
+      "params": [
+        {
+          "name": "trade",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Trade",
+      "source": "method_definition"
+    },
+    "safeStringLowerN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeStringLowerN",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseBorrowRateHistory": {
+      "async": false,
+      "category": "parse",
+      "name": "parseBorrowRateHistory",
+      "params": [
+        {
+          "name": "response",
+          "type": null
+        },
+        {
+          "name": "code",
+          "type": "Str"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "parseIsolatedBorrowRate": {
+      "async": false,
+      "category": "parse",
+      "name": "parseIsolatedBorrowRate",
+      "params": [
+        {
+          "name": "info",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "IsolatedBorrowRate",
+      "source": "method_definition"
+    },
+    "safeListN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeListN",
+      "params": [
+        {
+          "name": "dictionaryOrList",
+          "type": null
+        },
+        {
+          "name": "keys",
+          "type": "IndexType[]"
+        },
+        {
+          "name": "defaultValue",
+          "type": "any[]"
+        }
+      ],
+      "return_type": "any[] | undefined",
+      "source": "method_definition"
+    },
+    "safeList2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeList2",
+      "params": [
+        {
+          "name": "dictionaryOrList",
+          "type": null
+        },
+        {
+          "name": "key1",
+          "type": "IndexType"
+        },
+        {
+          "name": "key2",
+          "type": "string"
+        },
+        {
+          "name": "defaultValue",
+          "type": "any[]"
+        }
+      ],
+      "return_type": "any[] | undefined",
+      "source": "method_definition"
+    },
+    "safeMarketStructure": {
+      "async": false,
+      "category": "safe",
+      "name": "safeMarketStructure",
+      "params": [
+        {
+          "name": "market",
+          "type": "Dict"
+        }
+      ],
+      "return_type": "MarketInterface",
+      "source": "method_definition"
+    },
+    "parseBidsAsks": {
+      "async": false,
+      "category": "parse",
+      "name": "parseBidsAsks",
+      "params": [
+        {
+          "name": "bidasks",
+          "type": null
+        },
+        {
+          "name": "priceKey",
+          "type": "IndexType"
+        },
+        {
+          "name": "amountKey",
+          "type": "IndexType"
+        },
+        {
+          "name": "countOrIdKey",
+          "type": "IndexType"
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "parseWsOrder": {
+      "async": false,
+      "category": "parse",
+      "name": "parseWsOrder",
+      "params": [
+        {
+          "name": "order",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Order",
+      "source": "method_definition"
+    },
+    "safeStringLower": {
+      "async": false,
+      "category": "safe",
+      "name": "safeStringLower",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "safeString2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeString2",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseIncome": {
+      "async": false,
+      "category": "parse",
+      "name": "parseIncome",
+      "params": [
+        {
+          "name": "info",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "object",
+      "source": "method_definition"
+    },
+    "parseTrades": {
+      "async": false,
+      "category": "parse",
+      "name": "parseTrades",
+      "params": [
+        {
+          "name": "trades",
+          "type": "any[]"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "Trade[]",
+      "source": "method_definition"
+    },
+    "parseOptionChain": {
+      "async": false,
+      "category": "parse",
+      "name": "parseOptionChain",
+      "params": [
+        {
+          "name": "response",
+          "type": "object[]"
+        },
+        {
+          "name": "currencyKey",
+          "type": "Str"
+        },
+        {
+          "name": "symbolKey",
+          "type": "Str"
+        }
+      ],
+      "return_type": "OptionChain",
+      "source": "method_definition"
+    },
+    "safeValueN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeValueN",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "safeLiquidation": {
+      "async": false,
+      "category": "safe",
+      "name": "safeLiquidation",
+      "params": [
+        {
+          "name": "liquidation",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Liquidation",
+      "source": "method_definition"
+    },
+    "safeDict2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeDict2",
+      "params": [
+        {
+          "name": "dictionary",
+          "type": null
+        },
+        {
+          "name": "key1",
+          "type": "IndexType"
+        },
+        {
+          "name": "key2",
+          "type": "string"
+        },
+        {
+          "name": "defaultValue",
+          "type": "Dictionary<any>"
+        }
+      ],
+      "return_type": "Dictionary<any> | undefined",
+      "source": "method_definition"
+    },
+    "safeTimestampN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeTimestampN",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "safeBool": {
+      "async": false,
+      "category": "safe",
+      "name": "safeBool",
+      "params": [
+        {
+          "name": "dictionary",
+          "type": null
+        },
+        {
+          "name": "key",
+          "type": "IndexType"
+        },
+        {
+          "name": "defaultValue",
+          "type": "boolean"
+        }
+      ],
+      "return_type": "boolean | undefined",
+      "source": "method_definition"
+    },
+    "safeOrder": {
+      "async": false,
+      "category": "safe",
+      "name": "safeOrder",
+      "params": [
+        {
+          "name": "order",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Order",
+      "source": "method_definition"
+    },
+    "parseFundingRates": {
+      "async": false,
+      "category": "parse",
+      "name": "parseFundingRates",
+      "params": [
+        {
+          "name": "response",
+          "type": null
+        },
+        {
+          "name": "symbols",
+          "type": "Strings"
+        }
+      ],
+      "return_type": "FundingRates",
+      "source": "method_definition"
+    },
+    "parseLeverage": {
+      "async": false,
+      "category": "parse",
+      "name": "parseLeverage",
+      "params": [
+        {
+          "name": "leverage",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Leverage",
+      "source": "method_definition"
+    },
+    "safeDictN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeDictN",
+      "params": [
+        {
+          "name": "dictionaryOrList",
+          "type": null
+        },
+        {
+          "name": "keys",
+          "type": "IndexType[]"
+        },
+        {
+          "name": "defaultValue",
+          "type": "Dictionary<any>"
+        }
+      ],
+      "return_type": "Dictionary<any> | undefined",
+      "source": "method_definition"
+    },
+    "safeCurrency": {
+      "async": false,
+      "category": "safe",
+      "name": "safeCurrency",
+      "params": [
+        {
+          "name": "currencyId",
+          "type": "Str"
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        }
+      ],
+      "return_type": "CurrencyInterface",
+      "source": "method_definition"
+    },
+    "safeIntegerProduct2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeIntegerProduct2",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseTransfer": {
+      "async": false,
+      "category": "parse",
+      "name": "parseTransfer",
+      "params": [
+        {
+          "name": "transfer",
+          "type": "Dict"
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        }
+      ],
+      "return_type": "TransferEntry",
+      "source": "method_definition"
+    },
+    "safeStringUpper2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeStringUpper2",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseLastPrice": {
+      "async": false,
+      "category": "parse",
+      "name": "parseLastPrice",
+      "params": [
+        {
+          "name": "price",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "LastPrice",
+      "source": "method_definition"
+    },
+    "parseLeverageTiers": {
+      "async": false,
+      "category": "parse",
+      "name": "parseLeverageTiers",
+      "params": [
+        {
+          "name": "response",
+          "type": "any"
+        },
+        {
+          "name": "symbols",
+          "type": "string[]"
+        },
+        {
+          "name": "marketIdKey",
+          "type": null
+        }
+      ],
+      "return_type": "LeverageTiers",
+      "source": "method_definition"
+    },
+    "safeValue": {
+      "async": false,
+      "category": "safe",
+      "name": "safeValue",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseDepositAddress": {
+      "async": false,
+      "category": "parse",
+      "name": "parseDepositAddress",
+      "params": [
+        {
+          "name": "depositAddress",
+          "type": null
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        }
+      ],
+      "return_type": "DepositAddress",
+      "source": "method_definition"
+    },
+    "safeTimestamp": {
+      "async": false,
+      "category": "safe",
+      "name": "safeTimestamp",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseOpenInterestsHistory": {
+      "async": false,
+      "category": "parse",
+      "name": "parseOpenInterestsHistory",
+      "params": [
+        {
+          "name": "response",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": null
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        }
+      ],
+      "return_type": "OpenInterest[]",
+      "source": "method_definition"
+    },
+    "safeIntegerProduct": {
+      "async": false,
+      "category": "safe",
+      "name": "safeIntegerProduct",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseLedgerEntry": {
+      "async": false,
+      "category": "parse",
+      "name": "parseLedgerEntry",
+      "params": [
+        {
+          "name": "item",
+          "type": "Dict"
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        }
+      ],
+      "return_type": "LedgerEntry",
+      "source": "method_definition"
+    },
+    "parseCurrencies": {
+      "async": false,
+      "category": "parse",
+      "name": "parseCurrencies",
+      "params": [
+        {
+          "name": "rawCurrencies",
+          "type": null
+        }
+      ],
+      "return_type": "Currencies",
+      "source": "method_definition"
+    },
+    "parseTransfers": {
+      "async": false,
+      "category": "parse",
+      "name": "parseTransfers",
+      "params": [
+        {
+          "name": "transfers",
+          "type": "any[]"
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "TransferEntry[]",
+      "source": "method_definition"
+    },
+    "safeFloatN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeFloatN",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseLongShortRatioHistory": {
+      "async": false,
+      "category": "parse",
+      "name": "parseLongShortRatioHistory",
+      "params": [
+        {
+          "name": "response",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": null
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        }
+      ],
+      "return_type": "LongShortRatio[]",
+      "source": "method_definition"
+    },
+    "parseTradesHelper": {
+      "async": false,
+      "category": "parse",
+      "name": "parseTradesHelper",
+      "params": [
+        {
+          "name": "isWs",
+          "type": "boolean"
+        },
+        {
+          "name": "trades",
+          "type": "any[]"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "Trade[]",
+      "source": "method_definition"
+    },
+    "safeNumberOmitZero": {
+      "async": false,
+      "category": "safe",
+      "name": "safeNumberOmitZero",
+      "params": [
+        {
+          "name": "obj",
+          "type": "object"
+        },
+        {
+          "name": "key",
+          "type": "IndexType"
+        },
+        {
+          "name": "defaultValue",
+          "type": "Num"
+        }
+      ],
+      "return_type": "Num",
+      "source": "method_definition"
+    },
+    "safeTicker": {
+      "async": false,
+      "category": "safe",
+      "name": "safeTicker",
+      "params": [
+        {
+          "name": "ticker",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Ticker",
+      "source": "method_definition"
+    },
+    "parseFundingRateHistory": {
+      "async": false,
+      "category": "parse",
+      "name": "parseFundingRateHistory",
+      "params": [
+        {
+          "name": "info",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "FundingRateHistory",
+      "source": "method_definition"
+    },
+    "parseTicker": {
+      "async": false,
+      "category": "parse",
+      "name": "parseTicker",
+      "params": [
+        {
+          "name": "ticker",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Ticker",
+      "source": "method_definition"
+    },
+    "parseWsOHLCV": {
+      "async": false,
+      "category": "parse",
+      "name": "parseWsOHLCV",
+      "params": [
+        {
+          "name": "ohlcv",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "OHLCV",
+      "source": "method_definition"
+    },
+    "parseAccounts": {
+      "async": false,
+      "category": "parse",
+      "name": "parseAccounts",
+      "params": [
+        {
+          "name": "accounts",
+          "type": "any[]"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "Account[]",
+      "source": "method_definition"
+    },
+    "safeIntegerN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeIntegerN",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseAllGreeks": {
+      "async": false,
+      "category": "parse",
+      "name": "parseAllGreeks",
+      "params": [
+        {
+          "name": "greeks",
+          "type": null
+        },
+        {
+          "name": "symbols",
+          "type": "Strings"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "Greeks[]",
+      "source": "method_definition"
+    },
+    "parseNumber": {
+      "async": false,
+      "category": "parse",
+      "name": "parseNumber",
+      "params": [
+        {
+          "name": "value",
+          "type": null
+        },
+        {
+          "name": "d",
+          "type": "Num"
+        }
+      ],
+      "return_type": "number",
+      "source": "method_definition"
+    },
+    "parseOrder": {
+      "async": false,
+      "category": "parse",
+      "name": "parseOrder",
+      "params": [
+        {
+          "name": "order",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Order",
+      "source": "method_definition"
+    },
+    "safeCurrencyStructure": {
+      "async": false,
+      "category": "safe",
+      "name": "safeCurrencyStructure",
+      "params": [
+        {
+          "name": "currency",
+          "type": "object"
+        }
+      ],
+      "return_type": "CurrencyInterface",
+      "source": "method_definition"
+    },
+    "parseBalance": {
+      "async": false,
+      "category": "parse",
+      "name": "parseBalance",
+      "params": [
+        {
+          "name": "response",
+          "type": null
+        }
+      ],
+      "return_type": "Balances",
+      "source": "method_definition"
+    },
+    "parsedFeeAndFees": {
+      "async": false,
+      "category": "parse",
+      "name": "parsedFeeAndFees",
+      "params": [
+        {
+          "name": "container",
+          "type": "any"
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "safeValue2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeValue2",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseMarginModes": {
+      "async": false,
+      "category": "parse",
+      "name": "parseMarginModes",
+      "params": [
+        {
+          "name": "response",
+          "type": "object[]"
+        },
+        {
+          "name": "symbols",
+          "type": "string[]"
+        },
+        {
+          "name": "symbolKey",
+          "type": "Str"
+        },
+        {
+          "name": "marketType",
+          "type": "MarketType"
+        }
+      ],
+      "return_type": "MarginModes",
+      "source": "method_definition"
+    },
+    "parseOrders": {
+      "async": false,
+      "category": "parse",
+      "name": "parseOrders",
+      "params": [
+        {
+          "name": "orders",
+          "type": "object"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "Order[]",
+      "source": "method_definition"
+    },
+    "parseAccount": {
+      "async": false,
+      "category": "parse",
+      "name": "parseAccount",
+      "params": [
+        {
+          "name": "account",
+          "type": "Dict"
+        }
+      ],
+      "return_type": "Account",
+      "source": "method_definition"
+    },
+    "safeBool2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeBool2",
+      "params": [
+        {
+          "name": "dictionary",
+          "type": null
+        },
+        {
+          "name": "key1",
+          "type": "IndexType"
+        },
+        {
+          "name": "key2",
+          "type": "IndexType"
+        },
+        {
+          "name": "defaultValue",
+          "type": "boolean"
+        }
+      ],
+      "return_type": "boolean | undefined",
+      "source": "method_definition"
+    },
+    "parseFeeNumeric": {
+      "async": false,
+      "category": "parse",
+      "name": "parseFeeNumeric",
+      "params": [
+        {
+          "name": "fee",
+          "type": "any"
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "parseOpenInterest": {
+      "async": false,
+      "category": "parse",
+      "name": "parseOpenInterest",
+      "params": [
+        {
+          "name": "interest",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "OpenInterest",
+      "source": "method_definition"
+    },
+    "parsePositions": {
+      "async": false,
+      "category": "parse",
+      "name": "parsePositions",
+      "params": [
+        {
+          "name": "positions",
+          "type": "any[]"
+        },
+        {
+          "name": "symbols",
+          "type": "string[]"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "Position[]",
+      "source": "method_definition"
+    },
+    "parseFundingRateHistories": {
+      "async": false,
+      "category": "parse",
+      "name": "parseFundingRateHistories",
+      "params": [
+        {
+          "name": "response",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": null
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        }
+      ],
+      "return_type": "FundingRateHistory[]",
+      "source": "method_definition"
+    },
+    "safeTrade": {
+      "async": false,
+      "category": "safe",
+      "name": "safeTrade",
+      "params": [
+        {
+          "name": "trade",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Trade",
+      "source": "method_definition"
+    },
+    "parsePrecision": {
+      "async": false,
+      "category": "parse",
+      "name": "parsePrecision",
+      "params": [
+        {
+          "name": "precision",
+          "type": "string"
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "safeBoolN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeBoolN",
+      "params": [
+        {
+          "name": "dictionaryOrList",
+          "type": null
+        },
+        {
+          "name": "keys",
+          "type": "IndexType[]"
+        },
+        {
+          "name": "defaultValue",
+          "type": "boolean"
+        }
+      ],
+      "return_type": "boolean | undefined",
+      "source": "method_definition"
+    },
+    "parseBidAsk": {
+      "async": false,
+      "category": "parse",
+      "name": "parseBidAsk",
+      "params": [
+        {
+          "name": "bidask",
+          "type": null
+        },
+        {
+          "name": "priceKey",
+          "type": "IndexType"
+        },
+        {
+          "name": "amountKey",
+          "type": "IndexType"
+        },
+        {
+          "name": "countOrIdKey",
+          "type": "IndexType"
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "safeIntegerProductN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeIntegerProductN",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseDepositWithdrawFees": {
+      "async": false,
+      "category": "parse",
+      "name": "parseDepositWithdrawFees",
+      "params": [
+        {
+          "name": "response",
+          "type": null
+        },
+        {
+          "name": "codes",
+          "type": "Strings"
+        },
+        {
+          "name": "currencyIdKey",
+          "type": null
+        }
+      ],
+      "return_type": "any",
+      "source": "method_definition"
+    },
+    "parseDate": {
+      "async": false,
+      "category": "parse",
+      "name": "parseDate",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseBorrowInterests": {
+      "async": false,
+      "category": "parse",
+      "name": "parseBorrowInterests",
+      "params": [
+        {
+          "name": "response",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "BorrowInterest[]",
+      "source": "method_definition"
+    },
+    "parseIncomes": {
+      "async": false,
+      "category": "parse",
+      "name": "parseIncomes",
+      "params": [
+        {
+          "name": "incomes",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": null
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        }
+      ],
+      "return_type": "FundingHistory[]",
+      "source": "method_definition"
+    },
+    "safeFloat": {
+      "async": false,
+      "category": "safe",
+      "name": "safeFloat",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseWsOHLCVs": {
+      "async": false,
+      "category": "parse",
+      "name": "parseWsOHLCVs",
+      "params": [
+        {
+          "name": "ohlcvs",
+          "type": "object[]"
+        },
+        {
+          "name": "market",
+          "type": "any"
+        },
+        {
+          "name": "timeframe",
+          "type": "string"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "parseTransaction": {
+      "async": false,
+      "category": "parse",
+      "name": "parseTransaction",
+      "params": [
+        {
+          "name": "transaction",
+          "type": "Dict"
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        }
+      ],
+      "return_type": "Transaction",
+      "source": "method_definition"
+    },
+    "parseLedger": {
+      "async": false,
+      "category": "parse",
+      "name": "parseLedger",
+      "params": [
+        {
+          "name": "data",
+          "type": null
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "LedgerEntry[]",
+      "source": "method_definition"
+    },
+    "safeString": {
+      "async": false,
+      "category": "safe",
+      "name": "safeString",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseDepositWithdrawFee": {
+      "async": false,
+      "category": "parse",
+      "name": "parseDepositWithdrawFee",
+      "params": [
+        {
+          "name": "fee",
+          "type": null
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        }
+      ],
+      "return_type": "any",
+      "source": "method_definition"
+    },
+    "safeNumberN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeNumberN",
+      "params": [
+        {
+          "name": "obj",
+          "type": "object"
+        },
+        {
+          "name": "arr",
+          "type": "IndexType[]"
+        },
+        {
+          "name": "defaultNumber",
+          "type": "Num"
+        }
+      ],
+      "return_type": "Num",
+      "source": "method_definition"
+    },
+    "parseMarginModification": {
+      "async": false,
+      "category": "parse",
+      "name": "parseMarginModification",
+      "params": [
+        {
+          "name": "data",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "MarginModification",
+      "source": "method_definition"
+    },
+    "parseFundingRate": {
+      "async": false,
+      "category": "parse",
+      "name": "parseFundingRate",
+      "params": [
+        {
+          "name": "contract",
+          "type": "string"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "FundingRate",
+      "source": "method_definition"
+    },
+    "parseOption": {
+      "async": false,
+      "category": "parse",
+      "name": "parseOption",
+      "params": [
+        {
+          "name": "chain",
+          "type": "Dict"
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Option",
+      "source": "method_definition"
+    },
+    "parseOrderBook": {
+      "async": false,
+      "category": "parse",
+      "name": "parseOrderBook",
+      "params": [
+        {
+          "name": "orderbook",
+          "type": "object"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "timestamp",
+          "type": "Int"
+        },
+        {
+          "name": "bidsKey",
+          "type": null
+        },
+        {
+          "name": "asksKey",
+          "type": null
+        },
+        {
+          "name": "priceKey",
+          "type": "IndexType"
+        },
+        {
+          "name": "amountKey",
+          "type": "IndexType"
+        },
+        {
+          "name": "countOrIdKey",
+          "type": "IndexType"
+        }
+      ],
+      "return_type": "OrderBook",
+      "source": "method_definition"
+    },
+    "safeStringUpperN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeStringUpperN",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "safeDict": {
+      "async": false,
+      "category": "safe",
+      "name": "safeDict",
+      "params": [
+        {
+          "name": "dictionary",
+          "type": null
+        },
+        {
+          "name": "key",
+          "type": "IndexType"
+        },
+        {
+          "name": "defaultValue",
+          "type": "Dictionary<any>"
+        }
+      ],
+      "return_type": "Dictionary<any> | undefined",
+      "source": "method_definition"
+    },
+    "parseADLRank": {
+      "async": false,
+      "category": "parse",
+      "name": "parseADLRank",
+      "params": [
+        {
+          "name": "info",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "ADL",
+      "source": "method_definition"
+    },
+    "safeOpenInterest": {
+      "async": false,
+      "category": "safe",
+      "name": "safeOpenInterest",
+      "params": [
+        {
+          "name": "interest",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "OpenInterest",
+      "source": "method_definition"
+    },
+    "parseMarketLeverageTiers": {
+      "async": false,
+      "category": "parse",
+      "name": "parseMarketLeverageTiers",
+      "params": [
+        {
+          "name": "info",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "LeverageTier[]",
+      "source": "method_definition"
+    },
+    "parseWsOrderTrade": {
+      "async": false,
+      "category": "parse",
+      "name": "parseWsOrderTrade",
+      "params": [
+        {
+          "name": "trade",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Trade",
+      "source": "method_definition"
+    },
+    "parseTickers": {
+      "async": false,
+      "category": "parse",
+      "name": "parseTickers",
+      "params": [
+        {
+          "name": "tickers",
+          "type": null
+        },
+        {
+          "name": "symbols",
+          "type": "Strings"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "Tickers",
+      "source": "method_definition"
+    },
+    "safeDeterministicCall": {
+      "async": true,
+      "category": "safe",
+      "name": "safeDeterministicCall",
+      "params": [
+        {
+          "name": "method",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "Str"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        },
+        {
+          "name": "timeframe",
+          "type": "Str"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "parseBorrowRate": {
+      "async": false,
+      "category": "parse",
+      "name": "parseBorrowRate",
+      "params": [
+        {
+          "name": "info",
+          "type": null
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        }
+      ],
+      "return_type": "Dict",
+      "source": "method_definition"
+    },
+    "parseConversions": {
+      "async": false,
+      "category": "parse",
+      "name": "parseConversions",
+      "params": [
+        {
+          "name": "conversions",
+          "type": "any[]"
+        },
+        {
+          "name": "code",
+          "type": "Str"
+        },
+        {
+          "name": "fromCurrencyKey",
+          "type": "Str"
+        },
+        {
+          "name": "toCurrencyKey",
+          "type": "Str"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "Conversion[]",
+      "source": "method_definition"
+    },
+    "parseConversion": {
+      "async": false,
+      "category": "parse",
+      "name": "parseConversion",
+      "params": [
+        {
+          "name": "conversion",
+          "type": "Dict"
+        },
+        {
+          "name": "fromCurrency",
+          "type": "Currency"
+        },
+        {
+          "name": "toCurrency",
+          "type": "Currency"
+        }
+      ],
+      "return_type": "Conversion",
+      "source": "method_definition"
+    },
+    "safeFloat2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeFloat2",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseTimeframe": {
+      "async": false,
+      "category": "parse",
+      "name": "parseTimeframe",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseJson": {
+      "async": false,
+      "category": "parse",
+      "name": "parseJson",
+      "params": [
+        {
+          "name": "jsonString",
+          "type": null
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "parseOHLCV": {
+      "async": false,
+      "category": "parse",
+      "name": "parseOHLCV",
+      "params": [
+        {
+          "name": "ohlcv",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "OHLCV",
+      "source": "method_definition"
+    },
+    "safeBalance": {
+      "async": false,
+      "category": "safe",
+      "name": "safeBalance",
+      "params": [
+        {
+          "name": "balance",
+          "type": "Dict"
+        }
+      ],
+      "return_type": "Balances",
+      "source": "method_definition"
+    },
+    "parseMarket": {
+      "async": false,
+      "category": "parse",
+      "name": "parseMarket",
+      "params": [
+        {
+          "name": "market",
+          "type": "Dict"
+        }
+      ],
+      "return_type": "Market",
+      "source": "method_definition"
+    },
+    "safeCurrencyCode": {
+      "async": false,
+      "category": "safe",
+      "name": "safeCurrencyCode",
+      "params": [
+        {
+          "name": "currencyId",
+          "type": "Str"
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        }
+      ],
+      "return_type": "Str",
+      "source": "method_definition"
+    },
+    "parseLiquidations": {
+      "async": false,
+      "category": "parse",
+      "name": "parseLiquidations",
+      "params": [
+        {
+          "name": "liquidations",
+          "type": "Dict[]"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        }
+      ],
+      "return_type": "Liquidation[]",
+      "source": "method_definition"
+    },
+    "parseBorrowInterest": {
+      "async": false,
+      "category": "parse",
+      "name": "parseBorrowInterest",
+      "params": [
+        {
+          "name": "info",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "BorrowInterest",
+      "source": "method_definition"
+    },
+    "safeMarket": {
+      "async": false,
+      "category": "safe",
+      "name": "safeMarket",
+      "params": [
+        {
+          "name": "marketId",
+          "type": "Str"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        },
+        {
+          "name": "delimiter",
+          "type": "Str"
+        },
+        {
+          "name": "marketType",
+          "type": "Str"
+        }
+      ],
+      "return_type": "MarketInterface",
+      "source": "method_definition"
+    },
+    "parseMarkets": {
+      "async": false,
+      "category": "parse",
+      "name": "parseMarkets",
+      "params": [
+        {
+          "name": "markets",
+          "type": null
+        }
+      ],
+      "return_type": "Market[]",
+      "source": "method_definition"
+    },
+    "safeStringLower2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeStringLower2",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "safeInteger": {
+      "async": false,
+      "category": "safe",
+      "name": "safeInteger",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseWsTrade": {
+      "async": false,
+      "category": "parse",
+      "name": "parseWsTrade",
+      "params": [
+        {
+          "name": "trade",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Trade",
+      "source": "method_definition"
+    },
+    "parseIsolatedBorrowRates": {
+      "async": false,
+      "category": "parse",
+      "name": "parseIsolatedBorrowRates",
+      "params": [
+        {
+          "name": "info",
+          "type": "any"
+        }
+      ],
+      "return_type": "IsolatedBorrowRates",
+      "source": "method_definition"
+    },
+    "parseCurrency": {
+      "async": false,
+      "category": "parse",
+      "name": "parseCurrency",
+      "params": [
+        {
+          "name": "rawCurrency",
+          "type": "Dict"
+        }
+      ],
+      "return_type": "Currency",
+      "source": "method_definition"
+    },
+    "safeTimestamp2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeTimestamp2",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseToNumeric": {
+      "async": false,
+      "category": "parse",
+      "name": "parseToNumeric",
+      "params": [
+        {
+          "name": "number",
+          "type": null
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "parseGreeks": {
+      "async": false,
+      "category": "parse",
+      "name": "parseGreeks",
+      "params": [
+        {
+          "name": "greeks",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Greeks",
+      "source": "method_definition"
+    },
+    "safeInteger2": {
+      "async": false,
+      "category": "safe",
+      "name": "safeInteger2",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseMarginMode": {
+      "async": false,
+      "category": "parse",
+      "name": "parseMarginMode",
+      "params": [
+        {
+          "name": "marginMode",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "MarginMode",
+      "source": "method_definition"
+    },
+    "safeStringN": {
+      "async": false,
+      "category": "safe",
+      "name": "safeStringN",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parseWsTrades": {
+      "async": false,
+      "category": "parse",
+      "name": "parseWsTrades",
+      "params": [
+        {
+          "name": "trades",
+          "type": "any[]"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "Trade[]",
+      "source": "method_definition"
+    },
+    "safeIntegerOmitZero": {
+      "async": false,
+      "category": "safe",
+      "name": "safeIntegerOmitZero",
+      "params": [
+        {
+          "name": "obj",
+          "type": "object"
+        },
+        {
+          "name": "key",
+          "type": "IndexType"
+        },
+        {
+          "name": "defaultValue",
+          "type": "Int"
+        }
+      ],
+      "return_type": "Int",
+      "source": "method_definition"
+    },
+    "parseADLRanks": {
+      "async": false,
+      "category": "parse",
+      "name": "parseADLRanks",
+      "params": [
+        {
+          "name": "ranks",
+          "type": "any[]"
+        },
+        {
+          "name": "symbols",
+          "type": "string[]"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "ADL[]",
+      "source": "method_definition"
+    },
+    "safeList": {
+      "async": false,
+      "category": "safe",
+      "name": "safeList",
+      "params": [
+        {
+          "name": "dictionaryOrList",
+          "type": null
+        },
+        {
+          "name": "key",
+          "type": "IndexType"
+        },
+        {
+          "name": "defaultValue",
+          "type": "any[]"
+        }
+      ],
+      "return_type": "any[] | undefined",
+      "source": "method_definition"
+    },
+    "parseLeverages": {
+      "async": false,
+      "category": "parse",
+      "name": "parseLeverages",
+      "params": [
+        {
+          "name": "response",
+          "type": "object[]"
+        },
+        {
+          "name": "symbols",
+          "type": "string[]"
+        },
+        {
+          "name": "symbolKey",
+          "type": "Str"
+        },
+        {
+          "name": "marketType",
+          "type": "MarketType"
+        }
+      ],
+      "return_type": "Leverages",
+      "source": "method_definition"
+    },
+    "parseOHLCVs": {
+      "async": false,
+      "category": "parse",
+      "name": "parseOHLCVs",
+      "params": [
+        {
+          "name": "ohlcvs",
+          "type": "object[]"
+        },
+        {
+          "name": "market",
+          "type": "any"
+        },
+        {
+          "name": "timeframe",
+          "type": "string"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        },
+        {
+          "name": "tail",
+          "type": "Bool"
+        }
+      ],
+      "return_type": "OHLCV[]",
+      "source": "method_definition"
+    },
+    "safeStringUpper": {
+      "async": false,
+      "category": "safe",
+      "name": "safeStringUpper",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "parsePosition": {
+      "async": false,
+      "category": "parse",
+      "name": "parsePosition",
+      "params": [
+        {
+          "name": "position",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Position",
+      "source": "method_definition"
+    },
+    "parseTransactions": {
+      "async": false,
+      "category": "parse",
+      "name": "parseTransactions",
+      "params": [
+        {
+          "name": "transactions",
+          "type": "any[]"
+        },
+        {
+          "name": "currency",
+          "type": "Currency"
+        },
+        {
+          "name": "since",
+          "type": "Int"
+        },
+        {
+          "name": "limit",
+          "type": "Int"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "Transaction[]",
+      "source": "method_definition"
+    },
+    "parseLiquidation": {
+      "async": false,
+      "category": "parse",
+      "name": "parseLiquidation",
+      "params": [
+        {
+          "name": "liquidation",
+          "type": null
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "Liquidation",
+      "source": "method_definition"
+    },
+    "parse8601": {
+      "async": false,
+      "category": "parse",
+      "name": "parse8601",
+      "params": [],
+      "return_type": null,
+      "source": "field_assignment"
+    },
+    "safePosition": {
+      "async": false,
+      "category": "safe",
+      "name": "safePosition",
+      "params": [
+        {
+          "name": "position",
+          "type": "Dict"
+        }
+      ],
+      "return_type": "Position",
+      "source": "method_definition"
+    },
+    "safeSymbol": {
+      "async": false,
+      "category": "safe",
+      "name": "safeSymbol",
+      "params": [
+        {
+          "name": "marketId",
+          "type": "Str"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        },
+        {
+          "name": "delimiter",
+          "type": "Str"
+        },
+        {
+          "name": "marketType",
+          "type": "Str"
+        }
+      ],
+      "return_type": "string",
+      "source": "method_definition"
+    },
+    "parseToInt": {
+      "async": false,
+      "category": "parse",
+      "name": "parseToInt",
+      "params": [
+        {
+          "name": "number",
+          "type": null
+        }
+      ],
+      "return_type": null,
+      "source": "method_definition"
+    },
+    "parseLongShortRatio": {
+      "async": false,
+      "category": "parse",
+      "name": "parseLongShortRatio",
+      "params": [
+        {
+          "name": "info",
+          "type": "Dict"
+        },
+        {
+          "name": "market",
+          "type": "Market"
+        }
+      ],
+      "return_type": "LongShortRatio",
+      "source": "method_definition"
+    },
+    "parseOpenInterests": {
+      "async": false,
+      "category": "parse",
+      "name": "parseOpenInterests",
+      "params": [
+        {
+          "name": "response",
+          "type": null
+        },
+        {
+          "name": "symbols",
+          "type": "Strings"
+        }
+      ],
+      "return_type": "OpenInterests",
+      "source": "method_definition"
+    },
+    "parseLastPrices": {
+      "async": false,
+      "category": "parse",
+      "name": "parseLastPrices",
+      "params": [
+        {
+          "name": "pricesData",
+          "type": null
+        },
+        {
+          "name": "symbols",
+          "type": "string[]"
+        },
+        {
+          "name": "params",
+          "type": null
+        }
+      ],
+      "return_type": "LastPrices",
+      "source": "method_definition"
+    }
+  },
+  "source_file": "base/Exchange.ts"
+}

@@ -113,6 +113,16 @@ defmodule CcxtExtract.PipelineTest do
           "pagination_count" => 1
         }
       },
+      unified_endpoints: %{
+        "testex" => %{
+          "id" => "testex",
+          "unified_endpoints" => %{
+            "fetchTicker" => ["publicGetTicker"],
+            "fetchBalance" => ["privateGetAccount"]
+          },
+          "unified_endpoint_count" => 2
+        }
+      },
       overrides: %{},
       missing_files: []
     }
@@ -159,6 +169,7 @@ defmodule CcxtExtract.PipelineTest do
       ws_methods: %{},
       interface_signatures: %{},
       pagination: %{},
+      unified_endpoints: %{},
       overrides: %{},
       missing_files: []
     }
@@ -199,7 +210,7 @@ defmodule CcxtExtract.PipelineTest do
              ]
     end
 
-    test "assembles alias exchange with nil layers" do
+    test "assembles alias exchange with nil layers when no parent in class hierarchy" do
       result = Pipeline.build_exchange_data(alias_meta(), empty_data(), @schema_opts)
 
       assert result["exchange"]["alias"] == true
@@ -215,6 +226,37 @@ defmodule CcxtExtract.PipelineTest do
       assert result["structure"]["interface_signatures"] == nil
       assert result["structure"]["pagination"] == nil
       assert result["structure"]["overrides"] == nil
+    end
+
+    test "resolves alias exchange runtime data from parent" do
+      parent_describe = %{"id" => "testex", "has" => %{"fetchTicker" => true}}
+      parent_markets = %{"market_count" => 50, "markets" => %{"BTC/USDT" => %{"active" => true}}}
+
+      # Alias has no own describe/markets but has class hierarchy pointing to parent
+      alias_class = %{
+        "node_key" => "rest:aliasex",
+        "class_name" => "aliasex",
+        "type" => "rest",
+        "extends_resolved" => "testex",
+        "parent_key" => "rest:testex",
+        "file" => "aliasex.ts",
+        "method_count" => 1,
+        "methods" => ["describe"],
+        "method_details" => []
+      }
+
+      data = %{
+        empty_data()
+        | describe: %{"testex" => parent_describe},
+          load_markets: %{"testex" => parent_markets},
+          classes: %{"aliasex" => [alias_class]}
+      }
+
+      result = Pipeline.build_exchange_data(alias_meta(), data, @schema_opts)
+
+      assert result["runtime"]["describe"] == parent_describe
+      assert result["runtime"]["markets"] == parent_markets
+      assert is_map(result["runtime"]["symbol_patterns"])
     end
 
     test "renames handle_errors fields correctly" do
@@ -787,6 +829,7 @@ defmodule CcxtExtract.PipelineTest do
     write_json(Path.join(dir, "ws_methods.json"), empty_global)
     write_json(Path.join(dir, "interface_signatures.json"), empty_global)
     write_json(Path.join(dir, "pagination.json"), empty_global)
+    write_json(Path.join(dir, "unified_endpoints.json"), empty_global)
     write_json(Path.join(dir, "overrides.json"), empty_global)
 
     # Manifests for per-exchange loaders
@@ -1071,6 +1114,68 @@ defmodule CcxtExtract.PipelineTest do
           extracted_at: "2026-03-30T12:00:00Z"
         )
       end
+    end
+
+    @tag :tmp_dir
+    test "unified_endpoints entry missing unified_endpoints key tracked as corrupt", %{
+      tmp_dir: tmp_dir
+    } do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: []
+      )
+
+      # Write entry with id but missing required "unified_endpoints" key
+      File.write!(
+        Path.join(tmp_dir, "unified_endpoints.json"),
+        Jason.encode!(%{"exchanges" => [%{"id" => "fakex"}]})
+      )
+
+      {:ok, _exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert stats.corrupt_entries != []
+
+      assert Enum.any?(
+               stats.corrupt_entries,
+               &String.contains?(&1, "unified_endpoints")
+             )
+    end
+
+    @tag :tmp_dir
+    test "unified_endpoints entry with non-map endpoints tracked as corrupt", %{
+      tmp_dir: tmp_dir
+    } do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: [],
+        markets_succeeded: []
+      )
+
+      # Write entry with unified_endpoints as a string instead of map
+      File.write!(
+        Path.join(tmp_dir, "unified_endpoints.json"),
+        Jason.encode!(%{
+          "exchanges" => [%{"id" => "fakex", "unified_endpoints" => "not a map"}]
+        })
+      )
+
+      {:ok, _exchanges, stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
+
+      assert stats.corrupt_entries != []
+
+      assert Enum.any?(
+               stats.corrupt_entries,
+               &String.contains?(&1, "unified_endpoints")
+             )
     end
   end
 

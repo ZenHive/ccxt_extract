@@ -1,5 +1,5 @@
 defmodule Mix.Tasks.CcxtExtract.Update do
-  @shortdoc "Re-extract all exchange data (setup → pipeline → validate)"
+  @shortdoc "Re-extract all exchange data (setup → extractors → pipeline → validate)"
 
   @moduledoc """
   Orchestrates a full re-extraction: updates CCXT sources, runs the pipeline,
@@ -16,13 +16,15 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     * `--ccxt-version VERSION` — pin a specific CCXT version
     * `--latest` — force reinstall of the latest CCXT version
     * `--strict` — fail with non-zero exit on validation errors
-    * `--skip-setup` — skip setup stage (use when sources are already current)
+    * `--skip-setup` — skip stages 1-3 (setup + all extractors), re-run only pipeline + validate
 
   ## Stages
 
   1. **Setup** — install/update CCXT sources (`mix ccxt_extract.setup`)
-  2. **Pipeline** — assemble per-exchange JSON (`mix ccxt_extract.pipeline`)
-  3. **Validate** — schema + round-trip validation (`mix ccxt_extract.validate`)
+  2. **QuickBEAM Extractors** — runtime values: exchange metadata, describe(), loadMarkets()
+  3. **OXC Extractors** — AST parsing: classes, methods, sign, parse, ws, pagination, unified endpoints, overrides
+  4. **Pipeline** — assemble per-exchange JSON (`mix ccxt_extract.pipeline`)
+  5. **Validate** — schema + round-trip validation (`mix ccxt_extract.validate`)
 
   Each stage's failure halts subsequent stages. After all stages complete,
   a diff summary shows what changed compared to the previous extraction.
@@ -62,18 +64,24 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     # Snapshot existing manifest before any changes
     old_manifest = read_manifest(manifest_path)
 
-    # Stage 1: Setup
+    # Stages 1-3: Setup + Extractors (skip when --skip-setup)
     if !opts[:skip_setup] do
       Mix.shell().info("\n── Stage 1: Setup ──")
       Mix.Task.rerun("ccxt_extract.setup", build_setup_args(opts))
+
+      Mix.shell().info("\n── Stage 2: QuickBEAM Extractors ──")
+      run_quickbeam_extractors()
+
+      Mix.shell().info("\n── Stage 3: OXC Extractors ──")
+      run_oxc_extractors()
     end
 
-    # Stage 2: Pipeline
-    Mix.shell().info("\n── Stage 2: Pipeline ──")
+    # Stage 4: Pipeline
+    Mix.shell().info("\n── Stage 4: Pipeline ──")
     Mix.Task.rerun("ccxt_extract.pipeline", build_pipeline_args(opts))
 
-    # Stage 3: Validate
-    Mix.shell().info("\n── Stage 3: Validate ──")
+    # Stage 5: Validate
+    Mix.shell().info("\n── Stage 5: Validate ──")
     Mix.Task.rerun("ccxt_extract.validate", build_validate_args(opts))
 
     # Diff summary
@@ -109,7 +117,43 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     args
   end
 
-  @doc false
+  # QuickBEAM extractors — require JS runtime, some make live API calls.
+  # Order matters: exchanges must run first (produces exchanges.json used by others).
+  @quickbeam_extractors ~w(
+    ccxt_extract.exchanges
+    ccxt_extract.describe
+    ccxt_extract.load_markets
+  )
+
+  defp run_quickbeam_extractors do
+    for task <- @quickbeam_extractors do
+      Mix.Task.rerun(task, [])
+    end
+  end
+
+  # OXC-based extractors — fast AST parsing, no API calls.
+  @oxc_extractors ~w(
+    ccxt_extract.classes
+    ccxt_extract.methods
+    ccxt_extract.sign_methods
+    ccxt_extract.handle_errors
+    ccxt_extract.parse_methods
+    ccxt_extract.ws_methods
+    ccxt_extract.interface_signatures
+    ccxt_extract.pagination
+    ccxt_extract.unified_endpoints
+    ccxt_extract.overrides
+    ccxt_extract.base_methods
+  )
+
+  defp run_oxc_extractors do
+    for task <- @oxc_extractors do
+      Mix.Task.rerun(task, [])
+    end
+  end
+
+  @doc "Reads and decodes a JSON manifest file, returning nil on failure."
+  @spec read_manifest(Path.t()) :: map() | nil
   def read_manifest(path) do
     case File.read(path) do
       {:ok, content} ->
@@ -123,7 +167,8 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     end
   end
 
-  @doc false
+  @doc "Prints a summary comparing old and new extraction manifests."
+  @spec report_diff(map() | nil, map() | nil) :: :ok
   def report_diff(nil, _new) do
     Mix.shell().info("First extraction — no previous data to compare.")
   end

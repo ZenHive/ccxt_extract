@@ -189,7 +189,7 @@ defmodule CcxtExtract.DescribeIntegrationTest do
       assert length(manifest["exchanges"]) == length(results)
       assert is_binary(manifest["extracted_at"])
 
-      # Verify a sample exchange file
+      # Spot-check binance.json structure
       binance = output_dir |> Path.join("binance.json") |> File.read!() |> Jason.decode!()
       assert binance["id"] == "binance"
       assert is_map(binance["describe"])

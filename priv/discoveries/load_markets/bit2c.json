@@ -1,0 +1,667 @@
+{
+  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "id": "bit2c",
+  "market_count": 4,
+  "markets": {
+    "BTC/NIS": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "Nis",
+      "tierBased": true,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": "__undefined",
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BTC/NIS",
+      "settle": "__undefined",
+      "precision": {
+        "amount": "__undefined",
+        "base": "__undefined",
+        "cost": "__undefined",
+        "price": "__undefined",
+        "quote": "__undefined"
+      },
+      "baseId": "Btc",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "NIS",
+      "expiryDatetime": "__undefined",
+      "base": "BTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.025
+          ],
+          [
+            20000,
+            0.0225
+          ],
+          [
+            50000,
+            0.02
+          ],
+          [
+            75000,
+            0.0175
+          ],
+          [
+            100000,
+            0.015
+          ],
+          [
+            250000,
+            0.01
+          ],
+          [
+            500000,
+            0.0075
+          ],
+          [
+            750000,
+            0.005
+          ],
+          [
+            1000000,
+            0.004
+          ],
+          [
+            2000000,
+            0.003
+          ],
+          [
+            3000000,
+            0.002
+          ],
+          [
+            4000000,
+            0.001
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.03
+          ],
+          [
+            20000,
+            0.0275
+          ],
+          [
+            50000,
+            0.025
+          ],
+          [
+            75000,
+            0.0225
+          ],
+          [
+            100000,
+            0.02
+          ],
+          [
+            250000,
+            0.015
+          ],
+          [
+            500000,
+            0.0125
+          ],
+          [
+            750000,
+            0.01
+          ],
+          [
+            1000000,
+            0.008
+          ],
+          [
+            2000000,
+            0.006
+          ],
+          [
+            3000000,
+            0.004
+          ],
+          [
+            4000000,
+            0.002
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "BtcNis",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "ETH/NIS": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "Nis",
+      "tierBased": true,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": "__undefined",
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ETH/NIS",
+      "settle": "__undefined",
+      "precision": {
+        "amount": "__undefined",
+        "base": "__undefined",
+        "cost": "__undefined",
+        "price": "__undefined",
+        "quote": "__undefined"
+      },
+      "baseId": "Eth",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "NIS",
+      "expiryDatetime": "__undefined",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.025
+          ],
+          [
+            20000,
+            0.0225
+          ],
+          [
+            50000,
+            0.02
+          ],
+          [
+            75000,
+            0.0175
+          ],
+          [
+            100000,
+            0.015
+          ],
+          [
+            250000,
+            0.01
+          ],
+          [
+            500000,
+            0.0075
+          ],
+          [
+            750000,
+            0.005
+          ],
+          [
+            1000000,
+            0.004
+          ],
+          [
+            2000000,
+            0.003
+          ],
+          [
+            3000000,
+            0.002
+          ],
+          [
+            4000000,
+            0.001
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.03
+          ],
+          [
+            20000,
+            0.0275
+          ],
+          [
+            50000,
+            0.025
+          ],
+          [
+            75000,
+            0.0225
+          ],
+          [
+            100000,
+            0.02
+          ],
+          [
+            250000,
+            0.015
+          ],
+          [
+            500000,
+            0.0125
+          ],
+          [
+            750000,
+            0.01
+          ],
+          [
+            1000000,
+            0.008
+          ],
+          [
+            2000000,
+            0.006
+          ],
+          [
+            3000000,
+            0.004
+          ],
+          [
+            4000000,
+            0.002
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "EthNis",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "LTC/NIS": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "Nis",
+      "tierBased": true,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": "__undefined",
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "LTC/NIS",
+      "settle": "__undefined",
+      "precision": {
+        "amount": "__undefined",
+        "base": "__undefined",
+        "cost": "__undefined",
+        "price": "__undefined",
+        "quote": "__undefined"
+      },
+      "baseId": "Ltc",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "NIS",
+      "expiryDatetime": "__undefined",
+      "base": "LTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.025
+          ],
+          [
+            20000,
+            0.0225
+          ],
+          [
+            50000,
+            0.02
+          ],
+          [
+            75000,
+            0.0175
+          ],
+          [
+            100000,
+            0.015
+          ],
+          [
+            250000,
+            0.01
+          ],
+          [
+            500000,
+            0.0075
+          ],
+          [
+            750000,
+            0.005
+          ],
+          [
+            1000000,
+            0.004
+          ],
+          [
+            2000000,
+            0.003
+          ],
+          [
+            3000000,
+            0.002
+          ],
+          [
+            4000000,
+            0.001
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.03
+          ],
+          [
+            20000,
+            0.0275
+          ],
+          [
+            50000,
+            0.025
+          ],
+          [
+            75000,
+            0.0225
+          ],
+          [
+            100000,
+            0.02
+          ],
+          [
+            250000,
+            0.015
+          ],
+          [
+            500000,
+            0.0125
+          ],
+          [
+            750000,
+            0.01
+          ],
+          [
+            1000000,
+            0.008
+          ],
+          [
+            2000000,
+            0.006
+          ],
+          [
+            3000000,
+            0.004
+          ],
+          [
+            4000000,
+            0.002
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "LtcNis",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "USDC/NIS": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "Nis",
+      "tierBased": true,
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": "__undefined",
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "USDC/NIS",
+      "settle": "__undefined",
+      "precision": {
+        "amount": "__undefined",
+        "base": "__undefined",
+        "cost": "__undefined",
+        "price": "__undefined",
+        "quote": "__undefined"
+      },
+      "baseId": "Usdc",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "NIS",
+      "expiryDatetime": "__undefined",
+      "base": "USDC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": false,
+      "percentage": true,
+      "active": "__undefined",
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.025
+          ],
+          [
+            20000,
+            0.0225
+          ],
+          [
+            50000,
+            0.02
+          ],
+          [
+            75000,
+            0.0175
+          ],
+          [
+            100000,
+            0.015
+          ],
+          [
+            250000,
+            0.01
+          ],
+          [
+            500000,
+            0.0075
+          ],
+          [
+            750000,
+            0.005
+          ],
+          [
+            1000000,
+            0.004
+          ],
+          [
+            2000000,
+            0.003
+          ],
+          [
+            3000000,
+            0.002
+          ],
+          [
+            4000000,
+            0.001
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.03
+          ],
+          [
+            20000,
+            0.0275
+          ],
+          [
+            50000,
+            0.025
+          ],
+          [
+            75000,
+            0.0225
+          ],
+          [
+            100000,
+            0.02
+          ],
+          [
+            250000,
+            0.015
+          ],
+          [
+            500000,
+            0.0125
+          ],
+          [
+            750000,
+            0.01
+          ],
+          [
+            1000000,
+            0.008
+          ],
+          [
+            2000000,
+            0.006
+          ],
+          [
+            3000000,
+            0.004
+          ],
+          [
+            4000000,
+            0.002
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "UsdcNis",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    }
+  }
+}

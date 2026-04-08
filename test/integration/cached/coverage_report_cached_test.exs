@@ -8,7 +8,7 @@ defmodule CcxtExtract.Integration.Cached.CoverageReportCachedTest do
   @moduletag :integration
   @moduletag timeout: 30_000
 
-  @fixtures_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @fixtures_dir CcxtExtract.Paths.discoveries()
 
   # Reference exchanges from CLAUDE.md
   @tier1 ~w(binance bybit okx deribit coinbaseexchange)

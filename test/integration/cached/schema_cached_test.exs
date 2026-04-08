@@ -1,7 +1,7 @@
 defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
   @moduledoc """
   Cached integration tests for Schema — validates that the schema fits
-  real fixture data from test/fixtures/discoveries/.
+  real discovery data from priv/discoveries/.
   No QuickBEAM/OXC needed.
   """
   use ExUnit.Case, async: true
@@ -11,7 +11,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
   @moduletag :integration
   @moduletag timeout: 30_000
 
-  @fixtures_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @fixtures_dir CcxtExtract.Paths.discoveries()
   @base_opts [ccxt_version: "4.5.45", extracted_at: "2026-03-30T12:00:00Z"]
 
   # --- Fixture loaders ---

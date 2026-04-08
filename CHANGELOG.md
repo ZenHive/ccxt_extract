@@ -6,6 +6,50 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 44: Resolve alias exchange data from parent
+- Alias exchanges (coinbaseadvanced, gateio, huobi) now inherit parent runtime data via class hierarchy fallback
+- Pipeline `get_describe/2` and `get_markets/2` fall back to parent exchange data when own data is nil, using existing `find_parent_exchange_id/2`
+- Symbol patterns auto-derive from resolved parent markets/describe
+- Validation `check_describe_roundtrip` and `check_markets_roundtrip` resolve parent source data for alias round-trip comparison — no false "output has data but no source" warnings
+- Key decision: reused existing unified_endpoints parent-resolution pattern rather than introducing new alias-specific logic
+
+### Commit `priv/discoveries/` and `priv/output/` — eliminate fixture duplication
+- Un-gitignored both `priv/discoveries/` and `priv/output/` — the extraction output is the primary product of this repo, now directly accessible without running Elixir
+- Removed `test/fixtures/discoveries/` — cached integration tests now read from `priv/discoveries/` via `CcxtExtract.Paths.discoveries()`
+- Updated 19 cached test files to use `CcxtExtract.Paths.discoveries()` instead of `Path.expand("../../fixtures/discoveries", __DIR__)`
+- Updated CLAUDE.md with "Extraction Data" section documenting the single-source model
+
+### Codex review: Unified endpoint helper leakage + update docs
+- **Fix:** Added `FromAPI`/`FromRest` to helper suffixes and `@known_non_unified` set (`fetchNonce`, `fetchLatestBlockHeight`, `fetchDydxAccount`, `fetchHip3Markets`) — 5 false positives removed from contract output
+- **Fix:** Clarified `--skip-setup` doc to state it skips stages 1-3 (setup + all extractors), not just setup
+- Regenerated fixture; added regression tests for both suffix and name-based exclusions
+
+### Task 42: Follow super.*() delegation in unified endpoints
+- Extends the unified endpoint walker to follow `super.<method>()` calls through the base Exchange class
+- Pre-loads `base/Exchange.ts` method index at extraction start; `super.*` calls look up the parent method body and collect its `this.*` calls, which resolve polymorphically back to the child class's methods — feeding into the existing delegation resolver
+- **Fix:** coincatch `createOrderWithTakeProfitAndStopLoss` now resolves 5 transport endpoints (was nil — delegated via `super` to base, which calls `this.createOrder()`)
+- **Fix:** kucoin `fetchDepositAddress` now includes UTA transport path (was missing — conditional `super` delegation to base, which calls `this.fetchDepositAddresses()` and `this.fetchDepositAddressesByNetwork()`)
+- Adds `parent_class` field to extraction output (class name from `extends` clause)
+- Scope: base Exchange class resolution only; intermediate exchange-to-exchange super calls (no known unified method cases) deferred
+- Discovered via Codex code review of Task 41; includes Task 43 test coverage (7 unit tests)
+
+### Task 41: Unified endpoint mappings
+- New `CcxtExtract.UnifiedEndpoints` OXC extractor maps unified methods (`fetchTicker`, `fetchBalance`, `createOrder`, etc.) to the raw interface methods they call (`publicGetV5MarketTickers`, `privatePostV5OrderCreate`, etc.)
+- Walks each unified method's AST body, finds `this.<interfaceMethod>()` CallExpressions where the method name contains an HTTP verb (Get/Post/Put/Delete/Patch)
+- Multiple interface calls per unified method captured (exchanges branch by market type, account type, API version)
+- Derived exchanges inherit parent mappings via class hierarchy; child overrides take precedence
+- Output at `structure.unified_endpoints` — map of unified method name → sorted list of interface method names
+- **Schema version bumped to 1.1.0** (additive structural field)
+- Round-trip validation with content-level subset checking (not just presence); inheritance-aware (inherited endpoints don't trigger false warnings)
+- **Fix:** Exclude internal helper methods (`*Request`, `*Helper`, `*Params` suffixes) from unified method detection — these are not public unified API
+- **Fix:** Exclude helper function calls (`isPostOnly`, `handlePostOnly`, etc.) from interface method detection — these contain HTTP verb substrings but are not transport methods
+- **Fix:** Narrow unified method detector — exclude dispatch helpers (`*FromCache`, `*Supplement`, `*Default`, `*WithMethod`, `*ById`, `*ByType`, `*ByStatus`, `*ByStates`), versioned variants (`*V1`/`*V2`/`*V3`, `*2`), and non-unified setters (`setUserAbstraction`, `setRef`, etc.) via setter whitelist. Removed 34 false positives from output.
+- **Fix:** Replace fragile suffix denylist for Default dispatch helpers with regex pattern `fetchDefault[A-Z]...`. Fixes `fetchDefaultMarkets` false positive.
+- **Fix (code review):** Remove overly broad `By[A-Z][a-zA-Z]+$` dispatch exclusion — it dropped legitimate public methods (`fetchOrdersByIds`, `fetchDepositAddressesByNetwork`, `fetchOrdersByState`, `fetchMarketsByTypeAndSubType`, `fetchLedgerEntriesByIds`, etc.). These are real unified API methods, not internal routers. Non-unified By* methods already fail the `has_unified_prefix?` gate; raw interface By* methods already get caught by the HTTP verb pattern.
+- **Fix:** Add delegation chain resolution — when a unified method (e.g., `fetchMarkets`) delegates entirely to helper methods (e.g., `this.fetchDefaultMarkets()`) with no direct interface calls, the extractor now follows the delegation chain one level to collect the helper's interface calls. Fixes missing `fetchMarkets` mappings for bitget and htx.
+- **Fix:** Merge direct and delegated interface calls — unified methods that use both direct interface calls AND helper delegation (e.g., `fetchBalance` calls `privateGetBalance` for one market type and delegates to `loadBalance` for another) now capture all paths. Previously, delegate resolution was skipped when any direct call existed, silently dropping helper-mediated endpoints.
+- **Fix:** Multi-hop delegate resolution — delegation chains up to 3 hops deep are now followed (was 1). Includes cycle protection via visited-set tracking. Fixes missing mappings for exchanges with deeper helper chains (e.g., `fetchOpenOrders` → `fetchOrdersByStatus` → `fetchOrdersSinglePage` → `privateGetOrders`).
+
 ### Task 40: Symbol pattern derivation from market data
 - New `CcxtExtract.SymbolPatterns` pure module derives formatting rules from `runtime.markets` — separator style, case convention, ID structure, suffixes, and anomalies per market type
 - Output at `runtime.symbol_patterns` with per-type entries (`spot`, `swap`, `future`, `option`) plus `currency_aliases` from `describe().commonCurrencies`

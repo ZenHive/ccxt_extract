@@ -1,7 +1,7 @@
 defmodule CcxtExtract.Integration.Cached.FamilyAnalysisCachedTest do
   @moduledoc """
   Validates FamilyAnalysis against cached discovery data.
-  Reads from test/fixtures/discoveries/ — no QuickBEAM or OXC needed.
+  Reads from priv/discoveries/ — no QuickBEAM or OXC needed.
   """
   use ExUnit.Case, async: true
 
@@ -10,7 +10,7 @@ defmodule CcxtExtract.Integration.Cached.FamilyAnalysisCachedTest do
   @moduletag :integration
   @moduletag timeout: 30_000
 
-  @discoveries_dir Path.expand("../../fixtures/discoveries", __DIR__)
+  @discoveries_dir CcxtExtract.Paths.discoveries()
 
   # Multi-member families from the roadmap investigation
   @multi_member_families [

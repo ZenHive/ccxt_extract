@@ -36,12 +36,12 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "1.0.1"
+  @schema_version "1.1.0"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe markets symbol_patterns)
-  @required_structure_keys ~w(class_info methods sign_method handle_errors parse_methods ws_methods interface_signatures pagination overrides)
+  @required_structure_keys ~w(class_info methods sign_method handle_errors parse_methods ws_methods interface_signatures pagination overrides unified_endpoints)
 
   # --- Public API ---
 
@@ -155,7 +155,8 @@ defmodule CcxtExtract.Schema do
       "ws_methods" => data["ws_methods"],
       "interface_signatures" => data["interface_signatures"],
       "pagination" => data["pagination"],
-      "overrides" => data["overrides"]
+      "overrides" => data["overrides"],
+      "unified_endpoints" => data["unified_endpoints"]
     }
   end
 
@@ -209,6 +210,7 @@ defmodule CcxtExtract.Schema do
     |> check_nullable_interface_signature_map(section, "interface_signatures", "structure.interface_signatures")
     |> check_nullable_pagination_map(section, "pagination", "structure.pagination")
     |> check_nullable_overrides(section, "overrides", "structure.overrides")
+    |> check_nullable_string_list_map(section, "unified_endpoints", "structure.unified_endpoints")
   end
 
   # Value is nil (allowed) or a map
@@ -633,6 +635,36 @@ defmodule CcxtExtract.Schema do
 
   defp check_list_field(errors, val, _label) when is_list(val), do: errors
   defp check_list_field(errors, val, label), do: ["#{label}: expected list, got #{type_name(val)}" | errors]
+
+  # Value is nil or a map where each value is a list of strings
+  defp check_nullable_string_list_map(errors, nil, _key, _label), do: errors
+
+  defp check_nullable_string_list_map(errors, section, key, label) do
+    case Map.get(section, key) do
+      nil ->
+        errors
+
+      val when is_map(val) ->
+        Enum.reduce(val, errors, fn {name, value}, acc ->
+          check_string_list_entry(acc, value, "#{label}.#{name}")
+        end)
+
+      val ->
+        ["#{label}: expected map or null, got #{type_name(val)}" | errors]
+    end
+  end
+
+  defp check_string_list_entry(errors, value, label) when is_list(value) do
+    if Enum.all?(value, &is_binary/1) do
+      errors
+    else
+      ["#{label}: expected list of strings, got list with non-string elements" | errors]
+    end
+  end
+
+  defp check_string_list_entry(errors, value, label) do
+    ["#{label}: expected list of strings, got #{type_name(value)}" | errors]
+  end
 
   defp type_name(val) when is_binary(val), do: "string"
   defp type_name(val) when is_integer(val), do: "integer"

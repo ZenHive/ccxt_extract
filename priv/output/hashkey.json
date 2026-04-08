@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T00:12:40.693513Z",
+  "extracted_at": "2026-04-08T04:59:46.331095Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -62382,7 +62382,6 @@
         "privateGetApiV1FuturesCommissionRate"
       ],
       "createMarketBuyOrderWithCost": [
-        "parseOrderTypeTimeInForceAndPostOnly",
         "privatePostApiV11SpotOrder",
         "privatePostApiV1FuturesOrder",
         "privatePostApiV1SpotOrder",
@@ -62392,7 +62391,6 @@
         "publicGetQuoteV1Depth"
       ],
       "createSpotOrder": [
-        "parseOrderTypeTimeInForceAndPostOnly",
         "privatePostApiV11SpotOrder",
         "privatePostApiV1SpotOrder",
         "privatePostApiV1SpotOrderTest"
@@ -62429,7 +62427,6 @@
         "publicGetQuoteV1TickerPrice"
       ],
       "createSwapOrder": [
-        "parseOrderTypeTimeInForceAndPostOnly",
         "privatePostApiV1FuturesOrder"
       ],
       "cancelAllOrders": [
@@ -62449,7 +62446,6 @@
         "publicGetQuoteV1Klines"
       ],
       "cancelOrder": [
-        "parseOrderTypeTimeInForceAndPostOnly",
         "privateDeleteApiV1FuturesOrder",
         "privateDeleteApiV1SpotOrder"
       ],
@@ -62485,7 +62481,6 @@
         "privateGetApiV1FuturesUserTrades"
       ],
       "createOrder": [
-        "parseOrderTypeTimeInForceAndPostOnly",
         "privatePostApiV11SpotOrder",
         "privatePostApiV1FuturesOrder",
         "privatePostApiV1SpotOrder",
@@ -62529,7 +62524,6 @@
         "privateGetApiV1AccountVipInfo"
       ],
       "fetchOrder": [
-        "parseOrderTypeTimeInForceAndPostOnly",
         "privateGetApiV1FuturesOrder",
         "privateGetApiV1SpotOrder"
       ]

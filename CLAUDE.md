@@ -19,6 +19,7 @@
 @~/.claude/includes/elixir-volt.md
 @~/.claude/includes/oxc.md
 @~/.claude/includes/quickbeam.md
+@~/.claude/includes/library-design.md
 
 ## Mission
 
@@ -186,9 +187,9 @@ mix format                         # Format code (Styler)
 
 # Setup CCXT
 mix ccxt_extract.setup             # Install/verify CCXT sources
-mix ccxt_extract.update            # Full re-extract: setup → extractors → pipeline → validate
+mix ccxt_extract.update            # Full re-extract: setup → extractors → pipeline → validate → analytics
 mix ccxt_extract.update --latest   # Update to latest CCXT version
-mix ccxt_extract.update --skip-setup  # Re-run pipeline + validate only
+mix ccxt_extract.update --skip-setup  # Re-run pipeline + validate + analytics (skips QuickBEAM analytics)
 
 # After extraction, review and commit changes
 git diff priv/discoveries/                    # See what changed in discovery data
@@ -278,7 +279,8 @@ per-exchange JSON) are committed. Cached integration tests read directly from
 **`load_markets` is live-API data.** Unlike OXC-based extractors (deterministic from
 source), `mix ccxt_extract.load_markets` calls real exchange APIs via QuickBEAM.
 Results vary by network/geo/time — exchanges go down, get geo-blocked, or start
-requiring auth. The `--skip-setup` flag on `mix ccxt_extract.update` skips this stage.
+requiring auth. The `--skip-setup` flag on `mix ccxt_extract.update` skips stages 1-3
+(setup + all extractors) and QuickBEAM-dependent analytics (describe_keys, describe_key_analysis).
 
 After running `mix ccxt_extract.update`, review diffs and commit. The output JSON
 is the primary product of this repo — consumers can clone and use it without

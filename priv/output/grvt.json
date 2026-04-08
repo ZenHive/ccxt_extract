@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T00:12:40.693513Z",
+  "extracted_at": "2026-04-08T04:59:46.331095Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -52789,7 +52789,6 @@
         "privateTradingPostFullV1CancelOrder"
       ],
       "createOrder": [
-        "ethGetAddressFromPrivateKey",
         "privateTradingPostFullV1CreateOrder"
       ],
       "fetchBalance": [
@@ -52815,7 +52814,6 @@
         "privateTradingPostFullV1GetAllInitialLeverage"
       ],
       "fetchMarkets": [
-        "ethGetAddressFromPrivateKey",
         "privateEdgePostAuthApiKeyLogin",
         "privateEdgePostAuthWalletLogin",
         "privateTradingPostFullV1AggregatedAccountSummary",
@@ -52862,11 +52860,9 @@
         "privateTradingPostFullV1SetInitialLeverage"
       ],
       "transfer": [
-        "ethGetAddressFromPrivateKey",
         "privateTradingPostFullV1Transfer"
       ],
       "withdraw": [
-        "ethGetAddressFromPrivateKey",
         "privateTradingPostFullV1Withdrawal"
       ]
     },

@@ -6,6 +6,19 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Fix: Filter leaked helper method names from unified_endpoints
+- Pipeline now cross-references `unified_endpoints` values against `interface_signatures` keys — only real HTTP endpoint methods survive
+- Removed 6 leaked helper methods across grvt, hashkey, htx, huobi, kucoin, kucoinfutures (e.g., `ethGetAddressFromPrivateKey`, `parseOrderTypeTimeInForceAndPostOnly`, `tryGetSymbolFromFutureMarkets`, `utaPrivateGetPositionHistory`)
+- Root cause: `interface_method_call?/1` regex matched incidental HTTP verbs in helper names; `utaPrivateGetPositionHistory` matched the real pattern but doesn't exist as an endpoint
+- Validation round-trip comparison now accepts output as subset of source (pipeline filtering is intentional)
+- Key decision: pipeline-level filter (authoritative cross-reference) rather than pattern-tightening (would miss `utaPrivateGetPositionHistory`)
+
+### Task 45: Include derived analytics in `mix ccxt_extract.update`
+- Added Stage 6 (Analytics) to the update orchestrator — runs after validate
+- Refreshes all derived artifacts in one command: coverage, summary, family analysis, method analysis, describe keys/analysis, public exchanges, market validation
+- QuickBEAM-dependent analytics (`describe_keys`, `describe_key_analysis`) skipped when `--skip-setup` is used
+- Key decision: sequential execution in dependency-safe order (describe_keys before describe_key_analysis, summary before family_analysis) — all analytics are fast (seconds each)
+
 ### Task 44: Resolve alias exchange data from parent
 - Alias exchanges (coinbaseadvanced, gateio, huobi) now inherit parent runtime data via class hierarchy fallback
 - Pipeline `get_describe/2` and `get_markets/2` fall back to parent exchange data when own data is nil, using existing `find_parent_exchange_id/2`

@@ -277,11 +277,14 @@ defmodule CcxtExtract.Pipeline do
     end
   end
 
-  # Unified endpoints: extract the unified_endpoints map, merge parent mappings for derived exchanges
+  # Unified endpoints: extract the unified_endpoints map, merge parent mappings for derived exchanges,
+  # then filter against interface_signatures to remove leaked helper method names.
   defp get_unified_endpoints(id, data) do
     own = extract_unified_endpoints_map(id, data)
     parent_id = find_parent_exchange_id(id, data)
-    merge_parent_endpoints(own, parent_id, data)
+    merged = merge_parent_endpoints(own, parent_id, data)
+    valid_endpoints = collect_interface_signature_keys(id, parent_id, data)
+    filter_unified_endpoints(merged, valid_endpoints)
   end
 
   # Extract the raw unified_endpoints map from the discovery lookup
@@ -324,6 +327,42 @@ defmodule CcxtExtract.Pipeline do
       nil -> own
       parent_endpoints -> Map.merge(parent_endpoints, own)
     end
+  end
+
+  # Collect valid interface signature keys for an exchange (own + parent).
+  # Returns a MapSet for O(1) membership checks, or nil if no signatures available.
+  defp collect_interface_signature_keys(id, parent_id, data) do
+    own_sigs = get_interface_signature_keys(id, data)
+    parent_sigs = if parent_id, do: get_interface_signature_keys(parent_id, data), else: MapSet.new()
+
+    combined = MapSet.union(own_sigs, parent_sigs)
+    if MapSet.size(combined) > 0, do: combined
+  end
+
+  defp get_interface_signature_keys(id, data) do
+    case Map.get(data.interface_signatures, id) do
+      %{"interface_signatures" => sigs} when map_size(sigs) > 0 -> sigs |> Map.keys() |> MapSet.new()
+      _ -> MapSet.new()
+    end
+  end
+
+  # Filter unified_endpoints map: keep only endpoint names that exist in interface_signatures.
+  # Removes unified methods that end up with empty endpoint lists after filtering.
+  defp filter_unified_endpoints(nil, _valid), do: nil
+  # TODO: All 110 exchanges should have interface_signatures (Task 30). If this fires,
+  # investigate why signatures are missing rather than silently discarding endpoints.
+  defp filter_unified_endpoints(endpoints, nil), do: endpoints
+
+  defp filter_unified_endpoints(endpoints, valid_endpoints) do
+    filtered =
+      endpoints
+      |> Map.new(fn {method, calls} ->
+        {method, Enum.filter(calls, &MapSet.member?(valid_endpoints, &1))}
+      end)
+      |> Enum.reject(fn {_method, calls} -> calls == [] end)
+      |> Map.new()
+
+    if map_size(filtered) > 0, do: filtered
   end
 
   # Overrides: group REST/WS entries, rename fields

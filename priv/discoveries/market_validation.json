@@ -1,14 +1,14 @@
 {
-  "exchange_count": 100,
+  "exchange_count": 101,
   "exchanges": {
     "bitstamp": {
       "errors": [],
       "id": "bitstamp",
-      "market_count": 283,
+      "market_count": 285,
       "undefined_density": {
-        "density_pct": 35.6,
-        "total_fields": 10188,
-        "undefined_count": 3629
+        "density_pct": 35.5,
+        "total_fields": 10260,
+        "undefined_count": 3645
       },
       "warnings": []
     },
@@ -48,11 +48,11 @@
     "deribit": {
       "errors": [],
       "id": "deribit",
-      "market_count": 4350,
+      "market_count": 4435,
       "undefined_density": {
         "density_pct": 12.8,
-        "total_fields": 152250,
-        "undefined_count": 19515
+        "total_fields": 155225,
+        "undefined_count": 19870
       },
       "warnings": []
     },
@@ -103,11 +103,11 @@
     "deepcoin": {
       "errors": [],
       "id": "deepcoin",
-      "market_count": 446,
+      "market_count": 445,
       "undefined_density": {
-        "density_pct": 32.9,
-        "total_fields": 15610,
-        "undefined_count": 5142
+        "density_pct": 33.0,
+        "total_fields": 15575,
+        "undefined_count": 5133
       },
       "warnings": []
     },
@@ -136,22 +136,22 @@
     "blofin": {
       "errors": [],
       "id": "blofin",
-      "market_count": 501,
+      "market_count": 503,
       "undefined_density": {
         "density_pct": 22.9,
-        "total_fields": 17535,
-        "undefined_count": 4008
+        "total_fields": 17605,
+        "undefined_count": 4024
       },
       "warnings": []
     },
     "phemex": {
       "errors": [],
       "id": "phemex",
-      "market_count": 1922,
+      "market_count": 1924,
       "undefined_density": {
         "density_pct": 27.6,
-        "total_fields": 73036,
-        "undefined_count": 20176
+        "total_fields": 73112,
+        "undefined_count": 20196
       },
       "warnings": []
     },
@@ -169,11 +169,11 @@
     "binance": {
       "errors": [],
       "id": "binance",
-      "market_count": 4306,
+      "market_count": 4308,
       "undefined_density": {
         "density_pct": 29.9,
-        "total_fields": 155016,
-        "undefined_count": 46390
+        "total_fields": 155088,
+        "undefined_count": 46400
       },
       "warnings": []
     },
@@ -188,14 +188,25 @@
       },
       "warnings": []
     },
+    "coinbaseexchange": {
+      "errors": [],
+      "id": "coinbaseexchange",
+      "market_count": 804,
+      "undefined_density": {
+        "density_pct": 37.1,
+        "total_fields": 28140,
+        "undefined_count": 10452
+      },
+      "warnings": []
+    },
     "kucoin": {
       "errors": [],
       "id": "kucoin",
-      "market_count": 1707,
+      "market_count": 1709,
       "undefined_density": {
         "density_pct": 29.5,
-        "total_fields": 61452,
-        "undefined_count": 18115
+        "total_fields": 61524,
+        "undefined_count": 18127
       },
       "warnings": []
     },
@@ -213,11 +224,11 @@
     "bitrue": {
       "errors": [],
       "id": "bitrue",
-      "market_count": 2342,
+      "market_count": 2341,
       "undefined_density": {
         "density_pct": 28.8,
-        "total_fields": 84312,
-        "undefined_count": 24270
+        "total_fields": 84276,
+        "undefined_count": 24258
       },
       "warnings": []
     },
@@ -235,44 +246,44 @@
     "bingx": {
       "errors": [],
       "id": "bingx",
-      "market_count": 2880,
+      "market_count": 2875,
       "undefined_density": {
-        "density_pct": 33.8,
-        "total_fields": 103680,
-        "undefined_count": 35081
+        "density_pct": 33.9,
+        "total_fields": 103500,
+        "undefined_count": 35040
       },
       "warnings": []
     },
     "aster": {
       "errors": [],
       "id": "aster",
-      "market_count": 459,
+      "market_count": 461,
       "undefined_density": {
         "density_pct": 19.3,
-        "total_fields": 16065,
-        "undefined_count": 3099
+        "total_fields": 16135,
+        "undefined_count": 3111
       },
       "warnings": []
     },
     "okx": {
       "errors": [],
       "id": "okx",
-      "market_count": 2816,
+      "market_count": 2846,
       "undefined_density": {
-        "density_pct": 24.2,
-        "total_fields": 101376,
-        "undefined_count": 24544
+        "density_pct": 24.1,
+        "total_fields": 102456,
+        "undefined_count": 24664
       },
       "warnings": []
     },
     "modetrade": {
       "errors": [],
       "id": "modetrade",
-      "market_count": 95,
+      "market_count": 97,
       "undefined_density": {
         "density_pct": 20.0,
-        "total_fields": 3325,
-        "undefined_count": 665
+        "total_fields": 3395,
+        "undefined_count": 679
       },
       "warnings": []
     },
@@ -290,11 +301,11 @@
     "bybit": {
       "errors": [],
       "id": "bybit",
-      "market_count": 3340,
+      "market_count": 3240,
       "undefined_density": {
-        "density_pct": 13.6,
-        "total_fields": 120240,
-        "undefined_count": 16335
+        "density_pct": 13.8,
+        "total_fields": 116640,
+        "undefined_count": 16135
       },
       "warnings": []
     },
@@ -367,11 +378,11 @@
     "xt": {
       "errors": [],
       "id": "xt",
-      "market_count": 2808,
+      "market_count": 2789,
       "undefined_density": {
-        "density_pct": 40.3,
-        "total_fields": 98280,
-        "undefined_count": 39594
+        "density_pct": 40.2,
+        "total_fields": 97615,
+        "undefined_count": 39257
       },
       "warnings": []
     },
@@ -400,11 +411,11 @@
     "toobit": {
       "errors": [],
       "id": "toobit",
-      "market_count": 1174,
+      "market_count": 1172,
       "undefined_density": {
         "density_pct": 38.3,
-        "total_fields": 41090,
-        "undefined_count": 15729
+        "total_fields": 41020,
+        "undefined_count": 15712
       },
       "warnings": []
     },
@@ -455,22 +466,22 @@
     "woofipro": {
       "errors": [],
       "id": "woofipro",
-      "market_count": 95,
+      "market_count": 97,
       "undefined_density": {
         "density_pct": 20.0,
-        "total_fields": 3325,
-        "undefined_count": 665
+        "total_fields": 3395,
+        "undefined_count": 679
       },
       "warnings": []
     },
     "gate": {
       "errors": [],
       "id": "gate",
-      "market_count": 6320,
+      "market_count": 6265,
       "undefined_density": {
-        "density_pct": 16.5,
-        "total_fields": 233840,
-        "undefined_count": 38494
+        "density_pct": 16.6,
+        "total_fields": 231805,
+        "undefined_count": 38394
       },
       "warnings": []
     },
@@ -499,11 +510,11 @@
     "bitget": {
       "errors": [],
       "id": "bitget",
-      "market_count": 1343,
+      "market_count": 1334,
       "undefined_density": {
         "density_pct": 33.3,
-        "total_fields": 47005,
-        "undefined_count": 15635
+        "total_fields": 46690,
+        "undefined_count": 15544
       },
       "warnings": []
     },
@@ -521,11 +532,11 @@
     "kucoinfutures": {
       "errors": [],
       "id": "kucoinfutures",
-      "market_count": 580,
+      "market_count": 582,
       "undefined_density": {
         "density_pct": 16.6,
-        "total_fields": 20880,
-        "undefined_count": 3464
+        "total_fields": 20952,
+        "undefined_count": 3476
       },
       "warnings": []
     },
@@ -543,11 +554,11 @@
     "htx": {
       "errors": [],
       "id": "htx",
-      "market_count": 2323,
+      "market_count": 2324,
       "undefined_density": {
         "density_pct": 31.3,
-        "total_fields": 83628,
-        "undefined_count": 26179
+        "total_fields": 83664,
+        "undefined_count": 26184
       },
       "warnings": []
     },
@@ -587,11 +598,11 @@
     "bigone": {
       "errors": [],
       "id": "bigone",
-      "market_count": 870,
+      "market_count": 878,
       "undefined_density": {
         "density_pct": 43.7,
-        "total_fields": 31271,
-        "undefined_count": 13675
+        "total_fields": 31559,
+        "undefined_count": 13803
       },
       "warnings": []
     },
@@ -642,22 +653,22 @@
     "bitmart": {
       "errors": [],
       "id": "bitmart",
-      "market_count": 2280,
+      "market_count": 2283,
       "undefined_density": {
         "density_pct": 27.2,
-        "total_fields": 84360,
-        "undefined_count": 22950
+        "total_fields": 84471,
+        "undefined_count": 22976
       },
       "warnings": []
     },
     "hyperliquid": {
       "errors": [],
       "id": "hyperliquid",
-      "market_count": 674,
+      "market_count": 675,
       "undefined_density": {
         "density_pct": 33.7,
-        "total_fields": 24264,
-        "undefined_count": 8175
+        "total_fields": 24300,
+        "undefined_count": 8190
       },
       "warnings": []
     },
@@ -675,11 +686,11 @@
     "okxus": {
       "errors": [],
       "id": "okxus",
-      "market_count": 2816,
+      "market_count": 2846,
       "undefined_density": {
-        "density_pct": 24.2,
-        "total_fields": 101376,
-        "undefined_count": 24544
+        "density_pct": 24.1,
+        "total_fields": 102456,
+        "undefined_count": 24664
       },
       "warnings": []
     },
@@ -690,7 +701,7 @@
       "undefined_density": {
         "density_pct": 31.4,
         "total_fields": 2940,
-        "undefined_count": 924
+        "undefined_count": 922
       },
       "warnings": []
     },
@@ -818,33 +829,33 @@
     "p2b": {
       "errors": [],
       "id": "p2b",
-      "market_count": 179,
+      "market_count": 201,
       "undefined_density": {
         "density_pct": 37.1,
-        "total_fields": 6265,
-        "undefined_count": 2327
+        "total_fields": 7035,
+        "undefined_count": 2613
       },
       "warnings": []
     },
     "kraken": {
       "errors": [],
       "id": "kraken",
-      "market_count": 1504,
+      "market_count": 1506,
       "undefined_density": {
         "density_pct": 34.2,
-        "total_fields": 57152,
-        "undefined_count": 19552
+        "total_fields": 57228,
+        "undefined_count": 19578
       },
       "warnings": []
     },
     "mexc": {
       "errors": [],
       "id": "mexc",
-      "market_count": 3231,
+      "market_count": 3245,
       "undefined_density": {
         "density_pct": 32.7,
-        "total_fields": 113085,
-        "undefined_count": 36951
+        "total_fields": 113575,
+        "undefined_count": 37085
       },
       "warnings": []
     },
@@ -884,11 +895,11 @@
     "apex": {
       "errors": [],
       "id": "apex",
-      "market_count": 131,
+      "market_count": 132,
       "undefined_density": {
         "density_pct": 27.8,
-        "total_fields": 4716,
-        "undefined_count": 1310
+        "total_fields": 4752,
+        "undefined_count": 1320
       },
       "warnings": []
     },
@@ -928,11 +939,11 @@
     "myokx": {
       "errors": [],
       "id": "myokx",
-      "market_count": 2816,
+      "market_count": 2846,
       "undefined_density": {
-        "density_pct": 24.2,
-        "total_fields": 101376,
-        "undefined_count": 24544
+        "density_pct": 24.1,
+        "total_fields": 102456,
+        "undefined_count": 24664
       },
       "warnings": []
     },
@@ -961,22 +972,22 @@
     "lbank": {
       "errors": [],
       "id": "lbank",
-      "market_count": 1953,
+      "market_count": 1932,
       "undefined_density": {
-        "density_pct": 37.6,
-        "total_fields": 68355,
-        "undefined_count": 25701
+        "density_pct": 37.5,
+        "total_fields": 67620,
+        "undefined_count": 25380
       },
       "warnings": []
     },
     "foxbit": {
       "errors": [],
       "id": "foxbit",
-      "market_count": 130,
+      "market_count": 131,
       "undefined_density": {
         "density_pct": 33.3,
-        "total_fields": 4680,
-        "undefined_count": 1560
+        "total_fields": 4716,
+        "undefined_count": 1572
       },
       "warnings": []
     },
@@ -1016,22 +1027,22 @@
     "binanceusdm": {
       "errors": [],
       "id": "binanceusdm",
-      "market_count": 710,
+      "market_count": 712,
       "undefined_density": {
         "density_pct": 13.8,
-        "total_fields": 25560,
-        "undefined_count": 3538
+        "total_fields": 25632,
+        "undefined_count": 3548
       },
       "warnings": []
     },
     "bydfi": {
       "errors": [],
       "id": "bydfi",
-      "market_count": 721,
+      "market_count": 724,
       "undefined_density": {
         "density_pct": 28.6,
-        "total_fields": 25235,
-        "undefined_count": 7210
+        "total_fields": 25340,
+        "undefined_count": 7240
       },
       "warnings": []
     },
@@ -1102,46 +1113,14 @@
       "warnings": []
     }
   },
-  "spot_check": {
-    "checked_at": "2026-04-07T23:40:49.985860Z",
-    "exchanges_checked": [
-      "binance",
-      "dydx"
-    ],
-    "exchanges_failed": [],
-    "results": [
-      {
-        "drift_summary": "2 added, 0 removed",
-        "id": "binance",
-        "market_count_cached": 4306,
-        "market_count_fresh": 4308,
-        "symbols_added": [
-          "MU/USDT:USDT",
-          "SNDK/USDT:USDT"
-        ],
-        "symbols_added_count": 2,
-        "symbols_removed": [],
-        "symbols_removed_count": 0
-      },
-      {
-        "drift_summary": "0 added, 0 removed",
-        "id": "dydx",
-        "market_count_cached": 294,
-        "market_count_fresh": 294,
-        "symbols_added": [],
-        "symbols_added_count": 0,
-        "symbols_removed": [],
-        "symbols_removed_count": 0
-      }
-    ]
-  },
+  "spot_check": null,
   "summary": {
-    "avg_undefined_density_pct": 32.9,
+    "avg_undefined_density_pct": 33.0,
     "errors": 0,
-    "exchanges_valid": 100,
+    "exchanges_valid": 101,
     "exchanges_with_issues": 0,
-    "total_markets_checked": 89411,
+    "total_markets_checked": 90253,
     "warnings": 0
   },
-  "validated_at": "2026-04-07T23:40:49.985869Z"
+  "validated_at": "2026-04-08T05:05:48.114446Z"
 }

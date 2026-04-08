@@ -92,9 +92,14 @@ defmodule CcxtExtract.PipelineTest do
               "name" => "publicGetTicker",
               "params" => [%{"name" => "params", "type" => "typeliteral"}],
               "return_type" => "Promise<implicitReturnType>"
+            },
+            "privateGetAccount" => %{
+              "name" => "privateGetAccount",
+              "params" => [%{"name" => "params", "type" => "typeliteral"}],
+              "return_type" => "Promise<implicitReturnType>"
             }
           },
-          "interface_signature_count" => 1
+          "interface_signature_count" => 2
         }
       },
       pagination: %{
@@ -392,6 +397,76 @@ defmodule CcxtExtract.PipelineTest do
 
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
       assert result["structure"]["ws_methods"] == nil
+    end
+
+    test "unified_endpoints filters out method names not in interface_signatures" do
+      # Simulate leaked helper methods: ethGetAddressFromPrivateKey contains "Get"
+      # but is not a real interface method
+      data = %{
+        full_data()
+        | unified_endpoints: %{
+            "testex" => %{
+              "id" => "testex",
+              "unified_endpoints" => %{
+                "fetchTicker" => ["publicGetTicker", "ethGetAddressFromPrivateKey"],
+                "createOrder" => ["parseOrderTypeTimeInForceAndPostOnly"]
+              },
+              "unified_endpoint_count" => 3
+            }
+          }
+      }
+
+      result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
+      ue = result["structure"]["unified_endpoints"]
+
+      # publicGetTicker is in interface_signatures — kept
+      assert ue["fetchTicker"] == ["publicGetTicker"]
+
+      # ethGetAddressFromPrivateKey is NOT in interface_signatures — removed
+      refute "ethGetAddressFromPrivateKey" in (ue["fetchTicker"] || [])
+
+      # createOrder had only leaked methods — entire entry removed
+      refute Map.has_key?(ue, "createOrder")
+    end
+
+    test "unified_endpoints passes through unfiltered when no interface_signatures exist" do
+      data = %{
+        full_data()
+        | interface_signatures: %{},
+          unified_endpoints: %{
+            "testex" => %{
+              "id" => "testex",
+              "unified_endpoints" => %{
+                "fetchTicker" => ["publicGetTicker", "someHelper"]
+              },
+              "unified_endpoint_count" => 2
+            }
+          }
+      }
+
+      result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
+      ue = result["structure"]["unified_endpoints"]
+
+      # No signatures to filter against — all endpoints preserved
+      assert ue["fetchTicker"] == ["publicGetTicker", "someHelper"]
+    end
+
+    test "unified_endpoints is nil when all endpoints are filtered out" do
+      data = %{
+        full_data()
+        | unified_endpoints: %{
+            "testex" => %{
+              "id" => "testex",
+              "unified_endpoints" => %{
+                "fetchTicker" => ["nonExistentMethod"]
+              },
+              "unified_endpoint_count" => 1
+            }
+          }
+      }
+
+      result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
+      assert result["structure"]["unified_endpoints"] == nil
     end
   end
 

@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-03-30T00:42:02.443899Z",
+  "extracted_at": "2026-04-08T05:05:48.133415Z",
   "families": [
     {
       "has_ws": true,
@@ -61,8 +61,8 @@
             "urls"
           ],
           "id": "binancecoinm",
-          "method_override_count": 3,
-          "method_overrides": [
+          "own_method_count": 3,
+          "own_methods": [
             "describe",
             "transferIn",
             "transferOut"
@@ -84,8 +84,8 @@
             "urls"
           ],
           "id": "binanceus",
-          "method_override_count": 1,
-          "method_overrides": [
+          "own_method_count": 1,
+          "own_methods": [
             "describe"
           ],
           "relationship": "variant"
@@ -100,8 +100,8 @@
             "urls"
           ],
           "id": "binanceusdm",
-          "method_override_count": 3,
-          "method_overrides": [
+          "own_method_count": 3,
+          "own_methods": [
             "describe",
             "transferIn",
             "transferOut"
@@ -170,7 +170,7 @@
     },
     {
       "has_ws": true,
-      "method_count": 66,
+      "method_count": 67,
       "root": "bitmex",
       "type": "standalone"
     },
@@ -254,7 +254,7 @@
     },
     {
       "has_ws": true,
-      "method_count": 139,
+      "method_count": 140,
       "root": "bybit",
       "type": "standalone"
     },
@@ -276,8 +276,8 @@
         {
           "describe_changed_keys": [],
           "id": "coinbaseadvanced",
-          "method_override_count": 1,
-          "method_overrides": [
+          "own_method_count": 1,
+          "own_methods": [
             "describe"
           ],
           "relationship": "alias"
@@ -414,8 +414,8 @@
         {
           "describe_changed_keys": [],
           "id": "gateio",
-          "method_override_count": 1,
-          "method_overrides": [
+          "own_method_count": 1,
+          "own_methods": [
             "describe"
           ],
           "relationship": "alias"
@@ -462,8 +462,8 @@
             "urls"
           ],
           "id": "bequant",
-          "method_override_count": 1,
-          "method_overrides": [
+          "own_method_count": 1,
+          "own_methods": [
             "describe"
           ],
           "relationship": "variant"
@@ -477,8 +477,8 @@
             "urls"
           ],
           "id": "fmfwio",
-          "method_override_count": 1,
-          "method_overrides": [
+          "own_method_count": 1,
+          "own_methods": [
             "describe"
           ],
           "relationship": "variant"
@@ -501,8 +501,8 @@
         {
           "describe_changed_keys": [],
           "id": "huobi",
-          "method_override_count": 1,
-          "method_overrides": [
+          "own_method_count": 1,
+          "own_methods": [
             "describe"
           ],
           "relationship": "alias"
@@ -555,8 +555,8 @@
             "urls"
           ],
           "id": "kucoinfutures",
-          "method_override_count": 4,
-          "method_overrides": [
+          "own_method_count": 4,
+          "own_methods": [
             "describe",
             "fetchBidsAsks",
             "transfer",
@@ -566,8 +566,8 @@
         }
       ],
       "root": "kucoin",
-      "root_method_count": 138,
-      "shared_method_count": 136,
+      "root_method_count": 158,
+      "shared_method_count": 156,
       "type": "multi_member"
     },
     {
@@ -638,8 +638,8 @@
             "urls"
           ],
           "id": "myokx",
-          "method_override_count": 1,
-          "method_overrides": [
+          "own_method_count": 1,
+          "own_methods": [
             "describe"
           ],
           "relationship": "variant"
@@ -655,16 +655,16 @@
             "urls"
           ],
           "id": "okxus",
-          "method_override_count": 1,
-          "method_overrides": [
+          "own_method_count": 1,
+          "own_methods": [
             "describe"
           ],
           "relationship": "variant"
         }
       ],
       "root": "okx",
-      "root_method_count": 131,
-      "shared_method_count": 130,
+      "root_method_count": 132,
+      "shared_method_count": 131,
       "type": "multi_member"
     },
     {
@@ -687,7 +687,7 @@
     },
     {
       "has_ws": true,
-      "method_count": 60,
+      "method_count": 59,
       "root": "paradex",
       "type": "standalone"
     },
@@ -842,7 +842,7 @@
         "key": "pro"
       }
     ],
-    "most_overridden_methods": [
+    "most_common_own_methods": [
       {
         "count": 11,
         "method": "describe"

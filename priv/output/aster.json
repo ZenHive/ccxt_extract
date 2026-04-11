@@ -15,7 +15,7 @@
     },
     "version": null
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -71372,9 +71372,39 @@
         "separator": "",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "fapiPrivate": {
+        "api_param": "fapiPrivate",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v1/positionSide/dual",
+        "url_prefix": null
+      },
+      "fapiPublic": {
+        "api_param": "fapiPublic",
+        "http_method": "GET",
+        "resolved_url": "https://fapi.asterdex.com/fapi/v1/ping",
+        "sample_path": "v1/ping",
+        "url_prefix": "https://fapi.asterdex.com/fapi/"
+      },
+      "sapiPrivate": {
+        "api_param": "sapiPrivate",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v1/commissionRate",
+        "url_prefix": null
+      },
+      "sapiPublic": {
+        "api_param": "sapiPublic",
+        "http_method": "GET",
+        "resolved_url": "https://sapi.asterdex.com/api/v1/ping",
+        "sample_path": "v1/ping",
+        "url_prefix": "https://sapi.asterdex.com/api/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

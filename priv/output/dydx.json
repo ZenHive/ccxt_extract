@@ -15,7 +15,7 @@
     },
     "version": "v4"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -25412,9 +25412,32 @@
         "separator": null,
         "suffix": null
       }
+    },
+    "url_templates": {
+      "indexer": {
+        "api_param": "indexer",
+        "http_method": "GET",
+        "resolved_url": "https://indexer.dydx.trade/v4/addresses/{address}",
+        "sample_path": "addresses/{address}",
+        "url_prefix": "https://indexer.dydx.trade/v4/"
+      },
+      "nodeRest": {
+        "api_param": "nodeRest",
+        "http_method": "GET",
+        "resolved_url": "https://dydx-rest.publicnode.com/cosmos/auth/v1beta1/account_info/{dydxAddress}",
+        "sample_path": "cosmos/auth/v1beta1/account_info/{dydxAddress}",
+        "url_prefix": "https://dydx-rest.publicnode.com/"
+      },
+      "nodeRpc": {
+        "api_param": "nodeRpc",
+        "http_method": "GET",
+        "resolved_url": "https://dydx-ops-rpc.kingnodes.com/abci_info",
+        "sample_path": "abci_info",
+        "url_prefix": "https://dydx-ops-rpc.kingnodes.com/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

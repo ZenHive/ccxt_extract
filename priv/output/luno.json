@@ -17,7 +17,7 @@
     },
     "version": "1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -10942,9 +10942,39 @@
         "separator": "",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "exchange": {
+        "api_param": "exchange",
+        "http_method": "GET",
+        "resolved_url": "https://api.luno.com/api/exchange/1/markets",
+        "sample_path": "markets",
+        "url_prefix": "https://api.luno.com/api/exchange/1/"
+      },
+      "exchangePrivate": {
+        "api_param": "exchangePrivate",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "candles",
+        "url_prefix": null
+      },
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "accounts/{id}/pending",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api.luno.com/api/1/orderbook",
+        "sample_path": "orderbook",
+        "url_prefix": "https://api.luno.com/api/1/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

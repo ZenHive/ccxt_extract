@@ -13,7 +13,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -54725,9 +54725,25 @@
         "separator": null,
         "suffix": null
       }
+    },
+    "url_templates": {
+      "private": {
+        "api_param": "private",
+        "http_method": "POST",
+        "resolved_url": "https://api.hyperliquid.xyz/exchange",
+        "sample_path": "exchange",
+        "url_prefix": "https://api.hyperliquid.xyz/"
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "POST",
+        "resolved_url": "https://api.hyperliquid.xyz/info",
+        "sample_path": "info",
+        "url_prefix": "https://api.hyperliquid.xyz/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

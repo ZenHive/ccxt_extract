@@ -128,6 +128,20 @@ defmodule CcxtExtract.PipelineTest do
           "unified_endpoint_count" => 2
         }
       },
+      url_templates: %{
+        "testex" => %{
+          "id" => "testex",
+          "url_templates" => %{
+            "public" => %{
+              "api_param" => "public",
+              "http_method" => "GET",
+              "sample_path" => "ticker",
+              "resolved_url" => "https://api.testex.com/api/v1/ticker",
+              "url_prefix" => "https://api.testex.com/api/v1/"
+            }
+          }
+        }
+      },
       overrides: %{},
       missing_files: []
     }
@@ -175,6 +189,7 @@ defmodule CcxtExtract.PipelineTest do
       interface_signatures: %{},
       pagination: %{},
       unified_endpoints: %{},
+      url_templates: %{},
       overrides: %{},
       missing_files: []
     }
@@ -905,6 +920,7 @@ defmodule CcxtExtract.PipelineTest do
     write_json(Path.join(dir, "interface_signatures.json"), empty_global)
     write_json(Path.join(dir, "pagination.json"), empty_global)
     write_json(Path.join(dir, "unified_endpoints.json"), empty_global)
+    write_json(Path.join(dir, "url_templates.json"), empty_global)
     write_json(Path.join(dir, "overrides.json"), empty_global)
 
     # Manifests for per-exchange loaders

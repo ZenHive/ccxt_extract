@@ -39,6 +39,12 @@ This library has **NO consumers yet.** Do not design output shaped by what you t
 
 If you catch yourself thinking "we probably don't need X" — stop. Extract X.
 
+## Extraction vs Interpretation
+
+**If a heuristic keeps needing fixes across exchanges, you've crossed from extraction into interpretation.** Extraction records what CCXT does (call `sign()`, get a URL). Interpretation infers what CCXT *meant* (resolve which `urls.api` entry it used). Extraction is stable; interpretation is whack-a-mole.
+
+Learned from Task 46 (url_templates): ~20 rounds of `resolveBaseUrl` fixes couldn't handle CCXT's 4+ `urls.api` shapes. Replaced with raw probe model — record sign() inputs and output, derive `url_prefix` only when provably correct. Consumers cross-reference `runtime.describe` for anything the extractor can't prove.
+
 ## Tools
 
 Three Hex packages, zero external toolchains:
@@ -126,13 +132,14 @@ Per-exchange JSON has three top-level sections:
 
 ```
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.2.0",
   "ccxt_version": "4.x.x",
   "exchange": { id, name, alias },
   "runtime": {
     "describe": { ... },          # Resolved describe() via QuickBEAM (has, api, exceptions, etc.)
     "markets": { ... },           # loadMarkets() data (symbols, precision, limits, fees)
-    "symbol_patterns": { ... }    # Derived per-type formatting rules (separator, case, suffix, anomalies)
+    "symbol_patterns": { ... },   # Derived per-type formatting rules (separator, case, suffix, anomalies)
+    "url_templates": { ... }      # Per-section URL templates from sign() (base_url, sample_path, resolved_url)
   },
   "structure": {
     "class_info": { ... },        # Class name, parent, file path

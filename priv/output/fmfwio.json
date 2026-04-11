@@ -15,7 +15,7 @@
     },
     "version": "3"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -104208,9 +104208,25 @@
         "separator": "",
         "suffix": "_PERP"
       }
+    },
+    "url_templates": {
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "spot/balance",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api.fmfw.io/api/3/public/currency",
+        "sample_path": "public/currency",
+        "url_prefix": "https://api.fmfw.io/api/3/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

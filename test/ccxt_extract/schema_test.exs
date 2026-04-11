@@ -68,7 +68,16 @@ defmodule CcxtExtract.SchemaTest do
     %{
       "describe" => %{"id" => "testex", "has" => %{"fetchTicker" => true}},
       "markets" => %{"market_count" => 100, "markets" => %{"BTC/USDT" => %{"active" => true}}},
-      "symbol_patterns" => %{"spot" => %{"separator" => "", "case" => "upper"}, "currency_aliases" => %{}}
+      "symbol_patterns" => %{"spot" => %{"separator" => "", "case" => "upper"}, "currency_aliases" => %{}},
+      "url_templates" => %{
+        "public" => %{
+          "api_param" => "public",
+          "http_method" => "GET",
+          "sample_path" => "ticker",
+          "resolved_url" => "https://api.testex.com/api/v1/ticker",
+          "url_prefix" => "https://api.testex.com/api/v1/"
+        }
+      }
     }
   end
 
@@ -108,7 +117,7 @@ defmodule CcxtExtract.SchemaTest do
 
   # Null runtime for alias exchanges
   defp alias_runtime do
-    %{"describe" => nil, "markets" => nil, "symbol_patterns" => nil}
+    %{"describe" => nil, "markets" => nil, "symbol_patterns" => nil, "url_templates" => nil}
   end
 
   # Null structure for alias exchanges

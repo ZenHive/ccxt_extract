@@ -15,7 +15,7 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -147293,9 +147293,81 @@
         "separator": "",
         "suffix": "-PERP"
       }
+    },
+    "url_templates": {
+      "base.public": {
+        "api_param": [
+          "base",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.crypto.com/v1/public/get-announcements",
+        "sample_path": "v1/public/get-announcements",
+        "url_prefix": "https://api.crypto.com/"
+      },
+      "derivatives.private": {
+        "api_param": [
+          "derivatives",
+          "private"
+        ],
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "private/set-cancel-on-disconnect",
+        "url_prefix": null
+      },
+      "derivatives.public": {
+        "api_param": [
+          "derivatives",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://deriv-api.crypto.com/v1/public/auth",
+        "sample_path": "public/auth",
+        "url_prefix": "https://deriv-api.crypto.com/v1/"
+      },
+      "v1.private": {
+        "api_param": [
+          "v1",
+          "private"
+        ],
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "private/set-cancel-on-disconnect",
+        "url_prefix": null
+      },
+      "v1.public": {
+        "api_param": [
+          "v1",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.crypto.com/exchange/v1/public/auth",
+        "sample_path": "public/auth",
+        "url_prefix": "https://api.crypto.com/exchange/v1/"
+      },
+      "v2.private": {
+        "api_param": [
+          "v2",
+          "private"
+        ],
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "private/set-cancel-on-disconnect",
+        "url_prefix": null
+      },
+      "v2.public": {
+        "api_param": [
+          "v2",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.crypto.com/v2/public/auth",
+        "sample_path": "public/auth",
+        "url_prefix": "https://api.crypto.com/v2/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

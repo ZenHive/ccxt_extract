@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -204877,9 +204877,138 @@
         "separator": null,
         "suffix": null
       }
+    },
+    "url_templates": {
+      "contract.private": {
+        "api_param": [
+          "contract",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "api/v1/contract_sub_auth_list",
+        "url_prefix": null
+      },
+      "contract.public": {
+        "api_param": [
+          "contract",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.hbdm.vn/api/v1/timestamp",
+        "sample_path": "api/v1/timestamp",
+        "url_prefix": "https://api.hbdm.vn/"
+      },
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "account/accounts",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api.huobi.pro/v1/common/symbols",
+        "sample_path": "common/symbols",
+        "url_prefix": "https://api.huobi.pro/v1/"
+      },
+      "spot.private": {
+        "api_param": [
+          "spot",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v1/account/accounts",
+        "url_prefix": null
+      },
+      "spot.public": {
+        "api_param": [
+          "spot",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.huobi.pro/v2/market-status",
+        "sample_path": "v2/market-status",
+        "url_prefix": "https://api.huobi.pro/"
+      },
+      "status.public.future.inverse": {
+        "api_param": [
+          "status",
+          "public",
+          "future",
+          "inverse"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://status-dm.huobigroup.com/api/v2/summary.json",
+        "sample_path": "api/v2/summary.json",
+        "url_prefix": "https://status-dm.huobigroup.com/"
+      },
+      "status.public.future.linear": {
+        "api_param": [
+          "status",
+          "public",
+          "future",
+          "linear"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://status-linear-swap.huobigroup.com/api/v2/summary.json",
+        "sample_path": "api/v2/summary.json",
+        "url_prefix": "https://status-linear-swap.huobigroup.com/"
+      },
+      "status.public.spot": {
+        "api_param": [
+          "status",
+          "public",
+          "spot"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://status.huobigroup.com/api/v2/summary.json",
+        "sample_path": "api/v2/summary.json",
+        "url_prefix": "https://status.huobigroup.com/"
+      },
+      "status.public.swap.inverse": {
+        "api_param": [
+          "status",
+          "public",
+          "swap",
+          "inverse"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://status-swap.huobigroup.com/api/v2/summary.json",
+        "sample_path": "api/v2/summary.json",
+        "url_prefix": "https://status-swap.huobigroup.com/"
+      },
+      "status.public.swap.linear": {
+        "api_param": [
+          "status",
+          "public",
+          "swap",
+          "linear"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://status-linear-swap.huobigroup.com/api/v2/summary.json",
+        "sample_path": "api/v2/summary.json",
+        "url_prefix": "https://status-linear-swap.huobigroup.com/"
+      },
+      "v2Private": {
+        "api_param": "v2Private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "account/ledger",
+        "url_prefix": null
+      },
+      "v2Public": {
+        "api_param": "v2Public",
+        "http_method": "GET",
+        "resolved_url": "https://api.huobi.pro/v2/reference/currencies",
+        "sample_path": "reference/currencies",
+        "url_prefix": "https://api.huobi.pro/v2/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

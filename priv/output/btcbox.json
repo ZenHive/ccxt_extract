@@ -12,7 +12,7 @@
     "referral": null,
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -473,9 +473,32 @@
       "version": "v1"
     },
     "markets": null,
-    "symbol_patterns": null
+    "symbol_patterns": null,
+    "url_templates": {
+      "private": {
+        "api_param": "private",
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "balance",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://www.btcbox.co.jp/api/v1/depth",
+        "sample_path": "depth",
+        "url_prefix": "https://www.btcbox.co.jp/api/v1/"
+      },
+      "webApi": {
+        "api_param": "webApi",
+        "http_method": "GET",
+        "resolved_url": "https://www.btcbox.co.jp/ajax/coin/coinInfo",
+        "sample_path": "ajax/coin/coinInfo",
+        "url_prefix": "https://www.btcbox.co.jp/"
+      }
+    }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

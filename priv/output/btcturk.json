@@ -12,7 +12,7 @@
     "referral": null,
     "version": null
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -34729,9 +34729,32 @@
         "separator": "",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "graph": {
+        "api_param": "graph",
+        "http_method": "GET",
+        "resolved_url": "https://graph-api.btcturk.com/v1/ohlcs",
+        "sample_path": "ohlcs",
+        "url_prefix": "https://graph-api.btcturk.com/v1/"
+      },
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "users/balances",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api.btcturk.com/api/v2/orderbook",
+        "sample_path": "orderbook",
+        "url_prefix": "https://api.btcturk.com/api/v2/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

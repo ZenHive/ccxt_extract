@@ -137,6 +137,7 @@ defmodule CcxtExtract.Validation do
     |> check_unified_endpoints_roundtrip(output, source_data, exchange_id)
     |> check_overrides_roundtrip(output, source_data, exchange_id)
     |> check_symbol_patterns_roundtrip(output, exchange_id)
+    |> check_url_templates_roundtrip(output, source_data, exchange_id)
     |> Enum.reverse()
   end
 
@@ -828,6 +829,41 @@ defmodule CcxtExtract.Validation do
     end
   end
 
+  # Compare runtime.url_templates — mirrors Pipeline.get_url_templates/2
+  # Alias exchanges inherit parent url_templates via class hierarchy,
+  # so output legitimately has data when source doesn't (same as unified_endpoints).
+  defp check_url_templates_roundtrip(findings, output, source, id) do
+    output_ut = get_in(output, ["runtime", "url_templates"])
+    source_entry = Map.get(source.url_templates, id)
+    source_ut = build_source_url_templates(source_entry)
+
+    case {output_ut, source_ut} do
+      {nil, nil} ->
+        findings
+
+      # Inherited from parent — not a roundtrip concern
+      {_output, nil} ->
+        findings
+
+      # Source has data but output lost it — flag as error
+      {nil, _source} ->
+        check_presence_match(findings, nil, source_ut, id, "runtime.url_templates")
+
+      # Both present — verify source data preserved in output
+      _ ->
+        check_data_equality(findings, output_ut, source_ut, id, "runtime.url_templates")
+    end
+  end
+
+  defp build_source_url_templates(nil), do: nil
+
+  defp build_source_url_templates(entry) do
+    case Map.get(entry, "url_templates", %{}) do
+      templates when map_size(templates) > 0 -> templates
+      _ -> nil
+    end
+  end
+
   # --- Shared Round-Trip Helpers ---
 
   # Compare two values for equality (skip if either is nil — presence check handles that)
@@ -938,7 +974,8 @@ defmodule CcxtExtract.Validation do
       interface_signatures: load_json_index(dir, "interface_signatures.json"),
       pagination: load_json_index(dir, "pagination.json"),
       unified_endpoints: load_json_index(dir, "unified_endpoints.json"),
-      overrides: load_json_group_by(dir, "overrides.json", "exchanges", "id")
+      overrides: load_json_group_by(dir, "overrides.json", "exchanges", "id"),
+      url_templates: load_json_index(dir, "url_templates.json")
     }
   end
 

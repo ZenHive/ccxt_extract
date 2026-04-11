@@ -12,7 +12,7 @@
     "referral": null,
     "version": "1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -12757,9 +12757,41 @@
         "separator": "",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "status.public": {
+        "api_param": [
+          "status",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://metadata-v2.foxbit.com.br/api/status",
+        "sample_path": "status",
+        "url_prefix": "https://metadata-v2.foxbit.com.br/api/"
+      },
+      "v3.private": {
+        "api_param": [
+          "v3",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "accounts",
+        "url_prefix": null
+      },
+      "v3.public": {
+        "api_param": [
+          "v3",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.foxbit.com.br/rest/v3/currencies",
+        "sample_path": "currencies",
+        "url_prefix": "https://api.foxbit.com.br/rest/v3/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

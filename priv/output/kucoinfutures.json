@@ -15,7 +15,7 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -152918,9 +152918,74 @@
         "separator": "",
         "suffix": "M"
       }
+    },
+    "url_templates": {
+      "broker": {
+        "api_param": "broker",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "broker/nd/info",
+        "url_prefix": null
+      },
+      "earn": {
+        "api_param": "earn",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "otc-loan/discount-rate-configs",
+        "url_prefix": null
+      },
+      "futuresPrivate": {
+        "api_param": "futuresPrivate",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "transaction-history",
+        "url_prefix": null
+      },
+      "futuresPublic": {
+        "api_param": "futuresPublic",
+        "http_method": "GET",
+        "resolved_url": "https://api-futures.kucoin.com/api/v1/contracts/active",
+        "sample_path": "contracts/active",
+        "url_prefix": "https://api-futures.kucoin.com/api/v1/"
+      },
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "user-info",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api.kucoin.com/api/v3/currencies",
+        "sample_path": "currencies",
+        "url_prefix": "https://api.kucoin.com/api/v3/"
+      },
+      "uta": {
+        "api_param": "uta",
+        "http_method": "GET",
+        "resolved_url": "https://api.kucoin.com/api/ua/v1/market/announcement",
+        "sample_path": "market/announcement",
+        "url_prefix": "https://api.kucoin.com/api/ua/v1/"
+      },
+      "utaPrivate": {
+        "api_param": "utaPrivate",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "market/orderbook",
+        "url_prefix": null
+      },
+      "webExchange": {
+        "api_param": "webExchange",
+        "http_method": "GET",
+        "resolved_url": "https://kucoin.com/_api/currency/currency/chain-info",
+        "sample_path": "currency/currency/chain-info",
+        "url_prefix": "https://kucoin.com/_api/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

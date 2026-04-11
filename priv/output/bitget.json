@@ -15,7 +15,7 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -120090,9 +120090,191 @@
         "separator": "",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "private.broker": {
+        "api_param": [
+          "private",
+          "broker"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "broker/v1/account/info",
+        "url_prefix": null
+      },
+      "private.common": {
+        "api_param": [
+          "private",
+          "common"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v2/common/trade-rate",
+        "url_prefix": null
+      },
+      "private.convert": {
+        "api_param": [
+          "private",
+          "convert"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v2/convert/currencies",
+        "url_prefix": null
+      },
+      "private.copy": {
+        "api_param": [
+          "private",
+          "copy"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v2/copy/mix-trader/order-current-track",
+        "url_prefix": null
+      },
+      "private.earn": {
+        "api_param": [
+          "private",
+          "earn"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v2/earn/savings/product",
+        "url_prefix": null
+      },
+      "private.margin": {
+        "api_param": [
+          "private",
+          "margin"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "margin/v1/cross/account/riskRate",
+        "url_prefix": null
+      },
+      "private.mix": {
+        "api_param": [
+          "private",
+          "mix"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "mix/v1/account/account",
+        "url_prefix": null
+      },
+      "private.p2p": {
+        "api_param": [
+          "private",
+          "p2p"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "p2p/v1/merchant/merchantList",
+        "url_prefix": null
+      },
+      "private.spot": {
+        "api_param": [
+          "private",
+          "spot"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "spot/v1/wallet/deposit-address",
+        "url_prefix": null
+      },
+      "private.tax": {
+        "api_param": [
+          "private",
+          "tax"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v2/tax/spot-record",
+        "url_prefix": null
+      },
+      "private.user": {
+        "api_param": [
+          "private",
+          "user"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "user/v1/fee/query",
+        "url_prefix": null
+      },
+      "private.uta": {
+        "api_param": [
+          "private",
+          "uta"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v3/account/assets",
+        "url_prefix": null
+      },
+      "public.common": {
+        "api_param": [
+          "public",
+          "common"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.bitget.com/api/v2/public/annoucements",
+        "sample_path": "v2/public/annoucements",
+        "url_prefix": "https://api.bitget.com/api/"
+      },
+      "public.earn": {
+        "api_param": [
+          "public",
+          "earn"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.bitget.com/api/v2/earn/loan/public/coinInfos",
+        "sample_path": "v2/earn/loan/public/coinInfos",
+        "url_prefix": "https://api.bitget.com/api/"
+      },
+      "public.margin": {
+        "api_param": [
+          "public",
+          "margin"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.bitget.com/api/margin/v1/cross/public/interestRateAndLimit",
+        "sample_path": "margin/v1/cross/public/interestRateAndLimit",
+        "url_prefix": "https://api.bitget.com/api/"
+      },
+      "public.mix": {
+        "api_param": [
+          "public",
+          "mix"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.bitget.com/api/mix/v1/market/contracts",
+        "sample_path": "mix/v1/market/contracts",
+        "url_prefix": "https://api.bitget.com/api/"
+      },
+      "public.spot": {
+        "api_param": [
+          "public",
+          "spot"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.bitget.com/api/spot/v1/notice/queryAllNotices",
+        "sample_path": "spot/v1/notice/queryAllNotices",
+        "url_prefix": "https://api.bitget.com/api/"
+      },
+      "public.uta": {
+        "api_param": [
+          "public",
+          "uta"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.bitget.com/api/v3/market/instruments",
+        "sample_path": "v3/market/instruments",
+        "url_prefix": "https://api.bitget.com/api/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

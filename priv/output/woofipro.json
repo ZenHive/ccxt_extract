@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -9714,9 +9714,31 @@
         "separator": null,
         "suffix": null
       }
+    },
+    "url_templates": {
+      "v1.private": {
+        "api_param": [
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "client/key_info",
+        "url_prefix": null
+      },
+      "v1.public": {
+        "api_param": [
+          "v1",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api-evm.orderly.org/v1/public/volume/stats",
+        "sample_path": "public/volume/stats",
+        "url_prefix": "https://api-evm.orderly.org/v1/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

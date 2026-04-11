@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 46 | URL templates extractor | Raw sign() probe model: records inputs (`api_param`, `http_method`, `sample_path`) and output (`resolved_url`), plus derived `url_prefix` when provable. Removed heuristic `base_url` resolver after ~20 rounds showed it was interpretation, not extraction. Schema 1.2.0. |
 | Task 45 | Include derived analytics in update | `mix ccxt_extract.update` now runs Stage 6: coverage, summary, family analysis, method analysis, public exchanges, market validation. QuickBEAM-dependent analytics (describe keys, describe key analysis) skipped with `--skip-setup`. |
 | Task 44 | Resolve alias exchange data from parent | Alias exchanges (coinbaseadvanced, gateio, huobi) now inherit parent runtime data (describe, markets, symbol_patterns) via class hierarchy fallback. Validation alias-aware. |
 | Task 42 | Follow super.*() delegation in unified endpoints | Resolves super.method() calls through base Exchange class. Fixes coincatch and kucoin missing transport mappings. |
@@ -54,6 +55,12 @@
 | Task 33 | 🔶 Deferred | Auth assembly decomposition — deferred: this is interpretation, not extraction. The raw sign() AST is already extracted. Consumers should classify signing patterns from AST, not consume pre-digested "recipes" that bake in one model. Revisit only if multiple consumers independently request it. |
 | Task 34 | 🔶 Deferred | Handler routing tables — deferred: derivable from existing AST bodies. Adding pre-computed routing tables is analysis, not extraction, and couples the extractor to a specific consumer's view of method dependencies. |
 
+### 📋 Consumer-Requested Extractions
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 49 `[P]` | ⬜ | Error code field names from handleErrors() AST — extract which response body fields each exchange checks for error codes. [D:3/B:8/U:8 → Eff:2.67] 🎯 |
+| Task 52 `[P]` | ⬜ | Section visibility from sign() AST — extract which API sections require authentication per exchange. [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+
 ### 📋 Data Quality & Maintenance
 | Task | Status | Notes |
 |------|--------|-------|
@@ -64,6 +71,8 @@
 | Task 39 | ✅ | Pagination round-trip validation — presence + data equality checks with `_unresolved` support |
 | Task 44 | ✅ | Resolve alias exchange data from parent (coinbaseadvanced, gateio, huobi) |
 | Task 45 | ✅ | Include derived analytics in `mix ccxt_extract.update` |
+| Task 46 | ✅ | URL templates extractor — raw sign() probe model with `url_prefix` derivation. Schema 1.2.0. |
+| Task 47 | ⬜ | Round-trip validation for `url_templates` — add presence/consistency checks in validation stage, similar to `symbol_patterns`. [D:3/B:5/U:4 → Eff:1.5] |
 
 ### Quick Commands
 ```bash
@@ -83,6 +92,7 @@ mix ccxt_extract.load_markets --concurrency 10  # Faster with more parallel work
 mix ccxt_extract.validate_markets              # Validate cached market data (structural)
 mix ccxt_extract.validate_markets --spot-check # + live spot-check against exchange APIs
 mix ccxt_extract.family_analysis               # Analyze exchange families
+mix ccxt_extract.url_templates                 # Extract URL templates via sign()
 mix ccxt_extract.sign_methods                  # Extract sign() method AST
 mix ccxt_extract.handle_errors                 # Extract handleErrors() method AST
 mix ccxt_extract.parse_methods                 # Extract parse*() method ASTs
@@ -225,6 +235,16 @@ mix test.json --quiet --only extraction    # Only extraction tests
 - [ ] **Task 33: Auth assembly decomposition** [D:6/B:8/U:8 → Eff:1.33] 📋 🔶 **Deferred** — Decompose the existing `sign_method` AST into structured auth assembly steps. **Deferred reason:** This crosses from extraction into interpretation. The raw sign() AST is already extracted and complete. Classifying signing patterns (which crypto ops, what gets signed) is consumer-domain work — ccxt_client's 9 signing patterns are *its* abstraction, not a universal truth. Baking one interpretation into the extractor couples it to one consumer's model. Revisit only if multiple consumers independently request structured signing recipes.
 
 - [ ] **Task 34: Handler routing extraction** [D:5/B:7/U:7 → Eff:1.40] 📋 🔶 **Deferred** — Extract method → handler dependency routing tables. **Deferred reason:** This is analysis derivable from existing AST data. Every method body is already extracted — consumers can walk `this.handleErrors()`, `this.sign()` calls themselves. Pre-computing one routing view in the extractor removes consumer flexibility. Revisit only if AST walking proves impractical for multiple consumers.
+
+---
+
+## Phase 8: Consumer-Requested Extractions ⬜
+
+> Structured data derived from existing AST bodies, requested by ccxt_client to replace heuristic inference. Principle: if ccxt_extract can observe the answer from CCXT's code, record it as structured data — don't make consumers infer what we already know.
+
+- [ ] **Task 49: Error code field names from handleErrors() AST** [D:3/B:8/U:8 → Eff:2.67] 🎯 `[P]` — Extract which response body field names each exchange's `handleErrors()` checks for error codes. Walk the already-extracted handleErrors() AST for `safeString`/`safeString2`/`safeValue` calls where the first argument is `response` — the second argument is the field name (literal string). Output: `structure.handle_errors.error_code_fields: ["code", "msg"]` (or whatever the exchange uses). This is pure extraction — field names are string literals in the code. ccxt_client currently hardcodes 4 field names and silently misses exchanges using others.
+
+- [ ] **Task 52: Section visibility from sign() AST** [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — Extract which API sections require authentication per exchange. Walk the already-extracted sign() AST for branches that call `checkRequiredCredentials()` and collect the `api === 'sectionName'` string comparisons that gate those branches. Output: `structure.sign_method.authenticated_sections: ["private", "sapi", "dapiPrivate", ...]` per exchange. This is extraction — the section names are literal strings in the sign() conditionals. ccxt_client currently uses substring matching on "private" which already had one 15-exchange bug.
 
 ---
 

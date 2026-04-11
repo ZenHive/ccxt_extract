@@ -15,7 +15,7 @@
     },
     "version": "v3"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -69549,9 +69549,46 @@
         "separator": "",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "contractPrivate": {
+        "api_param": "contractPrivate",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "accounts",
+        "url_prefix": null
+      },
+      "contractPublic": {
+        "api_param": "contractPublic",
+        "http_method": "GET",
+        "resolved_url": "https://big.one/api/contract/v2/symbols",
+        "sample_path": "symbols",
+        "url_prefix": "https://big.one/api/contract/v2/"
+      },
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "accounts",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://big.one/api/v3/ping",
+        "sample_path": "ping",
+        "url_prefix": "https://big.one/api/v3/"
+      },
+      "webExchange": {
+        "api_param": "webExchange",
+        "http_method": "GET",
+        "resolved_url": "https://big.one/api/v3/assets",
+        "sample_path": "v3/assets",
+        "url_prefix": "https://big.one/api/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

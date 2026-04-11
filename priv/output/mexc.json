@@ -15,7 +15,7 @@
     },
     "version": "v3"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -376005,9 +376005,81 @@
         "separator": "_",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "broker.private": {
+        "api_param": [
+          "broker",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "sub-account/universalTransfer",
+        "url_prefix": null
+      },
+      "contract.private": {
+        "api_param": [
+          "contract",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "account/assets",
+        "url_prefix": null
+      },
+      "contract.public": {
+        "api_param": [
+          "contract",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.mexc.com/api/v1/contract/ping",
+        "sample_path": "ping",
+        "url_prefix": "https://api.mexc.com/api/v1/contract/"
+      },
+      "spot.private": {
+        "api_param": [
+          "spot",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "kyc/status",
+        "url_prefix": null
+      },
+      "spot.public": {
+        "api_param": [
+          "spot",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.mexc.com/api/v3/ping",
+        "sample_path": "ping",
+        "url_prefix": "https://api.mexc.com/api/v3/"
+      },
+      "spot2.private": {
+        "api_param": [
+          "spot2",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "account/info",
+        "url_prefix": null
+      },
+      "spot2.public": {
+        "api_param": [
+          "spot2",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://www.mexc.com/open/api/v2/market/symbols",
+        "sample_path": "market/symbols",
+        "url_prefix": "https://www.mexc.com/open/api/v2/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

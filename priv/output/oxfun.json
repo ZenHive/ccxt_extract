@@ -15,7 +15,7 @@
     },
     "version": "v3"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -626,9 +626,25 @@
       "version": "v3"
     },
     "markets": null,
-    "symbol_patterns": null
+    "symbol_patterns": null,
+    "url_templates": {
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v3/account",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api.ox.fun/v3/markets",
+        "sample_path": "v3/markets",
+        "url_prefix": "https://api.ox.fun/"
+      }
+    }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

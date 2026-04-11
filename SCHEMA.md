@@ -60,7 +60,7 @@ Every per-exchange JSON file has exactly these top-level keys (all required, nev
 
 | Key | Type | Description |
 |-----|------|-------------|
-| `schema_version` | `"1.1.0"` | This contract version |
+| `schema_version` | `"1.2.0"` | This contract version |
 | `extracted_at` | string (ISO 8601) | When extraction ran |
 | `ccxt_version` | string | CCXT npm package version used |
 | `exchange` | ExchangeMeta | Exchange identity and metadata |
@@ -153,6 +153,7 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.2.0 | 2026-04 | Add `runtime.url_templates` — raw sign() probes per API section. Each entry: `api_param`, `http_method`, `sample_path` (inputs), `resolved_url` (output), `url_prefix` (derived when provable). Reveals path prefixes injected by `sign()` (e.g., OKX `/api/v5/`, Gate `/spot/`). |
 | 1.1.0 | 2026-04 | Add `structure.unified_endpoints` — maps unified methods to interface method names they call. Derived exchanges inherit parent mappings. |
 | 1.0.1 | 2026-04 | Add `runtime.symbol_patterns` — derived per-type formatting rules (separator, case, suffix, anomalies) for symbol conversion. |
 | 1.0.0 | 2026-03 | Initial release. Two-layer model (runtime + structure), 110 exchanges, full ESTree AST bodies. |

@@ -12,7 +12,7 @@
     "referral": null,
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -53070,9 +53070,51 @@
         "separator": "",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "private.spot": {
+        "api_param": [
+          "private",
+          "spot"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v2/ex/orders",
+        "url_prefix": null
+      },
+      "private.swap": {
+        "api_param": [
+          "private",
+          "swap"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v1/wallet/balance",
+        "url_prefix": null
+      },
+      "public.spot": {
+        "api_param": [
+          "public",
+          "spot"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://sapi.zebpay.com/api/v2/system/time",
+        "sample_path": "v2/system/time",
+        "url_prefix": "https://sapi.zebpay.com/api/"
+      },
+      "public.swap": {
+        "api_param": [
+          "public",
+          "swap"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://futuresbe.zebpay.com/api/v1/system/time",
+        "sample_path": "v1/system/time",
+        "url_prefix": "https://futuresbe.zebpay.com/api/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

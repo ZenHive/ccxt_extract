@@ -15,7 +15,7 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -397754,9 +397754,25 @@
         "separator": "_",
         "suffix": "-PERPETUAL"
       }
+    },
+    "url_templates": {
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "logout",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://www.deribit.com/api/v2/public/auth",
+        "sample_path": "auth",
+        "url_prefix": "https://www.deribit.com/api/v2/public/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

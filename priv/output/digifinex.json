@@ -15,7 +15,7 @@
     },
     "version": "v3"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -24566,9 +24566,51 @@
         "separator": "",
         "suffix": "PERP"
       }
+    },
+    "url_templates": {
+      "private.spot": {
+        "api_param": [
+          "private",
+          "spot"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://openapi.digifinex.com/v3/{market}/financelog",
+        "sample_path": "{market}/financelog",
+        "url_prefix": "https://openapi.digifinex.com/v3/"
+      },
+      "private.swap": {
+        "api_param": [
+          "private",
+          "swap"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://openapi.digifinex.com/swap/v2/account/balance",
+        "sample_path": "account/balance",
+        "url_prefix": "https://openapi.digifinex.com/swap/v2/"
+      },
+      "public.spot": {
+        "api_param": [
+          "public",
+          "spot"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://openapi.digifinex.com/v3/{market}/symbols",
+        "sample_path": "{market}/symbols",
+        "url_prefix": "https://openapi.digifinex.com/v3/"
+      },
+      "public.swap": {
+        "api_param": [
+          "public",
+          "swap"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://openapi.digifinex.com/swap/v2/public/api_weight",
+        "sample_path": "public/api_weight",
+        "url_prefix": "https://openapi.digifinex.com/swap/v2/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

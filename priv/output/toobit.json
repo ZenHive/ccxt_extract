@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -186825,9 +186825,25 @@
         "separator": null,
         "suffix": null
       }
+    },
+    "url_templates": {
+      "common": {
+        "api_param": "common",
+        "http_method": "GET",
+        "resolved_url": "https://api.toobit.com/api/v1/time",
+        "sample_path": "api/v1/time",
+        "url_prefix": "https://api.toobit.com/"
+      },
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "api/v1/account",
+        "url_prefix": null
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

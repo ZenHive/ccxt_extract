@@ -15,7 +15,7 @@
     },
     "version": "v4"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -80255,9 +80255,68 @@
         "separator": null,
         "suffix": null
       }
+    },
+    "url_templates": {
+      "v1.private": {
+        "api_param": [
+          "v1",
+          "private"
+        ],
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "account/balance",
+        "url_prefix": null
+      },
+      "v1.public": {
+        "api_param": [
+          "v1",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://whitebit.com/api/v1/public/markets",
+        "sample_path": "markets",
+        "url_prefix": "https://whitebit.com/api/v1/public/"
+      },
+      "v2.public": {
+        "api_param": [
+          "v2",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://whitebit.com/api/v2/public/markets",
+        "sample_path": "markets",
+        "url_prefix": "https://whitebit.com/api/v2/public/"
+      },
+      "v4.private": {
+        "api_param": [
+          "v4",
+          "private"
+        ],
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "collateral-account/balance",
+        "url_prefix": null
+      },
+      "v4.public": {
+        "api_param": [
+          "v4",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://whitebit.com/api/v4/public/assets",
+        "sample_path": "assets",
+        "url_prefix": "https://whitebit.com/api/v4/public/"
+      },
+      "web": {
+        "api_param": "web",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v1/healthcheck",
+        "url_prefix": null
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

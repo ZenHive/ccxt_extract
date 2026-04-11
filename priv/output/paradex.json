@@ -13,7 +13,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -10821,9 +10821,25 @@
         "separator": "-",
         "suffix": "-PERP"
       }
+    },
+    "url_templates": {
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": "https://api.prod.paradex.trade/v1/account",
+        "sample_path": "account",
+        "url_prefix": "https://api.prod.paradex.trade/v1/"
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api.prod.paradex.trade/v1/bbo/{market}",
+        "sample_path": "bbo/{market}",
+        "url_prefix": "https://api.prod.paradex.trade/v1/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

@@ -12,7 +12,7 @@
     "referral": null,
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -31019,9 +31019,39 @@
         "separator": null,
         "suffix": null
       }
+    },
+    "url_templates": {
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "v1/perpetuals/fundingpaymentreport/records.xlsx",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api.gemini.com/v1/symbols",
+        "sample_path": "v1/symbols",
+        "url_prefix": "https://api.gemini.com/"
+      },
+      "web": {
+        "api_param": "web",
+        "http_method": "GET",
+        "resolved_url": "https://docs.gemini.com/rest-api",
+        "sample_path": "rest-api",
+        "url_prefix": "https://docs.gemini.com/"
+      },
+      "webExchange": {
+        "api_param": "webExchange",
+        "http_method": "GET",
+        "resolved_url": "https://exchange.gemini.com/",
+        "sample_path": "",
+        "url_prefix": "https://exchange.gemini.com/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

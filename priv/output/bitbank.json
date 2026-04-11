@@ -12,7 +12,7 @@
     "referral": null,
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -6681,9 +6681,32 @@
         "separator": "_",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "markets": {
+        "api_param": "markets",
+        "http_method": "GET",
+        "resolved_url": "https://api.bitbank.cc/spot/pairs",
+        "sample_path": "spot/pairs",
+        "url_prefix": "https://api.bitbank.cc/"
+      },
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "user/assets",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://public.bitbank.cc/{pair}/ticker",
+        "sample_path": "{pair}/ticker",
+        "url_prefix": "https://public.bitbank.cc/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

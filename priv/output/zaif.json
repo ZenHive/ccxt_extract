@@ -12,7 +12,7 @@
     "referral": null,
     "version": "1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -4789,9 +4789,46 @@
         "separator": null,
         "suffix": null
       }
+    },
+    "url_templates": {
+      "ecapi": {
+        "api_param": "ecapi",
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "createInvoice",
+        "url_prefix": null
+      },
+      "fapi": {
+        "api_param": "fapi",
+        "http_method": "GET",
+        "resolved_url": "https://api.zaif.jp/fapi/1/groups/{group_id}",
+        "sample_path": "groups/{group_id}",
+        "url_prefix": "https://api.zaif.jp/fapi/1/"
+      },
+      "private": {
+        "api_param": "private",
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "active_orders",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api.zaif.jp/api/1/depth/{pair}",
+        "sample_path": "depth/{pair}",
+        "url_prefix": "https://api.zaif.jp/api/1/"
+      },
+      "tlapi": {
+        "api_param": "tlapi",
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "get_positions",
+        "url_prefix": null
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

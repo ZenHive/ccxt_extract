@@ -15,7 +15,7 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -135248,9 +135248,41 @@
         "separator": "",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "contract.public": {
+        "api_param": [
+          "contract",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://lbkperp.lbank.com/cfd/openApi/v1/pub/getTime",
+        "sample_path": "cfd/openApi/v1/pub/getTime",
+        "url_prefix": "https://lbkperp.lbank.com/"
+      },
+      "spot.private": {
+        "api_param": [
+          "spot",
+          "private"
+        ],
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "user_info",
+        "url_prefix": null
+      },
+      "spot.public": {
+        "api_param": [
+          "spot",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://api.lbank.info/v2/currencyPairs.do",
+        "sample_path": "currencyPairs",
+        "url_prefix": null
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

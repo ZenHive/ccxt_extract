@@ -12,7 +12,7 @@
     "referral": null,
     "version": null
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -3519,9 +3519,53 @@
         "separator": null,
         "suffix": null
       }
+    },
+    "url_templates": {
+      "forward": {
+        "api_param": "forward",
+        "http_method": "GET",
+        "resolved_url": "https://wx.network/api/v1/forward/matcher/matcher/orders/{address}",
+        "sample_path": "matcher/orders/{address}",
+        "url_prefix": "https://wx.network/api/v1/forward/matcher/"
+      },
+      "market": {
+        "api_param": "market",
+        "http_method": "GET",
+        "resolved_url": "https://wx.network/api/v1/forward/marketdata/api/v1/tickers",
+        "sample_path": "tickers",
+        "url_prefix": "https://wx.network/api/v1/forward/marketdata/api/v1/"
+      },
+      "matcher": {
+        "api_param": "matcher",
+        "http_method": "GET",
+        "resolved_url": "https://matcher.wx.network/matcher",
+        "sample_path": "matcher",
+        "url_prefix": "https://matcher.wx.network/"
+      },
+      "node": {
+        "api_param": "node",
+        "http_method": "GET",
+        "resolved_url": "https://nodes.wx.network/addresses",
+        "sample_path": "addresses",
+        "url_prefix": "https://nodes.wx.network/"
+      },
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": "https://api.wx.network/v1/deposit/addresses/{currency}",
+        "sample_path": "deposit/addresses/{currency}",
+        "url_prefix": "https://api.wx.network/v1/"
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api.wavesplatform.com/v0/assets",
+        "sample_path": "assets",
+        "url_prefix": "https://api.wavesplatform.com/v0/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

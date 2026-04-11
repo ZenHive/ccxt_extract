@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -8903,9 +8903,46 @@
         "separator": "",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "market": {
+        "api_param": "market",
+        "http_method": "GET",
+        "resolved_url": "https://api-cloud.bittrade.co.jp/market/history/kline",
+        "sample_path": "history/kline",
+        "url_prefix": "https://api-cloud.bittrade.co.jp/market/"
+      },
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "account/accounts",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api-cloud.bittrade.co.jp/v1/common/symbols",
+        "sample_path": "common/symbols",
+        "url_prefix": "https://api-cloud.bittrade.co.jp/v1/"
+      },
+      "v2Private": {
+        "api_param": "v2Private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "account/ledger",
+        "url_prefix": null
+      },
+      "v2Public": {
+        "api_param": "v2Public",
+        "http_method": "GET",
+        "resolved_url": "https://api-cloud.bittrade.co.jp/v2/reference/currencies",
+        "sample_path": "reference/currencies",
+        "url_prefix": "https://api-cloud.bittrade.co.jp/v2/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

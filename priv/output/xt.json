@@ -15,7 +15,7 @@
     },
     "version": "v4"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -356882,9 +356882,81 @@
         "separator": "_",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "private.inverse": {
+        "api_param": [
+          "private",
+          "inverse"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "future/trade/v1/entrust/plan-detail",
+        "url_prefix": null
+      },
+      "private.linear": {
+        "api_param": [
+          "private",
+          "linear"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "future/trade/v1/entrust/plan-detail",
+        "url_prefix": null
+      },
+      "private.spot": {
+        "api_param": [
+          "private",
+          "spot"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "balance",
+        "url_prefix": null
+      },
+      "private.user": {
+        "api_param": [
+          "private",
+          "user"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "user/account",
+        "url_prefix": null
+      },
+      "public.inverse": {
+        "api_param": [
+          "public",
+          "inverse"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://dapi.xt.com/future/market/v1/public/contract/risk-balance",
+        "sample_path": "future/market/v1/public/contract/risk-balance",
+        "url_prefix": "https://dapi.xt.com/"
+      },
+      "public.linear": {
+        "api_param": [
+          "public",
+          "linear"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://fapi.xt.com/future/market/v1/public/contract/risk-balance",
+        "sample_path": "future/market/v1/public/contract/risk-balance",
+        "url_prefix": "https://fapi.xt.com/"
+      },
+      "public.spot": {
+        "api_param": [
+          "public",
+          "spot"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://sapi.xt.com/v4/public/currencies",
+        "sample_path": "currencies",
+        "url_prefix": "https://sapi.xt.com/v4/public/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

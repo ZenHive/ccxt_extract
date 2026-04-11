@@ -88,6 +88,15 @@ defmodule CcxtExtract.ValidationTest do
           "examples" => [%{"symbol" => "BTC/USDT", "id" => "BTCUSDT", "baseId" => "BTC", "quoteId" => "USDT"}]
         },
         "currency_aliases" => %{}
+      },
+      "url_templates" => %{
+        "public" => %{
+          "api_param" => "public",
+          "http_method" => "GET",
+          "sample_path" => "/api/v1/ticker",
+          "resolved_url" => "https://api.testex.com/api/v1/ticker",
+          "url_prefix" => "https://api.testex.com"
+        }
       }
     }
   end
@@ -120,7 +129,7 @@ defmodule CcxtExtract.ValidationTest do
     }
   end
 
-  defp alias_runtime, do: %{"describe" => nil, "markets" => nil, "symbol_patterns" => nil}
+  defp alias_runtime, do: %{"describe" => nil, "markets" => nil, "symbol_patterns" => nil, "url_templates" => nil}
 
   defp alias_structure do
     %{
@@ -255,7 +264,22 @@ defmodule CcxtExtract.ValidationTest do
             "unified_endpoint_count" => 2
           }
         },
-        overrides: %{}
+        overrides: %{},
+        url_templates: %{
+          "testex" => %{
+            "id" => "testex",
+            "url_templates" => %{
+              "public" => %{
+                "api_param" => "public",
+                "http_method" => "GET",
+                "sample_path" => "/api/v1/ticker",
+                "resolved_url" => "https://api.testex.com/api/v1/ticker",
+                "url_prefix" => "https://api.testex.com"
+              }
+            },
+            "url_template_count" => 1
+          }
+        }
       }
     end
 
@@ -526,7 +550,8 @@ defmodule CcxtExtract.ValidationTest do
         interface_signatures: %{},
         pagination: %{},
         unified_endpoints: %{},
-        overrides: %{}
+        overrides: %{},
+        url_templates: %{}
       }
 
       findings = Validation.validate_roundtrip(exchange, source, "aliasex")
@@ -566,7 +591,8 @@ defmodule CcxtExtract.ValidationTest do
         interface_signatures: %{},
         pagination: %{},
         unified_endpoints: %{},
-        overrides: %{}
+        overrides: %{},
+        url_templates: %{}
       }
 
       findings = Validation.validate_roundtrip(exchange, source, "aliasex")

@@ -128,7 +128,8 @@ defmodule CcxtExtract.Pipeline do
     runtime_data = %{
       "describe" => describe,
       "markets" => markets,
-      "symbol_patterns" => CcxtExtract.SymbolPatterns.derive(markets, describe)
+      "symbol_patterns" => CcxtExtract.SymbolPatterns.derive(markets, describe),
+      "url_templates" => get_url_templates(id, data)
     }
 
     structure_data = %{
@@ -254,6 +255,26 @@ defmodule CcxtExtract.Pipeline do
       nil -> nil
       %{"interface_signatures" => sigs} when map_size(sigs) > 0 -> sigs
       _ -> nil
+    end
+  end
+
+  # URL templates: extract the url_templates inner map.
+  # Alias exchanges (e.g. coinbaseadvanced, gateio, huobi) have no own url_templates data —
+  # fall back to parent exchange's url_templates via class hierarchy.
+  defp get_url_templates(id, data) do
+    case Map.get(data.url_templates, id) do
+      nil -> get_parent_url_templates(id, data)
+      %{"url_templates" => templates} when map_size(templates) > 0 -> templates
+      _ -> nil
+    end
+  end
+
+  # Recursion is safe: CCXT class hierarchy is a DAG (max depth ~3),
+  # and find_parent_exchange_id returns nil for base Exchange class, terminating the chain.
+  defp get_parent_url_templates(id, data) do
+    case find_parent_exchange_id(id, data) do
+      nil -> nil
+      parent_id -> get_url_templates(parent_id, data)
     end
   end
 
@@ -420,6 +441,7 @@ defmodule CcxtExtract.Pipeline do
     {interface_signatures, stats} = load_exchange_lookup(dir, "interface_signatures.json", expected_ids, stats)
     {pagination, stats} = load_exchange_lookup(dir, "pagination.json", expected_ids, stats)
     {unified_endpoints, stats} = load_exchange_lookup(dir, "unified_endpoints.json", expected_ids, stats)
+    {url_templates, stats} = load_exchange_lookup(dir, "url_templates.json", expected_ids, stats)
     {overrides, stats} = load_overrides(dir, expected_ids, stats)
 
     %{
@@ -436,6 +458,7 @@ defmodule CcxtExtract.Pipeline do
       interface_signatures: interface_signatures,
       pagination: pagination,
       unified_endpoints: unified_endpoints,
+      url_templates: url_templates,
       overrides: overrides,
       missing_files: Enum.reverse(stats.missing_files),
       missing_entries: Enum.reverse(stats.missing_entries),
@@ -841,6 +864,19 @@ defmodule CcxtExtract.Pipeline do
 
   defp validate_exchange_lookup_entry("unified_endpoints.json", entry) do
     {:corrupt, "unified_endpoints.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
+  end
+
+  defp validate_exchange_lookup_entry("url_templates.json", %{"id" => id} = entry) when is_binary(id) do
+    with {:ok, templates} <-
+           fetch_required_key(entry, "url_templates", id, "url_templates.json"),
+         :ok <-
+           validate_required_map_field("url_templates.json", id, "url_templates", templates) do
+      {:ok, id, entry}
+    end
+  end
+
+  defp validate_exchange_lookup_entry("url_templates.json", entry) do
+    {:corrupt, "url_templates.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
   end
 
   defp validate_exchange_lookup_entry(_filename, %{"id" => id} = entry) when is_binary(id), do: {:ok, id, entry}

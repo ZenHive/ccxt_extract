@@ -6,6 +6,22 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Consumer-Requested Extractions (Phase 8 — planned)
+- **Task 49**: Error code field names from handleErrors() AST — extract `safeString`/`safeString2` field name arguments to replace ccxt_client's hardcoded 4-field heuristic
+- **Task 52**: Section visibility from sign() AST — extract `api === 'sectionName'` conditionals gating `checkRequiredCredentials()` to replace ccxt_client's substring-match heuristic
+- **Deferred**: Rate limit headers (not observable from static analysis), endpoint weight field names (already extracted — "cost" is universal CCXT convention)
+- **Origin**: ccxt_client identified 4 areas where heuristic inference causes recurring silent bugs; 2 of 4 are extractable, 1 already resolved, 1 deferred
+
+### URL Templates Extractor (Task 46)
+- New QuickBEAM extractor (`CcxtExtract.UrlTemplates`) that calls `sign()` per API section to capture resolved URLs
+- Reveals path prefixes injected by `sign()` not visible in `describe()` data (e.g., OKX `/api/v5/`, KuCoin `/api/v2/`, Gate `/spot/`)
+- New `runtime.url_templates` field in output schema (1.2.0)
+- Raw probe model: each entry records sign() inputs (`api_param`, `http_method`, `sample_path`) and output (`resolved_url`), plus derived `url_prefix`
+- `url_prefix` only populated when `resolved_url` cleanly ends with `sample_path` — null for suffix-mutation exchanges (bit2c, gemini, lbank, lighter, zonda) and sign() failures
+- Handles flat sections (string api param) and nested sections (array api param for Gate-style)
+- Known limitation: one endpoint sampled per section — exchanges with mixed API versions within a section show the prefix for the sampled endpoint only
+- Key design decision: `base_url` was removed after ~20 rounds of fixes showed it was interpretation (heuristic resolution of CCXT's inconsistent `urls.api` shapes), not extraction. `resolved_url` is the authoritative sign() output; consumers cross-reference `runtime.describe.urls.api` for base URLs
+
 ### Fix: Filter leaked helper method names from unified_endpoints
 - Pipeline now cross-references `unified_endpoints` values against `interface_signatures` keys — only real HTTP endpoint methods survive
 - Removed 6 leaked helper methods across grvt, hashkey, htx, huobi, kucoin, kucoinfutures (e.g., `ethGetAddressFromPrivateKey`, `parseOrderTypeTimeInForceAndPostOnly`, `tryGetSymbolFromFutureMarkets`, `utaPrivateGetPositionHistory`)

@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -227773,9 +227773,278 @@
         "separator": "-",
         "suffix": null
       }
+    },
+    "url_templates": {
+      "account.transfer.v1.private": {
+        "api_param": [
+          "account",
+          "transfer",
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "subAccount/asset/transferHistory",
+        "url_prefix": null
+      },
+      "account.v1.private": {
+        "api_param": [
+          "account",
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "uid",
+        "url_prefix": null
+      },
+      "agent.v1.private": {
+        "api_param": [
+          "agent",
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "account/inviteAccountList",
+        "url_prefix": null
+      },
+      "api.asset.v1.private": {
+        "api_param": [
+          "api",
+          "asset",
+          "v1",
+          "private"
+        ],
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "transfer",
+        "url_prefix": null
+      },
+      "api.asset.v1.public": {
+        "api_param": [
+          "api",
+          "asset",
+          "v1",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://open-api.bingx.com/openApi/api/asset/v1/transfer/supportCoins",
+        "sample_path": "transfer/supportCoins",
+        "url_prefix": "https://open-api.bingx.com/openApi/api/asset/v1/"
+      },
+      "api.v3.private": {
+        "api_param": [
+          "api",
+          "v3",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "asset/transfer",
+        "url_prefix": null
+      },
+      "contract.v1.private": {
+        "api_param": [
+          "contract",
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "allPosition",
+        "url_prefix": null
+      },
+      "copyTrading.v1.private": {
+        "api_param": [
+          "copyTrading",
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "swap/trace/currentTrack",
+        "url_prefix": null
+      },
+      "cswap.v1.private": {
+        "api_param": [
+          "cswap",
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "trade/leverage",
+        "url_prefix": null
+      },
+      "cswap.v1.public": {
+        "api_param": [
+          "cswap",
+          "v1",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://open-api.bingx.com/openApi/cswap/v1/market/contracts",
+        "sample_path": "market/contracts",
+        "url_prefix": "https://open-api.bingx.com/openApi/cswap/v1/"
+      },
+      "fund.v1.private": {
+        "api_param": [
+          "fund",
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "account/balance",
+        "url_prefix": null
+      },
+      "spot.v1.private": {
+        "api_param": [
+          "spot",
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "trade/query",
+        "url_prefix": null
+      },
+      "spot.v1.public": {
+        "api_param": [
+          "spot",
+          "v1",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://open-api.bingx.com/openApi/spot/v1/server/time",
+        "sample_path": "server/time",
+        "url_prefix": "https://open-api.bingx.com/openApi/spot/v1/"
+      },
+      "spot.v2.public": {
+        "api_param": [
+          "spot",
+          "v2",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://open-api.bingx.com/openApi/spot/v2/market/depth",
+        "sample_path": "market/depth",
+        "url_prefix": "https://open-api.bingx.com/openApi/spot/v2/"
+      },
+      "spot.v3.private": {
+        "api_param": [
+          "spot",
+          "v3",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "get/asset/transfer",
+        "url_prefix": null
+      },
+      "subAccount.v1.private": {
+        "api_param": [
+          "subAccount",
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "list",
+        "url_prefix": null
+      },
+      "swap.v1.private": {
+        "api_param": [
+          "swap",
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "positionSide/dual",
+        "url_prefix": null
+      },
+      "swap.v1.public": {
+        "api_param": [
+          "swap",
+          "v1",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://open-api.bingx.com/openApi/swap/v1/ticker/price",
+        "sample_path": "ticker/price",
+        "url_prefix": "https://open-api.bingx.com/openApi/swap/v1/"
+      },
+      "swap.v2.private": {
+        "api_param": [
+          "swap",
+          "v2",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "user/balance",
+        "url_prefix": null
+      },
+      "swap.v2.public": {
+        "api_param": [
+          "swap",
+          "v2",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://open-api.bingx.com/openApi/swap/v2/server/time",
+        "sample_path": "server/time",
+        "url_prefix": "https://open-api.bingx.com/openApi/swap/v2/"
+      },
+      "swap.v3.private": {
+        "api_param": [
+          "swap",
+          "v3",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "user/balance",
+        "url_prefix": null
+      },
+      "swap.v3.public": {
+        "api_param": [
+          "swap",
+          "v3",
+          "public"
+        ],
+        "http_method": "GET",
+        "resolved_url": "https://open-api.bingx.com/openApi/swap/v3/quote/klines",
+        "sample_path": "quote/klines",
+        "url_prefix": "https://open-api.bingx.com/openApi/swap/v3/"
+      },
+      "user.auth.private": {
+        "api_param": [
+          "user",
+          "auth",
+          "private"
+        ],
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "userDataStream",
+        "url_prefix": null
+      },
+      "wallets.v1.private": {
+        "api_param": [
+          "wallets",
+          "v1",
+          "private"
+        ],
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "capital/config/getall",
+        "url_prefix": null
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

@@ -15,7 +15,7 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -20513,9 +20513,32 @@
         "separator": null,
         "suffix": null
       }
+    },
+    "url_templates": {
+      "v1": {
+        "api_param": "v1",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "platform/status",
+        "url_prefix": null
+      },
+      "v2": {
+        "api_param": "v2",
+        "http_method": "POST",
+        "resolved_url": null,
+        "sample_path": "orders",
+        "url_prefix": null
+      },
+      "www": {
+        "api_param": "www",
+        "http_method": "GET",
+        "resolved_url": "https://bitbns.com/order/fetchMarkets",
+        "sample_path": "order/fetchMarkets",
+        "url_prefix": "https://bitbns.com/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

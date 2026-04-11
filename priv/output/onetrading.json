@@ -12,7 +12,7 @@
     "referral": null,
     "version": "v1"
   },
-  "extracted_at": "2026-04-08T04:59:46.331095Z",
+  "extracted_at": "2026-04-10T22:48:35.562493Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -4828,9 +4828,25 @@
         "separator": "_",
         "suffix": "_P"
       }
+    },
+    "url_templates": {
+      "private": {
+        "api_param": "private",
+        "http_method": "GET",
+        "resolved_url": null,
+        "sample_path": "account/balances",
+        "url_prefix": null
+      },
+      "public": {
+        "api_param": "public",
+        "http_method": "GET",
+        "resolved_url": "https://api.onetrading.com/fast/v1/currencies",
+        "sample_path": "currencies",
+        "url_prefix": "https://api.onetrading.com/fast/v1/"
+      }
     }
   },
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "structure": {
     "class_info": {
       "rest": {

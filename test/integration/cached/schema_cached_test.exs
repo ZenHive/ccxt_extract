@@ -102,10 +102,13 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
   # Assembles handle_errors section
   defp build_handle_errors(entry) do
     if entry && entry["handle_errors"] do
+      method = entry["handle_errors"]
+
       %{
-        "method" => entry["handle_errors"],
+        "method" => method,
         "exceptions" => entry["exceptions"],
-        "http_exceptions" => entry["http_exceptions"]
+        "http_exceptions" => entry["http_exceptions"],
+        "error_code_fields" => CcxtExtract.ErrorCodeFields.derive(method)
       }
     end
   end

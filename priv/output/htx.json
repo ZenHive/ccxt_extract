@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-11T06:55:35.805613Z",
+  "extracted_at": "2026-04-11T07:49:27.026316Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -205008,7 +205008,7 @@
       }
     }
   },
-  "schema_version": "1.4.0",
+  "schema_version": "1.5.0",
   "structure": {
     "authenticated_sections": [
       "private",
@@ -206137,37 +206137,63 @@
           "field": "status",
           "field2": null,
           "method": "safeString",
-          "object": "response"
+          "object": "response",
+          "roles": [
+            "status_sentinel"
+          ],
+          "sentinel_values": [
+            "error"
+          ]
         },
         {
           "field": "err-code",
           "field2": "err_code",
           "method": "safeString2",
-          "object": "response"
+          "object": "response",
+          "roles": [
+            "error_code"
+          ],
+          "sentinel_values": null
         },
         {
           "field": "err-msg",
           "field2": "err_msg",
           "method": "safeString2",
-          "object": "response"
+          "object": "response",
+          "roles": [
+            "error_code"
+          ],
+          "sentinel_values": null
         },
         {
           "field": "code",
           "field2": null,
           "method": "safeString",
-          "object": "response"
+          "object": "response",
+          "roles": [
+            "error_code"
+          ],
+          "sentinel_values": null
         },
         {
           "field": "err_code",
           "field2": null,
           "method": "safeString",
-          "object": "first"
+          "object": "first",
+          "roles": [
+            "error_code"
+          ],
+          "sentinel_values": null
         },
         {
           "field": "err_msg",
           "field2": null,
           "method": "safeString",
-          "object": "first"
+          "object": "first",
+          "roles": [
+            "error_code"
+          ],
+          "sentinel_values": null
         }
       ],
       "exceptions": {

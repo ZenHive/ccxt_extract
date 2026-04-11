@@ -18,7 +18,7 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-11T06:55:35.805613Z",
+  "extracted_at": "2026-04-11T07:49:27.026316Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -351289,7 +351289,7 @@
       }
     }
   },
-  "schema_version": "1.4.0",
+  "schema_version": "1.5.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -352368,13 +352368,26 @@
           "field": "message",
           "field2": null,
           "method": "safeString",
-          "object": "response"
+          "object": "response",
+          "roles": [
+            "error_code",
+            "error_message"
+          ],
+          "sentinel_values": null
         },
         {
           "field": "code",
           "field2": null,
           "method": "safeString",
-          "object": "response"
+          "object": "response",
+          "roles": [
+            "error_code",
+            "error_message",
+            "status_sentinel"
+          ],
+          "sentinel_values": [
+            "1000"
+          ]
         }
       ],
       "exceptions": {

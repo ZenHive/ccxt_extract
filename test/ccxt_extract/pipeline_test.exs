@@ -23,7 +23,7 @@ defmodule CcxtExtract.PipelineTest do
     "async" => false,
     "params" => [%{"name" => "httpCode", "type" => "int"}],
     "return_type" => nil,
-    "statements" => 2,
+    "statements" => 4,
     "body" => %{
       "type" => "BlockStatement",
       "start" => 100,
@@ -70,6 +70,40 @@ defmodule CcxtExtract.PipelineTest do
               }
             }
           ]
+        },
+        # throwExactlyMatchedException(exceptions, code, feedback)
+        %{
+          "type" => "ExpressionStatement",
+          "expression" => %{
+            "type" => "CallExpression",
+            "callee" => %{
+              "type" => "MemberExpression",
+              "object" => %{"type" => "ThisExpression"},
+              "property" => %{"type" => "Identifier", "name" => "throwExactlyMatchedException"}
+            },
+            "arguments" => [
+              %{"type" => "Identifier", "name" => "exceptions"},
+              %{"type" => "Identifier", "name" => "code"},
+              %{"type" => "Identifier", "name" => "feedback"}
+            ]
+          }
+        },
+        # throwBroadlyMatchedException(exceptions, msg, feedback)
+        %{
+          "type" => "ExpressionStatement",
+          "expression" => %{
+            "type" => "CallExpression",
+            "callee" => %{
+              "type" => "MemberExpression",
+              "object" => %{"type" => "ThisExpression"},
+              "property" => %{"type" => "Identifier", "name" => "throwBroadlyMatchedException"}
+            },
+            "arguments" => [
+              %{"type" => "Identifier", "name" => "exceptions"},
+              %{"type" => "Identifier", "name" => "msg"},
+              %{"type" => "Identifier", "name" => "feedback"}
+            ]
+          }
         }
       ]
     }
@@ -341,17 +375,22 @@ defmodule CcxtExtract.PipelineTest do
       he = result["structure"]["handle_errors"]
 
       # "handle_errors" from extraction → "method" in schema
-      assert he["method"]["statements"] == 2
+      assert he["method"]["statements"] == 4
       assert he["exceptions"]["broad"]["error"] == "ExchangeError"
       assert he["http_exceptions"]["429"] == "RateLimitExceeded"
 
-      # error_code_fields derived from method AST
+      # error_code_fields derived from method AST with role classification
       assert is_list(he["error_code_fields"])
       assert length(he["error_code_fields"]) == 2
 
-      fields = Enum.map(he["error_code_fields"], & &1["field"])
-      assert "code" in fields
-      assert "msg" in fields
+      code_entry = Enum.find(he["error_code_fields"], &(&1["field"] == "code"))
+      msg_entry = Enum.find(he["error_code_fields"], &(&1["field"] == "msg"))
+
+      assert code_entry["roles"] == ["error_code"]
+      assert code_entry["sentinel_values"] == nil
+
+      assert msg_entry["roles"] == ["error_message"]
+      assert msg_entry["sentinel_values"] == nil
 
       # Original key name should not be present
       refute Map.has_key?(he, "handle_errors")

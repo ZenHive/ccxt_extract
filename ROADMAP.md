@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 53 | Field semantics for error_code_fields | Adds `roles` and `sentinel_values` to each ErrorCodeFieldEntry. Two-pass AST analysis: collects safe* calls with variable bindings, then classifies by usage — `throwExactlyMatchedException` → error_code, `throwBroadlyMatchedException` → error_message, `===`/`!==` comparisons → status_sentinel with captured literal values. A field can have multiple roles. Schema 1.5.0. |
 | Task 52 | Authenticated sections from sign() AST | Derives `structure.authenticated_sections` — walks sign() conditionals for `api === 'X'` and `api[N] === 'X'` comparisons gating `checkRequiredCredentials()`, including indirect variable bindings. Schema 1.4.0. Contract: "proven via checkRequiredCredentials() gates", not exhaustive auth detection. |
 | Task 49 | Error code field names from handleErrors() AST | Derives `error_code_fields` from existing handleErrors() AST — all `this.safeString/safeString2/safeValue` calls with object, field, method context. Schema 1.3.0. |
 | Task 47 | URL templates round-trip validation | Validation now compares `runtime.url_templates` against `url_templates.json`, including alias-parent inheritance handling so inherited data doesn't trigger false positives. |
@@ -248,6 +249,8 @@ mix test.json --quiet --only extraction    # Only extraction tests
 - [x] ~~**Task 49: Error code field names from handleErrors() AST**~~ [D:3/B:8/U:8 → Eff:2.67] 🎯 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [x] ~~**Task 52: Authenticated sections from sign() AST**~~ [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased). Follow-up: added array-indexed `api[N] === 'X'` pattern (12 exchanges including coinbase, bitget), tightened contract to "proven via checkRequiredCredentials() gates".
+
+- [x] ~~**Task 53: Field semantics for error_code_fields**~~ [D:4/B:8/U:8 → Eff:2.00] ✅ — Adds `roles` (array) and `sentinel_values` (array or null) to each ErrorCodeFieldEntry via two-pass AST analysis. Schema 1.5.0.
 
 ---
 

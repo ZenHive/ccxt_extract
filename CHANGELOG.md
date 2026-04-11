@@ -6,6 +6,15 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 53: Field semantics for error_code_fields
+- Extended `CcxtExtract.ErrorCodeFields` with two-pass AST analysis — pass 1 collects safe* calls with variable bindings, pass 2 scans for usage patterns to classify roles
+- Added `roles` (array) and `sentinel_values` (array or null) to each `ErrorCodeFieldEntry`
+- Three roles derived structurally from AST: `error_code` (variable passed to `throwExactlyMatchedException`), `error_message` (passed to `throwBroadlyMatchedException`), `status_sentinel` (compared against literals via `===`/`!==`)
+- A single field can have multiple roles (e.g., Binance's `code` is both `error_code` and `status_sentinel`)
+- `sentinel_values` captures the literal comparison values, sorted and stringified; null when no sentinel role
+- Schema bumped to 1.5.0 — new required `roles` and `sentinel_values` fields in ErrorCodeFieldEntry
+- Enables ccxt_client to use different matching logic per type instead of treating all extracted fields uniformly
+
 ### Task 52: Authenticated sections from sign() AST
 - New `CcxtExtract.AuthenticatedSections` module — derives which API sections are proven to require authentication via `checkRequiredCredentials()` gates in sign() AST
 - Handles three extraction patterns: direct `api === 'X'` comparisons, array-indexed `api[N] === 'X'` (coinbase/bitget/gate-style), and indirect variable bindings (e.g., `const isPrivate = api === 'private'`)

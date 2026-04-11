@@ -132,7 +132,7 @@ Per-exchange JSON has three top-level sections:
 
 ```
 {
-  "schema_version": "1.4.0",
+  "schema_version": "1.5.0",
   "ccxt_version": "4.x.x",
   "exchange": { id, name, alias },
   "runtime": {

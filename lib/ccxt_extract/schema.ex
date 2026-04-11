@@ -36,7 +36,7 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "1.4.0"
+  @schema_version "1.5.0"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)
@@ -421,7 +421,7 @@ defmodule CcxtExtract.Schema do
         errors
 
       val when is_map(val) ->
-        missing = Enum.reject(~w(method exceptions http_exceptions), &Map.has_key?(val, &1))
+        missing = Enum.reject(~w(method exceptions http_exceptions error_code_fields), &Map.has_key?(val, &1))
 
         case missing do
           [] ->
@@ -429,6 +429,7 @@ defmodule CcxtExtract.Schema do
             |> check_required_method_ast_field(val, "method", "#{label}.method")
             |> check_nullable_map_field(val, "exceptions", "#{label}.exceptions")
             |> check_nullable_map_field(val, "http_exceptions", "#{label}.http_exceptions")
+            |> check_error_code_fields(val, "error_code_fields", "#{label}.error_code_fields")
 
           keys ->
             ["#{label}: missing required keys #{inspect(keys)}" | errors]
@@ -437,6 +438,71 @@ defmodule CcxtExtract.Schema do
       val ->
         ["#{label}: expected HandleErrorsData map or null, got #{type_name(val)}" | errors]
     end
+  end
+
+  # error_code_fields must be a list of maps with required keys
+  @required_error_code_field_keys ~w(object field method field2 roles sentinel_values)
+  defp check_error_code_fields(errors, parent, key, label) do
+    case Map.get(parent, key) do
+      val when is_list(val) ->
+        val
+        |> Enum.with_index()
+        |> Enum.reduce(errors, fn {entry, i}, acc ->
+          check_error_code_field_entry(acc, entry, "#{label}[#{i}]")
+        end)
+
+      val ->
+        ["#{label}: expected list, got #{type_name(val)}" | errors]
+    end
+  end
+
+  @valid_roles ~w(error_code error_message status_sentinel)
+  defp check_error_code_field_entry(errors, entry, label) when is_map(entry) do
+    missing = Enum.reject(@required_error_code_field_keys, &Map.has_key?(entry, &1))
+
+    case missing do
+      [] ->
+        errors
+        |> check_roles(entry["roles"], label)
+        |> check_sentinel_values(entry["sentinel_values"], label)
+
+      keys ->
+        ["#{label}: ErrorCodeFieldEntry missing keys #{inspect(keys)}" | errors]
+    end
+  end
+
+  defp check_error_code_field_entry(errors, entry, label) do
+    ["#{label}: expected ErrorCodeFieldEntry map, got #{type_name(entry)}" | errors]
+  end
+
+  # roles must be a list of valid role strings
+  defp check_roles(errors, roles, label) when is_list(roles) do
+    invalid = Enum.reject(roles, &(&1 in @valid_roles))
+
+    case invalid do
+      [] -> errors
+      bad -> ["#{label}.roles: invalid values #{inspect(bad)}" | errors]
+    end
+  end
+
+  defp check_roles(errors, roles, label) do
+    ["#{label}.roles: expected list, got #{type_name(roles)}" | errors]
+  end
+
+  # sentinel_values must be null or a list of strings
+  defp check_sentinel_values(errors, nil, _label), do: errors
+
+  defp check_sentinel_values(errors, vals, label) when is_list(vals) do
+    non_strings = Enum.reject(vals, &is_binary/1)
+
+    case non_strings do
+      [] -> errors
+      bad -> ["#{label}.sentinel_values: expected strings, got #{inspect(bad)}" | errors]
+    end
+  end
+
+  defp check_sentinel_values(errors, val, label) do
+    ["#{label}.sentinel_values: expected null or list, got #{type_name(val)}" | errors]
   end
 
   defp check_method_ast_shape(errors, method, label) do

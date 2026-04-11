@@ -595,6 +595,9 @@ defmodule CcxtExtract.Validation do
   defp check_handle_errors_content(findings, output_he, source_entry, id) do
     source_method = source_entry["handle_errors"]
 
+    # Re-derive error_code_fields from the source method AST for round-trip comparison
+    expected_ecf = CcxtExtract.ErrorCodeFields.derive(source_method)
+
     findings
     |> check_data_equality(output_he["method"], source_method, id, "structure.handle_errors.method")
     |> check_data_equality(output_he["exceptions"], source_entry["exceptions"], id, "structure.handle_errors.exceptions")
@@ -603,6 +606,12 @@ defmodule CcxtExtract.Validation do
       source_entry["http_exceptions"],
       id,
       "structure.handle_errors.http_exceptions"
+    )
+    |> check_data_equality(
+      output_he["error_code_fields"],
+      expected_ecf,
+      id,
+      "structure.handle_errors.error_code_fields"
     )
   end
 

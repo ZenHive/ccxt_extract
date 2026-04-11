@@ -12,7 +12,7 @@
     "referral": null,
     "version": null
   },
-  "extracted_at": "2026-04-11T06:55:35.805613Z",
+  "extracted_at": "2026-04-11T07:49:27.026316Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -3565,7 +3565,7 @@
       }
     }
   },
-  "schema_version": "1.4.0",
+  "schema_version": "1.5.0",
   "structure": {
     "authenticated_sections": [],
     "class_info": {
@@ -3935,25 +3935,37 @@
           "field": "error",
           "field2": null,
           "method": "safeString",
-          "object": "response"
+          "object": "response",
+          "roles": [],
+          "sentinel_values": null
         },
         {
           "field": null,
           "field2": null,
           "method": "safeValue",
-          "object": null
+          "object": null,
+          "roles": [],
+          "sentinel_values": null
         },
         {
           "field": "message",
           "field2": null,
           "method": "safeString",
-          "object": "response"
+          "object": "response",
+          "roles": [],
+          "sentinel_values": null
         },
         {
           "field": "message",
           "field2": null,
           "method": "safeString",
-          "object": "response"
+          "object": "response",
+          "roles": [
+            "status_sentinel"
+          ],
+          "sentinel_values": [
+            "Validation Error"
+          ]
         }
       ],
       "exceptions": {

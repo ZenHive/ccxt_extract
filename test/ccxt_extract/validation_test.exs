@@ -111,9 +111,7 @@ defmodule CcxtExtract.ValidationTest do
         "method" => @sample_method_ast,
         "exceptions" => %{"broad" => %{"error" => "ExchangeError"}, "exact" => %{}},
         "http_exceptions" => %{"429" => "RateLimitExceeded"},
-        "error_code_fields" => [
-          %{"object" => "response", "field" => "code", "method" => "safeString", "field2" => nil}
-        ]
+        "error_code_fields" => []
       },
       "parse_methods" => %{"parseTicker" => @sample_method_ast},
       "ws_methods" => %{"watchTicker" => @sample_method_ast},

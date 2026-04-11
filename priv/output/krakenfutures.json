@@ -12,7 +12,7 @@
     "referral": null,
     "version": "v3"
   },
-  "extracted_at": "2026-04-11T06:55:35.805613Z",
+  "extracted_at": "2026-04-11T07:49:27.026316Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -119981,7 +119981,7 @@
       }
     }
   },
-  "schema_version": "1.4.0",
+  "schema_version": "1.5.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -120605,25 +120605,36 @@
           "field": "errors",
           "field2": null,
           "method": "safeValue",
-          "object": "response"
+          "object": "response",
+          "roles": [],
+          "sentinel_values": null
         },
         {
           "field": 0,
           "field2": null,
           "method": "safeValue",
-          "object": "errors"
+          "object": "errors",
+          "roles": [],
+          "sentinel_values": null
         },
         {
           "field": "message",
           "field2": null,
           "method": "safeString",
-          "object": "firstError"
+          "object": "firstError",
+          "roles": [],
+          "sentinel_values": null
         },
         {
           "field": "error",
           "field2": null,
           "method": "safeString",
-          "object": "response"
+          "object": "response",
+          "roles": [
+            "error_code",
+            "error_message"
+          ],
+          "sentinel_values": null
         }
       ],
       "exceptions": {

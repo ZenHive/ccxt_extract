@@ -6,6 +6,11 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 47: Round-trip validation for `url_templates`
+- Added `runtime.url_templates` round-trip validation in `CcxtExtract.Validation`
+- Source discovery loading now includes `url_templates.json`, and validation unwraps the inner `url_templates` map before comparison
+- Alias exchanges inheriting parent URL templates are handled like `unified_endpoints`, avoiding false positives when output has inherited data but the alias has no own discovery entry
+
 ### Consumer-Requested Extractions (Phase 8 — planned)
 - **Task 49**: Error code field names from handleErrors() AST — extract `safeString`/`safeString2` field name arguments to replace ccxt_client's hardcoded 4-field heuristic
 - **Task 52**: Section visibility from sign() AST — extract `api === 'sectionName'` conditionals gating `checkRequiredCredentials()` to replace ccxt_client's substring-match heuristic

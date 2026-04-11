@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 47 | URL templates round-trip validation | Validation now compares `runtime.url_templates` against `url_templates.json`, including alias-parent inheritance handling so inherited data doesn't trigger false positives. |
 | Task 46 | URL templates extractor | Raw sign() probe model: records inputs (`api_param`, `http_method`, `sample_path`) and output (`resolved_url`), plus derived `url_prefix` when provable. Removed heuristic `base_url` resolver after ~20 rounds showed it was interpretation, not extraction. Schema 1.2.0. |
 | Task 45 | Include derived analytics in update | `mix ccxt_extract.update` now runs Stage 6: coverage, summary, family analysis, method analysis, public exchanges, market validation. QuickBEAM-dependent analytics (describe keys, describe key analysis) skipped with `--skip-setup`. |
 | Task 44 | Resolve alias exchange data from parent | Alias exchanges (coinbaseadvanced, gateio, huobi) now inherit parent runtime data (describe, markets, symbol_patterns) via class hierarchy fallback. Validation alias-aware. |
@@ -72,7 +73,7 @@
 | Task 44 | ✅ | Resolve alias exchange data from parent (coinbaseadvanced, gateio, huobi) |
 | Task 45 | ✅ | Include derived analytics in `mix ccxt_extract.update` |
 | Task 46 | ✅ | URL templates extractor — raw sign() probe model with `url_prefix` derivation. Schema 1.2.0. |
-| Task 47 | ⬜ | Round-trip validation for `url_templates` — add presence/consistency checks in validation stage, similar to `symbol_patterns`. [D:3/B:5/U:4 → Eff:1.5] |
+| Task 47 | ✅ | Round-trip validation for `url_templates` — validates presence/data equality against discovery source, with alias-parent inheritance handling to avoid false positives. [D:3/B:5/U:4 → Eff:1.5] |
 
 ### Quick Commands
 ```bash

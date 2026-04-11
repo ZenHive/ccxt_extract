@@ -132,10 +132,13 @@ defmodule CcxtExtract.Pipeline do
       "url_templates" => get_url_templates(id, data)
     }
 
+    sign_method = get_sign_method(id, data)
+
     structure_data = %{
       "class_info" => get_class_info(id, data),
       "methods" => get_methods(id, data),
-      "sign_method" => get_sign_method(id, data),
+      "sign_method" => sign_method,
+      "authenticated_sections" => CcxtExtract.AuthenticatedSections.derive(sign_method),
       "handle_errors" => get_handle_errors(id, data),
       "parse_methods" => get_parse_methods(id, data),
       "ws_methods" => get_ws_methods(id, data),

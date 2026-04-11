@@ -87,6 +87,7 @@ defmodule CcxtExtract.SchemaTest do
       "class_info" => %{"rest" => @sample_class_entry, "ws" => nil},
       "methods" => %{"rest" => [@sample_method_sig], "ws" => nil},
       "sign_method" => @sample_method_ast,
+      "authenticated_sections" => ["private", "sapi"],
       "handle_errors" => %{
         "method" => @sample_method_ast,
         "exceptions" => %{"broad" => %{"error" => "ExchangeError"}, "exact" => %{}},
@@ -126,6 +127,7 @@ defmodule CcxtExtract.SchemaTest do
       "class_info" => nil,
       "methods" => nil,
       "sign_method" => nil,
+      "authenticated_sections" => nil,
       "handle_errors" => nil,
       "parse_methods" => nil,
       "ws_methods" => nil,
@@ -336,6 +338,7 @@ defmodule CcxtExtract.SchemaTest do
         "class_info" => nil,
         "methods" => nil,
         "sign_method" => nil,
+        "authenticated_sections" => nil,
         "handle_errors" => nil,
         "parse_methods" => nil,
         "ws_methods" => nil,

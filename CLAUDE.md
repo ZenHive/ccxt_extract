@@ -132,7 +132,7 @@ Per-exchange JSON has three top-level sections:
 
 ```
 {
-  "schema_version": "1.2.0",
+  "schema_version": "1.4.0",
   "ccxt_version": "4.x.x",
   "exchange": { id, name, alias },
   "runtime": {
@@ -145,6 +145,7 @@ Per-exchange JSON has three top-level sections:
     "class_info": { ... },        # Class name, parent, file path
     "methods": { ... },           # REST + WS method inventory (names, async, params)
     "sign_method": { ... },       # sign() AST body
+    "authenticated_sections": [...], # API sections requiring auth (from sign() AST)
     "handle_errors": { ... },     # handleErrors() AST body
     "parse_methods": { ... },     # parse*() AST bodies
     "ws_methods": { ... },        # watch*/handle* WS AST bodies

@@ -13,7 +13,7 @@
     },
     "version": "v3"
   },
-  "extracted_at": "2026-04-11T05:56:11.079148Z",
+  "extracted_at": "2026-04-11T06:55:35.805613Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -21764,8 +21764,11 @@
       }
     }
   },
-  "schema_version": "1.3.0",
+  "schema_version": "1.4.0",
   "structure": {
+    "authenticated_sections": [
+      "private"
+    ],
     "class_info": {
       "rest": {
         "class_name": "apex",

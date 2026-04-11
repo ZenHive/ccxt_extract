@@ -48,7 +48,7 @@ end
 
 ---
 
-## Version 1.3.0 — Current
+## Version 1.4.0 — Current
 
 **Status:** Active
 
@@ -60,7 +60,7 @@ Every per-exchange JSON file has exactly these top-level keys (all required, nev
 
 | Key | Type | Description |
 |-----|------|-------------|
-| `schema_version` | `"1.3.0"` | This contract version |
+| `schema_version` | `"1.4.0"` | This contract version |
 | `extracted_at` | string (ISO 8601) | When extraction ran |
 | `ccxt_version` | string | CCXT npm package version used |
 | `exchange` | ExchangeMeta | Exchange identity and metadata |
@@ -96,6 +96,7 @@ All keys are always materialized (never absent). Consumers check for `null`, nev
 | `class_info` | ClassInfo or null | Class hierarchy — REST and WS class names, parents, method counts |
 | `methods` | MethodInventory or null | Method signature inventory (names, params, return types — no AST bodies) |
 | `sign_method` | MethodAST or null | `sign()` method with full ESTree AST body |
+| `authenticated_sections` | string[] or null | API sections proven to require authentication via `checkRequiredCredentials()` gates in sign() AST. Handles `api === 'X'` and `api[N] === 'X'` patterns. Sorted. Null when sign() absent; empty list when sign() exists but no `checkRequiredCredentials()` gates found. Note: some exchanges authenticate without `checkRequiredCredentials()` — use `sign_method` AST for broader auth detection. |
 | `handle_errors` | HandleErrorsData or null | `handleErrors()` AST plus exception mappings |
 | `parse_methods` | map(name -> MethodAST) or null | `parse*()` methods with AST bodies |
 | `ws_methods` | map(name -> MethodAST) or null | `watch*()` / `handle*()` WS methods with AST bodies |
@@ -154,6 +155,7 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.4.0 | 2026-04 | Add `structure.authenticated_sections` — sorted list of API section names proven to require authentication via `checkRequiredCredentials()` gates in sign() AST. Handles direct `api === 'X'`, array-indexed `api[N] === 'X'` (coinbase-style), and indirect variable bindings. Null when sign() absent; `[]` when no gates found. |
 | 1.3.0 | 2026-04 | Add `structure.handle_errors.error_code_fields` — derived list of `this.safeString/safeString2/safeValue` calls from handleErrors() AST. Each entry records object, field name, method, and alternate field. Replaces consumer hardcoded field name heuristics. |
 | 1.2.0 | 2026-04 | Add `runtime.url_templates` — raw sign() probes per API section. Each entry: `api_param`, `http_method`, `sample_path` (inputs), `resolved_url` (output), `url_prefix` (derived when provable). Reveals path prefixes injected by `sign()` (e.g., OKX `/api/v5/`, Gate `/spot/`). |
 | 1.1.0 | 2026-04 | Add `structure.unified_endpoints` — maps unified methods to interface method names they call. Derived exchanges inherit parent mappings. |

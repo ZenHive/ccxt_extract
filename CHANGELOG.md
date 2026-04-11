@@ -6,6 +6,15 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 52: Authenticated sections from sign() AST
+- New `CcxtExtract.AuthenticatedSections` module — derives which API sections are proven to require authentication via `checkRequiredCredentials()` gates in sign() AST
+- Handles three extraction patterns: direct `api === 'X'` comparisons, array-indexed `api[N] === 'X'` (coinbase/bitget/gate-style), and indirect variable bindings (e.g., `const isPrivate = api === 'private'`)
+- New `structure.authenticated_sections` field in output — sorted string array or null. Placed as sibling to `sign_method` (not nested) to avoid breaking type change on existing MethodAST field
+- Schema bumped to 1.4.0 — new required `authenticated_sections` field in StructureData
+- Null when sign() absent; empty list when sign() exists but no `checkRequiredCredentials()` gates found. Some exchanges (lighter, p2b) authenticate without the helper — consumers needing broader auth detection should use the raw `sign_method` AST
+- Replaces ccxt_client's substring matching on "private" which already had a 15-exchange bug
+- **Follow-up fix**: Added array-indexed `api[N] === 'X'` pattern support after Codex review identified 12 exchanges using MemberExpression with computed access instead of plain Identifier. Tightened contract wording to "proven via checkRequiredCredentials() gates" rather than claiming complete auth coverage.
+
 ### Task 49: Error code field names from handleErrors() AST
 - New `CcxtExtract.ErrorCodeFields` module — pure function that recursively walks handleErrors() AST to collect all `this.safeString/safeString2/safeValue` calls
 - Added `error_code_fields` to `structure.handle_errors` in pipeline output — list of `{object, field, method, field2}` records
@@ -20,7 +29,7 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - Alias exchanges inheriting parent URL templates are handled like `unified_endpoints`, avoiding false positives when output has inherited data but the alias has no own discovery entry
 
 ### Consumer-Requested Extractions (Phase 8 — remaining)
-- **Task 52**: Section visibility from sign() AST — extract `api === 'sectionName'` conditionals gating `checkRequiredCredentials()` to replace ccxt_client's substring-match heuristic
+- ~~**Task 52**: Section visibility from sign() AST~~ — Done (see Task 52 entry above)
 - **Deferred**: Rate limit headers (not observable from static analysis), endpoint weight field names (already extracted — "cost" is universal CCXT convention)
 
 ### URL Templates Extractor (Task 46)

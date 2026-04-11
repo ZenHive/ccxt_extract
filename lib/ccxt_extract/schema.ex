@@ -36,12 +36,12 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "1.3.0"
+  @schema_version "1.4.0"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe markets symbol_patterns url_templates)
-  @required_structure_keys ~w(class_info methods sign_method handle_errors parse_methods ws_methods interface_signatures pagination overrides unified_endpoints)
+  @required_structure_keys ~w(class_info methods sign_method authenticated_sections handle_errors parse_methods ws_methods interface_signatures pagination overrides unified_endpoints)
 
   # --- Public API ---
 
@@ -151,6 +151,7 @@ defmodule CcxtExtract.Schema do
       "class_info" => data["class_info"],
       "methods" => data["methods"],
       "sign_method" => data["sign_method"],
+      "authenticated_sections" => data["authenticated_sections"],
       "handle_errors" => data["handle_errors"],
       "parse_methods" => data["parse_methods"],
       "ws_methods" => data["ws_methods"],
@@ -206,6 +207,7 @@ defmodule CcxtExtract.Schema do
     |> check_nullable_class_info(section, "class_info", "structure.class_info")
     |> check_nullable_method_inventory(section, "methods", "structure.methods")
     |> check_nullable_method_ast(section, "sign_method", "structure.sign_method")
+    |> check_nullable_string_list(section, "authenticated_sections", "structure.authenticated_sections")
     |> check_nullable_handle_errors(section, "handle_errors", "structure.handle_errors")
     |> check_nullable_method_map(section, "parse_methods", "structure.parse_methods")
     |> check_nullable_method_map(section, "ws_methods", "structure.ws_methods")
@@ -213,6 +215,26 @@ defmodule CcxtExtract.Schema do
     |> check_nullable_pagination_map(section, "pagination", "structure.pagination")
     |> check_nullable_overrides(section, "overrides", "structure.overrides")
     |> check_nullable_string_list_map(section, "unified_endpoints", "structure.unified_endpoints")
+  end
+
+  # Value is nil or a list of strings
+  defp check_nullable_string_list(errors, nil, _key, _label), do: errors
+
+  defp check_nullable_string_list(errors, section, key, label) do
+    case Map.get(section, key) do
+      nil ->
+        errors
+
+      val when is_list(val) ->
+        if Enum.all?(val, &is_binary/1) do
+          errors
+        else
+          ["#{label}: expected list of strings, got list with non-string elements" | errors]
+        end
+
+      val ->
+        ["#{label}: expected list of strings or null, got #{type_name(val)}" | errors]
+    end
   end
 
   # Value is nil (allowed) or a map

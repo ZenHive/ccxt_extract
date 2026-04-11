@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 52 | Authenticated sections from sign() AST | Derives `structure.authenticated_sections` — walks sign() conditionals for `api === 'X'` and `api[N] === 'X'` comparisons gating `checkRequiredCredentials()`, including indirect variable bindings. Schema 1.4.0. Contract: "proven via checkRequiredCredentials() gates", not exhaustive auth detection. |
 | Task 49 | Error code field names from handleErrors() AST | Derives `error_code_fields` from existing handleErrors() AST — all `this.safeString/safeString2/safeValue` calls with object, field, method context. Schema 1.3.0. |
 | Task 47 | URL templates round-trip validation | Validation now compares `runtime.url_templates` against `url_templates.json`, including alias-parent inheritance handling so inherited data doesn't trigger false positives. |
 | Task 46 | URL templates extractor | Raw sign() probe model: records inputs (`api_param`, `http_method`, `sample_path`) and output (`resolved_url`), plus derived `url_prefix` when provable. Removed heuristic `base_url` resolver after ~20 rounds showed it was interpretation, not extraction. Schema 1.2.0. |
@@ -61,7 +62,7 @@
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 49 `[P]` | ✅ | Error code field names from handleErrors() AST — derives `error_code_fields` from existing AST. Schema 1.3.0. |
-| Task 52 `[P]` | ⬜ | Section visibility from sign() AST — extract which API sections require authentication per exchange. [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 52 `[P]` | ✅ | Authenticated sections from sign() AST — derives `structure.authenticated_sections` from sign() conditionals gating `checkRequiredCredentials()`. Schema 1.4.0. |
 
 ### 📋 Data Quality & Maintenance
 | Task | Status | Notes |
@@ -246,7 +247,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 - [x] ~~**Task 49: Error code field names from handleErrors() AST**~~ [D:3/B:8/U:8 → Eff:2.67] 🎯 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
-- [ ] **Task 52: Section visibility from sign() AST** [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — Extract which API sections require authentication per exchange. Walk the already-extracted sign() AST for branches that call `checkRequiredCredentials()` and collect the `api === 'sectionName'` string comparisons that gate those branches. Output: `structure.sign_method.authenticated_sections: ["private", "sapi", "dapiPrivate", ...]` per exchange. This is extraction — the section names are literal strings in the sign() conditionals. ccxt_client currently uses substring matching on "private" which already had one 15-exchange bug.
+- [x] ~~**Task 52: Authenticated sections from sign() AST**~~ [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased). Follow-up: added array-indexed `api[N] === 'X'` pattern (12 exchanges including coinbase, bitget), tightened contract to "proven via checkRequiredCredentials() gates".
 
 ---
 

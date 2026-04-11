@@ -15,7 +15,7 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-10T22:48:35.562493Z",
+  "extracted_at": "2026-04-11T05:56:11.079148Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -231904,7 +231904,7 @@
       }
     }
   },
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "structure": {
     "class_info": {
       "rest": {
@@ -232751,6 +232751,38 @@
       }
     },
     "handle_errors": {
+      "error_code_fields": [
+        {
+          "field": "error",
+          "field2": null,
+          "method": "safeString",
+          "object": "response"
+        },
+        {
+          "field": "error_description",
+          "field2": "error",
+          "method": "safeString2",
+          "object": "response"
+        },
+        {
+          "field": "preview_failure_reason",
+          "field2": "preview_failure_reason",
+          "method": "safeString2",
+          "object": "errorResponse"
+        },
+        {
+          "field": "id",
+          "field2": null,
+          "method": "safeString",
+          "object": null
+        },
+        {
+          "field": "message",
+          "field2": null,
+          "method": "safeString",
+          "object": null
+        }
+      ],
       "exceptions": {
         "broad": {
           "Insufficient balance in source account": "__function:InsufficientFunds",

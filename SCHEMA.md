@@ -48,7 +48,7 @@ end
 
 ---
 
-## Version 1.1.0 — Current
+## Version 1.3.0 — Current
 
 **Status:** Active
 
@@ -60,7 +60,7 @@ Every per-exchange JSON file has exactly these top-level keys (all required, nev
 
 | Key | Type | Description |
 |-----|------|-------------|
-| `schema_version` | `"1.2.0"` | This contract version |
+| `schema_version` | `"1.3.0"` | This contract version |
 | `extracted_at` | string (ISO 8601) | When extraction ran |
 | `ccxt_version` | string | CCXT npm package version used |
 | `exchange` | ExchangeMeta | Exchange identity and metadata |
@@ -112,7 +112,8 @@ For complete type definitions (all fields, nesting, and constraints), see `excha
 - **InterfaceSignature** — `{ name, params, return_type }` (no body — these are type declarations, not implementations)
 - **MethodParam** — `{ name, type }` where `type` is the TypeScript type annotation or null
 - **ASTNode** — ESTree nodes with `type`, `start`, `end` (byte offsets), plus node-specific fields
-- **HandleErrorsData** — `{ method, exceptions, http_exceptions }` where `method` is a MethodAST, `exceptions` maps error strings to class names (keyed by `broad`/`exact` plus market types), and `http_exceptions` maps HTTP status codes to class names
+- **HandleErrorsData** — `{ method, exceptions, http_exceptions, error_code_fields }` where `method` is a MethodAST, `exceptions` maps error strings to class names (keyed by `broad`/`exact` plus market types), `http_exceptions` maps HTTP status codes to class names, and `error_code_fields` is a list of ErrorCodeFieldEntry
+- **ErrorCodeFieldEntry** — `{ object, field, method, field2 }` — a single `this.safe*()` call from handleErrors(). `object` is the first arg identifier (e.g., `"response"`, `"error"`), `field` is the literal field name accessed, `method` is `"safeString"` / `"safeString2"` / `"safeValue"`, `field2` is the alternate field for safeString2
 - **PaginationEntry** — `{ strategy, containing_method, target_method, max_entries_per_request, ... }` where `strategy` is one of `"dynamic"`, `"deterministic"`, `"cursor"`, `"incremental"`. `containing_method` is the method body where the call was found; `target_method` is the method name passed to `fetchPaginatedCall*` (null for unresolved variable references). Strategy-specific fields: cursor has `cursor_received`, `cursor_sent`, `cursor_increment`; incremental has `page_key`. Null values mean the parameter was not statically resolvable from source.
 - **OverridesData** — `{ extends, rest, ws }` where `extends` is the parent exchange id, and each entry contains `overridden` (methods redefined from parent, with AST), `new_methods` (methods not on parent), and `inherited` (method names only)
 - **ClassInfo** — `{ rest, ws }` where each is a ClassEntry with `class_name`, `extends_resolved`, `parent_key`, `file`, `method_count`, and optional `method_details`
@@ -153,6 +154,7 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.3.0 | 2026-04 | Add `structure.handle_errors.error_code_fields` — derived list of `this.safeString/safeString2/safeValue` calls from handleErrors() AST. Each entry records object, field name, method, and alternate field. Replaces consumer hardcoded field name heuristics. |
 | 1.2.0 | 2026-04 | Add `runtime.url_templates` — raw sign() probes per API section. Each entry: `api_param`, `http_method`, `sample_path` (inputs), `resolved_url` (output), `url_prefix` (derived when provable). Reveals path prefixes injected by `sign()` (e.g., OKX `/api/v5/`, Gate `/spot/`). |
 | 1.1.0 | 2026-04 | Add `structure.unified_endpoints` — maps unified methods to interface method names they call. Derived exchanges inherit parent mappings. |
 | 1.0.1 | 2026-04 | Add `runtime.symbol_patterns` — derived per-type formatting rules (separator, case, suffix, anomalies) for symbol conversion. |

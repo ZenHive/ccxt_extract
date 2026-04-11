@@ -30,7 +30,7 @@ defmodule CcxtExtract.MixProject do
   defp deps do
     [
       # Core extraction tools
-      {:oxc, "~> 0.5"},
+      {:oxc, "~> 0.6.0"},
       {:quickbeam, "~> 0.8"},
       {:npm, "~> 0.5"},
 

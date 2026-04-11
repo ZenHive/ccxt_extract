@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-10T22:48:35.562493Z",
+  "extracted_at": "2026-04-11T05:56:11.079148Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -40988,7 +40988,7 @@
       }
     }
   },
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "structure": {
     "class_info": {
       "rest": {
@@ -41681,6 +41681,32 @@
       }
     },
     "handle_errors": {
+      "error_code_fields": [
+        {
+          "field": "code",
+          "field2": null,
+          "method": "safeString",
+          "object": "response"
+        },
+        {
+          "field": "msg",
+          "field2": null,
+          "method": "safeString",
+          "object": "response"
+        },
+        {
+          "field": "msg",
+          "field2": null,
+          "method": "safeString",
+          "object": "first"
+        },
+        {
+          "field": "code",
+          "field2": null,
+          "method": "safeString",
+          "object": "first"
+        }
+      ],
       "exceptions": {
         "broad": {
           "Internal Server Error": "__function:ExchangeNotAvailable",

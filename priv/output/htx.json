@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-10T22:48:35.562493Z",
+  "extracted_at": "2026-04-11T05:56:11.079148Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -205008,7 +205008,7 @@
       }
     }
   },
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "structure": {
     "class_info": {
       "rest": {
@@ -206128,6 +206128,44 @@
       }
     },
     "handle_errors": {
+      "error_code_fields": [
+        {
+          "field": "status",
+          "field2": null,
+          "method": "safeString",
+          "object": "response"
+        },
+        {
+          "field": "err-code",
+          "field2": "err_code",
+          "method": "safeString2",
+          "object": "response"
+        },
+        {
+          "field": "err-msg",
+          "field2": "err_msg",
+          "method": "safeString2",
+          "object": "response"
+        },
+        {
+          "field": "code",
+          "field2": null,
+          "method": "safeString",
+          "object": "response"
+        },
+        {
+          "field": "err_code",
+          "field2": null,
+          "method": "safeString",
+          "object": "first"
+        },
+        {
+          "field": "err_msg",
+          "field2": null,
+          "method": "safeString",
+          "object": "first"
+        }
+      ],
       "exceptions": {
         "broad": {
           "API key has no permission": "__function:PermissionDenied",

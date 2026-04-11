@@ -12,7 +12,7 @@
     "referral": null,
     "version": null
   },
-  "extracted_at": "2026-04-10T22:48:35.562493Z",
+  "extracted_at": "2026-04-11T05:56:11.079148Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -64204,7 +64204,7 @@
       }
     }
   },
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "structure": {
     "class_info": {
       "rest": {
@@ -64729,6 +64729,14 @@
       }
     },
     "handle_errors": {
+      "error_code_fields": [
+        {
+          "field": "message",
+          "field2": null,
+          "method": "safeString",
+          "object": "response"
+        }
+      ],
       "exceptions": {
         "broad": {
           "Cancel only mode": "__function:OnMaintenance",

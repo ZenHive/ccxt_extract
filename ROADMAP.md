@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 49 | Error code field names from handleErrors() AST | Derives `error_code_fields` from existing handleErrors() AST — all `this.safeString/safeString2/safeValue` calls with object, field, method context. Schema 1.3.0. |
 | Task 47 | URL templates round-trip validation | Validation now compares `runtime.url_templates` against `url_templates.json`, including alias-parent inheritance handling so inherited data doesn't trigger false positives. |
 | Task 46 | URL templates extractor | Raw sign() probe model: records inputs (`api_param`, `http_method`, `sample_path`) and output (`resolved_url`), plus derived `url_prefix` when provable. Removed heuristic `base_url` resolver after ~20 rounds showed it was interpretation, not extraction. Schema 1.2.0. |
 | Task 45 | Include derived analytics in update | `mix ccxt_extract.update` now runs Stage 6: coverage, summary, family analysis, method analysis, public exchanges, market validation. QuickBEAM-dependent analytics (describe keys, describe key analysis) skipped with `--skip-setup`. |
@@ -59,7 +60,7 @@
 ### 📋 Consumer-Requested Extractions
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 49 `[P]` | ⬜ | Error code field names from handleErrors() AST — extract which response body fields each exchange checks for error codes. [D:3/B:8/U:8 → Eff:2.67] 🎯 |
+| Task 49 `[P]` | ✅ | Error code field names from handleErrors() AST — derives `error_code_fields` from existing AST. Schema 1.3.0. |
 | Task 52 `[P]` | ⬜ | Section visibility from sign() AST — extract which API sections require authentication per exchange. [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 
 ### 📋 Data Quality & Maintenance
@@ -243,7 +244,7 @@ mix test.json --quiet --only extraction    # Only extraction tests
 
 > Structured data derived from existing AST bodies, requested by ccxt_client to replace heuristic inference. Principle: if ccxt_extract can observe the answer from CCXT's code, record it as structured data — don't make consumers infer what we already know.
 
-- [ ] **Task 49: Error code field names from handleErrors() AST** [D:3/B:8/U:8 → Eff:2.67] 🎯 `[P]` — Extract which response body field names each exchange's `handleErrors()` checks for error codes. Walk the already-extracted handleErrors() AST for `safeString`/`safeString2`/`safeValue` calls where the first argument is `response` — the second argument is the field name (literal string). Output: `structure.handle_errors.error_code_fields: ["code", "msg"]` (or whatever the exchange uses). This is pure extraction — field names are string literals in the code. ccxt_client currently hardcodes 4 field names and silently misses exchanges using others.
+- [x] ~~**Task 49: Error code field names from handleErrors() AST**~~ [D:3/B:8/U:8 → Eff:2.67] 🎯 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
 
 - [ ] **Task 52: Section visibility from sign() AST** [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — Extract which API sections require authentication per exchange. Walk the already-extracted sign() AST for branches that call `checkRequiredCredentials()` and collect the `api === 'sectionName'` string comparisons that gate those branches. Output: `structure.sign_method.authenticated_sections: ["private", "sapi", "dapiPrivate", ...]` per exchange. This is extraction — the section names are literal strings in the sign() conditionals. ccxt_client currently uses substring matching on "private" which already had one 15-exchange bug.
 

@@ -18,6 +18,63 @@ defmodule CcxtExtract.PipelineTest do
     "body" => %{"type" => "BlockStatement", "start" => 100, "end" => 500, "body" => []}
   }
 
+  # handleErrors-specific AST with safe* calls for error_code_fields derivation
+  @sample_handle_errors_ast %{
+    "async" => false,
+    "params" => [%{"name" => "httpCode", "type" => "int"}],
+    "return_type" => nil,
+    "statements" => 2,
+    "body" => %{
+      "type" => "BlockStatement",
+      "start" => 100,
+      "end" => 500,
+      "body" => [
+        %{
+          "type" => "VariableDeclaration",
+          "declarations" => [
+            %{
+              "type" => "VariableDeclarator",
+              "id" => %{"type" => "Identifier", "name" => "code"},
+              "init" => %{
+                "type" => "CallExpression",
+                "callee" => %{
+                  "type" => "MemberExpression",
+                  "object" => %{"type" => "ThisExpression"},
+                  "property" => %{"type" => "Identifier", "name" => "safeString"}
+                },
+                "arguments" => [
+                  %{"type" => "Identifier", "name" => "response"},
+                  %{"type" => "Literal", "value" => "code"}
+                ]
+              }
+            }
+          ]
+        },
+        %{
+          "type" => "VariableDeclaration",
+          "declarations" => [
+            %{
+              "type" => "VariableDeclarator",
+              "id" => %{"type" => "Identifier", "name" => "msg"},
+              "init" => %{
+                "type" => "CallExpression",
+                "callee" => %{
+                  "type" => "MemberExpression",
+                  "object" => %{"type" => "ThisExpression"},
+                  "property" => %{"type" => "Identifier", "name" => "safeString"}
+                },
+                "arguments" => [
+                  %{"type" => "Identifier", "name" => "response"},
+                  %{"type" => "Literal", "value" => "msg"}
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+
   @rest_class %{
     "node_key" => "rest:testex",
     "class_name" => "testex",
@@ -65,7 +122,7 @@ defmodule CcxtExtract.PipelineTest do
       handle_errors: %{
         "testex" => %{
           "id" => "testex",
-          "handle_errors" => @sample_method_ast,
+          "handle_errors" => @sample_handle_errors_ast,
           "exceptions" => %{"broad" => %{"error" => "ExchangeError"}, "exact" => %{}},
           "http_exceptions" => %{"429" => "RateLimitExceeded"}
         }
@@ -284,9 +341,17 @@ defmodule CcxtExtract.PipelineTest do
       he = result["structure"]["handle_errors"]
 
       # "handle_errors" from extraction → "method" in schema
-      assert he["method"]["statements"] == 12
+      assert he["method"]["statements"] == 2
       assert he["exceptions"]["broad"]["error"] == "ExchangeError"
       assert he["http_exceptions"]["429"] == "RateLimitExceeded"
+
+      # error_code_fields derived from method AST
+      assert is_list(he["error_code_fields"])
+      assert length(he["error_code_fields"]) == 2
+
+      fields = Enum.map(he["error_code_fields"], & &1["field"])
+      assert "code" in fields
+      assert "msg" in fields
 
       # Original key name should not be present
       refute Map.has_key?(he, "handle_errors")

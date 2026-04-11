@@ -223,7 +223,8 @@ defmodule CcxtExtract.Pipeline do
         %{
           "method" => method,
           "exceptions" => entry["exceptions"],
-          "http_exceptions" => entry["http_exceptions"]
+          "http_exceptions" => entry["http_exceptions"],
+          "error_code_fields" => CcxtExtract.ErrorCodeFields.derive(method)
         }
 
       _ ->

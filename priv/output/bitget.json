@@ -15,7 +15,7 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-10T22:48:35.562493Z",
+  "extracted_at": "2026-04-11T05:56:11.079148Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -120274,7 +120274,7 @@
       }
     }
   },
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "structure": {
     "class_info": {
       "rest": {
@@ -121478,6 +121478,20 @@
       }
     },
     "handle_errors": {
+      "error_code_fields": [
+        {
+          "field": "err_msg",
+          "field2": "msg",
+          "method": "safeString2",
+          "object": "response"
+        },
+        {
+          "field": "code",
+          "field2": "err_code",
+          "method": "safeString2",
+          "object": "response"
+        }
+      ],
       "exceptions": {
         "broad": {
           "invalid size, valid range": "__function:ExchangeError"

@@ -12,7 +12,7 @@
     "referral": null,
     "version": null
   },
-  "extracted_at": "2026-04-10T22:48:35.562493Z",
+  "extracted_at": "2026-04-11T05:56:11.079148Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -34754,7 +34754,7 @@
       }
     }
   },
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "structure": {
     "class_info": {
       "rest": {
@@ -34943,6 +34943,20 @@
       "ws": null
     },
     "handle_errors": {
+      "error_code_fields": [
+        {
+          "field": "code",
+          "field2": "0",
+          "method": "safeString",
+          "object": "response"
+        },
+        {
+          "field": "message",
+          "field2": null,
+          "method": "safeString",
+          "object": "response"
+        }
+      ],
       "exceptions": {
         "exact": {
           "FAILED_LIMIT_ORDER": "__function:InvalidOrder",

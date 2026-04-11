@@ -6,16 +6,22 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 49: Error code field names from handleErrors() AST
+- New `CcxtExtract.ErrorCodeFields` module — pure function that recursively walks handleErrors() AST to collect all `this.safeString/safeString2/safeValue` calls
+- Added `error_code_fields` to `structure.handle_errors` in pipeline output — list of `{object, field, method, field2}` records
+- Each record preserves full context: which object is accessed (response, error, data, etc.), which field name, which safe* method, and alternate field for safeString2
+- Schema bumped to 1.3.0 — new required `error_code_fields` field in HandleErrorsData, new ErrorCodeFieldEntry definition
+- Key design decision: all safe* calls preserved (not just `response` first-arg) — some exchanges destructure before calling safe*, consumers decide which object context matters
+- Replaces ccxt_client's hardcoded 4 field names with actual per-exchange data from CCXT source
+
 ### Task 47: Round-trip validation for `url_templates`
 - Added `runtime.url_templates` round-trip validation in `CcxtExtract.Validation`
 - Source discovery loading now includes `url_templates.json`, and validation unwraps the inner `url_templates` map before comparison
 - Alias exchanges inheriting parent URL templates are handled like `unified_endpoints`, avoiding false positives when output has inherited data but the alias has no own discovery entry
 
-### Consumer-Requested Extractions (Phase 8 — planned)
-- **Task 49**: Error code field names from handleErrors() AST — extract `safeString`/`safeString2` field name arguments to replace ccxt_client's hardcoded 4-field heuristic
+### Consumer-Requested Extractions (Phase 8 — remaining)
 - **Task 52**: Section visibility from sign() AST — extract `api === 'sectionName'` conditionals gating `checkRequiredCredentials()` to replace ccxt_client's substring-match heuristic
 - **Deferred**: Rate limit headers (not observable from static analysis), endpoint weight field names (already extracted — "cost" is universal CCXT convention)
-- **Origin**: ccxt_client identified 4 areas where heuristic inference causes recurring silent bugs; 2 of 4 are extractable, 1 already resolved, 1 deferred
 
 ### URL Templates Extractor (Task 46)
 - New QuickBEAM extractor (`CcxtExtract.UrlTemplates`) that calls `sign()` per API section to capture resolved URLs

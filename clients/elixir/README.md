@@ -9,6 +9,8 @@ nested-but-separate model).
 - **[ccxt_client/](ccxt_client/)** — `github.com/ZenHive/ccxt_client`. Compile-time
   macros read `priv/output/*.json` and generate one Elixir module per exchange.
   Relocated here from `../ccxt_client/` in Task 56.
+- **[ccxt_client_bak/](ccxt_client_bak/)** — archived predecessor of `ccxt_client`
+  (built on `.exs` specs). Kept for porting domain knowledge; not an active build.
 
 ## Adding another Elixir client
 

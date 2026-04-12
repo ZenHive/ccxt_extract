@@ -71,6 +71,22 @@ What replaces it:
 - When a consumer requests a field, evaluate whether it belongs in raw, derived, or override — don't reject it as "consumer-specific" if it's knowledge CCXT actually encodes
 - If you catch yourself thinking "we probably don't need X" — stop. Extract X.
 
+## Clients
+
+Consumer projects live under `clients/<lang>/<project>/`. Each project is its own
+independent git repository, nested inside this repo but not tracked by it
+(`.gitignore` excludes `/clients/*/*/`). See [clients/elixir/README.md](clients/elixir/README.md)
+for the Elixir layout:
+
+- `clients/elixir/ccxt_client/` — active consumer. Compile-time macros read
+  `priv/output/*.json` and generate one Elixir module per exchange.
+- `clients/elixir/ccxt_client_bak/` — archived `.exs`-spec predecessor; porting
+  reference only.
+
+To add a client: `cd clients/<lang> && git clone <repo>` (or `git init`), then
+consume JSON from `../../../priv/output/` or pipe via
+`mix ccxt_extract.pipeline --output clients/<lang>/<name>/<path>`.
+
 ## Tools
 
 Three Hex packages, zero external toolchains:

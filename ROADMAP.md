@@ -17,6 +17,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 56 | `clients/` layout + relocate ccxt_client | Nested-but-separate; Elixir at `clients/elixir/ccxt_client/` |
 | Task 59 | `CONSUMER_CONTRACT.md` skeleton with lifecycle trackers | — |
 | Task 55 | `throw_dispatches` from `handleErrors()` AST | Schema 1.7.0 |
 | Task 54 | Stabilize `error_code_fields` contract | Schema 1.6.0 |
@@ -29,8 +30,8 @@
 ### 📋 Next Up
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 56 `[P]` | ⬜ | `clients/` layout + `.gitignore` + README |
 | Task 57 | ⬜ | `mix ccxt_extract.contract_test` skeleton |
+| Task 58 | ⬜ | Golden JSON fixtures + regenerate command |
 | Task 60 | ⬜ | `priv/overrides/` directory contract + schema |
 | Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ `[Codex]` |
 
@@ -65,12 +66,10 @@ Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 56 `[P]` | ⬜ | Establish `clients/` layout [D:1/B:6/U:7 → Eff:6.5] 🎯 |
+| Task 56 `[P]` | ✅ | Establish `clients/` layout — shipped |
 | Task 57 | ⬜ | `mix ccxt_extract.contract_test` skeleton [D:4/B:8/U:9 → Eff:2.1] 🎯 |
 | Task 58 | ⬜ | Golden JSON fixtures + regenerate command [D:3/B:7/U:7 → Eff:2.3] 🎯 |
 | Task 59 | ✅ | `CONSUMER_CONTRACT.md` skeleton — shipped |
-
-**Task 56: Establish clients/ layout** — Add a `clients/` directory with a gitignore entry and a README explaining the nested-but-separate model (each client is its own git repo, physically nested for convenience). Relocate Elixir `ccxt_client` from `../ccxt_client/` → `clients/elixir/` with a filesystem `mv` of the entire directory (its own `.git` moves along, so the Elixir project's history stays intact — this is not a `git mv` since the source repo is outside ccxt_extract). Scaffold `clients/rust/` as an empty placeholder for the Rust client. Update any tooling references (mix aliases, CI paths, docs in ccxt_client pointing at the old sibling location).
 
 **Task 57: Contract-test skeleton** — Add `mix ccxt_extract.contract_test` that loads emitted JSON and runs cross-field semantic invariants. Seed invariants: every `has.*: true` capability has a corresponding `unified_endpoints` entry; every `authenticated_sections` entry appears in `runtime.describe.api`; every `error_code_fields.object_path` root is `response` or a documented safe envelope. Each invariant failure points at the exchange + field path. Distinct from `validate` (schema conformance + round-trip); this catches semantic drift across fields.
 
@@ -247,12 +246,12 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 ```
 ccxt_extract                              Consumer projects (each its own git repo, nested here)
 ─────────────                             ─────────────────
-mix ccxt_extract.pipeline                 clients/elixir/             Elixir — compile-time macros read JSON
-  --output clients/elixir/priv/specs  →   clients/rust/                Rust — build.rs / serde_json
-                                          clients/python/              Python — json.load at import
+mix ccxt_extract.pipeline                            clients/elixir/ccxt_client/             Elixir — compile-time macros read JSON
+  --output clients/elixir/ccxt_client/priv/specs  →  clients/rust/<crate>/                   Rust — build.rs / serde_json
+                                                     clients/python/<pkg>/                   Python — json.load at import
 ```
 
-**Nested-but-separate clients.** All language clients live under `ccxt_extract/clients/<lang>/` as independent git repos (gitignored from ccxt_extract). Elixir `ccxt_client` moves from `../ccxt_client/` → `clients/elixir/` as part of Task 56 via a filesystem `mv` of the whole directory — the nested repo's `.git` travels with it, preserving its own history.
+**Nested-but-separate clients.** All language clients live under `ccxt_extract/clients/<lang>/<project>/` as independent git repos (gitignored from ccxt_extract). Elixir `ccxt_client` was relocated from `../ccxt_client/` → `clients/elixir/ccxt_client/` in Task 56 via a filesystem `mv` — the nested repo's `.git` travels with it, preserving its own history.
 
 **Three-tier JSON is the target contract.** Once Phase 9 ships, output will merge raw extraction + derived analysis + curated overrides with per-field provenance. Today's output is raw + derived only — overrides and `_provenance` tags arrive in Tasks 60–61b. Either way, consumers read the emitted JSON; they do not re-derive or walk AST. Contract tests (`mix ccxt_extract.contract_test`, Task 57) will enforce cross-field invariants so drift surfaces before it reaches a consumer.
 

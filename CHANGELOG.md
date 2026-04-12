@@ -6,6 +6,15 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 56: Establish clients/ layout
+- New top-level `clients/` directory with a README documenting the nested-but-separate model (each language client is its own git repo, physically nested under `clients/<lang>/<project>/`)
+- Relocated Elixir `ccxt_client` from `../ccxt_client/` → `clients/elixir/ccxt_client/` via filesystem `mv` — preserves the nested repo's `.git` and branch history intact
+- Layout uses `clients/<lang>/<project>/` rather than `clients/<lang>/` so each language dir can host multiple projects and the original project name is preserved (deviation from original roadmap wording)
+- `.gitignore` excludes `clients/*/*/` so nested repos stay independent from ccxt_extract's history
+- Scaffolded `clients/rust/` placeholder with a README for the future Rust consumer
+- Updated `examples/compare_old_specs.exs` and `examples/compare_old_counts.exs` to read from the new path
+- CLAUDE.md `compare_*` example commands unchanged (already path-agnostic in the rendered form)
+
 ### Roadmap restructure: three-tier contract + parallel clients
 - `ROADMAP.md` rewritten to reflect the new `CLAUDE.md` rules (three-tier raw/derived/override output, explicit consumer contract forbidding AST walking, honesty rule)
 - New phases added: **Phase 8** (client harness + contract tests), **Phase 9** (override infrastructure + provenance), **Phase 10** (request signing), **Phase 11** (request building), **Phase 12** (response parsing per `parse*` type), **Phase 13** (error contract), **Phase 14** (rate-limit), **Phase 15** (WS contract), **Phase 16** (market & currency semantics)

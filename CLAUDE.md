@@ -252,7 +252,7 @@ mix run examples/5_family_variants.exs            # Family analysis (binance →
 # Requires: ../ccxt_go_extractor built (go build -o ccxt-extract ./cmd/ccxt-extract)
 mix run examples/compare_go_extractor.exs   # Compare vs Go extractor — shows what each has
 
-# Requires: ../ccxt_client/priv/specs/extracted/ (old ccxt_client .exs specs)
+# Requires: clients/elixir/ccxt_client/priv/specs/extracted/ (old ccxt_client .exs specs)
 mix run examples/compare_old_counts.exs     # Data volume comparison (endpoints, has, exceptions)
 mix run examples/compare_old_specs.exs      # Key-by-key coverage validation
 ```

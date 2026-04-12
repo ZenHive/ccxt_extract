@@ -6,6 +6,14 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Roadmap restructure: three-tier contract + parallel clients
+- `ROADMAP.md` rewritten to reflect the new `CLAUDE.md` rules (three-tier raw/derived/override output, explicit consumer contract forbidding AST walking, honesty rule)
+- New phases added: **Phase 8** (client harness + contract tests), **Phase 9** (override infrastructure + provenance), **Phase 10** (request signing), **Phase 11** (request building), **Phase 12** (response parsing per `parse*` type), **Phase 13** (error contract), **Phase 14** (rate-limit), **Phase 15** (WS contract), **Phase 16** (market & currency semantics)
+- **Tasks 33 and 34 marked superseded** — their original deferral rationale ("consumers should classify from AST" / "derivable from existing AST") is no longer valid under the new consumer contract. Replacements live in Phase 10 and Phase 13
+- Tasks 24 and 36 remain deferred (sibling-project dep / premature migration tooling)
+- New `CONSUMER_CONTRACT.md` — unfiltered checklist of what a language-agnostic consumer needs, with per-item ✅/🚧/⬜ trackers linking back to tasks
+- No extractor code changes in this restructure; this is documentation + planning only
+
 ### Task 55: throw_dispatches from handleErrors() AST
 - New `CcxtExtract.ThrowDispatches` module — derives one entry per `this.throwExactly/BroadlyMatchedException` call in the method body
 - Each entry pairs the exceptions-map source (normalized tag: `exceptions`/`exceptions.exact`/`exceptions.broad`/`by_url.exact`/`by_url.broad`/`other`) with the resolved safe* binding for arg[1], the unique resolved safe* binding referenced anywhere in arg[2], and a raw-string rendering of arg[0] as an anti-rot hatch for unrecognized shapes

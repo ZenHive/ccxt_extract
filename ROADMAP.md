@@ -1,320 +1,269 @@
 # ROADMAP
 
-**Vision:** Extract everything CCXT knows about 111+ exchanges into language-agnostic JSON data. The single source of truth for any CCXT consumer library — Elixir, Rust, Go, Python.
+**Vision:** Extract everything CCXT knows about 111+ exchanges into language-agnostic JSON so any consumer — in any language — can operate an exchange without walking AST.
 
 **Completed work:** See [CHANGELOG.md](CHANGELOG.md) for finished tasks.
+
+**Contract reference:** See [CONSUMER_CONTRACT.md](CONSUMER_CONTRACT.md) for the unfiltered list of what a consumer needs. Phases 10–16 tick items off that checklist.
 
 ---
 
 ## 🎯 Current Focus
 
-**Phase 7: Data Quality & Maintenance** — Technical debt and code quality improvements.
+**Phase 8 — Client harness + contract tests** kicking off. Phase 7 (data quality) winding down. A major *planning* restructure landed with this roadmap: the old "Anti-Bias Rule" and "Extraction vs Interpretation" framings are retired (see CLAUDE.md). The target output is a three-tier merge (raw / derived / override) and the consumer contract explicitly forbids consumers walking AST — but **none of that has shipped yet**. Today's output is raw + derived only; override infrastructure and per-field provenance arrive in Phase 9. Several previously-deferred tasks are superseded under the new rules.
 
-> **Architecture decision**: ccxt_extract replaces ccxt_ex's extraction pipeline. ccxt_ex retires. Consumer libraries (ccxt_client for Elixir, future Rust/Go/Python libs) consume ccxt_extract's JSON output directly. The JSON is the contract — no Hex package needed, just `mix ccxt_extract.pipeline --output <path>`.
+> **Philosophy reminder:** Every value is either provable (emit it) or explicitly unprovable (`null` + reason). No silent guesses. Overrides (once Phase 9 ships) will fill gaps derivation can't reach and carry reasons too.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
-| Task 55 | throw_dispatches from handleErrors() AST | New `structure.handle_errors.throw_dispatches` — one entry per `this.throwExactly/BroadlyMatchedException` call with normalized exceptions-map source, raw-string rendering, resolved safe* binding for arg[1], and resolved `message_lookup` from arg[2] when provable. Schema 1.7.0. |
-| Task 54 | Stabilize error_code_fields contract | Adds `object_path` (derivation chain from response), sentinel polarity via `{value, operator}` objects, and child exchange handle_errors inheritance. Single-role per throw helper: `throwExactlyMatchedException` → `error_code`, `throwBroadlyMatchedException` → `error_message` (fields hit by both accumulate dual roles naturally). Schema 1.6.0. |
-| Task 53 | Field semantics for error_code_fields | Adds `roles` and `sentinel_values` to each ErrorCodeFieldEntry. Two-pass AST analysis. Schema 1.5.0. |
-| Task 52 | Authenticated sections from sign() AST | Derives `structure.authenticated_sections` — walks sign() conditionals for `api === 'X'` and `api[N] === 'X'` comparisons gating `checkRequiredCredentials()`, including indirect variable bindings. Schema 1.4.0. Contract: "proven via checkRequiredCredentials() gates", not exhaustive auth detection. |
-| Task 49 | Error code field names from handleErrors() AST | Derives `error_code_fields` from existing handleErrors() AST — all `this.safeString/safeString2/safeValue` calls with object, field, method context. Schema 1.3.0. |
-| Task 47 | URL templates round-trip validation | Validation now compares `runtime.url_templates` against `url_templates.json`, including alias-parent inheritance handling so inherited data doesn't trigger false positives. |
-| Task 46 | URL templates extractor | Raw sign() probe model: records inputs (`api_param`, `http_method`, `sample_path`) and output (`resolved_url`), plus derived `url_prefix` when provable. Removed heuristic `base_url` resolver after ~20 rounds showed it was interpretation, not extraction. Schema 1.2.0. |
-| Task 45 | Include derived analytics in update | `mix ccxt_extract.update` now runs Stage 6: coverage, summary, family analysis, method analysis, public exchanges, market validation. QuickBEAM-dependent analytics (describe keys, describe key analysis) skipped with `--skip-setup`. |
-| Task 44 | Resolve alias exchange data from parent | Alias exchanges (coinbaseadvanced, gateio, huobi) now inherit parent runtime data (describe, markets, symbol_patterns) via class hierarchy fallback. Validation alias-aware. |
-| Task 42 | Follow super.*() delegation in unified endpoints | Resolves super.method() calls through base Exchange class. Fixes coincatch and kucoin missing transport mappings. |
-| Task 41 | Unified endpoint mappings | Maps unified methods to interface methods via AST walking. Derived exchanges inherit parent mappings. Schema 1.1.0. Fixed: dispatch helper exclusion, mixed direct+delegate merging, multi-hop delegation (depth 3 with cycle protection). |
-| Task 40 | Symbol pattern derivation | Pure derivation from `runtime.markets` — separator, case, structure, suffix, anomalies per market type. Schema 1.0.1. Fixed: case anomaly detection, dominant_value nil inflation, suffix anomaly undercounting. Added round-trip validation. |
-| Task 35 | Extract shared modules | `CcxtExtract.OXCExtractor` behaviour (6 modules) + `CcxtExtract.MethodAST` (5 modules). 35c deferred. |
-| Task 28 | Update workflow | `mix ccxt_extract.update` chains setup → pipeline → validate with diff summary. Validation reads emitted JSON from disk (not in-memory). |
-| Task 39 | Pagination round-trip validation | Pagination now compared between discovery and pipeline output; presence + data equality checks with `_unresolved` support |
-| Task 26 | CCXT version pinning and reproducibility | `--ccxt-version` and `--latest` flags update both npm bundle and TS source atomically; `source_git_sha` in manifest; manifest version from exchange data |
-| Task 38 | Pagination data quality fixes | Branch-dependent variants preserved (always arrays), unresolved variable method names captured, provenance tracking via containing_method |
-| Task 32 | Pagination strategy extraction | 4 strategies (dynamic/deterministic/cursor/incremental), 43 exchanges; recursive AST walker for nested calls |
-| Task 27 | Schema versioning contract | `SCHEMA.md` documents semver contract for `schema_version` field; consumer guidance for Elixir/Rust/Python |
-| Task 31 | Base normalizer methods from `Exchange.ts` | Global artifact `_base_methods.json`: MethodDefinition signatures + PropertyDefinition field aliases, with `source` field |
-| Task 30 | Interface signatures from `abstract/*.ts` | Fixed: now extracts all 110 exchanges (was 99 — alias exchanges skipped); round-trip validation wired up |
-| Task 25 | Configurable output directory | `--output` now emits per-exchange JSON, `_manifest.json`, and `exchange_v1.json`; stale exchange files are cleaned automatically |
-| Task 29 | Comparison script vs old ccxt_client specs | 100% coverage; all old keys classified as covered/richer/consumer-specific |
-| Task 23 | Resolve `__function:` sentinels | Error class names now resolved via instance name map |
-| Task 16 | Full validation | JSV schema + round-trip comparison; 110 exchanges, 0 errors |
-| Task 15 | Full extraction pipeline | `mix ccxt_extract.pipeline` assembles per-exchange validated JSON |
-| Task 14 | Output schema design | JSON Schema (exchange_v1.json); two-layer model (runtime + structure) |
-| Task 17 | Coverage report | 86.7% avg coverage; all 10 layers tracked per exchange |
+| Task 59 | `CONSUMER_CONTRACT.md` skeleton with lifecycle trackers | — |
+| Task 55 | `throw_dispatches` from `handleErrors()` AST | Schema 1.7.0 |
+| Task 54 | Stabilize `error_code_fields` contract | Schema 1.6.0 |
+| Task 53 | Field semantics for `error_code_fields` | Schema 1.5.0 |
+| Task 52 | Authenticated sections from `sign()` AST | Schema 1.4.0 |
+| Task 49 | `error_code_fields` from `handleErrors()` AST | Schema 1.3.0 |
+| Task 47 | URL templates round-trip validation | — |
+| Task 46 | URL templates extractor (raw probe model) | Schema 1.2.0 |
 
-### 📋 Current Tasks
+### 📋 Next Up
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 35 | ✅ | Extract shared modules — OXCExtractor + MethodAST |
-| Task 26 | ✅ | CCXT version pinning and reproducibility |
-| Task 27 | ✅ | Schema versioning contract — `SCHEMA.md` |
-| Task 28 | ✅ | Update workflow — `mix ccxt_extract.update` |
-
-### 📋 Go Extractor Parity (Phase 6)
-| Task | Status | Notes |
-|------|--------|-------|
-| Task 30 | ✅ | Interface signatures from `abstract/*.ts` |
-| Task 31 `[P]` | ✅ | Base normalizer methods from `Exchange.ts` (MethodDefinitions + PropertyDefinitions) |
-| Task 32 `[P]` | ✅ | Pagination strategy per method per exchange |
-| Task 33 | 🔶 Deferred | Auth assembly decomposition — deferred: this is interpretation, not extraction. The raw sign() AST is already extracted. Consumers should classify signing patterns from AST, not consume pre-digested "recipes" that bake in one model. Revisit only if multiple consumers independently request it. |
-| Task 34 | 🔶 Deferred | Handler routing tables — deferred: derivable from existing AST bodies. Adding pre-computed routing tables is analysis, not extraction, and couples the extractor to a specific consumer's view of method dependencies. |
-
-### 📋 Consumer-Requested Extractions
-| Task | Status | Notes |
-|------|--------|-------|
-| Task 49 `[P]` | ✅ | Error code field names from handleErrors() AST — derives `error_code_fields` from existing AST. Schema 1.3.0. |
-| Task 52 `[P]` | ✅ | Authenticated sections from sign() AST — derives `structure.authenticated_sections` from sign() conditionals gating `checkRequiredCredentials()`. Schema 1.4.0. |
-| Task 55 | ✅ | Pair code field with its message field in `error_code_fields` [D:4/B:6/U:7 → Eff:1.6] 🚀 — `throw_dispatches` now records both the arg[1] lookup binding and arg[2] `message_lookup` when that message expression resolves to a unique safe* binding, with alias chains and wrapped expressions followed before resolution. Consumer value: a ccxt_client can recover `{code_field, message_field}` pairings without re-parsing the AST. |
-
-### 📋 Data Quality & Maintenance
-| Task | Status | Notes |
-|------|--------|-------|
-| Task 35 | ✅ | Extract shared modules — OXCExtractor + MethodAST (35c deferred) |
-| Task 36 | 🔶 Deferred | Schema migration framework — deferred: premature. Zero consumers using v1.0 yet. Build migration tooling when a real v2.0 need emerges with concrete requirements, not speculatively. |
-| Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ |
-| Task 38 | ✅ | Pagination data quality: branch-dependent duplicates + variable method names |
-| Task 39 | ✅ | Pagination round-trip validation — presence + data equality checks with `_unresolved` support |
-| Task 44 | ✅ | Resolve alias exchange data from parent (coinbaseadvanced, gateio, huobi) |
-| Task 45 | ✅ | Include derived analytics in `mix ccxt_extract.update` |
-| Task 46 | ✅ | URL templates extractor — raw sign() probe model with `url_prefix` derivation. Schema 1.2.0. |
-| Task 47 | ✅ | Round-trip validation for `url_templates` — validates presence/data equality against discovery source, with alias-parent inheritance handling to avoid false positives. [D:3/B:5/U:4 → Eff:1.5] |
+| Task 56 `[P]` | ⬜ | `clients/` layout + `.gitignore` + README |
+| Task 57 | ⬜ | `mix ccxt_extract.contract_test` skeleton |
+| Task 60 | ⬜ | `priv/overrides/` directory contract + schema |
+| Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ `[Codex]` |
 
 ### Quick Commands
 ```bash
-mix ccxt_extract.exchanges                 # Extract exchange metadata
-mix ccxt_extract.classes                   # Extract class hierarchy
-mix ccxt_extract.summary                   # Combine into summary stats
-mix ccxt_extract.describe                  # Extract full describe() per exchange
-mix ccxt_extract.describe_keys             # Extract describe() keys per exchange
-mix ccxt_extract.describe_key_analysis     # Analyze key frequency and nesting depth
-mix ccxt_extract.methods                   # Extract REST + WS method inventory
-mix ccxt_extract.methods --type rest       # REST only
-mix ccxt_extract.methods --type ws         # WS only
-mix ccxt_extract.method_analysis           # Analyze method families and distribution
-mix ccxt_extract.public_exchanges          # Identify public exchanges for loadMarkets()
-mix ccxt_extract.load_markets              # Extract loadMarkets() data (live API calls)
-mix ccxt_extract.load_markets --concurrency 10  # Faster with more parallel workers
-mix ccxt_extract.validate_markets              # Validate cached market data (structural)
-mix ccxt_extract.validate_markets --spot-check # + live spot-check against exchange APIs
-mix ccxt_extract.family_analysis               # Analyze exchange families
-mix ccxt_extract.url_templates                 # Extract URL templates via sign()
-mix ccxt_extract.sign_methods                  # Extract sign() method AST
-mix ccxt_extract.handle_errors                 # Extract handleErrors() method AST
-mix ccxt_extract.parse_methods                 # Extract parse*() method ASTs
-mix ccxt_extract.ws_methods                    # Extract watch*/handle* WS method ASTs
-mix ccxt_extract.overrides                     # Extract method overrides for derived exchanges
-mix ccxt_extract.interface_signatures          # Extract interface signatures from abstract/*.ts
-mix ccxt_extract.base_methods                  # Extract base class methods from Exchange.ts
-mix ccxt_extract.pagination                    # Extract pagination strategies per exchange
-mix ccxt_extract.unified_endpoints             # Extract unified method → interface method mappings
-mix ccxt_extract.coverage                      # Generate extraction coverage report
-mix ccxt_extract.pipeline                      # Assemble per-exchange JSON output
-mix ccxt_extract.validate                      # Full JSON Schema + round-trip validation
-mix ccxt_extract.validate --strict             # Fail on errors (CI mode)
-mix ccxt_extract.update                        # Full re-extract: setup → extractors → pipeline → validate → analytics
-mix ccxt_extract.update --latest --output /tmp # Update to latest CCXT, custom output
-mix ccxt_extract.update --skip-setup           # Re-run pipeline + validate + analytics (skips QuickBEAM analytics)
-mix ccxt_extract.setup                     # Setup CCXT sources
-mix run examples/3_quickbeam_describe.exs  # Test QuickBEAM
-mix run examples/1_parse_exchange.exs binance  # Test OXC
-mix test.json --quiet                      # Fast tests (~0.4s, cached only)
-mix test.json --quiet --include extraction # Full tests (includes QuickBEAM/OXC)
-mix test.json --quiet --only extraction    # Only extraction tests
+mix ccxt_extract.update          # Full re-extract
+mix ccxt_extract.pipeline        # Assemble per-exchange JSON
+mix ccxt_extract.validate        # JSON Schema + round-trip
+mix test.json --quiet            # Fast tests (cached)
+mix test.json --quiet --include extraction  # Full tests
 ```
 
----
-
-## Phase 1: Setup & Discovery ✅
-
-> All discovery tasks complete. See [DISCOVERIES.md](DISCOVERIES.md) for synthesized findings.
-
-### Tasks
-
-- [x] ~~Task 1: CCXT source setup~~ — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-- [x] ~~Task 18: Fix QuickBEAM browser globals~~ — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-- [x] ~~**Task 19: Fix sparse checkout to include package.json**~~ — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 2: Exchange inventory**~~ — Catalog every exchange with metadata and hierarchy.
-  - [x] ~~**2a: QuickBEAM exchange list**~~ [D:3/B:8/U:9 → Eff:2.83] `[P]` — Load CCXT via QuickBEAM, extract per-exchange: `id`, `name`, `certified`, `pro`, `version`, `country`, `alias`. Mark aliases explicitly (`alias: true` in describe() = pure re-brands like `huobi`→`htx`). Extract referral URLs from `describe().urls.referral` (two formats: plain string URL, or `{url, discount}` object) — normalize to `{url, discount}` format. Write `priv/discoveries/exchanges.json`. Reuse pattern from `examples/3_quickbeam_describe.exs`.
-  - [x] ~~**2b: OXC class hierarchy**~~ [D:3/B:8/U:9 → Eff:2.83] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-  - [x] ~~**2c: Exchange summary stats**~~ [D:2/B:6/U:7 → Eff:3.25] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 3: describe() key inventory**~~ — Catalog every key in every exchange's describe().
-  - [x] ~~**3a: Extract all describe() top-level keys**~~ [D:3/B:8/U:8 → Eff:2.67] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-  - [x] ~~**3b: Key frequency analysis**~~ [D:2/B:7/U:7 → Eff:3.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 4: Method inventory**~~ — Catalog every method on every exchange with signatures.
-  - [x] ~~**4a: REST exchange methods**~~ [D:3/B:8/U:8 → Eff:2.67] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-  - [x] ~~**4b: WS exchange methods**~~ [D:2/B:7/U:7 → Eff:3.50] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-  - [x] ~~**4c: Method family analysis**~~ [D:2/B:7/U:8 → Eff:3.75] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 20: Expand integration tests to reference exchanges**~~ [D:3/B:7/U:8 → Eff:2.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 21: Extract shared test helpers**~~ [D:1/B:4/U:5 → Eff:4.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 22: Split integration tests into cached/extraction tiers**~~ [D:3/B:8/U:9 → Eff:2.83] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 5: Document discoveries**~~ [D:2/B:7/U:9 → Eff:4.00] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+Full command list in [CLAUDE.md](CLAUDE.md).
 
 ---
 
-## Phase 2: Runtime Extraction — QuickBEAM ✅
+## Phase 7: Data Quality & Maintenance
 
-> All runtime extraction tasks complete. See [CHANGELOG.md](CHANGELOG.md#unreleased) for details.
-> Built: Full describe() extraction, exchange family analysis, loadMarkets() with validation, credential classification.
+> Technical debt and code quality improvements. Most tasks complete; one open.
 
-### Tasks
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ [D:2/B:4/U:3 → Eff:1.50] `[Codex]` |
 
-- [x] ~~**Task 6: Full describe() extraction**~~ [D:4/B:9/U:9 → Eff:2.25] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 7: Exchange family analysis**~~ [D:5/B:7/U:7 → Eff:1.40] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 8: loadMarkets() extraction**~~ — For exchanges with public API access (no auth needed), run `loadMarkets()` via QuickBEAM. Extract market listings: symbol formats, precision, limits, market types (spot, swap, future, option), fee structures. This is live API data.
-  - [x] ~~**8a: Identify public exchanges**~~ [D:2/B:6/U:8 → Eff:3.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-  - [x] ~~**8b: Rate-limited extraction**~~ [D:5/B:8/U:8 → Eff:1.60] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-  - [x] ~~**8c: Market data validation**~~ [D:3/B:7/U:7 → Eff:2.33] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 
 ---
 
-## Phase 3: Structural Extraction — OXC AST ✅
+## Phase 8: Client harness + contract tests ⬜
 
-> 5 tasks complete. See [CHANGELOG.md](CHANGELOG.md#unreleased) for details.
-> Built: sign(), handleErrors(), parse*(), WS methods (watch*/handle*), class hierarchy overrides — all as raw ESTree AST JSON.
+> All reference consumers live in their own git repos, nested under `ccxt_extract/clients/<lang>/` (gitignored here). Elixir `ccxt_client` moves from `../ccxt_client/` → `clients/elixir/` as a filesystem `mv` of the whole nested repo (its `.git` travels with it, so its own history is preserved — no `git mv` from inside ccxt_extract, since the source repo lives outside this tree). Rust lands fresh at `clients/rust/`. `ccxt_extract` stays a pure extractor and ships a contract-test suite that validates the JSON surface without importing client code — catches "Elixir didn't notice this breaks Rust" drift.
 
-### Tasks
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 56 `[P]` | ⬜ | Establish `clients/` layout [D:1/B:6/U:7 → Eff:6.5] 🎯 |
+| Task 57 | ⬜ | `mix ccxt_extract.contract_test` skeleton [D:4/B:8/U:9 → Eff:2.1] 🎯 |
+| Task 58 | ⬜ | Golden JSON fixtures + regenerate command [D:3/B:7/U:7 → Eff:2.3] 🎯 |
+| Task 59 | ✅ | `CONSUMER_CONTRACT.md` skeleton — shipped |
 
-- [x] ~~**Task 9: sign() method extraction**~~ [D:4/B:9/U:9 → Eff:2.25] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+**Task 56: Establish clients/ layout** — Add a `clients/` directory with a gitignore entry and a README explaining the nested-but-separate model (each client is its own git repo, physically nested for convenience). Relocate Elixir `ccxt_client` from `../ccxt_client/` → `clients/elixir/` with a filesystem `mv` of the entire directory (its own `.git` moves along, so the Elixir project's history stays intact — this is not a `git mv` since the source repo is outside ccxt_extract). Scaffold `clients/rust/` as an empty placeholder for the Rust client. Update any tooling references (mix aliases, CI paths, docs in ccxt_client pointing at the old sibling location).
 
-- [x] ~~**Task 10: handleErrors() extraction**~~ [D:4/B:8/U:8 → Eff:2.00] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+**Task 57: Contract-test skeleton** — Add `mix ccxt_extract.contract_test` that loads emitted JSON and runs cross-field semantic invariants. Seed invariants: every `has.*: true` capability has a corresponding `unified_endpoints` entry; every `authenticated_sections` entry appears in `runtime.describe.api`; every `error_code_fields.object_path` root is `response` or a documented safe envelope. Each invariant failure points at the exchange + field path. Distinct from `validate` (schema conformance + round-trip); this catches semantic drift across fields.
 
-- [x] ~~**Task 11: parse*() method extraction**~~ [D:5/B:9/U:8 → Eff:1.70] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 12: WS method extraction**~~ [D:5/B:8/U:7 → Eff:1.50] `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 13: Class hierarchy and overrides**~~ [D:6/B:8/U:8 → Eff:1.33] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
----
-
-## Phase 4: Output Format & Validation ✅
-
-> 4 tasks complete. See [CHANGELOG.md](CHANGELOG.md#unreleased) for details.
-> Built: JSON Schema (exchange_v1.json), extraction pipeline, coverage report, full validation (JSV + round-trip).
-
-### Tasks
-
-- [x] ~~**Task 14: Design output schema**~~ [D:5/B:9/U:9 → Eff:1.80] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 15: Full extraction pipeline**~~ [D:5/B:9/U:9 → Eff:1.80] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 16: Validation**~~ [D:4/B:8/U:8 → Eff:2.00] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 17: Coverage report**~~ [D:3/B:7/U:8 → Eff:2.50] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+**Task 58: Golden JSON fixtures** — Commit golden JSON for three reference exchanges covering auth variety: binance (HMAC with body), bybit (HMAC headers), deribit (JSON-RPC). Add `mix ccxt_extract.regenerate_fixtures` to regenerate and a CI check that the committed fixtures match current output. Fixture diffs become PR-reviewable signals of contract drift.
 
 ---
 
-## Phase 5: Distribution ✅
+## Phase 9: Override infrastructure + provenance ⬜
 
-> All distribution tasks complete. See [CHANGELOG.md](CHANGELOG.md#unreleased) for details.
-> Built: Configurable output (`--output`), CCXT version pinning (`--ccxt-version`/`--latest`), schema versioning contract (SCHEMA.md), update orchestration (`mix ccxt_extract.update`).
+> The three-tier output model requires override storage, merge logic, provenance tagging, and drift auditing. Lands before signing/parsing phases so every new derived field ships with an override fallback from day one.
 
-- [x] ~~**Task 25: Configurable output directory**~~ [D:2/B:9/U:9 → Eff:4.50] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 60 | ⬜ | `priv/overrides/` directory contract + schema [D:3/B:7/U:8 → Eff:2.5] 🎯 |
+| Task 61a `[P]` | ⬜ | Provenance tagging on raw + derived fields [D:4/B:8/U:8 → Eff:2.0] 🚀 |
+| Task 61b | ⬜ | Override merge pipeline stage [D:4/B:9/U:9 → Eff:2.25] 🚀 |
+| Task 61c | ⬜ | Schema 2.0.0 bump + migration notes in SCHEMA.md [D:2/B:6/U:6 → Eff:3.0] 🎯 |
+| Task 62 | ⬜ | `mix ccxt_extract.validate_overrides` [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 63 | ⬜ | `mix ccxt_extract.drift_audit` [D:5/B:7/U:6 → Eff:1.3] 📋 |
 
-- [x] ~~**Task 26: CCXT version pinning and reproducibility**~~ [D:3/B:8/U:8 → Eff:2.67] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+**Task 60: Override directory contract** — Define `priv/overrides/<exchange>.json` format: JSON Pointer paths into the canonical output, a `value` payload, required `reason`, optional `verified_against` (runtime probe output or CCXT source reference) and `unverified: true` flag. Document in SCHEMA.md. Ship an example override for one exchange.
 
-- [x] ~~**Task 27: Schema versioning contract**~~ [D:2/B:7/U:8 → Eff:3.75] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+**Task 61a: Provenance tagging on raw + derived** — Every field in the emitted JSON gains a parallel `_provenance` map keyed by the same paths, with values `"raw"` / `"derived"` / `"override"`. Ship for raw + derived first; override values are tagged when Task 61b lands. Alternative shape (inline per-field `{value, source}` tuples) is rejected as noisy — keep the main payload clean, store provenance alongside.
 
-- [x] ~~**Task 28: Update workflow**~~ [D:3/B:7/U:7 → Eff:2.33] 🎯 — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+**Task 61b: Override merge pipeline stage** — Add a merge stage that applies `priv/overrides/<exchange>.json` on top of raw+derived output before emission. Override values tag provenance `"override"`. Invalid override paths (pointing at non-existent locations) fail the pipeline loudly.
 
----
+**Task 61c: Schema 2.0.0 bump** — Bump `schema_version` to 2.0.0 and rename the schema file `exchange_v1.json` → `exchange_v2.json`. Keep `exchange_v1.json` around for one release so consumers can diff; delete in the following release. Document the provenance contract (top-level `_provenance` map, required on every exchange) and the breaking changes in SCHEMA.md.
 
-## Phase 6: Go Extractor Parity ⬜
+**Task 62: validate_overrides** — `mix ccxt_extract.validate_overrides` checks each override against runtime behavior where a probe exists (e.g., if override sets a URL, cross-check against runtime url_templates; if override sets a signing field, cross-check against live sign() probe). Emits a report per exchange: verified vs unverified-with-reason.
 
-> The Go extractor (ccxt_go_extractor) extracts 5 categories we don't yet cover. All are extractable from TS source via OXC. Achieving parity means ccxt_extract fully supersedes both the old Elixir specs AND the Go extractor.
-
-- [x] ~~**Task 30: Interface signatures from abstract/*.ts**~~ [D:3/B:8/U:9 → Eff:2.83] 🎯 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 31: Base normalizer methods from Exchange.ts**~~ [D:3/B:7/U:8 → Eff:2.50] 🎯 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [x] ~~**Task 32: Pagination strategy extraction**~~ [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [ ] **Task 33: Auth assembly decomposition** [D:6/B:8/U:8 → Eff:1.33] 📋 🔶 **Deferred** — Decompose the existing `sign_method` AST into structured auth assembly steps. **Deferred reason:** This crosses from extraction into interpretation. The raw sign() AST is already extracted and complete. Classifying signing patterns (which crypto ops, what gets signed) is consumer-domain work — ccxt_client's 9 signing patterns are *its* abstraction, not a universal truth. Baking one interpretation into the extractor couples it to one consumer's model. Revisit only if multiple consumers independently request structured signing recipes.
-
-- [ ] **Task 34: Handler routing extraction** [D:5/B:7/U:7 → Eff:1.40] 📋 🔶 **Deferred** — Extract method → handler dependency routing tables. **Deferred reason:** This is analysis derivable from existing AST data. Every method body is already extracted — consumers can walk `this.handleErrors()`, `this.sign()` calls themselves. Pre-computing one routing view in the extractor removes consumer flexibility. Revisit only if AST walking proves impractical for multiple consumers.
+**Task 63: drift_audit** — `mix ccxt_extract.drift_audit` compares current derivation + overrides against the last-released output. Flags: (a) overrides whose underlying raw data changed (override may be stale), (b) derived fields that flipped value or disappeared, (c) new raw fields not yet derived. Output is an audit report, not a fail; humans decide.
 
 ---
 
-## Phase 8: Consumer-Requested Extractions ⬜
+## Phase 10: Request signing contract ⬜
 
-> Structured data derived from existing AST bodies, requested by ccxt_client to replace heuristic inference. Principle: if ccxt_extract can observe the answer from CCXT's code, record it as structured data — don't make consumers infer what we already know.
+> **Supersedes Task 33.** A consumer must be able to construct an authenticated request without walking `sign()` AST. This phase emits a declarative signing recipe per exchange per API section: crypto op, canonical-string instructions, signature placement, auth headers, nonce source, pre-sign transforms. Honesty rule: each field derived when provable, null+reason otherwise, overrides fill gaps.
 
-- [x] ~~**Task 49: Error code field names from handleErrors() AST**~~ [D:3/B:8/U:8 → Eff:2.67] 🎯 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+**Downstream signal:** `ccxt_client/lib/ccxt/signing/classifier.ex` (AST-walker) becomes redundant when this phase ships `signing.pattern` directly. Schema design should enable its deletion without Elixir-side contortions.
 
-- [x] ~~**Task 52: Authenticated sections from sign() AST**~~ [D:4/B:7/U:7 → Eff:1.75] 🚀 `[P]` — See [CHANGELOG.md](CHANGELOG.md#unreleased). Follow-up: added array-indexed `api[N] === 'X'` pattern (12 exchanges including coinbase, bitget), tightened contract to "proven via checkRequiredCredentials() gates".
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 64 | ⬜ | Signing recipe schema design [D:5/B:9/U:9 → Eff:1.8] 🚀 |
+| Task 65 | ⬜ | Crypto op + signature placement from `sign()` AST [D:5/B:8/U:8 → Eff:1.6] 🚀 |
+| Task 66a `[P]` | ⬜ | Canonical string recipe — HMAC-simple family [D:5/B:8/U:8 → Eff:1.6] 🚀 |
+| Task 66b `[P]` | ⬜ | Canonical string recipe — HMAC-with-body family [D:5/B:8/U:8 → Eff:1.6] 🚀 |
+| Task 66c `[P]` | ⬜ | Canonical string recipe — JWT / RSA / Ed25519 family [D:6/B:7/U:7 → Eff:1.17] 📋 |
+| Task 66d | ⬜ | Canonical string recipe — custom / outlier family [D:7/B:6/U:6 → Eff:0.86] ⚠️ |
+| Task 67 | ⬜ | Auth header set + nonce source derivation [D:4/B:7/U:8 → Eff:1.88] 🚀 |
+| Task 68 | ⬜ | Pre-sign transforms (hex/base64/lowercase/url-encode) [D:4/B:6/U:7 → Eff:1.63] 🚀 |
+| Task 69 | ⬜ | Signing round-trip validation + contract invariants [D:3/B:7/U:7 → Eff:2.33] 🚀 |
 
-- [x] ~~**Task 53: Field semantics for error_code_fields**~~ [D:4/B:8/U:8 → Eff:2.00] ✅ — Adds `roles` (array) and `sentinel_values` (array or null) to each ErrorCodeFieldEntry via two-pass AST analysis. Schema 1.5.0.
-
----
-
-## Phase 7: Data Quality & Maintenance ⬜
-
-> Technical debt and code quality improvements identified during codebase review. These tasks improve maintainability and long-term sustainability.
-
-- [x] ~~**Task 35: Extract shared modules to reduce duplication**~~ [D:4/B:7/U:8 → Eff:2.00] ✅ — See [CHANGELOG.md](CHANGELOG.md#unreleased). 35a (OXCExtractor) and 35b (MethodAST) complete. 35c (DiscoveryLoader) deferred — Pipeline loaders already well-factored.
-
-- [ ] **Task 36: Schema migration framework** [D:2/B:5/U:6 → Eff:3.00] 📋 `[Codex]` 🔶 **Deferred** — Add `CcxtExtract.Schema.Migrator` module for future schema version upgrades. **Deferred reason:** Premature — v1.0.0 has zero consumers yet. Migration needs will be concrete when v2.0 actually arrives. Building a framework for hypothetical future migrations is speculative infrastructure that will likely not match real requirements.
-
-- [x] ~~**Task 45: Include derived analytics in `mix ccxt_extract.update`**~~ [D:3/B:5/U:4 → Eff:1.50] ✅ — See [CHANGELOG.md](CHANGELOG.md#unreleased)
-
-- [ ] **Task 37: Fix Credo compatibility on Elixir 1.18+** [D:2/B:4/U:3 → Eff:1.50] 🔧 `[Codex]` — Credo 1.7.x crashes on multi-line `~w` sigils and certain `~r` patterns due to tokenization bug in `Credo.Code.Token.position/1`. **Workaround applied:** switched to `github: "rrrene/credo", branch: "release/1.7"` git dep which includes the fix. Remaining: switch back to hex release (`~> 1.8`) when published. Low impact — `mix test` and `mix dialyzer` both pass, Credo is dev-only.
+Per-task scope is a single declarative field (or family) across all exchanges. Each task seed may split further if the AST surface proves too large during implementation research.
 
 ---
 
-## Data Quality
+## Phase 11: Request building contract ⬜
 
-- [x] ~~**Task 23: Resolve __function: sentinels in describe data**~~ [D:5/B:7/U:7 → Eff:1.40] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+> Everything a consumer needs to turn a unified call into an HTTP request, excluding signing (Phase 10).
 
-- [ ] **Task 24: Use Parity.Compare for richer round-trip diff output** [D:3/B:5/U:4 → Eff:1.50] 📋 🔶 **Deferred** — Replace `==` equality checks in `Validation.check_data_equality/5` with `Parity.Compare.compare/3` from `../ccxt_parity`. **Deferred reason:** Adds path dependency on sibling project, coupling the extractor to ccxt_parity. The extractor should be self-contained. If richer diff output is needed, improve it inline rather than importing external deps.
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 70 | ⬜ | HTTP verb + path template + path-param rules per method [D:4/B:8/U:8 → Eff:2.0] 🚀 |
+| Task 71 | ⬜ | Body encoding + content-type per section [D:3/B:7/U:8 → Eff:2.5] 🎯 |
+| Task 72 | ⬜ | Timestamp source + format per section [D:3/B:6/U:7 → Eff:2.17] 🚀 |
+| Task 73 | ⬜ | Per-method rate-limit cost + weight axis [D:3/B:7/U:7 → Eff:2.33] 🚀 |
+| Task 73b | ⬜ | User-agent + default headers per exchange [D:2/B:5/U:5 → Eff:2.5] 🎯 |
 
-- [x] ~~**Task 38: Pagination data quality — branch-dependent duplicates and variable method names**~~ [D:4/B:6/U:5 → Eff:1.38] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+---
 
-- [x] ~~**Task 39: Add pagination to round-trip validation**~~ [D:2/B:5/U:4 → Eff:2.25] ✅ — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+## Phase 12: Response parsing contract ⬜
 
-- [x] ~~**Task 42: Follow `super.*()` delegation in unified endpoint extraction**~~ [D:5/B:5/U:4 → Eff:0.90] — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+> For every CCXT `parse*` method, emit a field map that a consumer can apply without walking AST. Each task covers one `parse*` type end-to-end: field name mapping (exchange-native key → unified key), type coercion (safeString/safeNumber/safeTimestamp) per field, enum tables (status/side/type), timestamp format, nested-path traversal.
 
-- [x] ~~**Task 43: Add test coverage for `super.*()` unified endpoint delegation**~~ [D:2/B:3/U:3 → Eff:1.50] — Included in Task 42 implementation (7 unit tests for super delegation).
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 74 `[P]` | ⬜ | `parseTicker` field map + coercion + enums [D:4/B:8/U:8 → Eff:2.0] 🚀 |
+| Task 75 `[P]` | ⬜ | `parseOrder` field map + status/side/type enums [D:5/B:9/U:9 → Eff:1.8] 🚀 |
+| Task 76 `[P]` | ⬜ | `parseTrade` field map [D:4/B:8/U:8 → Eff:2.0] 🚀 |
+| Task 77 `[P]` | ⬜ | `parseBalance` field map [D:4/B:8/U:8 → Eff:2.0] 🚀 |
+| Task 78 `[P]` | ⬜ | `parseOHLCV` field map + timestamp format [D:3/B:7/U:7 → Eff:2.33] 🚀 |
+| Task 79 `[P]` | ⬜ | `parseMarket` field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 80 `[P]` | ⬜ | `parsePosition` field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 81 `[P]` | ⬜ | `parseTransaction` (deposit/withdrawal) field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 82 `[P]` | ⬜ | `parseDepositAddress` field map [D:3/B:6/U:6 → Eff:2.0] 🚀 |
+| Task 83 | ⬜ | Response envelope paths per method group [D:4/B:8/U:8 → Eff:2.0] 🚀 |
 
-- [x] ~~**Task 44: Resolve alias exchange data from parent**~~ [D:3/B:7/U:7 → Eff:2.33] ✅ — See [CHANGELOG.md](CHANGELOG.md#unreleased)
+Type-coercion tables fold into each per-type task (not standalone) — one task covers its type's field map + coercion + enums together so it fits in a session.
+
+---
+
+## Phase 13: Error contract ⬜
+
+> **Supersedes Task 34.** Complete the error story: status-code maps, retry classification, class hierarchy export, and handler routing tables that consumers need to drive dispatch without AST.
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 85 | ⬜ | HTTP status → error class map per exchange [D:3/B:7/U:7 → Eff:2.33] 🚀 |
+| Task 86 | ⬜ | Retryable classification (rate-limit/network/server-busy/auth) [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 87 | ⬜ | Error class hierarchy export [D:3/B:7/U:8 → Eff:2.5] 🎯 |
+| Task 88a `[P]` | ⬜ | Handler routing — error dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 88b `[P]` | ⬜ | Handler routing — signing dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 88c `[P]` | ⬜ | Handler routing — parse dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+
+---
+
+## Phase 14: Rate-limit contract ⬜
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 89 | ⬜ | Bucket config — axes (IP/UID/order-weight), refill, size [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 90 | ⬜ | Per-endpoint cost weights against bucket axis [D:4/B:7/U:8 → Eff:1.88] 🚀 |
+
+---
+
+## Phase 15: WS contract ⬜
+
+> Streaming equivalent of phases 10–13. Per-channel specs for subscription, auth, heartbeat, snapshot/delta semantics, and reconnect.
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 91 | ⬜ | WS subscribe / unsubscribe message shape per channel [D:5/B:8/U:8 → Eff:1.6] 🚀 |
+| Task 92 | ⬜ | WS auth flow (sign-in msg / header / query param) [D:4/B:7/U:8 → Eff:1.88] 🚀 |
+| Task 93 | ⬜ | Heartbeat / ping-pong pattern per exchange [D:3/B:6/U:7 → Eff:2.17] 🚀 |
+| Task 94 | ⬜ | Channel → parse handler dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 95a `[P]` | ⬜ | Snapshot/delta semantics — orderbook [D:5/B:8/U:8 → Eff:1.6] 🚀 |
+| Task 95b `[P]` | ⬜ | Snapshot/delta semantics — trades [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 95c `[P]` | ⬜ | Snapshot/delta semantics — OHLCV [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 96 | ⬜ | Reconnect triggers + backoff policy hints [D:3/B:6/U:6 → Eff:2.0] 🚀 |
+
+---
+
+## Phase 16: Market & currency semantics ⬜
+
+> Remaining declarative metadata a consumer needs beyond `runtime.markets` and `runtime.describe`.
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Task 97 | ⬜ | Currency aliases (`commonCurrencies`) + network info [D:3/B:7/U:8 → Eff:2.5] 🎯 |
+| Task 98 | ⬜ | Precision mode + tick/step derivation semantics [D:3/B:6/U:7 → Eff:2.17] 🚀 |
+| Task 99 | ⬜ | Tiered fee schedules + VIP level mapping [D:4/B:6/U:6 → Eff:1.5] 🚀 |
+| Task 99b | ⬜ | Funding / withdrawal / deposit fee catalog [D:3/B:6/U:6 → Eff:2.0] 🚀 |
+| Task 100 | ⬜ | Testnet/sandbox URL catalog + proxy patterns [D:2/B:5/U:6 → Eff:2.75] 🚀 |
+
+---
+
+## Superseded / Deferred
+
+| Task | Status | Reason |
+|------|--------|--------|
+| Task 33 | ⛔ Superseded | Original rationale ("consumers should classify from AST") is explicitly retired by the new consumer contract. Replaced by **Phase 10** (Tasks 64–69). |
+| Task 34 | ⛔ Superseded | Same — "derivable from existing AST" is no longer a valid deferral under the consumer contract. Replaced by **Phase 13** (Task 88a/b/c handler routing). |
+| Task 24 | 🔶 Deferred | Parity.Compare for richer diffs — adds sibling-project path dependency. Improve diffs inline if needed. |
+| Task 36 | 🔶 Deferred | Schema migration framework — still premature. Build when a real v3.0 need emerges with concrete requirements. (Schema 2.0.0 from Task 61c is a one-time bump, not ongoing migration tooling.) |
+
+---
+
+## Completed Phases
+
+- **Phase 1: Setup & Discovery ✅** — CCXT source setup, exchange inventory, describe() keys, method inventory, integration tests. See CHANGELOG.md.
+- **Phase 2: Runtime Extraction (QuickBEAM) ✅** — Full describe(), family analysis, loadMarkets(). See CHANGELOG.md.
+- **Phase 3: Structural Extraction (OXC AST) ✅** — sign(), handleErrors(), parse*(), WS methods, overrides. See CHANGELOG.md.
+- **Phase 4: Output Format & Validation ✅** — JSON Schema, pipeline, coverage, validation. See CHANGELOG.md.
+- **Phase 5: Distribution ✅** — `--output`, version pinning, schema contract, update workflow. See CHANGELOG.md.
+- **Phase 6: Go Extractor Parity ✅ (partial)** — Tasks 30, 31, 32 complete. Tasks 33, 34 superseded above.
 
 ---
 
 ## Consumer Architecture
 
-> This section documents how downstream projects consume ccxt_extract's output. Not tasks — reference for future instances.
+> Reference for future instances. Not tasks.
 
 **The pipeline:**
 ```
-ccxt_extract                          Consumer projects
-─────────────                         ─────────────────
-mix ccxt_extract.pipeline \
-  --output ../ccxt_client/priv/specs   →  Elixir: Generator macros read JSON at compile time
-  --output ../ccxt_rust/data           →  Rust: build.rs / serde_json at compile time
-  --output ../ccxt_python/data         →  Python: json.load at import time
+ccxt_extract                              Consumer projects (each its own git repo, nested here)
+─────────────                             ─────────────────
+mix ccxt_extract.pipeline                 clients/elixir/             Elixir — compile-time macros read JSON
+  --output clients/elixir/priv/specs  →   clients/rust/                Rust — build.rs / serde_json
+                                          clients/python/              Python — json.load at import
 ```
 
-**ccxt_ex retires.** Its extraction half is replaced by ccxt_extract. Its runtime half (signing patterns, HTTP client, WS, generator macros) moves to a new ccxt_client that reads ccxt_extract's JSON — not ccxt_ex's specs. The old ccxt_client's data model is NOT the template; only its Req and ZenWebsocket usage patterns are worth referencing.
+**Nested-but-separate clients.** All language clients live under `ccxt_extract/clients/<lang>/` as independent git repos (gitignored from ccxt_extract). Elixir `ccxt_client` moves from `../ccxt_client/` → `clients/elixir/` as part of Task 56 via a filesystem `mv` of the whole directory — the nested repo's `.git` travels with it, preserving its own history.
 
-**The JSON is the contract.** `exchange_v1.json` schema defines what consumers can rely on. Changes follow semver (see Task 27).
+**Three-tier JSON is the target contract.** Once Phase 9 ships, output will merge raw extraction + derived analysis + curated overrides with per-field provenance. Today's output is raw + derived only — overrides and `_provenance` tags arrive in Tasks 60–61b. Either way, consumers read the emitted JSON; they do not re-derive or walk AST. Contract tests (`mix ccxt_extract.contract_test`, Task 57) will enforce cross-field invariants so drift surfaces before it reaches a consumer.
+
+**Versioning follows semver** on the `schema_version` field. See [SCHEMA.md](SCHEMA.md).
 
 ---
 
 ## Notes
 
-- **`[Codex]` marker** — tasks suitable for Codex/OpenAI delegation: self-contained, well-specified, no OXC/QuickBEAM NIF deps, no cached fixture testing. Phase 6 (Go parity) tasks all require OXC AST work and pipeline integration — keep those in-house.
-- Tasks are written as prompts for Claude to implement — explore the codebase and discover the right approach
-- Phase order matters: Discovery first, then runtime extraction, then structural, then output format
-- The output format in Phase 4 is designed AFTER Phases 1-3 reveal what data actually exists
-- See `examples/` for working OXC and QuickBEAM scripts to understand the tools
-- **AST as data, not as code**: CCXT's own transpiler (ast-transpiler + regex post-processing) converts TS AST → target language code. We take a different approach: extract the AST as JSON data. This gives consumers maximum flexibility — they can pattern-match it (parameterized patterns like "9 signing types"), transpile it (AST → Elixir/Rust code), or analyze it (dashboards, capability discovery). The extraction layer doesn't decide which strategy is right.
-- **Two-layer output**: QuickBEAM gives resolved values (what an exchange IS — config, capabilities, markets). OXC gives structural AST (what an exchange DOES — signing logic, parsing logic, error handling). Both are JSON. Both are complete. Together they capture everything CCXT knows.
+- Task descriptions are prompts for Claude to implement — explore the codebase and discover the right approach. See `CLAUDE.md` for session-size, honesty-rule, and three-tier contract guidance.
+- Previous "Anti-Bias Rule" and "Extraction vs Interpretation" framings are retired. The replacement rule: every value is provable or explicitly unprovable; interpretation happens in derivation + overrides, not in consumers.
+- `[Codex]` marker — tasks suitable for Codex/OpenAI delegation: self-contained, no OXC/QuickBEAM NIF deps. Phase 10–16 tasks touch AST or runtime and generally stay in-house.
+- `[P]` marker — task can run in parallel with its siblings in the same phase. Many per-type parse tasks and per-family signing tasks carry `[P]`.
+- Raw AST remains in the output. Consumers may inspect it for debugging or novel needs, but a consumer that *requires* walking AST to operate exposes a gap the roadmap should close.

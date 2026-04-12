@@ -60,6 +60,28 @@ This rule applies to raw, derived, and override tiers equally:
 
 **Drift is the real enemy.** When CCXT updates upstream, derivation and overrides can rot. Validation (`mix ccxt_extract.validate_*`) and override audits are part of the product, not a nice-to-have.
 
+## The Three-Strikes Derivation Rule
+
+**A derivation patched three times to handle new exchange shapes is no longer derivation — it is interpretation masquerading as extraction. On the third patch, stop.**
+
+Three is deliberate: one patch is learning, two is refinement, three means the AST doesn't encode what you're trying to derive. Task 46 (`resolveBaseUrl`) took ~20 patches before the model was replaced. That was 17 patches of sunk cost.
+
+**On the third patch:**
+1. The derivation emits `null` + reason for the failing shape (Honesty Rule still applies — say so when you can't prove it)
+2. An override entry in `priv/overrides/<exchange>.json` fills the gap with a `reason`
+3. The commit message names which shapes the derivation now owns vs which overrides cover
+
+**Three is the ceiling, not a quota.** On *every* patch, ask: does this extend the derivation's proven territory, or stretch it into a shape it can't generalize? If the second, it is already an override candidate regardless of count. Three-strikes is the backstop for when that judgment fails — which it will.
+
+**Operational signals:**
+- Each derivation module declares a running count in its header: `# Patch count: 2/3. Next patch triggers override migration review.`
+- PRs that patch an existing derivation state the running count in the description
+- Patch #3 is not merged as a patch — it is merged as the migration described above
+
+**Cultural reframe:** a healthy `priv/overrides/` is a sign of maturity, not debt. Phase 9's `drift_audit` reports override count as a *neutral* number, not a problem to shrink. Migrating to override is the expected outcome, not the consolation prize.
+
+The Honesty Rule and Three-Strikes Rule compose: honesty says *declare what you can't prove*; three-strikes says *stop trying to prove it past a point*.
+
 ## Consumers Exist — Design For Them
 
 Earlier versions of this doc said "NO consumers yet, don't design output shaped by what a consumer wants." That rule served its purpose (preventing over-fitting during Phase 1-5) and is now **retired**. Consumers exist: ccxt_client (Elixir), a planned Rust client, and future macro-based codegen in multiple languages.
@@ -237,6 +259,8 @@ mix format                         # Format code (Styler)
 
 # Setup CCXT
 mix ccxt_extract.setup             # Install/verify CCXT sources
+mix ccxt_extract.contract_test     # Cross-field semantic invariants over emitted JSON
+mix ccxt_extract.contract_test --strict  # Non-zero exit on any finding (for CI)
 mix ccxt_extract.update            # Full re-extract: setup → extractors → pipeline → validate → analytics
 mix ccxt_extract.update --latest   # Update to latest CCXT version
 mix ccxt_extract.update --skip-setup  # Re-run pipeline + validate + analytics (skips QuickBEAM analytics)

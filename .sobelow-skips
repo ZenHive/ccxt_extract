@@ -420,3 +420,6 @@ Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/valida
 Traversal.FileModule: Directory Traversal in `File.cp!`,lib/ccxt_extract/pipeline.ex:986,567A88A
 Traversal.FileModule: Directory Traversal in `File.rm`,lib/ccxt_extract/pipeline.ex:988,5A80736
 Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/validation.ex:1116,A9E92B
+Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/contract_test.ex:215,47F98C3
+Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/contract_test.ex:82,502F52D
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/contract_test.ex:83,7B6D81B

@@ -6,6 +6,16 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 57: mix ccxt_extract.contract_test skeleton
+- New `CcxtExtract.ContractTest` module runs cross-field semantic invariants over emitted `priv/output/*.json`, distinct from `validate` (which covers JSON Schema conformance + round-trip)
+- New `mix ccxt_extract.contract_test` task — flags `--output DIR`, `--report PATH`, `--strict`. Writes `_contract_test_report.json` with deterministic findings order (exchange → invariant → path)
+- Three seed invariants shipped, each with missing-parent tolerance so schema validation's job isn't duplicated:
+  - `unified_endpoints_claimed_in_has` — every key in `structure.unified_endpoints` must have `runtime.describe.has[key]` ∈ `{true, "emulated"}`. Catches declared interface mappings for methods the exchange doesn't actually support
+  - `authenticated_sections_reachable_in_api` — every `structure.authenticated_sections` entry must appear as a map key at any depth in `runtime.describe.api` (handles nested shapes like coinbase's `api.v2.private`)
+  - `error_code_fields_root_in_observed_set` — per-entry root (`first(object_path)` or `object`) must be in the committed baseline at `priv/contract_test/error_code_fields_roots.json`. The baseline is updated intentionally when a new legitimate root appears; it is not derived from the same corpus being validated
+- Baseline run on current corpus: 348 findings (341 unified_endpoints/has drift, 7 authenticated_sections on tokocrypto, 0 error roots). Findings are legitimate drift; follow-up tasks 57b (wire into update), 57c (triage unified_endpoints drift), 57d (fix inherited sign() derivation) track the work
+- Deliberately named `--report` (not `--output`) to avoid colliding with `validate`/`update`'s existing `--output DIR` meaning
+
 ### Task 56: Establish clients/ layout
 - New top-level `clients/` directory with a README documenting the nested-but-separate model (each language client is its own git repo, physically nested under `clients/<lang>/<project>/`)
 - Relocated Elixir `ccxt_client` from `../ccxt_client/` → `clients/elixir/ccxt_client/` via filesystem `mv` — preserves the nested repo's `.git` and branch history intact
@@ -82,6 +92,7 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - Handles flat sections (string api param) and nested sections (array api param for Gate-style)
 - Known limitation: one endpoint sampled per section — exchanges with mixed API versions within a section show the prefix for the sampled endpoint only
 - Key design decision: `base_url` was removed after ~20 rounds of fixes showed it was interpretation (heuristic resolution of CCXT's inconsistent `urls.api` shapes), not extraction. `resolved_url` is the authoritative sign() output; consumers cross-reference `runtime.describe.urls.api` for base URLs
+- **Canonical case for the Three-Strikes Derivation Rule** (see CLAUDE.md): 17 of those ~20 patches were sunk cost. Had the rule existed, the migration to raw-probe + `null` + override would have happened on patch #3, not patch #20. This Task is the reason the rule exists, and the reason Phase 9 override infrastructure lands before Phases 10–16
 
 ### Fix: Filter leaked helper method names from unified_endpoints
 - Pipeline now cross-references `unified_endpoints` values against `interface_signatures` keys — only real HTTP endpoint methods survive

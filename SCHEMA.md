@@ -175,3 +175,4 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 - **Market data accuracy** — `loadMarkets()` data reflects exchange state at extraction time. It may be stale.
 - **AST node exhaustiveness** — ESTree node types are permissive (`additionalProperties: true`). The schema validates structure, not every possible AST node shape.
 - **Field ordering** — JSON key order is not guaranteed and must not be relied upon.
+- **Cross-field semantic invariants** — the JSON Schema enforces shape, not coherence between fields. `mix ccxt_extract.contract_test` owns that layer: it asserts, for example, that every `structure.unified_endpoints` key is claimed in `runtime.describe.has`, and that every `structure.authenticated_sections` entry is reachable in `runtime.describe.api`. Schema-valid output can still fire contract-test findings; those are drift signals, not schema violations.

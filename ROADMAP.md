@@ -6,6 +6,8 @@
 
 **Contract reference:** See [CONSUMER_CONTRACT.md](CONSUMER_CONTRACT.md) for the unfiltered list of what a consumer needs. Phases 10–16 tick items off that checklist.
 
+> **🔗 Cross-repo rule (applies to EVERY task in this roadmap):** When a task ships, lands, or changes status, the implementer MUST also update `clients/elixir/ccxt_client/ROADMAP.md` — mark any dependent ccxt_client task as unblocked, flip its status, or add a new follow-up entry. A ccxt_extract task is **not complete** until its downstream ccxt_client impact is reflected there. The two roadmaps are a single contract surface viewed from two sides.
+
 ---
 
 ## 🎯 Current Focus
@@ -30,7 +32,9 @@
 ### 📋 Next Up
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 57 | ⬜ | `mix ccxt_extract.contract_test` skeleton |
+| Task 57b | ⬜ | Wire `contract_test` into `mix ccxt_extract.update` |
+| Task 57c | ⬜ | Triage contract_test findings (unified_endpoints/has drift) |
+| Task 57d | ⬜ | Fix authenticated_sections derivation for inherited sign() |
 | Task 58 | ⬜ | Golden JSON fixtures + regenerate command |
 | Task 60 | ⬜ | `priv/overrides/` directory contract + schema |
 | Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ `[Codex]` |
@@ -63,15 +67,26 @@ Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 ## Phase 8: Client harness + contract tests ⬜
 
 > All reference consumers live in their own git repos, nested under `ccxt_extract/clients/<lang>/` (gitignored here). Elixir `ccxt_client` moves from `../ccxt_client/` → `clients/elixir/` as a filesystem `mv` of the whole nested repo (its `.git` travels with it, so its own history is preserved — no `git mv` from inside ccxt_extract, since the source repo lives outside this tree). Rust lands fresh at `clients/rust/`. `ccxt_extract` stays a pure extractor and ships a contract-test suite that validates the JSON surface without importing client code — catches "Elixir didn't notice this breaks Rust" drift.
+>
+> **🔗 Every task in this phase requires updating `clients/elixir/ccxt_client/ROADMAP.md` on completion.**
 
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 56 `[P]` | ✅ | Establish `clients/` layout — shipped |
-| Task 57 | ⬜ | `mix ccxt_extract.contract_test` skeleton [D:4/B:8/U:9 → Eff:2.1] 🎯 |
+| Task 57 | ✅ | `mix ccxt_extract.contract_test` skeleton — shipped |
 | Task 58 | ⬜ | Golden JSON fixtures + regenerate command [D:3/B:7/U:7 → Eff:2.3] 🎯 |
 | Task 59 | ✅ | `CONSUMER_CONTRACT.md` skeleton — shipped |
+| Task 57b `[P]` | ⬜ | Wire `contract_test` into `mix ccxt_extract.update` [D:2/B:5/U:6 → Eff:2.75] 🎯 |
+| Task 57c | ⬜ | Triage contract_test findings (unified_endpoints/has drift) [D:5/B:7/U:7 → Eff:1.4] 📋 |
+| Task 57d `[P]` | ⬜ | Fix authenticated_sections derivation for inherited sign() [D:3/B:6/U:5 → Eff:1.83] 🚀 |
 
-**Task 57: Contract-test skeleton** — Add `mix ccxt_extract.contract_test` that loads emitted JSON and runs cross-field semantic invariants. Seed invariants: every `has.*: true` capability has a corresponding `unified_endpoints` entry; every `authenticated_sections` entry appears in `runtime.describe.api`; every `error_code_fields.object_path` root is `response` or a documented safe envelope. Each invariant failure points at the exchange + field path. Distinct from `validate` (schema conformance + round-trip); this catches semantic drift across fields.
+**Task 57: Contract-test skeleton** — Add `mix ccxt_extract.contract_test` that loads emitted JSON and runs cross-field semantic invariants. Seed invariants: every `structure.unified_endpoints` key is claimed in `runtime.describe.has` (value `true` or `"emulated"`); every `authenticated_sections` entry appears in `runtime.describe.api`; every `error_code_fields` root is in the committed baseline at `priv/contract_test/error_code_fields_roots.json` (deriving the safelist from the same corpus would be tautological). Each invariant failure points at the exchange + field path. Distinct from `validate` (schema conformance + round-trip); this catches semantic drift across fields.
+
+**Task 57b: Wire contract_test into update** — Add `contract_test` as a non-strict stage after `validate` in `mix ccxt_extract.update`. Must update stage-flow assertions in `test/mix/tasks/update_test.exs`. `--strict` stays available for CI / pre-commit callers.
+
+**Task 57c: Triage unified_endpoints/has drift** — Initial contract_test run surfaced ~341 findings where `structure.unified_endpoints` declares a method but `runtime.describe.has[method]` is `false`, `:missing`, or `"__undefined"`. For each pattern, determine whether `unified_endpoints` is over-declaring (extractor bug) or `has` is under-declaring (extraction gap). Fix the underlying derivation. Success: green invariant on the full corpus without weakening the rule.
+
+**Task 57d: Authenticated sections derivation for inherited sign()** — tokocrypto's 7 contract_test findings show sections inherited from binance's sign() AST that aren't in tokocrypto's runtime api. Walk the class-inheritance chain when deriving `authenticated_sections` and intersect against the child's resolved describe() api. See `lib/ccxt_extract/authenticated_sections.ex`.
 
 **Task 58: Golden JSON fixtures** — Commit golden JSON for three reference exchanges covering auth variety: binance (HMAC with body), bybit (HMAC headers), deribit (JSON-RPC). Add `mix ccxt_extract.regenerate_fixtures` to regenerate and a CI check that the committed fixtures match current output. Fixture diffs become PR-reviewable signals of contract drift.
 
@@ -80,6 +95,10 @@ Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 ## Phase 9: Override infrastructure + provenance ⬜
 
 > The three-tier output model requires override storage, merge logic, provenance tagging, and drift auditing. Lands before signing/parsing phases so every new derived field ships with an override fallback from day one.
+>
+> **This phase also enables the Three-Strikes Derivation Rule** (see CLAUDE.md) — without somewhere to migrate knowledge to, the rule has no exit. Every Phase 10–16 derivation ships knowing it can hand off to an override on patch #3 instead of accreting special cases.
+>
+> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — notably ccxt_client Tasks 53 (schema 2.0.0 adapter) and 63 (override contribution workflow).
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -110,6 +129,8 @@ Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 
 **Downstream signal:** `ccxt_client/lib/ccxt/signing/classifier.ex` (AST-walker) becomes redundant when this phase ships `signing.pattern` directly. Schema design should enable its deletion without Elixir-side contortions.
 
+> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Tasks 54 (retire classifier) and 56 (spec-driven pattern modules) depend on this phase.
+
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 64 | ⬜ | Signing recipe schema design [D:5/B:9/U:9 → Eff:1.8] 🚀 |
@@ -129,6 +150,8 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 ## Phase 11: Request building contract ⬜
 
 > Everything a consumer needs to turn a unified call into an HTTP request, excluding signing (Phase 10).
+>
+> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Task 57 (adopt request-building contract) tracks this phase.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -143,6 +166,8 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 ## Phase 12: Response parsing contract ⬜
 
 > For every CCXT `parse*` method, emit a field map that a consumer can apply without walking AST. Each task covers one `parse*` type end-to-end: field name mapping (exchange-native key → unified key), type coercion (safeString/safeNumber/safeTimestamp) per field, enum tables (status/side/type), timestamp format, nested-path traversal.
+>
+> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Tasks 19/21/44/55 (parser + struct regeneration) depend on this phase.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -164,6 +189,8 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 ## Phase 13: Error contract ⬜
 
 > **Supersedes Task 34.** Complete the error story: status-code maps, retry classification, class hierarchy export, and handler routing tables that consumers need to drive dispatch without AST.
+>
+> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Task 58 (adopt error contract) tracks this phase.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -178,6 +205,8 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 
 ## Phase 14: Rate-limit contract ⬜
 
+> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Task 59 (multi-bucket rate limiter) depends on this phase.
+
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 89 | ⬜ | Bucket config — axes (IP/UID/order-weight), refill, size [D:4/B:7/U:7 → Eff:1.75] 🚀 |
@@ -188,6 +217,8 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 ## Phase 15: WS contract ⬜
 
 > Streaming equivalent of phases 10–13. Per-channel specs for subscription, auth, heartbeat, snapshot/delta semantics, and reconnect.
+>
+> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Phase 6 (Tasks 22–27) is gated on this phase landing.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -205,6 +236,8 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 ## Phase 16: Market & currency semantics ⬜
 
 > Remaining declarative metadata a consumer needs beyond `runtime.markets` and `runtime.describe`.
+>
+> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Tasks 60 (currency aliases) and 61 (testnet URL catalog) track this phase.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -224,6 +257,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 | Task 34 | ⛔ Superseded | Same — "derivable from existing AST" is no longer a valid deferral under the consumer contract. Replaced by **Phase 13** (Task 88a/b/c handler routing). |
 | Task 24 | 🔶 Deferred | Parity.Compare for richer diffs — adds sibling-project path dependency. Improve diffs inline if needed. |
 | Task 36 | 🔶 Deferred | Schema migration framework — still premature. Build when a real v3.0 need emerges with concrete requirements. (Schema 2.0.0 from Task 61c is a one-time bump, not ongoing migration tooling.) |
+| Rate-limit header extraction | 🔶 Deferred | Confirmed not observable from static analysis or `describe()` — headers are response behavior scattered across handler code. Consumer-side heuristics stay (see ccxt_client Task 50). Revisit only if a simpler observation method surfaces. |
 
 ---
 

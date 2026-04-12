@@ -13,7 +13,7 @@
     },
     "version": null
   },
-  "extracted_at": "2026-04-11T07:49:27.026316Z",
+  "extracted_at": "2026-04-12T05:41:57.780713Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -110065,7 +110065,7 @@
       }
     }
   },
-  "schema_version": "1.5.0",
+  "schema_version": "1.6.0",
   "structure": {
     "authenticated_sections": null,
     "class_info": {
@@ -110128,7 +110128,4292 @@
         "type": "ws"
       }
     },
-    "handle_errors": null,
+    "handle_errors": {
+      "error_code_fields": [
+        {
+          "field": "msg",
+          "field2": null,
+          "method": "safeString",
+          "object": "response",
+          "object_path": null,
+          "roles": [],
+          "sentinel_values": null
+        },
+        {
+          "field": "msg",
+          "field2": null,
+          "method": "safeString",
+          "object": "response",
+          "object_path": null,
+          "roles": [
+            "error_code",
+            "error_message",
+            "status_sentinel"
+          ],
+          "sentinel_values": [
+            {
+              "operator": "===",
+              "value": "No need to change margin type."
+            }
+          ]
+        },
+        {
+          "field": "code",
+          "field2": null,
+          "method": "safeString",
+          "object": "response",
+          "object_path": null,
+          "roles": [
+            "error_code",
+            "status_sentinel"
+          ],
+          "sentinel_values": [
+            {
+              "operator": "===",
+              "value": "-2015"
+            },
+            {
+              "operator": "===",
+              "value": "200"
+            }
+          ]
+        },
+        {
+          "field": "code",
+          "field2": null,
+          "method": "safeString",
+          "object": "element",
+          "object_path": null,
+          "roles": [
+            "error_code"
+          ],
+          "sentinel_values": null
+        }
+      ],
+      "exceptions": {
+        "broad": {
+          "MAX_POSITION": "__function:BadRequest",
+          "PERCENT_PRICE_BY_SIDE": "__function:InvalidOrder",
+          "has no operation privilege": "__function:PermissionDenied"
+        },
+        "exact": {
+          "-1130": "__function:BadRequest",
+          "-4084": "__function:BadRequest",
+          "API key does not exist": "__function:AuthenticationError",
+          "-4067": "__function:OperationRejected",
+          "-1120": "__function:BadRequest",
+          "-4018": "__function:BadRequest",
+          "-20121": "__function:BadSymbol",
+          "-4010": "__function:BadRequest",
+          "-4046": "__function:OperationRejected",
+          "-1119": "__function:BadRequest",
+          "-20196": "__function:BadRequest",
+          "-4057": "__function:AuthenticationError",
+          "-4003": "__function:BadRequest",
+          "-4024": "__function:BadRequest",
+          "-4053": "__function:BadRequest",
+          "-1112": "__function:OperationFailed",
+          "System is under maintenance.": "__function:OnMaintenance",
+          "-1010": "__function:OperationFailed",
+          "-4083": "__function:OperationRejected",
+          "-4059": "__function:OperationRejected",
+          "This type of sub-account exceeds the maximum number limit": "__function:OperationRejected",
+          "You are not authorized to execute this request.": "__function:PermissionDenied",
+          "-20194": "__function:BadRequest",
+          "-1013": "__function:BadRequest",
+          "-4033": "__function:BadRequest",
+          "-1016": "__function:BadRequest",
+          "This symbol is restricted for this account.": "__function:PermissionDenied",
+          "-4056": "__function:AuthenticationError",
+          "-4082": "__function:BadRequest",
+          "-4142": "__function:OrderImmediatelyFillable",
+          "-4020": "__function:BadRequest",
+          "-4021": "__function:BadRequest",
+          "-2010": "__function:InvalidOrder",
+          "Order would trigger immediately.": "__function:OrderImmediatelyFillable",
+          "-4104": "__function:BadRequest",
+          "-1022": "__function:AuthenticationError",
+          "-1100": "__function:BadRequest",
+          "Order would immediately match and take.": "__function:OrderImmediatelyFillable",
+          "-4022": "__function:BadRequest",
+          "-4030": "__function:BadRequest",
+          "-1125": "__function:AuthenticationError",
+          "-4045": "__function:OperationRejected",
+          "-2013": "__function:OrderNotFound",
+          "-4006": "__function:BadRequest",
+          "-1007": "__function:RequestTimeout",
+          "-1105": "__function:BadRequest",
+          "-4023": "__function:BadRequest",
+          "-1114": "__function:BadRequest",
+          "-4047": "__function:OperationRejected",
+          "-4139": "__function:BadRequest",
+          "-4017": "__function:BadRequest",
+          "-4058": "__function:BadRequest",
+          "-4052": "__function:OperationRejected",
+          "This symbol is not permitted for this account.": "__function:PermissionDenied",
+          "-4002": "__function:BadRequest",
+          "-4015": "__function:BadRequest",
+          "-4013": "__function:BadRequest",
+          "-2015": "__function:AuthenticationError",
+          "-1111": "__function:BadRequest",
+          "-1002": "__function:AuthenticationError",
+          "-1106": "__function:BadRequest",
+          "-4009": "__function:BadRequest",
+          "-4060": "__function:BadRequest",
+          "-1101": "__function:BadRequest",
+          "-20198": "__function:OperationRejected",
+          "-4048": "__function:OperationRejected",
+          "-1116": "__function:BadRequest",
+          "-2011": "__function:OrderNotFound",
+          "This action is disabled on this account.": "__function:AccountSuspended",
+          "-1121": "__function:BadSymbol",
+          "-1108": "__function:BadSymbol",
+          "-1000": "__function:OperationFailed",
+          "-1001": "__function:OperationFailed",
+          "-20132": "__function:BadRequest",
+          "Rest API trading is not enabled.": "__function:PermissionDenied",
+          "-4004": "__function:BadRequest",
+          "-4031": "__function:BadRequest",
+          "-4050": "__function:InsufficientFunds",
+          "-4051": "__function:InsufficientFunds",
+          "Account has insufficient balance for requested action.": "__function:InsufficientFunds",
+          "-4032": "__function:OperationRejected",
+          "-4028": "__function:BadRequest",
+          "-1102": "__function:BadRequest",
+          "Stop price would trigger immediately.": "__function:OrderImmediatelyFillable",
+          "-1021": "__function:InvalidNonce",
+          "-1020": "__function:BadRequest",
+          "-4029": "__function:BadRequest",
+          "-1103": "__function:BadRequest",
+          "-1104": "__function:BadRequest",
+          "Market is closed.": "__function:MarketClosed",
+          "-1127": "__function:BadRequest",
+          "-4014": "__function:BadRequest",
+          "-4007": "__function:BadRequest",
+          "-4001": "__function:BadRequest",
+          "-4068": "__function:OperationRejected",
+          "-4000": "__function:InvalidOrder",
+          "-20124": "__function:BadRequest",
+          "-2014": "__function:AuthenticationError",
+          "-4019": "__function:OperationRejected",
+          "-4061": "__function:OperationRejected",
+          "-4135": "__function:BadRequest",
+          "You don't have permission.": "__function:PermissionDenied",
+          "-4026": "__function:BadRequest",
+          "-4138": "__function:BadRequest",
+          "-20195": "__function:BadRequest",
+          "-4055": "__function:BadRequest",
+          "-4027": "__function:BadRequest",
+          "This order type is not possible in this trading phase.": "__function:BadRequest",
+          "-4025": "__function:BadRequest",
+          "-4137": "__function:BadRequest",
+          "-1117": "__function:BadRequest",
+          "-20204": "__function:BadRequest",
+          "This account may not place or cancel orders.": "__function:PermissionDenied",
+          "-1006": "__function:OperationFailed",
+          "-4008": "__function:BadRequest",
+          "-1003": "__function:RateLimitExceeded",
+          "-20130": "__function:BadRequest",
+          "Too many requests. Please try again later.": "__function:RateLimitExceeded",
+          "Limit orders require GTC for this phase.": "__function:BadRequest",
+          "-4049": "__function:BadRequest",
+          "-1004": "__function:OperationRejected",
+          "-4012": "__function:BadRequest",
+          "-1115": "__function:BadRequest",
+          "-1118": "__function:BadRequest",
+          "-4011": "__function:BadRequest",
+          "-1014": "__function:InvalidOrder",
+          "-1128": "__function:BadRequest",
+          "-4005": "__function:BadRequest",
+          "-4016": "__function:BadRequest",
+          "-4086": "__function:BadRequest",
+          "-4062": "__function:BadRequest",
+          "System abnormality": "__function:OperationFailed",
+          "-1015": "__function:RateLimitExceeded",
+          "-4044": "__function:BadRequest",
+          "-4054": "__function:OperationRejected"
+        },
+        "inverse": {
+          "exact": {
+            "-4154": "__function:BadRequest",
+            "-2027": "__function:OperationRejected",
+            "-1005": "__function:PermissionDenied",
+            "-2023": "__function:OperationFailed",
+            "-4196": "__function:BadRequest",
+            "-2018": "__function:InsufficientFunds",
+            "-4198": "__function:OperationRejected",
+            "-4197": "__function:OperationRejected",
+            "-4088": "__function:BadRequest",
+            "-1023": "__function:BadRequest",
+            "-4194": "__function:PermissionDenied",
+            "-2022": "__function:InvalidOrder",
+            "-2016": "__function:OperationRejected",
+            "-4089": "__function:PermissionDenied",
+            "-2021": "__function:OrderImmediatelyFillable",
+            "-4151": "__function:BadRequest",
+            "-4192": "__function:PermissionDenied",
+            "-2026": "__function:InvalidOrder",
+            "-4195": "__function:PermissionDenied",
+            "-1109": "__function:AuthenticationError",
+            "-4087": "__function:BadSymbol",
+            "-4188": "__function:BadRequest",
+            "-4178": "__function:BadRequest",
+            "-4112": "__function:OperationRejected",
+            "-2024": "__function:BadRequest",
+            "-4113": "__function:OperationRejected",
+            "-4201": "__function:PermissionDenied",
+            "-4202": "__function:OperationRejected",
+            "-2028": "__function:OperationRejected",
+            "-4155": "__function:BadRequest",
+            "-2019": "__function:InsufficientFunds",
+            "-4110": "__function:BadRequest",
+            "-4200": "__function:PermissionDenied",
+            "-2025": "__function:OperationRejected",
+            "-2020": "__function:OperationFailed",
+            "-1110": "__function:BadSymbol",
+            "-1113": "__function:BadRequest",
+            "-1128": "__function:BadRequest",
+            "-4199": "__function:BadRequest",
+            "-4086": "__function:BadRequest",
+            "-4152": "__function:BadRequest",
+            "-4090": "__function:PermissionDenied",
+            "-4111": "__function:BadRequest",
+            "-1011": "__function:PermissionDenied",
+            "-4150": "__function:OperationRejected",
+            "-1136": "__function:BadRequest"
+          }
+        },
+        "linear": {
+          "exact": {
+            "-4183": "__function:BadRequest",
+            "-5041": "__function:OperationFailed",
+            "-4064": "__function:BadRequest",
+            "-4118": "__function:OperationRejected",
+            "-5039": "__function:BadRequest",
+            "-2027": "__function:OperationRejected",
+            "-4073": "__function:BadRequest",
+            "-1005": "__function:PermissionDenied",
+            "-2023": "__function:OperationFailed",
+            "-1008": "__function:OperationFailed",
+            "-2017": "__function:PermissionDenied",
+            "-4205": "__function:PermissionDenied",
+            "-4075": "__function:BadRequest",
+            "-4063": "__function:BadRequest",
+            "-2018": "__function:InsufficientFunds",
+            "-4136": "__function:InvalidOrder",
+            "-5037": "__function:BadRequest",
+            "-4171": "__function:OperationRejected",
+            "-4131": "__function:OperationRejected",
+            "-4141": "__function:OperationRejected",
+            "-4065": "__function:BadRequest",
+            "-4206": "__function:PermissionDenied",
+            "-4114": "__function:BadRequest",
+            "-4071": "__function:BadRequest",
+            "-4088": "__function:PermissionDenied",
+            "-5021": "__function:OrderNotFillable",
+            "-5026": "__function:OperationRejected",
+            "-1023": "__function:BadRequest",
+            "-4085": "__function:BadRequest",
+            "-5027": "__function:OperationRejected",
+            "-2022": "__function:InvalidOrder",
+            "-1122": "__function:BadRequest",
+            "-2016": "__function:OperationRejected",
+            "-4080": "__function:PermissionDenied",
+            "-4208": "__function:OperationRejected",
+            "-4140": "__function:BadRequest",
+            "-2021": "__function:OrderImmediatelyFillable",
+            "-4192": "__function:PermissionDenied",
+            "-2026": "__function:InvalidOrder",
+            "-1109": "__function:PermissionDenied",
+            "-4400": "__function:PermissionDenied",
+            "-4209": "__function:OperationRejected",
+            "-4087": "__function:PermissionDenied",
+            "-4172": "__function:OperationRejected",
+            "-5022": "__function:OrderNotFillable",
+            "-4170": "__function:OperationRejected",
+            "-5040": "__function:BadRequest",
+            "-4401": "__function:PermissionDenied",
+            "-2024": "__function:InsufficientFunds",
+            "-5038": "__function:BadRequest",
+            "-4403": "__function:PermissionDenied",
+            "-5025": "__function:OperationRejected",
+            "-4069": "__function:BadRequest",
+            "-4079": "__function:BadRequest",
+            "-4144": "__function:BadSymbol",
+            "-4078": "__function:OperationFailed",
+            "-4115": "__function:BadRequest",
+            "-4165": "__function:BadRequest",
+            "-4202": "__function:PermissionDenied",
+            "-4074": "__function:OperationRejected",
+            "-4164": "__function:InvalidOrder",
+            "-2028": "__function:OperationRejected",
+            "-4070": "__function:BadRequest",
+            "-5028": "__function:BadRequest",
+            "-1126": "__function:BadSymbol",
+            "-4169": "__function:OperationRejected",
+            "-4184": "__function:BadRequest",
+            "-4211": "__function:BadRequest",
+            "-4210": "__function:BadRequest",
+            "-4117": "__function:OperationRejected",
+            "-2019": "__function:InsufficientFunds",
+            "-4081": "__function:BadRequest",
+            "-2025": "__function:OperationRejected",
+            "-4167": "__function:BadRequest",
+            "-2020": "__function:OperationFailed",
+            "-4076": "__function:OperationRejected",
+            "-1110": "__function:BadRequest",
+            "-1113": "__function:BadRequest",
+            "-4116": "__function:InvalidOrder",
+            "-4077": "__function:OperationRejected",
+            "-4203": "__function:PermissionDenied",
+            "-1099": "__function:AuthenticationError",
+            "-4168": "__function:BadRequest",
+            "-4066": "__function:BadRequest",
+            "-5024": "__function:OperationRejected",
+            "-2012": "__function:OperationFailed",
+            "-4402": "__function:PermissionDenied",
+            "-4072": "__function:OperationRejected",
+            "-1011": "__function:PermissionDenied",
+            "-1136": "__function:BadRequest"
+          }
+        },
+        "option": {
+          "exact": {
+            "-4091": "__function:ExchangeError",
+            "-4064": "__function:ExchangeError",
+            "-4039": "__function:ExchangeError",
+            "-4118": "__function:ExchangeError",
+            "-4093": "__function:ExchangeError",
+            "-4129": "__function:ExchangeError",
+            "-4084": "__function:ExchangeError",
+            "-4067": "__function:ExchangeError",
+            "-4018": "__function:ExchangeError",
+            "-20121": "__function:ExchangeError",
+            "-4010": "__function:ExchangeError",
+            "-4134": "__function:ExchangeError",
+            "-4046": "__function:ExchangeError",
+            "-2027": "__function:InsufficientFunds",
+            "-4073": "__function:ExchangeError",
+            "-4035": "__function:ExchangeError",
+            "-20196": "__function:ExchangeError",
+            "-4057": "__function:ExchangeError",
+            "-4024": "__function:ExchangeError",
+            "-4053": "__function:ExchangeError",
+            "-4125": "__function:ExchangeError",
+            "-1112": "__function:ExchangeError",
+            "-1010": "__function:ExchangeError",
+            "-4083": "__function:ExchangeError",
+            "-4105": "__function:ExchangeError",
+            "-4059": "__function:ExchangeError",
+            "-4102": "__function:ExchangeError",
+            "-1008": "__function:RateLimitExceeded",
+            "-20194": "__function:ExchangeError",
+            "-1013": "__function:ExchangeError",
+            "-4033": "__function:ExchangeError",
+            "-4056": "__function:ExchangeError",
+            "-4082": "__function:ExchangeError",
+            "-4142": "__function:ExchangeError",
+            "-4020": "__function:ExchangeError",
+            "-4075": "__function:ExchangeError",
+            "-3029": "__function:OperationFailed",
+            "-4063": "__function:ExchangeError",
+            "-4021": "__function:ExchangeError",
+            "-4034": "__function:ExchangeError",
+            "-2018": "__function:InsufficientFunds",
+            "-4124": "__function:ExchangeError",
+            "-4136": "__function:ExchangeError",
+            "-4104": "__function:ExchangeError",
+            "-4131": "__function:ExchangeError",
+            "-4141": "__function:ExchangeError",
+            "-4065": "__function:ExchangeError",
+            "-4103": "__function:ExchangeError",
+            "-4114": "__function:ExchangeError",
+            "-4071": "__function:ExchangeError",
+            "-4088": "__function:ExchangeError",
+            "-4128": "__function:ExchangeError",
+            "-4097": "__function:ExchangeError",
+            "-4085": "__function:ExchangeError",
+            "-4022": "__function:ExchangeError",
+            "-4147": "__function:ExchangeError",
+            "-4096": "__function:ExchangeError",
+            "-4043": "__function:ExchangeError",
+            "-4080": "__function:ExchangeError",
+            "-4045": "__function:ExchangeError",
+            "-4122": "__function:ExchangeError",
+            "-4006": "__function:ExchangeError",
+            "-4099": "__function:ExchangeError",
+            "-1007": "__function:ExchangeError",
+            "-4120": "__function:ExchangeError",
+            "-4119": "__function:ExchangeError",
+            "-4089": "__function:ExchangeError",
+            "-4146": "__function:ExchangeError",
+            "-4148": "__function:ExchangeError",
+            "-4023": "__function:ExchangeError",
+            "-1114": "__function:ExchangeError",
+            "-4047": "__function:ExchangeError",
+            "-4139": "__function:ExchangeError",
+            "-4017": "__function:ExchangeError",
+            "-4058": "__function:ExchangeError",
+            "-4052": "__function:ExchangeError",
+            "-4121": "__function:ExchangeError",
+            "-4015": "__function:ExchangeError",
+            "-4087": "__function:ExchangeError",
+            "-4009": "__function:ExchangeError",
+            "-4101": "__function:ExchangeError",
+            "-4112": "__function:ExchangeError",
+            "-4060": "__function:ExchangeError",
+            "-4038": "__function:ExchangeError",
+            "-20198": "__function:ExchangeError",
+            "-4048": "__function:ExchangeError",
+            "-2011": "__function:ExchangeError",
+            "-1108": "__function:ExchangeError",
+            "-1131": "__function:BadRequest",
+            "-4123": "__function:ExchangeError",
+            "-20132": "__function:ExchangeError",
+            "-4031": "__function:ExchangeError",
+            "-4050": "__function:ExchangeError",
+            "-4051": "__function:ExchangeError",
+            "-4069": "__function:ExchangeError",
+            "-4079": "__function:ExchangeError",
+            "-4092": "__function:ExchangeError",
+            "-4032": "__function:ExchangeError",
+            "-4028": "__function:ExchangeError",
+            "-4113": "__function:ExchangeError",
+            "-4144": "__function:ExchangeError",
+            "-4132": "__function:ExchangeError",
+            "-4078": "__function:ExchangeError",
+            "-4115": "__function:ExchangeError",
+            "-4106": "__function:ExchangeError",
+            "-4074": "__function:ExchangeError",
+            "-4014": "__function:ExchangeError",
+            "-4130": "__function:ExchangeError",
+            "-4007": "__function:ExchangeError",
+            "-4070": "__function:ExchangeError",
+            "-4068": "__function:ExchangeError",
+            "-4109": "__function:ExchangeError",
+            "-20124": "__function:ExchangeError",
+            "-4041": "__function:ExchangeError",
+            "-4094": "__function:ExchangeError",
+            "-4095": "__function:ExchangeError",
+            "-4019": "__function:ExchangeError",
+            "-4061": "__function:ExchangeError",
+            "-4135": "__function:ExchangeError",
+            "-4127": "__function:ExchangeError",
+            "-4108": "__function:ExchangeError",
+            "-4026": "__function:ExchangeError",
+            "-4138": "__function:ExchangeError",
+            "-4107": "__function:ExchangeError",
+            "-20195": "__function:ExchangeError",
+            "-4027": "__function:ExchangeError",
+            "-4025": "__function:ExchangeError",
+            "-4137": "__function:ExchangeError",
+            "-4117": "__function:ExchangeError",
+            "-4042": "__function:ExchangeError",
+            "-20204": "__function:ExchangeError",
+            "-4110": "__function:ExchangeError",
+            "-4081": "__function:ExchangeError",
+            "-1006": "__function:ExchangeError",
+            "-4008": "__function:ExchangeError",
+            "-4098": "__function:ExchangeError",
+            "-1003": "__function:ExchangeError",
+            "-20130": "__function:ExchangeError",
+            "-4040": "__function:ExchangeError",
+            "-4126": "__function:ExchangeError",
+            "-4049": "__function:ExchangeError",
+            "-1004": "__function:ExchangeError",
+            "-4012": "__function:ExchangeError",
+            "-4133": "__function:ExchangeError",
+            "-1129": "__function:BadSymbol",
+            "-4076": "__function:ExchangeError",
+            "-4011": "__function:ExchangeError",
+            "-1128": "__function:BadSymbol",
+            "-4116": "__function:ExchangeError",
+            "-4077": "__function:ExchangeError",
+            "-4016": "__function:ExchangeError",
+            "-4066": "__function:ExchangeError",
+            "-4086": "__function:ExchangeError",
+            "-4062": "__function:ExchangeError",
+            "-4145": "__function:ExchangeError",
+            "-4037": "__function:ExchangeError",
+            "-4143": "__function:ExchangeError",
+            "-4149": "__function:ExchangeError",
+            "-4036": "__function:ExchangeError",
+            "-4072": "__function:ExchangeError",
+            "-4150": "__function:ExchangeError",
+            "-4044": "__function:ExchangeError",
+            "-4054": "__function:ExchangeError"
+          }
+        },
+        "portfolioMargin": {
+          "exact": {
+            "-4183": "__function:InvalidOrder",
+            "-5041": "__function:RateLimitExceeded",
+            "-4064": "__function:BadRequest",
+            "-1130": "__function:BadRequest",
+            "-4118": "__function:OperationRejected",
+            "-1151": "__function:BadRequest",
+            "-4084": "__function:NotSupported",
+            "-4067": "__function:BadRequest",
+            "-1120": "__function:BadRequest",
+            "-4018": "__function:BadRequest",
+            "-4010": "__function:BadRequest",
+            "-4046": "__function:BadRequest",
+            "-2027": "__function:OperationRejected",
+            "-4073": "__function:BadRequest",
+            "-1119": "__function:BadRequest",
+            "-4057": "__function:PermissionDenied",
+            "-4003": "__function:BadRequest",
+            "-4024": "__function:BadRequest",
+            "-4053": "__function:BadRequest",
+            "-1112": "__function:BadRequest",
+            "-1010": "__function:ExchangeError",
+            "-4083": "__function:BadRequest",
+            "-1005": "__function:PermissionDenied",
+            "-4059": "__function:BadRequest",
+            "-2023": "__function:OperationFailed",
+            "-1008": "__function:OperationFailed",
+            "-1013": "__function:ExchangeError",
+            "-4033": "__function:BadRequest",
+            "-1016": "__function:NotSupported",
+            "-4056": "__function:PermissionDenied",
+            "-4082": "__function:BadRequest",
+            "-4142": "__function:OrderImmediatelyFillable",
+            "-4020": "__function:BadRequest",
+            "-4075": "__function:BadRequest",
+            "-4063": "__function:BadRequest",
+            "-4021": "__function:BadRequest",
+            "-4408": "__function:InvalidOrder",
+            "-2018": "__function:OperationFailed",
+            "-2010": "__function:InvalidOrder",
+            "-4104": "__function:BadRequest",
+            "-4131": "__function:OperationRejected",
+            "-4141": "__function:BadRequest",
+            "-4065": "__function:BadRequest",
+            "-1022": "__function:BadRequest",
+            "-4114": "__function:BadRequest",
+            "-4071": "__function:BadRequest",
+            "-4088": "__function:PermissionDenied",
+            "-5021": "__function:OrderNotFillable",
+            "-1100": "__function:BadRequest",
+            "-1023": "__function:BadRequest",
+            "-4085": "__function:BadRequest",
+            "-4022": "__function:BadRequest",
+            "-4030": "__function:BadRequest",
+            "-2022": "__function:InvalidOrder",
+            "-1125": "__function:BadRequest",
+            "-2016": "__function:OperationFailed",
+            "-4080": "__function:PermissionDenied",
+            "-4045": "__function:BadRequest",
+            "-2013": "__function:OrderNotFound",
+            "-4006": "__function:BadRequest",
+            "-1007": "__function:BadResponse",
+            "-1105": "__function:BadRequest",
+            "-4140": "__function:OrderImmediatelyFillable",
+            "-2021": "__function:OrderImmediatelyFillable",
+            "-4023": "__function:BadRequest",
+            "-1114": "__function:BadRequest",
+            "-4047": "__function:BadRequest",
+            "-4139": "__function:BadRequest",
+            "-4017": "__function:BadRequest",
+            "-4058": "__function:BadRequest",
+            "-4052": "__function:BadRequest",
+            "-2026": "__function:InvalidOrder",
+            "-1109": "__function:BadRequest",
+            "-4002": "__function:BadRequest",
+            "-4015": "__function:BadRequest",
+            "-4013": "__function:BadRequest",
+            "-2015": "__function:OperationRejected",
+            "-1111": "__function:BadRequest",
+            "-4087": "__function:PermissionDenied",
+            "-1002": "__function:PermissionDenied",
+            "-1106": "__function:BadRequest",
+            "-4009": "__function:BadRequest",
+            "-4060": "__function:BadRequest",
+            "-5022": "__function:OrderNotFillable",
+            "-1101": "__function:BadRequest",
+            "-4048": "__function:BadRequest",
+            "-1116": "__function:BadRequest",
+            "-2011": "__function:OperationRejected",
+            "-2024": "__function:OperationRejected",
+            "-1121": "__function:BadSymbol",
+            "-1108": "__function:BadRequest",
+            "-1131": "__function:BadRequest",
+            "-1000": "__function:OperationFailed",
+            "-1001": "__function:ExchangeError",
+            "-4004": "__function:BadRequest",
+            "-4031": "__function:BadRequest",
+            "-4050": "__function:BadRequest",
+            "-4051": "__function:BadRequest",
+            "-4069": "__function:BadRequest",
+            "-4079": "__function:BadRequest",
+            "-4032": "__function:BadRequest",
+            "-4028": "__function:BadRequest",
+            "-1102": "__function:BadRequest",
+            "-1021": "__function:BadRequest",
+            "-4144": "__function:BadSymbol",
+            "-1020": "__function:NotSupported",
+            "-4078": "__function:OperationFailed",
+            "-4115": "__function:BadRequest",
+            "-4029": "__function:BadRequest",
+            "-4165": "__function:BadRequest",
+            "-1103": "__function:BadRequest",
+            "-4074": "__function:BadRequest",
+            "-1104": "__function:BadRequest",
+            "-4164": "__function:InvalidOrder",
+            "-2028": "__function:OperationRejected",
+            "-1127": "__function:BadRequest",
+            "-4014": "__function:BadRequest",
+            "-4007": "__function:BadRequest",
+            "-4001": "__function:BadRequest",
+            "-4070": "__function:BadRequest",
+            "-4068": "__function:BadRequest",
+            "-5028": "__function:OperationFailed",
+            "-4000": "__function:BadRequest",
+            "-2014": "__function:OperationRejected",
+            "-4019": "__function:BadRequest",
+            "-4061": "__function:InvalidOrder",
+            "-4135": "__function:BadRequest",
+            "-4026": "__function:BadRequest",
+            "-4138": "__function:BadRequest",
+            "-4055": "__function:BadRequest",
+            "-1145": "__function:BadRequest",
+            "-4027": "__function:BadRequest",
+            "-4025": "__function:BadRequest",
+            "-4184": "__function:InvalidOrder",
+            "-4137": "__function:BadRequest",
+            "-1117": "__function:BadRequest",
+            "-2019": "__function:OperationFailed",
+            "-4081": "__function:BadRequest",
+            "-2025": "__function:OperationRejected",
+            "-4161": "__function:OperationRejected",
+            "-1006": "__function:BadResponse",
+            "-4008": "__function:BadRequest",
+            "-1003": "__function:RateLimitExceeded",
+            "-4049": "__function:BadRequest",
+            "-1004": "__function:BadRequest",
+            "-2020": "__function:OrderNotFillable",
+            "-4012": "__function:BadRequest",
+            "-4076": "__function:OperationRejected",
+            "-1115": "__function:BadRequest",
+            "-1118": "__function:BadRequest",
+            "-1110": "__function:BadSymbol",
+            "-1113": "__function:BadRequest",
+            "-1134": "__function:BadRequest",
+            "-4011": "__function:BadRequest",
+            "-1014": "__function:InvalidOrder",
+            "-1128": "__function:BadRequest",
+            "-4077": "__function:OperationRejected",
+            "-1099": "__function:OperationFailed",
+            "-4005": "__function:BadRequest",
+            "-4016": "__function:BadRequest",
+            "-4066": "__function:BadRequest",
+            "-4086": "__function:BadRequest",
+            "-4062": "__function:BadRequest",
+            "-1015": "__function:InvalidOrder",
+            "-4072": "__function:OperationRejected",
+            "-1011": "__function:PermissionDenied",
+            "-4044": "__function:BadRequest",
+            "-4054": "__function:BadRequest",
+            "-1136": "__function:BadRequest"
+          }
+        },
+        "spot": {
+          "exact": {
+            "-13005": "__function:OperationRejected",
+            "-3022": "__function:AccountSuspended",
+            "-5012": "__function:OperationFailed",
+            "-4091": "__function:ExchangeError",
+            "-4064": "__function:ExchangeError",
+            "-4039": "__function:PermissionDenied",
+            "-5004": "__function:OperationRejected",
+            "-4118": "__function:ExchangeError",
+            "-3015": "__function:BadRequest",
+            "-1151": "__function:BadSymbol",
+            "-10013": "__function:InsufficientFunds",
+            "-4093": "__function:ExchangeError",
+            "-4129": "__function:ExchangeError",
+            "-4084": "__function:ExchangeError",
+            "-4067": "__function:ExchangeError",
+            "-4018": "__function:BadSymbol",
+            "-3038": "__function:BadRequest",
+            "-10024": "__function:BadRequest",
+            "-6009": "__function:RateLimitExceeded",
+            "-10028": "__function:BadRequest",
+            "-4010": "__function:PermissionDenied",
+            "-3008": "__function:BadRequest",
+            "-4134": "__function:ExchangeError",
+            "-10017": "__function:OperationRejected",
+            "-4046": "__function:AuthenticationError",
+            "-4073": "__function:ExchangeError",
+            "-5006": "__function:OperationRejected",
+            "-4035": "__function:PermissionDenied",
+            "-4057": "__function:ExchangeError",
+            "-4003": "__function:BadRequest",
+            "-10034": "__function:OperationRejected",
+            "-4024": "__function:InsufficientFunds",
+            "-5010": "__function:OperationFailed",
+            "-4053": "__function:ExchangeError",
+            "-4125": "__function:ExchangeError",
+            "-10018": "__function:BadRequest",
+            "-10023": "__function:OperationFailed",
+            "-4083": "__function:ExchangeError",
+            "-6015": "__function:BadRequest",
+            "-4105": "__function:ExchangeError",
+            "-3026": "__function:BadRequest",
+            "-4059": "__function:ExchangeError",
+            "-10010": "__function:BadRequest",
+            "400002": "__function:BadRequest",
+            "-6020": "__function:BadRequest",
+            "-10009": "__function:BadRequest",
+            "-3028": "__function:BadSymbol",
+            "-10016": "__function:OperationFailed",
+            "-4102": "__function:ExchangeError",
+            "-5003": "__function:InsufficientFunds",
+            "200003903": "__function:AuthenticationError",
+            "-1008": "__function:OperationFailed",
+            "-10047": "__function:PermissionDenied",
+            "-13000": "__function:OperationRejected",
+            "-10043": "__function:OperationRejected",
+            "-10044": "__function:OperationRejected",
+            "-6007": "__function:OperationRejected",
+            "-21004": "__function:OperationRejected",
+            "-4033": "__function:BadRequest",
+            "-6011": "__function:OperationRejected",
+            "100001003": "__function:AuthenticationError",
+            "-4056": "__function:ExchangeError",
+            "-5011": "__function:BadRequest",
+            "-3001": "__function:AuthenticationError",
+            "-6019": "__function:OperationRejected",
+            "-4082": "__function:ExchangeError",
+            "-4142": "__function:ExchangeError",
+            "-4020": "__function:ExchangeError",
+            "-4075": "__function:ExchangeError",
+            "-3029": "__function:OperationFailed",
+            "-18006": "__function:OperationRejected",
+            "-4063": "__function:ExchangeError",
+            "-3011": "__function:BadRequest",
+            "-12014": "__function:RateLimitExceeded",
+            "-4021": "__function:BadRequest",
+            "-4034": "__function:OperationRejected",
+            "-10005": "__function:BadResponse",
+            "-10007": "__function:BadRequest",
+            "-21005": "__function:InsufficientFunds",
+            "-6016": "__function:BadRequest",
+            "-3017": "__function:OperationRejected",
+            "-4124": "__function:ExchangeError",
+            "-4136": "__function:ExchangeError",
+            "-10040": "__function:OperationRejected",
+            "-4104": "__function:ExchangeError",
+            "-4131": "__function:ExchangeError",
+            "-4141": "__function:ExchangeError",
+            "-4065": "__function:ExchangeError",
+            "-5002": "__function:InsufficientFunds",
+            "-4103": "__function:ExchangeError",
+            "-3037": "__function:OperationFailed",
+            "-4114": "__function:ExchangeError",
+            "-4071": "__function:ExchangeError",
+            "-3010": "__function:BadRequest",
+            "-4088": "__function:ExchangeError",
+            "-5021": "__function:BadRequest",
+            "-10029": "__function:OperationRejected",
+            "-10022": "__function:BadRequest",
+            "-4128": "__function:ExchangeError",
+            "-4097": "__function:ExchangeError",
+            "-10031": "__function:OperationRejected",
+            "-4085": "__function:ExchangeError",
+            "-4022": "__function:BadRequest",
+            "-4030": "__function:BadResponse",
+            "-2022": "__function:BadResponse",
+            "-4147": "__function:ExchangeError",
+            "-4096": "__function:ExchangeError",
+            "-3002": "__function:BadSymbol",
+            "-10030": "__function:OperationRejected",
+            "-2016": "__function:OperationRejected",
+            "-4043": "__function:OperationRejected",
+            "-4080": "__function:ExchangeError",
+            "-4045": "__function:OperationFailed",
+            "-4122": "__function:ExchangeError",
+            "-4006": "__function:BadRequest",
+            "-4099": "__function:ExchangeError",
+            "-4120": "__function:ExchangeError",
+            "-4119": "__function:ExchangeError",
+            "-4089": "__function:ExchangeError",
+            "-4146": "__function:ExchangeError",
+            "-3000": "__function:OperationFailed",
+            "-21001": "__function:BadRequest",
+            "-4148": "__function:ExchangeError",
+            "-6018": "__function:InsufficientFunds",
+            "-2021": "__function:BadResponse",
+            "-4023": "__function:OperationRejected",
+            "-3045": "__function:OperationRejected",
+            "-4047": "__function:BadRequest",
+            "-4139": "__function:ExchangeError",
+            "-3023": "__function:OperationRejected",
+            "-4017": "__function:PermissionDenied",
+            "-4058": "__function:ExchangeError",
+            "-4052": "__function:ExchangeError",
+            "-4121": "__function:ExchangeError",
+            "-13004": "__function:OperationRejected",
+            "-2026": "__function:InvalidOrder",
+            "-3036": "__function:AccountSuspended",
+            "-5005": "__function:OperationRejected",
+            "-5001": "__function:BadRequest",
+            "-10025": "__function:OperationFailed",
+            "-4002": "__function:BadRequest",
+            "-4015": "__function:PermissionDenied",
+            "-3025": "__function:BadRequest",
+            "-4013": "__function:AuthenticationError",
+            "-4087": "__function:ExchangeError",
+            "-4009": "__function:ExchangeError",
+            "-10008": "__function:BadRequest",
+            "-3004": "__function:OperationRejected",
+            "-4101": "__function:ExchangeError",
+            "-18007": "__function:OperationRejected",
+            "-4112": "__function:ExchangeError",
+            "-4060": "__function:OperationFailed",
+            "-4038": "__function:OperationFailed",
+            "-5022": "__function:BadRequest",
+            "-4048": "__function:ExchangeError",
+            "-13007": "__function:PermissionDenied",
+            "-32603": "__function:BadRequest",
+            "-21002": "__function:BadRequest",
+            "-3005": "__function:BadRequest",
+            "-6006": "__function:BadRequest",
+            "-3020": "__function:BadRequest",
+            "-1108": "__function:BadRequest",
+            "-1131": "__function:BadRequest",
+            "-3021": "__function:BadRequest",
+            "-4123": "__function:ExchangeError",
+            "-1135": "__function:BadRequest",
+            "-6005": "__function:BadRequest",
+            "-13002": "__function:OperationRejected",
+            "-4004": "__function:AuthenticationError",
+            "-4031": "__function:OperationFailed",
+            "-4050": "__function:ExchangeError",
+            "-4051": "__function:ExchangeError",
+            "-11008": "__function:OperationRejected",
+            "-6003": "__function:PermissionDenied",
+            "-18005": "__function:PermissionDenied",
+            "-3024": "__function:OperationRejected",
+            "-3044": "__function:OperationFailed",
+            "-4069": "__function:ExchangeError",
+            "-10046": "__function:OperationRejected",
+            "-4079": "__function:ExchangeError",
+            "-4092": "__function:ExchangeError",
+            "-21006": "__function:OperationFailed",
+            "-4032": "__function:OperationRejected",
+            "-10015": "__function:OperationFailed",
+            "-10012": "__function:BadRequest",
+            "-3006": "__function:BadRequest",
+            "-18003": "__function:OperationRejected",
+            "-4028": "__function:BadRequest",
+            "-5007": "__function:BadRequest",
+            "-6004": "__function:BadRequest",
+            "-7002": "__function:BadRequest",
+            "-4113": "__function:ExchangeError",
+            "-3042": "__function:BadRequest",
+            "-5013": "__function:InsufficientFunds",
+            "-4144": "__function:ExchangeError",
+            "-4132": "__function:ExchangeError",
+            "-4078": "__function:ExchangeError",
+            "-3019": "__function:AccountSuspended",
+            "-4115": "__function:ExchangeError",
+            "-10026": "__function:BadRequest",
+            "-4029": "__function:BadRequest",
+            "-3013": "__function:BadRequest",
+            "-4106": "__function:ExchangeError",
+            "-10021": "__function:InvalidOrder",
+            "-21007": "__function:OperationFailed",
+            "-10002": "__function:BadRequest",
+            "-4074": "__function:ExchangeError",
+            "-3041": "__function:InsufficientFunds",
+            "-4014": "__function:OperationRejected",
+            "-4130": "__function:ExchangeError",
+            "-6013": "__function:BadResponse",
+            "-10045": "__function:OperationRejected",
+            "-4007": "__function:PermissionDenied",
+            "-4001": "__function:BadRequest",
+            "-4070": "__function:ExchangeError",
+            "-4068": "__function:ExchangeError",
+            "-4109": "__function:ExchangeError",
+            "-4000": "__function:ExchangeError",
+            "-4041": "__function:OperationFailed",
+            "-4094": "__function:ExchangeError",
+            "-4095": "__function:ExchangeError",
+            "-10020": "__function:BadRequest",
+            "-6008": "__function:OperationRejected",
+            "-4019": "__function:BadRequest",
+            "-4061": "__function:ExchangeError",
+            "-4135": "__function:ExchangeError",
+            "-4127": "__function:ExchangeError",
+            "-4108": "__function:ExchangeError",
+            "-5008": "__function:OperationRejected",
+            "-3016": "__function:BadRequest",
+            "-4026": "__function:InsufficientFunds",
+            "-3003": "__function:BadRequest",
+            "-4138": "__function:ExchangeError",
+            "-4107": "__function:ExchangeError",
+            "-10042": "__function:BadSymbol",
+            "-4055": "__function:ExchangeError",
+            "-13001": "__function:OperationRejected",
+            "-1145": "__function:BadRequest",
+            "-3007": "__function:OperationFailed",
+            "-4027": "__function:OperationFailed",
+            "-4025": "__function:InsufficientFunds",
+            "-6012": "__function:InsufficientFunds",
+            "-21003": "__function:BadResponse",
+            "-4137": "__function:ExchangeError",
+            "-4117": "__function:ExchangeError",
+            "-4042": "__function:OperationRejected",
+            "-10039": "__function:OperationRejected",
+            "-13006": "__function:OperationRejected",
+            "-4110": "__function:ExchangeError",
+            "-4081": "__function:ExchangeError",
+            "-10019": "__function:BadRequest",
+            "-4008": "__function:PermissionDenied",
+            "-4098": "__function:ExchangeError",
+            "-4040": "__function:OperationRejected",
+            "-5009": "__function:BadSymbol",
+            "-18004": "__function:OperationRejected",
+            "-4126": "__function:ExchangeError",
+            "-6014": "__function:OperationRejected",
+            "-10041": "__function:OperationFailed",
+            "-4049": "__function:ExchangeError",
+            "-1004": "__function:OperationFailed",
+            "-4012": "__function:PermissionDenied",
+            "-6017": "__function:PermissionDenied",
+            "-7001": "__function:BadRequest",
+            "-4133": "__function:ExchangeError",
+            "-4076": "__function:ExchangeError",
+            "-1134": "__function:BadRequest",
+            "-4011": "__function:BadRequest",
+            "-4116": "__function:ExchangeError",
+            "-2008": "__function:AuthenticationError",
+            "-4077": "__function:ExchangeError",
+            "-1099": "__function:AuthenticationError",
+            "-3043": "__function:PermissionDenied",
+            "-4005": "__function:RateLimitExceeded",
+            "-3027": "__function:BadSymbol",
+            "-4016": "__function:PermissionDenied",
+            "-4066": "__function:ExchangeError",
+            "-10032": "__function:OperationFailed",
+            "-4086": "__function:ExchangeError",
+            "-4062": "__function:ExchangeError",
+            "-3999": "__function:PermissionDenied",
+            "-4145": "__function:ExchangeError",
+            "-3012": "__function:OperationRejected",
+            "-4037": "__function:OperationFailed",
+            "-3018": "__function:AccountSuspended",
+            "-4143": "__function:ExchangeError",
+            "-4149": "__function:ExchangeError",
+            "-10011": "__function:InsufficientFunds",
+            "-18002": "__function:OperationRejected",
+            "-10001": "__function:OperationFailed",
+            "-4036": "__function:PermissionDenied",
+            "-4072": "__function:ExchangeError",
+            "-13003": "__function:PermissionDenied",
+            "-3009": "__function:OperationRejected",
+            "-4150": "__function:ExchangeError",
+            "-4044": "__function:PermissionDenied",
+            "-3014": "__function:AccountSuspended",
+            "-4054": "__function:ExchangeError",
+            "-6001": "__function:BadSymbol"
+          }
+        }
+      },
+      "http_exceptions": {
+        "400": "__function:ExchangeNotAvailable",
+        "401": "__function:AuthenticationError",
+        "403": "__function:ExchangeNotAvailable",
+        "404": "__function:ExchangeNotAvailable",
+        "405": "__function:ExchangeNotAvailable",
+        "407": "__function:AuthenticationError",
+        "408": "__function:RequestTimeout",
+        "409": "__function:ExchangeNotAvailable",
+        "410": "__function:ExchangeNotAvailable",
+        "418": "__function:DDoSProtection",
+        "422": "__function:ExchangeError",
+        "429": "__function:RateLimitExceeded",
+        "451": "__function:ExchangeNotAvailable",
+        "500": "__function:ExchangeNotAvailable",
+        "501": "__function:ExchangeNotAvailable",
+        "502": "__function:ExchangeNotAvailable",
+        "503": "__function:ExchangeNotAvailable",
+        "504": "__function:RequestTimeout",
+        "511": "__function:AuthenticationError",
+        "520": "__function:ExchangeNotAvailable",
+        "521": "__function:ExchangeNotAvailable",
+        "522": "__function:ExchangeNotAvailable",
+        "525": "__function:ExchangeNotAvailable",
+        "526": "__function:ExchangeNotAvailable",
+        "530": "__function:ExchangeNotAvailable"
+      },
+      "method": {
+        "async": false,
+        "body": {
+          "body": [
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "argument": {
+                      "arguments": [
+                        {
+                          "end": 642529,
+                          "left": {
+                            "end": 642522,
+                            "left": {
+                              "end": 642516,
+                              "left": {
+                                "end": 642507,
+                                "left": {
+                                  "end": 642501,
+                                  "left": {
+                                    "end": 642482,
+                                    "left": {
+                                      "computed": false,
+                                      "end": 642476,
+                                      "object": {
+                                        "end": 642473,
+                                        "start": 642469,
+                                        "type": "ThisExpression"
+                                      },
+                                      "optional": false,
+                                      "property": {
+                                        "decorators": [],
+                                        "end": 642476,
+                                        "name": "id",
+                                        "optional": false,
+                                        "start": 642474,
+                                        "type": "Identifier",
+                                        "typeAnnotation": null
+                                      },
+                                      "start": 642469,
+                                      "type": "MemberExpression"
+                                    },
+                                    "operator": "+",
+                                    "right": {
+                                      "end": 642482,
+                                      "raw": "' '",
+                                      "start": 642479,
+                                      "type": "Literal",
+                                      "value": " "
+                                    },
+                                    "start": 642469,
+                                    "type": "BinaryExpression"
+                                  },
+                                  "operator": "+",
+                                  "right": {
+                                    "arguments": [],
+                                    "callee": {
+                                      "computed": false,
+                                      "end": 642498,
+                                      "object": {
+                                        "decorators": [],
+                                        "end": 642489,
+                                        "name": "code",
+                                        "optional": false,
+                                        "start": 642485,
+                                        "type": "Identifier",
+                                        "typeAnnotation": null
+                                      },
+                                      "optional": false,
+                                      "property": {
+                                        "decorators": [],
+                                        "end": 642498,
+                                        "name": "toString",
+                                        "optional": false,
+                                        "start": 642490,
+                                        "type": "Identifier",
+                                        "typeAnnotation": null
+                                      },
+                                      "start": 642485,
+                                      "type": "MemberExpression"
+                                    },
+                                    "end": 642501,
+                                    "optional": false,
+                                    "start": 642485,
+                                    "type": "CallExpression",
+                                    "typeArguments": null
+                                  },
+                                  "start": 642469,
+                                  "type": "BinaryExpression"
+                                },
+                                "operator": "+",
+                                "right": {
+                                  "end": 642507,
+                                  "raw": "' '",
+                                  "start": 642504,
+                                  "type": "Literal",
+                                  "value": " "
+                                },
+                                "start": 642469,
+                                "type": "BinaryExpression"
+                              },
+                              "operator": "+",
+                              "right": {
+                                "decorators": [],
+                                "end": 642516,
+                                "name": "reason",
+                                "optional": false,
+                                "start": 642510,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 642469,
+                              "type": "BinaryExpression"
+                            },
+                            "operator": "+",
+                            "right": {
+                              "end": 642522,
+                              "raw": "' '",
+                              "start": 642519,
+                              "type": "Literal",
+                              "value": " "
+                            },
+                            "start": 642469,
+                            "type": "BinaryExpression"
+                          },
+                          "operator": "+",
+                          "right": {
+                            "decorators": [],
+                            "end": 642529,
+                            "name": "body",
+                            "optional": false,
+                            "start": 642525,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 642469,
+                          "type": "BinaryExpression"
+                        }
+                      ],
+                      "callee": {
+                        "decorators": [],
+                        "end": 642467,
+                        "name": "DDoSProtection",
+                        "optional": false,
+                        "start": 642453,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "end": 642530,
+                      "start": 642449,
+                      "type": "NewExpression",
+                      "typeArguments": null
+                    },
+                    "end": 642531,
+                    "start": 642443,
+                    "type": "ThrowStatement"
+                  }
+                ],
+                "end": 642541,
+                "start": 642429,
+                "type": "BlockStatement"
+              },
+              "end": 642541,
+              "start": 642391,
+              "test": {
+                "end": 642427,
+                "left": {
+                  "end": 642409,
+                  "expression": {
+                    "end": 642408,
+                    "left": {
+                      "decorators": [],
+                      "end": 642400,
+                      "name": "code",
+                      "optional": false,
+                      "start": 642396,
+                      "type": "Identifier",
+                      "typeAnnotation": null
+                    },
+                    "operator": "===",
+                    "right": {
+                      "end": 642408,
+                      "raw": "418",
+                      "start": 642405,
+                      "type": "Literal",
+                      "value": 418
+                    },
+                    "start": 642396,
+                    "type": "BinaryExpression"
+                  },
+                  "start": 642395,
+                  "type": "ParenthesizedExpression"
+                },
+                "operator": "||",
+                "right": {
+                  "end": 642427,
+                  "expression": {
+                    "end": 642426,
+                    "left": {
+                      "decorators": [],
+                      "end": 642418,
+                      "name": "code",
+                      "optional": false,
+                      "start": 642414,
+                      "type": "Identifier",
+                      "typeAnnotation": null
+                    },
+                    "operator": "===",
+                    "right": {
+                      "end": 642426,
+                      "raw": "429",
+                      "start": 642423,
+                      "type": "Literal",
+                      "value": 429
+                    },
+                    "start": 642414,
+                    "type": "BinaryExpression"
+                  },
+                  "start": 642413,
+                  "type": "ParenthesizedExpression"
+                },
+                "start": 642395,
+                "type": "LogicalExpression"
+              },
+              "type": "IfStatement"
+            },
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "alternate": null,
+                    "consequent": {
+                      "body": [
+                        {
+                          "argument": {
+                            "arguments": [
+                              {
+                                "end": 642993,
+                                "left": {
+                                  "end": 642986,
+                                  "left": {
+                                    "computed": false,
+                                    "end": 642936,
+                                    "object": {
+                                      "end": 642933,
+                                      "start": 642929,
+                                      "type": "ThisExpression"
+                                    },
+                                    "optional": false,
+                                    "property": {
+                                      "decorators": [],
+                                      "end": 642936,
+                                      "name": "id",
+                                      "optional": false,
+                                      "start": 642934,
+                                      "type": "Identifier",
+                                      "typeAnnotation": null
+                                    },
+                                    "start": 642929,
+                                    "type": "MemberExpression"
+                                  },
+                                  "operator": "+",
+                                  "right": {
+                                    "end": 642986,
+                                    "raw": "' order cost = amount * price is zero or less '",
+                                    "start": 642939,
+                                    "type": "Literal",
+                                    "value": " order cost = amount * price is zero or less "
+                                  },
+                                  "start": 642929,
+                                  "type": "BinaryExpression"
+                                },
+                                "operator": "+",
+                                "right": {
+                                  "decorators": [],
+                                  "end": 642993,
+                                  "name": "body",
+                                  "optional": false,
+                                  "start": 642989,
+                                  "type": "Identifier",
+                                  "typeAnnotation": null
+                                },
+                                "start": 642929,
+                                "type": "BinaryExpression"
+                              }
+                            ],
+                            "callee": {
+                              "decorators": [],
+                              "end": 642927,
+                              "name": "InvalidOrder",
+                              "optional": false,
+                              "start": 642915,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "end": 642994,
+                            "start": 642911,
+                            "type": "NewExpression",
+                            "typeArguments": null
+                          },
+                          "end": 642995,
+                          "start": 642905,
+                          "type": "ThrowStatement"
+                        }
+                      ],
+                      "end": 643009,
+                      "start": 642887,
+                      "type": "BlockStatement"
+                    },
+                    "end": 643009,
+                    "start": 642832,
+                    "test": {
+                      "end": 642885,
+                      "left": {
+                        "arguments": [
+                          {
+                            "end": 642879,
+                            "raw": "'Price * QTY is zero or less'",
+                            "start": 642850,
+                            "type": "Literal",
+                            "value": "Price * QTY is zero or less"
+                          }
+                        ],
+                        "callee": {
+                          "computed": false,
+                          "end": 642848,
+                          "object": {
+                            "decorators": [],
+                            "end": 642840,
+                            "name": "body",
+                            "optional": false,
+                            "start": 642836,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "optional": false,
+                          "property": {
+                            "decorators": [],
+                            "end": 642848,
+                            "name": "indexOf",
+                            "optional": false,
+                            "start": 642841,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 642836,
+                          "type": "MemberExpression"
+                        },
+                        "end": 642880,
+                        "optional": false,
+                        "start": 642836,
+                        "type": "CallExpression",
+                        "typeArguments": null
+                      },
+                      "operator": ">=",
+                      "right": {
+                        "end": 642885,
+                        "raw": "0",
+                        "start": 642884,
+                        "type": "Literal",
+                        "value": 0
+                      },
+                      "start": 642836,
+                      "type": "BinaryExpression"
+                    },
+                    "type": "IfStatement"
+                  },
+                  {
+                    "alternate": null,
+                    "consequent": {
+                      "body": [
+                        {
+                          "argument": {
+                            "arguments": [
+                              {
+                                "end": 643172,
+                                "left": {
+                                  "end": 643165,
+                                  "left": {
+                                    "computed": false,
+                                    "end": 643107,
+                                    "object": {
+                                      "end": 643104,
+                                      "start": 643100,
+                                      "type": "ThisExpression"
+                                    },
+                                    "optional": false,
+                                    "property": {
+                                      "decorators": [],
+                                      "end": 643107,
+                                      "name": "id",
+                                      "optional": false,
+                                      "start": 643105,
+                                      "type": "Identifier",
+                                      "typeAnnotation": null
+                                    },
+                                    "start": 643100,
+                                    "type": "MemberExpression"
+                                  },
+                                  "operator": "+",
+                                  "right": {
+                                    "end": 643165,
+                                    "raw": "' order amount should be evenly divisible by lot size '",
+                                    "start": 643110,
+                                    "type": "Literal",
+                                    "value": " order amount should be evenly divisible by lot size "
+                                  },
+                                  "start": 643100,
+                                  "type": "BinaryExpression"
+                                },
+                                "operator": "+",
+                                "right": {
+                                  "decorators": [],
+                                  "end": 643172,
+                                  "name": "body",
+                                  "optional": false,
+                                  "start": 643168,
+                                  "type": "Identifier",
+                                  "typeAnnotation": null
+                                },
+                                "start": 643100,
+                                "type": "BinaryExpression"
+                              }
+                            ],
+                            "callee": {
+                              "decorators": [],
+                              "end": 643098,
+                              "name": "InvalidOrder",
+                              "optional": false,
+                              "start": 643086,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "end": 643173,
+                            "start": 643082,
+                            "type": "NewExpression",
+                            "typeArguments": null
+                          },
+                          "end": 643174,
+                          "start": 643076,
+                          "type": "ThrowStatement"
+                        }
+                      ],
+                      "end": 643188,
+                      "start": 643058,
+                      "type": "BlockStatement"
+                    },
+                    "end": 643188,
+                    "start": 643022,
+                    "test": {
+                      "end": 643056,
+                      "left": {
+                        "arguments": [
+                          {
+                            "end": 643050,
+                            "raw": "'LOT_SIZE'",
+                            "start": 643040,
+                            "type": "Literal",
+                            "value": "LOT_SIZE"
+                          }
+                        ],
+                        "callee": {
+                          "computed": false,
+                          "end": 643038,
+                          "object": {
+                            "decorators": [],
+                            "end": 643030,
+                            "name": "body",
+                            "optional": false,
+                            "start": 643026,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "optional": false,
+                          "property": {
+                            "decorators": [],
+                            "end": 643038,
+                            "name": "indexOf",
+                            "optional": false,
+                            "start": 643031,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 643026,
+                          "type": "MemberExpression"
+                        },
+                        "end": 643051,
+                        "optional": false,
+                        "start": 643026,
+                        "type": "CallExpression",
+                        "typeArguments": null
+                      },
+                      "operator": ">=",
+                      "right": {
+                        "end": 643056,
+                        "raw": "0",
+                        "start": 643055,
+                        "type": "Literal",
+                        "value": 0
+                      },
+                      "start": 643026,
+                      "type": "BinaryExpression"
+                    },
+                    "type": "IfStatement"
+                  },
+                  {
+                    "alternate": null,
+                    "consequent": {
+                      "body": [
+                        {
+                          "argument": {
+                            "arguments": [
+                              {
+                                "end": 643478,
+                                "left": {
+                                  "end": 643471,
+                                  "left": {
+                                    "computed": false,
+                                    "end": 643290,
+                                    "object": {
+                                      "end": 643287,
+                                      "start": 643283,
+                                      "type": "ThisExpression"
+                                    },
+                                    "optional": false,
+                                    "property": {
+                                      "decorators": [],
+                                      "end": 643290,
+                                      "name": "id",
+                                      "optional": false,
+                                      "start": 643288,
+                                      "type": "Identifier",
+                                      "typeAnnotation": null
+                                    },
+                                    "start": 643283,
+                                    "type": "MemberExpression"
+                                  },
+                                  "operator": "+",
+                                  "right": {
+                                    "end": 643471,
+                                    "raw": "' order price is invalid, i.e. exceeds allowed price precision, exceeds min price or max price limits or is invalid value in general, use this.priceToPrecision (symbol, amount) '",
+                                    "start": 643293,
+                                    "type": "Literal",
+                                    "value": " order price is invalid, i.e. exceeds allowed price precision, exceeds min price or max price limits or is invalid value in general, use this.priceToPrecision (symbol, amount) "
+                                  },
+                                  "start": 643283,
+                                  "type": "BinaryExpression"
+                                },
+                                "operator": "+",
+                                "right": {
+                                  "decorators": [],
+                                  "end": 643478,
+                                  "name": "body",
+                                  "optional": false,
+                                  "start": 643474,
+                                  "type": "Identifier",
+                                  "typeAnnotation": null
+                                },
+                                "start": 643283,
+                                "type": "BinaryExpression"
+                              }
+                            ],
+                            "callee": {
+                              "decorators": [],
+                              "end": 643281,
+                              "name": "InvalidOrder",
+                              "optional": false,
+                              "start": 643269,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "end": 643479,
+                            "start": 643265,
+                            "type": "NewExpression",
+                            "typeArguments": null
+                          },
+                          "end": 643480,
+                          "start": 643259,
+                          "type": "ThrowStatement"
+                        }
+                      ],
+                      "end": 643494,
+                      "start": 643241,
+                      "type": "BlockStatement"
+                    },
+                    "end": 643494,
+                    "start": 643201,
+                    "test": {
+                      "end": 643239,
+                      "left": {
+                        "arguments": [
+                          {
+                            "end": 643233,
+                            "raw": "'PRICE_FILTER'",
+                            "start": 643219,
+                            "type": "Literal",
+                            "value": "PRICE_FILTER"
+                          }
+                        ],
+                        "callee": {
+                          "computed": false,
+                          "end": 643217,
+                          "object": {
+                            "decorators": [],
+                            "end": 643209,
+                            "name": "body",
+                            "optional": false,
+                            "start": 643205,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "optional": false,
+                          "property": {
+                            "decorators": [],
+                            "end": 643217,
+                            "name": "indexOf",
+                            "optional": false,
+                            "start": 643210,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 643205,
+                          "type": "MemberExpression"
+                        },
+                        "end": 643234,
+                        "optional": false,
+                        "start": 643205,
+                        "type": "CallExpression",
+                        "typeArguments": null
+                      },
+                      "operator": ">=",
+                      "right": {
+                        "end": 643239,
+                        "raw": "0",
+                        "start": 643238,
+                        "type": "Literal",
+                        "value": 0
+                      },
+                      "start": 643205,
+                      "type": "BinaryExpression"
+                    },
+                    "type": "IfStatement"
+                  }
+                ],
+                "end": 643504,
+                "start": 642818,
+                "type": "BlockStatement"
+              },
+              "end": 643504,
+              "start": 642801,
+              "test": {
+                "end": 642816,
+                "left": {
+                  "decorators": [],
+                  "end": 642809,
+                  "name": "code",
+                  "optional": false,
+                  "start": 642805,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "operator": ">=",
+                "right": {
+                  "end": 642816,
+                  "raw": "400",
+                  "start": 642813,
+                  "type": "Literal",
+                  "value": 400
+                },
+                "start": 642805,
+                "type": "BinaryExpression"
+              },
+              "type": "IfStatement"
+            },
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "argument": {
+                      "decorators": [],
+                      "end": 643571,
+                      "name": "undefined",
+                      "optional": false,
+                      "start": 643562,
+                      "type": "Identifier",
+                      "typeAnnotation": null
+                    },
+                    "end": 643572,
+                    "start": 643555,
+                    "type": "ReturnStatement"
+                  }
+                ],
+                "end": 643619,
+                "start": 643541,
+                "type": "BlockStatement"
+              },
+              "end": 643619,
+              "start": 643513,
+              "test": {
+                "end": 643539,
+                "left": {
+                  "decorators": [],
+                  "end": 643525,
+                  "name": "response",
+                  "optional": false,
+                  "start": 643517,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "operator": "===",
+                "right": {
+                  "decorators": [],
+                  "end": 643539,
+                  "name": "undefined",
+                  "optional": false,
+                  "start": 643530,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "start": 643517,
+                "type": "BinaryExpression"
+              },
+              "type": "IfStatement"
+            },
+            {
+              "declarations": [
+                {
+                  "definite": false,
+                  "end": 643774,
+                  "id": {
+                    "decorators": [],
+                    "end": 643730,
+                    "name": "success",
+                    "optional": false,
+                    "start": 643723,
+                    "type": "Identifier",
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "arguments": [
+                      {
+                        "decorators": [],
+                        "end": 643756,
+                        "name": "response",
+                        "optional": false,
+                        "start": 643748,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      {
+                        "end": 643767,
+                        "raw": "'success'",
+                        "start": 643758,
+                        "type": "Literal",
+                        "value": "success"
+                      },
+                      {
+                        "end": 643773,
+                        "raw": "true",
+                        "start": 643769,
+                        "type": "Literal",
+                        "value": true
+                      }
+                    ],
+                    "callee": {
+                      "computed": false,
+                      "end": 643746,
+                      "object": {
+                        "end": 643737,
+                        "start": 643733,
+                        "type": "ThisExpression"
+                      },
+                      "optional": false,
+                      "property": {
+                        "decorators": [],
+                        "end": 643746,
+                        "name": "safeBool",
+                        "optional": false,
+                        "start": 643738,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "start": 643733,
+                      "type": "MemberExpression"
+                    },
+                    "end": 643774,
+                    "optional": false,
+                    "start": 643733,
+                    "type": "CallExpression",
+                    "typeArguments": null
+                  },
+                  "start": 643723,
+                  "type": "VariableDeclarator"
+                }
+              ],
+              "declare": false,
+              "end": 643775,
+              "kind": "const",
+              "start": 643717,
+              "type": "VariableDeclaration"
+            },
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "declarations": [
+                      {
+                        "definite": false,
+                        "end": 643864,
+                        "id": {
+                          "decorators": [],
+                          "end": 643828,
+                          "name": "messageNew",
+                          "optional": false,
+                          "start": 643818,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "init": {
+                          "arguments": [
+                            {
+                              "decorators": [],
+                              "end": 643856,
+                              "name": "response",
+                              "optional": false,
+                              "start": 643848,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            {
+                              "end": 643863,
+                              "raw": "'msg'",
+                              "start": 643858,
+                              "type": "Literal",
+                              "value": "msg"
+                            }
+                          ],
+                          "callee": {
+                            "computed": false,
+                            "end": 643846,
+                            "object": {
+                              "end": 643835,
+                              "start": 643831,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 643846,
+                              "name": "safeString",
+                              "optional": false,
+                              "start": 643836,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 643831,
+                            "type": "MemberExpression"
+                          },
+                          "end": 643864,
+                          "optional": false,
+                          "start": 643831,
+                          "type": "CallExpression",
+                          "typeArguments": null
+                        },
+                        "start": 643818,
+                        "type": "VariableDeclarator"
+                      }
+                    ],
+                    "declare": false,
+                    "end": 643865,
+                    "kind": "const",
+                    "start": 643812,
+                    "type": "VariableDeclaration"
+                  },
+                  {
+                    "declarations": [
+                      {
+                        "definite": false,
+                        "end": 643907,
+                        "id": {
+                          "decorators": [],
+                          "end": 643895,
+                          "name": "parsedMessage",
+                          "optional": false,
+                          "start": 643882,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "init": {
+                          "decorators": [],
+                          "end": 643907,
+                          "name": "undefined",
+                          "optional": false,
+                          "start": 643898,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "start": 643882,
+                        "type": "VariableDeclarator"
+                      }
+                    ],
+                    "declare": false,
+                    "end": 643908,
+                    "kind": "let",
+                    "start": 643878,
+                    "type": "VariableDeclaration"
+                  },
+                  {
+                    "alternate": null,
+                    "consequent": {
+                      "body": [
+                        {
+                          "block": {
+                            "body": [
+                              {
+                                "directive": null,
+                                "end": 644035,
+                                "expression": {
+                                  "end": 644034,
+                                  "left": {
+                                    "decorators": [],
+                                    "end": 644008,
+                                    "name": "parsedMessage",
+                                    "optional": false,
+                                    "start": 643995,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  "operator": "=",
+                                  "right": {
+                                    "arguments": [
+                                      {
+                                        "decorators": [],
+                                        "end": 644033,
+                                        "name": "messageNew",
+                                        "optional": false,
+                                        "start": 644023,
+                                        "type": "Identifier",
+                                        "typeAnnotation": null
+                                      }
+                                    ],
+                                    "callee": {
+                                      "computed": false,
+                                      "end": 644021,
+                                      "object": {
+                                        "decorators": [],
+                                        "end": 644015,
+                                        "name": "JSON",
+                                        "optional": false,
+                                        "start": 644011,
+                                        "type": "Identifier",
+                                        "typeAnnotation": null
+                                      },
+                                      "optional": false,
+                                      "property": {
+                                        "decorators": [],
+                                        "end": 644021,
+                                        "name": "parse",
+                                        "optional": false,
+                                        "start": 644016,
+                                        "type": "Identifier",
+                                        "typeAnnotation": null
+                                      },
+                                      "start": 644011,
+                                      "type": "MemberExpression"
+                                    },
+                                    "end": 644034,
+                                    "optional": false,
+                                    "start": 644011,
+                                    "type": "CallExpression",
+                                    "typeArguments": null
+                                  },
+                                  "start": 643995,
+                                  "type": "AssignmentExpression"
+                                },
+                                "start": 643995,
+                                "type": "ExpressionStatement"
+                              }
+                            ],
+                            "end": 644053,
+                            "start": 643973,
+                            "type": "BlockStatement"
+                          },
+                          "end": 644164,
+                          "finalizer": null,
+                          "handler": {
+                            "body": {
+                              "body": [
+                                {
+                                  "directive": null,
+                                  "end": 644146,
+                                  "expression": {
+                                    "end": 644145,
+                                    "left": {
+                                      "decorators": [],
+                                      "end": 644133,
+                                      "name": "parsedMessage",
+                                      "optional": false,
+                                      "start": 644120,
+                                      "type": "Identifier",
+                                      "typeAnnotation": null
+                                    },
+                                    "operator": "=",
+                                    "right": {
+                                      "decorators": [],
+                                      "end": 644145,
+                                      "name": "undefined",
+                                      "optional": false,
+                                      "start": 644136,
+                                      "type": "Identifier",
+                                      "typeAnnotation": null
+                                    },
+                                    "start": 644120,
+                                    "type": "AssignmentExpression"
+                                  },
+                                  "start": 644120,
+                                  "type": "ExpressionStatement"
+                                }
+                              ],
+                              "end": 644164,
+                              "start": 644064,
+                              "type": "BlockStatement"
+                            },
+                            "end": 644164,
+                            "param": {
+                              "decorators": [],
+                              "end": 644062,
+                              "name": "e",
+                              "optional": false,
+                              "start": 644061,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 644054,
+                            "type": "CatchClause"
+                          },
+                          "start": 643969,
+                          "type": "TryStatement"
+                        },
+                        {
+                          "alternate": null,
+                          "consequent": {
+                            "body": [
+                              {
+                                "directive": null,
+                                "end": 644261,
+                                "expression": {
+                                  "end": 644260,
+                                  "left": {
+                                    "decorators": [],
+                                    "end": 644244,
+                                    "name": "response",
+                                    "optional": false,
+                                    "start": 644236,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  "operator": "=",
+                                  "right": {
+                                    "decorators": [],
+                                    "end": 644260,
+                                    "name": "parsedMessage",
+                                    "optional": false,
+                                    "start": 644247,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  "start": 644236,
+                                  "type": "AssignmentExpression"
+                                },
+                                "start": 644236,
+                                "type": "ExpressionStatement"
+                              }
+                            ],
+                            "end": 644279,
+                            "start": 644214,
+                            "type": "BlockStatement"
+                          },
+                          "end": 644279,
+                          "start": 644181,
+                          "test": {
+                            "end": 644212,
+                            "left": {
+                              "decorators": [],
+                              "end": 644198,
+                              "name": "parsedMessage",
+                              "optional": false,
+                              "start": 644185,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "operator": "!==",
+                            "right": {
+                              "decorators": [],
+                              "end": 644212,
+                              "name": "undefined",
+                              "optional": false,
+                              "start": 644203,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 644185,
+                            "type": "BinaryExpression"
+                          },
+                          "type": "IfStatement"
+                        }
+                      ],
+                      "end": 644293,
+                      "start": 643951,
+                      "type": "BlockStatement"
+                    },
+                    "end": 644293,
+                    "start": 643921,
+                    "test": {
+                      "end": 643949,
+                      "left": {
+                        "decorators": [],
+                        "end": 643935,
+                        "name": "messageNew",
+                        "optional": false,
+                        "start": 643925,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "operator": "!==",
+                      "right": {
+                        "decorators": [],
+                        "end": 643949,
+                        "name": "undefined",
+                        "optional": false,
+                        "start": 643940,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "start": 643925,
+                      "type": "BinaryExpression"
+                    },
+                    "type": "IfStatement"
+                  }
+                ],
+                "end": 644303,
+                "start": 643798,
+                "type": "BlockStatement"
+              },
+              "end": 644303,
+              "start": 643784,
+              "test": {
+                "argument": {
+                  "decorators": [],
+                  "end": 643796,
+                  "name": "success",
+                  "optional": false,
+                  "start": 643789,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "end": 643796,
+                "operator": "!",
+                "prefix": true,
+                "start": 643788,
+                "type": "UnaryExpression"
+              },
+              "type": "IfStatement"
+            },
+            {
+              "declarations": [
+                {
+                  "definite": false,
+                  "end": 644361,
+                  "id": {
+                    "decorators": [],
+                    "end": 644325,
+                    "name": "message",
+                    "optional": false,
+                    "start": 644318,
+                    "type": "Identifier",
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "arguments": [
+                      {
+                        "decorators": [],
+                        "end": 644353,
+                        "name": "response",
+                        "optional": false,
+                        "start": 644345,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      {
+                        "end": 644360,
+                        "raw": "'msg'",
+                        "start": 644355,
+                        "type": "Literal",
+                        "value": "msg"
+                      }
+                    ],
+                    "callee": {
+                      "computed": false,
+                      "end": 644343,
+                      "object": {
+                        "end": 644332,
+                        "start": 644328,
+                        "type": "ThisExpression"
+                      },
+                      "optional": false,
+                      "property": {
+                        "decorators": [],
+                        "end": 644343,
+                        "name": "safeString",
+                        "optional": false,
+                        "start": 644333,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "start": 644328,
+                      "type": "MemberExpression"
+                    },
+                    "end": 644361,
+                    "optional": false,
+                    "start": 644328,
+                    "type": "CallExpression",
+                    "typeArguments": null
+                  },
+                  "start": 644318,
+                  "type": "VariableDeclarator"
+                }
+              ],
+              "declare": false,
+              "end": 644362,
+              "kind": "const",
+              "start": 644312,
+              "type": "VariableDeclaration"
+            },
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "directive": null,
+                    "end": 644521,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "arguments": [
+                            {
+                              "decorators": [],
+                              "end": 644475,
+                              "name": "url",
+                              "optional": false,
+                              "start": 644472,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            {
+                              "end": 644484,
+                              "raw": "'exact'",
+                              "start": 644477,
+                              "type": "Literal",
+                              "value": "exact"
+                            }
+                          ],
+                          "callee": {
+                            "computed": false,
+                            "end": 644470,
+                            "object": {
+                              "end": 644451,
+                              "start": 644447,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 644470,
+                              "name": "getExceptionsByUrl",
+                              "optional": false,
+                              "start": 644452,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 644447,
+                            "type": "MemberExpression"
+                          },
+                          "end": 644485,
+                          "optional": false,
+                          "start": 644447,
+                          "type": "CallExpression",
+                          "typeArguments": null
+                        },
+                        {
+                          "decorators": [],
+                          "end": 644494,
+                          "name": "message",
+                          "optional": false,
+                          "start": 644487,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        {
+                          "end": 644519,
+                          "left": {
+                            "end": 644509,
+                            "left": {
+                              "computed": false,
+                              "end": 644503,
+                              "object": {
+                                "end": 644500,
+                                "start": 644496,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "decorators": [],
+                                "end": 644503,
+                                "name": "id",
+                                "optional": false,
+                                "start": 644501,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 644496,
+                              "type": "MemberExpression"
+                            },
+                            "operator": "+",
+                            "right": {
+                              "end": 644509,
+                              "raw": "' '",
+                              "start": 644506,
+                              "type": "Literal",
+                              "value": " "
+                            },
+                            "start": 644496,
+                            "type": "BinaryExpression"
+                          },
+                          "operator": "+",
+                          "right": {
+                            "decorators": [],
+                            "end": 644519,
+                            "name": "message",
+                            "optional": false,
+                            "start": 644512,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 644496,
+                          "type": "BinaryExpression"
+                        }
+                      ],
+                      "callee": {
+                        "computed": false,
+                        "end": 644445,
+                        "object": {
+                          "end": 644416,
+                          "start": 644412,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "decorators": [],
+                          "end": 644445,
+                          "name": "throwExactlyMatchedException",
+                          "optional": false,
+                          "start": 644417,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "start": 644412,
+                        "type": "MemberExpression"
+                      },
+                      "end": 644520,
+                      "optional": false,
+                      "start": 644412,
+                      "type": "CallExpression",
+                      "typeArguments": null
+                    },
+                    "start": 644412,
+                    "type": "ExpressionStatement"
+                  },
+                  {
+                    "directive": null,
+                    "end": 644629,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "computed": true,
+                          "end": 644593,
+                          "object": {
+                            "computed": false,
+                            "end": 644584,
+                            "object": {
+                              "end": 644573,
+                              "start": 644569,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 644584,
+                              "name": "exceptions",
+                              "optional": false,
+                              "start": 644574,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 644569,
+                            "type": "MemberExpression"
+                          },
+                          "optional": false,
+                          "property": {
+                            "end": 644592,
+                            "raw": "'exact'",
+                            "start": 644585,
+                            "type": "Literal",
+                            "value": "exact"
+                          },
+                          "start": 644569,
+                          "type": "MemberExpression"
+                        },
+                        {
+                          "decorators": [],
+                          "end": 644602,
+                          "name": "message",
+                          "optional": false,
+                          "start": 644595,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        {
+                          "end": 644627,
+                          "left": {
+                            "end": 644617,
+                            "left": {
+                              "computed": false,
+                              "end": 644611,
+                              "object": {
+                                "end": 644608,
+                                "start": 644604,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "decorators": [],
+                                "end": 644611,
+                                "name": "id",
+                                "optional": false,
+                                "start": 644609,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 644604,
+                              "type": "MemberExpression"
+                            },
+                            "operator": "+",
+                            "right": {
+                              "end": 644617,
+                              "raw": "' '",
+                              "start": 644614,
+                              "type": "Literal",
+                              "value": " "
+                            },
+                            "start": 644604,
+                            "type": "BinaryExpression"
+                          },
+                          "operator": "+",
+                          "right": {
+                            "decorators": [],
+                            "end": 644627,
+                            "name": "message",
+                            "optional": false,
+                            "start": 644620,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 644604,
+                          "type": "BinaryExpression"
+                        }
+                      ],
+                      "callee": {
+                        "computed": false,
+                        "end": 644567,
+                        "object": {
+                          "end": 644538,
+                          "start": 644534,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "decorators": [],
+                          "end": 644567,
+                          "name": "throwExactlyMatchedException",
+                          "optional": false,
+                          "start": 644539,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "start": 644534,
+                        "type": "MemberExpression"
+                      },
+                      "end": 644628,
+                      "optional": false,
+                      "start": 644534,
+                      "type": "CallExpression",
+                      "typeArguments": null
+                    },
+                    "start": 644534,
+                    "type": "ExpressionStatement"
+                  },
+                  {
+                    "directive": null,
+                    "end": 644751,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "arguments": [
+                            {
+                              "decorators": [],
+                              "end": 644705,
+                              "name": "url",
+                              "optional": false,
+                              "start": 644702,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            {
+                              "end": 644714,
+                              "raw": "'broad'",
+                              "start": 644707,
+                              "type": "Literal",
+                              "value": "broad"
+                            }
+                          ],
+                          "callee": {
+                            "computed": false,
+                            "end": 644700,
+                            "object": {
+                              "end": 644681,
+                              "start": 644677,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 644700,
+                              "name": "getExceptionsByUrl",
+                              "optional": false,
+                              "start": 644682,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 644677,
+                            "type": "MemberExpression"
+                          },
+                          "end": 644715,
+                          "optional": false,
+                          "start": 644677,
+                          "type": "CallExpression",
+                          "typeArguments": null
+                        },
+                        {
+                          "decorators": [],
+                          "end": 644724,
+                          "name": "message",
+                          "optional": false,
+                          "start": 644717,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        {
+                          "end": 644749,
+                          "left": {
+                            "end": 644739,
+                            "left": {
+                              "computed": false,
+                              "end": 644733,
+                              "object": {
+                                "end": 644730,
+                                "start": 644726,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "decorators": [],
+                                "end": 644733,
+                                "name": "id",
+                                "optional": false,
+                                "start": 644731,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 644726,
+                              "type": "MemberExpression"
+                            },
+                            "operator": "+",
+                            "right": {
+                              "end": 644739,
+                              "raw": "' '",
+                              "start": 644736,
+                              "type": "Literal",
+                              "value": " "
+                            },
+                            "start": 644726,
+                            "type": "BinaryExpression"
+                          },
+                          "operator": "+",
+                          "right": {
+                            "decorators": [],
+                            "end": 644749,
+                            "name": "message",
+                            "optional": false,
+                            "start": 644742,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 644726,
+                          "type": "BinaryExpression"
+                        }
+                      ],
+                      "callee": {
+                        "computed": false,
+                        "end": 644675,
+                        "object": {
+                          "end": 644646,
+                          "start": 644642,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "decorators": [],
+                          "end": 644675,
+                          "name": "throwBroadlyMatchedException",
+                          "optional": false,
+                          "start": 644647,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "start": 644642,
+                        "type": "MemberExpression"
+                      },
+                      "end": 644750,
+                      "optional": false,
+                      "start": 644642,
+                      "type": "CallExpression",
+                      "typeArguments": null
+                    },
+                    "start": 644642,
+                    "type": "ExpressionStatement"
+                  },
+                  {
+                    "directive": null,
+                    "end": 644859,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "computed": true,
+                          "end": 644823,
+                          "object": {
+                            "computed": false,
+                            "end": 644814,
+                            "object": {
+                              "end": 644803,
+                              "start": 644799,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 644814,
+                              "name": "exceptions",
+                              "optional": false,
+                              "start": 644804,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 644799,
+                            "type": "MemberExpression"
+                          },
+                          "optional": false,
+                          "property": {
+                            "end": 644822,
+                            "raw": "'broad'",
+                            "start": 644815,
+                            "type": "Literal",
+                            "value": "broad"
+                          },
+                          "start": 644799,
+                          "type": "MemberExpression"
+                        },
+                        {
+                          "decorators": [],
+                          "end": 644832,
+                          "name": "message",
+                          "optional": false,
+                          "start": 644825,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        {
+                          "end": 644857,
+                          "left": {
+                            "end": 644847,
+                            "left": {
+                              "computed": false,
+                              "end": 644841,
+                              "object": {
+                                "end": 644838,
+                                "start": 644834,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "decorators": [],
+                                "end": 644841,
+                                "name": "id",
+                                "optional": false,
+                                "start": 644839,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 644834,
+                              "type": "MemberExpression"
+                            },
+                            "operator": "+",
+                            "right": {
+                              "end": 644847,
+                              "raw": "' '",
+                              "start": 644844,
+                              "type": "Literal",
+                              "value": " "
+                            },
+                            "start": 644834,
+                            "type": "BinaryExpression"
+                          },
+                          "operator": "+",
+                          "right": {
+                            "decorators": [],
+                            "end": 644857,
+                            "name": "message",
+                            "optional": false,
+                            "start": 644850,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 644834,
+                          "type": "BinaryExpression"
+                        }
+                      ],
+                      "callee": {
+                        "computed": false,
+                        "end": 644797,
+                        "object": {
+                          "end": 644768,
+                          "start": 644764,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "decorators": [],
+                          "end": 644797,
+                          "name": "throwBroadlyMatchedException",
+                          "optional": false,
+                          "start": 644769,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "start": 644764,
+                        "type": "MemberExpression"
+                      },
+                      "end": 644858,
+                      "optional": false,
+                      "start": 644764,
+                      "type": "CallExpression",
+                      "typeArguments": null
+                    },
+                    "start": 644764,
+                    "type": "ExpressionStatement"
+                  }
+                ],
+                "end": 644869,
+                "start": 644398,
+                "type": "BlockStatement"
+              },
+              "end": 644869,
+              "start": 644371,
+              "test": {
+                "end": 644396,
+                "left": {
+                  "decorators": [],
+                  "end": 644382,
+                  "name": "message",
+                  "optional": false,
+                  "start": 644375,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "operator": "!==",
+                "right": {
+                  "decorators": [],
+                  "end": 644396,
+                  "name": "undefined",
+                  "optional": false,
+                  "start": 644387,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "start": 644375,
+                "type": "BinaryExpression"
+              },
+              "type": "IfStatement"
+            },
+            {
+              "declarations": [
+                {
+                  "definite": false,
+                  "end": 644964,
+                  "id": {
+                    "decorators": [],
+                    "end": 644927,
+                    "name": "error",
+                    "optional": false,
+                    "start": 644922,
+                    "type": "Identifier",
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "arguments": [
+                      {
+                        "decorators": [],
+                        "end": 644955,
+                        "name": "response",
+                        "optional": false,
+                        "start": 644947,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      {
+                        "end": 644963,
+                        "raw": "'code'",
+                        "start": 644957,
+                        "type": "Literal",
+                        "value": "code"
+                      }
+                    ],
+                    "callee": {
+                      "computed": false,
+                      "end": 644945,
+                      "object": {
+                        "end": 644934,
+                        "start": 644930,
+                        "type": "ThisExpression"
+                      },
+                      "optional": false,
+                      "property": {
+                        "decorators": [],
+                        "end": 644945,
+                        "name": "safeString",
+                        "optional": false,
+                        "start": 644935,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "start": 644930,
+                      "type": "MemberExpression"
+                    },
+                    "end": 644964,
+                    "optional": false,
+                    "start": 644930,
+                    "type": "CallExpression",
+                    "typeArguments": null
+                  },
+                  "start": 644922,
+                  "type": "VariableDeclarator"
+                }
+              ],
+              "declare": false,
+              "end": 644965,
+              "kind": "const",
+              "start": 644916,
+              "type": "VariableDeclaration"
+            },
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "alternate": null,
+                    "consequent": {
+                      "body": [
+                        {
+                          "argument": {
+                            "decorators": [],
+                            "end": 645219,
+                            "name": "undefined",
+                            "optional": false,
+                            "start": 645210,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "end": 645220,
+                          "start": 645203,
+                          "type": "ReturnStatement"
+                        }
+                      ],
+                      "end": 645234,
+                      "start": 645185,
+                      "type": "BlockStatement"
+                    },
+                    "end": 645234,
+                    "start": 645125,
+                    "test": {
+                      "end": 645183,
+                      "left": {
+                        "end": 645146,
+                        "expression": {
+                          "end": 645145,
+                          "left": {
+                            "decorators": [],
+                            "end": 645135,
+                            "name": "error",
+                            "optional": false,
+                            "start": 645130,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "operator": "===",
+                          "right": {
+                            "end": 645145,
+                            "raw": "'200'",
+                            "start": 645140,
+                            "type": "Literal",
+                            "value": "200"
+                          },
+                          "start": 645130,
+                          "type": "BinaryExpression"
+                        },
+                        "start": 645129,
+                        "type": "ParenthesizedExpression"
+                      },
+                      "operator": "||",
+                      "right": {
+                        "arguments": [
+                          {
+                            "decorators": [],
+                            "end": 645177,
+                            "name": "error",
+                            "optional": false,
+                            "start": 645172,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          {
+                            "end": 645182,
+                            "raw": "'0'",
+                            "start": 645179,
+                            "type": "Literal",
+                            "value": "0"
+                          }
+                        ],
+                        "callee": {
+                          "computed": false,
+                          "end": 645170,
+                          "object": {
+                            "decorators": [],
+                            "end": 645157,
+                            "name": "Precise",
+                            "optional": false,
+                            "start": 645150,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "optional": false,
+                          "property": {
+                            "decorators": [],
+                            "end": 645170,
+                            "name": "stringEquals",
+                            "optional": false,
+                            "start": 645158,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 645150,
+                          "type": "MemberExpression"
+                        },
+                        "end": 645183,
+                        "optional": false,
+                        "start": 645150,
+                        "type": "CallExpression",
+                        "typeArguments": null
+                      },
+                      "start": 645129,
+                      "type": "LogicalExpression"
+                    },
+                    "type": "IfStatement"
+                  },
+                  {
+                    "alternate": null,
+                    "consequent": {
+                      "body": [
+                        {
+                          "argument": {
+                            "arguments": [
+                              {
+                                "end": 645661,
+                                "left": {
+                                  "end": 645654,
+                                  "left": {
+                                    "computed": false,
+                                    "end": 645648,
+                                    "object": {
+                                      "end": 645645,
+                                      "start": 645641,
+                                      "type": "ThisExpression"
+                                    },
+                                    "optional": false,
+                                    "property": {
+                                      "decorators": [],
+                                      "end": 645648,
+                                      "name": "id",
+                                      "optional": false,
+                                      "start": 645646,
+                                      "type": "Identifier",
+                                      "typeAnnotation": null
+                                    },
+                                    "start": 645641,
+                                    "type": "MemberExpression"
+                                  },
+                                  "operator": "+",
+                                  "right": {
+                                    "end": 645654,
+                                    "raw": "' '",
+                                    "start": 645651,
+                                    "type": "Literal",
+                                    "value": " "
+                                  },
+                                  "start": 645641,
+                                  "type": "BinaryExpression"
+                                },
+                                "operator": "+",
+                                "right": {
+                                  "decorators": [],
+                                  "end": 645661,
+                                  "name": "body",
+                                  "optional": false,
+                                  "start": 645657,
+                                  "type": "Identifier",
+                                  "typeAnnotation": null
+                                },
+                                "start": 645641,
+                                "type": "BinaryExpression"
+                              }
+                            ],
+                            "callee": {
+                              "decorators": [],
+                              "end": 645639,
+                              "name": "DDoSProtection",
+                              "optional": false,
+                              "start": 645625,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "end": 645662,
+                            "start": 645621,
+                            "type": "NewExpression",
+                            "typeArguments": null
+                          },
+                          "end": 645663,
+                          "start": 645615,
+                          "type": "ThrowStatement"
+                        }
+                      ],
+                      "end": 645677,
+                      "start": 645597,
+                      "type": "BlockStatement"
+                    },
+                    "end": 645677,
+                    "start": 645517,
+                    "test": {
+                      "end": 645595,
+                      "left": {
+                        "end": 645540,
+                        "expression": {
+                          "end": 645539,
+                          "left": {
+                            "decorators": [],
+                            "end": 645527,
+                            "name": "error",
+                            "optional": false,
+                            "start": 645522,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "operator": "===",
+                          "right": {
+                            "end": 645539,
+                            "raw": "'-2015'",
+                            "start": 645532,
+                            "type": "Literal",
+                            "value": "-2015"
+                          },
+                          "start": 645522,
+                          "type": "BinaryExpression"
+                        },
+                        "start": 645521,
+                        "type": "ParenthesizedExpression"
+                      },
+                      "operator": "&&",
+                      "right": {
+                        "computed": true,
+                        "end": 645595,
+                        "object": {
+                          "computed": false,
+                          "end": 645556,
+                          "object": {
+                            "end": 645548,
+                            "start": 645544,
+                            "type": "ThisExpression"
+                          },
+                          "optional": false,
+                          "property": {
+                            "decorators": [],
+                            "end": 645556,
+                            "name": "options",
+                            "optional": false,
+                            "start": 645549,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 645544,
+                          "type": "MemberExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "end": 645594,
+                          "raw": "'hasAlreadyAuthenticatedSuccessfully'",
+                          "start": 645557,
+                          "type": "Literal",
+                          "value": "hasAlreadyAuthenticatedSuccessfully"
+                        },
+                        "start": 645544,
+                        "type": "MemberExpression"
+                      },
+                      "start": 645521,
+                      "type": "LogicalExpression"
+                    },
+                    "type": "IfStatement"
+                  },
+                  {
+                    "declarations": [
+                      {
+                        "definite": false,
+                        "end": 645727,
+                        "id": {
+                          "decorators": [],
+                          "end": 645704,
+                          "name": "feedback",
+                          "optional": false,
+                          "start": 645696,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "init": {
+                          "end": 645727,
+                          "left": {
+                            "end": 645720,
+                            "left": {
+                              "computed": false,
+                              "end": 645714,
+                              "object": {
+                                "end": 645711,
+                                "start": 645707,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "decorators": [],
+                                "end": 645714,
+                                "name": "id",
+                                "optional": false,
+                                "start": 645712,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 645707,
+                              "type": "MemberExpression"
+                            },
+                            "operator": "+",
+                            "right": {
+                              "end": 645720,
+                              "raw": "' '",
+                              "start": 645717,
+                              "type": "Literal",
+                              "value": " "
+                            },
+                            "start": 645707,
+                            "type": "BinaryExpression"
+                          },
+                          "operator": "+",
+                          "right": {
+                            "decorators": [],
+                            "end": 645727,
+                            "name": "body",
+                            "optional": false,
+                            "start": 645723,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 645707,
+                          "type": "BinaryExpression"
+                        },
+                        "start": 645696,
+                        "type": "VariableDeclarator"
+                      }
+                    ],
+                    "declare": false,
+                    "end": 645728,
+                    "kind": "const",
+                    "start": 645690,
+                    "type": "VariableDeclaration"
+                  },
+                  {
+                    "alternate": null,
+                    "consequent": {
+                      "body": [
+                        {
+                          "argument": {
+                            "arguments": [
+                              {
+                                "decorators": [],
+                                "end": 646170,
+                                "name": "feedback",
+                                "optional": false,
+                                "start": 646162,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              }
+                            ],
+                            "callee": {
+                              "decorators": [],
+                              "end": 646160,
+                              "name": "MarginModeAlreadySet",
+                              "optional": false,
+                              "start": 646140,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "end": 646171,
+                            "start": 646136,
+                            "type": "NewExpression",
+                            "typeArguments": null
+                          },
+                          "end": 646172,
+                          "start": 646130,
+                          "type": "ThrowStatement"
+                        }
+                      ],
+                      "end": 646186,
+                      "start": 645791,
+                      "type": "BlockStatement"
+                    },
+                    "end": 646186,
+                    "start": 645741,
+                    "test": {
+                      "end": 645789,
+                      "left": {
+                        "decorators": [],
+                        "end": 645752,
+                        "name": "message",
+                        "optional": false,
+                        "start": 645745,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "operator": "===",
+                      "right": {
+                        "end": 645789,
+                        "raw": "'No need to change margin type.'",
+                        "start": 645757,
+                        "type": "Literal",
+                        "value": "No need to change margin type."
+                      },
+                      "start": 645745,
+                      "type": "BinaryExpression"
+                    },
+                    "type": "IfStatement"
+                  },
+                  {
+                    "directive": null,
+                    "end": 646291,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "arguments": [
+                            {
+                              "decorators": [],
+                              "end": 646262,
+                              "name": "url",
+                              "optional": false,
+                              "start": 646259,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            {
+                              "end": 646271,
+                              "raw": "'exact'",
+                              "start": 646264,
+                              "type": "Literal",
+                              "value": "exact"
+                            }
+                          ],
+                          "callee": {
+                            "computed": false,
+                            "end": 646257,
+                            "object": {
+                              "end": 646238,
+                              "start": 646234,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 646257,
+                              "name": "getExceptionsByUrl",
+                              "optional": false,
+                              "start": 646239,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 646234,
+                            "type": "MemberExpression"
+                          },
+                          "end": 646272,
+                          "optional": false,
+                          "start": 646234,
+                          "type": "CallExpression",
+                          "typeArguments": null
+                        },
+                        {
+                          "decorators": [],
+                          "end": 646279,
+                          "name": "error",
+                          "optional": false,
+                          "start": 646274,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        {
+                          "decorators": [],
+                          "end": 646289,
+                          "name": "feedback",
+                          "optional": false,
+                          "start": 646281,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        }
+                      ],
+                      "callee": {
+                        "computed": false,
+                        "end": 646232,
+                        "object": {
+                          "end": 646203,
+                          "start": 646199,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "decorators": [],
+                          "end": 646232,
+                          "name": "throwExactlyMatchedException",
+                          "optional": false,
+                          "start": 646204,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "start": 646199,
+                        "type": "MemberExpression"
+                      },
+                      "end": 646290,
+                      "optional": false,
+                      "start": 646199,
+                      "type": "CallExpression",
+                      "typeArguments": null
+                    },
+                    "start": 646199,
+                    "type": "ExpressionStatement"
+                  },
+                  {
+                    "directive": null,
+                    "end": 646382,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "computed": true,
+                          "end": 646363,
+                          "object": {
+                            "computed": false,
+                            "end": 646354,
+                            "object": {
+                              "end": 646343,
+                              "start": 646339,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 646354,
+                              "name": "exceptions",
+                              "optional": false,
+                              "start": 646344,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 646339,
+                            "type": "MemberExpression"
+                          },
+                          "optional": false,
+                          "property": {
+                            "end": 646362,
+                            "raw": "'exact'",
+                            "start": 646355,
+                            "type": "Literal",
+                            "value": "exact"
+                          },
+                          "start": 646339,
+                          "type": "MemberExpression"
+                        },
+                        {
+                          "decorators": [],
+                          "end": 646370,
+                          "name": "error",
+                          "optional": false,
+                          "start": 646365,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        {
+                          "decorators": [],
+                          "end": 646380,
+                          "name": "feedback",
+                          "optional": false,
+                          "start": 646372,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        }
+                      ],
+                      "callee": {
+                        "computed": false,
+                        "end": 646337,
+                        "object": {
+                          "end": 646308,
+                          "start": 646304,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "decorators": [],
+                          "end": 646337,
+                          "name": "throwExactlyMatchedException",
+                          "optional": false,
+                          "start": 646309,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "start": 646304,
+                        "type": "MemberExpression"
+                      },
+                      "end": 646381,
+                      "optional": false,
+                      "start": 646304,
+                      "type": "CallExpression",
+                      "typeArguments": null
+                    },
+                    "start": 646304,
+                    "type": "ExpressionStatement"
+                  },
+                  {
+                    "argument": {
+                      "arguments": [
+                        {
+                          "decorators": [],
+                          "end": 646428,
+                          "name": "feedback",
+                          "optional": false,
+                          "start": 646420,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        }
+                      ],
+                      "callee": {
+                        "decorators": [],
+                        "end": 646418,
+                        "name": "ExchangeError",
+                        "optional": false,
+                        "start": 646405,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "end": 646429,
+                      "start": 646401,
+                      "type": "NewExpression",
+                      "typeArguments": null
+                    },
+                    "end": 646430,
+                    "start": 646395,
+                    "type": "ThrowStatement"
+                  }
+                ],
+                "end": 646440,
+                "start": 644999,
+                "type": "BlockStatement"
+              },
+              "end": 646440,
+              "start": 644974,
+              "test": {
+                "end": 644997,
+                "left": {
+                  "decorators": [],
+                  "end": 644983,
+                  "name": "error",
+                  "optional": false,
+                  "start": 644978,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "operator": "!==",
+                "right": {
+                  "decorators": [],
+                  "end": 644997,
+                  "name": "undefined",
+                  "optional": false,
+                  "start": 644988,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "start": 644978,
+                "type": "BinaryExpression"
+              },
+              "type": "IfStatement"
+            },
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "argument": {
+                      "arguments": [
+                        {
+                          "end": 646522,
+                          "left": {
+                            "end": 646515,
+                            "left": {
+                              "computed": false,
+                              "end": 646509,
+                              "object": {
+                                "end": 646506,
+                                "start": 646502,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "decorators": [],
+                                "end": 646509,
+                                "name": "id",
+                                "optional": false,
+                                "start": 646507,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 646502,
+                              "type": "MemberExpression"
+                            },
+                            "operator": "+",
+                            "right": {
+                              "end": 646515,
+                              "raw": "' '",
+                              "start": 646512,
+                              "type": "Literal",
+                              "value": " "
+                            },
+                            "start": 646502,
+                            "type": "BinaryExpression"
+                          },
+                          "operator": "+",
+                          "right": {
+                            "decorators": [],
+                            "end": 646522,
+                            "name": "body",
+                            "optional": false,
+                            "start": 646518,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 646502,
+                          "type": "BinaryExpression"
+                        }
+                      ],
+                      "callee": {
+                        "decorators": [],
+                        "end": 646500,
+                        "name": "ExchangeError",
+                        "optional": false,
+                        "start": 646487,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "end": 646523,
+                      "start": 646483,
+                      "type": "NewExpression",
+                      "typeArguments": null
+                    },
+                    "end": 646524,
+                    "start": 646477,
+                    "type": "ThrowStatement"
+                  }
+                ],
+                "end": 646534,
+                "start": 646463,
+                "type": "BlockStatement"
+              },
+              "end": 646534,
+              "start": 646449,
+              "test": {
+                "argument": {
+                  "decorators": [],
+                  "end": 646461,
+                  "name": "success",
+                  "optional": false,
+                  "start": 646454,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "end": 646461,
+                "operator": "!",
+                "prefix": true,
+                "start": 646453,
+                "type": "UnaryExpression"
+              },
+              "type": "IfStatement"
+            },
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "declarations": [
+                      {
+                        "definite": false,
+                        "end": 646723,
+                        "id": {
+                          "decorators": [],
+                          "end": 646705,
+                          "name": "arrayLength",
+                          "optional": false,
+                          "start": 646694,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "init": {
+                          "computed": false,
+                          "end": 646723,
+                          "object": {
+                            "decorators": [],
+                            "end": 646716,
+                            "name": "response",
+                            "optional": false,
+                            "start": 646708,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "optional": false,
+                          "property": {
+                            "decorators": [],
+                            "end": 646723,
+                            "name": "length",
+                            "optional": false,
+                            "start": 646717,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 646708,
+                          "type": "MemberExpression"
+                        },
+                        "start": 646694,
+                        "type": "VariableDeclarator"
+                      }
+                    ],
+                    "declare": false,
+                    "end": 646724,
+                    "kind": "const",
+                    "start": 646688,
+                    "type": "VariableDeclaration"
+                  },
+                  {
+                    "alternate": null,
+                    "consequent": {
+                      "body": [
+                        {
+                          "declarations": [
+                            {
+                              "definite": false,
+                              "end": 646886,
+                              "id": {
+                                "decorators": [],
+                                "end": 646872,
+                                "name": "element",
+                                "optional": false,
+                                "start": 646865,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "init": {
+                                "computed": true,
+                                "end": 646886,
+                                "object": {
+                                  "decorators": [],
+                                  "end": 646883,
+                                  "name": "response",
+                                  "optional": false,
+                                  "start": 646875,
+                                  "type": "Identifier",
+                                  "typeAnnotation": null
+                                },
+                                "optional": false,
+                                "property": {
+                                  "end": 646885,
+                                  "raw": "0",
+                                  "start": 646884,
+                                  "type": "Literal",
+                                  "value": 0
+                                },
+                                "start": 646875,
+                                "type": "MemberExpression"
+                              },
+                              "start": 646865,
+                              "type": "VariableDeclarator"
+                            }
+                          ],
+                          "declare": false,
+                          "end": 646887,
+                          "kind": "const",
+                          "start": 646859,
+                          "type": "VariableDeclaration"
+                        },
+                        {
+                          "declarations": [
+                            {
+                              "definite": false,
+                              "end": 646955,
+                              "id": {
+                                "decorators": [],
+                                "end": 646919,
+                                "name": "errorCode",
+                                "optional": false,
+                                "start": 646910,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "init": {
+                                "arguments": [
+                                  {
+                                    "decorators": [],
+                                    "end": 646946,
+                                    "name": "element",
+                                    "optional": false,
+                                    "start": 646939,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  {
+                                    "end": 646954,
+                                    "raw": "'code'",
+                                    "start": 646948,
+                                    "type": "Literal",
+                                    "value": "code"
+                                  }
+                                ],
+                                "callee": {
+                                  "computed": false,
+                                  "end": 646937,
+                                  "object": {
+                                    "end": 646926,
+                                    "start": 646922,
+                                    "type": "ThisExpression"
+                                  },
+                                  "optional": false,
+                                  "property": {
+                                    "decorators": [],
+                                    "end": 646937,
+                                    "name": "safeString",
+                                    "optional": false,
+                                    "start": 646927,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  "start": 646922,
+                                  "type": "MemberExpression"
+                                },
+                                "end": 646955,
+                                "optional": false,
+                                "start": 646922,
+                                "type": "CallExpression",
+                                "typeArguments": null
+                              },
+                              "start": 646910,
+                              "type": "VariableDeclarator"
+                            }
+                          ],
+                          "declare": false,
+                          "end": 646956,
+                          "kind": "const",
+                          "start": 646904,
+                          "type": "VariableDeclaration"
+                        },
+                        {
+                          "alternate": null,
+                          "consequent": {
+                            "body": [
+                              {
+                                "directive": null,
+                                "end": 647132,
+                                "expression": {
+                                  "arguments": [
+                                    {
+                                      "arguments": [
+                                        {
+                                          "decorators": [],
+                                          "end": 647087,
+                                          "name": "url",
+                                          "optional": false,
+                                          "start": 647084,
+                                          "type": "Identifier",
+                                          "typeAnnotation": null
+                                        },
+                                        {
+                                          "end": 647096,
+                                          "raw": "'exact'",
+                                          "start": 647089,
+                                          "type": "Literal",
+                                          "value": "exact"
+                                        }
+                                      ],
+                                      "callee": {
+                                        "computed": false,
+                                        "end": 647082,
+                                        "object": {
+                                          "end": 647063,
+                                          "start": 647059,
+                                          "type": "ThisExpression"
+                                        },
+                                        "optional": false,
+                                        "property": {
+                                          "decorators": [],
+                                          "end": 647082,
+                                          "name": "getExceptionsByUrl",
+                                          "optional": false,
+                                          "start": 647064,
+                                          "type": "Identifier",
+                                          "typeAnnotation": null
+                                        },
+                                        "start": 647059,
+                                        "type": "MemberExpression"
+                                      },
+                                      "end": 647097,
+                                      "optional": false,
+                                      "start": 647059,
+                                      "type": "CallExpression",
+                                      "typeArguments": null
+                                    },
+                                    {
+                                      "decorators": [],
+                                      "end": 647108,
+                                      "name": "errorCode",
+                                      "optional": false,
+                                      "start": 647099,
+                                      "type": "Identifier",
+                                      "typeAnnotation": null
+                                    },
+                                    {
+                                      "end": 647130,
+                                      "left": {
+                                        "end": 647123,
+                                        "left": {
+                                          "computed": false,
+                                          "end": 647117,
+                                          "object": {
+                                            "end": 647114,
+                                            "start": 647110,
+                                            "type": "ThisExpression"
+                                          },
+                                          "optional": false,
+                                          "property": {
+                                            "decorators": [],
+                                            "end": 647117,
+                                            "name": "id",
+                                            "optional": false,
+                                            "start": 647115,
+                                            "type": "Identifier",
+                                            "typeAnnotation": null
+                                          },
+                                          "start": 647110,
+                                          "type": "MemberExpression"
+                                        },
+                                        "operator": "+",
+                                        "right": {
+                                          "end": 647123,
+                                          "raw": "' '",
+                                          "start": 647120,
+                                          "type": "Literal",
+                                          "value": " "
+                                        },
+                                        "start": 647110,
+                                        "type": "BinaryExpression"
+                                      },
+                                      "operator": "+",
+                                      "right": {
+                                        "decorators": [],
+                                        "end": 647130,
+                                        "name": "body",
+                                        "optional": false,
+                                        "start": 647126,
+                                        "type": "Identifier",
+                                        "typeAnnotation": null
+                                      },
+                                      "start": 647110,
+                                      "type": "BinaryExpression"
+                                    }
+                                  ],
+                                  "callee": {
+                                    "computed": false,
+                                    "end": 647057,
+                                    "object": {
+                                      "end": 647028,
+                                      "start": 647024,
+                                      "type": "ThisExpression"
+                                    },
+                                    "optional": false,
+                                    "property": {
+                                      "decorators": [],
+                                      "end": 647057,
+                                      "name": "throwExactlyMatchedException",
+                                      "optional": false,
+                                      "start": 647029,
+                                      "type": "Identifier",
+                                      "typeAnnotation": null
+                                    },
+                                    "start": 647024,
+                                    "type": "MemberExpression"
+                                  },
+                                  "end": 647131,
+                                  "optional": false,
+                                  "start": 647024,
+                                  "type": "CallExpression",
+                                  "typeArguments": null
+                                },
+                                "start": 647024,
+                                "type": "ExpressionStatement"
+                              },
+                              {
+                                "directive": null,
+                                "end": 647247,
+                                "expression": {
+                                  "arguments": [
+                                    {
+                                      "computed": true,
+                                      "end": 647212,
+                                      "object": {
+                                        "computed": false,
+                                        "end": 647203,
+                                        "object": {
+                                          "end": 647192,
+                                          "start": 647188,
+                                          "type": "ThisExpression"
+                                        },
+                                        "optional": false,
+                                        "property": {
+                                          "decorators": [],
+                                          "end": 647203,
+                                          "name": "exceptions",
+                                          "optional": false,
+                                          "start": 647193,
+                                          "type": "Identifier",
+                                          "typeAnnotation": null
+                                        },
+                                        "start": 647188,
+                                        "type": "MemberExpression"
+                                      },
+                                      "optional": false,
+                                      "property": {
+                                        "end": 647211,
+                                        "raw": "'exact'",
+                                        "start": 647204,
+                                        "type": "Literal",
+                                        "value": "exact"
+                                      },
+                                      "start": 647188,
+                                      "type": "MemberExpression"
+                                    },
+                                    {
+                                      "decorators": [],
+                                      "end": 647223,
+                                      "name": "errorCode",
+                                      "optional": false,
+                                      "start": 647214,
+                                      "type": "Identifier",
+                                      "typeAnnotation": null
+                                    },
+                                    {
+                                      "end": 647245,
+                                      "left": {
+                                        "end": 647238,
+                                        "left": {
+                                          "computed": false,
+                                          "end": 647232,
+                                          "object": {
+                                            "end": 647229,
+                                            "start": 647225,
+                                            "type": "ThisExpression"
+                                          },
+                                          "optional": false,
+                                          "property": {
+                                            "decorators": [],
+                                            "end": 647232,
+                                            "name": "id",
+                                            "optional": false,
+                                            "start": 647230,
+                                            "type": "Identifier",
+                                            "typeAnnotation": null
+                                          },
+                                          "start": 647225,
+                                          "type": "MemberExpression"
+                                        },
+                                        "operator": "+",
+                                        "right": {
+                                          "end": 647238,
+                                          "raw": "' '",
+                                          "start": 647235,
+                                          "type": "Literal",
+                                          "value": " "
+                                        },
+                                        "start": 647225,
+                                        "type": "BinaryExpression"
+                                      },
+                                      "operator": "+",
+                                      "right": {
+                                        "decorators": [],
+                                        "end": 647245,
+                                        "name": "body",
+                                        "optional": false,
+                                        "start": 647241,
+                                        "type": "Identifier",
+                                        "typeAnnotation": null
+                                      },
+                                      "start": 647225,
+                                      "type": "BinaryExpression"
+                                    }
+                                  ],
+                                  "callee": {
+                                    "computed": false,
+                                    "end": 647186,
+                                    "object": {
+                                      "end": 647157,
+                                      "start": 647153,
+                                      "type": "ThisExpression"
+                                    },
+                                    "optional": false,
+                                    "property": {
+                                      "decorators": [],
+                                      "end": 647186,
+                                      "name": "throwExactlyMatchedException",
+                                      "optional": false,
+                                      "start": 647158,
+                                      "type": "Identifier",
+                                      "typeAnnotation": null
+                                    },
+                                    "start": 647153,
+                                    "type": "MemberExpression"
+                                  },
+                                  "end": 647246,
+                                  "optional": false,
+                                  "start": 647153,
+                                  "type": "CallExpression",
+                                  "typeArguments": null
+                                },
+                                "start": 647153,
+                                "type": "ExpressionStatement"
+                              }
+                            ],
+                            "end": 647265,
+                            "start": 647002,
+                            "type": "BlockStatement"
+                          },
+                          "end": 647265,
+                          "start": 646973,
+                          "test": {
+                            "end": 647000,
+                            "left": {
+                              "decorators": [],
+                              "end": 646986,
+                              "name": "errorCode",
+                              "optional": false,
+                              "start": 646977,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "operator": "!==",
+                            "right": {
+                              "decorators": [],
+                              "end": 647000,
+                              "name": "undefined",
+                              "optional": false,
+                              "start": 646991,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 646977,
+                            "type": "BinaryExpression"
+                          },
+                          "type": "IfStatement"
+                        }
+                      ],
+                      "end": 647279,
+                      "start": 646760,
+                      "type": "BlockStatement"
+                    },
+                    "end": 647279,
+                    "start": 646737,
+                    "test": {
+                      "end": 646758,
+                      "left": {
+                        "decorators": [],
+                        "end": 646752,
+                        "name": "arrayLength",
+                        "optional": false,
+                        "start": 646741,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "operator": "===",
+                      "right": {
+                        "end": 646758,
+                        "raw": "1",
+                        "start": 646757,
+                        "type": "Literal",
+                        "value": 1
+                      },
+                      "start": 646741,
+                      "type": "BinaryExpression"
+                    },
+                    "type": "IfStatement"
+                  }
+                ],
+                "end": 647289,
+                "start": 646573,
+                "type": "BlockStatement"
+              },
+              "end": 647289,
+              "start": 646543,
+              "test": {
+                "arguments": [
+                  {
+                    "decorators": [],
+                    "end": 646570,
+                    "name": "response",
+                    "optional": false,
+                    "start": 646562,
+                    "type": "Identifier",
+                    "typeAnnotation": null
+                  }
+                ],
+                "callee": {
+                  "computed": false,
+                  "end": 646560,
+                  "object": {
+                    "decorators": [],
+                    "end": 646552,
+                    "name": "Array",
+                    "optional": false,
+                    "start": 646547,
+                    "type": "Identifier",
+                    "typeAnnotation": null
+                  },
+                  "optional": false,
+                  "property": {
+                    "decorators": [],
+                    "end": 646560,
+                    "name": "isArray",
+                    "optional": false,
+                    "start": 646553,
+                    "type": "Identifier",
+                    "typeAnnotation": null
+                  },
+                  "start": 646547,
+                  "type": "MemberExpression"
+                },
+                "end": 646571,
+                "optional": false,
+                "start": 646547,
+                "type": "CallExpression",
+                "typeArguments": null
+              },
+              "type": "IfStatement"
+            },
+            {
+              "argument": {
+                "decorators": [],
+                "end": 647314,
+                "name": "undefined",
+                "optional": false,
+                "start": 647305,
+                "type": "Identifier",
+                "typeAnnotation": null
+              },
+              "end": 647315,
+              "start": 647298,
+              "type": "ReturnStatement"
+            }
+          ],
+          "end": 647321,
+          "start": 642381,
+          "type": "BlockStatement"
+        },
+        "params": [
+          {
+            "name": "code",
+            "type": "int"
+          },
+          {
+            "name": "reason",
+            "type": "string"
+          },
+          {
+            "name": "url",
+            "type": "string"
+          },
+          {
+            "name": "method",
+            "type": "string"
+          },
+          {
+            "name": "headers",
+            "type": "Dict"
+          },
+          {
+            "name": "body",
+            "type": "string"
+          },
+          {
+            "name": "response",
+            "type": null
+          },
+          {
+            "name": "requestHeaders",
+            "type": null
+          },
+          {
+            "name": "requestBody",
+            "type": null
+          }
+        ],
+        "return_type": null,
+        "statements": 12
+      }
+    },
     "interface_signatures": {
       "fapiPublicGetApiTradingStatus": {
         "name": "fapiPublicGetApiTradingStatus",

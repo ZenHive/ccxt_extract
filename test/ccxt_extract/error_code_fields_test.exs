@@ -125,6 +125,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
       assert ErrorCodeFields.derive(ast) == [
                %{
                  "object" => "response",
+                 "object_path" => nil,
                  "field" => "code",
                  "method" => "safeString",
                  "field2" => nil,
@@ -141,6 +142,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
       assert ErrorCodeFields.derive(ast) == [
                %{
                  "object" => "response",
+                 "object_path" => nil,
                  "field" => "ret_code",
                  "method" => "safeString2",
                  "field2" => "retCode",
@@ -157,6 +159,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
       assert ErrorCodeFields.derive(ast) == [
                %{
                  "object" => "response",
+                 "object_path" => nil,
                  "field" => "message",
                  "method" => "safeValue",
                  "field2" => nil,
@@ -173,6 +176,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
       assert ErrorCodeFields.derive(ast) == [
                %{
                  "object" => "error",
+                 "object_path" => nil,
                  "field" => "sCode",
                  "method" => "safeString",
                  "field2" => nil,
@@ -221,6 +225,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
       assert ErrorCodeFields.derive(ast) == [
                %{
                  "object" => "errors",
+                 "object_path" => nil,
                  "field" => 0,
                  "method" => "safeValue",
                  "field2" => nil,
@@ -237,6 +242,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
       assert ErrorCodeFields.derive(ast) == [
                %{
                  "object" => nil,
+                 "object_path" => nil,
                  "field" => "code",
                  "method" => "safeString",
                  "field2" => nil,
@@ -253,6 +259,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
       assert ErrorCodeFields.derive(ast) == [
                %{
                  "object" => "response",
+                 "object_path" => nil,
                  "field" => nil,
                  "method" => "safeString",
                  "field2" => nil,
@@ -322,6 +329,22 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
       assert entry["sentinel_values"] == nil
     end
 
+    test "dual roles when same field flows through both exact and broad helpers" do
+      # Bybit pattern: retCode is used as both exact lookup key and broad haystack
+      call = safe_call("safeString", [identifier("response"), literal("retCode")])
+
+      ast =
+        method_ast([
+          variable_declaration("retCode", call),
+          expression_statement(throw_exactly_call("retCode")),
+          expression_statement(throw_broadly_call("retCode"))
+        ])
+
+      [entry] = ErrorCodeFields.derive(ast)
+      assert entry["roles"] == ["error_code", "error_message"]
+      assert entry["sentinel_values"] == nil
+    end
+
     test "status_sentinel role from === comparison" do
       call = safe_call("safeString", [identifier("response"), literal("code")])
 
@@ -337,7 +360,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
 
       [entry] = ErrorCodeFields.derive(ast)
       assert entry["roles"] == ["status_sentinel"]
-      assert entry["sentinel_values"] == ["200"]
+      assert entry["sentinel_values"] == [%{"value" => "200", "operator" => "==="}]
     end
 
     test "status_sentinel from !== comparison" do
@@ -355,7 +378,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
 
       [entry] = ErrorCodeFields.derive(ast)
       assert entry["roles"] == ["status_sentinel"]
-      assert entry["sentinel_values"] == ["0"]
+      assert entry["sentinel_values"] == [%{"value" => "0", "operator" => "!=="}]
     end
 
     test "reversed comparison (literal === variable)" do
@@ -373,7 +396,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
 
       [entry] = ErrorCodeFields.derive(ast)
       assert entry["roles"] == ["status_sentinel"]
-      assert entry["sentinel_values"] == ["error"]
+      assert entry["sentinel_values"] == [%{"value" => "error", "operator" => "==="}]
     end
 
     test "multiple sentinel values sorted" do
@@ -396,7 +419,11 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
 
       [entry] = ErrorCodeFields.derive(ast)
       assert entry["roles"] == ["status_sentinel"]
-      assert entry["sentinel_values"] == ["0", "200"]
+
+      assert entry["sentinel_values"] == [
+               %{"value" => "0", "operator" => "!=="},
+               %{"value" => "200", "operator" => "==="}
+             ]
     end
 
     test "dual role: error_code + status_sentinel (Binance pattern)" do
@@ -417,7 +444,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
 
       [entry] = ErrorCodeFields.derive(ast)
       assert entry["roles"] == ["error_code", "status_sentinel"]
-      assert entry["sentinel_values"] == ["200"]
+      assert entry["sentinel_values"] == [%{"value" => "200", "operator" => "==="}]
     end
 
     test "triple role: error_code + error_message + status_sentinel" do
@@ -437,7 +464,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
 
       [entry] = ErrorCodeFields.derive(ast)
       assert entry["roles"] == ["error_code", "error_message", "status_sentinel"]
-      assert entry["sentinel_values"] == ["0"]
+      assert entry["sentinel_values"] == [%{"value" => "0", "operator" => "==="}]
     end
 
     test "no roles when safe* call is bare expression (no variable binding)" do
@@ -478,7 +505,7 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
 
       [entry] = ErrorCodeFields.derive(ast)
       assert entry["roles"] == ["status_sentinel"]
-      assert entry["sentinel_values"] == ["0"]
+      assert entry["sentinel_values"] == [%{"value" => "0", "operator" => "!=="}]
     end
 
     test "multiple fields with independent roles" do

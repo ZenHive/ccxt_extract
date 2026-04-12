@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-11T07:49:27.026316Z",
+  "extracted_at": "2026-04-12T05:41:57.780713Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -205008,7 +205008,7 @@
       }
     }
   },
-  "schema_version": "1.5.0",
+  "schema_version": "1.6.0",
   "structure": {
     "authenticated_sections": null,
     "class_info": {
@@ -205057,7 +205057,1876 @@
         "type": "ws"
       }
     },
-    "handle_errors": null,
+    "handle_errors": {
+      "error_code_fields": [
+        {
+          "field": "status",
+          "field2": null,
+          "method": "safeString",
+          "object": "response",
+          "object_path": null,
+          "roles": [
+            "status_sentinel"
+          ],
+          "sentinel_values": [
+            {
+              "operator": "===",
+              "value": "error"
+            }
+          ]
+        },
+        {
+          "field": "err-code",
+          "field2": "err_code",
+          "method": "safeString2",
+          "object": "response",
+          "object_path": null,
+          "roles": [
+            "error_code"
+          ],
+          "sentinel_values": null
+        },
+        {
+          "field": "err-msg",
+          "field2": "err_msg",
+          "method": "safeString2",
+          "object": "response",
+          "object_path": null,
+          "roles": [
+            "error_code"
+          ],
+          "sentinel_values": null
+        },
+        {
+          "field": "code",
+          "field2": null,
+          "method": "safeString",
+          "object": "response",
+          "object_path": null,
+          "roles": [
+            "error_code"
+          ],
+          "sentinel_values": null
+        },
+        {
+          "field": "err_code",
+          "field2": null,
+          "method": "safeString",
+          "object": "first",
+          "object_path": [
+            "response",
+            "data",
+            "errors",
+            "0"
+          ],
+          "roles": [
+            "error_code"
+          ],
+          "sentinel_values": null
+        },
+        {
+          "field": "err_msg",
+          "field2": null,
+          "method": "safeString",
+          "object": "first",
+          "object_path": [
+            "response",
+            "data",
+            "errors",
+            "0"
+          ],
+          "roles": [
+            "error_code"
+          ],
+          "sentinel_values": null
+        }
+      ],
+      "exceptions": {
+        "broad": {
+          "API key has no permission": "__function:PermissionDenied",
+          "contract is restricted of closing positions on API.  Please contact customer service": "__function:OnMaintenance",
+          "maintain": "__function:OnMaintenance"
+        },
+        "exact": {
+          "4007": "__function:BadRequest",
+          "order-stop-order-hit-trigger": "__function:InvalidOrder",
+          "1067": "__function:InvalidOrder",
+          "dw-withdraw-min-limit": "__function:BadRequest",
+          "timeout": "__function:RequestTimeout",
+          "rate-too-many-requests": "__function:RateLimitExceeded",
+          "invalid-address": "__function:BadRequest",
+          "order-limitorder-price-buy-max-error": "__function:InvalidOrder",
+          "1303": "__function:BadRequest",
+          "order-limitorder-price-max-error": "__function:InvalidOrder",
+          "order-value-min-error": "__function:InvalidOrder",
+          "1051": "__function:InvalidOrder",
+          "order-etp-nav-price-max-error": "__function:InvalidOrder",
+          "invalid-amount": "__function:InvalidOrder",
+          "request limit": "__function:RateLimitExceeded",
+          "base-record-invalid": "__function:OrderNotFound",
+          "order-limitorder-price-sell-max-error": "__function:InvalidOrder",
+          "1041": "__function:InvalidOrder",
+          "base-symbol-trade-disabled": "__function:BadSymbol",
+          "system-maintenance": "__function:OnMaintenance",
+          "validation-constraints-required": "__function:BadRequest",
+          "order-update-error": "__function:ExchangeNotAvailable",
+          "1461": "__function:InvalidOrder",
+          "account-frozen-balance-insufficient-error": "__function:InsufficientFunds",
+          "base-request-exceed-frequency-limit": "__function:RateLimitExceeded",
+          "1034": "__function:InvalidOrder",
+          "invalid symbol": "__function:BadSymbol",
+          "1003": "__function:AuthenticationError",
+          "1010": "__function:AccountNotEnabled",
+          "base-date-limit-error": "__function:BadRequest",
+          "1220": "__function:AccountNotEnabled",
+          "1061": "__function:OrderNotFound",
+          "1047": "__function:InsufficientFunds",
+          "api-signature-check-failed": "__function:AuthenticationError",
+          "validation-format-error": "__function:BadRequest",
+          "base-currency-chain-error": "__function:BadRequest",
+          "require-symbol": "__function:BadSymbol",
+          "1017": "__function:OrderNotFound",
+          "order-queryorder-invalid": "__function:OrderNotFound",
+          "order-limitorder-price-sell-min-error": "__function:InvalidOrder",
+          "order-limitorder-amount-max-error": "__function:InvalidOrder",
+          "1036": "__function:InvalidOrder",
+          "1048": "__function:InsufficientFunds",
+          "1066": "__function:BadSymbol",
+          "order-invalid-price": "__function:InvalidOrder",
+          "1039": "__function:InvalidOrder",
+          "base-withdraw-fee-error": "__function:BadRequest",
+          "order-limitorder-price-buy-min-error": "__function:InvalidOrder",
+          "order-orderstate-error": "__function:OrderNotFound",
+          "order-holding-limit-failed": "__function:InvalidOrder",
+          "dw-insufficient-balance": "__function:InsufficientFunds",
+          "order-limitorder-price-min-error": "__function:InvalidOrder",
+          "symbol trade not open now": "__function:BadSymbol",
+          "order-limitorder-amount-min-error": "__function:InvalidOrder",
+          "order-orderprice-precision-error": "__function:InvalidOrder",
+          "order-marketorder-amount-min-error": "__function:InvalidOrder",
+          "bad-request": "__function:BadRequest",
+          "gateway-internal-error": "__function:ExchangeNotAvailable",
+          "api-not-support-temp-addr": "__function:PermissionDenied",
+          "1013": "__function:BadSymbol",
+          "403": "__function:AuthenticationError",
+          "1094": "__function:InvalidOrder",
+          "api-signature-not-valid": "__function:AuthenticationError",
+          "base-symbol-error": "__function:BadSymbol"
+        }
+      },
+      "http_exceptions": {
+        "400": "__function:ExchangeNotAvailable",
+        "401": "__function:AuthenticationError",
+        "403": "__function:ExchangeNotAvailable",
+        "404": "__function:ExchangeNotAvailable",
+        "405": "__function:ExchangeNotAvailable",
+        "407": "__function:AuthenticationError",
+        "408": "__function:RequestTimeout",
+        "409": "__function:ExchangeNotAvailable",
+        "410": "__function:ExchangeNotAvailable",
+        "418": "__function:DDoSProtection",
+        "422": "__function:ExchangeError",
+        "429": "__function:RateLimitExceeded",
+        "451": "__function:ExchangeNotAvailable",
+        "500": "__function:ExchangeNotAvailable",
+        "501": "__function:ExchangeNotAvailable",
+        "502": "__function:ExchangeNotAvailable",
+        "503": "__function:ExchangeNotAvailable",
+        "504": "__function:RequestTimeout",
+        "511": "__function:AuthenticationError",
+        "520": "__function:ExchangeNotAvailable",
+        "521": "__function:ExchangeNotAvailable",
+        "522": "__function:ExchangeNotAvailable",
+        "525": "__function:ExchangeNotAvailable",
+        "526": "__function:ExchangeNotAvailable",
+        "530": "__function:ExchangeNotAvailable"
+      },
+      "method": {
+        "async": false,
+        "body": {
+          "body": [
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "argument": {
+                      "decorators": [],
+                      "end": 383288,
+                      "name": "undefined",
+                      "optional": false,
+                      "start": 383279,
+                      "type": "Identifier",
+                      "typeAnnotation": null
+                    },
+                    "end": 383289,
+                    "start": 383272,
+                    "type": "ReturnStatement"
+                  }
+                ],
+                "end": 383336,
+                "start": 383258,
+                "type": "BlockStatement"
+              },
+              "end": 383336,
+              "start": 383230,
+              "test": {
+                "end": 383256,
+                "left": {
+                  "decorators": [],
+                  "end": 383242,
+                  "name": "response",
+                  "optional": false,
+                  "start": 383234,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "operator": "===",
+                "right": {
+                  "decorators": [],
+                  "end": 383256,
+                  "name": "undefined",
+                  "optional": false,
+                  "start": 383247,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "start": 383234,
+                "type": "BinaryExpression"
+              },
+              "type": "IfStatement"
+            },
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "declarations": [
+                      {
+                        "definite": false,
+                        "end": 383777,
+                        "id": {
+                          "decorators": [],
+                          "end": 383738,
+                          "name": "status",
+                          "optional": false,
+                          "start": 383732,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "init": {
+                          "arguments": [
+                            {
+                              "decorators": [],
+                              "end": 383766,
+                              "name": "response",
+                              "optional": false,
+                              "start": 383758,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            {
+                              "end": 383776,
+                              "raw": "'status'",
+                              "start": 383768,
+                              "type": "Literal",
+                              "value": "status"
+                            }
+                          ],
+                          "callee": {
+                            "computed": false,
+                            "end": 383756,
+                            "object": {
+                              "end": 383745,
+                              "start": 383741,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 383756,
+                              "name": "safeString",
+                              "optional": false,
+                              "start": 383746,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 383741,
+                            "type": "MemberExpression"
+                          },
+                          "end": 383777,
+                          "optional": false,
+                          "start": 383741,
+                          "type": "CallExpression",
+                          "typeArguments": null
+                        },
+                        "start": 383732,
+                        "type": "VariableDeclarator"
+                      }
+                    ],
+                    "declare": false,
+                    "end": 383778,
+                    "kind": "const",
+                    "start": 383726,
+                    "type": "VariableDeclaration"
+                  },
+                  {
+                    "alternate": null,
+                    "consequent": {
+                      "body": [
+                        {
+                          "declarations": [
+                            {
+                              "definite": false,
+                              "end": 383897,
+                              "id": {
+                                "decorators": [],
+                                "end": 383843,
+                                "name": "code",
+                                "optional": false,
+                                "start": 383839,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "init": {
+                                "arguments": [
+                                  {
+                                    "decorators": [],
+                                    "end": 383872,
+                                    "name": "response",
+                                    "optional": false,
+                                    "start": 383864,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  {
+                                    "end": 383884,
+                                    "raw": "'err-code'",
+                                    "start": 383874,
+                                    "type": "Literal",
+                                    "value": "err-code"
+                                  },
+                                  {
+                                    "end": 383896,
+                                    "raw": "'err_code'",
+                                    "start": 383886,
+                                    "type": "Literal",
+                                    "value": "err_code"
+                                  }
+                                ],
+                                "callee": {
+                                  "computed": false,
+                                  "end": 383862,
+                                  "object": {
+                                    "end": 383850,
+                                    "start": 383846,
+                                    "type": "ThisExpression"
+                                  },
+                                  "optional": false,
+                                  "property": {
+                                    "decorators": [],
+                                    "end": 383862,
+                                    "name": "safeString2",
+                                    "optional": false,
+                                    "start": 383851,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  "start": 383846,
+                                  "type": "MemberExpression"
+                                },
+                                "end": 383897,
+                                "optional": false,
+                                "start": 383846,
+                                "type": "CallExpression",
+                                "typeArguments": null
+                              },
+                              "start": 383839,
+                              "type": "VariableDeclarator"
+                            }
+                          ],
+                          "declare": false,
+                          "end": 383898,
+                          "kind": "const",
+                          "start": 383833,
+                          "type": "VariableDeclaration"
+                        },
+                        {
+                          "declarations": [
+                            {
+                              "definite": false,
+                              "end": 383952,
+                              "id": {
+                                "decorators": [],
+                                "end": 383929,
+                                "name": "feedback",
+                                "optional": false,
+                                "start": 383921,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "init": {
+                                "end": 383952,
+                                "left": {
+                                  "end": 383945,
+                                  "left": {
+                                    "computed": false,
+                                    "end": 383939,
+                                    "object": {
+                                      "end": 383936,
+                                      "start": 383932,
+                                      "type": "ThisExpression"
+                                    },
+                                    "optional": false,
+                                    "property": {
+                                      "decorators": [],
+                                      "end": 383939,
+                                      "name": "id",
+                                      "optional": false,
+                                      "start": 383937,
+                                      "type": "Identifier",
+                                      "typeAnnotation": null
+                                    },
+                                    "start": 383932,
+                                    "type": "MemberExpression"
+                                  },
+                                  "operator": "+",
+                                  "right": {
+                                    "end": 383945,
+                                    "raw": "' '",
+                                    "start": 383942,
+                                    "type": "Literal",
+                                    "value": " "
+                                  },
+                                  "start": 383932,
+                                  "type": "BinaryExpression"
+                                },
+                                "operator": "+",
+                                "right": {
+                                  "decorators": [],
+                                  "end": 383952,
+                                  "name": "body",
+                                  "optional": false,
+                                  "start": 383948,
+                                  "type": "Identifier",
+                                  "typeAnnotation": null
+                                },
+                                "start": 383932,
+                                "type": "BinaryExpression"
+                              },
+                              "start": 383921,
+                              "type": "VariableDeclarator"
+                            }
+                          ],
+                          "declare": false,
+                          "end": 383953,
+                          "kind": "const",
+                          "start": 383915,
+                          "type": "VariableDeclaration"
+                        },
+                        {
+                          "directive": null,
+                          "end": 384047,
+                          "expression": {
+                            "arguments": [
+                              {
+                                "computed": true,
+                                "end": 384029,
+                                "object": {
+                                  "computed": false,
+                                  "end": 384020,
+                                  "object": {
+                                    "end": 384009,
+                                    "start": 384005,
+                                    "type": "ThisExpression"
+                                  },
+                                  "optional": false,
+                                  "property": {
+                                    "decorators": [],
+                                    "end": 384020,
+                                    "name": "exceptions",
+                                    "optional": false,
+                                    "start": 384010,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  "start": 384005,
+                                  "type": "MemberExpression"
+                                },
+                                "optional": false,
+                                "property": {
+                                  "end": 384028,
+                                  "raw": "'broad'",
+                                  "start": 384021,
+                                  "type": "Literal",
+                                  "value": "broad"
+                                },
+                                "start": 384005,
+                                "type": "MemberExpression"
+                              },
+                              {
+                                "decorators": [],
+                                "end": 384035,
+                                "name": "body",
+                                "optional": false,
+                                "start": 384031,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              {
+                                "decorators": [],
+                                "end": 384045,
+                                "name": "feedback",
+                                "optional": false,
+                                "start": 384037,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              }
+                            ],
+                            "callee": {
+                              "computed": false,
+                              "end": 384003,
+                              "object": {
+                                "end": 383974,
+                                "start": 383970,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "decorators": [],
+                                "end": 384003,
+                                "name": "throwBroadlyMatchedException",
+                                "optional": false,
+                                "start": 383975,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 383970,
+                              "type": "MemberExpression"
+                            },
+                            "end": 384046,
+                            "optional": false,
+                            "start": 383970,
+                            "type": "CallExpression",
+                            "typeArguments": null
+                          },
+                          "start": 383970,
+                          "type": "ExpressionStatement"
+                        },
+                        {
+                          "directive": null,
+                          "end": 384141,
+                          "expression": {
+                            "arguments": [
+                              {
+                                "computed": true,
+                                "end": 384123,
+                                "object": {
+                                  "computed": false,
+                                  "end": 384114,
+                                  "object": {
+                                    "end": 384103,
+                                    "start": 384099,
+                                    "type": "ThisExpression"
+                                  },
+                                  "optional": false,
+                                  "property": {
+                                    "decorators": [],
+                                    "end": 384114,
+                                    "name": "exceptions",
+                                    "optional": false,
+                                    "start": 384104,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  "start": 384099,
+                                  "type": "MemberExpression"
+                                },
+                                "optional": false,
+                                "property": {
+                                  "end": 384122,
+                                  "raw": "'exact'",
+                                  "start": 384115,
+                                  "type": "Literal",
+                                  "value": "exact"
+                                },
+                                "start": 384099,
+                                "type": "MemberExpression"
+                              },
+                              {
+                                "decorators": [],
+                                "end": 384129,
+                                "name": "code",
+                                "optional": false,
+                                "start": 384125,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              {
+                                "decorators": [],
+                                "end": 384139,
+                                "name": "feedback",
+                                "optional": false,
+                                "start": 384131,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              }
+                            ],
+                            "callee": {
+                              "computed": false,
+                              "end": 384097,
+                              "object": {
+                                "end": 384068,
+                                "start": 384064,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "decorators": [],
+                                "end": 384097,
+                                "name": "throwExactlyMatchedException",
+                                "optional": false,
+                                "start": 384069,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 384064,
+                              "type": "MemberExpression"
+                            },
+                            "end": 384140,
+                            "optional": false,
+                            "start": 384064,
+                            "type": "CallExpression",
+                            "typeArguments": null
+                          },
+                          "start": 384064,
+                          "type": "ExpressionStatement"
+                        },
+                        {
+                          "declarations": [
+                            {
+                              "definite": false,
+                              "end": 384223,
+                              "id": {
+                                "decorators": [],
+                                "end": 384171,
+                                "name": "message",
+                                "optional": false,
+                                "start": 384164,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "init": {
+                                "arguments": [
+                                  {
+                                    "decorators": [],
+                                    "end": 384200,
+                                    "name": "response",
+                                    "optional": false,
+                                    "start": 384192,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  {
+                                    "end": 384211,
+                                    "raw": "'err-msg'",
+                                    "start": 384202,
+                                    "type": "Literal",
+                                    "value": "err-msg"
+                                  },
+                                  {
+                                    "end": 384222,
+                                    "raw": "'err_msg'",
+                                    "start": 384213,
+                                    "type": "Literal",
+                                    "value": "err_msg"
+                                  }
+                                ],
+                                "callee": {
+                                  "computed": false,
+                                  "end": 384190,
+                                  "object": {
+                                    "end": 384178,
+                                    "start": 384174,
+                                    "type": "ThisExpression"
+                                  },
+                                  "optional": false,
+                                  "property": {
+                                    "decorators": [],
+                                    "end": 384190,
+                                    "name": "safeString2",
+                                    "optional": false,
+                                    "start": 384179,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  "start": 384174,
+                                  "type": "MemberExpression"
+                                },
+                                "end": 384223,
+                                "optional": false,
+                                "start": 384174,
+                                "type": "CallExpression",
+                                "typeArguments": null
+                              },
+                              "start": 384164,
+                              "type": "VariableDeclarator"
+                            }
+                          ],
+                          "declare": false,
+                          "end": 384224,
+                          "kind": "const",
+                          "start": 384158,
+                          "type": "VariableDeclaration"
+                        },
+                        {
+                          "directive": null,
+                          "end": 384321,
+                          "expression": {
+                            "arguments": [
+                              {
+                                "computed": true,
+                                "end": 384300,
+                                "object": {
+                                  "computed": false,
+                                  "end": 384291,
+                                  "object": {
+                                    "end": 384280,
+                                    "start": 384276,
+                                    "type": "ThisExpression"
+                                  },
+                                  "optional": false,
+                                  "property": {
+                                    "decorators": [],
+                                    "end": 384291,
+                                    "name": "exceptions",
+                                    "optional": false,
+                                    "start": 384281,
+                                    "type": "Identifier",
+                                    "typeAnnotation": null
+                                  },
+                                  "start": 384276,
+                                  "type": "MemberExpression"
+                                },
+                                "optional": false,
+                                "property": {
+                                  "end": 384299,
+                                  "raw": "'exact'",
+                                  "start": 384292,
+                                  "type": "Literal",
+                                  "value": "exact"
+                                },
+                                "start": 384276,
+                                "type": "MemberExpression"
+                              },
+                              {
+                                "decorators": [],
+                                "end": 384309,
+                                "name": "message",
+                                "optional": false,
+                                "start": 384302,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              {
+                                "decorators": [],
+                                "end": 384319,
+                                "name": "feedback",
+                                "optional": false,
+                                "start": 384311,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              }
+                            ],
+                            "callee": {
+                              "computed": false,
+                              "end": 384274,
+                              "object": {
+                                "end": 384245,
+                                "start": 384241,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "decorators": [],
+                                "end": 384274,
+                                "name": "throwExactlyMatchedException",
+                                "optional": false,
+                                "start": 384246,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 384241,
+                              "type": "MemberExpression"
+                            },
+                            "end": 384320,
+                            "optional": false,
+                            "start": 384241,
+                            "type": "CallExpression",
+                            "typeArguments": null
+                          },
+                          "start": 384241,
+                          "type": "ExpressionStatement"
+                        },
+                        {
+                          "argument": {
+                            "arguments": [
+                              {
+                                "decorators": [],
+                                "end": 384371,
+                                "name": "feedback",
+                                "optional": false,
+                                "start": 384363,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              }
+                            ],
+                            "callee": {
+                              "decorators": [],
+                              "end": 384361,
+                              "name": "ExchangeError",
+                              "optional": false,
+                              "start": 384348,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "end": 384372,
+                            "start": 384344,
+                            "type": "NewExpression",
+                            "typeArguments": null
+                          },
+                          "end": 384373,
+                          "start": 384338,
+                          "type": "ThrowStatement"
+                        }
+                      ],
+                      "end": 384387,
+                      "start": 383815,
+                      "type": "BlockStatement"
+                    },
+                    "end": 384387,
+                    "start": 383791,
+                    "test": {
+                      "end": 383813,
+                      "left": {
+                        "decorators": [],
+                        "end": 383801,
+                        "name": "status",
+                        "optional": false,
+                        "start": 383795,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "operator": "===",
+                      "right": {
+                        "end": 383813,
+                        "raw": "'error'",
+                        "start": 383806,
+                        "type": "Literal",
+                        "value": "error"
+                      },
+                      "start": 383795,
+                      "type": "BinaryExpression"
+                    },
+                    "type": "IfStatement"
+                  }
+                ],
+                "end": 384397,
+                "start": 383371,
+                "type": "BlockStatement"
+              },
+              "end": 384397,
+              "start": 383345,
+              "test": {
+                "end": 383369,
+                "left": {
+                  "end": 383357,
+                  "raw": "'status'",
+                  "start": 383349,
+                  "type": "Literal",
+                  "value": "status"
+                },
+                "operator": "in",
+                "right": {
+                  "decorators": [],
+                  "end": 383369,
+                  "name": "response",
+                  "optional": false,
+                  "start": 383361,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "start": 383349,
+                "type": "BinaryExpression"
+              },
+              "type": "IfStatement"
+            },
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "declarations": [
+                      {
+                        "definite": false,
+                        "end": 384541,
+                        "id": {
+                          "decorators": [],
+                          "end": 384518,
+                          "name": "feedback",
+                          "optional": false,
+                          "start": 384510,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "init": {
+                          "end": 384541,
+                          "left": {
+                            "end": 384534,
+                            "left": {
+                              "computed": false,
+                              "end": 384528,
+                              "object": {
+                                "end": 384525,
+                                "start": 384521,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "decorators": [],
+                                "end": 384528,
+                                "name": "id",
+                                "optional": false,
+                                "start": 384526,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 384521,
+                              "type": "MemberExpression"
+                            },
+                            "operator": "+",
+                            "right": {
+                              "end": 384534,
+                              "raw": "' '",
+                              "start": 384531,
+                              "type": "Literal",
+                              "value": " "
+                            },
+                            "start": 384521,
+                            "type": "BinaryExpression"
+                          },
+                          "operator": "+",
+                          "right": {
+                            "decorators": [],
+                            "end": 384541,
+                            "name": "body",
+                            "optional": false,
+                            "start": 384537,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 384521,
+                          "type": "BinaryExpression"
+                        },
+                        "start": 384510,
+                        "type": "VariableDeclarator"
+                      }
+                    ],
+                    "declare": false,
+                    "end": 384542,
+                    "kind": "const",
+                    "start": 384504,
+                    "type": "VariableDeclaration"
+                  },
+                  {
+                    "declarations": [
+                      {
+                        "definite": false,
+                        "end": 384602,
+                        "id": {
+                          "decorators": [],
+                          "end": 384565,
+                          "name": "code",
+                          "optional": false,
+                          "start": 384561,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "init": {
+                          "arguments": [
+                            {
+                              "decorators": [],
+                              "end": 384593,
+                              "name": "response",
+                              "optional": false,
+                              "start": 384585,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            {
+                              "end": 384601,
+                              "raw": "'code'",
+                              "start": 384595,
+                              "type": "Literal",
+                              "value": "code"
+                            }
+                          ],
+                          "callee": {
+                            "computed": false,
+                            "end": 384583,
+                            "object": {
+                              "end": 384572,
+                              "start": 384568,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 384583,
+                              "name": "safeString",
+                              "optional": false,
+                              "start": 384573,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 384568,
+                            "type": "MemberExpression"
+                          },
+                          "end": 384602,
+                          "optional": false,
+                          "start": 384568,
+                          "type": "CallExpression",
+                          "typeArguments": null
+                        },
+                        "start": 384561,
+                        "type": "VariableDeclarator"
+                      }
+                    ],
+                    "declare": false,
+                    "end": 384603,
+                    "kind": "const",
+                    "start": 384555,
+                    "type": "VariableDeclaration"
+                  },
+                  {
+                    "directive": null,
+                    "end": 384693,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "computed": true,
+                          "end": 384675,
+                          "object": {
+                            "computed": false,
+                            "end": 384666,
+                            "object": {
+                              "end": 384655,
+                              "start": 384651,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 384666,
+                              "name": "exceptions",
+                              "optional": false,
+                              "start": 384656,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 384651,
+                            "type": "MemberExpression"
+                          },
+                          "optional": false,
+                          "property": {
+                            "end": 384674,
+                            "raw": "'exact'",
+                            "start": 384667,
+                            "type": "Literal",
+                            "value": "exact"
+                          },
+                          "start": 384651,
+                          "type": "MemberExpression"
+                        },
+                        {
+                          "decorators": [],
+                          "end": 384681,
+                          "name": "code",
+                          "optional": false,
+                          "start": 384677,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        {
+                          "decorators": [],
+                          "end": 384691,
+                          "name": "feedback",
+                          "optional": false,
+                          "start": 384683,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        }
+                      ],
+                      "callee": {
+                        "computed": false,
+                        "end": 384649,
+                        "object": {
+                          "end": 384620,
+                          "start": 384616,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "decorators": [],
+                          "end": 384649,
+                          "name": "throwExactlyMatchedException",
+                          "optional": false,
+                          "start": 384621,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "start": 384616,
+                        "type": "MemberExpression"
+                      },
+                      "end": 384692,
+                      "optional": false,
+                      "start": 384616,
+                      "type": "CallExpression",
+                      "typeArguments": null
+                    },
+                    "start": 384616,
+                    "type": "ExpressionStatement"
+                  }
+                ],
+                "end": 384703,
+                "start": 384430,
+                "type": "BlockStatement"
+              },
+              "end": 384703,
+              "start": 384406,
+              "test": {
+                "end": 384428,
+                "left": {
+                  "end": 384416,
+                  "raw": "'code'",
+                  "start": 384410,
+                  "type": "Literal",
+                  "value": "code"
+                },
+                "operator": "in",
+                "right": {
+                  "decorators": [],
+                  "end": 384428,
+                  "name": "response",
+                  "optional": false,
+                  "start": 384420,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "start": 384410,
+                "type": "BinaryExpression"
+              },
+              "type": "IfStatement"
+            },
+            {
+              "declarations": [
+                {
+                  "definite": false,
+                  "end": 384757,
+                  "id": {
+                    "decorators": [],
+                    "end": 384722,
+                    "name": "data",
+                    "optional": false,
+                    "start": 384718,
+                    "type": "Identifier",
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "arguments": [
+                      {
+                        "decorators": [],
+                        "end": 384748,
+                        "name": "response",
+                        "optional": false,
+                        "start": 384740,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      {
+                        "end": 384756,
+                        "raw": "'data'",
+                        "start": 384750,
+                        "type": "Literal",
+                        "value": "data"
+                      }
+                    ],
+                    "callee": {
+                      "computed": false,
+                      "end": 384738,
+                      "object": {
+                        "end": 384729,
+                        "start": 384725,
+                        "type": "ThisExpression"
+                      },
+                      "optional": false,
+                      "property": {
+                        "decorators": [],
+                        "end": 384738,
+                        "name": "safeDict",
+                        "optional": false,
+                        "start": 384730,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "start": 384725,
+                      "type": "MemberExpression"
+                    },
+                    "end": 384757,
+                    "optional": false,
+                    "start": 384725,
+                    "type": "CallExpression",
+                    "typeArguments": null
+                  },
+                  "start": 384718,
+                  "type": "VariableDeclarator"
+                }
+              ],
+              "declare": false,
+              "end": 384758,
+              "kind": "const",
+              "start": 384712,
+              "type": "VariableDeclaration"
+            },
+            {
+              "declarations": [
+                {
+                  "definite": false,
+                  "end": 384816,
+                  "id": {
+                    "decorators": [],
+                    "end": 384783,
+                    "name": "errorsList",
+                    "optional": false,
+                    "start": 384773,
+                    "type": "Identifier",
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "arguments": [
+                      {
+                        "decorators": [],
+                        "end": 384805,
+                        "name": "data",
+                        "optional": false,
+                        "start": 384801,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      {
+                        "end": 384815,
+                        "raw": "'errors'",
+                        "start": 384807,
+                        "type": "Literal",
+                        "value": "errors"
+                      }
+                    ],
+                    "callee": {
+                      "computed": false,
+                      "end": 384799,
+                      "object": {
+                        "end": 384790,
+                        "start": 384786,
+                        "type": "ThisExpression"
+                      },
+                      "optional": false,
+                      "property": {
+                        "decorators": [],
+                        "end": 384799,
+                        "name": "safeList",
+                        "optional": false,
+                        "start": 384791,
+                        "type": "Identifier",
+                        "typeAnnotation": null
+                      },
+                      "start": 384786,
+                      "type": "MemberExpression"
+                    },
+                    "end": 384816,
+                    "optional": false,
+                    "start": 384786,
+                    "type": "CallExpression",
+                    "typeArguments": null
+                  },
+                  "start": 384773,
+                  "type": "VariableDeclarator"
+                }
+              ],
+              "declare": false,
+              "end": 384817,
+              "kind": "const",
+              "start": 384767,
+              "type": "VariableDeclaration"
+            },
+            {
+              "alternate": null,
+              "consequent": {
+                "body": [
+                  {
+                    "declarations": [
+                      {
+                        "definite": false,
+                        "end": 384913,
+                        "id": {
+                          "decorators": [],
+                          "end": 384881,
+                          "name": "first",
+                          "optional": false,
+                          "start": 384876,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "init": {
+                          "arguments": [
+                            {
+                              "decorators": [],
+                              "end": 384909,
+                              "name": "errorsList",
+                              "optional": false,
+                              "start": 384899,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            {
+                              "end": 384912,
+                              "raw": "0",
+                              "start": 384911,
+                              "type": "Literal",
+                              "value": 0
+                            }
+                          ],
+                          "callee": {
+                            "computed": false,
+                            "end": 384897,
+                            "object": {
+                              "end": 384888,
+                              "start": 384884,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 384897,
+                              "name": "safeDict",
+                              "optional": false,
+                              "start": 384889,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 384884,
+                            "type": "MemberExpression"
+                          },
+                          "end": 384913,
+                          "optional": false,
+                          "start": 384884,
+                          "type": "CallExpression",
+                          "typeArguments": null
+                        },
+                        "start": 384876,
+                        "type": "VariableDeclarator"
+                      }
+                    ],
+                    "declare": false,
+                    "end": 384914,
+                    "kind": "const",
+                    "start": 384870,
+                    "type": "VariableDeclaration"
+                  },
+                  {
+                    "declarations": [
+                      {
+                        "definite": false,
+                        "end": 384978,
+                        "id": {
+                          "decorators": [],
+                          "end": 384940,
+                          "name": "errcode",
+                          "optional": false,
+                          "start": 384933,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "init": {
+                          "arguments": [
+                            {
+                              "decorators": [],
+                              "end": 384965,
+                              "name": "first",
+                              "optional": false,
+                              "start": 384960,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            {
+                              "end": 384977,
+                              "raw": "'err_code'",
+                              "start": 384967,
+                              "type": "Literal",
+                              "value": "err_code"
+                            }
+                          ],
+                          "callee": {
+                            "computed": false,
+                            "end": 384958,
+                            "object": {
+                              "end": 384947,
+                              "start": 384943,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 384958,
+                              "name": "safeString",
+                              "optional": false,
+                              "start": 384948,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 384943,
+                            "type": "MemberExpression"
+                          },
+                          "end": 384978,
+                          "optional": false,
+                          "start": 384943,
+                          "type": "CallExpression",
+                          "typeArguments": null
+                        },
+                        "start": 384933,
+                        "type": "VariableDeclarator"
+                      }
+                    ],
+                    "declare": false,
+                    "end": 384979,
+                    "kind": "const",
+                    "start": 384927,
+                    "type": "VariableDeclaration"
+                  },
+                  {
+                    "declarations": [
+                      {
+                        "definite": false,
+                        "end": 385045,
+                        "id": {
+                          "decorators": [],
+                          "end": 385008,
+                          "name": "errmessage",
+                          "optional": false,
+                          "start": 384998,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "init": {
+                          "arguments": [
+                            {
+                              "decorators": [],
+                              "end": 385033,
+                              "name": "first",
+                              "optional": false,
+                              "start": 385028,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            {
+                              "end": 385044,
+                              "raw": "'err_msg'",
+                              "start": 385035,
+                              "type": "Literal",
+                              "value": "err_msg"
+                            }
+                          ],
+                          "callee": {
+                            "computed": false,
+                            "end": 385026,
+                            "object": {
+                              "end": 385015,
+                              "start": 385011,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 385026,
+                              "name": "safeString",
+                              "optional": false,
+                              "start": 385016,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 385011,
+                            "type": "MemberExpression"
+                          },
+                          "end": 385045,
+                          "optional": false,
+                          "start": 385011,
+                          "type": "CallExpression",
+                          "typeArguments": null
+                        },
+                        "start": 384998,
+                        "type": "VariableDeclarator"
+                      }
+                    ],
+                    "declare": false,
+                    "end": 385046,
+                    "kind": "const",
+                    "start": 384992,
+                    "type": "VariableDeclaration"
+                  },
+                  {
+                    "declarations": [
+                      {
+                        "definite": false,
+                        "end": 385096,
+                        "id": {
+                          "decorators": [],
+                          "end": 385073,
+                          "name": "feedBack",
+                          "optional": false,
+                          "start": 385065,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "init": {
+                          "end": 385096,
+                          "left": {
+                            "end": 385089,
+                            "left": {
+                              "computed": false,
+                              "end": 385083,
+                              "object": {
+                                "end": 385080,
+                                "start": 385076,
+                                "type": "ThisExpression"
+                              },
+                              "optional": false,
+                              "property": {
+                                "decorators": [],
+                                "end": 385083,
+                                "name": "id",
+                                "optional": false,
+                                "start": 385081,
+                                "type": "Identifier",
+                                "typeAnnotation": null
+                              },
+                              "start": 385076,
+                              "type": "MemberExpression"
+                            },
+                            "operator": "+",
+                            "right": {
+                              "end": 385089,
+                              "raw": "' '",
+                              "start": 385086,
+                              "type": "Literal",
+                              "value": " "
+                            },
+                            "start": 385076,
+                            "type": "BinaryExpression"
+                          },
+                          "operator": "+",
+                          "right": {
+                            "decorators": [],
+                            "end": 385096,
+                            "name": "body",
+                            "optional": false,
+                            "start": 385092,
+                            "type": "Identifier",
+                            "typeAnnotation": null
+                          },
+                          "start": 385076,
+                          "type": "BinaryExpression"
+                        },
+                        "start": 385065,
+                        "type": "VariableDeclarator"
+                      }
+                    ],
+                    "declare": false,
+                    "end": 385097,
+                    "kind": "const",
+                    "start": 385059,
+                    "type": "VariableDeclaration"
+                  },
+                  {
+                    "directive": null,
+                    "end": 385190,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "computed": true,
+                          "end": 385169,
+                          "object": {
+                            "computed": false,
+                            "end": 385160,
+                            "object": {
+                              "end": 385149,
+                              "start": 385145,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 385160,
+                              "name": "exceptions",
+                              "optional": false,
+                              "start": 385150,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 385145,
+                            "type": "MemberExpression"
+                          },
+                          "optional": false,
+                          "property": {
+                            "end": 385168,
+                            "raw": "'exact'",
+                            "start": 385161,
+                            "type": "Literal",
+                            "value": "exact"
+                          },
+                          "start": 385145,
+                          "type": "MemberExpression"
+                        },
+                        {
+                          "decorators": [],
+                          "end": 385178,
+                          "name": "errcode",
+                          "optional": false,
+                          "start": 385171,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        {
+                          "decorators": [],
+                          "end": 385188,
+                          "name": "feedBack",
+                          "optional": false,
+                          "start": 385180,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        }
+                      ],
+                      "callee": {
+                        "computed": false,
+                        "end": 385143,
+                        "object": {
+                          "end": 385114,
+                          "start": 385110,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "decorators": [],
+                          "end": 385143,
+                          "name": "throwExactlyMatchedException",
+                          "optional": false,
+                          "start": 385115,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "start": 385110,
+                        "type": "MemberExpression"
+                      },
+                      "end": 385189,
+                      "optional": false,
+                      "start": 385110,
+                      "type": "CallExpression",
+                      "typeArguments": null
+                    },
+                    "start": 385110,
+                    "type": "ExpressionStatement"
+                  },
+                  {
+                    "directive": null,
+                    "end": 385286,
+                    "expression": {
+                      "arguments": [
+                        {
+                          "computed": true,
+                          "end": 385262,
+                          "object": {
+                            "computed": false,
+                            "end": 385253,
+                            "object": {
+                              "end": 385242,
+                              "start": 385238,
+                              "type": "ThisExpression"
+                            },
+                            "optional": false,
+                            "property": {
+                              "decorators": [],
+                              "end": 385253,
+                              "name": "exceptions",
+                              "optional": false,
+                              "start": 385243,
+                              "type": "Identifier",
+                              "typeAnnotation": null
+                            },
+                            "start": 385238,
+                            "type": "MemberExpression"
+                          },
+                          "optional": false,
+                          "property": {
+                            "end": 385261,
+                            "raw": "'exact'",
+                            "start": 385254,
+                            "type": "Literal",
+                            "value": "exact"
+                          },
+                          "start": 385238,
+                          "type": "MemberExpression"
+                        },
+                        {
+                          "decorators": [],
+                          "end": 385274,
+                          "name": "errmessage",
+                          "optional": false,
+                          "start": 385264,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        {
+                          "decorators": [],
+                          "end": 385284,
+                          "name": "feedBack",
+                          "optional": false,
+                          "start": 385276,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        }
+                      ],
+                      "callee": {
+                        "computed": false,
+                        "end": 385236,
+                        "object": {
+                          "end": 385207,
+                          "start": 385203,
+                          "type": "ThisExpression"
+                        },
+                        "optional": false,
+                        "property": {
+                          "decorators": [],
+                          "end": 385236,
+                          "name": "throwExactlyMatchedException",
+                          "optional": false,
+                          "start": 385208,
+                          "type": "Identifier",
+                          "typeAnnotation": null
+                        },
+                        "start": 385203,
+                        "type": "MemberExpression"
+                      },
+                      "end": 385285,
+                      "optional": false,
+                      "start": 385203,
+                      "type": "CallExpression",
+                      "typeArguments": null
+                    },
+                    "start": 385203,
+                    "type": "ExpressionStatement"
+                  }
+                ],
+                "end": 385296,
+                "start": 384856,
+                "type": "BlockStatement"
+              },
+              "end": 385296,
+              "start": 384826,
+              "test": {
+                "end": 384854,
+                "left": {
+                  "decorators": [],
+                  "end": 384840,
+                  "name": "errorsList",
+                  "optional": false,
+                  "start": 384830,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "operator": "!==",
+                "right": {
+                  "decorators": [],
+                  "end": 384854,
+                  "name": "undefined",
+                  "optional": false,
+                  "start": 384845,
+                  "type": "Identifier",
+                  "typeAnnotation": null
+                },
+                "start": 384830,
+                "type": "BinaryExpression"
+              },
+              "type": "IfStatement"
+            },
+            {
+              "argument": {
+                "decorators": [],
+                "end": 385321,
+                "name": "undefined",
+                "optional": false,
+                "start": 385312,
+                "type": "Identifier",
+                "typeAnnotation": null
+              },
+              "end": 385322,
+              "start": 385305,
+              "type": "ReturnStatement"
+            }
+          ],
+          "end": 385328,
+          "start": 383220,
+          "type": "BlockStatement"
+        },
+        "params": [
+          {
+            "name": "httpCode",
+            "type": "int"
+          },
+          {
+            "name": "reason",
+            "type": "string"
+          },
+          {
+            "name": "url",
+            "type": "string"
+          },
+          {
+            "name": "method",
+            "type": "string"
+          },
+          {
+            "name": "headers",
+            "type": "Dict"
+          },
+          {
+            "name": "body",
+            "type": "string"
+          },
+          {
+            "name": "response",
+            "type": null
+          },
+          {
+            "name": "requestHeaders",
+            "type": null
+          },
+          {
+            "name": "requestBody",
+            "type": null
+          }
+        ],
+        "return_type": null,
+        "statements": 7
+      }
+    },
     "interface_signatures": {
       "contractPrivatePostLinearSwapApiV1SwapCrossTriggerOpenorders": {
         "name": "contractPrivatePostLinearSwapApiV1SwapCrossTriggerOpenorders",

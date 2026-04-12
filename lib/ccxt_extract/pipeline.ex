@@ -213,14 +213,14 @@ defmodule CcxtExtract.Pipeline do
   # Sign method: direct passthrough (already MethodAST or nil)
   defp get_sign_method(id, data), do: Map.get(data.sign_methods, id)
 
-  # Handle errors: rename handle_errors → method
+  # Handle errors: rename handle_errors → method, with parent fallback
   defp get_handle_errors(id, data) do
     case Map.get(data.handle_errors, id) do
       nil ->
-        nil
+        get_parent_handle_errors(id, data)
 
       %{"handle_errors" => nil} ->
-        nil
+        get_parent_handle_errors(id, data)
 
       %{"handle_errors" => method} = entry when is_map(method) ->
         %{
@@ -231,7 +231,15 @@ defmodule CcxtExtract.Pipeline do
         }
 
       _ ->
-        nil
+        get_parent_handle_errors(id, data)
+    end
+  end
+
+  # Recursive parent fallback for handle_errors
+  defp get_parent_handle_errors(id, data) do
+    case find_parent_exchange_id(id, data) do
+      nil -> nil
+      parent_id -> get_handle_errors(parent_id, data)
     end
   end
 

@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-11T07:49:27.026316Z",
+  "extracted_at": "2026-04-12T05:41:57.780713Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -764,7 +764,7 @@
       }
     }
   },
-  "schema_version": "1.5.0",
+  "schema_version": "1.6.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -1788,12 +1788,16 @@
           "field2": null,
           "method": "safeString",
           "object": "response",
+          "object_path": null,
           "roles": [
             "error_message",
             "status_sentinel"
           ],
           "sentinel_values": [
-            "success"
+            {
+              "operator": "===",
+              "value": "success"
+            }
           ]
         },
         {
@@ -1801,6 +1805,7 @@
           "field2": null,
           "method": "safeString",
           "object": "response",
+          "object_path": null,
           "roles": [
             "error_code"
           ],
@@ -1811,6 +1816,12 @@
           "field2": null,
           "method": "safeString",
           "object": "firstEntry",
+          "object_path": [
+            "response",
+            "data",
+            "failure",
+            "0"
+          ],
           "roles": [],
           "sentinel_values": null
         },
@@ -1819,6 +1830,12 @@
           "field2": null,
           "method": "safeString",
           "object": "firstEntry",
+          "object_path": [
+            "response",
+            "data",
+            "failure",
+            "0"
+          ],
           "roles": [],
           "sentinel_values": null
         }

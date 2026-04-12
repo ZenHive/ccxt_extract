@@ -15,7 +15,8 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
-| Task 53 | Field semantics for error_code_fields | Adds `roles` and `sentinel_values` to each ErrorCodeFieldEntry. Two-pass AST analysis: collects safe* calls with variable bindings, then classifies by usage — `throwExactlyMatchedException` → error_code, `throwBroadlyMatchedException` → error_message, `===`/`!==` comparisons → status_sentinel with captured literal values. A field can have multiple roles. Schema 1.5.0. |
+| Task 54 | Stabilize error_code_fields contract | Adds `object_path` (derivation chain from response), sentinel polarity via `{value, operator}` objects, and child exchange handle_errors inheritance. Single-role per throw helper: `throwExactlyMatchedException` → `error_code`, `throwBroadlyMatchedException` → `error_message` (fields hit by both accumulate dual roles naturally). Schema 1.6.0. |
+| Task 53 | Field semantics for error_code_fields | Adds `roles` and `sentinel_values` to each ErrorCodeFieldEntry. Two-pass AST analysis. Schema 1.5.0. |
 | Task 52 | Authenticated sections from sign() AST | Derives `structure.authenticated_sections` — walks sign() conditionals for `api === 'X'` and `api[N] === 'X'` comparisons gating `checkRequiredCredentials()`, including indirect variable bindings. Schema 1.4.0. Contract: "proven via checkRequiredCredentials() gates", not exhaustive auth detection. |
 | Task 49 | Error code field names from handleErrors() AST | Derives `error_code_fields` from existing handleErrors() AST — all `this.safeString/safeString2/safeValue` calls with object, field, method context. Schema 1.3.0. |
 | Task 47 | URL templates round-trip validation | Validation now compares `runtime.url_templates` against `url_templates.json`, including alias-parent inheritance handling so inherited data doesn't trigger false positives. |
@@ -64,6 +65,7 @@
 |------|--------|-------|
 | Task 49 `[P]` | ✅ | Error code field names from handleErrors() AST — derives `error_code_fields` from existing AST. Schema 1.3.0. |
 | Task 52 `[P]` | ✅ | Authenticated sections from sign() AST — derives `structure.authenticated_sections` from sign() conditionals gating `checkRequiredCredentials()`. Schema 1.4.0. |
+| Task 55 | ⬜ | Pair code field with its message field in `error_code_fields` [D:4/B:6/U:7 → Eff:1.6] 🚀 — expose arg[2] (message argument) of each `throwExactly/BroadlyMatchedException` call, linking it back to the safe* binding that produced it. Consumer value: a ccxt_client knows `{code_field: "code", message_field: "msg"}` pairings per exchange without having to re-parse the AST. Shape: add `paired_with` (field name or null) to each entry, or add a separate `throw_dispatches` list with `{exact_map, code_field, message_field, http_code?}` tuples. Requires re-analysis of throw-call arguments beyond arg[1]. |
 
 ### 📋 Data Quality & Maintenance
 | Task | Status | Notes |

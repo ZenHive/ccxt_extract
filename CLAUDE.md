@@ -52,7 +52,7 @@ Three Hex packages, zero external toolchains:
 ### OXC — Parse TypeScript AST (Rust NIF)
 
 ```elixir
-{:oxc, "~> 0.5"}
+{:oxc, "~> 0.6"}
 ```
 
 Parses CCXT TypeScript source into ESTree AST (Elixir maps with atom keys). ~43ms per exchange for the largest files. Extracts:
@@ -69,7 +69,7 @@ source = File.read!("priv/ccxt/ts/src/binance.ts")
 ### QuickBEAM — Run CCXT JavaScript Runtime (Zig NIF)
 
 ```elixir
-{:quickbeam, "~> 0.8"}
+{:quickbeam, "~> 0.9"}
 ```
 
 Loads CCXT's pre-bundled browser build and runs it on the BEAM. All 111 exchanges instantiated in ~13 seconds. Extracts:
@@ -132,7 +132,7 @@ Per-exchange JSON has three top-level sections:
 
 ```
 {
-  "schema_version": "1.5.0",
+  "schema_version": "1.6.0",
   "ccxt_version": "4.x.x",
   "exchange": { id, name, alias },
   "runtime": {

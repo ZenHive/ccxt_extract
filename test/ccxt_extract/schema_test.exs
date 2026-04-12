@@ -95,10 +95,11 @@ defmodule CcxtExtract.SchemaTest do
         "error_code_fields" => [
           %{
             "object" => "response",
+            "object_path" => nil,
             "field" => "code",
             "method" => "safeString",
             "field2" => nil,
-            "roles" => ["error_code"],
+            "roles" => ["error_code", "error_message"],
             "sentinel_values" => nil
           }
         ]

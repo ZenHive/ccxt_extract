@@ -36,7 +36,7 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "1.5.0"
+  @schema_version "1.6.0"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)
@@ -441,7 +441,7 @@ defmodule CcxtExtract.Schema do
   end
 
   # error_code_fields must be a list of maps with required keys
-  @required_error_code_field_keys ~w(object field method field2 roles sentinel_values)
+  @required_error_code_field_keys ~w(object object_path field method field2 roles sentinel_values)
   defp check_error_code_fields(errors, parent, key, label) do
     case Map.get(parent, key) do
       val when is_list(val) ->
@@ -489,20 +489,30 @@ defmodule CcxtExtract.Schema do
     ["#{label}.roles: expected list, got #{type_name(roles)}" | errors]
   end
 
-  # sentinel_values must be null or a list of strings
+  @valid_sentinel_operators ~w(=== !==)
+  # sentinel_values must be null or a list of %{"value" => string, "operator" => "===" | "!=="}
   defp check_sentinel_values(errors, nil, _label), do: errors
 
   defp check_sentinel_values(errors, vals, label) when is_list(vals) do
-    non_strings = Enum.reject(vals, &is_binary/1)
-
-    case non_strings do
-      [] -> errors
-      bad -> ["#{label}.sentinel_values: expected strings, got #{inspect(bad)}" | errors]
-    end
+    vals
+    |> Enum.with_index()
+    |> Enum.reduce(errors, fn {entry, i}, acc ->
+      check_sentinel_entry(acc, entry, "#{label}.sentinel_values[#{i}]")
+    end)
   end
 
   defp check_sentinel_values(errors, val, label) do
     ["#{label}.sentinel_values: expected null or list, got #{type_name(val)}" | errors]
+  end
+
+  defp check_sentinel_entry(errors, %{"value" => v, "operator" => op}, label) do
+    errs = errors
+    errs = if is_binary(v), do: errs, else: ["#{label}.value: expected string" | errs]
+    if op in @valid_sentinel_operators, do: errs, else: ["#{label}.operator: expected === or !==" | errs]
+  end
+
+  defp check_sentinel_entry(errors, entry, label) do
+    ["#{label}: expected %{value, operator} map, got #{type_name(entry)}" | errors]
   end
 
   defp check_method_ast_shape(errors, method, label) do

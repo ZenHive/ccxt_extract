@@ -31,7 +31,7 @@ defmodule CcxtExtract.MixProject do
     [
       # Core extraction tools
       {:oxc, "~> 0.6.0"},
-      {:quickbeam, "~> 0.8"},
+      {:quickbeam, "~> 0.9"},
       {:npm, "~> 0.5"},
 
       # JSON

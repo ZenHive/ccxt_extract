@@ -152,13 +152,15 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
   end
 
   describe "nullability semantics" do
-    test "bequant keeps handle_errors null when the source fixture has no handleErrors method", %{lookup: lookup} do
+    test "bequant inherits handle_errors from parent hitbtc", %{lookup: lookup} do
       source = "handle_errors.json" |> load_exchange_entries() |> find_by_id("bequant")
       assert source["handle_errors"] == nil
 
       ex = lookup["bequant"]
       assert ex["exchange"]["alias"] == false
-      assert ex["structure"]["handle_errors"] == nil
+      # bequant has no own handleErrors but inherits from parent (hitbtc)
+      assert is_map(ex["structure"]["handle_errors"])
+      assert is_map(ex["structure"]["handle_errors"]["method"])
     end
 
     test "bequant converts empty parse_methods source to null", %{lookup: lookup} do

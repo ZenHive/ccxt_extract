@@ -6,6 +6,14 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 54: Stabilize error_code_fields contract
+- Added `object_path` field — derivation path tracing object variables back to `response` (e.g., coincatch's `firstEntry` resolves to `["response", "data", "failure", "0"]`)
+- Changed `sentinel_values` from `[string]` to `[{value, operator}]` — preserves the `===`/`!==` operator for polarity detection (WhiteBIT `!== "200"` vs Binance `=== "200"`)
+- Role mapping reflects CCXT helper semantics (`base/Exchange.ts:6182-6195`): `throwExactlyMatchedException` → `error_code` (exact-map lookup key via `string in exact`), `throwBroadlyMatchedException` → `error_message` (message text scanned for substrings via `string.indexOf(key) >= 0`). Fields hit by both helpers in the same handleErrors() (e.g., Alpaca's `message`) accumulate both roles naturally via list aggregation.
+- Child exchanges (binanceusdm, bequant, gateio, etc.) now inherit `handle_errors` from parent when they don't override it, matching the existing pattern for describe/markets/url_templates
+- Validation roundtrip checks updated with parent fallback for inherited handle_errors
+- Schema bumped to 1.6.0
+
 ### Task 53: Field semantics for error_code_fields
 - Extended `CcxtExtract.ErrorCodeFields` with two-pass AST analysis — pass 1 collects safe* calls with variable bindings, pass 2 scans for usage patterns to classify roles
 - Added `roles` (array) and `sentinel_values` (array or null) to each `ErrorCodeFieldEntry`

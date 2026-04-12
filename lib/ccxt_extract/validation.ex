@@ -578,7 +578,13 @@ defmodule CcxtExtract.Validation do
   # Compare structure.handle_errors — presence + method AST, exceptions, http_exceptions
   defp check_handle_errors_roundtrip(findings, output, source, id) do
     output_he = get_in(output, ["structure", "handle_errors"])
-    source_entry = Map.get(source.handle_errors, id)
+    raw_entry = Map.get(source.handle_errors, id)
+    # Fall back to parent if this exchange has no handleErrors data
+    source_entry =
+      if source_has_handle_errors?(raw_entry),
+        do: raw_entry,
+        else: resolve_parent_source(source, id, :handle_errors)
+
     source_method = source_has_handle_errors?(source_entry)
 
     findings

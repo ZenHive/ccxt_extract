@@ -12,7 +12,7 @@
     "referral": null,
     "version": "v2"
   },
-  "extracted_at": "2026-04-11T07:49:27.026316Z",
+  "extracted_at": "2026-04-12T05:41:57.780713Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -48637,7 +48637,7 @@
       }
     }
   },
-  "schema_version": "1.5.0",
+  "schema_version": "1.6.0",
   "structure": {
     "authenticated_sections": [],
     "class_info": {
@@ -49204,11 +49204,15 @@
           "field2": null,
           "method": "safeString",
           "object": "response",
+          "object_path": null,
           "roles": [
             "status_sentinel"
           ],
           "sentinel_values": [
-            "error"
+            {
+              "operator": "===",
+              "value": "error"
+            }
           ]
         },
         {
@@ -49216,6 +49220,7 @@
           "field2": null,
           "method": "safeValue",
           "object": "response",
+          "object_path": null,
           "roles": [],
           "sentinel_values": null
         },
@@ -49224,6 +49229,10 @@
           "field2": null,
           "method": "safeValue",
           "object": "error",
+          "object_path": [
+            "response",
+            "error"
+          ],
           "roles": [
             "error_code",
             "error_message"
@@ -49235,6 +49244,7 @@
           "field2": null,
           "method": "safeValue",
           "object": "response",
+          "object_path": null,
           "roles": [],
           "sentinel_values": null
         },
@@ -49243,6 +49253,10 @@
           "field2": null,
           "method": "safeValue",
           "object": "reasonInner",
+          "object_path": [
+            "response",
+            "reason"
+          ],
           "roles": [],
           "sentinel_values": null
         },
@@ -49251,11 +49265,15 @@
           "field2": null,
           "method": "safeString",
           "object": "response",
+          "object_path": null,
           "roles": [
             "status_sentinel"
           ],
           "sentinel_values": [
-            "API0005"
+            {
+              "operator": "===",
+              "value": "API0005"
+            }
           ]
         }
       ],

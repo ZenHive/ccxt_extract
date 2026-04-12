@@ -6,6 +6,13 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 55: throw_dispatches from handleErrors() AST
+- New `CcxtExtract.ThrowDispatches` module — derives one entry per `this.throwExactly/BroadlyMatchedException` call in the method body
+- Each entry pairs the exceptions-map source (normalized tag: `exceptions`/`exceptions.exact`/`exceptions.broad`/`by_url.exact`/`by_url.broad`/`other`) with the resolved safe* binding for arg[1], the unique resolved safe* binding referenced anywhere in arg[2], and a raw-string rendering of arg[0] as an anti-rot hatch for unrecognized shapes
+- Shared AST-binding helpers now resolve simple identifier aliases (`errorInfo = message`) and wrapped message expressions (`this.id + ' ' + this.json(message)`) before deriving `throw_dispatches` or `error_code_fields`
+- Schema bumped to 1.7.0 — new required `throw_dispatches` field in `HandleErrorsData`, new `ThrowDispatchEntry` type
+- Binance exposes 8 dispatches with explicit `message_lookup` keys; WhiteBIT now resolves alias-backed exact lookups; Bithumb normalizes bare `this.exceptions`
+
 ### Task 54: Stabilize error_code_fields contract
 - Added `object_path` field — derivation path tracing object variables back to `response` (e.g., coincatch's `firstEntry` resolves to `["response", "data", "failure", "0"]`)
 - Changed `sentinel_values` from `[string]` to `[{value, operator}]` — preserves the `===`/`!==` operator for polarity detection (WhiteBIT `!== "200"` vs Binance `=== "200"`)

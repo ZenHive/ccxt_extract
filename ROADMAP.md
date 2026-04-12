@@ -15,6 +15,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 55 | throw_dispatches from handleErrors() AST | New `structure.handle_errors.throw_dispatches` — one entry per `this.throwExactly/BroadlyMatchedException` call with normalized exceptions-map source, raw-string rendering, resolved safe* binding for arg[1], and resolved `message_lookup` from arg[2] when provable. Schema 1.7.0. |
 | Task 54 | Stabilize error_code_fields contract | Adds `object_path` (derivation chain from response), sentinel polarity via `{value, operator}` objects, and child exchange handle_errors inheritance. Single-role per throw helper: `throwExactlyMatchedException` → `error_code`, `throwBroadlyMatchedException` → `error_message` (fields hit by both accumulate dual roles naturally). Schema 1.6.0. |
 | Task 53 | Field semantics for error_code_fields | Adds `roles` and `sentinel_values` to each ErrorCodeFieldEntry. Two-pass AST analysis. Schema 1.5.0. |
 | Task 52 | Authenticated sections from sign() AST | Derives `structure.authenticated_sections` — walks sign() conditionals for `api === 'X'` and `api[N] === 'X'` comparisons gating `checkRequiredCredentials()`, including indirect variable bindings. Schema 1.4.0. Contract: "proven via checkRequiredCredentials() gates", not exhaustive auth detection. |
@@ -65,7 +66,7 @@
 |------|--------|-------|
 | Task 49 `[P]` | ✅ | Error code field names from handleErrors() AST — derives `error_code_fields` from existing AST. Schema 1.3.0. |
 | Task 52 `[P]` | ✅ | Authenticated sections from sign() AST — derives `structure.authenticated_sections` from sign() conditionals gating `checkRequiredCredentials()`. Schema 1.4.0. |
-| Task 55 | ⬜ | Pair code field with its message field in `error_code_fields` [D:4/B:6/U:7 → Eff:1.6] 🚀 — expose arg[2] (message argument) of each `throwExactly/BroadlyMatchedException` call, linking it back to the safe* binding that produced it. Consumer value: a ccxt_client knows `{code_field: "code", message_field: "msg"}` pairings per exchange without having to re-parse the AST. Shape: add `paired_with` (field name or null) to each entry, or add a separate `throw_dispatches` list with `{exact_map, code_field, message_field, http_code?}` tuples. Requires re-analysis of throw-call arguments beyond arg[1]. |
+| Task 55 | ✅ | Pair code field with its message field in `error_code_fields` [D:4/B:6/U:7 → Eff:1.6] 🚀 — `throw_dispatches` now records both the arg[1] lookup binding and arg[2] `message_lookup` when that message expression resolves to a unique safe* binding, with alias chains and wrapped expressions followed before resolution. Consumer value: a ccxt_client can recover `{code_field, message_field}` pairings without re-parsing the AST. |
 
 ### 📋 Data Quality & Maintenance
 | Task | Status | Notes |

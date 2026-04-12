@@ -102,6 +102,21 @@ defmodule CcxtExtract.SchemaTest do
             "roles" => ["error_code", "error_message"],
             "sentinel_values" => nil
           }
+        ],
+        "throw_dispatches" => [
+          %{
+            "helper" => "throwExactlyMatchedException",
+            "exceptions_source" => "exceptions.exact",
+            "exceptions_source_raw" => "this.exceptions['exact']",
+            "lookup" => %{
+              "object" => "response",
+              "object_path" => nil,
+              "field" => "code",
+              "field2" => nil,
+              "method" => "safeString"
+            },
+            "message_lookup" => nil
+          }
         ]
       },
       "parse_methods" => %{"parseTicker" => @sample_method_ast},
@@ -310,6 +325,60 @@ defmodule CcxtExtract.SchemaTest do
 
       assert {:error, reasons} = Schema.validate(bad)
       assert Enum.any?(reasons, &String.contains?(&1, "structure.handle_errors"))
+    end
+
+    test "rejects throw_dispatches lookup with invalid object_path type" do
+      bad = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
+      bad = put_in(bad, ["structure", "handle_errors", "throw_dispatches", Access.at(0), "lookup", "object_path"], 123)
+
+      assert {:error, reasons} = Schema.validate(bad)
+      assert Enum.any?(reasons, &String.contains?(&1, "throw_dispatches[0].lookup.object_path"))
+    end
+
+    test "rejects throw_dispatches lookup with invalid object type" do
+      bad = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
+      bad = put_in(bad, ["structure", "handle_errors", "throw_dispatches", Access.at(0), "lookup", "object"], 123)
+
+      assert {:error, reasons} = Schema.validate(bad)
+      assert Enum.any?(reasons, &String.contains?(&1, "throw_dispatches[0].lookup.object"))
+    end
+
+    test "rejects throw_dispatches lookup with invalid field type" do
+      bad = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
+      bad = put_in(bad, ["structure", "handle_errors", "throw_dispatches", Access.at(0), "lookup", "field"], %{})
+
+      assert {:error, reasons} = Schema.validate(bad)
+      assert Enum.any?(reasons, &String.contains?(&1, "throw_dispatches[0].lookup.field"))
+    end
+
+    test "rejects throw_dispatches lookup with invalid method value" do
+      bad = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
+
+      bad =
+        put_in(
+          bad,
+          ["structure", "handle_errors", "throw_dispatches", Access.at(0), "lookup", "method"],
+          "safeInteger"
+        )
+
+      assert {:error, reasons} = Schema.validate(bad)
+      assert Enum.any?(reasons, &String.contains?(&1, "throw_dispatches[0].lookup.method"))
+    end
+
+    test "rejects throw_dispatches message_lookup with invalid field type" do
+      bad = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
+
+      bad =
+        put_in(bad, ["structure", "handle_errors", "throw_dispatches", Access.at(0), "message_lookup"], %{
+          "object" => "response",
+          "object_path" => nil,
+          "field" => [],
+          "field2" => nil,
+          "method" => "safeString"
+        })
+
+      assert {:error, reasons} = Schema.validate(bad)
+      assert Enum.any?(reasons, &String.contains?(&1, "throw_dispatches[0].message_lookup.field"))
     end
 
     test "rejects non-map structure.parse_methods values" do

@@ -26,12 +26,15 @@ defmodule CcxtExtract.ErrorCodeFields do
       #       "sentinel_values" => ["0", "200"]}, ...]
   """
 
+  alias CcxtExtract.ErrorCodeFields.Bindings
+
   @safe_methods ~w(safeString safeString2 safeValue)
 
   # CCXT helper semantics (base/Exchange.ts):
-  #   throwExactlyMatchedException(exact, string, message) — `string in exact` → arg[1] is an exact lookup key (error code).
-  #   throwBroadlyMatchedException(broad, string, message) — `string.indexOf(key) >= 0` → arg[1] is the message text scanned for substrings.
-  # A field that flows through both helpers in the same handleErrors() naturally accumulates both roles.
+  #   throwExactlyMatchedException(exact, string, message) — `string in exact`
+  #     → arg[1] is an exact lookup key (error code).
+  #   throwBroadlyMatchedException(broad, string, message) — `string.indexOf(key) >= 0`
+  #     → arg[1] is the message text scanned for substrings.
   @throw_role_map %{
     "throwExactlyMatchedException" => ["error_code"],
     "throwBroadlyMatchedException" => ["error_message"]
@@ -47,21 +50,16 @@ defmodule CcxtExtract.ErrorCodeFields do
   def derive(nil), do: nil
 
   def derive(%{"body" => body}) when is_map(body) do
-    # Pass 0: build variable derivation path map
-    path_map = build_path_map(body)
-
-    # Pass 1: collect safe* calls with variable bindings
+    path_map = Bindings.build_path_map(body)
+    resolution_context = Bindings.build_resolution_context(body)
     {safe_calls, var_bindings} = collect_with_bindings(body)
+    usage = analyze_usage(body, var_bindings, resolution_context)
 
-    # Pass 2: analyze how bound variables are used
-    usage = analyze_usage(body, var_bindings)
-
-    # Merge roles, sentinel values, and object paths into each entry
     Enum.map(safe_calls, fn entry ->
       var_name = entry["_var_name"]
       roles = Map.get(usage, {:roles, var_name}, [])
       sentinels = Map.get(usage, {:sentinels, var_name}, nil)
-      object_path = resolve_object_path(entry["object"], path_map)
+      object_path = Bindings.resolve_object_path(entry["object"], path_map)
 
       entry
       |> Map.delete("_var_name")
@@ -75,27 +73,19 @@ defmodule CcxtExtract.ErrorCodeFields do
 
   # --- Pass 1: Collect safe* calls with variable bindings ---
 
-  # Walks the AST collecting safe* calls. When a safe* call is the init of a
-  # VariableDeclarator, records the variable name on the entry as "_var_name".
-  # Returns {safe_calls, var_bindings} where var_bindings maps var_name to true.
   defp collect_with_bindings(body) do
     calls = collect_safe_calls(body, nil)
     var_set = calls |> Enum.map(& &1["_var_name"]) |> Enum.reject(&is_nil/1) |> Map.new(&{&1, true})
     {calls, var_set}
   end
 
-  # Walk with parent context to detect VariableDeclarator wrapping
   defp collect_safe_calls(
          %{"type" => "VariableDeclarator", "id" => %{"type" => "Identifier", "name" => var_name}, "init" => init} = node,
          _parent_var
        ) do
-    # Check if init is directly a safe* call
     own = extract_if_safe_call(init, var_name)
-
-    # Also recurse into the init for nested safe* calls (rare but possible)
     init_children = collect_children(init, nil)
 
-    # Recurse remaining children (not init, already handled)
     other_children =
       node
       |> Map.drop(["init", "id", "type"])
@@ -124,12 +114,10 @@ defmodule CcxtExtract.ErrorCodeFields do
 
   defp collect_safe_calls(_, _parent_var), do: []
 
-  # Collect children of a node (all map values)
   defp collect_children(node, parent_var) when is_map(node) do
     node |> Map.values() |> Enum.flat_map(&collect_safe_calls(&1, parent_var))
   end
 
-  # Check if a node is a this.safe*(obj, field, ...) CallExpression
   defp extract_if_safe_call(
          %{
            "type" => "CallExpression",
@@ -143,15 +131,11 @@ defmodule CcxtExtract.ErrorCodeFields do
          var_name
        )
        when method_name in @safe_methods do
-    object = extract_identifier_name(first_arg)
-    field = extract_literal_value(Enum.at(rest_args, 0))
-    field2 = extract_literal_value(Enum.at(rest_args, 1))
-
     %{
-      "object" => object,
-      "field" => field,
+      "object" => Bindings.extract_identifier_name(first_arg),
+      "field" => Bindings.extract_literal_value(Enum.at(rest_args, 0)),
       "method" => method_name,
-      "field2" => field2,
+      "field2" => Bindings.extract_literal_value(Enum.at(rest_args, 1)),
       "_var_name" => var_name
     }
   end
@@ -160,34 +144,25 @@ defmodule CcxtExtract.ErrorCodeFields do
 
   # --- Pass 2: Analyze usage patterns ---
 
-  # Scans the full AST body for throw* calls and === / !== comparisons
-  # involving variables that were bound to safe* calls.
-  # Returns %{{:roles, var_name} => [role, ...], {:sentinels, var_name} => [value, ...]}
-  defp analyze_usage(body, var_bindings) do
-    if var_bindings == %{}, do: %{}, else: scan_usage(body, var_bindings, %{})
+  defp analyze_usage(body, var_bindings, resolution_context) do
+    if var_bindings == %{}, do: %{}, else: scan_usage(body, var_bindings, resolution_context, %{})
   end
 
-  defp scan_usage(node, vars, acc) when is_map(node) do
-    # Check for throw*MatchedException calls
-    acc = detect_throw_usage(node, vars, acc)
+  defp scan_usage(node, vars, resolution_context, acc) when is_map(node) do
+    acc = detect_throw_usage(node, vars, resolution_context, acc)
+    acc = detect_sentinel_usage(node, vars, resolution_context, acc)
 
-    # Check for === / !== comparisons
-    acc = detect_sentinel_usage(node, vars, acc)
-
-    # Recurse into children
     node
     |> Map.values()
-    |> Enum.reduce(acc, &scan_usage(&1, vars, &2))
+    |> Enum.reduce(acc, &scan_usage(&1, vars, resolution_context, &2))
   end
 
-  defp scan_usage(nodes, vars, acc) when is_list(nodes) do
-    Enum.reduce(nodes, acc, &scan_usage(&1, vars, &2))
+  defp scan_usage(nodes, vars, resolution_context, acc) when is_list(nodes) do
+    Enum.reduce(nodes, acc, &scan_usage(&1, vars, resolution_context, &2))
   end
 
-  defp scan_usage(_, _vars, acc), do: acc
+  defp scan_usage(_, _vars, _resolution_context, acc), do: acc
 
-  # Detect: this.throwExactlyMatchedException(_, variable, _)
-  #     or: this.throwBroadlyMatchedException(_, variable, _)
   defp detect_throw_usage(
          %{
            "type" => "CallExpression",
@@ -199,6 +174,7 @@ defmodule CcxtExtract.ErrorCodeFields do
            "arguments" => [_first | rest_args]
          },
          vars,
+         resolution_context,
          acc
        ) do
     case {Map.get(@throw_role_map, method_name), rest_args} do
@@ -206,16 +182,18 @@ defmodule CcxtExtract.ErrorCodeFields do
         acc
 
       {roles, [%{"type" => "Identifier", "name" => var_name} | _]} when is_list(roles) ->
-        append_roles(acc, vars, var_name, roles)
+        case Bindings.resolve_bound_var(var_name, resolution_context) do
+          nil -> acc
+          resolved_var_name -> append_roles(acc, vars, resolved_var_name, roles)
+        end
 
       _ ->
         acc
     end
   end
 
-  defp detect_throw_usage(_, _vars, acc), do: acc
+  defp detect_throw_usage(_, _vars, _resolution_context, acc), do: acc
 
-  # Appends multiple roles for a variable if it's in the bound set
   defp append_roles(acc, vars, var_name, roles) do
     if Map.has_key?(vars, var_name) do
       Enum.reduce(roles, acc, fn role, inner ->
@@ -226,15 +204,14 @@ defmodule CcxtExtract.ErrorCodeFields do
     end
   end
 
-  # Detect: variable === literal  or  literal === variable
-  #         variable !== literal  or  literal !== variable
   defp detect_sentinel_usage(
          %{"type" => "BinaryExpression", "operator" => op, "left" => left, "right" => right},
-         vars,
+         _vars,
+         resolution_context,
          acc
        )
        when op in ["===", "!=="] do
-    case resolve_sentinel_pair(left, right, vars) do
+    case resolve_sentinel_pair(left, right, resolution_context) do
       {var_name, value} ->
         sentinel = %{"value" => value, "operator" => op}
 
@@ -247,123 +224,34 @@ defmodule CcxtExtract.ErrorCodeFields do
     end
   end
 
-  defp detect_sentinel_usage(_, _vars, acc), do: acc
+  defp detect_sentinel_usage(_, _vars, _resolution_context, acc), do: acc
 
-  # Try both orderings: var op literal, or literal op var
   defp resolve_sentinel_pair(
          %{"type" => "Identifier", "name" => var_name},
          %{"type" => "Literal", "value" => value},
-         vars
+         resolution_context
        )
        when not is_nil(value) do
-    if Map.has_key?(vars, var_name), do: {var_name, to_string(value)}
+    case Bindings.resolve_bound_var(var_name, resolution_context) do
+      nil -> nil
+      resolved_var_name -> {resolved_var_name, to_string(value)}
+    end
   end
 
   defp resolve_sentinel_pair(
          %{"type" => "Literal", "value" => value},
          %{"type" => "Identifier", "name" => var_name},
-         vars
+         resolution_context
        )
        when not is_nil(value) do
-    if Map.has_key?(vars, var_name), do: {var_name, to_string(value)}
+    case Bindings.resolve_bound_var(var_name, resolution_context) do
+      nil -> nil
+      resolved_var_name -> {resolved_var_name, to_string(value)}
+    end
   end
 
   defp resolve_sentinel_pair(_, _, _), do: nil
 
-  # --- Pass 0: Build variable derivation path map ---
-
-  # All this.safe* methods that derive objects from other objects
-  @derivation_methods ~w(safeDict safeDict2 safeList safeList2 safeValue safeValue2
-                         safeString safeString2 safeInteger safeInteger2 safeNumber
-                         safeNumber2 safeTimestamp safeTimestamp2 safeBool safeBool2)
-
-  # Walks the AST collecting VariableDeclarator → this.safe*(obj, key) bindings.
-  # Returns %{var_name => [path_segments]} where path traces back to "response".
-  defp build_path_map(body) do
-    bindings = collect_derivation_bindings(body)
-    resolve_paths(bindings)
-  end
-
-  # Collect raw bindings: %{var_name => {source_var, key}}
-  defp collect_derivation_bindings(node) when is_map(node) do
-    own = extract_derivation_binding(node)
-
-    children =
-      node
-      |> Map.values()
-      |> Enum.reduce(%{}, fn child, acc -> Map.merge(acc, collect_derivation_bindings(child)) end)
-
-    Map.merge(children, own)
-  end
-
-  defp collect_derivation_bindings(nodes) when is_list(nodes) do
-    Enum.reduce(nodes, %{}, fn node, acc -> Map.merge(acc, collect_derivation_bindings(node)) end)
-  end
-
-  defp collect_derivation_bindings(_), do: %{}
-
-  # Extract a single binding from a VariableDeclarator with a this.safe*() init
-  defp extract_derivation_binding(%{
-         "type" => "VariableDeclarator",
-         "id" => %{"type" => "Identifier", "name" => var_name},
-         "init" => %{
-           "type" => "CallExpression",
-           "callee" => %{
-             "type" => "MemberExpression",
-             "object" => %{"type" => "ThisExpression"},
-             "property" => %{"type" => "Identifier", "name" => method_name}
-           },
-           "arguments" => [first_arg | rest_args]
-         }
-       })
-       when method_name in @derivation_methods do
-    source = extract_identifier_name(first_arg)
-    key = extract_literal_value(Enum.at(rest_args, 0))
-    if source, do: %{var_name => {source, key}}, else: %{}
-  end
-
-  defp extract_derivation_binding(_), do: %{}
-
-  # Resolve raw bindings into full paths by following chains
-  defp resolve_paths(bindings) do
-    Map.new(bindings, fn {var_name, _} ->
-      {var_name, trace_path(var_name, bindings, [])}
-    end)
-  end
-
-  # Trace a variable back through its derivation chain to build the full path
-  defp trace_path(var_name, bindings, seen) do
-    if var_name in seen do
-      # Cycle detected — return what we have
-      [var_name]
-    else
-      case Map.get(bindings, var_name) do
-        nil ->
-          # Terminal — this is either "response" or an untracked parameter
-          [var_name]
-
-        {source, key} ->
-          parent_path = trace_path(source, bindings, [var_name | seen])
-          if key, do: parent_path ++ [to_string(key)], else: parent_path
-      end
-    end
-  end
-
-  # Resolve object_path for an entry: null if trivially "response", path otherwise
-  defp resolve_object_path(nil, _path_map), do: nil
-  defp resolve_object_path("response", _path_map), do: nil
-
-  defp resolve_object_path(object, path_map) do
-    case Map.get(path_map, object) do
-      nil -> nil
-      ["response"] -> nil
-      path -> path
-    end
-  end
-
-  # --- Shared helpers ---
-
-  # Formats sentinel_values: null if no sentinel role, sorted by value otherwise
   defp format_sentinels(roles, sentinels) do
     if "status_sentinel" in roles do
       (sentinels || [])
@@ -371,10 +259,4 @@ defmodule CcxtExtract.ErrorCodeFields do
       |> Enum.sort_by(& &1["value"])
     end
   end
-
-  defp extract_identifier_name(%{"type" => "Identifier", "name" => name}), do: name
-  defp extract_identifier_name(_), do: nil
-
-  defp extract_literal_value(%{"type" => "Literal", "value" => value}), do: value
-  defp extract_literal_value(_), do: nil
 end

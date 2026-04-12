@@ -12,7 +12,7 @@
     "referral": null,
     "version": null
   },
-  "extracted_at": "2026-04-12T05:41:57.780713Z",
+  "extracted_at": "2026-04-12T06:42:28.868141Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -3565,7 +3565,7 @@
       }
     }
   },
-  "schema_version": "1.6.0",
+  "schema_version": "1.7.0",
   "structure": {
     "authenticated_sections": [],
     "class_info": {
@@ -4777,7 +4777,8 @@
         ],
         "return_type": null,
         "statements": 8
-      }
+      },
+      "throw_dispatches": []
     },
     "interface_signatures": {
       "nodeGetBlocksHeightSignature": {

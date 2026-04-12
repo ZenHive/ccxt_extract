@@ -8,7 +8,7 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "1.6.0",
+      "const": "1.7.0",
       "description": "Schema version. Consumers should check this before parsing."
     },
     "extracted_at": {
@@ -583,7 +583,7 @@
     "HandleErrorsData": {
       "type": "object",
       "description": "handleErrors() method AST plus exception mappings from describe().",
-      "required": ["method", "exceptions", "http_exceptions", "error_code_fields"],
+      "required": ["method", "exceptions", "http_exceptions", "error_code_fields", "throw_dispatches"],
       "additionalProperties": false,
       "properties": {
         "method": {
@@ -618,6 +618,91 @@
           "items": {
             "$ref": "#/$defs/ErrorCodeFieldEntry"
           }
+        },
+        "throw_dispatches": {
+          "type": "array",
+          "description": "Derived from handleErrors() AST: one entry per this.throwExactlyMatchedException / throwBroadlyMatchedException call. Each entry records which helper was called, the normalized exceptions-map source (exceptions/exceptions.exact/exceptions.broad/by_url.exact/by_url.broad/other), a raw string rendering of the source expression (anti-rot hatch), the resolved safe* binding for the lookup variable (arg[1]), and the unique resolved safe* binding referenced anywhere in the message expression (arg[2]) when one can be proven.",
+          "items": {
+            "$ref": "#/$defs/ThrowDispatchEntry"
+          }
+        }
+      }
+    },
+
+    "ThrowDispatchEntry": {
+      "type": "object",
+      "description": "A single this.throw{Exactly,Broadly}MatchedException dispatch in handleErrors(). Pairs the exceptions-map source with the safe* binding that feeds the lookup argument, and with the unique safe* binding referenced by the message expression when derivable, so consumers can reconstruct code/message pairings without re-parsing the AST.",
+      "required": ["helper", "exceptions_source", "exceptions_source_raw", "lookup", "message_lookup"],
+      "additionalProperties": false,
+      "properties": {
+        "helper": {
+          "type": "string",
+          "enum": ["throwExactlyMatchedException", "throwBroadlyMatchedException"]
+        },
+        "exceptions_source": {
+          "type": "string",
+          "enum": ["exceptions", "exceptions.exact", "exceptions.broad", "by_url.exact", "by_url.broad", "other"],
+          "description": "Normalized tag for arg[0]. 'exceptions' covers bare this.exceptions. 'exceptions.exact'/'exceptions.broad' cover both this.exceptions['exact'] and this.exceptions.exact shapes. 'by_url.*' covers this.getExceptionsByUrl(url, 'exact'|'broad'). 'other' is the anti-rot fallback — use exceptions_source_raw to disambiguate."
+        },
+        "exceptions_source_raw": {
+          "type": "string",
+          "description": "Compact string rendering of the arg[0] AST (always present). Anti-rot hatch so consumers can still inspect the original expression when exceptions_source is 'other'."
+        },
+        "lookup": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["object", "object_path", "field", "field2", "method"],
+              "additionalProperties": false,
+              "properties": {
+                "object": { "oneOf": [{ "type": "null" }, { "type": "string" }] },
+                "object_path": {
+                  "oneOf": [
+                    { "type": "null" },
+                    { "type": "array", "items": { "type": "string" } }
+                  ]
+                },
+                "field": { "oneOf": [{ "type": "null" }, { "type": "string" }, { "type": "integer" }] },
+                "field2": { "oneOf": [{ "type": "null" }, { "type": "string" }, { "type": "integer" }] },
+                "method": {
+                  "oneOf": [
+                    { "type": "null" },
+                    { "type": "string", "enum": ["safeString", "safeString2", "safeValue"] }
+                  ]
+                }
+              }
+            }
+          ],
+          "description": "Resolved safe* binding for arg[1], or null when arg[1] is not a bound Identifier. Shape mirrors ErrorCodeFieldEntry minus roles/sentinel_values, plus method to save a cross-reference."
+        },
+        "message_lookup": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["object", "object_path", "field", "field2", "method"],
+              "additionalProperties": false,
+              "properties": {
+                "object": { "oneOf": [{ "type": "null" }, { "type": "string" }] },
+                "object_path": {
+                  "oneOf": [
+                    { "type": "null" },
+                    { "type": "array", "items": { "type": "string" } }
+                  ]
+                },
+                "field": { "oneOf": [{ "type": "null" }, { "type": "string" }, { "type": "integer" }] },
+                "field2": { "oneOf": [{ "type": "null" }, { "type": "string" }, { "type": "integer" }] },
+                "method": {
+                  "oneOf": [
+                    { "type": "null" },
+                    { "type": "string", "enum": ["safeString", "safeString2", "safeValue"] }
+                  ]
+                }
+              }
+            }
+          ],
+          "description": "Resolved safe* binding for the unique lookup value referenced anywhere in arg[2], or null when the message expression does not point at a single bound lookup value."
         }
       }
     },

@@ -23,27 +23,53 @@
 
 ## Mission
 
-Extract **everything** CCXT knows about 111+ cryptocurrency exchanges into language-agnostic data.
+Extract **everything** CCXT knows about 111+ cryptocurrency exchanges into language-agnostic JSON that any consumer in any language can drop in and use without walking AST.
 
-Output: plain maps, JSON-serializable. No Elixir atoms, no structs, no language-specific types. The output must be consumable by any language — Elixir, Rust (`serde_json::from_str`), Python, Go, whatever. Design as if you don't know who the consumer is, because you don't.
+Output: plain maps, JSON-serializable. No Elixir atoms, no structs, no language-specific types. The output must be consumable by any language — Elixir, Rust (`serde_json::from_str`), Python, Go — including consumers that generate code from the JSON (Elixir `use` macros, Rust proc-macros, Python codegen).
+
+**Consumer contract:** A consumer should never need to parse, walk, or pattern-match ESTree AST to do its job. If they have to, we failed. Raw AST stays in the output for verification and novel needs, but every capability a consumer needs (signing, request building, response parsing, error handling, WS dispatch) must be expressible as declarative data.
 
 ## The One Rule
 
 **Extract EVERYTHING. Never filter.**
 
-CCXT has 7+ years of accumulated exchange knowledge. Every field exists for a reason. If CCXT's `describe()` returns 32 keys, extract 32 keys. If an exchange has 166 methods, catalog 166 methods. Storage is cheap; missing data is expensive. You cannot know what a future consumer will need.
+CCXT has 7+ years of accumulated exchange knowledge. Every field exists for a reason. If CCXT's `describe()` returns 32 keys, extract 32 keys. If an exchange has 166 methods, catalog 166 methods. Storage is cheap; missing data is expensive.
 
-## Anti-Bias Rule
+"Everything" includes both **raw extraction** (AST, runtime values) and **derived data** (classifications, field maps, enum tables, recipes) — see "Raw vs Derived vs Override" below.
 
-This library has **NO consumers yet.** Do not design output shaped by what you think a trading library, a code generator, or a dashboard might need. Extract what CCXT knows, organized by what CCXT knows — not by what you imagine someone wants.
+## Raw vs Derived vs Override
 
-If you catch yourself thinking "we probably don't need X" — stop. Extract X.
+The output has three provenance tiers, merged into one canonical JSON per exchange:
 
-## Extraction vs Interpretation
+1. **Raw** — direct extraction from CCXT source or runtime. AST nodes, resolved `describe()`, live API probes. Stable; never inferred.
+2. **Derived** — computed from raw by walking AST or analyzing runtime values. Field maps from `parse*()`, auth classification from `sign()`, envelope paths from fetch methods. Every derived field is either **provable from the source** or **explicitly marked unresolvable** (`null` + reason). No silent guesses.
+3. **Override** — hand-curated annotations in `priv/overrides/` that fill gaps derivation can't reach (imperative logic, exchange-specific quirks, CCXT bugs). Overrides are validated against runtime behavior where possible and carry explicit reasons. Overrides are a first-class part of the output, not a workaround.
 
-**If a heuristic keeps needing fixes across exchanges, you've crossed from extraction into interpretation.** Extraction records what CCXT does (call `sign()`, get a URL). Interpretation infers what CCXT *meant* (resolve which `urls.api` entry it used). Extraction is stable; interpretation is whack-a-mole.
+Consumers see the merged result. Provenance is preserved in the JSON so debugging and drift detection remain possible.
 
-Learned from Task 46 (url_templates): ~20 rounds of `resolveBaseUrl` fixes couldn't handle CCXT's 4+ `urls.api` shapes. Replaced with raw probe model — record sign() inputs and output, derive `url_prefix` only when provably correct. Consumers cross-reference `runtime.describe` for anything the extractor can't prove.
+## The Honesty Rule (replaces "Extraction vs Interpretation")
+
+**Every value in the output is either provable or explicitly marked unprovable. No silent guesses, ever.**
+
+Learned from Task 46 (url_templates): ~20 rounds of `resolveBaseUrl` fixes couldn't handle CCXT's 4+ `urls.api` shapes. The lesson wasn't "don't derive" — it was "if you can't prove it, say so." `url_prefix` is derived when provable and `null` otherwise; consumers cross-reference raw data to fill the gap or maintain an override.
+
+This rule applies to raw, derived, and override tiers equally:
+- Raw: record what CCXT source/runtime actually produced
+- Derived: emit a value only when the AST proves it; otherwise `null` with a reason
+- Override: must be verified against runtime behavior, or carry `unverified: true` with reason
+
+**Drift is the real enemy.** When CCXT updates upstream, derivation and overrides can rot. Validation (`mix ccxt_extract.validate_*`) and override audits are part of the product, not a nice-to-have.
+
+## Consumers Exist — Design For Them
+
+Earlier versions of this doc said "NO consumers yet, don't design output shaped by what a consumer wants." That rule served its purpose (preventing over-fitting during Phase 1-5) and is now **retired**. Consumers exist: ccxt_client (Elixir), a planned Rust client, and future macro-based codegen in multiple languages.
+
+What replaces it:
+
+- Design output so **any language** can consume it without AST walking
+- Don't shape output for one specific consumer's internal architecture (e.g. don't mirror ccxt_client's module layout)
+- When a consumer requests a field, evaluate whether it belongs in raw, derived, or override — don't reject it as "consumer-specific" if it's knowledge CCXT actually encodes
+- If you catch yourself thinking "we probably don't need X" — stop. Extract X.
 
 ## Tools
 

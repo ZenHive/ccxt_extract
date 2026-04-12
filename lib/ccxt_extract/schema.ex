@@ -36,7 +36,7 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "1.6.0"
+  @schema_version "1.7.0"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)
@@ -421,7 +421,11 @@ defmodule CcxtExtract.Schema do
         errors
 
       val when is_map(val) ->
-        missing = Enum.reject(~w(method exceptions http_exceptions error_code_fields), &Map.has_key?(val, &1))
+        missing =
+          Enum.reject(
+            ~w(method exceptions http_exceptions error_code_fields throw_dispatches),
+            &Map.has_key?(val, &1)
+          )
 
         case missing do
           [] ->
@@ -430,6 +434,7 @@ defmodule CcxtExtract.Schema do
             |> check_nullable_map_field(val, "exceptions", "#{label}.exceptions")
             |> check_nullable_map_field(val, "http_exceptions", "#{label}.http_exceptions")
             |> check_error_code_fields(val, "error_code_fields", "#{label}.error_code_fields")
+            |> check_throw_dispatches(val, "throw_dispatches", "#{label}.throw_dispatches")
 
           keys ->
             ["#{label}: missing required keys #{inspect(keys)}" | errors]
@@ -513,6 +518,90 @@ defmodule CcxtExtract.Schema do
 
   defp check_sentinel_entry(errors, entry, label) do
     ["#{label}: expected %{value, operator} map, got #{type_name(entry)}" | errors]
+  end
+
+  # throw_dispatches must be a list of ThrowDispatchEntry maps
+  @valid_throw_helpers ~w(throwExactlyMatchedException throwBroadlyMatchedException)
+  @valid_exceptions_sources ~w(exceptions exceptions.exact exceptions.broad by_url.exact by_url.broad other)
+  @required_throw_dispatch_keys ~w(helper exceptions_source exceptions_source_raw lookup message_lookup)
+  @valid_lookup_methods ~w(safeString safeString2 safeValue)
+  @required_throw_lookup_keys ~w(object object_path field field2 method)
+
+  defp check_throw_dispatches(errors, parent, key, label) do
+    case Map.get(parent, key) do
+      val when is_list(val) ->
+        val
+        |> Enum.with_index()
+        |> Enum.reduce(errors, fn {entry, i}, acc ->
+          check_throw_dispatch_entry(acc, entry, "#{label}[#{i}]")
+        end)
+
+      val ->
+        ["#{label}: expected list, got #{type_name(val)}" | errors]
+    end
+  end
+
+  defp check_throw_dispatch_entry(errors, entry, label) when is_map(entry) do
+    missing = Enum.reject(@required_throw_dispatch_keys, &Map.has_key?(entry, &1))
+
+    case missing do
+      [] ->
+        errors
+        |> check_throw_helper(entry["helper"], label)
+        |> check_exceptions_source(entry["exceptions_source"], label)
+        |> check_string_field(entry["exceptions_source_raw"], "#{label}.exceptions_source_raw")
+        |> check_throw_lookup(entry["lookup"], "#{label}.lookup")
+        |> check_throw_lookup(entry["message_lookup"], "#{label}.message_lookup")
+
+      keys ->
+        ["#{label}: ThrowDispatchEntry missing keys #{inspect(keys)}" | errors]
+    end
+  end
+
+  defp check_throw_dispatch_entry(errors, entry, label) do
+    ["#{label}: expected ThrowDispatchEntry map, got #{type_name(entry)}" | errors]
+  end
+
+  defp check_throw_helper(errors, val, _label) when val in @valid_throw_helpers, do: errors
+
+  defp check_throw_helper(errors, val, label) do
+    ["#{label}.helper: invalid value #{inspect(val)}" | errors]
+  end
+
+  defp check_exceptions_source(errors, val, _label) when val in @valid_exceptions_sources, do: errors
+
+  defp check_exceptions_source(errors, val, label) do
+    ["#{label}.exceptions_source: invalid value #{inspect(val)}" | errors]
+  end
+
+  defp check_throw_lookup(errors, nil, _label), do: errors
+
+  defp check_throw_lookup(errors, lookup, label) when is_map(lookup) do
+    missing = Enum.reject(@required_throw_lookup_keys, &Map.has_key?(lookup, &1))
+
+    case missing do
+      [] ->
+        errors
+        |> check_string_or_nil_field(lookup["object"], "#{label}.object")
+        |> check_string_list_or_nil_field(lookup["object_path"], "#{label}.object_path")
+        |> check_string_integer_or_nil_field(lookup["field"], "#{label}.field")
+        |> check_string_integer_or_nil_field(lookup["field2"], "#{label}.field2")
+        |> check_lookup_method(lookup["method"], label)
+
+      keys ->
+        ["#{label}: lookup missing keys #{inspect(keys)}" | errors]
+    end
+  end
+
+  defp check_throw_lookup(errors, val, label) do
+    ["#{label}: expected lookup map or null, got #{type_name(val)}" | errors]
+  end
+
+  defp check_lookup_method(errors, nil, _label), do: errors
+  defp check_lookup_method(errors, val, _label) when val in @valid_lookup_methods, do: errors
+
+  defp check_lookup_method(errors, val, label) do
+    ["#{label}.method: invalid value #{inspect(val)}" | errors]
   end
 
   defp check_method_ast_shape(errors, method, label) do
@@ -735,6 +824,28 @@ defmodule CcxtExtract.Schema do
 
   defp check_list_field(errors, val, _label) when is_list(val), do: errors
   defp check_list_field(errors, val, label), do: ["#{label}: expected list, got #{type_name(val)}" | errors]
+
+  defp check_string_integer_or_nil_field(errors, val, _label) when is_binary(val) or is_integer(val) or is_nil(val),
+    do: errors
+
+  defp check_string_integer_or_nil_field(errors, val, label) do
+    ["#{label}: expected string, integer, or null, got #{type_name(val)}" | errors]
+  end
+
+  defp check_string_list_or_nil_field(errors, nil, _label), do: errors
+
+  defp check_string_list_or_nil_field(errors, val, label) when is_list(val) do
+    if Enum.all?(val, &is_binary/1) do
+      errors
+    else
+      non_strings = Enum.reject(val, &is_binary/1)
+      ["#{label}: expected list of strings or null, got non-string elements: #{inspect(non_strings)}" | errors]
+    end
+  end
+
+  defp check_string_list_or_nil_field(errors, val, label) do
+    ["#{label}: expected list of strings or null, got #{type_name(val)}" | errors]
+  end
 
   # Value is nil or a map where each value is a list of strings
   defp check_nullable_string_list_map(errors, nil, _key, _label), do: errors

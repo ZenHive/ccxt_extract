@@ -9,6 +9,8 @@
   {"lib/ccxt_extract/unified_endpoints.ex", :call_without_opaque},
   {"lib/ccxt_extract/unified_endpoints.ex", :call_with_opaque},
   {"lib/ccxt_extract/pipeline.ex", :call_without_opaque},
+  {"lib/ccxt_extract/error_code_fields/bindings.ex", :call_without_opaque},
+  {"lib/ccxt_extract/error_code_fields/bindings.ex", :call_with_opaque},
   {"lib/mix/tasks/ccxt_extract.update.ex", :call_without_opaque},
   {"lib/ccxt_extract/validation.ex", :call_without_opaque},
   # JSV uses runtime: false — Dialyzer can't see its types/functions

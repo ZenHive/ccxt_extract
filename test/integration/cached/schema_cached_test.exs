@@ -108,7 +108,8 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
         "method" => method,
         "exceptions" => entry["exceptions"],
         "http_exceptions" => entry["http_exceptions"],
-        "error_code_fields" => CcxtExtract.ErrorCodeFields.derive(method)
+        "error_code_fields" => CcxtExtract.ErrorCodeFields.derive(method),
+        "throw_dispatches" => CcxtExtract.ThrowDispatches.derive(method)
       }
     end
   end
@@ -267,6 +268,42 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
       # depending on whether it's classified as derived
       ov = exchange["structure"]["overrides"]
       assert is_nil(ov) or is_map(ov)
+    end
+  end
+
+  describe "throw_dispatches regressions" do
+    test "whitebit resolves alias-backed lookups and roles" do
+      exchange = build_from_fixtures("whitebit")
+      handle_errors = exchange["structure"]["handle_errors"]
+
+      exact_dispatch =
+        Enum.find(handle_errors["throw_dispatches"], &(&1["exceptions_source"] == "exceptions.exact"))
+
+      message_entry =
+        Enum.find(handle_errors["error_code_fields"], &(&1["field"] == "message"))
+
+      assert exact_dispatch["lookup"]["field"] == "message"
+      assert exact_dispatch["message_lookup"] == nil
+      assert message_entry["roles"] == ["error_code"]
+    end
+
+    test "bithumb normalizes bare this.exceptions" do
+      exchange = build_from_fixtures("bithumb")
+      dispatches = exchange["structure"]["handle_errors"]["throw_dispatches"]
+
+      assert length(dispatches) == 2
+      assert Enum.all?(dispatches, &(&1["exceptions_source"] == "exceptions"))
+      assert Enum.all?(dispatches, &(&1["message_lookup"]["field"] == "message"))
+    end
+
+    test "binance keeps all dispatches and exposes message_lookup explicitly" do
+      exchange = build_from_fixtures("binance")
+      dispatches = exchange["structure"]["handle_errors"]["throw_dispatches"]
+
+      assert length(dispatches) == 8
+      assert Enum.all?(dispatches, &Map.has_key?(&1, "message_lookup"))
+      assert Enum.any?(dispatches, &(&1["lookup"]["field"] == "msg"))
+      assert Enum.any?(dispatches, &(&1["lookup"]["field"] == "code"))
     end
   end
 

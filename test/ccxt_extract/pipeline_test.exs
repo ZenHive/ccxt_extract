@@ -392,6 +392,10 @@ defmodule CcxtExtract.PipelineTest do
       assert msg_entry["roles"] == ["error_message"]
       assert msg_entry["sentinel_values"] == nil
 
+      assert is_list(he["throw_dispatches"])
+      assert length(he["throw_dispatches"]) == 2
+      assert Enum.all?(he["throw_dispatches"], &Map.has_key?(&1, "message_lookup"))
+
       # Original key name should not be present
       refute Map.has_key?(he, "handle_errors")
     end

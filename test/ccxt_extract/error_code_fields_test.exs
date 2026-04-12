@@ -329,6 +329,21 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
       assert entry["sentinel_values"] == nil
     end
 
+    test "resolves alias chains for throw helper roles" do
+      call = safe_call("safeString", [identifier("response"), literal("message")])
+
+      ast =
+        method_ast([
+          variable_declaration("message", call),
+          variable_declaration("errorInfo", identifier("message")),
+          expression_statement(throw_exactly_call("errorInfo"))
+        ])
+
+      [entry] = ErrorCodeFields.derive(ast)
+      assert entry["field"] == "message"
+      assert entry["roles"] == ["error_code"]
+    end
+
     test "dual roles when same field flows through both exact and broad helpers" do
       # Bybit pattern: retCode is used as both exact lookup key and broad haystack
       call = safe_call("safeString", [identifier("response"), literal("retCode")])
@@ -506,6 +521,26 @@ defmodule CcxtExtract.ErrorCodeFieldsTest do
       [entry] = ErrorCodeFields.derive(ast)
       assert entry["roles"] == ["status_sentinel"]
       assert entry["sentinel_values"] == [%{"value" => "0", "operator" => "!=="}]
+    end
+
+    test "resolves alias chains for sentinel comparisons" do
+      call = safe_call("safeString", [identifier("response"), literal("status")])
+
+      ast =
+        method_ast([
+          variable_declaration("status", call),
+          variable_declaration("errorInfo", identifier("status")),
+          if_statement(
+            binary_not_equals(identifier("errorInfo"), literal("200")),
+            [expression_statement(identifier("x"))],
+            nil
+          )
+        ])
+
+      [entry] = ErrorCodeFields.derive(ast)
+      assert entry["field"] == "status"
+      assert entry["roles"] == ["status_sentinel"]
+      assert entry["sentinel_values"] == [%{"value" => "200", "operator" => "!=="}]
     end
 
     test "multiple fields with independent roles" do

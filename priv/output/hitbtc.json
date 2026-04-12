@@ -15,7 +15,7 @@
     },
     "version": "3"
   },
-  "extracted_at": "2026-04-12T05:41:57.780713Z",
+  "extracted_at": "2026-04-12T06:42:28.868141Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -189095,7 +189095,7 @@
       }
     }
   },
-  "schema_version": "1.6.0",
+  "schema_version": "1.7.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -190615,7 +190615,41 @@
         ],
         "return_type": null,
         "statements": 4
-      }
+      },
+      "throw_dispatches": [
+        {
+          "exceptions_source": "exceptions.exact",
+          "exceptions_source_raw": "this.exceptions['exact']",
+          "helper": "throwExactlyMatchedException",
+          "lookup": {
+            "field": "code",
+            "field2": null,
+            "method": "safeString",
+            "object": "error",
+            "object_path": [
+              "response",
+              "error"
+            ]
+          },
+          "message_lookup": null
+        },
+        {
+          "exceptions_source": "exceptions.broad",
+          "exceptions_source_raw": "this.exceptions['broad']",
+          "helper": "throwBroadlyMatchedException",
+          "lookup": {
+            "field": "message",
+            "field2": "description",
+            "method": "safeString2",
+            "object": "error",
+            "object_path": [
+              "response",
+              "error"
+            ]
+          },
+          "message_lookup": null
+        }
+      ]
     },
     "interface_signatures": {
       "publicGetPublicFuturesCandlesIndexPrice": {

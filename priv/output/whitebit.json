@@ -15,7 +15,7 @@
     },
     "version": "v4"
   },
-  "extracted_at": "2026-04-12T05:41:57.780713Z",
+  "extracted_at": "2026-04-12T06:42:28.868141Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -80316,7 +80316,7 @@
       }
     }
   },
-  "schema_version": "1.6.0",
+  "schema_version": "1.7.0",
   "structure": {
     "authenticated_sections": [],
     "class_info": {
@@ -81140,7 +81140,9 @@
           "method": "safeString",
           "object": "response",
           "object_path": null,
-          "roles": [],
+          "roles": [
+            "error_code"
+          ],
           "sentinel_values": null
         },
         {
@@ -82974,7 +82976,29 @@
         ],
         "return_type": null,
         "statements": 4
-      }
+      },
+      "throw_dispatches": [
+        {
+          "exceptions_source": "exceptions.exact",
+          "exceptions_source_raw": "this.exceptions['exact']",
+          "helper": "throwExactlyMatchedException",
+          "lookup": {
+            "field": "message",
+            "field2": null,
+            "method": "safeString",
+            "object": "response",
+            "object_path": null
+          },
+          "message_lookup": null
+        },
+        {
+          "exceptions_source": "exceptions.broad",
+          "exceptions_source_raw": "this.exceptions['broad']",
+          "helper": "throwBroadlyMatchedException",
+          "lookup": null,
+          "message_lookup": null
+        }
+      ]
     },
     "interface_signatures": {
       "v4PrivatePostCollateralAccountSummary": {

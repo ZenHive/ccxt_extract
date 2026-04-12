@@ -18,7 +18,7 @@
     },
     "version": null
   },
-  "extracted_at": "2026-04-12T05:41:57.780713Z",
+  "extracted_at": "2026-04-12T06:42:28.868141Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -79263,7 +79263,7 @@
       }
     }
   },
-  "schema_version": "1.6.0",
+  "schema_version": "1.7.0",
   "structure": {
     "authenticated_sections": [],
     "class_info": {
@@ -81259,7 +81259,60 @@
         ],
         "return_type": null,
         "statements": 5
-      }
+      },
+      "throw_dispatches": [
+        {
+          "exceptions_source": "exceptions.exact",
+          "exceptions_source_raw": "this.exceptions['exact']",
+          "helper": "throwExactlyMatchedException",
+          "lookup": {
+            "field": "error",
+            "field2": null,
+            "method": "safeString",
+            "object": "response",
+            "object_path": null
+          },
+          "message_lookup": null
+        },
+        {
+          "exceptions_source": "exceptions.broad",
+          "exceptions_source_raw": "this.exceptions['broad']",
+          "helper": "throwBroadlyMatchedException",
+          "lookup": {
+            "field": "error",
+            "field2": null,
+            "method": "safeString",
+            "object": "response",
+            "object_path": null
+          },
+          "message_lookup": null
+        },
+        {
+          "exceptions_source": "exceptions.broad",
+          "exceptions_source_raw": "this.exceptions['broad']",
+          "helper": "throwBroadlyMatchedException",
+          "lookup": {
+            "field": "rejectReason",
+            "field2": null,
+            "method": "safeString",
+            "object": "data",
+            "object_path": [
+              "response",
+              "data"
+            ]
+          },
+          "message_lookup": {
+            "field": "rejectReason",
+            "field2": null,
+            "method": "safeString",
+            "object": "data",
+            "object_path": [
+              "response",
+              "data"
+            ]
+          }
+        }
+      ]
     },
     "interface_signatures": {
       "privatePostDoCancelAllOrders": {

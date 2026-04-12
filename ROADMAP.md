@@ -6,6 +6,8 @@
 
 **Contract reference:** See [CONSUMER_CONTRACT.md](CONSUMER_CONTRACT.md) for the unfiltered list of what a consumer needs. Phases 10–16 tick items off that checklist.
 
+**Schema contract:** See [SCHEMA.md](SCHEMA.md) for field-level definitions and version history of the emitted JSON.
+
 > **🔗 Cross-repo rule (applies to EVERY task in this roadmap):** When a task ships, lands, or changes status, the implementer MUST also update `clients/elixir/ccxt_client/ROADMAP.md` — mark any dependent ccxt_client task as unblocked, flip its status, or add a new follow-up entry. A ccxt_extract task is **not complete** until its downstream ccxt_client impact is reflected there. The two roadmaps are a single contract surface viewed from two sides.
 
 ---
@@ -19,6 +21,7 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 57b | Wire `contract_test` into `mix ccxt_extract.update` | Non-strict Stage 6 between validate and analytics |
 | Task 56 | `clients/` layout + relocate ccxt_client | Nested-but-separate; Elixir at `clients/elixir/ccxt_client/` |
 | Task 59 | `CONSUMER_CONTRACT.md` skeleton with lifecycle trackers | — |
 | Task 55 | `throw_dispatches` from `handleErrors()` AST | Schema 1.7.0 |
@@ -32,7 +35,6 @@
 ### 📋 Next Up
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 57b | ⬜ | Wire `contract_test` into `mix ccxt_extract.update` |
 | Task 57c | ⬜ | Triage contract_test findings (unified_endpoints/has drift) |
 | Task 57d | ⬜ | Fix authenticated_sections derivation for inherited sign() |
 | Task 58 | ⬜ | Golden JSON fixtures + regenerate command |
@@ -76,7 +78,7 @@ Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 | Task 57 | ✅ | `mix ccxt_extract.contract_test` skeleton — shipped |
 | Task 58 | ⬜ | Golden JSON fixtures + regenerate command [D:3/B:7/U:7 → Eff:2.3] 🎯 |
 | Task 59 | ✅ | `CONSUMER_CONTRACT.md` skeleton — shipped |
-| Task 57b `[P]` | ⬜ | Wire `contract_test` into `mix ccxt_extract.update` [D:2/B:5/U:6 → Eff:2.75] 🎯 |
+| Task 57b `[P]` | ✅ | Wire `contract_test` into `mix ccxt_extract.update` — shipped |
 | Task 57c | ⬜ | Triage contract_test findings (unified_endpoints/has drift) [D:5/B:7/U:7 → Eff:1.4] 📋 |
 | Task 57d `[P]` | ⬜ | Fix authenticated_sections derivation for inherited sign() [D:3/B:6/U:5 → Eff:1.83] 🚀 |
 

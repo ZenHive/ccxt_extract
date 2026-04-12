@@ -192,6 +192,8 @@ node_modules/ccxt/dist/        # Pre-built browser bundle for QuickBEAM
 
 ## Current Output Schema (exchange_v1.json)
 
+**Full schema reference:** See [SCHEMA.md](SCHEMA.md) for field-level definitions, type shapes, role/sentinel classification, and version history.
+
 Per-exchange JSON has three top-level sections:
 
 ```
@@ -261,9 +263,9 @@ mix format                         # Format code (Styler)
 mix ccxt_extract.setup             # Install/verify CCXT sources
 mix ccxt_extract.contract_test     # Cross-field semantic invariants over emitted JSON
 mix ccxt_extract.contract_test --strict  # Non-zero exit on any finding (for CI)
-mix ccxt_extract.update            # Full re-extract: setup → extractors → pipeline → validate → analytics
+mix ccxt_extract.update            # Full re-extract: setup → extractors → pipeline → validate → contract_test → analytics
 mix ccxt_extract.update --latest   # Update to latest CCXT version
-mix ccxt_extract.update --skip-setup  # Re-run pipeline + validate + analytics (skips QuickBEAM analytics)
+mix ccxt_extract.update --skip-setup  # Re-run pipeline + validate + contract_test + analytics (skips QuickBEAM analytics)
 
 # After extraction, review and commit changes
 git diff priv/discoveries/                    # See what changed in discovery data

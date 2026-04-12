@@ -29,7 +29,7 @@ end
 # Generate lightweight recording stubs for orchestration tests.
 # Each stub sends {:task_ran, name, args} to the test process.
 for task <-
-      ~w(setup quickbeam_extractors oxc_extractors validate describe_keys describe_key_analysis summary family_analysis) do
+      ~w(setup quickbeam_extractors oxc_extractors validate contract_test describe_keys describe_key_analysis summary family_analysis) do
   defmodule Module.concat([Mix.Tasks.Test, "Record#{Macro.camelize(task)}"]) do
     @moduledoc false
     use Mix.Task
@@ -70,6 +70,7 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
     oxc_extractors: ["test.record_oxc_extractors"],
     pipeline_task: "test.record_pipeline",
     validate_task: "test.record_validate",
+    contract_test_task: "test.record_contract_test",
     quickbeam_analytics: ["test.record_describe_keys", "test.record_describe_key_analysis"],
     derived_analytics: ["test.record_summary", "test.record_family_analysis"]
   ]
@@ -191,7 +192,8 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
           end)
         end)
 
-      assert output =~ "Stage 6: Analytics"
+      assert output =~ "Stage 6: Contract Tests"
+      assert output =~ "Stage 7: Analytics"
 
       assert task_runs == [
                {"test.record_setup", []},
@@ -199,6 +201,7 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
                {"test.record_oxc_extractors", []},
                {"test.record_pipeline", ["--output", output_dir]},
                {"test.record_validate", ["--output", output_dir]},
+               {"test.record_contract_test", ["--output", output_dir]},
                {"test.record_describe_keys", []},
                {"test.record_describe_key_analysis", []},
                {"test.record_summary", []},
@@ -216,11 +219,13 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
           end)
         end)
 
-      assert output =~ "Stage 6: Analytics"
+      assert output =~ "Stage 6: Contract Tests"
+      assert output =~ "Stage 7: Analytics"
 
       assert task_runs == [
                {"test.record_pipeline", ["--output", output_dir]},
                {"test.record_validate", ["--output", output_dir]},
+               {"test.record_contract_test", ["--output", output_dir]},
                {"test.record_summary", []},
                {"test.record_family_analysis", []}
              ]

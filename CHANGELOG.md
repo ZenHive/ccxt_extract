@@ -6,6 +6,12 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 57b: Wire contract_test into `mix ccxt_extract.update`
+- `mix ccxt_extract.update` now runs `mix ccxt_extract.contract_test` as non-strict Stage 6, between `validate` (Stage 5) and `analytics` (renumbered to Stage 7). Every re-extract now surfaces cross-field drift without halting the pipeline
+- Stage runs for both full updates and `--skip-setup` (contract tests read emitted JSON; no QuickBEAM dependency)
+- `--strict` is intentionally not forwarded — run `mix ccxt_extract.contract_test --strict` directly for CI / pre-commit enforcement
+- Test override key `contract_test_task` added to the update-task Application env override mechanism
+
 ### Task 57: mix ccxt_extract.contract_test skeleton
 - New `CcxtExtract.ContractTest` module runs cross-field semantic invariants over emitted `priv/output/*.json`, distinct from `validate` (which covers JSON Schema conformance + round-trip)
 - New `mix ccxt_extract.contract_test` task — flags `--output DIR`, `--report PATH`, `--strict`. Writes `_contract_test_report.json` with deterministic findings order (exchange → invariant → path)

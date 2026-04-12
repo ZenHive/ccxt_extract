@@ -1,5 +1,5 @@
 defmodule Mix.Tasks.CcxtExtract.Update do
-  @shortdoc "Re-extract all exchange data (setup → extractors → pipeline → validate → analytics)"
+  @shortdoc "Re-extract all exchange data (setup → extractors → pipeline → validate → contract_test → analytics)"
 
   @moduledoc """
   Orchestrates a full re-extraction: updates CCXT sources, runs the pipeline,
@@ -16,7 +16,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     * `--ccxt-version VERSION` — pin a specific CCXT version
     * `--latest` — force reinstall of the latest CCXT version
     * `--strict` — fail with non-zero exit on validation errors
-    * `--skip-setup` — skip stages 1-3 (setup + all extractors), re-run only pipeline + validate + analytics
+    * `--skip-setup` — skip stages 1-3 (setup + all extractors), re-run only pipeline + validate + contract_test + analytics
 
   ## Stages
 
@@ -25,7 +25,10 @@ defmodule Mix.Tasks.CcxtExtract.Update do
   3. **OXC Extractors** — AST parsing: classes, methods, sign, parse, ws, pagination, unified endpoints, overrides
   4. **Pipeline** — assemble per-exchange JSON (`mix ccxt_extract.pipeline`)
   5. **Validate** — schema + round-trip validation (`mix ccxt_extract.validate`)
-  6. **Analytics** — derived artifacts: coverage, summary, family analysis, method analysis,
+  6. **Contract Tests** — cross-field semantic invariants (`mix ccxt_extract.contract_test`).
+     Non-strict: prints report, does not halt the pipeline. Run with `--strict` directly
+     (`mix ccxt_extract.contract_test --strict`) for CI / pre-commit use.
+  7. **Analytics** — derived artifacts: coverage, summary, family analysis, method analysis,
      market validation, public exchanges. QuickBEAM-dependent analytics
      (describe_keys, describe_key_analysis) are skipped with `--skip-setup`.
 
@@ -38,6 +41,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
   @default_setup_task "ccxt_extract.setup"
   @default_pipeline_task "ccxt_extract.pipeline"
   @default_validate_task "ccxt_extract.validate"
+  @default_contract_test_task "ccxt_extract.contract_test"
 
   @switches [
     output: :string,
@@ -91,8 +95,16 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     Mix.shell().info("\n── Stage 5: Validate ──")
     Mix.Task.rerun(task_override(:validate_task, @default_validate_task), build_validate_args(opts))
 
-    # Stage 6: Derived analytics
-    Mix.shell().info("\n── Stage 6: Analytics ──")
+    # Stage 6: Contract tests (non-strict — prints findings, never halts pipeline)
+    Mix.shell().info("\n── Stage 6: Contract Tests ──")
+
+    Mix.Task.rerun(
+      task_override(:contract_test_task, @default_contract_test_task),
+      build_contract_test_args(opts)
+    )
+
+    # Stage 7: Derived analytics
+    Mix.shell().info("\n── Stage 7: Analytics ──")
     run_analytics(opts)
 
     # Diff summary
@@ -126,6 +138,13 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     args = if opts[:output], do: ["--output", opts[:output] | args], else: args
     args = if opts[:strict], do: ["--strict" | args], else: args
     args
+  end
+
+  # Builds arg list for contract_test task. Intentionally omits --strict:
+  # this stage prints findings and keeps the pipeline going. Run
+  # `mix ccxt_extract.contract_test --strict` directly for CI enforcement.
+  defp build_contract_test_args(opts) do
+    if opts[:output], do: ["--output", opts[:output]], else: []
   end
 
   # QuickBEAM extractors — require JS runtime, some make live API calls.

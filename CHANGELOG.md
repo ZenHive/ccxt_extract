@@ -6,6 +6,13 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 57c: Relocate clients back to sibling repos
+- Moved `ccxt_client` and `ccxt_client_bak` from `clients/elixir/<name>/` back to siblings of `ccxt_extract` (`~/_DATA/code/<name>/`). Each nested `.git` travels with the `mv`, preserving history
+- Reason: Claude Code walks up the filesystem and loads every `CLAUDE.md` it finds. Nested layout pulled ccxt_extract's full CLAUDE.md + all `@` imports (>100k tokens) into every client session. Sibling layout eliminates the context bleed
+- Removed `clients/` tree from ccxt_extract (`clients/README.md`, `clients/rust/README.md`, `clients/elixir/README.md`) and dropped the `/clients/*/*/` `.gitignore` entry
+- Updated `CLAUDE.md` § Clients, `ROADMAP.md` pipeline diagram + every `../ccxt_client/ROADMAP.md` cross-repo reference, and `examples/compare_old_*.exs` paths
+- Supersedes Task 56; rust placeholder dir is dropped and will be re-created as a sibling when a Rust consumer lands
+
 ### Task 57b: Wire contract_test into `mix ccxt_extract.update`
 - `mix ccxt_extract.update` now runs `mix ccxt_extract.contract_test` as non-strict Stage 6, between `validate` (Stage 5) and `analytics` (renumbered to Stage 7). Every re-extract now surfaces cross-field drift without halting the pipeline
 - Stage runs for both full updates and `--skip-setup` (contract tests read emitted JSON; no QuickBEAM dependency)

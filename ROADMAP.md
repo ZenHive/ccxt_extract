@@ -8,7 +8,7 @@
 
 **Schema contract:** See [SCHEMA.md](SCHEMA.md) for field-level definitions and version history of the emitted JSON.
 
-> **🔗 Cross-repo rule (applies to EVERY task in this roadmap):** When a task ships, lands, or changes status, the implementer MUST also update `clients/elixir/ccxt_client/ROADMAP.md` — mark any dependent ccxt_client task as unblocked, flip its status, or add a new follow-up entry. A ccxt_extract task is **not complete** until its downstream ccxt_client impact is reflected there. The two roadmaps are a single contract surface viewed from two sides.
+> **🔗 Cross-repo rule (applies to EVERY task in this roadmap):** When a task ships, lands, or changes status, the implementer MUST also update `../ccxt_client/ROADMAP.md` — mark any dependent ccxt_client task as unblocked, flip its status, or add a new follow-up entry. A ccxt_extract task is **not complete** until its downstream ccxt_client impact is reflected there. The two roadmaps are a single contract surface viewed from two sides.
 
 ---
 
@@ -21,8 +21,9 @@
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
+| Task 57c | Relocate clients back to sibling repos | Nested `CLAUDE.md` walked into ccxt_extract context in every client session; moved to `../ccxt_client/` |
 | Task 57b | Wire `contract_test` into `mix ccxt_extract.update` | Non-strict Stage 6 between validate and analytics |
-| Task 56 | `clients/` layout + relocate ccxt_client | Nested-but-separate; Elixir at `clients/elixir/ccxt_client/` |
+| Task 56 | `clients/` layout + relocate ccxt_client | Superseded by Task 57c; historical record |
 | Task 59 | `CONSUMER_CONTRACT.md` skeleton with lifecycle trackers | — |
 | Task 55 | `throw_dispatches` from `handleErrors()` AST | Schema 1.7.0 |
 | Task 54 | Stabilize `error_code_fields` contract | Schema 1.6.0 |
@@ -68,9 +69,9 @@ Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 
 ## Phase 8: Client harness + contract tests ⬜
 
-> All reference consumers live in their own git repos, nested under `ccxt_extract/clients/<lang>/` (gitignored here). Elixir `ccxt_client` moves from `../ccxt_client/` → `clients/elixir/` as a filesystem `mv` of the whole nested repo (its `.git` travels with it, so its own history is preserved — no `git mv` from inside ccxt_extract, since the source repo lives outside this tree). Rust lands fresh at `clients/rust/`. `ccxt_extract` stays a pure extractor and ships a contract-test suite that validates the JSON surface without importing client code — catches "Elixir didn't notice this breaks Rust" drift.
+> All reference consumers live in their own git repos as **siblings** of `ccxt_extract/` (e.g. `../ccxt_client/`, future `../<rust-crate>/`). Clients were briefly nested under `clients/<lang>/<project>/` (Task 56) but moved back to siblings in Task 57c to stop ccxt_extract's `CLAUDE.md` from being auto-loaded into every client session. `ccxt_extract` stays a pure extractor and ships a contract-test suite that validates the JSON surface without importing client code — catches "Elixir didn't notice this breaks Rust" drift.
 >
-> **🔗 Every task in this phase requires updating `clients/elixir/ccxt_client/ROADMAP.md` on completion.**
+> **🔗 Every task in this phase requires updating `../ccxt_client/ROADMAP.md` on completion.**
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -100,7 +101,7 @@ Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 >
 > **This phase also enables the Three-Strikes Derivation Rule** (see CLAUDE.md) — without somewhere to migrate knowledge to, the rule has no exit. Every Phase 10–16 derivation ships knowing it can hand off to an override on patch #3 instead of accreting special cases.
 >
-> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — notably ccxt_client Tasks 53 (schema 2.0.0 adapter) and 63 (override contribution workflow).
+> **🔗 Every task here requires updating `../ccxt_client/ROADMAP.md`** — notably ccxt_client Tasks 53 (schema 2.0.0 adapter) and 63 (override contribution workflow).
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -131,7 +132,7 @@ Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 
 **Downstream signal:** `ccxt_client/lib/ccxt/signing/classifier.ex` (AST-walker) becomes redundant when this phase ships `signing.pattern` directly. Schema design should enable its deletion without Elixir-side contortions.
 
-> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Tasks 54 (retire classifier) and 56 (spec-driven pattern modules) depend on this phase.
+> **🔗 Every task here requires updating `../ccxt_client/ROADMAP.md`** — ccxt_client Tasks 54 (retire classifier) and 56 (spec-driven pattern modules) depend on this phase.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -153,7 +154,7 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 
 > Everything a consumer needs to turn a unified call into an HTTP request, excluding signing (Phase 10).
 >
-> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Task 57 (adopt request-building contract) tracks this phase.
+> **🔗 Every task here requires updating `../ccxt_client/ROADMAP.md`** — ccxt_client Task 57 (adopt request-building contract) tracks this phase.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -169,7 +170,7 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 
 > For every CCXT `parse*` method, emit a field map that a consumer can apply without walking AST. Each task covers one `parse*` type end-to-end: field name mapping (exchange-native key → unified key), type coercion (safeString/safeNumber/safeTimestamp) per field, enum tables (status/side/type), timestamp format, nested-path traversal.
 >
-> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Tasks 19/21/44/55 (parser + struct regeneration) depend on this phase.
+> **🔗 Every task here requires updating `../ccxt_client/ROADMAP.md`** — ccxt_client Tasks 19/21/44/55 (parser + struct regeneration) depend on this phase.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -192,7 +193,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 
 > **Supersedes Task 34.** Complete the error story: status-code maps, retry classification, class hierarchy export, and handler routing tables that consumers need to drive dispatch without AST.
 >
-> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Task 58 (adopt error contract) tracks this phase.
+> **🔗 Every task here requires updating `../ccxt_client/ROADMAP.md`** — ccxt_client Task 58 (adopt error contract) tracks this phase.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -207,7 +208,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 
 ## Phase 14: Rate-limit contract ⬜
 
-> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Task 59 (multi-bucket rate limiter) depends on this phase.
+> **🔗 Every task here requires updating `../ccxt_client/ROADMAP.md`** — ccxt_client Task 59 (multi-bucket rate limiter) depends on this phase.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -220,7 +221,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 
 > Streaming equivalent of phases 10–13. Per-channel specs for subscription, auth, heartbeat, snapshot/delta semantics, and reconnect.
 >
-> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Phase 6 (Tasks 22–27) is gated on this phase landing.
+> **🔗 Every task here requires updating `../ccxt_client/ROADMAP.md`** — ccxt_client Phase 6 (Tasks 22–27) is gated on this phase landing.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -239,7 +240,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 
 > Remaining declarative metadata a consumer needs beyond `runtime.markets` and `runtime.describe`.
 >
-> **🔗 Every task here requires updating `clients/elixir/ccxt_client/ROADMAP.md`** — ccxt_client Tasks 60 (currency aliases) and 61 (testnet URL catalog) track this phase.
+> **🔗 Every task here requires updating `../ccxt_client/ROADMAP.md`** — ccxt_client Tasks 60 (currency aliases) and 61 (testnet URL catalog) track this phase.
 
 | Task | Status | Notes |
 |------|--------|-------|
@@ -280,14 +281,14 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 
 **The pipeline:**
 ```
-ccxt_extract                              Consumer projects (each its own git repo, nested here)
+ccxt_extract                              Consumer projects (each its own git repo, sibling dirs)
 ─────────────                             ─────────────────
-mix ccxt_extract.pipeline                            clients/elixir/ccxt_client/             Elixir — compile-time macros read JSON
-  --output clients/elixir/ccxt_client/priv/specs  →  clients/rust/<crate>/                   Rust — build.rs / serde_json
-                                                     clients/python/<pkg>/                   Python — json.load at import
+mix ccxt_extract.pipeline                     ../ccxt_client/              Elixir — compile-time macros read JSON
+  --output ../ccxt_client/priv/specs  →      ../<rust-crate>/             Rust — build.rs / serde_json
+                                              ../<python-pkg>/             Python — json.load at import
 ```
 
-**Nested-but-separate clients.** All language clients live under `ccxt_extract/clients/<lang>/<project>/` as independent git repos (gitignored from ccxt_extract). Elixir `ccxt_client` was relocated from `../ccxt_client/` → `clients/elixir/ccxt_client/` in Task 56 via a filesystem `mv` — the nested repo's `.git` travels with it, preserving its own history.
+**Sibling-repo clients.** Each language client is an independent git repo living as a sibling of `ccxt_extract/` (e.g. `../ccxt_client/`). Clients were briefly nested under `clients/<lang>/<project>/` (Task 56) but relocated back to siblings (Task 57) because nested `CLAUDE.md` discovery pulled ccxt_extract's full context into every client session.
 
 **Three-tier JSON is the target contract.** Once Phase 9 ships, output will merge raw extraction + derived analysis + curated overrides with per-field provenance. Today's output is raw + derived only — overrides and `_provenance` tags arrive in Tasks 60–61b. Either way, consumers read the emitted JSON; they do not re-derive or walk AST. Contract tests (`mix ccxt_extract.contract_test`, Task 57) will enforce cross-field invariants so drift surfaces before it reaches a consumer.
 

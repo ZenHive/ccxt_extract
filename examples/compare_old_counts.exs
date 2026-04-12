@@ -6,11 +6,11 @@
 # Usage: mix run examples/compare_old_counts.exs
 
 new_dir = "priv/output"
-old_dir = "clients/elixir/ccxt_client/priv/specs/extracted"
+old_dir = "../ccxt_client/priv/specs/extracted"
 
 if !File.dir?(old_dir) do
   IO.puts("ERROR: Old specs directory not found: #{old_dir}")
-  IO.puts("Expected ccxt_client at clients/elixir/ccxt_client/ (see clients/README.md).")
+  IO.puts("Expected ccxt_client as sibling repo at ../ccxt_client/ (see CLAUDE.md § Clients).")
   System.halt(1)
 end
 

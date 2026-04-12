@@ -95,19 +95,20 @@ What replaces it:
 
 ## Clients
 
-Consumer projects live under `clients/<lang>/<project>/`. Each project is its own
-independent git repository, nested inside this repo but not tracked by it
-(`.gitignore` excludes `/clients/*/*/`). See [clients/elixir/README.md](clients/elixir/README.md)
-for the Elixir layout:
+Consumer projects live as **sibling directories** of this repo (independent git repos):
 
-- `clients/elixir/ccxt_client/` — active consumer. Compile-time macros read
-  `priv/output/*.json` and generate one Elixir module per exchange.
-- `clients/elixir/ccxt_client_bak/` — archived `.exs`-spec predecessor; porting
-  reference only.
+- `../ccxt_client/` — active Elixir consumer (`github.com/ZenHive/ccxt_client`).
+  Compile-time macros read `../ccxt_extract/priv/output/*.json` and generate one
+  Elixir module per exchange.
+- `../ccxt_client_bak/` — archived `.exs`-spec predecessor; porting reference only.
 
-To add a client: `cd clients/<lang> && git clone <repo>` (or `git init`), then
-consume JSON from `../../../priv/output/` or pipe via
-`mix ccxt_extract.pipeline --output clients/<lang>/<name>/<path>`.
+Clients were previously nested under `clients/<lang>/<project>/` (Task 56) but
+relocated to siblings (Task 57) because nested CLAUDE.md discovery pulled
+ccxt_extract's full context into every client session.
+
+To add a client: clone/create it at `~/_DATA/code/<name>/` and consume JSON from
+`../ccxt_extract/priv/output/` or pipe via
+`mix ccxt_extract.pipeline --output ../<name>/<path>`.
 
 ## Tools
 
@@ -294,7 +295,7 @@ mix run examples/5_family_variants.exs            # Family analysis (binance →
 # Requires: ../ccxt_go_extractor built (go build -o ccxt-extract ./cmd/ccxt-extract)
 mix run examples/compare_go_extractor.exs   # Compare vs Go extractor — shows what each has
 
-# Requires: clients/elixir/ccxt_client/priv/specs/extracted/ (old ccxt_client .exs specs)
+# Requires: ../ccxt_client/priv/specs/extracted/ (old ccxt_client .exs specs)
 mix run examples/compare_old_counts.exs     # Data volume comparison (endpoints, has, exceptions)
 mix run examples/compare_old_specs.exs      # Key-by-key coverage validation
 ```

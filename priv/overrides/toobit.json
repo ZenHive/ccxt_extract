@@ -1,0 +1,5 @@
+{
+  "authenticated_sections": ["private"],
+  "reason": "toobit uses `if (api !== 'private') {} else { check() }` — the `!==` inversion is not covered by the AST walker's `===` strategies",
+  "verified_against": "priv/ccxt/ts/src/toobit.ts (sign, `api !== 'private'`)"
+}

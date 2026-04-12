@@ -14,16 +14,18 @@
 
 ## 🎯 Current Focus
 
-**Phase 8 — Client harness + contract tests** kicking off. Phase 7 (data quality) winding down. A major *planning* restructure landed with this roadmap: the old "Anti-Bias Rule" and "Extraction vs Interpretation" framings are retired (see CLAUDE.md). The target output is a three-tier merge (raw / derived / override) and the consumer contract explicitly forbids consumers walking AST — but **none of that has shipped yet**. Today's output is raw + derived only; override infrastructure and per-field provenance arrive in Phase 9. Several previously-deferred tasks are superseded under the new rules.
+**Phase 8 — Client harness + contract tests** mid-flight. Phase 7 (data quality) winding down. A major *planning* restructure landed with this roadmap: the old "Anti-Bias Rule" and "Extraction vs Interpretation" framings are retired (see CLAUDE.md). The target output is a three-tier merge (raw / derived / override). A narrow, field-specific override loader shipped alongside Task 57d (Schema 1.7.1) but the **generic JSON-Pointer override contract + per-field provenance are still owed** — they remain in Phase 9 (Task 60 unchanged, 61a/b/c gated on it). Several previously-deferred tasks are superseded under the new rules.
 
 > **Philosophy reminder:** Every value is either provable (emit it) or explicitly unprovable (`null` + reason). No silent guesses. Overrides (once Phase 9 ships) will fill gaps derivation can't reach and carry reasons too.
 
 ### ✅ Recently Completed
 | Task | Description | Notes |
 |------|-------------|-------|
-| Task 57c | Relocate clients back to sibling repos | Nested `CLAUDE.md` walked into ccxt_extract context in every client session; moved to `../ccxt_client/` |
+| Task 57d | Fix `authenticated_sections` derivation — inheritance + else-branch inversion | Schema 1.7.1; 41 exchanges newly populated, zero regressions; Patch count 3/3 declared |
+| Task 60 (narrow precursor) | `priv/overrides/<exchange>.json` loader for `authenticated_sections` only | Generic JSON-Pointer form + `unverified` flag + SCHEMA.md docs still owed — Task 60 stays open |
+| Task 56b | Relocate clients back to sibling repos (supersedes Task 56) | Nested `CLAUDE.md` walked into ccxt_extract context in every client session; moved to `../ccxt_client/` |
 | Task 57b | Wire `contract_test` into `mix ccxt_extract.update` | Non-strict Stage 6 between validate and analytics |
-| Task 56 | `clients/` layout + relocate ccxt_client | Superseded by Task 57c; historical record |
+| Task 56 | `clients/` layout + relocate ccxt_client | Superseded by Task 56b; historical record |
 | Task 59 | `CONSUMER_CONTRACT.md` skeleton with lifecycle trackers | — |
 | Task 55 | `throw_dispatches` from `handleErrors()` AST | Schema 1.7.0 |
 | Task 54 | Stabilize `error_code_fields` contract | Schema 1.6.0 |
@@ -36,10 +38,10 @@
 ### 📋 Next Up
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 57c | ⬜ | Triage contract_test findings (unified_endpoints/has drift) |
-| Task 57d | ⬜ | Fix authenticated_sections derivation for inherited sign() |
 | Task 58 | ⬜ | Golden JSON fixtures + regenerate command |
-| Task 60 | ⬜ | `priv/overrides/` directory contract + schema |
+| Task 60 | ⬜ | Generic JSON-Pointer override contract + SCHEMA.md (narrow precursor shipped with 57d) |
+| Task 57c | ⬜ | Triage contract_test findings (unified_endpoints/has drift) |
+| Task 61a | ⬜ | Provenance tagging (`raw`/`derived`/`override`) — unblocks once Task 60 generic form lands |
 | Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ `[Codex]` |
 
 ### Quick Commands
@@ -69,19 +71,20 @@ Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 
 ## Phase 8: Client harness + contract tests ⬜
 
-> All reference consumers live in their own git repos as **siblings** of `ccxt_extract/` (e.g. `../ccxt_client/`, future `../<rust-crate>/`). Clients were briefly nested under `clients/<lang>/<project>/` (Task 56) but moved back to siblings in Task 57c to stop ccxt_extract's `CLAUDE.md` from being auto-loaded into every client session. `ccxt_extract` stays a pure extractor and ships a contract-test suite that validates the JSON surface without importing client code — catches "Elixir didn't notice this breaks Rust" drift.
+> All reference consumers live in their own git repos as **siblings** of `ccxt_extract/` (e.g. `../ccxt_client/`, future `../<rust-crate>/`). Clients were briefly nested under `clients/<lang>/<project>/` (Task 56) but moved back to siblings in Task 56b to stop ccxt_extract's `CLAUDE.md` from being auto-loaded into every client session. `ccxt_extract` stays a pure extractor and ships a contract-test suite that validates the JSON surface without importing client code — catches "Elixir didn't notice this breaks Rust" drift.
 >
 > **🔗 Every task in this phase requires updating `../ccxt_client/ROADMAP.md` on completion.**
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 56 `[P]` | ✅ | Establish `clients/` layout — shipped |
+| Task 56 `[P]` | ✅ (superseded) | Establish `clients/` layout — superseded by Task 56b |
+| Task 56b | ✅ | Relocate clients back to sibling repos — shipped |
 | Task 57 | ✅ | `mix ccxt_extract.contract_test` skeleton — shipped |
+| Task 57b `[P]` | ✅ | Wire `contract_test` into `mix ccxt_extract.update` — shipped |
+| Task 57d `[P]` | ✅ | Fix `authenticated_sections` derivation (inheritance + else-branch inversion) — Schema 1.7.1 |
 | Task 58 | ⬜ | Golden JSON fixtures + regenerate command [D:3/B:7/U:7 → Eff:2.3] 🎯 |
 | Task 59 | ✅ | `CONSUMER_CONTRACT.md` skeleton — shipped |
-| Task 57b `[P]` | ✅ | Wire `contract_test` into `mix ccxt_extract.update` — shipped |
 | Task 57c | ⬜ | Triage contract_test findings (unified_endpoints/has drift) [D:5/B:7/U:7 → Eff:1.4] 📋 |
-| Task 57d `[P]` | ⬜ | Fix authenticated_sections derivation for inherited sign() [D:3/B:6/U:5 → Eff:1.83] 🚀 |
 
 **Task 57: Contract-test skeleton** — Add `mix ccxt_extract.contract_test` that loads emitted JSON and runs cross-field semantic invariants. Seed invariants: every `structure.unified_endpoints` key is claimed in `runtime.describe.has` (value `true` or `"emulated"`); every `authenticated_sections` entry appears in `runtime.describe.api`; every `error_code_fields` root is in the committed baseline at `priv/contract_test/error_code_fields_roots.json` (deriving the safelist from the same corpus would be tautological). Each invariant failure points at the exchange + field path. Distinct from `validate` (schema conformance + round-trip); this catches semantic drift across fields.
 
@@ -105,7 +108,7 @@ Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 60 | ⬜ | `priv/overrides/` directory contract + schema [D:3/B:7/U:8 → Eff:2.5] 🎯 |
+| Task 60 | ⬜ | Generic JSON-Pointer override contract + SCHEMA.md docs [D:3/B:7/U:8 → Eff:2.5] 🎯 — narrow per-field precursor shipped with Task 57d (Schema 1.7.1): `priv/overrides/<exchange>.json` supports `authenticated_sections` only. Remaining: JSON-Pointer paths, `value` payload, `unverified: true` flag, SCHEMA.md entry, JSON Schema for override files |
 | Task 61a `[P]` | ⬜ | Provenance tagging on raw + derived fields [D:4/B:8/U:8 → Eff:2.0] 🚀 |
 | Task 61b | ⬜ | Override merge pipeline stage [D:4/B:9/U:9 → Eff:2.25] 🚀 |
 | Task 61c | ⬜ | Schema 2.0.0 bump + migration notes in SCHEMA.md [D:2/B:6/U:6 → Eff:3.0] 🎯 |

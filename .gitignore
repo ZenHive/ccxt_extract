@@ -26,3 +26,6 @@ package.json
 
 # Generated caches
 /.hex-docs/
+
+# Generated on every `mix ccxt_extract.validate` run; not source-of-truth
+/priv/output/_validation_report.json

@@ -1,0 +1,5 @@
+{
+  "authenticated_sections": ["private"],
+  "reason": "sign() has no checkRequiredCredentials() call anywhere in the file — signing is unconditional for the 'private' branch",
+  "verified_against": "priv/ccxt/ts/src/p2b.ts (sign); grep count of checkRequiredCredentials = 0"
+}

@@ -370,6 +370,80 @@ defmodule CcxtExtract.PipelineTest do
       assert is_map(result["runtime"]["symbol_patterns"])
     end
 
+    test "resolves authenticated_sections from parent's sign() when child doesn't override" do
+      # Child `aliasex` has its own describe.api (so api_keys are from the child)
+      # but no own sign_methods entry — pipeline must walk the extends chain back
+      # to `testex` and derive authenticated_sections from the parent's sign() AST.
+      parent_sign =
+        %{
+          "async" => false,
+          "params" => [%{"name" => "path", "type" => "string"}],
+          "return_type" => nil,
+          "statements" => 3,
+          "body" => %{
+            "type" => "BlockStatement",
+            "body" => [
+              %{
+                "type" => "IfStatement",
+                "test" => %{
+                  "type" => "BinaryExpression",
+                  "operator" => "===",
+                  "left" => %{"type" => "Identifier", "name" => "api"},
+                  "right" => %{"type" => "Literal", "value" => "private"}
+                },
+                "consequent" => %{
+                  "type" => "BlockStatement",
+                  "body" => [
+                    %{
+                      "type" => "ExpressionStatement",
+                      "expression" => %{
+                        "type" => "CallExpression",
+                        "callee" => %{
+                          "type" => "MemberExpression",
+                          "object" => %{"type" => "ThisExpression"},
+                          "property" => %{
+                            "type" => "Identifier",
+                            "name" => "checkRequiredCredentials"
+                          }
+                        },
+                        "arguments" => []
+                      }
+                    }
+                  ]
+                },
+                "alternate" => nil
+              }
+            ]
+          }
+        }
+
+      alias_class = %{
+        "node_key" => "rest:aliasex",
+        "class_name" => "aliasex",
+        "type" => "rest",
+        "extends_resolved" => "testex",
+        "parent_key" => "rest:testex",
+        "file" => "aliasex.ts",
+        "method_count" => 0,
+        "methods" => [],
+        "method_details" => []
+      }
+
+      data = %{
+        empty_data()
+        | describe: %{"aliasex" => %{"id" => "aliasex", "api" => %{"public" => %{}, "private" => %{}}}},
+          classes: %{"aliasex" => [alias_class]},
+          sign_methods: %{"testex" => parent_sign}
+      }
+
+      result = Pipeline.build_exchange_data(alias_meta(), data, @schema_opts)
+
+      # Child has no own sign_method — it is resolved from parent only for
+      # derivation purposes, not re-emitted as the child's own AST.
+      assert result["structure"]["sign_method"] == nil
+      assert result["structure"]["authenticated_sections"] == ["private"]
+    end
+
     test "renames handle_errors fields correctly" do
       result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
       he = result["structure"]["handle_errors"]

@@ -8,7 +8,7 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "1.7.0",
+      "const": "1.7.1",
       "description": "Schema version. Consumers should check this before parsing."
     },
     "extracted_at": {

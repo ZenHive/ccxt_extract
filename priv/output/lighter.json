@@ -13,7 +13,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-12T06:42:28.868141Z",
+  "extracted_at": "2026-04-12T14:05:18.091505Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -17107,9 +17107,11 @@
       }
     }
   },
-  "schema_version": "1.7.0",
+  "schema_version": "1.7.1",
   "structure": {
-    "authenticated_sections": [],
+    "authenticated_sections": [
+      "private"
+    ],
     "class_info": {
       "rest": {
         "class_name": "lighter",

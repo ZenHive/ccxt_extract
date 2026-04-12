@@ -6,7 +6,39 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
-### Task 57c: Relocate clients back to sibling repos
+### Task 57d + Task 60 (narrow precursor): Schema 1.7.1 — Fix `structure.authenticated_sections` extraction
+- **Task 57d (complete)** — inheritance chain walk + else-branch inversion for `authenticated_sections` derivation
+- **Task 60 (narrow precursor; generic form still ⬜)** — shipped a field-specific `priv/overrides/<exchange>.json` loader for `authenticated_sections` only. The general JSON-Pointer override contract with `value` payload, `unverified: true` flag, and SCHEMA.md documentation remains outstanding and still gates Phase 9 Tasks 61a/b/c
+- Bumped schema version 1.7.0 → 1.7.1. Field shape unchanged; population fixed
+- `CcxtExtract.AuthenticatedSections.derive/2` now accepts optional `api_keys` (top-level keys of `runtime.describe.api`) and handles the alternate-branch inversion pattern: `if (api === 'public') {...} else { this.checkRequiredCredentials(); ... }`. Walker flattens the else-if chain, accumulates non-auth test values across branches, and negates against `api_keys` at the final `else`
+- Module header declares `# Patch count: 3/3` per CLAUDE.md Three-Strikes Derivation Rule. Future AST shapes go to `priv/overrides/`, not new walker strategies
+- `CcxtExtract.Pipeline.build_exchange_data/3` now resolves inherited `sign_method` from parent classes when a subclass doesn't override `sign()` — fixes `binanceus`, `binancecoinm`, `binanceusdm`, `gateio`, `huobi`, `myokx`, `okxus`, `kucoinfutures`, `bequant`, `fmfwio`, `coinbaseadvanced`
+- New `priv/overrides/<exchange>.json` mechanism. Per-file layout with `authenticated_sections`, `reason`, `verified_against`. Override lookup walks parent chain so aliases inherit (e.g. `gateio` → `gate`)
+- Ships with 14 overrides covering shapes the walker cannot reach:
+  - `api.startsWith('private')`: grvt
+  - `api !== 'private'` inversion: toobit
+  - Variable-bound routing (`const x = api[0]`, ternary, safeString): gate, coinspot, zebpay
+  - sign() reassigns `api` before the gating if-chain: coinone
+  - Compound array routing (`[marketType, access]`): lbank (empty — no top-level section maps to auth)
+  - No `checkRequiredCredentials()` gate in sign(): paradex, hyperliquid, wavesexchange, lighter, p2b, derive, digifinex
+- Before/after diff: 41 exchanges gained populated `authenticated_sections`; zero regressions (no previously-correct value was lost or shrunk). Highlights for downstream sanity-check (ccxt_client T52):
+  - `null → ["private"]`: bequant, coinbaseadvanced, fmfwio, myokx, okxus, gateio; `null → ["private","v2Private"]`: huobi
+  - `null → [13 sections]`: binancecoinm, binanceus, binanceusdm (AST inheritance from binance)
+  - `null → ["broker","earn","futuresPrivate","private"]`: kucoinfutures (AST inheritance from kucoin)
+  - `[] → ["private"]`: 24 exchanges via else-branch inversion — bit2c, bitbank, bithumb, bitstamp, btcbox, cex, coincheck, coinmate, coinspot, derive, digifinex, gate, hyperliquid, independentreserve, indodax, lighter, mercado, p2b, paradex, paymium, toobit, zebpay, + hyperliquid/paradex via override
+  - `[] → ["contractPrivate","private"]`: bigone
+  - `[] → ["privateEdge","privateTrading"]`: grvt
+  - `[] → ["forward","private"]`: wavesexchange
+  - `[] → ["ecapi","private","tlapi"]`: zaif
+  - `[] → ["private","swapPrivate"]`: poloniex
+  - `[] → ["private","v2Private","v2_1Private"]`: coinone
+  - `["v1_01Private"] → ["private","v1_01Private"]`: zonda (chain-walk completeness)
+- New integration tests in `test/ccxt_extract/authenticated_sections_integration_test.exs`:
+  - Every exchange whose `describe.api` has a `/private/i` top-level key must have non-empty `authenticated_sections`. Allowlist: `lbank` (compound routing — see override)
+  - Every override file must remain load-bearing: if AST derivation learns the shape, the test flags the dead override for removal
+  - Every override file carries the full `authenticated_sections` / `reason` / `verified_against` schema
+
+### Task 56b: Relocate clients back to sibling repos (supersedes Task 56)
 - Moved `ccxt_client` and `ccxt_client_bak` from `clients/elixir/<name>/` back to siblings of `ccxt_extract` (`~/_DATA/code/<name>/`). Each nested `.git` travels with the `mv`, preserving history
 - Reason: Claude Code walks up the filesystem and loads every `CLAUDE.md` it finds. Nested layout pulled ccxt_extract's full CLAUDE.md + all `@` imports (>100k tokens) into every client session. Sibling layout eliminates the context bleed
 - Removed `clients/` tree from ccxt_extract (`clients/README.md`, `clients/rust/README.md`, `clients/elixir/README.md`) and dropped the `/clients/*/*/` `.gitignore` entry

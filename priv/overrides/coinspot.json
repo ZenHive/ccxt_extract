@@ -1,0 +1,5 @@
+{
+  "authenticated_sections": ["private"],
+  "reason": "coinspot computes `const accessType = isVersionedApi ? api[1] : api` then tests `accessType === 'private'`. The ternary-of-api binding is not covered by the AST walker's binding strategies.",
+  "verified_against": "priv/ccxt/ts/src/coinspot.ts (sign, `const accessType = ...; if (accessType === 'private')`)"
+}

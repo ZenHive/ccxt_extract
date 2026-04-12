@@ -133,12 +133,17 @@ defmodule CcxtExtract.Pipeline do
     }
 
     sign_method = get_sign_method(id, data)
+    effective_sign = sign_method || get_parent_sign_method(id, data)
+    api_keys = describe_api_keys(describe)
+
+    derived_auth = CcxtExtract.AuthenticatedSections.derive(effective_sign, api_keys)
+    authenticated_sections = resolve_auth_override(id, derived_auth, data)
 
     structure_data = %{
       "class_info" => get_class_info(id, data),
       "methods" => get_methods(id, data),
       "sign_method" => sign_method,
-      "authenticated_sections" => CcxtExtract.AuthenticatedSections.derive(sign_method),
+      "authenticated_sections" => authenticated_sections,
       "handle_errors" => get_handle_errors(id, data),
       "parse_methods" => get_parse_methods(id, data),
       "ws_methods" => get_ws_methods(id, data),
@@ -212,6 +217,49 @@ defmodule CcxtExtract.Pipeline do
 
   # Sign method: direct passthrough (already MethodAST or nil)
   defp get_sign_method(id, data), do: Map.get(data.sign_methods, id)
+
+  # Resolve parent's sign_method when the child doesn't override it.
+  # Walks the extends chain until a non-nil sign_method is found.
+  defp get_parent_sign_method(id, data) do
+    case find_parent_exchange_id(id, data) do
+      nil ->
+        nil
+
+      parent_id ->
+        case Map.get(data.sign_methods, parent_id) do
+          nil -> get_parent_sign_method(parent_id, data)
+          sign -> sign
+        end
+    end
+  end
+
+  # Top-level keys of describe.api (section names routed through sign()).
+  defp describe_api_keys(%{"api" => api}) when is_map(api), do: Map.keys(api)
+  defp describe_api_keys(_), do: nil
+
+  # Resolve per-exchange override. Own override wins over AST derivation.
+  # If no own override, walks parent chain so aliases (e.g. gateio -> gate)
+  # inherit the override. Falls back to AST-derived value.
+  defp resolve_auth_override(id, derived, data) do
+    case load_override(id) do
+      %{"authenticated_sections" => sections} when is_list(sections) ->
+        Enum.sort(Enum.uniq(sections))
+
+      _ ->
+        case find_parent_exchange_id(id, data) do
+          nil -> derived
+          parent_id -> resolve_auth_override(parent_id, derived, data)
+        end
+    end
+  end
+
+  defp load_override(id) do
+    path = Path.join(:code.priv_dir(:ccxt_extract), "overrides/#{id}.json")
+
+    if File.exists?(path) do
+      path |> File.read!() |> Jason.decode!()
+    end
+  end
 
   # Handle errors: rename handle_errors → method, with parent fallback
   defp get_handle_errors(id, data) do

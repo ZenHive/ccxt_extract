@@ -1,0 +1,5 @@
+{
+  "authenticated_sections": [],
+  "reason": "lbank passes `api` as a 2-element array [marketType, access] (e.g. ['spot', 'private']) rather than a top-level section name. describe.api keys are market types ('contract', 'spot'), not auth classes. The top-level section model does not apply — consumers must route via the compound pair. Empty list is the correct representation.",
+  "verified_against": "priv/ccxt/ts/src/lbank.ts:2976 (sign, `api[0]` / `api[1]`)"
+}

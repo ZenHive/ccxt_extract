@@ -36,7 +36,7 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "1.7.0"
+  @schema_version "1.7.1"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)

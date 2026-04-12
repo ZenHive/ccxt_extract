@@ -1,0 +1,5 @@
+{
+  "authenticated_sections": ["forward", "private"],
+  "reason": "sign() has no checkRequiredCredentials() gate — auth is applied via Authorization header from options.accessToken when api is 'private' or 'forward'",
+  "verified_against": "priv/ccxt/ts/src/wavesexchange.ts:813 (sign, `if ((api === 'private') || (api === 'forward'))`)"
+}

@@ -309,6 +309,69 @@ defmodule CcxtExtract.AuthenticatedSectionsTest do
       assert AuthenticatedSections.derive(ast) == ["private"]
     end
 
+    test "inverts else-branch: auth set is api_keys minus non-auth test values" do
+      # if (api === 'public') { ... } else { this.checkRequiredCredentials(); ... }
+      # api_keys = ["public", "private"] -> authenticated = ["private"]
+      else_block = %{
+        "type" => "BlockStatement",
+        "body" => [check_required_credentials_call()]
+      }
+
+      ast =
+        method_ast([
+          if_statement(
+            api_equals("public"),
+            [%{"type" => "ExpressionStatement", "expression" => identifier("noop")}],
+            else_block
+          )
+        ])
+
+      assert AuthenticatedSections.derive(ast, ["public", "private"]) == ["private"]
+    end
+
+    test "inverts else-branch: flattens else-if chain, accumulates non-auth across branches" do
+      # if (api === 'public') { ... }
+      # else if (api === 'webExchange') { ... }
+      # else { this.checkRequiredCredentials(); ... }
+      # api_keys = ["public", "webExchange", "private", "v2Private"] -> ["private", "v2Private"]
+      noop = [%{"type" => "ExpressionStatement", "expression" => identifier("noop")}]
+
+      else_block = %{
+        "type" => "BlockStatement",
+        "body" => [check_required_credentials_call()]
+      }
+
+      else_if =
+        if_statement(api_equals("webExchange"), noop, else_block)
+
+      ast =
+        method_ast([
+          if_statement(api_equals("public"), noop, else_if)
+        ])
+
+      assert AuthenticatedSections.derive(ast, ["public", "webExchange", "private", "v2Private"]) ==
+               ["private", "v2Private"]
+    end
+
+    test "inversion is skipped when api_keys is nil (derive/1 fallback)" do
+      else_block = %{
+        "type" => "BlockStatement",
+        "body" => [check_required_credentials_call()]
+      }
+
+      ast =
+        method_ast([
+          if_statement(
+            api_equals("public"),
+            [%{"type" => "ExpressionStatement", "expression" => identifier("noop")}],
+            else_block
+          )
+        ])
+
+      # Without api_keys the inversion can't compute the complement; result is [].
+      assert AuthenticatedSections.derive(ast) == []
+    end
+
     test "returns sorted output" do
       test_expr =
         logical_or(

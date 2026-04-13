@@ -1,0 +1,98 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "v1",
+          "public"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "ticker"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://arkm.com/api/public/ticker"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v1",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "account/airdrops"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Accept": "application/json",
+          "Arkham-Api-Key": "account-TEST_API_KEY",
+          "Arkham-Broker-Id": "1001",
+          "Arkham-Expires": "1700000005000000",
+          "Arkham-Signature": "RwQwKwFvh+7xYrscdqqEqy7qegfV/A2VIW7GYLu0UPI=",
+          "Content-Type": "application/json"
+        },
+        "method": "GET",
+        "url": "https://arkm.com/api/account/airdrops"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v1",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "orders/new"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Accept": "application/json",
+          "Arkham-Api-Key": "account-TEST_API_KEY",
+          "Arkham-Broker-Id": "1001",
+          "Arkham-Expires": "1700000005000000",
+          "Arkham-Signature": "rwndRR8+QMF7rl93L3phfxDY+irzAb2CbDa1Y0SOHYE=",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://arkm.com/api/orders/new"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "arkham",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

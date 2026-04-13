@@ -39,7 +39,7 @@
     "userAgent",
     "version"
   ],
-  "count": 107,
+  "count": 106,
   "exchanges": [
     {
       "id": "aftermath",
@@ -1477,40 +1477,6 @@
         "timeout": "number",
         "urls": "object",
         "userAgent": "string",
-        "version": "string"
-      }
-    },
-    {
-      "id": "coincatch",
-      "keys": {
-        "alias": "boolean",
-        "api": "object",
-        "certified": "boolean",
-        "commonCurrencies": "object",
-        "countries": "array",
-        "currencies": "object",
-        "dex": "boolean",
-        "enableRateLimit": "boolean",
-        "exceptions": "object",
-        "features": "object",
-        "fees": "object",
-        "has": "object",
-        "httpExceptions": "object",
-        "id": "string",
-        "limits": "object",
-        "markets": "undefined",
-        "name": "string",
-        "options": "object",
-        "paddingMode": "number",
-        "precisionMode": "number",
-        "pro": "boolean",
-        "rateLimit": "number",
-        "requiredCredentials": "object",
-        "rollingWindowSize": "number",
-        "status": "object",
-        "timeframes": "object",
-        "timeout": "number",
-        "urls": "object",
         "version": "string"
       }
     },
@@ -3706,5 +3672,5 @@
       }
     }
   ],
-  "extracted_at": "2026-04-07T23:38:42.705099Z"
+  "extracted_at": "2026-04-13T06:25:20.314048Z"
 }

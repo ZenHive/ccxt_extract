@@ -1,0 +1,85 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "getmarkets"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.bitflyer.com/v1/getmarkets"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "getbalance"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "ACCESS-KEY": "account-TEST_API_KEY",
+          "ACCESS-SIGN": "7b8f773a422d033788b678e48012adef3982e85e261cb70b1c405631614455d8",
+          "ACCESS-TIMESTAMP": "1700000000",
+          "Content-Type": "application/json"
+        },
+        "method": "GET",
+        "url": "https://api.bitflyer.com/v1/me/getbalance"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "sendchildorder"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "ACCESS-KEY": "account-TEST_API_KEY",
+          "ACCESS-SIGN": "89333bac6780dd19769601d7120ec2e54f65bdc62d8f03acde921bfe2b11439b",
+          "ACCESS-TIMESTAMP": "1700000000",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://api.bitflyer.com/v1/me/sendchildorder"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bitflyer",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

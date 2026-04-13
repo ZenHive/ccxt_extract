@@ -1,0 +1,45 @@
+{
+  "cases": [],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "privateKey": "0000000000000000000000000000000000000000000000000000000000000001",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "grvt",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "public_get_ticker",
+      "reason": "no matching endpoint in describe().api"
+    },
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    },
+    {
+      "input": {
+        "api": "privateTrading",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "full/v1/create_order"
+      },
+      "name": "private_post_order",
+      "reason": "a: grvt : at first, you need to authenticate with exchange using signIn() method."
+    }
+  ]
+}

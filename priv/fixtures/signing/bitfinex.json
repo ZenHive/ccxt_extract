@@ -1,0 +1,68 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "tickers"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api-pub.bitfinex.com/v2/tickers"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "auth/r/orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "bfx-apikey": "account-TEST_API_KEY",
+          "bfx-nonce": "1700000000",
+          "bfx-signature": "db9698e97cbba65b00c13e086abb555150d226d83e3ea217135b5756e13b7e7e0716dd0570c5790a2c3954c27d7619e0"
+        },
+        "method": "POST",
+        "url": "https://api.bitfinex.com/v2/auth/r/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bitfinex",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

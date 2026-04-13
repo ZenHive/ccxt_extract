@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "extracted_at": "2026-04-13T06:22:52.990905Z",
   "id": "kraken",
   "market_count": 1506,
   "markets": {
@@ -1444,7 +1444,7 @@
           3
         ],
         "leverage_sell": [],
-        "long_position_limit": "560000",
+        "long_position_limit": "500000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -11633,7 +11633,7 @@
         "ordermin": "0.1",
         "pair_decimals": "3",
         "quote": "USDC",
-        "short_position_limit": "2000",
+        "short_position_limit": "2300",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "LTC/USDC"
@@ -19173,7 +19173,7 @@
         "ordermin": "260",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "short_position_limit": "650000",
+        "short_position_limit": "720000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "BLUR/EUR"
@@ -19958,7 +19958,7 @@
           2,
           3
         ],
-        "long_position_limit": "540000",
+        "long_position_limit": "600000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -25086,7 +25086,7 @@
           9,
           10
         ],
-        "long_position_limit": "2000000",
+        "long_position_limit": "1700000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -25095,7 +25095,7 @@
         "ordermin": "20",
         "pair_decimals": "6",
         "quote": "USDC",
-        "short_position_limit": "1700000",
+        "short_position_limit": "1500000",
         "status": "online",
         "tick_size": "0.000001",
         "wsname": "ADA/USDC"
@@ -28766,7 +28766,7 @@
           4,
           5
         ],
-        "long_position_limit": "1800",
+        "long_position_limit": "1400",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -28775,7 +28775,7 @@
         "ordermin": "0.02",
         "pair_decimals": "3",
         "quote": "ZEUR",
-        "short_position_limit": "1500",
+        "short_position_limit": "1700",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "ZEC/EUR"
@@ -29844,7 +29844,7 @@
           2,
           3
         ],
-        "long_position_limit": "3000000",
+        "long_position_limit": "2300000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -29853,7 +29853,7 @@
         "ordermin": "50",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "1500000",
+        "short_position_limit": "1300000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "POL/USD"
@@ -30654,7 +30654,7 @@
           9,
           10
         ],
-        "long_position_limit": "15000000",
+        "long_position_limit": "13000000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -31944,7 +31944,7 @@
           4,
           5
         ],
-        "long_position_limit": "480000",
+        "long_position_limit": "430000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -32738,7 +32738,7 @@
           2,
           3
         ],
-        "long_position_limit": "140000",
+        "long_position_limit": "100000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -33268,7 +33268,7 @@
         "leverage_sell": [
           2
         ],
-        "long_position_limit": "710000",
+        "long_position_limit": "500000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -35308,7 +35308,7 @@
           2,
           3
         ],
-        "long_position_limit": "310000",
+        "long_position_limit": "270000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -40307,7 +40307,7 @@
         "ordermin": "55",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "4500000",
+        "short_position_limit": "4000000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "HBAR/USD"
@@ -41354,7 +41354,7 @@
           2,
           3
         ],
-        "long_position_limit": "13000",
+        "long_position_limit": "15000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -43711,7 +43711,7 @@
         "ordermin": "1.7",
         "pair_decimals": "3",
         "quote": "ZUSD",
-        "short_position_limit": "37000",
+        "short_position_limit": "29000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "INJ/USD"
@@ -45029,7 +45029,7 @@
         "ordermin": "3",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "36000",
+        "short_position_limit": "32000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "MORPHO/USD"
@@ -46893,7 +46893,7 @@
         "ordermin": "30",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "180000",
+        "short_position_limit": "200000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "EIGEN/USD"
@@ -47944,7 +47944,7 @@
           4,
           5
         ],
-        "long_position_limit": "360",
+        "long_position_limit": "320",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -47953,7 +47953,7 @@
         "ordermin": "0.001",
         "pair_decimals": "2",
         "quote": "ZCAD",
-        "short_position_limit": "150",
+        "short_position_limit": "110",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "ETH/CAD"
@@ -48742,7 +48742,7 @@
           4,
           5
         ],
-        "long_position_limit": "440",
+        "long_position_limit": "350",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -48751,7 +48751,7 @@
         "ordermin": "0.001",
         "pair_decimals": "2",
         "quote": "CHF",
-        "short_position_limit": "320",
+        "short_position_limit": "250",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "ETH/CHF"
@@ -49550,7 +49550,7 @@
           9,
           10
         ],
-        "long_position_limit": "4300000",
+        "long_position_limit": "3800000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -49559,7 +49559,7 @@
         "ordermin": "13",
         "pair_decimals": "5",
         "quote": "USDC",
-        "short_position_limit": "4100000",
+        "short_position_limit": "3600000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "XDG/USDC"
@@ -52191,7 +52191,7 @@
         "ordermin": "6",
         "pair_decimals": "4",
         "quote": "ZEUR",
-        "short_position_limit": "560000",
+        "short_position_limit": "620000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "SUI/EUR"
@@ -57906,7 +57906,7 @@
           2,
           3
         ],
-        "long_position_limit": "970000",
+        "long_position_limit": "1100000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -57915,7 +57915,7 @@
         "ordermin": "30",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "870000",
+        "short_position_limit": "960000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "JUP/USD"
@@ -64425,7 +64425,7 @@
         "leverage_sell": [
           2
         ],
-        "long_position_limit": "12000",
+        "long_position_limit": "14000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -67344,7 +67344,7 @@
           9,
           10
         ],
-        "long_position_limit": "44000",
+        "long_position_limit": "31000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -67353,7 +67353,7 @@
         "ordermin": "0.55",
         "pair_decimals": "5",
         "quote": "USDT",
-        "short_position_limit": "40000",
+        "short_position_limit": "27000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "LINK/USDT"
@@ -70659,7 +70659,7 @@
           3
         ],
         "leverage_sell": [],
-        "long_position_limit": "100000",
+        "long_position_limit": "180000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -76959,7 +76959,7 @@
           4,
           5
         ],
-        "long_position_limit": "5300",
+        "long_position_limit": "6500",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -76968,7 +76968,7 @@
         "ordermin": "0.015",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "4500",
+        "short_position_limit": "6900",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "TAO/USD"
@@ -78801,7 +78801,7 @@
           2,
           3
         ],
-        "long_position_limit": "57000",
+        "long_position_limit": "31000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -78810,7 +78810,7 @@
         "ordermin": "3.9",
         "pair_decimals": "4",
         "quote": "USDC",
-        "short_position_limit": "51000",
+        "short_position_limit": "24000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "DOT/USDC"
@@ -80381,7 +80381,7 @@
           2,
           3
         ],
-        "long_position_limit": "35000",
+        "long_position_limit": "21000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -80390,7 +80390,7 @@
         "ordermin": "250",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "short_position_limit": "11000",
+        "short_position_limit": "7800",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "LRC/EUR"
@@ -81184,7 +81184,7 @@
         "ordermin": "1.65",
         "pair_decimals": "5",
         "quote": "ZAUD",
-        "short_position_limit": "130000",
+        "short_position_limit": "110000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "XRP/AUD"
@@ -85868,7 +85868,7 @@
         "ordermin": "30",
         "pair_decimals": "4",
         "quote": "ZEUR",
-        "short_position_limit": "280000",
+        "short_position_limit": "220000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "FARTCOIN/EUR"
@@ -89806,7 +89806,7 @@
         "ordermin": "0.002",
         "pair_decimals": "0",
         "quote": "ZUSD",
-        "short_position_limit": "4",
+        "short_position_limit": "6",
         "status": "online",
         "tick_size": "1",
         "wsname": "YFI/USD"
@@ -90297,7 +90297,7 @@
           2,
           3
         ],
-        "long_position_limit": "5700",
+        "long_position_limit": "5100",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -90306,7 +90306,7 @@
         "ordermin": "0.1",
         "pair_decimals": "5",
         "quote": "USDT",
-        "short_position_limit": "6200",
+        "short_position_limit": "4900",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "LTC/USDT"
@@ -93711,7 +93711,7 @@
           2,
           3
         ],
-        "long_position_limit": "55000",
+        "long_position_limit": "44000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -93720,7 +93720,7 @@
         "ordermin": "3.9",
         "pair_decimals": "8",
         "quote": "XXBT",
-        "short_position_limit": "31000",
+        "short_position_limit": "18000",
         "status": "online",
         "tick_size": "0.00000001",
         "wsname": "DOT/XBT"
@@ -94243,7 +94243,7 @@
           2,
           3
         ],
-        "long_position_limit": "120000",
+        "long_position_limit": "100000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -95037,7 +95037,7 @@
           2,
           3
         ],
-        "long_position_limit": "540000",
+        "long_position_limit": "480000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -95046,7 +95046,7 @@
         "ordermin": "85",
         "pair_decimals": "4",
         "quote": "ZEUR",
-        "short_position_limit": "320000",
+        "short_position_limit": "250000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "KAVA/EUR"
@@ -98199,7 +98199,7 @@
           4,
           5
         ],
-        "long_position_limit": "4500",
+        "long_position_limit": "5000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -98208,7 +98208,7 @@
         "ordermin": "0.05",
         "pair_decimals": "2",
         "quote": "ZUSD",
-        "short_position_limit": "3200",
+        "short_position_limit": "3600",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "AAVE/USD"
@@ -105556,7 +105556,7 @@
         "ordermin": "1.65",
         "pair_decimals": "5",
         "quote": "USDC",
-        "short_position_limit": "790000",
+        "short_position_limit": "870000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "XRP/USDC"
@@ -106580,7 +106580,7 @@
         "ordermin": "20",
         "pair_decimals": "9",
         "quote": "XXBT",
-        "short_position_limit": "300000",
+        "short_position_limit": "340000",
         "status": "online",
         "tick_size": "0.000000001",
         "wsname": "ADA/XBT"
@@ -110718,7 +110718,7 @@
         "ordermin": "50",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "120000",
+        "short_position_limit": "140000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "ZRX/USD"
@@ -111731,7 +111731,7 @@
         "leverage_sell": [
           2
         ],
-        "long_position_limit": "35000",
+        "long_position_limit": "31000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -111740,7 +111740,7 @@
         "ordermin": "6",
         "pair_decimals": "8",
         "quote": "XXBT",
-        "short_position_limit": "30000",
+        "short_position_limit": "26000",
         "status": "online",
         "tick_size": "0.00000001",
         "wsname": "FIL/XBT"
@@ -114897,7 +114897,7 @@
         "ordermin": "60",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "status": "post_only",
+        "status": "online",
         "tick_size": "0.00001",
         "wsname": "QUAI/EUR"
       },
@@ -114946,7 +114946,7 @@
       "margin": false,
       "contract": false,
       "percentage": true,
-      "active": false,
+      "active": true,
       "altname": "QUAIEUR",
       "tiers": {
         "maker": [
@@ -118075,7 +118075,7 @@
           2,
           3
         ],
-        "long_position_limit": "370000",
+        "long_position_limit": "330000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -118084,7 +118084,7 @@
         "ordermin": "8",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "390000",
+        "short_position_limit": "330000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "ASTER/USD"
@@ -118869,7 +118869,7 @@
           2,
           3
         ],
-        "long_position_limit": "310000",
+        "long_position_limit": "210000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -118878,7 +118878,7 @@
         "ordermin": "35",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "170000",
+        "short_position_limit": "88000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "IMX/USD"
@@ -124594,7 +124594,7 @@
           4,
           5
         ],
-        "long_position_limit": "1100",
+        "long_position_limit": "790",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -129874,7 +129874,7 @@
           4,
           5
         ],
-        "long_position_limit": "460",
+        "long_position_limit": "410",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -133280,7 +133280,7 @@
         "ordermin": "3500",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "status": "online",
+        "status": "cancel_only",
         "tick_size": "0.00001",
         "wsname": "WAR/EUR"
       },
@@ -133329,7 +133329,7 @@
       "margin": false,
       "contract": false,
       "percentage": true,
-      "active": true,
+      "active": false,
       "altname": "WAREUR",
       "tiers": {
         "maker": [
@@ -137362,7 +137362,7 @@
           2,
           3
         ],
-        "long_position_limit": "250000000000",
+        "long_position_limit": "350000000000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -137371,7 +137371,7 @@
         "ordermin": "35000000",
         "pair_decimals": "10",
         "quote": "ZUSD",
-        "short_position_limit": "340000000000",
+        "short_position_limit": "300000000000",
         "status": "online",
         "tick_size": "0.0000000001",
         "wsname": "MOG/USD"
@@ -138156,7 +138156,7 @@
           2,
           3
         ],
-        "long_position_limit": "1700000",
+        "long_position_limit": "2100000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -138165,7 +138165,7 @@
         "ordermin": "260",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "880000",
+        "short_position_limit": "1500000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "BLUR/USD"
@@ -139180,7 +139180,7 @@
           2,
           3
         ],
-        "long_position_limit": "88000",
+        "long_position_limit": "56000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -139189,7 +139189,7 @@
         "ordermin": "5",
         "pair_decimals": "5",
         "quote": "USDT",
-        "short_position_limit": "130000",
+        "short_position_limit": "110000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "DAI/USDT"
@@ -140243,7 +140243,7 @@
         "ordermin": "30",
         "pair_decimals": "9",
         "quote": "XXBT",
-        "short_position_limit": "390000",
+        "short_position_limit": "310000",
         "status": "online",
         "tick_size": "0.000000001",
         "wsname": "XLM/XBT"
@@ -143103,7 +143103,7 @@
         "ordermin": "4",
         "pair_decimals": "3",
         "quote": "ZEUR",
-        "short_position_limit": "79000",
+        "short_position_limit": "71000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "NEAR/EUR"
@@ -144694,7 +144694,7 @@
           2,
           3
         ],
-        "long_position_limit": "9800000",
+        "long_position_limit": "7000000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -144703,7 +144703,7 @@
         "ordermin": "5500",
         "pair_decimals": "6",
         "quote": "ZEUR",
-        "short_position_limit": "7100000",
+        "short_position_limit": "5600000",
         "status": "online",
         "tick_size": "0.000001",
         "wsname": "SC/EUR"
@@ -146010,7 +146010,7 @@
         "leverage_sell": [
           2
         ],
-        "long_position_limit": "29000",
+        "long_position_limit": "26000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -146019,7 +146019,7 @@
         "ordermin": "4",
         "pair_decimals": "3",
         "quote": "ZEUR",
-        "short_position_limit": "18000",
+        "short_position_limit": "17000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "AXS/EUR"
@@ -147843,7 +147843,7 @@
         "ordermin": "0.02",
         "pair_decimals": "2",
         "quote": "USDT",
-        "short_position_limit": "15000",
+        "short_position_limit": "17000",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "SOL/USDT"
@@ -148858,7 +148858,7 @@
           2,
           3
         ],
-        "long_position_limit": "980000",
+        "long_position_limit": "880000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -149388,7 +149388,7 @@
         "leverage_sell": [
           2
         ],
-        "long_position_limit": "20000",
+        "long_position_limit": "17000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -149397,7 +149397,7 @@
         "ordermin": "0.6",
         "pair_decimals": "3",
         "quote": "ZUSD",
-        "short_position_limit": "6500",
+        "short_position_limit": "5200",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "ETC/USD"
@@ -149920,7 +149920,7 @@
           2,
           3
         ],
-        "long_position_limit": "300",
+        "long_position_limit": "260",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -150736,7 +150736,7 @@
           2,
           3
         ],
-        "long_position_limit": "570000",
+        "long_position_limit": "700000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -150745,7 +150745,7 @@
         "ordermin": "20",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "340000",
+        "short_position_limit": "420000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "STX/USD"
@@ -153368,7 +153368,7 @@
           4,
           5
         ],
-        "long_position_limit": "20",
+        "long_position_limit": "17",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -153377,7 +153377,7 @@
         "ordermin": "0.00005",
         "pair_decimals": "1",
         "quote": "CHF",
-        "short_position_limit": "21",
+        "short_position_limit": "18",
         "status": "online",
         "tick_size": "0.1",
         "wsname": "XBT/CHF"
@@ -156516,7 +156516,7 @@
           2,
           3
         ],
-        "long_position_limit": "710000",
+        "long_position_limit": "790000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -156525,7 +156525,7 @@
         "ordermin": "85",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "500000",
+        "short_position_limit": "560000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "KAVA/USD"
@@ -157052,7 +157052,7 @@
           4,
           5
         ],
-        "long_position_limit": "4200",
+        "long_position_limit": "3700",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -157061,7 +157061,7 @@
         "ordermin": "0.02",
         "pair_decimals": "2",
         "quote": "ZUSD",
-        "short_position_limit": "3300",
+        "short_position_limit": "3700",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "ZEC/USD"
@@ -157848,7 +157848,7 @@
         "ordermin": "3500",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "status": "online",
+        "status": "cancel_only",
         "tick_size": "0.00001",
         "wsname": "WAR/USD"
       },
@@ -157897,7 +157897,7 @@
       "margin": false,
       "contract": false,
       "percentage": true,
-      "active": true,
+      "active": false,
       "altname": "WARUSD",
       "tiers": {
         "maker": [
@@ -159156,7 +159156,7 @@
           2,
           3
         ],
-        "long_position_limit": "710000",
+        "long_position_limit": "630000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -159165,7 +159165,7 @@
         "ordermin": "55",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "290000",
+        "short_position_limit": "260000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "APE/USD"
@@ -160750,7 +160750,7 @@
           9,
           10
         ],
-        "long_position_limit": "9700",
+        "long_position_limit": "7800",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -160759,7 +160759,7 @@
         "ordermin": "0.1",
         "pair_decimals": "2",
         "quote": "ZEUR",
-        "short_position_limit": "5600",
+        "short_position_limit": "6200",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "LTC/EUR"
@@ -165344,7 +165344,7 @@
           2,
           3
         ],
-        "long_position_limit": "13000",
+        "long_position_limit": "15000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -165353,7 +165353,7 @@
         "ordermin": "10",
         "pair_decimals": "6",
         "quote": "ZUSD",
-        "short_position_limit": "15000",
+        "short_position_limit": "19000",
         "status": "online",
         "tick_size": "0.000001",
         "wsname": "NANO/USD"
@@ -166108,7 +166108,7 @@
           3,
           4
         ],
-        "long_position_limit": "210000",
+        "long_position_limit": "180000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -171104,7 +171104,7 @@
           3,
           4
         ],
-        "long_position_limit": "9700",
+        "long_position_limit": "9800",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -173740,7 +173740,7 @@
           2,
           3
         ],
-        "long_position_limit": "21000",
+        "long_position_limit": "8000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -173749,7 +173749,7 @@
         "ordermin": "3.9",
         "pair_decimals": "6",
         "quote": "XETH",
-        "short_position_limit": "28000",
+        "short_position_limit": "13000",
         "status": "online",
         "tick_size": "0.000001",
         "wsname": "DOT/ETH"
@@ -174541,7 +174541,7 @@
         "ordermin": "200",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "2300000",
+        "short_position_limit": "2600000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "GRT/USD"
@@ -175066,7 +175066,7 @@
         "ordermin": "120",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "status": "cancel_only",
+        "status": "post_only",
         "tick_size": "0.00001",
         "wsname": "LCX/EUR"
       },
@@ -175590,7 +175590,7 @@
         "ordermin": "102.6062",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "status": "post_only",
+        "status": "online",
         "tick_size": "0.00001",
         "wsname": "BONZO/USD"
       },
@@ -175639,7 +175639,7 @@
       "margin": false,
       "contract": false,
       "percentage": true,
-      "active": false,
+      "active": true,
       "altname": "BONZOUSD",
       "tiers": {
         "maker": [
@@ -176372,7 +176372,7 @@
         "leverage_sell": [
           2
         ],
-        "long_position_limit": "1300000",
+        "long_position_limit": "1100000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -176381,7 +176381,7 @@
         "ordermin": "45",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "680000",
+        "short_position_limit": "540000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "OP/USD"
@@ -186301,7 +186301,7 @@
         "ordermin": "4",
         "pair_decimals": "3",
         "quote": "ZUSD",
-        "short_position_limit": "230000",
+        "short_position_limit": "260000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "NEAR/USD"
@@ -187582,7 +187582,7 @@
           4,
           5
         ],
-        "long_position_limit": "44000000000",
+        "long_position_limit": "49000000000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -187591,7 +187591,7 @@
         "ordermin": "910000",
         "pair_decimals": "8",
         "quote": "ZUSD",
-        "short_position_limit": "43000000000",
+        "short_position_limit": "48000000000",
         "status": "online",
         "tick_size": "0.00000001",
         "wsname": "SHIB/USD"
@@ -189965,7 +189965,7 @@
         "ordermin": "100",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "380000",
+        "short_position_limit": "420000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "MOODENG/USD"
@@ -191283,7 +191283,7 @@
         "ordermin": "50",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "430000",
+        "short_position_limit": "480000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "DYDX/USD"
@@ -192077,7 +192077,7 @@
         "ordermin": "5500",
         "pair_decimals": "6",
         "quote": "ZUSD",
-        "short_position_limit": "30000000",
+        "short_position_limit": "42000000",
         "status": "online",
         "tick_size": "0.000001",
         "wsname": "SC/USD"
@@ -193386,7 +193386,7 @@
           2,
           3
         ],
-        "long_position_limit": "210000",
+        "long_position_limit": "180000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -195251,7 +195251,7 @@
         "ordermin": "0.6",
         "pair_decimals": "2",
         "quote": "ZUSD",
-        "short_position_limit": "56000",
+        "short_position_limit": "62000",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "AVAX/USD"
@@ -195774,7 +195774,7 @@
           2,
           3
         ],
-        "long_position_limit": "21000",
+        "long_position_limit": "27000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -195783,7 +195783,7 @@
         "ordermin": "1.5",
         "pair_decimals": "3",
         "quote": "ZEUR",
-        "short_position_limit": "13000",
+        "short_position_limit": "17000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "TRUMP/EUR"
@@ -200463,7 +200463,7 @@
           3
         ],
         "leverage_sell": [],
-        "long_position_limit": "150000",
+        "long_position_limit": "170000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -201763,7 +201763,7 @@
           9,
           10
         ],
-        "long_position_limit": "1400000",
+        "long_position_limit": "1200000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -201772,7 +201772,7 @@
         "ordermin": "5",
         "pair_decimals": "4",
         "quote": "ZCAD",
-        "short_position_limit": "1500000",
+        "short_position_limit": "1300000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "USDC/CAD"
@@ -202863,7 +202863,7 @@
           2,
           3
         ],
-        "long_position_limit": "9500000",
+        "long_position_limit": "8500000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -202872,7 +202872,7 @@
         "ordermin": "630",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "6900000",
+        "short_position_limit": "6200000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "FLR/USD"
@@ -203625,7 +203625,7 @@
           2,
           3
         ],
-        "long_position_limit": "130",
+        "long_position_limit": "110",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -205172,7 +205172,7 @@
           3
         ],
         "leverage_sell": [],
-        "long_position_limit": "5000000",
+        "long_position_limit": "7900000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -206467,7 +206467,7 @@
         "ordermin": "3",
         "pair_decimals": "3",
         "quote": "ZUSD",
-        "short_position_limit": "56000",
+        "short_position_limit": "62000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "ZRO/USD"
@@ -207250,7 +207250,7 @@
         "leverage_sell": [
           2
         ],
-        "long_position_limit": "5600",
+        "long_position_limit": "9300",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -207259,7 +207259,7 @@
         "ordermin": "1.7",
         "pair_decimals": "3",
         "quote": "ZEUR",
-        "short_position_limit": "6500",
+        "short_position_limit": "8900",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "INJ/EUR"
@@ -207520,7 +207520,7 @@
           2,
           3
         ],
-        "long_position_limit": "170000",
+        "long_position_limit": "150000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -207529,7 +207529,7 @@
         "ordermin": "35",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "98000",
+        "short_position_limit": "50000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "KNC/USD"
@@ -209348,7 +209348,7 @@
           4,
           5
         ],
-        "long_position_limit": "320",
+        "long_position_limit": "280",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -212992,7 +212992,7 @@
           2,
           3
         ],
-        "long_position_limit": "300000",
+        "long_position_limit": "420000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -213001,7 +213001,7 @@
         "ordermin": "25",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "270000",
+        "short_position_limit": "340000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "SYRUP/USD"
@@ -213262,7 +213262,7 @@
           2,
           3
         ],
-        "long_position_limit": "240000",
+        "long_position_limit": "270000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -213271,7 +213271,7 @@
         "ordermin": "7",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "210000",
+        "short_position_limit": "240000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "VIRTUAL/USD"
@@ -213543,7 +213543,7 @@
         "ordermin": "55",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "960000",
+        "short_position_limit": "1100000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "MANA/USD"
@@ -222170,7 +222170,7 @@
           9,
           10
         ],
-        "long_position_limit": "1300000",
+        "long_position_limit": "1100000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -223226,7 +223226,7 @@
           2,
           3
         ],
-        "long_position_limit": "8800000",
+        "long_position_limit": "8700000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -223235,7 +223235,7 @@
         "ordermin": "900",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "7900000",
+        "short_position_limit": "7100000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "JASMY/USD"
@@ -225483,7 +225483,7 @@
           2,
           3
         ],
-        "long_position_limit": "200",
+        "long_position_limit": "1900",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -225492,7 +225492,7 @@
         "ordermin": "0.07",
         "pair_decimals": "2",
         "quote": "ZUSD",
-        "short_position_limit": "200",
+        "short_position_limit": "1500",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "QNT/USD"
@@ -229359,7 +229359,7 @@
           2,
           3
         ],
-        "long_position_limit": "64000",
+        "long_position_limit": "57000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -229893,7 +229893,7 @@
         "ordermin": "120",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "status": "cancel_only",
+        "status": "online",
         "tick_size": "0.00001",
         "wsname": "LCX/USD"
       },
@@ -229942,7 +229942,7 @@
       "margin": false,
       "contract": false,
       "percentage": true,
-      "active": false,
+      "active": true,
       "altname": "LCXUSD",
       "tiers": {
         "maker": [
@@ -230939,7 +230939,7 @@
           2,
           3
         ],
-        "long_position_limit": "3400",
+        "long_position_limit": "3000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -236147,7 +236147,7 @@
           9,
           10
         ],
-        "long_position_limit": "56000",
+        "long_position_limit": "50000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -237465,7 +237465,7 @@
           2,
           3
         ],
-        "long_position_limit": "97000",
+        "long_position_limit": "87000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -239314,7 +239314,7 @@
         "ordermin": "3",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "52000",
+        "short_position_limit": "51000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "ATOM/USD"
@@ -239575,7 +239575,7 @@
           2,
           3
         ],
-        "long_position_limit": "1500000",
+        "long_position_limit": "1300000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -240902,7 +240902,7 @@
         "ordermin": "95",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "short_position_limit": "980000",
+        "short_position_limit": "1100000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "SEI/EUR"
@@ -242963,7 +242963,7 @@
         "leverage_sell": [
           2
         ],
-        "long_position_limit": "450000",
+        "long_position_limit": "440000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -243991,7 +243991,7 @@
           9,
           10
         ],
-        "long_position_limit": "1100000",
+        "long_position_limit": "790000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -248966,7 +248966,7 @@
         "ordermin": "50",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "880000",
+        "short_position_limit": "1100000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "ARB/USD"
@@ -249227,7 +249227,7 @@
           2,
           3
         ],
-        "long_position_limit": "620000",
+        "long_position_limit": "550000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -249497,7 +249497,7 @@
           2,
           3
         ],
-        "long_position_limit": "7900",
+        "long_position_limit": "7100",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -255253,7 +255253,7 @@
           2,
           3
         ],
-        "long_position_limit": "52000",
+        "long_position_limit": "64000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -255262,7 +255262,7 @@
         "ordermin": "4",
         "pair_decimals": "3",
         "quote": "ZEUR",
-        "short_position_limit": "55000",
+        "short_position_limit": "61000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "TON/EUR"
@@ -255785,7 +255785,7 @@
           2,
           3
         ],
-        "long_position_limit": "23000000000",
+        "long_position_limit": "20000000000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -255794,7 +255794,7 @@
         "ordermin": "910000",
         "pair_decimals": "8",
         "quote": "ZEUR",
-        "short_position_limit": "18000000000",
+        "short_position_limit": "20000000000",
         "status": "online",
         "tick_size": "0.00000001",
         "wsname": "SHIB/EUR"
@@ -256588,7 +256588,7 @@
         "ordermin": "130",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "760000",
+        "short_position_limit": "680000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "STRK/USD"
@@ -257111,7 +257111,7 @@
           2,
           3
         ],
-        "long_position_limit": "310000",
+        "long_position_limit": "350000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -257120,7 +257120,7 @@
         "ordermin": "20",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "short_position_limit": "240000",
+        "short_position_limit": "300000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "ONDO/EUR"
@@ -259985,7 +259985,7 @@
         "ordermin": "0.00005",
         "pair_decimals": "1",
         "quote": "ZAUD",
-        "short_position_limit": "9",
+        "short_position_limit": "8",
         "status": "online",
         "tick_size": "0.1",
         "wsname": "XBT/AUD"
@@ -260777,7 +260777,7 @@
         "ordermin": "6",
         "pair_decimals": "3",
         "quote": "ZUSD",
-        "short_position_limit": "88000",
+        "short_position_limit": "97000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "FIL/USD"
@@ -263658,7 +263658,7 @@
           2,
           3
         ],
-        "long_position_limit": "630000",
+        "long_position_limit": "500000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -263667,7 +263667,7 @@
         "ordermin": "60",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "440000",
+        "short_position_limit": "350000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "SAND/USD"
@@ -263942,7 +263942,7 @@
           9,
           10
         ],
-        "long_position_limit": "7100000",
+        "long_position_limit": "7900000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -263951,7 +263951,7 @@
         "ordermin": "13",
         "pair_decimals": "5",
         "quote": "USDT",
-        "short_position_limit": "6200000",
+        "short_position_limit": "6900000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "XDG/USDT"
@@ -264212,7 +264212,7 @@
           2,
           3
         ],
-        "long_position_limit": "96000",
+        "long_position_limit": "98000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -264221,7 +264221,7 @@
         "ordermin": "4",
         "pair_decimals": "3",
         "quote": "ZUSD",
-        "short_position_limit": "59000",
+        "short_position_limit": "65000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "AXS/USD"
@@ -269714,7 +269714,7 @@
           2,
           3
         ],
-        "long_position_limit": "4000",
+        "long_position_limit": "3500",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -269723,7 +269723,7 @@
         "ordermin": "0.15",
         "pair_decimals": "2",
         "quote": "ZEUR",
-        "short_position_limit": "4000",
+        "short_position_limit": "3100",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "HYPE/EUR"
@@ -275786,7 +275786,7 @@
           2,
           3
         ],
-        "long_position_limit": "4300",
+        "long_position_limit": "5300",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -275795,7 +275795,7 @@
         "ordermin": "0.3",
         "pair_decimals": "2",
         "quote": "ZUSD",
-        "short_position_limit": "3000",
+        "short_position_limit": "4200",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "COMP/USD"
@@ -282838,7 +282838,7 @@
           3,
           4
         ],
-        "long_position_limit": "630000",
+        "long_position_limit": "270000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -282847,7 +282847,7 @@
         "ordermin": "55",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "short_position_limit": "530000",
+        "short_position_limit": "200000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "MANA/EUR"
@@ -284156,7 +284156,7 @@
           2,
           3
         ],
-        "long_position_limit": "410",
+        "long_position_limit": "360",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -286543,7 +286543,7 @@
         "ordermin": "1700",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "9800000",
+        "short_position_limit": "7900000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "GALA/USD"
@@ -287339,7 +287339,7 @@
         "ordermin": "150",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "2200000",
+        "short_position_limit": "1900000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "KAS/USD"
@@ -287600,7 +287600,7 @@
           2,
           3
         ],
-        "long_position_limit": "75",
+        "long_position_limit": "320",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -287609,7 +287609,7 @@
         "ordermin": "0.008",
         "pair_decimals": "2",
         "quote": "ZEUR",
-        "short_position_limit": "75",
+        "short_position_limit": "230",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "BNB/EUR"
@@ -289965,7 +289965,7 @@
         "ordermin": "20",
         "pair_decimals": "6",
         "quote": "USDT",
-        "short_position_limit": "2100000",
+        "short_position_limit": "1800000",
         "status": "online",
         "tick_size": "0.000001",
         "wsname": "ADA/USDT"
@@ -291023,7 +291023,7 @@
         "ordermin": "90",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "890000",
+        "short_position_limit": "880000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "MINA/USD"
@@ -295509,7 +295509,7 @@
           2,
           3
         ],
-        "long_position_limit": "570000",
+        "long_position_limit": "700000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -295518,7 +295518,7 @@
         "ordermin": "15",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "400000",
+        "short_position_limit": "500000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "TIA/USD"
@@ -295783,7 +295783,7 @@
           4,
           5
         ],
-        "long_position_limit": "93000",
+        "long_position_limit": "83000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -295792,7 +295792,7 @@
         "ordermin": "1.3",
         "pair_decimals": "3",
         "quote": "ZUSD",
-        "short_position_limit": "59000",
+        "short_position_limit": "65000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "UNI/USD"
@@ -296577,7 +296577,7 @@
           2,
           3
         ],
-        "long_position_limit": "48000000",
+        "long_position_limit": "43000000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -298652,7 +298652,7 @@
         "ordermin": "0.01",
         "pair_decimals": "2",
         "quote": "ZUSD",
-        "short_position_limit": "1100",
+        "short_position_limit": "1300",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "BCH/USD"
@@ -299179,7 +299179,7 @@
           4,
           5
         ],
-        "long_position_limit": "16",
+        "long_position_limit": "14",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -300465,7 +300465,7 @@
           2,
           3
         ],
-        "long_position_limit": "53000",
+        "long_position_limit": "170000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -300474,7 +300474,7 @@
         "ordermin": "5",
         "pair_decimals": "3",
         "quote": "ZJPY",
-        "short_position_limit": "18000",
+        "short_position_limit": "6100",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "USDT/JPY"
@@ -300735,7 +300735,7 @@
           2,
           3
         ],
-        "long_position_limit": "700000",
+        "long_position_limit": "810000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -300744,7 +300744,7 @@
         "ordermin": "30",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "short_position_limit": "700000",
+        "short_position_limit": "790000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "JUP/EUR"
@@ -302062,7 +302062,7 @@
         "ordermin": "1.65",
         "pair_decimals": "5",
         "quote": "ZCAD",
-        "short_position_limit": "190000",
+        "short_position_limit": "170000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "XRP/CAD"
@@ -307036,7 +307036,7 @@
           3
         ],
         "leverage_sell": [],
-        "long_position_limit": "260000",
+        "long_position_limit": "320000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -315947,7 +315947,7 @@
         "ordermin": "3.9",
         "pair_decimals": "4",
         "quote": "ZEUR",
-        "short_position_limit": "190000",
+        "short_position_limit": "170000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "DOT/EUR"
@@ -316741,7 +316741,7 @@
         "ordermin": "1.5",
         "pair_decimals": "3",
         "quote": "ZUSD",
-        "short_position_limit": "45000",
+        "short_position_limit": "50000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "TRUMP/USD"
@@ -317273,7 +317273,7 @@
         "ordermin": "280",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "50000",
+        "short_position_limit": "62000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "GOAT/USD"
@@ -318842,7 +318842,7 @@
         "leverage_sell": [
           2
         ],
-        "long_position_limit": "44000",
+        "long_position_limit": "54000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -318851,7 +318851,7 @@
         "ordermin": "6",
         "pair_decimals": "3",
         "quote": "ZEUR",
-        "short_position_limit": "20000",
+        "short_position_limit": "36000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "FIL/EUR"
@@ -326154,7 +326154,7 @@
           2,
           3
         ],
-        "long_position_limit": "4000000",
+        "long_position_limit": "3500000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -326163,7 +326163,7 @@
         "ordermin": "95",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "2000000",
+        "short_position_limit": "1700000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "SEI/USD"
@@ -327482,7 +327482,7 @@
           2,
           3
         ],
-        "long_position_limit": "110000",
+        "long_position_limit": "98000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -327491,7 +327491,7 @@
         "ordermin": "1.3",
         "pair_decimals": "3",
         "quote": "ZEUR",
-        "short_position_limit": "89000",
+        "short_position_limit": "88000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "UNI/EUR"
@@ -328016,7 +328016,7 @@
         "ordermin": "60",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "status": "post_only",
+        "status": "online",
         "tick_size": "0.00001",
         "wsname": "QUAI/USD"
       },
@@ -328065,7 +328065,7 @@
       "margin": false,
       "contract": false,
       "percentage": true,
-      "active": false,
+      "active": true,
       "altname": "QUAIUSD",
       "tiers": {
         "maker": [
@@ -330087,7 +330087,7 @@
         "ordermin": "5100",
         "pair_decimals": "6",
         "quote": "ZUSD",
-        "short_position_limit": "8800000",
+        "short_position_limit": "9700000",
         "status": "online",
         "tick_size": "0.000001",
         "wsname": "TURBO/USD"
@@ -330348,7 +330348,7 @@
           2,
           3
         ],
-        "long_position_limit": "98000",
+        "long_position_limit": "88000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -330357,7 +330357,7 @@
         "ordermin": "6",
         "pair_decimals": "4",
         "quote": "ZEUR",
-        "short_position_limit": "87000",
+        "short_position_limit": "78000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "APT/EUR"
@@ -330879,7 +330879,7 @@
           3
         ],
         "leverage_sell": [],
-        "long_position_limit": "200000",
+        "long_position_limit": "1000000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -331670,7 +331670,7 @@
           3
         ],
         "leverage_sell": [],
-        "long_position_limit": "17000",
+        "long_position_limit": "15000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -333512,7 +333512,7 @@
           2,
           3
         ],
-        "long_position_limit": "1800000000",
+        "long_position_limit": "1400000000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -334041,7 +334041,7 @@
           3
         ],
         "leverage_sell": [],
-        "long_position_limit": "420000",
+        "long_position_limit": "370000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -335106,7 +335106,7 @@
         "ordermin": "1100",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "8100000",
+        "short_position_limit": "9000000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "XCN/USD"
@@ -336889,7 +336889,7 @@
           9,
           10
         ],
-        "long_position_limit": "960000",
+        "long_position_limit": "860000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -336898,7 +336898,7 @@
         "ordermin": "5",
         "pair_decimals": "4",
         "quote": "ZAUD",
-        "short_position_limit": "930000",
+        "short_position_limit": "830000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "USDC/AUD"
@@ -337421,7 +337421,7 @@
           2,
           3
         ],
-        "long_position_limit": "7000",
+        "long_position_limit": "6200",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -339012,7 +339012,7 @@
         "ordermin": "35",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "720000",
+        "short_position_limit": "800000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "CC/USD"
@@ -341650,7 +341650,7 @@
         "ordermin": "10",
         "pair_decimals": "6",
         "quote": "ZEUR",
-        "short_position_limit": "5800",
+        "short_position_limit": "5200",
         "status": "online",
         "tick_size": "0.000001",
         "wsname": "NANO/EUR"
@@ -342669,7 +342669,7 @@
           4,
           5
         ],
-        "long_position_limit": "1100",
+        "long_position_limit": "790",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -342678,7 +342678,7 @@
         "ordermin": "0.01",
         "pair_decimals": "2",
         "quote": "ZEUR",
-        "short_position_limit": "780",
+        "short_position_limit": "700",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "BCH/EUR"
@@ -343208,7 +343208,7 @@
         "ordermin": "200",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "short_position_limit": "760000",
+        "short_position_limit": "840000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "GRT/EUR"
@@ -346102,7 +346102,7 @@
           2,
           3
         ],
-        "long_position_limit": "400000",
+        "long_position_limit": "1600000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -346111,7 +346111,7 @@
         "ordermin": "55",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "short_position_limit": "400000",
+        "short_position_limit": "1500000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "HBAR/EUR"
@@ -347162,7 +347162,7 @@
           4,
           5
         ],
-        "long_position_limit": "1500",
+        "long_position_limit": "1900",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -347171,7 +347171,7 @@
         "ordermin": "0.015",
         "pair_decimals": "2",
         "quote": "ZUSD",
-        "short_position_limit": "1400",
+        "short_position_limit": "1600",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "XMR/USD"
@@ -350068,7 +350068,7 @@
         "ordermin": "0.001",
         "pair_decimals": "2",
         "quote": "ZAUD",
-        "short_position_limit": "110",
+        "short_position_limit": "98",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "ETH/AUD"
@@ -351399,7 +351399,7 @@
           9,
           10
         ],
-        "long_position_limit": "1500000",
+        "long_position_limit": "1900000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -351408,7 +351408,7 @@
         "ordermin": "6",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "1300000",
+        "short_position_limit": "1700000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "SUI/USD"
@@ -351901,7 +351901,7 @@
           3,
           4
         ],
-        "long_position_limit": "130000",
+        "long_position_limit": "110000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -351910,7 +351910,7 @@
         "ordermin": "5",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "short_position_limit": "79000",
+        "short_position_limit": "56000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "DAI/EUR"
@@ -356359,7 +356359,7 @@
           2,
           3
         ],
-        "long_position_limit": "96000",
+        "long_position_limit": "69000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -356368,7 +356368,7 @@
         "ordermin": "3.9",
         "pair_decimals": "4",
         "quote": "USDT",
-        "short_position_limit": "83000",
+        "short_position_limit": "66000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "DOT/USDT"
@@ -356611,7 +356611,7 @@
           9,
           10
         ],
-        "long_position_limit": "1700000",
+        "long_position_limit": "1500000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -360573,7 +360573,7 @@
           9,
           10
         ],
-        "long_position_limit": "18000",
+        "long_position_limit": "16000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -360582,7 +360582,7 @@
         "ordermin": "0.02",
         "pair_decimals": "2",
         "quote": "USDC",
-        "short_position_limit": "20000",
+        "short_position_limit": "17000",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "SOL/USDC"
@@ -362688,7 +362688,7 @@
         "ordermin": "6",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "340000",
+        "short_position_limit": "300000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "APT/USD"
@@ -362949,7 +362949,7 @@
           2,
           3
         ],
-        "long_position_limit": "500000",
+        "long_position_limit": "390000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -362958,7 +362958,7 @@
         "ordermin": "170",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "390000",
+        "short_position_limit": "310000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "FLOW/USD"
@@ -364022,7 +364022,7 @@
         "ordermin": "3",
         "pair_decimals": "3",
         "quote": "ZUSD",
-        "short_position_limit": "130000",
+        "short_position_limit": "150000",
         "status": "online",
         "tick_size": "0.001",
         "wsname": "RENDER/USD"
@@ -372352,7 +372352,7 @@
         "ordermin": "0.015",
         "pair_decimals": "4",
         "quote": "ZEUR",
-        "short_position_limit": "1300",
+        "short_position_limit": "1100",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "TAO/EUR"
@@ -373935,7 +373935,7 @@
           2,
           3
         ],
-        "long_position_limit": "500000",
+        "long_position_limit": "440000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -373944,7 +373944,7 @@
         "ordermin": "50",
         "pair_decimals": "5",
         "quote": "ZEUR",
-        "short_position_limit": "460000",
+        "short_position_limit": "410000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "BAT/EUR"
@@ -374738,7 +374738,7 @@
         "ordermin": "60",
         "pair_decimals": "4",
         "quote": "ZEUR",
-        "short_position_limit": "170000",
+        "short_position_limit": "190000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "SAND/EUR"
@@ -374997,7 +374997,7 @@
         "leverage_sell": [
           2
         ],
-        "long_position_limit": "720",
+        "long_position_limit": "1300",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -376297,7 +376297,7 @@
           9,
           10
         ],
-        "long_position_limit": "1900000",
+        "long_position_limit": "1700000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -378409,7 +378409,7 @@
           2,
           3
         ],
-        "long_position_limit": "500000",
+        "long_position_limit": "560000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -378418,7 +378418,7 @@
         "ordermin": "55",
         "pair_decimals": "4",
         "quote": "ZEUR",
-        "short_position_limit": "230000",
+        "short_position_limit": "260000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "APE/EUR"
@@ -379747,7 +379747,7 @@
           2,
           3
         ],
-        "long_position_limit": "2700000",
+        "long_position_limit": "3000000",
         "lot": "unit5",
         "lot_decimals": "5",
         "lot_multiplier": "1",
@@ -379756,7 +379756,7 @@
         "ordermin": "55",
         "pair_decimals": "4",
         "quote": "ZUSD",
-        "short_position_limit": "2100000",
+        "short_position_limit": "2400000",
         "status": "online",
         "tick_size": "0.0001",
         "wsname": "ENA/USD"
@@ -380801,7 +380801,7 @@
         "leverage_sell": [
           2
         ],
-        "long_position_limit": "2300000",
+        "long_position_limit": "2600000",
         "lot": "unit",
         "lot_decimals": "8",
         "lot_multiplier": "1",
@@ -380810,7 +380810,7 @@
         "ordermin": "30",
         "pair_decimals": "6",
         "quote": "ZUSD",
-        "short_position_limit": "1700000",
+        "short_position_limit": "2100000",
         "status": "online",
         "tick_size": "0.000001",
         "wsname": "XLM/USD"
@@ -385296,7 +385296,7 @@
         "ordermin": "1.1",
         "pair_decimals": "2",
         "quote": "ZUSD",
-        "short_position_limit": "5400",
+        "short_position_limit": "6000",
         "status": "online",
         "tick_size": "0.01",
         "wsname": "KSM/USD"
@@ -386886,7 +386886,7 @@
         "ordermin": "0.001",
         "pair_decimals": "6",
         "quote": "XXBT",
-        "short_position_limit": "79",
+        "short_position_limit": "71",
         "status": "online",
         "tick_size": "0.000001",
         "wsname": "PAXG/XBT"
@@ -391054,7 +391054,7 @@
         "ordermin": "50",
         "pair_decimals": "5",
         "quote": "ZUSD",
-        "short_position_limit": "1700000",
+        "short_position_limit": "1900000",
         "status": "online",
         "tick_size": "0.00001",
         "wsname": "ALGO/USD"

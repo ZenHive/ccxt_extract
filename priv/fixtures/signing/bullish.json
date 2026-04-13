@@ -1,0 +1,66 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v1/markets"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.exchange.bullish.com/trading-api/v1/markets"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bullish",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v1/wallets/transactions"
+      },
+      "name": "private_get_balance",
+      "reason": "a: bullish requires a token, please call signIn() first"
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "v2/orders"
+      },
+      "name": "private_post_order",
+      "reason": "a: bullish requires a token, please call signIn() first"
+    }
+  ]
+}

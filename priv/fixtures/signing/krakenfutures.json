@@ -1,0 +1,85 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "instruments"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://futures.kraken.com/derivatives/api/v3/instruments"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "accounts"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "APIKey": "account-TEST_API_KEY",
+          "Accept": "application/json",
+          "Authent": "QZSYuvK5NJ1kXpgo5wdSkt1j60l9DjZR4PqjTYhekkDO2uZn9RgnaCYq4QTSI0AlaI0PxaOhrf2TNUaJp4SalQ==",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "method": "GET",
+        "url": "https://futures.kraken.com/derivatives/api/v3/accounts"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "sendorder"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": null,
+        "headers": {
+          "APIKey": "account-TEST_API_KEY",
+          "Accept": "application/json",
+          "Authent": "51gNvyLgtaavbQTqpN5JVs2QTw2MvRtic215s6gwSbEJW4MpR9NZXYraf3kNgjWnvA6ligkzIqE0F2OVdF4WWw==",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "method": "POST",
+        "url": "https://futures.kraken.com/derivatives/api/v3/sendorder?symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "krakenfutures",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

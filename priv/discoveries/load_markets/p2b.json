@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "extracted_at": "2026-04-13T06:22:52.990905Z",
   "id": "p2b",
-  "market_count": 201,
+  "market_count": 200,
   "markets": {
     "XLM/USDT": {
       "spot": true,
@@ -1238,16 +1238,16 @@
           "max_amount": "0",
           "max_price": "0",
           "min_amount": "0.1",
-          "min_price": "0.00001",
+          "min_price": "0.00000001",
           "min_total": "1",
           "step_size": "0.1",
-          "tick_size": "0.00001"
+          "tick_size": "0.00000001"
         },
         "money": "USDT",
         "name": "BDAG_USDT",
         "precision": {
-          "fee": "4",
-          "money": "5",
+          "fee": "0",
+          "money": "8",
           "stock": "1"
         },
         "stock": "BDAG"
@@ -1259,7 +1259,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 1.0e-5
+        "price": 1.0e-8
       },
       "baseId": "BDAG",
       "type": "spot",
@@ -1288,7 +1288,7 @@
         },
         "price": {
           "max": "__undefined",
-          "min": 1.0e-5
+          "min": 1.0e-8
         }
       },
       "taker": [
@@ -26040,174 +26040,6 @@
       "active": true,
       "expiry": "__undefined",
       "id": "PETCO_USDT",
-      "lowercaseId": "__undefined",
-      "subType": "__undefined"
-    },
-    "CROW/USDT": {
-      "spot": true,
-      "contractSize": "__undefined",
-      "linear": "__undefined",
-      "quoteId": "USDT",
-      "tierBased": true,
-      "index": "__undefined",
-      "maker": [
-        [
-          0,
-          0.2
-        ],
-        [
-          1,
-          0.18
-        ],
-        [
-          5,
-          0.16
-        ],
-        [
-          10,
-          0.14
-        ],
-        [
-          25,
-          0.12
-        ],
-        [
-          75,
-          0.1
-        ],
-        [
-          100,
-          0.08
-        ],
-        [
-          150,
-          0.06
-        ],
-        [
-          300,
-          0.04
-        ],
-        [
-          450,
-          0.02
-        ],
-        [
-          500,
-          0.01
-        ]
-      ],
-      "inverse": "__undefined",
-      "info": {
-        "limits": {
-          "max_amount": "0",
-          "max_price": "0",
-          "min_amount": "0.01",
-          "min_price": "0.001",
-          "min_total": "1",
-          "step_size": "0.01",
-          "tick_size": "0.001"
-        },
-        "money": "USDT",
-        "name": "CROW_USDT",
-        "precision": {
-          "fee": "4",
-          "money": "3",
-          "stock": "2"
-        },
-        "stock": "CROW"
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "CROW/USDT",
-      "settle": "__undefined",
-      "precision": {
-        "amount": 0.01,
-        "price": 0.001
-      },
-      "baseId": "CROW",
-      "type": "spot",
-      "strike": "__undefined",
-      "settleId": "__undefined",
-      "quote": "USDT",
-      "expiryDatetime": "__undefined",
-      "base": "CROW",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": "__undefined",
-          "min": 0.01
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": 0.001
-        }
-      },
-      "taker": [
-        [
-          0,
-          0.2
-        ],
-        [
-          1,
-          0.19
-        ],
-        [
-          5,
-          0.18
-        ],
-        [
-          10,
-          0.17
-        ],
-        [
-          25,
-          0.16
-        ],
-        [
-          75,
-          0.15
-        ],
-        [
-          100,
-          0.14
-        ],
-        [
-          150,
-          0.13
-        ],
-        [
-          300,
-          0.12
-        ],
-        [
-          450,
-          0.11
-        ],
-        [
-          500,
-          0.1
-        ]
-      ],
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": false,
-      "percentage": true,
-      "active": true,
-      "expiry": "__undefined",
-      "id": "CROW_USDT",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },

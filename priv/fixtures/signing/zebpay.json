@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "public",
+          "spot"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v2/market/orderbook"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://sapi.zebpay.com/api/v2/market/orderbook"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "private",
+          "spot"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v2/account/balance"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Content-Type": "application/json",
+          "Referrer": "ccxt",
+          "X-AUTH-APIKEY": "account-TEST_API_KEY",
+          "X-AUTH-SIGNATURE": "b6edc90ccbac08c7d99523fd9c1a12b9e0c6470e9f41c8c215f51ea38205a717"
+        },
+        "method": "GET",
+        "url": "https://sapi.zebpay.com/api/v2/account/balance?timestamp=1700000000000"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "private",
+          "spot"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "v2/ex/orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1,\"timestamp\":\"1700000000000\"}",
+        "headers": {
+          "Content-Type": "application/json",
+          "Referrer": "ccxt",
+          "X-AUTH-APIKEY": "account-TEST_API_KEY",
+          "X-AUTH-SIGNATURE": "50b9ddea678f43df375f14920d5e2e81b4f4bc3bfe15ea7d075fbbefd52fec26"
+        },
+        "method": "POST",
+        "url": "https://sapi.zebpay.com/api/v2/ex/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "zebpay",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

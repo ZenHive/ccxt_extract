@@ -1,0 +1,67 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "ticker"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.exmo.com/v1.1/ticker"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "order_create"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "nonce=1700000000&symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Key": "account-TEST_API_KEY",
+          "Sign": "3d96eb2f0f8092ec0de426acb6e4f4cc5d9caf8c4193318c7338b33a950c3bd29864efed28163ea41ce4e34b6d721fe8d6af698ad15f95a5507ad395f084cfd2"
+        },
+        "method": "POST",
+        "url": "https://api.exmo.com/v1.1/order_create"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "exmo",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

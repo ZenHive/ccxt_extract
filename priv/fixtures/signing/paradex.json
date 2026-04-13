@@ -1,0 +1,86 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "markets"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.prod.paradex.trade/v1/markets"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "account"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Accept": "application/json",
+          "Authorization": "Bearer undefined",
+          "PARADEX-PARTNER": "CCXT"
+        },
+        "method": "GET",
+        "url": "https://api.prod.paradex.trade/v1/account?"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Accept": "application/json",
+          "Authorization": "Bearer undefined",
+          "Content-Type": "application/json",
+          "PARADEX-PARTNER": "CCXT"
+        },
+        "method": "POST",
+        "url": "https://api.prod.paradex.trade/v1/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "privateKey": "0000000000000000000000000000000000000000000000000000000000000001",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null,
+    "walletAddress": "0x0000000000000000000000000000000000000000"
+  },
+  "exchange": "paradex",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

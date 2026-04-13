@@ -1,0 +1,93 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "spot",
+          "v1",
+          "public"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "common/symbols"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://open-api.bingx.com/openApi/spot/v1/common/symbols?timestamp=1700000000"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "fund",
+          "v1",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "account/balance"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "X-BX-APIKEY": "account-TEST_API_KEY",
+          "X-SOURCE-KEY": "CCXT"
+        },
+        "method": "GET",
+        "url": "https://open-api.bingx.com/openApi/fund/v1/account/balance?timestamp=1700000000&signature=6706a5994e54ef7cb81841ae2ab65e00deb710111ea7ef30ffc49f546266cad0"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "spot",
+          "v1",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "trade/order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": null,
+        "headers": {
+          "X-BX-APIKEY": "account-TEST_API_KEY",
+          "X-SOURCE-KEY": "CCXT"
+        },
+        "method": "POST",
+        "url": "https://open-api.bingx.com/openApi/spot/v1/trade/order?amount=1&price=1&side=buy&symbol=BTC%2FUSDT&timestamp=1700000000&type=limit&signature=62c971278283de9c30be9b8361228981454be50ec2a603fd29f9a55b37f5593f"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bingx",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

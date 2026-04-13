@@ -1,0 +1,87 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "GetTickerHistory"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.ndax.io:8443/AP/GetTickerHistory"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "GetUserAccountInfos"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "APIKey": "account-TEST_API_KEY",
+          "Nonce": "1700000000",
+          "Signature": "528579baa02606fb0f4bd537e64d286f7a59d8c1372284522edcd25edac77367",
+          "UserId": "TEST_UID"
+        },
+        "method": "GET",
+        "url": "https://api.ndax.io:8443/AP/GetUserAccountInfos"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "CancelAllOrders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "APIKey": "account-TEST_API_KEY",
+          "Content-Type": "application/json",
+          "Nonce": "1700000000",
+          "Signature": "528579baa02606fb0f4bd537e64d286f7a59d8c1372284522edcd25edac77367",
+          "UserId": "TEST_UID"
+        },
+        "method": "POST",
+        "url": "https://api.ndax.io:8443/AP/CancelAllOrders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "login": "TEST_LOGIN",
+    "password": "TEST_PASSPHRASE",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": "TEST_UID"
+  },
+  "exchange": "ndax",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

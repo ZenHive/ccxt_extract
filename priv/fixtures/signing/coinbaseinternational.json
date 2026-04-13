@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "v1",
+          "public"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "instruments"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.international.coinbase.com/api/v1/instruments"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v1",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "portfolios"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "CB-ACCESS-KEY": "account-TEST_API_KEY",
+          "CB-ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "CB-ACCESS-SIGN": "Z5NMVZa4iTxQX46Dtkv3GunhWJTs6XCHkIQN3X2xA6w=",
+          "CB-ACCESS-TIMESTAMP": "1700000000"
+        },
+        "method": "GET",
+        "url": "https://api.international.coinbase.com/api/v1/portfolios"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v1",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "CB-ACCESS-KEY": "account-TEST_API_KEY",
+          "CB-ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "CB-ACCESS-SIGN": "jB+rZ64OiqJ6BGp7ChqpMnOmm5fvNJmoFz9bu5utOu4=",
+          "CB-ACCESS-TIMESTAMP": "1700000000"
+        },
+        "method": "POST",
+        "url": "https://api.international.coinbase.com/api/v1/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": "TEST_PASSPHRASE",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "coinbaseinternational",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

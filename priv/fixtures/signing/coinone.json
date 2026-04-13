@@ -1,0 +1,67 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "ticker"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.coinone.co.kr/ticker"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "order/cancel_all"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "eyJhY2Nlc3NfdG9rZW4iOiJhY2NvdW50LVRFU1RfQVBJX0tFWSIsIm5vbmNlIjoiMTcwMDAwMDAwMCIsInN5bWJvbCI6IkJUQy9VU0RUIiwidHlwZSI6ImxpbWl0Iiwic2lkZSI6ImJ1eSIsImFtb3VudCI6MSwicHJpY2UiOjF9",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-COINONE-PAYLOAD": "eyJhY2Nlc3NfdG9rZW4iOiJhY2NvdW50LVRFU1RfQVBJX0tFWSIsIm5vbmNlIjoiMTcwMDAwMDAwMCIsInN5bWJvbCI6IkJUQy9VU0RUIiwidHlwZSI6ImxpbWl0Iiwic2lkZSI6ImJ1eSIsImFtb3VudCI6MSwicHJpY2UiOjF9",
+          "X-COINONE-SIGNATURE": "80e9318eb8460cf90ca2720e44d0f2807cd9605d4f6287eb786f4d1b71ffd1ee82114d79849e819c7fb3724f89af9b2b346fb65c0880b8f9f0050ddba4932db0"
+        },
+        "method": "POST",
+        "url": "https://api.coinone.co.kr/order/cancel_all"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "coinone",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "markets"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.bitvavo.com/v2/markets"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "account"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "BITVAVO-ACCESS-KEY": "account-TEST_API_KEY",
+          "BITVAVO-ACCESS-SIGNATURE": "68c4437d48871c7366fc4f1957648d2290c0b7f11778b06d9b2b2cd91d3f6a4d",
+          "BITVAVO-ACCESS-TIMESTAMP": "1700000000000",
+          "BITVAVO-ACCESS-WINDOW": "10000"
+        },
+        "method": "GET",
+        "url": "https://api.bitvavo.com/v2/account"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "BITVAVO-ACCESS-KEY": "account-TEST_API_KEY",
+          "BITVAVO-ACCESS-SIGNATURE": "888eeb71d1992a094751c145f32ac401eb4bf8e3e6911bc9cca03dbcb0ee6527",
+          "BITVAVO-ACCESS-TIMESTAMP": "1700000000000",
+          "BITVAVO-ACCESS-WINDOW": "10000",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://api.bitvavo.com/v2/order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bitvavo",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

@@ -1,0 +1,74 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "spot",
+          "public"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "ticker/24hr"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.lbank.info/v2/ticker/24hr.do"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "spot",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "create_order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "amount=1&api_key=account-TEST_API_KEY&price=1&side=buy&sign=false&symbol=BTC%2FUSDT&type=limit",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "echostr": "000000000000000000000000000000000000000000000000000000",
+          "signature_method": "RSA",
+          "timestamp": "1700000000000"
+        },
+        "method": "POST",
+        "url": "https://api.lbank.info/v2/create_order.do"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "lbank",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

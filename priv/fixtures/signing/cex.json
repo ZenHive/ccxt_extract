@@ -1,0 +1,55 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "get_my_orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-AGGR-KEY": "account-TEST_API_KEY",
+          "X-AGGR-SIGNATURE": "upUMNg1ypJhVZuv0kQbEH/cfA4Y2NGL6Bt1cLBQwiro=",
+          "X-AGGR-TIMESTAMP": "1700000000"
+        },
+        "method": "POST",
+        "url": "https://trade.cex.io/api/spot/rest/get_my_orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "cex",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "public_get_ticker",
+      "reason": "no matching endpoint in describe().api"
+    },
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

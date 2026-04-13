@@ -293,7 +293,8 @@
         "Check your account balance for details.": "__function:InsufficientFunds",
         "Ensure that there are no more than": "__function:InvalidOrder",
         "Ensure this value has at least": "__function:InvalidAddress",
-        "Minimum order size is": "__function:InvalidOrder"
+        "Minimum order size is": "__function:InvalidOrder",
+        "Price is more than": "__function:InvalidOrder"
       },
       "exact": {
         "API key not found": "__function:AuthenticationError",
@@ -308,7 +309,6 @@
         "Order could not be placed.": "__function:ExchangeNotAvailable",
         "Order not found.": "__function:OrderNotFound",
         "Please update your profile with your FATCA information, before using API.": "__function:PermissionDenied",
-        "Price is more than 20% below market price.": "__function:InvalidOrder",
         "Trading is currently unavailable for your account.": "__function:AccountSuspended",
         "Wrong API key format": "__function:AuthenticationError",
         "Your account is frozen": "__function:PermissionDenied"
@@ -856,6 +856,6 @@
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36",
     "version": "v2"
   },
-  "extracted_at": "2026-04-07T23:37:32.537121Z",
+  "extracted_at": "2026-04-13T06:20:56.140782Z",
   "id": "bitstamp"
 }

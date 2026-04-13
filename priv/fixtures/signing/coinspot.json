@@ -1,0 +1,54 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"nonce\":1700000000,\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "key": "account-TEST_API_KEY",
+          "sign": "dd889cb984964acae06227ffbcdd7d3cfd7d3e59f4ff85601dfa68838804a8fa8cca12256112ff66024925bebe1363b898a801436217d2e60eb195071b67ef17"
+        },
+        "method": "POST",
+        "url": "https://www.coinspot.com.au/api/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "coinspot",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "public_get_ticker",
+      "reason": "no matching endpoint in describe().api"
+    },
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

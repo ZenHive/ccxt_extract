@@ -1,0 +1,76 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "v1",
+          "public"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "tv/symbol_info"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api-evm.orderly.org/v1/tv/symbol_info"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v1",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"amount\":1,\"order_tag\":\"CCXTMODE\",\"price\":1,\"side\":\"buy\",\"symbol\":\"BTC/USDT\",\"type\":\"limit\"}",
+        "headers": {
+          "content-type": "application/json",
+          "orderly-account-id": "TEST_ACCOUNT_ID",
+          "orderly-key": "ed25519:account-TEST_API_KEY",
+          "orderly-signature": "V4a5cz8y2En42kfRQ9Za071XyV7DV6z4BF8jkTRnJ7JA0u4ckuoXGyrISwzQr6xlCP3aSQsP-ctHxAPhYeyCCA",
+          "orderly-timestamp": "1700000000"
+        },
+        "method": "POST",
+        "url": "https://api-evm.orderly.org/v1/order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "accountId": "TEST_ACCOUNT_ID",
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "modetrade",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

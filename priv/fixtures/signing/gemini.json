@@ -1,0 +1,68 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v1/symbols"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.gemini.com/v1/symbols"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "v1/order/new"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "text/plain",
+          "X-GEMINI-APIKEY": "account-TEST_API_KEY",
+          "X-GEMINI-PAYLOAD": "eyJyZXF1ZXN0IjoiL3YxL29yZGVyL25ldyIsIm5vbmNlIjoiMTcwMDAwMDAwMCIsInN5bWJvbCI6IkJUQy9VU0RUIiwidHlwZSI6ImxpbWl0Iiwic2lkZSI6ImJ1eSIsImFtb3VudCI6MSwicHJpY2UiOjF9",
+          "X-GEMINI-SIGNATURE": "5150ab2ca9a69516541fcd42e9a848a94e09238f71227b6db94fe2855a29c002589c17fcc5193b18f12c002e1a954b8c"
+        },
+        "method": "POST",
+        "url": "https://api.gemini.com/v1/order/new"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "gemini",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

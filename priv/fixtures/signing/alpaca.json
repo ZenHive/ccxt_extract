@@ -1,0 +1,76 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "trader",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v2/account"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "APCA-API-KEY-ID": "account-TEST_API_KEY",
+          "APCA-API-SECRET-KEY": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+        },
+        "method": "GET",
+        "url": "https://api.alpaca.markets/v2/account"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "trader",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "v2/orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "APCA-API-KEY-ID": "account-TEST_API_KEY",
+          "APCA-API-SECRET-KEY": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://api.alpaca.markets/v2/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "alpaca",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "public_get_ticker",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

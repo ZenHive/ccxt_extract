@@ -1,0 +1,100 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "public",
+          "spot"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "symbol"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "GET",
+        "url": "https://sapi.xt.com/v4/public/symbol"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "private",
+          "spot"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "balance"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Content-Type": "application/json",
+          "xt-validate-algorithms": "HmacSHA256",
+          "xt-validate-appkey": "account-TEST_API_KEY",
+          "xt-validate-recvwindow": "5000",
+          "xt-validate-signature": "b6924b9c96e549c6914e7627f65acf5d9341d26993ff15c6de2c74539e0c5e4a",
+          "xt-validate-timestamp": "1700000000"
+        },
+        "method": "GET",
+        "url": "https://sapi.xt.com/v4/balance"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "private",
+          "spot"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1,\"media\":\"CCXT\"}",
+        "headers": {
+          "Content-Type": "application/json",
+          "xt-validate-algorithms": "HmacSHA256",
+          "xt-validate-appkey": "account-TEST_API_KEY",
+          "xt-validate-recvwindow": "5000",
+          "xt-validate-signature": "89a9f2acf7e527c5c22e10c043c66d7513fb8ed1eabdcbee0f4e5f90187f99f8",
+          "xt-validate-timestamp": "1700000000"
+        },
+        "method": "POST",
+        "url": "https://sapi.xt.com/v4/order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "xt",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

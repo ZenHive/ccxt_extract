@@ -1,0 +1,97 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "public",
+          "spot"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "spot/v1/market/ticker"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.bitget.com/api/spot/v1/market/ticker"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "private",
+          "spot"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "spot/v1/wallet/deposit-address"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "ACCESS-KEY": "account-TEST_API_KEY",
+          "ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "ACCESS-SIGN": "TCTIA3VksY1POw5pLTjQQOC8TqSjZ+uVSZUKBbf65ac=",
+          "ACCESS-TIMESTAMP": "1700000000",
+          "X-CHANNEL-API-CODE": "p4sve"
+        },
+        "method": "GET",
+        "url": "https://api.bitget.com/api/spot/v1/wallet/deposit-address"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "private",
+          "spot"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "spot/v1/trade/orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "ACCESS-KEY": "account-TEST_API_KEY",
+          "ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "ACCESS-SIGN": "9a2zZTd0WwLmcYyyNt++uQn4GQh8f33DreCsIIA63CU=",
+          "ACCESS-TIMESTAMP": "1700000000",
+          "Content-Type": "application/json",
+          "X-CHANNEL-API-CODE": "p4sve"
+        },
+        "method": "POST",
+        "url": "https://api.bitget.com/api/spot/v1/trade/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": "TEST_PASSPHRASE",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bitget",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

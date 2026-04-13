@@ -1,0 +1,80 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "market/all"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.upbit.com/v1/market/all"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "accounts"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3Nfa2V5IjoiYWNjb3VudC1URVNUX0FQSV9LRVkiLCJub25jZSI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCJ9.iiLN_vdPdITDHm9BDlMqD385iVZnQc9fAiZ2s-gnazo"
+        },
+        "method": "GET",
+        "url": "https://api.upbit.com/v1/accounts"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3Nfa2V5IjoiYWNjb3VudC1URVNUX0FQSV9LRVkiLCJub25jZSI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsInF1ZXJ5X2hhc2giOiJjY2NlZDczYWNkNWRmMDYxOWQyOTQzOWY1NmE3MTFhNjU1MGU4NGI1ZTQ0ZDEwOWJmZGE4Y2M1MTZlMzhjNDEyNzNkYzE1MTExYjlmN2ZjYjMzNTFlNWQ5ZmY0MDM3MjlmNTMyNTljN2I1Y2RkNTVhMWFkN2Y4MWMyMDFhYzljMCIsInF1ZXJ5X2hhc2hfYWxnIjoiU0hBNTEyIn0.oNnWHMu8WIq1MQPPs8dcHmooMdjQpx_0-OFxLn7-1x0",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://api.upbit.com/v1/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "upbit",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

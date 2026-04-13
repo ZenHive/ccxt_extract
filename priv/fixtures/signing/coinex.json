@@ -1,0 +1,90 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "v1",
+          "public"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "amm/market"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.coinex.com/v1/amm/market"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v1",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "account/amm/balance"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Authorization": "93703F0CD749F49C2884757357CA54C9",
+          "Content-Type": "application/json"
+        },
+        "method": "GET",
+        "url": "https://api.coinex.com/v1/account/amm/balance?access_id=account-TEST_API_KEY&tonce=1700000000"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v1",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "order/limit/batch"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"access_id\":\"account-TEST_API_KEY\",\"amount\":1,\"price\":1,\"side\":\"buy\",\"symbol\":\"BTC/USDT\",\"tonce\":\"1700000000\",\"type\":\"limit\"}",
+        "headers": {
+          "Authorization": "0F054DF017D8A1A7F186C19D767BAE5C",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://api.coinex.com/v1/order/limit/batch"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "coinex",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

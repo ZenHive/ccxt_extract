@@ -1,0 +1,87 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "markets"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": {
+          "CCXT": "true"
+        },
+        "method": "GET",
+        "url": "https://api.coinmetro.com/markets"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "users/balances"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Authorization": "Bearer TEST_TOKEN",
+          "CCXT": "true",
+          "X-Device-Id": "TEST_UID"
+        },
+        "method": "GET",
+        "url": "https://api.coinmetro.com/users/balances"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "exchange/orders/create"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1",
+        "headers": {
+          "Authorization": "Bearer TEST_TOKEN",
+          "CCXT": "true",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-Device-Id": "TEST_UID"
+        },
+        "method": "POST",
+        "url": "https://api.coinmetro.com/exchange/orders/create"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "token": "TEST_TOKEN",
+    "uid": "TEST_UID"
+  },
+  "exchange": "coinmetro",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

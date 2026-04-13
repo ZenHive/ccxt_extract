@@ -1,0 +1,88 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "market/instruments"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://openapi.blofin.com/api/v1/market/instruments"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "asset/balances"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "ACCESS-KEY": "account-TEST_API_KEY",
+          "ACCESS-NONCE": "1700000000000",
+          "ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "ACCESS-SIGN": "NDI4YTZmYzliMmE2NTRmNTJhMDI4NmNjZGM0NTAxZWJkM2U0MzJmNDUwMDVkMGYxZjlmYjJhOWQzMTEyNTk2ZQ==",
+          "ACCESS-TIMESTAMP": "1700000000000"
+        },
+        "method": "GET",
+        "url": "https://openapi.blofin.com/api/v1/asset/balances"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "trade/order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "ACCESS-KEY": "account-TEST_API_KEY",
+          "ACCESS-NONCE": "1700000000000",
+          "ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "ACCESS-SIGN": "MzdlMDNiNGQwNDlmNTQ2NGNhNWRmOTM4MmJlZjdjYmM5OGI0NWIwMTJkMDE2MGZkMDM0NDVmY2I1NDlkMGVhMA==",
+          "ACCESS-TIMESTAMP": "1700000000000",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://openapi.blofin.com/api/v1/trade/order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": "TEST_PASSPHRASE",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "blofin",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

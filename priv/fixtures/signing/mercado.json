@@ -1,0 +1,67 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "{coin}/ticker/"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://www.mercadobitcoin.net/api/{coin}/ticker/"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "cancel_order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "tapi_method=cancel_order&tapi_nonce=1700000000&symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "TAPI-ID": "account-TEST_API_KEY",
+          "TAPI-MAC": "0bcf9fee59da7306110c31840e73d34a426ebf6226dfa82ea803e96ad94d506c40e5e59a8ae9f4cbbbab1a2b530007877f62ec2bb167fd683c3e4cc06e9de3d8"
+        },
+        "method": "POST",
+        "url": "https://www.mercadobitcoin.net/tapi/v3/"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "mercado",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "extracted_at": "2026-04-13T06:22:52.990905Z",
   "id": "cryptocom",
-  "market_count": 858,
+  "market_count": 862,
   "markets": {
     "AXL/USDT": {
       "spot": true,
@@ -342,6 +342,178 @@
       },
       "expiry": "__undefined",
       "id": "LAYERUSD-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XCU/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0025,
+      "inverse": false,
+      "info": {
+        "base_ccy": "XCU",
+        "beta_product": false,
+        "contract_size": "1",
+        "display_name": "XCUUSD Perpetual",
+        "expiry_timestamp_ms": 0,
+        "inst_type": "PERPETUAL_SWAP",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false,
+        "max_leverage": "50",
+        "price_tick_size": "0.0001",
+        "qty_tick_size": "0.1",
+        "quantity_decimals": 1,
+        "quote_ccy": "USD",
+        "quote_decimals": 4,
+        "symbol": "XCUUSD-PERP",
+        "tradable": true,
+        "underlying_symbol": "XCUUSD-INDEX"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XCU/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.0001
+      },
+      "baseId": "XCU",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "XCU",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.0025
+          ],
+          [
+            10000,
+            0.002
+          ],
+          [
+            50000,
+            0.0015
+          ],
+          [
+            250000,
+            0.001
+          ],
+          [
+            500000,
+            0.0008
+          ],
+          [
+            2500000,
+            6.5e-4
+          ],
+          [
+            10000000,
+            0
+          ],
+          [
+            25000000,
+            0
+          ],
+          [
+            100000000,
+            0
+          ],
+          [
+            250000000,
+            0
+          ],
+          [
+            500000000,
+            0
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.005
+          ],
+          [
+            10000,
+            0.004
+          ],
+          [
+            50000,
+            0.0025
+          ],
+          [
+            250000,
+            0.002
+          ],
+          [
+            500000,
+            0.0018
+          ],
+          [
+            2500000,
+            0.001
+          ],
+          [
+            10000000,
+            0.0005
+          ],
+          [
+            25000000,
+            0.0004
+          ],
+          [
+            100000000,
+            3.5e-4
+          ],
+          [
+            250000000,
+            3.1e-4
+          ],
+          [
+            500000000,
+            2.5e-4
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "XCUUSD-PERP",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -19625,6 +19797,178 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "CL/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0025,
+      "inverse": false,
+      "info": {
+        "base_ccy": "CL",
+        "beta_product": false,
+        "contract_size": "1",
+        "display_name": "CLUSD Perpetual",
+        "expiry_timestamp_ms": 0,
+        "inst_type": "PERPETUAL_SWAP",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false,
+        "max_leverage": "50",
+        "price_tick_size": "0.001",
+        "qty_tick_size": "0.01",
+        "quantity_decimals": 2,
+        "quote_ccy": "USD",
+        "quote_decimals": 3,
+        "symbol": "CLUSD-PERP",
+        "tradable": true,
+        "underlying_symbol": "CLUSD-INDEX"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "CL/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.01,
+        "price": 0.001
+      },
+      "baseId": "CL",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "CL",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.0025
+          ],
+          [
+            10000,
+            0.002
+          ],
+          [
+            50000,
+            0.0015
+          ],
+          [
+            250000,
+            0.001
+          ],
+          [
+            500000,
+            0.0008
+          ],
+          [
+            2500000,
+            6.5e-4
+          ],
+          [
+            10000000,
+            0
+          ],
+          [
+            25000000,
+            0
+          ],
+          [
+            100000000,
+            0
+          ],
+          [
+            250000000,
+            0
+          ],
+          [
+            500000000,
+            0
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.005
+          ],
+          [
+            10000,
+            0.004
+          ],
+          [
+            50000,
+            0.0025
+          ],
+          [
+            250000,
+            0.002
+          ],
+          [
+            500000,
+            0.0018
+          ],
+          [
+            2500000,
+            0.001
+          ],
+          [
+            10000000,
+            0.0005
+          ],
+          [
+            25000000,
+            0.0004
+          ],
+          [
+            100000000,
+            3.5e-4
+          ],
+          [
+            250000000,
+            3.1e-4
+          ],
+          [
+            500000000,
+            2.5e-4
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "CLUSD-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "EIGEN/USD": {
       "spot": true,
       "contractSize": "__undefined",
@@ -19964,178 +20308,6 @@
       "id": "TRU_USD",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
-    },
-    "LION/USD:USD": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USD",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0025,
-      "inverse": false,
-      "info": {
-        "base_ccy": "LION",
-        "beta_product": false,
-        "contract_size": "1",
-        "display_name": "LIONUSD Perpetual",
-        "expiry_timestamp_ms": 0,
-        "inst_type": "PERPETUAL_SWAP",
-        "margin_buy_enabled": false,
-        "margin_sell_enabled": false,
-        "max_leverage": "50",
-        "price_tick_size": "0.000001",
-        "qty_tick_size": "100",
-        "quantity_decimals": 0,
-        "quote_ccy": "USD",
-        "quote_decimals": 6,
-        "symbol": "LIONUSD-PERP",
-        "tradable": true,
-        "underlying_symbol": "LIONUSD-INDEX"
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "LION/USD:USD",
-      "settle": "USD",
-      "precision": {
-        "amount": 100,
-        "price": 1.0e-6
-      },
-      "baseId": "LION",
-      "type": "swap",
-      "strike": "__undefined",
-      "settleId": "USD",
-      "quote": "USD",
-      "expiryDatetime": "__undefined",
-      "base": "LION",
-      "swap": true,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": 50,
-          "min": 1
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.005,
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "tiers": {
-        "maker": [
-          [
-            0,
-            0.0025
-          ],
-          [
-            10000,
-            0.002
-          ],
-          [
-            50000,
-            0.0015
-          ],
-          [
-            250000,
-            0.001
-          ],
-          [
-            500000,
-            0.0008
-          ],
-          [
-            2500000,
-            6.5e-4
-          ],
-          [
-            10000000,
-            0
-          ],
-          [
-            25000000,
-            0
-          ],
-          [
-            100000000,
-            0
-          ],
-          [
-            250000000,
-            0
-          ],
-          [
-            500000000,
-            0
-          ]
-        ],
-        "taker": [
-          [
-            0,
-            0.005
-          ],
-          [
-            10000,
-            0.004
-          ],
-          [
-            50000,
-            0.0025
-          ],
-          [
-            250000,
-            0.002
-          ],
-          [
-            500000,
-            0.0018
-          ],
-          [
-            2500000,
-            0.001
-          ],
-          [
-            10000000,
-            0.0005
-          ],
-          [
-            25000000,
-            0.0004
-          ],
-          [
-            100000000,
-            3.5e-4
-          ],
-          [
-            250000000,
-            3.1e-4
-          ],
-          [
-            500000000,
-            2.5e-4
-          ]
-        ]
-      },
-      "expiry": "__undefined",
-      "id": "LIONUSD-PERP",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
     },
     "HEMI/USD:USD": {
       "spot": false,
@@ -28663,6 +28835,178 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
+    "NATGAS/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0025,
+      "inverse": false,
+      "info": {
+        "base_ccy": "NATGAS",
+        "beta_product": false,
+        "contract_size": "1",
+        "display_name": "NATGASUSD Perpetual",
+        "expiry_timestamp_ms": 0,
+        "inst_type": "PERPETUAL_SWAP",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false,
+        "max_leverage": "50",
+        "price_tick_size": "0.0001",
+        "qty_tick_size": "1",
+        "quantity_decimals": 0,
+        "quote_ccy": "USD",
+        "quote_decimals": 4,
+        "symbol": "NATGASUSD-PERP",
+        "tradable": true,
+        "underlying_symbol": "NATGASUSD-INDEX"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "NATGAS/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 1,
+        "price": 0.0001
+      },
+      "baseId": "NATGAS",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "NATGAS",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.0025
+          ],
+          [
+            10000,
+            0.002
+          ],
+          [
+            50000,
+            0.0015
+          ],
+          [
+            250000,
+            0.001
+          ],
+          [
+            500000,
+            0.0008
+          ],
+          [
+            2500000,
+            6.5e-4
+          ],
+          [
+            10000000,
+            0
+          ],
+          [
+            25000000,
+            0
+          ],
+          [
+            100000000,
+            0
+          ],
+          [
+            250000000,
+            0
+          ],
+          [
+            500000000,
+            0
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.005
+          ],
+          [
+            10000,
+            0.004
+          ],
+          [
+            50000,
+            0.0025
+          ],
+          [
+            250000,
+            0.002
+          ],
+          [
+            500000,
+            0.0018
+          ],
+          [
+            2500000,
+            0.001
+          ],
+          [
+            10000000,
+            0.0005
+          ],
+          [
+            25000000,
+            0.0004
+          ],
+          [
+            100000000,
+            3.5e-4
+          ],
+          [
+            250000000,
+            3.1e-4
+          ],
+          [
+            500000000,
+            2.5e-4
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "NATGASUSD-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "CKB/USD": {
       "spot": true,
       "contractSize": "__undefined",
@@ -31901,178 +32245,6 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
-    "DRIFT/USD:USD": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USD",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0025,
-      "inverse": false,
-      "info": {
-        "base_ccy": "DRIFT",
-        "beta_product": false,
-        "contract_size": "1",
-        "display_name": "DRIFTUSD Perpetual",
-        "expiry_timestamp_ms": 0,
-        "inst_type": "PERPETUAL_SWAP",
-        "margin_buy_enabled": false,
-        "margin_sell_enabled": false,
-        "max_leverage": "50",
-        "price_tick_size": "0.0001",
-        "qty_tick_size": "1",
-        "quantity_decimals": 0,
-        "quote_ccy": "USD",
-        "quote_decimals": 4,
-        "symbol": "DRIFTUSD-PERP",
-        "tradable": true,
-        "underlying_symbol": "DRIFTUSD-INDEX"
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "DRIFT/USD:USD",
-      "settle": "USD",
-      "precision": {
-        "amount": 1,
-        "price": 0.0001
-      },
-      "baseId": "DRIFT",
-      "type": "swap",
-      "strike": "__undefined",
-      "settleId": "USD",
-      "quote": "USD",
-      "expiryDatetime": "__undefined",
-      "base": "DRIFT",
-      "swap": true,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": 50,
-          "min": 1
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.005,
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "tiers": {
-        "maker": [
-          [
-            0,
-            0.0025
-          ],
-          [
-            10000,
-            0.002
-          ],
-          [
-            50000,
-            0.0015
-          ],
-          [
-            250000,
-            0.001
-          ],
-          [
-            500000,
-            0.0008
-          ],
-          [
-            2500000,
-            6.5e-4
-          ],
-          [
-            10000000,
-            0
-          ],
-          [
-            25000000,
-            0
-          ],
-          [
-            100000000,
-            0
-          ],
-          [
-            250000000,
-            0
-          ],
-          [
-            500000000,
-            0
-          ]
-        ],
-        "taker": [
-          [
-            0,
-            0.005
-          ],
-          [
-            10000,
-            0.004
-          ],
-          [
-            50000,
-            0.0025
-          ],
-          [
-            250000,
-            0.002
-          ],
-          [
-            500000,
-            0.0018
-          ],
-          [
-            2500000,
-            0.001
-          ],
-          [
-            10000000,
-            0.0005
-          ],
-          [
-            25000000,
-            0.0004
-          ],
-          [
-            100000000,
-            3.5e-4
-          ],
-          [
-            250000000,
-            3.1e-4
-          ],
-          [
-            500000000,
-            2.5e-4
-          ]
-        ]
-      },
-      "expiry": "__undefined",
-      "id": "DRIFTUSD-PERP",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
     "BLAST/USD": {
       "spot": true,
       "contractSize": "__undefined",
@@ -34286,6 +34458,178 @@
       },
       "expiry": "__undefined",
       "id": "ONDOUSD-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XAG/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0025,
+      "inverse": false,
+      "info": {
+        "base_ccy": "XAG",
+        "beta_product": false,
+        "contract_size": "1",
+        "display_name": "XAGUSD Perpetual",
+        "expiry_timestamp_ms": 0,
+        "inst_type": "PERPETUAL_SWAP",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false,
+        "max_leverage": "50",
+        "price_tick_size": "0.001",
+        "qty_tick_size": "0.01",
+        "quantity_decimals": 2,
+        "quote_ccy": "USD",
+        "quote_decimals": 3,
+        "symbol": "XAGUSD-PERP",
+        "tradable": true,
+        "underlying_symbol": "XAGUSD-INDEX"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XAG/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.01,
+        "price": 0.001
+      },
+      "baseId": "XAG",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "XAG",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.0025
+          ],
+          [
+            10000,
+            0.002
+          ],
+          [
+            50000,
+            0.0015
+          ],
+          [
+            250000,
+            0.001
+          ],
+          [
+            500000,
+            0.0008
+          ],
+          [
+            2500000,
+            6.5e-4
+          ],
+          [
+            10000000,
+            0
+          ],
+          [
+            25000000,
+            0
+          ],
+          [
+            100000000,
+            0
+          ],
+          [
+            250000000,
+            0
+          ],
+          [
+            500000000,
+            0
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.005
+          ],
+          [
+            10000,
+            0.004
+          ],
+          [
+            50000,
+            0.0025
+          ],
+          [
+            250000,
+            0.002
+          ],
+          [
+            500000,
+            0.0018
+          ],
+          [
+            2500000,
+            0.001
+          ],
+          [
+            10000000,
+            0.0005
+          ],
+          [
+            25000000,
+            0.0004
+          ],
+          [
+            100000000,
+            3.5e-4
+          ],
+          [
+            250000000,
+            3.1e-4
+          ],
+          [
+            500000000,
+            2.5e-4
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "XAGUSD-PERP",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -63811,176 +64155,6 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "DAI/USD": {
-      "spot": true,
-      "contractSize": "__undefined",
-      "linear": "__undefined",
-      "quoteId": "USD",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0025,
-      "inverse": "__undefined",
-      "info": {
-        "base_ccy": "DAI",
-        "beta_product": false,
-        "display_name": "DAI/USD",
-        "expiry_timestamp_ms": 0,
-        "inst_type": "CCY_PAIR",
-        "margin_buy_enabled": false,
-        "margin_sell_enabled": false,
-        "max_leverage": "50",
-        "price_tick_size": "0.00001",
-        "qty_tick_size": "0.1",
-        "quantity_decimals": 1,
-        "quote_ccy": "USD",
-        "quote_decimals": 5,
-        "symbol": "DAI_USD",
-        "tradable": true
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "DAI/USD",
-      "settle": "__undefined",
-      "precision": {
-        "amount": 0.1,
-        "price": 1.0e-5
-      },
-      "baseId": "DAI",
-      "type": "spot",
-      "strike": "__undefined",
-      "settleId": "__undefined",
-      "quote": "USD",
-      "expiryDatetime": "__undefined",
-      "base": "DAI",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": 50,
-          "min": 1
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.005,
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": false,
-      "percentage": "__undefined",
-      "active": true,
-      "tiers": {
-        "maker": [
-          [
-            0,
-            0.0025
-          ],
-          [
-            10000,
-            0.002
-          ],
-          [
-            50000,
-            0.0015
-          ],
-          [
-            250000,
-            0.001
-          ],
-          [
-            500000,
-            0.0008
-          ],
-          [
-            2500000,
-            6.5e-4
-          ],
-          [
-            10000000,
-            0
-          ],
-          [
-            25000000,
-            0
-          ],
-          [
-            100000000,
-            0
-          ],
-          [
-            250000000,
-            0
-          ],
-          [
-            500000000,
-            0
-          ]
-        ],
-        "taker": [
-          [
-            0,
-            0.005
-          ],
-          [
-            10000,
-            0.004
-          ],
-          [
-            50000,
-            0.0025
-          ],
-          [
-            250000,
-            0.002
-          ],
-          [
-            500000,
-            0.0018
-          ],
-          [
-            2500000,
-            0.001
-          ],
-          [
-            10000000,
-            0.0005
-          ],
-          [
-            25000000,
-            0.0004
-          ],
-          [
-            100000000,
-            3.5e-4
-          ],
-          [
-            250000000,
-            3.1e-4
-          ],
-          [
-            500000000,
-            2.5e-4
-          ]
-        ]
-      },
-      "expiry": "__undefined",
-      "id": "DAI_USD",
-      "lowercaseId": "__undefined",
-      "subType": "__undefined"
-    },
     "PENDLE/USD:USD": {
       "spot": false,
       "contractSize": 1,
@@ -66028,6 +66202,178 @@
       },
       "expiry": "__undefined",
       "id": "PAXGUSD-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XPT/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0025,
+      "inverse": false,
+      "info": {
+        "base_ccy": "XPT",
+        "beta_product": false,
+        "contract_size": "1",
+        "display_name": "XPTUSD Perpetual",
+        "expiry_timestamp_ms": 0,
+        "inst_type": "PERPETUAL_SWAP",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false,
+        "max_leverage": "50",
+        "price_tick_size": "0.01",
+        "qty_tick_size": "0.001",
+        "quantity_decimals": 3,
+        "quote_ccy": "USD",
+        "quote_decimals": 2,
+        "symbol": "XPTUSD-PERP",
+        "tradable": true,
+        "underlying_symbol": "XPTUSD-INDEX"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XPT/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.001,
+        "price": 0.01
+      },
+      "baseId": "XPT",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "XPT",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.0025
+          ],
+          [
+            10000,
+            0.002
+          ],
+          [
+            50000,
+            0.0015
+          ],
+          [
+            250000,
+            0.001
+          ],
+          [
+            500000,
+            0.0008
+          ],
+          [
+            2500000,
+            6.5e-4
+          ],
+          [
+            10000000,
+            0
+          ],
+          [
+            25000000,
+            0
+          ],
+          [
+            100000000,
+            0
+          ],
+          [
+            250000000,
+            0
+          ],
+          [
+            500000000,
+            0
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.005
+          ],
+          [
+            10000,
+            0.004
+          ],
+          [
+            50000,
+            0.0025
+          ],
+          [
+            250000,
+            0.002
+          ],
+          [
+            500000,
+            0.0018
+          ],
+          [
+            2500000,
+            0.001
+          ],
+          [
+            10000000,
+            0.0005
+          ],
+          [
+            25000000,
+            0.0004
+          ],
+          [
+            100000000,
+            3.5e-4
+          ],
+          [
+            250000000,
+            3.1e-4
+          ],
+          [
+            500000000,
+            2.5e-4
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "XPTUSD-PERP",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -79669,6 +80015,178 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "XPD/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0025,
+      "inverse": false,
+      "info": {
+        "base_ccy": "XPD",
+        "beta_product": false,
+        "contract_size": "1",
+        "display_name": "XPDUSD Perpetual",
+        "expiry_timestamp_ms": 0,
+        "inst_type": "PERPETUAL_SWAP",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false,
+        "max_leverage": "50",
+        "price_tick_size": "0.01",
+        "qty_tick_size": "0.001",
+        "quantity_decimals": 3,
+        "quote_ccy": "USD",
+        "quote_decimals": 2,
+        "symbol": "XPDUSD-PERP",
+        "tradable": true,
+        "underlying_symbol": "XPDUSD-INDEX"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XPD/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.001,
+        "price": 0.01
+      },
+      "baseId": "XPD",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "XPD",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.0025
+          ],
+          [
+            10000,
+            0.002
+          ],
+          [
+            50000,
+            0.0015
+          ],
+          [
+            250000,
+            0.001
+          ],
+          [
+            500000,
+            0.0008
+          ],
+          [
+            2500000,
+            6.5e-4
+          ],
+          [
+            10000000,
+            0
+          ],
+          [
+            25000000,
+            0
+          ],
+          [
+            100000000,
+            0
+          ],
+          [
+            250000000,
+            0
+          ],
+          [
+            500000000,
+            0
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.005
+          ],
+          [
+            10000,
+            0.004
+          ],
+          [
+            50000,
+            0.0025
+          ],
+          [
+            250000,
+            0.002
+          ],
+          [
+            500000,
+            0.0018
+          ],
+          [
+            2500000,
+            0.001
+          ],
+          [
+            10000000,
+            0.0005
+          ],
+          [
+            25000000,
+            0.0004
+          ],
+          [
+            100000000,
+            3.5e-4
+          ],
+          [
+            250000000,
+            3.1e-4
+          ],
+          [
+            500000000,
+            2.5e-4
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "XPDUSD-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "DATA/USD": {
       "spot": true,
       "contractSize": "__undefined",
@@ -88196,6 +88714,178 @@
       },
       "expiry": "__undefined",
       "id": "BIRBUSD-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XAU/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0025,
+      "inverse": false,
+      "info": {
+        "base_ccy": "XAU",
+        "beta_product": false,
+        "contract_size": "1",
+        "display_name": "XAUUSD Perpetual",
+        "expiry_timestamp_ms": 0,
+        "inst_type": "PERPETUAL_SWAP",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false,
+        "max_leverage": "50",
+        "price_tick_size": "0.01",
+        "qty_tick_size": "0.0001",
+        "quantity_decimals": 4,
+        "quote_ccy": "USD",
+        "quote_decimals": 2,
+        "symbol": "XAUUSD-PERP",
+        "tradable": true,
+        "underlying_symbol": "XAUUSD-INDEX"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XAU/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.01
+      },
+      "baseId": "XAU",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "XAU",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.0025
+          ],
+          [
+            10000,
+            0.002
+          ],
+          [
+            50000,
+            0.0015
+          ],
+          [
+            250000,
+            0.001
+          ],
+          [
+            500000,
+            0.0008
+          ],
+          [
+            2500000,
+            6.5e-4
+          ],
+          [
+            10000000,
+            0
+          ],
+          [
+            25000000,
+            0
+          ],
+          [
+            100000000,
+            0
+          ],
+          [
+            250000000,
+            0
+          ],
+          [
+            500000000,
+            0
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.005
+          ],
+          [
+            10000,
+            0.004
+          ],
+          [
+            50000,
+            0.0025
+          ],
+          [
+            250000,
+            0.002
+          ],
+          [
+            500000,
+            0.0018
+          ],
+          [
+            2500000,
+            0.001
+          ],
+          [
+            10000000,
+            0.0005
+          ],
+          [
+            25000000,
+            0.0004
+          ],
+          [
+            100000000,
+            3.5e-4
+          ],
+          [
+            250000000,
+            3.1e-4
+          ],
+          [
+            500000000,
+            2.5e-4
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "XAUUSD-PERP",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -99450,176 +100140,6 @@
       },
       "expiry": "__undefined",
       "id": "IP_USD",
-      "lowercaseId": "__undefined",
-      "subType": "__undefined"
-    },
-    "LINK/BTC": {
-      "spot": true,
-      "contractSize": "__undefined",
-      "linear": "__undefined",
-      "quoteId": "BTC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0025,
-      "inverse": "__undefined",
-      "info": {
-        "base_ccy": "LINK",
-        "beta_product": false,
-        "display_name": "LINK/BTC",
-        "expiry_timestamp_ms": 0,
-        "inst_type": "CCY_PAIR",
-        "margin_buy_enabled": true,
-        "margin_sell_enabled": true,
-        "max_leverage": "50",
-        "price_tick_size": "0.00000001",
-        "qty_tick_size": "0.01",
-        "quantity_decimals": 2,
-        "quote_ccy": "BTC",
-        "quote_decimals": 8,
-        "symbol": "LINK_BTC",
-        "tradable": true
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "LINK/BTC",
-      "settle": "__undefined",
-      "precision": {
-        "amount": 0.01,
-        "price": 1.0e-8
-      },
-      "baseId": "LINK",
-      "type": "spot",
-      "strike": "__undefined",
-      "settleId": "__undefined",
-      "quote": "BTC",
-      "expiryDatetime": "__undefined",
-      "base": "LINK",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": 50,
-          "min": 1
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.005,
-      "optionType": "__undefined",
-      "margin": true,
-      "contract": false,
-      "percentage": "__undefined",
-      "active": true,
-      "tiers": {
-        "maker": [
-          [
-            0,
-            0.0025
-          ],
-          [
-            10000,
-            0.002
-          ],
-          [
-            50000,
-            0.0015
-          ],
-          [
-            250000,
-            0.001
-          ],
-          [
-            500000,
-            0.0008
-          ],
-          [
-            2500000,
-            6.5e-4
-          ],
-          [
-            10000000,
-            0
-          ],
-          [
-            25000000,
-            0
-          ],
-          [
-            100000000,
-            0
-          ],
-          [
-            250000000,
-            0
-          ],
-          [
-            500000000,
-            0
-          ]
-        ],
-        "taker": [
-          [
-            0,
-            0.005
-          ],
-          [
-            10000,
-            0.004
-          ],
-          [
-            50000,
-            0.0025
-          ],
-          [
-            250000,
-            0.002
-          ],
-          [
-            500000,
-            0.0018
-          ],
-          [
-            2500000,
-            0.001
-          ],
-          [
-            10000000,
-            0.0005
-          ],
-          [
-            25000000,
-            0.0004
-          ],
-          [
-            100000000,
-            3.5e-4
-          ],
-          [
-            250000000,
-            3.1e-4
-          ],
-          [
-            500000000,
-            2.5e-4
-          ]
-        ]
-      },
-      "expiry": "__undefined",
-      "id": "LINK_BTC",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
@@ -117699,178 +118219,6 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
-    "ELIZAOS/USD:USD": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USD",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0025,
-      "inverse": false,
-      "info": {
-        "base_ccy": "ELIZAOS",
-        "beta_product": false,
-        "contract_size": "1",
-        "display_name": "ELIZAOSUSD Perpetual",
-        "expiry_timestamp_ms": 0,
-        "inst_type": "PERPETUAL_SWAP",
-        "margin_buy_enabled": false,
-        "margin_sell_enabled": false,
-        "max_leverage": "50",
-        "price_tick_size": "0.000001",
-        "qty_tick_size": "100",
-        "quantity_decimals": 0,
-        "quote_ccy": "USD",
-        "quote_decimals": 6,
-        "symbol": "ELIZAOSUSD-PERP",
-        "tradable": true,
-        "underlying_symbol": "ELIZAOSUSD-INDEX"
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "ELIZAOS/USD:USD",
-      "settle": "USD",
-      "precision": {
-        "amount": 100,
-        "price": 1.0e-6
-      },
-      "baseId": "ELIZAOS",
-      "type": "swap",
-      "strike": "__undefined",
-      "settleId": "USD",
-      "quote": "USD",
-      "expiryDatetime": "__undefined",
-      "base": "ELIZAOS",
-      "swap": true,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": 50,
-          "min": 1
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.005,
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "tiers": {
-        "maker": [
-          [
-            0,
-            0.0025
-          ],
-          [
-            10000,
-            0.002
-          ],
-          [
-            50000,
-            0.0015
-          ],
-          [
-            250000,
-            0.001
-          ],
-          [
-            500000,
-            0.0008
-          ],
-          [
-            2500000,
-            6.5e-4
-          ],
-          [
-            10000000,
-            0
-          ],
-          [
-            25000000,
-            0
-          ],
-          [
-            100000000,
-            0
-          ],
-          [
-            250000000,
-            0
-          ],
-          [
-            500000000,
-            0
-          ]
-        ],
-        "taker": [
-          [
-            0,
-            0.005
-          ],
-          [
-            10000,
-            0.004
-          ],
-          [
-            50000,
-            0.0025
-          ],
-          [
-            250000,
-            0.002
-          ],
-          [
-            500000,
-            0.0018
-          ],
-          [
-            2500000,
-            0.001
-          ],
-          [
-            10000000,
-            0.0005
-          ],
-          [
-            25000000,
-            0.0004
-          ],
-          [
-            100000000,
-            3.5e-4
-          ],
-          [
-            250000000,
-            3.1e-4
-          ],
-          [
-            500000000,
-            2.5e-4
-          ]
-        ]
-      },
-      "expiry": "__undefined",
-      "id": "ELIZAOSUSD-PERP",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
     "1INCH/USD": {
       "spot": true,
       "contractSize": "__undefined",
@@ -121110,6 +121458,178 @@
       "id": "FLOW_USDT",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
+    },
+    "QQQ/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0025,
+      "inverse": false,
+      "info": {
+        "base_ccy": "QQQ",
+        "beta_product": false,
+        "contract_size": "1",
+        "display_name": "QQQUSD Perpetual",
+        "expiry_timestamp_ms": 0,
+        "inst_type": "PERPETUAL_SWAP",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false,
+        "max_leverage": "50",
+        "price_tick_size": "0.01",
+        "qty_tick_size": "0.001",
+        "quantity_decimals": 3,
+        "quote_ccy": "USD",
+        "quote_decimals": 2,
+        "symbol": "QQQUSD-PERP",
+        "tradable": true,
+        "underlying_symbol": "QQQUSD-INDEX"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "QQQ/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.001,
+        "price": 0.01
+      },
+      "baseId": "QQQ",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "QQQ",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.0025
+          ],
+          [
+            10000,
+            0.002
+          ],
+          [
+            50000,
+            0.0015
+          ],
+          [
+            250000,
+            0.001
+          ],
+          [
+            500000,
+            0.0008
+          ],
+          [
+            2500000,
+            6.5e-4
+          ],
+          [
+            10000000,
+            0
+          ],
+          [
+            25000000,
+            0
+          ],
+          [
+            100000000,
+            0
+          ],
+          [
+            250000000,
+            0
+          ],
+          [
+            500000000,
+            0
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.005
+          ],
+          [
+            10000,
+            0.004
+          ],
+          [
+            50000,
+            0.0025
+          ],
+          [
+            250000,
+            0.002
+          ],
+          [
+            500000,
+            0.0018
+          ],
+          [
+            2500000,
+            0.001
+          ],
+          [
+            10000000,
+            0.0005
+          ],
+          [
+            25000000,
+            0.0004
+          ],
+          [
+            100000000,
+            3.5e-4
+          ],
+          [
+            250000000,
+            3.1e-4
+          ],
+          [
+            500000000,
+            2.5e-4
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "QQQUSD-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
     },
     "COQ/USD": {
       "spot": true,
@@ -132876,6 +133396,178 @@
       },
       "expiry": "__undefined",
       "id": "AUSD-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SPY/USD:USD": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0025,
+      "inverse": false,
+      "info": {
+        "base_ccy": "SPY",
+        "beta_product": false,
+        "contract_size": "1",
+        "display_name": "SPYUSD Perpetual",
+        "expiry_timestamp_ms": 0,
+        "inst_type": "PERPETUAL_SWAP",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false,
+        "max_leverage": "50",
+        "price_tick_size": "0.01",
+        "qty_tick_size": "0.001",
+        "quantity_decimals": 3,
+        "quote_ccy": "USD",
+        "quote_decimals": 2,
+        "symbol": "SPYUSD-PERP",
+        "tradable": true,
+        "underlying_symbol": "SPYUSD-INDEX"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SPY/USD:USD",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.001,
+        "price": 0.01
+      },
+      "baseId": "SPY",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "SPY",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.0025
+          ],
+          [
+            10000,
+            0.002
+          ],
+          [
+            50000,
+            0.0015
+          ],
+          [
+            250000,
+            0.001
+          ],
+          [
+            500000,
+            0.0008
+          ],
+          [
+            2500000,
+            6.5e-4
+          ],
+          [
+            10000000,
+            0
+          ],
+          [
+            25000000,
+            0
+          ],
+          [
+            100000000,
+            0
+          ],
+          [
+            250000000,
+            0
+          ],
+          [
+            500000000,
+            0
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.005
+          ],
+          [
+            10000,
+            0.004
+          ],
+          [
+            50000,
+            0.0025
+          ],
+          [
+            250000,
+            0.002
+          ],
+          [
+            500000,
+            0.0018
+          ],
+          [
+            2500000,
+            0.001
+          ],
+          [
+            10000000,
+            0.0005
+          ],
+          [
+            25000000,
+            0.0004
+          ],
+          [
+            100000000,
+            3.5e-4
+          ],
+          [
+            250000000,
+            3.1e-4
+          ],
+          [
+            500000000,
+            2.5e-4
+          ]
+        ]
+      },
+      "expiry": "__undefined",
+      "id": "SPYUSD-PERP",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },

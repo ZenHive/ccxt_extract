@@ -1,0 +1,84 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v1/fapi/market/exchange_info"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.bydfi.com/api/v1/fapi/market/exchange_info"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v1/account/assets"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "X-API-KEY": "account-TEST_API_KEY",
+          "X-API-SIGNATURE": "6945530ef87bd4809bb769e9c05fad386e7559b5adce12c46b0f482db23bd201",
+          "X-API-TIMESTAMP": "1700000000000"
+        },
+        "method": "GET",
+        "url": "https://api.bydfi.com/api/v1/account/assets"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "v1/fapi/trade/place_order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"amount\":1,\"price\":1,\"side\":\"buy\",\"symbol\":\"BTC/USDT\",\"type\":\"limit\"}",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-API-KEY": "account-TEST_API_KEY",
+          "X-API-SIGNATURE": "8728f343220ff3e725a0dfc82318a75e30910edfd3fe444f8e6a2876216cbf95",
+          "X-API-TIMESTAMP": "1700000000000"
+        },
+        "method": "POST",
+        "url": "https://api.bydfi.com/api/v1/fapi/trade/place_order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bydfi",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

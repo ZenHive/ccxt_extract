@@ -1,0 +1,90 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "v3",
+          "public"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "brokerage/market/product_book"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.coinbase.com/api/v3/brokerage/market/product_book"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v2",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "accounts"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsImtpZCI6ImFjY291bnQtVEVTVF9BUElfS0VZIiwibm9uY2UiOiIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9.eyJhdWQiOlsiY2RwX3NlcnZpY2UiXSwiaXNzIjoiY2RwIiwibmJmIjoxNzAwMDAwMDAwLCJleHAiOjE3MDAwMDAxMjAsInN1YiI6ImFjY291bnQtVEVTVF9BUElfS0VZIiwiaWF0IjoxNzAwMDAwMDAwLCJ1cmlzIjpbIkdFVCBhcGkuY29pbmJhc2UuY29tL3YyL2FjY291bnRzIl19.wyNudp7uBkozTIS4zudhDLXPwc3vW48MRKclb81xzwWGYciYKzmFJoca1u2A3tN8d09nV-EP_RYCrWY_u52hDQ",
+          "Content-Type": "application/json"
+        },
+        "method": "GET",
+        "url": "https://api.coinbase.com/v2/accounts"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v3",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "brokerage/orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsImtpZCI6ImFjY291bnQtVEVTVF9BUElfS0VZIiwibm9uY2UiOiIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9.eyJhdWQiOlsiY2RwX3NlcnZpY2UiXSwiaXNzIjoiY2RwIiwibmJmIjoxNzAwMDAwMDAwLCJleHAiOjE3MDAwMDAxMjAsInN1YiI6ImFjY291bnQtVEVTVF9BUElfS0VZIiwiaWF0IjoxNzAwMDAwMDAwLCJ1cmlzIjpbIlBPU1QgYXBpLmNvaW5iYXNlLmNvbS9hcGkvdjMvYnJva2VyYWdlL29yZGVycyJdfQ.AXFG_apt54MRhEWlivmkJYvxv5yN6GGpkSMWLHSPpw3ZbAB8AypCBr5oOA36lWZqk4hUJxB4_jthearBIvmDDA",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://api.coinbase.com/api/v3/brokerage/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "coinbase",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

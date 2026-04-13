@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "extracted_at": "2026-04-13T06:22:52.990905Z",
   "id": "paradex",
-  "market_count": 84,
+  "market_count": 85,
   "markets": {
     "ORDI/USD:USDC": {
       "spot": false,
@@ -1999,7 +1999,7 @@
         "open_at": "1775113200000",
         "oracle_ewma_factor": "0.031981187450925264",
         "order_size_increment": "1",
-        "position_limit": "34000",
+        "position_limit": "1000000",
         "price_bands_width": "0.2",
         "price_feed_id": "",
         "price_tick_size": "0.0001",
@@ -2725,7 +2725,7 @@
         "open_at": "1775113200000",
         "oracle_ewma_factor": "0.031981187450925264",
         "order_size_increment": "0.1",
-        "position_limit": "1000",
+        "position_limit": "30000",
         "price_bands_width": "0.2",
         "price_feed_id": "",
         "price_tick_size": "0.01",
@@ -3088,7 +3088,7 @@
         "open_at": "1775113200000",
         "oracle_ewma_factor": "0.031981187450925264",
         "order_size_increment": "0.1",
-        "position_limit": "990",
+        "position_limit": "30000",
         "price_bands_width": "0.2",
         "price_feed_id": "",
         "price_tick_size": "0.01",
@@ -4732,9 +4732,15 @@
       "maker": -5.0e-5,
       "inverse": false,
       "info": {
-        "asset_kind": "SPOT",
+        "asset_kind": "PERP",
         "base_currency": "ETH",
-        "clamp_rate": "0",
+        "clamp_rate": "0.0005",
+        "delta1_cross_margin_params": {
+          "imf_base": "0.02",
+          "imf_factor": "0",
+          "imf_shift": "0",
+          "mmf_factor": "0.5"
+        },
         "expiry_at": "0",
         "fee_config": {
           "api_fee": {
@@ -4762,27 +4768,27 @@
             }
           }
         },
-        "funding_multiplier": "0",
-        "funding_period_hours": "0",
-        "interest_rate": "0",
+        "funding_multiplier": "1",
+        "funding_period_hours": "8",
+        "interest_rate": "0.0001",
         "market_kind": "cross",
-        "max_funding_rate": "0",
-        "max_funding_rate_change": "0",
-        "max_open_orders": "50",
-        "max_order_size": "20",
+        "max_funding_rate": "0.02",
+        "max_funding_rate_change": "0.0002",
+        "max_open_orders": "150",
+        "max_order_size": "1000",
         "max_slippage": "0.001",
-        "max_tob_spread": "0.05",
+        "max_tob_spread": "0.01",
         "min_notional": "10",
-        "open_at": "1770278700000",
-        "oracle_ewma_factor": "0.043647610787352464",
+        "open_at": "1692576000000",
+        "oracle_ewma_factor": "0.12945779635696708",
         "order_size_increment": "0.0001",
-        "position_limit": "0",
+        "position_limit": "9000",
         "price_bands_width": "0.05",
         "price_feed_id": "JBu1AL4obBcCMqKBBxhpWCNUt136ijcuMZLFvTP7iWdB",
         "price_tick_size": "0.01",
         "quote_currency": "USD",
         "settlement_currency": "USDC",
-        "symbol": "ETH-USD",
+        "symbol": "ETH-USD-PERP",
         "tags": [
           "LAYER-1"
         ]
@@ -4810,7 +4816,7 @@
       },
       "limits": {
         "amount": {
-          "max": 20,
+          "max": 1000,
           "min": "__undefined"
         },
         "cost": {
@@ -4833,7 +4839,7 @@
       "percentage": "__undefined",
       "active": "__undefined",
       "expiry": "__undefined",
-      "id": "ETH-USD",
+      "id": "ETH-USD-PERP",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -8472,7 +8478,7 @@
         "asset_kind": "OPTION",
         "base_currency": "BTC",
         "clamp_rate": "0",
-        "expiry_at": "1780041600000",
+        "expiry_at": "1776067200000",
         "fee_config": {
           "api_fee": {
             "maker_fee": {
@@ -8523,7 +8529,7 @@
         "max_slippage": "0",
         "max_tob_spread": "2",
         "min_notional": "20",
-        "open_at": "1776229200000",
+        "open_at": "1775794514063",
         "option_cross_margin_params": {
           "imf": {
             "long_itm": "0.2",
@@ -8540,17 +8546,17 @@
             "short_put_cap": "0.5"
           }
         },
-        "option_type": "CALL",
+        "option_type": "PUT",
         "oracle_ewma_factor": "0.043647610787352464",
         "order_size_increment": "0.001",
-        "position_limit": "0",
+        "position_limit": "20",
         "price_bands_width": "0.3",
         "price_feed_id": "",
         "price_tick_size": "0.01",
         "quote_currency": "USD",
         "settlement_currency": "USDC",
-        "strike_price": "175000",
-        "symbol": "BTC-USD-29MAY26-175000-C",
+        "strike_price": "74000",
+        "symbol": "BTC-USD-13APR26-74000-P",
         "tags": []
       },
       "created": "__undefined",
@@ -8564,7 +8570,7 @@
       },
       "baseId": "BTC",
       "type": "swap",
-      "strike": 175000,
+      "strike": 74000,
       "settleId": "USDC",
       "quote": "USD",
       "expiryDatetime": "__undefined",
@@ -8593,13 +8599,13 @@
         }
       },
       "taker": 0.0003,
-      "optionType": "call",
+      "optionType": "put",
       "margin": "__undefined",
       "contract": true,
       "percentage": "__undefined",
       "active": "__undefined",
       "expiry": "__undefined",
-      "id": "BTC-USD-29MAY26-175000-C",
+      "id": "BTC-USD-13APR26-74000-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -9205,6 +9211,127 @@
       "active": "__undefined",
       "expiry": "__undefined",
       "id": "XAG-USD-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XCU/USD:USDC": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": -5.0e-5,
+      "inverse": false,
+      "info": {
+        "asset_kind": "PERP",
+        "base_currency": "XCU",
+        "clamp_rate": "0.0005",
+        "delta1_cross_margin_params": {
+          "imf_base": "0.2",
+          "imf_factor": "0",
+          "imf_shift": "0",
+          "mmf_factor": "0.5"
+        },
+        "expiry_at": "0",
+        "fee_config": {
+          "api_fee": {
+            "maker_fee": {
+              "fee": "0"
+            },
+            "taker_fee": {
+              "fee": "0.0002"
+            }
+          },
+          "interactive_fee": {
+            "maker_fee": {
+              "fee": "0"
+            },
+            "taker_fee": {
+              "fee": "0.000075"
+            }
+          },
+          "rpi_fee": {
+            "maker_fee": {
+              "fee": "0"
+            },
+            "taker_fee": {
+              "fee": "0.0002"
+            }
+          }
+        },
+        "funding_multiplier": "0.5",
+        "funding_period_hours": "8",
+        "interest_rate": "0.0001",
+        "market_kind": "cross",
+        "max_funding_rate": "0.005",
+        "max_funding_rate_change": "0.0005",
+        "max_open_orders": "75",
+        "max_order_size": "50000",
+        "max_slippage": "0.02",
+        "max_tob_spread": "0.02",
+        "min_notional": "10",
+        "open_at": "1775804400000",
+        "oracle_ewma_factor": "0.031981187450925264",
+        "order_size_increment": "1",
+        "position_limit": "170000",
+        "price_bands_width": "0.2",
+        "price_feed_id": "",
+        "price_tick_size": "0.0001",
+        "quote_currency": "USD",
+        "settlement_currency": "USDC",
+        "symbol": "XCU-USD-PERP",
+        "tags": [
+          "RWA"
+        ]
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "XCU/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1,
+        "price": 0.0001
+      },
+      "baseId": "XCU",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "XCU",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 50000,
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": true,
+      "percentage": "__undefined",
+      "active": "__undefined",
+      "expiry": "__undefined",
+      "id": "XCU-USD-PERP",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },

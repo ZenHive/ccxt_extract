@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "extracted_at": "2026-04-13T06:22:52.990905Z",
   "id": "blofin",
-  "market_count": 503,
+  "market_count": 502,
   "markets": {
     "LAYER/USDT:USDT": {
       "spot": false,
@@ -901,7 +901,7 @@
         "instType": "SWAP",
         "listTime": "1735902000000",
         "lotSize": "1",
-        "maxLeverage": "75",
+        "maxLeverage": "50",
         "maxLimitSize": "20000000",
         "maxMarketSize": "2000000",
         "minSize": "1",
@@ -944,7 +944,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 75,
+          "max": 50,
           "min": 1
         },
         "price": {
@@ -1549,7 +1549,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.06",
-        "thresholdY": "0.06",
+        "thresholdY": "0.15",
         "thresholdZ": "0.3",
         "tickSize": "0.0000001"
       },
@@ -3141,7 +3141,7 @@
         "instType": "SWAP",
         "listTime": "1750151700000",
         "lotSize": "1",
-        "maxLeverage": "75",
+        "maxLeverage": "50",
         "maxLimitSize": "1500000",
         "maxMarketSize": "200000",
         "minSize": "1",
@@ -3184,7 +3184,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 75,
+          "max": 50,
           "min": 1
         },
         "price": {
@@ -5389,7 +5389,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.1",
+        "thresholdY": "0.15",
         "thresholdZ": "0.15",
         "tickSize": "0.00001"
       },
@@ -8029,7 +8029,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.04",
+        "thresholdY": "0.2",
         "thresholdZ": "0.3",
         "tickSize": "0.00001"
       },
@@ -9869,7 +9869,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.04",
+        "thresholdY": "0.2",
         "thresholdZ": "0.3",
         "tickSize": "0.00001"
       },
@@ -11469,7 +11469,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.04",
+        "thresholdY": "0.05",
         "thresholdZ": "0.3",
         "tickSize": "0.00001"
       },
@@ -11861,7 +11861,7 @@
         "instType": "SWAP",
         "listTime": "1756721700000",
         "lotSize": "1",
-        "maxLeverage": "75",
+        "maxLeverage": "50",
         "maxLimitSize": "2000000",
         "maxMarketSize": "2000000",
         "minSize": "1",
@@ -11904,7 +11904,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 75,
+          "max": 50,
           "min": 1
         },
         "price": {
@@ -13389,7 +13389,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.04",
+        "thresholdY": "0.15",
         "thresholdZ": "0.3",
         "tickSize": "0.0001"
       },
@@ -13709,7 +13709,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.06",
-        "thresholdY": "0.06",
+        "thresholdY": "0.15",
         "thresholdZ": "0.3",
         "tickSize": "0.0000001"
       },
@@ -16749,7 +16749,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.15",
+        "thresholdY": "0.1",
         "thresholdZ": "0.15",
         "tickSize": "0.00001"
       },
@@ -17360,6 +17360,86 @@
       "active": true,
       "expiry": "__undefined",
       "id": "PROVE-USDT",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "IWM/USDT:USDT": {
+      "spot": false,
+      "contractSize": 0.01,
+      "linear": true,
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0002,
+      "inverse": false,
+      "info": {
+        "baseCurrency": "IWM",
+        "contractType": "linear",
+        "contractValue": "0.01",
+        "expireTime": "4878180000000",
+        "instId": "IWM-USDT",
+        "instType": "SWAP",
+        "listTime": "1775829600000",
+        "lotSize": "1",
+        "maxLeverage": "5",
+        "maxLimitSize": "76046",
+        "maxMarketSize": "50000",
+        "minSize": "1",
+        "quoteCurrency": "USDT",
+        "settleCurrency": "USDT",
+        "state": "live",
+        "thresholdX": "0.04",
+        "thresholdY": "0.02",
+        "thresholdZ": "0.3",
+        "tickSize": "0.01"
+      },
+      "created": 1775829600000,
+      "option": false,
+      "future": false,
+      "symbol": "IWM/USDT:USDT",
+      "settle": "USDT",
+      "precision": {
+        "amount": 1,
+        "price": 0.01
+      },
+      "baseId": "IWM",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDT",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "IWM",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 5,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0006,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": "__undefined",
+      "id": "IWM-USDT",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -19709,7 +19789,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.06",
-        "thresholdY": "0.06",
+        "thresholdY": "0.2",
         "thresholdZ": "0.3",
         "tickSize": "0.0000001"
       },
@@ -20109,8 +20189,8 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.15",
-        "thresholdZ": "0.15",
+        "thresholdY": "0.2",
+        "thresholdZ": "0.2",
         "tickSize": "0.00001"
       },
       "created": 1774866600000,
@@ -21781,7 +21861,7 @@
         "instType": "SWAP",
         "listTime": "1752767100000",
         "lotSize": "1",
-        "maxLeverage": "75",
+        "maxLeverage": "50",
         "maxLimitSize": "1000000",
         "maxMarketSize": "100000",
         "minSize": "1",
@@ -21824,7 +21904,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 75,
+          "max": 50,
           "min": 1
         },
         "price": {
@@ -21869,8 +21949,8 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.04",
-        "thresholdZ": "0.15",
+        "thresholdY": "0.1",
+        "thresholdZ": "0.1",
         "tickSize": "0.0001"
       },
       "created": 1673517600000,
@@ -22109,7 +22189,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.06",
-        "thresholdY": "0.06",
+        "thresholdY": "0.2",
         "thresholdZ": "0.3",
         "tickSize": "0.0001"
       },
@@ -24349,7 +24429,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.1",
+        "thresholdY": "0.15",
         "thresholdZ": "0.15",
         "tickSize": "0.0001"
       },
@@ -24989,7 +25069,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.04",
+        "thresholdY": "0.2",
         "thresholdZ": "0.3",
         "tickSize": "0.000001"
       },
@@ -25549,7 +25629,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.06",
-        "thresholdY": "0.06",
+        "thresholdY": "0.1",
         "thresholdZ": "0.3",
         "tickSize": "0.0001"
       },
@@ -30989,7 +31069,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.06",
-        "thresholdY": "0.06",
+        "thresholdY": "0.2",
         "thresholdZ": "0.3",
         "tickSize": "0.00001"
       },
@@ -31309,7 +31389,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.04",
+        "thresholdY": "0.15",
         "thresholdZ": "0.3",
         "tickSize": "0.00001"
       },
@@ -34909,7 +34989,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.04",
-        "thresholdY": "0.3",
+        "thresholdY": "0.15",
         "thresholdZ": "0.3",
         "tickSize": "0.00001"
       },
@@ -35360,86 +35440,6 @@
       "active": true,
       "expiry": "__undefined",
       "id": "BLESS-USDT",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "CKB/USDT:USDT": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDT",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0002,
-      "inverse": false,
-      "info": {
-        "baseCurrency": "CKB",
-        "contractType": "linear",
-        "contractValue": "1",
-        "expireTime": "4928108246219",
-        "instId": "CKB-USDT",
-        "instType": "SWAP",
-        "listTime": "1697617800000",
-        "lotSize": "1",
-        "maxLeverage": "50",
-        "maxLimitSize": "40000000",
-        "maxMarketSize": "40000000",
-        "minSize": "1",
-        "quoteCurrency": "USDT",
-        "settleCurrency": "USDT",
-        "state": "live",
-        "thresholdX": "0.06",
-        "thresholdY": "0.06",
-        "thresholdZ": "0.3",
-        "tickSize": "0.000001"
-      },
-      "created": 1697617800000,
-      "option": false,
-      "future": false,
-      "symbol": "CKB/USDT:USDT",
-      "settle": "USDT",
-      "precision": {
-        "amount": 1,
-        "price": 1.0e-6
-      },
-      "baseId": "CKB",
-      "type": "swap",
-      "strike": "__undefined",
-      "settleId": "USDT",
-      "quote": "USDT",
-      "expiryDatetime": "__undefined",
-      "base": "CKB",
-      "swap": true,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": "__undefined",
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": 50,
-          "min": 1
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0006,
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": "__undefined",
-      "id": "CKB-USDT",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -38083,86 +38083,6 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "HIPPO/USDT:USDT": {
-      "spot": false,
-      "contractSize": 100,
-      "linear": true,
-      "quoteId": "USDT",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0002,
-      "inverse": false,
-      "info": {
-        "baseCurrency": "HIPPO",
-        "contractType": "linear",
-        "contractValue": "100",
-        "expireTime": "4924221606622",
-        "instId": "HIPPO-USDT",
-        "instType": "SWAP",
-        "listTime": "1731501900000",
-        "lotSize": "1",
-        "maxLeverage": "10",
-        "maxLimitSize": "7000000",
-        "maxMarketSize": "600000",
-        "minSize": "1",
-        "quoteCurrency": "USDT",
-        "settleCurrency": "USDT",
-        "state": "live",
-        "thresholdX": "0.04",
-        "thresholdY": "0.04",
-        "thresholdZ": "0.3",
-        "tickSize": "0.0000001"
-      },
-      "created": 1731501900000,
-      "option": false,
-      "future": false,
-      "symbol": "HIPPO/USDT:USDT",
-      "settle": "USDT",
-      "precision": {
-        "amount": 1,
-        "price": 1.0e-7
-      },
-      "baseId": "HIPPO",
-      "type": "swap",
-      "strike": "__undefined",
-      "settleId": "USDT",
-      "quote": "USDT",
-      "expiryDatetime": "__undefined",
-      "base": "HIPPO",
-      "swap": true,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": "__undefined",
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": 10,
-          "min": 1
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0006,
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": "__undefined",
-      "id": "HIPPO-USDT",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
     "FET/USDT:USDT": {
       "spot": false,
       "contractSize": 1,
@@ -38581,7 +38501,7 @@
         "instType": "SWAP",
         "listTime": "1691145005000",
         "lotSize": "1",
-        "maxLeverage": "20",
+        "maxLeverage": "50",
         "maxLimitSize": "2500000",
         "maxMarketSize": "28000",
         "minSize": "1",
@@ -38624,7 +38544,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 20,
+          "max": 50,
           "min": 1
         },
         "price": {
@@ -39069,8 +38989,8 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.06",
-        "thresholdY": "0.06",
-        "thresholdZ": "0.15",
+        "thresholdY": "0.2",
+        "thresholdZ": "0.2",
         "tickSize": "0.0001"
       },
       "created": 1673517600000,
@@ -39309,7 +39229,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.06",
-        "thresholdY": "0.06",
+        "thresholdY": "0.15",
         "thresholdZ": "0.3",
         "tickSize": "0.0000001"
       },

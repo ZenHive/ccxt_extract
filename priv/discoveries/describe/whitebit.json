@@ -163,7 +163,8 @@
         "This action is unauthorized": "__function:PermissionDenied",
         "Total is less than": "__function:InvalidOrder",
         "You don't have such amount for transfer": "__function:InsufficientFunds",
-        "fee must be no less than": "__function:InvalidOrder"
+        "fee must be no less than": "__function:InvalidOrder",
+        "limit must be less than or equal to": "__function:BadRequest"
       },
       "exact": {
         "422": "__function:OrderNotFound",
@@ -669,6 +670,6 @@
     },
     "version": "v4"
   },
-  "extracted_at": "2026-04-07T23:37:32.537121Z",
+  "extracted_at": "2026-04-13T06:20:56.140782Z",
   "id": "whitebit"
 }

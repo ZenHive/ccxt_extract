@@ -1,0 +1,68 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "markets"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.p2pb2b.com/api/v2/public/markets"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "order/new"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1,\"request\":\"/api/v2/order/new\",\"nonce\":\"1700000000\"}",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-TXC-APIKEY": "account-TEST_API_KEY",
+          "X-TXC-PAYLOAD": "eyJzeW1ib2wiOiJCVEMvVVNEVCIsInR5cGUiOiJsaW1pdCIsInNpZGUiOiJidXkiLCJhbW91bnQiOjEsInByaWNlIjoxLCJyZXF1ZXN0IjoiL2FwaS92Mi9vcmRlci9uZXciLCJub25jZSI6IjE3MDAwMDAwMDAifQ==",
+          "X-TXC-SIGNATURE": "7ed374fc345cd4360d81d087e6f76a2323f29a1b586bf3fa7fbbbdb5c32b9e43cda19baf19141a1816a6a507af569627ac1b48728936f5232f104211fccc4d0f"
+        },
+        "method": "POST",
+        "url": "https://api.p2pb2b.com/api/v2/order/new"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "p2b",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

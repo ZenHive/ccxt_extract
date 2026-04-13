@@ -1,5 +1,5 @@
 {
-  "count": 107,
+  "count": 106,
   "exchanges": [
     {
       "id": "aftermath",
@@ -1968,25 +1968,6 @@
       }
     },
     {
-      "id": "coincatch",
-      "url_templates": {
-        "private": {
-          "api_param": "private",
-          "http_method": "GET",
-          "resolved_url": null,
-          "sample_path": "api/spot/v1/wallet/deposit-address",
-          "url_prefix": null
-        },
-        "public": {
-          "api_param": "public",
-          "http_method": "GET",
-          "resolved_url": "https://api.coincatch.com/api/spot/v1/public/time",
-          "sample_path": "api/spot/v1/public/time",
-          "url_prefix": "https://api.coincatch.com/"
-        }
-      }
-    },
-    {
       "id": "coincheck",
       "url_templates": {
         "private": {
@@ -3113,14 +3094,14 @@
           "api_param": "private",
           "http_method": "POST",
           "resolved_url": null,
-          "sample_path": "AddOrder",
+          "sample_path": "Balance",
           "url_prefix": null
         },
         "public": {
           "api_param": "public",
           "http_method": "GET",
-          "resolved_url": "https://api.kraken.com/0/public/Assets",
-          "sample_path": "Assets",
+          "resolved_url": "https://api.kraken.com/0/public/Time",
+          "sample_path": "Time",
           "url_prefix": "https://api.kraken.com/0/public/"
         },
         "zendesk": {
@@ -4279,5 +4260,5 @@
       }
     }
   ],
-  "extracted_at": "2026-04-10T22:48:17.865242Z"
+  "extracted_at": "2026-04-13T06:23:31.099416Z"
 }

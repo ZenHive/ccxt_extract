@@ -1,0 +1,79 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "v2Public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "market-status"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.huobi.pro/v2/market-status"
+      }
+    },
+    {
+      "input": {
+        "api": "v2Private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "account/ledger"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "method": "GET",
+        "url": "https://api.huobi.pro/v2/account/ledger?AccessKeyId=account-TEST_API_KEY&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=1970-01-20T16%3A13%3A20&Signature=epNip4SZ1b%2BpetHSILuhXfXiMlJ4IdAxjxn0SFLUt%2BU%3D"
+      }
+    },
+    {
+      "input": {
+        "api": "v2Private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "algo-orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://api.huobi.pro/v2/algo-orders?AccessKeyId=account-TEST_API_KEY&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=1970-01-20T16%3A13%3A20&Signature=cVYplemeqhzBAgD2OjHkB89wUspYcbk7kVBRC0boRfU%3D"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "htx",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

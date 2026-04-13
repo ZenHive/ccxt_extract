@@ -20,6 +20,8 @@
           "AmendOrder": 0,
           "WalletTransfer": 3,
           "WithdrawAddresses": 3,
+          "CreditLines": 3,
+          "OrderAmends": 3,
           "RetrieveExport": 3,
           "GetWebSocketsToken": 3,
           "RemoveExport": 3,
@@ -55,7 +57,11 @@
           "AssetPairs": 1,
           "Assets": 1,
           "Depth": 1.2,
+          "GroupedBook": 1.2,
+          "Level3": 1.2,
           "OHLC": 1.2,
+          "PostTrade": 1,
+          "PreTrade": 1,
           "Spread": 1,
           "SystemStatus": 1,
           "Ticker": 1,
@@ -850,6 +856,6 @@
     },
     "version": "0"
   },
-  "extracted_at": "2026-04-07T23:37:32.537121Z",
+  "extracted_at": "2026-04-13T06:20:56.140782Z",
   "id": "kraken"
 }

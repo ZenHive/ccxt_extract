@@ -1,0 +1,84 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "ticker"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.latoken.com/v2/ticker"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "auth/account"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "X-LA-APIKEY": "account-TEST_API_KEY",
+          "X-LA-DIGEST": "HMAC-SHA512",
+          "X-LA-SIGNATURE": "d2b1164dacb0c184541b9c120a5c6c3a8a603135f7a27567e1aa1e17522a0298664fd5c39c5786b2e065db2fb073b3bc0cbb8a6e302d943f979553c30bf30458"
+        },
+        "method": "GET",
+        "url": "https://api.latoken.com/v2/auth/account"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "auth/order/cancel"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-LA-APIKEY": "account-TEST_API_KEY",
+          "X-LA-DIGEST": "HMAC-SHA512",
+          "X-LA-SIGNATURE": "84de8922e70ad29203fe5426f2314b4d6486930b55e41dfbd0c7e39118510c6fe01eb87c8c58561d4b47cc8bd75b3fa626061547ecb8e3504fe179491432eadd"
+        },
+        "method": "POST",
+        "url": "https://api.latoken.com/v2/auth/order/cancel"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "latoken",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

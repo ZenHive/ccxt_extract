@@ -1,0 +1,88 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "api/v1/borrowLend/markets"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.backpack.exchange/api/v1/borrowLend/markets"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "api/v1/account"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "X-API-Key": "account-TEST_API_KEY",
+          "X-Broker-Id": "1400",
+          "X-Signature": "15atfAVB5YBOW3lXY8LkITSb554+4ENwjE0zp4aA5q70JgFl88g5muGVy4pyspzk51m9EsVUVbcKeGJ9ZCNRBQ==",
+          "X-Timestamp": "1700000000",
+          "X-Window": "5000"
+        },
+        "method": "GET",
+        "url": "https://api.backpack.exchange/api/v1/account"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "api/v1/order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"amount\":1,\"price\":1,\"side\":\"buy\",\"symbol\":\"BTC/USDT\",\"type\":\"limit\"}",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-API-Key": "account-TEST_API_KEY",
+          "X-Broker-Id": "1400",
+          "X-Signature": "3yumR5uExo/LOvjoifQPE9UAPkABTTK4aPeXJtR9DlsqxgUL5E0nAZe+FfTYDAYyc+JQpdbAwDaEn9ZPA0FKCA==",
+          "X-Timestamp": "1700000000",
+          "X-Window": "5000"
+        },
+        "method": "POST",
+        "url": "https://api.backpack.exchange/api/v1/order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "backpack",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

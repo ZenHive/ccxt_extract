@@ -1,0 +1,87 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "tickers"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": {
+          "X-BITOPRO-API": "ccxt"
+        },
+        "method": "GET",
+        "url": "https://api.bitopro.com/v3/tickers"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "accounts/balance"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "X-BITOPRO-API": "ccxt",
+          "X-BITOPRO-APIKEY": "account-TEST_API_KEY",
+          "X-BITOPRO-PAYLOAD": "eyJub25jZSI6MTcwMDAwMDAwMDAwMH0=",
+          "X-BITOPRO-SIGNATURE": "1cf69ef0ecf1a1c158c1c3be4db0d7953c29995ae1372870bf59b0f19f682feb48e1ba40996c9ae002b8fcaa36db423f"
+        },
+        "method": "GET",
+        "url": "https://api.bitopro.com/v3/accounts/balance"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "orders/{pair}"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "X-BITOPRO-API": "ccxt",
+          "X-BITOPRO-APIKEY": "account-TEST_API_KEY",
+          "X-BITOPRO-PAYLOAD": "eyJzeW1ib2wiOiJCVEMvVVNEVCIsInR5cGUiOiJsaW1pdCIsInNpZGUiOiJidXkiLCJhbW91bnQiOjEsInByaWNlIjoxfQ==",
+          "X-BITOPRO-SIGNATURE": "652fac3073326ee4095d8a9726820a7a7868467854560271a98e30f41a14bc90ee9c26dff770030248eb49c002bf3c7c"
+        },
+        "method": "POST",
+        "url": "https://api.bitopro.com/v3/orders/{pair}"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bitopro",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

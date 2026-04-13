@@ -1,0 +1,84 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "common/symbol"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.novadax.com/v1/common/symbol"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "account/getBalance"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "X-Nova-Access-Key": "account-TEST_API_KEY",
+          "X-Nova-Signature": "5e104ae4830ff68491fa8f73f0226f12970d8022695d2f89b53b5cebf58fdbc8",
+          "X-Nova-Timestamp": "1700000000000"
+        },
+        "method": "GET",
+        "url": "https://api.novadax.com/v1/account/getBalance"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "orders/create"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Nova-Access-Key": "account-TEST_API_KEY",
+          "X-Nova-Signature": "bbdda900fef68af193b4b5097c32462a5641e367ae6c9807307b67d9e8cc3b33",
+          "X-Nova-Timestamp": "1700000000000"
+        },
+        "method": "POST",
+        "url": "https://api.novadax.com/v1/orders/create"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "novadax",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

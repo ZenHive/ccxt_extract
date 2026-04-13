@@ -1,0 +1,73 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "api/v1/account"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Referrer": "CCXT",
+          "X-BB-API-PLATFORM": "177321641268789",
+          "X-BB-APIKEY": "account-TEST_API_KEY"
+        },
+        "method": "GET",
+        "url": "https://api.toobit.com/api/v1/account?recvWindow=5000&timestamp=1700000000000&signature=19848728f415addc946dca6b3003ad2ad8f47597023874dac6e35e68793a9dd1"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "api/v1/spot/orderTest"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1&recvWindow=5000&timestamp=1700000000000&signature=8cc81692eff7df0fec495c4e9d7d41d36525d5a8a40c4d313f1f1b7bb2f15815",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Referrer": "CCXT",
+          "X-BB-API-PLATFORM": "177321641268789",
+          "X-BB-APIKEY": "account-TEST_API_KEY"
+        },
+        "method": "POST",
+        "url": "https://api.toobit.com/api/v1/spot/orderTest"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "toobit",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "public_get_ticker",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

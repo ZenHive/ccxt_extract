@@ -1,9 +1,9 @@
 {
-  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "extracted_at": "2026-04-13T06:22:52.990905Z",
   "id": "derive",
   "market_count": 133,
   "markets": {
-    "SOL/USDC:USDC-260501-140-P": {
+    "SOL/USDC:USDC-260529-94-C": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -15,38 +15,38 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "60129542145777622400",
+        "base_asset_sub_id": "39614081297504861380952016768",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-140-P",
+        "instrument_name": "SOL-20260529-94-C",
         "instrument_type": "option",
-        "is_active": false,
+        "is_active": true,
         "maker_fee_rate": "0.0001",
         "mark_price_fee_rate_cap": "0.125",
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777622400,
+          "expiry": 1780041600,
           "index": "SOL-USD",
-          "option_type": "P",
+          "option_type": "C",
           "settlement_price": null,
-          "strike": "140"
+          "strike": "94"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
       },
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260501-140-P",
+      "symbol": "SOL/USDC:USDC-260529-94-C",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -54,10 +54,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 140,
+      "strike": 94,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -83,13 +83,13 @@
         }
       },
       "taker": 0.0003,
-      "optionType": "put",
+      "optionType": "call",
       "margin": false,
       "contract": true,
       "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-140-P",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-94-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -273,366 +273,6 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260501-90-P": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "38654705665777622400",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-90-P",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "90"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-90-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 90,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-90-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-75-P": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "32212254721777017600",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-75-P",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "75"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-75-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 75,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-75-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260501-70-P": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "30064771073777622400",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-70-P",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "70"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-70-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 70,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-70-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260501-120-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081308671776350549597568",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-120-C",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "120"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-120-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 120,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-120-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
     "SOL/USDC:USDC-260626-60-P": {
       "spot": false,
       "contractSize": 1,
@@ -749,7 +389,7 @@
         "minimum_amount": "0.1",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "104.05786186696769262",
+          "aggregate_funding": "105.062990278502559306",
           "funding_rate": "0.0000125",
           "index": "BNB-USD",
           "max_rate_per_hour": "0.004",
@@ -814,7 +454,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260501-90-C": {
+    "SOL/USDC:USDC-260529-65-C": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -826,38 +466,38 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081295786874462549597568",
+        "base_asset_sub_id": "39614081285049456222552016768",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-90-C",
+        "instrument_name": "SOL-20260529-65-C",
         "instrument_type": "option",
-        "is_active": false,
+        "is_active": true,
         "maker_fee_rate": "0.0001",
         "mark_price_fee_rate_cap": "0.125",
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777622400,
+          "expiry": 1780041600,
           "index": "SOL-USD",
           "option_type": "C",
           "settlement_price": null,
-          "strike": "90"
+          "strike": "65"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
       },
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260501-90-C",
+      "symbol": "SOL/USDC:USDC-260529-65-C",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -865,10 +505,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 90,
+      "strike": 65,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -898,9 +538,9 @@
       "margin": false,
       "contract": true,
       "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-90-C",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-65-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -1084,7 +724,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260501-75-C": {
+    "SOL/USDC:USDC-260508-78-P": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -1096,12 +736,12 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081289344423518549597568",
+        "base_asset_sub_id": "33500744910578227200",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-75-C",
+        "instrument_name": "SOL-20260508-78-P",
         "instrument_type": "option",
         "is_active": false,
         "maker_fee_rate": "0.0001",
@@ -1109,17 +749,17 @@
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777622400,
+          "expiry": 1778227200,
           "index": "SOL-USD",
-          "option_type": "C",
+          "option_type": "P",
           "settlement_price": null,
-          "strike": "75"
+          "strike": "78"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
+        "scheduled_activation": 1776412800,
         "scheduled_deactivation": 9223372036854776000,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
@@ -1127,7 +767,367 @@
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260501-75-C",
+      "symbol": "SOL/USDC:USDC-260508-78-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 78,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-78-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260529-86-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081294068887544152016768",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-86-C",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "86"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-86-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 86,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-86-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-82-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081292350900625750202368",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-82-C",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "82"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-82-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 82,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-82-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260529-98-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081299222848299352016768",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-98-C",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "98"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-98-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 98,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-98-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-75-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "32212254721778227200",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-75-P",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "75"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-75-P",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -1138,7 +1138,7 @@
       "strike": 75,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -1164,103 +1164,13 @@
         }
       },
       "taker": 0.0003,
-      "optionType": "call",
+      "optionType": "put",
       "margin": false,
       "contract": true,
       "percentage": "__undefined",
       "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-75-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260501-100-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081300081841758549597568",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-100-C",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "100"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-100-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 100,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-100-C",
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-75-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -1354,7 +1264,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260424-50-P": {
+    "SOL/USDC:USDC-260508-84-P": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -1366,38 +1276,38 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "21474836481777017600",
+        "base_asset_sub_id": "36077725288178227200",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-50-P",
+        "instrument_name": "SOL-20260508-84-P",
         "instrument_type": "option",
-        "is_active": true,
+        "is_active": false,
         "maker_fee_rate": "0.0001",
         "mark_price_fee_rate_cap": "0.125",
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777017600,
+          "expiry": 1778227200,
           "index": "SOL-USD",
           "option_type": "P",
           "settlement_price": null,
-          "strike": "50"
+          "strike": "84"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
       },
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260424-50-P",
+      "symbol": "SOL/USDC:USDC-260508-84-P",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -1405,10 +1315,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 50,
+      "strike": 84,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -1438,99 +1348,9 @@
       "margin": false,
       "contract": true,
       "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-50-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260501-95-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081297934358110549597568",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-95-C",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "95"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-95-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 95,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
       "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-95-C",
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-84-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -1624,6 +1444,96 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "SOL/USDC:USDC-260508-95-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081297934358110550202368",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-95-C",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "95"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-95-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 95,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-95-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "AAVE/USD:USDC": {
       "spot": false,
       "contractSize": 1,
@@ -1650,7 +1560,7 @@
         "minimum_amount": "0.1",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "34.374264223179250504",
+          "aggregate_funding": "34.518969548030846947",
           "funding_rate": "0.0000125",
           "index": "AAVE-USD",
           "max_rate_per_hour": "0.004",
@@ -1712,6 +1622,96 @@
       "active": true,
       "expiry": "__undefined",
       "id": "AAVE-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-88-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081294927881003350202368",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-88-C",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "88"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-88-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 88,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-88-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -1805,6 +1805,186 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "SOL/USDC:USDC-260529-84-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "36077725288180041600",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-84-P",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "84"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-84-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 84,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-84-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-70-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081287196939870550202368",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-70-C",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "70"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-70-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 70,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-70-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "SOL/USDC:USDC-260529-220-P": {
       "spot": false,
       "contractSize": 1,
@@ -1895,7 +2075,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260424-80-P": {
+    "SOL/USDC:USDC-260529-88-P": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -1907,12 +2087,12 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "34359738369777017600",
+        "base_asset_sub_id": "37795712206580041600",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-80-P",
+        "instrument_name": "SOL-20260529-88-P",
         "instrument_type": "option",
         "is_active": true,
         "maker_fee_rate": "0.0001",
@@ -1920,25 +2100,25 @@
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777017600,
+          "expiry": 1780041600,
           "index": "SOL-USD",
           "option_type": "P",
           "settlement_price": null,
-          "strike": "80"
+          "strike": "88"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
       },
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260424-80-P",
+      "symbol": "SOL/USDC:USDC-260529-88-P",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -1946,10 +2126,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 80,
+      "strike": 88,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -1980,8 +2160,8 @@
       "contract": true,
       "percentage": "__undefined",
       "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-80-P",
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-88-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -2011,7 +2191,7 @@
         "minimum_amount": "10",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "0.141046712646065571",
+          "aggregate_funding": "0.141147315349853454",
           "funding_rate": "0.0000125",
           "index": "OP-USD",
           "max_rate_per_hour": "0.004",
@@ -2166,6 +2346,96 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "SOL/USDC:USDC-260529-92-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39513699124980041600",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-92-P",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "92"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-92-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 92,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-92-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "HYPE/USD:USDC": {
       "spot": false,
       "contractSize": 1,
@@ -2192,8 +2462,8 @@
         "minimum_amount": "1",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "0.515085297020592509",
-          "funding_rate": "0.0000125",
+          "aggregate_funding": "0.614561782279276366",
+          "funding_rate": "0.000051494909665668",
           "index": "HYPE-USD",
           "max_rate_per_hour": "0.004",
           "min_rate_per_hour": "-0.004",
@@ -2257,7 +2527,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260424-75-C": {
+    "SOL/USDC:USDC-260508-96-P": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -2269,38 +2539,38 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081289344423518548992768",
+        "base_asset_sub_id": "41231686043378227200",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-75-C",
+        "instrument_name": "SOL-20260508-96-P",
         "instrument_type": "option",
-        "is_active": true,
+        "is_active": false,
         "maker_fee_rate": "0.0001",
         "mark_price_fee_rate_cap": "0.125",
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777017600,
+          "expiry": 1778227200,
           "index": "SOL-USD",
-          "option_type": "C",
+          "option_type": "P",
           "settlement_price": null,
-          "strike": "75"
+          "strike": "96"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
       },
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260424-75-C",
+      "symbol": "SOL/USDC:USDC-260508-96-P",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -2308,10 +2578,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 75,
+      "strike": 96,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -2337,13 +2607,103 @@
         }
       },
       "taker": 0.0003,
-      "optionType": "call",
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-96-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260529-86-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "36936718747380041600",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-86-P",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "86"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-86-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 86,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
       "margin": false,
       "contract": true,
       "percentage": "__undefined",
       "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-75-C",
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-86-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -2373,7 +2733,7 @@
         "minimum_amount": "100",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "-0.020891316669323804",
+          "aggregate_funding": "-0.020764634179052706",
           "funding_rate": "0.0000125",
           "index": "ENA-USD",
           "max_rate_per_hour": "0.004",
@@ -2526,96 +2886,6 @@
       "id": "USDT-USDC",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
-    },
-    "SOL/USDC:USDC-260424-40-P": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "17179869185777017600",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-40-P",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "40"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-40-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 40,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-40-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
     },
     "SOL/USDC:USDC-260626-80-C": {
       "spot": false,
@@ -2797,7 +3067,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260424-90-P": {
+    "SOL/USDC:USDC-260508-92-P": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -2809,38 +3079,38 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "38654705665777017600",
+        "base_asset_sub_id": "39513699124978227200",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-90-P",
+        "instrument_name": "SOL-20260508-92-P",
         "instrument_type": "option",
-        "is_active": true,
+        "is_active": false,
         "maker_fee_rate": "0.0001",
         "mark_price_fee_rate_cap": "0.125",
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777017600,
+          "expiry": 1778227200,
           "index": "SOL-USD",
           "option_type": "P",
           "settlement_price": null,
-          "strike": "90"
+          "strike": "92"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
       },
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260424-90-P",
+      "symbol": "SOL/USDC:USDC-260508-92-P",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -2848,10 +3118,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 90,
+      "strike": 92,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -2881,9 +3151,9 @@
       "margin": false,
       "contract": true,
       "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-90-P",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-92-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -2977,7 +3247,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260501-110-C": {
+    "SOL/USDC:USDC-260529-82-P": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -2989,38 +3259,38 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081304376809054549597568",
+        "base_asset_sub_id": "35218731828980041600",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-110-C",
+        "instrument_name": "SOL-20260529-82-P",
         "instrument_type": "option",
-        "is_active": false,
+        "is_active": true,
         "maker_fee_rate": "0.0001",
         "mark_price_fee_rate_cap": "0.125",
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777622400,
+          "expiry": 1780041600,
           "index": "SOL-USD",
-          "option_type": "C",
+          "option_type": "P",
           "settlement_price": null,
-          "strike": "110"
+          "strike": "82"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
       },
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260501-110-C",
+      "symbol": "SOL/USDC:USDC-260529-82-P",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -3028,10 +3298,100 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 110,
+      "strike": 82,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-82-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-75-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081289344423518550202368",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-75-C",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "75"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-75-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 75,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -3062,8 +3422,188 @@
       "contract": true,
       "percentage": "__undefined",
       "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-110-C",
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-75-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260529-88-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081294927881003352016768",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-88-C",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "88"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-88-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 88,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-88-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-86-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081294068887544150202368",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-86-C",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "86"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-86-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 86,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-86-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -3337,6 +3877,96 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "SOL/USDC:USDC-260529-96-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "41231686043380041600",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-96-P",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "96"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-96-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 96,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-96-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "SOL/USDC:USDC-260529-160-C": {
       "spot": false,
       "contractSize": 1,
@@ -3427,7 +4057,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260501-80-P": {
+    "SOL/USDC:USDC-260508-88-P": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -3439,12 +4069,12 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "34359738369777622400",
+        "base_asset_sub_id": "37795712206578227200",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-80-P",
+        "instrument_name": "SOL-20260508-88-P",
         "instrument_type": "option",
         "is_active": false,
         "maker_fee_rate": "0.0001",
@@ -3452,17 +4082,17 @@
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777622400,
+          "expiry": 1778227200,
           "index": "SOL-USD",
           "option_type": "P",
           "settlement_price": null,
-          "strike": "80"
+          "strike": "88"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
+        "scheduled_activation": 1776412800,
         "scheduled_deactivation": 9223372036854776000,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
@@ -3470,7 +4100,7 @@
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260501-80-P",
+      "symbol": "SOL/USDC:USDC-260508-88-P",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -3478,10 +4108,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 80,
+      "strike": 88,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -3512,188 +4142,8 @@
       "contract": true,
       "percentage": "__undefined",
       "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-80-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-60-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081282901972574548992768",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-60-C",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "60"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-60-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 60,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-60-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-240-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081360211383902548992768",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-240-C",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "240"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-240-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 240,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-240-C",
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-88-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -3784,96 +4234,6 @@
       "active": true,
       "expiry": 1780041600000,
       "id": "SOL-20260529-95-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260501-80-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081291491907166549597568",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-80-C",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "80"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-80-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 80,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-80-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -4233,96 +4593,6 @@
       "active": true,
       "expiry": 1780041600000,
       "id": "SOL-20260529-80-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-240-P": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "103079215105777017600",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-240-P",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "240"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-240-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 240,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-240-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -4799,7 +5069,7 @@
         "minimum_amount": "10",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "0.346607753189700515",
+          "aggregate_funding": "0.347804230302587152",
           "funding_rate": "0.0000125",
           "index": "XRP-USD",
           "max_rate_per_hour": "0.004",
@@ -4890,7 +5160,7 @@
         "minimum_amount": "10",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "2.735436759891460154",
+          "aggregate_funding": "2.747039266361095859",
           "funding_rate": "0.0000125",
           "index": "LINK-USD",
           "max_rate_per_hour": "0.004",
@@ -4952,6 +5222,96 @@
       "active": true,
       "expiry": "__undefined",
       "id": "LINK-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-82-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "35218731828978227200",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-82-P",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "82"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-82-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 82,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-82-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -5311,636 +5671,6 @@
       "id": "WEETH-USDC",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
-    },
-    "SOL/USDC:USDC-260424-300-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081385981187678548992768",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-300-C",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "300"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-300-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 300,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-300-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260501-60-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081282901972574549597568",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-60-C",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "60"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-60-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 60,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-60-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-70-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081287196939870548992768",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-70-C",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "70"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-70-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 70,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-70-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-40-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081274312037982548992768",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-40-C",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "40"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-40-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 40,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-40-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-300-P": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "128849018881777017600",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-300-P",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "300"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-300-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 300,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-300-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-85-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081293639390814548992768",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-85-C",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "85"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-85-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 85,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-85-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-95-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081297934358110548992768",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-95-C",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "95"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-95-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 95,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-95-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
     },
     "SOL/USDC:USDC-260626-100-C": {
       "spot": false,
@@ -6326,7 +6056,7 @@
         "minimum_amount": "0.1",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "996.115135447526390704",
+          "aggregate_funding": "997.607030296927370912",
           "funding_rate": "0.0000125",
           "index": "ETH-USD",
           "max_rate_per_hour": "0.004",
@@ -6839,6 +6569,96 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "SOL/USDC:USDC-260529-82-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081292350900625752016768",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-82-C",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "82"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-82-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 82,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-82-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "DOGE/USD:USDC": {
       "spot": false,
       "contractSize": 1,
@@ -6865,7 +6685,7 @@
         "minimum_amount": "1000",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "0.045267907303642781",
+          "aggregate_funding": "0.045411321659635683",
           "funding_rate": "0.0000125",
           "index": "DOGE-USD",
           "max_rate_per_hour": "0.004",
@@ -6927,6 +6747,186 @@
       "active": true,
       "expiry": "__undefined",
       "id": "DOGE-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260529-98-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "42090679502580041600",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-98-P",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "98"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-98-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 98,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-98-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260529-94-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "40372692584180041600",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-94-P",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "94"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-94-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 94,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-94-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -7020,6 +7020,96 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "SOL/USDC:USDC-260508-80-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "34359738369778227200",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-80-P",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "80"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-80-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 80,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-80-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "SOL/USDC:USDC-260529-220-C": {
       "spot": false,
       "contractSize": 1,
@@ -7107,96 +7197,6 @@
       "active": true,
       "expiry": 1780041600000,
       "id": "SOL-20260529-220-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260501-70-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081287196939870549597568",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-70-C",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "70"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-70-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 70,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-70-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -7290,7 +7290,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260424-80-C": {
+    "SOL/USDC:USDC-260508-90-P": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -7302,38 +7302,38 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081291491907166548992768",
+        "base_asset_sub_id": "38654705665778227200",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-80-C",
+        "instrument_name": "SOL-20260508-90-P",
         "instrument_type": "option",
-        "is_active": true,
+        "is_active": false,
         "maker_fee_rate": "0.0001",
         "mark_price_fee_rate_cap": "0.125",
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777017600,
+          "expiry": 1778227200,
           "index": "SOL-USD",
-          "option_type": "C",
+          "option_type": "P",
           "settlement_price": null,
-          "strike": "80"
+          "strike": "90"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
       },
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260424-80-C",
+      "symbol": "SOL/USDC:USDC-260508-90-P",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -7341,10 +7341,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 80,
+      "strike": 90,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -7370,13 +7370,13 @@
         }
       },
       "taker": 0.0003,
-      "optionType": "call",
+      "optionType": "put",
       "margin": false,
       "contract": true,
       "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-80-C",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-90-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -7560,96 +7560,6 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260424-60-P": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "25769803777777017600",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-60-P",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "60"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-60-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 60,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-60-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
     "SOL/USDC:USDC-260626-150-P": {
       "spot": false,
       "contractSize": 1,
@@ -7740,96 +7650,6 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260501-85-P": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "36507222017777622400",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-85-P",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "85"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-85-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 85,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-85-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
     "ADA/USD:USDC": {
       "spot": false,
       "contractSize": 1,
@@ -7856,7 +7676,7 @@
         "minimum_amount": "10",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "0.002538729940033493",
+          "aggregate_funding": "0.002801118882582924",
           "funding_rate": "0.0000125",
           "index": "ADA-USD",
           "max_rate_per_hour": "0.004",
@@ -8010,7 +7830,7 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
-    "SOL/USDC:USDC-260501-75-P": {
+    "SOL/USDC:USDC-260529-92-C": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -8022,102 +7842,12 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "32212254721777622400",
+        "base_asset_sub_id": "39614081296645867921752016768",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-75-P",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "75"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-75-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 75,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-75-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-50-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081278607005278548992768",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-50-C",
+        "instrument_name": "SOL-20260529-92-C",
         "instrument_type": "option",
         "is_active": true,
         "maker_fee_rate": "0.0001",
@@ -8125,25 +7855,25 @@
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777017600,
+          "expiry": 1780041600,
           "index": "SOL-USD",
           "option_type": "C",
           "settlement_price": null,
-          "strike": "50"
+          "strike": "92"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
       },
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260424-50-C",
+      "symbol": "SOL/USDC:USDC-260529-92-C",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -8151,10 +7881,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 50,
+      "strike": 92,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -8185,8 +7915,8 @@
       "contract": true,
       "percentage": "__undefined",
       "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-50-C",
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-92-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -8576,7 +8306,7 @@
         "minimum_amount": "0.1",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "35.601943308005140354",
+          "aggregate_funding": "35.628067344898408274",
           "funding_rate": "0.0000125",
           "index": "SOL-USD",
           "max_rate_per_hour": "0.004",
@@ -8728,6 +8458,96 @@
       "active": true,
       "expiry": 1780041600000,
       "id": "SOL-20260529-110-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260529-65-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "27917287425780041600",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-65-P",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "65"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-65-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 65,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-65-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -9001,6 +8821,276 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "SOL/USDC:USDC-260508-94-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "40372692584178227200",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-94-P",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "94"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-94-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 94,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-94-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-80-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081291491907166550202368",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-80-C",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "80"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-80-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 80,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-80-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-70-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "30064771073778227200",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-70-P",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "70"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-70-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 70,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-70-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "SUI/USD:USDC": {
       "spot": false,
       "contractSize": 1,
@@ -9027,7 +9117,7 @@
         "minimum_amount": "10",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "0.447382479617634029",
+          "aggregate_funding": "0.448261283045974658",
           "funding_rate": "0.0000125",
           "index": "SUI-USD",
           "max_rate_per_hour": "0.004",
@@ -9182,6 +9272,96 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "SOL/USDC:USDC-260508-95-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "40802189313778227200",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-95-P",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "95"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-95-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 95,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-95-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "LBTC/USDC": {
       "spot": true,
       "contractSize": "__undefined",
@@ -9271,7 +9451,7 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
-    "SOL/USDC:USDC-260501-120-P": {
+    "SOL/USDC:USDC-260508-94-C": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -9283,12 +9463,12 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "51539607553777622400",
+        "base_asset_sub_id": "39614081297504861380950202368",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-120-P",
+        "instrument_name": "SOL-20260508-94-C",
         "instrument_type": "option",
         "is_active": false,
         "maker_fee_rate": "0.0001",
@@ -9296,17 +9476,17 @@
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777622400,
+          "expiry": 1778227200,
           "index": "SOL-USD",
-          "option_type": "P",
+          "option_type": "C",
           "settlement_price": null,
-          "strike": "120"
+          "strike": "94"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
+        "scheduled_activation": 1776412800,
         "scheduled_deactivation": 9223372036854776000,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
@@ -9314,7 +9494,7 @@
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260501-120-P",
+      "symbol": "SOL/USDC:USDC-260508-94-C",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -9322,10 +9502,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 120,
+      "strike": 94,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -9351,13 +9531,13 @@
         }
       },
       "taker": 0.0003,
-      "optionType": "put",
+      "optionType": "call",
       "margin": false,
       "contract": true,
       "percentage": "__undefined",
       "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-120-P",
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-94-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -9449,96 +9629,6 @@
       "id": "SUSDE-USDC",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
-    },
-    "SOL/USDC:USDC-260501-85-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081293639390814549597568",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-85-C",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "85"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-85-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 85,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-85-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
     },
     "SOL/USDC:USDC-260626-80-P": {
       "spot": false,
@@ -9717,6 +9807,96 @@
       "active": true,
       "expiry": 1780041600000,
       "id": "SOL-20260529-200-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260529-84-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081293209894084952016768",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260529-84-C",
+        "instrument_type": "option",
+        "is_active": true,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1780041600,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "84"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260529-84-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 84,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-84-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -9926,8 +10106,8 @@
         "minimum_amount": "0.01",
         "option_details": null,
         "perp_details": {
-          "aggregate_funding": "23564.236609908923506111",
-          "funding_rate": "0.000032911898150799",
+          "aggregate_funding": "23658.590304228789630827",
+          "funding_rate": "0.000004266035585718",
           "index": "BTC-USD",
           "max_rate_per_hour": "0.004",
           "min_rate_per_hour": "-0.004",
@@ -9991,7 +10171,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260501-100-P": {
+    "SOL/USDC:USDC-260508-90-C": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -10003,12 +10183,12 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "42949672961777622400",
+        "base_asset_sub_id": "39614081295786874462550202368",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-100-P",
+        "instrument_name": "SOL-20260508-90-C",
         "instrument_type": "option",
         "is_active": false,
         "maker_fee_rate": "0.0001",
@@ -10016,17 +10196,17 @@
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777622400,
+          "expiry": 1778227200,
           "index": "SOL-USD",
-          "option_type": "P",
+          "option_type": "C",
           "settlement_price": null,
-          "strike": "100"
+          "strike": "90"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
+        "scheduled_activation": 1776412800,
         "scheduled_deactivation": 9223372036854776000,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
@@ -10034,7 +10214,7 @@
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260501-100-P",
+      "symbol": "SOL/USDC:USDC-260508-90-C",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -10042,10 +10222,190 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 100,
+      "strike": 90,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-90-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-96-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081298363854840150202368",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-96-C",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "96"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-96-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 96,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-96-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-86-P": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "36936718747378227200",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-86-P",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "P",
+          "settlement_price": null,
+          "strike": "86"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-86-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 86,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -10076,8 +10436,8 @@
       "contract": true,
       "percentage": "__undefined",
       "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-100-P",
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-86-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -10169,96 +10529,6 @@
       "id": "USDE-USDC",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
-    },
-    "SOL/USDC:USDC-260424-85-P": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "36507222017777017600",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-85-P",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "85"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-85-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 85,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-85-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
     },
     "PUFETH/USDC": {
       "spot": true,
@@ -10619,7 +10889,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260501-95-P": {
+    "SOL/USDC:USDC-260529-96-C": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -10631,38 +10901,38 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "40802189313777622400",
+        "base_asset_sub_id": "39614081298363854840152016768",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-95-P",
+        "instrument_name": "SOL-20260529-96-C",
         "instrument_type": "option",
-        "is_active": false,
+        "is_active": true,
         "maker_fee_rate": "0.0001",
         "mark_price_fee_rate_cap": "0.125",
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777622400,
+          "expiry": 1780041600,
           "index": "SOL-USD",
-          "option_type": "P",
+          "option_type": "C",
           "settlement_price": null,
-          "strike": "95"
+          "strike": "96"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
+        "scheduled_activation": 1774602000,
+        "scheduled_deactivation": 1780041540,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
       },
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260501-95-P",
+      "symbol": "SOL/USDC:USDC-260529-96-C",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -10670,10 +10940,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 95,
+      "strike": 96,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
+      "expiryDatetime": "2026-05-29T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -10699,13 +10969,103 @@
         }
       },
       "taker": 0.0003,
-      "optionType": "put",
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1780041600000,
+      "id": "SOL-20260529-96-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "SOL/USDC:USDC-260508-84-C": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0001,
+      "inverse": false,
+      "info": {
+        "amount_step": "0.1",
+        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
+        "base_asset_sub_id": "39614081293209894084950202368",
+        "base_currency": "SOL",
+        "base_fee": "0.5",
+        "erc20_details": null,
+        "fifo_min_allocation": "100",
+        "instrument_name": "SOL-20260508-84-C",
+        "instrument_type": "option",
+        "is_active": false,
+        "maker_fee_rate": "0.0001",
+        "mark_price_fee_rate_cap": "0.125",
+        "maximum_amount": "100000",
+        "minimum_amount": "1",
+        "option_details": {
+          "expiry": 1778227200,
+          "index": "SOL-USD",
+          "option_type": "C",
+          "settlement_price": null,
+          "strike": "84"
+        },
+        "perp_details": null,
+        "pro_rata_amount_step": "10",
+        "pro_rata_fraction": "0.8",
+        "quote_currency": "USDC",
+        "scheduled_activation": 1776412800,
+        "scheduled_deactivation": 9223372036854776000,
+        "taker_fee_rate": "0.0003",
+        "tick_size": "0.1"
+      },
+      "created": "__undefined",
+      "option": true,
+      "future": false,
+      "symbol": "SOL/USDC:USDC-260508-84-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.1
+      },
+      "baseId": "SOL",
+      "type": "option",
+      "strike": 84,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
+      "base": "SOL",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 100000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
       "margin": false,
       "contract": true,
       "percentage": "__undefined",
       "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-95-P",
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-84-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -10888,96 +11248,6 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
-    "SOL/USDC:USDC-260424-70-P": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "30064771073777017600",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-70-P",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "70"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-70-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 70,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-70-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
     "SOL/USDC:USDC-260626-120-P": {
       "spot": false,
       "contractSize": 1,
@@ -11068,7 +11338,7 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
-    "SOL/USDC:USDC-260501-60-P": {
+    "SOL/USDC:USDC-260508-78-C": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -11080,12 +11350,12 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "25769803777777622400",
+        "base_asset_sub_id": "39614081290632913707350202368",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-60-P",
+        "instrument_name": "SOL-20260508-78-C",
         "instrument_type": "option",
         "is_active": false,
         "maker_fee_rate": "0.0001",
@@ -11093,17 +11363,17 @@
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777622400,
+          "expiry": 1778227200,
           "index": "SOL-USD",
-          "option_type": "P",
+          "option_type": "C",
           "settlement_price": null,
-          "strike": "60"
+          "strike": "78"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
+        "scheduled_activation": 1776412800,
         "scheduled_deactivation": 9223372036854776000,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
@@ -11111,7 +11381,7 @@
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260501-60-P",
+      "symbol": "SOL/USDC:USDC-260508-78-C",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -11119,10 +11389,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 60,
+      "strike": 78,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -11148,13 +11418,13 @@
         }
       },
       "taker": 0.0003,
-      "optionType": "put",
+      "optionType": "call",
       "margin": false,
       "contract": true,
       "percentage": "__undefined",
       "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-60-P",
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-78-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -11337,7 +11607,7 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
-    "SOL/USDC:USDC-260501-110-P": {
+    "SOL/USDC:USDC-260508-92-C": {
       "spot": false,
       "contractSize": 1,
       "linear": true,
@@ -11349,12 +11619,12 @@
       "info": {
         "amount_step": "0.1",
         "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "47244640257777622400",
+        "base_asset_sub_id": "39614081296645867921750202368",
         "base_currency": "SOL",
         "base_fee": "0.5",
         "erc20_details": null,
         "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-110-P",
+        "instrument_name": "SOL-20260508-92-C",
         "instrument_type": "option",
         "is_active": false,
         "maker_fee_rate": "0.0001",
@@ -11362,17 +11632,17 @@
         "maximum_amount": "100000",
         "minimum_amount": "1",
         "option_details": {
-          "expiry": 1777622400,
+          "expiry": 1778227200,
           "index": "SOL-USD",
-          "option_type": "P",
+          "option_type": "C",
           "settlement_price": null,
-          "strike": "110"
+          "strike": "92"
         },
         "perp_details": null,
         "pro_rata_amount_step": "10",
         "pro_rata_fraction": "0.8",
         "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
+        "scheduled_activation": 1776412800,
         "scheduled_deactivation": 9223372036854776000,
         "taker_fee_rate": "0.0003",
         "tick_size": "0.1"
@@ -11380,7 +11650,7 @@
       "created": "__undefined",
       "option": true,
       "future": false,
-      "symbol": "SOL/USDC:USDC-260501-110-P",
+      "symbol": "SOL/USDC:USDC-260508-92-C",
       "settle": "USDC",
       "precision": {
         "amount": 0.1,
@@ -11388,10 +11658,10 @@
       },
       "baseId": "SOL",
       "type": "option",
-      "strike": 110,
+      "strike": 92,
       "settleId": "USDC",
       "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
+      "expiryDatetime": "2026-05-08T08:00:00.000Z",
       "base": "SOL",
       "swap": false,
       "marginModes": {
@@ -11417,103 +11687,13 @@
         }
       },
       "taker": 0.0003,
-      "optionType": "put",
+      "optionType": "call",
       "margin": false,
       "contract": true,
       "percentage": "__undefined",
       "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-110-P",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-95-P": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "40802189313777017600",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-95-P",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "P",
-          "settlement_price": null,
-          "strike": "95"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-95-P",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 95,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "put",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-95-P",
+      "expiry": 1778227200000,
+      "id": "SOL-20260508-92-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -11604,186 +11784,6 @@
       "active": true,
       "expiry": 1780041600000,
       "id": "SOL-20260529-100-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260424-90-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081295786874462548992768",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260424-90-C",
-        "instrument_type": "option",
-        "is_active": true,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777017600,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "90"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1772179200,
-        "scheduled_deactivation": 1777017540,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260424-90-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 90,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-04-24T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": 1777017600000,
-      "id": "SOL-20260424-90-C",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "SOL/USDC:USDC-260501-140-C": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDC",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "amount_step": "0.1",
-        "base_asset_address": "0x420c9295484d834B03F45E1C9EaC5da8cD8b0710",
-        "base_asset_sub_id": "39614081317261710942549597568",
-        "base_currency": "SOL",
-        "base_fee": "0.5",
-        "erc20_details": null,
-        "fifo_min_allocation": "100",
-        "instrument_name": "SOL-20260501-140-C",
-        "instrument_type": "option",
-        "is_active": false,
-        "maker_fee_rate": "0.0001",
-        "mark_price_fee_rate_cap": "0.125",
-        "maximum_amount": "100000",
-        "minimum_amount": "1",
-        "option_details": {
-          "expiry": 1777622400,
-          "index": "SOL-USD",
-          "option_type": "C",
-          "settlement_price": null,
-          "strike": "140"
-        },
-        "perp_details": null,
-        "pro_rata_amount_step": "10",
-        "pro_rata_fraction": "0.8",
-        "quote_currency": "USDC",
-        "scheduled_activation": 1775808000,
-        "scheduled_deactivation": 9223372036854776000,
-        "taker_fee_rate": "0.0003",
-        "tick_size": "0.1"
-      },
-      "created": "__undefined",
-      "option": true,
-      "future": false,
-      "symbol": "SOL/USDC:USDC-260501-140-C",
-      "settle": "USDC",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.1
-      },
-      "baseId": "SOL",
-      "type": "option",
-      "strike": 140,
-      "settleId": "USDC",
-      "quote": "USDC",
-      "expiryDatetime": "2026-05-01T08:00:00.000Z",
-      "base": "SOL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 100000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0003,
-      "optionType": "call",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": false,
-      "expiry": 1777622400000,
-      "id": "SOL-20260501-140-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },

@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "public",
+          "spot"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "tickers"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.gateio.ws/api/v4/spot/tickers"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "private",
+          "wallet"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "sub_account_transfers"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Content-Type": "application/json",
+          "KEY": "account-TEST_API_KEY",
+          "SIGN": "4cee23258cca3013d60b1c125dc97a446c3347d80256c7dec42da87aa90faeaee6c3fc70d47d9115b5dc543800b4d74e2d3546bee7b842d7c5a7da55306eecbc",
+          "Timestamp": "1700000"
+        },
+        "method": "GET",
+        "url": "https://api.gateio.ws/api/v4/wallet/sub_account_transfers"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "private",
+          "spot"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "batch_orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "KEY": "account-TEST_API_KEY",
+          "SIGN": "c085dc9685f94ac512a5313fee9aa23cc819740869d0bb3bb149ed79ee4075f9553afd411f827b07f0c572d59935191c055172a08833bfb1a910a474a4da52d0",
+          "Timestamp": "1700000"
+        },
+        "method": "POST",
+        "url": "https://api.gateio.ws/api/v4/spot/batch_orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "gate",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

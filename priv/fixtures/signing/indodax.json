@@ -1,0 +1,67 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "api/ticker/{pair}"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://indodax.com/api/ticker/{pair}"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "openOrders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "method=openOrders&timestamp=1700000000&recvWindow=5000&symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Key": "account-TEST_API_KEY",
+          "Sign": "0292f9e0e45987272cf8572edd827e111323caf9fae82065495d16ebc790f43797b517c9e294a5cda57654ae82d239152a0bcf0ef165ac6a6db11fa31b4121bd"
+        },
+        "method": "POST",
+        "url": "https://indodax.com/tapi"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "indodax",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

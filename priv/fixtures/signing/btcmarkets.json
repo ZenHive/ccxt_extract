@@ -1,0 +1,89 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "markets"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.btcmarkets.net/v3/markets"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "accounts/me/trading-fees"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Accept": "application/json",
+          "Accept-Charset": "UTF-8",
+          "BM-AUTH-APIKEY": "account-TEST_API_KEY",
+          "BM-AUTH-SIGNATURE": "fkzM/wnyw6ucaqueb0ehhgqgd6sWOxn5xWdkeUAynLgqYEloE8RGEboqNxcqXhrSAOchaZ6aZ68g3BUFf52NRQ==",
+          "BM-AUTH-TIMESTAMP": "1700000000",
+          "Content-Type": "application/json"
+        },
+        "method": "GET",
+        "url": "https://api.btcmarkets.net/v3/accounts/me/trading-fees"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"amount\":1,\"price\":1,\"side\":\"buy\",\"symbol\":\"BTC/USDT\",\"type\":\"limit\"}",
+        "headers": {
+          "Accept": "application/json",
+          "Accept-Charset": "UTF-8",
+          "BM-AUTH-APIKEY": "account-TEST_API_KEY",
+          "BM-AUTH-SIGNATURE": "gs7dxrY9FMukWuvCTdbWqvz3wqrP5FjesLKx3A3xMKPlR45eQCDG5DIyp2l73DGltrETfmemqa8S/Hxq9KHO8A==",
+          "BM-AUTH-TIMESTAMP": "1700000000",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://api.btcmarkets.net/v3/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "btcmarkets",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

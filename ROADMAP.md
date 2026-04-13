@@ -38,7 +38,7 @@
 ### 📋 Next Up
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 58 | ⬜ | Golden JSON fixtures + regenerate command |
+| Task 58 | 🔄 | Signing fixtures shipped for all 107 exchanges; `regenerate_fixtures` alias + CI parity check still open |
 | Task 60 | ⬜ | Generic JSON-Pointer override contract + SCHEMA.md (narrow precursor shipped with 57d) |
 | Task 57c | ⬜ | Triage contract_test findings (unified_endpoints/has drift) |
 | Task 61a | ⬜ | Provenance tagging (`raw`/`derived`/`override`) — unblocks once Task 60 generic form lands |
@@ -82,7 +82,7 @@ Completed Phase 7 tasks (Tasks 35, 38, 39, 42–47) moved to CHANGELOG.md.
 | Task 57 | ✅ | `mix ccxt_extract.contract_test` skeleton — shipped |
 | Task 57b `[P]` | ✅ | Wire `contract_test` into `mix ccxt_extract.update` — shipped |
 | Task 57d `[P]` | ✅ | Fix `authenticated_sections` derivation (inheritance + else-branch inversion) — Schema 1.7.1 |
-| Task 58 | ⬜ | Golden JSON fixtures + regenerate command [D:3/B:7/U:7 → Eff:2.3] 🎯 |
+| Task 58 | 🔄 | Golden JSON fixtures + regenerate command [D:3/B:7/U:7 → Eff:2.3] 🎯 — signing fixtures for all 107 exchanges shipped via `mix ccxt_extract.signing_fixtures`; remaining: `regenerate_fixtures` alias + CI parity check |
 | Task 59 | ✅ | `CONSUMER_CONTRACT.md` skeleton — shipped |
 | Task 57c | ⬜ | Triage contract_test findings (unified_endpoints/has drift) [D:5/B:7/U:7 → Eff:1.4] 📋 |
 

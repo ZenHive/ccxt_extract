@@ -1,0 +1,83 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "public/symbol"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "GET",
+        "url": "https://api.hitbtc.com/api/3/public/symbol"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "spot/balance"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Authorization": "HS256 YWNjb3VudC1URVNUX0FQSV9LRVk6OWRjYTZmYzg5ZTMxODQ5OTMwNTk5Mjk4Y2FiMGY4YjVhYjMzNTIwOTA0Y2IzZTQ0NDQxYTg3Nzc1ZGE4YjBjYjoxNzAwMDAwMDAw",
+          "Content-Type": "application/json"
+        },
+        "method": "GET",
+        "url": "https://api.hitbtc.com/api/3/spot/balance"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "spot/order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Authorization": "HS256 YWNjb3VudC1URVNUX0FQSV9LRVk6NzYyYWNjM2M4MGI1ZThiOWQwMDU2ZTAxMmE0ZWNkYTVmYzUyZjM3MTQ1ODNkYWM3ZGE5ZmRmYjZmNmYxODJkOToxNzAwMDAwMDAw",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://api.hitbtc.com/api/3/spot/order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "hitbtc",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

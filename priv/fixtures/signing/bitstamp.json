@@ -1,0 +1,70 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "ticker/"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://www.bitstamp.net/api/v2/ticker/"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "open_order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-Auth": "BITSTAMP account-TEST_API_KEY",
+          "X-Auth-Nonce": "00000000-0000-0000-0000-000000000000",
+          "X-Auth-Signature": "5dc0c9f50dd814cf1bc730fd01b95b31bf1936f2d45571f0c2a198d465fc5952",
+          "X-Auth-Timestamp": "1700000000000",
+          "X-Auth-Version": "v2"
+        },
+        "method": "POST",
+        "url": "https://www.bitstamp.net/api/v2/open_order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bitstamp",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

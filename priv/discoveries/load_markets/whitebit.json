@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "extracted_at": "2026-04-13T06:22:52.990905Z",
   "id": "whitebit",
-  "market_count": 1060,
+  "market_count": 1058,
   "markets": {
     "AXL/USDT": {
       "spot": true,
@@ -22216,11 +22216,11 @@
         "feePrec": "6",
         "isCollateral": true,
         "makerFee": "0.01",
-        "maxTotal": "100000000000",
+        "maxTotal": "10000000000",
         "minAmount": "1",
         "minTotal": "5",
         "money": "USDT",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "HYPER_PERP",
         "stock": "HYPER",
         "stockPrec": "0",
@@ -22235,7 +22235,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "HYPER",
       "type": "swap",
@@ -22255,7 +22255,7 @@
           "min": 1
         },
         "cost": {
-          "max": 100000000000,
+          "max": 10000000000,
           "min": 5
         },
         "leverage": {
@@ -27166,11 +27166,11 @@
         "feePrec": "6",
         "isCollateral": true,
         "makerFee": "0.01",
-        "maxTotal": "1000000000",
+        "maxTotal": "100000000",
         "minAmount": "1000",
         "minTotal": "5",
         "money": "USDT",
-        "moneyPrec": "6",
+        "moneyPrec": "7",
         "name": "MEW_PERP",
         "stock": "MEW",
         "stockPrec": "0",
@@ -27185,7 +27185,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 1.0e-6
+        "price": 1.0e-7
       },
       "baseId": "MEW",
       "type": "swap",
@@ -27205,7 +27205,7 @@
           "min": 1000
         },
         "cost": {
-          "max": 1000000000,
+          "max": 100000000,
           "min": 5
         },
         "leverage": {
@@ -31350,81 +31350,6 @@
       "active": true,
       "expiry": "__undefined",
       "id": "SUN_USDC",
-      "lowercaseId": "__undefined",
-      "subType": "__undefined"
-    },
-    "UTK/USDT": {
-      "spot": true,
-      "contractSize": "__undefined",
-      "linear": "__undefined",
-      "quoteId": "USDT",
-      "tierBased": false,
-      "index": "__undefined",
-      "maker": 0.001,
-      "inverse": "__undefined",
-      "info": {
-        "feePrec": "6",
-        "isCollateral": false,
-        "makerFee": "0.1",
-        "maxTotal": "100000000",
-        "minAmount": "100",
-        "minTotal": "1",
-        "money": "USDT",
-        "moneyPrec": "5",
-        "name": "UTK_USDT",
-        "stock": "UTK",
-        "stockPrec": "2",
-        "takerFee": "0.1",
-        "tradesEnabled": true,
-        "type": "spot"
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "UTK/USDT",
-      "settle": "__undefined",
-      "precision": {
-        "amount": 0.01,
-        "price": 1.0e-5
-      },
-      "baseId": "UTK",
-      "type": "spot",
-      "strike": "__undefined",
-      "settleId": "__undefined",
-      "quote": "USDT",
-      "expiryDatetime": "__undefined",
-      "base": "UTK",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": "__undefined",
-          "min": 100
-        },
-        "cost": {
-          "max": 100000000,
-          "min": 1
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.001,
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": false,
-      "percentage": true,
-      "active": true,
-      "expiry": "__undefined",
-      "id": "UTK_USDT",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
@@ -37128,81 +37053,6 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
-    "PUFFER/USDT:USDT": {
-      "spot": false,
-      "contractSize": 10,
-      "linear": true,
-      "quoteId": "USDT",
-      "tierBased": false,
-      "index": "__undefined",
-      "maker": 0.0001,
-      "inverse": false,
-      "info": {
-        "feePrec": "6",
-        "isCollateral": true,
-        "makerFee": "0.01",
-        "maxTotal": "100000000000",
-        "minAmount": "10",
-        "minTotal": "5",
-        "money": "USDT",
-        "moneyPrec": "5",
-        "name": "PUFFER_PERP",
-        "stock": "PUFFER",
-        "stockPrec": "-1",
-        "takerFee": "0.055",
-        "tradesEnabled": true,
-        "type": "futures"
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "PUFFER/USDT:USDT",
-      "settle": "USDT",
-      "precision": {
-        "amount": 10,
-        "price": 1.0e-5
-      },
-      "baseId": "PUFFER",
-      "type": "swap",
-      "strike": "__undefined",
-      "settleId": "USDT",
-      "quote": "USDT",
-      "expiryDatetime": "__undefined",
-      "base": "PUFFER",
-      "swap": true,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": "__undefined",
-          "min": 10
-        },
-        "cost": {
-          "max": 100000000000,
-          "min": 5
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 5.5e-4,
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": true,
-      "percentage": true,
-      "active": true,
-      "expiry": "__undefined",
-      "id": "PUFFER_PERP",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
     "IOTX/USDC": {
       "spot": true,
       "contractSize": "__undefined",
@@ -40066,11 +39916,11 @@
         "feePrec": "6",
         "isCollateral": true,
         "makerFee": "0.01",
-        "maxTotal": "100000000000",
+        "maxTotal": "10000000000",
         "minAmount": "1",
         "minTotal": "5",
         "money": "USDT",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "PARTI_PERP",
         "stock": "PARTI",
         "stockPrec": "0",
@@ -40085,7 +39935,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "PARTI",
       "type": "swap",
@@ -40105,7 +39955,7 @@
           "min": 1
         },
         "cost": {
-          "max": 100000000000,
+          "max": 10000000000,
           "min": 5
         },
         "leverage": {
@@ -43966,11 +43816,11 @@
         "feePrec": "6",
         "isCollateral": true,
         "makerFee": "0.01",
-        "maxTotal": "1000000000",
+        "maxTotal": "100000000",
         "minAmount": "100",
         "minTotal": "5",
         "money": "USDT",
-        "moneyPrec": "6",
+        "moneyPrec": "7",
         "name": "DEGEN_PERP",
         "stock": "DEGEN",
         "stockPrec": "0",
@@ -43985,7 +43835,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 1.0e-6
+        "price": 1.0e-7
       },
       "baseId": "DEGEN",
       "type": "swap",
@@ -44005,7 +43855,7 @@
           "min": 100
         },
         "cost": {
-          "max": 1000000000,
+          "max": 100000000,
           "min": 5
         },
         "leverage": {

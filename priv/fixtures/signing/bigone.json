@@ -1,0 +1,84 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "asset_pairs/{asset_pair_name}/ticker"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": {
+          "User-Agent": "ccxt/bigone-v3"
+        },
+        "method": "GET",
+        "url": "https://big.one/api/v3/asset_pairs/{asset_pair_name}/ticker"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "accounts"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiT3BlbkFQSVYyIiwic3ViIjoiYWNjb3VudC1URVNUX0FQSV9LRVkiLCJub25jZSI6IjE3MDAwMDAwMDAifQ.iMOMd7qwBS2OO8z74uLwS5uAfjP8ksUUbExLncmq_4A",
+          "User-Agent": "ccxt/bigone-v3"
+        },
+        "method": "GET",
+        "url": "https://big.one/api/v3/viewer/accounts"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiT3BlbkFQSVYyIiwic3ViIjoiYWNjb3VudC1URVNUX0FQSV9LRVkiLCJub25jZSI6IjE3MDAwMDAwMDAifQ.iMOMd7qwBS2OO8z74uLwS5uAfjP8ksUUbExLncmq_4A",
+          "Content-Type": "application/json",
+          "User-Agent": "ccxt/bigone-v3"
+        },
+        "method": "POST",
+        "url": "https://big.one/api/v3/viewer/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bigone",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

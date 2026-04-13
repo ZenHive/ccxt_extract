@@ -1,0 +1,90 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "instrument"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": {
+          "Content-Type": "application/json",
+          "api-expires": "1700000005",
+          "api-key": "account-TEST_API_KEY",
+          "api-signature": "356e9e4ef3cfa805617bd3e383eb225039270c9e4ead2074c8d240720c3d2eb3"
+        },
+        "method": "GET",
+        "url": "https://www.bitmex.com/api/v1/instrument"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "user/getWalletTransferAccounts"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Content-Type": "application/json",
+          "api-expires": "1700000005",
+          "api-key": "account-TEST_API_KEY",
+          "api-signature": "131b6edaa250ec2aaaf341b30fba9031cae5149b0dfde779c021f55b6dece0e6"
+        },
+        "method": "GET",
+        "url": "https://www.bitmex.com/api/v1/user/getWalletTransferAccounts"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "api-expires": "1700000005",
+          "api-key": "account-TEST_API_KEY",
+          "api-signature": "c3312159e89ecc8496c7d3566bfb97344d0ef275d770038b06fd21f7c0fcddff"
+        },
+        "method": "POST",
+        "url": "https://www.bitmex.com/api/v1/order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bitmex",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

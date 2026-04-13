@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "extracted_at": "2026-04-13T06:22:52.990905Z",
   "id": "zonda",
   "market_count": 176,
   "markets": {
@@ -13,27 +13,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.023",
-        "lowestAsk": "0.0303",
+        "highestBid": "0.0206",
+        "lowestAsk": "0.0273",
         "market": {
           "amountPrecision": "8",
           "code": "GRT-USDC",
           "first": {
             "currency": "GRT",
-            "minOffer": "18",
+            "minOffer": "19",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.0231",
-        "rate": "0.0232",
-        "time": "1775603165834"
+        "previousRate": "0.0204",
+        "rate": "0.0205",
+        "time": "1776056600376"
       },
       "created": "__undefined",
       "option": false,
@@ -59,7 +59,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 18
+          "min": 19
         },
         "cost": {
           "max": "__undefined",
@@ -95,27 +95,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.08",
-        "lowestAsk": "0.092",
+        "highestBid": "0.0762",
+        "lowestAsk": "0.0956",
         "market": {
           "amountPrecision": "8",
           "code": "POL-USDC",
           "first": {
             "currency": "POL",
-            "minOffer": "5.2",
+            "minOffer": "4.7",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.0959",
-        "rate": "0.08",
-        "time": "1775605579382"
+        "previousRate": "0.0838",
+        "rate": "0.0837",
+        "time": "1776056467363"
       },
       "created": "__undefined",
       "option": false,
@@ -141,7 +141,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 5.2
+          "min": 4.7
         },
         "cost": {
           "max": "__undefined",
@@ -177,27 +177,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.1602",
-        "lowestAsk": "0.2095",
+        "highestBid": "0.1601",
+        "lowestAsk": "0.1789",
         "market": {
           "amountPrecision": "8",
           "code": "XLM-USDC",
           "first": {
             "currency": "XLM",
-            "minOffer": "2.6",
+            "minOffer": "2.2",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.1653",
-        "rate": "0.1602",
-        "time": "1775605743043"
+        "previousRate": "0.16",
+        "rate": "0.1788",
+        "time": "1776031265670"
       },
       "created": "__undefined",
       "option": false,
@@ -223,7 +223,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 2.6
+          "min": 2.2
         },
         "cost": {
           "max": "__undefined",
@@ -259,27 +259,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0000042",
-        "lowestAsk": "0.00000549",
+        "highestBid": "0.0000043",
+        "lowestAsk": "0.00000516",
         "market": {
           "amountPrecision": "8",
           "code": "TRX-BTC",
           "first": {
             "currency": "TRX",
-            "minOffer": "0.35",
+            "minOffer": "0.4",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.00000430",
-        "rate": "0.00000425",
-        "time": "1775604782798"
+        "previousRate": "0.00000426",
+        "rate": "0.00000521",
+        "time": "1776059389889"
       },
       "created": "__undefined",
       "option": false,
@@ -305,7 +305,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.35
+          "min": 0.4
         },
         "cost": {
           "max": "__undefined",
@@ -341,27 +341,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "51.25",
-        "lowestAsk": "57.98",
+        "highestBid": "58.01",
+        "lowestAsk": "62.95",
         "market": {
           "amountPrecision": "8",
           "code": "LTC-USDC",
           "first": {
             "currency": "LTC",
-            "minOffer": "0.0072",
+            "minOffer": "0.0062",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "2",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "51.01",
-        "rate": "57.98",
-        "time": "1775603803852"
+        "previousRate": "58.01",
+        "rate": "62.95",
+        "time": "1776057041706"
       },
       "created": "__undefined",
       "option": false,
@@ -387,7 +387,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0072
+          "min": 0.0062
         },
         "cost": {
           "max": "__undefined",
@@ -424,26 +424,26 @@
       "inverse": "__undefined",
       "info": {
         "highestBid": "0.117",
-        "lowestAsk": "0.1497",
+        "lowestAsk": "0.1496",
         "market": {
           "amountPrecision": "8",
           "code": "KNC-USDC",
           "first": {
             "currency": "KNC",
-            "minOffer": "3.9",
+            "minOffer": "3.7",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
         "previousRate": "0.1588",
         "rate": "0.1070",
-        "time": "1775605750939"
+        "time": "1776061332671"
       },
       "created": "__undefined",
       "option": false,
@@ -469,7 +469,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 3.9
+          "min": 3.7
         },
         "cost": {
           "max": "__undefined",
@@ -505,14 +505,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00000271",
-        "lowestAsk": "0.00000329",
+        "highestBid": "0.0000023",
+        "lowestAsk": "0.00000295",
         "market": {
           "amountPrecision": "8",
           "code": "PEPE-EUR",
           "first": {
             "currency": "PEPE",
-            "minOffer": "1620000",
+            "minOffer": "1800000",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -523,9 +523,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.00000276",
-        "rate": "0.00000275",
-        "time": "1775605745753"
+        "previousRate": "0.00000256",
+        "rate": "0.0000024",
+        "time": "1776061326582"
       },
       "created": "__undefined",
       "option": false,
@@ -551,7 +551,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1620000
+          "min": 1800000
         },
         "cost": {
           "max": "__undefined",
@@ -587,27 +587,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.000024",
-        "lowestAsk": "0.0000319",
+        "highestBid": "0.0000244",
+        "lowestAsk": "0.000028",
         "market": {
           "amountPrecision": "8",
           "code": "ATOM-BTC",
           "first": {
             "currency": "ATOM",
-            "minOffer": "0.08",
+            "minOffer": "0.085",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "7",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.0000329",
-        "rate": "0.0000239",
-        "time": "1775605833690"
+        "previousRate": "0.0000288",
+        "rate": "0.0000245",
+        "time": "1776061302774"
       },
       "created": "__undefined",
       "option": false,
@@ -633,7 +633,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.08
+          "min": 0.085
         },
         "cost": {
           "max": "__undefined",
@@ -669,14 +669,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "3.87",
-        "lowestAsk": "3.88",
+        "highestBid": "3.77",
+        "lowestAsk": "4.57",
         "market": {
           "amountPrecision": "8",
           "code": "AXS-PLN",
           "first": {
             "currency": "AXS",
-            "minOffer": "1.08",
+            "minOffer": "0.9",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -687,9 +687,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "3.88",
-        "rate": "3.87",
-        "time": "1775586845996"
+        "previousRate": "3.75",
+        "rate": "4.58",
+        "time": "1776061336181"
       },
       "created": "__undefined",
       "option": false,
@@ -715,7 +715,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.08
+          "min": 0.9
         },
         "cost": {
           "max": "__undefined",
@@ -751,27 +751,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00681",
-        "lowestAsk": "0.00732",
+        "highestBid": "0.00491",
+        "lowestAsk": "0.00525",
         "market": {
           "amountPrecision": "8",
           "code": "ZND-USDC",
           "first": {
             "currency": "ZND",
-            "minOffer": "62",
+            "minOffer": "79",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "5",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.00672",
-        "rate": "0.007",
-        "time": "1775605217000"
+        "previousRate": "0.0049",
+        "rate": "0.00491",
+        "time": "1776059567569"
       },
       "created": "__undefined",
       "option": false,
@@ -797,7 +797,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 62
+          "min": 79
         },
         "cost": {
           "max": "__undefined",
@@ -833,14 +833,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "15.1",
-        "lowestAsk": "15.11",
+        "highestBid": "14.1",
+        "lowestAsk": "14.19",
         "market": {
           "amountPrecision": "8",
           "code": "KSM-PLN",
           "first": {
             "currency": "KSM",
-            "minOffer": "0.297",
+            "minOffer": "0.315",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -851,9 +851,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "15",
-        "rate": "15.1",
-        "time": "1775597754907"
+        "previousRate": "14.11",
+        "rate": "14.1",
+        "time": "1776055610526"
       },
       "created": "__undefined",
       "option": false,
@@ -879,7 +879,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.297
+          "min": 0.315
         },
         "cost": {
           "max": "__undefined",
@@ -915,27 +915,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.044",
-        "lowestAsk": "0.0598",
+        "highestBid": "0.039",
+        "lowestAsk": "0.0415",
         "market": {
           "amountPrecision": "8",
           "code": "OMG-USDC",
           "first": {
             "currency": "OMG",
-            "minOffer": "11",
+            "minOffer": "9.4",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.033",
-        "rate": "0.0401",
-        "time": "1775599579172"
+        "previousRate": "0.0363",
+        "rate": "0.0415",
+        "time": "1776058283836"
       },
       "created": "__undefined",
       "option": false,
@@ -961,7 +961,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 11
+          "min": 9.4
         },
         "cost": {
           "max": "__undefined",
@@ -997,27 +997,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.2363",
-        "lowestAsk": "0.2688",
+        "highestBid": "0.2439",
+        "lowestAsk": "0.2559",
         "market": {
           "amountPrecision": "6",
           "code": "ADA-USDC",
           "first": {
             "currency": "ADA",
-            "minOffer": "1.8",
+            "minOffer": "1.6",
             "scale": "6"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.235",
-        "rate": "0.2352",
-        "time": "1775605834214"
+        "previousRate": "0.2450",
+        "rate": "0.2528",
+        "time": "1776056143871"
       },
       "created": "__undefined",
       "option": false,
@@ -1043,7 +1043,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.8
+          "min": 1.6
         },
         "cost": {
           "max": "__undefined",
@@ -1079,27 +1079,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.001441",
-        "lowestAsk": "0.0018",
+        "highestBid": "0.00129",
+        "lowestAsk": "0.00175",
         "market": {
           "amountPrecision": "8",
           "code": "GNY-USDC",
           "first": {
             "currency": "GNY",
-            "minOffer": "270",
+            "minOffer": "300",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "6",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.001909",
-        "rate": "0.00159",
-        "time": "1775603368203"
+        "previousRate": "0.001293",
+        "rate": "0.00129",
+        "time": "1776002785746"
       },
       "created": "__undefined",
       "option": false,
@@ -1125,7 +1125,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 270
+          "min": 300
         },
         "cost": {
           "max": "__undefined",
@@ -1161,14 +1161,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "230.03",
-        "lowestAsk": "274.93",
+        "highestBid": "240.0",
+        "lowestAsk": "329.85",
         "market": {
           "amountPrecision": "8",
           "code": "ZEC-EUR",
           "first": {
             "currency": "ZEC",
-            "minOffer": "0.0207",
+            "minOffer": "0.0189",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -1179,9 +1179,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "252",
-        "rate": "210.0",
-        "time": "1775605780875"
+        "previousRate": "270",
+        "rate": "230.01",
+        "time": "1776034161317"
       },
       "created": "__undefined",
       "option": false,
@@ -1207,7 +1207,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0207
+          "min": 0.0189
         },
         "cost": {
           "max": "__undefined",
@@ -1243,14 +1243,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.07192",
-        "lowestAsk": "0.08673",
+        "highestBid": "0.061",
+        "lowestAsk": "0.075",
         "market": {
           "amountPrecision": "8",
           "code": "DOGE-EUR",
           "first": {
             "currency": "DOGE",
-            "minOffer": "55.8",
+            "minOffer": "84.6",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -1261,9 +1261,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.07966",
-        "rate": "0.08000",
-        "time": "1775605829078"
+        "previousRate": "0.07694",
+        "rate": "0.053",
+        "time": "1776032461778"
       },
       "created": "__undefined",
       "option": false,
@@ -1289,7 +1289,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 55.8
+          "min": 84.6
         },
         "cost": {
           "max": "__undefined",
@@ -1325,27 +1325,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.001172",
-        "lowestAsk": "0.00144",
+        "highestBid": "0.001401",
+        "lowestAsk": "0.001909",
         "market": {
           "amountPrecision": "8",
           "code": "PAY-USDC",
           "first": {
             "currency": "PAY",
-            "minOffer": "360",
+            "minOffer": "280",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "6",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.00117",
-        "rate": "0.001171",
-        "time": "1775596178043"
+        "previousRate": "0.001698",
+        "rate": "0.001403",
+        "time": "1776032254136"
       },
       "created": "__undefined",
       "option": false,
@@ -1371,7 +1371,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 360
+          "min": 280
         },
         "cost": {
           "max": "__undefined",
@@ -1407,14 +1407,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.26",
-        "lowestAsk": "0.291",
+        "highestBid": "0.252",
+        "lowestAsk": "0.267",
         "market": {
           "amountPrecision": "8",
           "code": "MANA-PLN",
           "first": {
             "currency": "MANA",
-            "minOffer": "16.2",
+            "minOffer": "17.1",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -1425,9 +1425,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.277",
-        "rate": "0.278",
-        "time": "1775605675860"
+        "previousRate": "0.25",
+        "rate": "0.252",
+        "time": "1776045126439"
       },
       "created": "__undefined",
       "option": false,
@@ -1453,7 +1453,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 16.2
+          "min": 17.1
         },
         "cost": {
           "max": "__undefined",
@@ -1489,27 +1489,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0526",
-        "lowestAsk": "0.0706",
+        "highestBid": "0.0481",
+        "lowestAsk": "0.067",
         "market": {
           "amountPrecision": "6",
           "code": "LUNA2-USDC",
           "first": {
             "currency": "LUNA2",
-            "minOffer": "7.9",
+            "minOffer": "7.4",
             "scale": "6"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.0640",
-        "rate": "0.0526",
-        "time": "1775593880612"
+        "previousRate": "0.0526",
+        "rate": "0.0525",
+        "time": "1776033553285"
       },
       "created": "__undefined",
       "option": false,
@@ -1535,7 +1535,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 7.9
+          "min": 7.4
         },
         "cost": {
           "max": "__undefined",
@@ -1571,27 +1571,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.253",
-        "lowestAsk": "0.309",
+        "highestBid": "0.202",
+        "lowestAsk": "0.25",
         "market": {
           "amountPrecision": "8",
           "code": "ETHW-USDC",
           "first": {
             "currency": "ETHW",
-            "minOffer": "1.7",
+            "minOffer": "2",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.253",
-        "rate": "0.254",
-        "time": "1775604874818"
+        "previousRate": "0.21",
+        "rate": "0.20",
+        "time": "1776021322379"
       },
       "created": "__undefined",
       "option": false,
@@ -1617,7 +1617,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.7
+          "min": 2
         },
         "cost": {
           "max": "__undefined",
@@ -1653,14 +1653,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.403",
-        "lowestAsk": "0.449",
+        "highestBid": "0.363",
+        "lowestAsk": "0.45",
         "market": {
           "amountPrecision": "8",
           "code": "KNC-PLN",
           "first": {
             "currency": "KNC",
-            "minOffer": "10.8",
+            "minOffer": "11.7",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -1671,9 +1671,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.43",
-        "rate": "0.403",
-        "time": "1775605651122"
+        "previousRate": "0.37",
+        "rate": "0.363",
+        "time": "1776061066758"
       },
       "created": "__undefined",
       "option": false,
@@ -1699,7 +1699,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 10.8
+          "min": 11.7
         },
         "cost": {
           "max": "__undefined",
@@ -1735,27 +1735,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "31.25",
-        "lowestAsk": "35",
+        "highestBid": "39.02",
+        "lowestAsk": "41.99",
         "market": {
           "amountPrecision": "8",
           "code": "DASH-USDC",
           "first": {
             "currency": "DASH",
-            "minOffer": "0.014",
+            "minOffer": "0.01",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "2",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "30.50",
-        "rate": "31.25",
-        "time": "1775605751662"
+        "previousRate": "39.01",
+        "rate": "39.02",
+        "time": "1776056431749"
       },
       "created": "__undefined",
       "option": false,
@@ -1781,7 +1781,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.014
+          "min": 0.01
         },
         "cost": {
           "max": "__undefined",
@@ -1817,27 +1817,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.09104",
-        "lowestAsk": "0.09999",
+        "highestBid": "0.085",
+        "lowestAsk": "0.09979",
         "market": {
           "amountPrecision": "8",
           "code": "BAT-USDC",
           "first": {
             "currency": "BAT",
-            "minOffer": "4.6",
+            "minOffer": "4",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "5",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.09997",
-        "rate": "0.09104",
-        "time": "1775604139842"
+        "previousRate": "0.09741",
+        "rate": "0.09745",
+        "time": "1776037128268"
       },
       "created": "__undefined",
       "option": false,
@@ -1863,7 +1863,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 4.6
+          "min": 4
         },
         "cost": {
           "max": "__undefined",
@@ -1899,14 +1899,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.75",
-        "lowestAsk": "1.99",
+        "highestBid": "2.31",
+        "lowestAsk": "3.2",
         "market": {
           "amountPrecision": "8",
           "code": "JUV-PLN",
           "first": {
             "currency": "JUV",
-            "minOffer": "2.52",
+            "minOffer": "1.35",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -1917,9 +1917,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1.79",
-        "rate": "1.75",
-        "time": "1775604993090"
+        "previousRate": "3.15",
+        "rate": "3.2",
+        "time": "1776061202272"
       },
       "created": "__undefined",
       "option": false,
@@ -1945,7 +1945,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 2.52
+          "min": 1.35
         },
         "cost": {
           "max": "__undefined",
@@ -1982,13 +1982,13 @@
       "inverse": "__undefined",
       "info": {
         "highestBid": "7.08",
-        "lowestAsk": "8.19",
+        "lowestAsk": "7.79",
         "market": {
           "amountPrecision": "8",
           "code": "AVAX-EUR",
           "first": {
             "currency": "AVAX",
-            "minOffer": "0.594",
+            "minOffer": "0.576",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -1999,9 +1999,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "7.53",
-        "rate": "7.52",
-        "time": "1775605825316"
+        "previousRate": "7.75",
+        "rate": "7.8",
+        "time": "1776061325627"
       },
       "created": "__undefined",
       "option": false,
@@ -2027,7 +2027,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.594
+          "min": 0.576
         },
         "cost": {
           "max": "__undefined",
@@ -2063,14 +2063,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "52.0",
-        "lowestAsk": "59.2",
+        "highestBid": "58.07",
+        "lowestAsk": "61.80",
         "market": {
           "amountPrecision": "8",
           "code": "COMP-PLN",
           "first": {
             "currency": "COMP",
-            "minOffer": "0.0837",
+            "minOffer": "0.0774",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -2081,9 +2081,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "49.5",
-        "rate": "53.2",
-        "time": "1775605549855"
+        "previousRate": "61.45",
+        "rate": "58.06",
+        "time": "1776060814397"
       },
       "created": "__undefined",
       "option": false,
@@ -2109,7 +2109,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0837
+          "min": 0.0774
         },
         "cost": {
           "max": "__undefined",
@@ -2145,14 +2145,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.03713",
-        "lowestAsk": "0.03728",
+        "highestBid": "0.05073",
+        "lowestAsk": "0.05393",
         "market": {
           "amountPrecision": "8",
           "code": "TMPL-EUR",
           "first": {
             "currency": "TMPL",
-            "minOffer": "108",
+            "minOffer": "88.2",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -2163,9 +2163,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.03622",
-        "rate": "0.03665",
-        "time": "1775605749264"
+        "previousRate": "0.05073",
+        "rate": "0.05393",
+        "time": "1776061323146"
       },
       "created": "__undefined",
       "option": false,
@@ -2191,7 +2191,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 108
+          "min": 88.2
         },
         "cost": {
           "max": "__undefined",
@@ -2227,8 +2227,8 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0928",
-        "lowestAsk": "0.10",
+        "highestBid": "0.089",
+        "lowestAsk": "0.0944",
         "market": {
           "amountPrecision": "8",
           "code": "DOGE-USDC",
@@ -2245,9 +2245,9 @@
             "scale": "6"
           }
         },
-        "previousRate": "0.10",
-        "rate": "0.0999",
-        "time": "1775605825857"
+        "previousRate": "0.0895",
+        "rate": "0.0900",
+        "time": "1776060836729"
       },
       "created": "__undefined",
       "option": false,
@@ -2309,8 +2309,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "69450.11",
-        "lowestAsk": "75998.96",
+        "highestBid": "76345.17",
+        "lowestAsk": "76346",
         "market": {
           "amountPrecision": "8",
           "code": "BTC-USD",
@@ -2327,9 +2327,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "75772.99",
-        "rate": "75998.97",
-        "time": "1775605833835"
+        "previousRate": "76346",
+        "rate": "76345.17",
+        "time": "1776027671017"
       },
       "created": "__undefined",
       "option": false,
@@ -2391,14 +2391,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "102.11",
-        "lowestAsk": "142",
+        "highestBid": "121.0",
+        "lowestAsk": "129.99",
         "market": {
           "amountPrecision": "8",
           "code": "DASH-PLN",
           "first": {
             "currency": "DASH",
-            "minOffer": "0.0441",
+            "minOffer": "0.036",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -2409,9 +2409,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "142",
-        "rate": "101.01",
-        "time": "1775605828055"
+        "previousRate": "127.44",
+        "rate": "121.98",
+        "time": "1776061249429"
       },
       "created": "__undefined",
       "option": false,
@@ -2437,7 +2437,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0441
+          "min": 0.036
         },
         "cost": {
           "max": "__undefined",
@@ -2473,14 +2473,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "3.754",
-        "lowestAsk": "4.295",
+        "highestBid": "4.011",
+        "lowestAsk": "4.699",
         "market": {
           "amountPrecision": "8",
           "code": "NEAR-PLN",
           "first": {
             "currency": "NEAR",
-            "minOffer": "0.99",
+            "minOffer": "1.08",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -2491,9 +2491,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "3.753",
-        "rate": "4.295",
-        "time": "1775605525652"
+        "previousRate": "4.49",
+        "rate": "4.011",
+        "time": "1776060796637"
       },
       "created": "__undefined",
       "option": false,
@@ -2519,7 +2519,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.99
+          "min": 1.08
         },
         "cost": {
           "max": "__undefined",
@@ -2555,8 +2555,8 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.335",
-        "lowestAsk": "0.409",
+        "highestBid": "0.341",
+        "lowestAsk": "0.35",
         "market": {
           "amountPrecision": "6",
           "code": "XTZ-USDC",
@@ -2573,9 +2573,9 @@
             "scale": "6"
           }
         },
-        "previousRate": "0.400",
-        "rate": "0.35",
-        "time": "1775605831982"
+        "previousRate": "0.350",
+        "rate": "0.341",
+        "time": "1776018730034"
       },
       "created": "__undefined",
       "option": false,
@@ -2637,27 +2637,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00078006",
-        "lowestAsk": "0.00086997",
+        "highestBid": "0.00079011",
+        "lowestAsk": "0.00091",
         "market": {
           "amountPrecision": "8",
           "code": "LTC-BTC",
           "first": {
             "currency": "LTC",
-            "minOffer": "0.0025",
+            "minOffer": "0.0023",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.00082997",
-        "rate": "0.00083",
-        "time": "1775605831343"
+        "previousRate": "0.00079",
+        "rate": "0.0009349",
+        "time": "1776057020513"
       },
       "created": "__undefined",
       "option": false,
@@ -2683,7 +2683,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0025
+          "min": 0.0023
         },
         "cost": {
           "max": "__undefined",
@@ -2719,14 +2719,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.44",
-        "lowestAsk": "0.45",
+        "highestBid": "0.36",
+        "lowestAsk": "0.41",
         "market": {
           "amountPrecision": "8",
           "code": "GLM-PLN",
           "first": {
             "currency": "GLM",
-            "minOffer": "9.9",
+            "minOffer": "11.7",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -2737,9 +2737,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.46",
-        "rate": "0.45",
-        "time": "1775588458290"
+        "previousRate": "0.37",
+        "rate": "0.36",
+        "time": "1776033201467"
       },
       "created": "__undefined",
       "option": false,
@@ -2765,7 +2765,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 9.9
+          "min": 11.7
         },
         "cost": {
           "max": "__undefined",
@@ -2801,14 +2801,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "85.1",
-        "lowestAsk": "99.0",
+        "highestBid": "92.23",
+        "lowestAsk": "100.99",
         "market": {
           "amountPrecision": "8",
           "code": "SOL-USD",
           "first": {
             "currency": "SOL",
-            "minOffer": "0.0522",
+            "minOffer": "0.0432",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -2819,9 +2819,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "85.01",
-        "rate": "85.1",
-        "time": "1775584184460"
+        "previousRate": "103.95",
+        "rate": "104.00",
+        "time": "1776049991639"
       },
       "created": "__undefined",
       "option": false,
@@ -2847,7 +2847,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0522
+          "min": 0.0432
         },
         "cost": {
           "max": "__undefined",
@@ -2883,27 +2883,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0925",
-        "lowestAsk": "0.1123",
+        "highestBid": "0.1001",
+        "lowestAsk": "0.118",
         "market": {
           "amountPrecision": "8",
           "code": "ARB-USDC",
           "first": {
             "currency": "ARB",
-            "minOffer": "4.5",
+            "minOffer": "3.3",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.0973",
-        "rate": "0.0924",
-        "time": "1775605832154"
+        "previousRate": "0.1124",
+        "rate": "0.119",
+        "time": "1776057816459"
       },
       "created": "__undefined",
       "option": false,
@@ -2929,7 +2929,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 4.5
+          "min": 3.3
         },
         "cost": {
           "max": "__undefined",
@@ -2966,26 +2966,26 @@
       "inverse": "__undefined",
       "info": {
         "highestBid": "1.699",
-        "lowestAsk": "1.988",
+        "lowestAsk": "2.1",
         "market": {
           "amountPrecision": "6",
           "code": "ATOM-USDC",
           "first": {
             "currency": "ATOM",
-            "minOffer": "0.25",
+            "minOffer": "0.24",
             "scale": "6"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "1.699",
-        "rate": "1.701",
-        "time": "1775605827863"
+        "previousRate": "1.999",
+        "rate": "1.654",
+        "time": "1776061332667"
       },
       "created": "__undefined",
       "option": false,
@@ -3011,7 +3011,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.25
+          "min": 0.24
         },
         "cost": {
           "max": "__undefined",
@@ -3047,14 +3047,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.707",
-        "lowestAsk": "0.809",
+        "highestBid": "0.66",
+        "lowestAsk": "0.693",
         "market": {
           "amountPrecision": "8",
           "code": "FET-PLN",
           "first": {
             "currency": "FET",
-            "minOffer": "6.39",
+            "minOffer": "6.84",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -3065,9 +3065,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.681",
-        "rate": "0.7",
-        "time": "1775605534712"
+        "previousRate": "0.645",
+        "rate": "0.65",
+        "time": "1776060799233"
       },
       "created": "__undefined",
       "option": false,
@@ -3093,7 +3093,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 6.39
+          "min": 6.84
         },
         "cost": {
           "max": "__undefined",
@@ -3129,27 +3129,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.172",
-        "lowestAsk": "1.443",
+        "highestBid": "1.21",
+        "lowestAsk": "1.367",
         "market": {
           "amountPrecision": "8",
           "code": "DOT-USDC",
           "first": {
             "currency": "DOT",
-            "minOffer": "0.38",
+            "minOffer": "0.32",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "1.108",
-        "rate": "1.106",
-        "time": "1775605833497"
+        "previousRate": "1.369",
+        "rate": "1.21",
+        "time": "1776061238289"
       },
       "created": "__undefined",
       "option": false,
@@ -3175,7 +3175,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.38
+          "min": 0.32
         },
         "cost": {
           "max": "__undefined",
@@ -3211,14 +3211,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "68.14",
-        "lowestAsk": "77.77",
+        "highestBid": "68.6",
+        "lowestAsk": "68.67",
         "market": {
           "amountPrecision": "8",
           "code": "SOL-EUR",
           "first": {
             "currency": "SOL",
-            "minOffer": "0.0594",
+            "minOffer": "0.0648",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -3229,9 +3229,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "75.00",
-        "rate": "70.69",
-        "time": "1775605833666"
+        "previousRate": "69.88",
+        "rate": "68.67",
+        "time": "1776033530311"
       },
       "created": "__undefined",
       "option": false,
@@ -3257,7 +3257,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0594
+          "min": 0.0648
         },
         "cost": {
           "max": "__undefined",
@@ -3293,27 +3293,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "2.524",
-        "lowestAsk": "3.05",
+        "highestBid": "3.004",
+        "lowestAsk": "3.08",
         "market": {
           "amountPrecision": "8",
           "code": "UNI-USDC",
           "first": {
             "currency": "UNI",
-            "minOffer": "0.15",
+            "minOffer": "0.13",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "2.787",
-        "rate": "2.52",
-        "time": "1775603467393"
+        "previousRate": "3.080",
+        "rate": "3.004",
+        "time": "1776018658261"
       },
       "created": "__undefined",
       "option": false,
@@ -3339,7 +3339,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.15
+          "min": 0.13
         },
         "cost": {
           "max": "__undefined",
@@ -3375,14 +3375,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.2233",
-        "lowestAsk": "0.243",
+        "highestBid": "0.2111",
+        "lowestAsk": "0.2296",
         "market": {
           "amountPrecision": "8",
           "code": "SKY-PLN",
           "first": {
             "currency": "SKY",
-            "minOffer": "19.8",
+            "minOffer": "20.7",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -3393,9 +3393,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.225",
-        "rate": "0.235",
-        "time": "1775605717513"
+        "previousRate": "0.2315",
+        "rate": "0.2114",
+        "time": "1776060805375"
       },
       "created": "__undefined",
       "option": false,
@@ -3421,7 +3421,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 19.8
+          "min": 20.7
         },
         "cost": {
           "max": "__undefined",
@@ -3457,27 +3457,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.04319",
-        "lowestAsk": "0.044",
+        "highestBid": "0.0682",
+        "lowestAsk": "0.06939",
         "market": {
           "amountPrecision": "8",
           "code": "TMPL-USDC",
           "first": {
             "currency": "TMPL",
-            "minOffer": "9.4",
+            "minOffer": "5.6",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "5",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.04325",
-        "rate": "0.04290",
-        "time": "1775605800600"
+        "previousRate": "0.06939",
+        "rate": "0.0682",
+        "time": "1776061287975"
       },
       "created": "__undefined",
       "option": false,
@@ -3503,7 +3503,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 9.4
+          "min": 5.6
         },
         "cost": {
           "max": "__undefined",
@@ -3539,14 +3539,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0000175",
-        "lowestAsk": "0.00001978",
+        "highestBid": "0.00001591",
+        "lowestAsk": "0.00001692",
         "market": {
           "amountPrecision": "8",
           "code": "SHIB-PLN",
           "first": {
             "currency": "SHIB",
-            "minOffer": "243000",
+            "minOffer": "261000",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -3557,9 +3557,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.0000175",
-        "rate": "0.00001848",
-        "time": "1775605148849"
+        "previousRate": "0.0000168",
+        "rate": "0.0000169",
+        "time": "1776061332487"
       },
       "created": "__undefined",
       "option": false,
@@ -3585,7 +3585,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 243000
+          "min": 261000
         },
         "cost": {
           "max": "__undefined",
@@ -3621,8 +3621,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.48",
-        "lowestAsk": "0.64",
+        "highestBid": "0.461",
+        "lowestAsk": "0.707",
         "market": {
           "amountPrecision": "8",
           "code": "BAR-EUR",
@@ -3639,9 +3639,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.58",
+        "previousRate": "0.48",
         "rate": "0.64",
-        "time": "1775599440798"
+        "time": "1775983404498"
       },
       "created": "__undefined",
       "option": false,
@@ -3703,14 +3703,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "281.3",
-        "lowestAsk": "346.89",
+        "highestBid": "290.01",
+        "lowestAsk": "330",
         "market": {
           "amountPrecision": "8",
           "code": "AAVE-PLN",
           "first": {
             "currency": "AAVE",
-            "minOffer": "0.0153",
+            "minOffer": "0.0162",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -3721,9 +3721,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "282.01",
-        "rate": "290",
-        "time": "1775605813309"
+        "previousRate": "309.51",
+        "rate": "275.0",
+        "time": "1776060799206"
       },
       "created": "__undefined",
       "option": false,
@@ -3749,7 +3749,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0153
+          "min": 0.0162
         },
         "cost": {
           "max": "__undefined",
@@ -3785,27 +3785,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00001768",
-        "lowestAsk": "0.00002095",
+        "highestBid": "0.00001595",
+        "lowestAsk": "0.0000207",
         "market": {
           "amountPrecision": "8",
           "code": "DOT-BTC",
           "first": {
             "currency": "DOT",
-            "minOffer": "0.11",
+            "minOffer": "0.14",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.00001768",
-        "rate": "0.00001766",
-        "time": "1775605767837"
+        "previousRate": "0.00001592",
+        "rate": "0.0000159",
+        "time": "1776061282594"
       },
       "created": "__undefined",
       "option": false,
@@ -3831,7 +3831,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.11
+          "min": 0.14
         },
         "cost": {
           "max": "__undefined",
@@ -3867,8 +3867,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "27.52",
-        "lowestAsk": "30.96",
+        "highestBid": "28.41",
+        "lowestAsk": "30.99",
         "market": {
           "amountPrecision": "8",
           "code": "AVAX-PLN",
@@ -3885,9 +3885,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "27.12",
-        "rate": "27.1",
-        "time": "1775605532199"
+        "previousRate": "28.1",
+        "rate": "27.6",
+        "time": "1776060806082"
       },
       "created": "__undefined",
       "option": false,
@@ -3949,27 +3949,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0718",
-        "lowestAsk": "0.0888",
+        "highestBid": "0.0726",
+        "lowestAsk": "0.0874",
         "market": {
           "amountPrecision": "8",
           "code": "MANA-USDC",
           "first": {
             "currency": "MANA",
-            "minOffer": "5.8",
+            "minOffer": "5.4",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
         "previousRate": "0.0719",
-        "rate": "0.0718",
-        "time": "1775602844218"
+        "rate": "0.0726",
+        "time": "1776059416471"
       },
       "created": "__undefined",
       "option": false,
@@ -3995,7 +3995,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 5.8
+          "min": 5.4
         },
         "cost": {
           "max": "__undefined",
@@ -4031,8 +4031,8 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.1173",
-        "lowestAsk": "0.1748",
+        "highestBid": "0.118",
+        "lowestAsk": "0.1498",
         "market": {
           "amountPrecision": "8",
           "code": "PUNDIX-USDC",
@@ -4049,9 +4049,9 @@
             "scale": "6"
           }
         },
-        "previousRate": "0.1384",
-        "rate": "0.117",
-        "time": "1775605752744"
+        "previousRate": "0.1748",
+        "rate": "0.1173",
+        "time": "1776061309324"
       },
       "created": "__undefined",
       "option": false,
@@ -4113,14 +4113,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.1913",
-        "lowestAsk": "0.2398",
+        "highestBid": "0.18",
+        "lowestAsk": "0.2064",
         "market": {
           "amountPrecision": "6",
           "code": "ADA-EUR",
           "first": {
             "currency": "ADA",
-            "minOffer": "17.1",
+            "minOffer": "23.4",
             "scale": "6"
           },
           "pricePrecision": "2",
@@ -4131,9 +4131,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.2517",
-        "rate": "0.22",
-        "time": "1775605734117"
+        "previousRate": "0.1911",
+        "rate": "0.1910",
+        "time": "1776061262952"
       },
       "created": "__undefined",
       "option": false,
@@ -4159,7 +4159,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 17.1
+          "min": 23.4
         },
         "cost": {
           "max": "__undefined",
@@ -4195,27 +4195,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00731",
-        "lowestAsk": "0.0087",
+        "highestBid": "0.0064",
+        "lowestAsk": "0.00867",
         "market": {
           "amountPrecision": "8",
           "code": "FLR-USDC",
           "first": {
             "currency": "FLR",
-            "minOffer": "57",
+            "minOffer": "61",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "5",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.00730",
-        "rate": "0.00731",
-        "time": "1775605827748"
+        "previousRate": "0.00707",
+        "rate": "0.00641",
+        "time": "1776061330428"
       },
       "created": "__undefined",
       "option": false,
@@ -4241,7 +4241,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 57
+          "min": 61
         },
         "cost": {
           "max": "__undefined",
@@ -4277,8 +4277,8 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.2951",
-        "lowestAsk": "1.36",
+        "highestBid": "1.2801",
+        "lowestAsk": "1.3118",
         "market": {
           "amountPrecision": "8",
           "code": "XRP-USDC",
@@ -4291,13 +4291,13 @@
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "1.3599",
-        "rate": "1.36",
-        "time": "1775605832830"
+        "previousRate": "1.3133",
+        "rate": "1.2686",
+        "time": "1776061285246"
       },
       "created": "__undefined",
       "option": false,
@@ -4359,27 +4359,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00000342",
-        "lowestAsk": "0.00000397",
+        "highestBid": "0.0000035",
+        "lowestAsk": "0.00000379",
         "market": {
           "amountPrecision": "6",
           "code": "ADA-BTC",
           "first": {
             "currency": "ADA",
-            "minOffer": "0.53",
+            "minOffer": "0.6",
             "scale": "6"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.00000347",
-        "rate": "0.0000036",
-        "time": "1775605819844"
+        "previousRate": "0.00000355",
+        "rate": "0.0000035",
+        "time": "1776058726560"
       },
       "created": "__undefined",
       "option": false,
@@ -4405,7 +4405,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.53
+          "min": 0.6
         },
         "cost": {
           "max": "__undefined",
@@ -4441,14 +4441,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "275.27",
-        "lowestAsk": "290.97",
+        "highestBid": "262.02",
+        "lowestAsk": "288",
         "market": {
           "amountPrecision": "8",
           "code": "SOL-PLN",
           "first": {
             "currency": "SOL",
-            "minOffer": "0.0162",
+            "minOffer": "0.0153",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -4459,9 +4459,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "290.98",
-        "rate": "290.97",
-        "time": "1775605797500"
+        "previousRate": "245.38",
+        "rate": "289",
+        "time": "1776060802971"
       },
       "created": "__undefined",
       "option": false,
@@ -4487,7 +4487,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0162
+          "min": 0.0153
         },
         "cost": {
           "max": "__undefined",
@@ -4523,27 +4523,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "385",
-        "lowestAsk": "449.99999999",
+        "highestBid": "400",
+        "lowestAsk": "480.0",
         "market": {
           "amountPrecision": "8",
           "code": "BCC-USDC",
           "first": {
             "currency": "BCC",
-            "minOffer": "0.0011",
+            "minOffer": "0.00079",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "8"
           }
         },
-        "previousRate": "385.00000001",
-        "rate": "385",
-        "time": "1775603692035"
+        "previousRate": "449",
+        "rate": "490",
+        "time": "1776048738189"
       },
       "created": "__undefined",
       "option": false,
@@ -4569,7 +4569,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0011
+          "min": 7.9e-4
         },
         "cost": {
           "max": "__undefined",
@@ -4605,27 +4605,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "3.98",
-        "lowestAsk": "5.23",
+        "highestBid": "3.97",
+        "lowestAsk": "4.7",
         "market": {
           "amountPrecision": "8",
           "code": "KSM-USDC",
           "first": {
             "currency": "KSM",
-            "minOffer": "0.11",
+            "minOffer": "0.098",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "2",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
         "previousRate": "4.07",
         "rate": "3.96",
-        "time": "1775605832038"
+        "time": "1776057864609"
       },
       "created": "__undefined",
       "option": false,
@@ -4651,7 +4651,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.11
+          "min": 0.098
         },
         "cost": {
           "max": "__undefined",
@@ -4687,14 +4687,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.44",
-        "lowestAsk": "1.59",
+        "highestBid": "1.35",
+        "lowestAsk": "1.4",
         "market": {
           "amountPrecision": "8",
           "code": "NAP-PLN",
           "first": {
             "currency": "NAP",
-            "minOffer": "2.79",
+            "minOffer": "3.33",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -4705,9 +4705,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1.75",
-        "rate": "1.59",
-        "time": "1775579532245"
+        "previousRate": "1.29",
+        "rate": "1.35",
+        "time": "1776033684251"
       },
       "created": "__undefined",
       "option": false,
@@ -4733,7 +4733,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 2.79
+          "min": 3.33
         },
         "cost": {
           "max": "__undefined",
@@ -4769,27 +4769,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.03049132",
-        "lowestAsk": "0.03166104",
+        "highestBid": "0.03022001",
+        "lowestAsk": "0.03096965",
         "market": {
           "amountPrecision": "8",
           "code": "ETH-BTC",
           "first": {
             "currency": "ETH",
-            "minOffer": "0.00006",
+            "minOffer": "0.000068",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.03047395",
-        "rate": "0.03047973",
-        "time": "1775605834146"
+        "previousRate": "0.03052153",
+        "rate": "0.03021453",
+        "time": "1776061320773"
       },
       "created": "__undefined",
       "option": false,
@@ -4815,7 +4815,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 6.0e-5
+          "min": 6.8e-5
         },
         "cost": {
           "max": "__undefined",
@@ -4851,14 +4851,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.92",
-        "lowestAsk": "1.01",
+        "highestBid": "0.88",
+        "lowestAsk": "1.04",
         "market": {
           "amountPrecision": "6",
           "code": "TIA-PLN",
           "first": {
             "currency": "TIA",
-            "minOffer": "4.41",
+            "minOffer": "4.95",
             "scale": "6"
           },
           "pricePrecision": "2",
@@ -4869,9 +4869,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.96",
-        "rate": "1.01",
-        "time": "1775605834253"
+        "previousRate": "0.94",
+        "rate": "0.9",
+        "time": "1776057335198"
       },
       "created": "__undefined",
       "option": false,
@@ -4897,7 +4897,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 4.41
+          "min": 4.95
         },
         "cost": {
           "max": "__undefined",
@@ -4933,14 +4933,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.1207",
-        "lowestAsk": "0.17",
+        "highestBid": "0.12",
+        "lowestAsk": "0.159",
         "market": {
           "amountPrecision": "8",
           "code": "XLM-EUR",
           "first": {
             "currency": "XLM",
-            "minOffer": "36.9",
+            "minOffer": "33.3",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -4951,9 +4951,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.1420",
-        "rate": "0.1205",
-        "time": "1775605587550"
+        "previousRate": "0.1205",
+        "rate": "0.1345",
+        "time": "1775980213969"
       },
       "created": "__undefined",
       "option": false,
@@ -4979,7 +4979,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 36.9
+          "min": 33.3
         },
         "cost": {
           "max": "__undefined",
@@ -5015,14 +5015,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1601.15",
-        "lowestAsk": "1876.11",
+        "highestBid": "1591",
+        "lowestAsk": "1760",
         "market": {
           "amountPrecision": "8",
           "code": "ETH-EUR",
           "first": {
             "currency": "ETH",
-            "minOffer": "0.00234",
+            "minOffer": "0.00279",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -5033,9 +5033,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1869.52",
-        "rate": "1876.11",
-        "time": "1775605812079"
+        "previousRate": "1758.45",
+        "rate": "1590",
+        "time": "1776054426366"
       },
       "created": "__undefined",
       "option": false,
@@ -5061,7 +5061,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.00234
+          "min": 0.00279
         },
         "cost": {
           "max": "__undefined",
@@ -5097,8 +5097,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "3.63",
-        "lowestAsk": "4.99",
+        "highestBid": "4.03",
+        "lowestAsk": "4.97",
         "market": {
           "amountPrecision": "8",
           "code": "TON-PLN",
@@ -5115,9 +5115,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "3.65",
-        "rate": "3.81",
-        "time": "1775605317529"
+        "previousRate": "4.92",
+        "rate": "4.29",
+        "time": "1776061200890"
       },
       "created": "__undefined",
       "option": false,
@@ -5179,14 +5179,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "26.04",
-        "lowestAsk": "33.0",
+        "highestBid": "30.3",
+        "lowestAsk": "39",
         "market": {
           "amountPrecision": "8",
           "code": "DASH-EUR",
           "first": {
             "currency": "DASH",
-            "minOffer": "0.171",
+            "minOffer": "0.108",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -5197,9 +5197,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "30.30",
-        "rate": "26.04",
-        "time": "1775605741159"
+        "previousRate": "32.00",
+        "rate": "40.0",
+        "time": "1776003095317"
       },
       "created": "__undefined",
       "option": false,
@@ -5225,7 +5225,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.171
+          "min": 0.108
         },
         "cost": {
           "max": "__undefined",
@@ -5261,27 +5261,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.102",
-        "lowestAsk": "1.35",
+        "highestBid": "1.11",
+        "lowestAsk": "1.348",
         "market": {
           "amountPrecision": "8",
           "code": "AXS-USDC",
           "first": {
             "currency": "AXS",
-            "minOffer": "0.38",
+            "minOffer": "0.3",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "1.102",
-        "rate": "1.101",
-        "time": "1775605827436"
+        "previousRate": "1.101",
+        "rate": "1.29",
+        "time": "1776018957191"
       },
       "created": "__undefined",
       "option": false,
@@ -5307,7 +5307,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.38
+          "min": 0.3
         },
         "cost": {
           "max": "__undefined",
@@ -5343,27 +5343,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.301",
-        "lowestAsk": "0.4",
+        "highestBid": "0.259",
+        "lowestAsk": "0.44",
         "market": {
           "amountPrecision": "8",
           "code": "SNX-USDC",
           "first": {
             "currency": "SNX",
-            "minOffer": "1.1",
+            "minOffer": "0.97",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.439",
+        "previousRate": "0.275",
         "rate": "0.4",
-        "time": "1775574374440"
+        "time": "1776036855091"
       },
       "created": "__undefined",
       "option": false,
@@ -5389,7 +5389,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.1
+          "min": 0.97
         },
         "cost": {
           "max": "__undefined",
@@ -5425,27 +5425,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00000224",
-        "lowestAsk": "0.00000275",
+        "highestBid": "0.00000226",
+        "lowestAsk": "0.0000027",
         "market": {
           "amountPrecision": "8",
           "code": "XLM-BTC",
           "first": {
             "currency": "XLM",
-            "minOffer": "0.86",
+            "minOffer": "0.92",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.00000329",
-        "rate": "0.00000222",
-        "time": "1775605596597"
+        "previousRate": "0.00000250",
+        "rate": "0.00000227",
+        "time": "1776004407502"
       },
       "created": "__undefined",
       "option": false,
@@ -5471,7 +5471,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.86
+          "min": 0.92
         },
         "cost": {
           "max": "__undefined",
@@ -5507,14 +5507,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.6",
-        "lowestAsk": "0.65",
+        "highestBid": "0.61",
+        "lowestAsk": "0.68",
         "market": {
           "amountPrecision": "8",
           "code": "LEG-PLN",
           "first": {
             "currency": "LEG",
-            "minOffer": "6.84",
+            "minOffer": "7.29",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -5525,9 +5525,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.6",
-        "rate": "0.65",
-        "time": "1775604182570"
+        "previousRate": "0.7",
+        "rate": "0.61",
+        "time": "1775985399572"
       },
       "created": "__undefined",
       "option": false,
@@ -5553,7 +5553,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 6.84
+          "min": 7.29
         },
         "cost": {
           "max": "__undefined",
@@ -5589,8 +5589,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.9603",
-        "lowestAsk": "1.3698",
+        "highestBid": "1.01",
+        "lowestAsk": "1.2885",
         "market": {
           "amountPrecision": "8",
           "code": "NEAR-EUR",
@@ -5609,7 +5609,7 @@
         },
         "previousRate": "1.4399",
         "rate": "1.06",
-        "time": "1775605771828"
+        "time": "1776050178029"
       },
       "created": "__undefined",
       "option": false,
@@ -5671,8 +5671,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.252",
-        "lowestAsk": "0.32997",
+        "highestBid": "0.25110",
+        "lowestAsk": "0.26687",
         "market": {
           "amountPrecision": "8",
           "code": "TRX-EUR",
@@ -5689,9 +5689,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.279",
-        "rate": "0.252",
-        "time": "1775603779833"
+        "previousRate": "0.26687",
+        "rate": "0.25110",
+        "time": "1776014128303"
       },
       "created": "__undefined",
       "option": false,
@@ -5753,14 +5753,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0040",
-        "lowestAsk": "0.0045",
+        "highestBid": "0.0049",
+        "lowestAsk": "0.0058",
         "market": {
           "amountPrecision": "8",
           "code": "PAY-PLN",
           "first": {
             "currency": "PAY",
-            "minOffer": "1080",
+            "minOffer": "900",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -5771,9 +5771,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.0040",
-        "rate": "0.0045",
-        "time": "1775602500567"
+        "previousRate": "0.0057",
+        "rate": "0.0049",
+        "time": "1776036387003"
       },
       "created": "__undefined",
       "option": false,
@@ -5799,7 +5799,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1080
+          "min": 900
         },
         "cost": {
           "max": "__undefined",
@@ -5835,27 +5835,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "2085.00000002",
-        "lowestAsk": "2197.98999999",
+        "highestBid": "2100.10000001",
+        "lowestAsk": "2199.99999954",
         "market": {
           "amountPrecision": "8",
           "code": "ETH-USDC",
           "first": {
             "currency": "ETH",
-            "minOffer": "0.0002",
+            "minOffer": "0.00018",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "8"
           }
         },
-        "previousRate": "2085.00000010",
-        "rate": "2197.98999999",
-        "time": "1775605830332"
+        "previousRate": "2117",
+        "rate": "2179.99999999",
+        "time": "1776061336971"
       },
       "created": "__undefined",
       "option": false,
@@ -5881,7 +5881,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0002
+          "min": 1.8e-4
         },
         "cost": {
           "max": "__undefined",
@@ -5917,27 +5917,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.06496",
-        "lowestAsk": "0.078",
+        "highestBid": "0.0582",
+        "lowestAsk": "0.074",
         "market": {
           "amountPrecision": "8",
           "code": "SKY-USDC",
           "first": {
             "currency": "SKY",
-            "minOffer": "6.4",
+            "minOffer": "5.6",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "5",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.06488",
-        "rate": "0.06503",
-        "time": "1775602596449"
+        "previousRate": "0.06998",
+        "rate": "0.06999",
+        "time": "1776056556814"
       },
       "created": "__undefined",
       "option": false,
@@ -5963,7 +5963,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 6.4
+          "min": 5.6
         },
         "cost": {
           "max": "__undefined",
@@ -6000,7 +6000,7 @@
       "inverse": "__undefined",
       "info": {
         "highestBid": "0.144",
-        "lowestAsk": "0.17",
+        "lowestAsk": "0.1688",
         "market": {
           "amountPrecision": "6",
           "code": "JUP-USDC",
@@ -6019,7 +6019,7 @@
         },
         "previousRate": "0.2065",
         "rate": "0.1477",
-        "time": "1775605810336"
+        "time": "1776057902747"
       },
       "created": "__undefined",
       "option": false,
@@ -6081,8 +6081,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "3.23",
-        "lowestAsk": "3.388",
+        "highestBid": "3.05",
+        "lowestAsk": "3.13",
         "market": {
           "amountPrecision": "6",
           "code": "USDC-PLN",
@@ -6099,9 +6099,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "3.372",
-        "rate": "3.388",
-        "time": "1775605331062"
+        "previousRate": "3.139",
+        "rate": "3.05",
+        "time": "1776060928168"
       },
       "created": "__undefined",
       "option": false,
@@ -6163,14 +6163,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "54700.90",
-        "lowestAsk": "61527.86",
+        "highestBid": "51000",
+        "lowestAsk": "58000",
         "market": {
           "amountPrecision": "8",
           "code": "BTC-EUR",
           "first": {
             "currency": "BTC",
-            "minOffer": "0.0000738",
+            "minOffer": "0.0000864",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -6181,9 +6181,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "61004.54",
-        "rate": "61096.05",
-        "time": "1775605831567"
+        "previousRate": "52500",
+        "rate": "52000",
+        "time": "1776053505638"
       },
       "created": "__undefined",
       "option": false,
@@ -6209,7 +6209,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 7.38e-5
+          "min": 8.64e-5
         },
         "cost": {
           "max": "__undefined",
@@ -6245,27 +6245,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.1103",
-        "lowestAsk": "0.144",
+        "highestBid": "0.1064",
+        "lowestAsk": "0.1101",
         "market": {
           "amountPrecision": "8",
           "code": "OP-USDC",
           "first": {
             "currency": "OP",
-            "minOffer": "3.8",
+            "minOffer": "3.6",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.1290",
-        "rate": "0.1102",
-        "time": "1775605809011"
+        "previousRate": "0.1500",
+        "rate": "0.1101",
+        "time": "1776031230538"
       },
       "created": "__undefined",
       "option": false,
@@ -6291,7 +6291,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 3.8
+          "min": 3.6
         },
         "cost": {
           "max": "__undefined",
@@ -6327,14 +6327,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "44.04",
-        "lowestAsk": "54.97",
+        "highestBid": "45.77",
+        "lowestAsk": "54.99",
         "market": {
           "amountPrecision": "8",
           "code": "LTC-EUR",
           "first": {
             "currency": "LTC",
-            "minOffer": "0.0477",
+            "minOffer": "0.09",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -6345,9 +6345,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "44.74",
-        "rate": "93.67",
-        "time": "1775605819517"
+        "previousRate": "46.7",
+        "rate": "45.64",
+        "time": "1776061169733"
       },
       "created": "__undefined",
       "option": false,
@@ -6373,7 +6373,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0477
+          "min": 0.09
         },
         "cost": {
           "max": "__undefined",
@@ -6409,14 +6409,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.012",
-        "lowestAsk": "1.0885",
+        "highestBid": "1.091",
+        "lowestAsk": "1.1475",
         "market": {
           "amountPrecision": "8",
           "code": "USDC-USD",
           "first": {
             "currency": "USDC",
-            "minOffer": "4.14",
+            "minOffer": "3.87",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -6427,9 +6427,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1.0679",
-        "rate": "1.0885",
-        "time": "1775605166626"
+        "previousRate": "1.069",
+        "rate": "1.149",
+        "time": "1776059394625"
       },
       "created": "__undefined",
       "option": false,
@@ -6455,7 +6455,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 4.14
+          "min": 3.87
         },
         "cost": {
           "max": "__undefined",
@@ -6491,14 +6491,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "2.01",
-        "lowestAsk": "2.09",
+        "highestBid": "2.33",
+        "lowestAsk": "3.2",
         "market": {
           "amountPrecision": "8",
           "code": "BAR-PLN",
           "first": {
             "currency": "BAR",
-            "minOffer": "2.16",
+            "minOffer": "1.26",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -6509,9 +6509,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "2",
-        "rate": "2.01",
-        "time": "1775596030165"
+        "previousRate": "3",
+        "rate": "3.35",
+        "time": "1776060802631"
       },
       "created": "__undefined",
       "option": false,
@@ -6537,7 +6537,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 2.16
+          "min": 1.26
         },
         "cost": {
           "max": "__undefined",
@@ -6573,14 +6573,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "240",
-        "lowestAsk": "265",
+        "highestBid": "220.24",
+        "lowestAsk": "249.78",
         "market": {
           "amountPrecision": "8",
           "code": "QNT-PLN",
           "first": {
             "currency": "QNT",
-            "minOffer": "0.0189",
+            "minOffer": "0.0198",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -6591,9 +6591,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "267.01",
-        "rate": "235",
-        "time": "1775603007789"
+        "previousRate": "249.77",
+        "rate": "220.22",
+        "time": "1776057631764"
       },
       "created": "__undefined",
       "option": false,
@@ -6619,7 +6619,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0189
+          "min": 0.0198
         },
         "cost": {
           "max": "__undefined",
@@ -6655,27 +6655,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00000545",
-        "lowestAsk": "0.00000618",
+        "highestBid": "0.0000052",
+        "lowestAsk": "0.0000057",
         "market": {
           "amountPrecision": "8",
           "code": "SHIB-USDC",
           "first": {
             "currency": "SHIB",
-            "minOffer": "74000",
+            "minOffer": "76000",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "8",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.00000542",
-        "rate": "0.00000565",
-        "time": "1775605823548"
+        "previousRate": "0.00000570",
+        "rate": "0.0000051",
+        "time": "1776030910843"
       },
       "created": "__undefined",
       "option": false,
@@ -6701,7 +6701,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 74000
+          "min": 76000
         },
         "cost": {
           "max": "__undefined",
@@ -6737,27 +6737,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00001864",
-        "lowestAsk": "0.00002049",
+        "highestBid": "0.00001802",
+        "lowestAsk": "0.00002031",
         "market": {
           "amountPrecision": "8",
           "code": "XRP-BTC",
           "first": {
             "currency": "XRP",
-            "minOffer": "0.1",
+            "minOffer": "0.12",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.00001871",
-        "rate": "0.00001864",
-        "time": "1775605798107"
+        "previousRate": "0.00001850",
+        "rate": "0.00002033",
+        "time": "1776061337062"
       },
       "created": "__undefined",
       "option": false,
@@ -6783,7 +6783,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.1
+          "min": 0.12
         },
         "cost": {
           "max": "__undefined",
@@ -6819,14 +6819,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.285",
-        "lowestAsk": "0.302",
+        "highestBid": "0.261",
+        "lowestAsk": "0.289",
         "market": {
           "amountPrecision": "8",
           "code": "POL-PLN",
           "first": {
             "currency": "POL",
-            "minOffer": "15.3",
+            "minOffer": "16.2",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -6837,9 +6837,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.28",
-        "rate": "0.295",
-        "time": "1775605570655"
+        "previousRate": "0.272",
+        "rate": "0.273",
+        "time": "1776060815166"
       },
       "created": "__undefined",
       "option": false,
@@ -6865,7 +6865,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 15.3
+          "min": 16.2
         },
         "cost": {
           "max": "__undefined",
@@ -6901,27 +6901,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0011977",
-        "lowestAsk": "0.00125",
+        "highestBid": "0.0012011",
+        "lowestAsk": "0.0014151",
         "market": {
           "amountPrecision": "8",
           "code": "SOL-BTC",
           "first": {
             "currency": "SOL",
-            "minOffer": "0.0016",
+            "minOffer": "0.0018",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "7",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.0012500",
-        "rate": "0.0011977",
-        "time": "1775602997075"
+        "previousRate": "0.0012023",
+        "rate": "0.0012022",
+        "time": "1776056775441"
       },
       "created": "__undefined",
       "option": false,
@@ -6947,7 +6947,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0016
+          "min": 0.0018
         },
         "cost": {
           "max": "__undefined",
@@ -6983,14 +6983,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.414",
-        "lowestAsk": "0.482",
+        "highestBid": "0.4",
+        "lowestAsk": "0.46",
         "market": {
           "amountPrecision": "8",
           "code": "PUNDIX-PLN",
           "first": {
             "currency": "PUNDIX",
-            "minOffer": "9.9",
+            "minOffer": "10.8",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -7001,9 +7001,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.476",
-        "rate": "0.477",
-        "time": "1775605801675"
+        "previousRate": "0.46",
+        "rate": "0.41",
+        "time": "1776060637178"
       },
       "created": "__undefined",
       "option": false,
@@ -7029,7 +7029,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 9.9
+          "min": 10.8
         },
         "cost": {
           "max": "__undefined",
@@ -7065,14 +7065,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.125",
-        "lowestAsk": "0.148",
+        "highestBid": "0.114",
+        "lowestAsk": "0.13",
         "market": {
           "amountPrecision": "8",
           "code": "S-PLN",
           "first": {
             "currency": "S",
-            "minOffer": "31.5",
+            "minOffer": "41.4",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -7083,9 +7083,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.148",
-        "rate": "0.140",
-        "time": "1775604686413"
+        "previousRate": "0.107",
+        "rate": "0.12",
+        "time": "1776060273880"
       },
       "created": "__undefined",
       "option": false,
@@ -7111,7 +7111,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 31.5
+          "min": 41.4
         },
         "cost": {
           "max": "__undefined",
@@ -7147,14 +7147,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.78",
-        "lowestAsk": "0.87",
+        "highestBid": "0.67",
+        "lowestAsk": "0.8",
         "market": {
           "amountPrecision": "8",
           "code": "ETHW-PLN",
           "first": {
             "currency": "ETHW",
-            "minOffer": "5.13",
+            "minOffer": "6.39",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -7165,9 +7165,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.88",
-        "rate": "0.87",
-        "time": "1775594126232"
+        "previousRate": "0.71",
+        "rate": "0.7",
+        "time": "1776060512165"
       },
       "created": "__undefined",
       "option": false,
@@ -7193,7 +7193,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 5.13
+          "min": 6.39
         },
         "cost": {
           "max": "__undefined",
@@ -7229,8 +7229,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "7.01",
-        "lowestAsk": "8",
+        "highestBid": "7",
+        "lowestAsk": "7.87",
         "market": {
           "amountPrecision": "8",
           "code": "LPT-PLN",
@@ -7247,9 +7247,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "7.45",
+        "previousRate": "7.02",
         "rate": "7",
-        "time": "1775605590183"
+        "time": "1776060805742"
       },
       "created": "__undefined",
       "option": false,
@@ -7311,27 +7311,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00000338",
-        "lowestAsk": "0.00000439",
+        "highestBid": "0.00000305",
+        "lowestAsk": "0.0000032",
         "market": {
           "amountPrecision": "8",
           "code": "PEPE-USDC",
           "first": {
             "currency": "PEPE",
-            "minOffer": "54000",
+            "minOffer": "53000",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "8",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.405",
             "scale": "6"
           }
         },
-        "previousRate": "0.00000331",
-        "rate": "0.00000777",
-        "time": "1775604826176"
+        "previousRate": "0.00000337",
+        "rate": "0.00000305",
+        "time": "1776060897920"
       },
       "created": "__undefined",
       "option": false,
@@ -7357,7 +7357,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 54000
+          "min": 53000
         },
         "cost": {
           "max": "__undefined",
@@ -7393,14 +7393,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.14428",
-        "lowestAsk": "0.14775",
+        "highestBid": "0.20793",
+        "lowestAsk": "0.21259",
         "market": {
           "amountPrecision": "8",
           "code": "TMPL-PLN",
           "first": {
             "currency": "TMPL",
-            "minOffer": "31.5",
+            "minOffer": "21.6",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -7411,9 +7411,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.14724",
-        "rate": "0.14428",
-        "time": "1775605828357"
+        "previousRate": "0.21259",
+        "rate": "0.20793",
+        "time": "1776061273343"
       },
       "created": "__undefined",
       "option": false,
@@ -7439,7 +7439,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 31.5
+          "min": 21.6
         },
         "cost": {
           "max": "__undefined",
@@ -7475,14 +7475,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.971",
-        "lowestAsk": "1.019",
+        "highestBid": "0.97",
+        "lowestAsk": "1.065",
         "market": {
           "amountPrecision": "8",
           "code": "TRX-PLN",
           "first": {
             "currency": "TRX",
-            "minOffer": "4.5",
+            "minOffer": "4.59",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -7493,9 +7493,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1",
-        "rate": "1.0057",
-        "time": "1775605506183"
+        "previousRate": "0.96",
+        "rate": "0.97",
+        "time": "1776059316884"
       },
       "created": "__undefined",
       "option": false,
@@ -7521,7 +7521,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 4.5
+          "min": 4.59
         },
         "cost": {
           "max": "__undefined",
@@ -7557,14 +7557,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.281",
-        "lowestAsk": "0.34",
+        "highestBid": "0.191",
+        "lowestAsk": "0.27",
         "market": {
           "amountPrecision": "8",
           "code": "SAND-PLN",
           "first": {
             "currency": "SAND",
-            "minOffer": "15.3",
+            "minOffer": "18.9",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -7575,9 +7575,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.29",
-        "rate": "0.281",
-        "time": "1775605828055"
+        "previousRate": "0.2",
+        "rate": "0.229",
+        "time": "1776009005238"
       },
       "created": "__undefined",
       "option": false,
@@ -7603,7 +7603,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 15.3
+          "min": 18.9
         },
         "cost": {
           "max": "__undefined",
@@ -7639,27 +7639,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.702",
-        "lowestAsk": "2.09",
+        "highestBid": "1.753",
+        "lowestAsk": "2.15",
         "market": {
           "amountPrecision": "8",
           "code": "RENDER-USDC",
           "first": {
             "currency": "RENDER",
-            "minOffer": "0.27",
+            "minOffer": "0.18",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "1.59",
-        "rate": "1.591",
-        "time": "1775605820949"
+        "previousRate": "1.751",
+        "rate": "2.200",
+        "time": "1776060598103"
       },
       "created": "__undefined",
       "option": false,
@@ -7685,7 +7685,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.27
+          "min": 0.18
         },
         "cost": {
           "max": "__undefined",
@@ -7721,8 +7721,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "350",
-        "lowestAsk": "399.99",
+        "highestBid": "332.35",
+        "lowestAsk": "379.99",
         "market": {
           "amountPrecision": "8",
           "code": "BCC-EUR",
@@ -7739,9 +7739,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "363.01",
-        "rate": "363.0",
-        "time": "1775599819758"
+        "previousRate": "332.35",
+        "rate": "370.00",
+        "time": "1776002985722"
       },
       "created": "__undefined",
       "option": false,
@@ -7803,27 +7803,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00000161",
-        "lowestAsk": "0.00000208",
+        "highestBid": "0.00000159",
+        "lowestAsk": "0.00000189",
         "market": {
           "amountPrecision": "8",
           "code": "LSK-BTC",
           "first": {
             "currency": "LSK",
-            "minOffer": "1.2",
+            "minOffer": "1.4",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.00000159",
-        "rate": "0.00000160",
-        "time": "1775596349260"
+        "previousRate": "0.00000160",
+        "rate": "0.00000159",
+        "time": "1776032001518"
       },
       "created": "__undefined",
       "option": false,
@@ -7849,7 +7849,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.2
+          "min": 1.4
         },
         "cost": {
           "max": "__undefined",
@@ -7885,8 +7885,8 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "2.98",
-        "lowestAsk": "3.63",
+        "highestBid": "2.79",
+        "lowestAsk": "3.43",
         "market": {
           "amountPrecision": "8",
           "code": "INJ-USDC",
@@ -7905,7 +7905,7 @@
         },
         "previousRate": "2.9",
         "rate": "2.98",
-        "time": "1775605762583"
+        "time": "1776057875379"
       },
       "created": "__undefined",
       "option": false,
@@ -7967,14 +7967,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.61",
-        "lowestAsk": "0.65",
+        "highestBid": "0.54",
+        "lowestAsk": "0.58",
         "market": {
           "amountPrecision": "8",
           "code": "SUSHI-PLN",
           "first": {
             "currency": "SUSHI",
-            "minOffer": "7.29",
+            "minOffer": "8.28",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -7985,9 +7985,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.61",
-        "rate": "0.64",
-        "time": "1775604257601"
+        "previousRate": "0.57",
+        "rate": "0.54",
+        "time": "1776035429799"
       },
       "created": "__undefined",
       "option": false,
@@ -8013,7 +8013,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 7.29
+          "min": 8.28
         },
         "cost": {
           "max": "__undefined",
@@ -8049,8 +8049,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.4",
-        "lowestAsk": "0.41",
+        "highestBid": "0.315",
+        "lowestAsk": "0.377",
         "market": {
           "amountPrecision": "8",
           "code": "OP-PLN",
@@ -8067,9 +8067,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.411",
-        "rate": "0.41",
-        "time": "1775596869527"
+        "previousRate": "0.33",
+        "rate": "0.317",
+        "time": "1776061229752"
       },
       "created": "__undefined",
       "option": false,
@@ -8131,27 +8131,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.031",
-        "lowestAsk": "0.04087",
+        "highestBid": "0.0319",
+        "lowestAsk": "0.0362",
         "market": {
           "amountPrecision": "8",
           "code": "CHZ-USDC",
           "first": {
             "currency": "CHZ",
-            "minOffer": "11",
+            "minOffer": "12",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "5",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.03031",
-        "rate": "0.041",
-        "time": "1775603359234"
+        "previousRate": "0.03526",
+        "rate": "0.0327",
+        "time": "1776060885009"
       },
       "created": "__undefined",
       "option": false,
@@ -8177,7 +8177,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 11
+          "min": 12
         },
         "cost": {
           "max": "__undefined",
@@ -8213,14 +8213,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.0614",
-        "lowestAsk": "1.16",
+        "highestBid": "0.99",
+        "lowestAsk": "1.1397",
         "market": {
           "amountPrecision": "8",
           "code": "XRP-EUR",
           "first": {
             "currency": "XRP",
-            "minOffer": "4.23",
+            "minOffer": "4.5",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -8231,9 +8231,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1.0601",
-        "rate": "1.1600",
-        "time": "1775605833904"
+        "previousRate": "1.1318",
+        "rate": "0.99",
+        "time": "1776061330679"
       },
       "created": "__undefined",
       "option": false,
@@ -8259,7 +8259,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 4.23
+          "min": 4.5
         },
         "cost": {
           "max": "__undefined",
@@ -8295,27 +8295,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "68900.00000044",
-        "lowestAsk": "70999.99999999",
+        "highestBid": "68001.00000013",
+        "lowestAsk": "68101",
         "market": {
           "amountPrecision": "8",
           "code": "BTC-USDC",
           "first": {
             "currency": "BTC",
-            "minOffer": "0.000006",
+            "minOffer": "0.0000057",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "8"
           }
         },
-        "previousRate": "68900.00000023",
-        "rate": "68948.216",
-        "time": "1775605833522"
+        "previousRate": "68100.99999737",
+        "rate": "68101",
+        "time": "1776061192316"
       },
       "created": "__undefined",
       "option": false,
@@ -8341,7 +8341,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 6.0e-6
+          "min": 5.7e-6
         },
         "cost": {
           "max": "__undefined",
@@ -8377,27 +8377,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.074",
-        "lowestAsk": "0.1",
+        "highestBid": "0.0707",
+        "lowestAsk": "0.096",
         "market": {
           "amountPrecision": "8",
           "code": "SAND-USDC",
           "first": {
             "currency": "SAND",
-            "minOffer": "5.7",
+            "minOffer": "5.5",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.1",
-        "rate": "0.0737",
-        "time": "1775605833412"
+        "previousRate": "0.0738",
+        "rate": "0.0707",
+        "time": "1776032263045"
       },
       "created": "__undefined",
       "option": false,
@@ -8423,7 +8423,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 5.7
+          "min": 5.5
         },
         "cost": {
           "max": "__undefined",
@@ -8459,8 +8459,8 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0373",
-        "lowestAsk": "0.048",
+        "highestBid": "0.0364",
+        "lowestAsk": "0.0413",
         "market": {
           "amountPrecision": "8",
           "code": "S-USDC",
@@ -8473,13 +8473,13 @@
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.0372",
-        "rate": "0.04",
-        "time": "1775605832174"
+        "previousRate": "0.037",
+        "rate": "0.0364",
+        "time": "1776060659192"
       },
       "created": "__undefined",
       "option": false,
@@ -8541,14 +8541,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.33",
-        "lowestAsk": "1.4000",
+        "highestBid": "1.4116",
+        "lowestAsk": "1.54",
         "market": {
           "amountPrecision": "8",
           "code": "XRP-USD",
           "first": {
             "currency": "XRP",
-            "minOffer": "3.33",
+            "minOffer": "2.88",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -8559,9 +8559,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1.4010",
-        "rate": "1.321",
-        "time": "1775598986391"
+        "previousRate": "1.5247",
+        "rate": "1.54",
+        "time": "1776023500156"
       },
       "created": "__undefined",
       "option": false,
@@ -8587,7 +8587,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 3.33
+          "min": 2.88
         },
         "cost": {
           "max": "__undefined",
@@ -8623,14 +8623,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.32",
-        "lowestAsk": "0.358",
+        "highestBid": "0.33",
+        "lowestAsk": "0.37",
         "market": {
           "amountPrecision": "8",
           "code": "ARB-PLN",
           "first": {
             "currency": "ARB",
-            "minOffer": "11.7",
+            "minOffer": "13.5",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -8641,9 +8641,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.369",
-        "rate": "0.358",
-        "time": "1775605525473"
+        "previousRate": "0.38",
+        "rate": "0.331",
+        "time": "1776060429126"
       },
       "created": "__undefined",
       "option": false,
@@ -8669,7 +8669,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 11.7
+          "min": 13.5
         },
         "cost": {
           "max": "__undefined",
@@ -8705,14 +8705,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.34",
-        "lowestAsk": "0.3402",
+        "highestBid": "0.2603",
+        "lowestAsk": "0.2777",
         "market": {
           "amountPrecision": "8",
           "code": "DOGE-PLN",
           "first": {
             "currency": "DOGE",
-            "minOffer": "14.4",
+            "minOffer": "16.2",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -8723,9 +8723,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.337",
-        "rate": "0.34",
-        "time": "1775605719681"
+        "previousRate": "0.2777",
+        "rate": "0.2778",
+        "time": "1776061278126"
       },
       "created": "__undefined",
       "option": false,
@@ -8751,7 +8751,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 14.4
+          "min": 16.2
         },
         "cost": {
           "max": "__undefined",
@@ -8787,14 +8787,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "2113.13",
-        "lowestAsk": "2338.98",
+        "highestBid": "2300.01",
+        "lowestAsk": "2489.90",
         "market": {
           "amountPrecision": "8",
           "code": "ETH-USD",
           "first": {
             "currency": "ETH",
-            "minOffer": "0.00207",
+            "minOffer": "0.00189",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -8805,9 +8805,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "2347",
-        "rate": "2113.12",
-        "time": "1775602987373"
+        "previousRate": "2268.18",
+        "rate": "2300",
+        "time": "1776057634696"
       },
       "created": "__undefined",
       "option": false,
@@ -8833,7 +8833,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.00207
+          "min": 0.00189
         },
         "cost": {
           "max": "__undefined",
@@ -8869,14 +8869,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1450.04",
-        "lowestAsk": "1800.0",
+        "highestBid": "1580.04",
+        "lowestAsk": "1849.99",
         "market": {
           "amountPrecision": "8",
           "code": "ETH-GBP",
           "first": {
             "currency": "ETH",
-            "minOffer": "0.00243",
+            "minOffer": "0.00234",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -8887,9 +8887,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1750",
-        "rate": "1801.42",
-        "time": "1775590393072"
+        "previousRate": "1800.00",
+        "rate": "1896.52",
+        "time": "1776026128058"
       },
       "created": "__undefined",
       "option": false,
@@ -8915,7 +8915,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.00243
+          "min": 0.00234
         },
         "cost": {
           "max": "__undefined",
@@ -8951,14 +8951,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.482",
-        "lowestAsk": "0.549",
+        "highestBid": "0.495",
+        "lowestAsk": "0.530",
         "market": {
           "amountPrecision": "8",
           "code": "XLM-PLN",
           "first": {
             "currency": "XLM",
-            "minOffer": "8.28",
+            "minOffer": "8.46",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -8969,9 +8969,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.47",
-        "rate": "0.54",
-        "time": "1775605720828"
+        "previousRate": "0.49",
+        "rate": "0.53",
+        "time": "1776060477003"
       },
       "created": "__undefined",
       "option": false,
@@ -8997,7 +8997,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 8.28
+          "min": 8.46
         },
         "cost": {
           "max": "__undefined",
@@ -9033,14 +9033,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.836",
-        "lowestAsk": "0.86",
+        "highestBid": "0.716",
+        "lowestAsk": "0.785",
         "market": {
           "amountPrecision": "6",
           "code": "ADA-PLN",
           "first": {
             "currency": "ADA",
-            "minOffer": "5.49",
+            "minOffer": "6.3",
             "scale": "6"
           },
           "pricePrecision": "2",
@@ -9051,9 +9051,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.844",
-        "rate": "0.845",
-        "time": "1775605695401"
+        "previousRate": "0.708",
+        "rate": "0.714",
+        "time": "1776061272872"
       },
       "created": "__undefined",
       "option": false,
@@ -9079,7 +9079,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 5.49
+          "min": 6.3
         },
         "cost": {
           "max": "__undefined",
@@ -9115,14 +9115,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "229241.86",
-        "lowestAsk": "241440.75",
+        "highestBid": "211212.87",
+        "lowestAsk": "213574.99",
         "market": {
           "amountPrecision": "8",
           "code": "BTC-PLN",
           "first": {
             "currency": "BTC",
-            "minOffer": "0.0000189",
+            "minOffer": "0.0000207",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -9133,9 +9133,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "241746",
-        "rate": "235000.00",
-        "time": "1775605834390"
+        "previousRate": "211787.33",
+        "rate": "211000",
+        "time": "1776061167969"
       },
       "created": "__undefined",
       "option": false,
@@ -9161,7 +9161,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.89e-5
+          "min": 2.07e-5
         },
         "cost": {
           "max": "__undefined",
@@ -9197,27 +9197,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "89.88",
-        "lowestAsk": "106.0",
+        "highestBid": "91.1",
+        "lowestAsk": "110.0",
         "market": {
           "amountPrecision": "8",
           "code": "AAVE-USDC",
           "first": {
             "currency": "AAVE",
-            "minOffer": "0.0047",
+            "minOffer": "0.0044",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "2",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "89.88",
-        "rate": "89.89",
-        "time": "1775599743329"
+        "previousRate": "85",
+        "rate": "89.02",
+        "time": "1776031863830"
       },
       "created": "__undefined",
       "option": false,
@@ -9243,7 +9243,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0047
+          "min": 0.0044
         },
         "cost": {
           "max": "__undefined",
@@ -9279,14 +9279,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "4.02",
-        "lowestAsk": "4.3",
+        "highestBid": "3.55",
+        "lowestAsk": "4.14",
         "market": {
           "amountPrecision": "8",
           "code": "DOT-PLN",
           "first": {
             "currency": "DOT",
-            "minOffer": "1.08",
+            "minOffer": "1.26",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -9297,9 +9297,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "3.98",
-        "rate": "4.12",
-        "time": "1775605762822"
+        "previousRate": "3.59",
+        "rate": "3.55",
+        "time": "1776060799011"
       },
       "created": "__undefined",
       "option": false,
@@ -9325,7 +9325,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.08
+          "min": 1.26
         },
         "cost": {
           "max": "__undefined",
@@ -9361,14 +9361,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.13",
-        "lowestAsk": "0.16",
+        "highestBid": "0.10",
+        "lowestAsk": "0.14",
         "market": {
           "amountPrecision": "8",
           "code": "OMG-PLN",
           "first": {
             "currency": "OMG",
-            "minOffer": "27.9",
+            "minOffer": "45",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -9379,9 +9379,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.12",
-        "rate": "0.16",
-        "time": "1775589601976"
+        "previousRate": "0.11",
+        "rate": "0.1",
+        "time": "1776061102132"
       },
       "created": "__undefined",
       "option": false,
@@ -9407,7 +9407,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 27.9
+          "min": 45
         },
         "cost": {
           "max": "__undefined",
@@ -9443,27 +9443,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.186",
-        "lowestAsk": "0.229",
+        "highestBid": "0.175",
+        "lowestAsk": "0.185",
         "market": {
           "amountPrecision": "8",
           "code": "SUSHI-USDC",
           "first": {
             "currency": "SUSHI",
-            "minOffer": "2.3",
+            "minOffer": "2.2",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.205",
-        "rate": "0.186",
-        "time": "1775605831739"
+        "previousRate": "0.18",
+        "rate": "0.176",
+        "time": "1776057860673"
       },
       "created": "__undefined",
       "option": false,
@@ -9489,7 +9489,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 2.3
+          "min": 2.2
         },
         "cost": {
           "max": "__undefined",
@@ -9525,14 +9525,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00560",
-        "lowestAsk": "0.00779",
+        "highestBid": "0.00315",
+        "lowestAsk": "0.00489",
         "market": {
           "amountPrecision": "8",
           "code": "ZND-EUR",
           "first": {
             "currency": "ZND",
-            "minOffer": "801",
+            "minOffer": "1080",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -9543,9 +9543,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.00692",
-        "rate": "0.00558",
-        "time": "1775605808018"
+        "previousRate": "0.0048",
+        "rate": "0.004",
+        "time": "1776061326431"
       },
       "created": "__undefined",
       "option": false,
@@ -9571,7 +9571,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 801
+          "min": 1080
         },
         "cost": {
           "max": "__undefined",
@@ -9607,8 +9607,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "6.9",
-        "lowestAsk": "7.7",
+        "highestBid": "6.1",
+        "lowestAsk": "7.42",
         "market": {
           "amountPrecision": "8",
           "code": "LINK-EUR",
@@ -9625,9 +9625,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "7.08",
-        "rate": "7.07",
-        "time": "1775605583624"
+        "previousRate": "6.81",
+        "rate": "6.73",
+        "time": "1776060330784"
       },
       "created": "__undefined",
       "option": false,
@@ -9689,14 +9689,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "2.80",
-        "lowestAsk": "3",
+        "highestBid": "2.36",
+        "lowestAsk": "2.39",
         "market": {
           "amountPrecision": "8",
           "code": "REP-PLN",
           "first": {
             "currency": "REP",
-            "minOffer": "1.44",
+            "minOffer": "1.89",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -9707,9 +9707,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "2.80",
-        "rate": "3",
-        "time": "1775581570754"
+        "previousRate": "2.39",
+        "rate": "2.36",
+        "time": "1776035441020"
       },
       "created": "__undefined",
       "option": false,
@@ -9735,7 +9735,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.44
+          "min": 1.89
         },
         "cost": {
           "max": "__undefined",
@@ -9771,8 +9771,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "10.63",
-        "lowestAsk": "11.7",
+        "highestBid": "8.7",
+        "lowestAsk": "10",
         "market": {
           "amountPrecision": "8",
           "code": "INJ-PLN",
@@ -9789,9 +9789,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "10.8",
-        "rate": "10.62",
-        "time": "1775605528540"
+        "previousRate": "9",
+        "rate": "10",
+        "time": "1776003861650"
       },
       "created": "__undefined",
       "option": false,
@@ -9853,14 +9853,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.8536",
-        "lowestAsk": "0.8546",
+        "highestBid": "0.741",
+        "lowestAsk": "0.828",
         "market": {
           "amountPrecision": "8",
           "code": "USDC-EUR",
           "first": {
             "currency": "USDC",
-            "minOffer": "5.22",
+            "minOffer": "5.4",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -9871,9 +9871,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.8536",
-        "rate": "0.8541",
-        "time": "1775605731860"
+        "previousRate": "0.7800",
+        "rate": "0.828",
+        "time": "1776060033820"
       },
       "created": "__undefined",
       "option": false,
@@ -9899,7 +9899,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 5.22
+          "min": 5.4
         },
         "cost": {
           "max": "__undefined",
@@ -9935,27 +9935,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.276",
-        "lowestAsk": "0.322",
+        "highestBid": "0.271",
+        "lowestAsk": "0.330",
         "market": {
           "amountPrecision": "6",
           "code": "TIA-USDC",
           "first": {
             "currency": "TIA",
-            "minOffer": "1.6",
+            "minOffer": "1.2",
             "scale": "6"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.276",
-        "rate": "0.275",
-        "time": "1775605834292"
+        "previousRate": "0.330",
+        "rate": "0.349",
+        "time": "1776057854066"
       },
       "created": "__undefined",
       "option": false,
@@ -9981,7 +9981,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.6
+          "min": 1.2
         },
         "cost": {
           "max": "__undefined",
@@ -10017,14 +10017,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0304",
-        "lowestAsk": "0.0369",
+        "highestBid": "0.026",
+        "lowestAsk": "0.0296",
         "market": {
           "amountPrecision": "8",
           "code": "CHZ-EUR",
           "first": {
             "currency": "CHZ",
-            "minOffer": "135",
+            "minOffer": "171",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -10035,9 +10035,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.0304",
-        "rate": "0.0325",
-        "time": "1775605794717"
+        "previousRate": "0.0275",
+        "rate": "0.0253",
+        "time": "1776061330572"
       },
       "created": "__undefined",
       "option": false,
@@ -10063,7 +10063,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 135
+          "min": 171
         },
         "cost": {
           "max": "__undefined",
@@ -10099,14 +10099,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.1918",
-        "lowestAsk": "0.21",
+        "highestBid": "0.1596",
+        "lowestAsk": "0.1798",
         "market": {
           "amountPrecision": "6",
           "code": "LUNA2-PLN",
           "first": {
             "currency": "LUNA2",
-            "minOffer": "23.4",
+            "minOffer": "27.9",
             "scale": "6"
           },
           "pricePrecision": "2",
@@ -10117,9 +10117,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.2199",
-        "rate": "0.1918",
-        "time": "1775599199660"
+        "previousRate": "0.1598",
+        "rate": "0.1591",
+        "time": "1776060799132"
       },
       "created": "__undefined",
       "option": false,
@@ -10145,7 +10145,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 23.4
+          "min": 27.9
         },
         "cost": {
           "max": "__undefined",
@@ -10181,14 +10181,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.75",
+        "highestBid": "2",
         "lowestAsk": "2.2",
         "market": {
           "amountPrecision": "8",
           "code": "CITY-PLN",
           "first": {
             "currency": "CITY",
-            "minOffer": "2.34",
+            "minOffer": "2.25",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -10199,9 +10199,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "2.3",
-        "rate": "1.91",
-        "time": "1775584427696"
+        "previousRate": "1.9",
+        "rate": "2",
+        "time": "1776057972325"
       },
       "created": "__undefined",
       "option": false,
@@ -10227,7 +10227,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 2.34
+          "min": 2.25
         },
         "cost": {
           "max": "__undefined",
@@ -10263,14 +10263,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.078",
-        "lowestAsk": "0.083",
+        "highestBid": "0.106",
+        "lowestAsk": "0.13",
         "market": {
           "amountPrecision": "8",
           "code": "ENJ-PLN",
           "first": {
             "currency": "ENJ",
-            "minOffer": "54",
+            "minOffer": "45.9",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -10281,9 +10281,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.078",
-        "rate": "0.083",
-        "time": "1775600648874"
+        "previousRate": "0.113",
+        "rate": "0.098",
+        "time": "1776061243067"
       },
       "created": "__undefined",
       "option": false,
@@ -10309,7 +10309,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 54
+          "min": 45.9
         },
         "cost": {
           "max": "__undefined",
@@ -10345,8 +10345,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0000046",
-        "lowestAsk": "0.00000579",
+        "highestBid": "0.000004",
+        "lowestAsk": "0.00000499",
         "market": {
           "amountPrecision": "8",
           "code": "SHIB-EUR",
@@ -10363,9 +10363,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.00000521",
-        "rate": "0.00000465",
-        "time": "1775605759129"
+        "previousRate": "0.00000434",
+        "rate": "0.00000497",
+        "time": "1776060599125"
       },
       "created": "__undefined",
       "option": false,
@@ -10427,14 +10427,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0212",
+        "highestBid": "0.02",
         "lowestAsk": "0.0249",
         "market": {
           "amountPrecision": "8",
           "code": "FLR-PLN",
           "first": {
             "currency": "FLR",
-            "minOffer": "207",
+            "minOffer": "225",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -10445,9 +10445,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.02",
-        "rate": "0.0212",
-        "time": "1775604059849"
+        "previousRate": "0.021",
+        "rate": "0.0196",
+        "time": "1776057863926"
       },
       "created": "__undefined",
       "option": false,
@@ -10473,7 +10473,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 207
+          "min": 225
         },
         "cost": {
           "max": "__undefined",
@@ -10509,14 +10509,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.07",
-        "lowestAsk": "0.088",
+        "highestBid": "0.067",
+        "lowestAsk": "0.078",
         "market": {
           "amountPrecision": "8",
           "code": "GRT-PLN",
           "first": {
             "currency": "GRT",
-            "minOffer": "55.8",
+            "minOffer": "66.6",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -10528,8 +10528,8 @@
           }
         },
         "previousRate": "0.079",
-        "rate": "0.08",
-        "time": "1775601976428"
+        "rate": "0.067",
+        "time": "1776036458027"
       },
       "created": "__undefined",
       "option": false,
@@ -10555,7 +10555,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 55.8
+          "min": 66.6
         },
         "cost": {
           "max": "__undefined",
@@ -10591,27 +10591,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "77.02",
-        "lowestAsk": "87.0",
+        "highestBid": "70.71",
+        "lowestAsk": "84.97",
         "market": {
           "amountPrecision": "8",
           "code": "QNT-USDC",
           "first": {
             "currency": "QNT",
-            "minOffer": "0.0054",
+            "minOffer": "0.0055",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "2",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "89.99",
-        "rate": "77.02",
-        "time": "1775593376051"
+        "previousRate": "77.02",
+        "rate": "70.7",
+        "time": "1776056567328"
       },
       "created": "__undefined",
       "option": false,
@@ -10637,7 +10637,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0054
+          "min": 0.0055
         },
         "cost": {
           "max": "__undefined",
@@ -10673,14 +10673,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.117",
-        "lowestAsk": "0.134",
+        "highestBid": "0.101",
+        "lowestAsk": "0.119",
         "market": {
           "amountPrecision": "8",
           "code": "CHZ-PLN",
           "first": {
             "currency": "CHZ",
-            "minOffer": "37.8",
+            "minOffer": "45",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -10691,9 +10691,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.1",
-        "rate": "0.117",
-        "time": "1775597471228"
+        "previousRate": "0.106",
+        "rate": "0.1",
+        "time": "1776060179680"
       },
       "created": "__undefined",
       "option": false,
@@ -10719,7 +10719,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 37.8
+          "min": 45
         },
         "cost": {
           "max": "__undefined",
@@ -10755,8 +10755,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "6.35",
-        "lowestAsk": "7.77",
+        "highestBid": "6.16",
+        "lowestAsk": "6.87",
         "market": {
           "amountPrecision": "8",
           "code": "RENDER-PLN",
@@ -10773,9 +10773,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "6.6",
-        "rate": "7.7",
-        "time": "1775605828934"
+        "previousRate": "6.35",
+        "rate": "6.15",
+        "time": "1776061333734"
       },
       "created": "__undefined",
       "option": false,
@@ -10837,14 +10837,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0708",
-        "lowestAsk": "0.0819",
+        "highestBid": "0.0591",
+        "lowestAsk": "0.091",
         "market": {
           "amountPrecision": "8",
           "code": "POL-EUR",
           "first": {
             "currency": "POL",
-            "minOffer": "63",
+            "minOffer": "49.5",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -10855,9 +10855,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.0800",
-        "rate": "0.0708",
-        "time": "1775605831570"
+        "previousRate": "0.064",
+        "rate": "0.09",
+        "time": "1776059958557"
       },
       "created": "__undefined",
       "option": false,
@@ -10883,7 +10883,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 63
+          "min": 49.5
         },
         "cost": {
           "max": "__undefined",
@@ -10919,8 +10919,8 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.174",
-        "lowestAsk": "1.59",
+        "highestBid": "1.177",
+        "lowestAsk": "1.739",
         "market": {
           "amountPrecision": "8",
           "code": "TON-USDC",
@@ -10937,9 +10937,9 @@
             "scale": "6"
           }
         },
-        "previousRate": "1.248",
-        "rate": "1.440",
-        "time": "1775602178078"
+        "previousRate": "1.473",
+        "rate": "1.463",
+        "time": "1776058157704"
       },
       "created": "__undefined",
       "option": false,
@@ -11001,27 +11001,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.292",
-        "lowestAsk": "0.3628",
+        "highestBid": "0.32",
+        "lowestAsk": "0.348",
         "market": {
           "amountPrecision": "8",
           "code": "TRX-USDC",
           "first": {
             "currency": "TRX",
-            "minOffer": "1.4",
+            "minOffer": "1.2",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.3085",
-        "rate": "0.3844",
-        "time": "1775604827586"
+        "previousRate": "0.3488",
+        "rate": "0.3484",
+        "time": "1776036596307"
       },
       "created": "__undefined",
       "option": false,
@@ -11047,7 +11047,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.4
+          "min": 1.2
         },
         "cost": {
           "max": "__undefined",
@@ -11083,27 +11083,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "14.42",
-        "lowestAsk": "20.6",
+        "highestBid": "15.91",
+        "lowestAsk": "19.4",
         "market": {
           "amountPrecision": "8",
           "code": "COMP-USDC",
           "first": {
             "currency": "COMP",
-            "minOffer": "0.029",
+            "minOffer": "0.02",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "2",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "14.14",
-        "rate": "14.4",
-        "time": "1775605829165"
+        "previousRate": "14.4",
+        "rate": "19.4",
+        "time": "1776057921957"
       },
       "created": "__undefined",
       "option": false,
@@ -11129,7 +11129,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.029
+          "min": 0.02
         },
         "cost": {
           "max": "__undefined",
@@ -11165,27 +11165,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00011701",
-        "lowestAsk": "0.000125",
+        "highestBid": "0.000115",
+        "lowestAsk": "0.0001249",
         "market": {
           "amountPrecision": "8",
           "code": "LINK-BTC",
           "first": {
             "currency": "LINK",
-            "minOffer": "0.017",
+            "minOffer": "0.018",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.000117",
-        "rate": "0.00012000",
-        "time": "1775604451810"
+        "previousRate": "0.00012400",
+        "rate": "0.000116",
+        "time": "1776026651865"
       },
       "created": "__undefined",
       "option": false,
@@ -11211,7 +11211,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.017
+          "min": 0.018
         },
         "cost": {
           "max": "__undefined",
@@ -11247,14 +11247,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.033",
-        "lowestAsk": "0.042",
+        "highestBid": "0.0304",
+        "lowestAsk": "0.0347",
         "market": {
           "amountPrecision": "8",
           "code": "S-EUR",
           "first": {
             "currency": "S",
-            "minOffer": "117",
+            "minOffer": "135",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -11265,9 +11265,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.0346",
-        "rate": "0.0371",
-        "time": "1775605744496"
+        "previousRate": "0.0330",
+        "rate": "0.0317",
+        "time": "1776061270607"
       },
       "created": "__undefined",
       "option": false,
@@ -11293,7 +11293,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 117
+          "min": 135
         },
         "cost": {
           "max": "__undefined",
@@ -11329,14 +11329,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "180",
-        "lowestAsk": "200.97",
+        "highestBid": "182.5",
+        "lowestAsk": "189.88",
         "market": {
           "amountPrecision": "8",
           "code": "LTC-PLN",
           "first": {
             "currency": "LTC",
-            "minOffer": "0.0216",
+            "minOffer": "0.0234",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -11347,9 +11347,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "202.97",
-        "rate": "201.00",
-        "time": "1775605807779"
+        "previousRate": "189.88",
+        "rate": "189",
+        "time": "1776035233135"
       },
       "created": "__undefined",
       "option": false,
@@ -11375,7 +11375,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0216
+          "min": 0.0234
         },
         "cost": {
           "max": "__undefined",
@@ -11411,14 +11411,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "7107.20",
-        "lowestAsk": "7299.99",
+        "highestBid": "6505",
+        "lowestAsk": "6637.15",
         "market": {
           "amountPrecision": "8",
           "code": "ETH-PLN",
           "first": {
             "currency": "ETH",
-            "minOffer": "0.000639",
+            "minOffer": "0.000675",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -11429,9 +11429,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "7400",
-        "rate": "7107.73",
-        "time": "1775605739695"
+        "previousRate": "6643.71",
+        "rate": "6637.15",
+        "time": "1776061270818"
       },
       "created": "__undefined",
       "option": false,
@@ -11457,7 +11457,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 6.39e-4
+          "min": 6.75e-4
         },
         "cost": {
           "max": "__undefined",
@@ -11493,27 +11493,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.241",
-        "lowestAsk": "0.303",
+        "highestBid": "0.244",
+        "lowestAsk": "0.3",
         "market": {
           "amountPrecision": "8",
           "code": "WLD-USDC",
           "first": {
             "currency": "WLD",
-            "minOffer": "1.8",
+            "minOffer": "1.5",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.241",
-        "rate": "0.242",
-        "time": "1775605827595"
+        "previousRate": "0.259",
+        "rate": "0.260",
+        "time": "1776058930548"
       },
       "created": "__undefined",
       "option": false,
@@ -11539,7 +11539,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.8
+          "min": 1.5
         },
         "cost": {
           "max": "__undefined",
@@ -11575,27 +11575,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.1101",
-        "lowestAsk": "0.125",
+        "highestBid": "0.1",
+        "lowestAsk": "0.1197",
         "market": {
           "amountPrecision": "8",
           "code": "LSK-USDC",
           "first": {
             "currency": "LSK",
-            "minOffer": "3.8",
+            "minOffer": "3.3",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.1102",
-        "rate": "0.1101",
-        "time": "1775605833619"
+        "previousRate": "0.115",
+        "rate": "0.12",
+        "time": "1776056568775"
       },
       "created": "__undefined",
       "option": false,
@@ -11621,7 +11621,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 3.8
+          "min": 3.3
         },
         "cost": {
           "max": "__undefined",
@@ -11657,8 +11657,8 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0001171",
-        "lowestAsk": "0.0001378",
+        "highestBid": "0.000121",
+        "lowestAsk": "0.00015",
         "market": {
           "amountPrecision": "8",
           "code": "AVAX-BTC",
@@ -11671,13 +11671,13 @@
           "ratePrecision": "7",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.000138",
-        "rate": "0.0001379",
-        "time": "1775603983869"
+        "previousRate": "0.0001589",
+        "rate": "0.0001590",
+        "time": "1776058945842"
       },
       "created": "__undefined",
       "option": false,
@@ -11739,27 +11739,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "8.1",
-        "lowestAsk": "9.290000",
+        "highestBid": "9.01",
+        "lowestAsk": "10.349996",
         "market": {
           "amountPrecision": "8",
           "code": "AVAX-USDC",
           "first": {
             "currency": "AVAX",
-            "minOffer": "0.052",
+            "minOffer": "0.041",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "6",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "8.000404",
-        "rate": "8.000321",
-        "time": "1775605805411"
+        "previousRate": "9.1",
+        "rate": "9.666600",
+        "time": "1776031298119"
       },
       "created": "__undefined",
       "option": false,
@@ -11785,7 +11785,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.052
+          "min": 0.041
         },
         "cost": {
           "max": "__undefined",
@@ -11821,14 +11821,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "4.385",
-        "lowestAsk": "4.750",
+        "highestBid": "3.913",
+        "lowestAsk": "4.007",
         "market": {
           "amountPrecision": "8",
           "code": "XRP-PLN",
           "first": {
             "currency": "XRP",
-            "minOffer": "0.99",
+            "minOffer": "1.08",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -11839,9 +11839,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "4.750",
-        "rate": "4.5",
-        "time": "1775605666225"
+        "previousRate": "3.912",
+        "rate": "4.004",
+        "time": "1776061206279"
       },
       "created": "__undefined",
       "option": false,
@@ -11867,7 +11867,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.99
+          "min": 1.08
         },
         "cost": {
           "max": "__undefined",
@@ -11903,27 +11903,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00000131",
-        "lowestAsk": "0.00000144",
+        "highestBid": "0.00000126",
+        "lowestAsk": "0.00000132",
         "market": {
           "amountPrecision": "8",
           "code": "DOGE-BTC",
           "first": {
             "currency": "DOGE",
-            "minOffer": "1.5",
+            "minOffer": "1.6",
             "scale": "8"
           },
           "pricePrecision": "8",
           "ratePrecision": "8",
           "second": {
             "currency": "BTC",
-            "minOffer": "0.00000189",
+            "minOffer": "0.00000207",
             "scale": "8"
           }
         },
-        "previousRate": "0.00000136",
-        "rate": "0.0000014",
-        "time": "1775605832038"
+        "previousRate": "0.00000130",
+        "rate": "0.00000131",
+        "time": "1776060330599"
       },
       "created": "__undefined",
       "option": false,
@@ -11949,7 +11949,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.5
+          "min": 1.6
         },
         "cost": {
           "max": "__undefined",
@@ -11985,8 +11985,8 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.23",
-        "lowestAsk": "0.2745",
+        "highestBid": "0.2151",
+        "lowestAsk": "0.219",
         "market": {
           "amountPrecision": "8",
           "code": "FET-USDC",
@@ -11999,13 +11999,13 @@
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.2305",
-        "rate": "0.2300",
-        "time": "1775599366630"
+        "previousRate": "0.218",
+        "rate": "0.219",
+        "time": "1776056560923"
       },
       "created": "__undefined",
       "option": false,
@@ -12067,14 +12067,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.76",
-        "lowestAsk": "0.87",
+        "highestBid": "0.78",
+        "lowestAsk": "0.8198",
         "market": {
           "amountPrecision": "6",
           "code": "USDC-GBP",
           "first": {
             "currency": "USDC",
-            "minOffer": "5.4",
+            "minOffer": "5.13",
             "scale": "6"
           },
           "pricePrecision": "2",
@@ -12085,9 +12085,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.78",
-        "rate": "0.8200",
-        "time": "1775556460407"
+        "previousRate": "0.8200",
+        "rate": "0.8698",
+        "time": "1776001649732"
       },
       "created": "__undefined",
       "option": false,
@@ -12113,7 +12113,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 5.4
+          "min": 5.13
         },
         "cost": {
           "max": "__undefined",
@@ -12149,14 +12149,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "51600.04",
-        "lowestAsk": "64000.0",
+        "highestBid": "52300.04",
+        "lowestAsk": "69000.0",
         "market": {
           "amountPrecision": "8",
           "code": "BTC-GBP",
           "first": {
             "currency": "BTC",
-            "minOffer": "0.0000891",
+            "minOffer": "0.0000702",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -12167,9 +12167,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "69696.68",
-        "rate": "50505.04",
-        "time": "1775591133238"
+        "previousRate": "50505.04",
+        "rate": "64000.0",
+        "time": "1776010883319"
       },
       "created": "__undefined",
       "option": false,
@@ -12195,7 +12195,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 8.91e-5
+          "min": 7.02e-5
         },
         "cost": {
           "max": "__undefined",
@@ -12231,14 +12231,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.097",
+        "highestBid": "0.078",
         "lowestAsk": "0.116",
         "market": {
           "amountPrecision": "8",
           "code": "LSK-EUR",
           "first": {
             "currency": "LSK",
-            "minOffer": "44.1",
+            "minOffer": "51.3",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -12249,9 +12249,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.102",
-        "rate": "0.101",
-        "time": "1775605827185"
+        "previousRate": "0.096",
+        "rate": "0.087",
+        "time": "1776012673101"
       },
       "created": "__undefined",
       "option": false,
@@ -12277,7 +12277,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 44.1
+          "min": 51.3
         },
         "cost": {
           "max": "__undefined",
@@ -12313,14 +12313,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.005",
-        "lowestAsk": "0.006",
+        "highestBid": "0.004",
+        "lowestAsk": "0.005",
         "market": {
           "amountPrecision": "8",
           "code": "GNY-PLN",
           "first": {
             "currency": "GNY",
-            "minOffer": "900",
+            "minOffer": "1080",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -12332,8 +12332,8 @@
           }
         },
         "previousRate": "0.006",
-        "rate": "0.005",
-        "time": "1775592190420"
+        "rate": "0.004",
+        "time": "1776050978013"
       },
       "created": "__undefined",
       "option": false,
@@ -12359,7 +12359,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 900
+          "min": 1080
         },
         "cost": {
           "max": "__undefined",
@@ -12395,27 +12395,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "8.021",
-        "lowestAsk": "8.7",
+        "highestBid": "8.319",
+        "lowestAsk": "8.737",
         "market": {
           "amountPrecision": "8",
           "code": "LINK-USDC",
           "first": {
             "currency": "LINK",
-            "minOffer": "0.052",
+            "minOffer": "0.047",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "8.699",
-        "rate": "8.7",
-        "time": "1775605603260"
+        "previousRate": "8.732",
+        "rate": "8.318",
+        "time": "1776061234779"
       },
       "created": "__undefined",
       "option": false,
@@ -12441,7 +12441,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.052
+          "min": 0.047
         },
         "cost": {
           "max": "__undefined",
@@ -12477,8 +12477,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.6",
-        "lowestAsk": "2.1",
+        "highestBid": "1.60",
+        "lowestAsk": "2.09",
         "market": {
           "amountPrecision": "8",
           "code": "LPT-EUR",
@@ -12497,7 +12497,7 @@
         },
         "previousRate": "1.44",
         "rate": "2.09",
-        "time": "1775605599767"
+        "time": "1776054894473"
       },
       "created": "__undefined",
       "option": false,
@@ -12559,27 +12559,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.911",
-        "lowestAsk": "1.955",
+        "highestBid": "1.94",
+        "lowestAsk": "2.39",
         "market": {
           "amountPrecision": "8",
           "code": "LPT-USDC",
           "first": {
             "currency": "LPT",
-            "minOffer": "0.22",
+            "minOffer": "0.17",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "1.913",
-        "rate": "1.955",
-        "time": "1775605599779"
+        "previousRate": "1.911",
+        "rate": "2.380",
+        "time": "1776032794800"
       },
       "created": "__undefined",
       "option": false,
@@ -12605,7 +12605,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.22
+          "min": 0.17
         },
         "cost": {
           "max": "__undefined",
@@ -12641,14 +12641,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.01",
-        "lowestAsk": "1.15",
+        "highestBid": "1.17",
+        "lowestAsk": "1.37",
         "market": {
           "amountPrecision": "8",
           "code": "SNX-PLN",
           "first": {
             "currency": "SNX",
-            "minOffer": "4.41",
+            "minOffer": "3.24",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -12659,9 +12659,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.95",
-        "rate": "1.01",
-        "time": "1775604995868"
+        "previousRate": "1.4",
+        "rate": "1.38",
+        "time": "1776061204901"
       },
       "created": "__undefined",
       "option": false,
@@ -12687,7 +12687,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 4.41
+          "min": 3.24
         },
         "cost": {
           "max": "__undefined",
@@ -12723,14 +12723,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.002",
-        "lowestAsk": "1.236",
+        "highestBid": "0.911",
+        "lowestAsk": "1.148",
         "market": {
           "amountPrecision": "8",
           "code": "DOT-EUR",
           "first": {
             "currency": "DOT",
-            "minOffer": "4.23",
+            "minOffer": "4.68",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -12741,9 +12741,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1.065",
-        "rate": "1.056",
-        "time": "1775605826095"
+        "previousRate": "1.0",
+        "rate": "0.960",
+        "time": "1776053989383"
       },
       "created": "__undefined",
       "option": false,
@@ -12769,7 +12769,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 4.23
+          "min": 4.68
         },
         "cost": {
           "max": "__undefined",
@@ -12805,27 +12805,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "275.0",
-        "lowestAsk": "297",
+        "highestBid": "309.07",
+        "lowestAsk": "360",
         "market": {
           "amountPrecision": "8",
           "code": "ZEC-USDC",
           "first": {
             "currency": "ZEC",
-            "minOffer": "0.0018",
+            "minOffer": "0.0011",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "2",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "236.22",
-        "rate": "236.25",
-        "time": "1775603752206"
+        "previousRate": "306",
+        "rate": "360",
+        "time": "1776061336202"
       },
       "created": "__undefined",
       "option": false,
@@ -12851,7 +12851,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0018
+          "min": 0.0011
         },
         "cost": {
           "max": "__undefined",
@@ -12887,14 +12887,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "5.80",
-        "lowestAsk": "5.84",
+        "highestBid": "5.61",
+        "lowestAsk": "6.24",
         "market": {
           "amountPrecision": "8",
           "code": "ATOM-PLN",
           "first": {
             "currency": "ATOM",
-            "minOffer": "0.774",
+            "minOffer": "0.855",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -12905,9 +12905,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "5.80",
-        "rate": "5.85",
-        "time": "1775605529556"
+        "previousRate": "5.26",
+        "rate": "5.25",
+        "time": "1776060816896"
       },
       "created": "__undefined",
       "option": false,
@@ -12933,7 +12933,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.774
+          "min": 0.855
         },
         "cost": {
           "max": "__undefined",
@@ -12969,8 +12969,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "28.03",
-        "lowestAsk": "29.69",
+        "highestBid": "25.22",
+        "lowestAsk": "26.42",
         "market": {
           "amountPrecision": "8",
           "code": "LINK-PLN",
@@ -12987,9 +12987,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "28.84",
-        "rate": "28.03",
-        "time": "1775605723734"
+        "previousRate": "26.24",
+        "rate": "26.34",
+        "time": "1776038902007"
       },
       "created": "__undefined",
       "option": false,
@@ -13051,14 +13051,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "3.03",
-        "lowestAsk": "3.38",
+        "highestBid": "3.86",
+        "lowestAsk": "4.5",
         "market": {
           "amountPrecision": "8",
           "code": "PSG-PLN",
           "first": {
             "currency": "PSG",
-            "minOffer": "1.26",
+            "minOffer": "1.17",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -13069,9 +13069,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "3.63",
-        "rate": "3.4",
-        "time": "1775605531260"
+        "previousRate": "3.71",
+        "rate": "3.7",
+        "time": "1776060990937"
       },
       "created": "__undefined",
       "option": false,
@@ -13097,7 +13097,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 1.26
+          "min": 1.17
         },
         "cost": {
           "max": "__undefined",
@@ -13133,14 +13133,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.320",
-        "lowestAsk": "0.379",
+        "highestBid": "0.335",
+        "lowestAsk": "0.348",
         "market": {
           "amountPrecision": "8",
           "code": "ZRX-PLN",
           "first": {
             "currency": "ZRX",
-            "minOffer": "13.5",
+            "minOffer": "12.6",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -13151,9 +13151,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.303",
-        "rate": "0.32",
-        "time": "1775605827001"
+        "previousRate": "0.345",
+        "rate": "0.335",
+        "time": "1776033017447"
       },
       "created": "__undefined",
       "option": false,
@@ -13179,7 +13179,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 13.5
+          "min": 12.6
         },
         "cost": {
           "max": "__undefined",
@@ -13215,14 +13215,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.365",
-        "lowestAsk": "0.419",
+        "highestBid": "0.34",
+        "lowestAsk": "0.365",
         "market": {
           "amountPrecision": "8",
           "code": "LSK-PLN",
           "first": {
             "currency": "LSK",
-            "minOffer": "10.8",
+            "minOffer": "12.6",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -13233,9 +13233,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.409",
-        "rate": "0.41",
-        "time": "1775605806439"
+        "previousRate": "0.332",
+        "rate": "0.35",
+        "time": "1776060460049"
       },
       "created": "__undefined",
       "option": false,
@@ -13261,7 +13261,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 10.8
+          "min": 12.6
         },
         "cost": {
           "max": "__undefined",
@@ -13298,13 +13298,13 @@
       "inverse": "__undefined",
       "info": {
         "highestBid": "0.275",
-        "lowestAsk": "0.333",
+        "lowestAsk": "0.32",
         "market": {
           "amountPrecision": "8",
           "code": "BAT-PLN",
           "first": {
             "currency": "BAT",
-            "minOffer": "14.4",
+            "minOffer": "16.2",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -13315,9 +13315,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.3",
-        "rate": "0.305",
-        "time": "1775605645482"
+        "previousRate": "0.288",
+        "rate": "0.27",
+        "time": "1776059819395"
       },
       "created": "__undefined",
       "option": false,
@@ -13343,7 +13343,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 14.4
+          "min": 16.2
         },
         "cost": {
           "max": "__undefined",
@@ -13380,13 +13380,13 @@
       "inverse": "__undefined",
       "info": {
         "highestBid": "0.41",
-        "lowestAsk": "0.53",
+        "lowestAsk": "0.71",
         "market": {
           "amountPrecision": "8",
           "code": "JUV-EUR",
           "first": {
             "currency": "JUV",
-            "minOffer": "11.7",
+            "minOffer": "7.02",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -13397,9 +13397,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.41",
-        "rate": "0.36",
-        "time": "1775605817948"
+        "previousRate": "0.58",
+        "rate": "0.64",
+        "time": "1776027470046"
       },
       "created": "__undefined",
       "option": false,
@@ -13425,7 +13425,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 11.7
+          "min": 7.02
         },
         "cost": {
           "max": "__undefined",
@@ -13461,14 +13461,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.02319",
-        "lowestAsk": "0.02379",
+        "highestBid": "0.01504",
+        "lowestAsk": "0.01594",
         "market": {
           "amountPrecision": "8",
           "code": "ZND-PLN",
           "first": {
             "currency": "ZND",
-            "minOffer": "198",
+            "minOffer": "288",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -13479,9 +13479,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.02319",
-        "rate": "0.02379",
-        "time": "1775605818657"
+        "previousRate": "0.01504",
+        "rate": "0.01594",
+        "time": "1776061336634"
       },
       "created": "__undefined",
       "option": false,
@@ -13507,7 +13507,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 198
+          "min": 288
         },
         "cost": {
           "max": "__undefined",
@@ -13543,27 +13543,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.187",
-        "lowestAsk": "1.536",
+        "highestBid": "1.17",
+        "lowestAsk": "1.39",
         "market": {
           "amountPrecision": "8",
           "code": "NEAR-USDC",
           "first": {
             "currency": "NEAR",
-            "minOffer": "0.35",
+            "minOffer": "0.28",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "3",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "1.189",
-        "rate": "1.187",
-        "time": "1775605767835"
+        "previousRate": "1.485",
+        "rate": "1.39",
+        "time": "1776037419472"
       },
       "created": "__undefined",
       "option": false,
@@ -13589,7 +13589,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.35
+          "min": 0.28
         },
         "cost": {
           "max": "__undefined",
@@ -13625,14 +13625,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.83",
-        "lowestAsk": "0.89",
+        "highestBid": "0.828",
+        "lowestAsk": "0.887",
         "market": {
           "amountPrecision": "8",
           "code": "WLD-PLN",
           "first": {
             "currency": "WLD",
-            "minOffer": "5.4",
+            "minOffer": "5.58",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -13643,9 +13643,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.85",
-        "rate": "0.869",
-        "time": "1775605062706"
+        "previousRate": "0.853",
+        "rate": "0.798",
+        "time": "1776061301832"
       },
       "created": "__undefined",
       "option": false,
@@ -13671,7 +13671,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 5.4
+          "min": 5.58
         },
         "cost": {
           "max": "__undefined",
@@ -13707,14 +13707,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.127",
-        "lowestAsk": "1.17",
+        "highestBid": "1.02",
+        "lowestAsk": "1.199",
         "market": {
           "amountPrecision": "6",
           "code": "XTZ-PLN",
           "first": {
             "currency": "XTZ",
-            "minOffer": "3.96",
+            "minOffer": "4.41",
             "scale": "6"
           },
           "pricePrecision": "2",
@@ -13725,9 +13725,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1.129",
-        "rate": "1.127",
-        "time": "1775590884258"
+        "previousRate": "1.021",
+        "rate": "1.02",
+        "time": "1776031247002"
       },
       "created": "__undefined",
       "option": false,
@@ -13753,7 +13753,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 3.96
+          "min": 4.41
         },
         "cost": {
           "max": "__undefined",
@@ -13789,14 +13789,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1.45",
-        "lowestAsk": "1.67",
+        "highestBid": "1.29",
+        "lowestAsk": "1.63",
         "market": {
           "amountPrecision": "8",
           "code": "ATOM-EUR",
           "first": {
             "currency": "ATOM",
-            "minOffer": "2.79",
+            "minOffer": "3.33",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -13807,9 +13807,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1.57",
-        "rate": "1.51",
-        "time": "1775605827140"
+        "previousRate": "1.65",
+        "rate": "1.33",
+        "time": "1776017617890"
       },
       "created": "__undefined",
       "option": false,
@@ -13835,7 +13835,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 2.79
+          "min": 3.33
         },
         "cost": {
           "max": "__undefined",
@@ -13871,14 +13871,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "1361.41",
-        "lowestAsk": "1441.74",
+        "highestBid": "1290.01",
+        "lowestAsk": "1428.99",
         "market": {
           "amountPrecision": "8",
           "code": "BCC-PLN",
           "first": {
             "currency": "BCC",
-            "minOffer": "0.00324",
+            "minOffer": "0.00306",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -13889,9 +13889,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "1359.8",
-        "rate": "1360",
-        "time": "1775605647280"
+        "previousRate": "1429.99",
+        "rate": "1430",
+        "time": "1776060799661"
       },
       "created": "__undefined",
       "option": false,
@@ -13917,7 +13917,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.00324
+          "min": 0.00306
         },
         "cost": {
           "max": "__undefined",
@@ -13953,27 +13953,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "81.600025",
-        "lowestAsk": "86.999989",
+        "highestBid": "90",
+        "lowestAsk": "95.999909",
         "market": {
           "amountPrecision": "8",
           "code": "SOL-USDC",
           "first": {
             "currency": "SOL",
-            "minOffer": "0.0051",
+            "minOffer": "0.0043",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "6",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "88.839999",
-        "rate": "81.5",
-        "time": "1775605832689"
+        "previousRate": "90.000001",
+        "rate": "90",
+        "time": "1776056912114"
       },
       "created": "__undefined",
       "option": false,
@@ -13999,7 +13999,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.0051
+          "min": 0.0043
         },
         "cost": {
           "max": "__undefined",
@@ -14035,8 +14035,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "9.52",
-        "lowestAsk": "10.61",
+        "highestBid": "8.7",
+        "lowestAsk": "9.98",
         "market": {
           "amountPrecision": "8",
           "code": "UNI-PLN",
@@ -14053,9 +14053,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "10.5",
-        "rate": "10.57",
-        "time": "1775605809395"
+        "previousRate": "9.03",
+        "rate": "9.02",
+        "time": "1776061299877"
       },
       "created": "__undefined",
       "option": false,
@@ -14117,27 +14117,27 @@
       "maker": 0,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.0211",
-        "lowestAsk": "0.029",
+        "highestBid": "0.029",
+        "lowestAsk": "0.04",
         "market": {
           "amountPrecision": "8",
           "code": "ENJ-USDC",
           "first": {
             "currency": "ENJ",
-            "minOffer": "20",
+            "minOffer": "9.7",
             "scale": "8"
           },
           "pricePrecision": "6",
           "ratePrecision": "4",
           "second": {
             "currency": "USDC",
-            "minOffer": "0.414",
+            "minOffer": "0.387",
             "scale": "6"
           }
         },
-        "previousRate": "0.0211",
-        "rate": "0.0212",
-        "time": "1775595573549"
+        "previousRate": "0.033",
+        "rate": "0.04",
+        "time": "1776057835576"
       },
       "created": "__undefined",
       "option": false,
@@ -14163,7 +14163,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 20
+          "min": 9.7
         },
         "cost": {
           "max": "__undefined",
@@ -14199,14 +14199,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "880.98",
-        "lowestAsk": "1029.98",
+        "highestBid": "1021.13",
+        "lowestAsk": "1163.91",
         "market": {
           "amountPrecision": "8",
           "code": "ZEC-PLN",
           "first": {
             "currency": "ZEC",
-            "minOffer": "0.00459",
+            "minOffer": "0.00378",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -14217,9 +14217,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "997",
-        "rate": "1000",
-        "time": "1775605613522"
+        "previousRate": "1167.76",
+        "rate": "1167.77",
+        "time": "1776061287798"
       },
       "created": "__undefined",
       "option": false,
@@ -14245,7 +14245,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 0.00459
+          "min": 0.00378
         },
         "cost": {
           "max": "__undefined",
@@ -14281,14 +14281,14 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.00000999",
-        "lowestAsk": "0.0000109",
+        "highestBid": "0.00000854",
+        "lowestAsk": "0.00000944",
         "market": {
           "amountPrecision": "8",
           "code": "PEPE-PLN",
           "first": {
             "currency": "PEPE",
-            "minOffer": "423000",
+            "minOffer": "468000",
             "scale": "8"
           },
           "pricePrecision": "2",
@@ -14299,9 +14299,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.0000106",
-        "rate": "0.0000109",
-        "time": "1775605292023"
+        "previousRate": "0.00000855",
+        "rate": "0.00000940",
+        "time": "1776060848460"
       },
       "created": "__undefined",
       "option": false,
@@ -14327,7 +14327,7 @@
       "limits": {
         "amount": {
           "max": "__undefined",
-          "min": 423000
+          "min": 468000
         },
         "cost": {
           "max": "__undefined",
@@ -14363,8 +14363,8 @@
       "maker": 0.003,
       "inverse": "__undefined",
       "info": {
-        "highestBid": "0.44",
-        "lowestAsk": "0.55",
+        "highestBid": "0.46",
+        "lowestAsk": "0.51",
         "market": {
           "amountPrecision": "6",
           "code": "JUP-PLN",
@@ -14381,9 +14381,9 @@
             "scale": "2"
           }
         },
-        "previousRate": "0.5",
-        "rate": "0.52",
-        "time": "1775605428744"
+        "previousRate": "0.51",
+        "rate": "0.46",
+        "time": "1776035627877"
       },
       "created": "__undefined",
       "option": false,

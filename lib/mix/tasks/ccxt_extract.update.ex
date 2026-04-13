@@ -154,6 +154,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     ccxt_extract.describe
     ccxt_extract.load_markets
     ccxt_extract.url_templates
+    ccxt_extract.signing_fixtures
   )
 
   defp run_quickbeam_extractors do

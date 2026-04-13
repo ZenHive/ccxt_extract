@@ -88,14 +88,13 @@
       ]
     },
     {
-      "count": 12,
+      "count": 11,
       "exchanges": [
         "apex",
         "bitget",
         "blofin",
         "coinbaseexchange",
         "coinbaseinternational",
-        "coincatch",
         "deepcoin",
         "kucoin",
         "kucoinfutures",
@@ -226,7 +225,7 @@
       ]
     }
   ],
-  "exchange_count": 107,
+  "exchange_count": 106,
   "exchanges": [
     {
       "credential_pattern": [
@@ -1060,27 +1059,6 @@
       ],
       "has_fetch_markets": true,
       "id": "coinbaseinternational",
-      "required_credentials": {
-        "accountId": false,
-        "apiKey": true,
-        "login": false,
-        "password": true,
-        "privateKey": false,
-        "secret": true,
-        "token": false,
-        "twofa": false,
-        "uid": false,
-        "walletAddress": false
-      }
-    },
-    {
-      "credential_pattern": [
-        "apiKey",
-        "password",
-        "secret"
-      ],
-      "has_fetch_markets": true,
-      "id": "coincatch",
       "required_credentials": {
         "accountId": false,
         "apiKey": true,
@@ -2382,11 +2360,11 @@
       }
     }
   ],
-  "extracted_at": "2026-04-12T14:09:00.930021Z",
+  "extracted_at": "2026-04-13T06:25:34.941256Z",
   "summary": {
     "all_have_fetch_markets": true,
     "credential_pattern_count": 13,
-    "fetch_markets_advertised_count": 107,
+    "fetch_markets_advertised_count": 106,
     "fully_public_count": 1
   }
 }

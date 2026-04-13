@@ -1,0 +1,86 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "market/tickers"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://www.okx.com/api/v5/market/tickers"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "trade/account-rate-limit"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "OK-ACCESS-KEY": "account-TEST_API_KEY",
+          "OK-ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "OK-ACCESS-SIGN": "cCy13Mj3dwIyxZJQISte4yHHFdtxbq2PmTnXonh5sms=",
+          "OK-ACCESS-TIMESTAMP": "1970-01-20T16:13:20.000Z"
+        },
+        "method": "GET",
+        "url": "https://www.okx.com/api/v5/trade/account-rate-limit"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "sprd/order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "OK-ACCESS-KEY": "account-TEST_API_KEY",
+          "OK-ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "OK-ACCESS-SIGN": "tHMcTVLhbFQPiZZqjsUwb4VYK98L41GIwb6kNlFugpI=",
+          "OK-ACCESS-TIMESTAMP": "1970-01-20T16:13:20.000Z"
+        },
+        "method": "POST",
+        "url": "https://www.okx.com/api/v5/sprd/order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": "TEST_PASSPHRASE",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "okx",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

@@ -1,0 +1,95 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v3/symbols"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "User-Agent": "apex-CCXT"
+        },
+        "method": "GET",
+        "url": "https://omni.apex.exchange/api/v3/symbols"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v3/account"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "APEX-API-KEY": "account-TEST_API_KEY",
+          "APEX-PASSPHRASE": "TEST_PASSPHRASE",
+          "APEX-SIGNATURE": "SOA8iWypHyzeLDGolsAV0Z8Ltbzjjgn4JQN1E3+mXHo=",
+          "APEX-TIMESTAMP": "1700000000000",
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "User-Agent": "apex-CCXT"
+        },
+        "method": "GET",
+        "url": "https://omni.apex.exchange/api/v3/account"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "v3/delete-open-orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "amount=1&price=1&side=buy&symbol=BTC/USDT&type=limit",
+        "headers": {
+          "APEX-API-KEY": "account-TEST_API_KEY",
+          "APEX-PASSPHRASE": "TEST_PASSPHRASE",
+          "APEX-SIGNATURE": "135NN+qM7rhiGyMUQt+i48do4tSTnb5XQe/mUTEQx9M=",
+          "APEX-TIMESTAMP": "1700000000000",
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "User-Agent": "apex-CCXT"
+        },
+        "method": "POST",
+        "url": "https://omni.apex.exchange/api/v3/delete-open-orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": "TEST_PASSPHRASE",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "apex",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

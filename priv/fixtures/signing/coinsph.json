@@ -1,0 +1,79 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "openapi/quote/v1/ticker/24hr"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.pro.coins.ph/openapi/quote/v1/ticker/24hr"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "openapi/wallet/v1/config/getall"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "X-COINS-APIKEY": "account-TEST_API_KEY"
+        },
+        "method": "GET",
+        "url": "https://api.pro.coins.ph/openapi/wallet/v1/config/getall?timestamp=1700000000000&&signature=997901f2a96a4f3f93aaf7bb4225abd8958cddcd7653ff369b5aefb33eb750fe"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "openapi/v1/order/test"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": null,
+        "headers": {
+          "X-COINS-APIKEY": "account-TEST_API_KEY"
+        },
+        "method": "POST",
+        "url": "https://api.pro.coins.ph/openapi/v1/order/test?symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1&timestamp=1700000000000&&signature=a4a2dd6fa6fdfffc2249656c02638b3663c61efa8230da6ab718950f196b290e"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "coinsph",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

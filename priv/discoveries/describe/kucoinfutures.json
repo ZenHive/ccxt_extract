@@ -372,6 +372,7 @@
           "asset/deposit/address": 10,
           "dcp/query": 4,
           "market/orderbook": 6,
+          "position/history": 4,
           "sub-account/balance": 10,
           "user/fee-rate": 6,
           "{accountMode}/account/balance": 10,
@@ -517,6 +518,7 @@
         "130107": "__function:ExchangeError",
         "503": "__function:ExchangeNotAvailable",
         "260000": "__function:InvalidAddress",
+        "112010": "__function:PermissionDenied",
         "126033": "__function:InvalidOrder",
         "900014": "__function:BadRequest",
         "recAccountType not in the given range": "__function:BadRequest",
@@ -570,7 +572,11 @@
         "createOrder": {
           "attachedStopLossTakeProfit": {
             "price": true,
-            "triggerPriceType": "__undefined"
+            "triggerPriceType": {
+              "index": true,
+              "last": true,
+              "mark": true
+            }
           },
           "hedged": false,
           "iceberg": true,
@@ -1150,7 +1156,7 @@
       "ws": "__undefined",
       "fetchPositions": true,
       "fetchFundingRates": false,
-      "createStopLossOrder": "__undefined",
+      "createStopLossOrder": true,
       "fetchDepositAddress": true,
       "createOrderWithTakeProfitAndStopLossWs": "__undefined",
       "fetchBorrowInterest": true,
@@ -1171,7 +1177,7 @@
       "setMargin": "__undefined",
       "createTakeProfitOrderWs": "__undefined",
       "fetchLongShortRatioHistory": "__undefined",
-      "fetchOpenInterest": false,
+      "fetchOpenInterest": true,
       "fetchDepositAddresses": false,
       "fetchTradingFeesWs": "__undefined",
       "fetchTransfers": true,
@@ -1186,7 +1192,7 @@
       "fetchMarkPrice": true,
       "createMarketBuyOrder": "__undefined",
       "deposit": "__undefined",
-      "fetchPositionHistory": false,
+      "fetchPositionHistory": true,
       "fetchWithdrawalsWs": "__undefined",
       "watchOHLCVForSymbols": "__undefined",
       "editOrders": "__undefined",
@@ -1210,7 +1216,7 @@
       "fetchBidsAsks": true,
       "cancelOrder": true,
       "fetchFundingInterval": true,
-      "fetchOpenInterests": "__undefined",
+      "fetchOpenInterests": true,
       "fetchClosedOrdersWs": "__undefined",
       "fetchOpenOrders": true,
       "fetchWithdrawals": true,
@@ -1245,12 +1251,12 @@
       "fetchIsolatedPositions": "__undefined",
       "privateAPI": true,
       "watchMyTrades": "__undefined",
-      "createOrderWithTakeProfitAndStopLoss": "__undefined",
+      "createOrderWithTakeProfitAndStopLoss": true,
       "fetchL2OrderBook": true,
       "margin": false,
       "fetchConvertQuote": "__undefined",
       "watchPosition": "__undefined",
-      "createTakeProfitOrder": "__undefined",
+      "createTakeProfitOrder": true,
       "createLimitBuyOrder": "__undefined",
       "cancelOrdersWs": "__undefined",
       "fetchPosition": true,
@@ -1308,7 +1314,7 @@
       "createMarketSellOrder": "__undefined",
       "fetchTradingFees": false,
       "fetchOrder": true,
-      "fetchOpenInterestHistory": false,
+      "fetchOpenInterestHistory": true,
       "fetchUnderlyingAssets": "__undefined",
       "watchPositions": "__undefined"
     },
@@ -1373,7 +1379,9 @@
         "marginV2": "margin",
         "mining": "pool",
         "spot": "trade",
-        "swap": "contract"
+        "swap": "contract",
+        "unified": "unified",
+        "uta": "unified"
       },
       "adjustForTimeDifference": false,
       "defaultAccountType": "contract",
@@ -1382,9 +1390,12 @@
         "code": "USDT"
       },
       "fetchCurrencies": {
-        "webApiEnable": true,
-        "webApiMuteFailure": true,
-        "webApiRetries": 1
+        "brokenCurrencies": [
+          "00",
+          "OPEN_ERROR",
+          "HUF",
+          "BDT"
+        ]
       },
       "fetchMarkets": {
         "fetchTickersFees": false,
@@ -1413,6 +1424,7 @@
         "NEAR": "near",
         "COTI": "coti",
         "LTO": "lto",
+        "BTC": "btc",
         "DOGE": "doge",
         "NEON3": "neon3",
         "ETC": "etc",
@@ -1428,6 +1440,7 @@
         "WAX": "waxp",
         "TT": "TT",
         "LOKI": "loki",
+        "ETH": "eth",
         "CSPR": "cspr",
         "DOT": "dot",
         "IOST": "iost",
@@ -1442,6 +1455,7 @@
         "BTCNATIVESEGWIT": "bech32",
         "BCHA": "bchabc",
         "STEEM": "steem",
+        "HECO": "heco",
         "RVN": "rvn",
         "DCR": "dcr",
         "SERO": "sero",
@@ -1481,6 +1495,7 @@
         "TLOS": "tlos",
         "METIS": "metis",
         "METER": "meter",
+        "TRX": "trx",
         "BEP20": "bsc",
         "OSMO": "osmo",
         "AKT": "akt",
@@ -1506,6 +1521,7 @@
         "HYDRA": "hydra",
         "XRP": "xrp",
         "NANO": "nano",
+        "OP": "optimism",
         "SOL": "sol",
         "XCH": "xch",
         "XTZ": "xtz",
@@ -1539,6 +1555,14 @@
         "KCC": "kcc",
         "PDEX": "pdex"
       },
+      "networksById": {
+        "btc": "BTC",
+        "eth": "ERC20",
+        "heco": "HRC20",
+        "op": "OP",
+        "optimism": "OP",
+        "trx": "TRC20"
+      },
       "partner": {
         "future": {
           "id": "ccxtfutures",
@@ -1551,6 +1575,13 @@
       },
       "symbolSeparator": "-",
       "timeDifference": 0,
+      "timeInForce": {
+        "FOK": "FOK",
+        "GTD": "GTT",
+        "IOC": "IOC",
+        "PO": "PO",
+        "RPI": "RPI"
+      },
       "timeframes": {
         "swap": {
           "12h": 720,
@@ -1572,6 +1603,20 @@
         "fillResponseFromRequest": true
       },
       "uta": false,
+      "utaAccountsByType": {
+        "contract": "FUTURES",
+        "cross": "CROSS",
+        "funding": "FUNDING",
+        "future": "FUTURES",
+        "isolated": "ISOLATED",
+        "main": "FUNDING",
+        "margin": "CROSS",
+        "spot": "SPOT",
+        "swap": "FUTURES",
+        "trade": "SPOT",
+        "unified": "unified",
+        "uta": "unified"
+      },
       "version": "v1",
       "versions": {
         "futuresPrivate": {
@@ -1748,6 +1793,6 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-07T23:37:32.537121Z",
+  "extracted_at": "2026-04-13T06:20:56.140782Z",
   "id": "kucoinfutures"
 }

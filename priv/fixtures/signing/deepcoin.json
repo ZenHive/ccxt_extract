@@ -1,0 +1,88 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "deepcoin/market/books"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.deepcoin.com/deepcoin/market/books"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "deepcoin/account/balances"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "DC-ACCESS-KEY": "account-TEST_API_KEY",
+          "DC-ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "DC-ACCESS-SIGN": "OQ2M2/NyC52t2lt8ZK1B3Qd06LEak9FdGrYfoSaRli4=",
+          "DC-ACCESS-TIMESTAMP": "2023-11-14T22:13:20.000Z",
+          "appid": "200103"
+        },
+        "method": "GET",
+        "url": "https://api.deepcoin.com/deepcoin/account/balances"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "deepcoin/trade/order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "DC-ACCESS-KEY": "account-TEST_API_KEY",
+          "DC-ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "DC-ACCESS-SIGN": "n9B1ez02YosPDpR9YC3Y07OCZypGP6KeFXhpq3aCOwo=",
+          "DC-ACCESS-TIMESTAMP": "2023-11-14T22:13:20.000Z",
+          "appid": "200103"
+        },
+        "method": "POST",
+        "url": "https://api.deepcoin.com/deepcoin/trade/order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": "TEST_PASSPHRASE",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "deepcoin",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

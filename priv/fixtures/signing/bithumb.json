@@ -1,0 +1,69 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "ticker/ALL_{quoteId}"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.bithumb.com/public/ticker/ALL_{quoteId}"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "info/orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "endpoint=%2Finfo%2Forders&symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1",
+        "headers": {
+          "Accept": "application/json",
+          "Api-Key": "account-TEST_API_KEY",
+          "Api-Nonce": "1700000000",
+          "Api-Sign": "NDU4ZGRiMzUwNzNlOGYwMDRmNWQwMTJhMmU5NzFiNTE2N2Y5NDIyNWVkMWJlNDkxYjk2OTgwOGNmNGYyNWQwOTJkYzRjMmMzOTE3MjJiNDE0YWU1OGJjZjY0OGNhMTk2MzNlMWM0ZTgxOGRhZjQxMDEzYTEwYmNhYzViMmI2Yzk=",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "method": "POST",
+        "url": "https://api.bithumb.com/info/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bithumb",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

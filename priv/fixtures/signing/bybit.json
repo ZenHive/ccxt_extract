@@ -1,0 +1,78 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "spot/v3/public/symbols"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.bybit.com/spot/v3/public/symbols"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v2/private/wallet/fund/records"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.bybit.com/v2/private/wallet/fund/records?api_key=account-TEST_API_KEY&recv_window=5000&timestamp=1700000000&sign=d38be30b05ffabf37fe3b74e0813201550961ce09104bab84f0e2930e0be018d"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "spot/v3/private/order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1&api_key=account-TEST_API_KEY&recv_window=5000&timestamp=1700000000&sign=3f9d812856e894f97cb6bd0b6c692087dad7d43b94c51b5651eac9d668be0c26",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Referer": "CCXT"
+        },
+        "method": "POST",
+        "url": "https://api.bybit.com/spot/v3/private/order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bybit",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

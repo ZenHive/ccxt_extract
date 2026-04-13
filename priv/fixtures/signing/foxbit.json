@@ -1,0 +1,96 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "v3",
+          "public"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "markets"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "GET",
+        "url": "https://api.foxbit.com.br/rest/v3/markets"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v3",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "accounts"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "Content-Type": "application/json",
+          "X-FB-ACCESS-KEY": "account-TEST_API_KEY",
+          "X-FB-ACCESS-SIGNATURE": "02e80fad3d4d2fa4b1a368869b71d724e7675f5fb476b16ce245e20e59392cf8",
+          "X-FB-ACCESS-TIMESTAMP": "1700000000000"
+        },
+        "method": "GET",
+        "url": "https://api.foxbit.com.br/rest/v3/accounts"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v3",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-FB-ACCESS-KEY": "account-TEST_API_KEY",
+          "X-FB-ACCESS-SIGNATURE": "588a12bb882534d60f91d8ce4ed5f444380dfb3021b6702a1ed33f1a7a16b603",
+          "X-FB-ACCESS-TIMESTAMP": "1700000000000"
+        },
+        "method": "POST",
+        "url": "https://api.foxbit.com.br/rest/v3/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "foxbit",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

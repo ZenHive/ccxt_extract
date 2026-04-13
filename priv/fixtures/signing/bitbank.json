@@ -1,0 +1,85 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "{pair}/ticker"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://public.bitbank.cc/{pair}/ticker"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "user/withdrawal_account"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "ACCESS-KEY": "account-TEST_API_KEY",
+          "ACCESS-NONCE": "1700000000",
+          "ACCESS-SIGNATURE": "c202ad8c51ec515d12a7fc081c9a58d1d5a8be45046d0aad314bd9c7d4c43b73",
+          "Content-Type": "application/json"
+        },
+        "method": "GET",
+        "url": "https://api.bitbank.cc/v1/user/withdrawal_account"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "user/spot/order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "ACCESS-KEY": "account-TEST_API_KEY",
+          "ACCESS-NONCE": "1700000000",
+          "ACCESS-SIGNATURE": "ac8e2ceceb540df999a62f697f8e003ea69d5905c0cd350741728309792ba7c7",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://api.bitbank.cc/v1/user/spot/order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "bitbank",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

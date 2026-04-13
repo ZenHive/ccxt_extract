@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "extracted_at": "2026-04-13T06:22:52.990905Z",
   "id": "bydfi",
-  "market_count": 724,
+  "market_count": 729,
   "markets": {
     "LAYER/USDT:USDT": {
       "spot": false,
@@ -3575,7 +3575,7 @@
       "info": {
         "baseAsset": "TRUST",
         "basePrecision": "8",
-        "baseShowPrecision": "4",
+        "baseShowPrecision": "5",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -3593,7 +3593,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.05",
-        "priceOrderPrecision": "4",
+        "priceOrderPrecision": "5",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -3609,7 +3609,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "TRUST",
       "type": "swap",
@@ -6512,7 +6512,7 @@
       "info": {
         "baseAsset": "GPS",
         "basePrecision": "8",
-        "baseShowPrecision": "5",
+        "baseShowPrecision": "6",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -6522,7 +6522,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "800000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "50",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1740117600000",
@@ -6530,7 +6530,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.05",
-        "priceOrderPrecision": "5",
+        "priceOrderPrecision": "6",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -6546,7 +6546,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 1.0e-5
+        "price": 1.0e-6
       },
       "baseId": "GPS",
       "type": "swap",
@@ -6570,7 +6570,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 50,
           "min": "__undefined"
         },
         "price": {
@@ -11150,7 +11150,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "443000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "75",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1743660000000",
@@ -11198,7 +11198,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 75,
           "min": "__undefined"
         },
         "price": {
@@ -11496,7 +11496,7 @@
       "info": {
         "baseAsset": "FLR",
         "basePrecision": "8",
-        "baseShowPrecision": "5",
+        "baseShowPrecision": "6",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -11514,7 +11514,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.05",
-        "priceOrderPrecision": "5",
+        "priceOrderPrecision": "6",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -11530,7 +11530,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 1.0e-5
+        "price": 1.0e-6
       },
       "baseId": "FLR",
       "type": "swap",
@@ -11674,7 +11674,7 @@
       "info": {
         "baseAsset": "BULLA",
         "basePrecision": "8",
-        "baseShowPrecision": "5",
+        "baseShowPrecision": "6",
         "contractFactor": "10",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -11692,7 +11692,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.05",
-        "priceOrderPrecision": "5",
+        "priceOrderPrecision": "6",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -11708,7 +11708,7 @@
       "precision": {
         "amount": 0.1,
         "base": 1.0e-8,
-        "price": 1.0e-5
+        "price": 1.0e-6
       },
       "baseId": "BULLA",
       "type": "swap",
@@ -16935,7 +16935,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "300000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "50",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1744005600000",
@@ -16983,7 +16983,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 50,
           "min": "__undefined"
         },
         "price": {
@@ -17469,7 +17469,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "300000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "50",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1732255200000",
@@ -17517,7 +17517,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 50,
           "min": "__undefined"
         },
         "price": {
@@ -22087,7 +22087,7 @@
       "info": {
         "baseAsset": "CARV",
         "basePrecision": "8",
-        "baseShowPrecision": "4",
+        "baseShowPrecision": "5",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -22097,7 +22097,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "300000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "50",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1745215200000",
@@ -22105,7 +22105,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.05",
-        "priceOrderPrecision": "4",
+        "priceOrderPrecision": "5",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -22121,7 +22121,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "CARV",
       "type": "swap",
@@ -22145,7 +22145,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 50,
           "min": "__undefined"
         },
         "price": {
@@ -24478,6 +24478,95 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "ORCL/USDT:USDT": {
+      "spot": false,
+      "contractSize": 0.01,
+      "linear": true,
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0002,
+      "inverse": false,
+      "info": {
+        "baseAsset": "ORCL",
+        "basePrecision": "8",
+        "baseShowPrecision": "2",
+        "contractFactor": "0.01",
+        "feeRateMaker": "0.0002",
+        "feeRateTaker": "0.0006",
+        "limitMaxQty": "200000",
+        "limitMinQty": "1",
+        "liqFeeRate": "0.0006",
+        "marginAsset": "USDT",
+        "marketMaxQty": "20000",
+        "marketMinQty": "1",
+        "maxLeverageLevel": "20",
+        "maxLimitOrderNum": "200",
+        "maxPlanOrderNum": "10",
+        "onboardTime": "1775728800000",
+        "openBuyLimitRateMax": "0.03",
+        "openBuyLimitRateMin": "0.98",
+        "openSellLimitRateMax": "100",
+        "openSellLimitRateMin": "0.03",
+        "priceOrderPrecision": "2",
+        "pricePrecision": "8",
+        "quoteAsset": "USDT",
+        "reverse": false,
+        "status": "NORMAL",
+        "symbol": "ORCL-USDT",
+        "volumePrecision": "2"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ORCL/USDT:USDT",
+      "settle": "USDT",
+      "precision": {
+        "amount": 1,
+        "base": 1.0e-8,
+        "price": 0.01
+      },
+      "baseId": "ORCL",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDT",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "ORCL",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 200000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 20,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0006,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": "__undefined",
+      "id": "ORCL-USDT",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "MINA/USDT:USDT": {
       "spot": false,
       "contractSize": 1,
@@ -26181,7 +26270,7 @@
       "info": {
         "baseAsset": "EDU",
         "basePrecision": "8",
-        "baseShowPrecision": "4",
+        "baseShowPrecision": "5",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -26191,7 +26280,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "200000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "50",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1684558740000",
@@ -26199,7 +26288,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.15",
-        "priceOrderPrecision": "4",
+        "priceOrderPrecision": "5",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -26215,7 +26304,7 @@
       "precision": {
         "amount": 0.01,
         "base": 1.0e-8,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "EDU",
       "type": "swap",
@@ -26239,7 +26328,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 50,
           "min": "__undefined"
         },
         "price": {
@@ -28050,7 +28139,7 @@
       "info": {
         "baseAsset": "ATH",
         "basePrecision": "8",
-        "baseShowPrecision": "5",
+        "baseShowPrecision": "6",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -28060,7 +28149,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "2000000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "75",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1718690400000",
@@ -28068,7 +28157,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.15",
-        "priceOrderPrecision": "5",
+        "priceOrderPrecision": "6",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -28084,7 +28173,7 @@
       "precision": {
         "amount": 0.01,
         "base": 1.0e-8,
-        "price": 1.0e-5
+        "price": 1.0e-6
       },
       "baseId": "ATH",
       "type": "swap",
@@ -28108,7 +28197,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 75,
           "min": "__undefined"
         },
         "price": {
@@ -29128,7 +29217,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "150000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "40",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1745388000000",
@@ -29176,7 +29265,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 40,
           "min": "__undefined"
         },
         "price": {
@@ -29474,7 +29563,7 @@
       "info": {
         "baseAsset": "WAXP",
         "basePrecision": "8",
-        "baseShowPrecision": "5",
+        "baseShowPrecision": "6",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -29492,7 +29581,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.05",
-        "priceOrderPrecision": "5",
+        "priceOrderPrecision": "6",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -29508,7 +29597,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 1.0e-5
+        "price": 1.0e-6
       },
       "baseId": "WAXP",
       "type": "swap",
@@ -31343,7 +31432,7 @@
       "info": {
         "baseAsset": "RUNE",
         "basePrecision": "8",
-        "baseShowPrecision": "3",
+        "baseShowPrecision": "4",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -31361,7 +31450,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.1",
-        "priceOrderPrecision": "3",
+        "priceOrderPrecision": "4",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -31377,7 +31466,7 @@
       "precision": {
         "amount": 0.1,
         "base": 1.0e-8,
-        "price": 0.001
+        "price": 0.0001
       },
       "baseId": "RUNE",
       "type": "swap",
@@ -31521,7 +31610,7 @@
       "info": {
         "baseAsset": "PUFFER",
         "basePrecision": "8",
-        "baseShowPrecision": "4",
+        "baseShowPrecision": "5",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -31539,7 +31628,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.05",
-        "priceOrderPrecision": "4",
+        "priceOrderPrecision": "5",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -31555,7 +31644,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "PUFFER",
       "type": "swap",
@@ -33556,6 +33645,95 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "NFLX/USDT:USDT": {
+      "spot": false,
+      "contractSize": 0.01,
+      "linear": true,
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0002,
+      "inverse": false,
+      "info": {
+        "baseAsset": "NFLX",
+        "basePrecision": "8",
+        "baseShowPrecision": "2",
+        "contractFactor": "0.01",
+        "feeRateMaker": "0.0002",
+        "feeRateTaker": "0.0006",
+        "limitMaxQty": "300000",
+        "limitMinQty": "1",
+        "liqFeeRate": "0.0006",
+        "marginAsset": "USDT",
+        "marketMaxQty": "60000",
+        "marketMinQty": "1",
+        "maxLeverageLevel": "50",
+        "maxLimitOrderNum": "200",
+        "maxPlanOrderNum": "10",
+        "onboardTime": "1775815200000",
+        "openBuyLimitRateMax": "0.03",
+        "openBuyLimitRateMin": "0.98",
+        "openSellLimitRateMax": "100",
+        "openSellLimitRateMin": "0.03",
+        "priceOrderPrecision": "2",
+        "pricePrecision": "8",
+        "quoteAsset": "USDT",
+        "reverse": false,
+        "status": "NORMAL",
+        "symbol": "NFLX-USDT",
+        "volumePrecision": "2"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "NFLX/USDT:USDT",
+      "settle": "USDT",
+      "precision": {
+        "amount": 1,
+        "base": 1.0e-8,
+        "price": 0.01
+      },
+      "baseId": "NFLX",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDT",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "NFLX",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 300000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0006,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": "__undefined",
+      "id": "NFLX-USDT",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "BASED/USDT:USDT": {
       "spot": false,
       "contractSize": 1,
@@ -33756,7 +33934,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "160000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "75",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1763013600000",
@@ -33804,7 +33982,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 75,
           "min": "__undefined"
         },
         "price": {
@@ -37672,7 +37850,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "2500000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "50",
+        "maxLeverageLevel": "75",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1701100800000",
@@ -37720,7 +37898,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 50,
+          "max": 75,
           "min": "__undefined"
         },
         "price": {
@@ -39252,6 +39430,95 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "UP/USDT:USDT": {
+      "spot": false,
+      "contractSize": 10,
+      "linear": true,
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0002,
+      "inverse": false,
+      "info": {
+        "baseAsset": "UP",
+        "basePrecision": "8",
+        "baseShowPrecision": "4",
+        "contractFactor": "10",
+        "feeRateMaker": "0.0002",
+        "feeRateTaker": "0.0006",
+        "limitMaxQty": "1000000",
+        "limitMinQty": "1",
+        "liqFeeRate": "0.0006",
+        "marginAsset": "USDT",
+        "marketMaxQty": "1000000",
+        "marketMinQty": "1",
+        "maxLeverageLevel": "20",
+        "maxLimitOrderNum": "200",
+        "maxPlanOrderNum": "10",
+        "onboardTime": "1776074400000",
+        "openBuyLimitRateMax": "0.15",
+        "openBuyLimitRateMin": "0.98",
+        "openSellLimitRateMax": "100",
+        "openSellLimitRateMin": "0.15",
+        "priceOrderPrecision": "4",
+        "pricePrecision": "8",
+        "quoteAsset": "USDT",
+        "reverse": false,
+        "status": "ON_SHELF",
+        "symbol": "UP-USDT",
+        "volumePrecision": "0"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "UP/USDT:USDT",
+      "settle": "USDT",
+      "precision": {
+        "amount": 0.1,
+        "base": 1.0e-8,
+        "price": 0.0001
+      },
+      "baseId": "UP",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDT",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "UP",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 1000000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 20,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0006,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": true,
+      "percentage": "__undefined",
+      "active": false,
+      "expiry": "__undefined",
+      "id": "UP-USDT",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "VGX/USDT:USDT": {
       "spot": false,
       "contractSize": 1,
@@ -39442,7 +39709,7 @@
       "info": {
         "baseAsset": "SYN",
         "basePrecision": "8",
-        "baseShowPrecision": "4",
+        "baseShowPrecision": "5",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -39460,7 +39727,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.05",
-        "priceOrderPrecision": "4",
+        "priceOrderPrecision": "5",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -39476,7 +39743,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "SYN",
       "type": "swap",
@@ -43190,7 +43457,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "900000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "50",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1701100800000",
@@ -43238,7 +43505,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 50,
           "min": "__undefined"
         },
         "price": {
@@ -44347,7 +44614,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "280000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "50",
+        "maxLeverageLevel": "25",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1742968800000",
@@ -44395,7 +44662,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 50,
+          "max": 25,
           "min": "__undefined"
         },
         "price": {
@@ -48164,7 +48431,7 @@
       "info": {
         "baseAsset": "TURBO",
         "basePrecision": "8",
-        "baseShowPrecision": "6",
+        "baseShowPrecision": "7",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -48182,7 +48449,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.15",
-        "priceOrderPrecision": "6",
+        "priceOrderPrecision": "7",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -48198,7 +48465,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 1.0e-6
+        "price": 1.0e-7
       },
       "baseId": "TURBO",
       "type": "swap",
@@ -48953,6 +49220,95 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "SNDK/USDT:USDT": {
+      "spot": false,
+      "contractSize": 0.01,
+      "linear": true,
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0002,
+      "inverse": false,
+      "info": {
+        "baseAsset": "SNDK",
+        "basePrecision": "8",
+        "baseShowPrecision": "2",
+        "contractFactor": "0.01",
+        "feeRateMaker": "0.0002",
+        "feeRateTaker": "0.0006",
+        "limitMaxQty": "200000",
+        "limitMinQty": "1",
+        "liqFeeRate": "0.0006",
+        "marginAsset": "USDT",
+        "marketMaxQty": "20000",
+        "marketMinQty": "1",
+        "maxLeverageLevel": "10",
+        "maxLimitOrderNum": "200",
+        "maxPlanOrderNum": "10",
+        "onboardTime": "1775642400000",
+        "openBuyLimitRateMax": "0.03",
+        "openBuyLimitRateMin": "0.98",
+        "openSellLimitRateMax": "100",
+        "openSellLimitRateMin": "0.03",
+        "priceOrderPrecision": "2",
+        "pricePrecision": "8",
+        "quoteAsset": "USDT",
+        "reverse": false,
+        "status": "NORMAL",
+        "symbol": "SNDK-USDT",
+        "volumePrecision": "2"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SNDK/USDT:USDT",
+      "settle": "USDT",
+      "precision": {
+        "amount": 1,
+        "base": 1.0e-8,
+        "price": 0.01
+      },
+      "baseId": "SNDK",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDT",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "SNDK",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 200000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 10,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0006,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": "__undefined",
+      "id": "SNDK-USDT",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "PHB/USDT:USDT": {
       "spot": false,
       "contractSize": 1,
@@ -49687,7 +50043,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "170000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "20",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1762250400000",
@@ -49735,7 +50091,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 20,
           "min": "__undefined"
         },
         "price": {
@@ -51200,7 +51556,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "25000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "75",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1761559200000",
@@ -51248,7 +51604,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 75,
           "min": "__undefined"
         },
         "price": {
@@ -51798,6 +52154,95 @@
       "active": true,
       "expiry": "__undefined",
       "id": "SUI-USDT",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "MU/USDT:USDT": {
+      "spot": false,
+      "contractSize": 0.01,
+      "linear": true,
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0002,
+      "inverse": false,
+      "info": {
+        "baseAsset": "MU",
+        "basePrecision": "8",
+        "baseShowPrecision": "2",
+        "contractFactor": "0.01",
+        "feeRateMaker": "0.0002",
+        "feeRateTaker": "0.0006",
+        "limitMaxQty": "300000",
+        "limitMinQty": "1",
+        "liqFeeRate": "0.0006",
+        "marginAsset": "USDT",
+        "marketMaxQty": "30000",
+        "marketMinQty": "1",
+        "maxLeverageLevel": "10",
+        "maxLimitOrderNum": "200",
+        "maxPlanOrderNum": "10",
+        "onboardTime": "1775642400000",
+        "openBuyLimitRateMax": "0.03",
+        "openBuyLimitRateMin": "0.98",
+        "openSellLimitRateMax": "100",
+        "openSellLimitRateMin": "0.03",
+        "priceOrderPrecision": "2",
+        "pricePrecision": "8",
+        "quoteAsset": "USDT",
+        "reverse": false,
+        "status": "NORMAL",
+        "symbol": "MU-USDT",
+        "volumePrecision": "2"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "MU/USDT:USDT",
+      "settle": "USDT",
+      "precision": {
+        "amount": 1,
+        "base": 1.0e-8,
+        "price": 0.01
+      },
+      "baseId": "MU",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDT",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "MU",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 300000,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 10,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0006,
+      "optionType": "__undefined",
+      "margin": "__undefined",
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": "__undefined",
+      "id": "MU-USDT",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -53336,7 +53781,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "150000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "20",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1762941600000",
@@ -53384,7 +53829,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 20,
           "min": "__undefined"
         },
         "price": {
@@ -54315,7 +54760,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "900000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "50",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1744351200000",
@@ -54363,7 +54808,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 50,
           "min": "__undefined"
         },
         "price": {
@@ -54394,7 +54839,7 @@
       "info": {
         "baseAsset": "CORE",
         "basePrecision": "8",
-        "baseShowPrecision": "4",
+        "baseShowPrecision": "5",
         "contractFactor": "0.1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -54412,7 +54857,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.05",
-        "priceOrderPrecision": "4",
+        "priceOrderPrecision": "5",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -54428,7 +54873,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "CORE",
       "type": "swap",
@@ -59378,7 +59823,7 @@
       "info": {
         "baseAsset": "SAGA",
         "basePrecision": "8",
-        "baseShowPrecision": "4",
+        "baseShowPrecision": "5",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -59396,7 +59841,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.05",
-        "priceOrderPrecision": "4",
+        "priceOrderPrecision": "5",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -59412,7 +59857,7 @@
       "precision": {
         "amount": 0.01,
         "base": 1.0e-8,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "SAGA",
       "type": "swap",
@@ -59467,7 +59912,7 @@
       "info": {
         "baseAsset": "MYX",
         "basePrecision": "8",
-        "baseShowPrecision": "3",
+        "baseShowPrecision": "4",
         "contractFactor": "1",
         "feeRateMaker": "0.0002",
         "feeRateTaker": "0.0006",
@@ -59485,7 +59930,7 @@
         "openBuyLimitRateMin": "0.98",
         "openSellLimitRateMax": "100",
         "openSellLimitRateMin": "0.05",
-        "priceOrderPrecision": "3",
+        "priceOrderPrecision": "4",
         "pricePrecision": "8",
         "quoteAsset": "USDT",
         "reverse": false,
@@ -59501,7 +59946,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 0.001
+        "price": 0.0001
       },
       "baseId": "MYX",
       "type": "swap",
@@ -60011,7 +60456,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "71000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "10",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1740117600000",
@@ -60059,7 +60504,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 10,
           "min": "__undefined"
         },
         "price": {
@@ -61613,7 +62058,7 @@
         "marginAsset": "USDT",
         "marketMaxQty": "90000",
         "marketMinQty": "1",
-        "maxLeverageLevel": "25",
+        "maxLeverageLevel": "50",
         "maxLimitOrderNum": "200",
         "maxPlanOrderNum": "10",
         "onboardTime": "1692338400000",
@@ -61661,7 +62106,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 25,
+          "max": 50,
           "min": "__undefined"
         },
         "price": {

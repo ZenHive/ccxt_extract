@@ -1,0 +1,71 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "v1",
+          "public"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "public/get-instruments"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.crypto.com/exchange/v1/public/get-instruments"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v1",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "private/create-order"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"id\":\"1700000000\",\"method\":\"private/create-order\",\"params\":{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1},\"api_key\":\"account-TEST_API_KEY\",\"sig\":\"f1a4202133fb516d524e94ed3af573c23431e47ef22846a75e5dfd65323b72f9\",\"nonce\":\"1700000000\"}",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "url": "https://api.crypto.com/exchange/v1/private/create-order"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "cryptocom",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

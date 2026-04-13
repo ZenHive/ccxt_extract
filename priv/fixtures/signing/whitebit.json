@@ -1,0 +1,76 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": [
+          "v1",
+          "public"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "markets"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": {
+          "User-Agent": "ccxt/whitebit-v4"
+        },
+        "method": "GET",
+        "url": "https://whitebit.com/api/v1/public/markets"
+      }
+    },
+    {
+      "input": {
+        "api": [
+          "v1",
+          "private"
+        ],
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "order/new"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"request\":\"/api/v1/order/new\",\"nonce\":\"1700000000\",\"nonceWindow\":false,\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-TXC-APIKEY": "account-TEST_API_KEY",
+          "X-TXC-PAYLOAD": "eyJyZXF1ZXN0IjoiL2FwaS92MS9vcmRlci9uZXciLCJub25jZSI6IjE3MDAwMDAwMDAiLCJub25jZVdpbmRvdyI6ZmFsc2UsInN5bWJvbCI6IkJUQy9VU0RUIiwidHlwZSI6ImxpbWl0Iiwic2lkZSI6ImJ1eSIsImFtb3VudCI6MSwicHJpY2UiOjF9",
+          "X-TXC-SIGNATURE": "53a245a147fd21807e751f08c9258d75ff9813b879bfb4f21e53dd863726003ac25e92b949225b2aafde7de9c8b574ccae48627579d162801833d00769543840"
+        },
+        "method": "POST",
+        "url": "https://whitebit.com/api/v1/order/new"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "whitebit",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": [
+    {
+      "name": "private_get_balance",
+      "reason": "no matching endpoint in describe().api"
+    }
+  ]
+}

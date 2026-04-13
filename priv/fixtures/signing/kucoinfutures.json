@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "symbols"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": {},
+        "method": "GET",
+        "url": "https://api.kucoin.com/api/v2/symbols"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "accounts"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "KC-API-KEY": "account-TEST_API_KEY",
+          "KC-API-KEY-VERSION": "2",
+          "KC-API-PARTNER": "ccxt",
+          "KC-API-PARTNER-SIGN": "BW8R3yDq69JR13gm3f6QMHDzN1OvtDmbNh18x+QL4h8=",
+          "KC-API-PARTNER-VERIFY": "true",
+          "KC-API-PASSPHRASE": "n24I1GOASFK4IO1VPkUSpSR4ozfjuLrKkw0iWM6BOC0=",
+          "KC-API-SIGN": "ZSG3DJ9s69qx/85M++4Gr6qPK0Q6Pqi+ieE2CfA8mdI=",
+          "KC-API-TIMESTAMP": "1700000000"
+        },
+        "method": "GET",
+        "url": "https://api.kucoin.com/api/v1/accounts"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "hf/orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "Content-Type": "application/json",
+          "KC-API-KEY": "account-TEST_API_KEY",
+          "KC-API-KEY-VERSION": "2",
+          "KC-API-PARTNER": "ccxt",
+          "KC-API-PARTNER-SIGN": "BW8R3yDq69JR13gm3f6QMHDzN1OvtDmbNh18x+QL4h8=",
+          "KC-API-PARTNER-VERIFY": "true",
+          "KC-API-PASSPHRASE": "n24I1GOASFK4IO1VPkUSpSR4ozfjuLrKkw0iWM6BOC0=",
+          "KC-API-SIGN": "IZEuJERA2eGH8VJ45/ugXt1061N8DtomU/LrPV3k+II=",
+          "KC-API-TIMESTAMP": "1700000000"
+        },
+        "method": "POST",
+        "url": "https://api.kucoin.com/api/v1/hf/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": "TEST_PASSPHRASE",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "kucoinfutures",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

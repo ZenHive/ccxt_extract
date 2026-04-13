@@ -1,0 +1,87 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v3/markets"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.ox.fun/v3/markets"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "v3/account"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "AccessKey": "account-TEST_API_KEY",
+          "Content-Type": "application/json",
+          "Nonce": "1700000000",
+          "Signature": "u2sHQVK6eh5ogq5hye8OWbPeWIVZPSicMhcHyGYk89s=",
+          "Timestamp": "2023-11-14T22:13:20"
+        },
+        "method": "GET",
+        "url": "https://api.ox.fun/v3/account"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "v3/orders/place"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "headers": {
+          "AccessKey": "account-TEST_API_KEY",
+          "Content-Type": "application/json",
+          "Nonce": "1700000000",
+          "Signature": "IVaBcmWm/ULpXywbYP9YlHJS79EiGMlKzy6xycQ0vk8=",
+          "Timestamp": "2023-11-14T22:13:20"
+        },
+        "method": "POST",
+        "url": "https://api.ox.fun/v3/orders/place"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "oxfun",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-07T23:51:08.817484Z",
+  "extracted_at": "2026-04-13T06:22:52.990905Z",
   "id": "poloniex",
-  "market_count": 944,
+  "market_count": 946,
   "markets": {
     "ANON/USDT": {
       "spot": true,
@@ -8675,6 +8675,91 @@
       "active": true,
       "expiry": "__undefined",
       "id": "ZRC_USDT",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "USDS/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0009,
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "baseCurrencyName": "USDS",
+        "crossMargin": {
+          "maxLeverage": 1,
+          "supportCrossMargin": false
+        },
+        "displayName": "USDS/USDT",
+        "quoteCurrencyName": "USDT",
+        "state": "NORMAL",
+        "symbol": "USDS_USDT",
+        "symbolTradeLimit": {
+          "amountScale": 4,
+          "highestBid": "0",
+          "lowestAsk": "0",
+          "maxAmount": "0",
+          "maxQuantity": "0",
+          "minAmount": "1",
+          "minQuantity": "0.0001",
+          "priceScale": 4,
+          "quantityScale": 4,
+          "symbol": "USDS_USDT"
+        },
+        "tradableStartTime": 1775829600000,
+        "visibleStartTime": 1775828400000
+      },
+      "created": 1775829600000,
+      "option": false,
+      "future": false,
+      "symbol": "USDS/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.0001
+      },
+      "baseId": "USDS",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "USDS",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.0001
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0009,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": "__undefined",
+      "id": "USDS_USDT",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
@@ -73750,6 +73835,91 @@
       "active": true,
       "expiry": "__undefined",
       "id": "UFD_USDT",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "共建/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0009,
+      "inverse": "__undefined",
+      "feeSide": "get",
+      "info": {
+        "baseCurrencyName": "共建",
+        "crossMargin": {
+          "maxLeverage": 1,
+          "supportCrossMargin": false
+        },
+        "displayName": "共建/USDT",
+        "quoteCurrencyName": "USDT",
+        "state": "NORMAL",
+        "symbol": "共建_USDT",
+        "symbolTradeLimit": {
+          "amountScale": 6,
+          "highestBid": "0",
+          "lowestAsk": "0",
+          "maxAmount": "0",
+          "maxQuantity": "0",
+          "minAmount": "1",
+          "minQuantity": "0.01",
+          "priceScale": 6,
+          "quantityScale": 2,
+          "symbol": "共建_USDT"
+        },
+        "tradableStartTime": 1775734200000,
+        "visibleStartTime": 1775728800000
+      },
+      "created": 1775734200000,
+      "option": false,
+      "future": false,
+      "symbol": "共建/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 1.0e-6
+      },
+      "baseId": "共建",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "共建",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0.01
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0009,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": "__undefined",
+      "id": "共建_USDT",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },

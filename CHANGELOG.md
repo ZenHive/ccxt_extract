@@ -6,6 +6,68 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Signing fixtures — probe + matcher fixes (Gemini, Orderly-family, bitflyer/ndax/independentreserve)
+
+- **Gemini private probe now executes.** `apiKey` placeholder changed to
+  `"account-TEST_API_KEY"` so Gemini's master-key guard
+  (`apiKey.indexOf('account') < 0`) accepts it. `private_post_order` now
+  emits the full `X-GEMINI-APIKEY` / `X-GEMINI-PAYLOAD` /
+  `X-GEMINI-SIGNATURE` header triplet that downstream consumers
+  (ccxt_client T66) classify the Gemini variant from. Keeps the output
+  schema unchanged — classification stays a consumer concern.
+- **Matcher rewritten as a tokenizer.** The prior regex-with-`/i` approach
+  had a subtle bug: case-insensitive `(?=[A-Z])` degenerates to "any
+  letter", so `change_subaccount_name` was falsely picked as a deribit
+  balance case. Replaced with path tokenization (split on `_-/.` and on
+  CamelCase transitions) plus exact-token matching and a verb-prefix
+  fallback for concatenated lowercase forms (`getticker`, `getbalance`,
+  `sendchildorder`). Recovers `ndax`, `bitflyer`, `independentreserve`,
+  `aster` (which encodes visibility as `fapiPrivate`) without the
+  false-positive leak. Visibility matching now falls back to substring
+  so `fapiPrivate` / `privateEdge` / `privateTrading` are picked up.
+- **Credential placeholders are format-aware.** `privateKey` is now
+  `"0".repeat(63) + "1"` (non-zero hex 32-byte) so `derive`'s
+  "private key must be 32 bytes, hex or bigint" check passes. On a
+  base58 format error (Orderly-family: `woofipro`, `modetrade`), the
+  probe retries once with a base58 string that decodes to a non-zero
+  32-byte seed.
+- **Regression tests.** New `test/ccxt_extract/signing_fixtures_test.exs`
+  enforces: Gemini header triplet, per-exchange case coverage for the 6
+  named offenders, `change_subaccount_name` false-positive guard,
+  manifest ↔ filesystem count parity, and a heuristic-scoped coverage
+  invariant that flags any exchange skipping `public_get_ticker` when
+  its describe().api has a matching public GET path.
+
+### Task 58 (partial): Golden signing fixtures — `mix ccxt_extract.signing_fixtures`
+- New language-agnostic signing test-vector generator. Calls CCXT JS's
+  `exchange.sign()` under frozen credentials, timestamps, and nonces; emits
+  one fixture JSON per non-alias exchange at `priv/fixtures/signing/<id>.json`
+  plus `_manifest.json`.
+- Broader than Task 58's original scope (3 reference exchanges): ships
+  fixtures for all 107 non-alias exchanges; binance / bybit / deribit are
+  included in that set.
+- Fixtures are the handoff between CCXT truth and any port (Elixir, Rust,
+  Go, Python). Consumer replays frozen inputs, asserts byte-equal `sign()`
+  output.
+- Frozen: `Date.now`, `Math.random`, `crypto.getRandomValues`, `ex.nonce`,
+  `ex.milliseconds`, `ex.randomBytes`, `ex.uuid*`. Credentials use
+  conventional placeholders (`TEST_API_KEY`, 32-zero-byte base64 secret,
+  etc.), and `requiredCredentials` is iterated so custom fields
+  (`accountId`, `login`, …) are seeded alongside the common ones.
+- Each exchange attempts three cases (`public_get_ticker`,
+  `private_get_balance`, `private_post_order`), picked from `describe().api`
+  via visibility + token-boundary regex. **When the regex misses, the case
+  is recorded in `skipped` with reason — never relabeled against an
+  unrelated endpoint.** Instantiation / describe-level failures go to
+  `errors`. Never silently dropped.
+- `write!/2` prunes stale `<id>.json` files so exchanges CCXT drops don't
+  linger on disk and lie to consumers.
+- Wired into `mix ccxt_extract.update` as a QuickBEAM extractor stage.
+- Output is byte-deterministic across runs except `generated_at`.
+- **Still open under Task 58:** `mix ccxt_extract.regenerate_fixtures` alias
+  and a CI parity check (regenerate + assert clean git diff) to make
+  fixture drift a PR-blocking signal.
+
 ### Task 57d + Task 60 (narrow precursor): Schema 1.7.1 — Fix `structure.authenticated_sections` extraction
 - **Task 57d (complete)** — inheritance chain walk + else-branch inversion for `authenticated_sections` derivation
 - **Task 60 (narrow precursor; generic form still ⬜)** — shipped a field-specific `priv/overrides/<exchange>.json` loader for `authenticated_sections` only. The general JSON-Pointer override contract with `value` payload, `unverified: true` flag, and SCHEMA.md documentation remains outstanding and still gates Phase 9 Tasks 61a/b/c

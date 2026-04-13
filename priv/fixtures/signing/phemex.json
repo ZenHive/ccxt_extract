@@ -1,0 +1,85 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "md/spot/ticker/24hr"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://api.phemex.com/exchange/public/md/spot/ticker/24hr"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "spot/wallets"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "x-phemex-access-token": "account-TEST_API_KEY",
+          "x-phemex-request-expiry": "1700000060",
+          "x-phemex-request-signature": "8ff0347dc9138c89c55410d91e8b14c06d70d547d395ab9eba77d5116980edf8"
+        },
+        "method": "GET",
+        "url": "https://api.phemex.com/spot/wallets"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "clOrdID": "CCXT12345600000000000000000000000000000000",
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "spot/orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1,\"clOrdID\":\"CCXT12345600000000000000000000000000000000\"}",
+        "headers": {
+          "Content-Type": "application/json",
+          "x-phemex-access-token": "account-TEST_API_KEY",
+          "x-phemex-request-expiry": "1700000060",
+          "x-phemex-request-signature": "71d626ac74c6b85d951d12871caedbaf7bcb6fea4d5109631a2285b42996b624"
+        },
+        "method": "POST",
+        "url": "https://api.phemex.com/spot/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "phemex",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

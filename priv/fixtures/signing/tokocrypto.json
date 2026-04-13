@@ -1,0 +1,80 @@
+{
+  "cases": [
+    {
+      "input": {
+        "api": "public",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "open/v1/common/symbols"
+      },
+      "name": "public_get_ticker",
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://www.tokocrypto.com/open/v1/common/symbols"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "params": {},
+        "path": "open/v1/account/spot"
+      },
+      "name": "private_get_balance",
+      "output": {
+        "body": null,
+        "headers": {
+          "X-MBX-APIKEY": "account-TEST_API_KEY"
+        },
+        "method": "GET",
+        "url": "https://www.tokocrypto.com/open/v1/account/spot?timestamp=1700000000&recvWindow=5000&signature=bd11b71a780c2fa15085c12d7e37af00602309f1ac92aaba0071204b5cab3f5b"
+      }
+    },
+    {
+      "input": {
+        "api": "private",
+        "body": null,
+        "headers": null,
+        "method": "POST",
+        "params": {
+          "amount": 1,
+          "price": 1,
+          "side": "buy",
+          "symbol": "BTC/USDT",
+          "type": "limit"
+        },
+        "path": "open/v1/orders"
+      },
+      "name": "private_post_order",
+      "output": {
+        "body": "timestamp=1700000000&symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1&recvWindow=5000&signature=fab3928c2a0d647c7aceac27d1d27f45d36013841a0a76f61bad77669a1eb835",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-MBX-APIKEY": "account-TEST_API_KEY"
+        },
+        "method": "POST",
+        "url": "https://www.tokocrypto.com/open/v1/orders"
+      }
+    }
+  ],
+  "ccxt_version": "4.5.46",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "tokocrypto",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-04-13T06:23:51.448382Z",
+  "skipped": []
+}

@@ -6,6 +6,14 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Roadmap reprioritization — endpoint-invocation first
+
+Reordered phase priorities in ROADMAP.md to emphasize the signing → request-building → rate-limit critical path. These phases (10/11/14) serve both unified and non-unified endpoints, so prioritizing them unlocks the full endpoint surface. Only Phase 12 (response parsing) is unified-specific and was explicitly deprioritized. Added a recommended bundle sequence and an Endpoint-Invocation Priority Order table in Current Focus. No task status changes.
+
+### Roadmap bundle tagging
+
+Added **Bundle Index** table in Current Focus grouping tasks into session-sized bundles (A, 9-contract, 10-core, 10-HMAC, 10-exotic, 10-finish, 11-shape, 11+14, 9-pipeline, 9-audit, 13-classify, 13-dispatch, plus deferred 12-*/15-*/16-* bundles). Each task in phase tables now carries a 🎁 **bundle-id** tag in its Notes column. Bundles share AST passes, schema design, or doc surface — reduces double-touching SCHEMA.md and pipeline code.
+
 ### Signing fixtures — probe + matcher fixes (Gemini, Orderly-family, bitflyer/ndax/independentreserve)
 
 - **Gemini private probe now executes.** `apiKey` placeholder changed to

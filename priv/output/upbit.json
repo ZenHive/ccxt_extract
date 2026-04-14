@@ -15,7 +15,7 @@
     "referral": null,
     "version": "v1"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -79784,12 +79784,6 @@
       "fetchClosedOrders": [
         "privateGetOrdersClosed"
       ],
-      "fetchCurrency": [
-        "privateGetWithdrawsChance"
-      ],
-      "fetchCurrencyById": [
-        "privateGetWithdrawsChance"
-      ],
       "fetchDeposit": [
         "privateGetDeposit"
       ],
@@ -79801,12 +79795,6 @@
       ],
       "fetchDeposits": [
         "privateGetDeposits"
-      ],
-      "fetchMarket": [
-        "privateGetOrdersChance"
-      ],
-      "fetchMarketById": [
-        "privateGetOrdersChance"
       ],
       "fetchMarkets": [
         "publicGetMarketAll"

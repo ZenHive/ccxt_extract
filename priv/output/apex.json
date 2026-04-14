@@ -13,7 +13,7 @@
     },
     "version": "v3"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -7135,7 +7135,7 @@
             "enableFundingMxValue": true,
             "maxPositionSize": "3000000",
             "contractType": "PERPETUAL_CONTRACT",
-            "enableDisplay": false,
+            "enableDisplay": true,
             "symbol": "CHZ-USDT",
             "settleAssetId": "USDT",
             "riskTip": false,
@@ -67690,9 +67690,6 @@
         "privateGetV3Account",
         "privatePostV3Order"
       ],
-      "fetchAccount": [
-        "privateGetV3Account"
-      ],
       "fetchBalance": [
         "privateGetV3AccountBalance"
       ],
@@ -67750,12 +67747,6 @@
       ],
       "setLeverage": [
         "privatePostV3SetInitialMarginRate"
-      ],
-      "transfer": [
-        "privateGetV3Account",
-        "privatePostV3ContractTransferOut",
-        "privatePostV3TransferOut",
-        "publicGetV3Symbols"
       ]
     },
     "ws_methods": {

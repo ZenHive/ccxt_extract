@@ -17,7 +17,7 @@
     },
     "version": "1"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -32452,9 +32452,6 @@
       "fetchLedger": [
         "privateGetAccountsIdTransactions"
       ],
-      "fetchLedgerByEntries": [
-        "privateGetAccountsIdTransactions"
-      ],
       "fetchMarkets": [
         "exchangeGetMarkets"
       ],
@@ -32475,9 +32472,6 @@
         "publicGetOrderbookTop"
       ],
       "fetchOrders": [
-        "privateGetListorders"
-      ],
-      "fetchOrdersByState": [
         "privateGetListorders"
       ],
       "fetchTicker": [

@@ -15,7 +15,7 @@
     },
     "version": "v3"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -687,7 +687,7 @@
       "version": "v3"
     },
     "markets": {
-      "market_count": 878,
+      "market_count": 871,
       "markets": {
         "MIRA3L/USDT": {
           "spot": true,
@@ -1949,7 +1949,8 @@
           "info": {
             "baseCurrency": "ASTER",
             "baseDisplayName": "ASTER",
-            "baseName": "Aster",
+            "baseName": "Aster Token",
+            "baseNameZh": "Aster Token",
             "displayName": "ASTERUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -2175,6 +2176,84 @@
           "id": "ETH-USDT",
           "lowercaseId": "__undefined",
           "uuid": "2dab8bcf-cfdd-496b-8181-d670568d1daa",
+          "subType": "__undefined"
+        },
+        "MU3L/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": false,
+          "maker": "__undefined",
+          "inverse": "__undefined",
+          "info": {
+            "base_asset": {
+              "id": "46ab535e-6a7e-4015-82c8-ddd77d50b89d",
+              "name": "MU3L",
+              "symbol": "MU3L"
+            },
+            "base_scale": "2",
+            "id": "c20a9134-7032-449f-930b-3782448c7778",
+            "max_quote_value": "500000",
+            "min_quote_value": "10",
+            "name": "MU3L-USDT",
+            "quote_asset": {
+              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
+              "name": "TetherUS",
+              "symbol": "USDT"
+            },
+            "quote_scale": "5"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "MU3L/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-5
+          },
+          "baseId": "MU3L",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "MU3L",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": 500000,
+              "min": 10
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": "__undefined",
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "MU3L-USDT",
+          "lowercaseId": "__undefined",
+          "uuid": "c20a9134-7032-449f-930b-3782448c7778",
           "subType": "__undefined"
         },
         "ZEC3S/USDT": {
@@ -2735,7 +2814,8 @@
           "info": {
             "baseCurrency": "NVDA",
             "baseDisplayName": "NVDA",
-            "baseName": "NVIDIA Corporation Common Stock",
+            "baseName": "Nvidia",
+            "baseNameZh": "英伟达",
             "displayName": "NVDAUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -4068,6 +4148,7 @@
             "baseCurrency": "ETH",
             "baseDisplayName": "ETH",
             "baseName": "Ethereum",
+            "baseNameZh": "以太坊",
             "displayName": "ETHUSD",
             "enable": true,
             "feePrecision": "8",
@@ -5556,6 +5637,7 @@
             "baseCurrency": "HBAR",
             "baseDisplayName": "HBAR",
             "baseName": "Hedera",
+            "baseNameZh": "Hedera",
             "displayName": "HBARUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -7356,6 +7438,7 @@
             "baseCurrency": "ENA",
             "baseDisplayName": "ENA",
             "baseName": "Ethena",
+            "baseNameZh": "Ethena",
             "displayName": "ENAUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -7440,6 +7523,7 @@
             "baseCurrency": "A",
             "baseDisplayName": "A",
             "baseName": "Vaulta",
+            "baseNameZh": "Vaulta",
             "displayName": "AUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -8616,6 +8700,7 @@
             "baseCurrency": "EOS",
             "baseDisplayName": "EOS",
             "baseName": "EOS",
+            "baseNameZh": "EOS",
             "displayName": "EOSUSDT",
             "enable": false,
             "feePrecision": "8",
@@ -9779,84 +9864,6 @@
           "uuid": "b2e240c2-40e1-43f4-a987-b17555ef7e1f",
           "subType": "__undefined"
         },
-        "UXLINK/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "base_asset": {
-              "id": "a7f31f03-9e10-4b19-8e59-b6e3cf092a7c",
-              "name": "UXLINK Token",
-              "symbol": "UXLINK"
-            },
-            "base_scale": "2",
-            "id": "77d1e208-a310-4039-a1f8-493879044c84",
-            "max_quote_value": "500000",
-            "min_quote_value": "1",
-            "name": "UXLINK-USDT",
-            "quote_asset": {
-              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
-              "name": "TetherUS",
-              "symbol": "USDT"
-            },
-            "quote_scale": "4"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "UXLINK/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 0.0001
-          },
-          "baseId": "UXLINK",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "UXLINK",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": 500000,
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "UXLINK-USDT",
-          "lowercaseId": "__undefined",
-          "uuid": "77d1e208-a310-4039-a1f8-493879044c84",
-          "subType": "__undefined"
-        },
         "SEI/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -10494,6 +10501,7 @@
             "baseCurrency": "FIL",
             "baseDisplayName": "FIL",
             "baseName": "Filecoin",
+            "baseNameZh": "Filecoin(IPFS)主网币",
             "displayName": "FILUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -11358,6 +11366,7 @@
             "baseCurrency": "TON",
             "baseDisplayName": "TON",
             "baseName": "Toncoin",
+            "baseNameZh": "Toncoin",
             "displayName": "TONUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -11912,17 +11921,17 @@
               "name": "Astar",
               "symbol": "ASTR"
             },
-            "base_scale": "3",
+            "base_scale": "1",
             "id": "b3cdadf3-09d3-4a27-a1d3-95dc07519034",
             "max_quote_value": "500000",
-            "min_quote_value": "10",
+            "min_quote_value": "1",
             "name": "ASTR-USDT",
             "quote_asset": {
               "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
               "name": "TetherUS",
               "symbol": "USDT"
             },
-            "quote_scale": "5"
+            "quote_scale": "6"
           },
           "created": "__undefined",
           "option": false,
@@ -11930,8 +11939,8 @@
           "symbol": "ASTR/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 0.001,
-            "price": 1.0e-5
+            "amount": 0.1,
+            "price": 1.0e-6
           },
           "baseId": "ASTR",
           "type": "spot",
@@ -11952,7 +11961,7 @@
             },
             "cost": {
               "max": 500000,
-              "min": 10
+              "min": 1
             },
             "leverage": {
               "max": "__undefined",
@@ -12051,6 +12060,84 @@
           "id": "INJ3L-USDT",
           "lowercaseId": "__undefined",
           "uuid": "2400f9a0-5ff6-4df9-b526-add82e5d1413",
+          "subType": "__undefined"
+        },
+        "MU3S/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": false,
+          "maker": "__undefined",
+          "inverse": "__undefined",
+          "info": {
+            "base_asset": {
+              "id": "02998c7a-2c4e-4c2a-9c7a-74418ca84c91",
+              "name": "MU3S",
+              "symbol": "MU3S"
+            },
+            "base_scale": "2",
+            "id": "97b66dc1-80f8-4ecf-b4a2-e422d6b4433c",
+            "max_quote_value": "500000",
+            "min_quote_value": "10",
+            "name": "MU3S-USDT",
+            "quote_asset": {
+              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
+              "name": "TetherUS",
+              "symbol": "USDT"
+            },
+            "quote_scale": "5"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "MU3S/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-5
+          },
+          "baseId": "MU3S",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "MU3S",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": 500000,
+              "min": 10
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": "__undefined",
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "MU3S-USDT",
+          "lowercaseId": "__undefined",
+          "uuid": "97b66dc1-80f8-4ecf-b4a2-e422d6b4433c",
           "subType": "__undefined"
         },
         "SHIB5S/USDT": {
@@ -13002,6 +13089,7 @@
             "baseCurrency": "XAG",
             "baseDisplayName": "XAG",
             "baseName": "Silver",
+            "baseNameZh": "白银",
             "displayName": "XAGUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -14646,6 +14734,7 @@
             "baseCurrency": "XRP",
             "baseDisplayName": "XRP",
             "baseName": "XRP",
+            "baseNameZh": "瑞波币",
             "displayName": "XRPUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -15042,6 +15131,7 @@
             "baseCurrency": "ADA",
             "baseDisplayName": "ADA",
             "baseName": "Cardano",
+            "baseNameZh": "艾达币",
             "displayName": "ADAUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -16764,6 +16854,7 @@
             "baseCurrency": "LTC",
             "baseDisplayName": "LTC",
             "baseName": "Litecoin",
+            "baseNameZh": "莱特币",
             "displayName": "LTCUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -19734,6 +19825,7 @@
             "baseCurrency": "BCH",
             "baseDisplayName": "BCH",
             "baseName": "Bitcoin Cash",
+            "baseNameZh": "比特现金",
             "displayName": "BCHUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -19896,6 +19988,7 @@
             "baseCurrency": "DOGE",
             "baseDisplayName": "DOGE",
             "baseName": "Dogecoin",
+            "baseNameZh": "狗狗币",
             "displayName": "DOGEUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -21851,7 +21944,8 @@
           "info": {
             "baseCurrency": "BNB",
             "baseDisplayName": "BNB",
-            "baseName": "BNB",
+            "baseName": "Binance Coin",
+            "baseNameZh": "币安币",
             "displayName": "BNBUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -21936,6 +22030,7 @@
             "baseCurrency": "BREV",
             "baseDisplayName": "BREV",
             "baseName": "Brevis",
+            "baseNameZh": "Brevis",
             "displayName": "BREVUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -22409,7 +22504,8 @@
           "info": {
             "baseCurrency": "GOOGL",
             "baseDisplayName": "GOOGL",
-            "baseName": "Alphabet Inc. Common Stock",
+            "baseName": "Google",
+            "baseNameZh": "谷歌",
             "displayName": "GOOGLUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -23103,84 +23199,6 @@
           "id": "NVDA3L-USDT",
           "lowercaseId": "__undefined",
           "uuid": "293f1e81-e272-4ee8-9043-d707d127917c",
-          "subType": "__undefined"
-        },
-        "OL3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "base_asset": {
-              "id": "79edaf85-462a-4686-9e40-b7f4d94c261c",
-              "name": "OL3S",
-              "symbol": "OL3S"
-            },
-            "base_scale": "2",
-            "id": "f55ec199-07d0-4140-be72-267f4e96dc2e",
-            "max_quote_value": "500000",
-            "min_quote_value": "10",
-            "name": "OL3S-USDT",
-            "quote_asset": {
-              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
-              "name": "TetherUS",
-              "symbol": "USDT"
-            },
-            "quote_scale": "5"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "OL3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-5
-          },
-          "baseId": "OL3S",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "OL3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": 500000,
-              "min": 10
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "OL3S-USDT",
-          "lowercaseId": "__undefined",
-          "uuid": "f55ec199-07d0-4140-be72-267f4e96dc2e",
           "subType": "__undefined"
         },
         "TRADOOR3S/USDT": {
@@ -25367,84 +25385,6 @@
           "uuid": "fb4a2097-7fee-4461-bbf0-8d2d57f07856",
           "subType": "__undefined"
         },
-        "RLS3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "base_asset": {
-              "id": "bca2ecba-a6ad-4c3e-bfc6-f8bc5837b0e4",
-              "name": "RLS3S",
-              "symbol": "RLS3S"
-            },
-            "base_scale": "2",
-            "id": "80c92863-2488-4cd1-8fc3-51779b981218",
-            "max_quote_value": "500000",
-            "min_quote_value": "10",
-            "name": "RLS3S-USDT",
-            "quote_asset": {
-              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
-              "name": "TetherUS",
-              "symbol": "USDT"
-            },
-            "quote_scale": "5"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "RLS3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-5
-          },
-          "baseId": "RLS3S",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "RLS3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": 500000,
-              "min": 10
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "RLS3S-USDT",
-          "lowercaseId": "__undefined",
-          "uuid": "80c92863-2488-4cd1-8fc3-51779b981218",
-          "subType": "__undefined"
-        },
         "PLUME3S/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -25521,84 +25461,6 @@
           "id": "PLUME3S-USDT",
           "lowercaseId": "__undefined",
           "uuid": "6e1e7ba3-0298-4775-9817-ac1d4a6f25da",
-          "subType": "__undefined"
-        },
-        "OL3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "base_asset": {
-              "id": "14c6b879-3430-4757-9798-7d1a13ed4472",
-              "name": "OL3L",
-              "symbol": "OL3L"
-            },
-            "base_scale": "2",
-            "id": "2c1077ff-05eb-4f00-919b-7af0b5bed4ca",
-            "max_quote_value": "500000",
-            "min_quote_value": "10",
-            "name": "OL3L-USDT",
-            "quote_asset": {
-              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
-              "name": "TetherUS",
-              "symbol": "USDT"
-            },
-            "quote_scale": "5"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "OL3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-5
-          },
-          "baseId": "OL3L",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "OL3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": 500000,
-              "min": 10
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "OL3L-USDT",
-          "lowercaseId": "__undefined",
-          "uuid": "2c1077ff-05eb-4f00-919b-7af0b5bed4ca",
           "subType": "__undefined"
         },
         "LINK5S/USDT": {
@@ -26082,6 +25944,7 @@
             "baseCurrency": "DASH",
             "baseDisplayName": "DASH",
             "baseName": "Dash",
+            "baseNameZh": "达世币",
             "displayName": "DASHUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -26385,6 +26248,84 @@
           "id": "ADA3L-USDT",
           "lowercaseId": "__undefined",
           "uuid": "0f4ded22-5b43-407f-8169-c77a182cd06d",
+          "subType": "__undefined"
+        },
+        "SNDK3L/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": false,
+          "maker": "__undefined",
+          "inverse": "__undefined",
+          "info": {
+            "base_asset": {
+              "id": "b14ef288-7cfd-4b7b-9319-74458de69d60",
+              "name": "SNDK3L",
+              "symbol": "SNDK3L"
+            },
+            "base_scale": "2",
+            "id": "7df7f1f5-ea7d-42ad-a067-6e6675868d0e",
+            "max_quote_value": "500000",
+            "min_quote_value": "10",
+            "name": "SNDK3L-USDT",
+            "quote_asset": {
+              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
+              "name": "TetherUS",
+              "symbol": "USDT"
+            },
+            "quote_scale": "5"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "SNDK3L/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-5
+          },
+          "baseId": "SNDK3L",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "SNDK3L",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": 500000,
+              "min": 10
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": "__undefined",
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "SNDK3L-USDT",
+          "lowercaseId": "__undefined",
+          "uuid": "7df7f1f5-ea7d-42ad-a067-6e6675868d0e",
           "subType": "__undefined"
         },
         "SOL3S/USDT": {
@@ -27414,6 +27355,7 @@
             "baseCurrency": "ZEN",
             "baseDisplayName": "ZEN",
             "baseName": "Horizen",
+            "baseNameZh": "Horizen",
             "displayName": "ZENUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -28043,7 +27985,8 @@
           "info": {
             "baseCurrency": "TSLA",
             "baseDisplayName": "TSLA",
-            "baseName": "Tesla Inc. Common Stock",
+            "baseName": "Tesla",
+            "baseNameZh": "特斯拉",
             "displayName": "TSLAUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -28206,6 +28149,7 @@
             "baseCurrency": "AVNT",
             "baseDisplayName": "AVNT",
             "baseName": "Avantis",
+            "baseNameZh": "Avantis",
             "displayName": "AVNTUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -29069,7 +29013,8 @@
           "info": {
             "baseCurrency": "TRUMP",
             "baseDisplayName": "TRUMP",
-            "baseName": "TRUMP",
+            "baseName": "OFFICIAL TRUMP",
+            "baseNameZh": "OFFICIAL TRUMP",
             "displayName": "TRUMPUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -31415,7 +31360,8 @@
           "info": {
             "baseCurrency": "PUMP",
             "baseDisplayName": "PUMP",
-            "baseName": "Pump.fun",
+            "baseName": "Pump.Fun",
+            "baseNameZh": "Pump.Fun",
             "displayName": "PUMPUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -31889,7 +31835,8 @@
           "info": {
             "baseCurrency": "ORDI",
             "baseDisplayName": "ORDI",
-            "baseName": "ORDI",
+            "baseName": "Ordinals",
+            "baseNameZh": "Ordinals",
             "displayName": "ORDIUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -35718,6 +35665,7 @@
             "baseCurrency": "AVAX",
             "baseDisplayName": "AVAX",
             "baseName": "Avalanche",
+            "baseNameZh": "雪崩网络",
             "displayName": "AVAXUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -35802,6 +35750,7 @@
             "baseCurrency": "MATIC",
             "baseDisplayName": "MATIC",
             "baseName": "Polygon",
+            "baseNameZh": "Polygon",
             "displayName": "MATICUSDT",
             "enable": false,
             "feePrecision": "8",
@@ -37667,6 +37616,84 @@
           "uuid": "b1dbf652-3e88-4c69-a1cc-d1c30b49a782",
           "subType": "__undefined"
         },
+        "SNDK3S/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": false,
+          "maker": "__undefined",
+          "inverse": "__undefined",
+          "info": {
+            "base_asset": {
+              "id": "613df192-02de-4ac4-9ea2-030f6b7b25de",
+              "name": "SNDK3S",
+              "symbol": "SNDK3S"
+            },
+            "base_scale": "2",
+            "id": "e6972aee-b21d-4233-966f-94609501cc9c",
+            "max_quote_value": "500000",
+            "min_quote_value": "10",
+            "name": "SNDK3S-USDT",
+            "quote_asset": {
+              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
+              "name": "TetherUS",
+              "symbol": "USDT"
+            },
+            "quote_scale": "5"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "SNDK3S/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-5
+          },
+          "baseId": "SNDK3S",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "SNDK3S",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": 500000,
+              "min": 10
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": "__undefined",
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "SNDK3S-USDT",
+          "lowercaseId": "__undefined",
+          "uuid": "e6972aee-b21d-4233-966f-94609501cc9c",
+          "subType": "__undefined"
+        },
         "ARK3L/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -37743,84 +37770,6 @@
           "id": "ARK3L-USDT",
           "lowercaseId": "__undefined",
           "uuid": "7aba65db-d832-49e4-be09-9ac929695a9c",
-          "subType": "__undefined"
-        },
-        "HIPPO3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "base_asset": {
-              "id": "337b75e1-6881-4b45-8806-32a34d13b926",
-              "name": "HIPPO3L",
-              "symbol": "HIPPO3L"
-            },
-            "base_scale": "2",
-            "id": "9436ffb6-6e34-4a9b-8ae5-f96ebf0ad5e3",
-            "max_quote_value": "500000",
-            "min_quote_value": "10",
-            "name": "HIPPO3L-USDT",
-            "quote_asset": {
-              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
-              "name": "TetherUS",
-              "symbol": "USDT"
-            },
-            "quote_scale": "5"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "HIPPO3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-5
-          },
-          "baseId": "HIPPO3L",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "HIPPO3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": 500000,
-              "min": 10
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "HIPPO3L-USDT",
-          "lowercaseId": "__undefined",
-          "uuid": "9436ffb6-6e34-4a9b-8ae5-f96ebf0ad5e3",
           "subType": "__undefined"
         },
         "BTC5L/USDT": {
@@ -38382,6 +38331,7 @@
             "baseCurrency": "UNI",
             "baseDisplayName": "UNI",
             "baseName": "Uniswap",
+            "baseNameZh": "独角兽币",
             "displayName": "UNIUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -39791,7 +39741,8 @@
           "info": {
             "baseCurrency": "ELSA",
             "baseDisplayName": "ELSA",
-            "baseName": "Elsa",
+            "baseName": "HeyElsa",
+            "baseNameZh": "HeyElsa",
             "displayName": "ELSAUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -40266,6 +40217,7 @@
             "baseCurrency": "BTC",
             "baseDisplayName": "BTC",
             "baseName": "Bitcoin",
+            "baseNameZh": "比特币",
             "displayName": "BTCUSD",
             "enable": true,
             "feePrecision": "8",
@@ -40805,84 +40757,6 @@
           "uuid": "f31a8a44-e9e5-4d0b-a4dc-809e30e86ea1",
           "subType": "__undefined"
         },
-        "PING/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "base_asset": {
-              "id": "33f0a85c-0b7d-457a-bc8c-527bd268f760",
-              "name": "Ping",
-              "symbol": "PING"
-            },
-            "base_scale": "2",
-            "id": "a83e2bea-7c42-4b69-afbb-9a0d00467b8a",
-            "max_quote_value": "500000",
-            "min_quote_value": "1",
-            "name": "PING-USDT",
-            "quote_asset": {
-              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
-              "name": "TetherUS",
-              "symbol": "USDT"
-            },
-            "quote_scale": "5"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "PING/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-5
-          },
-          "baseId": "PING",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "PING",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": 500000,
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "PING-USDT",
-          "lowercaseId": "__undefined",
-          "uuid": "a83e2bea-7c42-4b69-afbb-9a0d00467b8a",
-          "subType": "__undefined"
-        },
         "ZAMA/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -41286,6 +41160,7 @@
             "baseCurrency": "HYPE",
             "baseDisplayName": "HYPE",
             "baseName": "Hyperliquid",
+            "baseNameZh": "Hyperliquid",
             "displayName": "HYPEUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -42150,6 +42025,7 @@
             "baseCurrency": "WLFI",
             "baseDisplayName": "WLFI",
             "baseName": "World Liberty Financial",
+            "baseNameZh": "World Liberty Financial",
             "displayName": "WLFIUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -42936,6 +42812,7 @@
             "baseCurrency": "GIGGLE",
             "baseDisplayName": "GIGGLE",
             "baseName": "Giggle Fund",
+            "baseNameZh": "Giggle Fund",
             "displayName": "GIGGLEUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -44423,7 +44300,8 @@
           "info": {
             "baseCurrency": "CL",
             "baseDisplayName": "CL",
-            "baseName": "Crude Oil Futures",
+            "baseName": "Crude Oil",
+            "baseNameZh": "WTI 原油",
             "displayName": "CLUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -45210,6 +45088,7 @@
             "baseCurrency": "BTC",
             "baseDisplayName": "BTC",
             "baseName": "Bitcoin",
+            "baseNameZh": "比特币",
             "displayName": "BTCUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -46061,84 +45940,6 @@
           "uuid": "422fc0f8-7287-4f49-9f11-05c9de2538af",
           "subType": "__undefined"
         },
-        "HIPPO3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "base_asset": {
-              "id": "7e82616d-b5c0-427c-9706-6334f2e5348d",
-              "name": "HIPPO3S",
-              "symbol": "HIPPO3S"
-            },
-            "base_scale": "2",
-            "id": "7381a2c8-8c68-46a3-89cc-9ed6a52cc178",
-            "max_quote_value": "500000",
-            "min_quote_value": "10",
-            "name": "HIPPO3S-USDT",
-            "quote_asset": {
-              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
-              "name": "TetherUS",
-              "symbol": "USDT"
-            },
-            "quote_scale": "5"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "HIPPO3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-5
-          },
-          "baseId": "HIPPO3S",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "HIPPO3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": 500000,
-              "min": 10
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "HIPPO3S-USDT",
-          "lowercaseId": "__undefined",
-          "uuid": "7381a2c8-8c68-46a3-89cc-9ed6a52cc178",
-          "subType": "__undefined"
-        },
         "DOGE/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -46373,84 +46174,6 @@
           "uuid": "0f83e53f-9213-4928-a389-c9eab031ee66",
           "subType": "__undefined"
         },
-        "CAT/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "base_asset": {
-              "id": "3f1dfb70-7ff4-4430-932f-874257a0c933",
-              "name": "SimonsCat",
-              "symbol": "CAT"
-            },
-            "base_scale": "0",
-            "id": "f7d1d95e-5a8e-4d50-8cd4-ccb0f754ce7e",
-            "max_quote_value": "500000",
-            "min_quote_value": "10",
-            "name": "CAT-USDT",
-            "quote_asset": {
-              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
-              "name": "TetherUS",
-              "symbol": "USDT"
-            },
-            "quote_scale": "9"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "CAT/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-9
-          },
-          "baseId": "CAT",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "CAT",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": 500000,
-              "min": 10
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "CAT-USDT",
-          "lowercaseId": "__undefined",
-          "uuid": "f7d1d95e-5a8e-4d50-8cd4-ccb0f754ce7e",
-          "subType": "__undefined"
-        },
         "ANIME3L/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -46542,6 +46265,7 @@
             "baseCurrency": "SOL",
             "baseDisplayName": "SOL",
             "baseName": "Solana",
+            "baseNameZh": "Solana",
             "displayName": "SOLUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -52008,6 +51732,7 @@
             "baseCurrency": "MERL",
             "baseDisplayName": "MERL",
             "baseName": "Merlin Chain",
+            "baseNameZh": "Merlin Chain",
             "displayName": "MERLUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -53262,6 +52987,7 @@
             "baseCurrency": "SUI",
             "baseDisplayName": "SUI",
             "baseName": "Sui",
+            "baseNameZh": "Sui",
             "displayName": "SUIUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -54815,84 +54541,6 @@
           "uuid": "1cf9a1e5-4114-42d2-ae88-ac419f0564d3",
           "subType": "__undefined"
         },
-        "RLS3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "base_asset": {
-              "id": "6b3ec47b-1129-46bc-ad0a-8473af0e61e6",
-              "name": "RLS3L",
-              "symbol": "RLS3L"
-            },
-            "base_scale": "2",
-            "id": "4c6d6844-3621-45ad-a9f0-6175ff4f47b3",
-            "max_quote_value": "500000",
-            "min_quote_value": "10",
-            "name": "RLS3L-USDT",
-            "quote_asset": {
-              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
-              "name": "TetherUS",
-              "symbol": "USDT"
-            },
-            "quote_scale": "5"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "RLS3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-5
-          },
-          "baseId": "RLS3L",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "RLS3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": 500000,
-              "min": 10
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "RLS3L-USDT",
-          "lowercaseId": "__undefined",
-          "uuid": "4c6d6844-3621-45ad-a9f0-6175ff4f47b3",
-          "subType": "__undefined"
-        },
         "ZEC/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -55218,6 +54866,7 @@
             "baseCurrency": "SKR",
             "baseDisplayName": "SKR",
             "baseName": "Seeker",
+            "baseNameZh": "Seeker",
             "displayName": "SKRUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -56069,84 +55718,6 @@
           "uuid": "7de93738-2fec-45f0-9ca7-777a774051b8",
           "subType": "__undefined"
         },
-        "NEIROETH/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "base_asset": {
-              "id": "2fd331cc-17ad-4b03-b949-94621d27871b",
-              "name": "Neiro on Ethereum",
-              "symbol": "NEIROETH"
-            },
-            "base_scale": "2",
-            "id": "6abb1301-e137-45c1-b522-68c0cca98b24",
-            "max_quote_value": "500000",
-            "min_quote_value": "10",
-            "name": "NEIROETH-USDT",
-            "quote_asset": {
-              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
-              "name": "TetherUS",
-              "symbol": "USDT"
-            },
-            "quote_scale": "5"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "NEIROETH/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-5
-          },
-          "baseId": "NEIROETH",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "NEIROETH",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": 500000,
-              "min": 10
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "NEIROETH-USDT",
-          "lowercaseId": "__undefined",
-          "uuid": "6abb1301-e137-45c1-b522-68c0cca98b24",
-          "subType": "__undefined"
-        },
         "S/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -56315,7 +55886,8 @@
           "info": {
             "baseCurrency": "META",
             "baseDisplayName": "META",
-            "baseName": "Meta Platforms, Inc. Common Stock",
+            "baseName": "Meta",
+            "baseNameZh": "元宇宙",
             "displayName": "METAUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -58272,6 +57844,7 @@
             "baseCurrency": "MON",
             "baseDisplayName": "MON",
             "baseName": "Monad",
+            "baseNameZh": "Monad",
             "displayName": "MONUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -61476,6 +61049,7 @@
             "baseCurrency": "DOT",
             "baseDisplayName": "DOT",
             "baseName": "Polkadot",
+            "baseNameZh": "波卡",
             "displayName": "DOTUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -61874,17 +61448,17 @@
               "name": "REI",
               "symbol": "REI"
             },
-            "base_scale": "3",
+            "base_scale": "2",
             "id": "c08ec983-a12f-442b-87f8-4e9d6a6827c2",
             "max_quote_value": "500000",
-            "min_quote_value": "10",
+            "min_quote_value": "1",
             "name": "REI-USDT",
             "quote_asset": {
               "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
               "name": "TetherUS",
               "symbol": "USDT"
             },
-            "quote_scale": "5"
+            "quote_scale": "6"
           },
           "created": "__undefined",
           "option": false,
@@ -61892,8 +61466,8 @@
           "symbol": "REI/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 0.001,
-            "price": 1.0e-5
+            "amount": 0.01,
+            "price": 1.0e-6
           },
           "baseId": "REI",
           "type": "spot",
@@ -61914,7 +61488,7 @@
             },
             "cost": {
               "max": 500000,
-              "min": 10
+              "min": 1
             },
             "leverage": {
               "max": "__undefined",
@@ -62418,6 +61992,7 @@
             "baseCurrency": "XAU",
             "baseDisplayName": "XAU",
             "baseName": "Gold",
+            "baseNameZh": "黄金",
             "displayName": "XAUUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -62892,6 +62467,7 @@
             "baseCurrency": "PAXG",
             "baseDisplayName": "PAXG",
             "baseName": "PAX Gold",
+            "baseNameZh": "黄金",
             "displayName": "PAXGUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -63366,6 +62942,7 @@
             "baseCurrency": "XIN",
             "baseDisplayName": "XIN",
             "baseName": "Mixin",
+            "baseNameZh": "Mixin",
             "displayName": "XINUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -63683,7 +63260,8 @@
           "info": {
             "baseCurrency": "LINK",
             "baseDisplayName": "LINK",
-            "baseName": "Chainlink",
+            "baseName": "ChainLink",
+            "baseNameZh": "ChainLink",
             "displayName": "LINKUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -64158,6 +63736,7 @@
             "baseCurrency": "ZEC",
             "baseDisplayName": "ZEC",
             "baseName": "Zcash",
+            "baseNameZh": "大零币Zcash",
             "displayName": "ZECUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -64866,6 +64445,7 @@
             "baseCurrency": "ETH",
             "baseDisplayName": "ETH",
             "baseName": "Ethereum",
+            "baseNameZh": "以太坊",
             "displayName": "ETHUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -66653,84 +66233,6 @@
           "uuid": "aa28db6b-bc5d-421f-93f1-298b109e9b55",
           "subType": "__undefined"
         },
-        "PHIL/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "base_asset": {
-              "id": "d82f4927-bad5-48f7-8c85-039ffcbebec3",
-              "name": "Phil",
-              "symbol": "PHIL"
-            },
-            "base_scale": "2",
-            "id": "44a6ff1c-4aa3-419b-95d1-7a8e03222342",
-            "max_quote_value": "500000",
-            "min_quote_value": "10",
-            "name": "PHIL-USDT",
-            "quote_asset": {
-              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
-              "name": "TetherUS",
-              "symbol": "USDT"
-            },
-            "quote_scale": "5"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "PHIL/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-5
-          },
-          "baseId": "PHIL",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "PHIL",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": 500000,
-              "min": 10
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "PHIL-USDT",
-          "lowercaseId": "__undefined",
-          "uuid": "44a6ff1c-4aa3-419b-95d1-7a8e03222342",
-          "subType": "__undefined"
-        },
         "XMR/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -67992,6 +67494,7 @@
             "baseCurrency": "PEPE",
             "baseDisplayName": "PEPE",
             "baseName": "Pepe",
+            "baseNameZh": "佩佩",
             "displayName": "PEPEUSDT",
             "enable": true,
             "feePrecision": "8",
@@ -69516,7 +69019,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 829,
+        "sample_count": 822,
         "separator": "-",
         "suffix": null
       },

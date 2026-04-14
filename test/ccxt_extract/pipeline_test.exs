@@ -665,6 +665,92 @@ defmodule CcxtExtract.PipelineTest do
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
       assert result["structure"]["unified_endpoints"] == nil
     end
+
+    test "drop_disabled_endpoints removes methods the child sets has: false" do
+      # Pattern A: parent declares fetchOrders in `has`, child flips it to false.
+      # Child still pattern-matches a `fetchOrders` binding via prefix, but contract
+      # says the endpoint is unavailable — it must not appear in unified_endpoints.
+      sig = %{
+        "name" => "stub",
+        "params" => [%{"name" => "params", "type" => "typeliteral"}],
+        "return_type" => "Promise<implicitReturnType>"
+      }
+
+      data = %{
+        full_data()
+        | describe: %{
+            "testex" => %{
+              "id" => "testex",
+              "has" => %{"fetchTicker" => true, "fetchOrders" => false}
+            }
+          },
+          unified_endpoints: %{
+            "testex" => %{
+              "id" => "testex",
+              "unified_endpoints" => %{
+                "fetchTicker" => ["publicGetTicker"],
+                "fetchOrders" => ["privateGetOrders"]
+              },
+              "unified_endpoint_count" => 2
+            }
+          },
+          interface_signatures: %{
+            "testex" => %{
+              "id" => "testex",
+              "interface_signatures" => %{
+                "publicGetTicker" => sig,
+                "privateGetOrders" => sig
+              }
+            }
+          }
+      }
+
+      result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
+      ue = result["structure"]["unified_endpoints"]
+
+      assert ue["fetchTicker"] == ["publicGetTicker"]
+      refute Map.has_key?(ue, "fetchOrders")
+    end
+
+    test "restrict_to_canonical_vocab drops methods outside the CCXT has-key vocabulary" do
+      # Pattern B: fetchSpotMarkets is an internal routing helper — never appears
+      # as a `has` key in CCXT. The canonical_has_keys MapSet is the union of
+      # every `has` key across the corpus; methods outside it are not unified.
+      sig = %{
+        "name" => "stub",
+        "params" => [%{"name" => "params", "type" => "typeliteral"}],
+        "return_type" => "Promise<implicitReturnType>"
+      }
+
+      data =
+        full_data()
+        |> Map.put(:canonical_has_keys, MapSet.new(["fetchTicker", "fetchOrders"]))
+        |> Map.put(:unified_endpoints, %{
+          "testex" => %{
+            "id" => "testex",
+            "unified_endpoints" => %{
+              "fetchTicker" => ["publicGetTicker"],
+              "fetchSpotMarkets" => ["publicGetSpotMarkets"]
+            },
+            "unified_endpoint_count" => 2
+          }
+        })
+        |> Map.put(:interface_signatures, %{
+          "testex" => %{
+            "id" => "testex",
+            "interface_signatures" => %{
+              "publicGetTicker" => sig,
+              "publicGetSpotMarkets" => sig
+            }
+          }
+        })
+
+      result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
+      ue = result["structure"]["unified_endpoints"]
+
+      assert ue["fetchTicker"] == ["publicGetTicker"]
+      refute Map.has_key?(ue, "fetchSpotMarkets")
+    end
   end
 
   describe "missing entry tracking" do

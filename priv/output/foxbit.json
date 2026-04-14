@@ -12,7 +12,7 @@
     "referral": null,
     "version": "1"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -631,11 +631,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.00001",
+            "price_increment": "0.000001",
             "price_min": "1.0e-05",
-            "price_precision": "5",
+            "price_precision": "6",
             "quantity_increment": "0.00000001",
-            "quantity_min": "20.24291498",
+            "quantity_min": "19.05487805",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -670,7 +670,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 20.24291498
+              "min": 19.05487805
             },
             "cost": {
               "max": "__undefined",
@@ -723,11 +723,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.13231403",
+            "quantity_min": "0.13765256",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -762,7 +762,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.13231403
+              "min": 0.13765256
             },
             "cost": {
               "max": "__undefined",
@@ -815,11 +815,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.24483134",
+            "quantity_min": "0.26251313",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -854,7 +854,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.24483134
+              "min": 0.26251313
             },
             "cost": {
               "max": "__undefined",
@@ -911,7 +911,7 @@
             "price_min": "0.0001",
             "price_precision": "2",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.0002139",
+            "quantity_min": "0.00020084",
             "quantity_precision": "8",
             "quote": {
               "name": "Tether",
@@ -946,7 +946,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2.139e-4
+              "min": 2.0084e-4
             },
             "cost": {
               "max": "__undefined",
@@ -999,11 +999,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.08255366",
+            "quantity_min": "0.08343067",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -1038,7 +1038,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.08255366
+              "min": 0.08343067
             },
             "cost": {
               "max": "__undefined",
@@ -1095,7 +1095,7 @@
             "price_min": "0.0001",
             "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.27469173",
+            "quantity_min": "0.28170778",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -1130,7 +1130,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.27469173
+              "min": 0.28170778
             },
             "cost": {
               "max": "__undefined",
@@ -1370,11 +1370,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.00001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "2.16346154",
+            "quantity_min": "2.11267606",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -1409,7 +1409,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2.16346154
+              "min": 2.11267606
             },
             "cost": {
               "max": "__undefined",
@@ -1555,11 +1555,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.99889012",
+            "quantity_min": "1.00155798",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -1594,7 +1594,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.99889012
+              "min": 1.00155798
             },
             "cost": {
               "max": "__undefined",
@@ -1647,11 +1647,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.2276176",
+            "quantity_min": "0.22119544",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -1686,7 +1686,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.2276176
+              "min": 0.22119544
             },
             "cost": {
               "max": "__undefined",
@@ -1743,7 +1743,7 @@
             "price_min": "0.0001",
             "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.21876519",
+            "quantity_min": "0.21986613",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -1778,7 +1778,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.21876519
+              "min": 0.21986613
             },
             "cost": {
               "max": "__undefined",
@@ -1924,9 +1924,9 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.1",
+            "price_increment": "0.01",
             "price_min": "0.0001",
-            "price_precision": "1",
+            "price_precision": "2",
             "quantity_increment": "0.00000001",
             "quantity_min": "0.00106408",
             "quantity_precision": "8",
@@ -2203,11 +2203,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.33432392",
+            "quantity_min": "0.37128713",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -2242,7 +2242,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.33432392
+              "min": 0.37128713
             },
             "cost": {
               "max": "__undefined",
@@ -2299,7 +2299,7 @@
             "price_min": "0.001",
             "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.04674353",
+            "quantity_min": "0.04623446",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -2334,7 +2334,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.04674353
+              "min": 0.04623446
             },
             "cost": {
               "max": "__undefined",
@@ -2387,11 +2387,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "2.34252993",
+            "quantity_min": "2.39667661",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -2426,7 +2426,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2.34252993
+              "min": 2.39667661
             },
             "cost": {
               "max": "__undefined",
@@ -2572,11 +2572,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.28391167",
+            "quantity_min": "0.2966381",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -2611,7 +2611,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.28391167
+              "min": 0.2966381
             },
             "cost": {
               "max": "__undefined",
@@ -2757,11 +2757,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.00001",
+            "price_increment": "0.0000001",
             "price_min": "1.0e-05",
-            "price_precision": "5",
+            "price_precision": "7",
             "quantity_increment": "0.00000001",
-            "quantity_min": "111.38613861",
+            "quantity_min": "120.20193926",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -2796,7 +2796,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 111.38613861
+              "min": 120.20193926
             },
             "cost": {
               "max": "__undefined",
@@ -2849,9 +2849,9 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
             "quantity_min": "0.44642857",
             "quantity_precision": "8",
@@ -2942,11 +2942,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "1.02272727",
+            "quantity_min": "0.90321545",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -2981,7 +2981,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1.02272727
+              "min": 0.90321545
             },
             "cost": {
               "max": "__undefined",
@@ -3034,11 +3034,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.01",
+            "price_increment": "0.001",
             "price_min": "0.01",
-            "price_precision": "2",
+            "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.0099272",
+            "quantity_min": "0.00913409",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -3073,7 +3073,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.0099272
+              "min": 0.00913409
             },
             "cost": {
               "max": "__undefined",
@@ -3219,9 +3219,9 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.1",
+            "price_increment": "0.01",
             "price_min": "0.0001",
-            "price_precision": "1",
+            "price_precision": "2",
             "quantity_increment": "0.00000001",
             "quantity_min": "0.00160428",
             "quantity_precision": "8",
@@ -3408,7 +3408,7 @@
             "price_min": "1.0e-05",
             "price_precision": "5",
             "quantity_increment": "0.0001",
-            "quantity_min": "2.79277602",
+            "quantity_min": "2.95663601",
             "quantity_precision": "4",
             "quote": {
               "name": "Real",
@@ -3443,7 +3443,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2.79277602
+              "min": 2.95663601
             },
             "cost": {
               "max": "__undefined",
@@ -3496,11 +3496,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.0001",
-            "quantity_min": "1.6904583",
+            "quantity_min": "1.62454874",
             "quantity_precision": "4",
             "quote": {
               "name": "Real",
@@ -3535,7 +3535,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1.6904583
+              "min": 1.62454874
             },
             "cost": {
               "max": "__undefined",
@@ -3589,11 +3589,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.01",
+            "price_increment": "0.001",
             "price_min": "0.01",
-            "price_precision": "2",
+            "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.02791563",
+            "quantity_min": "0.0295858",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -3628,7 +3628,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.02791563
+              "min": 0.0295858
             },
             "cost": {
               "max": "__undefined",
@@ -3682,11 +3682,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "1.01374183",
+            "quantity_min": "1.01390172",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -3721,7 +3721,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1.01374183
+              "min": 1.01390172
             },
             "cost": {
               "max": "__undefined",
@@ -3775,9 +3775,9 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
             "quantity_min": "0.93984962",
             "quantity_precision": "8",
@@ -3871,7 +3871,7 @@
             "price_min": "1.0e-05",
             "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "29.43100065",
+            "quantity_min": "30.52917232",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -3906,7 +3906,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 29.43100065
+              "min": 30.52917232
             },
             "cost": {
               "max": "__undefined",
@@ -3963,7 +3963,7 @@
             "price_min": "0.0001",
             "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.41284404",
+            "quantity_min": "0.4109589",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -3998,7 +3998,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.41284404
+              "min": 0.4109589
             },
             "cost": {
               "max": "__undefined",
@@ -4144,11 +4144,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.97741095",
+            "quantity_min": "1.0887448",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -4183,7 +4183,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.97741095
+              "min": 1.0887448
             },
             "cost": {
               "max": "__undefined",
@@ -4333,7 +4333,7 @@
             "price_min": "1.0e-05",
             "price_precision": "5",
             "quantity_increment": "0.1",
-            "quantity_min": "8.08770669",
+            "quantity_min": "8.59763088",
             "quantity_precision": "1",
             "quote": {
               "name": "Real",
@@ -4368,7 +4368,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 8.08770669
+              "min": 8.59763088
             },
             "cost": {
               "max": "__undefined",
@@ -4607,11 +4607,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.33039648",
+            "quantity_min": "0.29533373",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -4646,7 +4646,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.33039648
+              "min": 0.29533373
             },
             "cost": {
               "max": "__undefined",
@@ -4703,7 +4703,7 @@
             "price_min": "1.0e-06",
             "price_precision": "6",
             "quantity_increment": "0.00000001",
-            "quantity_min": "75.0",
+            "quantity_min": "90.0",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -4738,7 +4738,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 75
+              "min": 90
             },
             "cost": {
               "max": "__undefined",
@@ -4796,7 +4796,7 @@
             "price_min": "0.01",
             "price_precision": "2",
             "quantity_increment": "0.00001",
-            "quantity_min": "0.00227043",
+            "quantity_min": "0.00215776",
             "quantity_precision": "5",
             "quote": {
               "name": "Real",
@@ -4831,7 +4831,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.00227043
+              "min": 0.00215776
             },
             "cost": {
               "max": "__undefined",
@@ -4888,7 +4888,7 @@
             "price_min": "0.0001",
             "price_precision": "1",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.0001422",
+            "quantity_min": "0.00015057",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -4923,7 +4923,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1.422e-4
+              "min": 1.5057e-4
             },
             "cost": {
               "max": "__undefined",
@@ -4976,11 +4976,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.53003534",
+            "quantity_min": "0.55147059",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -5015,7 +5015,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.53003534
+              "min": 0.55147059
             },
             "cost": {
               "max": "__undefined",
@@ -5254,11 +5254,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.0001",
-            "quantity_min": "0.32188841",
+            "quantity_min": "0.30866315",
             "quantity_precision": "4",
             "quote": {
               "name": "Real",
@@ -5293,7 +5293,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.32188841
+              "min": 0.30866315
             },
             "cost": {
               "max": "__undefined",
@@ -5351,7 +5351,7 @@
             "price_min": "0.001",
             "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.06881786",
+            "quantity_min": "0.07659574",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -5386,7 +5386,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.06881786
+              "min": 0.07659574
             },
             "cost": {
               "max": "__undefined",
@@ -5626,9 +5626,9 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.01",
+            "price_increment": "0.001",
             "price_min": "0.01",
-            "price_precision": "2",
+            "price_precision": "3",
             "quantity_increment": "0.00000001",
             "quantity_min": "0.02962475",
             "quantity_precision": "8",
@@ -5723,7 +5723,7 @@
             "price_min": "0.0001",
             "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.53795577",
+            "quantity_min": "0.57179161",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -5758,7 +5758,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.53795577
+              "min": 0.57179161
             },
             "cost": {
               "max": "__undefined",
@@ -5811,11 +5811,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "2.09692451",
+            "quantity_min": "1.97976243",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -5850,7 +5850,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2.09692451
+              "min": 1.97976243
             },
             "cost": {
               "max": "__undefined",
@@ -5908,7 +5908,7 @@
             "price_min": "1.0e-05",
             "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "1.14939593",
+            "quantity_min": "1.21274187",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -5943,7 +5943,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1.14939593
+              "min": 1.21274187
             },
             "cost": {
               "max": "__undefined",
@@ -6092,7 +6092,7 @@
             "price_min": "0.01",
             "price_precision": "2",
             "quantity_increment": "0.001",
-            "quantity_min": "0.00566965",
+            "quantity_min": "0.0052472",
             "quantity_precision": "3",
             "quote": {
               "name": "Tether",
@@ -6127,7 +6127,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.00566965
+              "min": 0.0052472
             },
             "cost": {
               "max": "__undefined",
@@ -6272,9 +6272,9 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.000001",
+            "price_increment": "0.0000001",
             "price_min": "1.0e-06",
-            "price_precision": "6",
+            "price_precision": "7",
             "quantity_increment": "0.00000001",
             "quantity_min": "149.7005988",
             "quantity_precision": "8",
@@ -6457,9 +6457,9 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
             "quantity_min": "1.69939577",
             "quantity_precision": "8",
@@ -6553,7 +6553,7 @@
             "price_min": "1.0e-07",
             "price_precision": "7",
             "quantity_increment": "0.00000001",
-            "quantity_min": "13.17241521",
+            "quantity_min": "13.23957751",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -6588,7 +6588,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 13.17241521
+              "min": 13.23957751
             },
             "cost": {
               "max": "__undefined",
@@ -6642,11 +6642,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.01",
+            "price_increment": "0.001",
             "price_min": "0.01",
-            "price_precision": "2",
+            "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.00984898",
+            "quantity_min": "0.00986064",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -6681,7 +6681,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.00984898
+              "min": 0.00986064
             },
             "cost": {
               "max": "__undefined",
@@ -6828,11 +6828,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.43731778",
+            "quantity_min": "0.47423332",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -6867,7 +6867,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.43731778
+              "min": 0.47423332
             },
             "cost": {
               "max": "__undefined",
@@ -7110,7 +7110,7 @@
             "price_min": "0.0001",
             "price_precision": "8",
             "quantity_increment": "0.00000001",
-            "quantity_min": "23584.90566038",
+            "quantity_min": "25380.7106599",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -7145,7 +7145,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 23584.90566038
+              "min": 25380.7106599
             },
             "cost": {
               "max": "__undefined",
@@ -7198,9 +7198,9 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.00001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
             "quantity_min": "1.0",
             "quantity_precision": "8",
@@ -7384,11 +7384,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.01",
+            "price_increment": "0.001",
             "price_min": "0.01",
-            "price_precision": "2",
+            "price_precision": "3",
             "quantity_increment": "0.0001",
-            "quantity_min": "0.03032345",
+            "quantity_min": "0.03213368",
             "quantity_precision": "4",
             "quote": {
               "name": "Real",
@@ -7423,7 +7423,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.03032345
+              "min": 0.03213368
             },
             "cost": {
               "max": "__undefined",
@@ -7481,7 +7481,7 @@
             "price_min": "0.0001",
             "price_precision": "1",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.0002007",
+            "quantity_min": "0.00021142",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -7516,7 +7516,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2.007e-4
+              "min": 2.1142e-4
             },
             "cost": {
               "max": "__undefined",
@@ -7569,11 +7569,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.07778738",
+            "quantity_min": "0.08234519",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -7608,7 +7608,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.07778738
+              "min": 0.08234519
             },
             "cost": {
               "max": "__undefined",
@@ -7661,11 +7661,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.00001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.74750831",
+            "quantity_min": "0.82049412",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -7700,7 +7700,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.74750831
+              "min": 0.82049412
             },
             "cost": {
               "max": "__undefined",
@@ -7757,7 +7757,7 @@
             "price_min": "0.01",
             "price_precision": "2",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.00523134",
+            "quantity_min": "0.00429553",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -7792,7 +7792,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.00523134
+              "min": 0.00429553
             },
             "cost": {
               "max": "__undefined",
@@ -7939,11 +7939,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.001",
-            "quantity_min": "0.56109726",
+            "quantity_min": "0.52878966",
             "quantity_precision": "3",
             "quote": {
               "name": "Real",
@@ -7978,7 +7978,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.56109726
+              "min": 0.52878966
             },
             "cost": {
               "max": "__undefined",
@@ -8128,7 +8128,7 @@
             "price_min": "0.001",
             "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.06317563",
+            "quantity_min": "0.05815456",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -8163,7 +8163,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.06317563
+              "min": 0.05815456
             },
             "cost": {
               "max": "__undefined",
@@ -8309,11 +8309,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.1",
+            "price_increment": "0.01",
             "price_min": "0.01",
-            "price_precision": "1",
+            "price_precision": "2",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.00120935",
+            "quantity_min": "0.00114732",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -8348,7 +8348,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.00120935
+              "min": 0.00114732
             },
             "cost": {
               "max": "__undefined",
@@ -8679,11 +8679,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.1",
+            "price_increment": "0.01",
             "price_min": "0.01",
-            "price_precision": "1",
+            "price_precision": "2",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.00092138",
+            "quantity_min": "0.00097046",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -8718,7 +8718,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 9.2138e-4
+              "min": 9.7046e-4
             },
             "cost": {
               "max": "__undefined",
@@ -8776,7 +8776,7 @@
             "price_min": "0.0001",
             "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.34210126",
+            "quantity_min": "0.36182359",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -8811,7 +8811,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.34210126
+              "min": 0.36182359
             },
             "cost": {
               "max": "__undefined",
@@ -8962,7 +8962,7 @@
             "price_min": "0.001",
             "price_precision": "3",
             "quantity_increment": "0.0001",
-            "quantity_min": "0.04239683",
+            "quantity_min": "0.0464732",
             "quantity_precision": "4",
             "quote": {
               "name": "Real",
@@ -8997,7 +8997,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.04239683
+              "min": 0.0464732
             },
             "cost": {
               "max": "__undefined",
@@ -9054,7 +9054,7 @@
             "price_min": "1.0e-06",
             "price_precision": "6",
             "quantity_increment": "0.1",
-            "quantity_min": "50.772876",
+            "quantity_min": "48.03586678",
             "quantity_precision": "1",
             "quote": {
               "name": "Real",
@@ -9089,7 +9089,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 50.772876
+              "min": 48.03586678
             },
             "cost": {
               "max": "__undefined",
@@ -9143,11 +9143,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.00001",
             "price_min": "0.01",
-            "price_precision": "3",
+            "price_precision": "5",
             "quantity_increment": "0.0001",
-            "quantity_min": "0.91836735",
+            "quantity_min": "1.15251633",
             "quantity_precision": "4",
             "quote": {
               "name": "Real",
@@ -9182,7 +9182,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.91836735
+              "min": 1.15251633
             },
             "cost": {
               "max": "__undefined",
@@ -9235,11 +9235,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.3",
+            "quantity_min": "0.31678986",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -9274,7 +9274,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.3
+              "min": 0.31678986
             },
             "cost": {
               "max": "__undefined",
@@ -9327,9 +9327,9 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.00001",
+            "price_increment": "0.000001",
             "price_min": "1.0e-08",
-            "price_precision": "5",
+            "price_precision": "6",
             "quantity_increment": "0.00000001",
             "quantity_min": "16.1987041",
             "quantity_precision": "8",
@@ -9419,11 +9419,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.74639244",
+            "quantity_min": "0.87645833",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -9458,7 +9458,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.74639244
+              "min": 0.87645833
             },
             "cost": {
               "max": "__undefined",
@@ -9511,11 +9511,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.26423958",
+            "quantity_min": "0.28030397",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -9550,7 +9550,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.26423958
+              "min": 0.28030397
             },
             "cost": {
               "max": "__undefined",
@@ -9604,9 +9604,9 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.01",
+            "price_increment": "0.001",
             "price_min": "0.01",
-            "price_precision": "2",
+            "price_precision": "3",
             "quantity_increment": "0.00000001",
             "quantity_min": "0.00987275",
             "quantity_precision": "8",
@@ -9697,11 +9697,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.09215646",
+            "quantity_min": "0.0965251",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -9736,7 +9736,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.09215646
+              "min": 0.0965251
             },
             "cost": {
               "max": "__undefined",
@@ -9793,7 +9793,7 @@
             "price_min": "0.0001",
             "price_precision": "4",
             "quantity_increment": "1",
-            "quantity_min": "0.703125",
+            "quantity_min": "0.75",
             "quantity_precision": "2",
             "quote": {
               "name": "Real",
@@ -9828,7 +9828,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.703125
+              "min": 0.75
             },
             "cost": {
               "max": "__undefined",
@@ -9974,9 +9974,9 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
             "quantity_min": "3.62027353",
             "quantity_precision": "8",
@@ -10159,11 +10159,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.00001",
+            "price_increment": "0.000001",
             "price_min": "1.0e-05",
-            "price_precision": "5",
+            "price_precision": "6",
             "quantity_increment": "0.00000001",
-            "quantity_min": "60.24096386",
+            "quantity_min": "61.09150149",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -10198,7 +10198,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 60.24096386
+              "min": 61.09150149
             },
             "cost": {
               "max": "__undefined",
@@ -10256,7 +10256,7 @@
             "price_min": "0.0001",
             "price_precision": "8",
             "quantity_increment": "0.00000001",
-            "quantity_min": "14900.66225166",
+            "quantity_min": "15010.00667111",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -10291,7 +10291,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 14900.66225166
+              "min": 15010.00667111
             },
             "cost": {
               "max": "__undefined",
@@ -10344,11 +10344,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.1",
-            "quantity_min": "0.69092584",
+            "quantity_min": "0.68620574",
             "quantity_precision": "1",
             "quote": {
               "name": "Real",
@@ -10383,7 +10383,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.69092584
+              "min": 0.68620574
             },
             "cost": {
               "max": "__undefined",
@@ -10440,7 +10440,7 @@
             "price_min": "1.0e-05",
             "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "5.29287227",
+            "quantity_min": "6.3947705",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -10475,7 +10475,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 5.29287227
+              "min": 6.3947705
             },
             "cost": {
               "max": "__undefined",
@@ -10529,11 +10529,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.00001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "1.01351351",
+            "quantity_min": "1.04435007",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -10568,7 +10568,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1.01351351
+              "min": 1.04435007
             },
             "cost": {
               "max": "__undefined",
@@ -10621,11 +10621,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.85551331",
+            "quantity_min": "0.81267044",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -10660,7 +10660,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.85551331
+              "min": 0.81267044
             },
             "cost": {
               "max": "__undefined",
@@ -10718,7 +10718,7 @@
             "price_min": "0.001",
             "price_precision": "3",
             "quantity_increment": "0.000001",
-            "quantity_min": "0.06656805",
+            "quantity_min": "0.06658775",
             "quantity_precision": "6",
             "quote": {
               "name": "Real",
@@ -10753,7 +10753,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.06656805
+              "min": 0.06658775
             },
             "cost": {
               "max": "__undefined",
@@ -10810,7 +10810,7 @@
             "price_min": "1.0e-05",
             "price_precision": "5",
             "quantity_increment": "0.00001",
-            "quantity_min": "26.9138756",
+            "quantity_min": "38.26530612",
             "quantity_precision": "5",
             "quote": {
               "name": "Real",
@@ -10845,7 +10845,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 26.9138756
+              "min": 38.26530612
             },
             "cost": {
               "max": "__undefined",
@@ -10898,11 +10898,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.34351145",
+            "quantity_min": "0.38510911",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -10937,7 +10937,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.34351145
+              "min": 0.38510911
             },
             "cost": {
               "max": "__undefined",
@@ -10990,9 +10990,9 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.00001",
+            "price_increment": "0.000001",
             "price_min": "1.0e-05",
-            "price_precision": "5",
+            "price_precision": "6",
             "quantity_increment": "0.00000001",
             "quantity_min": "11.70960187",
             "quantity_precision": "8",
@@ -11083,11 +11083,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "1.13264536",
+            "quantity_min": "1.19741359",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -11122,7 +11122,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1.13264536
+              "min": 1.19741359
             },
             "cost": {
               "max": "__undefined",
@@ -11180,7 +11180,7 @@
             "price_min": "0.0001",
             "price_precision": "8",
             "quantity_increment": "0.0000001",
-            "quantity_min": "15045.13540622",
+            "quantity_min": "15025.04173623",
             "quantity_precision": "7",
             "quote": {
               "name": "Real",
@@ -11215,7 +11215,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 15045.13540622
+              "min": 15025.04173623
             },
             "cost": {
               "max": "__undefined",
@@ -11273,7 +11273,7 @@
             "price_min": "0.0001",
             "price_precision": "1",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.00004082",
+            "quantity_min": "0.000041",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -11308,7 +11308,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 4.082e-5
+              "min": 4.1e-5
             },
             "cost": {
               "max": "__undefined",
@@ -11365,7 +11365,7 @@
             "price_min": "1.0e-05",
             "price_precision": "5",
             "quantity_increment": "0.00001",
-            "quantity_min": "6.11911885",
+            "quantity_min": "5.42560887",
             "quantity_precision": "5",
             "quote": {
               "name": "Real",
@@ -11400,7 +11400,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 6.11911885
+              "min": 5.42560887
             },
             "cost": {
               "max": "__undefined",
@@ -11453,11 +11453,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.01",
+            "price_increment": "0.001",
             "price_min": "0.01",
-            "price_precision": "2",
+            "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.02433748",
+            "quantity_min": "0.02063558",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -11492,7 +11492,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.02433748
+              "min": 0.02063558
             },
             "cost": {
               "max": "__undefined",
@@ -11550,7 +11550,7 @@
             "price_min": "0.001",
             "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.06777108",
+            "quantity_min": "0.06441454",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -11585,7 +11585,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.06777108
+              "min": 0.06441454
             },
             "cost": {
               "max": "__undefined",
@@ -11639,11 +11639,11 @@
               "STOP_MARKET",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.41171089",
+            "quantity_min": "0.41821561",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -11678,7 +11678,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.41171089
+              "min": 0.41821561
             },
             "cost": {
               "max": "__undefined",
@@ -12010,11 +12010,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.00001",
+            "price_increment": "0.000001",
             "price_min": "1.0e-05",
-            "price_precision": "5",
+            "price_precision": "6",
             "quantity_increment": "0.01",
-            "quantity_min": "18.78130217",
+            "quantity_min": "17.79922474",
             "quantity_precision": "2",
             "quote": {
               "name": "Real",
@@ -12049,7 +12049,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 18.78130217
+              "min": 17.79922474
             },
             "cost": {
               "max": "__undefined",
@@ -12107,7 +12107,7 @@
             "price_min": "0.001",
             "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.07072136",
+            "quantity_min": "0.06",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -12142,7 +12142,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.07072136
+              "min": 0.06
             },
             "cost": {
               "max": "__undefined",
@@ -12195,11 +12195,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.0001",
+            "price_increment": "0.00001",
             "price_min": "0.0001",
-            "price_precision": "4",
+            "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "4.81283422",
+            "quantity_min": "5.08244861",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -12234,7 +12234,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 4.81283422
+              "min": 5.08244861
             },
             "cost": {
               "max": "__undefined",
@@ -12291,7 +12291,7 @@
             "price_min": "1.0e-05",
             "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "1.12940468",
+            "quantity_min": "1.09777518",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -12326,7 +12326,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1.12940468
+              "min": 1.09777518
             },
             "cost": {
               "max": "__undefined",
@@ -12472,9 +12472,9 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.001",
+            "price_increment": "0.0001",
             "price_min": "0.001",
-            "price_precision": "3",
+            "price_precision": "4",
             "quantity_increment": "0.00000001",
             "quantity_min": "0.61983471",
             "quantity_precision": "8",
@@ -12568,7 +12568,7 @@
             "price_min": "0.001",
             "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.01093932",
+            "quantity_min": "0.01032963",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -12603,7 +12603,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.01093932
+              "min": 0.01032963
             },
             "cost": {
               "max": "__undefined",
@@ -12656,11 +12656,11 @@
               "INSTANT",
               "STOP_LIMIT"
             ],
-            "price_increment": "0.01",
+            "price_increment": "0.001",
             "price_min": "0.01",
-            "price_precision": "2",
+            "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.0430622",
+            "quantity_min": "0.04101349",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -12695,7 +12695,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.0430622
+              "min": 0.04101349
             },
             "cost": {
               "max": "__undefined",

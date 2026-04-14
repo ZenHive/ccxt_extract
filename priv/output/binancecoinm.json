@@ -13,7 +13,7 @@
     },
     "version": null
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -3189,7 +3189,7 @@
       }
     },
     "markets": {
-      "market_count": 40,
+      "market_count": 38,
       "markets": {
         "BTC/USD:BTC-260925": {
           "spot": false,
@@ -4198,149 +4198,6 @@
           "expiry": "__undefined",
           "id": "NEARUSD_PERP",
           "lowercaseId": "nearusd_perp",
-          "subType": "inverse"
-        },
-        "WLD/USD:WLD": {
-          "spot": false,
-          "contractSize": 10,
-          "linear": false,
-          "quoteId": "USD",
-          "tierBased": false,
-          "index": "__undefined",
-          "maker": 0.0001,
-          "inverse": true,
-          "feeSide": "get",
-          "info": {
-            "baseAsset": "WLD",
-            "baseAssetPrecision": "8",
-            "contractSize": "10",
-            "contractStatus": "TRADING",
-            "contractType": "PERPETUAL",
-            "deliveryDate": "1775725200000",
-            "equalQtyPrecision": "4",
-            "filters": [
-              {
-                "filterType": "PRICE_FILTER",
-                "maxPrice": "10000",
-                "minPrice": "0.000100",
-                "tickSize": "0.000100"
-              },
-              {
-                "filterType": "LOT_SIZE",
-                "maxQty": "100000",
-                "minQty": "1",
-                "stepSize": "1"
-              },
-              {
-                "filterType": "MARKET_LOT_SIZE",
-                "maxQty": "1000",
-                "minQty": "1",
-                "stepSize": "1"
-              },
-              {
-                "filterType": "MAX_NUM_ORDERS",
-                "limit": "200"
-              },
-              {
-                "filterType": "MAX_NUM_ALGO_ORDERS",
-                "limit": "20"
-              },
-              {
-                "filterType": "PERCENT_PRICE",
-                "multiplierDecimal": "4",
-                "multiplierDown": "0.9500",
-                "multiplierUp": "1.0500"
-              }
-            ],
-            "liquidationFee": "0.015000",
-            "maintMarginPercent": "2.5000",
-            "marginAsset": "WLD",
-            "marketTakeBound": "0.05",
-            "maxMoveOrderLimit": "10000",
-            "onboardDate": "1727863200000",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET",
-              "STOP",
-              "STOP_MARKET",
-              "TAKE_PROFIT",
-              "TAKE_PROFIT_MARKET",
-              "TRAILING_STOP_MARKET"
-            ],
-            "pair": "WLDUSD",
-            "permissionSets": [
-              "GRID"
-            ],
-            "pricePrecision": "6",
-            "quantityPrecision": "0",
-            "quoteAsset": "USD",
-            "quotePrecision": "8",
-            "requiredMarginPercent": "5.0000",
-            "symbol": "WLDUSD_PERP",
-            "timeInForce": [
-              "GTC",
-              "IOC",
-              "FOK",
-              "GTX"
-            ],
-            "triggerProtect": "0.0500",
-            "underlyingSubType": [],
-            "underlyingType": "COIN"
-          },
-          "created": 1727863200000,
-          "option": false,
-          "future": false,
-          "symbol": "WLD/USD:WLD",
-          "settle": "WLD",
-          "precision": {
-            "amount": 1,
-            "base": 1.0e-8,
-            "price": 0.0001,
-            "quote": 1.0e-8
-          },
-          "baseId": "WLD",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "WLD",
-          "quote": "USD",
-          "expiryDatetime": "__undefined",
-          "base": "WLD",
-          "swap": true,
-          "marginModes": {
-            "cross": true,
-            "isolated": true
-          },
-          "limits": {
-            "amount": {
-              "max": 100000,
-              "min": 1
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "market": {
-              "max": 1000,
-              "min": 1
-            },
-            "price": {
-              "max": 10000,
-              "min": 0.0001
-            }
-          },
-          "taker": 0.0005,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": true,
-          "active": true,
-          "expiry": "__undefined",
-          "id": "WLDUSD_PERP",
-          "lowercaseId": "wldusd_perp",
           "subType": "inverse"
         },
         "DOT/USD:DOT": {
@@ -6081,149 +5938,6 @@
           "expiry": "__undefined",
           "id": "LINKUSD_PERP",
           "lowercaseId": "linkusd_perp",
-          "subType": "inverse"
-        },
-        "WIF/USD:WIF": {
-          "spot": false,
-          "contractSize": 10,
-          "linear": false,
-          "quoteId": "USD",
-          "tierBased": false,
-          "index": "__undefined",
-          "maker": 0.0001,
-          "inverse": true,
-          "feeSide": "get",
-          "info": {
-            "baseAsset": "WIF",
-            "baseAssetPrecision": "8",
-            "contractSize": "10",
-            "contractStatus": "TRADING",
-            "contractType": "PERPETUAL",
-            "deliveryDate": "1775725200000",
-            "equalQtyPrecision": "4",
-            "filters": [
-              {
-                "filterType": "PRICE_FILTER",
-                "maxPrice": "10000",
-                "minPrice": "0.000100",
-                "tickSize": "0.000100"
-              },
-              {
-                "filterType": "LOT_SIZE",
-                "maxQty": "100000",
-                "minQty": "1",
-                "stepSize": "1"
-              },
-              {
-                "filterType": "MARKET_LOT_SIZE",
-                "maxQty": "1000",
-                "minQty": "1",
-                "stepSize": "1"
-              },
-              {
-                "filterType": "MAX_NUM_ORDERS",
-                "limit": "200"
-              },
-              {
-                "filterType": "MAX_NUM_ALGO_ORDERS",
-                "limit": "20"
-              },
-              {
-                "filterType": "PERCENT_PRICE",
-                "multiplierDecimal": "4",
-                "multiplierDown": "0.9500",
-                "multiplierUp": "1.0500"
-              }
-            ],
-            "liquidationFee": "0.015000",
-            "maintMarginPercent": "2.5000",
-            "marginAsset": "WIF",
-            "marketTakeBound": "0.05",
-            "maxMoveOrderLimit": "10000",
-            "onboardDate": "1721736000000",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET",
-              "STOP",
-              "STOP_MARKET",
-              "TAKE_PROFIT",
-              "TAKE_PROFIT_MARKET",
-              "TRAILING_STOP_MARKET"
-            ],
-            "pair": "WIFUSD",
-            "permissionSets": [
-              "GRID"
-            ],
-            "pricePrecision": "6",
-            "quantityPrecision": "0",
-            "quoteAsset": "USD",
-            "quotePrecision": "8",
-            "requiredMarginPercent": "5.0000",
-            "symbol": "WIFUSD_PERP",
-            "timeInForce": [
-              "GTC",
-              "IOC",
-              "FOK",
-              "GTX"
-            ],
-            "triggerProtect": "0.0500",
-            "underlyingSubType": [],
-            "underlyingType": "COIN"
-          },
-          "created": 1721736000000,
-          "option": false,
-          "future": false,
-          "symbol": "WIF/USD:WIF",
-          "settle": "WIF",
-          "precision": {
-            "amount": 1,
-            "base": 1.0e-8,
-            "price": 0.0001,
-            "quote": 1.0e-8
-          },
-          "baseId": "WIF",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "WIF",
-          "quote": "USD",
-          "expiryDatetime": "__undefined",
-          "base": "WIF",
-          "swap": true,
-          "marginModes": {
-            "cross": true,
-            "isolated": true
-          },
-          "limits": {
-            "amount": {
-              "max": 100000,
-              "min": 1
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "market": {
-              "max": 1000,
-              "min": 1
-            },
-            "price": {
-              "max": 10000,
-              "min": 0.0001
-            }
-          },
-          "taker": 0.0005,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": true,
-          "active": true,
-          "expiry": "__undefined",
-          "id": "WIFUSD_PERP",
-          "lowercaseId": "wifusd_perp",
           "subType": "inverse"
         },
         "BNB/USD:BNB-260626": {
@@ -9026,7 +8740,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 30,
+        "sample_count": 28,
         "separator": "",
         "suffix": "_PERP"
       }
@@ -23312,12 +23026,6 @@
       "fetchBorrowRateHistory": [
         "sapiGetMarginInterestRateHistory"
       ],
-      "editContractOrder": [
-        "dapiPrivatePutOrder",
-        "fapiPrivatePutOrder",
-        "papiPutCmOrder",
-        "papiPutUmOrder"
-      ],
       "setPositionMode": [
         "dapiPrivatePostPositionSideDual",
         "fapiPrivatePostPositionSideDual",
@@ -23442,9 +23150,6 @@
         "dapiPrivateGetAccount",
         "fapiPrivateGetSymbolConfig"
       ],
-      "fetchMyDustTrades": [
-        "sapiGetAssetDribblet"
-      ],
       "fetchIsolatedBorrowRate": [
         "sapiGetMarginIsolatedMarginData"
       ],
@@ -23568,9 +23273,6 @@
       "fetchLongShortRatioHistory": [
         "dapiDataGetGlobalLongShortAccountRatio",
         "fapiDataGetGlobalLongShortAccountRatio"
-      ],
-      "fetchOptionPositions": [
-        "eapiPrivateGetPosition"
       ],
       "fetchOpenInterest": [
         "dapiPublicGetOpenInterest",
@@ -23756,17 +23458,6 @@
       "fetchConvertQuote": [
         "sapiPostConvertGetQuote"
       ],
-      "fetchAccountPositions": [
-        "dapiPrivateGetAccount",
-        "dapiPrivateV2GetLeverageBracket",
-        "fapiPrivateGetLeverageBracket",
-        "fapiPrivateV2GetAccount",
-        "fapiPrivateV3GetAccount",
-        "papiGetCmAccount",
-        "papiGetCmLeverageBracket",
-        "papiGetUmLeverageBracket",
-        "papiV2GetUmAccount"
-      ],
       "fetchPosition": [
         "eapiPrivateGetPosition"
       ],
@@ -23810,9 +23501,6 @@
         "fapiPublicGetTicker24hr",
         "publicGetTicker",
         "publicGetTicker24hr"
-      ],
-      "editSpotOrder": [
-        "privatePostOrderCancelReplace"
       ],
       "fetchMarkPrices": [
         "dapiPublicGetPremiumIndex",
@@ -23862,9 +23550,6 @@
         "papiGetCmLeverageBracket",
         "papiGetUmAccount",
         "papiGetUmLeverageBracket"
-      ],
-      "createGiftCode": [
-        "sapiPostGiftcardCreateCode"
       ],
       "fetchTradingFees": [
         "dapiPrivateGetAccount",

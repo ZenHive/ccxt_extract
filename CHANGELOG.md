@@ -6,6 +6,18 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 57c partial — Pattern A/B fixes for `unified_endpoints`/`has` drift
+
+Triaged the 341 `unified_endpoints_claimed_in_has` findings from `mix ccxt_extract.contract_test --strict` into four patterns and fixed the unambiguous extractor bugs without weakening the contract_test invariant.
+
+- **Pattern A (inherited `has: false`)** — When a parent class declares a method in its `has` map and a child flips it to `false`, the pipeline was still claiming the method as a unified endpoint on the child because the merge step only intersected parent endpoints with `interface_signatures`, not with the child's explicit disable flags. Added `drop_disabled_endpoints/2` in `lib/ccxt_extract/pipeline.ex` that reads the child's own `runtime.describe.has`, collects any keys whose value is exactly `false`, and drops them from the merged endpoint map. Only `=== false` is filtered — `"emulated"`, `:missing`, and `"__undefined"` all flow through unchanged (those have different semantics and belong to other patterns).
+- **Pattern B (internal routing helpers)** — Prefix-based method derivation in `lib/ccxt_extract/unified_endpoints.ex` was picking up exchange-private sub-dispatch methods (`fetchSpotMarkets`, `createSpotOrder`, kucoin UTA variants, `transferClassic`, etc.) that are not part of CCXT's unified API vocabulary. Added a canonical-has-vocabulary filter computed once per pipeline run: the union of every key ever seen in any exchange's `runtime.describe.has` (including base `Exchange.ts` declarations with `undefined` values). Implemented as `compute_canonical_has_keys/1` + `restrict_to_canonical_vocab/2` in `pipeline.ex`. Methods outside this vocabulary are no longer claimed as unified. This is correct behavior pending provenance tagging — without Task 61a we can't honestly distinguish "CCXT forgot to flip the flag" from "not actually unified."
+- **Patterns C/D (`:missing` / `"__undefined"` with no `has` disagreement to resolve)** — Left alone. Pattern D (method exists but has no `has` key anywhere) is now filtered out by Pattern B's canonical vocab check, which is correct until provenance lands. Pattern C (base declares `has[method] = undefined`, exchange implements, flag never flipped) remains visible in contract_test output as the real scope for Task 61a.
+
+**Impact:** contract_test findings dropped from 341 → 53. The residual 53 are all Pattern C (`"__undefined"` or parent-vocabulary `:missing` for methods CCXT genuinely left ambiguous upstream). `contract_test.ex` invariants untouched — the remaining 53 still fire. Full test suite is green modulo one pre-existing failure (`CoverageReportCachedTest` parse_methods count drift) that is unrelated to this change. A `PipelineCachedTest` orphan-artifact failure surfaced when coincatch was dropped from the output manifest without purging its stale discovery entries; purged in a follow-up alongside this changeset.
+
+Task 57c remains 🔶 blocked on Task 61a with revised scope: resolve the 53 Pattern C findings by emitting `{value: true, source: "derived"}` in the unified `has` view while preserving the raw `"__undefined"` sentinel — making the provenance explicit instead of masking the upstream gap.
+
 ### Task 58 closure — `regenerate_fixtures` alias + `validate_fixtures` parity check
 
 Closes the Task 58 remainder (fixtures for 107 exchanges had already shipped):

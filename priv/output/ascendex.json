@@ -15,7 +15,7 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -714,7 +714,7 @@
       "version": "v2"
     },
     "markets": {
-      "market_count": 1224,
+      "market_count": 1218,
       "markets": {
         "AAPLX/USDT:USDT": {
           "spot": false,
@@ -2268,92 +2268,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "KROAK/USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "CRV5L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": true,
-          "index": "__undefined",
-          "maker": 0.002,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseAsset": "CRV5L",
-            "collapseDecimals": "0.0001,0.000001,0.00000001",
-            "commissionReserveRate": "0.002",
-            "commissionType": "Quote",
-            "displayName": "CRV5L/USDT",
-            "domain": "LeveragedETF",
-            "lotSize": "1",
-            "marginTradable": false,
-            "maxNotional": "500000",
-            "maxQty": "1000000000",
-            "minNotional": "5",
-            "minQty": "0.000000001",
-            "notionalScale": "4",
-            "priceScale": "8",
-            "qtyScale": "0",
-            "quoteAsset": "USDT",
-            "status": "Normal",
-            "statusCode": "Normal",
-            "statusMessage": "",
-            "symbol": "CRV5L/USDT",
-            "tickSize": "0.00000001",
-            "tradingStartTime": "1770391800000",
-            "useLot": false,
-            "useTick": false
-          },
-          "created": 1770391800000,
-          "option": false,
-          "future": false,
-          "symbol": "CRV5L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-8
-          },
-          "baseId": "CRV5L",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "CRV5L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": 1000000000,
-              "min": 1.0e-9
-            },
-            "cost": {
-              "max": 500000,
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": 1.0e-8
-            }
-          },
-          "taker": 0.002,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": true,
-          "active": false,
-          "expiry": "__undefined",
-          "id": "CRV5L/USDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -5015,7 +4929,7 @@
           "feeSide": "get",
           "info": {
             "baseAsset": "BDAG",
-            "collapseDecimals": "0.01,0.0001,0.000001",
+            "collapseDecimals": "0.0001,0.000001,0.00000001",
             "commissionReserveRate": "0.004",
             "commissionType": "Quote",
             "displayName": "BDAG/USDT",
@@ -5027,14 +4941,14 @@
             "minNotional": "5",
             "minQty": "0.000000001",
             "notionalScale": "4",
-            "priceScale": "6",
+            "priceScale": "8",
             "qtyScale": "0",
             "quoteAsset": "USDT",
             "status": "Normal",
             "statusCode": "Normal",
             "statusMessage": "",
             "symbol": "BDAG/USDT",
-            "tickSize": "0.000001",
+            "tickSize": "0.00000001",
             "tradingStartTime": "1775037600000",
             "useLot": false,
             "useTick": false
@@ -5046,7 +4960,7 @@
           "settle": "__undefined",
           "precision": {
             "amount": 1,
-            "price": 1.0e-6
+            "price": 1.0e-8
           },
           "baseId": "BDAG",
           "type": "spot",
@@ -5075,7 +4989,7 @@
             },
             "price": {
               "max": "__undefined",
-              "min": 1.0e-6
+              "min": 1.0e-8
             }
           },
           "taker": 0.004,
@@ -17328,8 +17242,8 @@
             "priceScale": "5",
             "qtyScale": "0",
             "quoteAsset": "USDT",
-            "status": "InternalTrading",
-            "statusCode": "InternalTrading",
+            "status": "Normal",
+            "statusCode": "Normal",
             "statusMessage": "",
             "symbol": "GPAD/USDT",
             "tickSize": "0.00001",
@@ -21212,92 +21126,6 @@
           "id": "XAG-PERP",
           "lowercaseId": "__undefined",
           "subType": "linear"
-        },
-        "SIREN3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": true,
-          "index": "__undefined",
-          "maker": 0.002,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseAsset": "SIREN3S",
-            "collapseDecimals": "0.0001,0.000001,0.00000001",
-            "commissionReserveRate": "0.002",
-            "commissionType": "Quote",
-            "displayName": "SIREN3S/USDT",
-            "domain": "LeveragedETF",
-            "lotSize": "1",
-            "marginTradable": false,
-            "maxNotional": "500000",
-            "maxQty": "1000000000",
-            "minNotional": "5",
-            "minQty": "0.000000001",
-            "notionalScale": "4",
-            "priceScale": "8",
-            "qtyScale": "0",
-            "quoteAsset": "USDT",
-            "status": "Normal",
-            "statusCode": "Normal",
-            "statusMessage": "",
-            "symbol": "SIREN3S/USDT",
-            "tickSize": "0.00000001",
-            "tradingStartTime": "1774362600000",
-            "useLot": false,
-            "useTick": false
-          },
-          "created": 1774362600000,
-          "option": false,
-          "future": false,
-          "symbol": "SIREN3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-8
-          },
-          "baseId": "SIREN3S",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "SIREN3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": 1000000000,
-              "min": 1.0e-9
-            },
-            "cost": {
-              "max": 500000,
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": 1.0e-8
-            }
-          },
-          "taker": 0.002,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": true,
-          "active": false,
-          "expiry": "__undefined",
-          "id": "SIREN3S/USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
         },
         "BREV/USDT": {
           "spot": true,
@@ -74713,92 +74541,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "SIREN3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": true,
-          "index": "__undefined",
-          "maker": 0.002,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseAsset": "SIREN3L",
-            "collapseDecimals": "0.0001,0.000001,0.00000001",
-            "commissionReserveRate": "0.002",
-            "commissionType": "Quote",
-            "displayName": "SIREN3L/USDT",
-            "domain": "LeveragedETF",
-            "lotSize": "1",
-            "marginTradable": false,
-            "maxNotional": "500000",
-            "maxQty": "1000000000",
-            "minNotional": "5",
-            "minQty": "0.000000001",
-            "notionalScale": "4",
-            "priceScale": "8",
-            "qtyScale": "0",
-            "quoteAsset": "USDT",
-            "status": "Normal",
-            "statusCode": "Normal",
-            "statusMessage": "",
-            "symbol": "SIREN3L/USDT",
-            "tickSize": "0.00000001",
-            "tradingStartTime": "1763737200000",
-            "useLot": false,
-            "useTick": false
-          },
-          "created": 1763737200000,
-          "option": false,
-          "future": false,
-          "symbol": "SIREN3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-8
-          },
-          "baseId": "SIREN3L",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "SIREN3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": 1000000000,
-              "min": 1.0e-9
-            },
-            "cost": {
-              "max": 500000,
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": 1.0e-8
-            }
-          },
-          "taker": 0.002,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": true,
-          "active": false,
-          "expiry": "__undefined",
-          "id": "SIREN3L/USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "SATS5L/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -83848,92 +83590,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "CRV5S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": true,
-          "index": "__undefined",
-          "maker": 0.002,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseAsset": "CRV5S",
-            "collapseDecimals": "0.0001,0.000001,0.00000001",
-            "commissionReserveRate": "0.002",
-            "commissionType": "Quote",
-            "displayName": "CRV5S/USDT",
-            "domain": "LeveragedETF",
-            "lotSize": "1",
-            "marginTradable": false,
-            "maxNotional": "500000",
-            "maxQty": "1000000000",
-            "minNotional": "5",
-            "minQty": "0.000000001",
-            "notionalScale": "4",
-            "priceScale": "8",
-            "qtyScale": "0",
-            "quoteAsset": "USDT",
-            "status": "Normal",
-            "statusCode": "Normal",
-            "statusMessage": "",
-            "symbol": "CRV5S/USDT",
-            "tickSize": "0.00000001",
-            "tradingStartTime": "1760711400000",
-            "useLot": false,
-            "useTick": false
-          },
-          "created": 1760711400000,
-          "option": false,
-          "future": false,
-          "symbol": "CRV5S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-8
-          },
-          "baseId": "CRV5S",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "CRV5S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": 1000000000,
-              "min": 1.0e-9
-            },
-            "cost": {
-              "max": 500000,
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": 1.0e-8
-            }
-          },
-          "taker": 0.002,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": true,
-          "active": false,
-          "expiry": "__undefined",
-          "id": "CRV5S/USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "ONT/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -86196,7 +85852,7 @@
               "tickSize": "0.001"
             },
             "settlementAsset": "USDT",
-            "status": "Normal",
+            "status": "NoTrading",
             "symbol": "GTC-PERP",
             "tradingStartTime": "1709694000000",
             "underlying": "GTC/USDT"
@@ -86245,7 +85901,7 @@
           "margin": "__undefined",
           "contract": true,
           "percentage": true,
-          "active": true,
+          "active": false,
           "expiry": "__undefined",
           "id": "GTC-PERP",
           "lowercaseId": "__undefined",
@@ -104679,92 +104335,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "$UBC/BTC": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "BTC",
-          "tierBased": true,
-          "index": "__undefined",
-          "maker": 0.002,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseAsset": "$UBC",
-            "collapseDecimals": "0.00000001,0.0000000001,0.000000000001",
-            "commissionReserveRate": "0.002",
-            "commissionType": "Quote",
-            "displayName": "$UBC/BTC",
-            "domain": "BTC",
-            "lotSize": "1",
-            "marginTradable": false,
-            "maxNotional": "16.66666666666666666666666666666666",
-            "maxQty": "10000000000",
-            "minNotional": "0.0001666666666666666666666666666666667",
-            "minQty": "0.000000001",
-            "notionalScale": "4",
-            "priceScale": "12",
-            "qtyScale": "0",
-            "quoteAsset": "BTC",
-            "status": "Normal",
-            "statusCode": "Normal",
-            "statusMessage": "",
-            "symbol": "$UBC/BTC",
-            "tickSize": "0.000000000001",
-            "tradingStartTime": "1745654400000",
-            "useLot": false,
-            "useTick": false
-          },
-          "created": 1745654400000,
-          "option": false,
-          "future": false,
-          "symbol": "$UBC/BTC",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-12
-          },
-          "baseId": "$UBC",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "BTC",
-          "expiryDatetime": "__undefined",
-          "base": "$UBC",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": 10000000000,
-              "min": 1.0e-9
-            },
-            "cost": {
-              "max": 16.666666666666668,
-              "min": 1.6666666666666666e-4
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": 1.0e-12
-            }
-          },
-          "taker": 0.002,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": true,
-          "active": true,
-          "expiry": "__undefined",
-          "id": "$UBC/BTC",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "VANRY3L/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -110257,92 +109827,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "XFI/BTC": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "BTC",
-          "tierBased": true,
-          "index": "__undefined",
-          "maker": 0.002,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseAsset": "XFI",
-            "collapseDecimals": "0.00001,0.0000001,0.000000001",
-            "commissionReserveRate": "0.002",
-            "commissionType": "Quote",
-            "displayName": "XFI/BTC",
-            "domain": "BTC",
-            "lotSize": "1",
-            "marginTradable": false,
-            "maxNotional": "16.66666666666666666666666666666666",
-            "maxQty": "1000000000",
-            "minNotional": "0.0001666666666666666666666666666666667",
-            "minQty": "0.000000001",
-            "notionalScale": "4",
-            "priceScale": "9",
-            "qtyScale": "0",
-            "quoteAsset": "BTC",
-            "status": "Normal",
-            "statusCode": "Normal",
-            "statusMessage": "",
-            "symbol": "XFI/BTC",
-            "tickSize": "0.000000001",
-            "tradingStartTime": "1737370800000",
-            "useLot": false,
-            "useTick": false
-          },
-          "created": 1737370800000,
-          "option": false,
-          "future": false,
-          "symbol": "XFI/BTC",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-9
-          },
-          "baseId": "XFI",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "BTC",
-          "expiryDatetime": "__undefined",
-          "base": "XFI",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": 1000000000,
-              "min": 1.0e-9
-            },
-            "cost": {
-              "max": 16.666666666666668,
-              "min": 1.6666666666666666e-4
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": 1.0e-9
-            }
-          },
-          "taker": 0.002,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": true,
-          "active": true,
-          "expiry": "__undefined",
-          "id": "XFI/BTC",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "AEON/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -110896,7 +110380,7 @@
           }
         ],
         "id_structure": "opaque",
-        "sample_count": 1073,
+        "sample_count": 1067,
         "separator": null,
         "suffix": null
       },
@@ -159485,9 +158969,6 @@
         "v1PrivateAccountCategoryDeleteOrderAll",
         "v2PrivateAccountGroupDeleteFuturesOrderAll"
       ],
-      "fetchContractMarkets": [
-        "v2PublicGetFuturesContract"
-      ],
       "fetchMarkets": [
         "v1PublicGetCashProducts",
         "v1PublicGetProducts",
@@ -159519,10 +159000,6 @@
       ],
       "fetchTrades": [
         "v1PublicGetTrades"
-      ],
-      "fetchSpotMarkets": [
-        "v1PublicGetCashProducts",
-        "v1PublicGetProducts"
       ],
       "fetchLeverageTiers": [
         "v2PublicGetFuturesContract"

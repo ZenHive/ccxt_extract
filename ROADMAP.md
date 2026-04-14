@@ -82,7 +82,7 @@ Tasks 58, 57d, 56b, 57b, 59, 57, 56, 55, 54, 53, 52, 49, 47, 46 — see [CHANGEL
 |------|--------|-------|
 | Task 60 | ⬜ | Generic JSON-Pointer override contract + SCHEMA.md (narrow precursor shipped with 57d) |
 | Task 61a | ⬜ | Provenance tagging (`raw`/`derived`/`override`) — unblocks once Task 60 generic form lands |
-| Task 57c | 🔶 | Blocked on 61a — honest fix needs provenance tier (see Task 57c entry in Phase 8) |
+| Task 57c | 🔶 | Pattern A/B fixed (341 → 53); Pattern C residual blocked on 61a — honest fix needs provenance tier (see Task 57c entry in Phase 8) |
 | Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ `[Codex]` |
 
 ### Quick Commands
@@ -116,13 +116,13 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 57c | 🔶 | 🎁 **9-pipeline-follow-up** · Blocked on Task 61a (provenance). Triage contract_test findings (unified_endpoints/has drift) [D:5/B:7/U:7 → Eff:1.4] 📋 |
+| Task 57c | 🔶 | 🎁 **9-pipeline-follow-up** · Pattern A/B fixed (341 → 53). Residual 53 Pattern C findings blocked on Task 61a (provenance) [D:3/B:5/U:5 → Eff:1.67] 🚀 |
 
 Completed (Tasks 56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG.md).
 
-**Task 57c: Triage unified_endpoints/has drift** — Initial contract_test run surfaced ~341 findings where `structure.unified_endpoints` declares a method but `runtime.describe.has[method]` is `false`, `:missing`, or `"__undefined"`. For each pattern, determine whether `unified_endpoints` is over-declaring (extractor bug) or `has` is under-declaring (extraction gap). Fix the underlying derivation. Success: green invariant on the full corpus without weakening the rule.
+**Task 57c: Resolve residual Pattern C `unified_endpoints`/`has` drift (53 findings)** — The Pattern A (child `has: false` inherited via merge) and Pattern B (internal routing helpers picked up by prefix-match) buckets are fixed in the pipeline; 288 findings resolved. The residual 53 are Pattern C: CCXT's base `Exchange.ts` declares `has[method] = undefined` and the child implements the method but never flips the flag to `true`. Resolving these honestly requires emitting `{value: true, source: "derived"}` in the unified `has` view while preserving the raw `"__undefined"` — which is exactly what Task 61a's provenance tier provides.
 
-> **Blocked on Task 61a (provenance).** Without a provenance tier every candidate fix is either (a) a silent pipeline filter that hides the disagreement contract_test is designed to surface, or (b) a premature override migration with no JSON-Pointer contract to land in. 61a gives the honest third option: tag AST-derived vs has-confirmed entries so the fix can record the split instead of erasing it. Investigated during Bundle A; recorded here so a future instance doesn't re-discover the dependency.
+> **Still blocked on Task 61a (provenance).** Without a provenance tier there are only two dishonest moves for Pattern C: (a) a silent pipeline filter that hides the disagreement contract_test is designed to surface, or (b) a premature override migration with no JSON-Pointer contract to land in. 61a gives the honest third option: tag AST-derived vs has-confirmed entries so the fix records the split instead of erasing it. See [CHANGELOG.md](CHANGELOG.md) for the Pattern A/B fix details.
 
 ---
 

@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -6129,11 +6129,11 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "USDT/USD": {
+        "USD/USDT": {
           "spot": true,
           "contractSize": "__undefined",
           "linear": "__undefined",
-          "quoteId": "USD",
+          "quoteId": "USDT",
           "tierBased": true,
           "index": false,
           "maker": 0.0012,
@@ -6141,8 +6141,8 @@
           "feeSide": "get",
           "info": {
             "allowMargin": false,
-            "baseAsset": "USDT",
-            "baseAssetName": "USDT",
+            "baseAsset": "USD",
+            "baseAssetName": "USD",
             "baseAssetPrecision": "0.00001",
             "baseUcid": "",
             "corporateAllowed": true,
@@ -6155,35 +6155,35 @@
               },
               {
                 "filterType": "LOT_SIZE",
-                "marketOrderMaxQty": "75000",
-                "marketOrderMinQty": "1",
-                "maxQty": "150000",
-                "minQty": "1",
+                "marketOrderMaxQty": "200000",
+                "marketOrderMinQty": "10",
+                "maxQty": "400000",
+                "minQty": "10",
                 "stepSize": "0.00001"
               },
               {
                 "filterType": "MIN_NOTIONAL",
-                "minNotional": "1"
+                "minNotional": "10"
               },
               {
                 "filterType": "TRADE_AMOUNT",
-                "marketOrderMaxAmount": "75000",
-                "marketOrderMinAmount": "1",
-                "maxAmount": "150000",
-                "minAmount": "1",
+                "marketOrderMaxAmount": "200000",
+                "marketOrderMinAmount": "10",
+                "maxAmount": "400000",
+                "minAmount": "10",
                 "minBuyPrice": "0"
               },
               {
-                "buyPriceUpRate": "0.1",
+                "buyPriceUpRate": "0.002",
                 "filterType": "LIMIT_TRADING",
                 "maxEntrustNum": "300",
                 "maxSellPrice": "0",
-                "sellPriceDownRate": "0.1"
+                "sellPriceDownRate": "0.002"
               },
               {
-                "buyPriceUpRate": "0.1",
+                "buyPriceUpRate": "0.002",
                 "filterType": "MARKET_TRADING",
-                "sellPriceDownRate": "0.1"
+                "sellPriceDownRate": "0.002"
               },
               {
                 "filterType": "OPEN_QUOTE",
@@ -6199,32 +6199,32 @@
             "isAggregate": false,
             "omnibusAllowed": true,
             "piAllowed": true,
-            "quoteAsset": "USD",
-            "quoteAssetName": "USD",
-            "quotePrecision": "0.000000001",
+            "quoteAsset": "USDT",
+            "quoteAssetName": "USDT",
+            "quotePrecision": "0.000001",
             "quoteUcid": "",
             "retailAllowed": true,
             "status": "TRADING",
-            "symbol": "USDTUSD",
-            "symbolName": "USDTUSD",
+            "symbol": "USDUSDT",
+            "symbolName": "USDUSDT",
             "tradeStatus": "TRADABLE"
           },
           "created": "__undefined",
           "option": false,
           "future": false,
-          "symbol": "USDT/USD",
+          "symbol": "USD/USDT",
           "settle": "__undefined",
           "precision": {
             "amount": 1.0e-5,
             "price": 0.0001
           },
-          "baseId": "USDT",
+          "baseId": "USD",
           "type": "spot",
           "strike": "__undefined",
           "settleId": "__undefined",
-          "quote": "USD",
+          "quote": "USDT",
           "expiryDatetime": "__undefined",
-          "base": "USDT",
+          "base": "USD",
           "swap": false,
           "marginModes": {
             "cross": "__undefined",
@@ -6232,8 +6232,8 @@
           },
           "limits": {
             "amount": {
-              "max": 150000,
-              "min": 1
+              "max": 400000,
+              "min": 10
             },
             "cost": {
               "max": "__undefined",
@@ -6255,7 +6255,7 @@
           "percentage": true,
           "active": true,
           "expiry": "__undefined",
-          "id": "USDTUSD",
+          "id": "USDUSDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -62463,11 +62463,6 @@
       "fetchOrderBook": [
         "publicGetQuoteV1Depth"
       ],
-      "createSpotOrder": [
-        "privatePostApiV11SpotOrder",
-        "privatePostApiV1SpotOrder",
-        "privatePostApiV1SpotOrderTest"
-      ],
       "fetchFundingRate": [
         "publicGetApiV1FuturesFundingRate"
       ],
@@ -62492,15 +62487,8 @@
       "fetchStatus": [
         "publicGetApiV1Ping"
       ],
-      "fetchOpenSpotOrders": [
-        "privateGetApiV1SpotOpenOrders",
-        "privateGetApiV1SpotSubAccountOpenOrders"
-      ],
       "fetchLastPrices": [
         "publicGetQuoteV1TickerPrice"
-      ],
-      "createSwapOrder": [
-        "privatePostApiV1FuturesOrder"
       ],
       "cancelAllOrders": [
         "privateDeleteApiV1FuturesBatchOrders",
@@ -62561,10 +62549,6 @@
       ],
       "fetchTrades": [
         "publicGetQuoteV1Trades"
-      ],
-      "fetchOpenSwapOrders": [
-        "privateGetApiV1FuturesOpenOrders",
-        "privateGetApiV1FuturesSubAccountOpenOrders"
       ],
       "fetchLeverageTiers": [
         "publicGetApiV1ExchangeInfo"

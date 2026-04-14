@@ -360,13 +360,73 @@ defmodule CcxtExtract.Pipeline do
   end
 
   # Unified endpoints: extract the unified_endpoints map, merge parent mappings for derived exchanges,
-  # then filter against interface_signatures to remove leaked helper method names.
+  # drop endpoints the child explicitly disables (has: false), restrict to the canonical CCXT
+  # has-key vocabulary, then filter against interface_signatures to remove leaked helper method names.
   defp get_unified_endpoints(id, data) do
-    own = extract_unified_endpoints_map(id, data)
     parent_id = find_parent_exchange_id(id, data)
-    merged = merge_parent_endpoints(own, parent_id, data)
+    disabled = exchange_disabled_has_keys(id, data)
+    canonical = Map.get(data, :canonical_has_keys)
     valid_endpoints = collect_interface_signature_keys(id, parent_id, data)
-    filter_unified_endpoints(merged, valid_endpoints)
+
+    id
+    |> extract_unified_endpoints_map(data)
+    |> merge_parent_endpoints(parent_id, data)
+    |> drop_disabled_endpoints(disabled)
+    |> restrict_to_canonical_vocab(canonical)
+    |> filter_unified_endpoints(valid_endpoints)
+  end
+
+  # Method names the exchange's runtime has map explicitly sets to false.
+  # Honors CCXT's "this inherited method is unavailable on this child" signal.
+  # Only `false` filters; `"emulated"`, `true`, and sentinels like `"__undefined"` pass through.
+  # Union of every `has` key seen in any exchange's runtime describe.
+  # Used to filter derived unified_endpoints to methods that appear as a
+  # `has` key somewhere in the CCXT corpus (excludes internal routing
+  # helpers like fetchSpotMarkets, transferClassic, etc. that never appear
+  # in `has`).
+  defp compute_canonical_has_keys(describe) when is_map(describe) do
+    Enum.reduce(describe, MapSet.new(), fn {_id, d}, acc ->
+      case d do
+        %{"has" => has} when is_map(has) ->
+          Enum.reduce(Map.keys(has), acc, &MapSet.put(&2, &1))
+
+        _ ->
+          acc
+      end
+    end)
+  end
+
+  defp exchange_disabled_has_keys(id, data) do
+    case get_describe(id, data) do
+      %{"has" => has} when is_map(has) ->
+        for {k, v} <- has, v == false, into: MapSet.new(), do: k
+
+      _ ->
+        MapSet.new()
+    end
+  end
+
+  defp drop_disabled_endpoints(nil, _disabled), do: nil
+
+  defp drop_disabled_endpoints(endpoints, disabled) do
+    if MapSet.size(disabled) == 0 do
+      endpoints
+    else
+      filtered = Map.reject(endpoints, fn {method, _calls} -> MapSet.member?(disabled, method) end)
+      if map_size(filtered) > 0, do: filtered
+    end
+  end
+
+  # Restrict endpoints to methods that appear as a `has` key somewhere in the CCXT corpus.
+  # Kills internal routing helpers (fetchSpotMarkets, createSpotOrder, kucoin UTA variants, etc.)
+  # that pass prefix-matching but are not part of the unified API vocabulary. Methods only
+  # implemented outside the canonical vocabulary belong in override-tier once Phase 9 ships.
+  defp restrict_to_canonical_vocab(nil, _canonical), do: nil
+  defp restrict_to_canonical_vocab(endpoints, nil), do: endpoints
+
+  defp restrict_to_canonical_vocab(endpoints, canonical) do
+    filtered = Map.filter(endpoints, fn {method, _calls} -> MapSet.member?(canonical, method) end)
+    if map_size(filtered) > 0, do: filtered
   end
 
   # Extract the raw unified_endpoints map from the discovery lookup
@@ -521,6 +581,7 @@ defmodule CcxtExtract.Pipeline do
       unified_endpoints: unified_endpoints,
       url_templates: url_templates,
       overrides: overrides,
+      canonical_has_keys: compute_canonical_has_keys(describe),
       missing_files: Enum.reverse(stats.missing_files),
       missing_entries: Enum.reverse(stats.missing_entries),
       corrupt_entries: Enum.reverse(stats.corrupt_entries),

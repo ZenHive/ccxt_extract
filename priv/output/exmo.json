@@ -15,7 +15,7 @@
     },
     "version": "v1.1"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -56016,33 +56016,55 @@
       "statements": 5
     },
     "unified_endpoints": {
-      "fetchPublicTradingFees": [
-        "publicGetPairSettings"
+      "addMargin": [
+        "privatePostMarginUserPositionMarginAdd",
+        "privatePostMarginUserPositionMarginRemove"
       ],
-      "createMarketOrderWithCost": [
-        "privatePostMarginUserOrderCreate",
-        "privatePostOrderCreate",
-        "privatePostStopMarketOrderCreate"
+      "cancelOrder": [
+        "privatePostMarginUserOrderCancel",
+        "privatePostOrderCancel",
+        "privatePostStopMarketOrderCancel"
       ],
       "createMarketBuyOrderWithCost": [
         "privatePostMarginUserOrderCreate",
         "privatePostOrderCreate",
         "privatePostStopMarketOrderCreate"
       ],
-      "fetchOrderBook": [
-        "publicGetOrderBook"
+      "createMarketOrderWithCost": [
+        "privatePostMarginUserOrderCreate",
+        "privatePostOrderCreate",
+        "privatePostStopMarketOrderCreate"
       ],
       "createMarketSellOrderWithCost": [
         "privatePostMarginUserOrderCreate",
         "privatePostOrderCreate",
         "privatePostStopMarketOrderCreate"
       ],
-      "addMargin": [
-        "privatePostMarginUserPositionMarginAdd",
-        "privatePostMarginUserPositionMarginRemove"
+      "createOrder": [
+        "privatePostMarginUserOrderCreate",
+        "privatePostOrderCreate",
+        "privatePostStopMarketOrderCreate"
       ],
       "editOrder": [
         "privatePostMarginUserOrderUpdate"
+      ],
+      "fetchBalance": [
+        "privatePostMarginUserWalletList",
+        "privatePostUserInfo"
+      ],
+      "fetchCanceledOrders": [
+        "privatePostMarginUserOrderHistory",
+        "privatePostUserCancelledOrders"
+      ],
+      "fetchCurrencies": [
+        "publicGetCurrencyListExtended",
+        "publicGetPaymentsProvidersCryptoList"
+      ],
+      "fetchDeposit": [
+        "privatePostWalletOperations"
+      ],
+      "fetchDepositAddress": [
+        "privatePostDepositAddress"
       ],
       "fetchDepositWithdrawFees": [
         "publicGetPaymentsProvidersCryptoList"
@@ -56050,73 +56072,36 @@
       "fetchDeposits": [
         "privatePostWalletOperations"
       ],
-      "fetchOrderTrades": [
-        "privatePostMarginUserOrderTrades",
-        "privatePostOrderTrades"
-      ],
-      "fetchOrderBooks": [
-        "publicGetOrderBook"
-      ],
-      "fetchDepositAddress": [
-        "privatePostDepositAddress"
-      ],
       "fetchDepositsWithdrawals": [
         "privatePostWalletHistory"
-      ],
-      "withdraw": [
-        "privatePostWithdrawCrypt"
       ],
       "fetchMarkets": [
         "privatePostMarginPairList",
         "publicGetPairSettings"
       ],
-      "fetchWithdrawal": [
-        "privatePostWalletOperations"
+      "fetchMyTrades": [
+        "privatePostMarginTrades",
+        "privatePostUserTrades"
       ],
       "fetchOHLCV": [
         "publicGetCandlesHistory"
-      ],
-      "cancelOrder": [
-        "privatePostMarginUserOrderCancel",
-        "privatePostOrderCancel",
-        "privatePostStopMarketOrderCancel"
       ],
       "fetchOpenOrders": [
         "privatePostMarginUserOrderList",
         "privatePostUserOpenOrders"
       ],
-      "fetchWithdrawals": [
-        "privatePostWalletOperations"
+      "fetchOrder": [
+        "privatePostOrderTrades"
       ],
-      "fetchCurrencies": [
-        "publicGetCurrencyListExtended",
-        "publicGetPaymentsProvidersCryptoList"
+      "fetchOrderBook": [
+        "publicGetOrderBook"
       ],
-      "fetchMyTrades": [
-        "privatePostMarginTrades",
-        "privatePostUserTrades"
+      "fetchOrderBooks": [
+        "publicGetOrderBook"
       ],
-      "createOrder": [
-        "privatePostMarginUserOrderCreate",
-        "privatePostOrderCreate",
-        "privatePostStopMarketOrderCreate"
-      ],
-      "fetchTransactionFees": [
-        "publicGetPaymentsProvidersCryptoList"
-      ],
-      "fetchTrades": [
-        "publicGetTrades"
-      ],
-      "fetchCanceledOrders": [
-        "privatePostMarginUserOrderHistory",
-        "privatePostUserCancelledOrders"
-      ],
-      "fetchPrivateTradingFees": [
-        "privatePostMarginPairList"
-      ],
-      "reduceMargin": [
-        "privatePostMarginUserPositionMarginAdd",
-        "privatePostMarginUserPositionMarginRemove"
+      "fetchOrderTrades": [
+        "privatePostMarginUserOrderTrades",
+        "privatePostOrderTrades"
       ],
       "fetchTicker": [
         "publicGetTicker"
@@ -56124,19 +56109,28 @@
       "fetchTickers": [
         "publicGetTicker"
       ],
-      "fetchBalance": [
-        "privatePostMarginUserWalletList",
-        "privatePostUserInfo"
-      ],
-      "fetchDeposit": [
-        "privatePostWalletOperations"
+      "fetchTrades": [
+        "publicGetTrades"
       ],
       "fetchTradingFees": [
         "privatePostMarginPairList",
         "publicGetPairSettings"
       ],
-      "fetchOrder": [
-        "privatePostOrderTrades"
+      "fetchTransactionFees": [
+        "publicGetPaymentsProvidersCryptoList"
+      ],
+      "fetchWithdrawal": [
+        "privatePostWalletOperations"
+      ],
+      "fetchWithdrawals": [
+        "privatePostWalletOperations"
+      ],
+      "reduceMargin": [
+        "privatePostMarginUserPositionMarginAdd",
+        "privatePostMarginUserPositionMarginRemove"
+      ],
+      "withdraw": [
+        "privatePostWithdrawCrypt"
       ]
     },
     "ws_methods": {

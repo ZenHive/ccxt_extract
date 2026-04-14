@@ -12,7 +12,7 @@
     "referral": null,
     "version": "v1"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -495,7 +495,7 @@
       "version": "v1"
     },
     "markets": {
-      "market_count": 633,
+      "market_count": 635,
       "markets": {
         "BANANA/INR:INR": {
           "spot": false,
@@ -6390,6 +6390,90 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "NATGAS/INR:INR": {
+          "spot": false,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "INR",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.05,
+          "inverse": "__undefined",
+          "info": {
+            "baseAsset": "NATGAS",
+            "baseAssetPrecision": "0",
+            "lotSz": "0.1",
+            "maintMarginPercent": "35",
+            "makerFee": "0.05",
+            "maxLeverage": "50",
+            "minLeverage": "1",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET"
+            ],
+            "pricePrecision": "1",
+            "quantityPrecision": "1",
+            "quoteAsset": "INR",
+            "quotePrecision": "0",
+            "requiredMarginPercent": "0",
+            "status": "Open",
+            "symbol": "NATGASINR",
+            "takerFee": "0.1",
+            "tickSz": "0.1",
+            "timeInForce": [
+              "GTC"
+            ]
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "NATGAS/INR:INR",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.1,
+            "price": 0.1
+          },
+          "baseId": "NATGAS",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "INR",
+          "expiryDatetime": "__undefined",
+          "base": "NATGAS",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 50,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.1,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "NATGASINR",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
         "ALCH/USDT:USDT": {
           "spot": false,
           "contractSize": "__undefined",
@@ -12123,6 +12207,90 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "NATGAS/USDT:USDT": {
+          "spot": false,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.02,
+          "inverse": "__undefined",
+          "info": {
+            "baseAsset": "NATGAS",
+            "baseAssetPrecision": "0",
+            "lotSz": "0.1",
+            "maintMarginPercent": "35",
+            "makerFee": "0.02",
+            "maxLeverage": "50",
+            "minLeverage": "1",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET"
+            ],
+            "pricePrecision": "3",
+            "quantityPrecision": "1",
+            "quoteAsset": "USDT",
+            "quotePrecision": "0",
+            "requiredMarginPercent": "0",
+            "status": "Open",
+            "symbol": "NATGASUSDT",
+            "takerFee": "0.06",
+            "tickSz": "0.001",
+            "timeInForce": [
+              "GTC"
+            ]
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "NATGAS/USDT:USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.1,
+            "price": 0.001
+          },
+          "baseId": "NATGAS",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "NATGAS",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 50,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.06,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "NATGASUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
         "XRP/USDT:USDT": {
           "spot": false,
           "contractSize": "__undefined",
@@ -16340,90 +16508,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "BANUSDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "OL/USDT:USDT": {
-          "spot": false,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.02,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "OL",
-            "baseAssetPrecision": "0",
-            "lotSz": "1",
-            "maintMarginPercent": "15",
-            "makerFee": "0.02",
-            "maxLeverage": "10",
-            "minLeverage": "1",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "pricePrecision": "5",
-            "quantityPrecision": "0",
-            "quoteAsset": "USDT",
-            "quotePrecision": "0",
-            "requiredMarginPercent": "0",
-            "status": "Open",
-            "symbol": "OLUSDT",
-            "takerFee": "0.06",
-            "tickSz": "0.00001",
-            "timeInForce": [
-              "GTC"
-            ]
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "OL/USDT:USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-5
-          },
-          "baseId": "OL",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "OL",
-          "swap": true,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 10,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.06,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "OLUSDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -32915,90 +32999,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "OL/INR:INR": {
-          "spot": false,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "INR",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.05,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "OL",
-            "baseAssetPrecision": "0",
-            "lotSz": "1",
-            "maintMarginPercent": "15",
-            "makerFee": "0.05",
-            "maxLeverage": "10",
-            "minLeverage": "1",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "pricePrecision": "3",
-            "quantityPrecision": "0",
-            "quoteAsset": "INR",
-            "quotePrecision": "0",
-            "requiredMarginPercent": "0",
-            "status": "Open",
-            "symbol": "OLINR",
-            "takerFee": "0.1",
-            "tickSz": "0.001",
-            "timeInForce": [
-              "GTC"
-            ]
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "OL/INR:INR",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 0.001
-          },
-          "baseId": "OL",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "INR",
-          "expiryDatetime": "__undefined",
-          "base": "OL",
-          "swap": true,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 10,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.1,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "OLINR",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "INJ/USDT:USDT": {
           "spot": false,
           "contractSize": "__undefined",
@@ -35983,6 +35983,90 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "CL/USDT:USDT": {
+          "spot": false,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.02,
+          "inverse": "__undefined",
+          "info": {
+            "baseAsset": "CL",
+            "baseAssetPrecision": "0",
+            "lotSz": "0.01",
+            "maintMarginPercent": "35",
+            "makerFee": "0.02",
+            "maxLeverage": "50",
+            "minLeverage": "1",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET"
+            ],
+            "pricePrecision": "2",
+            "quantityPrecision": "2",
+            "quoteAsset": "USDT",
+            "quotePrecision": "0",
+            "requiredMarginPercent": "0",
+            "status": "Open",
+            "symbol": "CLUSDT",
+            "takerFee": "0.06",
+            "tickSz": "0.01",
+            "timeInForce": [
+              "GTC"
+            ]
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "CL/USDT:USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 0.01
+          },
+          "baseId": "CL",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "CL",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 50,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.06,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "CLUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
         "GMX/USDT:USDT": {
           "spot": false,
           "contractSize": "__undefined",
@@ -36316,90 +36400,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "CFXUSDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "HIPPO/INR:INR": {
-          "spot": false,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "INR",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.05,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "HIPPO",
-            "baseAssetPrecision": "0",
-            "lotSz": "1",
-            "maintMarginPercent": "15",
-            "makerFee": "0.05",
-            "maxLeverage": "10",
-            "minLeverage": "1",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "pricePrecision": "5",
-            "quantityPrecision": "0",
-            "quoteAsset": "INR",
-            "quotePrecision": "0",
-            "requiredMarginPercent": "0",
-            "status": "Open",
-            "symbol": "HIPPOINR",
-            "takerFee": "0.1",
-            "tickSz": "0.00001",
-            "timeInForce": [
-              "GTC"
-            ]
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "HIPPO/INR:INR",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-5
-          },
-          "baseId": "HIPPO",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "INR",
-          "expiryDatetime": "__undefined",
-          "base": "HIPPO",
-          "swap": true,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 10,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.1,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "HIPPOINR",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -37820,6 +37820,90 @@
           "active": true,
           "expiry": "__undefined",
           "id": "IRYSUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "CL/INR:INR": {
+          "spot": false,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "INR",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.05,
+          "inverse": "__undefined",
+          "info": {
+            "baseAsset": "CL",
+            "baseAssetPrecision": "0",
+            "lotSz": "0.01",
+            "maintMarginPercent": "35",
+            "makerFee": "0.05",
+            "maxLeverage": "50",
+            "minLeverage": "1",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET"
+            ],
+            "pricePrecision": "0",
+            "quantityPrecision": "2",
+            "quoteAsset": "INR",
+            "quotePrecision": "0",
+            "requiredMarginPercent": "0",
+            "status": "Open",
+            "symbol": "CLINR",
+            "takerFee": "0.1",
+            "tickSz": "1",
+            "timeInForce": [
+              "GTC"
+            ]
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "CL/INR:INR",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1
+          },
+          "baseId": "CL",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "INR",
+          "expiryDatetime": "__undefined",
+          "base": "CL",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 50,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.1,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "CLINR",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -45693,6 +45777,90 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "BZ/USDT:USDT": {
+          "spot": false,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.02,
+          "inverse": "__undefined",
+          "info": {
+            "baseAsset": "BZ",
+            "baseAssetPrecision": "0",
+            "lotSz": "0.01",
+            "maintMarginPercent": "35",
+            "makerFee": "0.02",
+            "maxLeverage": "50",
+            "minLeverage": "1",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET"
+            ],
+            "pricePrecision": "2",
+            "quantityPrecision": "2",
+            "quoteAsset": "USDT",
+            "quotePrecision": "0",
+            "requiredMarginPercent": "0",
+            "status": "Open",
+            "symbol": "BZUSDT",
+            "takerFee": "0.06",
+            "tickSz": "0.01",
+            "timeInForce": [
+              "GTC"
+            ]
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "BZ/USDT:USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 0.01
+          },
+          "baseId": "BZ",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "BZ",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 50,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.06,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "BZUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
         "JELLYJELLY/USDT:USDT": {
           "spot": false,
           "contractSize": "__undefined",
@@ -48181,6 +48349,90 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "BZ/INR:INR": {
+          "spot": false,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "INR",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.05,
+          "inverse": "__undefined",
+          "info": {
+            "baseAsset": "BZ",
+            "baseAssetPrecision": "0",
+            "lotSz": "0.01",
+            "maintMarginPercent": "35",
+            "makerFee": "0.05",
+            "maxLeverage": "50",
+            "minLeverage": "1",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET"
+            ],
+            "pricePrecision": "0",
+            "quantityPrecision": "2",
+            "quoteAsset": "INR",
+            "quotePrecision": "0",
+            "requiredMarginPercent": "0",
+            "status": "Open",
+            "symbol": "BZINR",
+            "takerFee": "0.1",
+            "tickSz": "1",
+            "timeInForce": [
+              "GTC"
+            ]
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "BZ/INR:INR",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1
+          },
+          "baseId": "BZ",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "INR",
+          "expiryDatetime": "__undefined",
+          "base": "BZ",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 50,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.1,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "BZINR",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
         "XPIN/INR:INR": {
           "spot": false,
           "contractSize": "__undefined",
@@ -50414,90 +50666,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "TSTINR",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "HIPPO/USDT:USDT": {
-          "spot": false,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.05,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "HIPPO",
-            "baseAssetPrecision": "0",
-            "lotSz": "1",
-            "maintMarginPercent": "15",
-            "makerFee": "0.05",
-            "maxLeverage": "10",
-            "minLeverage": "1",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "pricePrecision": "7",
-            "quantityPrecision": "0",
-            "quoteAsset": "USDT",
-            "quotePrecision": "0",
-            "requiredMarginPercent": "0",
-            "status": "Open",
-            "symbol": "HIPPOUSDT",
-            "takerFee": "0.1",
-            "tickSz": "0.0000001",
-            "timeInForce": [
-              "GTC"
-            ]
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "HIPPO/USDT:USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-7
-          },
-          "baseId": "HIPPO",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "HIPPO",
-          "swap": true,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 10,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.1,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "HIPPOUSDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -53066,7 +53234,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 549,
+        "sample_count": 551,
         "separator": "",
         "suffix": null
       }
@@ -65485,15 +65653,9 @@
       "fetchPositions": [
         "privateSwapGetV1TradePositions"
       ],
-      "fetchSpotMarkets": [
-        "publicSpotGetV2ExExchangeInfo"
-      ],
       "fetchStatus": [
         "publicSpotGetV2SystemStatus",
         "publicSwapGetV1SystemStatus"
-      ],
-      "fetchSwapMarkets": [
-        "publicSwapGetV1MarketMarkets"
       ],
       "fetchTicker": [
         "publicSpotGetV2MarketTicker",

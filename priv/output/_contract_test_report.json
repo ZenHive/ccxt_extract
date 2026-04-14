@@ -12,436 +12,16 @@
   },
   "findings": [
     {
-      "exchange": "aftermath",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createAccount but runtime.describe.has.createAccount = :missing",
-      "path": "structure.unified_endpoints.createAccount"
-    },
-    {
       "exchange": "alpaca",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares createMarketSellOrderWithCost but runtime.describe.has.createMarketSellOrderWithCost = \"__undefined\"",
       "path": "structure.unified_endpoints.createMarketSellOrderWithCost"
     },
     {
-      "exchange": "apex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchAccount but runtime.describe.has.fetchAccount = :missing",
-      "path": "structure.unified_endpoints.fetchAccount"
-    },
-    {
-      "exchange": "apex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares transfer but runtime.describe.has.transfer = false",
-      "path": "structure.unified_endpoints.transfer"
-    },
-    {
-      "exchange": "arkham",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchDepositAddress but runtime.describe.has.fetchDepositAddress = false",
-      "path": "structure.unified_endpoints.fetchDepositAddress"
-    },
-    {
-      "exchange": "ascendex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractMarkets but runtime.describe.has.fetchContractMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchContractMarkets"
-    },
-    {
-      "exchange": "ascendex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "aster",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createOrders but runtime.describe.has.createOrders = false",
-      "path": "structure.unified_endpoints.createOrders"
-    },
-    {
-      "exchange": "aster",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchAccountPositions but runtime.describe.has.fetchAccountPositions = :missing",
-      "path": "structure.unified_endpoints.fetchAccountPositions"
-    },
-    {
-      "exchange": "bequant",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares closePosition but runtime.describe.has.closePosition = false",
-      "path": "structure.unified_endpoints.closePosition"
-    },
-    {
-      "exchange": "binance",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createGiftCode but runtime.describe.has.createGiftCode = :missing",
-      "path": "structure.unified_endpoints.createGiftCode"
-    },
-    {
-      "exchange": "binance",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares editContractOrder but runtime.describe.has.editContractOrder = :missing",
-      "path": "structure.unified_endpoints.editContractOrder"
-    },
-    {
-      "exchange": "binance",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares editSpotOrder but runtime.describe.has.editSpotOrder = :missing",
-      "path": "structure.unified_endpoints.editSpotOrder"
-    },
-    {
-      "exchange": "binance",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchAccountPositions but runtime.describe.has.fetchAccountPositions = :missing",
-      "path": "structure.unified_endpoints.fetchAccountPositions"
-    },
-    {
-      "exchange": "binance",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMyDustTrades but runtime.describe.has.fetchMyDustTrades = :missing",
-      "path": "structure.unified_endpoints.fetchMyDustTrades"
-    },
-    {
-      "exchange": "binance",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionPositions but runtime.describe.has.fetchOptionPositions = :missing",
-      "path": "structure.unified_endpoints.fetchOptionPositions"
-    },
-    {
-      "exchange": "binancecoinm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createGiftCode but runtime.describe.has.createGiftCode = :missing",
-      "path": "structure.unified_endpoints.createGiftCode"
-    },
-    {
-      "exchange": "binancecoinm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares editContractOrder but runtime.describe.has.editContractOrder = :missing",
-      "path": "structure.unified_endpoints.editContractOrder"
-    },
-    {
-      "exchange": "binancecoinm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares editSpotOrder but runtime.describe.has.editSpotOrder = :missing",
-      "path": "structure.unified_endpoints.editSpotOrder"
-    },
-    {
-      "exchange": "binancecoinm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchAccountPositions but runtime.describe.has.fetchAccountPositions = :missing",
-      "path": "structure.unified_endpoints.fetchAccountPositions"
-    },
-    {
-      "exchange": "binancecoinm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMyDustTrades but runtime.describe.has.fetchMyDustTrades = :missing",
-      "path": "structure.unified_endpoints.fetchMyDustTrades"
-    },
-    {
-      "exchange": "binancecoinm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionPositions but runtime.describe.has.fetchOptionPositions = :missing",
-      "path": "structure.unified_endpoints.fetchOptionPositions"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares addMargin but runtime.describe.has.addMargin = false",
-      "path": "structure.unified_endpoints.addMargin"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares borrowCrossMargin but runtime.describe.has.borrowCrossMargin = false",
-      "path": "structure.unified_endpoints.borrowCrossMargin"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares borrowIsolatedMargin but runtime.describe.has.borrowIsolatedMargin = false",
-      "path": "structure.unified_endpoints.borrowIsolatedMargin"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createGiftCode but runtime.describe.has.createGiftCode = :missing",
-      "path": "structure.unified_endpoints.createGiftCode"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares editContractOrder but runtime.describe.has.editContractOrder = :missing",
-      "path": "structure.unified_endpoints.editContractOrder"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares editSpotOrder but runtime.describe.has.editSpotOrder = :missing",
-      "path": "structure.unified_endpoints.editSpotOrder"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchAccountPositions but runtime.describe.has.fetchAccountPositions = :missing",
-      "path": "structure.unified_endpoints.fetchAccountPositions"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchAllGreeks but runtime.describe.has.fetchAllGreeks = false",
-      "path": "structure.unified_endpoints.fetchAllGreeks"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchBorrowInterest but runtime.describe.has.fetchBorrowInterest = false",
-      "path": "structure.unified_endpoints.fetchBorrowInterest"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchBorrowRateHistory but runtime.describe.has.fetchBorrowRateHistory = false",
-      "path": "structure.unified_endpoints.fetchBorrowRateHistory"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchCrossBorrowRate but runtime.describe.has.fetchCrossBorrowRate = false",
-      "path": "structure.unified_endpoints.fetchCrossBorrowRate"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFundingHistory but runtime.describe.has.fetchFundingHistory = false",
-      "path": "structure.unified_endpoints.fetchFundingHistory"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFundingIntervals but runtime.describe.has.fetchFundingIntervals = false",
-      "path": "structure.unified_endpoints.fetchFundingIntervals"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFundingRate but runtime.describe.has.fetchFundingRate = false",
-      "path": "structure.unified_endpoints.fetchFundingRate"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFundingRateHistory but runtime.describe.has.fetchFundingRateHistory = false",
-      "path": "structure.unified_endpoints.fetchFundingRateHistory"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFundingRates but runtime.describe.has.fetchFundingRates = false",
-      "path": "structure.unified_endpoints.fetchFundingRates"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchGreeks but runtime.describe.has.fetchGreeks = false",
-      "path": "structure.unified_endpoints.fetchGreeks"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchIsolatedBorrowRate but runtime.describe.has.fetchIsolatedBorrowRate = false",
-      "path": "structure.unified_endpoints.fetchIsolatedBorrowRate"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchIsolatedBorrowRates but runtime.describe.has.fetchIsolatedBorrowRates = false",
-      "path": "structure.unified_endpoints.fetchIsolatedBorrowRates"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchLeverageTiers but runtime.describe.has.fetchLeverageTiers = false",
-      "path": "structure.unified_endpoints.fetchLeverageTiers"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchLongShortRatioHistory but runtime.describe.has.fetchLongShortRatioHistory = false",
-      "path": "structure.unified_endpoints.fetchLongShortRatioHistory"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarkPrice but runtime.describe.has.fetchMarkPrice = false",
-      "path": "structure.unified_endpoints.fetchMarkPrice"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarkPrices but runtime.describe.has.fetchMarkPrices = false",
-      "path": "structure.unified_endpoints.fetchMarkPrices"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMyDustTrades but runtime.describe.has.fetchMyDustTrades = :missing",
-      "path": "structure.unified_endpoints.fetchMyDustTrades"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMySettlementHistory but runtime.describe.has.fetchMySettlementHistory = false",
-      "path": "structure.unified_endpoints.fetchMySettlementHistory"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOpenInterestHistory but runtime.describe.has.fetchOpenInterestHistory = false",
-      "path": "structure.unified_endpoints.fetchOpenInterestHistory"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOption but runtime.describe.has.fetchOption = false",
-      "path": "structure.unified_endpoints.fetchOption"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionPositions but runtime.describe.has.fetchOptionPositions = :missing",
-      "path": "structure.unified_endpoints.fetchOptionPositions"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPosition but runtime.describe.has.fetchPosition = false",
-      "path": "structure.unified_endpoints.fetchPosition"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPositionMode but runtime.describe.has.fetchPositionMode = false",
-      "path": "structure.unified_endpoints.fetchPositionMode"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPositions but runtime.describe.has.fetchPositions = false",
-      "path": "structure.unified_endpoints.fetchPositions"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPositionsRisk but runtime.describe.has.fetchPositionsRisk = false",
-      "path": "structure.unified_endpoints.fetchPositionsRisk"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSettlementHistory but runtime.describe.has.fetchSettlementHistory = false",
-      "path": "structure.unified_endpoints.fetchSettlementHistory"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares reduceMargin but runtime.describe.has.reduceMargin = false",
-      "path": "structure.unified_endpoints.reduceMargin"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares repayCrossMargin but runtime.describe.has.repayCrossMargin = false",
-      "path": "structure.unified_endpoints.repayCrossMargin"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares repayIsolatedMargin but runtime.describe.has.repayIsolatedMargin = false",
-      "path": "structure.unified_endpoints.repayIsolatedMargin"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares setLeverage but runtime.describe.has.setLeverage = false",
-      "path": "structure.unified_endpoints.setLeverage"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares setMarginMode but runtime.describe.has.setMarginMode = false",
-      "path": "structure.unified_endpoints.setMarginMode"
-    },
-    {
-      "exchange": "binanceus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares setPositionMode but runtime.describe.has.setPositionMode = false",
-      "path": "structure.unified_endpoints.setPositionMode"
-    },
-    {
-      "exchange": "binanceusdm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createGiftCode but runtime.describe.has.createGiftCode = :missing",
-      "path": "structure.unified_endpoints.createGiftCode"
-    },
-    {
-      "exchange": "binanceusdm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares editContractOrder but runtime.describe.has.editContractOrder = :missing",
-      "path": "structure.unified_endpoints.editContractOrder"
-    },
-    {
-      "exchange": "binanceusdm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares editSpotOrder but runtime.describe.has.editSpotOrder = :missing",
-      "path": "structure.unified_endpoints.editSpotOrder"
-    },
-    {
-      "exchange": "binanceusdm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchAccountPositions but runtime.describe.has.fetchAccountPositions = :missing",
-      "path": "structure.unified_endpoints.fetchAccountPositions"
-    },
-    {
-      "exchange": "binanceusdm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMyDustTrades but runtime.describe.has.fetchMyDustTrades = :missing",
-      "path": "structure.unified_endpoints.fetchMyDustTrades"
-    },
-    {
-      "exchange": "binanceusdm",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionPositions but runtime.describe.has.fetchOptionPositions = :missing",
-      "path": "structure.unified_endpoints.fetchOptionPositions"
-    },
-    {
       "exchange": "bingx",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchCanceledAndClosedOrders but runtime.describe.has.fetchCanceledAndClosedOrders = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchCanceledAndClosedOrders"
-    },
-    {
-      "exchange": "bingx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchInverseSwapMarkets but runtime.describe.has.fetchInverseSwapMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchInverseSwapMarkets"
-    },
-    {
-      "exchange": "bingx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPositionHistory but runtime.describe.has.fetchPositionHistory = false",
-      "path": "structure.unified_endpoints.fetchPositionHistory"
-    },
-    {
-      "exchange": "bingx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "bingx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSwapMarkets but runtime.describe.has.fetchSwapMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSwapMarkets"
     },
     {
       "exchange": "bingx",
@@ -456,100 +36,10 @@
       "path": "structure.unified_endpoints.createOrders"
     },
     {
-      "exchange": "bitget",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelUtaOrders but runtime.describe.has.cancelUtaOrders = :missing",
-      "path": "structure.unified_endpoints.cancelUtaOrders"
-    },
-    {
-      "exchange": "bitget",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createUtaOrders but runtime.describe.has.createUtaOrders = :missing",
-      "path": "structure.unified_endpoints.createUtaOrders"
-    },
-    {
-      "exchange": "bitget",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUtaCanceledAndClosedOrders but runtime.describe.has.fetchUtaCanceledAndClosedOrders = :missing",
-      "path": "structure.unified_endpoints.fetchUtaCanceledAndClosedOrders"
-    },
-    {
-      "exchange": "bitget",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUtaMarkets but runtime.describe.has.fetchUtaMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchUtaMarkets"
-    },
-    {
-      "exchange": "bithumb",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelUnifiedOrder but runtime.describe.has.cancelUnifiedOrder = :missing",
-      "path": "structure.unified_endpoints.cancelUnifiedOrder"
-    },
-    {
-      "exchange": "bitmart",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractMarkets but runtime.describe.has.fetchContractMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchContractMarkets"
-    },
-    {
-      "exchange": "bitmart",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFundingRateHistory but runtime.describe.has.fetchFundingRateHistory = false",
-      "path": "structure.unified_endpoints.fetchFundingRateHistory"
-    },
-    {
       "exchange": "bitmart",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
-    },
-    {
-      "exchange": "bitmart",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "bitmart",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTransactionsByType but runtime.describe.has.fetchTransactionsByType = :missing",
-      "path": "structure.unified_endpoints.fetchTransactionsByType"
-    },
-    {
-      "exchange": "bitopro",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrders but runtime.describe.has.fetchOrders = false",
-      "path": "structure.unified_endpoints.fetchOrders"
-    },
-    {
-      "exchange": "bitstamp",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFundingRate but runtime.describe.has.fetchFundingRate = false",
-      "path": "structure.unified_endpoints.fetchFundingRate"
-    },
-    {
-      "exchange": "bitstamp",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFundingRateHistory but runtime.describe.has.fetchFundingRateHistory = false",
-      "path": "structure.unified_endpoints.fetchFundingRateHistory"
-    },
-    {
-      "exchange": "bitstamp",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrderStatus but runtime.describe.has.fetchOrderStatus = :missing",
-      "path": "structure.unified_endpoints.fetchOrderStatus"
-    },
-    {
-      "exchange": "bittrade",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTradingLimitsById but runtime.describe.has.fetchTradingLimitsById = :missing",
-      "path": "structure.unified_endpoints.fetchTradingLimitsById"
-    },
-    {
-      "exchange": "blockchaincom",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrdersByState but runtime.describe.has.fetchOrdersByState = :missing",
-      "path": "structure.unified_endpoints.fetchOrdersByState"
     },
     {
       "exchange": "blofin",
@@ -558,94 +48,10 @@
       "path": "structure.unified_endpoints.fetchMarkPrice"
     },
     {
-      "exchange": "btcbox",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrdersByType but runtime.describe.has.fetchOrdersByType = :missing",
-      "path": "structure.unified_endpoints.fetchOrdersByType"
-    },
-    {
-      "exchange": "bybit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchBorrowInterest but runtime.describe.has.fetchBorrowInterest = false",
-      "path": "structure.unified_endpoints.fetchBorrowInterest"
-    },
-    {
-      "exchange": "bybit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchBorrowRateHistory but runtime.describe.has.fetchBorrowRateHistory = false",
-      "path": "structure.unified_endpoints.fetchBorrowRateHistory"
-    },
-    {
-      "exchange": "bybit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchDerivativesMarketLeverageTiers but runtime.describe.has.fetchDerivativesMarketLeverageTiers = :missing",
-      "path": "structure.unified_endpoints.fetchDerivativesMarketLeverageTiers"
-    },
-    {
-      "exchange": "bybit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchDerivativesOpenInterestHistory but runtime.describe.has.fetchDerivativesOpenInterestHistory = :missing",
-      "path": "structure.unified_endpoints.fetchDerivativesOpenInterestHistory"
-    },
-    {
-      "exchange": "bybit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFutureMarkets but runtime.describe.has.fetchFutureMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchFutureMarkets"
-    },
-    {
-      "exchange": "bybit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionMarkets but runtime.describe.has.fetchOptionMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchOptionMarkets"
-    },
-    {
-      "exchange": "bybit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrderClassic but runtime.describe.has.fetchOrderClassic = :missing",
-      "path": "structure.unified_endpoints.fetchOrderClassic"
-    },
-    {
-      "exchange": "bybit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrders but runtime.describe.has.fetchOrders = false",
-      "path": "structure.unified_endpoints.fetchOrders"
-    },
-    {
-      "exchange": "bybit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrdersClassic but runtime.describe.has.fetchOrdersClassic = :missing",
-      "path": "structure.unified_endpoints.fetchOrdersClassic"
-    },
-    {
-      "exchange": "bybit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "bydfi",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOpenOrder but runtime.describe.has.fetchOpenOrder = false",
-      "path": "structure.unified_endpoints.fetchOpenOrder"
-    },
-    {
       "exchange": "cex",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
-    },
-    {
-      "exchange": "cex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares transferBetweenMainAndSubAccount but runtime.describe.has.transferBetweenMainAndSubAccount = :missing",
-      "path": "structure.unified_endpoints.transferBetweenMainAndSubAccount"
-    },
-    {
-      "exchange": "cex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares transferBetweenSubAccounts but runtime.describe.has.transferBetweenSubAccounts = :missing",
-      "path": "structure.unified_endpoints.transferBetweenSubAccounts"
     },
     {
       "exchange": "coinbase",
@@ -654,40 +60,10 @@
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
     },
     {
-      "exchange": "coinbase",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPortfolioDetails but runtime.describe.has.fetchPortfolioDetails = :missing",
-      "path": "structure.unified_endpoints.fetchPortfolioDetails"
-    },
-    {
-      "exchange": "coinbase",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPortfolios but runtime.describe.has.fetchPortfolios = :missing",
-      "path": "structure.unified_endpoints.fetchPortfolios"
-    },
-    {
       "exchange": "coinbaseadvanced",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
-    },
-    {
-      "exchange": "coinbaseadvanced",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPortfolioDetails but runtime.describe.has.fetchPortfolioDetails = :missing",
-      "path": "structure.unified_endpoints.fetchPortfolioDetails"
-    },
-    {
-      "exchange": "coinbaseadvanced",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPortfolios but runtime.describe.has.fetchPortfolios = :missing",
-      "path": "structure.unified_endpoints.fetchPortfolios"
-    },
-    {
-      "exchange": "coinbaseexchange",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPaymentMethods but runtime.describe.has.fetchPaymentMethods = :missing",
-      "path": "structure.unified_endpoints.fetchPaymentMethods"
     },
     {
       "exchange": "coinbaseinternational",
@@ -702,94 +78,10 @@
       "path": "structure.unified_endpoints.transfer"
     },
     {
-      "exchange": "coincatch",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSpotOrder but runtime.describe.has.createSpotOrder = :missing",
-      "path": "structure.unified_endpoints.createSpotOrder"
-    },
-    {
-      "exchange": "coincatch",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSwapOrder but runtime.describe.has.createSwapOrder = :missing",
-      "path": "structure.unified_endpoints.createSwapOrder"
-    },
-    {
-      "exchange": "coincatch",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares editSpotOrder but runtime.describe.has.editSpotOrder = :missing",
-      "path": "structure.unified_endpoints.editSpotOrder"
-    },
-    {
-      "exchange": "coincatch",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchCanceledAndClosedSpotOrders but runtime.describe.has.fetchCanceledAndClosedSpotOrders = :missing",
-      "path": "structure.unified_endpoints.fetchCanceledAndClosedSpotOrders"
-    },
-    {
-      "exchange": "coincatch",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchCanceledAndClosedSwapOrders but runtime.describe.has.fetchCanceledAndClosedSwapOrders = :missing",
-      "path": "structure.unified_endpoints.fetchCanceledAndClosedSwapOrders"
-    },
-    {
-      "exchange": "coincatch",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOpenSpotOrders but runtime.describe.has.fetchOpenSpotOrders = :missing",
-      "path": "structure.unified_endpoints.fetchOpenSpotOrders"
-    },
-    {
-      "exchange": "coincatch",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOpenSwapOrders but runtime.describe.has.fetchOpenSwapOrders = :missing",
-      "path": "structure.unified_endpoints.fetchOpenSwapOrders"
-    },
-    {
-      "exchange": "coincatch",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares transfer but runtime.describe.has.transfer = false",
-      "path": "structure.unified_endpoints.transfer"
-    },
-    {
-      "exchange": "coinex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractMarkets but runtime.describe.has.fetchContractMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchContractMarkets"
-    },
-    {
-      "exchange": "coinex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFinancialBalance but runtime.describe.has.fetchFinancialBalance = :missing",
-      "path": "structure.unified_endpoints.fetchFinancialBalance"
-    },
-    {
-      "exchange": "coinex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarginBalance but runtime.describe.has.fetchMarginBalance = :missing",
-      "path": "structure.unified_endpoints.fetchMarginBalance"
-    },
-    {
       "exchange": "coinex",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
-    },
-    {
-      "exchange": "coinex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotBalance but runtime.describe.has.fetchSpotBalance = :missing",
-      "path": "structure.unified_endpoints.fetchSpotBalance"
-    },
-    {
-      "exchange": "coinex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "coinex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSwapBalance but runtime.describe.has.fetchSwapBalance = :missing",
-      "path": "structure.unified_endpoints.fetchSwapBalance"
     },
     {
       "exchange": "coinmate",
@@ -798,64 +90,10 @@
       "path": "structure.unified_endpoints.fetchTime"
     },
     {
-      "exchange": "cryptomus",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchCurrencies but runtime.describe.has.fetchCurrencies = false",
-      "path": "structure.unified_endpoints.fetchCurrencies"
-    },
-    {
-      "exchange": "deepcoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarketsByType but runtime.describe.has.fetchMarketsByType = :missing",
-      "path": "structure.unified_endpoints.fetchMarketsByType"
-    },
-    {
-      "exchange": "derive",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionMarkets but runtime.describe.has.fetchOptionMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchOptionMarkets"
-    },
-    {
-      "exchange": "derive",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "derive",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSwapMarkets but runtime.describe.has.fetchSwapMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSwapMarkets"
-    },
-    {
-      "exchange": "digifinex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTransactionsByType but runtime.describe.has.fetchTransactionsByType = :missing",
-      "path": "structure.unified_endpoints.fetchTransactionsByType"
-    },
-    {
       "exchange": "exmo",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares createMarketSellOrderWithCost but runtime.describe.has.createMarketSellOrderWithCost = \"__undefined\"",
       "path": "structure.unified_endpoints.createMarketSellOrderWithCost"
-    },
-    {
-      "exchange": "exmo",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPrivateTradingFees but runtime.describe.has.fetchPrivateTradingFees = :missing",
-      "path": "structure.unified_endpoints.fetchPrivateTradingFees"
-    },
-    {
-      "exchange": "exmo",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPublicTradingFees but runtime.describe.has.fetchPublicTradingFees = :missing",
-      "path": "structure.unified_endpoints.fetchPublicTradingFees"
-    },
-    {
-      "exchange": "fmfwio",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares closePosition but runtime.describe.has.closePosition = false",
-      "path": "structure.unified_endpoints.closePosition"
     },
     {
       "exchange": "foxbit",
@@ -884,30 +122,6 @@
     {
       "exchange": "gate",
       "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFutureMarkets but runtime.describe.has.fetchFutureMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchFutureMarkets"
-    },
-    {
-      "exchange": "gate",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionMarkets but runtime.describe.has.fetchOptionMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchOptionMarkets"
-    },
-    {
-      "exchange": "gate",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionOHLCV but runtime.describe.has.fetchOptionOHLCV = :missing",
-      "path": "structure.unified_endpoints.fetchOptionOHLCV"
-    },
-    {
-      "exchange": "gate",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionUnderlyings but runtime.describe.has.fetchOptionUnderlyings = :missing",
-      "path": "structure.unified_endpoints.fetchOptionUnderlyings"
-    },
-    {
-      "exchange": "gate",
-      "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOrderTrades but runtime.describe.has.fetchOrderTrades = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOrderTrades"
     },
@@ -916,18 +130,6 @@
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
-    },
-    {
-      "exchange": "gate",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "gate",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSwapMarkets but runtime.describe.has.fetchSwapMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSwapMarkets"
     },
     {
       "exchange": "gateio",
@@ -938,30 +140,6 @@
     {
       "exchange": "gateio",
       "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFutureMarkets but runtime.describe.has.fetchFutureMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchFutureMarkets"
-    },
-    {
-      "exchange": "gateio",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionMarkets but runtime.describe.has.fetchOptionMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchOptionMarkets"
-    },
-    {
-      "exchange": "gateio",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionOHLCV but runtime.describe.has.fetchOptionOHLCV = :missing",
-      "path": "structure.unified_endpoints.fetchOptionOHLCV"
-    },
-    {
-      "exchange": "gateio",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOptionUnderlyings but runtime.describe.has.fetchOptionUnderlyings = :missing",
-      "path": "structure.unified_endpoints.fetchOptionUnderlyings"
-    },
-    {
-      "exchange": "gateio",
-      "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOrderTrades but runtime.describe.has.fetchOrderTrades = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOrderTrades"
     },
@@ -972,28 +150,10 @@
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
     },
     {
-      "exchange": "gateio",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "gateio",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSwapMarkets but runtime.describe.has.fetchSwapMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSwapMarkets"
-    },
-    {
       "exchange": "gemini",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOpenInterest but runtime.describe.has.fetchOpenInterest = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOpenInterest"
-    },
-    {
-      "exchange": "gemini",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUSDTMarkets but runtime.describe.has.fetchUSDTMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchUSDTMarkets"
     },
     {
       "exchange": "hashkey",
@@ -1004,188 +164,14 @@
     {
       "exchange": "hashkey",
       "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSpotOrder but runtime.describe.has.createSpotOrder = :missing",
-      "path": "structure.unified_endpoints.createSpotOrder"
-    },
-    {
-      "exchange": "hashkey",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSwapOrder but runtime.describe.has.createSwapOrder = :missing",
-      "path": "structure.unified_endpoints.createSwapOrder"
-    },
-    {
-      "exchange": "hashkey",
-      "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchLastPrices but runtime.describe.has.fetchLastPrices = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchLastPrices"
-    },
-    {
-      "exchange": "hashkey",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOpenSpotOrders but runtime.describe.has.fetchOpenSpotOrders = :missing",
-      "path": "structure.unified_endpoints.fetchOpenSpotOrders"
-    },
-    {
-      "exchange": "hashkey",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOpenSwapOrders but runtime.describe.has.fetchOpenSwapOrders = :missing",
-      "path": "structure.unified_endpoints.fetchOpenSwapOrders"
-    },
-    {
-      "exchange": "hitbtc",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares closePosition but runtime.describe.has.closePosition = false",
-      "path": "structure.unified_endpoints.closePosition"
     },
     {
       "exchange": "hollaex",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchDepositWithdrawFees but runtime.describe.has.fetchDepositWithdrawFees = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchDepositWithdrawFees"
-    },
-    {
-      "exchange": "htx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchClosedContractOrders but runtime.describe.has.fetchClosedContractOrders = :missing",
-      "path": "structure.unified_endpoints.fetchClosedContractOrders"
-    },
-    {
-      "exchange": "htx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchClosedSpotOrders but runtime.describe.has.fetchClosedSpotOrders = :missing",
-      "path": "structure.unified_endpoints.fetchClosedSpotOrders"
-    },
-    {
-      "exchange": "htx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractOrders but runtime.describe.has.fetchContractOrders = :missing",
-      "path": "structure.unified_endpoints.fetchContractOrders"
-    },
-    {
-      "exchange": "htx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarketsByTypeAndSubType but runtime.describe.has.fetchMarketsByTypeAndSubType = :missing",
-      "path": "structure.unified_endpoints.fetchMarketsByTypeAndSubType"
-    },
-    {
-      "exchange": "htx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOrderTrades but runtime.describe.has.fetchSpotOrderTrades = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOrderTrades"
-    },
-    {
-      "exchange": "htx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOrders but runtime.describe.has.fetchSpotOrders = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOrders"
-    },
-    {
-      "exchange": "htx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOrdersByStates but runtime.describe.has.fetchSpotOrdersByStates = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOrdersByStates"
-    },
-    {
-      "exchange": "htx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchStatus but runtime.describe.has.fetchStatus = false",
-      "path": "structure.unified_endpoints.fetchStatus"
-    },
-    {
-      "exchange": "htx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTradingLimitsById but runtime.describe.has.fetchTradingLimitsById = :missing",
-      "path": "structure.unified_endpoints.fetchTradingLimitsById"
-    },
-    {
-      "exchange": "huobi",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchClosedContractOrders but runtime.describe.has.fetchClosedContractOrders = :missing",
-      "path": "structure.unified_endpoints.fetchClosedContractOrders"
-    },
-    {
-      "exchange": "huobi",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchClosedSpotOrders but runtime.describe.has.fetchClosedSpotOrders = :missing",
-      "path": "structure.unified_endpoints.fetchClosedSpotOrders"
-    },
-    {
-      "exchange": "huobi",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractOrders but runtime.describe.has.fetchContractOrders = :missing",
-      "path": "structure.unified_endpoints.fetchContractOrders"
-    },
-    {
-      "exchange": "huobi",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarketsByTypeAndSubType but runtime.describe.has.fetchMarketsByTypeAndSubType = :missing",
-      "path": "structure.unified_endpoints.fetchMarketsByTypeAndSubType"
-    },
-    {
-      "exchange": "huobi",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOrderTrades but runtime.describe.has.fetchSpotOrderTrades = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOrderTrades"
-    },
-    {
-      "exchange": "huobi",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOrders but runtime.describe.has.fetchSpotOrders = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOrders"
-    },
-    {
-      "exchange": "huobi",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOrdersByStates but runtime.describe.has.fetchSpotOrdersByStates = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOrdersByStates"
-    },
-    {
-      "exchange": "huobi",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchStatus but runtime.describe.has.fetchStatus = false",
-      "path": "structure.unified_endpoints.fetchStatus"
-    },
-    {
-      "exchange": "huobi",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTradingLimitsById but runtime.describe.has.fetchTradingLimitsById = :missing",
-      "path": "structure.unified_endpoints.fetchTradingLimitsById"
-    },
-    {
-      "exchange": "hyperliquid",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelTwapOrder but runtime.describe.has.cancelTwapOrder = :missing",
-      "path": "structure.unified_endpoints.cancelTwapOrder"
-    },
-    {
-      "exchange": "hyperliquid",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSubAccount but runtime.describe.has.createSubAccount = :missing",
-      "path": "structure.unified_endpoints.createSubAccount"
-    },
-    {
-      "exchange": "hyperliquid",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createTwapOrder but runtime.describe.has.createTwapOrder = :missing",
-      "path": "structure.unified_endpoints.createTwapOrder"
-    },
-    {
-      "exchange": "hyperliquid",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createVault but runtime.describe.has.createVault = :missing",
-      "path": "structure.unified_endpoints.createVault"
-    },
-    {
-      "exchange": "hyperliquid",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "hyperliquid",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSwapMarkets but runtime.describe.has.fetchSwapMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSwapMarkets"
     },
     {
       "exchange": "indodax",
@@ -1200,538 +186,16 @@
       "path": "structure.unified_endpoints.fetchTickers"
     },
     {
-      "exchange": "kraken",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createMarketOrderWithCost but runtime.describe.has.createMarketOrderWithCost = false",
-      "path": "structure.unified_endpoints.createMarketOrderWithCost"
-    },
-    {
-      "exchange": "kraken",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchDepositMethods but runtime.describe.has.fetchDepositMethods = :missing",
-      "path": "structure.unified_endpoints.fetchDepositMethods"
-    },
-    {
-      "exchange": "kraken",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchLedgerEntriesByIds but runtime.describe.has.fetchLedgerEntriesByIds = :missing",
-      "path": "structure.unified_endpoints.fetchLedgerEntriesByIds"
-    },
-    {
-      "exchange": "kraken",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrdersByIds but runtime.describe.has.fetchOrdersByIds = :missing",
-      "path": "structure.unified_endpoints.fetchOrdersByIds"
-    },
-    {
-      "exchange": "kraken",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares transferOut but runtime.describe.has.transferOut = :missing",
-      "path": "structure.unified_endpoints.transferOut"
-    },
-    {
       "exchange": "krakenfutures",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares createOrders but runtime.describe.has.createOrders = \"__undefined\"",
       "path": "structure.unified_endpoints.createOrders"
     },
     {
-      "exchange": "krakenfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares transferOut but runtime.describe.has.transferOut = :missing",
-      "path": "structure.unified_endpoints.transferOut"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelAllContractOrders but runtime.describe.has.cancelAllContractOrders = :missing",
-      "path": "structure.unified_endpoints.cancelAllContractOrders"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelAllSpotOrders but runtime.describe.has.cancelAllSpotOrders = :missing",
-      "path": "structure.unified_endpoints.cancelAllSpotOrders"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelAllUtaOrders but runtime.describe.has.cancelAllUtaOrders = :missing",
-      "path": "structure.unified_endpoints.cancelAllUtaOrders"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelContractOrder but runtime.describe.has.cancelContractOrder = :missing",
-      "path": "structure.unified_endpoints.cancelContractOrder"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelSpotOrder but runtime.describe.has.cancelSpotOrder = :missing",
-      "path": "structure.unified_endpoints.cancelSpotOrder"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelUtaOrder but runtime.describe.has.cancelUtaOrder = :missing",
-      "path": "structure.unified_endpoints.cancelUtaOrder"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createContractOrder but runtime.describe.has.createContractOrder = :missing",
-      "path": "structure.unified_endpoints.createContractOrder"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createContractOrders but runtime.describe.has.createContractOrders = :missing",
-      "path": "structure.unified_endpoints.createContractOrders"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSpotOrder but runtime.describe.has.createSpotOrder = :missing",
-      "path": "structure.unified_endpoints.createSpotOrder"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSpotOrders but runtime.describe.has.createSpotOrders = :missing",
-      "path": "structure.unified_endpoints.createSpotOrders"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createUtaOrder but runtime.describe.has.createUtaOrder = :missing",
-      "path": "structure.unified_endpoints.createUtaOrder"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractBalance but runtime.describe.has.fetchContractBalance = :missing",
-      "path": "structure.unified_endpoints.fetchContractBalance"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractDepositAddress but runtime.describe.has.fetchContractDepositAddress = :missing",
-      "path": "structure.unified_endpoints.fetchContractDepositAddress"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractDeposits but runtime.describe.has.fetchContractDeposits = :missing",
-      "path": "structure.unified_endpoints.fetchContractDeposits"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractMarkets but runtime.describe.has.fetchContractMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchContractMarkets"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractOHLCV but runtime.describe.has.fetchContractOHLCV = :missing",
-      "path": "structure.unified_endpoints.fetchContractOHLCV"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractOrder but runtime.describe.has.fetchContractOrder = :missing",
-      "path": "structure.unified_endpoints.fetchContractOrder"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractOrdersByStatus but runtime.describe.has.fetchContractOrdersByStatus = :missing",
-      "path": "structure.unified_endpoints.fetchContractOrdersByStatus"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractTickers but runtime.describe.has.fetchContractTickers = :missing",
-      "path": "structure.unified_endpoints.fetchContractTickers"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractWithdrawals but runtime.describe.has.fetchContractWithdrawals = :missing",
-      "path": "structure.unified_endpoints.fetchContractWithdrawals"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchLeverageTiers but runtime.describe.has.fetchLeverageTiers = false",
-      "path": "structure.unified_endpoints.fetchLeverageTiers"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMyContractTrades but runtime.describe.has.fetchMyContractTrades = :missing",
-      "path": "structure.unified_endpoints.fetchMyContractTrades"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMySpotTrades but runtime.describe.has.fetchMySpotTrades = :missing",
-      "path": "structure.unified_endpoints.fetchMySpotTrades"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMyUtaTrades but runtime.describe.has.fetchMyUtaTrades = :missing",
-      "path": "structure.unified_endpoints.fetchMyUtaTrades"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOpenInterestHistory but runtime.describe.has.fetchOpenInterestHistory = false",
-      "path": "structure.unified_endpoints.fetchOpenInterestHistory"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOpenInterests but runtime.describe.has.fetchOpenInterests = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchOpenInterests"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOHLCV but runtime.describe.has.fetchSpotOHLCV = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOHLCV"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOrder but runtime.describe.has.fetchSpotOrder = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOrder"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOrdersByStatus but runtime.describe.has.fetchSpotOrdersByStatus = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOrdersByStatus"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUTAMarkets but runtime.describe.has.fetchUTAMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchUTAMarkets"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUTAOHLCV but runtime.describe.has.fetchUTAOHLCV = :missing",
-      "path": "structure.unified_endpoints.fetchUTAOHLCV"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUtaBalance but runtime.describe.has.fetchUtaBalance = :missing",
-      "path": "structure.unified_endpoints.fetchUtaBalance"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUtaOrder but runtime.describe.has.fetchUtaOrder = :missing",
-      "path": "structure.unified_endpoints.fetchUtaOrder"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUtaOrdersByStatus but runtime.describe.has.fetchUtaOrdersByStatus = :missing",
-      "path": "structure.unified_endpoints.fetchUtaOrdersByStatus"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares transferClassic but runtime.describe.has.transferClassic = :missing",
-      "path": "structure.unified_endpoints.transferClassic"
-    },
-    {
-      "exchange": "kucoin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares transferUta but runtime.describe.has.transferUta = :missing",
-      "path": "structure.unified_endpoints.transferUta"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelAllContractOrders but runtime.describe.has.cancelAllContractOrders = :missing",
-      "path": "structure.unified_endpoints.cancelAllContractOrders"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelAllSpotOrders but runtime.describe.has.cancelAllSpotOrders = :missing",
-      "path": "structure.unified_endpoints.cancelAllSpotOrders"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelAllUtaOrders but runtime.describe.has.cancelAllUtaOrders = :missing",
-      "path": "structure.unified_endpoints.cancelAllUtaOrders"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelContractOrder but runtime.describe.has.cancelContractOrder = :missing",
-      "path": "structure.unified_endpoints.cancelContractOrder"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelSpotOrder but runtime.describe.has.cancelSpotOrder = :missing",
-      "path": "structure.unified_endpoints.cancelSpotOrder"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelUtaOrder but runtime.describe.has.cancelUtaOrder = :missing",
-      "path": "structure.unified_endpoints.cancelUtaOrder"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createContractOrder but runtime.describe.has.createContractOrder = :missing",
-      "path": "structure.unified_endpoints.createContractOrder"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createContractOrders but runtime.describe.has.createContractOrders = :missing",
-      "path": "structure.unified_endpoints.createContractOrders"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSpotOrder but runtime.describe.has.createSpotOrder = :missing",
-      "path": "structure.unified_endpoints.createSpotOrder"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSpotOrders but runtime.describe.has.createSpotOrders = :missing",
-      "path": "structure.unified_endpoints.createSpotOrders"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createUtaOrder but runtime.describe.has.createUtaOrder = :missing",
-      "path": "structure.unified_endpoints.createUtaOrder"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractBalance but runtime.describe.has.fetchContractBalance = :missing",
-      "path": "structure.unified_endpoints.fetchContractBalance"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractDepositAddress but runtime.describe.has.fetchContractDepositAddress = :missing",
-      "path": "structure.unified_endpoints.fetchContractDepositAddress"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractDeposits but runtime.describe.has.fetchContractDeposits = :missing",
-      "path": "structure.unified_endpoints.fetchContractDeposits"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractMarkets but runtime.describe.has.fetchContractMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchContractMarkets"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractOHLCV but runtime.describe.has.fetchContractOHLCV = :missing",
-      "path": "structure.unified_endpoints.fetchContractOHLCV"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractOrder but runtime.describe.has.fetchContractOrder = :missing",
-      "path": "structure.unified_endpoints.fetchContractOrder"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractOrdersByStatus but runtime.describe.has.fetchContractOrdersByStatus = :missing",
-      "path": "structure.unified_endpoints.fetchContractOrdersByStatus"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractTickers but runtime.describe.has.fetchContractTickers = :missing",
-      "path": "structure.unified_endpoints.fetchContractTickers"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchContractWithdrawals but runtime.describe.has.fetchContractWithdrawals = :missing",
-      "path": "structure.unified_endpoints.fetchContractWithdrawals"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchLeverageTiers but runtime.describe.has.fetchLeverageTiers = false",
-      "path": "structure.unified_endpoints.fetchLeverageTiers"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMyContractTrades but runtime.describe.has.fetchMyContractTrades = :missing",
-      "path": "structure.unified_endpoints.fetchMyContractTrades"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMySpotTrades but runtime.describe.has.fetchMySpotTrades = :missing",
-      "path": "structure.unified_endpoints.fetchMySpotTrades"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMyUtaTrades but runtime.describe.has.fetchMyUtaTrades = :missing",
-      "path": "structure.unified_endpoints.fetchMyUtaTrades"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOpenInterestHistory but runtime.describe.has.fetchOpenInterestHistory = false",
-      "path": "structure.unified_endpoints.fetchOpenInterestHistory"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOpenInterests but runtime.describe.has.fetchOpenInterests = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchOpenInterests"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOHLCV but runtime.describe.has.fetchSpotOHLCV = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOHLCV"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOrder but runtime.describe.has.fetchSpotOrder = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOrder"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotOrdersByStatus but runtime.describe.has.fetchSpotOrdersByStatus = :missing",
-      "path": "structure.unified_endpoints.fetchSpotOrdersByStatus"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUTAMarkets but runtime.describe.has.fetchUTAMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchUTAMarkets"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUTAOHLCV but runtime.describe.has.fetchUTAOHLCV = :missing",
-      "path": "structure.unified_endpoints.fetchUTAOHLCV"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUtaBalance but runtime.describe.has.fetchUtaBalance = :missing",
-      "path": "structure.unified_endpoints.fetchUtaBalance"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUtaOrder but runtime.describe.has.fetchUtaOrder = :missing",
-      "path": "structure.unified_endpoints.fetchUtaOrder"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchUtaOrdersByStatus but runtime.describe.has.fetchUtaOrdersByStatus = :missing",
-      "path": "structure.unified_endpoints.fetchUtaOrdersByStatus"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares transferClassic but runtime.describe.has.transferClassic = :missing",
-      "path": "structure.unified_endpoints.transferClassic"
-    },
-    {
-      "exchange": "kucoinfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares transferUta but runtime.describe.has.transferUta = :missing",
-      "path": "structure.unified_endpoints.transferUta"
-    },
-    {
-      "exchange": "latoken",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPrivateTradingFee but runtime.describe.has.fetchPrivateTradingFee = :missing",
-      "path": "structure.unified_endpoints.fetchPrivateTradingFee"
-    },
-    {
-      "exchange": "latoken",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPublicTradingFee but runtime.describe.has.fetchPublicTradingFee = :missing",
-      "path": "structure.unified_endpoints.fetchPublicTradingFee"
-    },
-    {
       "exchange": "lbank",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchDeposits but runtime.describe.has.fetchDeposits = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchDeposits"
-    },
-    {
-      "exchange": "lbank",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchFundingRate but runtime.describe.has.fetchFundingRate = false",
-      "path": "structure.unified_endpoints.fetchFundingRate"
-    },
-    {
-      "exchange": "lbank",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPrivateDepositWithdrawFees but runtime.describe.has.fetchPrivateDepositWithdrawFees = :missing",
-      "path": "structure.unified_endpoints.fetchPrivateDepositWithdrawFees"
-    },
-    {
-      "exchange": "lbank",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPrivateTransactionFees but runtime.describe.has.fetchPrivateTransactionFees = :missing",
-      "path": "structure.unified_endpoints.fetchPrivateTransactionFees"
-    },
-    {
-      "exchange": "lbank",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPublicDepositWithdrawFees but runtime.describe.has.fetchPublicDepositWithdrawFees = :missing",
-      "path": "structure.unified_endpoints.fetchPublicDepositWithdrawFees"
-    },
-    {
-      "exchange": "lbank",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPublicTransactionFees but runtime.describe.has.fetchPublicTransactionFees = :missing",
-      "path": "structure.unified_endpoints.fetchPublicTransactionFees"
-    },
-    {
-      "exchange": "lbank",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "lbank",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSwapMarkets but runtime.describe.has.fetchSwapMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSwapMarkets"
     },
     {
       "exchange": "lbank",
@@ -1746,64 +210,10 @@
       "path": "structure.unified_endpoints.fetchWithdrawals"
     },
     {
-      "exchange": "lighter",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSubAccount but runtime.describe.has.createSubAccount = :missing",
-      "path": "structure.unified_endpoints.createSubAccount"
-    },
-    {
-      "exchange": "luno",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchLedgerByEntries but runtime.describe.has.fetchLedgerByEntries = :missing",
-      "path": "structure.unified_endpoints.fetchLedgerByEntries"
-    },
-    {
-      "exchange": "luno",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrdersByState but runtime.describe.has.fetchOrdersByState = :missing",
-      "path": "structure.unified_endpoints.fetchOrdersByState"
-    },
-    {
       "exchange": "mexc",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares cancelOrders but runtime.describe.has.cancelOrders = \"__undefined\"",
       "path": "structure.unified_endpoints.cancelOrders"
-    },
-    {
-      "exchange": "mexc",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSpotOrder but runtime.describe.has.createSpotOrder = :missing",
-      "path": "structure.unified_endpoints.createSpotOrder"
-    },
-    {
-      "exchange": "mexc",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSwapOrder but runtime.describe.has.createSwapOrder = :missing",
-      "path": "structure.unified_endpoints.createSwapOrder"
-    },
-    {
-      "exchange": "mexc",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrdersByIds but runtime.describe.has.fetchOrdersByIds = :missing",
-      "path": "structure.unified_endpoints.fetchOrdersByIds"
-    },
-    {
-      "exchange": "mexc",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrdersByState but runtime.describe.has.fetchOrdersByState = :missing",
-      "path": "structure.unified_endpoints.fetchOrdersByState"
-    },
-    {
-      "exchange": "mexc",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "mexc",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSwapMarkets but runtime.describe.has.fetchSwapMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSwapMarkets"
     },
     {
       "exchange": "mexc",
@@ -1826,12 +236,6 @@
     {
       "exchange": "myokx",
       "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarketsByType but runtime.describe.has.fetchMarketsByType = :missing",
-      "path": "structure.unified_endpoints.fetchMarketsByType"
-    },
-    {
-      "exchange": "myokx",
-      "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchPositionMode but runtime.describe.has.fetchPositionMode = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchPositionMode"
     },
@@ -1840,12 +244,6 @@
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares borrowCrossMargin but runtime.describe.has.borrowCrossMargin = \"__undefined\"",
       "path": "structure.unified_endpoints.borrowCrossMargin"
-    },
-    {
-      "exchange": "okx",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarketsByType but runtime.describe.has.fetchMarketsByType = :missing",
-      "path": "structure.unified_endpoints.fetchMarketsByType"
     },
     {
       "exchange": "okx",
@@ -1862,50 +260,8 @@
     {
       "exchange": "okxus",
       "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarketsByType but runtime.describe.has.fetchMarketsByType = :missing",
-      "path": "structure.unified_endpoints.fetchMarketsByType"
-    },
-    {
-      "exchange": "okxus",
-      "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchPositionMode but runtime.describe.has.fetchPositionMode = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchPositionMode"
-    },
-    {
-      "exchange": "onetrading",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPrivateTradingFees but runtime.describe.has.fetchPrivateTradingFees = :missing",
-      "path": "structure.unified_endpoints.fetchPrivateTradingFees"
-    },
-    {
-      "exchange": "onetrading",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPublicTradingFees but runtime.describe.has.fetchPublicTradingFees = :missing",
-      "path": "structure.unified_endpoints.fetchPublicTradingFees"
-    },
-    {
-      "exchange": "paradex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares cancelOrder but runtime.describe.has.cancelOrder = false",
-      "path": "structure.unified_endpoints.cancelOrder"
-    },
-    {
-      "exchange": "poloniex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrderStatus but runtime.describe.has.fetchOrderStatus = :missing",
-      "path": "structure.unified_endpoints.fetchOrderStatus"
-    },
-    {
-      "exchange": "poloniex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "poloniex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSwapMarkets but runtime.describe.has.fetchSwapMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSwapMarkets"
     },
     {
       "exchange": "tokocrypto",
@@ -1950,18 +306,6 @@
       "path": "structure.authenticated_sections[7]"
     },
     {
-      "exchange": "tokocrypto",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTicker but runtime.describe.has.fetchTicker = false",
-      "path": "structure.unified_endpoints.fetchTicker"
-    },
-    {
-      "exchange": "tokocrypto",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTickers but runtime.describe.has.fetchTickers = false",
-      "path": "structure.unified_endpoints.fetchTickers"
-    },
-    {
       "exchange": "toobit",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchClosedOrders but runtime.describe.has.fetchClosedOrders = \"__undefined\"",
@@ -1992,46 +336,10 @@
       "path": "structure.unified_endpoints.setLeverage"
     },
     {
-      "exchange": "upbit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchCurrency but runtime.describe.has.fetchCurrency = :missing",
-      "path": "structure.unified_endpoints.fetchCurrency"
-    },
-    {
-      "exchange": "upbit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchCurrencyById but runtime.describe.has.fetchCurrencyById = :missing",
-      "path": "structure.unified_endpoints.fetchCurrencyById"
-    },
-    {
-      "exchange": "upbit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarket but runtime.describe.has.fetchMarket = :missing",
-      "path": "structure.unified_endpoints.fetchMarket"
-    },
-    {
-      "exchange": "upbit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarketById but runtime.describe.has.fetchMarketById = :missing",
-      "path": "structure.unified_endpoints.fetchMarketById"
-    },
-    {
-      "exchange": "whitebit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createMarketOrderWithCost but runtime.describe.has.createMarketOrderWithCost = false",
-      "path": "structure.unified_endpoints.createMarketOrderWithCost"
-    },
-    {
       "exchange": "whitebit",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchBorrowInterest but runtime.describe.has.fetchBorrowInterest = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchBorrowInterest"
-    },
-    {
-      "exchange": "woo",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares reduceMargin but runtime.describe.has.reduceMargin = false",
-      "path": "structure.unified_endpoints.reduceMargin"
     },
     {
       "exchange": "woo",
@@ -2046,46 +354,10 @@
       "path": "structure.unified_endpoints.createOrders"
     },
     {
-      "exchange": "xt",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createContractOrder but runtime.describe.has.createContractOrder = :missing",
-      "path": "structure.unified_endpoints.createContractOrder"
-    },
-    {
-      "exchange": "xt",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createSpotOrder but runtime.describe.has.createSpotOrder = :missing",
-      "path": "structure.unified_endpoints.createSpotOrder"
-    },
-    {
-      "exchange": "xt",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
-      "exchange": "xt",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSwapAndFutureMarkets but runtime.describe.has.fetchSwapAndFutureMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSwapAndFutureMarkets"
-    },
-    {
-      "exchange": "zebpay",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSpotMarkets but runtime.describe.has.fetchSpotMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSpotMarkets"
-    },
-    {
       "exchange": "zebpay",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchStatus but runtime.describe.has.fetchStatus = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchStatus"
-    },
-    {
-      "exchange": "zebpay",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchSwapMarkets but runtime.describe.has.fetchSwapMarkets = :missing",
-      "path": "structure.unified_endpoints.fetchSwapMarkets"
     },
     {
       "exchange": "zebpay",
@@ -2101,13 +373,13 @@
     }
   ],
   "summary": {
-    "exchanges_checked": 110,
+    "exchanges_checked": 109,
     "findings_by_invariant": {
       "authenticated_sections_reachable_in_api": 7,
       "error_code_fields_root_in_observed_set": 0,
-      "unified_endpoints_claimed_in_has": 341
+      "unified_endpoints_claimed_in_has": 53
     },
     "invariants_run": 3,
-    "total_findings": 348
+    "total_findings": 60
   }
 }

@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -6547,7 +6547,7 @@
             "minSz": "46",
             "quoteCcy": "USDT",
             "state": "live",
-            "tickSz": "0.00001",
+            "tickSz": "0.000001",
             "uly": ""
           },
           "created": "__undefined",
@@ -6557,7 +6557,7 @@
           "settle": "__undefined",
           "precision": {
             "amount": 0.001,
-            "price": 1.0e-5
+            "price": 1.0e-6
           },
           "baseId": "J",
           "type": "spot",
@@ -8809,7 +8809,7 @@
             "minSz": "164",
             "quoteCcy": "USDT",
             "state": "live",
-            "tickSz": "0.00001",
+            "tickSz": "0.000001",
             "uly": ""
           },
           "created": "__undefined",
@@ -8819,7 +8819,7 @@
           "settle": "__undefined",
           "precision": {
             "amount": 0.001,
-            "price": 1.0e-5
+            "price": 1.0e-6
           },
           "baseId": "OL",
           "type": "spot",
@@ -90348,9 +90348,6 @@
       ],
       "fetchOrderTrades": [
         "privateGetDeepcoinTradeFills"
-      ],
-      "fetchMarketsByType": [
-        "publicGetDeepcoinMarketInstruments"
       ],
       "fetchPositions": [
         "privateGetDeepcoinAccountPositions"

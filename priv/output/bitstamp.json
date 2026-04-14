@@ -12,7 +12,7 @@
     "referral": null,
     "version": "v2"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -308,7 +308,8 @@
           "Check your account balance for details.": "__function:InsufficientFunds",
           "Ensure that there are no more than": "__function:InvalidOrder",
           "Ensure this value has at least": "__function:InvalidAddress",
-          "Minimum order size is": "__function:InvalidOrder"
+          "Minimum order size is": "__function:InvalidOrder",
+          "Price is more than": "__function:InvalidOrder"
         },
         "exact": {
           "API key not found": "__function:AuthenticationError",
@@ -323,7 +324,6 @@
           "Order could not be placed.": "__function:ExchangeNotAvailable",
           "Order not found.": "__function:OrderNotFound",
           "Please update your profile with your FATCA information, before using API.": "__function:PermissionDenied",
-          "Price is more than 20% below market price.": "__function:InvalidOrder",
           "Trading is currently unavailable for your account.": "__function:AccountSuspended",
           "Wrong API key format": "__function:AuthenticationError",
           "Your account is frozen": "__function:PermissionDenied"
@@ -38695,7 +38695,7 @@
             "counter_currency": "USD",
             "counter_decimals": 2,
             "description": "Bittensor / U.S. dollar Perpetual",
-            "instant_and_market_orders": "Disabled",
+            "instant_and_market_orders": "Enabled",
             "instant_order_counter_decimals": 2,
             "isin": "EZ0TRP7RG4X9",
             "market_symbol": "taousd-perp",
@@ -46224,7 +46224,7 @@
             "counter_currency": "USD",
             "counter_decimals": 5,
             "description": "Aster / U.S. dollar Perpetual",
-            "instant_and_market_orders": "Disabled",
+            "instant_and_market_orders": "Enabled",
             "instant_order_counter_decimals": 5,
             "isin": "EZD4K1NH7V02",
             "market_symbol": "asterusd-perp",
@@ -49284,7 +49284,8 @@
           "Check your account balance for details.": "__function:InsufficientFunds",
           "Ensure that there are no more than": "__function:InvalidOrder",
           "Ensure this value has at least": "__function:InvalidAddress",
-          "Minimum order size is": "__function:InvalidOrder"
+          "Minimum order size is": "__function:InvalidOrder",
+          "Price is more than": "__function:InvalidOrder"
         },
         "exact": {
           "API key not found": "__function:AuthenticationError",
@@ -49299,7 +49300,6 @@
           "Order could not be placed.": "__function:ExchangeNotAvailable",
           "Order not found.": "__function:OrderNotFound",
           "Please update your profile with your FATCA information, before using API.": "__function:PermissionDenied",
-          "Price is more than 20% below market price.": "__function:InvalidOrder",
           "Trading is currently unavailable for your account.": "__function:AccountSuspended",
           "Wrong API key format": "__function:AuthenticationError",
           "Your account is frozen": "__function:PermissionDenied"
@@ -88683,12 +88683,6 @@
       "fetchDepositsWithdrawals": [
         "privatePostUserTransactions"
       ],
-      "fetchFundingRate": [
-        "publicGetFundingRateMarketSymbol"
-      ],
-      "fetchFundingRateHistory": [
-        "publicGetFundingRateHistoryPair"
-      ],
       "fetchLedger": [
         "privatePostUserTransactions"
       ],
@@ -88706,9 +88700,6 @@
       ],
       "fetchOrderBook": [
         "publicGetOrderBookPair"
-      ],
-      "fetchOrderStatus": [
-        "privatePostOrderStatus"
       ],
       "fetchTicker": [
         "publicGetTickerPair"

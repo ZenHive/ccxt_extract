@@ -15,7 +15,7 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -2032,7 +2032,7 @@
       "version": "v2"
     },
     "markets": {
-      "market_count": 1334,
+      "market_count": 1335,
       "markets": {
         "WLD/EUR": {
           "spot": true,
@@ -5147,7 +5147,7 @@
             "maintainTime": "",
             "symbol": "VELOUSDT",
             "minLever": "1",
-            "limitOpenTime": "-1",
+            "limitOpenTime": "1776139200000",
             "supportMarginCoins": [
               "USDT"
             ],
@@ -5165,7 +5165,7 @@
             "makerFeeRate": "0.0002",
             "minTradeUSDT": "5",
             "openTime": "1727236837101",
-            "offTime": "-1",
+            "offTime": "1776150000000",
             "maxSymbolOrderNum": "200",
             "launchTime": ""
           },
@@ -12029,105 +12029,6 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
-        "ENS/USDC:USDC": {
-          "spot": false,
-          "contractSize": 1,
-          "linear": true,
-          "quoteId": "USDC",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0002,
-          "inverse": false,
-          "info": {
-            "posLimit": "0.05",
-            "sizeMultiplier": "0.1",
-            "fundInterval": "8",
-            "pricePlace": "3",
-            "deliveryTime": "",
-            "openCostUpRatio": "0.01",
-            "deliveryStartTime": "",
-            "isRwa": "NO",
-            "minTradeNum": "0.1",
-            "sellLimitPriceRatio": "0.05",
-            "maxLever": "25",
-            "priceEndStep": "1",
-            "maxMarketOrderQty": "600",
-            "baseCoin": "ENS",
-            "maintainTime": "",
-            "symbol": "ENSPERP",
-            "minLever": "1",
-            "limitOpenTime": "1775707200000",
-            "supportMarginCoins": [
-              "USDC"
-            ],
-            "maxProductOrderNum": "1000",
-            "buyLimitPriceRatio": "0.05",
-            "symbolType": "perpetual",
-            "maxPositionNum": "150",
-            "volumePlace": "1",
-            "quoteCoin": "USDC",
-            "takerFeeRate": "0.0006",
-            "maxOrderQty": "6000",
-            "symbolStatus": "normal",
-            "feeRateUpRatio": "0.005",
-            "deliveryPeriod": "",
-            "makerFeeRate": "0.0002",
-            "minTradeUSDT": "5",
-            "openTime": "1739253490767",
-            "offTime": "1775718000000",
-            "maxSymbolOrderNum": "200",
-            "launchTime": ""
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "ENS/USDC:USDC",
-          "settle": "USDC",
-          "precision": {
-            "amount": 0.1,
-            "price": 0.001
-          },
-          "baseId": "ENS",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "USDC",
-          "quote": "USDC",
-          "expiryDatetime": "__undefined",
-          "base": "ENS",
-          "swap": true,
-          "marginModes": {
-            "cross": true,
-            "isolated": true
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.1
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 25,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0006,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "ENSPERP",
-          "lowercaseId": "__undefined",
-          "subType": "linear"
-        },
         "POLYX/USDT:USDT": {
           "spot": false,
           "contractSize": 1,
@@ -12305,6 +12206,105 @@
           "id": "TRXUSDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
+        },
+        "SOXS/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "posLimit": "0.15",
+            "sizeMultiplier": "0.01",
+            "fundInterval": "8",
+            "pricePlace": "2",
+            "deliveryTime": "",
+            "openCostUpRatio": "0.01",
+            "deliveryStartTime": "",
+            "isRwa": "NO",
+            "minTradeNum": "0.01",
+            "sellLimitPriceRatio": "0.02",
+            "maxLever": "20",
+            "priceEndStep": "1",
+            "maxMarketOrderQty": "900",
+            "baseCoin": "SOXS",
+            "maintainTime": "",
+            "symbol": "SOXSUSDT",
+            "minLever": "1",
+            "limitOpenTime": "-1",
+            "supportMarginCoins": [
+              "USDT"
+            ],
+            "maxProductOrderNum": "1000",
+            "buyLimitPriceRatio": "0.02",
+            "symbolType": "perpetual",
+            "maxPositionNum": "150",
+            "volumePlace": "2",
+            "quoteCoin": "USDT",
+            "takerFeeRate": "0.0006",
+            "maxOrderQty": "4000",
+            "symbolStatus": "normal",
+            "feeRateUpRatio": "0.005",
+            "deliveryPeriod": "",
+            "makerFeeRate": "0.0002",
+            "minTradeUSDT": "5",
+            "openTime": "1775640633481",
+            "offTime": "-1",
+            "maxSymbolOrderNum": "200",
+            "launchTime": ""
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "SOXS/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 0.01,
+            "price": 0.01
+          },
+          "baseId": "SOXS",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "SOXS",
+          "swap": true,
+          "marginModes": {
+            "cross": true,
+            "isolated": true
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 0.01
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": 20,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "SOXSUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
         },
         "HTX/USDT": {
           "spot": true,
@@ -13490,6 +13490,105 @@
           "active": true,
           "expiry": "__undefined",
           "id": "1000CATUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
+        "EWH/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "posLimit": "0.15",
+            "sizeMultiplier": "0.01",
+            "fundInterval": "8",
+            "pricePlace": "3",
+            "deliveryTime": "",
+            "openCostUpRatio": "0.01",
+            "deliveryStartTime": "",
+            "isRwa": "NO",
+            "minTradeNum": "0.01",
+            "sellLimitPriceRatio": "0.02",
+            "maxLever": "20",
+            "priceEndStep": "1",
+            "maxMarketOrderQty": "1000",
+            "baseCoin": "EWH",
+            "maintainTime": "",
+            "symbol": "EWHUSDT",
+            "minLever": "1",
+            "limitOpenTime": "-1",
+            "supportMarginCoins": [
+              "USDT"
+            ],
+            "maxProductOrderNum": "1000",
+            "buyLimitPriceRatio": "0.02",
+            "symbolType": "perpetual",
+            "maxPositionNum": "150",
+            "volumePlace": "2",
+            "quoteCoin": "USDT",
+            "takerFeeRate": "0.0006",
+            "maxOrderQty": "5000",
+            "symbolStatus": "normal",
+            "feeRateUpRatio": "0.005",
+            "deliveryPeriod": "",
+            "makerFeeRate": "0.0002",
+            "minTradeUSDT": "5",
+            "openTime": "1775640647922",
+            "offTime": "-1",
+            "maxSymbolOrderNum": "200",
+            "launchTime": ""
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "EWH/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 0.01,
+            "price": 0.001
+          },
+          "baseId": "EWH",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "EWH",
+          "swap": true,
+          "marginModes": {
+            "cross": true,
+            "isolated": true
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 0.01
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": 20,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "EWHUSDT",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -16451,7 +16550,7 @@
           "info": {
             "posLimit": "0.05",
             "sizeMultiplier": "1",
-            "fundInterval": "1",
+            "fundInterval": "4",
             "pricePlace": "4",
             "deliveryTime": "",
             "openCostUpRatio": "0.01",
@@ -18059,105 +18158,6 @@
           "id": "AVAXEUR",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
-        },
-        "ALGO/USDC:USDC": {
-          "spot": false,
-          "contractSize": 1,
-          "linear": true,
-          "quoteId": "USDC",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0002,
-          "inverse": false,
-          "info": {
-            "posLimit": "0.05",
-            "sizeMultiplier": "0.1",
-            "fundInterval": "8",
-            "pricePlace": "4",
-            "deliveryTime": "",
-            "openCostUpRatio": "0.01",
-            "deliveryStartTime": "",
-            "isRwa": "NO",
-            "minTradeNum": "0.1",
-            "sellLimitPriceRatio": "0.05",
-            "maxLever": "75",
-            "priceEndStep": "1",
-            "maxMarketOrderQty": "40000",
-            "baseCoin": "ALGO",
-            "maintainTime": "",
-            "symbol": "ALGOPERP",
-            "minLever": "1",
-            "limitOpenTime": "1775707200000",
-            "supportMarginCoins": [
-              "USDC"
-            ],
-            "maxProductOrderNum": "1000",
-            "buyLimitPriceRatio": "0.05",
-            "symbolType": "perpetual",
-            "maxPositionNum": "150",
-            "volumePlace": "1",
-            "quoteCoin": "USDC",
-            "takerFeeRate": "0.0006",
-            "maxOrderQty": "200000",
-            "symbolStatus": "normal",
-            "feeRateUpRatio": "0.005",
-            "deliveryPeriod": "",
-            "makerFeeRate": "0.0002",
-            "minTradeUSDT": "5",
-            "openTime": "1738985159785",
-            "offTime": "1775718000000",
-            "maxSymbolOrderNum": "200",
-            "launchTime": ""
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "ALGO/USDC:USDC",
-          "settle": "USDC",
-          "precision": {
-            "amount": 0.1,
-            "price": 0.0001
-          },
-          "baseId": "ALGO",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "USDC",
-          "quote": "USDC",
-          "expiryDatetime": "__undefined",
-          "base": "ALGO",
-          "swap": true,
-          "marginModes": {
-            "cross": true,
-            "isolated": true
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.1
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 75,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0006,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "ALGOPERP",
-          "lowercaseId": "__undefined",
-          "subType": "linear"
         },
         "SUN/USDT:USDT": {
           "spot": false,
@@ -22368,7 +22368,7 @@
             "maxTradeAmount": "900000000000000000000",
             "minTradeAmount": "0",
             "minTradeUSDT": "1",
-            "offTime": "",
+            "offTime": "1776420000000",
             "openTime": "1663577700000",
             "orderQuantity": "200",
             "pricePrecision": "4",
@@ -26190,7 +26190,7 @@
             "sellLimitPriceRatio": "0.02",
             "maxLever": "100",
             "priceEndStep": "1",
-            "maxMarketOrderQty": "1000",
+            "maxMarketOrderQty": "2000",
             "baseCoin": "XAG",
             "maintainTime": "",
             "symbol": "XAGUSDT",
@@ -26206,7 +26206,7 @@
             "volumePlace": "2",
             "quoteCoin": "USDT",
             "takerFeeRate": "0.0006",
-            "maxOrderQty": "4000",
+            "maxOrderQty": "6000",
             "symbolStatus": "normal",
             "feeRateUpRatio": "0.005",
             "deliveryPeriod": "",
@@ -29082,7 +29082,7 @@
             "maintainTime": "",
             "symbol": "BMTUSDT",
             "minLever": "1",
-            "limitOpenTime": "-1",
+            "limitOpenTime": "1776139200000",
             "supportMarginCoins": [
               "USDT"
             ],
@@ -29100,7 +29100,7 @@
             "makerFeeRate": "0.0002",
             "minTradeUSDT": "5",
             "openTime": "1741684566703",
-            "offTime": "-1",
+            "offTime": "1776150000000",
             "maxSymbolOrderNum": "200",
             "launchTime": ""
           },
@@ -29705,7 +29705,7 @@
             "maxTradeAmount": "900000000000000000000",
             "minTradeAmount": "0",
             "minTradeUSDT": "1",
-            "offTime": "",
+            "offTime": "1776420000000",
             "openTime": "1648795740000",
             "orderQuantity": "200",
             "pricePrecision": "4",
@@ -31151,6 +31151,105 @@
           "id": "IAGUSDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
+        },
+        "BA/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "posLimit": "0.15",
+            "sizeMultiplier": "0.01",
+            "fundInterval": "8",
+            "pricePlace": "2",
+            "deliveryTime": "",
+            "openCostUpRatio": "0.01",
+            "deliveryStartTime": "",
+            "isRwa": "NO",
+            "minTradeNum": "0.01",
+            "sellLimitPriceRatio": "0.02",
+            "maxLever": "20",
+            "priceEndStep": "1",
+            "maxMarketOrderQty": "100",
+            "baseCoin": "BA",
+            "maintainTime": "",
+            "symbol": "BAUSDT",
+            "minLever": "1",
+            "limitOpenTime": "-1",
+            "supportMarginCoins": [
+              "USDT"
+            ],
+            "maxProductOrderNum": "1000",
+            "buyLimitPriceRatio": "0.02",
+            "symbolType": "perpetual",
+            "maxPositionNum": "150",
+            "volumePlace": "2",
+            "quoteCoin": "USDT",
+            "takerFeeRate": "0.0006",
+            "maxOrderQty": "600",
+            "symbolStatus": "normal",
+            "feeRateUpRatio": "0.005",
+            "deliveryPeriod": "",
+            "makerFeeRate": "0.0002",
+            "minTradeUSDT": "5",
+            "openTime": "1775640611363",
+            "offTime": "-1",
+            "maxSymbolOrderNum": "200",
+            "launchTime": ""
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "BA/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 0.01,
+            "price": 0.01
+          },
+          "baseId": "BA",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "BA",
+          "swap": true,
+          "marginModes": {
+            "cross": true,
+            "isolated": true
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 0.01
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": 20,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "BAUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
         },
         "PI/USDT:USDT": {
           "spot": false,
@@ -32711,105 +32810,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "TLMUSDT",
-          "lowercaseId": "__undefined",
-          "subType": "linear"
-        },
-        "BERA/USDC:USDC": {
-          "spot": false,
-          "contractSize": 1,
-          "linear": true,
-          "quoteId": "USDC",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0002,
-          "inverse": false,
-          "info": {
-            "posLimit": "0.05",
-            "sizeMultiplier": "0.1",
-            "fundInterval": "4",
-            "pricePlace": "4",
-            "deliveryTime": "",
-            "openCostUpRatio": "0.01",
-            "deliveryStartTime": "",
-            "isRwa": "NO",
-            "minTradeNum": "0.1",
-            "sellLimitPriceRatio": "0.05",
-            "maxLever": "25",
-            "priceEndStep": "1",
-            "maxMarketOrderQty": "10000",
-            "baseCoin": "BERA",
-            "maintainTime": "",
-            "symbol": "BERAPERP",
-            "minLever": "1",
-            "limitOpenTime": "1775707200000",
-            "supportMarginCoins": [
-              "USDC"
-            ],
-            "maxProductOrderNum": "1000",
-            "buyLimitPriceRatio": "0.05",
-            "symbolType": "perpetual",
-            "maxPositionNum": "150",
-            "volumePlace": "1",
-            "quoteCoin": "USDC",
-            "takerFeeRate": "0.0006",
-            "maxOrderQty": "100000",
-            "symbolStatus": "normal",
-            "feeRateUpRatio": "0.005",
-            "deliveryPeriod": "",
-            "makerFeeRate": "0.0002",
-            "minTradeUSDT": "5",
-            "openTime": "1741144832536",
-            "offTime": "1775718000000",
-            "maxSymbolOrderNum": "200",
-            "launchTime": ""
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "BERA/USDC:USDC",
-          "settle": "USDC",
-          "precision": {
-            "amount": 0.1,
-            "price": 0.0001
-          },
-          "baseId": "BERA",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "USDC",
-          "quote": "USDC",
-          "expiryDatetime": "__undefined",
-          "base": "BERA",
-          "swap": true,
-          "marginModes": {
-            "cross": true,
-            "isolated": true
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.1
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 25,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0006,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "BERAPERP",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -35246,105 +35246,6 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
-        "OL/USDT:USDT": {
-          "spot": false,
-          "contractSize": 1,
-          "linear": true,
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0002,
-          "inverse": false,
-          "info": {
-            "posLimit": "0.05",
-            "sizeMultiplier": "10",
-            "fundInterval": "4",
-            "pricePlace": "5",
-            "deliveryTime": "",
-            "openCostUpRatio": "0.01",
-            "deliveryStartTime": "",
-            "isRwa": "NO",
-            "minTradeNum": "10",
-            "sellLimitPriceRatio": "0.15",
-            "maxLever": "25",
-            "priceEndStep": "1",
-            "maxMarketOrderQty": "78000",
-            "baseCoin": "OL",
-            "maintainTime": "",
-            "symbol": "OLUSDT",
-            "minLever": "1",
-            "limitOpenTime": "1775620800000",
-            "supportMarginCoins": [
-              "USDT"
-            ],
-            "maxProductOrderNum": "1000",
-            "buyLimitPriceRatio": "0.15",
-            "symbolType": "perpetual",
-            "maxPositionNum": "150",
-            "volumePlace": "0",
-            "quoteCoin": "USDT",
-            "takerFeeRate": "0.0006",
-            "maxOrderQty": "680000",
-            "symbolStatus": "normal",
-            "feeRateUpRatio": "0.005",
-            "deliveryPeriod": "",
-            "makerFeeRate": "0.0002",
-            "minTradeUSDT": "5",
-            "openTime": "1732093313783",
-            "offTime": "1775631600000",
-            "maxSymbolOrderNum": "200",
-            "launchTime": ""
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "OL/USDT:USDT",
-          "settle": "USDT",
-          "precision": {
-            "amount": 10,
-            "price": 1.0e-5
-          },
-          "baseId": "OL",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "USDT",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "OL",
-          "swap": true,
-          "marginModes": {
-            "cross": true,
-            "isolated": true
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 10
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": 25,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0006,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "OLUSDT",
-          "lowercaseId": "__undefined",
-          "subType": "linear"
-        },
         "ONE/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -37598,6 +37499,85 @@
           "id": "HFTUSDT",
           "lowercaseId": "__undefined",
           "subType": "linear"
+        },
+        "NIGHT/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": false,
+          "maker": 0.001,
+          "inverse": "__undefined",
+          "info": {
+            "areaSymbol": "no",
+            "baseCoin": "NIGHT",
+            "buyLimitPriceRatio": "0.1",
+            "makerFeeRate": "0.001",
+            "maxTradeAmount": "900000000000000000000",
+            "minTradeAmount": "0",
+            "minTradeUSDT": "1",
+            "offTime": "",
+            "openTime": "1775732400000",
+            "orderQuantity": "200",
+            "pricePrecision": "5",
+            "quantityPrecision": "2",
+            "quoteCoin": "USDT",
+            "quotePrecision": "7",
+            "sellLimitPriceRatio": "0.1",
+            "status": "online",
+            "symbol": "NIGHTUSDT",
+            "takerFeeRate": "0.001"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "NIGHT/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-5
+          },
+          "baseId": "NIGHT",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "NIGHT",
+          "swap": false,
+          "marginModes": {
+            "cross": false,
+            "isolated": false
+          },
+          "limits": {
+            "amount": {
+              "max": 900000000000000000000,
+              "min": 0
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 1
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.001,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "NIGHTUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
         },
         "SKL/USDT": {
           "spot": true,
@@ -42226,7 +42206,7 @@
           "info": {
             "posLimit": "0.05",
             "sizeMultiplier": "0.1",
-            "fundInterval": "4",
+            "fundInterval": "1",
             "pricePlace": "5",
             "deliveryTime": "",
             "openCostUpRatio": "0.01",
@@ -46352,7 +46332,7 @@
             "sellLimitPriceRatio": "0.15",
             "maxLever": "75",
             "priceEndStep": "1",
-            "maxMarketOrderQty": "20",
+            "maxMarketOrderQty": "60",
             "baseCoin": "XAUT",
             "maintainTime": "",
             "symbol": "XAUTUSDT",
@@ -46368,7 +46348,7 @@
             "volumePlace": "2",
             "quoteCoin": "USDT",
             "takerFeeRate": "0.0006",
-            "maxOrderQty": "140",
+            "maxOrderQty": "500",
             "symbolStatus": "normal",
             "feeRateUpRatio": "0.005",
             "deliveryPeriod": "",
@@ -47418,6 +47398,105 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "RKLB/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "posLimit": "0.15",
+            "sizeMultiplier": "0.01",
+            "fundInterval": "8",
+            "pricePlace": "2",
+            "deliveryTime": "",
+            "openCostUpRatio": "0.01",
+            "deliveryStartTime": "",
+            "isRwa": "NO",
+            "minTradeNum": "0.01",
+            "sellLimitPriceRatio": "0.02",
+            "maxLever": "20",
+            "priceEndStep": "1",
+            "maxMarketOrderQty": "500",
+            "baseCoin": "RKLB",
+            "maintainTime": "",
+            "symbol": "RKLBUSDT",
+            "minLever": "1",
+            "limitOpenTime": "-1",
+            "supportMarginCoins": [
+              "USDT"
+            ],
+            "maxProductOrderNum": "1000",
+            "buyLimitPriceRatio": "0.02",
+            "symbolType": "perpetual",
+            "maxPositionNum": "150",
+            "volumePlace": "2",
+            "quoteCoin": "USDT",
+            "takerFeeRate": "0.0006",
+            "maxOrderQty": "2000",
+            "symbolStatus": "normal",
+            "feeRateUpRatio": "0.005",
+            "deliveryPeriod": "",
+            "makerFeeRate": "0.0002",
+            "minTradeUSDT": "5",
+            "openTime": "1775640606058",
+            "offTime": "-1",
+            "maxSymbolOrderNum": "200",
+            "launchTime": ""
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "RKLB/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 0.01,
+            "price": 0.01
+          },
+          "baseId": "RKLB",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "RKLB",
+          "swap": true,
+          "marginModes": {
+            "cross": true,
+            "isolated": true
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 0.01
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": 20,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "RKLBUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
         "A8/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -47438,10 +47517,10 @@
             "offTime": "",
             "openTime": "1721210400000",
             "orderQuantity": "200",
-            "pricePrecision": "5",
+            "pricePrecision": "6",
             "quantityPrecision": "2",
             "quoteCoin": "USDT",
-            "quotePrecision": "7",
+            "quotePrecision": "8",
             "sellLimitPriceRatio": "0.02",
             "status": "online",
             "symbol": "A8USDT",
@@ -47454,7 +47533,7 @@
           "settle": "__undefined",
           "precision": {
             "amount": 0.01,
-            "price": 1.0e-5
+            "price": 1.0e-6
           },
           "baseId": "A8",
           "type": "spot",
@@ -54466,10 +54545,10 @@
             "offTime": "",
             "openTime": "1721649600000",
             "orderQuantity": "200",
-            "pricePrecision": "6",
+            "pricePrecision": "7",
             "quantityPrecision": "2",
             "quoteCoin": "USDT",
-            "quotePrecision": "8",
+            "quotePrecision": "9",
             "sellLimitPriceRatio": "0.02",
             "status": "online",
             "symbol": "ZKLUSDT",
@@ -54482,7 +54561,7 @@
           "settle": "__undefined",
           "precision": {
             "amount": 0.01,
-            "price": 1.0e-6
+            "price": 1.0e-7
           },
           "baseId": "ZKL",
           "type": "spot",
@@ -54794,7 +54873,7 @@
           "info": {
             "posLimit": "0.05",
             "sizeMultiplier": "1",
-            "fundInterval": "4",
+            "fundInterval": "1",
             "pricePlace": "5",
             "deliveryTime": "",
             "openCostUpRatio": "0.01",
@@ -55572,105 +55651,6 @@
           "id": "AMZNUSDT",
           "lowercaseId": "__undefined",
           "subType": "linear"
-        },
-        "WIF/USD:WIF": {
-          "spot": false,
-          "contractSize": 1,
-          "linear": false,
-          "quoteId": "USD",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0002,
-          "inverse": true,
-          "info": {
-            "posLimit": "0.05",
-            "sizeMultiplier": "0.1",
-            "fundInterval": "8",
-            "pricePlace": "4",
-            "deliveryTime": "",
-            "openCostUpRatio": "0.01",
-            "deliveryStartTime": "",
-            "isRwa": "NO",
-            "minTradeNum": "0.1",
-            "sellLimitPriceRatio": "0.05",
-            "maxLever": "25",
-            "priceEndStep": "1",
-            "maxMarketOrderQty": "10000",
-            "baseCoin": "WIF",
-            "maintainTime": "",
-            "symbol": "WIFUSD",
-            "minLever": "1",
-            "limitOpenTime": "1775620800000",
-            "supportMarginCoins": [
-              "WIF"
-            ],
-            "maxProductOrderNum": "1000",
-            "buyLimitPriceRatio": "0.05",
-            "symbolType": "perpetual",
-            "maxPositionNum": "150",
-            "volumePlace": "1",
-            "quoteCoin": "USD",
-            "takerFeeRate": "0.0006",
-            "maxOrderQty": "80000",
-            "symbolStatus": "normal",
-            "feeRateUpRatio": "0.005",
-            "deliveryPeriod": "",
-            "makerFeeRate": "0.0002",
-            "minTradeUSDT": "5",
-            "openTime": "1749806951610",
-            "offTime": "1775631600000",
-            "maxSymbolOrderNum": "200",
-            "launchTime": ""
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "WIF/USD:WIF",
-          "settle": "WIF",
-          "precision": {
-            "amount": 0.1,
-            "price": 0.0001
-          },
-          "baseId": "WIF",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "WIF",
-          "quote": "USD",
-          "expiryDatetime": "__undefined",
-          "base": "WIF",
-          "swap": true,
-          "marginModes": {
-            "cross": true,
-            "isolated": true
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.1
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 25,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0006,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "WIFUSD",
-          "lowercaseId": "__undefined",
-          "subType": "inverse"
         },
         "ARK/USDT:USDT": {
           "spot": false,
@@ -58161,7 +58141,7 @@
             "maxTradeAmount": "900000000000000000000",
             "minTradeAmount": "0",
             "minTradeUSDT": "1",
-            "offTime": "",
+            "offTime": "1776420000000",
             "openTime": "1665996180000",
             "orderQuantity": "200",
             "pricePrecision": "6",
@@ -59496,7 +59476,7 @@
             "maintainTime": "",
             "symbol": "PORTALUSDT",
             "minLever": "1",
-            "limitOpenTime": "-1",
+            "limitOpenTime": "1776139200000",
             "supportMarginCoins": [
               "USDT"
             ],
@@ -59514,7 +59494,7 @@
             "makerFeeRate": "0.0002",
             "minTradeUSDT": "5",
             "openTime": "1711548000000",
-            "offTime": "-1",
+            "offTime": "1776150000000",
             "maxSymbolOrderNum": "200",
             "launchTime": ""
           },
@@ -60635,105 +60615,6 @@
           "id": "LUNAUSDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
-        },
-        "PUFFER/USDT:USDT": {
-          "spot": false,
-          "contractSize": 1,
-          "linear": true,
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0002,
-          "inverse": false,
-          "info": {
-            "posLimit": "0.05",
-            "sizeMultiplier": "1",
-            "fundInterval": "4",
-            "pricePlace": "5",
-            "deliveryTime": "",
-            "openCostUpRatio": "0.01",
-            "deliveryStartTime": "",
-            "isRwa": "NO",
-            "minTradeNum": "1",
-            "sellLimitPriceRatio": "0.15",
-            "maxLever": "25",
-            "priceEndStep": "1",
-            "maxMarketOrderQty": "26000",
-            "baseCoin": "PUFFER",
-            "maintainTime": "",
-            "symbol": "PUFFERUSDT",
-            "minLever": "1",
-            "limitOpenTime": "1775620800000",
-            "supportMarginCoins": [
-              "USDT"
-            ],
-            "maxProductOrderNum": "1000",
-            "buyLimitPriceRatio": "0.15",
-            "symbolType": "perpetual",
-            "maxPositionNum": "150",
-            "volumePlace": "0",
-            "quoteCoin": "USDT",
-            "takerFeeRate": "0.0006",
-            "maxOrderQty": "240000",
-            "symbolStatus": "normal",
-            "feeRateUpRatio": "0.005",
-            "deliveryPeriod": "",
-            "makerFeeRate": "0.0002",
-            "minTradeUSDT": "5",
-            "openTime": "1728910781725",
-            "offTime": "1775631600000",
-            "maxSymbolOrderNum": "200",
-            "launchTime": ""
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "PUFFER/USDT:USDT",
-          "settle": "USDT",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-5
-          },
-          "baseId": "PUFFER",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "USDT",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "PUFFER",
-          "swap": true,
-          "marginModes": {
-            "cross": true,
-            "isolated": true
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": 25,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0006,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "PUFFERUSDT",
-          "lowercaseId": "__undefined",
-          "subType": "linear"
         },
         "PIPPIN/USDT:USDT": {
           "spot": false,
@@ -63827,6 +63708,105 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "NFLX/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "posLimit": "0.1",
+            "sizeMultiplier": "0.01",
+            "fundInterval": "8",
+            "pricePlace": "2",
+            "deliveryTime": "",
+            "openCostUpRatio": "0.01",
+            "deliveryStartTime": "",
+            "isRwa": "YES",
+            "minTradeNum": "0.01",
+            "sellLimitPriceRatio": "0.02",
+            "maxLever": "50",
+            "priceEndStep": "1",
+            "maxMarketOrderQty": "600",
+            "baseCoin": "NFLX",
+            "maintainTime": "",
+            "symbol": "NFLXUSDT",
+            "minLever": "1",
+            "limitOpenTime": "-1",
+            "supportMarginCoins": [
+              "USDT"
+            ],
+            "maxProductOrderNum": "1000",
+            "buyLimitPriceRatio": "0.02",
+            "symbolType": "perpetual",
+            "maxPositionNum": "150",
+            "volumePlace": "2",
+            "quoteCoin": "USDT",
+            "takerFeeRate": "0.0006",
+            "maxOrderQty": "3000",
+            "symbolStatus": "normal",
+            "feeRateUpRatio": "0.005",
+            "deliveryPeriod": "",
+            "makerFeeRate": "0.0002",
+            "minTradeUSDT": "5",
+            "openTime": "1775640725558",
+            "offTime": "-1",
+            "maxSymbolOrderNum": "200",
+            "launchTime": ""
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "NFLX/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 0.01,
+            "price": 0.01
+          },
+          "baseId": "NFLX",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "NFLX",
+          "swap": true,
+          "marginModes": {
+            "cross": true,
+            "isolated": true
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 0.01
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": 50,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "NFLXUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
         "CETUS/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -65298,7 +65278,7 @@
             "maintainTime": "",
             "symbol": "MITOUSDT",
             "minLever": "1",
-            "limitOpenTime": "-1",
+            "limitOpenTime": "1776139200000",
             "supportMarginCoins": [
               "USDT"
             ],
@@ -65316,7 +65296,7 @@
             "makerFeeRate": "0.0002",
             "minTradeUSDT": "5",
             "openTime": "1756376816102",
-            "offTime": "-1",
+            "offTime": "1776150000000",
             "maxSymbolOrderNum": "200",
             "launchTime": ""
           },
@@ -66321,7 +66301,7 @@
             "sellLimitPriceRatio": "0.15",
             "maxLever": "50",
             "priceEndStep": "1",
-            "maxMarketOrderQty": "130",
+            "maxMarketOrderQty": "420",
             "baseCoin": "TAO",
             "maintainTime": "",
             "symbol": "TAOUSDT",
@@ -66337,7 +66317,7 @@
             "volumePlace": "3",
             "quoteCoin": "USDT",
             "takerFeeRate": "0.0006",
-            "maxOrderQty": "650",
+            "maxOrderQty": "1250",
             "symbolStatus": "normal",
             "feeRateUpRatio": "0.005",
             "deliveryPeriod": "",
@@ -70979,7 +70959,7 @@
           "info": {
             "posLimit": "0.05",
             "sizeMultiplier": "1",
-            "fundInterval": "4",
+            "fundInterval": "1",
             "pricePlace": "6",
             "deliveryTime": "",
             "openCostUpRatio": "0.01",
@@ -77141,7 +77121,7 @@
             "maxTradeAmount": "900000000000000000000",
             "minTradeAmount": "0",
             "minTradeUSDT": "1",
-            "offTime": "",
+            "offTime": "1776420000000",
             "openTime": "1763028000000",
             "orderQuantity": "200",
             "pricePrecision": "6",
@@ -77472,7 +77452,7 @@
           "info": {
             "posLimit": "0.05",
             "sizeMultiplier": "1",
-            "fundInterval": "4",
+            "fundInterval": "1",
             "pricePlace": "5",
             "deliveryTime": "",
             "openCostUpRatio": "0.01",
@@ -79834,10 +79814,10 @@
             "offTime": "",
             "openTime": "1767787200000",
             "orderQuantity": "200",
-            "pricePrecision": "6",
+            "pricePrecision": "7",
             "quantityPrecision": "2",
             "quoteCoin": "USDT",
-            "quotePrecision": "8",
+            "quotePrecision": "9",
             "sellLimitPriceRatio": "0.1",
             "status": "online",
             "symbol": "ZTCUSDT",
@@ -79850,7 +79830,7 @@
           "settle": "__undefined",
           "precision": {
             "amount": 0.01,
-            "price": 1.0e-6
+            "price": 1.0e-7
           },
           "baseId": "ZTC",
           "type": "spot",
@@ -80721,7 +80701,7 @@
             "maxTradeAmount": "900000000000000000000",
             "minTradeAmount": "0",
             "minTradeUSDT": "1",
-            "offTime": "",
+            "offTime": "1776420000000",
             "openTime": "1673514000000",
             "orderQuantity": "200",
             "pricePrecision": "3",
@@ -81129,7 +81109,7 @@
           "maker": 0.0002,
           "inverse": false,
           "info": {
-            "posLimit": "0.15",
+            "posLimit": "0.2",
             "sizeMultiplier": "0.01",
             "fundInterval": "4",
             "pricePlace": "3",
@@ -81141,7 +81121,7 @@
             "sellLimitPriceRatio": "0.2",
             "maxLever": "100",
             "priceEndStep": "1",
-            "maxMarketOrderQty": "500",
+            "maxMarketOrderQty": "2000",
             "baseCoin": "CL",
             "maintainTime": "",
             "symbol": "CLUSDT",
@@ -81157,7 +81137,7 @@
             "volumePlace": "2",
             "quoteCoin": "USDT",
             "takerFeeRate": "0.0006",
-            "maxOrderQty": "3000",
+            "maxOrderQty": "6000",
             "symbolStatus": "normal",
             "feeRateUpRatio": "0.005",
             "deliveryPeriod": "",
@@ -88761,7 +88741,7 @@
             "maintainTime": "",
             "symbol": "PHBUSDT",
             "minLever": "1",
-            "limitOpenTime": "-1",
+            "limitOpenTime": "1776139200000",
             "supportMarginCoins": [
               "USDT"
             ],
@@ -88779,7 +88759,7 @@
             "makerFeeRate": "0.0002",
             "minTradeUSDT": "5",
             "openTime": "1727424557683",
-            "offTime": "-1",
+            "offTime": "1776150000000",
             "maxSymbolOrderNum": "200",
             "launchTime": ""
           },
@@ -90296,7 +90276,7 @@
             "isRwa": "YES",
             "minTradeNum": "0.01",
             "sellLimitPriceRatio": "0.02",
-            "maxLever": "50",
+            "maxLever": "100",
             "priceEndStep": "1",
             "maxMarketOrderQty": "80",
             "baseCoin": "TSM",
@@ -90356,7 +90336,7 @@
               "min": 5
             },
             "leverage": {
-              "max": 50,
+              "max": 100,
               "min": 1
             },
             "price": {
@@ -91153,7 +91133,7 @@
             "maintainTime": "",
             "symbol": "FUNTOKENUSDT",
             "minLever": "1",
-            "limitOpenTime": "-1",
+            "limitOpenTime": "1776139200000",
             "supportMarginCoins": [
               "USDT"
             ],
@@ -91171,7 +91151,7 @@
             "makerFeeRate": "0.0002",
             "minTradeUSDT": "5",
             "openTime": "1768467625626",
-            "offTime": "-1",
+            "offTime": "1776150000000",
             "maxSymbolOrderNum": "200",
             "launchTime": ""
           },
@@ -93765,7 +93745,7 @@
             "maintainTime": "",
             "symbol": "MBOXUSDT",
             "minLever": "1",
-            "limitOpenTime": "-1",
+            "limitOpenTime": "1776139200000",
             "supportMarginCoins": [
               "USDT"
             ],
@@ -93783,7 +93763,7 @@
             "makerFeeRate": "0.0002",
             "minTradeUSDT": "5",
             "openTime": "1724919159867",
-            "offTime": "-1",
+            "offTime": "1776150000000",
             "maxSymbolOrderNum": "200",
             "launchTime": ""
           },
@@ -101962,7 +101942,7 @@
             "maxTradeAmount": "900000000000000000000",
             "minTradeAmount": "0",
             "minTradeUSDT": "1",
-            "offTime": "",
+            "offTime": "1776420000000",
             "openTime": "1704452400000",
             "orderQuantity": "200",
             "pricePrecision": "4",
@@ -102891,7 +102871,7 @@
             "maxTradeAmount": "900000000000000000000",
             "minTradeAmount": "0",
             "minTradeUSDT": "1",
-            "offTime": "",
+            "offTime": "1776420000000",
             "openTime": "1664274540000",
             "orderQuantity": "200",
             "pricePrecision": "4",
@@ -108689,7 +108669,7 @@
             "sellLimitPriceRatio": "0.02",
             "maxLever": "100",
             "priceEndStep": "1",
-            "maxMarketOrderQty": "40",
+            "maxMarketOrderQty": "60",
             "baseCoin": "XAU",
             "maintainTime": "",
             "symbol": "XAUUSDT",
@@ -108705,7 +108685,7 @@
             "volumePlace": "2",
             "quoteCoin": "USDT",
             "takerFeeRate": "0.0006",
-            "maxOrderQty": "200",
+            "maxOrderQty": "500",
             "symbolStatus": "normal",
             "feeRateUpRatio": "0.005",
             "deliveryPeriod": "",
@@ -109476,6 +109456,105 @@
           "id": "FOGOUSDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
+        },
+        "INDA/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "posLimit": "0.15",
+            "sizeMultiplier": "0.01",
+            "fundInterval": "8",
+            "pricePlace": "2",
+            "deliveryTime": "",
+            "openCostUpRatio": "0.01",
+            "deliveryStartTime": "",
+            "isRwa": "NO",
+            "minTradeNum": "0.01",
+            "sellLimitPriceRatio": "0.02",
+            "maxLever": "20",
+            "priceEndStep": "1",
+            "maxMarketOrderQty": "600",
+            "baseCoin": "INDA",
+            "maintainTime": "",
+            "symbol": "INDAUSDT",
+            "minLever": "1",
+            "limitOpenTime": "-1",
+            "supportMarginCoins": [
+              "USDT"
+            ],
+            "maxProductOrderNum": "1000",
+            "buyLimitPriceRatio": "0.02",
+            "symbolType": "perpetual",
+            "maxPositionNum": "150",
+            "volumePlace": "2",
+            "quoteCoin": "USDT",
+            "takerFeeRate": "0.0006",
+            "maxOrderQty": "3000",
+            "symbolStatus": "normal",
+            "feeRateUpRatio": "0.005",
+            "deliveryPeriod": "",
+            "makerFeeRate": "0.0002",
+            "minTradeUSDT": "5",
+            "openTime": "1775640641253",
+            "offTime": "-1",
+            "maxSymbolOrderNum": "200",
+            "launchTime": ""
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "INDA/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 0.01,
+            "price": 0.01
+          },
+          "baseId": "INDA",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "INDA",
+          "swap": true,
+          "marginModes": {
+            "cross": true,
+            "isolated": true
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 0.01
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": 20,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "INDAUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
         },
         "HIVE/USDT:USDT": {
           "spot": false,
@@ -112367,7 +112446,7 @@
             "sellLimitPriceRatio": "0.15",
             "maxLever": "75",
             "priceEndStep": "1",
-            "maxMarketOrderQty": "100",
+            "maxMarketOrderQty": "600",
             "baseCoin": "ZEC",
             "maintainTime": "",
             "symbol": "ZECUSDT",
@@ -112383,7 +112462,7 @@
             "volumePlace": "3",
             "quoteCoin": "USDT",
             "takerFeeRate": "0.0006",
-            "maxOrderQty": "1000",
+            "maxOrderQty": "3000",
             "symbolStatus": "normal",
             "feeRateUpRatio": "0.005",
             "deliveryPeriod": "",
@@ -114323,105 +114402,6 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
-        "GALA/USDC:USDC": {
-          "spot": false,
-          "contractSize": 1,
-          "linear": true,
-          "quoteId": "USDC",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0002,
-          "inverse": false,
-          "info": {
-            "posLimit": "0.05",
-            "sizeMultiplier": "1",
-            "fundInterval": "8",
-            "pricePlace": "5",
-            "deliveryTime": "",
-            "openCostUpRatio": "0.01",
-            "deliveryStartTime": "",
-            "isRwa": "NO",
-            "minTradeNum": "1",
-            "sellLimitPriceRatio": "0.05",
-            "maxLever": "75",
-            "priceEndStep": "1",
-            "maxMarketOrderQty": "300000",
-            "baseCoin": "GALA",
-            "maintainTime": "",
-            "symbol": "GALAPERP",
-            "minLever": "1",
-            "limitOpenTime": "1775707200000",
-            "supportMarginCoins": [
-              "USDC"
-            ],
-            "maxProductOrderNum": "1000",
-            "buyLimitPriceRatio": "0.05",
-            "symbolType": "perpetual",
-            "maxPositionNum": "150",
-            "volumePlace": "0",
-            "quoteCoin": "USDC",
-            "takerFeeRate": "0.0006",
-            "maxOrderQty": "3000000",
-            "symbolStatus": "normal",
-            "feeRateUpRatio": "0.005",
-            "deliveryPeriod": "",
-            "makerFeeRate": "0.0002",
-            "minTradeUSDT": "5",
-            "openTime": "1739253505647",
-            "offTime": "1775718000000",
-            "maxSymbolOrderNum": "200",
-            "launchTime": ""
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "GALA/USDC:USDC",
-          "settle": "USDC",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-5
-          },
-          "baseId": "GALA",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "USDC",
-          "quote": "USDC",
-          "expiryDatetime": "__undefined",
-          "base": "GALA",
-          "swap": true,
-          "marginModes": {
-            "cross": true,
-            "isolated": true
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 75,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0006,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "GALAPERP",
-          "lowercaseId": "__undefined",
-          "subType": "linear"
-        },
         "FET/USDT:USDT": {
           "spot": false,
           "contractSize": 1,
@@ -115925,6 +115905,105 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "SOXL/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "posLimit": "0.15",
+            "sizeMultiplier": "0.01",
+            "fundInterval": "8",
+            "pricePlace": "2",
+            "deliveryTime": "",
+            "openCostUpRatio": "0.01",
+            "deliveryStartTime": "",
+            "isRwa": "NO",
+            "minTradeNum": "0.01",
+            "sellLimitPriceRatio": "0.02",
+            "maxLever": "20",
+            "priceEndStep": "1",
+            "maxMarketOrderQty": "500",
+            "baseCoin": "SOXL",
+            "maintainTime": "",
+            "symbol": "SOXLUSDT",
+            "minLever": "1",
+            "limitOpenTime": "-1",
+            "supportMarginCoins": [
+              "USDT"
+            ],
+            "maxProductOrderNum": "1000",
+            "buyLimitPriceRatio": "0.02",
+            "symbolType": "perpetual",
+            "maxPositionNum": "150",
+            "volumePlace": "2",
+            "quoteCoin": "USDT",
+            "takerFeeRate": "0.0006",
+            "maxOrderQty": "2000",
+            "symbolStatus": "normal",
+            "feeRateUpRatio": "0.005",
+            "deliveryPeriod": "",
+            "makerFeeRate": "0.0002",
+            "minTradeUSDT": "5",
+            "openTime": "1775640623627",
+            "offTime": "-1",
+            "maxSymbolOrderNum": "200",
+            "launchTime": ""
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "SOXL/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 0.01,
+            "price": 0.01
+          },
+          "baseId": "SOXL",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "SOXL",
+          "swap": true,
+          "marginModes": {
+            "cross": true,
+            "isolated": true
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 0.01
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": 20,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "SOXLUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
         "GODS/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -116288,7 +116367,7 @@
             "maintainTime": "",
             "symbol": "OXTUSDT",
             "minLever": "1",
-            "limitOpenTime": "-1",
+            "limitOpenTime": "1776139200000",
             "supportMarginCoins": [
               "USDT"
             ],
@@ -116306,7 +116385,7 @@
             "makerFeeRate": "0.0002",
             "minTradeUSDT": "5",
             "openTime": "1732514994250",
-            "offTime": "-1",
+            "offTime": "1776150000000",
             "maxSymbolOrderNum": "200",
             "launchTime": ""
           },
@@ -119852,7 +119931,7 @@
           "info": {
             "posLimit": "0.05",
             "sizeMultiplier": "1",
-            "fundInterval": "1",
+            "fundInterval": "4",
             "pricePlace": "4",
             "deliveryTime": "",
             "openCostUpRatio": "0.01",
@@ -120006,7 +120085,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 710,
+        "sample_count": 711,
         "separator": "",
         "suffix": null
       },
@@ -120019,13 +120098,10 @@
           "STRKPERP",
           "HBARPERP",
           "SETHSPERP",
-          "ENSPERP",
           "NEARPERP",
-          "ALGOPERP",
           "PEPEPERP",
           "TONPERP",
           "EIGENPERP",
-          "BERAPERP",
           "FILPERP",
           "SHIBPERP",
           "NEOPERP",
@@ -120061,9 +120137,12 @@
           "PNUTPERP",
           "ETHPERP",
           "POLPERP",
-          "ARBPERP"
+          "ARBPERP",
+          "OPPERP",
+          "AAVEPERP",
+          "TRXPERP"
         ],
-        "anomaly_count": 56,
+        "anomaly_count": 52,
         "case": "upper",
         "examples": [
           {
@@ -236774,10 +236853,6 @@
         "privateMixGetV2MixAccountBill",
         "privateUtaGetV3AccountFinancialRecords"
       ],
-      "fetchUtaCanceledAndClosedOrders": [
-        "privateUtaGetV3TradeHistoryOrders",
-        "privateUtaGetV3TradeHistoryStrategyOrders"
-      ],
       "fetchFundingRate": [
         "publicMixGetV2MixMarketCurrentFundRate",
         "publicMixGetV2MixMarketFundingTime",
@@ -236817,9 +236892,6 @@
       "fetchTime": [
         "publicCommonGetV2PublicTime"
       ],
-      "cancelUtaOrders": [
-        "privateUtaPostV3TradeCancelBatch"
-      ],
       "fetchDepositWithdrawFees": [
         "publicSpotGetV2SpotPublicCoins"
       ],
@@ -236829,9 +236901,6 @@
       ],
       "borrowCrossMargin": [
         "privateMarginPostV2MarginCrossedAccountBorrow"
-      ],
-      "fetchUtaMarkets": [
-        "publicUtaGetV3MarketInstruments"
       ],
       "fetchDeposits": [
         "privateSpotGetV2SpotWalletDepositRecords"
@@ -237045,9 +237114,6 @@
         "publicMixGetV2MixMarketTickers",
         "publicSpotGetV2SpotMarketTickers",
         "publicUtaGetV3MarketTickers"
-      ],
-      "createUtaOrders": [
-        "privateUtaPostV3TradePlaceBatch"
       ],
       "fetchBalance": [
         "privateMarginGetV2MarginCrossedAccountAssets",

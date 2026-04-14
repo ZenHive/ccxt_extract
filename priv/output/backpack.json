@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -130,7 +130,7 @@
           "POSITION_LIMIT": "__function:OperationRejected",
           "INVALID_CLIENT_REQUEST": "__function:BadRequest",
           "LEND_LIMIT": "__function:BadRequest",
-          "INVALID_PRICE": "__function:BadRequest",
+          "INVALID_PRICE": "__function:InvalidOrder",
           "INSUFFICIENT_FUNDS": "__function:InsufficientFunds",
           "PRECONDITION_FAILED": "__function:OperationFailed",
           "INVALID_SOURCE": "__function:BadRequest",
@@ -18250,7 +18250,7 @@
           "POSITION_LIMIT": "__function:OperationRejected",
           "INVALID_CLIENT_REQUEST": "__function:BadRequest",
           "LEND_LIMIT": "__function:BadRequest",
-          "INVALID_PRICE": "__function:BadRequest",
+          "INVALID_PRICE": "__function:InvalidOrder",
           "INSUFFICIENT_FUNDS": "__function:InsufficientFunds",
           "PRECONDITION_FAILED": "__function:OperationFailed",
           "INVALID_SOURCE": "__function:BadRequest",

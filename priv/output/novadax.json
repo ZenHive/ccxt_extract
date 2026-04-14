@@ -15,7 +15,7 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -537,7 +537,7 @@
       "version": "v1"
     },
     "markets": {
-      "market_count": 595,
+      "market_count": 596,
       "markets": {
         "SOLV/BRL": {
           "spot": true,
@@ -761,7 +761,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "FURY",
-            "minOrderAmount": "7339.35",
+            "minOrderAmount": "5675.87",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -793,7 +793,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 7339.35
+              "min": 5675.87
             },
             "cost": {
               "max": "__undefined",
@@ -1461,7 +1461,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "LA",
-            "minOrderAmount": "10.88",
+            "minOrderAmount": "29.7",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -1493,7 +1493,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 10.88
+              "min": 29.7
             },
             "cost": {
               "max": "__undefined",
@@ -2231,7 +2231,7 @@
           "info": {
             "amountPrecision": "1",
             "baseCurrency": "BAKE",
-            "minOrderAmount": "735",
+            "minOrderAmount": "624.5",
             "minOrderValue": "25",
             "pricePrecision": "3",
             "quoteCurrency": "BRL",
@@ -2263,7 +2263,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 735
+              "min": 624.5
             },
             "cost": {
               "max": "__undefined",
@@ -5311,7 +5311,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "CHILLGUY",
-            "minOrderAmount": "631.81",
+            "minOrderAmount": "409.02",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -5343,7 +5343,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 631.81
+              "min": 409.02
             },
             "cost": {
               "max": "__undefined",
@@ -5871,7 +5871,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "RUNI",
-            "minOrderAmount": "452.39",
+            "minOrderAmount": "217.74",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -5903,7 +5903,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 452.39
+              "min": 217.74
             },
             "cost": {
               "max": "__undefined",
@@ -6431,7 +6431,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "CLORE",
-            "minOrderAmount": "1068.09",
+            "minOrderAmount": "2270.35",
             "minOrderValue": "25",
             "pricePrecision": "6",
             "quoteCurrency": "BRL",
@@ -6463,7 +6463,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1068.09
+              "min": 2270.35
             },
             "cost": {
               "max": "__undefined",
@@ -6699,6 +6699,76 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "USDS/BRL": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "BRL",
+          "tierBased": false,
+          "index": "__undefined",
+          "maker": 0.0025,
+          "inverse": "__undefined",
+          "info": {
+            "amountPrecision": "2",
+            "baseCurrency": "USDS",
+            "minOrderAmount": "4.84",
+            "minOrderValue": "25",
+            "pricePrecision": "5",
+            "quoteCurrency": "BRL",
+            "status": "ONLINE",
+            "symbol": "USDS_BRL",
+            "valuePrecision": "2"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "USDS/BRL",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-5
+          },
+          "baseId": "USDS",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "BRL",
+          "expiryDatetime": "__undefined",
+          "base": "USDS",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 4.84
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 25
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.005,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "USDS_BRL",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
         "LTC/BRL": {
           "spot": true,
           "contractSize": "__undefined",
@@ -6851,7 +6921,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "NUB",
-            "minOrderAmount": "1193.91",
+            "minOrderAmount": "261.23",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -6883,7 +6953,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1193.91
+              "min": 261.23
             },
             "cost": {
               "max": "__undefined",
@@ -6921,7 +6991,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "ZEREBRO",
-            "minOrderAmount": "766.1",
+            "minOrderAmount": "477.22",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -6953,7 +7023,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 766.1
+              "min": 477.22
             },
             "cost": {
               "max": "__undefined",
@@ -6991,7 +7061,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "SNIFT",
-            "minOrderAmount": "192088.35",
+            "minOrderAmount": "226807.18",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -7023,7 +7093,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 192088.35
+              "min": 226807.18
             },
             "cost": {
               "max": "__undefined",
@@ -7481,7 +7551,7 @@
           "info": {
             "amountPrecision": "0",
             "baseCurrency": "QUACK",
-            "minOrderAmount": "89678219734",
+            "minOrderAmount": "92533945000",
             "minOrderValue": "25",
             "pricePrecision": "13",
             "quoteCurrency": "BRL",
@@ -7513,7 +7583,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 89678219734
+              "min": 92533945000
             },
             "cost": {
               "max": "__undefined",
@@ -8461,7 +8531,7 @@
           "info": {
             "amountPrecision": "3",
             "baseCurrency": "NTRN",
-            "minOrderAmount": "557.716",
+            "minOrderAmount": "1135.861",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -8493,7 +8563,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 557.716
+              "min": 1135.861
             },
             "cost": {
               "max": "__undefined",
@@ -9511,7 +9581,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "POL",
-            "minOrderAmount": "27.15",
+            "minOrderAmount": "58.64",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -9543,7 +9613,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 27.15
+              "min": 58.64
             },
             "cost": {
               "max": "__undefined",
@@ -9651,7 +9721,7 @@
           "info": {
             "amountPrecision": "1",
             "baseCurrency": "HIFI",
-            "minOrderAmount": "319",
+            "minOrderAmount": "209.9",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -9683,7 +9753,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 319
+              "min": 209.9
             },
             "cost": {
               "max": "__undefined",
@@ -9721,7 +9791,7 @@
           "info": {
             "amountPrecision": "4",
             "baseCurrency": "BULLA",
-            "minOrderAmount": "257.6091",
+            "minOrderAmount": "384.531",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -9753,7 +9823,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 257.6091
+              "min": 384.531
             },
             "cost": {
               "max": "__undefined",
@@ -10141,7 +10211,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "SWARMS",
-            "minOrderAmount": "452.38",
+            "minOrderAmount": "302.81",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -10173,7 +10243,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 452.38
+              "min": 302.81
             },
             "cost": {
               "max": "__undefined",
@@ -10421,7 +10491,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "BELIEVE",
-            "minOrderAmount": "509.75",
+            "minOrderAmount": "624.88",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -10453,7 +10523,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 509.75
+              "min": 624.88
             },
             "cost": {
               "max": "__undefined",
@@ -11751,7 +11821,7 @@
           "info": {
             "amountPrecision": "0",
             "baseCurrency": "COQ",
-            "minOrderAmount": "42902166",
+            "minOrderAmount": "24249800",
             "minOrderValue": "25",
             "pricePrecision": "9",
             "quoteCurrency": "BRL",
@@ -11783,7 +11853,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 42902166
+              "min": 24249800
             },
             "cost": {
               "max": "__undefined",
@@ -11821,7 +11891,7 @@
           "info": {
             "amountPrecision": "6",
             "baseCurrency": "MAGA",
-            "minOrderAmount": "556130.643826",
+            "minOrderAmount": "833523.262525",
             "minOrderValue": "25",
             "pricePrecision": "8",
             "quoteCurrency": "BRL",
@@ -11853,7 +11923,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 556130.643826
+              "min": 833523.262525
             },
             "cost": {
               "max": "__undefined",
@@ -12031,7 +12101,7 @@
           "info": {
             "amountPrecision": "3",
             "baseCurrency": "QGPT",
-            "minOrderAmount": "146893.662",
+            "minOrderAmount": "147052.243",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -12063,7 +12133,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 146893.662
+              "min": 147052.243
             },
             "cost": {
               "max": "__undefined",
@@ -14551,7 +14621,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "HIPPO",
-            "minOrderAmount": "12483.21",
+            "minOrderAmount": "19450.8",
             "minOrderValue": "25",
             "pricePrecision": "6",
             "quoteCurrency": "BRL",
@@ -14583,7 +14653,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 12483.21
+              "min": 19450.8
             },
             "cost": {
               "max": "__undefined",
@@ -14761,7 +14831,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "SEN",
-            "minOrderAmount": "4799.7",
+            "minOrderAmount": "5949.16",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -14793,7 +14863,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 4799.7
+              "min": 5949.16
             },
             "cost": {
               "max": "__undefined",
@@ -15041,7 +15111,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "VVAIFU",
-            "minOrderAmount": "9765.52",
+            "minOrderAmount": "4544.67",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -15073,7 +15143,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 9765.52
+              "min": 4544.67
             },
             "cost": {
               "max": "__undefined",
@@ -17561,7 +17631,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "NIKO",
-            "minOrderAmount": "6911.6",
+            "minOrderAmount": "2629.32",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -17593,7 +17663,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 6911.6
+              "min": 2629.32
             },
             "cost": {
               "max": "__undefined",
@@ -17771,7 +17841,7 @@
           "info": {
             "amountPrecision": "1",
             "baseCurrency": "MMT",
-            "minOrderAmount": "19",
+            "minOrderAmount": "40.7",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -17803,7 +17873,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 19
+              "min": 40.7
             },
             "cost": {
               "max": "__undefined",
@@ -21481,7 +21551,7 @@
           "info": {
             "amountPrecision": "4",
             "baseCurrency": "ATOMARC",
-            "minOrderAmount": "115.6218",
+            "minOrderAmount": "144.3983",
             "minOrderValue": "25",
             "pricePrecision": "3",
             "quoteCurrency": "BRL",
@@ -21513,7 +21583,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 115.6218
+              "min": 144.3983
             },
             "cost": {
               "max": "__undefined",
@@ -22951,7 +23021,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "APP",
-            "minOrderAmount": "31218.83",
+            "minOrderAmount": "102305.21",
             "minOrderValue": "25",
             "pricePrecision": "6",
             "quoteCurrency": "BRL",
@@ -22983,7 +23053,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 31218.83
+              "min": 102305.21
             },
             "cost": {
               "max": "__undefined",
@@ -24421,7 +24491,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "MAJO",
-            "minOrderAmount": "430.27",
+            "minOrderAmount": "489.7",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -24453,7 +24523,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 430.27
+              "min": 489.7
             },
             "cost": {
               "max": "__undefined",
@@ -24561,7 +24631,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "HAPPY",
-            "minOrderAmount": "12544.56",
+            "minOrderAmount": "14633.25",
             "minOrderValue": "25",
             "pricePrecision": "7",
             "quoteCurrency": "BRL",
@@ -24593,7 +24663,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 12544.56
+              "min": 14633.25
             },
             "cost": {
               "max": "__undefined",
@@ -24981,7 +25051,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "KITE",
-            "minOrderAmount": "28.49",
+            "minOrderAmount": "79.47",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -25013,7 +25083,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 28.49
+              "min": 79.47
             },
             "cost": {
               "max": "__undefined",
@@ -25471,7 +25541,7 @@
           "info": {
             "amountPrecision": "0",
             "baseCurrency": "LAB",
-            "minOrderAmount": "14",
+            "minOrderAmount": "9",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -25503,7 +25573,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 14
+              "min": 9
             },
             "cost": {
               "max": "__undefined",
@@ -26241,7 +26311,7 @@
           "info": {
             "amountPrecision": "3",
             "baseCurrency": "LAI",
-            "minOrderAmount": "520997.724",
+            "minOrderAmount": "99836.744",
             "minOrderValue": "25",
             "pricePrecision": "8",
             "quoteCurrency": "BRL",
@@ -26273,7 +26343,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 520997.724
+              "min": 99836.744
             },
             "cost": {
               "max": "__undefined",
@@ -26311,7 +26381,7 @@
           "info": {
             "amountPrecision": "1",
             "baseCurrency": "DRIFT",
-            "minOrderAmount": "65.7",
+            "minOrderAmount": "140.7",
             "minOrderValue": "25",
             "pricePrecision": "6",
             "quoteCurrency": "BRL",
@@ -26343,7 +26413,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 65.7
+              "min": 140.7
             },
             "cost": {
               "max": "__undefined",
@@ -26521,7 +26591,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "FRED",
-            "minOrderAmount": "1136.38",
+            "minOrderAmount": "3372.7",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -26553,7 +26623,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1136.38
+              "min": 3372.7
             },
             "cost": {
               "max": "__undefined",
@@ -26731,7 +26801,7 @@
           "info": {
             "amountPrecision": "4",
             "baseCurrency": "ZAMA",
-            "minOrderAmount": "252.1962",
+            "minOrderAmount": "173.6796",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -26763,7 +26833,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 252.1962
+              "min": 173.6796
             },
             "cost": {
               "max": "__undefined",
@@ -28131,7 +28201,7 @@
           "info": {
             "amountPrecision": "0",
             "baseCurrency": "RDNT",
-            "minOrderAmount": "147",
+            "minOrderAmount": "167",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -28163,7 +28233,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 147
+              "min": 167
             },
             "cost": {
               "max": "__undefined",
@@ -29041,7 +29111,7 @@
           "info": {
             "amountPrecision": "1",
             "baseCurrency": "REDO",
-            "minOrderAmount": "201.4",
+            "minOrderAmount": "111.5",
             "minOrderValue": "25",
             "pricePrecision": "3",
             "quoteCurrency": "BRL",
@@ -29073,7 +29143,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 201.4
+              "min": 111.5
             },
             "cost": {
               "max": "__undefined",
@@ -30371,7 +30441,7 @@
           "info": {
             "amountPrecision": "6",
             "baseCurrency": "BEBE",
-            "minOrderAmount": "869528.503833",
+            "minOrderAmount": "768846.700308",
             "minOrderValue": "25",
             "pricePrecision": "7",
             "quoteCurrency": "BRL",
@@ -30403,7 +30473,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 869528.503833
+              "min": 768846.700308
             },
             "cost": {
               "max": "__undefined",
@@ -31001,7 +31071,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "ROOST2",
-            "minOrderAmount": "44550.04",
+            "minOrderAmount": "44640.92",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -31033,7 +31103,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 44550.04
+              "min": 44640.92
             },
             "cost": {
               "max": "__undefined",
@@ -31771,7 +31841,7 @@
           "info": {
             "amountPrecision": "0",
             "baseCurrency": "SKL",
-            "minOrderAmount": "433",
+            "minOrderAmount": "979",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -31803,7 +31873,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 433
+              "min": 979
             },
             "cost": {
               "max": "__undefined",
@@ -34221,7 +34291,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "FOLKS",
-            "minOrderAmount": "2.63",
+            "minOrderAmount": "5.55",
             "minOrderValue": "25",
             "pricePrecision": "3",
             "quoteCurrency": "BRL",
@@ -34253,7 +34323,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2.63
+              "min": 5.55
             },
             "cost": {
               "max": "__undefined",
@@ -34641,7 +34711,7 @@
           "info": {
             "amountPrecision": "0",
             "baseCurrency": "Q",
-            "minOrderAmount": "723",
+            "minOrderAmount": "496",
             "minOrderValue": "25",
             "pricePrecision": "6",
             "quoteCurrency": "BRL",
@@ -34673,7 +34743,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 723
+              "min": 496
             },
             "cost": {
               "max": "__undefined",
@@ -35621,7 +35691,7 @@
           "info": {
             "amountPrecision": "4",
             "baseCurrency": "DC",
-            "minOrderAmount": "959597.1338",
+            "minOrderAmount": "1040586.5067",
             "minOrderValue": "25",
             "pricePrecision": "6",
             "quoteCurrency": "BRL",
@@ -35653,7 +35723,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 959597.1338
+              "min": 1040586.5067
             },
             "cost": {
               "max": "__undefined",
@@ -36111,7 +36181,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "ARCSOL",
-            "minOrderAmount": "116.42",
+            "minOrderAmount": "77.14",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -36143,7 +36213,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 116.42
+              "min": 77.14
             },
             "cost": {
               "max": "__undefined",
@@ -37091,7 +37161,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "DUEL",
-            "minOrderAmount": "80226.97",
+            "minOrderAmount": "19995.74",
             "minOrderValue": "25",
             "pricePrecision": "6",
             "quoteCurrency": "BRL",
@@ -37123,7 +37193,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 80226.97
+              "min": 19995.74
             },
             "cost": {
               "max": "__undefined",
@@ -38561,7 +38631,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "SAVM",
-            "minOrderAmount": "92.18",
+            "minOrderAmount": "104.48",
             "minOrderValue": "25",
             "pricePrecision": "3",
             "quoteCurrency": "BRL",
@@ -38593,7 +38663,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 92.18
+              "min": 104.48
             },
             "cost": {
               "max": "__undefined",
@@ -38631,7 +38701,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "BCUT",
-            "minOrderAmount": "1590.28",
+            "minOrderAmount": "3395.34",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -38663,7 +38733,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1590.28
+              "min": 3395.34
             },
             "cost": {
               "max": "__undefined",
@@ -39751,7 +39821,7 @@
           "info": {
             "amountPrecision": "0",
             "baseCurrency": "D",
-            "minOrderAmount": "214",
+            "minOrderAmount": "490",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -39783,7 +39853,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 214
+              "min": 490
             },
             "cost": {
               "max": "__undefined",
@@ -40241,7 +40311,7 @@
           "info": {
             "amountPrecision": "6",
             "baseCurrency": "RIO",
-            "minOrderAmount": "121.608623",
+            "minOrderAmount": "31.592705",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -40273,7 +40343,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 121.608623
+              "min": 31.592705
             },
             "cost": {
               "max": "__undefined",
@@ -40661,7 +40731,7 @@
           "info": {
             "amountPrecision": "1",
             "baseCurrency": "CATGPT",
-            "minOrderAmount": "49213.2",
+            "minOrderAmount": "30829.4",
             "minOrderValue": "25",
             "pricePrecision": "6",
             "quoteCurrency": "BRL",
@@ -40693,7 +40763,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 49213.2
+              "min": 30829.4
             },
             "cost": {
               "max": "__undefined",
@@ -41711,7 +41781,7 @@
           "info": {
             "amountPrecision": "1",
             "baseCurrency": "GMRX",
-            "minOrderAmount": "367158.1",
+            "minOrderAmount": "312117.7",
             "minOrderValue": "25",
             "pricePrecision": "6",
             "quoteCurrency": "BRL",
@@ -41743,7 +41813,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 367158.1
+              "min": 312117.7
             },
             "cost": {
               "max": "__undefined",
@@ -41851,7 +41921,7 @@
           "info": {
             "amountPrecision": "1",
             "baseCurrency": "AIPUMP",
-            "minOrderAmount": "959.6",
+            "minOrderAmount": "874.8",
             "minOrderValue": "25",
             "pricePrecision": "6",
             "quoteCurrency": "BRL",
@@ -41883,7 +41953,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 959.6
+              "min": 874.8
             },
             "cost": {
               "max": "__undefined",
@@ -42221,7 +42291,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 595,
+        "sample_count": 596,
         "separator": "_",
         "suffix": null
       }

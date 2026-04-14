@@ -15,7 +15,7 @@
     },
     "version": "v3"
   },
-  "extracted_at": "2026-04-12T14:05:18.091505Z",
+  "extracted_at": "2026-04-14T01:59:20.033960Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -864,7 +864,7 @@
       "version": "v3"
     },
     "markets": {
-      "market_count": 296,
+      "market_count": 295,
       "markets": {
         "XLM/USDT": {
           "spot": true,
@@ -12058,81 +12058,6 @@
           "active": false,
           "expiry": "__undefined",
           "id": "NVA_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "BRISE/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": true,
-          "index": "__undefined",
-          "maker": 0.002,
-          "inverse": "__undefined",
-          "info": {
-            "amount_precision": "0",
-            "base_asset": "BRISE",
-            "is_allow": "0",
-            "minimum_amount": "10",
-            "minimum_value": "2",
-            "order_types": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "price_precision": "10",
-            "quote_asset": "USDT",
-            "status": "TRADING",
-            "symbol": "BRISE_USDT",
-            "zone": "INNOVATE"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "BRISE/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-10
-          },
-          "baseId": "BRISE",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "BRISE",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 10
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 2
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.002,
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": true,
-          "active": false,
-          "expiry": "__undefined",
-          "id": "BRISE_USDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -24524,7 +24449,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 226,
+        "sample_count": 225,
         "separator": "_",
         "suffix": null
       },
@@ -55255,10 +55180,6 @@
       "fetchOrderBook": [
         "publicSpotGetOrderBook",
         "publicSwapGetPublicDepth"
-      ],
-      "fetchTransactionsByType": [
-        "privateSpotGetDepositHistory",
-        "privateSpotGetWithdrawHistory"
       ],
       "fetchFundingHistory": [
         "privateSwapGetAccountFundingFee"

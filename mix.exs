@@ -64,6 +64,7 @@ defmodule CcxtExtract.MixProject do
 
   defp aliases do
     [
+      "ccxt_extract.regenerate_fixtures": ["ccxt_extract.signing_fixtures"],
       tidewave: [
         "run --no-halt -e 'Agent.start(fn -> Bandit.start_link(plug: Tidewave, port: 4001) end)'"
       ]

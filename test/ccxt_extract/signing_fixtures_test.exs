@@ -109,7 +109,7 @@ defmodule CcxtExtract.SigningFixturesTest do
       @fixtures_dir
       |> Path.join("*.json")
       |> Path.wildcard()
-      |> Enum.reject(&String.ends_with?(&1, "_manifest.json"))
+      |> Enum.reject(&String.starts_with?(Path.basename(&1), "_"))
       |> Enum.each(fn path ->
         fixture = path |> File.read!() |> Jason.decode!()
 
@@ -134,7 +134,7 @@ defmodule CcxtExtract.SigningFixturesTest do
         @fixtures_dir
         |> File.ls!()
         |> Enum.filter(&String.ends_with?(&1, ".json"))
-        |> Enum.reject(&(&1 == "_manifest.json"))
+        |> Enum.reject(&String.starts_with?(&1, "_"))
         |> length()
 
       assert manifest["count"] == on_disk
@@ -148,7 +148,7 @@ defmodule CcxtExtract.SigningFixturesTest do
 
       offenders =
         fixtures
-        |> Enum.reject(&String.ends_with?(&1, "_manifest.json"))
+        |> Enum.reject(&String.starts_with?(Path.basename(&1), "_"))
         |> Enum.flat_map(fn path ->
           fixture = path |> File.read!() |> Jason.decode!()
           id = fixture["exchange"]

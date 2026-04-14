@@ -6,6 +6,18 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 58 closure — `regenerate_fixtures` alias + `validate_fixtures` parity check
+
+Closes the Task 58 remainder (fixtures for 107 exchanges had already shipped):
+
+- **`mix ccxt_extract.regenerate_fixtures`** — new Mix alias routing to `mix ccxt_extract.signing_fixtures`. Discoverable naming so operators don't need to know the underlying task name.
+- **`mix ccxt_extract.validate_fixtures`** — new task that regenerates fixtures in-memory via `CcxtExtract.SigningFixtures.extract/0` and diffs against the committed files in `priv/fixtures/signing/`. Volatile keys (`generated_at`) are stripped before diffing; `ccxt_version` is compared intentionally so upstream CCXT bumps surface as drift. Writes the report to `priv/discoveries/fixture_parity_report.json` by default (outside the fixtures dir so it can't be mistaken for a fixture on the next run). `--strict` exits non-zero on any drift for CI use. The repo has no CI config yet; the task is CI-ready for whenever one lands.
+- **`CcxtExtract.FixtureParity`** — pure diff module so the parity logic is testable without booting QuickBEAM. `diff/2` walks two fixture sets and returns a report of match/drift/missing/extra entries with JSON-pointer paths for every differing field. `load_disk/1` skips any `_`-prefixed file so metadata (`_manifest.json`) and stale reports in the fixtures dir cannot be loaded as fixtures.
+
+**Codex review follow-ups:** earlier draft defaulted the report to `<fixtures_dir>/_parity_report.json`, which self-poisoned subsequent runs (the report would be treated as an extra "exchange") and would also appear in the two wildcard-globbed `signing_fixtures_test.exs` assertions that only rejected `_manifest.json`. Moved the default out of the fixtures directory, generalized the loader's exclusion from `_manifest.json` to any `_` prefix, and updated those two globs to the same convention. Added `test/mix/tasks/validate_fixtures_task_test.exs` for option-parser error paths plus a regression assertion on the default report location.
+
+Phase 8 closes on Task 58 alone. Task 57c (unified_endpoints/has drift triage) is resequenced to follow Task 61a (provenance tagging) — without a provenance tier, every candidate "fix" is either a silent filter (hides the disagreement contract_test is designed to surface) or a premature override migration. 61a gives us the honest third option.
+
 ### Roadmap reprioritization — endpoint-invocation first
 
 Reordered phase priorities in ROADMAP.md to emphasize the signing → request-building → rate-limit critical path. These phases (10/11/14) serve both unified and non-unified endpoints, so prioritizing them unlocks the full endpoint surface. Only Phase 12 (response parsing) is unified-specific and was explicitly deprioritized. Added a recommended bundle sequence and an Endpoint-Invocation Priority Order table in Current Focus. No task status changes.

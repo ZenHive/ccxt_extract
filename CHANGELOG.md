@@ -6,6 +6,57 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Preflight: tier family inheritance + contract_test load-time scoping
+
+Aligned tier semantics and contract_test scoping with docs before
+`SCOPED-EXTRACTION-TASKS.md` widens scope machinery across stages.
+Addresses Codex review findings on the 1.8.0 tier work.
+
+- **`CcxtExtract.Tiers` — family inheritance.** `priv/priority_tiers.json`
+  remains the hand-curated **roots** list; variants (`binance` →
+  `binanceus`, `binancecoinm`, `binanceusdm`; `okx` → `okxus`, `myokx`;
+  `kucoin` → `kucoinfutures`) and aliases (`htx` → `huobi`; `gate` →
+  `gateio`) now inherit their root's tier via
+  `priv/discoveries/class_hierarchy.json` at compile time. Inheritance is
+  provable from the CCXT class graph — no guesses. Added
+  `tier1_members/0` .. `dex_members/0` and `members_for_tier/1` (expanded
+  sets); `exchanges_for_tier/1` + `tier*_exchanges/0` still return roots
+  only. `get_priority_tier/1`, predicates, and `collect_tier_exchanges/1`
+  now use the expanded map, so `--tier1` pulls in the whole binance
+  family (10 exchanges) instead of silently excluding variants.
+- **`mix ccxt_extract.contract_test` — load-time scoping.**
+  `CcxtExtract.ContractTest.run_all/1` now accepts an `:exchanges`
+  option; the task passes expanded tier members when `--tier*` flags are
+  set, and the post-filter (`maybe_filter_report/2`) is removed.
+  `summary.exchanges_checked` reflects actual scope (e.g. `--tier1` on a
+  full corpus → 10, not 111). Missing scoped files emit a non-fatal note
+  listing the IDs.
+- **Docs.** `CLAUDE.md` §Tier-Based Scoping gains a "Family inheritance"
+  paragraph. `README.md` clarifies that `--tier*` expansion covers the
+  whole family. `SCOPED-EXTRACTION-TASKS.md` Task 3 scope reduced to the
+  `Scope.resolve/2` abstraction + strict missing-file handling; load-time
+  filtering, scoped `exchanges_checked`, and warning path landed here.
+- **Tests.** `test/ccxt_extract/tiers_test.exs` gains variant/alias
+  inheritance cases, roots-vs-members split assertions, and disjointness
+  over members. `test/mix/tasks/contract_test_task_test.exs` gains a
+  `--tier1` load-time scoping test (only in-scope IDs loaded,
+  `exchanges_checked == 2` for a binance/binanceus + out-of-scope tmpdir)
+  and a missing-files non-crash test. `load_markets_test.exs` updated to
+  expect expanded members in `collect_tier_exchanges/1`.
+
+### Priority-tier filtering + ROADMAP scoping (schema 1.8.0)
+
+Codified that ccxt_extract serves Tier 1 (binance, bybit, okx, deribit, coinbaseexchange), Tier 2 (kraken, kucoin, gate, htx, bitmex, bitfinex), and priority DEX (hyperliquid, aster, lighter, derive) as first-class consumer targets; Tier 3 and unclassified exchanges still receive full raw extraction but their derived recipes default to `null + reason` until a priority consumer surfaces a need.
+
+- **`priv/priority_tiers.json`** — hand-curated JSON of the four buckets (`tier1`, `tier2`, `tier3`, `dex`) plus a `_notes` block documenting pending promotions (paradex → DEX if option-seller consumers land) and out-of-scope candidates (aevo: not in CCXT upstream yet). JSON (not `.exs`) so non-Elixir consumers can read the same file. `derive` and `lighter` live in `dex`; `bitfinex` is T2 for market-maker consumers (maker rebates, WS v2 order entry); the five archive-era DEXes (`dydx`, `paradex`, `apex`, `woofipro`, `modetrade`) live in `tier3` so the `dex` bucket means "priority DEX".
+- **`CcxtExtract.Tiers`** — new module with `tier1_exchanges/0` .. `dex_exchanges/0`, `get_priority_tier/1`, `tier1?/1` .. `dex?/1`, `exchanges_for_tier/1`, plus `has_tier_flags?/1` / `collect_tier_exchanges/1` / `tier_display_name/1` helpers used by Mix tasks. Loaded at compile time via `@external_resource` on the JSON file.
+- **`--tier1 --tier2 --tier3 --dex` flags** added (combinable) to three Mix tasks: `ccxt_extract.load_markets` (skips non-priority exchanges on the slow network stage), `ccxt_extract.contract_test` (filters the findings report to the named tiers), and `ccxt_extract.update` (passes both through). OXC-based extractors, pipeline, and validate remain unfiltered — raw extraction is never filtered.
+- **`--exchanges` + any tier flag is rejected** with a clear error (ambiguous).
+- **Schema 1.8.0** — additive minor bump. Added optional `exchange.tier` field (`"tier1" | "tier2" | "tier3" | "dex" | "unclassified"`) stamped by `Schema.build_exchange_section/1` via `CcxtExtract.Tiers.get_priority_tier/1`. Consumers reading 1.7.1 still parse 1.8.0 output cleanly. No provenance tag on `exchange.tier` yet — Phase 9 (Task 61a) will add `_provenance` uniformly.
+- **All 111 per-exchange JSONs regenerated** to carry the new field. Spot checks: `binance → "tier1"`, `kraken/bitfinex → "tier2"`, `bitget → "tier3"`, `hyperliquid/aster/lighter/derive → "dex"`, `coinone → "unclassified"`.
+- **CLAUDE.md** — "The One Rule" now explicitly scopes "Extract EVERYTHING" to **raw** extraction; derivation is tier-scoped. New "Tier-Based Scoping" section between Three-Strikes and Consumers.
+- **ROADMAP.md restructure** — added Scope paragraph near Current Focus; moved Task 66c, 66d (🎁 10-exotic JWT/RSA/Ed25519 + custom signing), Task 99, 99b (🎁 16-fees tiered + withdrawal fees) to Superseded / Deferred with tier-gated reasons; Task 96 (🎁 15-reconnect) marked deferred inline since priority exchanges handle reconnect consumer-side; Task 57c note updated to reflect that Pattern C residuals cluster on Tier 3 / unclassified exchanges.
+
 ### Task 57c partial — Pattern A/B fixes for `unified_endpoints`/`has` drift
 
 Triaged the 341 `unified_endpoints_claimed_in_has` findings from `mix ccxt_extract.contract_test --strict` into four patterns and fixed the unambiguous extractor bugs without weakening the contract_test invariant.

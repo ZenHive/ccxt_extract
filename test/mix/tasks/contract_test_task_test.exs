@@ -1,5 +1,6 @@
 defmodule Mix.Tasks.CcxtExtract.ContractTestTaskTest do
-  use ExUnit.Case, async: true
+  # async: false — Mix.shell/1 is a global setting.
+  use ExUnit.Case, async: false
 
   alias Mix.Tasks.CcxtExtract.ContractTest, as: Task
 
@@ -8,7 +9,15 @@ defmodule Mix.Tasks.CcxtExtract.ContractTestTaskTest do
       Path.join(System.tmp_dir!(), "ccxt_contract_task_#{System.unique_integer([:positive])}")
 
     File.mkdir_p!(tmp)
-    on_exit(fn -> File.rm_rf!(tmp) end)
+
+    prev_shell = Mix.shell()
+    Mix.shell(Mix.Shell.Process)
+
+    on_exit(fn ->
+      File.rm_rf!(tmp)
+      Mix.shell(prev_shell)
+    end)
+
     {:ok, tmp: tmp}
   end
 
@@ -82,6 +91,52 @@ defmodule Mix.Tasks.CcxtExtract.ContractTestTaskTest do
   test "rejects unknown options", %{tmp: tmp} do
     assert_raise Mix.Error, ~r/Unknown option/, fn ->
       Task.run(["--bogus", "x", "--output", tmp])
+    end
+  end
+
+  describe "--tier1 scoping" do
+    test "loads only in-scope tier1 member files; exchanges_checked reflects scope", %{tmp: tmp} do
+      # In-scope: binance (root) and binanceus (variant — must inherit tier1)
+      write_exchange(tmp, "binance", violating_exchange("binance"))
+      write_exchange(tmp, "binanceus", violating_exchange("binanceus"))
+      # Out-of-scope: tier2 root, tier3 root, and a random unclassified id
+      write_exchange(tmp, "kraken", violating_exchange("kraken"))
+      write_exchange(tmp, "bitget", violating_exchange("bitget"))
+      write_exchange(tmp, "aftermath", violating_exchange("aftermath"))
+
+      report_path = Path.join(tmp, "tier1_report.json")
+      Task.run(["--output", tmp, "--report", report_path, "--tier1"])
+
+      report = report_path |> File.read!() |> Jason.decode!()
+
+      # Only files for tier1 members should have been loaded.
+      assert report["summary"]["exchanges_checked"] == 2
+
+      found_ids = report["findings"] |> Enum.map(& &1["exchange"]) |> Enum.uniq() |> Enum.sort()
+      assert found_ids == ["binance", "binanceus"]
+    end
+
+    test "missing scoped files are skipped with a note, not crashed", %{tmp: tmp} do
+      # tier1 flag enabled, but only binance exists on disk — the rest
+      # (bybit, okx, variants, etc.) are missing. Should warn and proceed.
+      write_exchange(tmp, "binance", clean_exchange("binance"))
+      report_path = Path.join(tmp, "partial_report.json")
+
+      Task.run(["--output", tmp, "--report", report_path, "--tier1"])
+
+      assert Enum.any?(drain_shell_info(), &String.contains?(&1, "scoped exchange(s) missing"))
+
+      assert File.exists?(report_path)
+      report = report_path |> File.read!() |> Jason.decode!()
+      assert report["summary"]["exchanges_checked"] == 1
+    end
+  end
+
+  defp drain_shell_info(acc \\ []) do
+    receive do
+      {:mix_shell, :info, [msg]} when is_binary(msg) -> drain_shell_info([msg | acc])
+    after
+      0 -> Enum.reverse(acc)
     end
   end
 end

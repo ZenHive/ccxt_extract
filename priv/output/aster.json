@@ -13,9 +13,10 @@
       "discount": 0.1,
       "url": "https://www.asterdex.com/en/referral/aA1c2B"
     },
+    "tier": "dex",
     "version": null
   },
-  "extracted_at": "2026-04-14T01:59:20.033960Z",
+  "extracted_at": "2026-04-14T06:47:50.151633Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -72483,7 +72484,7 @@
       }
     }
   },
-  "schema_version": "1.7.1",
+  "schema_version": "1.8.0",
   "structure": {
     "authenticated_sections": [
       "fapiPrivate",

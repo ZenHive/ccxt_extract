@@ -17,6 +17,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     * `--latest` — force reinstall of the latest CCXT version
     * `--strict` — fail with non-zero exit on validation errors
     * `--skip-setup` — skip stages 1-3 (setup + all extractors), re-run only pipeline + validate + contract_test + analytics
+    * `--tier1 --tier2 --tier3 --dex` — restrict the slow `load_markets` stage and `contract_test` reporting to the named priority tiers (combinable). OXC extractors and pipeline assembly always run on all 111 exchanges.
 
   ## Stages
 
@@ -48,7 +49,11 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     ccxt_version: :string,
     latest: :boolean,
     strict: :boolean,
-    skip_setup: :boolean
+    skip_setup: :boolean,
+    tier1: :boolean,
+    tier2: :boolean,
+    tier3: :boolean,
+    dex: :boolean
   ]
 
   @aliases [v: :ccxt_version]
@@ -81,7 +86,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
       Mix.Task.rerun(task_override(:setup_task, @default_setup_task), build_setup_args(opts))
 
       Mix.shell().info("\n── Stage 2: QuickBEAM Extractors ──")
-      run_quickbeam_extractors()
+      run_quickbeam_extractors(opts)
 
       Mix.shell().info("\n── Stage 3: OXC Extractors ──")
       run_oxc_extractors()
@@ -144,7 +149,8 @@ defmodule Mix.Tasks.CcxtExtract.Update do
   # this stage prints findings and keeps the pipeline going. Run
   # `mix ccxt_extract.contract_test --strict` directly for CI enforcement.
   defp build_contract_test_args(opts) do
-    if opts[:output], do: ["--output", opts[:output]], else: []
+    output_args = if opts[:output], do: ["--output", opts[:output]], else: []
+    output_args ++ tier_args(opts)
   end
 
   # QuickBEAM extractors — require JS runtime, some make live API calls.
@@ -157,10 +163,20 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     ccxt_extract.signing_fixtures
   )
 
-  defp run_quickbeam_extractors do
+  defp run_quickbeam_extractors(opts) do
+    tier_args = tier_args(opts)
+
     for task <- task_override(:quickbeam_extractors, @default_quickbeam_extractors) do
-      Mix.Task.rerun(task, [])
+      args = if task == "ccxt_extract.load_markets", do: tier_args, else: []
+      Mix.Task.rerun(task, args)
     end
+  end
+
+  # Convert parsed --tier* boolean opts back into CLI flag list for passthrough.
+  defp tier_args(opts) do
+    [:tier1, :tier2, :tier3, :dex]
+    |> Enum.filter(&Keyword.get(opts, &1))
+    |> Enum.map(&"--#{&1}")
   end
 
   # OXC-based extractors — fast AST parsing, no API calls.

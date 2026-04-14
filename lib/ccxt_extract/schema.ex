@@ -36,7 +36,7 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "1.7.1"
+  @schema_version "1.8.0"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)
@@ -133,7 +133,8 @@ defmodule CcxtExtract.Schema do
       "version" => meta["version"],
       "country" => meta["country"] || [],
       "alias" => meta["alias"] || false,
-      "referral" => meta["referral"]
+      "referral" => meta["referral"],
+      "tier" => meta["id"] |> CcxtExtract.Tiers.get_priority_tier() |> Atom.to_string()
     }
   end
 

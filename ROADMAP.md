@@ -18,6 +18,8 @@
 
 **Phase 8 — Client harness + contract tests** complete; Task 57c is the only holdover and is blocked on Phase 9 provenance (🎁 **9-pipeline**). The target output is a three-tier merge (raw / derived / override). A narrow, field-specific override loader shipped alongside Task 57d (Schema 1.7.1), but the **generic JSON-Pointer override contract + per-field provenance are still owed** — they remain in Phase 9 (Task 60 unchanged, 61a/b/c gated on it).
 
+**Scope.** This roadmap prioritizes Tier 1, Tier 2, and DEX exchanges (canonical list in `priv/priority_tiers.json`; stamped as `exchange.tier` in each output JSON since schema 1.8.0). Tier 3 and unclassified exchanges are supported — we still extract everything — but tasks that exist only to handle their quirks (exotic signing, custom error handlers, outlier fee schedules) live in Superseded / Deferred until a priority exchange surfaces the need. See `CLAUDE.md` §"Tier-Based Scoping".
+
 > **Philosophy reminder:** Every value is either provable (emit it) or explicitly unprovable (`null` + reason). No silent guesses. Overrides (once Phase 9 ships) will fill gaps derivation can't reach and carry reasons too.
 
 ### Endpoint-Invocation Priority Order
@@ -51,7 +53,7 @@ Tasks grouped into session-sized bundles that share AST passes, schema design, o
 | 6 | 🎁 **11-shape** | 70, 71 | Verb + path template + body encoding — single section-level AST pass |
 | 7 | 🎁 **10-finish** | 67, 68, 69 | Headers/nonce + transforms + round-trip validation |
 | 8 | 🎁 **11+14** | 72, 73, 73b, 89, 90 | Timestamps, headers, rate-limit buckets + per-endpoint cost — all from `rateLimit`/`cost` annotations |
-| 9 | 🎁 **10-exotic** | 66c, 66d | JWT/RSA/Ed25519 + custom/outlier signing families |
+| 9 | 🎁 **10-exotic** | 66c, 66d | JWT/RSA/Ed25519 + custom/outlier signing families — **deferred to Superseded/Deferred** (no priority exchange uses these) |
 | 10 | 🎁 **9-audit** | 62, 63 | validate_overrides + drift_audit — both auditing tooling |
 | 11 | 🎁 **13-classify** | 85, 86, 87 | HTTP status map + retry classification + class hierarchy export |
 | 12 | 🎁 **13-dispatch** `[P]` | 88a, 88b, 88c | Handler routing tables (error/signing/parse) |
@@ -70,7 +72,7 @@ Tasks grouped into session-sized bundles that share AST passes, schema design, o
 | 🎁 **15-semantics** `[P]` | 95a, 95b, 95c | Snapshot/delta for orderbook/trades/OHLCV |
 | 🎁 **15-reconnect** | 96 | Reconnect triggers + backoff |
 | 🎁 **16-currency** | 97, 98 | commonCurrencies + precision mode |
-| 🎁 **16-fees** | 99, 99b | Tiered + funding/withdrawal fees |
+| 🎁 **16-fees** | 99, 99b | Tiered + funding/withdrawal fees — **deferred to Superseded/Deferred** (not required by priority consumers) |
 | 🎁 **16-testnet** | 100 | Sandbox URL catalog |
 
 ### ✅ Recently Completed
@@ -116,7 +118,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 57c | 🔶 | 🎁 **9-pipeline-follow-up** · Pattern A/B fixed (341 → 53). Residual 53 Pattern C findings blocked on Task 61a (provenance) [D:3/B:5/U:5 → Eff:1.67] 🚀 |
+| Task 57c | 🔶 | 🎁 **9-pipeline-follow-up** · Pattern A/B fixed (341 → 53). Residual 53 Pattern C findings cluster on Tier 3 / unclassified exchanges — defer until provenance lands (61a) AND a Tier 1/2/DEX exchange surfaces a Pattern C failure [D:3/B:5/U:5 → Eff:1.67] 🚀 |
 
 Completed (Tasks 56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG.md).
 
@@ -173,8 +175,6 @@ Completed (Tasks 56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 | Task 65 | ⬜ | 🎁 **10-core** · Crypto op + signature placement from `sign()` AST [D:5/B:8/U:8 → Eff:1.6] 🚀 |
 | Task 66a `[P]` | ⬜ | 🎁 **10-HMAC** · Canonical string recipe — HMAC-simple family [D:5/B:8/U:8 → Eff:1.6] 🚀 |
 | Task 66b `[P]` | ⬜ | 🎁 **10-HMAC** · Canonical string recipe — HMAC-with-body family [D:5/B:8/U:8 → Eff:1.6] 🚀 |
-| Task 66c `[P]` | ⬜ | 🎁 **10-exotic** · Canonical string recipe — JWT / RSA / Ed25519 family [D:6/B:7/U:7 → Eff:1.17] 📋 |
-| Task 66d | ⬜ | 🎁 **10-exotic** · Canonical string recipe — custom / outlier family [D:7/B:6/U:6 → Eff:0.86] ⚠️ |
 | Task 67 | ⬜ | 🎁 **10-finish** · Auth header set + nonce source derivation [D:4/B:7/U:8 → Eff:1.88] 🚀 |
 | Task 68 | ⬜ | 🎁 **10-finish** · Pre-sign transforms (hex/base64/lowercase/url-encode) [D:4/B:6/U:7 → Eff:1.63] 🚀 |
 | Task 69 | ⬜ | 🎁 **10-finish** · Signing round-trip validation + contract invariants [D:3/B:7/U:7 → Eff:2.33] 🚀 |
@@ -267,7 +267,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 | Task 95a `[P]` | ⬜ | 🎁 **15-semantics** · Snapshot/delta semantics — orderbook [D:5/B:8/U:8 → Eff:1.6] 🚀 |
 | Task 95b `[P]` | ⬜ | 🎁 **15-semantics** · Snapshot/delta semantics — trades [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 95c `[P]` | ⬜ | 🎁 **15-semantics** · Snapshot/delta semantics — OHLCV [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 96 | ⬜ | 🎁 **15-reconnect** · Reconnect triggers + backoff policy hints [D:3/B:6/U:6 → Eff:2.0] 🚀 |
+| Task 96 | 🔶 | 🎁 **15-reconnect** · Deferred — priority exchanges already handle reconnect behavior in the consumer; no derived recipe needed until proven. Originally: Reconnect triggers + backoff policy hints [D:3/B:6/U:6 → Eff:2.0] |
 
 ---
 
@@ -281,8 +281,6 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 |------|--------|-------|
 | Task 97 | ⬜ | 🎁 **16-currency** · Currency aliases (`commonCurrencies`) + network info [D:3/B:7/U:8 → Eff:2.5] 🎯 |
 | Task 98 | ⬜ | 🎁 **16-currency** · Precision mode + tick/step derivation semantics [D:3/B:6/U:7 → Eff:2.17] 🚀 |
-| Task 99 | ⬜ | 🎁 **16-fees** · Tiered fee schedules + VIP level mapping [D:4/B:6/U:6 → Eff:1.5] 🚀 |
-| Task 99b | ⬜ | 🎁 **16-fees** · Funding / withdrawal / deposit fee catalog [D:3/B:6/U:6 → Eff:2.0] 🚀 |
 | Task 100 | ⬜ | 🎁 **16-testnet** · Testnet/sandbox URL catalog + proxy patterns [D:2/B:5/U:6 → Eff:2.75] 🚀 |
 
 ---
@@ -291,6 +289,10 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 
 | Task | Status | Reason |
 |------|--------|--------|
+| Task 66c | 🔶 Deferred | 🎁 **10-exotic** · Canonical string recipe — JWT / RSA / Ed25519 family. No Tier 1/2/DEX exchange uses these signing schemes; revisit if priority list expands. |
+| Task 66d | 🔶 Deferred | 🎁 **10-exotic** · Canonical string recipe — custom / outlier family. Tail-only; per Three-Strikes Rule, migrate to overrides when a priority exchange needs custom signing. |
+| Task 99 | 🔶 Deferred | 🎁 **16-fees** · Tiered fee schedules + VIP level mapping. Tiered fee schedules not required by priority consumers. |
+| Task 99b | 🔶 Deferred | 🎁 **16-fees** · Funding / withdrawal / deposit fee catalog. Withdrawal/deposit fees not required by priority consumers. |
 | Task 33 | ⛔ Superseded | Original rationale ("consumers should classify from AST") is explicitly retired by the new consumer contract. Replaced by **Phase 10** (Tasks 64–69). |
 | Task 34 | ⛔ Superseded | Same — "derivable from existing AST" is no longer a valid deferral under the consumer contract. Replaced by **Phase 13** (Task 88a/b/c handler routing). |
 | Task 24 | 🔶 Deferred | Parity.Compare for richer diffs — adds sibling-project path dependency. Improve diffs inline if needed. |

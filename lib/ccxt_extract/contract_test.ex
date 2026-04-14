@@ -58,12 +58,17 @@ defmodule CcxtExtract.ContractTest do
       `priv/contract_test/error_code_fields_roots.json`).
     * `:baseline_roots` — inline baseline list (tests). Takes precedence
       over `:baseline_path`.
+    * `:exchanges` — optional list/MapSet of exchange IDs to load. When
+      given, only matching `<id>.json` files are loaded. Missing files
+      are silently skipped — callers that need strict "missing" detection
+      should diff their requested set against the emitted
+      `summary.exchanges_checked` / `findings` set.
   """
   @spec run_all(keyword()) :: {:ok, report()}
   def run_all(opts \\ []) do
     output_dir = opts[:output_dir] || CcxtExtract.Paths.priv("output")
     baseline_roots = opts[:baseline_roots] || load_baseline_roots(opts)
-    exchanges = load_exchanges(output_dir)
+    exchanges = load_exchanges(output_dir, opts[:exchanges])
     baseline = %{error_code_fields_roots: baseline_roots}
 
     findings =
@@ -195,7 +200,7 @@ defmodule CcxtExtract.ContractTest do
   # starting with `_` are manifests/reports. Mirrors validation.ex:207.
   @non_exchange_files ~w(exchange_v1.json)
 
-  defp load_exchanges(output_dir) do
+  defp load_exchanges(output_dir, scope) do
     output_dir
     |> Path.join("*.json")
     |> Path.wildcard()
@@ -203,8 +208,18 @@ defmodule CcxtExtract.ContractTest do
       base = Path.basename(path)
       String.starts_with?(base, "_") or base in @non_exchange_files
     end)
+    |> maybe_scope_files(scope)
     |> Enum.sort()
     |> Enum.map(&(&1 |> File.read!() |> Jason.decode!()))
+  end
+
+  defp maybe_scope_files(paths, nil), do: paths
+
+  defp maybe_scope_files(paths, scope) do
+    # Plain map keyed by ID avoids flowing MapSet through a keyword opt,
+    # which dialyzer can't track opaquely from `any()` input.
+    allowed = Map.new(scope, &{&1, true})
+    Enum.filter(paths, fn path -> Map.has_key?(allowed, Path.basename(path, ".json")) end)
   end
 
   defp load_baseline_roots(opts) do

@@ -44,6 +44,22 @@ mix run examples/3_quickbeam_describe.exs
 mix run examples/1_parse_exchange.exs binance
 ```
 
+## Priority Tiers
+
+Each output JSON carries `exchange.tier` (schema 1.8.0+) — one of `"tier1"`, `"tier2"`, `"tier3"`, `"dex"`, or `"unclassified"`. The canonical **roots** list is hand-curated in [`priv/priority_tiers.json`](priv/priority_tiers.json); variants and aliases inherit their root's tier via `priv/discoveries/class_hierarchy.json` (e.g. `binanceus`, `binancecoinm`, `binanceusdm` → `tier1`; `huobi`, `gateio` → `tier2`).
+
+Raw extraction runs for all 111 exchanges. **Derivation** effort (signing recipes, fee schedules, error handlers) is scoped to Tier 1, Tier 2, and priority DEX; Tier 3 and unclassified exchanges get `null + reason` for derived fields until a priority consumer surfaces a need. See `CLAUDE.md` §"Tier-Based Scoping".
+
+The slow `load_markets` network stage and the `contract_test` drift reporter accept `--tier1 --tier2 --tier3 --dex` flags (combinable) to restrict which exchanges are processed or reported on. Tier flags expand to the **whole family** — `--tier1` pulls in the binance variants alongside `binance`:
+
+```bash
+mix ccxt_extract.load_markets --tier1 --tier2 --dex
+mix ccxt_extract.contract_test --tier1 --tier2 --dex
+mix ccxt_extract.update --tier1 --tier2 --dex
+```
+
+Pipeline assembly, schema validation, and OXC-based extractors are never filtered.
+
 ## Signing Fixtures
 
 `mix ccxt_extract.signing_fixtures` generates language-agnostic signing test

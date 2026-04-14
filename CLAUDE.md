@@ -37,6 +37,8 @@ CCXT has 7+ years of accumulated exchange knowledge. Every field exists for a re
 
 "Everything" includes both **raw extraction** (AST, runtime values) and **derived data** (classifications, field maps, enum tables, recipes) — see "Raw vs Derived vs Override" below.
 
+This rule is absolute for **raw** extraction — AST, resolved `describe()`, runtime probes — across all 111 exchanges. **Derived** recipes (signing assembly, fee schedules, error handlers) are scoped to priority tiers; non-priority exchanges receive `null + reason` per the Honesty Rule until a consumer surfaces a need. Overrides land on demand. See "Tier-Based Scoping" below.
+
 ## Raw vs Derived vs Override
 
 The output has three provenance tiers, merged into one canonical JSON per exchange:
@@ -81,6 +83,18 @@ Three is deliberate: one patch is learning, two is refinement, three means the A
 **Cultural reframe:** a healthy `priv/overrides/` is a sign of maturity, not debt. Phase 9's `drift_audit` reports override count as a *neutral* number, not a problem to shrink. Migrating to override is the expected outcome, not the consolation prize.
 
 The Honesty Rule and Three-Strikes Rule compose: honesty says *declare what you can't prove*; three-strikes says *stop trying to prove it past a point*.
+
+## Tier-Based Scoping
+
+Tier 1 / Tier 2 / DEX (canonical list: `priv/priority_tiers.json`, also stamped as `exchange.tier` in every output JSON since schema 1.8.0) are the exchanges this project commits to *deriving recipes for*. Tier 3 and unclassified exchanges still receive full raw extraction — their AST, resolved `describe()`, and runtime probes are universal — but their derived fields default to `null + reason` until a real consumer surfaces a need.
+
+**Family inheritance.** `priv/priority_tiers.json` lists **roots** only — hand-curated, intentional. Variants (`binance` → `binanceus`, `binancecoinm`, `binanceusdm`; `okx` → `okxus`, `myokx`; `kucoin` → `kucoinfutures`) and aliases (`htx` → `huobi`; `gate` → `gateio`) inherit their root's tier via `priv/discoveries/class_hierarchy.json` at compile time in `CcxtExtract.Tiers`. Inheritance is *provable* from the CCXT class graph, not guessed — honesty rule preserved. `--tier1` scoping therefore pulls in the whole binance family (10 exchanges), not just the root.
+
+This is not a violation of the One Rule. It is an honest application of it: when we don't have evidence a derivation generalizes to the tail, we say so rather than guess. The Three-Strikes Rule still applies — derivations migrate to override on the third patch — but a Tier 3 patch may simply never happen.
+
+**What this means for new derivation work:** if a derivation only matters for Tier 3 / unclassified exchanges (e.g., exotic signing schemes no priority exchange uses), it lives in `ROADMAP.md`'s Superseded / Deferred section until promoted by need.
+
+**Operational tools:** the slow network stages (`mix ccxt_extract.load_markets`) and the drift reporter (`mix ccxt_extract.contract_test`) take `--tier1 --tier2 --tier3 --dex` flags (combinable). Pipeline assembly, validate, and OXC-based extractors always run on all 111 exchanges — raw extraction is never filtered.
 
 ## Consumers Exist — Design For Them
 

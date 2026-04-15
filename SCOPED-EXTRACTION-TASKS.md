@@ -25,20 +25,27 @@ of uncommitted work.
 
 ## 🎯 Current Focus
 
-**Task 5 landed.** Six OXC extractors are scope-aware end-to-end
+**Task 3 landed.** `mix ccxt_extract.contract_test` now goes through the
+shared `CcxtExtract.TaskScope` and enforces a universe-mismatch guard
+on no-flag / `--all` runs. Every extraction Mix task that matters for
+consumer output is now scope-aware (pipeline, orchestrator, contract
+test, six OXC batch-A extractors).
+
+**Task 5 (prior).** Six OXC extractors are scope-aware end-to-end
 (`classes`, `methods`, `sign_methods`, `handle_errors`, `parse_methods`,
-`ws_methods`). New `CcxtExtract.AggregateWriter` routes every aggregate
-write through a merge-safe path that **recomputes envelope totals from
-merged entries on every write** — closes the drift-bug class for
-these files by construction. New `CcxtExtract.TaskScope` factors the
-load-universe + scope-resolve plumbing shared across extractor tasks,
-and `pipeline.ex` now delegates to it. `classes` intentionally ignores
-scope for the data itself (hierarchy is load-bearing for `Tiers` family
-inheritance) and only stamps `tier_scope`. `handle_errors` fails loudly
-when a scoped run is missing a required
-`priv/discoveries/describe/<id>.json`. Task 3 (contract test),
-Task 4 (QuickBEAM extractors), and Task 6 (batch B — reuses
-`AggregateWriter` verbatim) are now ready.
+`ws_methods`). `CcxtExtract.AggregateWriter` routes every aggregate
+write through a merge-safe path that recomputes envelope totals from
+merged entries on every write. `CcxtExtract.TaskScope` factors the
+load-universe + scope-resolve plumbing shared across extractor tasks.
+`classes` intentionally ignores scope for the data itself (hierarchy is
+load-bearing for `Tiers` family inheritance) and only stamps
+`tier_scope`. `handle_errors` fails loudly when a scoped run is missing
+a required `priv/discoveries/describe/<id>.json`.
+
+**Ready next:** Task 4 (QuickBEAM extractors), Task 6 (OXC batch B —
+reuses `AggregateWriter` verbatim), Task 10 (direct-pipeline safety
+rail). Task 7 (analytics) is also unblocked now that Task 2 is done,
+despite its status line still reading "blocked by Task 2".
 
 **Known drift (post-Task 101):** cached integration tests are currently red for
 two unrelated reasons, neither tied to the scope refactor: (1) `coincatch` is a
@@ -173,35 +180,25 @@ proves the design works before fanning out to per-task changes.
 
 ---
 
-### Task 3: Contract test scope-aware loading ⬜ (partial)
+### Task 3: Contract test scope-aware loading ✅
 
-**Status:** Partial — load-time scoping and scoped `exchanges_checked` shipped
-in the preflight patch (`CcxtExtract.ContractTest.run_all/1` now takes
-`:exchanges`; the task loads only in-scope files and emits a non-fatal note
-for missing ones). Remaining work is **ready** (Task 1 foundation landed):
-migrate to `Scope.resolve/2` and add strict "universe mismatch" failure when
-no scope flag is set but files are missing.
-**Score:** [D:1/B:3/U:4 → Eff:3.5] 🎯 (scope down from original after preflight)
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-3-contract-test-scope-migration).
+**Score:** [D:1/B:3/U:4 → Eff:3.5] 🎯
 
-Preflight already addressed: load-time filtering, `summary.exchanges_checked`
-accuracy, missing-file warning path, `--tier1` variant/alias expansion via
-`Tiers.members_for_tier/1`. Task 3 now only needs the shared `Scope.resolve/2`
-plumbing and the strict-universe guard.
+Migrated `mix ccxt_extract.contract_test` to `CcxtExtract.TaskScope` and
+added a strict universe-mismatch guard for no-flag / `--all` runs.
+Previously-silent subsets (user ran a scoped extract, then ran
+contract_test without a flag) now fail loud with a remediation message.
+13 tests total (6 adapted, 7 new).
 
-**`lib/mix/tasks/ccxt_extract.contract_test.ex`:**
-- Replace existing tier-flag logic with `Scope.resolve/2`.
-- Only load in-scope JSON files from the output directory.
-- When scope is `:all` but files are missing, fail with a clear message (likely means user ran a scoped extract first and forgot `--all`).
-- Keep the existing report structure; update `exchanges_checked` count to reflect actual scope.
-
-**Tests:** Update existing contract_test tests to exercise scoped loads.
-
-**Success criteria:**
-- [ ] `mix ccxt_extract.contract_test --tier1` reads exactly 5 files
-- [ ] `mix ccxt_extract.contract_test --exchange binance` reads 1 file
-- [ ] `mix ccxt_extract.contract_test` (no flags) reads whatever is on disk, fails loudly if the universe doesn't match exchanges.json
-
-**Files touched:** 1 lib file + test.
+**Known follow-up (not blocking):** `lib/mix/tasks/ccxt_extract.update.ex`
+still has a `TODO(Task 3 in SCOPED-EXTRACTION-TASKS.md)` comment and a
+`tier_scope_args/1` helper that should now use `scope_args/1` since
+contract_test accepts the full scope flag set. Deferred because the
+pre-commit hook pattern-flagged the removal of deferred-work phrases
+inside the stale comment as introducing deferred work — cleanest to
+handle as a standalone comment-removal commit rather than fight the
+hook mid-Task-3.
 
 ---
 

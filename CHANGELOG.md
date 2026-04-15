@@ -11,6 +11,34 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - **npm 0.5.1 → 0.5.3.** Adds `NPM.PackageResolver` with Node.js module resolution and `relative_import_path/3`. Includes an ETS race-condition fix in cache initialization. No breaking changes; compatible with existing `~> 0.5` requirement.
 - **oxc 0.6 → 0.7 + quickbeam 0.9 → 0.10.** See Task 101 below.
 
+### Task 3: Contract test scope migration
+
+`mix ccxt_extract.contract_test` now uses the shared
+`CcxtExtract.TaskScope` plumbing. Accepts the full scope flag set
+(`--tier1/--tier2/--tier3/--dex/--all/--exchange`, combinable,
+comma-split, with fuzzy typo suggestions and `--all`-conflict detection)
+instead of the tier-only subset it had under the preflight patch.
+
+**New behavior (consumer-visible):** a no-flag or `--all` run now fails
+loud when `priv/output/` is missing any exchange from the CCXT
+TypeScript universe. Previously the task would silently run over
+whatever subset happened to be on disk — a subtle green-signal bug if
+you ran a scoped extract and then re-ran contract_test without a flag.
+The error message names the likely cause (prior scoped extract) and the
+two remediations: regenerate the full corpus with
+`mix ccxt_extract.update`, or narrow the contract test with matching
+scope flags.
+
+Scoped runs (`--tier*` / `--exchange`) keep the existing non-fatal
+`Note:` for missing files from the preflight patch.
+
+**Files touched:** `lib/mix/tasks/ccxt_extract.contract_test.ex`,
+`test/mix/tasks/contract_test_task_test.exs` (6 pre-existing tests
+adapted to the new scope model; 7 new tests covering `--exchange`
+happy/unknown, the universe-mismatch guard under both no-flag and
+`--all`, the remediation-message shape, and `--all`-with-narrowing
+conflict).
+
 ### Task 5: OXC extractors scope flags — batch A
 
 Six OXC-based Mix tasks gained the full scope flag set

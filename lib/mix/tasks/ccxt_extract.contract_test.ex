@@ -11,6 +11,7 @@ defmodule Mix.Tasks.CcxtExtract.ContractTest do
       mix ccxt_extract.contract_test --strict
       mix ccxt_extract.contract_test --report /tmp/contract.json
       mix ccxt_extract.contract_test --tier1 --tier2 --dex
+      mix ccxt_extract.contract_test --exchange binance,deribit
 
   ## Options
 
@@ -25,27 +26,33 @@ defmodule Mix.Tasks.CcxtExtract.ContractTest do
       (combinable). Variants and aliases inherit their family root's
       tier, so `--tier1` pulls in `binance` and its variants
       (`binanceus`, `binancecoinm`, `binanceusdm`). Missing files for
-      requested IDs are skipped with a warning.
+      requested IDs are skipped with a non-fatal note.
+    * `--exchange ID` — restrict to explicit exchange IDs. Repeatable
+      and comma-split (`--exchange binance,deribit`). Combines with
+      tier flags. Unknown IDs abort with fuzzy suggestions.
+    * `--all` — entire universe; conflicts with any narrowing flag.
+
+  ## Universe mismatch
+
+  With no scope flag (or `--all`) the task expects every exchange in the
+  CCXT TypeScript universe to be present in `--output`. If any are
+  missing, the task aborts with a remediation message — the likely cause
+  is a prior scoped extract that left `priv/output/` as a partial view.
+  Run `mix ccxt_extract.update` or re-run with matching scope flags.
   """
 
   use Mix.Task
 
-  alias CcxtExtract.Tiers
+  alias CcxtExtract.TaskScope
+
+  @switches Keyword.merge(
+              [output: :string, report: :string, strict: :boolean],
+              TaskScope.scope_switches()
+            )
 
   @impl true
   def run(args) do
-    {opts, leftover, invalid} =
-      OptionParser.parse(args,
-        strict: [
-          output: :string,
-          report: :string,
-          strict: :boolean,
-          tier1: :boolean,
-          tier2: :boolean,
-          tier3: :boolean,
-          dex: :boolean
-        ]
-      )
+    {opts, leftover, invalid} = OptionParser.parse(args, strict: @switches)
 
     if invalid != [] do
       switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
@@ -58,19 +65,16 @@ defmodule Mix.Tasks.CcxtExtract.ContractTest do
 
     output_dir = opts[:output] || CcxtExtract.Paths.priv("output")
     report_path = opts[:report] || Path.join(output_dir, "_contract_test_report.json")
-    tier_filter = build_tier_filter(opts)
 
-    Mix.shell().info(
-      "Running contract tests on #{output_dir}" <>
-        if(tier_filter, do: " [#{elem(tier_filter, 1)}]", else: "") <> "..."
-    )
+    universe = TaskScope.load_universe()
+    scope = TaskScope.resolve_scope!(opts, universe)
+
+    check_corpus!(scope, universe, output_dir)
+
+    Mix.shell().info("Running contract tests on #{output_dir}...")
 
     start = System.monotonic_time(:millisecond)
-
-    run_opts = build_run_opts(output_dir, tier_filter)
-    warn_missing_scoped_files(output_dir, tier_filter)
-
-    {:ok, report} = CcxtExtract.ContractTest.run_all(run_opts)
+    {:ok, report} = CcxtExtract.ContractTest.run_all(run_opts(output_dir, scope))
 
     elapsed = System.monotonic_time(:millisecond) - start
     has_findings = report_results(report, elapsed)
@@ -83,35 +87,52 @@ defmodule Mix.Tasks.CcxtExtract.ContractTest do
     end
   end
 
-  defp build_tier_filter(opts) do
-    if Tiers.has_tier_flags?(opts) do
-      Tiers.collect_tier_exchanges(opts)
-    end
+  defp run_opts(output_dir, :all), do: [output_dir: output_dir]
+
+  defp run_opts(output_dir, %MapSet{} = scope), do: [output_dir: output_dir, exchanges: Enum.sort(scope)]
+
+  defp check_corpus!(:all, universe, output_dir) do
+    missing = TaskScope.scoped_ids_missing_file(MapSet.new(universe), output_dir)
+    if missing != [], do: Mix.raise(universe_mismatch_message(output_dir, missing))
+    :ok
   end
 
-  defp build_run_opts(output_dir, nil), do: [output_dir: output_dir]
-
-  defp build_run_opts(output_dir, {allowed, _label}) do
-    [output_dir: output_dir, exchanges: allowed]
-  end
-
-  defp warn_missing_scoped_files(_output_dir, nil), do: :ok
-
-  defp warn_missing_scoped_files(output_dir, {allowed, _label}) do
-    present =
-      output_dir
-      |> Path.join("*.json")
-      |> Path.wildcard()
-      |> Enum.map(&Path.basename(&1, ".json"))
-      |> Map.new(&{&1, true})
-
-    missing = Enum.reject(allowed, &Map.has_key?(present, &1))
+  defp check_corpus!(%MapSet{} = scope, _universe, output_dir) do
+    missing = TaskScope.scoped_ids_missing_file(scope, output_dir)
 
     if missing != [] do
       Mix.shell().info(
         "  Note: #{length(missing)} scoped exchange(s) missing from #{output_dir}: #{Enum.join(missing, ", ")}"
       )
     end
+
+    :ok
+  end
+
+  defp universe_mismatch_message(output_dir, missing) do
+    count = length(missing)
+    preview = missing |> Enum.take(10) |> Enum.join(", ")
+    suffix = if count > 10, do: ", … (#{count - 10} more)", else: ""
+
+    """
+    Universe mismatch: #{count} exchange(s) from the CCXT TypeScript \
+    source are missing in #{output_dir}.
+
+      #{preview}#{suffix}
+
+    A full-universe run (no scope flag, or `--all`) expects every \
+    exchange to be present. The likely cause is a prior scoped \
+    extract leaving `priv/output/` as a partial view.
+
+    Fix by regenerating the full corpus:
+
+        mix ccxt_extract.update
+
+    Or narrow the contract test to match what's on disk:
+
+        mix ccxt_extract.contract_test --tier1 --tier2 --dex
+        mix ccxt_extract.contract_test --exchange <id>[,<id>...]
+    """
   end
 
   defp report_results(report, elapsed) do

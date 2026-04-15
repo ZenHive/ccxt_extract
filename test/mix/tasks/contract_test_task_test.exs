@@ -54,10 +54,10 @@ defmodule Mix.Tasks.CcxtExtract.ContractTestTaskTest do
   end
 
   test "writes report to --report path and exits normally on clean corpus", %{tmp: tmp} do
-    write_exchange(tmp, "ok", clean_exchange("ok"))
+    write_exchange(tmp, "binance", clean_exchange("binance"))
     report_path = Path.join(tmp, "custom_report.json")
 
-    Task.run(["--output", tmp, "--report", report_path])
+    Task.run(["--output", tmp, "--report", report_path, "--exchange", "binance"])
 
     assert File.exists?(report_path)
     report = report_path |> File.read!() |> Jason.decode!()
@@ -65,11 +65,19 @@ defmodule Mix.Tasks.CcxtExtract.ContractTestTaskTest do
   end
 
   test "--strict raises when findings exist", %{tmp: tmp} do
-    write_exchange(tmp, "bad", violating_exchange("bad"))
+    write_exchange(tmp, "binance", violating_exchange("binance"))
     report_path = Path.join(tmp, "report.json")
 
     assert_raise Mix.Error, ~r/strict mode/, fn ->
-      Task.run(["--output", tmp, "--report", report_path, "--strict"])
+      Task.run([
+        "--output",
+        tmp,
+        "--report",
+        report_path,
+        "--strict",
+        "--exchange",
+        "binance"
+      ])
     end
 
     # Report is still written before raise
@@ -77,11 +85,18 @@ defmodule Mix.Tasks.CcxtExtract.ContractTestTaskTest do
   end
 
   test "findings are sorted deterministically across runs", %{tmp: tmp} do
-    write_exchange(tmp, "zeta", violating_exchange("zeta"))
-    write_exchange(tmp, "alpha", violating_exchange("alpha"))
+    write_exchange(tmp, "binance", violating_exchange("binance"))
+    write_exchange(tmp, "deribit", violating_exchange("deribit"))
     report_path = Path.join(tmp, "report.json")
 
-    Task.run(["--output", tmp, "--report", report_path])
+    Task.run([
+      "--output",
+      tmp,
+      "--report",
+      report_path,
+      "--exchange",
+      "binance,deribit"
+    ])
 
     report = report_path |> File.read!() |> Jason.decode!()
     ids = Enum.map(report["findings"], & &1["exchange"])
@@ -129,6 +144,70 @@ defmodule Mix.Tasks.CcxtExtract.ContractTestTaskTest do
       assert File.exists?(report_path)
       report = report_path |> File.read!() |> Jason.decode!()
       assert report["summary"]["exchanges_checked"] == 1
+    end
+  end
+
+  describe "--exchange scoping" do
+    test "loads exactly the explicitly named exchange", %{tmp: tmp} do
+      write_exchange(tmp, "binance", clean_exchange("binance"))
+      write_exchange(tmp, "deribit", clean_exchange("deribit"))
+      report_path = Path.join(tmp, "report.json")
+
+      Task.run(["--output", tmp, "--report", report_path, "--exchange", "binance"])
+
+      report = report_path |> File.read!() |> Jason.decode!()
+      assert report["summary"]["exchanges_checked"] == 1
+    end
+
+    test "unknown --exchange id aborts with fuzzy suggestion", %{tmp: tmp} do
+      assert_raise Mix.Error, ~r/did you mean.*binance/, fn ->
+        Task.run(["--output", tmp, "--exchange", "binancee"])
+      end
+    end
+  end
+
+  describe "universe mismatch guard" do
+    test "no-flag run fails loud when corpus is a partial view", %{tmp: tmp} do
+      write_exchange(tmp, "binance", clean_exchange("binance"))
+
+      assert_raise Mix.Error, ~r/Universe mismatch/, fn ->
+        Task.run(["--output", tmp])
+      end
+    end
+
+    test "--all also enforces the universe check", %{tmp: tmp} do
+      write_exchange(tmp, "binance", clean_exchange("binance"))
+
+      assert_raise Mix.Error, ~r/Universe mismatch/, fn ->
+        Task.run(["--output", tmp, "--all"])
+      end
+    end
+
+    test "error message names the remediation commands", %{tmp: tmp} do
+      write_exchange(tmp, "binance", clean_exchange("binance"))
+
+      error =
+        assert_raise Mix.Error, fn ->
+          Task.run(["--output", tmp])
+        end
+
+      assert error.message =~ "mix ccxt_extract.update"
+      assert error.message =~ "--tier1"
+      assert error.message =~ "--exchange"
+    end
+  end
+
+  describe "flag validation" do
+    test "--all combined with --tier1 aborts with narrowing-conflict message", %{tmp: tmp} do
+      assert_raise Mix.Error, ~r/--all conflicts with narrowing flag/, fn ->
+        Task.run(["--output", tmp, "--all", "--tier1"])
+      end
+    end
+
+    test "--all combined with --exchange aborts", %{tmp: tmp} do
+      assert_raise Mix.Error, ~r/--all conflicts with narrowing flag/, fn ->
+        Task.run(["--output", tmp, "--all", "--exchange", "binance"])
+      end
     end
   end
 

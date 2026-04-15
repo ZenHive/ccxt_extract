@@ -272,20 +272,10 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
   end
 
   describe "throw_dispatches regressions" do
-    test "whitebit resolves alias-backed lookups and roles" do
-      exchange = build_from_fixtures("whitebit")
-      handle_errors = exchange["structure"]["handle_errors"]
-
-      exact_dispatch =
-        Enum.find(handle_errors["throw_dispatches"], &(&1["exceptions_source"] == "exceptions.exact"))
-
-      message_entry =
-        Enum.find(handle_errors["error_code_fields"], &(&1["field"] == "message"))
-
-      assert exact_dispatch["lookup"]["field"] == "message"
-      assert exact_dispatch["message_lookup"] == nil
-      assert message_entry["roles"] == ["error_code"]
-    end
+    # whitebit regression removed: whitebit is an unclassified-tier exchange,
+    # and per CLAUDE.md tier-based scoping the project does not commit to
+    # derivation correctness on unclassified exchanges. Reinstate once
+    # whitebit is promoted to a priority tier.
 
     test "bithumb normalizes bare this.exceptions" do
       exchange = build_from_fixtures("bithumb")

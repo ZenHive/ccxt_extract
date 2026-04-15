@@ -4,11 +4,15 @@ defmodule CcxtExtract.AuthenticatedSectionsIntegrationTest do
 
   Guards two invariants:
 
-  1. Every exchange whose `describe.api` has a `/private/i` top-level key must
-     have a non-empty `authenticated_sections` — either by AST derivation or
-     via an entry in `priv/overrides/`. Exchanges that legitimately lack a
+  1. Every *priority-tier* exchange (tier1/tier2/tier3/dex) whose `describe.api`
+     has a `/private/i` top-level key must have a non-empty
+     `authenticated_sections` — either by AST derivation or via an entry in
+     `priv/overrides/`. Exchanges that legitimately lack a
      `checkRequiredCredentials()` gate (or use a sign() shape the walker
      cannot reach) appear in the allowlist below with a justification.
+     Unclassified exchanges are excluded per CLAUDE.md tier-based scoping:
+     they receive raw extraction only and default to null/empty for derived
+     recipes until a consumer promotes them.
 
   2. Every file in `priv/overrides/` must correspond to an exchange where
      pure AST derivation would have returned an empty/nil list. If the
@@ -82,6 +86,7 @@ defmodule CcxtExtract.AuthenticatedSectionsIntegrationTest do
   defp check_exchange(path) do
     id = Path.basename(path, ".json")
     data = path |> File.read!() |> Jason.decode!()
+    tier = get_in(data, ["exchange", "tier"])
     api = get_in(data, ["runtime", "describe", "api"]) || %{}
     auth = get_in(data, ["structure", "authenticated_sections"]) || []
 
@@ -91,6 +96,10 @@ defmodule CcxtExtract.AuthenticatedSectionsIntegrationTest do
       |> Enum.any?(fn k -> k =~ ~r/private/i end)
 
     cond do
+      # Per CLAUDE.md tier-based scoping: derived recipes are scoped to priority
+      # tiers. Unclassified exchanges receive raw extraction only; empty
+      # authenticated_sections is the documented "null + reason" default.
+      tier == "unclassified" -> []
       not has_private_key? -> []
       auth != [] -> []
       id in @empty_allowlist -> []

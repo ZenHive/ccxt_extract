@@ -38,10 +38,16 @@ defmodule Mix.Tasks.CcxtExtract.LoadMarketsTest do
     end
   end
 
-  describe "task argument validation" do
-    test "--exchanges + tier flag is rejected" do
-      assert_raise Mix.Error, ~r/mutually exclusive/, fn ->
-        LoadMarkets.run(["--exchanges", "binance", "--tier1"])
+  describe "task argument validation (canonical scope flags)" do
+    test "--all combined with --tier1 is rejected" do
+      assert_raise Mix.Error, ~r/--all conflicts with.*--tier1/, fn ->
+        LoadMarkets.run(["--all", "--tier1"])
+      end
+    end
+
+    test "legacy --exchanges flag (plural) is no longer accepted" do
+      assert_raise Mix.Error, ~r/Unknown option/, fn ->
+        LoadMarkets.run(["--exchanges", "binance,kraken"])
       end
     end
 
@@ -54,6 +60,17 @@ defmodule Mix.Tasks.CcxtExtract.LoadMarketsTest do
     test "positional arg is rejected" do
       assert_raise Mix.Error, ~r/Unexpected argument/, fn ->
         LoadMarkets.run(["binance"])
+      end
+    end
+
+    test "unknown --exchange ID is rejected with fuzzy suggestion" do
+      # Requires CCXT TS source from `mix ccxt_extract.setup`
+      ts_src = CcxtExtract.Paths.ts_src()
+
+      if File.dir?(ts_src) do
+        assert_raise Mix.Error, ~r/Unknown --exchange ID/s, fn ->
+          LoadMarkets.run(["--exchange", "xbinance"])
+        end
       end
     end
   end

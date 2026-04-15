@@ -254,7 +254,7 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
              ]
     end
 
-    test "--exchange is dropped from contract_test stage (tier-only flag set)" do
+    test "--exchange propagates to contract_test stage (canonical scope flags)" do
       output_dir = make_tmp_output_dir()
 
       {_output, task_runs} =
@@ -270,10 +270,10 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
           _ -> nil
         end)
 
-      assert contract_test_args == ["--output", output_dir]
+      assert contract_test_args == ["--output", output_dir, "--exchange", "binance"]
     end
 
-    test "--all is dropped from contract_test stage (tier-only flag set)" do
+    test "--all propagates to contract_test stage (canonical scope flags)" do
       output_dir = make_tmp_output_dir()
 
       {_output, task_runs} =
@@ -289,7 +289,7 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
           _ -> nil
         end)
 
-      assert contract_test_args == ["--output", output_dir]
+      assert contract_test_args == ["--output", output_dir, "--all"]
     end
   end
 

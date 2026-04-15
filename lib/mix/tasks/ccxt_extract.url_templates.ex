@@ -9,18 +9,30 @@ defmodule Mix.Tasks.CcxtExtract.UrlTemplates do
   visible in `describe()` data alone.
 
   Writes a single JSON file to `priv/discoveries/url_templates.json`.
+  Routes writes through `CcxtExtract.AggregateWriter` so scoped runs merge
+  cleanly with the existing aggregate — out-of-scope entries are preserved,
+  in-scope entries are replaced, `count` is recomputed from the final list.
 
-      mix ccxt_extract.url_templates
+  ## Usage
+
+      mix ccxt_extract.url_templates                     # full universe
+      mix ccxt_extract.url_templates --tier1 --dex       # tier1 + DEX
+      mix ccxt_extract.url_templates --exchange binance  # single exchange
+      mix ccxt_extract.url_templates --all               # explicit full run
   """
 
   use Mix.Task
 
-  @impl true
-  def run(_args) do
-    Mix.shell().info("Extracting URL templates from all CCXT exchanges...")
+  alias CcxtExtract.TaskScope
 
-    {:ok, results} = CcxtExtract.UrlTemplates.extract()
-    CcxtExtract.UrlTemplates.write!(results)
+  @impl true
+  def run(args) do
+    {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
+
+    Mix.shell().info("Extracting URL templates from CCXT exchanges...")
+
+    {:ok, results} = CcxtExtract.UrlTemplates.extract(scope: scope)
+    CcxtExtract.UrlTemplates.write!(results, scope: scope, tier_scope: tier_scope)
 
     Mix.shell().info("""
     Done. #{length(results)} exchanges extracted (aliases skipped).

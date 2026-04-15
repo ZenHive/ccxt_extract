@@ -96,6 +96,52 @@ defmodule CcxtExtract.TaskScope do
   end
 
   @doc """
+  Parse CLI args, reject unknown options and leftovers, and resolve scope.
+
+  Collapses the 7-line preamble every scope-aware Mix task repeats:
+
+      switches = Keyword.merge(extra_switches, scope_switches())
+      {opts, leftover, invalid} = OptionParser.parse(args, strict: switches, aliases: aliases)
+      # raise on invalid / leftover
+      universe = load_universe()
+      scope = resolve_scope!(opts, universe)
+      tier_scope = Scope.to_manifest_value(opts)
+
+  into a single call:
+
+      {scope, tier_scope, opts} =
+        CcxtExtract.TaskScope.parse_and_resolve!(args, [delay: :integer], d: :delay)
+
+  Error messages are uniform across tasks:
+
+    * `Unknown option(s): --foo, --bar`
+    * `Unexpected argument(s): x, y. This task takes no positional arguments.`
+    * (Scope conflicts and unknown IDs bubble up from `resolve_scope!/2`.)
+  """
+  @spec parse_and_resolve!([String.t()], keyword(), keyword()) ::
+          {:all | MapSet.t(String.t()), term(), keyword()}
+  def parse_and_resolve!(args, extra_switches \\ [], aliases \\ []) do
+    switches = Keyword.merge(extra_switches, scope_switches())
+    {opts, leftover, invalid} = OptionParser.parse(args, strict: switches, aliases: aliases)
+
+    if invalid != [] do
+      names = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
+      Mix.raise("Unknown option(s): #{names}")
+    end
+
+    if leftover != [] do
+      joined = Enum.join(leftover, ", ")
+      Mix.raise("Unexpected argument(s): #{joined}. This task takes no positional arguments.")
+    end
+
+    universe = load_universe()
+    scope = resolve_scope!(opts, universe)
+    tier_scope = Scope.to_manifest_value(opts)
+
+    {scope, tier_scope, opts}
+  end
+
+  @doc """
   Filter a list of entries to only those whose `id_key` value is in scope.
 
   `:all` passes the list through unchanged. A `MapSet` keeps only entries
@@ -127,6 +173,40 @@ defmodule CcxtExtract.TaskScope do
     |> Enum.reject(fn id -> File.exists?(Path.join(dir, "#{id}.json")) end)
     |> Enum.sort()
   end
+
+  @doc """
+  Return the sorted list of exchange IDs currently present on disk under `dir`.
+
+  Globs `*.json` and takes each basename without the extension. Files whose
+  basename starts with `_` are treated as metadata (e.g. `_manifest.json`)
+  and excluded. Non-existent or empty directories return `[]`.
+
+  Used by per-exchange-directory tasks to rebuild their manifest's `exchanges`
+  list from the ground truth after a scoped write — mirroring the "recompute
+  envelope totals from merged entries" rule `AggregateWriter` enforces for
+  single-aggregate files. Never carry manifest state across runs: re-derive
+  from disk.
+  """
+  @spec rebuild_manifest_exchanges(Path.t()) :: [String.t()]
+  def rebuild_manifest_exchanges(dir) do
+    dir
+    |> Path.join("*.json")
+    |> Path.wildcard()
+    |> Enum.map(&(&1 |> Path.basename() |> Path.rootname()))
+    |> Enum.reject(&String.starts_with?(&1, "_"))
+    |> Enum.sort()
+  end
+
+  @doc """
+  Filter a list of exchange IDs by a resolved scope.
+
+  `:all` is a pass-through; a `MapSet` keeps only IDs present in the set.
+  Used by QuickBEAM-backed extractors to narrow the universe the JS runtime
+  reports down to the current run's scope.
+  """
+  @spec filter_ids([String.t()], :all | MapSet.t(String.t())) :: [String.t()]
+  def filter_ids(ids, :all), do: ids
+  def filter_ids(ids, %MapSet{} = scope), do: Enum.filter(ids, &MapSet.member?(scope, &1))
 
   defp format_unknown_exchange(bad_ids, suggestions) do
     bad_ids

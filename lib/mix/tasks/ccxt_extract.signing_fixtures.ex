@@ -11,19 +11,31 @@ defmodule Mix.Tasks.CcxtExtract.SigningFixtures do
   Consumers (ccxt_client Elixir, Rust/Go/Python ports) replay the frozen inputs
   and assert byte-equal sign() output.
 
-      mix ccxt_extract.signing_fixtures
+  ## Usage
+
+      mix ccxt_extract.signing_fixtures                     # full universe
+      mix ccxt_extract.signing_fixtures --tier1 --dex       # tier1 + DEX
+      mix ccxt_extract.signing_fixtures --exchange binance  # single exchange
+      mix ccxt_extract.signing_fixtures --all               # explicit full run
+
+  Scoped runs preserve out-of-scope fixtures from prior runs; only `--all`
+  or no scope flag reasserts the full universe and prunes stale fixtures.
 
   Re-run after upgrading CCXT.
   """
 
   use Mix.Task
 
-  @impl true
-  def run(_args) do
-    Mix.shell().info("Generating signing fixtures from all CCXT exchanges...")
+  alias CcxtExtract.TaskScope
 
-    {:ok, results} = CcxtExtract.SigningFixtures.extract()
-    CcxtExtract.SigningFixtures.write!(results)
+  @impl true
+  def run(args) do
+    {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
+
+    Mix.shell().info("Generating signing fixtures from CCXT exchanges...")
+
+    {:ok, results} = CcxtExtract.SigningFixtures.extract(scope: scope)
+    CcxtExtract.SigningFixtures.write!(results, scope: scope, tier_scope: tier_scope)
 
     Mix.shell().info("""
     Done. #{length(results)} fixtures written.

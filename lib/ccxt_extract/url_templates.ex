@@ -22,6 +22,13 @@ defmodule CcxtExtract.UrlTemplates do
 
       {:ok, results} = CcxtExtract.UrlTemplates.extract()
       CcxtExtract.UrlTemplates.write!(results)
+
+  ## Scope
+
+  `extract/1` accepts `:scope` (default `:all`, or a `MapSet` of exchange IDs)
+  to narrow the probe list. `write!/2` accepts `:scope` and `:tier_scope` and
+  delegates to `CcxtExtract.AggregateWriter` so scoped runs merge cleanly with
+  any existing aggregate.
   """
 
   require Logger
@@ -124,12 +131,8 @@ defmodule CcxtExtract.UrlTemplates do
           const signed = ex.sign(samplePath, apiParam, sampleMethod);
           resolvedUrl = signed.url || null;
         } catch(e) {
-          // Expected failures — sign() throws for:
-          // 1. Private sections without credentials (most common)
-          // 2. Sections missing from urls.api map (Gate's flash_swap, loan, unified —
-          //    CCXT upstream bug where describe().api defines endpoints but urls.api
-          //    has no matching entry, so sign() can't resolve the base URL)
-          // 3. Malformed or unsupported section paths
+          // Expected failures — sign() throws for private sections without
+          // credentials, sections missing from urls.api, or malformed paths.
           // resolved_url stays null — honest signal that sign() could not resolve.
           // Consumers can cross-reference runtime.describe.urls.api for the base URL.
         }
@@ -170,20 +173,31 @@ defmodule CcxtExtract.UrlTemplates do
   """
 
   @doc """
-  Extract URL templates for all non-alias exchanges.
+  Extract URL templates for all (or scoped) non-alias exchanges.
 
-  Starts a QuickBEAM runtime, enumerates non-alias exchange IDs, then extracts
-  each exchange's URL templates one at a time. Returns a sorted list of
+  Starts a QuickBEAM runtime, enumerates non-alias exchange IDs, filters by
+  `:scope` if a `MapSet` is supplied, then extracts each exchange's URL
+  templates. Returns a sorted list of
   `%{"id" => id, "url_templates" => templates_map}` maps.
+
+  Options:
+
+    * `:scope` — `:all` (default) or `MapSet.t(String.t())`. Applied
+      Elixir-side after the JS runtime reports the full universe.
   """
-  @spec extract() :: {:ok, [map()]}
-  def extract do
+  @spec extract(keyword()) :: {:ok, [map()]}
+  def extract(opts \\ []) do
+    scope = Keyword.get(opts, :scope, :all)
     {:ok, rt} = CcxtExtract.QuickbeamRuntime.start()
 
     try do
       {:ok, _} = QuickBEAM.eval(rt, @js_setup)
       {:ok, ids_json} = QuickBEAM.call(rt, "getNonAliasIds", [])
-      ids = Jason.decode!(ids_json)
+
+      ids =
+        ids_json
+        |> Jason.decode!()
+        |> CcxtExtract.TaskScope.filter_ids(scope)
 
       Logger.info("Extracting URL templates for #{length(ids)} exchanges...")
 
@@ -212,18 +226,31 @@ defmodule CcxtExtract.UrlTemplates do
 
   @doc """
   Write URL templates to `priv/discoveries/url_templates.json`.
+
+  Routes through `CcxtExtract.AggregateWriter` so scoped runs merge with any
+  existing aggregate: in-scope entries are replaced, out-of-scope entries are
+  preserved, and `count` is recomputed from the final merged list.
+
+  Options:
+
+    * `:scope` — `:all` (default) or `MapSet.t(String.t())`. Forwarded to
+      `AggregateWriter`.
+    * `:tier_scope` — value from `CcxtExtract.Scope.to_manifest_value/1`.
+      Stamped into the envelope. Defaults to `"all"`.
+    * `:output_path` — override output location (mostly for tests).
   """
-  @spec write!([map()], String.t()) :: :ok
-  def write!(results, output_path \\ CcxtExtract.Paths.priv(@output_file)) do
-    File.mkdir_p!(Path.dirname(output_path))
+  @spec write!([map()], keyword()) :: :ok
+  def write!(results, opts \\ []) do
+    scope = Keyword.get(opts, :scope, :all)
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(@output_file))
 
-    output = %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
-      "count" => length(results),
-      "exchanges" => results
-    }
-
-    File.write!(output_path, Jason.encode!(output, pretty: true))
-    :ok
+    CcxtExtract.AggregateWriter.write!(output_path, results,
+      entry_key: "exchanges",
+      id_key: "id",
+      scope: scope,
+      tier_scope: tier_scope,
+      stats_fn: fn _entries -> %{} end
+    )
   end
 end

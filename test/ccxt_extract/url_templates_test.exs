@@ -61,7 +61,7 @@ defmodule CcxtExtract.UrlTemplatesTest do
     @tag :tmp_dir
     test "writes valid JSON with standard envelope", %{tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "url_templates.json")
-      assert :ok = UrlTemplates.write!(@sample_results, output_path)
+      assert :ok = UrlTemplates.write!(@sample_results, output_path: output_path)
 
       data = output_path |> File.read!() |> Jason.decode!()
 
@@ -74,7 +74,7 @@ defmodule CcxtExtract.UrlTemplatesTest do
     @tag :tmp_dir
     test "preserves exchange data structure", %{tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "url_templates.json")
-      UrlTemplates.write!(@sample_results, output_path)
+      UrlTemplates.write!(@sample_results, output_path: output_path)
 
       data = output_path |> File.read!() |> Jason.decode!()
       okx = Enum.find(data["exchanges"], &(&1["id"] == "okx"))
@@ -89,7 +89,7 @@ defmodule CcxtExtract.UrlTemplatesTest do
     @tag :tmp_dir
     test "preserves null fields for sign() failures", %{tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "url_templates.json")
-      UrlTemplates.write!(@sample_results, output_path)
+      UrlTemplates.write!(@sample_results, output_path: output_path)
 
       data = output_path |> File.read!() |> Jason.decode!()
       binance = Enum.find(data["exchanges"], &(&1["id"] == "binance"))
@@ -105,7 +105,7 @@ defmodule CcxtExtract.UrlTemplatesTest do
     @tag :tmp_dir
     test "preserves array api_param for multi-level sections", %{tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "url_templates.json")
-      UrlTemplates.write!(@sample_results, output_path)
+      UrlTemplates.write!(@sample_results, output_path: output_path)
 
       data = output_path |> File.read!() |> Jason.decode!()
       gate = Enum.find(data["exchanges"], &(&1["id"] == "gate"))
@@ -116,7 +116,7 @@ defmodule CcxtExtract.UrlTemplatesTest do
     @tag :tmp_dir
     test "handles empty results", %{tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "url_templates.json")
-      assert :ok = UrlTemplates.write!([], output_path)
+      assert :ok = UrlTemplates.write!([], output_path: output_path)
 
       data = output_path |> File.read!() |> Jason.decode!()
 
@@ -127,8 +127,81 @@ defmodule CcxtExtract.UrlTemplatesTest do
     @tag :tmp_dir
     test "creates parent directories", %{tmp_dir: tmp_dir} do
       output_path = Path.join([tmp_dir, "nested", "dir", "url_templates.json"])
-      assert :ok = UrlTemplates.write!(@sample_results, output_path)
+      assert :ok = UrlTemplates.write!(@sample_results, output_path: output_path)
       assert File.exists?(output_path)
+    end
+  end
+
+  describe "write!/2 scoped merge" do
+    @tag :tmp_dir
+    test "scope: :all overwrites the aggregate wholesale", %{tmp_dir: tmp_dir} do
+      path = Path.join(tmp_dir, "url_templates.json")
+      UrlTemplates.write!(@sample_results, output_path: path)
+
+      UrlTemplates.write!(
+        [%{"id" => "binance", "url_templates" => %{}}],
+        output_path: path,
+        scope: :all
+      )
+
+      data = path |> File.read!() |> Jason.decode!()
+      assert Enum.map(data["exchanges"], & &1["id"]) == ["binance"]
+      assert data["count"] == 1
+    end
+
+    @tag :tmp_dir
+    test "MapSet scope preserves out-of-scope entries", %{tmp_dir: tmp_dir} do
+      path = Path.join(tmp_dir, "url_templates.json")
+      UrlTemplates.write!(@sample_results, output_path: path)
+
+      replacement = %{
+        "id" => "binance",
+        "url_templates" => %{"replaced" => %{"note" => "new"}}
+      }
+
+      UrlTemplates.write!(
+        [replacement],
+        output_path: path,
+        scope: MapSet.new(["binance"])
+      )
+
+      data = path |> File.read!() |> Jason.decode!()
+      ids = Enum.map(data["exchanges"], & &1["id"])
+      assert "binance" in ids
+      assert "okx" in ids
+      assert "gate" in ids
+      assert "emptyex" in ids
+      binance = Enum.find(data["exchanges"], &(&1["id"] == "binance"))
+      assert Map.keys(binance["url_templates"]) == ["replaced"]
+    end
+
+    @tag :tmp_dir
+    test "count matches exchanges length after merge (drift guard)", %{tmp_dir: tmp_dir} do
+      path = Path.join(tmp_dir, "url_templates.json")
+      UrlTemplates.write!(@sample_results, output_path: path)
+
+      UrlTemplates.write!(
+        [%{"id" => "binance", "url_templates" => %{}}],
+        output_path: path,
+        scope: MapSet.new(["binance"])
+      )
+
+      data = path |> File.read!() |> Jason.decode!()
+      assert data["count"] == length(data["exchanges"])
+    end
+
+    @tag :tmp_dir
+    test "tier_scope stamped into envelope", %{tmp_dir: tmp_dir} do
+      path = Path.join(tmp_dir, "url_templates.json")
+
+      UrlTemplates.write!(@sample_results,
+        output_path: path,
+        scope: :all,
+        tier_scope: ["tier1"]
+      )
+
+      data = path |> File.read!() |> Jason.decode!()
+      assert data["tier_scope"] == ["tier1"]
     end
   end
 

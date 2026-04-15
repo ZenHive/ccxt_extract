@@ -188,22 +188,37 @@ defmodule CcxtExtract.LoadMarkets do
   @doc """
   Write per-exchange JSON files and a manifest.
 
-  Creates `priv/discoveries/load_markets/<exchange_id>.json` for each succeeded
-  exchange and `priv/discoveries/load_markets/_manifest.json` with success/failure summary.
-  """
-  @spec write!(map(), String.t()) :: :ok
-  def write!(results, output_dir \\ CcxtExtract.Paths.priv(@output_dir)) do
-    File.mkdir_p!(output_dir)
+  Creates `priv/discoveries/load_markets/<exchange_id>.json` for each
+  succeeded exchange and `priv/discoveries/load_markets/_manifest.json`
+  with success/failure summary.
 
-    # Remove stale .json files from previous runs
-    output_dir
-    |> Path.join("*.json")
-    |> Path.wildcard()
-    |> Enum.each(&File.rm!/1)
+  Options:
+
+    * `:scope` — `:all` (default) or `MapSet.t(String.t())`. When `:all`,
+      per-exchange files not produced by this run are pruned via
+      `ScopeCleanup.prune_out_of_scope/3` (universe reassertion). When a
+      MapSet, out-of-scope per-exchange files and failed entries from
+      prior runs are preserved.
+    * `:tier_scope` — value from `CcxtExtract.Scope.to_manifest_value/1`,
+      stamped into the manifest. Defaults to `"all"`.
+    * `:output_dir` — override output directory (mostly for tests).
+
+  The `succeeded` list is rebuilt from disk via
+  `TaskScope.rebuild_manifest_exchanges/1` (each success corresponds to a
+  file on disk). The `failed` list merges out-of-scope existing entries
+  with this run's failures, dropping any entry whose ID now has a
+  succeeded file. Counts are recomputed from the final lists.
+  """
+  @spec write!(map(), keyword()) :: :ok
+  def write!(results, opts \\ []) do
+    scope = Keyword.get(opts, :scope, :all)
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+    output_dir = Keyword.get(opts, :output_dir, CcxtExtract.Paths.priv(@output_dir))
+
+    File.mkdir_p!(output_dir)
 
     extracted_at = DateTime.to_iso8601(DateTime.utc_now())
 
-    # Write per-exchange files for succeeded exchanges
     for result <- results["succeeded"] do
       path = Path.join(output_dir, "#{result["id"]}.json")
 
@@ -217,17 +232,68 @@ defmodule CcxtExtract.LoadMarkets do
       File.write!(path, Jason.encode!(output, pretty: true))
     end
 
-    # Write manifest
+    if scope == :all do
+      produced = MapSet.new(results["succeeded"], & &1["id"])
+      {:ok, _removed} = CcxtExtract.ScopeCleanup.prune_out_of_scope(output_dir, produced)
+    end
+
+    manifest_path = Path.join(output_dir, "_manifest.json")
+    succeeded_ids = CcxtExtract.TaskScope.rebuild_manifest_exchanges(output_dir)
+    succeeded_set = MapSet.new(succeeded_ids)
+
+    existing_failed = read_existing_failed(manifest_path)
+
+    merged_failed =
+      existing_failed
+      |> filter_failed_by_scope(scope)
+      |> Enum.concat(results["failed"])
+      |> Enum.reject(&MapSet.member?(succeeded_set, &1["id"]))
+      |> dedup_failed_by_id()
+      |> Enum.sort_by(& &1["id"])
+
     manifest = %{
       "extracted_at" => extracted_at,
-      "succeeded_count" => length(results["succeeded"]),
-      "failed_count" => length(results["failed"]),
-      "succeeded" => Enum.map(results["succeeded"], & &1["id"]),
-      "failed" => results["failed"]
+      "tier_scope" => tier_scope,
+      "succeeded_count" => length(succeeded_ids),
+      "failed_count" => length(merged_failed),
+      "succeeded" => succeeded_ids,
+      "failed" => merged_failed
     }
 
-    File.write!(Path.join(output_dir, "_manifest.json"), Jason.encode!(manifest, pretty: true))
+    File.write!(manifest_path, Jason.encode!(manifest, pretty: true))
     :ok
+  end
+
+  # Best-effort: missing file, unreadable manifest, malformed JSON, or absent
+  # "failed" key all degrade to []. Scoped merge then behaves like a full
+  # rewrite for failed entries rather than crashing the pipeline on stale state.
+  defp read_existing_failed(manifest_path) do
+    with true <- File.exists?(manifest_path),
+         {:ok, body} <- File.read(manifest_path),
+         {:ok, %{"failed" => failed}} when is_list(failed) <- Jason.decode(body) do
+      failed
+    else
+      _ -> []
+    end
+  end
+
+  # `:all` reasserts the universe: existing failed entries are discarded so
+  # the manifest's `failed` list is rebuilt from this run's failures only.
+  # Ghost entries (exchanges CCXT dropped but still listed as failed in the
+  # prior manifest) would otherwise linger silently across full-universe runs.
+  defp filter_failed_by_scope(_existing, :all), do: []
+
+  defp filter_failed_by_scope(existing, %MapSet{} = scope) do
+    Enum.reject(existing, &MapSet.member?(scope, &1["id"]))
+  end
+
+  # When a scoped run produces both an "existing" out-of-scope entry and a
+  # fresh entry for the same ID (pathological corrupt-state recovery), the
+  # fresh one wins.
+  defp dedup_failed_by_id(failed) do
+    failed
+    |> Enum.reduce(%{}, fn entry, acc -> Map.put(acc, entry["id"], entry) end)
+    |> Map.values()
   end
 
   # Get exchange IDs — boots a temporary runtime if needed

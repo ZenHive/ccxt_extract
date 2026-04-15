@@ -25,11 +25,19 @@ of uncommitted work.
 
 ## 🎯 Current Focus
 
+**Task 4 landed.** All four QuickBEAM-backed extractor tasks (`describe`,
+`url_templates`, `signing_fixtures`, `load_markets`) accept the canonical
+scope flag set via `CcxtExtract.TaskScope`. `url_templates` routes
+aggregate writes through `AggregateWriter`; the three per-exchange-dir
+tasks rebuild their manifest from disk via the new
+`TaskScope.rebuild_manifest_exchanges/1` helper (count can never drift
+from on-disk reality). `load_markets` switched from `--exchanges <csv>`
+to canonical `--exchange` (repeatable) + `--all`; the translator shim in
+`update.ex` is gone.
+
 **Task 3 landed.** `mix ccxt_extract.contract_test` now goes through the
 shared `CcxtExtract.TaskScope` and enforces a universe-mismatch guard
-on no-flag / `--all` runs. Every extraction Mix task that matters for
-consumer output is now scope-aware (pipeline, orchestrator, contract
-test, six OXC batch-A extractors).
+on no-flag / `--all` runs.
 
 **Task 5 (prior).** Six OXC extractors are scope-aware end-to-end
 (`classes`, `methods`, `sign_methods`, `handle_errors`, `parse_methods`,
@@ -42,10 +50,11 @@ load-bearing for `Tiers` family inheritance) and only stamps
 `tier_scope`. `handle_errors` fails loudly when a scoped run is missing
 a required `priv/discoveries/describe/<id>.json`.
 
-**Ready next:** Task 4 (QuickBEAM extractors), Task 6 (OXC batch B —
-reuses `AggregateWriter` verbatim), Task 10 (direct-pipeline safety
-rail). Task 7 (analytics) is also unblocked now that Task 2 is done,
-despite its status line still reading "blocked by Task 2".
+**Ready next:** Task 6 (OXC batch B — reuses `AggregateWriter`
+verbatim), Task 7 (analytics — now also unblocked because aggregate
+and per-exchange-dir writers are merge-safe everywhere), Task 10
+(direct-pipeline safety rail). Task 8 (docs overhaul) and Task 9
+(verification sweep) wait for 6 and 7.
 
 **Known drift (post-Task 101):** cached integration tests are currently red for
 two unrelated reasons, neither tied to the scope refactor: (1) `coincatch` is a
@@ -202,10 +211,18 @@ hook mid-Task-3.
 
 ---
 
-### Task 4: QuickBEAM extractors scope flags ⬜
+### Task 4: QuickBEAM extractors scope flags ✅
 
-**Status:** Pending — **ready** (Task 1 foundation landed)
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-4-quickbeam-extractors-scope-flags).
 **Score:** [D:3/B:6/U:6 → Eff:2.0] 🎯
+
+All four QuickBEAM-backed tasks accept the canonical scope flag set via
+`TaskScope`; `url_templates` routes through `AggregateWriter`; the three
+per-exchange-directory tasks rebuild their manifests from disk via a new
+`TaskScope.rebuild_manifest_exchanges/1` helper. `load_markets` migrated
+to `--exchange` (repeatable) + `--all`, dropping the legacy
+`--exchanges <csv>` flag. `update.ex` special-case translator and
+Task-3-era `tier_scope_args` shim are removed.
 
 Three QuickBEAM extractors currently ignore scope (`load_markets` already has tier flags — audit it against the new `Scope.resolve/2` pattern and migrate for consistency).
 

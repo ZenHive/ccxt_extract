@@ -385,16 +385,26 @@ defmodule CcxtExtract.SigningFixtures do
   """
 
   @doc """
-  Extract signing fixtures for all non-alias exchanges.
+  Extract signing fixtures for all (or scoped) non-alias exchanges.
+
+  Options:
+
+    * `:scope` — `:all` (default) or `MapSet.t(String.t())`. Applied
+      Elixir-side after the JS runtime reports the full universe.
   """
-  @spec extract() :: {:ok, [map()]}
-  def extract do
+  @spec extract(keyword()) :: {:ok, [map()]}
+  def extract(extract_opts \\ []) do
+    scope = Keyword.get(extract_opts, :scope, :all)
     {:ok, rt} = CcxtExtract.QuickbeamRuntime.start()
 
     try do
       {:ok, _} = QuickBEAM.eval(rt, @js_setup)
       {:ok, ids_json} = QuickBEAM.call(rt, "getNonAliasIds", [])
-      ids = Jason.decode!(ids_json)
+
+      ids =
+        ids_json
+        |> Jason.decode!()
+        |> CcxtExtract.TaskScope.filter_ids(scope)
 
       Logger.info("Building signing fixtures for #{length(ids)} exchanges...")
 
@@ -412,6 +422,16 @@ defmodule CcxtExtract.SigningFixtures do
     end
   end
 
+  defp existing_ccxt_version(manifest_path) do
+    with true <- File.exists?(manifest_path),
+         {:ok, body} <- File.read(manifest_path),
+         {:ok, %{"ccxt_version" => v}} <- Jason.decode(body) do
+      v
+    else
+      _ -> nil
+    end
+  end
+
   @doc """
   Extract a single exchange fixture from an active runtime.
   """
@@ -426,22 +446,31 @@ defmodule CcxtExtract.SigningFixtures do
 
   Injects `generated_at` (ISO8601) and re-encodes each fixture with
   `pretty: true`. All other fields are byte-identical across runs.
+
+  Options:
+
+    * `:scope` — `:all` (default) or `MapSet.t(String.t())`. When `:all`,
+      prunes fixtures on disk not produced by this run via
+      `ScopeCleanup.prune_out_of_scope/3` (universe reassertion). When a
+      MapSet, out-of-scope fixtures from prior runs are preserved.
+    * `:tier_scope` — value from `CcxtExtract.Scope.to_manifest_value/1`,
+      stamped into the manifest. Defaults to `"all"`.
+    * `:output_dir` — override output directory (mostly for tests).
+
+  The manifest's `exchanges`, `count`, and `ccxt_version` are rebuilt from
+  disk after the write: `exchanges` comes from
+  `TaskScope.rebuild_manifest_exchanges/1`; `ccxt_version` comes from this
+  run's first fixture (CCXT bundle is global per run, so scoped runs
+  inherit the current bundle version); if this run produced no fixtures,
+  the existing manifest's `ccxt_version` is preserved.
   """
-  @spec write!([map()], String.t()) :: :ok
-  def write!(results, output_dir \\ CcxtExtract.Paths.priv(@output_dir)) do
+  @spec write!([map()], keyword()) :: :ok
+  def write!(results, opts \\ []) do
+    scope = Keyword.get(opts, :scope, :all)
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+    output_dir = Keyword.get(opts, :output_dir, CcxtExtract.Paths.priv(@output_dir))
+
     File.mkdir_p!(output_dir)
-
-    # Prune stale fixtures: anything on disk that isn't in this run's results
-    # (e.g. an exchange CCXT dropped or aliased) would otherwise linger and
-    # lie to consumers about the current CCXT surface.
-    keep =
-      MapSet.new(["_manifest.json" | Enum.map(results, &"#{&1["exchange"]}.json")])
-
-    output_dir
-    |> File.ls!()
-    |> Enum.filter(&String.ends_with?(&1, ".json"))
-    |> Enum.reject(&MapSet.member?(keep, &1))
-    |> Enum.each(&File.rm!(Path.join(output_dir, &1)))
 
     generated_at = DateTime.to_iso8601(DateTime.utc_now())
 
@@ -452,20 +481,29 @@ defmodule CcxtExtract.SigningFixtures do
       File.write!(path, Jason.encode!(stamped, pretty: true))
     end)
 
+    if scope == :all do
+      produced = MapSet.new(results, & &1["exchange"])
+      {:ok, _removed} = CcxtExtract.ScopeCleanup.prune_out_of_scope(output_dir, produced)
+    end
+
+    manifest_ids = CcxtExtract.TaskScope.rebuild_manifest_exchanges(output_dir)
+    manifest_path = Path.join(output_dir, "_manifest.json")
+
     ccxt_version =
       case results do
         [first | _] -> first["ccxt_version"]
-        [] -> nil
+        [] -> existing_ccxt_version(manifest_path)
       end
 
     manifest = %{
       "generated_at" => generated_at,
       "ccxt_version" => ccxt_version,
-      "count" => length(results),
-      "exchanges" => results |> Enum.map(& &1["exchange"]) |> Enum.sort()
+      "count" => length(manifest_ids),
+      "tier_scope" => tier_scope,
+      "exchanges" => manifest_ids
     }
 
-    File.write!(Path.join(output_dir, "_manifest.json"), Jason.encode!(manifest, pretty: true))
+    File.write!(manifest_path, Jason.encode!(manifest, pretty: true))
     :ok
   end
 end

@@ -164,14 +164,9 @@ defmodule Mix.Tasks.CcxtExtract.Update do
   # Builds arg list for contract_test task. The --strict flag is omitted by
   # design: this stage prints findings and keeps the pipeline going. Run
   # `mix ccxt_extract.contract_test --strict` directly for CI enforcement.
-  #
-  # TODO(Task 3 in SCOPED-EXTRACTION-TASKS.md): contract_test only accepts
-  # tier flags today. Drop --exchange/--all here until Task 3 teaches the
-  # task to accept them; pipeline has already pruned priv/output/ so the
-  # effective scope is preserved.
   defp build_contract_test_args(opts) do
     output_args = if opts[:output], do: ["--output", opts[:output]], else: []
-    output_args ++ tier_scope_args(opts)
+    output_args ++ scope_args(opts)
   end
 
   # QuickBEAM extractors — require JS runtime, some make live API calls.
@@ -186,8 +181,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
 
   defp run_quickbeam_extractors(opts) do
     for task <- task_override(:quickbeam_extractors, @default_quickbeam_extractors) do
-      args = if task == "ccxt_extract.load_markets", do: load_markets_scope_args(opts), else: []
-      Mix.Task.rerun(task, args)
+      Mix.Task.rerun(task, scope_args(opts))
     end
   end
 
@@ -199,19 +193,6 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     exchange_flags = opts |> exchange_ids() |> Enum.flat_map(&["--exchange", &1])
 
     all_flag ++ tier_flag_args(opts) ++ exchange_flags
-  end
-
-  # Subset for stages that only accept tier flags today.
-  defp tier_scope_args(opts), do: tier_flag_args(opts)
-
-  # TODO(Task 4 in SCOPED-EXTRACTION-TASKS.md): load_markets takes
-  # --exchanges a,b,c (plural) + tier flags, not --exchange/--all.
-  # Translate until Task 4 migrates the task to Scope.resolve/2.
-  defp load_markets_scope_args(opts) do
-    ids = exchange_ids(opts)
-    exchanges_flag = if ids == [], do: [], else: ["--exchanges", Enum.join(ids, ",")]
-
-    tier_flag_args(opts) ++ exchanges_flag
   end
 
   defp tier_flag_args(opts) do

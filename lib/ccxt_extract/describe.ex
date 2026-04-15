@@ -104,14 +104,19 @@ defmodule CcxtExtract.Describe do
   each exchange's full describe() one at a time. Returns a sorted list of
   `%{"id" => id, "describe" => describe_map}` maps.
   """
-  @spec extract() :: {:ok, [map()]}
-  def extract do
+  @spec extract(keyword()) :: {:ok, [map()]}
+  def extract(extract_opts \\ []) do
+    scope_opt = Keyword.get(extract_opts, :scope, :all)
     {:ok, rt} = CcxtExtract.QuickbeamRuntime.start()
 
     try do
       {:ok, _} = QuickBEAM.eval(rt, @js_setup)
       {:ok, ids_json} = QuickBEAM.call(rt, "getNonAliasIds", [])
-      ids = Jason.decode!(ids_json)
+
+      ids =
+        ids_json
+        |> Jason.decode!()
+        |> CcxtExtract.TaskScope.filter_ids(scope_opt)
 
       Logger.info("Extracting describe() for #{length(ids)} exchanges...")
 
@@ -145,24 +150,26 @@ defmodule CcxtExtract.Describe do
   @doc """
   Write per-exchange JSON files and a manifest.
 
-  Creates `priv/discoveries/describe/<exchange_id>.json` for each exchange
-  and `priv/discoveries/describe/_manifest.json` with the full exchange list.
-  """
-  @spec write!([map()], String.t()) :: :ok
-  def write!(results, output_dir \\ CcxtExtract.Paths.priv(@output_dir)) do
-    File.mkdir_p!(output_dir)
+  Options:
 
-    # Remove stale .json files from previous runs so the directory only contains
-    # files from the current extraction. Without this, renamed/removed exchanges
-    # would leave orphan files that disagree with _manifest.json.
-    output_dir
-    |> Path.join("*.json")
-    |> Path.wildcard()
-    |> Enum.each(&File.rm!/1)
+    * `:scope` — `:all` (default) or `MapSet.t(String.t())`. When `:all`,
+      per-exchange files not in `results` are pruned via
+      `ScopeCleanup.prune_out_of_scope/3` (universe reassertion). When a
+      MapSet, out-of-scope files from prior runs are preserved.
+    * `:tier_scope` — value from `CcxtExtract.Scope.to_manifest_value/1`,
+      stamped into the manifest. Defaults to `"all"`.
+    * `:output_dir` — override output directory (mostly for tests).
+  """
+  @spec write!([map()], keyword()) :: :ok
+  def write!(results, opts \\ []) do
+    scope = Keyword.get(opts, :scope, :all)
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+    output_dir = Keyword.get(opts, :output_dir, CcxtExtract.Paths.priv(@output_dir))
+
+    File.mkdir_p!(output_dir)
 
     extracted_at = DateTime.to_iso8601(DateTime.utc_now())
 
-    # Write per-exchange files
     for result <- results do
       path = Path.join(output_dir, "#{result["id"]}.json")
 
@@ -175,14 +182,19 @@ defmodule CcxtExtract.Describe do
       File.write!(path, Jason.encode!(output, pretty: true))
     end
 
-    # Write manifest
-    ids = Enum.map(results, & &1["id"])
+    if scope == :all do
+      produced = MapSet.new(results, & &1["id"])
+      {:ok, _removed} = CcxtExtract.ScopeCleanup.prune_out_of_scope(output_dir, produced)
+    end
+
+    manifest_ids = CcxtExtract.TaskScope.rebuild_manifest_exchanges(output_dir)
     manifest_path = Path.join(output_dir, "_manifest.json")
 
     manifest = %{
       "extracted_at" => extracted_at,
-      "count" => length(results),
-      "exchanges" => ids
+      "count" => length(manifest_ids),
+      "tier_scope" => tier_scope,
+      "exchanges" => manifest_ids
     }
 
     File.write!(manifest_path, Jason.encode!(manifest, pretty: true))

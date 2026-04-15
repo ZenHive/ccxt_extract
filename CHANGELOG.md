@@ -11,6 +11,72 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - **npm 0.5.1 → 0.5.3.** Adds `NPM.PackageResolver` with Node.js module resolution and `relative_import_path/3`. Includes an ETS race-condition fix in cache initialization. No breaking changes; compatible with existing `~> 0.5` requirement.
 - **oxc 0.6 → 0.7 + quickbeam 0.9 → 0.10.** See Task 101 below.
 
+### Task 4: QuickBEAM extractors scope flags
+
+Four QuickBEAM-backed Mix tasks now accept the full canonical scope flag
+set via `CcxtExtract.TaskScope`:
+
+- `mix ccxt_extract.describe`
+- `mix ccxt_extract.url_templates`
+- `mix ccxt_extract.signing_fixtures`
+- `mix ccxt_extract.load_markets` (breaking CLI change — see below)
+
+`url_templates.json` now routes through `CcxtExtract.AggregateWriter`
+(same path as Task 5's OXC extractors), so scoped runs merge cleanly with
+existing output: in-scope entries are replaced, out-of-scope entries are
+preserved, `count` is recomputed from the merged list on every write.
+
+The three per-exchange-directory tasks (`describe`, `signing_fixtures`,
+`load_markets`) dropped their wholesale pre-write delete. A new
+`CcxtExtract.TaskScope.rebuild_manifest_exchanges/1` helper returns the
+sorted list of exchange IDs currently on disk under a directory (globbing
+`*.json`, excluding `_`-prefixed metadata) — each task rebuilds its
+manifest's `exchanges` / `succeeded` list from this on every write, so
+manifest state can never drift from disk. `:scope == :all` triggers
+`ScopeCleanup.prune_out_of_scope/3` to reassert the full universe; scoped
+runs preserve out-of-scope per-exchange files from prior runs.
+
+**Breaking CLI change — `load_markets`:** the legacy `--exchanges <csv>`
+(plural, comma-separated) flag is removed. Use canonical
+`--exchange <id>` (repeatable) or the `--tier*/--dex/--all` flags. The
+validation error message on the old flag is "Unknown option",
+consistent with every other scope-aware task.
+
+`mix ccxt_extract.update` now passes `scope_args/1` to every stage
+uniformly. The special-case translator `load_markets_scope_args/1` is
+gone, along with the Task-3-era `tier_scope_args/1` shim (contract_test
+has accepted the full scope flag set since Task 3 merged). All scope
+flow through the orchestrator uses one grammar end-to-end.
+
+`signing_fixtures` preserves `ccxt_version` across empty scoped runs by
+reading the existing manifest when this run produced no fixtures —
+scoped runs can't accidentally blank a field the global bundle still
+defines. `load_markets` merges the manifest's `failed` list: out-of-scope
+failed entries from prior runs are kept, in-scope failures replace the
+previous in-scope entries, and any ID that now has a succeeded file on
+disk drops out of `failed`. Counts are recomputed from the final lists.
+
+**Files touched:**
+`lib/ccxt_extract/task_scope.ex` (new `rebuild_manifest_exchanges/1`),
+`lib/ccxt_extract/describe.ex`, `lib/ccxt_extract/url_templates.ex`,
+`lib/ccxt_extract/signing_fixtures.ex`,
+`lib/ccxt_extract/load_markets.ex`,
+`lib/mix/tasks/ccxt_extract.describe.ex`,
+`lib/mix/tasks/ccxt_extract.url_templates.ex`,
+`lib/mix/tasks/ccxt_extract.signing_fixtures.ex`,
+`lib/mix/tasks/ccxt_extract.load_markets.ex`,
+`lib/mix/tasks/ccxt_extract.update.ex` (translator + shim removed).
+New tests in `test/ccxt_extract/task_scope_test.exs` (rebuild helper),
+`test/mix/tasks/quickbeam_scope_flags_test.exs` (16 scope-flag cases
+mirroring `oxc_scope_flags_test.exs`), and merge regression guards in
+`test/ccxt_extract/url_templates_test.exs`.
+
+Post-merge polish: the 7-line scope-arg preamble repeated across the four
+Mix tasks is now `CcxtExtract.TaskScope.parse_and_resolve!/3` — single
+call returns `{scope, tier_scope, opts}`. Error messages also cleaned up
+(unknown options and leftovers format as joined strings instead of raw
+`inspect/1` tuples). Existing test regexes still match.
+
 ### Task 3: Contract test scope migration
 
 `mix ccxt_extract.contract_test` now uses the shared

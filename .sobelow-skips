@@ -446,3 +446,11 @@ Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/cont
 Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/contract_test.ex:230,218F5D3
 Traversal.FileModule: Directory Traversal in `File.rm!`,lib/ccxt_extract/scope_cleanup.ex:104,567C3CD
 Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/contract_test.ex:87,7F73128
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:119,1486551
+Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/pipeline.ex:288,1509374
+Traversal.FileModule: Directory Traversal in `File.cp!`,lib/ccxt_extract/pipeline.ex:1106,1D87098
+Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/pipeline.ex:1059,3E0EBDE
+Traversal.FileModule: Directory Traversal in `File.cp!`,lib/ccxt_extract/pipeline.ex:1095,484462A
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:114,68ED153
+Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/pipeline.ex:106,6BF703B
+Traversal.FileModule: Directory Traversal in `File.rm`,lib/ccxt_extract/pipeline.ex:1108,716DEB7

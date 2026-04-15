@@ -72,7 +72,10 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
     validate_task: "test.record_validate",
     contract_test_task: "test.record_contract_test",
     quickbeam_analytics: ["test.record_describe_keys", "test.record_describe_key_analysis"],
-    derived_analytics: ["test.record_summary", "test.record_family_analysis"]
+    derived_analytics: ["test.record_summary", "test.record_family_analysis"],
+    # Disarm the git-status safety rail for orchestration tests that don't
+    # exercise it directly. Safety-rail tests override this with a sandbox path.
+    safety_paths: []
   ]
 
   describe "read_manifest/1" do
@@ -209,6 +212,135 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
              ]
     end
 
+    test "--tier1 --dex propagates to pipeline and contract_test stages" do
+      output_dir = make_tmp_output_dir()
+
+      {_output, task_runs} =
+        capture_task_run(fn ->
+          with_update_task_overrides(@task_overrides, fn ->
+            Update.run(["--tier1", "--dex", "--output", output_dir])
+          end)
+        end)
+
+      assert {"test.record_pipeline", ["--output", output_dir, "--tier1", "--dex"]} in task_runs
+      assert {"test.record_contract_test", ["--output", output_dir, "--tier1", "--dex"]} in task_runs
+    end
+
+    test "--exchange repeated and comma-split fans out as sorted unique pairs" do
+      output_dir = make_tmp_output_dir()
+
+      {_output, task_runs} =
+        capture_task_run(fn ->
+          with_update_task_overrides(@task_overrides, fn ->
+            Update.run(["--exchange", "binance,kraken", "--exchange", "deribit", "--output", output_dir])
+          end)
+        end)
+
+      pipeline_args =
+        Enum.find_value(task_runs, fn
+          {"test.record_pipeline", args} -> args
+          _ -> nil
+        end)
+
+      assert pipeline_args == [
+               "--output",
+               output_dir,
+               "--exchange",
+               "binance",
+               "--exchange",
+               "deribit",
+               "--exchange",
+               "kraken"
+             ]
+    end
+
+    test "--exchange is dropped from contract_test stage (tier-only flag set)" do
+      output_dir = make_tmp_output_dir()
+
+      {_output, task_runs} =
+        capture_task_run(fn ->
+          with_update_task_overrides(@task_overrides, fn ->
+            Update.run(["--exchange", "binance", "--output", output_dir])
+          end)
+        end)
+
+      contract_test_args =
+        Enum.find_value(task_runs, fn
+          {"test.record_contract_test", args} -> args
+          _ -> nil
+        end)
+
+      assert contract_test_args == ["--output", output_dir]
+    end
+
+    test "--all is dropped from contract_test stage (tier-only flag set)" do
+      output_dir = make_tmp_output_dir()
+
+      {_output, task_runs} =
+        capture_task_run(fn ->
+          with_update_task_overrides(@task_overrides, fn ->
+            Update.run(["--all", "--output", output_dir])
+          end)
+        end)
+
+      contract_test_args =
+        Enum.find_value(task_runs, fn
+          {"test.record_contract_test", args} -> args
+          _ -> nil
+        end)
+
+      assert contract_test_args == ["--output", output_dir]
+    end
+  end
+
+  describe "git-status safety rail" do
+    test "aborts when a safety path has uncommitted changes" do
+      sandbox = make_git_sandbox()
+      dirty_file = Path.join(sandbox, "dirty.json")
+      File.write!(dirty_file, "{}")
+
+      overrides = Keyword.put(@task_overrides, :safety_paths, [sandbox])
+
+      assert_raise Mix.Error, ~r/uncommitted changes detected/, fn ->
+        with_update_task_overrides(overrides, fn ->
+          Update.run([])
+        end)
+      end
+    end
+
+    test "--force bypasses the safety rail when paths are dirty" do
+      sandbox = make_git_sandbox()
+      File.write!(Path.join(sandbox, "dirty.json"), "{}")
+
+      overrides = Keyword.put(@task_overrides, :safety_paths, [sandbox])
+
+      {_output, task_runs} =
+        capture_task_run(fn ->
+          with_update_task_overrides(overrides, fn ->
+            Update.run(["--force"])
+          end)
+        end)
+
+      # If the rail did not abort, we at least got to the pipeline stage.
+      assert Enum.any?(task_runs, fn {name, _args} -> name == "test.record_pipeline" end)
+    end
+
+    test "passes cleanly when safety paths have no uncommitted changes" do
+      sandbox = make_git_sandbox()
+      overrides = Keyword.put(@task_overrides, :safety_paths, [sandbox])
+
+      {_output, task_runs} =
+        capture_task_run(fn ->
+          with_update_task_overrides(overrides, fn ->
+            Update.run([])
+          end)
+        end)
+
+      assert Enum.any?(task_runs, fn {name, _args} -> name == "test.record_pipeline" end)
+    end
+  end
+
+  describe "orchestration extras" do
     test "--skip-setup skips extractors and QuickBEAM analytics but still runs cached analytics" do
       output_dir = make_tmp_output_dir()
 
@@ -287,6 +419,26 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
     path = Path.join(System.tmp_dir!(), "ccxt_extract_update_#{System.unique_integer([:positive])}")
     File.mkdir_p!(path)
     on_exit(fn -> File.rm_rf!(path) end)
+    path
+  end
+
+  # Creates an isolated git repository directory and registers cleanup. The
+  # returned path is a committed, clean repo suitable for safety-rail tests —
+  # individual tests can dirty it by writing files and expecting the rail to
+  # fire, or leave it clean to verify the rail passes through.
+  defp make_git_sandbox do
+    path = Path.join(System.tmp_dir!(), "ccxt_safety_rail_#{System.unique_integer([:positive])}")
+    File.mkdir_p!(path)
+    on_exit(fn -> File.rm_rf!(path) end)
+
+    {_out, 0} = System.cmd("git", ["init", "-q"], cd: path, stderr_to_stdout: true)
+    {_out, 0} = System.cmd("git", ["config", "user.email", "test@example.com"], cd: path)
+    {_out, 0} = System.cmd("git", ["config", "user.name", "Test"], cd: path)
+    {_out, 0} = System.cmd("git", ["config", "commit.gpgsign", "false"], cd: path)
+    File.write!(Path.join(path, ".gitkeep"), "")
+    {_out, 0} = System.cmd("git", ["add", "."], cd: path, stderr_to_stdout: true)
+    {_out, 0} = System.cmd("git", ["commit", "-q", "-m", "init"], cd: path, stderr_to_stdout: true)
+
     path
   end
 

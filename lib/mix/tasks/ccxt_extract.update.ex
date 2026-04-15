@@ -17,7 +17,16 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     * `--latest` — force reinstall of the latest CCXT version
     * `--strict` — fail with non-zero exit on validation errors
     * `--skip-setup` — skip stages 1-3 (setup + all extractors), re-run only pipeline + validate + contract_test + analytics
-    * `--tier1 --tier2 --tier3 --dex` — restrict the slow `load_markets` stage and `contract_test` reporting to the named priority tiers (combinable). OXC extractors and pipeline assembly always run on all 111 exchanges.
+    * `--tier1 --tier2 --tier3 --dex` — restrict scope to the named priority
+      tiers (combinable). Scope-aware stages: pipeline (new), `load_markets`,
+      and `contract_test`. Other extractors run full-universe; remaining
+      stage fan-out is tracked as tasks 3–7 in `SCOPED-EXTRACTION-TASKS.md`.
+    * `--exchange ID` — restrict scope to explicit exchange IDs. Repeatable
+      and comma-separated (e.g. `--exchange binance,kraken`).
+    * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+    * `--force` — bypass the git-status safety rail. Without this, the task
+      aborts when `priv/output/` or `priv/discoveries/` has uncommitted
+      changes so a scoped re-run cannot silently delete in-flight work.
 
   ## Stages
 
@@ -53,8 +62,13 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     tier1: :boolean,
     tier2: :boolean,
     tier3: :boolean,
-    dex: :boolean
+    dex: :boolean,
+    all: :boolean,
+    exchange: :keep,
+    force: :boolean
   ]
+
+  @safety_paths ["priv/output", "priv/discoveries"]
 
   @aliases [v: :ccxt_version]
 
@@ -70,6 +84,8 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     if leftover != [] do
       Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
     end
+
+    enforce_git_safety_rail!(opts)
 
     output_dir = opts[:output] || CcxtExtract.Paths.priv("output")
     manifest_path = Path.join(output_dir, "_manifest.json")
@@ -134,7 +150,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     args = []
     args = if opts[:output], do: ["--output", opts[:output] | args], else: args
     args = if opts[:strict], do: ["--strict" | args], else: args
-    args
+    args ++ scope_args(opts)
   end
 
   # Builds arg list for validate task
@@ -145,12 +161,17 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     args
   end
 
-  # Builds arg list for contract_test task. Intentionally omits --strict:
-  # this stage prints findings and keeps the pipeline going. Run
+  # Builds arg list for contract_test task. The --strict flag is omitted by
+  # design: this stage prints findings and keeps the pipeline going. Run
   # `mix ccxt_extract.contract_test --strict` directly for CI enforcement.
+  #
+  # TODO(Task 3 in SCOPED-EXTRACTION-TASKS.md): contract_test only accepts
+  # tier flags today. Drop --exchange/--all here until Task 3 teaches the
+  # task to accept them; pipeline has already pruned priv/output/ so the
+  # effective scope is preserved.
   defp build_contract_test_args(opts) do
     output_args = if opts[:output], do: ["--output", opts[:output]], else: []
-    output_args ++ tier_args(opts)
+    output_args ++ tier_scope_args(opts)
   end
 
   # QuickBEAM extractors — require JS runtime, some make live API calls.
@@ -164,19 +185,94 @@ defmodule Mix.Tasks.CcxtExtract.Update do
   )
 
   defp run_quickbeam_extractors(opts) do
-    tier_args = tier_args(opts)
-
     for task <- task_override(:quickbeam_extractors, @default_quickbeam_extractors) do
-      args = if task == "ccxt_extract.load_markets", do: tier_args, else: []
+      args = if task == "ccxt_extract.load_markets", do: load_markets_scope_args(opts), else: []
       Mix.Task.rerun(task, args)
     end
   end
 
-  # Convert parsed --tier* boolean opts back into CLI flag list for passthrough.
-  defp tier_args(opts) do
+  # Full scope passthrough — pipeline accepts every scope selector.
+  # Order: --all (if set), then --tier* in canonical order, then
+  # --exchange VALUE per explicit ID (sorted).
+  defp scope_args(opts) do
+    all_flag = if opts[:all], do: ["--all"], else: []
+    exchange_flags = opts |> exchange_ids() |> Enum.flat_map(&["--exchange", &1])
+
+    all_flag ++ tier_flag_args(opts) ++ exchange_flags
+  end
+
+  # Subset for stages that only accept tier flags today.
+  defp tier_scope_args(opts), do: tier_flag_args(opts)
+
+  # TODO(Task 4 in SCOPED-EXTRACTION-TASKS.md): load_markets takes
+  # --exchanges a,b,c (plural) + tier flags, not --exchange/--all.
+  # Translate until Task 4 migrates the task to Scope.resolve/2.
+  defp load_markets_scope_args(opts) do
+    ids = exchange_ids(opts)
+    exchanges_flag = if ids == [], do: [], else: ["--exchanges", Enum.join(ids, ",")]
+
+    tier_flag_args(opts) ++ exchanges_flag
+  end
+
+  defp tier_flag_args(opts) do
     [:tier1, :tier2, :tier3, :dex]
     |> Enum.filter(&Keyword.get(opts, &1))
     |> Enum.map(&"--#{&1}")
+  end
+
+  defp exchange_ids(opts) do
+    opts
+    |> Keyword.get_values(:exchange)
+    |> Enum.flat_map(&String.split(&1, ","))
+    |> Enum.map(&String.trim/1)
+    |> Enum.reject(&(&1 == ""))
+    |> Enum.uniq()
+    |> Enum.sort()
+  end
+
+  # Abort early if `priv/output/` or `priv/discoveries/` contains uncommitted
+  # changes. `--force` bypasses the rail for intentional re-runs over dirty
+  # trees. Aligned with the project rule that destructive stages must never
+  # silently eat in-flight work.
+  defp enforce_git_safety_rail!(opts) do
+    if !opts[:force] do
+      dirty = collect_dirty_paths(safety_paths())
+
+      if dirty != [] do
+        listing = Enum.map_join(dirty, "\n", &"  #{&1}")
+
+        Mix.raise("""
+        Refusing to run: uncommitted changes detected in protected paths.
+
+        #{listing}
+
+        Commit or stash these files first, or re-run with --force to bypass
+        the safety rail (you will lose any scoped-out files on deletion).
+        """)
+      end
+    end
+  end
+
+  defp collect_dirty_paths(paths), do: Enum.flat_map(paths, &dirty_lines_for/1)
+
+  defp dirty_lines_for(path) do
+    if File.dir?(path) do
+      case CcxtExtract.ScopeCleanup.git_status_clean?(".", cd: path) do
+        :ok -> []
+        {:error, lines} -> Enum.map(lines, &"#{path}: #{&1}")
+      end
+    else
+      []
+    end
+  end
+
+  # Resolves the safety-rail paths, allowing tests to override via
+  # `config :ccxt_extract, #{__MODULE__}, safety_paths: [...]`. Production
+  # uses the module attribute default.
+  defp safety_paths do
+    :ccxt_extract
+    |> Application.get_env(__MODULE__, [])
+    |> Keyword.get(:safety_paths, @safety_paths)
   end
 
   # OXC-based extractors — fast AST parsing, no API calls.

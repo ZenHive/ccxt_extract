@@ -6,6 +6,11 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Dependency bumps
+
+- **npm 0.5.1 → 0.5.3.** Adds `NPM.PackageResolver` with Node.js module resolution and `relative_import_path/3`. Includes an ETS race-condition fix in cache initialization. No breaking changes; compatible with existing `~> 0.5` requirement.
+- **Deferred:** `oxc 0.6 → 0.7` and `quickbeam 0.9 → 0.10` tracked as Task 101 in Maintenance Backlog. The pair upgrade is coupled (quickbeam 0.10 requires oxc ~> 0.7) and oxc 0.7 switches AST `:type`/`:kind` values from strings to snake_case atoms — touches every AST-walking extractor.
+
 ### Task 1: `Scope` + `ScopeCleanup` foundation modules
 
 Load-bearing groundwork for the `SCOPED-EXTRACTION-TASKS.md` refactor.
@@ -69,6 +74,97 @@ external review and fixed before downstream tasks land:
   explicit `--exchange` IDs still fail loud on mismatch (typo-detection
   surface preserved). New tests cover dropped tier members, mixed
   tier+explicit overlap, and empty intersection.
+
+### Task 2: scope-aware pipeline + orchestrator
+
+Makes `mix ccxt_extract.pipeline` and `mix ccxt_extract.update`
+scope-aware end-to-end, proving the design from
+`SCOPED-EXTRACTION-TASKS.md` before fanning out to per-extractor
+tasks (3–7).
+
+- **`Mix.Tasks.CcxtExtract.Pipeline`** — adds `--tier1/--tier2/--tier3/
+  --dex/--all/--exchange` (repeatable, comma-split) switches. Loads the
+  exchange universe from `priv/discoveries/exchanges.json`, resolves
+  scope via `Scope.resolve/2`, and passes a `MapSet` (or `:all`) to
+  `Pipeline.extract/1`. Conflict / typo errors are mapped to friendly
+  `Mix.raise` output (conflict list for `--all` mixed with narrowing;
+  fuzzy suggestions per typo from the Jaro-backed resolver).
+- **`CcxtExtract.Pipeline`** — `extract/1` accepts `:scope` and filters
+  the assemble reduce after `load_all_data/2`, so orphan / ID mismatch
+  integrity stats still see the full universe. `write!/3` accepts
+  `:tier_scope` and embeds it in `_manifest.json`. The old
+  `clean_stale_files/2` was replaced with
+  `ScopeCleanup.prune_out_of_scope/3` (preserving `exchange_v1.json`
+  via `:preserve`; `_`-prefixed files preserved by default).
+- **`CcxtExtract.Scope.to_manifest_value/1`** — new helper returns
+  `"all"` or a canonical list (`["tier1", "dex", "exchange:binance"]`)
+  for stamping into any manifest. Tier entries preserve the canonical
+  `tier1 → tier2 → tier3 → dex` order regardless of CLI input order;
+  explicit exchanges are sorted and `exchange:`-prefixed.
+- **`Mix.Tasks.CcxtExtract.Update`** — extended `@switches` with
+  `all`, `exchange: :keep`, and `force`. Replaced `tier_args/1` with
+  `scope_args/1`, wired into `build_pipeline_args/1` and
+  `build_contract_test_args/1`. Added a `git-status` safety rail
+  (`enforce_git_safety_rail!/1`) that aborts when `priv/output/` or
+  `priv/discoveries/` has uncommitted changes; bypassed with
+  `--force`. Safety paths are test-overridable via
+  `config :ccxt_extract, Mix.Tasks.CcxtExtract.Update, safety_paths: [...]`.
+- **Scope boundary (intentional).** `scope_args` propagation in the
+  orchestrator reaches pipeline / `load_markets` / `contract_test`
+  only — stages scope-aware today. Other extractor stages still run
+  full-universe; remaining fan-out is tracked as tasks 3–7.
+- **Tests.** 21 new cases across `pipeline_test.exs` (scope filter,
+  tier_scope stamping, stale-file pruning with `exchange_v1.json`
+  preservation), `scope_test.exs` (eight cases on
+  `to_manifest_value/1` covering ordering, dedup, comma-split,
+  whitespace), `update_test.exs` (scope flag propagation to pipeline
+  and contract_test, `--exchange` fan-out, safety rail aborts / dirty
+  listing, `--force` bypass, clean pass-through), and a new
+  `test/mix/tasks/pipeline_test.exs` (CLI arg parsing + conflict /
+  typo Mix.raise mapping). Safety-rail tests build an isolated git
+  sandbox per test via `System.cmd("git init …")` so they don't
+  depend on the host repo state.
+- **`.dialyzer_ignore.exs`** — one new `call_with_opaque` suppression
+  for `lib/ccxt_extract/pipeline.ex` where `prune_out_of_scope/3` is
+  called with an inline `MapSet`, following the existing project
+  convention for MapSet opaque-type warnings. The existing
+  `call_without_opaque` entry was untouched.
+
+**Quality gates:** `mix format --check-formatted` clean;
+`mix credo --strict --format json` zero new issues (five pre-existing
+TODO and nested-module hints are unchanged); `mix dialyzer.json
+--quiet` zero warnings. Task 2's own tests all pass (21 tests on
+`test/mix/tasks/update_test.exs`, plus new coverage on scope + pipeline
+paths). The full suite is partially red: four cached integration tests
+(`OverridesCachedTest`, `ParseMethodsCachedTest`, `WsMethodsCachedTest`,
+`CoverageReportCachedTest`) still fail due to envelope/entry drift in
+`priv/discoveries/`. Tasks 5/6 close the drift by construction (envelope
+recompute on every write) — see `SCOPED-EXTRACTION-TASKS.md` Known Drift
+note.
+
+**Task 2 follow-up (Codex review):** three regressions introduced while
+wiring `scope_args` through the orchestrator:
+
+- **Stage-specific arg routing.** `scope_args/1` in `update.ex` was
+  passing the full flag set (`--tier*`, `--exchange`, `--all`) to every
+  downstream stage, but `load_markets` only accepts `--exchanges` (plural,
+  comma-separated) + tier flags, and `contract_test` only accepts tier
+  flags. `mix ccxt_extract.update --exchange binance` would have crashed
+  at Stage 2 and Stage 6 with `Unknown option: exchange`. Fixed by
+  splitting scope into three helpers: `scope_args/1` (full — pipeline),
+  `tier_scope_args/1` (tier flags only — contract_test), and
+  `load_markets_scope_args/1` (tier flags + translated `--exchanges`
+  csv). TODOs point at Tasks 3 and 4 for the proper migrations. Two new
+  orchestration tests cover the `--exchange` and `--all` drop-through.
+- **Staged manifest was a test artifact.** `priv/output/_manifest.json`
+  had been overwritten with `{"ccxt_version":"test-version",...}` from
+  the pipeline-task test fixture and accidentally staged. Restored from
+  `HEAD` (109 exchanges, full schema).
+- **Pipeline safety-rail gap tracked.** Direct `mix ccxt_extract.pipeline
+  --tier1` invocations still prune without a git-status check — the rail
+  only lives in `mix ccxt_extract.update`. Captured as Task 10 in
+  `SCOPED-EXTRACTION-TASKS.md` rather than patched in this PR; the
+  moduledoc pipeline caveat can land with Task 10.
 
 ### Preflight: tier family inheritance + contract_test load-time scoping
 

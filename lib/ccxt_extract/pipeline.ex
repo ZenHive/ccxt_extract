@@ -20,6 +20,7 @@ defmodule CcxtExtract.Pipeline do
 
   alias CcxtExtract.Paths
   alias CcxtExtract.Schema
+  alias CcxtExtract.ScopeCleanup
 
   require Logger
 
@@ -32,6 +33,13 @@ defmodule CcxtExtract.Pipeline do
 
   Returns `{:ok, exchanges, stats}` where `exchanges` is a sorted list of
   validated exchange maps and `stats` tracks counts.
+
+  ## Options
+
+    * `:scope` — `:all` (default) assembles every known exchange, or a
+      `MapSet` of exchange IDs to restrict assembly to. Integrity stats
+      (`missing_entries`, `orphan_entries`, etc.) still reflect the full
+      universe so we never hide real discovery drift.
   """
   @spec extract(keyword()) :: {:ok, [map()], map()} | {:error, {:missing_input, String.t()}}
   def extract(opts \\ []) do
@@ -54,9 +62,11 @@ defmodule CcxtExtract.Pipeline do
         end)
 
       schema_opts = [ccxt_version: ccxt_version, extracted_at: extracted_at, version_info: version_info]
+      scope = Keyword.get(opts, :scope, :all)
 
       {exchanges, errors} =
         data.exchanges
+        |> filter_scope(scope)
         |> Enum.sort_by(& &1["id"])
         |> Enum.reduce({[], []}, &assemble_and_validate(&1, data, schema_opts, &2))
 
@@ -77,14 +87,26 @@ defmodule CcxtExtract.Pipeline do
   @doc """
   Write per-exchange JSON files, the schema, and a manifest.
 
-  Cleans stale files from the output directory before writing.
+  Prunes per-exchange JSON files outside the written set before writing,
+  preserving the shared schema (`exchange_v1.json`) and any `_`-prefixed
+  metadata file (manifests, base methods).
+
+  ## Options
+
+    * `:tier_scope` — value to stamp into `_manifest.json` as `tier_scope`.
+      Use `CcxtExtract.Scope.to_manifest_value/1` to compute from parsed
+      CLI opts. Defaults to `"all"` when omitted.
+    * `:discoveries_dir` — override the source directory for
+      `_base_methods.json` (used for testing).
   """
   @spec write!([map()], String.t(), keyword()) :: :ok
   def write!(exchanges, output_dir \\ Paths.priv(@output_dir), opts \\ []) do
     discoveries_dir = Keyword.get(opts, :discoveries_dir, Paths.priv("discoveries"))
 
     File.mkdir_p!(output_dir)
-    clean_stale_files(output_dir, exchanges)
+
+    in_scope = MapSet.new(exchanges, & &1["exchange"]["id"])
+    {:ok, _removed} = ScopeCleanup.prune_out_of_scope(output_dir, in_scope, preserve: ["exchange_v1.json"])
 
     for exchange <- exchanges do
       id = exchange["exchange"]["id"]
@@ -99,6 +121,12 @@ defmodule CcxtExtract.Pipeline do
     copy_base_methods!(output_dir, discoveries_dir)
 
     :ok
+  end
+
+  defp filter_scope(exchanges, :all), do: exchanges
+
+  defp filter_scope(exchanges, %MapSet{} = scope) do
+    Enum.filter(exchanges, &MapSet.member?(scope, &1["id"]))
   end
 
   # Reduce callback: build one exchange and validate it
@@ -1061,23 +1089,6 @@ defmodule CcxtExtract.Pipeline do
   defp type_name(nil), do: "null"
   defp type_name(_), do: "unknown"
 
-  # Remove JSON files from output dir that aren't in the current exchange set
-  defp clean_stale_files(output_dir, exchanges) do
-    current_ids = MapSet.new(exchanges, & &1["exchange"]["id"])
-
-    output_dir
-    |> File.ls!()
-    |> Enum.filter(&String.ends_with?(&1, ".json"))
-    |> Enum.reject(&(&1 in ["_manifest.json", "exchange_v1.json", "_base_methods.json"]))
-    |> Enum.each(fn filename ->
-      id = String.trim_trailing(filename, ".json")
-
-      if !MapSet.member?(current_ids, id) do
-        File.rm!(Path.join(output_dir, filename))
-      end
-    end)
-  end
-
   defp copy_schema!(output_dir) do
     schema_source = Paths.priv("schema/exchange_v1.json")
     schema_target = Path.join(output_dir, "exchange_v1.json")
@@ -1109,6 +1120,7 @@ defmodule CcxtExtract.Pipeline do
       "ccxt_version" => first["ccxt_version"] || "unknown",
       "source_git_sha" => version_info["source_git_sha"],
       "extracted_at" => first["extracted_at"] || DateTime.to_iso8601(DateTime.utc_now()),
+      "tier_scope" => Keyword.get(opts, :tier_scope, "all"),
       "exchange_count" => length(exchanges),
       "exchanges" => exchanges |> Enum.map(& &1["exchange"]["id"]) |> Enum.sort()
     }

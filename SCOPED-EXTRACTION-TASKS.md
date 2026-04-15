@@ -25,10 +25,12 @@ of uncommitted work.
 
 ## 🎯 Current Focus
 
-**Task 2: Wire `Scope` into pipeline + orchestrator.** Task 1 foundations
-(`Scope.resolve/2`, `ScopeCleanup.prune_out_of_scope/3`, `git_status_clean?/2`)
-landed in `lib/ccxt_extract/scope.ex` and `lib/ccxt_extract/scope_cleanup.ex`.
-Tasks 2/3/4/5 can now proceed in parallel (see Task Graph).
+**Task 2 landed.** Pipeline + orchestrator are scope-aware end-to-end:
+`mix ccxt_extract.pipeline --tier1` assembles only in-scope exchanges,
+prunes the rest from `priv/output/`, and stamps `tier_scope` in
+`_manifest.json`. `mix ccxt_extract.update` gained a `--force`-gated
+git-status safety rail and routes `scope_args` to the pipeline stage.
+Tasks 3/4/5 can now proceed in parallel (see Task Graph).
 
 **Known drift (fixed by Tasks 5/6 + regeneration):** cached integration tests
 are currently red because envelope totals in `parse_methods.json` (1564 vs 1541),
@@ -36,7 +38,7 @@ are currently red because envelope totals in `parse_methods.json` (1564 vs 1541)
 the actual entry sums. Tasks 5/6 require envelope recompute on every write,
 which closes this class of bug by construction.
 
-### Quick Commands (after Task 2)
+### Quick Commands
 
 ```bash
 mix test.json --quiet --failed --first-failure           # Iterate on scope tests
@@ -100,10 +102,28 @@ Implement two small, well-tested modules that every downstream task will use.
 
 ---
 
-### Task 2: Wire Scope into pipeline + orchestrator ⬜
+### Task 2: Wire Scope into pipeline + orchestrator ✅
 
-**Status:** Pending — **ready** (Task 1 foundation landed)
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-2-scope-aware-pipeline--orchestrator).
 **Score:** [D:5/B:9/U:9 → Eff:1.8] 🚀
+
+Landed `--tier*/--all/--exchange` on both
+`mix ccxt_extract.pipeline` and `mix ccxt_extract.update`, plus a
+`--force`-gated git-status safety rail on the orchestrator only.
+`Pipeline.extract/1` filters assembly by `:scope`, `Pipeline.write!/3`
+stamps `tier_scope` via the new `Scope.to_manifest_value/1` helper,
+and `clean_stale_files/2` was replaced with
+`ScopeCleanup.prune_out_of_scope/3` (preserving `exchange_v1.json` and
+`_`-prefixed metadata). `mix ccxt_extract.update` aborts when
+`priv/output/` or `priv/discoveries/` has uncommitted changes (bypass
+with `--force`). Direct `mix ccxt_extract.pipeline` invocations still
+prune without a safety rail — tracked as Task 10. 21 new tests across
+`pipeline_test.exs`, `scope_test.exs`, `update_test.exs`, and a new
+`test/mix/tasks/pipeline_test.exs`. **Scope boundary:** `scope_args`
+only reaches pipeline/load_markets/contract_test in this PR — other
+extractor stages pick up scope flags as Tasks 3–7 land.
+
+**Original spec (retained for traceability):**
 
 Make the pipeline and `mix ccxt_extract.update` scope-aware end-to-end. This
 proves the design works before fanning out to per-task changes.
@@ -340,6 +360,41 @@ This is the honest acceptance test — not "looks right" but "does right."
 - [ ] `mix test.json --quiet` — all pass
 
 **Files touched:** likely small fix-up edits across the board.
+
+---
+
+### Task 10: Pipeline safety rail (direct invocation) ⬜
+
+**Status:** Pending — captured from Task 2 Codex review.
+**Score:** [D:2/B:4/U:3 → Eff:1.75] 🚀
+
+The git-status safety rail added in Task 2 lives in
+`mix ccxt_extract.update` only. Direct `mix ccxt_extract.pipeline --tier1`
+invocations still call `ScopeCleanup.prune_out_of_scope/3` without a
+dirty-tree check, so a power-user workflow can silently delete
+uncommitted output JSON. Low-probability (power users know they're
+pruning) but cheap to close.
+
+**What to add:**
+- `--force` switch on `Mix.Tasks.CcxtExtract.Pipeline`.
+- Safety check that runs only when scope is narrowed (full-universe
+  writes don't prune). Uses `ScopeCleanup.git_status_clean?/1` on the
+  output directory, same pattern as `update.ex`.
+- Test-override for `safety_paths` (mirror update.ex convention).
+- Aborts on dirty tree; `--force` bypasses.
+
+**Tests:** Dirty sandbox aborts without `--force`; proceeds with it;
+full-universe run skips the check even on a dirty tree.
+
+**Success criteria:**
+- [ ] Direct `mix ccxt_extract.pipeline --tier1` aborts when
+      `priv/output/` has uncommitted changes
+- [ ] `--force` bypasses the rail
+- [ ] `--all` / no scope flag skips the check (no prune happens)
+- [ ] Moduledoc caveat in `ccxt_extract.pipeline.ex` can be dropped
+      once the rail is in place
+
+**Files touched:** 1 task file + test + small helper section.
 
 ---
 

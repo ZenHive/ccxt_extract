@@ -107,6 +107,9 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ [D:2/B:4/U:3 → Eff:1.50] `[Codex]` |
+| Task 101 | ⬜ | Migrate to oxc 0.7 + quickbeam 0.10 (atom-keyed AST) [D:4/B:6/U:5 → Eff:1.38] 📋 |
+
+**Task 101: Migrate to oxc 0.7 + quickbeam 0.10.** quickbeam 0.10.0 requires `oxc ~> 0.7`, and oxc 0.7.0 introduces a breaking change: AST `:type` and `:kind` values changed from strings (`"ImportDeclaration"`) to snake_case atoms (`:import_declaration`). Every extractor that walks AST must be updated — about 12 files, 54 occurrences across `lib/ccxt_extract/{classes,methods,pagination,parse_methods,sign_method,handle_errors,base_methods,interface_signatures,unified_endpoints,overrides,ws_methods}.ex` plus `mix/tasks/ccxt_extract.setup.ex`. Also switch to `collect_imports/2` / `rewrite_specifiers/3` where applicable, update error handling (tuples now `{:error, [%{message: String.t()}]}`, bang funcs raise `OXC.Error`), and bump `mix.exs` to `{:oxc, "~> 0.7"}, {:quickbeam, "~> 0.10"}`. Verify with `mix ccxt_extract.update --skip-setup` + `mix ccxt_extract.contract_test --strict` to confirm byte-identical output across priority tiers before merging. quickbeam 0.10 also adds JS line coverage (`mix test --cover`) and `Beam.XML.parse` — nice-to-have, not required by this task.
 
 ---
 

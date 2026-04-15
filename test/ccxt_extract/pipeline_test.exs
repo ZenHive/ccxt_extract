@@ -1679,4 +1679,110 @@ defmodule CcxtExtract.PipelineTest do
   defp full_exchange do
     Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
   end
+
+  describe "scope filtering and manifest tier_scope" do
+    @tag :tmp_dir
+    test "extract/1 with :all returns every manifest exchange", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: ["fakex"],
+        markets_succeeded: ["fakex"],
+        extra_exchanges: [%{"id" => "otherx", "name" => "Other", "alias" => false}]
+      )
+
+      write_json(Path.join(tmp_dir, "describe/fakex.json"), %{"id" => "fakex", "describe" => %{"id" => "fakex"}})
+      write_json(Path.join(tmp_dir, "describe/otherx.json"), %{"id" => "otherx", "describe" => %{"id" => "otherx"}})
+
+      write_json(Path.join(tmp_dir, "load_markets/fakex.json"), %{"id" => "fakex", "market_count" => 0, "markets" => %{}})
+
+      {:ok, exchanges, _stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z",
+          scope: :all
+        )
+
+      ids = Enum.map(exchanges, & &1["exchange"]["id"])
+      assert Enum.sort(ids) == ["fakex", "otherx"]
+    end
+
+    @tag :tmp_dir
+    test "extract/1 filters to the MapSet scope", %{tmp_dir: tmp_dir} do
+      write_minimal_fixtures(tmp_dir,
+        describe_exchanges: ["fakex"],
+        markets_succeeded: ["fakex"],
+        extra_exchanges: [%{"id" => "otherx", "name" => "Other", "alias" => false}]
+      )
+
+      write_json(Path.join(tmp_dir, "describe/fakex.json"), %{"id" => "fakex", "describe" => %{"id" => "fakex"}})
+      write_json(Path.join(tmp_dir, "describe/otherx.json"), %{"id" => "otherx", "describe" => %{"id" => "otherx"}})
+
+      write_json(Path.join(tmp_dir, "load_markets/fakex.json"), %{"id" => "fakex", "market_count" => 0, "markets" => %{}})
+
+      {:ok, exchanges, _stats} =
+        Pipeline.extract(
+          discoveries_dir: tmp_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z",
+          scope: MapSet.new(["fakex"])
+        )
+
+      ids = Enum.map(exchanges, & &1["exchange"]["id"])
+      assert ids == ["fakex"]
+    end
+
+    @tag :tmp_dir
+    test "write!/3 stamps tier_scope into manifest and prunes stale files", %{tmp_dir: tmp_dir} do
+      output_dir = Path.join(tmp_dir, "out")
+      File.mkdir_p!(output_dir)
+
+      # Simulate a prior extract that left leftover files behind.
+      File.write!(Path.join(output_dir, "stale.json"), "{}")
+      File.write!(Path.join(output_dir, "_kept.json"), "{}")
+      File.write!(Path.join(output_dir, "exchange_v1.json"), "{}")
+
+      # Discoveries dir just needs the schema + base methods copy targets.
+      discoveries_dir = Path.join(tmp_dir, "discoveries")
+      File.mkdir_p!(discoveries_dir)
+      write_json(Path.join(discoveries_dir, "_base_methods.json"), %{"count" => 0, "methods" => []})
+
+      exchange = %{
+        "schema_version" => "1.6.0",
+        "ccxt_version" => "4.5.45",
+        "extracted_at" => "2026-03-30T12:00:00Z",
+        "exchange" => %{"id" => "fakex", "name" => "Fake", "alias" => false},
+        "runtime" => %{"describe" => nil, "markets" => nil, "symbol_patterns" => nil, "url_templates" => nil},
+        "structure" => %{}
+      }
+
+      Pipeline.write!([exchange], output_dir,
+        tier_scope: ["tier1", "exchange:fakex"],
+        discoveries_dir: discoveries_dir
+      )
+
+      manifest = output_dir |> Path.join("_manifest.json") |> File.read!() |> Jason.decode!()
+      assert manifest["tier_scope"] == ["tier1", "exchange:fakex"]
+      assert manifest["exchanges"] == ["fakex"]
+
+      refute File.exists?(Path.join(output_dir, "stale.json"))
+      assert File.exists?(Path.join(output_dir, "_kept.json"))
+      assert File.exists?(Path.join(output_dir, "exchange_v1.json"))
+      assert File.exists?(Path.join(output_dir, "fakex.json"))
+    end
+
+    @tag :tmp_dir
+    test "write!/3 defaults tier_scope to \"all\" when option omitted", %{tmp_dir: tmp_dir} do
+      output_dir = Path.join(tmp_dir, "out")
+      File.mkdir_p!(output_dir)
+
+      discoveries_dir = Path.join(tmp_dir, "discoveries")
+      File.mkdir_p!(discoveries_dir)
+      write_json(Path.join(discoveries_dir, "_base_methods.json"), %{"count" => 0, "methods" => []})
+
+      Pipeline.write!([], output_dir, discoveries_dir: discoveries_dir)
+
+      manifest = output_dir |> Path.join("_manifest.json") |> File.read!() |> Jason.decode!()
+      assert manifest["tier_scope"] == "all"
+    end
+  end
 end

@@ -175,4 +175,41 @@ defmodule CcxtExtract.ScopeTest do
       assert :exchange in keys
     end
   end
+
+  describe "to_manifest_value/1" do
+    test "empty opts returns \"all\"" do
+      assert Scope.to_manifest_value([]) == "all"
+    end
+
+    test "--all returns \"all\"" do
+      assert Scope.to_manifest_value(all: true) == "all"
+    end
+
+    test "single tier flag" do
+      assert Scope.to_manifest_value(tier1: true) == ["tier1"]
+    end
+
+    test "multiple tier flags preserve canonical order regardless of input order" do
+      assert Scope.to_manifest_value(dex: true, tier1: true) == ["tier1", "dex"]
+      assert Scope.to_manifest_value(tier2: true, tier1: true, dex: true) == ["tier1", "tier2", "dex"]
+    end
+
+    test "explicit exchange entries are sorted and prefixed" do
+      assert Scope.to_manifest_value(exchange: "kraken,binance") == ["exchange:binance", "exchange:kraken"]
+    end
+
+    test "repeated --exchange flags deduplicate and sort" do
+      opts = [exchange: "binance", exchange: "deribit", exchange: "binance"]
+      assert Scope.to_manifest_value(opts) == ["exchange:binance", "exchange:deribit"]
+    end
+
+    test "mixes tiers and exchanges in tier-first order" do
+      opts = [tier1: true, exchange: "hyperliquid,bybit"]
+      assert Scope.to_manifest_value(opts) == ["tier1", "exchange:bybit", "exchange:hyperliquid"]
+    end
+
+    test "ignores whitespace in comma-split exchange values" do
+      assert Scope.to_manifest_value(exchange: "binance, deribit ") == ["exchange:binance", "exchange:deribit"]
+    end
+  end
 end

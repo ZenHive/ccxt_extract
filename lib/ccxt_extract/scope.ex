@@ -26,6 +26,7 @@ defmodule CcxtExtract.Scope do
 
   @type scope_label :: :all | {:scoped, String.t()}
   @type suggestions :: %{String.t() => [String.t()]}
+  @type manifest_value :: String.t() | [String.t()]
 
   @type resolve_result ::
           {:ok, [String.t()], scope_label}
@@ -124,4 +125,36 @@ defmodule CcxtExtract.Scope do
   end
 
   defp strip_count_suffix(label), do: Regex.replace(~r/\s*\(\d+\)$/, label, "")
+
+  @doc """
+  Renders the active scope as a JSON-friendly manifest value.
+
+  Returns `"all"` when no narrowing flags are set (or `--all` is explicit),
+  otherwise a sorted, canonicalized list:
+
+      iex> CcxtExtract.Scope.to_manifest_value([])
+      "all"
+      iex> CcxtExtract.Scope.to_manifest_value(all: true)
+      "all"
+      iex> CcxtExtract.Scope.to_manifest_value(tier1: true, dex: true)
+      ["tier1", "dex"]
+      iex> CcxtExtract.Scope.to_manifest_value(exchange: "binance,deribit")
+      ["exchange:binance", "exchange:deribit"]
+      iex> CcxtExtract.Scope.to_manifest_value(tier1: true, exchange: "hyperliquid")
+      ["tier1", "exchange:hyperliquid"]
+
+  Tier entries preserve the canonical tier1/tier2/tier3/dex order; explicit
+  exchange entries are sorted alphabetically and prefixed with `exchange:`.
+  """
+  @spec to_manifest_value(keyword()) :: manifest_value
+  def to_manifest_value(opts) do
+    active_tiers = Enum.filter(@tier_keys, &Keyword.get(opts, &1))
+    explicit = parse_exchange_opts(opts)
+
+    cond do
+      opts[:all] -> "all"
+      active_tiers == [] and explicit == [] -> "all"
+      true -> Enum.map(active_tiers, &Atom.to_string/1) ++ Enum.map(Enum.sort(explicit), &"exchange:#{&1}")
+    end
+  end
 end

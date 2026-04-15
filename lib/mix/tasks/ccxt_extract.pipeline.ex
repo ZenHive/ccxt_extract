@@ -35,19 +35,11 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
   use Mix.Task
 
   alias CcxtExtract.Scope
+  alias CcxtExtract.TaskScope
 
   @progress_interval 20
 
-  @switches [
-    output: :string,
-    strict: :boolean,
-    tier1: :boolean,
-    tier2: :boolean,
-    tier3: :boolean,
-    dex: :boolean,
-    all: :boolean,
-    exchange: :keep
-  ]
+  @switches Keyword.merge([output: :string, strict: :boolean], TaskScope.scope_switches())
 
   @impl true
   def run(args) do
@@ -62,8 +54,8 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
       Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
     end
 
-    universe = load_universe()
-    scope = resolve_scope!(opts, universe)
+    universe = TaskScope.load_universe()
+    scope = TaskScope.resolve_scope!(opts, universe)
     tier_scope = Scope.to_manifest_value(opts)
 
     Mix.shell().info("Assembling per-exchange JSON from discovery data#{scope_suffix(opts)}...")
@@ -85,53 +77,6 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
       {:error, {:missing_input, path}} ->
         Mix.raise("Missing required input: #{path}")
     end
-  end
-
-  defp load_universe do
-    path = Path.join(CcxtExtract.Paths.priv("discoveries"), "exchanges.json")
-
-    case File.read(path) do
-      {:ok, content} ->
-        case Jason.decode(content) do
-          {:ok, %{"exchanges" => exchanges}} when is_list(exchanges) ->
-            Enum.map(exchanges, & &1["id"])
-
-          _ ->
-            Mix.raise("Corrupt #{path}: expected top-level \"exchanges\" list")
-        end
-
-      {:error, _} ->
-        Mix.raise("Missing #{path}. Run `mix ccxt_extract.exchanges` first.")
-    end
-  end
-
-  defp resolve_scope!(opts, universe) do
-    case Scope.resolve(opts, universe) do
-      {:ok, _ids, :all} ->
-        :all
-
-      {:ok, ids, {:scoped, label}} ->
-        Mix.shell().info("Scope: #{label}")
-        MapSet.new(ids)
-
-      {:error, {:unknown_exchange, bad_ids, suggestions}} ->
-        Mix.raise(format_unknown_exchange(bad_ids, suggestions))
-
-      {:error, {:all_with_narrowing, conflicting}} ->
-        flags = Enum.map_join(conflicting, ", ", &"--#{&1}")
-        Mix.raise("--all conflicts with narrowing flag(s): #{flags}")
-    end
-  end
-
-  defp format_unknown_exchange(bad_ids, suggestions) do
-    bad_ids
-    |> Enum.map_join("\n", fn id ->
-      case Map.get(suggestions, id, []) do
-        [] -> "  • #{id} (no close matches)"
-        matches -> "  • #{id} (did you mean: #{Enum.join(matches, ", ")}?)"
-      end
-    end)
-    |> then(&"Unknown --exchange ID(s):\n#{&1}")
   end
 
   defp scope_suffix(opts) do

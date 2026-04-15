@@ -11,6 +11,130 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - **npm 0.5.1 → 0.5.3.** Adds `NPM.PackageResolver` with Node.js module resolution and `relative_import_path/3`. Includes an ETS race-condition fix in cache initialization. No breaking changes; compatible with existing `~> 0.5` requirement.
 - **oxc 0.6 → 0.7 + quickbeam 0.9 → 0.10.** See Task 101 below.
 
+### Task 5: OXC extractors scope flags — batch A
+
+Six OXC-based Mix tasks gained the full scope flag set
+(`--tier1/--tier2/--tier3/--dex/--all/--exchange`): `classes`,
+`methods`, `sign_methods`, `handle_errors`, `parse_methods`,
+`ws_methods`. All aggregate writes now go through a merge-safe path
+that recomputes envelope totals from the final merged entries on every
+write — closes the drift class that was red in
+`parse_methods_cached_test` (1564 vs 1541) and `ws_methods_cached_test`
+(1574 vs 1539) by construction (pending `mix ccxt_extract.update`
+regeneration).
+
+**New `CcxtExtract.AggregateWriter`** — plain-function writer shared
+by all Task-5 extractors and ready for Task 4 (QuickBEAM) / Task 6
+(batch B) reuse. Options: `:entry_key`, `:id_key`, `:scope`
+(`:all | MapSet`), `:stats_fn`, `:tier_scope`, `:extra`, `:normalize`,
+`:extracted_at`. Scoped writes keep existing entries whose id isn't
+in scope and replace the rest; `:all` overwrites wholesale. `stats_fn`
+always runs against the final sorted merged list — two invariants
+(`count == length(entries)` and `total_X == Enum.sum(...)`) hold by
+construction. Raises loudly on malformed existing files (never silently
+drops entries).
+
+**New `CcxtExtract.TaskScope`** — factored the `load_universe/0` +
+`resolve_scope!/2` + `filter_entries/3` plumbing out of `pipeline.ex`
+into a shared module so Tasks 3/4/6/7 don't have to re-implement it.
+Also added `scoped_ids_missing_file/2` as the pure helper backing
+`handle_errors`' describe-file guard (testable without touching
+filesystem globals). `Mix.Tasks.CcxtExtract.Pipeline` now delegates.
+
+**`OXCExtractor.write!` routed through `AggregateWriter`.** The macro's
+default `write!/2` learned an opts form (`[scope:, tier_scope:,
+extracted_at:, output_path:]`) while preserving the legacy positional
+string form for the four integration tests that pass an explicit path.
+`write_stats/1` is unchanged — it's passed straight to `AggregateWriter`
+as `:stats_fn`, so the four inheriting tasks (`sign_methods`,
+`handle_errors`, `parse_methods`, `ws_methods`) got merge-safety for
+free.
+
+**Per-task behavior:**
+- `classes.ex` parses **all** `.ts` files regardless of scope, per
+  design decision at plan time (Q2). `class_hierarchy.json` is
+  load-bearing for `CcxtExtract.Tiers` family inheritance — a partial
+  tree would silently degrade tier expansion. Scope flags are accepted
+  for CLI consistency, stamp `tier_scope`, and fail loudly on typos.
+  The old `Classes.write!/2` (with pre-computed `tree` +
+  `ws_counterparts`) collapsed into a single `write!/2` that takes
+  opts; `tree` / `ws_counterparts` now recompute inside
+  `AggregateWriter`'s stats hook, preventing drift.
+- `methods.ex` writes two files (`methods_{rest,ws}.json`) and uses
+  `AggregateWriter`'s `:extra` option to preserve the `"type"`
+  envelope field.
+- `sign_methods.ex` / `parse_methods.ex` / `ws_methods.ex` — inherit
+  merge-safe behavior from `OXCExtractor`. Zero bespoke logic.
+- `handle_errors.ex` — same inheritance plus loud-fail guard on
+  missing `priv/discoveries/describe/<id>.json` for scoped runs
+  (`--all` tolerates gaps; full-universe runs legitimately include
+  exchanges with no describe output). Migration error message names
+  every missing file and prints the exact `mix ccxt_extract.describe
+  --exchange …` command to fix it.
+
+**Tests.** `test/ccxt_extract/aggregate_writer_test.exs` (19 cases:
+fresh write, `:all` overwrite, scoped merge preservation, `stats_fn`
+receives merged+sorted entries, `count`/`total_methods` invariants,
+sort determinism, `tier_scope` stamping, `:extra` field injection,
+stats-wins-on-conflict, malformed-file raise paths, normalization
+default on / `normalize: false` opt-out).
+`test/mix/tasks/oxc_scope_flags_test.exs` (27 cases: argument parsing
+and `Scope.resolve/2` error mapping across all six tasks via a
+loop-of-`describe` pattern; pure-function tests for
+`TaskScope.scoped_ids_missing_file/2` using a temp describe dir).
+Deep extraction merge behavior is covered by the AggregateWriter
+tests — task tests stay thin and fast because they don't require
+CCXT TypeScript source on disk.
+
+**Files touched:** 2 new lib modules (`lib/ccxt_extract/aggregate_writer.ex`,
+`lib/ccxt_extract/task_scope.ex`), 6 Mix task files, 4 core modules
+(`lib/ccxt_extract/classes.ex`, `lib/ccxt_extract/methods.ex`,
+`lib/ccxt_extract/oxc_extractor.ex`, and `lib/mix/tasks/ccxt_extract.handle_errors.ex`
+for the describe-guard), plus `lib/mix/tasks/ccxt_extract.pipeline.ex`
+(delegates to TaskScope — removed three duplicated helpers), and 2 new
+test files.
+
+**Verification status.** `mix format` clean; `mix compile` clean with
+no warnings; 1447 unit tests pass; AggregateWriter + scope-flag suites
+green. Two pre-existing integration failures remain until
+`mix ccxt_extract.update` regenerates the cached discovery fixtures
+(one is Task 5's own drift closed by construction post-regen; the
+other is the unrelated `coincatch` orphan noted in the post-Task 101
+drift block). `mix credo --strict --format json` and `mix dialyzer.json`
+deferred to a follow-up session.
+
+**Follow-up fixes (code review — two bugs, two docs).**
+- `AggregateWriter.write!/3` with `scope: :all` no longer reads the
+  existing file before overwriting. A corrupt aggregate previously
+  raised on `:all` even though the contract documented wholesale
+  replacement; fixed + regression test in
+  `test/ccxt_extract/aggregate_writer_test.exs`.
+- `TaskScope.load_universe/0` now derives the exchange universe
+  directly from `priv/ccxt/ts/src/*.ts` (110 IDs) instead of
+  `priv/discoveries/exchanges.json`. The JSON file lagged CCXT
+  source in practice — `coincatch` was absent there but present
+  in every OXC-derived discovery, so `--exchange coincatch` was
+  incorrectly rejected. The TS tree is the source of truth OXC
+  extractors already parse; sourcing the universe from the same
+  files is self-healing. Universe loading now requires
+  `mix ccxt_extract.setup` to have run (previously needed
+  `mix ccxt_extract.exchanges`).
+- `AggregateWriter` `:scope` option docstring now states the
+  pre-filter contract: callers passing a `MapSet` scope must
+  pre-filter `new_entries` (unfiltered entries are appended
+  verbatim and can produce duplicates). Mix tasks already do this
+  via `TaskScope.filter_entries/3`.
+- `oxc_scope_flags_test.exs` moduledoc no longer claims a bare
+  checkout runs the scope-resolution tests green; it now accurately
+  states the setup dependency.
+
+**Out-of-scope for this task.** Task 3 (contract_test scope-aware
+loading), Task 4 (QuickBEAM extractors), Task 6 (batch B —
+`interface_signatures`, `pagination`, `unified_endpoints`, `overrides`,
+`base_methods` — reuses `AggregateWriter` verbatim and closes the
+`overrides` 100 vs 99 drift), Task 7 (analytics), Task 10 (direct
+pipeline safety rail), Task 8 (docs sweep).
+
 ### Task 101: Migrate to oxc 0.7 + quickbeam 0.10
 
 oxc 0.7 flipped AST `:type` / `:kind` map values from PascalCase strings (`"BlockStatement"`) to snake_case atoms (`:block_statement`). quickbeam 0.10 requires the pair upgrade.

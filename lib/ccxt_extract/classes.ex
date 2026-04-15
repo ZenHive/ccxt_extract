@@ -61,40 +61,58 @@ defmodule CcxtExtract.Classes do
   end
 
   @doc """
-  Write extracted classes and inheritance tree to `priv/discoveries/class_hierarchy.json`.
+  Write extracted classes to `priv/discoveries/class_hierarchy.json`.
 
-  Creates the output directory if needed. Wraps class list in a metadata
-  envelope with timestamp, count, inheritance tree, and WS counterpart list.
+  The second argument is either an output path (string, legacy form) or an
+  options keyword list:
 
-  Accepts pre-computed `tree` and `ws_counterparts` to avoid recomputation
-  when the caller already has them (e.g., the mix task computes them for display).
+    * `:output_path` — override the default discovery JSON path
+    * `:tier_scope` — value from `CcxtExtract.Scope.to_manifest_value/1`,
+      stamped as `"tier_scope"`. Defaults to `"all"`.
+    * `:extracted_at` — override the ISO8601 timestamp
+
+  Routes through `CcxtExtract.AggregateWriter.write!/3`, which recomputes
+  `tree` and `ws_counterparts` from the supplied class list on every write
+  (prevents envelope-vs-entries drift). Class hierarchy reflects the full
+  CCXT source regardless of the caller's scope flag — see the mix task
+  moduledoc for the rationale.
   """
-  @spec write!([map()], String.t()) :: :ok
-  def write!(classes, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
-    write!(classes, build_tree(classes), find_ws_counterparts(classes), output_path)
-  end
+  @spec write!([map()], String.t() | keyword()) :: :ok
+  def write!(classes, output_path_or_opts \\ []) do
+    opts =
+      case output_path_or_opts do
+        path when is_binary(path) -> [output_path: path]
+        opts when is_list(opts) -> opts
+      end
 
-  @doc false
-  @spec write!([map()], map(), [String.t()], String.t()) :: :ok
-  def write!(
-        classes,
-        tree,
-        ws_counterparts,
-        output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))
-      ) do
-    File.mkdir_p!(Path.dirname(output_path))
+    output_path =
+      Keyword.get(
+        opts,
+        :output_path,
+        CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))
+      )
 
-    output = %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
-      "count" => length(classes),
-      "classes" => classes,
-      "tree" => tree,
-      "ws_counterparts" => ws_counterparts
-    }
+    writer_opts = [
+      entry_key: "classes",
+      id_key: "node_key",
+      scope: :all,
+      stats_fn: fn entries ->
+        %{
+          "tree" => build_tree(entries),
+          "ws_counterparts" => find_ws_counterparts(entries)
+        }
+      end,
+      tier_scope: Keyword.get(opts, :tier_scope, "all"),
+      normalize: false
+    ]
 
-    json = Jason.encode!(output, pretty: true)
-    File.write!(output_path, json)
-    :ok
+    writer_opts =
+      case Keyword.fetch(opts, :extracted_at) do
+        {:ok, ts} -> Keyword.put(writer_opts, :extracted_at, ts)
+        :error -> writer_opts
+      end
+
+    CcxtExtract.AggregateWriter.write!(output_path, classes, writer_opts)
   end
 
   @doc """

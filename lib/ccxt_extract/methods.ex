@@ -69,23 +69,42 @@ defmodule CcxtExtract.Methods do
 
   `:rest` writes to `priv/discoveries/methods_rest.json`,
   `:ws` writes to `priv/discoveries/methods_ws.json`.
+
+  Supported options:
+
+    * `:scope` — `:all` or `MapSet.t(String.t())` for merge-safe scoped writes
+    * `:tier_scope` — `CcxtExtract.Scope.to_manifest_value/1` output, stamped
+      into the envelope. Defaults to `"all"`.
+    * `:output_path` — override the default discovery path
+    * `:extracted_at` — override the ISO8601 timestamp
+
+  Routes through `CcxtExtract.AggregateWriter.write!/3` so scoped runs merge
+  with the existing aggregate and `count` is always recomputed from the
+  final merged entries list.
   """
-  @spec write!(:rest | :ws, [map()]) :: :ok
-  def write!(type, exchanges) when type in [:rest, :ws] do
+  @spec write!(:rest | :ws, [map()], keyword()) :: :ok
+  def write!(type, exchanges, opts \\ []) when type in [:rest, :ws] do
     filename = if type == :rest, do: @rest_output_file, else: @ws_output_file
-    output_path = CcxtExtract.Paths.priv(Path.join("discoveries", filename))
-    File.mkdir_p!(Path.dirname(output_path))
+    default_path = CcxtExtract.Paths.priv(Path.join("discoveries", filename))
+    output_path = Keyword.get(opts, :output_path, default_path)
 
-    output = %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
-      "type" => to_string(type),
-      "count" => length(exchanges),
-      "exchanges" => exchanges
-    }
+    writer_opts = [
+      entry_key: "exchanges",
+      id_key: "id",
+      scope: Keyword.get(opts, :scope, :all),
+      stats_fn: fn _ -> %{} end,
+      tier_scope: Keyword.get(opts, :tier_scope, "all"),
+      extra: %{"type" => to_string(type)},
+      normalize: false
+    ]
 
-    json = Jason.encode!(output, pretty: true)
-    File.write!(output_path, json)
-    :ok
+    writer_opts =
+      case Keyword.fetch(opts, :extracted_at) do
+        {:ok, ts} -> Keyword.put(writer_opts, :extracted_at, ts)
+        :error -> writer_opts
+      end
+
+    CcxtExtract.AggregateWriter.write!(output_path, exchanges, writer_opts)
   end
 
   @doc """

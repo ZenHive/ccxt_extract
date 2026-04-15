@@ -8,12 +8,53 @@ defmodule Mix.Tasks.CcxtExtract.Classes do
   Writes output to `priv/discoveries/class_hierarchy.json`.
 
       mix ccxt_extract.classes
+      mix ccxt_extract.classes --tier1
+      mix ccxt_extract.classes --exchange binance
+
+  ## Options
+
+    * `--tier1 --tier2 --tier3 --dex --all --exchange` — scope flags.
+      Accepted for consistency with other extractors and stamped into the
+      envelope as `tier_scope`, but the class list, inheritance `tree`,
+      and `ws_counterparts` are always derived from the full CCXT source.
+
+  ## Design note
+
+  Unlike other extractors, this task ignores the scope for the data itself.
+  `class_hierarchy.json` is load-bearing infrastructure — `CcxtExtract.Tiers`
+  reads it to expand tier flags with family inheritance. A partial class
+  tree would silently degrade tier expansion everywhere, so the hierarchy
+  always reflects the full CCXT source regardless of the caller's scope.
+
+  The scope flag still travels into `tier_scope` for traceability, and
+  `--exchange typo` still fails loudly with fuzzy suggestions so operators
+  see their input is acknowledged.
   """
 
   use Mix.Task
 
+  alias CcxtExtract.Scope
+  alias CcxtExtract.TaskScope
+
+  @switches TaskScope.scope_switches()
+
   @impl true
-  def run(_args) do
+  def run(args) do
+    {opts, leftover, invalid} = OptionParser.parse(args, strict: @switches)
+
+    if invalid != [] do
+      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
+      Mix.raise("Unknown option(s): #{switches}")
+    end
+
+    if leftover != [] do
+      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
+    end
+
+    universe = TaskScope.load_universe()
+    _scope = TaskScope.resolve_scope!(opts, universe)
+    tier_scope = Scope.to_manifest_value(opts)
+
     Mix.shell().info("Extracting class hierarchy from CCXT TypeScript source...")
 
     {:ok, classes, stats} = CcxtExtract.Classes.extract()
@@ -32,7 +73,7 @@ defmodule Mix.Tasks.CcxtExtract.Classes do
         "#{parent}: #{length(children)} children"
       end)
 
-    CcxtExtract.Classes.write!(classes, tree, ws_counterparts)
+    CcxtExtract.Classes.write!(classes, tier_scope: tier_scope)
 
     error_msg =
       if stats.errors == [] do

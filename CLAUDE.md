@@ -94,7 +94,7 @@ This is not a violation of the One Rule. It is an honest application of it: when
 
 **What this means for new derivation work:** if a derivation only matters for Tier 3 / unclassified exchanges (e.g., exotic signing schemes no priority exchange uses), it lives in `ROADMAP.md`'s Superseded / Deferred section until promoted by need.
 
-**Operational tools:** the slow network stages (`mix ccxt_extract.load_markets`) and the drift reporter (`mix ccxt_extract.contract_test`) take `--tier1 --tier2 --tier3 --dex` flags (combinable). Pipeline assembly, validate, and OXC-based extractors always run on all 111 exchanges — raw extraction is never filtered.
+**Operational tools:** every extraction Mix task accepts the full scope flag set (`--tier1 --tier2 --tier3 --dex --all --exchange ID`, combinable, typos fuzzy-suggested). Pipeline assembly (Task 2) and the six OXC batch-A extractors (Task 5 — `classes`, `methods`, `sign_methods`, `handle_errors`, `parse_methods`, `ws_methods`) route their aggregate writes through `CcxtExtract.AggregateWriter`, which merges scoped runs with existing aggregates and recomputes envelope totals from the final merged entries on every write. Scope never filters *parsing* of CCXT source — the OXC AST walk is always over all files; filtering applies at the output-merge boundary. `classes.ex` is intentionally an exception: scope flags only stamp `tier_scope`, because `class_hierarchy.json` is load-bearing for `CcxtExtract.Tiers` family inheritance and a partial tree would silently degrade tier expansion. Tracking: `SCOPED-EXTRACTION-TASKS.md` (Tasks 3/4/6/7 remaining).
 
 ## Consumers Exist — Design For Them
 

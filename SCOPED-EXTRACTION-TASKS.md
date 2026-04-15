@@ -25,12 +25,20 @@ of uncommitted work.
 
 ## 🎯 Current Focus
 
-**Task 2 landed.** Pipeline + orchestrator are scope-aware end-to-end:
-`mix ccxt_extract.pipeline --tier1` assembles only in-scope exchanges,
-prunes the rest from `priv/output/`, and stamps `tier_scope` in
-`_manifest.json`. `mix ccxt_extract.update` gained a `--force`-gated
-git-status safety rail and routes `scope_args` to the pipeline stage.
-Tasks 3/4/5 can now proceed in parallel (see Task Graph).
+**Task 5 landed.** Six OXC extractors are scope-aware end-to-end
+(`classes`, `methods`, `sign_methods`, `handle_errors`, `parse_methods`,
+`ws_methods`). New `CcxtExtract.AggregateWriter` routes every aggregate
+write through a merge-safe path that **recomputes envelope totals from
+merged entries on every write** — closes the drift-bug class for
+these files by construction. New `CcxtExtract.TaskScope` factors the
+load-universe + scope-resolve plumbing shared across extractor tasks,
+and `pipeline.ex` now delegates to it. `classes` intentionally ignores
+scope for the data itself (hierarchy is load-bearing for `Tiers` family
+inheritance) and only stamps `tier_scope`. `handle_errors` fails loudly
+when a scoped run is missing a required
+`priv/discoveries/describe/<id>.json`. Task 3 (contract test),
+Task 4 (QuickBEAM extractors), and Task 6 (batch B — reuses
+`AggregateWriter` verbatim) are now ready.
 
 **Known drift (post-Task 101):** cached integration tests are currently red for
 two unrelated reasons, neither tied to the scope refactor: (1) `coincatch` is a
@@ -229,38 +237,80 @@ Three QuickBEAM extractors currently ignore scope (`load_markets` already has ti
 
 ---
 
-### Task 5: OXC extractors scope flags — batch A ⬜
+### Task 5: OXC extractors scope flags — batch A ✅
 
-**Status:** Pending — **ready** (Task 1 foundation landed)
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-5-oxc-extractors-scope-flags--batch-a).
 **Score:** [D:4/B:6/U:6 → Eff:1.5] 🚀
 
-Six OXC AST extractors. All write aggregate JSON files under `priv/discoveries/`. Pattern is mechanical — establish once in the first task, reuse.
+Six OXC AST extractors gained the full scope flag set
+(`--tier1/--tier2/--tier3/--dex/--all/--exchange`). New
+`CcxtExtract.AggregateWriter` module (plain functions, not a macro —
+per Q1 at plan time) routes every aggregate write through a merge-safe
+path that recomputes envelope totals from the final merged entries on
+every write — drift-bug class closed by construction. New
+`CcxtExtract.TaskScope` factors the load-universe + scope-resolve
+plumbing shared across tasks; `pipeline.ex` now delegates.
 
-**Tasks:**
-- `ccxt_extract.classes` → `class_hierarchy.json`
-- `ccxt_extract.methods` → `methods_rest.json`, `methods_ws.json`
-- `ccxt_extract.sign_methods` → `sign_methods.json`
-- `ccxt_extract.handle_errors` → `handle_errors.json`
-- `ccxt_extract.parse_methods` → `parse_methods.json`
-- `ccxt_extract.ws_methods` → `ws_methods.json`
+**Per-task outcomes:**
+- `ccxt_extract.classes` — scope flags accepted for consistency and
+  stamped into `tier_scope`, but class list / `tree` / `ws_counterparts`
+  always reflect the full CCXT source (per Q2: hierarchy is load-bearing
+  for `Tiers` family inheritance; a partial tree would silently degrade
+  tier expansion). Documented exception in the moduledoc.
+- `ccxt_extract.methods` — scope flags alongside `--type rest|ws`;
+  filters extract results, writes `methods_{rest,ws}.json` with
+  `"type"` preserved via the new `:extra` envelope hook.
+- `ccxt_extract.sign_methods` / `parse_methods` / `ws_methods` —
+  inherit merge-safe behavior via the updated `OXCExtractor.write!`.
+  `parse_methods` / `ws_methods` close the 1564 vs 1541 / 1574 vs 1539
+  drift by construction (pending full regeneration).
+- `ccxt_extract.handle_errors` — same inheritance plus a loud-fail
+  guard: scoped runs missing `priv/discoveries/describe/<id>.json`
+  abort with actionable instructions (`--all` tolerates gaps).
 
-**Pattern:** Same as Task 4 aggregate writer (load existing, merge, rewrite, **recompute envelope totals from merged entries**).
+**Tests:**
+- `test/ccxt_extract/aggregate_writer_test.exs` — 19 cases covering
+  fresh write, `:all` overwrite, scoped MapSet merge, stats-recompute
+  drift guard (assertion mirrors the existing cached-test shape),
+  sort determinism, `tier_scope` stamping, malformed-file raises,
+  AST normalization default-on behavior.
+- `test/mix/tasks/oxc_scope_flags_test.exs` — 27 cases: argument
+  parsing + `--all`-conflict / unknown-exchange error mapping across
+  all six tasks; pure-function unit tests for
+  `TaskScope.scoped_ids_missing_file/2` (the helper backing
+  `handle_errors`' describe-guard).
+- Cached integration tests for `parse_methods` / `ws_methods` remain
+  red pending `mix ccxt_extract.update` regeneration; assertion style
+  unchanged (stats will match entries post-regen).
 
-Note: `parse_methods.json` and `ws_methods.json` are the two files whose envelope/entry drift is currently red in the cached tests — landing this task with the recompute step fixes them by construction (pending regeneration).
+**Files touched:** 2 new lib modules (`aggregate_writer.ex`,
+`task_scope.ex`), 6 extractor task files, 4 core extractor modules
+(`classes.ex`, `methods.ex`, `oxc_extractor.ex`, `handle_errors.ex`
+moduledoc), `pipeline.ex` (delegates to TaskScope), 2 new test files.
 
-**Success criteria:**
-- [ ] Each task accepts full scope flag set and filters iteration
-- [ ] Aggregate merge preserves out-of-scope data when not running `--all`
-- [ ] Envelope totals recomputed from merged entries (no drift)
-- [ ] Tests updated (include drift regression assertion for parse_methods + ws_methods)
+**Follow-up fixes (code review).** Two bugs + two docs corrected post-landing:
+`AggregateWriter` `:all` now skips the existing-file read (was raising on
+corrupt aggregates despite "wholesale replace" contract); `TaskScope.load_universe`
+re-sourced from `priv/ccxt/ts/src/*.ts` (was reading stale
+`priv/discoveries/exchanges.json`, which rejected valid IDs like `coincatch`);
+`AggregateWriter` `:scope` docstring documents the pre-filter contract;
+`oxc_scope_flags_test.exs` moduledoc accurately states the `mix ccxt_extract.setup`
+dependency for scope-resolution tests.
 
-**Files touched:** 6 task files + tests.
+**Design decisions captured at plan time** (`~/.claude/plans/idempotent-discovering-toucan.md`):
+- Q1: New module over macro extension — keeps merge logic in plain
+  functions, usable by both OXCExtractor-inheriting tasks and the
+  hand-rolled ones (`classes`, `methods`). Task 4 (QuickBEAM) will
+  reuse it.
+- Q2: `classes.ex` always parses all `.ts` files regardless of scope.
+  `class_hierarchy.json` invariant; scope flags stamp `tier_scope`
+  only. One documented exception to the Task 5 pattern.
 
 ---
 
 ### Task 6: OXC extractors scope flags — batch B ⬜
 
-**Status:** Pending — **blocked by Task 5**
+**Status:** Pending — **ready** (Task 5 landed `AggregateWriter` + `TaskScope`)
 **Score:** [D:4/B:6/U:6 → Eff:1.5] 🚀
 
 Remaining five OXC extractors. Same pattern.

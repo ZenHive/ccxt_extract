@@ -119,22 +119,55 @@ defmodule CcxtExtract.OXCExtractor do
 
       @doc """
       Write extracted data to the discovery JSON file.
+
+      The second argument is either an output path (string, legacy positional
+      form used by integration tests) or an options keyword list. Supported
+      options:
+
+        * `:output_path` — override the default discovery JSON path
+        * `:scope` — `:all` or `MapSet.t(String.t())`. When a MapSet, the
+          write merges with any existing aggregate: only entries whose
+          `"id"` is in scope get replaced; out-of-scope entries are
+          preserved. `:all` (default) overwrites the file wholesale.
+        * `:tier_scope` — value from `CcxtExtract.Scope.to_manifest_value/1`,
+          stamped into the envelope as `"tier_scope"`. Defaults to `"all"`.
+        * `:extracted_at` — override the ISO8601 timestamp (useful for
+          reproducible tests).
+
+      Always routes through `CcxtExtract.AggregateWriter.write!/3`, which
+      recomputes envelope totals via `write_stats/1` on the final merged
+      entries list — closes envelope-vs-entries drift by construction.
       """
-      @spec write!([map()], String.t()) :: :ok
-      def write!(exchanges, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @oxc_output_file))) do
-        File.mkdir_p!(Path.dirname(output_path))
+      @spec write!([map()], String.t() | keyword()) :: :ok
+      def write!(exchanges, output_path_or_opts \\ []) do
+        opts =
+          case output_path_or_opts do
+            path when is_binary(path) -> [output_path: path]
+            opts when is_list(opts) -> opts
+          end
 
-        base = %{
-          "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
-          "count" => length(exchanges),
-          "exchanges" => exchanges
-        }
+        output_path =
+          Keyword.get(
+            opts,
+            :output_path,
+            CcxtExtract.Paths.priv(Path.join("discoveries", @oxc_output_file))
+          )
 
-        output = Map.merge(base, write_stats(exchanges))
+        writer_opts = [
+          entry_key: "exchanges",
+          id_key: "id",
+          scope: Keyword.get(opts, :scope, :all),
+          stats_fn: &write_stats/1,
+          tier_scope: Keyword.get(opts, :tier_scope, "all")
+        ]
 
-        json = Jason.encode!(CcxtExtract.AstNormalize.normalize(output), pretty: true)
-        File.write!(output_path, json)
-        :ok
+        writer_opts =
+          case Keyword.fetch(opts, :extracted_at) do
+            {:ok, ts} -> Keyword.put(writer_opts, :extracted_at, ts)
+            :error -> writer_opts
+          end
+
+        CcxtExtract.AggregateWriter.write!(output_path, exchanges, writer_opts)
       end
 
       defoverridable extract: 0, parse_file: 1, write!: 2

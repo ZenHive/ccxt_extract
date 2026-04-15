@@ -6,6 +6,45 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 10: Pipeline safety rail (direct invocation)
+
+Closes the asymmetry between `mix ccxt_extract.update` and direct
+`mix ccxt_extract.pipeline` invocations. The git-status safety rail added
+in Task 2 lived only in the orchestrator; direct scoped pipeline runs
+could silently delete uncommitted output JSON via the prune step inside
+`Pipeline.write!/3`. Now both entry points honor the same invariant:
+*no destructive prune on a dirty tree without explicit `--force`*.
+
+- **`lib/mix/tasks/ccxt_extract.pipeline.ex`** — `--force` switch added;
+  `enforce_git_safety_rail!/2` ported from `update.ex` with one
+  deliberate divergence: full-universe runs (`--all` or no scope flag)
+  skip the check entirely, since they overwrite without pruning.
+  `safety_paths/1` protects the directory actually being pruned —
+  `opts[:output]` if given, otherwise the canonical default from
+  `CcxtExtract.Paths.priv("output")` — so `--output <custom-dir>` is
+  covered. Tests override the list via
+  `config :ccxt_extract, #{'#'}{__MODULE__}, safety_paths: [...]`.
+- **`lib/mix/tasks/ccxt_extract.update.ex`** — `build_pipeline_args/1`
+  now forwards `--force` to the pipeline stage so `update --force` no
+  longer bypasses its own rail only to re-trip the pipeline's rail in
+  Stage 4.
+- **`test/mix/tasks/pipeline_test.exs`** — four new tests in a
+  `git-status safety rail` describe block: narrowed scope + dirty tree
+  aborts, `--force` bypasses, `--all` skips the check, and the
+  `--output <custom-dir>` case is protected without an Application env
+  override. `make_git_sandbox/0` helper mirrors `update_test.exs`.
+  Pass-through tests use `try`/`rescue Mix.Error` so they work whether
+  the downstream pipeline succeeds or raises a different error.
+
+No shared safety-rail module — two callers, ~15 LOC each, per the
+"abstractions only with proven need (3+ use cases)" rule in CLAUDE.md.
+If a third caller appears, refactor then.
+
+**Discovered work:** `mix ccxt_extract.update`'s own rail still has
+hardcoded `@safety_paths ["priv/output", "priv/discoveries"]` and does
+not yet protect `--output <custom-dir>`. Separate follow-up — out of
+scope for Task 10.
+
 ### Task 8: Documentation overhaul for scoped extraction
 
 Closes the drift between landed scope-refactor behavior (Tasks 1–7, 11) and

@@ -150,6 +150,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     args = []
     args = if opts[:output], do: ["--output", opts[:output] | args], else: args
     args = if opts[:strict], do: ["--strict" | args], else: args
+    args = if opts[:force], do: ["--force" | args], else: args
     args ++ scope_args(opts)
   end
 

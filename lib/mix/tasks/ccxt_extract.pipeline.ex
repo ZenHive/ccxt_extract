@@ -17,8 +17,7 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
   ## Options
 
-    * `--output` — custom output directory (default: `priv/output`); per-exchange
-      JSON files outside the active scope are deleted automatically
+    * `--output` — custom output directory (default: `priv/output`)
     * `--strict` — fail with non-zero exit if validation errors or missing per-exchange files
     * `--tier1 --tier2 --tier3 --dex` — restrict assembly to the named priority
       tiers (combinable). Tier membership resolves via
@@ -27,9 +26,18 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
       flags and comma-separated values (e.g. `--exchange binance,kraken`).
       Typos fail loudly with fuzzy suggestions.
     * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+    * `--force` — bypass the git-status safety rail (see below).
 
   When no scope flag is given, all known exchanges are assembled (same as
   `--all`). The active scope is stamped into `_manifest.json` as `tier_scope`.
+
+  Per-exchange JSON files outside the active scope are deleted from the
+  output directory. Narrowed-scope runs are gated by a git-status safety
+  rail: if the target output directory (`--output` if given, otherwise
+  `priv/output/`) has uncommitted changes, the task aborts with a list of
+  dirty paths. Commit or stash first, or pass `--force` to bypass (you
+  will lose any scoped-out files on deletion). Full-universe runs
+  (`--all` or no scope flag) skip the check — they overwrite, never prune.
   """
 
   use Mix.Task
@@ -39,7 +47,10 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
   @progress_interval 20
 
-  @switches Keyword.merge([output: :string, strict: :boolean], TaskScope.scope_switches())
+  @switches Keyword.merge(
+              [output: :string, strict: :boolean, force: :boolean],
+              TaskScope.scope_switches()
+            )
 
   @impl true
   def run(args) do
@@ -56,6 +67,7 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
     universe = TaskScope.load_universe()
     scope = TaskScope.resolve_scope!(opts, universe)
+    enforce_git_safety_rail!(opts, scope)
     tier_scope = Scope.to_manifest_value(opts)
 
     Mix.shell().info("Assembling per-exchange JSON from discovery data#{scope_suffix(opts)}...")
@@ -76,6 +88,60 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
       {:error, {:missing_input, path}} ->
         Mix.raise("Missing required input: #{path}")
+    end
+  end
+
+  # Full-universe runs overwrite without pruning, so the rail has nothing
+  # to protect. Narrowed-scope runs prune out-of-scope files; gate them on
+  # a clean git tree (or `--force`) to prevent silent loss of in-flight work.
+  defp enforce_git_safety_rail!(_opts, :all), do: :ok
+
+  defp enforce_git_safety_rail!(opts, _scope) do
+    if !opts[:force] do
+      dirty = collect_dirty_paths(safety_paths(opts))
+
+      if dirty != [] do
+        listing = Enum.map_join(dirty, "\n", &"  #{&1}")
+
+        Mix.raise("""
+        Refusing to run: uncommitted changes detected in protected paths.
+
+        #{listing}
+
+        Commit or stash these files first, or re-run with --force to bypass
+        the safety rail (you will lose any scoped-out files on deletion).
+        """)
+      end
+    end
+  end
+
+  defp collect_dirty_paths(paths), do: Enum.flat_map(paths, &dirty_lines_for/1)
+
+  defp dirty_lines_for(path) do
+    if File.dir?(path) do
+      case CcxtExtract.ScopeCleanup.git_status_clean?(".", cd: path) do
+        :ok -> []
+        {:error, lines} -> Enum.map(lines, &"#{path}: #{&1}")
+      end
+    else
+      []
+    end
+  end
+
+  # Protects whichever directory Pipeline.write!/3 is actually about to
+  # prune — that is, `opts[:output]` if given, otherwise the canonical
+  # default. Tests can override the list entirely via
+  # `config :ccxt_extract, #{__MODULE__}, safety_paths: [...]`.
+  defp safety_paths(opts) do
+    override =
+      :ccxt_extract
+      |> Application.get_env(__MODULE__, [])
+      |> Keyword.get(:safety_paths)
+
+    if is_list(override) do
+      override
+    else
+      [opts[:output] || CcxtExtract.Paths.priv("output")]
     end
   end
 

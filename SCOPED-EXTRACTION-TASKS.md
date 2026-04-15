@@ -88,8 +88,13 @@ qualifier; `_manifest.json`'s `tier_scope` field is now documented in
 in both README and CLAUDE.md Development Commands. Docs-only; no code
 changed. See [CHANGELOG.md](CHANGELOG.md#task-8-documentation-overhaul-for-scoped-extraction).
 
-**Ready next:** Task 10 (direct-pipeline safety rail), Task 9 (full
-verification sweep). Task 9 is now unblocked.
+**Task 10 landed.** `mix ccxt_extract.pipeline` now ports the `--force`-gated
+git-status safety rail from `update.ex`, with one deliberate divergence:
+full-universe runs (`--all` or no scope flag) skip the check since they
+overwrite without pruning. Both entry points (orchestrator + direct
+pipeline) now honor the same dirty-tree invariant.
+
+**Ready next:** Task 9 (full verification sweep) — only remaining task.
 
 **Known drift (post-Task 101):** the `coincatch` orphan is now resolved — this
 commit regenerates `priv/discoveries/exchanges.json` (109 → 110) so the QuickBEAM
@@ -484,7 +489,7 @@ Update every doc that talks about scope, the One Rule, or pipeline behavior.
 
 ### Task 9: Full verification sweep ⬜
 
-**Status:** Pending — **unblocked** (Task 8 landed; this is the remaining ready-next alongside Task 10)
+**Status:** Pending — **unblocked** (Task 10 landed; this is the only remaining task)
 **Score:** [D:2/B:6/U:7 → Eff:3.25] 🎯
 
 Run all verification scenarios from the plan and fix anything that breaks.
@@ -513,10 +518,20 @@ This is the honest acceptance test — not "looks right" but "does right."
 
 ---
 
-### Task 10: Pipeline safety rail (direct invocation) ⬜
+### Task 10: Pipeline safety rail (direct invocation) ✅
 
-**Status:** Pending — captured from Task 2 Codex review.
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-10-pipeline-safety-rail-direct-invocation).
 **Score:** [D:2/B:4/U:3 → Eff:1.75] 🚀
+
+`mix ccxt_extract.pipeline` now mirrors the `--force`-gated git-status
+safety rail from `update.ex`. One deliberate divergence: full-universe
+runs (`--all` or no scope flag) skip the check, since they overwrite
+without pruning — only narrowed scopes have something destructive to
+gate. Three new tests (dirty+narrow aborts, `--force` bypasses, `--all`
+skips). No shared safety-rail module: two callers, ~15 LOC each, per
+the "no abstraction without 3+ use cases" rule.
+
+**Original spec (retained for traceability):**
 
 The git-status safety rail added in Task 2 lives in
 `mix ccxt_extract.update` only. Direct `mix ccxt_extract.pipeline --tier1`
@@ -561,12 +576,12 @@ Task 1 ─┬─▶ Task 2 ─┬─▶ Task 7 ──┐
              ✅        ✅         ├─▶ Task 8 ─▶ Task 9
                                   │     ✅
                                   │
-             Task 10 (independent) │
+             Task 10 ✅            │
              Task 11 ✅            │
                      (docs wait for all code tasks)
 ```
 
-Task 10 still independent; Task 9 unblocked by Task 8 (landed).
+Task 10 ✅; Task 9 unblocked by Task 8 (landed) and now the only task remaining.
 
 ## Notes for future sessions
 

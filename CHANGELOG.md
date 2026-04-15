@@ -6,6 +6,70 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 1: `Scope` + `ScopeCleanup` foundation modules
+
+Load-bearing groundwork for the `SCOPED-EXTRACTION-TASKS.md` refactor.
+Every downstream task (2–9) composes these two modules.
+
+- **`CcxtExtract.Scope.resolve/2`** — single entry point that unifies
+  `--tier1/--tier2/--tier3/--dex`, `--exchange` (repeated/comma-split/
+  list forms), and `--all`. Returns `{:ok, exchanges, :all | {:scoped,
+  label}}` or `{:error, {:unknown_exchange, bad_ids, suggestions}}` /
+  `{:error, {:all_with_narrowing, conflicting_keys}}`. Delegates tier
+  expansion to `Tiers.collect_tier_exchanges/1` (family inheritance
+  preserved); composes a human-readable label like `"TIER 1 + DEX +
+  binance (11)"`. Fuzzy-suggests typos via `String.jaro_distance/2`
+  (top 3 with similarity ≥ 0.7). Caller supplies the universe list —
+  no file I/O inside the module.
+- **`CcxtExtract.ScopeCleanup.prune_out_of_scope/3`** — deletes per-
+  exchange JSON files whose basename (sans `.json`) isn't in the
+  in-scope `MapSet`. Always preserves `_*` aggregate files;
+  `:preserve` opt covers extras like `exchange_v1.json`; `:recurse`
+  opt handles nested layouts (`priv/discoveries/describe/<id>.json`).
+  Returns `{:ok, sorted_removed_paths}`.
+- **`CcxtExtract.ScopeCleanup.git_status_clean?/2`** — safety rail
+  for destructive pipeline stages. Runs `git status --porcelain` via
+  the `ccxt_extract.setup.ex` convention (`System.cmd(… , cd:,
+  stderr_to_stdout: true)`). Returns `:ok` on clean, `{:error,
+  dirty_lines}` on dirty, raises `Mix.Error` outside a repo.
+- **Tests.** `test/ccxt_extract/scope_test.exs` (22 cases: tier
+  union, explicit IDs in all three input shapes, mixed scope,
+  dedup, unknown-with-suggestions, unknown-without-suggestions,
+  `--all` conflict detection). `test/ccxt_extract/scope_cleanup_test.exs`
+  (9 cases: pruning semantics, preservation rules, recurse on/off,
+  sort determinism, git clean/dirty/untracked/non-repo). All fail
+  loudly — no silent-skip patterns.
+- **`.dialyzer_ignore.exs`** — two `call_without_opaque` suppressions
+  added for the scope modules, following the existing project
+  convention for MapSet opaque-type warnings (see `pipeline.ex`,
+  `validation.ex`, `method_analysis.ex`, etc.).
+- **No caller wiring yet.** Tasks 2–6 will migrate
+  `mix ccxt_extract.{pipeline,update,contract_test,load_markets,…}`
+  onto `Scope.resolve/2` and replace `update.ex`'s `tier_args/1`
+  helper with a unified `scope_args/1`.
+
+#### Task 1 follow-up: contract fixes from Codex review
+
+Two contract violations in the foundation modules, caught by Codex
+external review and fixed before downstream tasks land:
+
+- **`ScopeCleanup.prune_out_of_scope/3` now only deletes `.json` files.**
+  The original implementation's `preserved?/3` checked `_`-prefix and
+  `:preserve` list but never the file extension, so a `README.md` next
+  to `binance.json` would be removed by any scoped run. Existing tests
+  used only `.json` fixtures, so the bug never surfaced. New tests
+  cover non-`.json` files at top level and inside recursed
+  subdirectories.
+- **`Scope.resolve/2` now intersects tier-derived IDs with the
+  caller-supplied universe.** Previously only explicit `--exchange` IDs
+  were validated against the universe; `Tiers.collect_tier_exchanges/1`
+  results were unioned in raw, so `Scope.resolve([tier1: true],
+  ["binance"])` returned the full Tier 1 set. The intersection is
+  silent (tier members not in universe are dropped without error);
+  explicit `--exchange` IDs still fail loud on mismatch (typo-detection
+  surface preserved). New tests cover dropped tier members, mixed
+  tier+explicit overlap, and empty intersection.
+
 ### Preflight: tier family inheritance + contract_test load-time scoping
 
 Aligned tier semantics and contract_test scoping with docs before

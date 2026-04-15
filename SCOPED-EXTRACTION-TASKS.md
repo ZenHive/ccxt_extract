@@ -25,8 +25,16 @@ of uncommitted work.
 
 ## 🎯 Current Focus
 
-**Task 1: Foundation modules.** Everything else depends on `Scope.resolve/2`
-and `ScopeCleanup.prune_out_of_scope/3`, so these land first.
+**Task 2: Wire `Scope` into pipeline + orchestrator.** Task 1 foundations
+(`Scope.resolve/2`, `ScopeCleanup.prune_out_of_scope/3`, `git_status_clean?/2`)
+landed in `lib/ccxt_extract/scope.ex` and `lib/ccxt_extract/scope_cleanup.ex`.
+Tasks 2/3/4/5 can now proceed in parallel (see Task Graph).
+
+**Known drift (fixed by Tasks 5/6 + regeneration):** cached integration tests
+are currently red because envelope totals in `parse_methods.json` (1564 vs 1541),
+`ws_methods.json` (1574 vs 1539), and `overrides.json` (100 vs 99) don't match
+the actual entry sums. Tasks 5/6 require envelope recompute on every write,
+which closes this class of bug by construction.
 
 ### Quick Commands (after Task 2)
 
@@ -41,10 +49,25 @@ jq '.tier_scope' priv/output/_manifest.json              # Verify manifest stamp
 
 ## Tasks
 
-### Task 1: Scope + ScopeCleanup modules (foundation) ⬜
+### Task 1: Scope + ScopeCleanup modules (foundation) ✅
 
-**Status:** Pending — **blocks everything downstream**
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-1-scope--scopecleanup-foundation-modules).
 **Score:** [D:3/B:9/U:10 → Eff:3.17] 🎯
+
+Implemented in `lib/ccxt_extract/scope.ex` + `lib/ccxt_extract/scope_cleanup.ex`.
+36 unit tests (all fail-loud), 0 Credo strict issues. MapSet
+`call_without_opaque` suppressions added to `.dialyzer_ignore.exs`
+following the established project convention (`method_analysis.ex`,
+`pipeline.ex`, `validation.ex`, etc.).
+
+**Follow-up fixes (Codex review):** two contract violations corrected —
+`ScopeCleanup.prune_out_of_scope/3` now only touches `.json` files
+(was deleting any non-directory file, e.g. `README.md`), and
+`Scope.resolve/2` now intersects tier-derived IDs with the
+caller-supplied universe (previously tier expansion bypassed the
+universe). See CHANGELOG "Task 1 follow-up" subsection.
+
+**Original spec (retained for traceability):**
 
 Implement two small, well-tested modules that every downstream task will use.
 
@@ -79,7 +102,7 @@ Implement two small, well-tested modules that every downstream task will use.
 
 ### Task 2: Wire Scope into pipeline + orchestrator ⬜
 
-**Status:** Pending — **blocked by Task 1**
+**Status:** Pending — **ready** (Task 1 foundation landed)
 **Score:** [D:5/B:9/U:9 → Eff:1.8] 🚀
 
 Make the pipeline and `mix ccxt_extract.update` scope-aware end-to-end. This
@@ -123,9 +146,9 @@ proves the design works before fanning out to per-task changes.
 **Status:** Partial — load-time scoping and scoped `exchanges_checked` shipped
 in the preflight patch (`CcxtExtract.ContractTest.run_all/1` now takes
 `:exchanges`; the task loads only in-scope files and emits a non-fatal note
-for missing ones). Remaining work is still **blocked by Task 1**:
-`Scope.resolve/2` abstraction + strict "universe mismatch" failure when no
-scope flag is set but files are missing.
+for missing ones). Remaining work is **ready** (Task 1 foundation landed):
+migrate to `Scope.resolve/2` and add strict "universe mismatch" failure when
+no scope flag is set but files are missing.
 **Score:** [D:1/B:3/U:4 → Eff:3.5] 🎯 (scope down from original after preflight)
 
 Preflight already addressed: load-time filtering, `summary.exchanges_checked`
@@ -152,7 +175,7 @@ plumbing and the strict-universe guard.
 
 ### Task 4: QuickBEAM extractors scope flags ⬜
 
-**Status:** Pending — **blocked by Task 1**
+**Status:** Pending — **ready** (Task 1 foundation landed)
 **Score:** [D:3/B:6/U:6 → Eff:2.0] 🎯
 
 Three QuickBEAM extractors currently ignore scope (`load_markets` already has tier flags — audit it against the new `Scope.resolve/2` pattern and migrate for consistency).
@@ -167,13 +190,15 @@ Three QuickBEAM extractors currently ignore scope (`load_markets` already has ti
 1. Add scope switches.
 2. Call `Scope.resolve/2` on the universe list (from `priv/discoveries/exchanges.json`).
 3. For aggregate writers: load existing aggregate, merge in-scope updates, rewrite. This makes successive scoped runs accumulate while a `--all` run produces a clean full file.
-4. For per-exchange writers: just write the in-scope set. Rely on orchestrator-level cleanup.
+4. **Recompute envelope totals** (`count`, `total_*`, `with_*`, etc.) from the final merged entry list on every write — never carry them over from the loaded aggregate. Today's failing cached tests (`parse_methods` 1564 vs 1541, `ws_methods` 1574 vs 1539, `overrides` 100 vs 99) are exactly this class of drift.
+5. For per-exchange writers: just write the in-scope set. Rely on orchestrator-level cleanup.
 
-**Tests:** Per task, verify scope filters both read and write. Aggregate merge tested explicitly.
+**Tests:** Per task, verify scope filters both read and write. Aggregate merge tested explicitly, including an assertion that envelope totals match the recomputed sum/count over merged entries (regression guard for today's drift failures).
 
 **Success criteria:**
 - [ ] Each task accepts full scope flag set
 - [ ] Aggregate files merge correctly across scoped runs
+- [ ] Envelope totals always equal the sum/count derived from the entry list (no drift)
 - [ ] Per-exchange files align with scope
 
 **Files touched:** 4 task files + tests.
@@ -182,7 +207,7 @@ Three QuickBEAM extractors currently ignore scope (`load_markets` already has ti
 
 ### Task 5: OXC extractors scope flags — batch A ⬜
 
-**Status:** Pending — **blocked by Task 1**
+**Status:** Pending — **ready** (Task 1 foundation landed)
 **Score:** [D:4/B:6/U:6 → Eff:1.5] 🚀
 
 Six OXC AST extractors. All write aggregate JSON files under `priv/discoveries/`. Pattern is mechanical — establish once in the first task, reuse.
@@ -195,12 +220,15 @@ Six OXC AST extractors. All write aggregate JSON files under `priv/discoveries/`
 - `ccxt_extract.parse_methods` → `parse_methods.json`
 - `ccxt_extract.ws_methods` → `ws_methods.json`
 
-**Pattern:** Same as Task 4 aggregate writer (load existing, merge, rewrite).
+**Pattern:** Same as Task 4 aggregate writer (load existing, merge, rewrite, **recompute envelope totals from merged entries**).
+
+Note: `parse_methods.json` and `ws_methods.json` are the two files whose envelope/entry drift is currently red in the cached tests — landing this task with the recompute step fixes them by construction (pending regeneration).
 
 **Success criteria:**
 - [ ] Each task accepts full scope flag set and filters iteration
 - [ ] Aggregate merge preserves out-of-scope data when not running `--all`
-- [ ] Tests updated
+- [ ] Envelope totals recomputed from merged entries (no drift)
+- [ ] Tests updated (include drift regression assertion for parse_methods + ws_methods)
 
 **Files touched:** 6 task files + tests.
 
@@ -220,7 +248,7 @@ Remaining five OXC extractors. Same pattern.
 - `ccxt_extract.overrides` → `overrides.json`
 - `ccxt_extract.base_methods` → `_base_methods.json`
 
-**Success criteria:** same shape as Task 5.
+**Success criteria:** same shape as Task 5. `overrides.json` is one of today's drift-failing files (`total_overrides` 100 vs 99) — the recompute step closes it.
 
 **Files touched:** 5 task files + tests.
 

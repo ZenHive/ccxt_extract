@@ -442,3 +442,7 @@ Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/sign
 Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/fixture_parity.ex:161,71B21B0
 Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/fixture_parity.ex:109,7227ECA
 Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/fixture_parity.ex:160,CD5871
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/contract_test.ex:88,17A288F
+Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/contract_test.ex:230,218F5D3
+Traversal.FileModule: Directory Traversal in `File.rm!`,lib/ccxt_extract/scope_cleanup.ex:104,567C3CD
+Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/contract_test.ex:87,7F73128

@@ -105,7 +105,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
       run_quickbeam_extractors(opts)
 
       Mix.shell().info("\n── Stage 3: OXC Extractors ──")
-      run_oxc_extractors()
+      run_oxc_extractors(opts)
     end
 
     # Stage 4: Pipeline
@@ -257,23 +257,36 @@ defmodule Mix.Tasks.CcxtExtract.Update do
   end
 
   # OXC-based extractors — fast AST parsing, no API calls.
-  @default_oxc_extractors ~w(
-    ccxt_extract.classes
-    ccxt_extract.methods
-    ccxt_extract.sign_methods
-    ccxt_extract.handle_errors
-    ccxt_extract.parse_methods
-    ccxt_extract.ws_methods
-    ccxt_extract.interface_signatures
-    ccxt_extract.pagination
-    ccxt_extract.unified_endpoints
-    ccxt_extract.overrides
-    ccxt_extract.base_methods
-  )
+  #
+  # Each entry is `{task, :scoped | :unscoped}`:
+  #   :scoped   — receives the full scope flag set (`--tier1 --dex ...`)
+  #   :unscoped — invoked with `[]`; the extractor has no per-exchange
+  #               dimension, so forwarding scope flags would be a silent
+  #               lie (Honesty Rule). `base_methods` parses a single file
+  #               (base/Exchange.ts) and is the canonical example.
+  #
+  # When adding a new extractor, pick the tag at the data definition site —
+  # the destructure in `run_oxc_extractors/1` enforces that a choice is made.
+  @default_oxc_extractors [
+    {"ccxt_extract.classes", :scoped},
+    {"ccxt_extract.methods", :scoped},
+    {"ccxt_extract.sign_methods", :scoped},
+    {"ccxt_extract.handle_errors", :scoped},
+    {"ccxt_extract.parse_methods", :scoped},
+    {"ccxt_extract.ws_methods", :scoped},
+    {"ccxt_extract.interface_signatures", :scoped},
+    {"ccxt_extract.pagination", :scoped},
+    {"ccxt_extract.unified_endpoints", :scoped},
+    {"ccxt_extract.overrides", :scoped},
+    {"ccxt_extract.base_methods", :unscoped}
+  ]
 
-  defp run_oxc_extractors do
-    for task <- task_override(:oxc_extractors, @default_oxc_extractors) do
-      Mix.Task.rerun(task, [])
+  defp run_oxc_extractors(opts) do
+    scope = scope_args(opts)
+
+    for {task, mode} <- task_override(:oxc_extractors, @default_oxc_extractors) do
+      args = if mode == :unscoped, do: [], else: scope
+      Mix.Task.rerun(task, args)
     end
   end
 

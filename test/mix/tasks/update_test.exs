@@ -29,7 +29,7 @@ end
 # Generate lightweight recording stubs for orchestration tests.
 # Each stub sends {:task_ran, name, args} to the test process.
 for task <-
-      ~w(setup quickbeam_extractors oxc_extractors validate contract_test describe_keys describe_key_analysis summary family_analysis) do
+      ~w(setup quickbeam_extractors oxc_extractors base_methods validate contract_test describe_keys describe_key_analysis summary family_analysis) do
   defmodule Module.concat([Mix.Tasks.Test, "Record#{Macro.camelize(task)}"]) do
     @moduledoc false
     use Mix.Task
@@ -67,7 +67,10 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
   @task_overrides [
     setup_task: "test.record_setup",
     quickbeam_extractors: ["test.record_quickbeam_extractors"],
-    oxc_extractors: ["test.record_oxc_extractors"],
+    oxc_extractors: [
+      {"test.record_oxc_extractors", :scoped},
+      {"test.record_base_methods", :unscoped}
+    ],
     pipeline_task: "test.record_pipeline",
     validate_task: "test.record_validate",
     contract_test_task: "test.record_contract_test",
@@ -202,6 +205,7 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
                {"test.record_setup", []},
                {"test.record_quickbeam_extractors", []},
                {"test.record_oxc_extractors", []},
+               {"test.record_base_methods", []},
                {"test.record_pipeline", ["--output", output_dir]},
                {"test.record_validate", ["--output", output_dir]},
                {"test.record_contract_test", ["--output", output_dir]},
@@ -224,6 +228,22 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
 
       assert {"test.record_pipeline", ["--output", output_dir, "--tier1", "--dex"]} in task_runs
       assert {"test.record_contract_test", ["--output", output_dir, "--tier1", "--dex"]} in task_runs
+    end
+
+    test "--tier1 --dex propagates to OXC extractor stage" do
+      output_dir = make_tmp_output_dir()
+
+      {_output, task_runs} =
+        capture_task_run(fn ->
+          with_update_task_overrides(@task_overrides, fn ->
+            Update.run(["--tier1", "--dex", "--output", output_dir])
+          end)
+        end)
+
+      assert {"test.record_oxc_extractors", ["--tier1", "--dex"]} in task_runs
+      # Unscoped extractors (e.g. base_methods — single-file parse) receive
+      # no scope flags even when the caller passes them. Guards the invariant.
+      assert {"test.record_base_methods", []} in task_runs
     end
 
     test "--exchange repeated and comma-split fans out as sorted unique pairs" do

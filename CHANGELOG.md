@@ -11,6 +11,33 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - **npm 0.5.1 → 0.5.3.** Adds `NPM.PackageResolver` with Node.js module resolution and `relative_import_path/3`. Includes an ETS race-condition fix in cache initialization. No breaking changes; compatible with existing `~> 0.5` requirement.
 - **oxc 0.6 → 0.7 + quickbeam 0.9 → 0.10.** See Task 101 below.
 
+### Task 11: Orchestrator scope-threading gap (OXC stage)
+
+`mix ccxt_extract.update` now threads scope flags through to the OXC
+extractor stage. Previously, `run_oxc_extractors/0` at
+`lib/mix/tasks/ccxt_extract.update.ex:274` passed `[]` verbatim, so
+`mix ccxt_extract.update --tier1` silently re-extracted all 111 exchanges
+through the OXC stage even though every other stage (QuickBEAM, pipeline,
+contract_test) honored scope. Direct invocations like
+`mix ccxt_extract.methods --tier1` already worked — the bug was purely
+in the orchestrator.
+
+The fix threads `opts` into `run_oxc_extractors/1` and passes
+`scope_args(opts)` to every scope-aware OXC task. `@default_oxc_extractors`
+is now a list of `{task, :scoped | :unscoped}` tuples rather than a bare
+name list — the tag is chosen at the data definition site, so adding a
+new extractor forces the author to pick a mode and can't silently inherit
+scope-awareness. `ccxt_extract.base_methods` is the sole `:unscoped`
+entry: it parses a single fixed file with no per-exchange dimension, and
+per Task 6 the Honesty Rule forbids accepting flags that do nothing.
+
+**Files touched:** `lib/mix/tasks/ccxt_extract.update.ex` (restructure
+`@default_oxc_extractors` to tagged tuples, rewrite `run_oxc_extractors/1`
+to destructure them, update call site), `test/mix/tasks/update_test.exs`
+(add `base_methods` recording stub, update override to tagged tuples,
+add scope-propagation assertion plus a negative assertion that
+`base_methods` receives `[]` even when tier flags are passed).
+
 ### Task 6: OXC extractors scope flags — batch B
 
 Four remaining OXC-backed Mix tasks now accept the full canonical scope

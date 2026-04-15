@@ -65,10 +65,14 @@ load-bearing for `Tiers` family inheritance) and only stamps
 `tier_scope`. `handle_errors` fails loudly when a scoped run is missing
 a required `priv/discoveries/describe/<id>.json`.
 
+**Task 11 landed.** `mix ccxt_extract.update` now threads `scope_args(opts)`
+into the OXC stage via `run_oxc_extractors/1`. `ccxt_extract.base_methods`
+is excluded via `@unscoped_oxc_extractors` (single-file parse, no
+per-exchange dimension — Honesty Rule).
+
 **Ready next:** Task 7 (analytics — all aggregate and per-exchange-dir
 writers are merge-safe everywhere), Task 10 (direct-pipeline safety
-rail), Task 11 (orchestrator scope-threading gap — new). Task 8 (docs
-overhaul) and Task 9 (verification sweep) wait for 7.
+rail). Task 8 (docs overhaul) and Task 9 (verification sweep) wait for 7.
 
 **Known drift (post-Task 101):** cached integration tests are currently red for
 two unrelated reasons, neither tied to the scope refactor: (1) `coincatch` is a
@@ -370,44 +374,17 @@ invocation silently drops it. Tracked below as Task 11.
 
 ---
 
-### Task 11: Orchestrator scope-threading gap (OXC stage) ⬜
+### Task 11: Orchestrator scope-threading gap (OXC stage) ✅
 
-**Status:** Pending — discovered during Task 6 audit.
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-11-orchestrator-scope-threading-gap-oxc-stage).
 **Score:** [D:1/B:4/U:4 → Eff:4.0] 🎯
 
-`mix ccxt_extract.update` runs scope-aware QuickBEAM and pipeline
-stages through `scope_args(opts)`, but its OXC stage at
-`lib/mix/tasks/ccxt_extract.update.ex:274` passes `[]` verbatim:
-
-```elixir
-defp run_oxc_extractors do
-  for task <- task_override(:oxc_extractors, @default_oxc_extractors) do
-    Mix.Task.rerun(task, [])          # ← scope dropped here
-  end
-end
-```
-
-This means `mix ccxt_extract.update --tier1` does NOT restrict the OXC
-stage; all 111 exchanges are re-extracted every time. Direct invocation
-(`mix ccxt_extract.methods --tier1`) does honor scope. The gap is a
-one-line change: replace `[]` with `scope_args(opts)` and thread `opts`
-through.
-
-**Caveat:** `ccxt_extract.classes` and `ccxt_extract.base_methods` will
-receive scope args they ignore. Both already accept-and-ignore (classes)
-or never accepted them (base_methods). Base_methods will fail on any
-scope flag — either migrate base_methods to accept-and-ignore first, or
-strip scope args for it in the orchestrator with an explicit list.
-
-**Success criteria:**
-- [ ] `run_oxc_extractors(opts)` receives and passes `scope_args(opts)`
-- [ ] `mix ccxt_extract.update --tier1` actually scopes the OXC stage
-- [ ] `base_methods` either accepts-and-ignores or is excluded from the
-      orchestrator scope-passthrough list
-- [ ] Test in `test/mix/tasks/update_test.exs` asserts OXC stage
-      receives scope args
-
-**Files touched:** 1 task file + test.
+`run_oxc_extractors/1` now takes `opts` and passes `scope_args(opts)` to
+every scope-aware OXC task. `ccxt_extract.base_methods` is excluded via
+a new `@unscoped_oxc_extractors` MapSet (single-file parse, no
+per-exchange dimension — Honesty Rule). Added one scope-propagation
+test in `update_test.exs` mirroring the existing pipeline/contract_test
+assertion pattern.
 
 ---
 
@@ -548,11 +525,11 @@ Task 1 ─┬─▶ Task 2 ─┬─▶ Task 7 ──┐
              ✅        ✅         ├─▶ Task 8 ─▶ Task 9
                                   │
              Task 10 (independent) │
-             Task 11 (independent) │
+             Task 11 ✅            │
                      (docs wait for all code tasks)
 ```
 
-Tasks 7, 10, 11 ready to start in parallel; Tasks 8 & 9 wait for 7.
+Tasks 7, 10 ready to start in parallel; Tasks 8 & 9 wait for 7.
 
 ## Notes for future sessions
 

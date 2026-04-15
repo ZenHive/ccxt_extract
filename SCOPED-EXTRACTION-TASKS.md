@@ -98,8 +98,18 @@ pipeline) now honor the same dirty-tree invariant.
 pass. Live sandbox runs proved S1/S2/S5/S6/S7/S9; arg-parse runs proved
 S8/S10; the 201-test scope-suite covered S3/S4/S11. No fix-up commits
 required. Spec count divergences (S1=10 not 5, S6=14 not 9, S9=11 not
-6) are family-inheritance expansion, documented in CHANGELOG. **Refactor
-complete: Tasks 1–11 all ✅.**
+6) are family-inheritance expansion, documented in CHANGELOG.
+
+**Task 12 landed (post-Task-11 regression).** A consumer running
+`mix ccxt_extract.update --tier1 --tier2 --dex` surfaced a regression
+Task 9's sweep missed: stage-3 `handle_errors` hard-aborted on missing
+`describe/gateio.json` / `describe/huobi.json`, because family-inheritance
+expansion pulls aliases into scope while the describe extractor skips
+them (`!d.alias`). New `CcxtExtract.Aliases` module centralises alias
+membership over `priv/discoveries/exchanges.json`; `TaskScope.scoped_ids_missing_file/3`
+gained an `:exclude_aliases` opt that `handle_errors` now uses. Aligns
+stage-3 guards with the `is_alias` → `"alias"` precedent in
+`CoverageReport`. **Refactor complete: Tasks 1–12 all ✅.**
 
 **Known drift (post-Task 101):** the `coincatch` orphan is now resolved — this
 commit regenerates `priv/discoveries/exchanges.json` (109 → 110) so the QuickBEAM
@@ -414,6 +424,50 @@ assertion pattern.
 
 ---
 
+### Task 12: Alias-aware scope guards (post-Task-11 regression) ✅
+
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#unreleased).
+**Score:** [D:2/B:7/U:8 → Eff:3.75] 🎯
+
+**Problem.** `mix ccxt_extract.update --tier1 --tier2 --dex` raised in
+stage 3 with `Missing describe files for scoped exchange(s): gateio.json,
+huobi.json`. Root cause: `CcxtExtract.Tiers` expands families via
+`class_hierarchy.json` and pulls in both variants *and* aliases, but the
+QuickBEAM-backed extractors (`describe`, `url_templates`, `signing_fixtures`,
+`load_markets`) skip aliases via a `!d.alias` filter in their JS runtime
+enumeration. `TaskScope.scoped_ids_missing_file/2` had no alias awareness,
+so `handle_errors` hard-aborted on legitimately absent files. Task 9's
+verification sweep missed this because live sandbox runs redirected
+output to `/tmp/...` and never exercised the full stage-3 path end-to-end.
+
+**Fix.**
+
+- New `CcxtExtract.Aliases` module (`lib/ccxt_extract/aliases.ex`) —
+  single source of truth over `priv/discoveries/exchanges.json`. Exposes
+  `alias_ids!/1`, `alias?/1`, `exclude_aliases/1`. Reads-only; producer
+  stays in `CcxtExtract.Exchanges`.
+- `TaskScope.scoped_ids_missing_file/3` gains `:exclude_aliases` opt
+  (default `false`, preserves behaviour for all existing callers).
+- `ccxt_extract.handle_errors` flips the opt on; moduledoc cites the
+  `is_alias` → `"alias"` precedent in `CoverageReport`.
+- `contract_test` callers audited: `priv/output/` writes alias entries
+  (pipeline `deepExtend` merges produce 110 files from 110 TS sources),
+  so those guards remain correct as-is.
+- Regression tests: new `test/ccxt_extract/aliases_test.exs` (7 cases),
+  `exclude_aliases: true` unit tests in `oxc_scope_flags_test.exs`, and
+  a scoped-run assertion in `handle_errors_integration_test.exs` that
+  uses `--exchange gate,gateio` to reproduce the exact asymmetry.
+
+**Architectural alternatives rejected.** Filtering aliases in
+`CcxtExtract.Tiers` would silently drop them from scoped method
+inventories (classes, methods, sign_methods legitimately process alias
+TS files), violating the "Extract EVERYTHING" per-exchange rule.
+Re-detecting aliases from TS source at each call site duplicates the
+canonical `!d.alias` runtime check — `exchanges.json` is the derived
+artifact of that check, reusing it keeps a single source of truth.
+
+---
+
 ### Task 7: Analytics scope flags ✅
 
 **Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-7-analytics-scope-flags).
@@ -590,15 +644,16 @@ Task 1 ─┬─▶ Task 2 ─┬─▶ Task 7 ──┐
         ├─▶ Task 4 ─┤             │
         │    ✅     │             │
         └─▶ Task 5 ─▶ Task 6 ─────┤
-             ✅        ✅         ├─▶ Task 8 ─▶ Task 9
-                                  │     ✅
-                                  │
+             ✅        ✅         ├─▶ Task 8 ─▶ Task 9 ─▶ Task 12
+                                  │     ✅                 ✅
+                                  │                 (post-sweep regression)
              Task 10 ✅            │
              Task 11 ✅            │
                      (docs wait for all code tasks)
 ```
 
-All tasks complete. Refactor closes here.
+All tasks complete. Refactor closes here; Task 12 was a post-sweep
+regression fix rather than planned scope.
 
 ## Notes for future sessions
 

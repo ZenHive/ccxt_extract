@@ -28,11 +28,15 @@ defmodule Mix.Tasks.CcxtExtract.HandleErrors do
 
   **Describe dependency.** This task reads
   `priv/discoveries/describe/<id>.json` to attach `exceptions` and
-  `httpExceptions` to each entry. For scoped runs, every in-scope exchange
-  must already have a describe file on disk; missing files fail loudly
-  (run `mix ccxt_extract.describe` with the same scope first). Full-universe
-  runs tolerate missing describe files (some DEX exchanges legitimately
-  have none) — fields are written as `null` in that case.
+  `httpExceptions` to each entry. For scoped runs, every non-alias in-scope
+  exchange must already have a describe file on disk; missing files fail
+  loudly (run `mix ccxt_extract.describe` with the same scope first).
+  CCXT aliases (e.g. `gateio`, `huobi`) are excluded from the guard — the
+  describe extractor skips them by design (`!d.alias`), so their per-exchange
+  files legitimately never exist. Mirrors the "legitimately absent, reason:
+  alias" precedent in `CcxtExtract.CoverageReport`. Full-universe runs
+  tolerate missing describe files across the board (some DEX exchanges have
+  none) — fields are written as `null` in that case.
 
   The active scope is stamped into the JSON envelope as `tier_scope`.
   """
@@ -79,13 +83,16 @@ defmodule Mix.Tasks.CcxtExtract.HandleErrors do
     """)
   end
 
-  # Scoped runs require describe files for every in-scope ID. --all tolerates
-  # missing describe files because full-universe runs legitimately include
-  # exchanges with no describe output (e.g. some DEX entries).
+  # Scoped runs require describe files for every non-alias in-scope ID.
+  # Aliases (gateio, huobi, etc.) are skipped by the describe extractor itself
+  # (`!d.alias`), so their per-id files never exist — `:exclude_aliases`
+  # honours that asymmetry. `--all` tolerates missing describe files across
+  # the board (full-universe runs legitimately include exchanges with no
+  # describe output, e.g. some DEX entries).
   defp assert_describe_files_present!(scope) do
     describe_dir = CcxtExtract.Paths.priv(Path.join("discoveries", "describe"))
 
-    case TaskScope.scoped_ids_missing_file(scope, describe_dir) do
+    case TaskScope.scoped_ids_missing_file(scope, describe_dir, exclude_aliases: true) do
       [] ->
         :ok
 

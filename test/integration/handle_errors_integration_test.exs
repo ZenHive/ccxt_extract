@@ -224,5 +224,19 @@ defmodule CcxtExtract.HandleErrorsIntegrationTest do
       assert output =~ "with handleErrors()"
       assert output =~ "Output: priv/discoveries/handle_errors.json"
     end
+
+    test "scoped run with alias in family does not raise on missing alias describe file" do
+      # Regression: `--tier1 --tier2 --dex` pulls `gateio`/`huobi` (aliases)
+      # into scope via family inheritance, but the describe extractor skips
+      # aliases so those files never exist. The guard must skip them too.
+      #
+      # We use `--exchange gate,gateio` to reproduce the exact asymmetry with
+      # a minimal scope that doesn't depend on tier composition.
+      output =
+        run_task_capturing_output(Mix.Tasks.CcxtExtract.HandleErrors, ["--exchange", "gate,gateio"])
+
+      assert output =~ "Done."
+      refute output =~ "Missing describe files"
+    end
   end
 end

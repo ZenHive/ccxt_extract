@@ -30,6 +30,11 @@
   {"lib/ccxt_extract/load_markets.ex", :call_with_opaque},
   {"lib/ccxt_extract/load_markets.ex", :call_without_opaque},
   {"lib/mix/tasks/ccxt_extract.load_markets.ex", :call_without_opaque},
+  # Task 12: alias-aware scope guards. `MapSet.t(String.t())` spec for
+  # alias_ids!/1 and exclude_aliases/1 trips the opaque-subtype check —
+  # same Elixir limitation as the block above. Covered by
+  # test/ccxt_extract/aliases_test.exs.
+  {"lib/ccxt_extract/aliases.ex", :contract_with_opaque},
   # JSV uses runtime: false — Dialyzer can't see its types/functions
   {"lib/ccxt_extract/validation.ex", :unknown_type},
   {"lib/ccxt_extract/validation.ex", :unknown_function}

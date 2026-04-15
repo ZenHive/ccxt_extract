@@ -164,15 +164,34 @@ defmodule CcxtExtract.TaskScope do
   `Mix.raise`/flunk with remediation instructions. Kept separate from the
   raise call so unit tests can assert against the pure function without
   trapping `Mix.Error`.
-  """
-  @spec scoped_ids_missing_file(:all | MapSet.t(String.t()), String.t()) :: [String.t()]
-  def scoped_ids_missing_file(:all, _dir), do: []
 
-  def scoped_ids_missing_file(%MapSet{} = scope, dir) do
+  ## Options
+
+    * `:exclude_aliases` (boolean, default `false`) — when `true`, drop CCXT
+      alias ids (via `CcxtExtract.Aliases.exclude_aliases/1`) from the scope
+      before the existence check. Tasks whose upstream extractor skips
+      aliases (describe, url_templates, signing_fixtures, load_markets) opt
+      into this so a scoped run that pulls in an alias-containing family
+      (e.g. `--tier1 --tier2 --dex` bringing in `gateio`/`huobi`) does not
+      fail on legitimately absent per-exchange output. Mirrors the
+      `is_alias` → `layer(false, false, "alias")` pattern in
+      `CcxtExtract.CoverageReport`.
+  """
+  @spec scoped_ids_missing_file(:all | MapSet.t(String.t()), String.t(), keyword()) ::
+          [String.t()]
+  def scoped_ids_missing_file(scope, dir, opts \\ [])
+
+  def scoped_ids_missing_file(:all, _dir, _opts), do: []
+
+  def scoped_ids_missing_file(%MapSet{} = scope, dir, opts) do
     scope
+    |> maybe_exclude_aliases(Keyword.get(opts, :exclude_aliases, false))
     |> Enum.reject(fn id -> File.exists?(Path.join(dir, "#{id}.json")) end)
     |> Enum.sort()
   end
+
+  defp maybe_exclude_aliases(scope, false), do: scope
+  defp maybe_exclude_aliases(scope, true), do: CcxtExtract.Aliases.exclude_aliases(scope)
 
   @doc """
   Return the sorted list of exchange IDs currently present on disk under `dir`.

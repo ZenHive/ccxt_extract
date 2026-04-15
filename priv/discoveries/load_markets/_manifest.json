@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-13T06:22:52.990905Z",
+  "extracted_at": "2026-04-15T12:00:45.866016Z",
   "failed": [
     {
       "error": "alpaca requires \"apiKey\" credential",
@@ -85,6 +85,7 @@
     "fmfwio",
     "foxbit",
     "gate",
+    "gateio",
     "gemini",
     "grvt",
     "hashkey",
@@ -92,6 +93,7 @@
     "hitbtc",
     "hollaex",
     "htx",
+    "huobi",
     "hyperliquid",
     "independentreserve",
     "indodax",
@@ -129,5 +131,10 @@
     "zebpay",
     "zonda"
   ],
-  "succeeded_count": 100
+  "succeeded_count": 102,
+  "tier_scope": [
+    "tier1",
+    "tier2",
+    "dex"
+  ]
 }

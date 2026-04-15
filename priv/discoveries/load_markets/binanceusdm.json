@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-13T06:22:52.990905Z",
+  "extracted_at": "2026-04-15T12:00:45.866016Z",
   "id": "binanceusdm",
   "market_count": 712,
   "markets": {
@@ -3217,6 +3217,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -7734,6 +7738,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.8500",
             "multiplierUp": "1.1500"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -10569,8 +10577,8 @@
           {
             "filterType": "PRICE_FILTER",
             "maxPrice": "200",
-            "minPrice": "0.0010000",
-            "tickSize": "0.0001000"
+            "minPrice": "0.0000100",
+            "tickSize": "0.0000100"
           },
           {
             "filterType": "LOT_SIZE",
@@ -10653,7 +10661,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "ENA",
@@ -10687,7 +10695,7 @@
         },
         "price": {
           "max": 200,
-          "min": 0.001
+          "min": 1.0e-5
         }
       },
       "taker": 0.0005,
@@ -11352,6 +11360,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9500",
             "multiplierUp": "1.0500"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.012500",
@@ -18935,7 +18947,7 @@
         ],
         "triggerProtect": "0.25",
         "underlyingSubType": [
-          "Meme"
+          "Alpha"
         ],
         "underlyingType": "COIN"
       },
@@ -21296,6 +21308,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -29709,8 +29725,8 @@
           {
             "filterType": "PRICE_FILTER",
             "maxPrice": "200",
-            "minPrice": "0.0000100",
-            "tickSize": "0.0000100"
+            "minPrice": "0.0001000",
+            "tickSize": "0.0001000"
           },
           {
             "filterType": "LOT_SIZE",
@@ -29794,7 +29810,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 1.0e-5,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "GUA",
@@ -29828,7 +29844,7 @@
         },
         "price": {
           "max": 200,
-          "min": 1.0e-5
+          "min": 0.0001
         }
       },
       "taker": 0.0005,
@@ -31097,6 +31113,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.8500",
             "multiplierUp": "1.1500"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.020000",
@@ -34866,6 +34886,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -36215,6 +36239,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -37864,6 +37892,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9500",
             "multiplierUp": "1.0500"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -40730,6 +40762,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -49575,7 +49611,7 @@
       "info": {
         "baseAsset": "ETH",
         "baseAssetPrecision": "8",
-        "contractType": "CURRENT_QUARTER",
+        "contractType": "CURRENT_QUARTER DELIVERING",
         "deliveryDate": "1774598400000",
         "filters": [
           {
@@ -50362,6 +50398,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.8500",
             "multiplierUp": "1.1500"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.020000",
@@ -54579,6 +54619,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.8500",
             "multiplierUp": "1.1500"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -55002,8 +55046,8 @@
           {
             "filterType": "PRICE_FILTER",
             "maxPrice": "200",
-            "minPrice": "0.0001000",
-            "tickSize": "0.0001000"
+            "minPrice": "0.0000100",
+            "tickSize": "0.0000100"
           },
           {
             "filterType": "LOT_SIZE",
@@ -55030,6 +55074,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.8500",
             "multiplierUp": "1.1500"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.020000",
@@ -55083,7 +55131,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "BASED",
@@ -55117,7 +55165,7 @@
         },
         "price": {
           "max": 200,
-          "min": 0.0001
+          "min": 1.0e-5
         }
       },
       "taker": 0.0005,
@@ -56839,6 +56887,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9500",
             "multiplierUp": "1.0500"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.012500",
@@ -58343,6 +58395,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -67076,7 +67132,7 @@
           },
           {
             "filterType": "MIN_NOTIONAL",
-            "notional": "100"
+            "notional": "50"
           },
           {
             "filterType": "PERCENT_PRICE",
@@ -67160,7 +67216,7 @@
         },
         "cost": {
           "max": "__undefined",
-          "min": 100
+          "min": 50
         },
         "leverage": {
           "max": "__undefined",
@@ -71153,6 +71209,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.8500",
             "multiplierUp": "1.1500"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.020000",
@@ -72179,8 +72239,8 @@
           {
             "filterType": "PRICE_FILTER",
             "maxPrice": "200",
-            "minPrice": "0.0000100",
-            "tickSize": "0.0000100"
+            "minPrice": "0.0001000",
+            "tickSize": "0.0001000"
           },
           {
             "filterType": "LOT_SIZE",
@@ -72251,7 +72311,7 @@
         ],
         "triggerProtect": "0.1500",
         "underlyingSubType": [
-          "Meme"
+          "Alpha"
         ],
         "underlyingType": "COIN"
       },
@@ -72263,7 +72323,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 1.0e-5,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "SIREN",
@@ -72297,7 +72357,7 @@
         },
         "price": {
           "max": 200,
-          "min": 1.0e-5
+          "min": 0.0001
         }
       },
       "taker": 0.0005,
@@ -72961,6 +73021,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -73105,6 +73169,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -74278,8 +74346,8 @@
           {
             "filterType": "PRICE_FILTER",
             "maxPrice": "200",
-            "minPrice": "0.0001000",
-            "tickSize": "0.0001000"
+            "minPrice": "0.0000100",
+            "tickSize": "0.0000100"
           },
           {
             "filterType": "LOT_SIZE",
@@ -74361,7 +74429,7 @@
       "precision": {
         "amount": 1,
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "ENA",
@@ -74395,7 +74463,7 @@
         },
         "price": {
           "max": 200,
-          "min": 0.0001
+          "min": 1.0e-5
         }
       },
       "taker": 0.0005,
@@ -74601,7 +74669,7 @@
           },
           {
             "filterType": "MIN_NOTIONAL",
-            "notional": "100"
+            "notional": "50"
           },
           {
             "filterType": "PERCENT_PRICE",
@@ -74686,7 +74754,7 @@
         },
         "cost": {
           "max": "__undefined",
-          "min": 100
+          "min": 50
         },
         "leverage": {
           "max": "__undefined",
@@ -75997,7 +76065,7 @@
         "quoteAsset": "USDT",
         "quotePrecision": "8",
         "requiredMarginPercent": "5.0000",
-        "status": "TRADING",
+        "status": "SETTLING",
         "symbol": "FUNUSDT",
         "timeInForce": [
           "GTC",
@@ -76062,7 +76130,7 @@
       "margin": false,
       "contract": true,
       "percentage": true,
-      "active": true,
+      "active": false,
       "expiry": "__undefined",
       "id": "FUNUSDT",
       "lowercaseId": "funusdt",
@@ -80644,6 +80712,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -81391,6 +81463,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -84968,8 +85044,8 @@
           {
             "filterType": "PRICE_FILTER",
             "maxPrice": "200",
-            "minPrice": "0.000100",
-            "tickSize": "0.000100"
+            "minPrice": "0.000010",
+            "tickSize": "0.000010"
           },
           {
             "filterType": "LOT_SIZE",
@@ -85052,7 +85128,7 @@
       "precision": {
         "amount": 0.1,
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "GTC",
@@ -85086,7 +85162,7 @@
         },
         "price": {
           "max": 200,
-          "min": 0.0001
+          "min": 1.0e-5
         }
       },
       "taker": 0.0005,
@@ -85601,6 +85677,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -86348,6 +86428,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -87281,7 +87365,7 @@
         "quoteAsset": "USDT",
         "quotePrecision": "8",
         "requiredMarginPercent": "5.0000",
-        "status": "TRADING",
+        "status": "SETTLING",
         "symbol": "FIOUSDT",
         "timeInForce": [
           "GTC",
@@ -87346,7 +87430,7 @@
       "margin": false,
       "contract": true,
       "percentage": true,
-      "active": true,
+      "active": false,
       "expiry": "__undefined",
       "id": "FIOUSDT",
       "lowercaseId": "fiousdt",
@@ -89361,6 +89445,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -91916,6 +92004,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -92104,7 +92196,7 @@
         ],
         "triggerProtect": "0.1500",
         "underlyingSubType": [
-          "Meme"
+          "Alpha"
         ],
         "underlyingType": "COIN"
       },
@@ -95072,6 +95164,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",
@@ -99880,6 +99976,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.8500",
             "multiplierUp": "1.1500"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.020000",
@@ -103831,7 +103931,7 @@
         "quoteAsset": "USDT",
         "quotePrecision": "8",
         "requiredMarginPercent": "5.0000",
-        "status": "TRADING",
+        "status": "SETTLING",
         "symbol": "OXTUSDT",
         "timeInForce": [
           "GTC",
@@ -103896,7 +103996,7 @@
       "margin": false,
       "contract": true,
       "percentage": true,
-      "active": true,
+      "active": false,
       "expiry": "__undefined",
       "id": "OXTUSDT",
       "lowercaseId": "oxtusdt",
@@ -106173,7 +106273,7 @@
       "info": {
         "baseAsset": "BTC",
         "baseAssetPrecision": "8",
-        "contractType": "CURRENT_QUARTER",
+        "contractType": "CURRENT_QUARTER DELIVERING",
         "deliveryDate": "1774598400000",
         "filters": [
           {
@@ -106657,6 +106757,10 @@
             "multiplierDecimal": "4",
             "multiplierDown": "0.9700",
             "multiplierUp": "1.0300"
+          },
+          {
+            "filterType": "POSITION_RISK_CONTROL",
+            "positionControlSide": "NONE"
           }
         ],
         "liquidationFee": "0.015000",

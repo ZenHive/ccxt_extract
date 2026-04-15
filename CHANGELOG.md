@@ -6,6 +6,86 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 12: Alias-aware scope guards (post-Task-11 regression)
+
+A consumer running `mix ccxt_extract.update --tier1 --tier2 --dex` hit a
+stage-3 hard-abort:
+
+```
+Missing describe files for scoped exchange(s):
+  • gateio.json
+  • huobi.json
+```
+
+**Root cause.** CCXT aliases (`gateio extends gate`, `huobi extends htx`,
+both `'alias': true`) are pure re-exports with no independent `describe()`
+data. The QuickBEAM-backed extractors (`describe`, `url_templates`,
+`signing_fixtures`, `load_markets`) skip them via a `!d.alias` JS filter
+and never emit per-alias files. `CcxtExtract.Tiers` expands families via
+`class_hierarchy.json` and pulls aliases into scope anyway, so
+`TaskScope.scoped_ids_missing_file/2` raised on legitimately absent files.
+Task 9's verification sweep missed this because live scenarios redirected
+output with `--output /tmp/...` and never exercised stage-3 end-to-end
+against a scope containing an alias.
+
+**Fix.**
+
+- **New `CcxtExtract.Aliases` module** (`lib/ccxt_extract/aliases.ex`) —
+  single source of truth for alias membership over
+  `priv/discoveries/exchanges.json`. Exposes `alias_ids!/1`, `alias?/1`,
+  `exclude_aliases/1`. Read-only helper; producer stays in
+  `CcxtExtract.Exchanges`. Mirrors the `Tiers` ↔ `class_hierarchy.json`
+  split.
+- **`TaskScope.scoped_ids_missing_file/3`** gains `:exclude_aliases` opt
+  (default `false`, preserves behaviour for every existing caller). When
+  `true`, aliases are subtracted from scope before the existence check.
+- **`ccxt_extract.handle_errors`** flips the opt on; moduledoc cites the
+  `is_alias` → `layer(false, false, "alias")` precedent in
+  `CcxtExtract.CoverageReport` so the asymmetry is visible to future
+  readers.
+- **`contract_test` callers audited** and left unchanged: the pipeline
+  writes alias entries to `priv/output/` (110 files from 110 TS sources
+  via `deepExtend`), so the universe and scoped guards remain correct
+  as-is. The bug class is specific to consumers of per-exchange discovery
+  files produced by alias-skipping extractors.
+
+**Reframe.** Aliases are legitimate scope members — CCXT consumers may
+reference `gateio` or `huobi` by name. Extractors that skip them at
+runtime now advertise that asymmetry through `CcxtExtract.Aliases`
+rather than letting downstream guards fail at random. Drop-in for any
+future describe-dependent stage-3 task.
+
+**Tests added.**
+
+- `test/ccxt_extract/aliases_test.exs` — 7 cases covering `alias_ids!/1`
+  happy path, empty input, missing-file Mix.Error, `exclude_aliases/1`
+  pass-through and subtraction.
+- `test/mix/tasks/oxc_scope_flags_test.exs` — two new cases in the
+  existing `scoped_ids_missing_file` describe block: scope with real
+  aliases (`gate`/`gateio`/`huobi`) reports missing without the opt,
+  returns `[]` with `exclude_aliases: true`, and still reports non-alias
+  missing ids even when the opt is set.
+- `test/integration/handle_errors_integration_test.exs` — scoped-run
+  regression test using `--exchange gate,gateio` that asserts `Done.`
+  appears and `Missing describe files` does not.
+
+**Architectural alternatives rejected.**
+
+- **Filter aliases in `CcxtExtract.Tiers` family expansion.** Would
+  silently drop aliases from scoped method inventories
+  (`classes`/`methods`/`sign_methods` legitimately process alias TS files
+  to produce structural data), violating the "Extract EVERYTHING"
+  per-exchange rule.
+- **Re-detect aliases from TS source at each call site.** Duplicates the
+  canonical `!d.alias` runtime check. `exchanges.json` is the derived
+  artifact of that check — reusing it preserves the single source of
+  truth.
+
+**Docs.** Updated `CLAUDE.md:102` to replace the stale "Tasks 9/10
+remaining" sentence with a note about alias-aware stage-3 guards.
+`SCOPED-EXTRACTION-TASKS.md` gains a Task 12 section and updated Task
+Graph.
+
 ### Task 9: Full verification sweep
 
 Closes the scoped-extraction refactor (Tasks 1–8, 10, 11). Eleven acceptance

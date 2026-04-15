@@ -6,6 +6,72 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 9: Full verification sweep
+
+Closes the scoped-extraction refactor (Tasks 1–8, 10, 11). Eleven acceptance
+scenarios from the original plan exercised against the landed code; all
+pass. No fix-up commits required — the design held.
+
+**Scenarios verified:**
+
+1. **`--tier1` produces in-scope JSONs, prunes others.** Sandboxed run via
+   `--output /tmp/...` produced 10 exchange files (5 tier1 roots
+   family-expanded: binance + 3 binance variants, okx + 2 okx variants,
+   bybit, deribit, coinbaseexchange) plus 3 metadata files. Original spec
+   said "5"; actual count reflects family inheritance landed in Task 1.
+2. **`_manifest.json` `tier_scope` reflects scope.** Sandbox manifest
+   written with `"tier_scope": ["tier1"]` and `exchanges` array length
+   matching the in-scope set.
+3. **Aggregate filtering & merge.** Covered by
+   `test/ccxt_extract/aggregate_writer_test.exs` (19 cases including
+   stats-recompute drift guard) and `oxc_scope_flags_test.exs`. Live
+   verification skipped to avoid mutating real `priv/discoveries/`.
+4. **Safety rail aborts on dirty tree, `--force` bypasses.** Covered by
+   `pipeline_test.exs` (Task 10) and `update_test.exs` describe blocks.
+   Sandbox run also incidentally exercised the rail (`fatal: not a git
+   repository` aborted without `--force`; `--force` bypassed).
+5. **Idempotency — `--all` after `--tier1` restores 110.** Sandbox
+   sequence: `--tier1` → 10 files → `--all` → 110 exchange files +
+   3 metadata, `tier_scope` rewritten to `"all"`.
+6. **`--tier1 --dex` combinable = 14** (10 tier1 family + 4 DEX roots).
+   Spec said "9"; actual reflects family expansion.
+7. **`--exchange binance` = 1; repeat (`--exchange binance --exchange okx`
+   = 2); comma-split (`--exchange binance,okx` = 2).**
+8. **Typo rejection with fuzzy suggestions.** `--exchange bogusexchange`
+   aborts with `(did you mean: wavesexchange?)`.
+9. **Mixed scope `--tier1 --exchange hyperliquid` = 11** (10 tier1 + 1).
+   Spec said "6"; actual reflects family expansion.
+10. **`--all` + narrowing flag aborts.** `--all --tier1` →
+    `** (Mix) --all conflicts with narrowing flag(s): --tier1`.
+11. **Contract test honors scope.** Covered by
+    `test/mix/tasks/contract_test_task_test.exs` (in 201-test scope-suite
+    pass).
+
+**Quality gates.**
+`mix test.json --quiet test/{mix/tasks,ccxt_extract}/...scope... --summary-only`
+→ 201 / 201 passed across nine scope-related test files
+(`pipeline_test`, `oxc_scope_flags_test`, `quickbeam_scope_flags_test`,
+`analytics_scope_flags_test`, `contract_test_task_test`, `update_test`,
+`aggregate_writer_test`, `scope_test`, `scope_cleanup_test`).
+
+**Spec-vs-actual count divergence (documentation note, not a defect).**
+Scenarios 1, 6, and 9 in `SCOPED-EXTRACTION-TASKS.md` cite pre-Task-1
+counts (roots only). Family inheritance via `priv/discoveries/class_hierarchy.json`
+expands tier roots to their CCXT-class-graph descendants — `binance` →
+4 entries, `okx` → 3 entries, `kucoin` → 2 entries — so tier1 = 10
+(not 5), tier1+dex = 14 (not 9), tier1+hyperliquid = 11 (not 6). The
+behavior is the documented contract; the scenario counts in the task
+file are the historical artifact.
+
+**Stale-aggregate observation (also not a defect).** Existing
+`priv/output/_manifest.json` and `priv/discoveries/methods_rest.json`
+predate the `tier_scope` envelope stamp. They will be normalized on the
+next full `mix ccxt_extract.update` run; no code change required.
+
+No code touched by this task. Closes
+[SCOPED-EXTRACTION-TASKS.md](SCOPED-EXTRACTION-TASKS.md) — full
+scope-flag refactor (Tasks 1-11) is now complete.
+
 ### Task 10: Pipeline safety rail (direct invocation)
 
 Closes the asymmetry between `mix ccxt_extract.update` and direct
@@ -23,7 +89,7 @@ could silently delete uncommitted output JSON via the prune step inside
   `opts[:output]` if given, otherwise the canonical default from
   `CcxtExtract.Paths.priv("output")` — so `--output <custom-dir>` is
   covered. Tests override the list via
-  `config :ccxt_extract, #{'#'}{__MODULE__}, safety_paths: [...]`.
+  `config :ccxt_extract, Mix.Tasks.CcxtExtract.Pipeline, safety_paths: [...]`.
 - **`lib/mix/tasks/ccxt_extract.update.ex`** — `build_pipeline_args/1`
   now forwards `--force` to the pipeline stage so `update --force` no
   longer bypasses its own rail only to re-trip the pipeline's rail in

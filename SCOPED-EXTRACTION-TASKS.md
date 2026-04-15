@@ -94,7 +94,12 @@ full-universe runs (`--all` or no scope flag) skip the check since they
 overwrite without pruning. Both entry points (orchestrator + direct
 pipeline) now honor the same dirty-tree invariant.
 
-**Ready next:** Task 9 (full verification sweep) — only remaining task.
+**Task 9 landed.** Full verification sweep complete — all 11 scenarios
+pass. Live sandbox runs proved S1/S2/S5/S6/S7/S9; arg-parse runs proved
+S8/S10; the 201-test scope-suite covered S3/S4/S11. No fix-up commits
+required. Spec count divergences (S1=10 not 5, S6=14 not 9, S9=11 not
+6) are family-inheritance expansion, documented in CHANGELOG. **Refactor
+complete: Tasks 1–11 all ✅.**
 
 **Known drift (post-Task 101):** the `coincatch` orphan is now resolved — this
 commit regenerates `priv/discoveries/exchanges.json` (109 → 110) so the QuickBEAM
@@ -487,10 +492,22 @@ Update every doc that talks about scope, the One Rule, or pipeline behavior.
 
 ---
 
-### Task 9: Full verification sweep ⬜
+### Task 9: Full verification sweep ✅
 
-**Status:** Pending — **unblocked** (Task 10 landed; this is the only remaining task)
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-9-full-verification-sweep).
 **Score:** [D:2/B:6/U:7 → Eff:3.25] 🎯
+
+All 11 scenarios verified. Live sandbox runs (`--output /tmp/...`) for
+the user-visible scopes (S1, S2, S5, S6, S7, S9), live arg-parse runs
+for error paths (S8, S10), and the 201-test scope-suite for invariants
+that would have required mutating `priv/discoveries/` (S3, S4, S11).
+No fix-up commits required — the design held. Spec count divergences
+in S1/S6/S9 are family-inheritance expansion (documented in CHANGELOG),
+not defects. Existing `_manifest.json` / `methods_rest.json` lack the
+`tier_scope` stamp because they predate it; next `mix ccxt_extract.update`
+will normalize.
+
+**Original spec (retained for traceability):**
 
 Run all verification scenarios from the plan and fix anything that breaks.
 This is the honest acceptance test — not "looks right" but "does right."
@@ -581,7 +598,7 @@ Task 1 ─┬─▶ Task 2 ─┬─▶ Task 7 ──┐
                      (docs wait for all code tasks)
 ```
 
-Task 10 ✅; Task 9 unblocked by Task 8 (landed) and now the only task remaining.
+All tasks complete. Refactor closes here.
 
 ## Notes for future sessions
 

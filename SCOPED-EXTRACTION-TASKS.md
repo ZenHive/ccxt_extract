@@ -25,6 +25,21 @@ of uncommitted work.
 
 ## 🎯 Current Focus
 
+**Task 6 landed.** Four remaining OXC-backed tasks (`interface_signatures`,
+`pagination`, `unified_endpoints`, `overrides`) now accept the canonical
+scope flag set via `TaskScope.parse_and_resolve!/3`. Three of the four
+core modules already inherited from `OXCExtractor` (aggregate write was
+already merge-safe); `Overrides` had a hand-rolled `write!` that now
+routes through `AggregateWriter` with a private `write_stats/1`
+callback. Envelope totals for `overrides.json` (`with_overrides`,
+`total_overrides`, `total_new_methods`) are recomputed from merged
+entries on every write — drift-bug class closed by construction.
+`base_methods` is intentionally excluded: single-file base/Exchange.ts
+parse, no per-exchange dimension, honesty-rule violation to accept
+flags that do nothing. **New follow-up captured:** orchestrator
+`run_oxc_extractors/0` at `update.ex:274` passes `[]` — direct invocation
+honors scope, orchestrated invocation drops it (Task 11).
+
 **Task 4 landed.** All four QuickBEAM-backed extractor tasks (`describe`,
 `url_templates`, `signing_fixtures`, `load_markets`) accept the canonical
 scope flag set via `CcxtExtract.TaskScope`. `url_templates` routes
@@ -50,11 +65,10 @@ load-bearing for `Tiers` family inheritance) and only stamps
 `tier_scope`. `handle_errors` fails loudly when a scoped run is missing
 a required `priv/discoveries/describe/<id>.json`.
 
-**Ready next:** Task 6 (OXC batch B — reuses `AggregateWriter`
-verbatim), Task 7 (analytics — now also unblocked because aggregate
-and per-exchange-dir writers are merge-safe everywhere), Task 10
-(direct-pipeline safety rail). Task 8 (docs overhaul) and Task 9
-(verification sweep) wait for 6 and 7.
+**Ready next:** Task 7 (analytics — all aggregate and per-exchange-dir
+writers are merge-safe everywhere), Task 10 (direct-pipeline safety
+rail), Task 11 (orchestrator scope-threading gap — new). Task 8 (docs
+overhaul) and Task 9 (verification sweep) wait for 7.
 
 **Known drift (post-Task 101):** cached integration tests are currently red for
 two unrelated reasons, neither tied to the scope refactor: (1) `coincatch` is a
@@ -322,23 +336,78 @@ dependency for scope-resolution tests.
 
 ---
 
-### Task 6: OXC extractors scope flags — batch B ⬜
+### Task 6: OXC extractors scope flags — batch B ✅
 
-**Status:** Pending — **ready** (Task 5 landed `AggregateWriter` + `TaskScope`)
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-6-oxc-extractors-scope-flags--batch-b).
 **Score:** [D:4/B:6/U:6 → Eff:1.5] 🚀
 
-Remaining five OXC extractors. Same pattern.
+Four remaining OXC extractors now accept the canonical scope flag set
+via `TaskScope.parse_and_resolve!/3`:
 
-**Tasks:**
 - `ccxt_extract.interface_signatures` → `interface_signatures.json`
 - `ccxt_extract.pagination` → `pagination.json`
 - `ccxt_extract.unified_endpoints` → `unified_endpoints.json`
 - `ccxt_extract.overrides` → `overrides.json`
-- `ccxt_extract.base_methods` → `_base_methods.json`
 
-**Success criteria:** same shape as Task 5. `overrides.json` is one of today's drift-failing files (`total_overrides` 100 vs 99) — the recompute step closes it.
+Three of the four already inherited from `OXCExtractor` (aggregate
+write path already merge-safe); only the task files needed to filter
+results and thread `scope`/`tier_scope`. `Overrides` had a hand-rolled
+`write!` that was migrated to route through `AggregateWriter` with a
+new private `write_stats/1` callback. Envelope totals for
+`overrides.json` are now recomputed from merged entries on every write.
 
-**Files touched:** 5 task files + tests.
+**`ccxt_extract.base_methods` intentionally excluded.** Single-file
+base/Exchange.ts parse with no per-exchange dimension; `_base_methods.json`
+is a flat map, not a list of exchange entries; `AggregateWriter` doesn't
+apply. Accepting flags that do nothing would be a silent lie (Honesty
+Rule in CLAUDE.md).
+
+**Follow-up captured (Task 11).** During audit, discovered that
+`mix ccxt_extract.update` → `run_oxc_extractors/0` at `update.ex:274`
+passes `[]` to every OXC task — scope args from the orchestrator never
+reach the OXC stage. Direct invocation honors scope; orchestrated
+invocation silently drops it. Tracked below as Task 11.
+
+---
+
+### Task 11: Orchestrator scope-threading gap (OXC stage) ⬜
+
+**Status:** Pending — discovered during Task 6 audit.
+**Score:** [D:1/B:4/U:4 → Eff:4.0] 🎯
+
+`mix ccxt_extract.update` runs scope-aware QuickBEAM and pipeline
+stages through `scope_args(opts)`, but its OXC stage at
+`lib/mix/tasks/ccxt_extract.update.ex:274` passes `[]` verbatim:
+
+```elixir
+defp run_oxc_extractors do
+  for task <- task_override(:oxc_extractors, @default_oxc_extractors) do
+    Mix.Task.rerun(task, [])          # ← scope dropped here
+  end
+end
+```
+
+This means `mix ccxt_extract.update --tier1` does NOT restrict the OXC
+stage; all 111 exchanges are re-extracted every time. Direct invocation
+(`mix ccxt_extract.methods --tier1`) does honor scope. The gap is a
+one-line change: replace `[]` with `scope_args(opts)` and thread `opts`
+through.
+
+**Caveat:** `ccxt_extract.classes` and `ccxt_extract.base_methods` will
+receive scope args they ignore. Both already accept-and-ignore (classes)
+or never accepted them (base_methods). Base_methods will fail on any
+scope flag — either migrate base_methods to accept-and-ignore first, or
+strip scope args for it in the orchestrator with an explicit list.
+
+**Success criteria:**
+- [ ] `run_oxc_extractors(opts)` receives and passes `scope_args(opts)`
+- [ ] `mix ccxt_extract.update --tier1` actually scopes the OXC stage
+- [ ] `base_methods` either accepts-and-ignores or is excluded from the
+      orchestrator scope-passthrough list
+- [ ] Test in `test/mix/tasks/update_test.exs` asserts OXC stage
+      receives scope args
+
+**Files touched:** 1 task file + test.
 
 ---
 
@@ -470,18 +539,20 @@ full-universe run skips the check even on a dirty tree.
 
 ```
 Task 1 ─┬─▶ Task 2 ─┬─▶ Task 7 ──┐
-        │           │            │
-        ├─▶ Task 3 ─┤            │
-        │           │            │
-        ├─▶ Task 4 ─┤            │
-        │           │            │
-        └─▶ Task 5 ─▶ Task 6 ────┤
-                                  ├─▶ Task 8 ─▶ Task 9
+ ✅     │    ✅     │             │
+        ├─▶ Task 3 ─┤             │
+        │    ✅     │             │
+        ├─▶ Task 4 ─┤             │
+        │    ✅     │             │
+        └─▶ Task 5 ─▶ Task 6 ─────┤
+             ✅        ✅         ├─▶ Task 8 ─▶ Task 9
                                   │
+             Task 10 (independent) │
+             Task 11 (independent) │
                      (docs wait for all code tasks)
 ```
 
-Tasks 2, 3, 4, 5 can all start once Task 1 lands and run in parallel across sessions if desired (mark with `[P]` in status when claimed).
+Tasks 7, 10, 11 ready to start in parallel; Tasks 8 & 9 wait for 7.
 
 ## Notes for future sessions
 

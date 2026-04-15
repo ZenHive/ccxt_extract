@@ -58,32 +58,90 @@ defmodule CcxtExtract.Overrides do
 
   @doc """
   Write extracted override data to `priv/discoveries/overrides.json`.
+
+  Routes through `CcxtExtract.AggregateWriter.write!/3`, which recomputes
+  envelope totals (`with_overrides`, `total_overrides`, `total_new_methods`)
+  from the final merged entries on every write. Envelope-vs-entries drift
+  is closed by construction.
+
+  Accepts either a legacy output-path string (preserves the prior
+  positional-argument shape used by integration tests) or an options
+  keyword list. Supported options:
+
+    * `:output_path` — override the default discovery JSON path
+    * `:scope` — `:all` (default) or `MapSet.t(String.t())` of bare
+      exchange IDs. Merge identity is `"node_key"` (rest:binance and
+      ws:binance are distinct entries); the actual merge-rejection set
+      is derived from `node_key`s present in `exchanges`, so a partial
+      scoped extract (e.g., WS failed, REST succeeded) preserves stale
+      sibling entries rather than silently dropping them.
+    * `:tier_scope` — value from `CcxtExtract.Scope.to_manifest_value/1`,
+      stamped into the envelope as `"tier_scope"`.
+
+  Returns `:ok` for keyword-list calls and an atom-keyed summary map
+  `%{with_overrides, total_overrides, total_new}` for the legacy
+  positional-string call (back-compat with existing integration tests).
   """
-  @spec write!([map()], String.t()) :: %{
-          with_overrides: non_neg_integer(),
-          total_overrides: non_neg_integer(),
-          total_new: non_neg_integer()
-        }
-  def write!(exchanges, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
-    File.mkdir_p!(Path.dirname(output_path))
+  @spec write!([map()], keyword() | String.t()) :: :ok | map()
+  def write!(exchanges, opts_or_path \\ []) do
+    {opts, legacy_summary?} =
+      case opts_or_path do
+        path when is_binary(path) -> {[output_path: path], true}
+        opts when is_list(opts) -> {opts, false}
+      end
 
-    with_overrides = Enum.count(exchanges, fn e -> e["override_count"] > 0 end)
-    total_overrides = Enum.sum(Enum.map(exchanges, & &1["override_count"]))
-    total_new = Enum.sum(Enum.map(exchanges, & &1["new_method_count"]))
+    output_path =
+      Keyword.get(
+        opts,
+        :output_path,
+        CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))
+      )
 
-    output = %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
-      "count" => length(exchanges),
-      "with_overrides" => with_overrides,
-      "total_overrides" => total_overrides,
-      "total_new_methods" => total_new,
-      "exchanges" => exchanges
+    # Overrides entries are keyed by `node_key` ("rest:binance" vs "ws:binance"),
+    # not bare `id`. Translate the caller's bare-id scope into the set of
+    # `node_key`s actually being produced this run so partial extracts don't
+    # drop stale sibling variants.
+    merge_scope =
+      case Keyword.get(opts, :scope, :all) do
+        :all -> :all
+        %MapSet{} -> MapSet.new(exchanges, &Map.fetch!(&1, "node_key"))
+      end
+
+    :ok =
+      CcxtExtract.AggregateWriter.write!(
+        output_path,
+        exchanges,
+        entry_key: "exchanges",
+        id_key: "node_key",
+        scope: merge_scope,
+        tier_scope: Keyword.get(opts, :tier_scope, "all"),
+        stats_fn: &write_stats/1
+      )
+
+    if legacy_summary? do
+      stats = write_stats(exchanges)
+
+      %{
+        with_overrides: stats["with_overrides"],
+        total_overrides: stats["total_overrides"],
+        total_new: stats["total_new_methods"]
+      }
+    else
+      :ok
+    end
+  end
+
+  @doc """
+  Recompute envelope stats from merged entries. Used as the
+  `:stats_fn` callback for `AggregateWriter.write!/3`.
+  """
+  @spec write_stats([map()]) :: map()
+  def write_stats(exchanges) do
+    %{
+      "with_overrides" => Enum.count(exchanges, fn e -> e["override_count"] > 0 end),
+      "total_overrides" => Enum.sum(Enum.map(exchanges, & &1["override_count"])),
+      "total_new_methods" => Enum.sum(Enum.map(exchanges, & &1["new_method_count"]))
     }
-
-    json = Jason.encode!(CcxtExtract.AstNormalize.normalize(output), pretty: true)
-    File.write!(output_path, json)
-
-    %{with_overrides: with_overrides, total_overrides: total_overrides, total_new: total_new}
   end
 
   @doc """

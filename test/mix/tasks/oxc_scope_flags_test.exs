@@ -1,9 +1,12 @@
 defmodule Mix.Tasks.CcxtExtract.OxcScopeFlagsTest do
   @moduledoc """
-  CLI-level tests for the six Task-5 OXC-backed extractor tasks:
-  classes, methods, sign_methods, handle_errors, parse_methods, ws_methods.
+  CLI-level tests for the OXC-backed extractor tasks scope flag surface.
 
-  These assertions exercise the scope flag surface shared across all six —
+  Covers Task 5 tasks (classes, methods, sign_methods, handle_errors,
+  parse_methods, ws_methods) plus Task 6 tasks (interface_signatures,
+  pagination, unified_endpoints, overrides).
+
+  These assertions exercise the scope flag surface shared across all ten —
   argument parsing, `Scope.resolve/2` error mapping, `Mix.raise` message
   shaping — and fire before the OXC-parse stage.
 
@@ -26,7 +29,11 @@ defmodule Mix.Tasks.CcxtExtract.OxcScopeFlagsTest do
     Mix.Tasks.CcxtExtract.SignMethods,
     HandleErrors,
     Mix.Tasks.CcxtExtract.ParseMethods,
-    Mix.Tasks.CcxtExtract.WsMethods
+    Mix.Tasks.CcxtExtract.WsMethods,
+    Mix.Tasks.CcxtExtract.InterfaceSignatures,
+    Mix.Tasks.CcxtExtract.Pagination,
+    Mix.Tasks.CcxtExtract.UnifiedEndpoints,
+    Mix.Tasks.CcxtExtract.Overrides
   ]
 
   for task <- @tasks do

@@ -295,6 +295,207 @@ defmodule CcxtExtract.OverridesTest do
     end
   end
 
+  describe "write!/2 scope-aware aggregate" do
+    @tmp_dir Path.join(System.tmp_dir!(), "ccxt_extract_overrides_write_test")
+
+    setup do
+      File.rm_rf!(@tmp_dir)
+      File.mkdir_p!(@tmp_dir)
+      on_exit(fn -> File.rm_rf!(@tmp_dir) end)
+      :ok
+    end
+
+    defp override_entry(id, override_count, new_method_count \\ 0, type \\ "rest") do
+      %{
+        "id" => id,
+        "type" => type,
+        "file" => "#{id}.ts",
+        "node_key" => "#{type}:#{id}",
+        "parent_key" => "#{type}:binance",
+        "extends" => "binance",
+        "own_method_count" => override_count + new_method_count,
+        "override_count" => override_count,
+        "new_method_count" => new_method_count,
+        "inherited_count" => 0,
+        "overrides" => %{},
+        "new_methods" => %{},
+        "inherited_methods" => []
+      }
+    end
+
+    test "scope=:all overwrites the file wholesale" do
+      path = Path.join(@tmp_dir, "overrides.json")
+
+      :ok = Overrides.write!([override_entry("bybit", 3)], output_path: path, scope: :all)
+
+      :ok =
+        Overrides.write!(
+          [override_entry("binance", 5), override_entry("okx", 2)],
+          output_path: path,
+          scope: :all,
+          tier_scope: "all"
+        )
+
+      data = Jason.decode!(File.read!(path))
+
+      assert data["count"] == 2
+      assert Enum.map(data["exchanges"], & &1["id"]) == ~w(binance okx)
+      assert data["tier_scope"] == "all"
+    end
+
+    test "scope=MapSet merges in-scope entries and preserves out-of-scope" do
+      path = Path.join(@tmp_dir, "overrides.json")
+
+      :ok =
+        Overrides.write!(
+          [override_entry("binance", 5), override_entry("bybit", 3), override_entry("okx", 2)],
+          output_path: path,
+          scope: :all
+        )
+
+      scope = MapSet.new(~w(binance bybit))
+
+      :ok =
+        Overrides.write!(
+          [override_entry("binance", 7), override_entry("bybit", 4)],
+          output_path: path,
+          scope: scope,
+          tier_scope: "TIER 1 (2)"
+        )
+
+      data = Jason.decode!(File.read!(path))
+
+      assert Enum.map(data["exchanges"], & &1["id"]) == ~w(binance bybit okx)
+
+      binance = Enum.find(data["exchanges"], &(&1["id"] == "binance"))
+      assert binance["override_count"] == 7
+
+      okx = Enum.find(data["exchanges"], &(&1["id"] == "okx"))
+      assert okx["override_count"] == 2
+
+      assert data["tier_scope"] == "TIER 1 (2)"
+    end
+
+    test "legacy positional-string path call returns atom-keyed summary" do
+      # Integration tests still call `Overrides.write!(exchanges, path)` with a
+      # binary path and destructure the returned summary.
+      path = Path.join(@tmp_dir, "overrides.json")
+
+      exchanges = [
+        override_entry("binance", 5, 10),
+        override_entry("bybit", 3, 4)
+      ]
+
+      summary = Overrides.write!(exchanges, path)
+
+      assert summary.with_overrides == 2
+      assert summary.total_overrides == 8
+      assert summary.total_new == 14
+
+      # File is still written via AggregateWriter.
+      data = Jason.decode!(File.read!(path))
+      assert data["count"] == 2
+      assert data["tier_scope"] == "all"
+    end
+
+    test "same-id siblings (rest + ws) are distinct merge entries" do
+      # overrides.json can contain both rest:binance and ws:binance with the
+      # same `id`. Merge identity must be `node_key`, not `id`.
+      path = Path.join(@tmp_dir, "overrides.json")
+
+      seed = [
+        override_entry("binance", 3, 0, "rest"),
+        override_entry("binance", 2, 0, "ws"),
+        override_entry("bybit", 4, 0, "rest")
+      ]
+
+      :ok = Overrides.write!(seed, output_path: path, scope: :all)
+
+      # Scoped re-run: both rest and ws variants of binance are re-extracted.
+      scope = MapSet.new(~w(binance))
+
+      update = [
+        override_entry("binance", 5, 0, "rest"),
+        override_entry("binance", 6, 0, "ws")
+      ]
+
+      :ok = Overrides.write!(update, output_path: path, scope: scope)
+
+      data = Jason.decode!(File.read!(path))
+      by_node_key = Map.new(data["exchanges"], &{&1["node_key"], &1})
+
+      assert by_node_key["rest:binance"]["override_count"] == 5
+      assert by_node_key["ws:binance"]["override_count"] == 6
+      assert by_node_key["rest:bybit"]["override_count"] == 4
+      assert map_size(by_node_key) == 3
+    end
+
+    test "partial extract preserves stale sibling (e.g., WS failed, REST succeeded)" do
+      # Scoped scenario where one variant fails to extract: the surviving
+      # variant replaces its prior entry, but the failed sibling's prior
+      # entry is preserved rather than silently vanishing. Guards against
+      # the merge-by-bare-id regression Codex surfaced in review.
+      path = Path.join(@tmp_dir, "overrides.json")
+
+      seed = [
+        override_entry("binance", 3, 0, "rest"),
+        override_entry("binance", 2, 0, "ws")
+      ]
+
+      :ok = Overrides.write!(seed, output_path: path, scope: :all)
+
+      scope = MapSet.new(~w(binance))
+      # Simulates `Overrides.extract/0` producing only the REST variant because
+      # the WS class failed to parse (logged as `stats.errors`, not in `exchanges`).
+      partial = [override_entry("binance", 7, 0, "rest")]
+
+      :ok = Overrides.write!(partial, output_path: path, scope: scope)
+
+      data = Jason.decode!(File.read!(path))
+      by_node_key = Map.new(data["exchanges"], &{&1["node_key"], &1})
+
+      # REST replaced with fresh value.
+      assert by_node_key["rest:binance"]["override_count"] == 7
+      # WS kept at prior (stale) value rather than silently dropped.
+      assert by_node_key["ws:binance"]["override_count"] == 2
+      assert map_size(by_node_key) == 2
+    end
+
+    test "envelope totals are recomputed from merged entries (drift guard)" do
+      path = Path.join(@tmp_dir, "overrides.json")
+
+      # Seed with three entries — totals should reflect all three.
+      seed = [
+        override_entry("binance", 5, 10),
+        override_entry("bybit", 3, 4),
+        override_entry("okx", 2, 6)
+      ]
+
+      :ok = Overrides.write!(seed, output_path: path, scope: :all)
+
+      # Scoped merge: replace binance + bybit with new counts.
+      scope = MapSet.new(~w(binance bybit))
+      update = [override_entry("binance", 7, 12), override_entry("bybit", 4, 5)]
+      :ok = Overrides.write!(update, output_path: path, scope: scope)
+
+      data = Jason.decode!(File.read!(path))
+
+      # Drift guard: every envelope total equals the sum derived from entries.
+      exchanges = data["exchanges"]
+
+      assert data["count"] == length(exchanges)
+
+      assert data["with_overrides"] ==
+               Enum.count(exchanges, fn e -> e["override_count"] > 0 end)
+
+      assert data["total_overrides"] ==
+               Enum.sum(Enum.map(exchanges, & &1["override_count"]))
+
+      assert data["total_new_methods"] ==
+               Enum.sum(Enum.map(exchanges, & &1["new_method_count"]))
+    end
+  end
+
   describe "Mix.Tasks.CcxtExtract.Overrides.run/1 CLI validation" do
     test "rejects unknown switches" do
       assert_raise Mix.Error, ~r/Unknown option/, fn ->

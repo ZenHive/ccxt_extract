@@ -9,27 +9,34 @@ defmodule Mix.Tasks.CcxtExtract.Pagination do
   pagination data to `priv/discoveries/pagination.json`.
 
       mix ccxt_extract.pagination
+      mix ccxt_extract.pagination --tier1 --dex
+      mix ccxt_extract.pagination --exchange binance
+
+  ## Options
+
+    * `--tier1 --tier2 --tier3 --dex` — restrict extraction to the named
+      priority tiers (combinable). Scoped runs merge into the existing
+      aggregate; out-of-scope entries are preserved.
+    * `--exchange ID` — restrict to explicit exchange IDs. Typos fail
+      loudly with fuzzy suggestions.
+    * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+
+  The active scope is stamped into the JSON envelope as `tier_scope`.
   """
 
   use Mix.Task
 
+  alias CcxtExtract.TaskScope
+
   @impl true
   def run(args) do
-    {_opts, leftover, invalid} = OptionParser.parse(args, strict: [])
-
-    if invalid != [] do
-      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
-      Mix.raise("Unknown option(s): #{switches}")
-    end
-
-    if leftover != [] do
-      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
-    end
+    {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
 
     Mix.shell().info("Extracting pagination strategies from exchange files...")
 
-    {:ok, exchanges, stats} = CcxtExtract.Pagination.extract()
-    CcxtExtract.Pagination.write!(exchanges)
+    {:ok, all_exchanges, stats} = CcxtExtract.Pagination.extract()
+    exchanges = TaskScope.filter_entries(all_exchanges, scope, "id")
+    CcxtExtract.Pagination.write!(exchanges, scope: scope, tier_scope: tier_scope)
 
     with_pagination = Enum.count(exchanges, fn e -> e["pagination_count"] > 0 end)
     total_entries = Enum.sum(Enum.map(exchanges, & &1["pagination_count"]))

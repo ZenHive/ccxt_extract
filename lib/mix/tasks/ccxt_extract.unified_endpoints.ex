@@ -9,27 +9,34 @@ defmodule Mix.Tasks.CcxtExtract.UnifiedEndpoints do
   to `priv/discoveries/unified_endpoints.json`.
 
       mix ccxt_extract.unified_endpoints
+      mix ccxt_extract.unified_endpoints --tier1 --dex
+      mix ccxt_extract.unified_endpoints --exchange binance
+
+  ## Options
+
+    * `--tier1 --tier2 --tier3 --dex` — restrict extraction to the named
+      priority tiers (combinable). Scoped runs merge into the existing
+      aggregate; out-of-scope entries are preserved.
+    * `--exchange ID` — restrict to explicit exchange IDs. Typos fail
+      loudly with fuzzy suggestions.
+    * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+
+  The active scope is stamped into the JSON envelope as `tier_scope`.
   """
 
   use Mix.Task
 
+  alias CcxtExtract.TaskScope
+
   @impl true
   def run(args) do
-    {_opts, leftover, invalid} = OptionParser.parse(args, strict: [])
-
-    if invalid != [] do
-      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
-      Mix.raise("Unknown option(s): #{switches}")
-    end
-
-    if leftover != [] do
-      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
-    end
+    {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
 
     Mix.shell().info("Extracting unified endpoint mappings from exchange files...")
 
-    {:ok, exchanges, stats} = CcxtExtract.UnifiedEndpoints.extract()
-    CcxtExtract.UnifiedEndpoints.write!(exchanges)
+    {:ok, all_exchanges, stats} = CcxtExtract.UnifiedEndpoints.extract()
+    exchanges = TaskScope.filter_entries(all_exchanges, scope, "id")
+    CcxtExtract.UnifiedEndpoints.write!(exchanges, scope: scope, tier_scope: tier_scope)
 
     with_endpoints = Enum.count(exchanges, fn e -> e["unified_endpoint_count"] > 0 end)
     total_mappings = Enum.sum(Enum.map(exchanges, & &1["unified_endpoint_count"]))

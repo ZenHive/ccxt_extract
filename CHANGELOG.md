@@ -11,6 +11,72 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - **npm 0.5.1 → 0.5.3.** Adds `NPM.PackageResolver` with Node.js module resolution and `relative_import_path/3`. Includes an ETS race-condition fix in cache initialization. No breaking changes; compatible with existing `~> 0.5` requirement.
 - **oxc 0.6 → 0.7 + quickbeam 0.9 → 0.10.** See Task 101 below.
 
+### Task 6: OXC extractors scope flags — batch B
+
+Four remaining OXC-backed Mix tasks now accept the full canonical scope
+flag set via `CcxtExtract.TaskScope.parse_and_resolve!/3`:
+
+- `mix ccxt_extract.interface_signatures`
+- `mix ccxt_extract.pagination`
+- `mix ccxt_extract.unified_endpoints`
+- `mix ccxt_extract.overrides`
+
+Three of the four core modules (`InterfaceSignatures`, `Pagination`,
+`UnifiedEndpoints`) already inherit from `CcxtExtract.OXCExtractor`, so
+`write!/2` was already merge-safe — the port is a task-file-only change
+that filters `extract/0` results by scope and threads `scope`/`tier_scope`
+into the existing aggregate-writer path. The fourth, `CcxtExtract.Overrides`,
+had a hand-rolled `write!/2` that has been migrated to route through
+`CcxtExtract.AggregateWriter.write!/3` with a private `write_stats/1`
+callback. Envelope totals (`with_overrides`, `total_overrides`,
+`total_new_methods`) are now recomputed from the final merged entries on
+every write — envelope-vs-entries drift is closed by construction.
+
+**Out of scope, intentional.** `mix ccxt_extract.base_methods` is not
+migrated. It parses a single fixed file (`base/Exchange.ts`) with no
+per-exchange dimension; `_base_methods.json` is flat, not a list of
+exchange entries; and `AggregateWriter` doesn't apply. Accepting flags
+that do nothing would be a silent lie (Honesty Rule in CLAUDE.md).
+
+**Known gap captured as a follow-up:** `mix ccxt_extract.update` passes
+`[]` to every OXC task via `run_oxc_extractors/0`, so scope args from
+the orchestrator never reach the OXC stage — only direct invocations
+honor scope. Task 6 does not fix this; tracked as a new
+SCOPED-EXTRACTION-TASKS entry.
+
+**Files touched:**
+`lib/ccxt_extract/overrides.ex` (core: `write!/2` migrated + new
+`write_stats/1`), four Mix task files
+(`lib/mix/tasks/ccxt_extract.interface_signatures.ex`,
+`lib/mix/tasks/ccxt_extract.pagination.ex`,
+`lib/mix/tasks/ccxt_extract.unified_endpoints.ex`,
+`lib/mix/tasks/ccxt_extract.overrides.ex`),
+`test/mix/tasks/oxc_scope_flags_test.exs` (four tasks added to the
+parameterized `@tasks` list — adds 16 auto-generated scope-flag cases),
+and new `write!/2` scope-aware aggregate tests in
+`test/ccxt_extract/overrides_test.exs` (merge, overwrite, drift guard).
+
+**Codex review follow-ups landed in the same task:** two real issues
+caught and fixed before commit. (1) `Overrides.write!/2` initially
+broke its legacy positional-string call shape used by
+`test/integration/overrides_integration_test.exs` (binary path arg +
+atom-keyed `%{with_overrides, total_overrides, total_new}` summary
+return). The shipped version dispatches on the second-arg type — the
+keyword-list form is the new shape; the binary form preserves the
+prior positional-path + summary contract. (2) The merge identity
+defaulted to `id`, which silently dropped same-`id` siblings on partial
+scoped extracts. `overrides.json` legitimately contains `rest:binance`
+and `ws:binance` as distinct entries (10 such pairs). Merge identity is
+now `node_key`; the bare-id scope is internally translated into the set
+of `node_key`s actually present in `new_entries`, so a partial scoped
+extract (e.g., WS class fails, REST succeeds) preserves the stale WS
+entry rather than dropping it. The on-disk sort order changes from
+`id`-alphabetical (with same-id entries adjacent in extraction order)
+to `node_key`-alphabetical (all `rest:*` first, then `ws:*`); the
+cached test was updated to match. Three new tests cover the legacy
+call shape, the same-id-sibling merge case, and the partial-extract
+preservation case.
+
 ### Task 4: QuickBEAM extractors scope flags
 
 Four QuickBEAM-backed Mix tasks now accept the full canonical scope flag

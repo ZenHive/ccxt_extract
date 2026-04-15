@@ -74,9 +74,13 @@ defmodule CcxtExtract.Integration.Cached.OverridesCachedTest do
       end
     end
 
-    test "exchanges are sorted by id", %{exchanges: exchanges} do
-      ids = Enum.map(exchanges, & &1["id"])
-      assert ids == Enum.sort(ids)
+    test "exchanges are sorted by node_key (merge identity for AggregateWriter)" do
+      # Overrides entries have non-unique `id` (rest:binance and ws:binance
+      # share id="binance"). The aggregate write path keys merges on
+      # `node_key`, which is the deterministic sort field on disk.
+      data = @fixture_path |> File.read!() |> Jason.decode!()
+      node_keys = Enum.map(data["exchanges"], & &1["node_key"])
+      assert node_keys == Enum.sort(node_keys)
     end
 
     test "own_method_count = override_count + new_method_count", %{exchanges: exchanges} do

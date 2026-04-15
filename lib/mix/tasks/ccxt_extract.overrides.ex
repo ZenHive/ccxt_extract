@@ -12,27 +12,38 @@ defmodule Mix.Tasks.CcxtExtract.Overrides do
   are "new" by definition, which is not useful override data.
 
       mix ccxt_extract.overrides
+      mix ccxt_extract.overrides --tier1 --dex
+      mix ccxt_extract.overrides --exchange binance
+
+  ## Options
+
+    * `--tier1 --tier2 --tier3 --dex` — restrict extraction to the named
+      priority tiers (combinable). Scoped runs merge into the existing
+      aggregate; out-of-scope entries are preserved.
+    * `--exchange ID` — restrict to explicit exchange IDs. Typos fail
+      loudly with fuzzy suggestions.
+    * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+
+  The active scope is stamped into the JSON envelope as `tier_scope`.
+
+  Note: `Classes.extract/0` always runs over the full CCXT source tree
+  (class hierarchy is universe-wide — see `CcxtExtract.Tiers` family
+  inheritance). Scope filtering applies only to the output entries.
   """
 
   use Mix.Task
 
+  alias CcxtExtract.TaskScope
+
   @impl true
   def run(args) do
-    {_opts, leftover, invalid} = OptionParser.parse(args, strict: [])
-
-    if invalid != [] do
-      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
-      Mix.raise("Unknown option(s): #{switches}")
-    end
-
-    if leftover != [] do
-      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
-    end
+    {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
 
     Mix.shell().info("Extracting method overrides for derived exchanges...")
 
-    {:ok, exchanges, stats} = CcxtExtract.Overrides.extract()
-    summary = CcxtExtract.Overrides.write!(exchanges)
+    {:ok, all_exchanges, stats} = CcxtExtract.Overrides.extract()
+    exchanges = TaskScope.filter_entries(all_exchanges, scope, "id")
+    CcxtExtract.Overrides.write!(exchanges, scope: scope, tier_scope: tier_scope)
 
     class_error_count = length(stats.class_errors)
     override_error_count = length(stats.errors)
@@ -43,10 +54,12 @@ defmodule Mix.Tasks.CcxtExtract.Overrides do
       )
     end
 
+    batch_stats = CcxtExtract.Overrides.write_stats(exchanges)
+
     Mix.shell().info("""
     Done. #{length(exchanges)} derived exchanges analyzed, \
-    #{summary.with_overrides} with overrides (#{summary.total_overrides} total), \
-    #{summary.total_new} new methods.
+    #{batch_stats["with_overrides"]} with overrides (#{batch_stats["total_overrides"]} total), \
+    #{batch_stats["total_new_methods"]} new methods.
     #{if override_error_count > 0, do: "#{override_error_count} override parse error(s).", else: ""}
     Output: priv/discoveries/overrides.json
     """)

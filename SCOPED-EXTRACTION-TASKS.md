@@ -9,7 +9,7 @@
 
 Tier flags (`--tier1/--tier2/--tier3/--dex`) and `--exchange <id>` scope the
 **entire** extraction pipeline, not just the slow network stage. Default is
-still all 111 exchanges (explicit `--all` or no scope flag). Out-of-scope
+still all 110 exchanges (explicit `--all` or no scope flag). Out-of-scope
 per-exchange files are deleted; aggregate discovery files are rewritten
 with only in-scope keys. A git-status safety rail prevents accidental loss
 of uncommitted work.
@@ -19,7 +19,7 @@ of uncommitted work.
 > The One Rule (**Extract EVERYTHING. Never filter.**) applies *per-exchange*
 > — every field, every method, every AST node is extracted for every
 > in-scope exchange. **Which exchanges are in scope** is controlled by
-> scope flags (`--tier*`, `--exchange`, `--all`). Default is all 111.
+> scope flags (`--tier*`, `--exchange`, `--all`). Default is all 110.
 
 ---
 
@@ -78,18 +78,27 @@ canonical scope flag set; `validate_markets` migrated from legacy
 `run_analytics/1` in `update.ex` threads scope into both QuickBEAM and
 derived loops. All scope-aware — no `:unscoped` carve-out.
 
-**Ready next:** Task 10 (direct-pipeline safety rail), Task 8 (docs
-overhaul), Task 9 (verification sweep). Tasks 8 and 9 are now unblocked.
+**Task 8 landed.** Closes the docs drift between the landed scope-refactor
+behavior (Tasks 1–7, 11) and the narrative in `CLAUDE.md`, `SCHEMA.md`,
+`README.md`, `ROADMAP.md`. The One Rule gains a per-exchange/per-field
+qualifier; `_manifest.json`'s `tier_scope` field is now documented in
+`SCHEMA.md`; the stale "OXC-based extractors are never filtered" claim in
+`README.md` is rewritten to the correct parse-vs-output-merge framing;
+`--exchange` examples and the `--force`-gated safety rail are documented
+in both README and CLAUDE.md Development Commands. Docs-only; no code
+changed. See [CHANGELOG.md](CHANGELOG.md#task-8-documentation-overhaul-for-scoped-extraction).
 
-**Known drift (post-Task 101):** cached integration tests are currently red for
-two unrelated reasons, neither tied to the scope refactor: (1) `coincatch` is a
-new CCXT exchange picked up by OXC-based extractors but absent from the stale
-QuickBEAM fixtures — `--skip-setup` does not regenerate those, leaving orphaned
-entries in discovery files (`test/integration/cached/pipeline_cached_test.exs:208`);
-and (2) `parse_methods` coverage threshold dipped to 99 in
-`test/integration/cached/coverage_report_cached_test.exs:88`. Both clear with a
-full `mix ccxt_extract.update` (no `--skip-setup`) or by refreshing the cached
-fixtures. The original envelope-total drift is resolved.
+**Ready next:** Task 10 (direct-pipeline safety rail), Task 9 (full
+verification sweep). Task 9 is now unblocked.
+
+**Known drift (post-Task 101):** the `coincatch` orphan is now resolved — this
+commit regenerates `priv/discoveries/exchanges.json` (109 → 110) so the QuickBEAM
+and OXC discovery sets agree again. One cached-test issue remains:
+`parse_methods` coverage threshold dipped to 99 in
+`test/integration/cached/coverage_report_cached_test.exs:88`, unrelated to the
+scope refactor. Clears with a full `mix ccxt_extract.update` (no `--skip-setup`)
+or by refreshing the cached fixture. The original envelope-total drift is
+resolved.
 
 ### Quick Commands
 
@@ -434,10 +443,23 @@ finds only pre-existing TODO tags.
 
 ---
 
-### Task 8: Documentation overhaul ⬜
+### Task 8: Documentation overhaul ✅
 
-**Status:** Pending — **blocked by Tasks 1–7**
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-8-documentation-overhaul-for-scoped-extraction).
 **Score:** [D:2/B:7/U:8 → Eff:3.75] 🎯
+
+Five docs updated to match landed scope-refactor behavior — CLAUDE.md
+(One Rule qualifier, schema example bump to 1.8.0 with `exchange.tier`,
+scope-flag examples + safety-rail note in Development Commands, stale
+`(Tasks 6/7/8/9/10 remaining)` counter fixed), SCHEMA.md (`tier_scope`
+row added to `_manifest.json` table), README.md (stale "never filtered"
+claim corrected, `--exchange` + `--force` examples added), ROADMAP.md
+(Current Focus §"Scope" paragraph links to this file and summarizes
+remaining work), and this file (self-marked ✅). Docs-only; no `.ex`
+changes, so `mix` quality gates untouched. Verification via
+repo-wide grep for the retired stale phrases returns no live hits.
+
+**Original spec (retained for traceability):**
 
 Update every doc that talks about scope, the One Rule, or pipeline behavior.
 
@@ -462,7 +484,7 @@ Update every doc that talks about scope, the One Rule, or pipeline behavior.
 
 ### Task 9: Full verification sweep ⬜
 
-**Status:** Pending — **blocked by Task 8**
+**Status:** Pending — **unblocked** (Task 8 landed; this is the remaining ready-next alongside Task 10)
 **Score:** [D:2/B:6/U:7 → Eff:3.25] 🎯
 
 Run all verification scenarios from the plan and fix anything that breaks.
@@ -471,9 +493,9 @@ This is the honest acceptance test — not "looks right" but "does right."
 **Scenarios (from plan):**
 1. Clean state test — `--tier1` produces exactly the 5 tier1 JSONs, deletes others.
 2. `_manifest.json` `tier_scope` field reflects the active scope.
-3. Aggregate filtering — `methods_rest.json` has 5 keys, not 111.
+3. Aggregate filtering — `methods_rest.json` has 5 keys, not 110.
 4. Safety rail aborts on dirty tree, proceeds with `--force`.
-5. Idempotency — `--all` after `--tier1` reproduces all 111 JSONs.
+5. Idempotency — `--all` after `--tier1` reproduces all 110 JSONs.
 6. Combinable flags — `--tier1 --dex` = 9.
 7. Single-exchange — `--exchange binance` = 1; repeat/comma work.
 8. Typo rejection — unknown exchange aborts with suggestions.
@@ -537,13 +559,14 @@ Task 1 ─┬─▶ Task 2 ─┬─▶ Task 7 ──┐
         │    ✅     │             │
         └─▶ Task 5 ─▶ Task 6 ─────┤
              ✅        ✅         ├─▶ Task 8 ─▶ Task 9
+                                  │     ✅
                                   │
              Task 10 (independent) │
              Task 11 ✅            │
                      (docs wait for all code tasks)
 ```
 
-Task 10 still independent; Tasks 8 & 9 unblocked by Task 7.
+Task 10 still independent; Task 9 unblocked by Task 8 (landed).
 
 ## Notes for future sessions
 

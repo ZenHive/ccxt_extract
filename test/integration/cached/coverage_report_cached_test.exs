@@ -206,7 +206,7 @@ defmodule CcxtExtract.Integration.Cached.CoverageReportCachedTest do
     @tag :tmp_dir
     test "writes valid JSON", %{report: report, tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "coverage_report.json")
-      assert :ok = CcxtExtract.CoverageReport.write!(report, output_path)
+      assert :ok = CcxtExtract.CoverageReport.write!(report, output_path: output_path)
 
       decoded = output_path |> File.read!() |> Jason.decode!()
       assert decoded["exchange_count"] == report["exchange_count"]

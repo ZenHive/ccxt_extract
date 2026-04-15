@@ -1,5 +1,5 @@
 {
-  "count": 109,
+  "count": 110,
   "exchanges": [
     {
       "alias": false,
@@ -595,6 +595,21 @@
       "name": "Coinbase International",
       "pro": true,
       "referral": null,
+      "version": "v1"
+    },
+    {
+      "alias": false,
+      "certified": false,
+      "country": [
+        "VG"
+      ],
+      "id": "coincatch",
+      "name": "CoinCatch",
+      "pro": true,
+      "referral": {
+        "discount": 0.1,
+        "url": "https://partner.coincatch.cc/bg/92hy70391729607848548"
+      },
       "version": "v1"
     },
     {

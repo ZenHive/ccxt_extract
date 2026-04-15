@@ -6,6 +6,58 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 8: Documentation overhaul for scoped extraction
+
+Closes the drift between landed scope-refactor behavior (Tasks 1–7, 11) and
+the narrative docs. No code changes; documentation-only.
+
+- **`CLAUDE.md`** — "The One Rule" gains a per-exchange/per-field qualifier
+  making the "Never filter" headline consistent with scoped runs; the
+  "Current Output Schema" example block bumped to `schema_version: "1.8.0"`
+  with `exchange.tier`; Development Commands gains scope-flag example
+  invocations and a short prose note documenting the git-status safety rail
+  and `--force` bypass. Stale `(Tasks 6/7/8/9/10 remaining)` counter
+  corrected to `(Tasks 9/10 remaining)`.
+- **`SCHEMA.md`** — `_manifest.json` table gains a `tier_scope` row
+  documenting the scope-label stamped on write; 1.8.0 version history
+  entry extended to cover the manifest-only addition.
+- **`README.md`** — stale "OXC-based extractors are never filtered" claim
+  replaced with the correct parse-vs-output-merge framing (matches
+  `CLAUDE.md` §"Tier-Based Scoping"); `--exchange ID` / `--all` flag
+  examples added; git-status safety rail and `--force` documented.
+- **`ROADMAP.md`** — Current Focus §"Scope" paragraph gains a one-liner
+  pointer to `SCOPED-EXTRACTION-TASKS.md` with the current task status.
+- **`SCOPED-EXTRACTION-TASKS.md`** — Task 8 marked ✅; Current Focus
+  block updated to reflect Task 10 / Task 9 as remaining ready-next.
+
+Post-review fixups (from staged code review + Codex second-pass):
+
+- **`SCHEMA.md`** `tier_scope` row rewritten to match
+  `CcxtExtract.Scope.to_manifest_value/1`'s actual contract
+  (`string | string[]` with canonical tokens like `["tier1", "dex"]` or
+  `["exchange:binance"]`), not the incorrect human-label form initially
+  documented.
+- **Universe size** corrected from `111` to `110` across CLAUDE.md,
+  README.md, SCOPED-EXTRACTION-TASKS.md (matches the regenerated
+  `priv/discoveries/exchanges.json` count: 109 → 110, coincatch added).
+- **"Every extraction Mix task" overclaim** qualified in CLAUDE.md and
+  README.md — corpus-level tasks (`setup`, `exchanges`, `base_methods`,
+  top-level `validate`) run unscoped by design.
+- **CLAUDE.md** `--tier1 --dex` example corrected from `9` to `14`
+  exchanges (verified against `CcxtExtract.Tiers.tier1_members() ++
+  dex_members()`: 10 + 4).
+- **SCOPED-EXTRACTION-TASKS.md** Task 9 status flipped from
+  "blocked by Task 8" to "unblocked"; Task 9 scenarios updated
+  111 → 110; "known drift" note narrowed to reflect coincatch
+  resolution.
+- **ROADMAP.md** Task 101 block narrowed — coincatch orphan cleared;
+  only `parse_methods` coverage threshold remains.
+
+Verification: `grep -rn "111" *.md` now returns only the aspirational
+"111+" phrasing in the CLAUDE.md mission line and ROADMAP.md vision,
+plus historical entries in this CHANGELOG. No live universe-size claims
+remain at the stale value.
+
 ### Task 7: Analytics scope flags
 
 The eight analytics tasks now accept the canonical scope flag set

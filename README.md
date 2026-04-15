@@ -48,17 +48,21 @@ mix run examples/1_parse_exchange.exs binance
 
 Each output JSON carries `exchange.tier` (schema 1.8.0+) — one of `"tier1"`, `"tier2"`, `"tier3"`, `"dex"`, or `"unclassified"`. The canonical **roots** list is hand-curated in [`priv/priority_tiers.json`](priv/priority_tiers.json); variants and aliases inherit their root's tier via `priv/discoveries/class_hierarchy.json` (e.g. `binanceus`, `binancecoinm`, `binanceusdm` → `tier1`; `huobi`, `gateio` → `tier2`).
 
-Raw extraction runs for all 111 exchanges. **Derivation** effort (signing recipes, fee schedules, error handlers) is scoped to Tier 1, Tier 2, and priority DEX; Tier 3 and unclassified exchanges get `null + reason` for derived fields until a priority consumer surfaces a need. See `CLAUDE.md` §"Tier-Based Scoping".
+Raw extraction runs for all 110 exchanges. **Derivation** effort (signing recipes, fee schedules, error handlers) is scoped to Tier 1, Tier 2, and priority DEX; Tier 3 and unclassified exchanges get `null + reason` for derived fields until a priority consumer surfaces a need. See `CLAUDE.md` §"Tier-Based Scoping".
 
-The slow `load_markets` network stage and the `contract_test` drift reporter accept `--tier1 --tier2 --tier3 --dex` flags (combinable) to restrict which exchanges are processed or reported on. Tier flags expand to the **whole family** — `--tier1` pulls in the binance variants alongside `binance`:
+Every per-exchange extraction Mix task accepts the canonical scope flag set — `--tier1 --tier2 --tier3 --dex --all --exchange ID` (combinable; `--exchange` is repeatable and accepts comma-split IDs; unknown IDs abort with fuzzy suggestions). Corpus-level tasks (`setup`, `exchanges`, `base_methods`, top-level `validate`) run unscoped by design. Tier flags expand to the **whole family** — `--tier1` pulls in the binance variants alongside `binance`:
 
 ```bash
 mix ccxt_extract.load_markets --tier1 --tier2 --dex
 mix ccxt_extract.contract_test --tier1 --tier2 --dex
 mix ccxt_extract.update --tier1 --tier2 --dex
+mix ccxt_extract.update --exchange binance,deribit       # single-exchange subset (repeatable or comma-split)
+mix ccxt_extract.update --tier1 --exchange hyperliquid   # mixed tier + individual
 ```
 
-Pipeline assembly, schema validation, and OXC-based extractors are never filtered.
+Default (no scope flag) is all 110 exchanges. OXC *parsing* always walks all CCXT `.ts` files; scope applies at the output-merge boundary. `classes.ex` is a documented exception — scope flags only stamp `tier_scope` because `class_hierarchy.json` is load-bearing for family inheritance. Aggregate writes merge scoped runs with existing on-disk aggregates and recompute envelope totals from the final merged entries, so successive scoped runs accumulate without drift.
+
+`mix ccxt_extract.update` aborts if `priv/output/` or `priv/discoveries/` has uncommitted changes (protects against scoped runs overwriting in-flight work). Commit or stash first, or pass `--force` to bypass the rail.
 
 ## Signing Fixtures
 

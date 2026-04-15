@@ -33,11 +33,16 @@ Output: plain maps, JSON-serializable. No Elixir atoms, no structs, no language-
 
 **Extract EVERYTHING. Never filter.**
 
+"Never filter" applies **per-exchange, per-field** — every field, every method,
+every AST node is extracted for every in-scope exchange. *Which* exchanges are
+in scope is controlled by scope flags (`--tier1/--tier2/--tier3/--dex/--all/--exchange ID`,
+see "Tier-Based Scoping" below); default is all 110.
+
 CCXT has 7+ years of accumulated exchange knowledge. Every field exists for a reason. If CCXT's `describe()` returns 32 keys, extract 32 keys. If an exchange has 166 methods, catalog 166 methods. Storage is cheap; missing data is expensive.
 
 "Everything" includes both **raw extraction** (AST, runtime values) and **derived data** (classifications, field maps, enum tables, recipes) — see "Raw vs Derived vs Override" below.
 
-This rule is absolute for **raw** extraction — AST, resolved `describe()`, runtime probes — across all 111 exchanges. **Derived** recipes (signing assembly, fee schedules, error handlers) are scoped to priority tiers; non-priority exchanges receive `null + reason` per the Honesty Rule until a consumer surfaces a need. Overrides land on demand. See "Tier-Based Scoping" below.
+This rule is absolute for **raw** extraction — AST, resolved `describe()`, runtime probes — across all 110 exchanges. **Derived** recipes (signing assembly, fee schedules, error handlers) are scoped to priority tiers; non-priority exchanges receive `null + reason` per the Honesty Rule until a consumer surfaces a need. Overrides land on demand. See "Tier-Based Scoping" below.
 
 ## Raw vs Derived vs Override
 
@@ -94,7 +99,7 @@ This is not a violation of the One Rule. It is an honest application of it: when
 
 **What this means for new derivation work:** if a derivation only matters for Tier 3 / unclassified exchanges (e.g., exotic signing schemes no priority exchange uses), it lives in `ROADMAP.md`'s Superseded / Deferred section until promoted by need.
 
-**Operational tools:** every extraction Mix task accepts the full scope flag set (`--tier1 --tier2 --tier3 --dex --all --exchange ID`, combinable, typos fuzzy-suggested). Pipeline assembly (Task 2), the six OXC batch-A extractors (Task 5 — `classes`, `methods`, `sign_methods`, `handle_errors`, `parse_methods`, `ws_methods`), and the four QuickBEAM extractors (Task 4 — `describe`, `url_templates`, `signing_fixtures`, `load_markets`) are all scope-aware. Aggregate JSON files route writes through `CcxtExtract.AggregateWriter`, which merges scoped runs with existing aggregates and recomputes envelope totals from the final merged entries on every write. Per-exchange-directory tasks (`describe`, `signing_fixtures`, `load_markets`) rebuild their manifest's `exchanges` / `succeeded` list from disk via `TaskScope.rebuild_manifest_exchanges/1` on every write, so manifest state can't drift from on-disk reality. Scope never filters *parsing* of CCXT source — the OXC AST walk is always over all files; filtering applies at the output-merge boundary. `classes.ex` is intentionally an exception: scope flags only stamp `tier_scope`, because `class_hierarchy.json` is load-bearing for `CcxtExtract.Tiers` family inheritance and a partial tree would silently degrade tier expansion. Tracking: `SCOPED-EXTRACTION-TASKS.md` (Tasks 6/7/8/9/10 remaining).
+**Operational tools:** every per-exchange extraction Mix task accepts the full scope flag set (`--tier1 --tier2 --tier3 --dex --all --exchange ID`, combinable, typos fuzzy-suggested). Corpus-level tasks (`setup`, `exchanges`, `base_methods`, top-level `validate`) run unscoped by design — they operate on the CCXT source tree or the base `Exchange.ts` class, where scoping would be meaningless. Pipeline assembly (Task 2), the six OXC batch-A extractors (Task 5 — `classes`, `methods`, `sign_methods`, `handle_errors`, `parse_methods`, `ws_methods`), and the four QuickBEAM extractors (Task 4 — `describe`, `url_templates`, `signing_fixtures`, `load_markets`) are all scope-aware. Aggregate JSON files route writes through `CcxtExtract.AggregateWriter`, which merges scoped runs with existing aggregates and recomputes envelope totals from the final merged entries on every write. Per-exchange-directory tasks (`describe`, `signing_fixtures`, `load_markets`) rebuild their manifest's `exchanges` / `succeeded` list from disk via `TaskScope.rebuild_manifest_exchanges/1` on every write, so manifest state can't drift from on-disk reality. Scope never filters *parsing* of CCXT source — the OXC AST walk is always over all files; filtering applies at the output-merge boundary. `classes.ex` is intentionally an exception: scope flags only stamp `tier_scope`, because `class_hierarchy.json` is load-bearing for `CcxtExtract.Tiers` family inheritance and a partial tree would silently degrade tier expansion. Tracking: `SCOPED-EXTRACTION-TASKS.md` (Tasks 9/10 remaining).
 
 ## Consumers Exist — Design For Them
 
@@ -151,7 +156,7 @@ source = File.read!("priv/ccxt/ts/src/binance.ts")
 {:quickbeam, "~> 0.9"}
 ```
 
-Loads CCXT's pre-bundled browser build and runs it on the BEAM. All 111 exchanges instantiated in ~13 seconds. Extracts:
+Loads CCXT's pre-bundled browser build and runs it on the BEAM. All 110 exchanges instantiated in ~13 seconds. Extracts:
 - Resolved describe() with full inheritance (`deepExtend` applied)
 - Runtime values (`parseNumber`, error class references resolved)
 - Live API calls (loadMarkets, fetchTicker — for validation)
@@ -198,7 +203,7 @@ cd priv/ccxt && git sparse-checkout set ts/src package.json
 ### Source Layout
 
 ```
-priv/ccxt/ts/src/              # 111 REST exchange classes + base Exchange
+priv/ccxt/ts/src/              # 110 REST exchange classes; base Exchange lives in base/
 priv/ccxt/ts/src/pro/          # ~78 WS exchange implementations
 priv/ccxt/ts/src/abstract/     # Generated interface files — typed API method signatures per exchange
 priv/ccxt/ts/src/base/         # Base Exchange class (~9k lines) + utilities, errors, types
@@ -213,9 +218,9 @@ Per-exchange JSON has three top-level sections:
 
 ```
 {
-  "schema_version": "1.6.0",
+  "schema_version": "1.8.0",
   "ccxt_version": "4.x.x",
-  "exchange": { id, name, alias },
+  "exchange": { id, name, alias, tier },  # tier ∈ "tier1" | "tier2" | "tier3" | "dex" | "unclassified" (schema 1.8.0)
   "runtime": {
     "describe": { ... },          # Resolved describe() via QuickBEAM (has, api, exceptions, etc.)
     "markets": { ... },           # loadMarkets() data (symbols, precision, limits, fees)
@@ -282,6 +287,12 @@ mix ccxt_extract.update            # Full re-extract: setup → extractors → p
 mix ccxt_extract.update --latest   # Update to latest CCXT version
 mix ccxt_extract.update --skip-setup  # Re-run pipeline + validate + contract_test + analytics (skips QuickBEAM analytics)
 
+# Scope a run (combinable; default is all 110 when no flag given)
+mix ccxt_extract.update --tier1 --dex                   # Tier 1 + DEX (14 exchanges after family expansion)
+mix ccxt_extract.update --exchange binance,deribit      # Single-exchange subset (repeatable / comma-split)
+mix ccxt_extract.update --tier1 --exchange hyperliquid  # Mixed tier + individual
+mix ccxt_extract.update --all --force                   # Bypass git-status safety rail (see note below)
+
 # After extraction, review and commit changes
 git diff priv/discoveries/                    # See what changed in discovery data
 git add priv/discoveries/ priv/output/        # Commit updated extraction data
@@ -290,6 +301,12 @@ git add priv/discoveries/ priv/output/        # Commit updated extraction data
 mix run examples/1_parse_exchange.exs binance
 mix run examples/3_quickbeam_describe.exs binance
 ```
+
+`mix ccxt_extract.update` aborts if `priv/output/` or `priv/discoveries/` has
+uncommitted changes — commit or stash first, or pass `--force` to bypass the
+rail. See "Tier-Based Scoping" above for the full scope flag semantics,
+combinability rules, and family expansion (e.g., `--tier1` pulls in the entire
+binance family via `class_hierarchy.json`).
 
 ## Examples
 

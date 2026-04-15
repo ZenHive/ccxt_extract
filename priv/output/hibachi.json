@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": false,
@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": null
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -557,11 +557,11 @@
           "info": {
             "displayName": "BNB/USDT Perps",
             "id": "30",
-            "initialMarginRate": "0.100000",
-            "maintenanceMarginRate": "0.060000",
+            "initialMarginRate": "0.083333",
+            "maintenanceMarginRate": "0.050000",
             "marketCloseTimestamp": null,
             "marketCreationTimestamp": "1742671380.269",
-            "marketOpenTimestamp": "1742824800",
+            "marketOpenTimestamp": null,
             "minNotional": "1",
             "minOrderSize": "0.00000001",
             "orderbookGranularities": [

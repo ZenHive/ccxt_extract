@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": false,
@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -1276,8 +1276,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-100",
-            "fundingRateUpperBound": "100",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.05",
               "factor": "0.0001192",
@@ -4991,8 +4991,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-100",
-            "fundingRateUpperBound": "100",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.1",
               "factor": "0.000362",
@@ -5589,8 +5589,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-75",
-            "fundingRateUpperBound": "75",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.1",
               "factor": "0.0005",
@@ -5913,8 +5913,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-200",
-            "fundingRateUpperBound": "200",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.1",
               "factor": "0.00025257",
@@ -8345,8 +8345,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-100",
-            "fundingRateUpperBound": "100",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.06666667",
               "factor": "0.00017031",
@@ -8561,8 +8561,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-100",
-            "fundingRateUpperBound": "100",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.05",
               "factor": "0.00012912",
@@ -8669,8 +8669,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-100",
-            "fundingRateUpperBound": "100",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.04",
               "factor": "0.00006705",
@@ -11749,8 +11749,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-100",
-            "fundingRateUpperBound": "100",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.1",
               "factor": "0.0002602",
@@ -11857,8 +11857,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-100",
-            "fundingRateUpperBound": "100",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.06666667",
               "factor": "0.00016344",
@@ -12907,8 +12907,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-200",
-            "fundingRateUpperBound": "200",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.1",
               "factor": "0.00055",
@@ -13839,8 +13839,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-100",
-            "fundingRateUpperBound": "100",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.1",
               "factor": "0.00020936",
@@ -16831,8 +16831,8 @@
               }
             },
             "fundingInterval": "3600000",
-            "fundingRateLowerBound": "-100",
-            "fundingRateUpperBound": "100",
+            "fundingRateLowerBound": "-150",
+            "fundingRateUpperBound": "150",
             "imfFunction": {
               "base": "0.025",
               "factor": "0.00004969",

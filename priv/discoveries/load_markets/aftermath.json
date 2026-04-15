@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-13T06:22:52.990905Z",
+  "extracted_at": "2026-04-15T12:47:36.224380Z",
   "id": "aftermath",
-  "market_count": 14,
+  "market_count": 15,
   "markets": {
     "AF100/USD:USDC": {
       "spot": false,
@@ -404,6 +404,107 @@
       "active": true,
       "expiry": "__undefined",
       "id": "0x1f34318370cc6b810632dc9138597a5218b7405d3364a6d79d98f2719c6a4981",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "INTC/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-5,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": -5.0e-5,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "INTC",
+        "baseId": "INTC",
+        "contract": true,
+        "contractSize": "0.00001",
+        "future": false,
+        "id": "0xb8ef5405728fc5f580ee182dbf427c7b347047d14604ece2e80622376d3cf1a4",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "5.0"
+          }
+        },
+        "linear": true,
+        "maker": "-0.00005",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "0.00001",
+          "price": "0.00001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "INTC/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "INTC/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 1.0e-5
+      },
+      "baseId": "INTC",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "INTC",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 5,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0xb8ef5405728fc5f580ee182dbf427c7b347047d14604ece2e80622376d3cf1a4",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },

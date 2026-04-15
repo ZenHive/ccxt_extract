@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-13T06:22:52.990905Z",
+  "extracted_at": "2026-04-15T12:47:36.224380Z",
   "id": "coinsph",
   "market_count": 181,
   "markets": {
@@ -12122,8 +12122,8 @@
           {
             "filterType": "PRICE_FILTER",
             "maxPrice": "99999999999.00000000",
-            "minPrice": "0.000001",
-            "tickSize": "0.000001"
+            "minPrice": "0.0000001",
+            "tickSize": "0.0000001"
           },
           {
             "filterType": "LOT_SIZE",
@@ -12142,7 +12142,7 @@
           },
           {
             "filterType": "STATIC_PRICE_RANGE",
-            "priceDown": "0.000001000000000000",
+            "priceDown": "0.000000100000000000",
             "priceUp": "99999999.000000000000000000"
           },
           {
@@ -12176,7 +12176,7 @@
           "TAKE_PROFIT"
         ],
         "quoteAsset": "USDT",
-        "quoteAssetPrecision": "6",
+        "quoteAssetPrecision": "7",
         "status": "trading",
         "symbol": "SLPUSDT"
       },
@@ -12187,7 +12187,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 1,
-        "price": 1.0e-6
+        "price": 1.0e-7
       },
       "baseId": "SLP",
       "type": "spot",
@@ -12216,7 +12216,7 @@
         },
         "price": {
           "max": 99999999999,
-          "min": 1.0e-6
+          "min": 1.0e-7
         }
       },
       "taker": "__undefined",
@@ -14426,8 +14426,8 @@
           {
             "filterType": "PRICE_FILTER",
             "maxPrice": "99999999999.00000000",
-            "minPrice": "0.000001",
-            "tickSize": "0.000001"
+            "minPrice": "0.0000001",
+            "tickSize": "0.0000001"
           },
           {
             "filterType": "LOT_SIZE",
@@ -14446,7 +14446,7 @@
           },
           {
             "filterType": "STATIC_PRICE_RANGE",
-            "priceDown": "0.000001000000000000",
+            "priceDown": "0.000000100000000000",
             "priceUp": "99999999.000000000000000000"
           },
           {
@@ -14480,7 +14480,7 @@
           "TAKE_PROFIT"
         ],
         "quoteAsset": "USDT",
-        "quoteAssetPrecision": "6",
+        "quoteAssetPrecision": "7",
         "status": "trading",
         "symbol": "BOMEUSDT"
       },
@@ -14491,7 +14491,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 1,
-        "price": 1.0e-6
+        "price": 1.0e-7
       },
       "baseId": "BOME",
       "type": "spot",
@@ -14520,7 +14520,7 @@
         },
         "price": {
           "max": 99999999999,
-          "min": 1.0e-6
+          "min": 1.0e-7
         }
       },
       "taker": "__undefined",
@@ -16114,8 +16114,8 @@
           {
             "filterType": "PRICE_FILTER",
             "maxPrice": "99999999999.00000000",
-            "minPrice": "0.001",
-            "tickSize": "0.001"
+            "minPrice": "0.0001",
+            "tickSize": "0.0001"
           },
           {
             "filterType": "LOT_SIZE",
@@ -16134,7 +16134,7 @@
           },
           {
             "filterType": "STATIC_PRICE_RANGE",
-            "priceDown": "0.001000000000000000",
+            "priceDown": "0.000100000000000000",
             "priceUp": "99999999.000000000000000000"
           },
           {
@@ -16168,7 +16168,7 @@
           "TAKE_PROFIT"
         ],
         "quoteAsset": "USDT",
-        "quoteAssetPrecision": "5",
+        "quoteAssetPrecision": "6",
         "status": "trading",
         "symbol": "ASTERUSDT"
       },
@@ -16179,7 +16179,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.01,
-        "price": 0.001
+        "price": 0.0001
       },
       "baseId": "ASTER",
       "type": "spot",
@@ -16208,7 +16208,7 @@
         },
         "price": {
           "max": 99999999999,
-          "min": 0.001
+          "min": 0.0001
         }
       },
       "taker": "__undefined",

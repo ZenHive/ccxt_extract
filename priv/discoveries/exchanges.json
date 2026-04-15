@@ -1,5 +1,5 @@
 {
-  "count": 109,
+  "count": 110,
   "exchanges": [
     {
       "alias": false,
@@ -678,7 +678,10 @@
       "id": "coinsph",
       "name": "Coins.ph",
       "pro": false,
-      "referral": null,
+      "referral": {
+        "discount": 0.2,
+        "url": "https://www.coins.ph/en-ph/register?invite_code=1371062463303277512&broker=9001"
+      },
       "version": "v1"
     },
     {
@@ -1324,6 +1327,19 @@
       "alias": false,
       "certified": false,
       "country": [],
+      "id": "pacifica",
+      "name": "Pacifica",
+      "pro": true,
+      "referral": {
+        "discount": 0,
+        "url": "https://app.pacifica.fi?referral=ccxt"
+      },
+      "version": "v1"
+    },
+    {
+      "alias": false,
+      "certified": false,
+      "country": [],
       "id": "paradex",
       "name": "Paradex",
       "pro": true,
@@ -1545,5 +1561,5 @@
       "version": null
     }
   ],
-  "extracted_at": "2026-04-15T11:59:31.463645Z"
+  "extracted_at": "2026-04-15T12:45:16.850163Z"
 }

@@ -1,5 +1,5 @@
 {
-  "exchange_count": 109,
+  "exchange_count": 110,
   "exchanges": [
     {
       "coverage_max": 10,
@@ -5740,6 +5740,67 @@
       "coverage_score": 10,
       "gaps": [],
       "has_pro": true,
+      "id": "pacifica",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
       "id": "paradex",
       "is_alias": false,
       "layers": {
@@ -6711,7 +6772,7 @@
       }
     }
   ],
-  "extracted_at": "2026-04-15T02:28:20.826164Z",
+  "extracted_at": "2026-04-15T12:50:30.668949Z",
   "gaps_summary": [
     {
       "gap_count": 4,
@@ -6870,62 +6931,63 @@
     }
   ],
   "summary": {
-    "avg_coverage_pct": 95.7,
-    "full_coverage": 90,
+    "avg_coverage_pct": 95.8,
+    "full_coverage": 91,
     "missing_files": [],
     "no_coverage": 0,
     "partial_coverage": 19,
     "per_layer": {
       "class_hierarchy": {
-        "applicable": 109,
+        "applicable": 110,
         "missing": 0,
-        "present": 109
+        "present": 110
       },
       "describe": {
-        "applicable": 106,
+        "applicable": 107,
         "missing": 0,
-        "present": 106
+        "present": 107
       },
       "handle_errors": {
-        "applicable": 106,
+        "applicable": 107,
         "missing": 10,
-        "present": 96
+        "present": 97
       },
       "load_markets": {
-        "applicable": 106,
+        "applicable": 107,
         "missing": 6,
-        "present": 100
+        "present": 101
       },
       "methods_rest": {
-        "applicable": 109,
+        "applicable": 110,
         "missing": 0,
-        "present": 109
+        "present": 110
       },
       "methods_ws": {
-        "applicable": 78,
-        "missing": 0,
-        "present": 78
-      },
-      "overrides": {
         "applicable": 79,
         "missing": 0,
         "present": 79
       },
+      "overrides": {
+        "applicable": 80,
+        "missing": 0,
+        "present": 80
+      },
       "parse_methods": {
-        "applicable": 106,
+        "applicable": 107,
         "missing": 7,
-        "present": 99
+        "present": 100
       },
       "sign_method": {
-        "applicable": 106,
+        "applicable": 107,
         "missing": 8,
-        "present": 98
+        "present": 99
       },
       "ws_methods": {
-        "applicable": 78,
+        "applicable": 79,
         "missing": 10,
-        "present": 68
+        "present": 69
       }
     }
-  }
+  },
+  "tier_scope": "all"
 }

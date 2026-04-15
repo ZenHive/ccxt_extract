@@ -7484,7 +7484,7 @@
       "class_name": "binance",
       "file": "binance.ts",
       "id": "binance",
-      "method_count": 166,
+      "method_count": 165,
       "methods": [
         {
           "async": false,
@@ -7584,22 +7584,6 @@
           ],
           "return_type": "MarketInterface",
           "statements": 3
-        },
-        {
-          "async": false,
-          "name": "costToPrecision",
-          "params": [
-            {
-              "name": "symbol",
-              "type": null
-            },
-            {
-              "name": "cost",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 1
         },
         {
           "async": false,
@@ -14018,7 +14002,7 @@
             }
           ],
           "return_type": "Promise<Market[]>",
-          "statements": 11
+          "statements": 8
         },
         {
           "async": true,
@@ -14150,7 +14134,7 @@
             }
           ],
           "return_type": "Ticker",
-          "statements": 17
+          "statements": 18
         },
         {
           "async": true,
@@ -23978,7 +23962,7 @@
             }
           ],
           "return_type": "Trade",
-          "statements": 26
+          "statements": 32
         },
         {
           "async": true,
@@ -27985,7 +27969,7 @@
       "class_name": "blofin",
       "file": "blofin.ts",
       "id": "blofin",
-      "method_count": 58,
+      "method_count": 59,
       "methods": [
         {
           "async": false,
@@ -28116,7 +28100,7 @@
             }
           ],
           "return_type": "Trade",
-          "statements": 13
+          "statements": 16
         },
         {
           "async": true,
@@ -28512,7 +28496,7 @@
             }
           ],
           "return_type": "Promise<Trade[]>",
-          "statements": 12
+          "statements": 15
         },
         {
           "async": true,
@@ -28604,7 +28588,19 @@
         },
         {
           "async": false,
-          "name": "parseTransactionStatus",
+          "name": "parseTransactionWithdrawalStatus",
+          "params": [
+            {
+              "name": "status",
+              "type": "Str"
+            }
+          ],
+          "return_type": null,
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "parseTransactionDepositStatus",
           "params": [
             {
               "name": "status",
@@ -39975,1813 +39971,6 @@
             },
             {
               "name": "requestBody",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 5
-        }
-      ]
-    },
-    {
-      "class_name": "coincatch",
-      "file": "coincatch.ts",
-      "id": "coincatch",
-      "method_count": 88,
-      "methods": [
-        {
-          "async": false,
-          "name": "describe",
-          "params": [],
-          "return_type": "any",
-          "statements": 1
-        },
-        {
-          "async": false,
-          "name": "calculateRateLimiterCost",
-          "params": [
-            {
-              "name": "api",
-              "type": null
-            },
-            {
-              "name": "method",
-              "type": null
-            },
-            {
-              "name": "path",
-              "type": null
-            },
-            {
-              "name": "params",
-              "type": null
-            },
-            {
-              "name": "config",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 5
-        },
-        {
-          "async": true,
-          "name": "fetchTime",
-          "params": [
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Int>",
-          "statements": 2
-        },
-        {
-          "async": true,
-          "name": "fetchCurrencies",
-          "params": [
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Currencies>",
-          "statements": 7
-        },
-        {
-          "async": true,
-          "name": "fetchDepositWithdrawFees",
-          "params": [
-            {
-              "name": "codes",
-              "type": "Strings"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 4
-        },
-        {
-          "async": false,
-          "name": "parseDepositWithdrawFee",
-          "params": [
-            {
-              "name": "fee",
-              "type": null
-            },
-            {
-              "name": "currency",
-              "type": "Currency"
-            }
-          ],
-          "return_type": null,
-          "statements": 5
-        },
-        {
-          "async": true,
-          "name": "fetchMarkets",
-          "params": [
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Market[]>",
-          "statements": 18
-        },
-        {
-          "async": false,
-          "name": "parseMarket",
-          "params": [
-            {
-              "name": "market",
-              "type": "Dict"
-            }
-          ],
-          "return_type": "Market",
-          "statements": 25
-        },
-        {
-          "async": false,
-          "name": "parseSpotMarketId",
-          "params": [
-            {
-              "name": "marketId",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 6
-        },
-        {
-          "async": true,
-          "name": "fetchTicker",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Ticker>",
-          "statements": 7
-        },
-        {
-          "async": true,
-          "name": "fetchTickers",
-          "params": [
-            {
-              "name": "symbols",
-              "type": "Strings"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Tickers>",
-          "statements": 10
-        },
-        {
-          "async": false,
-          "name": "parseTicker",
-          "params": [
-            {
-              "name": "ticker",
-              "type": null
-            },
-            {
-              "name": "market",
-              "type": "Market"
-            }
-          ],
-          "return_type": "Ticker",
-          "statements": 6
-        },
-        {
-          "async": true,
-          "name": "fetchOrderBook",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<OrderBook>",
-          "statements": 13
-        },
-        {
-          "async": true,
-          "name": "fetchOHLCV",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "timeframe",
-              "type": "string"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<OHLCV[]>",
-          "statements": 15
-        },
-        {
-          "async": false,
-          "name": "parseOHLCV",
-          "params": [
-            {
-              "name": "ohlcv",
-              "type": null
-            },
-            {
-              "name": "market",
-              "type": "Market"
-            }
-          ],
-          "return_type": "OHLCV",
-          "statements": 1
-        },
-        {
-          "async": true,
-          "name": "fetchTrades",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Trade[]>",
-          "statements": 14
-        },
-        {
-          "async": false,
-          "name": "parseTrade",
-          "params": [
-            {
-              "name": "trade",
-              "type": "Dict"
-            },
-            {
-              "name": "market",
-              "type": "Market"
-            }
-          ],
-          "return_type": "Trade",
-          "statements": 10
-        },
-        {
-          "async": true,
-          "name": "fetchFundingRate",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<FundingRate>",
-          "statements": 8
-        },
-        {
-          "async": false,
-          "name": "parseFundingRate",
-          "params": [
-            {
-              "name": "contract",
-              "type": null
-            },
-            {
-              "name": "market",
-              "type": "Market"
-            }
-          ],
-          "return_type": null,
-          "statements": 4
-        },
-        {
-          "async": false,
-          "name": "handleOptionParamsAndRequest",
-          "params": [
-            {
-              "name": "params",
-              "type": "object"
-            },
-            {
-              "name": "methodName",
-              "type": "string"
-            },
-            {
-              "name": "optionName",
-              "type": "string"
-            },
-            {
-              "name": "request",
-              "type": "object"
-            },
-            {
-              "name": "requestProperty",
-              "type": "string"
-            },
-            {
-              "name": "defaultValue",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 3
-        },
-        {
-          "async": true,
-          "name": "fetchFundingRateHistory",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 14
-        },
-        {
-          "async": true,
-          "name": "fetchBalance",
-          "params": [
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Balances>",
-          "statements": 8
-        },
-        {
-          "async": false,
-          "name": "parseBalance",
-          "params": [
-            {
-              "name": "balances",
-              "type": null
-            }
-          ],
-          "return_type": "Balances",
-          "statements": 3
-        },
-        {
-          "async": true,
-          "name": "transfer",
-          "params": [
-            {
-              "name": "code",
-              "type": "string"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "fromAccount",
-              "type": "string"
-            },
-            {
-              "name": "toAccount",
-              "type": "string"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<TransferEntry>",
-          "statements": 10
-        },
-        {
-          "async": false,
-          "name": "parseTransfer",
-          "params": [
-            {
-              "name": "transfer",
-              "type": null
-            },
-            {
-              "name": "currency",
-              "type": "Currency"
-            }
-          ],
-          "return_type": null,
-          "statements": 5
-        },
-        {
-          "async": true,
-          "name": "fetchDepositAddress",
-          "params": [
-            {
-              "name": "code",
-              "type": "string"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<DepositAddress>",
-          "statements": 12
-        },
-        {
-          "async": false,
-          "name": "parseDepositAddress",
-          "params": [
-            {
-              "name": "depositAddress",
-              "type": null
-            },
-            {
-              "name": "currency",
-              "type": "Currency"
-            }
-          ],
-          "return_type": "DepositAddress",
-          "statements": 6
-        },
-        {
-          "async": true,
-          "name": "fetchDeposits",
-          "params": [
-            {
-              "name": "code",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Transaction[]>",
-          "statements": 12
-        },
-        {
-          "async": true,
-          "name": "fetchWithdrawals",
-          "params": [
-            {
-              "name": "code",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Transaction[]>",
-          "statements": 13
-        },
-        {
-          "async": true,
-          "name": "withdraw",
-          "params": [
-            {
-              "name": "code",
-              "type": "string"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "address",
-              "type": "string"
-            },
-            {
-              "name": "tag",
-              "type": "Str"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Transaction>",
-          "statements": 11
-        },
-        {
-          "async": false,
-          "name": "parseTransaction",
-          "params": [
-            {
-              "name": "transaction",
-              "type": null
-            },
-            {
-              "name": "currency",
-              "type": "Currency"
-            }
-          ],
-          "return_type": "Transaction",
-          "statements": 17
-        },
-        {
-          "async": true,
-          "name": "createMarketBuyOrderWithCost",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "cost",
-              "type": "number"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 7
-        },
-        {
-          "async": true,
-          "name": "createOrder",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "type",
-              "type": "OrderType"
-            },
-            {
-              "name": "side",
-              "type": "OrderSide"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "price",
-              "type": "Num"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Order>",
-          "statements": 4
-        },
-        {
-          "async": true,
-          "name": "createSpotOrder",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "type",
-              "type": "OrderType"
-            },
-            {
-              "name": "side",
-              "type": "OrderSide"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "price",
-              "type": "Num"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Order>",
-          "statements": 9
-        },
-        {
-          "async": false,
-          "name": "createSpotOrderRequest",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "type",
-              "type": "OrderType"
-            },
-            {
-              "name": "side",
-              "type": "OrderSide"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "price",
-              "type": "Num"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Dict",
-          "statements": 17
-        },
-        {
-          "async": false,
-          "name": "handleRequiresPriceAndCost",
-          "params": [
-            {
-              "name": "methodName",
-              "type": "string"
-            },
-            {
-              "name": "params",
-              "type": "Dict"
-            },
-            {
-              "name": "price",
-              "type": "Num"
-            },
-            {
-              "name": "amount",
-              "type": "Num"
-            },
-            {
-              "name": "cost",
-              "type": "Str"
-            },
-            {
-              "name": "side",
-              "type": "string"
-            }
-          ],
-          "return_type": null,
-          "statements": 10
-        },
-        {
-          "async": false,
-          "name": "handleTimeInForceAndPostOnly",
-          "params": [
-            {
-              "name": "methodName",
-              "type": "string"
-            },
-            {
-              "name": "params",
-              "type": "Dict"
-            },
-            {
-              "name": "isMarketOrder",
-              "type": "Bool"
-            }
-          ],
-          "return_type": null,
-          "statements": 8
-        },
-        {
-          "async": true,
-          "name": "createSwapOrder",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "type",
-              "type": "OrderType"
-            },
-            {
-              "name": "side",
-              "type": "OrderSide"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "price",
-              "type": "Num"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Order>",
-          "statements": 10
-        },
-        {
-          "async": false,
-          "name": "createSwapOrderRequest",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "type",
-              "type": "OrderType"
-            },
-            {
-              "name": "side",
-              "type": "OrderSide"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "price",
-              "type": "Num"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Dict",
-          "statements": 11
-        },
-        {
-          "async": false,
-          "name": "handleTriggerStopLossAndTakeProfit",
-          "params": [
-            {
-              "name": "symbol",
-              "type": null
-            },
-            {
-              "name": "side",
-              "type": null
-            },
-            {
-              "name": "type",
-              "type": null
-            },
-            {
-              "name": "price",
-              "type": null
-            },
-            {
-              "name": "methodName",
-              "type": null
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 24
-        },
-        {
-          "async": true,
-          "name": "createOrderWithTakeProfitAndStopLoss",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "type",
-              "type": "OrderType"
-            },
-            {
-              "name": "side",
-              "type": "OrderSide"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "price",
-              "type": "Num"
-            },
-            {
-              "name": "takeProfit",
-              "type": "Num"
-            },
-            {
-              "name": "stopLoss",
-              "type": "Num"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Order>",
-          "statements": 6
-        },
-        {
-          "async": false,
-          "name": "encodeTimeInForce",
-          "params": [
-            {
-              "name": "timeInForce",
-              "type": "Str"
-            }
-          ],
-          "return_type": "Str",
-          "statements": 2
-        },
-        {
-          "async": true,
-          "name": "createOrders",
-          "params": [
-            {
-              "name": "orders",
-              "type": "OrderRequest[]"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 20
-        },
-        {
-          "async": false,
-          "name": "createOrderRequest",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "type",
-              "type": "OrderType"
-            },
-            {
-              "name": "side",
-              "type": "OrderSide"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "price",
-              "type": "Num"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Dict",
-          "statements": 4
-        },
-        {
-          "async": true,
-          "name": "editOrder",
-          "params": [
-            {
-              "name": "id",
-              "type": "string"
-            },
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "type",
-              "type": "OrderType"
-            },
-            {
-              "name": "side",
-              "type": "OrderSide"
-            },
-            {
-              "name": "amount",
-              "type": "Num"
-            },
-            {
-              "name": "price",
-              "type": "Num"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 5
-        },
-        {
-          "async": true,
-          "name": "editSpotOrder",
-          "params": [
-            {
-              "name": "id",
-              "type": "string"
-            },
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "type",
-              "type": "OrderType"
-            },
-            {
-              "name": "side",
-              "type": "OrderSide"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "price",
-              "type": "Num"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 18
-        },
-        {
-          "async": true,
-          "name": "fetchOrder",
-          "params": [
-            {
-              "name": "id",
-              "type": "string"
-            },
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Order>",
-          "statements": 13
-        },
-        {
-          "async": true,
-          "name": "fetchOpenOrders",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Order[]>",
-          "statements": 8
-        },
-        {
-          "async": true,
-          "name": "fetchOpenSpotOrders",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Order[]>",
-          "statements": 11
-        },
-        {
-          "async": true,
-          "name": "fetchOpenSwapOrders",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Order[]>",
-          "statements": 13
-        },
-        {
-          "async": true,
-          "name": "fetchCanceledAndClosedOrders",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Order[]>",
-          "statements": 8
-        },
-        {
-          "async": true,
-          "name": "fetchCanceledAndClosedSpotOrders",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Order[]>",
-          "statements": 13
-        },
-        {
-          "async": true,
-          "name": "fetchCanceledAndClosedSwapOrders",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Order[]>",
-          "statements": 21
-        },
-        {
-          "async": true,
-          "name": "cancelOrder",
-          "params": [
-            {
-              "name": "id",
-              "type": "string"
-            },
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 17
-        },
-        {
-          "async": true,
-          "name": "cancelAllOrders",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 14
-        },
-        {
-          "async": true,
-          "name": "cancelOrders",
-          "params": [
-            {
-              "name": "ids",
-              "type": "string[]"
-            },
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 12
-        },
-        {
-          "async": false,
-          "name": "getResultFromBatchCancelingSwapOrders",
-          "params": [
-            {
-              "name": "response",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 5
-        },
-        {
-          "async": false,
-          "name": "parseOrder",
-          "params": [
-            {
-              "name": "order",
-              "type": null
-            },
-            {
-              "name": "market",
-              "type": null
-            }
-          ],
-          "return_type": "Order",
-          "statements": 28
-        },
-        {
-          "async": false,
-          "name": "parseOrderStatus",
-          "params": [
-            {
-              "name": "status",
-              "type": "Str"
-            }
-          ],
-          "return_type": "Str",
-          "statements": 2
-        },
-        {
-          "async": false,
-          "name": "parseOrderSide",
-          "params": [
-            {
-              "name": "side",
-              "type": "Str"
-            }
-          ],
-          "return_type": "Str",
-          "statements": 2
-        },
-        {
-          "async": false,
-          "name": "parseOrderTimeInForce",
-          "params": [
-            {
-              "name": "timeInForce",
-              "type": "Str"
-            }
-          ],
-          "return_type": "Str",
-          "statements": 2
-        },
-        {
-          "async": false,
-          "name": "parseFeeDetailString",
-          "params": [
-            {
-              "name": "feeDetailString",
-              "type": "Str"
-            }
-          ],
-          "return_type": null,
-          "statements": 4
-        },
-        {
-          "async": true,
-          "name": "fetchMyTrades",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Trade[]>",
-          "statements": 12
-        },
-        {
-          "async": true,
-          "name": "fetchOrderTrades",
-          "params": [
-            {
-              "name": "id",
-              "type": "string"
-            },
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Trade[]>",
-          "statements": 4
-        },
-        {
-          "async": true,
-          "name": "fetchMarginMode",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<MarginMode>",
-          "statements": 6
-        },
-        {
-          "async": false,
-          "name": "parseMarginMode",
-          "params": [
-            {
-              "name": "marginMode",
-              "type": "Dict"
-            },
-            {
-              "name": "market",
-              "type": null
-            }
-          ],
-          "return_type": "MarginMode",
-          "statements": 2
-        },
-        {
-          "async": false,
-          "name": "parseMarginModeType",
-          "params": [
-            {
-              "name": "type",
-              "type": "string"
-            }
-          ],
-          "return_type": "string",
-          "statements": 2
-        },
-        {
-          "async": true,
-          "name": "setMarginMode",
-          "params": [
-            {
-              "name": "marginMode",
-              "type": "string"
-            },
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 8
-        },
-        {
-          "async": false,
-          "name": "encodeMarginModeType",
-          "params": [
-            {
-              "name": "type",
-              "type": "string"
-            }
-          ],
-          "return_type": "string",
-          "statements": 2
-        },
-        {
-          "async": true,
-          "name": "fetchPositionMode",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 9
-        },
-        {
-          "async": true,
-          "name": "setPositionMode",
-          "params": [
-            {
-              "name": "hedged",
-              "type": "boolean"
-            },
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 7
-        },
-        {
-          "async": true,
-          "name": "fetchLeverage",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Leverage>",
-          "statements": 7
-        },
-        {
-          "async": true,
-          "name": "setLeverage",
-          "params": [
-            {
-              "name": "leverage",
-              "type": "int"
-            },
-            {
-              "name": "symbol",
-              "type": "Str"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 12
-        },
-        {
-          "async": false,
-          "name": "parseLeverage",
-          "params": [
-            {
-              "name": "leverage",
-              "type": "Dict"
-            },
-            {
-              "name": "market",
-              "type": "Market"
-            }
-          ],
-          "return_type": "Leverage",
-          "statements": 8
-        },
-        {
-          "async": true,
-          "name": "modifyMarginHelper",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "amount",
-              "type": null
-            },
-            {
-              "name": "type",
-              "type": null
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<MarginModification>",
-          "statements": 13
-        },
-        {
-          "async": false,
-          "name": "parseMarginModification",
-          "params": [
-            {
-              "name": "data",
-              "type": "Dict"
-            },
-            {
-              "name": "market",
-              "type": "Market"
-            }
-          ],
-          "return_type": "MarginModification",
-          "statements": 3
-        },
-        {
-          "async": true,
-          "name": "reduceMargin",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<MarginModification>",
-          "statements": 2
-        },
-        {
-          "async": true,
-          "name": "addMargin",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "amount",
-              "type": "number"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<MarginModification>",
-          "statements": 2
-        },
-        {
-          "async": true,
-          "name": "fetchPosition",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Position>",
-          "statements": 7
-        },
-        {
-          "async": true,
-          "name": "fetchPositionsForSymbol",
-          "params": [
-            {
-              "name": "symbol",
-              "type": "string"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Position[]>",
-          "statements": 6
-        },
-        {
-          "async": true,
-          "name": "fetchPositions",
-          "params": [
-            {
-              "name": "symbols",
-              "type": "Strings"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": "Promise<Position[]>",
-          "statements": 9
-        },
-        {
-          "async": false,
-          "name": "parsePosition",
-          "params": [
-            {
-              "name": "position",
-              "type": "Dict"
-            },
-            {
-              "name": "market",
-              "type": "Market"
-            }
-          ],
-          "return_type": null,
-          "statements": 11
-        },
-        {
-          "async": false,
-          "name": "safeMarketCustom",
-          "params": [
-            {
-              "name": "marketId",
-              "type": "Str"
-            },
-            {
-              "name": "market",
-              "type": "Market"
-            },
-            {
-              "name": "settleId",
-              "type": "Str"
-            }
-          ],
-          "return_type": "Market",
-          "statements": 2
-        },
-        {
-          "async": true,
-          "name": "fetchLedger",
-          "params": [
-            {
-              "name": "code",
-              "type": "Str"
-            },
-            {
-              "name": "since",
-              "type": "Int"
-            },
-            {
-              "name": "limit",
-              "type": "Int"
-            },
-            {
-              "name": "params",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 10
-        },
-        {
-          "async": false,
-          "name": "parseLedgerEntry",
-          "params": [
-            {
-              "name": "item",
-              "type": "Dict"
-            },
-            {
-              "name": "currency",
-              "type": "Currency"
-            }
-          ],
-          "return_type": "LedgerEntry",
-          "statements": 10
-        },
-        {
-          "async": false,
-          "name": "parseLedgerEntryType",
-          "params": [
-            {
-              "name": "type",
-              "type": "string"
-            }
-          ],
-          "return_type": "string",
-          "statements": 2
-        },
-        {
-          "async": false,
-          "name": "handleErrors",
-          "params": [
-            {
-              "name": "code",
-              "type": "int"
-            },
-            {
-              "name": "reason",
-              "type": "string"
-            },
-            {
-              "name": "url",
-              "type": "string"
-            },
-            {
-              "name": "method",
-              "type": "string"
-            },
-            {
-              "name": "headers",
-              "type": "Dict"
-            },
-            {
-              "name": "body",
-              "type": "string"
-            },
-            {
-              "name": "response",
-              "type": null
-            },
-            {
-              "name": "requestHeaders",
-              "type": null
-            },
-            {
-              "name": "requestBody",
-              "type": null
-            }
-          ],
-          "return_type": null,
-          "statements": 8
-        },
-        {
-          "async": false,
-          "name": "sign",
-          "params": [
-            {
-              "name": "path",
-              "type": null
-            },
-            {
-              "name": "api",
-              "type": null
-            },
-            {
-              "name": "method",
-              "type": null
-            },
-            {
-              "name": "params",
-              "type": null
-            },
-            {
-              "name": "headers",
-              "type": null
-            },
-            {
-              "name": "body",
               "type": null
             }
           ],
@@ -77940,7 +76129,7 @@
       "class_name": "lighter",
       "file": "lighter.ts",
       "id": "lighter",
-      "method_count": 58,
+      "method_count": 60,
       "methods": [
         {
           "async": false,
@@ -78043,7 +76232,7 @@
             }
           ],
           "return_type": null,
-          "statements": 6
+          "statements": 16
         },
         {
           "async": false,
@@ -78227,7 +76416,7 @@
             }
           ],
           "return_type": "Promise<Market[]>",
-          "statements": 5
+          "statements": 7
         },
         {
           "async": true,
@@ -78291,7 +76480,7 @@
             }
           ],
           "return_type": "Promise<Ticker>",
-          "statements": 8
+          "statements": 10
         },
         {
           "async": true,
@@ -78307,7 +76496,7 @@
             }
           ],
           "return_type": "Promise<Tickers>",
-          "statements": 5
+          "statements": 7
         },
         {
           "async": false,
@@ -78531,7 +76720,7 @@
             }
           ],
           "return_type": "Order",
-          "statements": 14
+          "statements": 20
         },
         {
           "async": false,
@@ -78550,7 +76739,7 @@
           "name": "parseOrderType",
           "params": [
             {
-              "name": "status",
+              "name": "type",
               "type": null
             }
           ],
@@ -78559,10 +76748,34 @@
         },
         {
           "async": false,
-          "name": "parseOrderTimeInForeces",
+          "name": "parseOrderTypeInteger",
+          "params": [
+            {
+              "name": "typeInteger",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "parseOrderTimeInForce",
           "params": [
             {
               "name": "tif",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "parseOrderTimeInForceInteger",
+          "params": [
+            {
+              "name": "tifInteger",
               "type": null
             }
           ],
@@ -85539,7 +83752,7 @@
             }
           ],
           "return_type": "Promise<Order[]>",
-          "statements": 22
+          "statements": 23
         },
         {
           "async": true,
@@ -85587,7 +83800,7 @@
             }
           ],
           "return_type": "Promise<Order[]>",
-          "statements": 26
+          "statements": 27
         },
         {
           "async": true,
@@ -89340,6 +87553,1567 @@
       ]
     },
     {
+      "class_name": "pacifica",
+      "file": "pacifica.ts",
+      "id": "pacifica",
+      "method_count": 85,
+      "methods": [
+        {
+          "async": false,
+          "name": "describe",
+          "params": [],
+          "return_type": "any",
+          "statements": 1
+        },
+        {
+          "async": true,
+          "name": "initializeClient",
+          "params": [],
+          "return_type": null,
+          "statements": 2
+        },
+        {
+          "async": true,
+          "name": "handleBuilderFeeApproval",
+          "params": [],
+          "return_type": null,
+          "statements": 7
+        },
+        {
+          "async": true,
+          "name": "fetchMarkets",
+          "params": [
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Market[]>",
+          "statements": 3
+        },
+        {
+          "async": true,
+          "name": "fetchSwapMarkets",
+          "params": [
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Market[]>",
+          "statements": 5
+        },
+        {
+          "async": false,
+          "name": "parseMarket",
+          "params": [
+            {
+              "name": "market",
+              "type": "Dict"
+            }
+          ],
+          "return_type": "Market",
+          "statements": 19
+        },
+        {
+          "async": true,
+          "name": "fetchBalance",
+          "params": [
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Balances>",
+          "statements": 19
+        },
+        {
+          "async": true,
+          "name": "fetchLeverage",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Leverage>",
+          "statements": 10
+        },
+        {
+          "async": false,
+          "name": "parseLeverageFromSetting",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "setting",
+              "type": "Dict"
+            }
+          ],
+          "return_type": "Leverage",
+          "statements": 4
+        },
+        {
+          "async": false,
+          "name": "parseLeverageFromMarket",
+          "params": [
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": "Leverage",
+          "statements": 3
+        },
+        {
+          "async": true,
+          "name": "fetchAccountSettings",
+          "params": [
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Dict>",
+          "statements": 5
+        },
+        {
+          "async": true,
+          "name": "loadAccountSettings",
+          "params": [
+            {
+              "name": "refresh",
+              "type": "boolean"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "parseAccountSettings",
+          "params": [
+            {
+              "name": "settings",
+              "type": "any[]"
+            }
+          ],
+          "return_type": "Dict",
+          "statements": 5
+        },
+        {
+          "async": true,
+          "name": "fetchMarginMode",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<MarginMode>",
+          "statements": 8
+        },
+        {
+          "async": false,
+          "name": "parseMarginModeFromSetting",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "setting",
+              "type": "Dict"
+            }
+          ],
+          "return_type": "MarginMode",
+          "statements": 3
+        },
+        {
+          "async": true,
+          "name": "fetchOrderBook",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<OrderBook>",
+          "statements": 11
+        },
+        {
+          "async": true,
+          "name": "fetchFundingRates",
+          "params": [
+            {
+              "name": "symbols",
+              "type": "Strings"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<FundingRates>",
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "parseFundingRate",
+          "params": [
+            {
+              "name": "info",
+              "type": null
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": "FundingRate",
+          "statements": 10
+        },
+        {
+          "async": true,
+          "name": "fetchOHLCV",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "timeframe",
+              "type": "string"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<OHLCV[]>",
+          "statements": 8
+        },
+        {
+          "async": false,
+          "name": "parseOHLCV",
+          "params": [
+            {
+              "name": "ohlcv",
+              "type": null
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": "OHLCV",
+          "statements": 1
+        },
+        {
+          "async": true,
+          "name": "fetchTrades",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 6
+        },
+        {
+          "async": true,
+          "name": "fetchMyTrades",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Trade[]>",
+          "statements": 18
+        },
+        {
+          "async": false,
+          "name": "parseTrade",
+          "params": [
+            {
+              "name": "trade",
+              "type": "Dict"
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": "Trade",
+          "statements": 14
+        },
+        {
+          "async": true,
+          "name": "createOrder",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "OrderType"
+            },
+            {
+              "name": "side",
+              "type": "OrderSide"
+            },
+            {
+              "name": "amount",
+              "type": "number"
+            },
+            {
+              "name": "price",
+              "type": "Num"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 12
+        },
+        {
+          "async": false,
+          "name": "createOrderRequest",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "OrderType"
+            },
+            {
+              "name": "side",
+              "type": "OrderSide"
+            },
+            {
+              "name": "amount",
+              "type": "number"
+            },
+            {
+              "name": "price",
+              "type": "Num"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 23
+        },
+        {
+          "async": false,
+          "name": "batchOrdersRequest",
+          "params": [
+            {
+              "name": "actions",
+              "type": "any[]"
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": false,
+          "name": "createOrdersRequest",
+          "params": [
+            {
+              "name": "orders",
+              "type": "OrderRequest[]"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "createOrders",
+          "params": [
+            {
+              "name": "orders",
+              "type": "OrderRequest[]"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 9
+        },
+        {
+          "async": true,
+          "name": "cancelOrders",
+          "params": [
+            {
+              "name": "ids",
+              "type": "string[]"
+            },
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 11
+        },
+        {
+          "async": false,
+          "name": "cancelOrdersRequest",
+          "params": [
+            {
+              "name": "ids",
+              "type": "Str[]"
+            },
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 6
+        },
+        {
+          "async": true,
+          "name": "cancelAllOrders",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 6
+        },
+        {
+          "async": false,
+          "name": "cancelAllOrdersRequest",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 7
+        },
+        {
+          "async": true,
+          "name": "cancelOrder",
+          "params": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 11
+        },
+        {
+          "async": false,
+          "name": "cancelOrderRequest",
+          "params": [
+            {
+              "name": "id",
+              "type": "Str"
+            },
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 9
+        },
+        {
+          "async": true,
+          "name": "editOrder",
+          "params": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "OrderType"
+            },
+            {
+              "name": "side",
+              "type": "OrderSide"
+            },
+            {
+              "name": "amount",
+              "type": "Num"
+            },
+            {
+              "name": "price",
+              "type": "Num"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 9
+        },
+        {
+          "async": false,
+          "name": "editOrderRequest",
+          "params": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "side",
+              "type": "string"
+            },
+            {
+              "name": "amount",
+              "type": "Num"
+            },
+            {
+              "name": "price",
+              "type": "Num"
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 11
+        },
+        {
+          "async": true,
+          "name": "fetchFundingRateHistory",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 15
+        },
+        {
+          "async": true,
+          "name": "fetchTickers",
+          "params": [
+            {
+              "name": "symbols",
+              "type": "Strings"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Tickers>",
+          "statements": 7
+        },
+        {
+          "async": false,
+          "name": "parseTicker",
+          "params": [
+            {
+              "name": "ticker",
+              "type": "Dict"
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": "Ticker",
+          "statements": 5
+        },
+        {
+          "async": true,
+          "name": "fetchClosedOrders",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Order[]>",
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "fetchCanceledOrders",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Order[]>",
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "fetchCanceledAndClosedOrders",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Order[]>",
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "fetchOpenOrders",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Order[]>",
+          "statements": 9
+        },
+        {
+          "async": true,
+          "name": "fetchOrders",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Order[]>",
+          "statements": 15
+        },
+        {
+          "async": false,
+          "name": "addPaginationCursorToResult",
+          "params": [
+            {
+              "name": "response",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 6
+        },
+        {
+          "async": true,
+          "name": "fetchOrder",
+          "params": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 11
+        },
+        {
+          "async": false,
+          "name": "parseOrderStatus",
+          "params": [
+            {
+              "name": "status",
+              "type": "Str"
+            }
+          ],
+          "return_type": null,
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "mapTimeInForce",
+          "params": [
+            {
+              "name": "tifRaw",
+              "type": "Str"
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": false,
+          "name": "mapSide",
+          "params": [
+            {
+              "name": "sideRaw",
+              "type": "string"
+            }
+          ],
+          "return_type": null,
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "parseOrderType",
+          "params": [
+            {
+              "name": "status",
+              "type": "string"
+            }
+          ],
+          "return_type": null,
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "parseOrder",
+          "params": [
+            {
+              "name": "order",
+              "type": "Dict"
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": "Order",
+          "statements": 11
+        },
+        {
+          "async": true,
+          "name": "fetchPosition",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 2
+        },
+        {
+          "async": true,
+          "name": "fetchPositions",
+          "params": [
+            {
+              "name": "symbols",
+              "type": "Strings"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Position[]>",
+          "statements": 10
+        },
+        {
+          "async": false,
+          "name": "parsePosition",
+          "params": [
+            {
+              "name": "position",
+              "type": "Dict"
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": null,
+          "statements": 10
+        },
+        {
+          "async": true,
+          "name": "setMarginMode",
+          "params": [
+            {
+              "name": "marginMode",
+              "type": "string"
+            },
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 10
+        },
+        {
+          "async": true,
+          "name": "setLeverage",
+          "params": [
+            {
+              "name": "leverage",
+              "type": "int"
+            },
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 9
+        },
+        {
+          "async": true,
+          "name": "withdraw",
+          "params": [
+            {
+              "name": "code",
+              "type": "string"
+            },
+            {
+              "name": "amount",
+              "type": "number"
+            },
+            {
+              "name": "address",
+              "type": "string"
+            },
+            {
+              "name": "tag",
+              "type": "Str"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Transaction>",
+          "statements": 8
+        },
+        {
+          "async": true,
+          "name": "fetchTradingFee",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<TradingFeeInterface>",
+          "statements": 8
+        },
+        {
+          "async": false,
+          "name": "parseTradingFee",
+          "params": [
+            {
+              "name": "fee",
+              "type": "Dict"
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": "TradingFeeInterface",
+          "statements": 2
+        },
+        {
+          "async": true,
+          "name": "fetchOpenInterests",
+          "params": [
+            {
+              "name": "symbols",
+              "type": "Strings"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "fetchOpenInterest",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": false,
+          "name": "parseOpenInterest",
+          "params": [
+            {
+              "name": "interest",
+              "type": null
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": null,
+          "statements": 9
+        },
+        {
+          "async": true,
+          "name": "fetchLedger",
+          "params": [
+            {
+              "name": "code",
+              "type": "Str"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<LedgerEntry[]>",
+          "statements": 12
+        },
+        {
+          "async": false,
+          "name": "parseLedgerEntry",
+          "params": [
+            {
+              "name": "item",
+              "type": "Dict"
+            },
+            {
+              "name": "currency",
+              "type": "Currency"
+            }
+          ],
+          "return_type": "LedgerEntry",
+          "statements": 5
+        },
+        {
+          "async": false,
+          "name": "parseLedgerEntryType",
+          "params": [
+            {
+              "name": "type",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 2
+        },
+        {
+          "async": true,
+          "name": "fetchFundingHistory",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 14
+        },
+        {
+          "async": false,
+          "name": "parseIncome",
+          "params": [
+            {
+              "name": "income",
+              "type": null
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": null,
+          "statements": 9
+        },
+        {
+          "async": true,
+          "name": "transfer",
+          "params": [
+            {
+              "name": "code",
+              "type": "string"
+            },
+            {
+              "name": "amount",
+              "type": "number"
+            },
+            {
+              "name": "fromAccount",
+              "type": "string"
+            },
+            {
+              "name": "toAccount",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<TransferEntry>",
+          "statements": 7
+        },
+        {
+          "async": false,
+          "name": "parseTransfer",
+          "params": [
+            {
+              "name": "transfer",
+              "type": "Dict"
+            },
+            {
+              "name": "currency",
+              "type": "Currency"
+            }
+          ],
+          "return_type": "TransferEntry",
+          "statements": 1
+        },
+        {
+          "async": true,
+          "name": "createSubAccount",
+          "params": [
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 31
+        },
+        {
+          "async": true,
+          "name": "bindAgentWallet",
+          "params": [
+            {
+              "name": "agentAddress",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "createApiKey",
+          "params": [
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "revokeApiKey",
+          "params": [
+            {
+              "name": "apiKey",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "fetchApiKeys",
+          "params": [
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "approveBuilderCode",
+          "params": [
+            {
+              "name": "builderCode",
+              "type": "string"
+            },
+            {
+              "name": "maxFeeRate",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "fetchBuilderApprovals",
+          "params": [
+            {
+              "name": "address",
+              "type": "string"
+            }
+          ],
+          "return_type": null,
+          "statements": 2
+        },
+        {
+          "async": true,
+          "name": "revokeBuilderCode",
+          "params": [
+            {
+              "name": "builderCode",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": false,
+          "name": "handleOriginAndSingleAddress",
+          "params": [
+            {
+              "name": "methodName",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": "Dict"
+            }
+          ],
+          "return_type": null,
+          "statements": 6
+        },
+        {
+          "async": false,
+          "name": "handleErrors",
+          "params": [
+            {
+              "name": "code",
+              "type": "int"
+            },
+            {
+              "name": "reason",
+              "type": "string"
+            },
+            {
+              "name": "url",
+              "type": "string"
+            },
+            {
+              "name": "method",
+              "type": "string"
+            },
+            {
+              "name": "headers",
+              "type": "Dict"
+            },
+            {
+              "name": "body",
+              "type": "string"
+            },
+            {
+              "name": "response",
+              "type": null
+            },
+            {
+              "name": "requestHeaders",
+              "type": null
+            },
+            {
+              "name": "requestBody",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 8
+        },
+        {
+          "async": false,
+          "name": "sign",
+          "params": [
+            {
+              "name": "path",
+              "type": null
+            },
+            {
+              "name": "api",
+              "type": null
+            },
+            {
+              "name": "method",
+              "type": null
+            },
+            {
+              "name": "params",
+              "type": null
+            },
+            {
+              "name": "headers",
+              "type": null
+            },
+            {
+              "name": "body",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 11
+        },
+        {
+          "async": false,
+          "name": "calculateRateLimiterCost",
+          "params": [
+            {
+              "name": "api",
+              "type": null
+            },
+            {
+              "name": "method",
+              "type": null
+            },
+            {
+              "name": "path",
+              "type": null
+            },
+            {
+              "name": "params",
+              "type": null
+            },
+            {
+              "name": "config",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": false,
+          "name": "sortJsonKeys",
+          "params": [
+            {
+              "name": "value",
+              "type": "any"
+            }
+          ],
+          "return_type": "any",
+          "statements": 1
+        },
+        {
+          "async": false,
+          "name": "prepareMessage",
+          "params": [
+            {
+              "name": "header",
+              "type": "Dict"
+            },
+            {
+              "name": "payload",
+              "type": "Dict"
+            }
+          ],
+          "return_type": "string",
+          "statements": 4
+        },
+        {
+          "async": false,
+          "name": "signMessage",
+          "params": [
+            {
+              "name": "header",
+              "type": "Dict"
+            },
+            {
+              "name": "payload",
+              "type": "Dict"
+            },
+            {
+              "name": "privateKey",
+              "type": "string"
+            }
+          ],
+          "return_type": "string",
+          "statements": 8
+        },
+        {
+          "async": false,
+          "name": "postActionRequest",
+          "params": [
+            {
+              "name": "operationType",
+              "type": "Str"
+            },
+            {
+              "name": "sigPayload",
+              "type": "Dict"
+            },
+            {
+              "name": "params",
+              "type": "Dict"
+            }
+          ],
+          "return_type": "Dict",
+          "statements": 21
+        }
+      ]
+    },
+    {
       "class_name": "paradex",
       "file": "paradex.ts",
       "id": "paradex",
@@ -89398,7 +89172,7 @@
             }
           ],
           "return_type": "Market",
-          "statements": 19
+          "statements": 21
         },
         {
           "async": true,
@@ -105050,11 +104824,7 @@
       ]
     }
   ],
-  "extracted_at": "2026-04-15T12:01:28.618105Z",
-  "tier_scope": [
-    "tier1",
-    "tier2",
-    "dex"
-  ],
+  "extracted_at": "2026-04-15T12:48:38.394802Z",
+  "tier_scope": "all",
   "type": "rest"
 }

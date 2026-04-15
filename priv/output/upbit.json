@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": false,
@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -550,7 +550,7 @@
       "version": "v1"
     },
     "markets": {
-      "market_count": 703,
+      "market_count": 709,
       "markets": {
         "SOON/BTC": {
           "spot": true,
@@ -5349,6 +5349,70 @@
           "active": true,
           "expiry": "__undefined",
           "id": "USDT-OXT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "ZAMA/BTC": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "BTC",
+          "tierBased": false,
+          "index": false,
+          "maker": 0.0025,
+          "inverse": "__undefined",
+          "info": {
+            "english_name": "Zama",
+            "korean_name": "자마",
+            "market": "BTC-ZAMA"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "ZAMA/BTC",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 1.0e-8,
+            "price": 1.0e-8
+          },
+          "baseId": "ZAMA",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "BTC",
+          "expiryDatetime": "__undefined",
+          "base": "ZAMA",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0025,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "BTC-ZAMA",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -10213,6 +10277,70 @@
           "active": true,
           "expiry": "__undefined",
           "id": "KRW-USDS",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "CC/KRW": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "KRW",
+          "tierBased": false,
+          "index": false,
+          "maker": 0.0005,
+          "inverse": "__undefined",
+          "info": {
+            "english_name": "Canton",
+            "korean_name": "캔톤",
+            "market": "KRW-CC"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "CC/KRW",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 1.0e-8,
+            "price": 1.0e-8
+          },
+          "baseId": "CC",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "KRW",
+          "expiryDatetime": "__undefined",
+          "base": "CC",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0005,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "KRW-CC",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -16357,6 +16485,70 @@
           "active": true,
           "expiry": "__undefined",
           "id": "KRW-PENDLE",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "CC/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": false,
+          "index": false,
+          "maker": 0.0025,
+          "inverse": "__undefined",
+          "info": {
+            "english_name": "Canton",
+            "korean_name": "캔톤",
+            "market": "USDT-CC"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "CC/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 1.0e-8,
+            "price": 1.0e-8
+          },
+          "baseId": "CC",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "CC",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0025,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "USDT-CC",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -26661,6 +26853,70 @@
           "active": true,
           "expiry": "__undefined",
           "id": "USDT-KAITO",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "ZAMA/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": false,
+          "index": false,
+          "maker": 0.0025,
+          "inverse": "__undefined",
+          "info": {
+            "english_name": "Zama",
+            "korean_name": "자마",
+            "market": "USDT-ZAMA"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "ZAMA/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 1.0e-8,
+            "price": 1.0e-8
+          },
+          "baseId": "ZAMA",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "ZAMA",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0025,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "USDT-ZAMA",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -40232,6 +40488,70 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "CC/BTC": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "BTC",
+          "tierBased": false,
+          "index": false,
+          "maker": 0.0025,
+          "inverse": "__undefined",
+          "info": {
+            "english_name": "Canton",
+            "korean_name": "캔톤",
+            "market": "BTC-CC"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "CC/BTC",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 1.0e-8,
+            "price": 1.0e-8
+          },
+          "baseId": "CC",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "BTC",
+          "expiryDatetime": "__undefined",
+          "base": "CC",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0025,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "BTC-CC",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
         "BEAM/BTC": {
           "spot": true,
           "contractSize": "__undefined",
@@ -40677,6 +40997,70 @@
           "active": true,
           "expiry": "__undefined",
           "id": "KRW-ONG",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "ZAMA/KRW": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "KRW",
+          "tierBased": false,
+          "index": false,
+          "maker": 0.0005,
+          "inverse": "__undefined",
+          "info": {
+            "english_name": "Zama",
+            "korean_name": "자마",
+            "market": "KRW-ZAMA"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "ZAMA/KRW",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 1.0e-8,
+            "price": 1.0e-8
+          },
+          "baseId": "ZAMA",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "KRW",
+          "expiryDatetime": "__undefined",
+          "base": "ZAMA",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0005,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "KRW-ZAMA",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -45577,7 +45961,7 @@
           }
         ],
         "id_structure": "quoteId_baseId",
-        "sample_count": 703,
+        "sample_count": 709,
         "separator": "-",
         "suffix": null
       }

@@ -711,7 +711,8 @@
           "um/feeBurn": 1,
           "um/leverage": 0.2,
           "um/order": 1,
-          "um/positionSide/dual": 0.2
+          "um/positionSide/dual": 0.2,
+          "um/stock/contract": 1
         },
         "put": {
           "cm/order": 1,
@@ -3171,6 +3172,6 @@
       "www": "https://www.binance.com"
     }
   },
-  "extracted_at": "2026-04-15T11:59:51.447075Z",
+  "extracted_at": "2026-04-15T12:45:40.588160Z",
   "id": "binance"
 }

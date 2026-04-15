@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": false,
@@ -13,7 +13,7 @@
     "tier": "tier1",
     "version": null
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -14635,7 +14635,7 @@
             "fx_stablecoin": false,
             "high_bid_limit_percentage": "",
             "id": "CHECK-USD",
-            "limit_only": true,
+            "limit_only": false,
             "margin_enabled": false,
             "max_slippage_percentage": "0.03000000",
             "min_market_funds": "1",

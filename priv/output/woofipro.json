@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": true,
@@ -16,7 +16,7 @@
     "tier": "tier3",
     "version": "v1"
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -656,7 +656,7 @@
       "version": "v1"
     },
     "markets": {
-      "market_count": 97,
+      "market_count": 98,
       "markets": {
         "TAO/USDC:USDC": {
           "spot": false,
@@ -7168,6 +7168,99 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
+        "M/USDC:USDC": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDC",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "base_imr": "0.1",
+            "base_max": "56000",
+            "base_min": "1",
+            "base_mmr": "0.05",
+            "base_tick": "1",
+            "broker_id": null,
+            "cap_funding": "0.02",
+            "cap_ir": "0.0001",
+            "claim_insurance_fund_discount": "0.006",
+            "created_time": "1776138819195",
+            "deviation_factor": "2.625",
+            "display_symbol_name": "PERP_M_USDC",
+            "floor_funding": "-0.02",
+            "floor_ir": "-0.0001",
+            "funding_period": "4",
+            "global_max_oi_cap": "1000000000.00000000",
+            "imr_factor": "0.0000058361",
+            "interest_rate": "0.0001",
+            "liquidation_tier": "2",
+            "liquidator_fee": "0.006",
+            "mark_index_price_deviation_cap": "1.0525",
+            "mark_index_price_deviation_floor": "0.9475",
+            "min_notional": "10",
+            "price_range": "0.05",
+            "price_scope": "0.6",
+            "quote_max": "100000",
+            "quote_min": "0",
+            "quote_tick": "0.0001",
+            "status": "ACTIVE",
+            "std_liquidation_fee": "0.012",
+            "symbol": "PERP_M_USDC",
+            "updated_time": "1776143652510"
+          },
+          "created": 1776138819195,
+          "option": false,
+          "future": false,
+          "symbol": "M/USDC:USDC",
+          "settle": "USDC",
+          "precision": {
+            "amount": 1,
+            "price": 0.0001
+          },
+          "baseId": "M",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDC",
+          "quote": "USDC",
+          "expiryDatetime": "__undefined",
+          "base": "M",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 56000,
+              "min": 1
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 10
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": 100000,
+              "min": 0
+            }
+          },
+          "taker": 0.0005,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": true,
+          "active": "__undefined",
+          "expiry": "__undefined",
+          "id": "PERP_M_USDC",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
         "MNT/USDC:USDC": {
           "spot": false,
           "contractSize": 1,
@@ -9711,7 +9804,7 @@
           }
         ],
         "id_structure": "opaque",
-        "sample_count": 97,
+        "sample_count": 98,
         "separator": null,
         "suffix": null
       }

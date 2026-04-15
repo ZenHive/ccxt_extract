@@ -691,6 +691,7 @@
     "markets": "__undefined",
     "name": "Bitfinex",
     "options": {
+      "defaultCurrencyPrecision": 8,
       "exchangeTypes": {
         "EXCHANGE FOK": "limit",
         "EXCHANGE IOC": "limit",
@@ -800,6 +801,6 @@
     },
     "version": "v2"
   },
-  "extracted_at": "2026-04-15T11:59:51.447075Z",
+  "extracted_at": "2026-04-15T12:45:40.588160Z",
   "id": "bitfinex"
 }

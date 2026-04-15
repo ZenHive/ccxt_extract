@@ -485,6 +485,8 @@
     "options": {
       "accountIndex": "__undefined",
       "apiKeyIndex": "__undefined",
+      "authDeadlineExpiry": 28800,
+      "authDeadlineMinimumRemaining": 60,
       "chainId": 304,
       "defaultType": "swap",
       "libraryPath": "__undefined",
@@ -547,6 +549,6 @@
     },
     "version": "v1"
   },
-  "extracted_at": "2026-04-15T11:59:51.447075Z",
+  "extracted_at": "2026-04-15T12:45:40.588160Z",
   "id": "lighter"
 }

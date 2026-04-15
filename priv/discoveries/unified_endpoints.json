@@ -1852,7 +1852,7 @@
       "file": "bitfinex.ts",
       "id": "bitfinex",
       "parent_class": "Exchange",
-      "unified_endpoint_count": 47,
+      "unified_endpoint_count": 45,
       "unified_endpoints": {
         "fetchLiquidations": [
           "publicGetLiquidationsHist"
@@ -1902,9 +1902,7 @@
           "privatePostAuthWWithdraw"
         ],
         "fetchMarkets": [
-          "publicGetConfPubInfoPair",
-          "publicGetConfPubInfoPairFutures",
-          "publicGetConfPubListPairMargin"
+          "publicGetConfConfig"
         ],
         "fetchClosedOrder": [
           "privatePostAuthROrdersHist",
@@ -3411,7 +3409,7 @@
       "file": "blofin.ts",
       "id": "blofin",
       "parent_class": "Exchange",
-      "unified_endpoint_count": 42,
+      "unified_endpoint_count": 43,
       "unified_endpoints": {
         "cancelOrder": [
           "privatePostTradeCancelAlgo",
@@ -3470,6 +3468,7 @@
           "publicGetMarketInstruments"
         ],
         "fetchMyTrades": [
+          "privateGetSpotTradeFillsHistory",
           "privateGetTradeFillsHistory"
         ],
         "fetchOHLCV": [
@@ -4669,215 +4668,6 @@
         "withdraw": [
           "v1PrivateGetPortfolios",
           "v1PublicGetAssetsAssetNetworks"
-        ]
-      }
-    },
-    {
-      "class_name": "coincatch",
-      "file": "coincatch.ts",
-      "id": "coincatch",
-      "parent_class": "Exchange",
-      "unified_endpoint_count": 102,
-      "unified_endpoints": {
-        "setPositionMode": [
-          "privatePostApiMixV1AccountSetPositionMode"
-        ],
-        "createMarketBuyOrderWithCost": [
-          "privatePostApiMixV1OrderPlaceOrder",
-          "privatePostApiMixV1PlanPlacePlan",
-          "privatePostApiMixV1PlanPlaceTPSL",
-          "privatePostApiSpotV1PlanPlacePlan",
-          "privatePostApiSpotV1TradeOrders"
-        ],
-        "setMarginMode": [
-          "privatePostApiMixV1AccountSetMarginMode"
-        ],
-        "fetchOrderBook": [
-          "publicGetApiMixV1MarketMergeDepth",
-          "publicGetApiSpotV1MarketMergeDepth"
-        ],
-        "fetchPositionMode": [
-          "privateGetApiMixV1AccountAccount"
-        ],
-        "createSpotOrder": [
-          "privatePostApiSpotV1PlanPlacePlan",
-          "privatePostApiSpotV1TradeOrders"
-        ],
-        "fetchFundingRate": [
-          "publicGetApiMixV1MarketCurrentFundRate"
-        ],
-        "setLeverage": [
-          "privatePostApiMixV1AccountSetLeverage"
-        ],
-        "addMargin": [
-          "privatePostApiMixV1AccountSetMargin"
-        ],
-        "editOrder": [
-          "privatePostApiSpotV1PlanModifyPlan"
-        ],
-        "fetchMarginMode": [
-          "privateGetApiMixV1AccountAccount"
-        ],
-        "fetchTime": [
-          "publicGetApiSpotV1PublicTime"
-        ],
-        "fetchDepositWithdrawFees": [
-          "publicGetApiSpotV1PublicCurrencies"
-        ],
-        "fetchDeposits": [
-          "privateGetApiSpotV1WalletDepositList"
-        ],
-        "fetchOrderTrades": [
-          "privateGetApiMixV1OrderAllFills",
-          "privateGetApiMixV1OrderFills",
-          "privatePostApiSpotV1TradeFills"
-        ],
-        "fetchPositions": [
-          "privateGetApiMixV1PositionAllPositionV2"
-        ],
-        "fetchDepositAddress": [
-          "privateGetApiSpotV1WalletDepositAddress"
-        ],
-        "fetchOpenSpotOrders": [
-          "privatePostApiSpotV1PlanCurrentPlan",
-          "privatePostApiSpotV1TradeOpenOrders"
-        ],
-        "fetchCanceledAndClosedSwapOrders": [
-          "privateGetApiMixV1OrderHistory",
-          "privateGetApiMixV1OrderHistoryProductType",
-          "privateGetApiMixV1PlanHistoryPlan"
-        ],
-        "createSwapOrder": [
-          "privatePostApiMixV1OrderPlaceOrder",
-          "privatePostApiMixV1PlanPlacePlan",
-          "privatePostApiMixV1PlanPlaceTPSL"
-        ],
-        "cancelAllOrders": [
-          "privatePostApiMixV1OrderCancelAllOrders",
-          "privatePostApiMixV1OrderCancelSymbolOrders",
-          "privatePostApiMixV1PlanCancelAllPlan",
-          "privatePostApiMixV1PlanCancelSymbolPlan",
-          "privatePostApiSpotV1PlanBatchCancelPlan",
-          "privatePostApiSpotV1TradeCancelSymbolOrder"
-        ],
-        "withdraw": [
-          "privatePostApiSpotV1WalletWithdrawalV2"
-        ],
-        "fetchLeverage": [
-          "privateGetApiMixV1AccountAccount"
-        ],
-        "fetchMarkets": [
-          "publicGetApiMixV1MarketContracts",
-          "publicGetApiSpotV1MarketTickers",
-          "publicGetApiSpotV1PublicCurrencies"
-        ],
-        "fetchOHLCV": [
-          "publicGetApiMixV1MarketCandles",
-          "publicGetApiSpotV1MarketCandles"
-        ],
-        "cancelOrder": [
-          "privatePostApiMixV1OrderCancelOrder",
-          "privatePostApiMixV1PlanCancelPlan",
-          "privatePostApiSpotV1PlanCancelPlan",
-          "privatePostApiSpotV1TradeCancelOrderV2"
-        ],
-        "fetchOpenOrders": [
-          "privateGetApiMixV1OrderCurrent",
-          "privateGetApiMixV1OrderMarginCoinCurrent",
-          "privateGetApiMixV1PlanCurrentPlan",
-          "privatePostApiSpotV1PlanCurrentPlan",
-          "privatePostApiSpotV1TradeOpenOrders"
-        ],
-        "fetchWithdrawals": [
-          "privateGetApiSpotV1WalletWithdrawalListV2"
-        ],
-        "fetchCanceledAndClosedOrders": [
-          "privateGetApiMixV1OrderHistory",
-          "privateGetApiMixV1OrderHistoryProductType",
-          "privateGetApiMixV1PlanHistoryPlan",
-          "privatePostApiSpotV1PlanHistoryPlan",
-          "privatePostApiSpotV1TradeHistory"
-        ],
-        "fetchFundingRateHistory": [
-          "publicGetApiMixV1MarketHistoryFundRate"
-        ],
-        "fetchCurrencies": [
-          "publicGetApiSpotV1PublicCurrencies"
-        ],
-        "fetchLedger": [
-          "privateGetApiMixV1AccountAccountBusinessBill",
-          "privatePostApiSpotV1AccountBills"
-        ],
-        "transfer": [
-          "privatePostApiSpotV1WalletTransferV2"
-        ],
-        "fetchMyTrades": [
-          "privateGetApiMixV1OrderAllFills",
-          "privateGetApiMixV1OrderFills",
-          "privatePostApiSpotV1TradeFills"
-        ],
-        "createOrder": [
-          "privatePostApiMixV1OrderPlaceOrder",
-          "privatePostApiMixV1PlanPlacePlan",
-          "privatePostApiMixV1PlanPlaceTPSL",
-          "privatePostApiSpotV1PlanPlacePlan",
-          "privatePostApiSpotV1TradeOrders"
-        ],
-        "fetchTrades": [
-          "publicGetApiMixV1MarketFillsHistory",
-          "publicGetApiSpotV1MarketFillsHistory"
-        ],
-        "fetchOpenSwapOrders": [
-          "privateGetApiMixV1OrderCurrent",
-          "privateGetApiMixV1OrderMarginCoinCurrent",
-          "privateGetApiMixV1PlanCurrentPlan"
-        ],
-        "createOrderWithTakeProfitAndStopLoss": [
-          "privatePostApiMixV1OrderPlaceOrder",
-          "privatePostApiMixV1PlanPlacePlan",
-          "privatePostApiMixV1PlanPlaceTPSL",
-          "privatePostApiSpotV1PlanPlacePlan",
-          "privatePostApiSpotV1TradeOrders"
-        ],
-        "fetchPosition": [
-          "privateGetApiMixV1PositionSinglePositionV2"
-        ],
-        "fetchCanceledAndClosedSpotOrders": [
-          "privatePostApiSpotV1PlanHistoryPlan",
-          "privatePostApiSpotV1TradeHistory"
-        ],
-        "reduceMargin": [
-          "privatePostApiMixV1AccountSetMargin"
-        ],
-        "cancelOrders": [
-          "privatePostApiMixV1OrderCancelBatchOrders",
-          "privatePostApiSpotV1TradeCancelBatchOrdersV2"
-        ],
-        "fetchTicker": [
-          "publicGetApiMixV1MarketTicker",
-          "publicGetApiSpotV1MarketTicker"
-        ],
-        "fetchTickers": [
-          "publicGetApiMixV1MarketTickers",
-          "publicGetApiSpotV1MarketTickers"
-        ],
-        "editSpotOrder": [
-          "privatePostApiSpotV1PlanModifyPlan"
-        ],
-        "fetchBalance": [
-          "privateGetApiMixV1AccountAccounts",
-          "privateGetApiSpotV1AccountAssets"
-        ],
-        "fetchPositionsForSymbol": [
-          "privateGetApiMixV1PositionSinglePositionV2"
-        ],
-        "createOrders": [
-          "privatePostApiMixV1OrderBatchOrders",
-          "privatePostApiSpotV1TradeBatchOrders"
-        ],
-        "fetchOrder": [
-          "privateGetApiMixV1OrderDetail",
-          "privatePostApiSpotV1TradeOrderInfo"
         ]
       }
     },
@@ -10727,6 +10517,147 @@
       }
     },
     {
+      "class_name": "pacifica",
+      "file": "pacifica.ts",
+      "id": "pacifica",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 52,
+      "unified_endpoints": {
+        "fetchTradingFee": [
+          "publicGetAccount"
+        ],
+        "setMarginMode": [
+          "privatePostAccountMargin"
+        ],
+        "fetchOrderBook": [
+          "publicGetBook"
+        ],
+        "fetchFundingHistory": [
+          "publicGetFundingHistory"
+        ],
+        "setLeverage": [
+          "privatePostAccountLeverage"
+        ],
+        "editOrder": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersEdit"
+        ],
+        "fetchMarginMode": [
+          "publicGetAccountSettings"
+        ],
+        "fetchOrders": [
+          "publicGetOrdersHistory"
+        ],
+        "fetchPositions": [
+          "publicGetPositions"
+        ],
+        "fetchFundingRates": [
+          "publicGetInfoPrices"
+        ],
+        "fetchBuilderApprovals": [
+          "publicGetAccountBuilderCodesApprovals"
+        ],
+        "fetchClosedOrders": [
+          "publicGetOrdersHistory"
+        ],
+        "fetchOpenInterest": [
+          "publicGetInfo"
+        ],
+        "cancelAllOrders": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersCancelAll"
+        ],
+        "withdraw": [
+          "privatePostAccountWithdraw"
+        ],
+        "fetchLeverage": [
+          "publicGetAccountSettings"
+        ],
+        "fetchMarkets": [
+          "privatePostAccountBuilderCodesApprove",
+          "publicGetAccountSettings",
+          "publicGetInfo"
+        ],
+        "fetchOHLCV": [
+          "publicGetKline"
+        ],
+        "createSubAccount": [
+          "privatePostAccountSubaccountCreate"
+        ],
+        "fetchAccountSettings": [
+          "publicGetAccountSettings"
+        ],
+        "fetchApiKeys": [
+          "privatePostAccountApiKeys"
+        ],
+        "cancelOrder": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersCancel",
+          "privatePostOrdersStopCancel"
+        ],
+        "fetchOpenInterests": [
+          "publicGetInfo"
+        ],
+        "fetchOpenOrders": [
+          "publicGetOrders"
+        ],
+        "fetchCanceledAndClosedOrders": [
+          "publicGetOrdersHistory"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetFundingRateHistory"
+        ],
+        "fetchLedger": [
+          "publicGetAccountBalanceHistory"
+        ],
+        "transfer": [
+          "privatePostAccountSubaccountTransfer"
+        ],
+        "fetchMyTrades": [
+          "publicGetTradesHistory"
+        ],
+        "createOrder": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersCreate",
+          "privatePostOrdersCreateMarket",
+          "privatePostOrdersStopCreate",
+          "privatePostPositionsTpsl"
+        ],
+        "fetchTrades": [
+          "publicGetTrades"
+        ],
+        "fetchCanceledOrders": [
+          "publicGetOrdersHistory"
+        ],
+        "fetchPosition": [
+          "publicGetPositions"
+        ],
+        "fetchSwapMarkets": [
+          "publicGetInfo"
+        ],
+        "cancelOrders": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersBatch"
+        ],
+        "createApiKey": [
+          "privatePostAccountApiKeysCreate"
+        ],
+        "fetchTickers": [
+          "publicGetInfoPrices"
+        ],
+        "fetchBalance": [
+          "publicGetAccount"
+        ],
+        "createOrders": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersBatch"
+        ],
+        "fetchOrder": [
+          "publicGetOrdersHistoryById"
+        ]
+      }
+    },
+    {
       "class_name": "paradex",
       "file": "paradex.ts",
       "id": "paradex",
@@ -12594,7 +12525,8 @@
       }
     }
   ],
-  "extracted_at": "2026-04-15T02:25:06.952867Z",
-  "total_mappings": 5424,
+  "extracted_at": "2026-04-15T12:48:59.609721Z",
+  "tier_scope": "all",
+  "total_mappings": 5373,
   "with_unified_endpoints": 100
 }

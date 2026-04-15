@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-13T06:22:52.990905Z",
+  "extracted_at": "2026-04-15T12:47:36.224380Z",
   "id": "bitstamp",
   "market_count": 285,
   "markets": {
@@ -3203,13 +3203,13 @@
         "base_currency": "WIF",
         "base_decimals": 4,
         "counter_currency": "USD",
-        "counter_decimals": 3,
+        "counter_decimals": 5,
         "description": "dogwifhat / U.S. dollar",
         "instant_and_market_orders": "Enabled",
-        "instant_order_counter_decimals": 3,
+        "instant_order_counter_decimals": 5,
         "market_symbol": "wifusd",
         "market_type": "SPOT",
-        "minimum_order_value": "10.000",
+        "minimum_order_value": "10.00000",
         "name": "WIF/USD",
         "trading": "Enabled"
       },
@@ -3220,7 +3220,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.0001,
-        "price": 0.001
+        "price": 1.0e-5
       },
       "baseId": "WIF",
       "type": "spot",
@@ -8401,13 +8401,13 @@
         "base_currency": "WIF",
         "base_decimals": 4,
         "counter_currency": "EUR",
-        "counter_decimals": 3,
+        "counter_decimals": 6,
         "description": "dogwifhat / Euro",
         "instant_and_market_orders": "Enabled",
-        "instant_order_counter_decimals": 3,
+        "instant_order_counter_decimals": 6,
         "market_symbol": "wifeur",
         "market_type": "SPOT",
-        "minimum_order_value": "10.000",
+        "minimum_order_value": "10.000000",
         "name": "WIF/EUR",
         "trading": "Enabled"
       },
@@ -8418,7 +8418,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.0001,
-        "price": 0.001
+        "price": 1.0e-6
       },
       "baseId": "WIF",
       "type": "spot",
@@ -8735,13 +8735,13 @@
         "base_currency": "IMX",
         "base_decimals": 2,
         "counter_currency": "EUR",
-        "counter_decimals": 2,
+        "counter_decimals": 6,
         "description": "Immutable X / Euro",
         "instant_and_market_orders": "Enabled",
-        "instant_order_counter_decimals": 2,
+        "instant_order_counter_decimals": 6,
         "market_symbol": "imxeur",
         "market_type": "SPOT",
-        "minimum_order_value": "10.00",
+        "minimum_order_value": "10.000000",
         "name": "IMX/EUR",
         "trading": "Enabled"
       },
@@ -8752,7 +8752,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.01,
-        "price": 0.01
+        "price": 1.0e-6
       },
       "baseId": "IMX",
       "type": "spot",
@@ -14587,13 +14587,13 @@
         "base_currency": "IMX",
         "base_decimals": 2,
         "counter_currency": "USD",
-        "counter_decimals": 2,
+        "counter_decimals": 6,
         "description": "Immutable X / U.S. dollar",
         "instant_and_market_orders": "Enabled",
-        "instant_order_counter_decimals": 2,
+        "instant_order_counter_decimals": 6,
         "market_symbol": "imxusd",
         "market_type": "SPOT",
-        "minimum_order_value": "10.00",
+        "minimum_order_value": "10.000000",
         "name": "IMX/USD",
         "trading": "Enabled"
       },
@@ -14604,7 +14604,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.01,
-        "price": 0.01
+        "price": 1.0e-6
       },
       "baseId": "IMX",
       "type": "spot",
@@ -19938,13 +19938,13 @@
         "base_currency": "APE",
         "base_decimals": 2,
         "counter_currency": "USD",
-        "counter_decimals": 2,
+        "counter_decimals": 6,
         "description": "ApeCoin / U.S. dollar",
         "instant_and_market_orders": "Enabled",
-        "instant_order_counter_decimals": 2,
+        "instant_order_counter_decimals": 6,
         "market_symbol": "apeusd",
         "market_type": "SPOT",
-        "minimum_order_value": "10.00",
+        "minimum_order_value": "10.000000",
         "name": "APE/USD",
         "trading": "Enabled"
       },
@@ -19955,7 +19955,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.01,
-        "price": 0.01
+        "price": 1.0e-6
       },
       "baseId": "APE",
       "type": "spot",
@@ -23953,13 +23953,13 @@
         "base_currency": "TRUMP",
         "base_decimals": 4,
         "counter_currency": "EUR",
-        "counter_decimals": 2,
+        "counter_decimals": 4,
         "description": "Official Trump / Euro",
         "instant_and_market_orders": "Enabled",
-        "instant_order_counter_decimals": 2,
+        "instant_order_counter_decimals": 4,
         "market_symbol": "trumpeur",
         "market_type": "SPOT",
-        "minimum_order_value": "10.00",
+        "minimum_order_value": "10.0000",
         "name": "TRUMP/EUR",
         "trading": "Enabled"
       },
@@ -23970,7 +23970,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.0001,
-        "price": 0.01
+        "price": 0.0001
       },
       "baseId": "TRUMP",
       "type": "spot",
@@ -27126,13 +27126,13 @@
         "base_currency": "MANA",
         "base_decimals": 2,
         "counter_currency": "USD",
-        "counter_decimals": 2,
+        "counter_decimals": 6,
         "description": "Decentraland / U.S. dollar",
         "instant_and_market_orders": "Disabled",
-        "instant_order_counter_decimals": 2,
+        "instant_order_counter_decimals": 6,
         "market_symbol": "manausd",
         "market_type": "SPOT",
-        "minimum_order_value": "10.00",
+        "minimum_order_value": "10.000000",
         "name": "MANA/USD",
         "trading": "Enabled"
       },
@@ -27143,7 +27143,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.01,
-        "price": 0.01
+        "price": 1.0e-6
       },
       "baseId": "MANA",
       "type": "spot",
@@ -33973,13 +33973,13 @@
         "base_currency": "MANA",
         "base_decimals": 2,
         "counter_currency": "EUR",
-        "counter_decimals": 2,
+        "counter_decimals": 6,
         "description": "Decentraland / Euro",
         "instant_and_market_orders": "Enabled",
-        "instant_order_counter_decimals": 2,
+        "instant_order_counter_decimals": 6,
         "market_symbol": "manaeur",
         "market_type": "SPOT",
-        "minimum_order_value": "10.00",
+        "minimum_order_value": "10.000000",
         "name": "MANA/EUR",
         "trading": "Enabled"
       },
@@ -33990,7 +33990,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.01,
-        "price": 0.01
+        "price": 1.0e-6
       },
       "baseId": "MANA",
       "type": "spot",
@@ -38663,13 +38663,13 @@
         "base_currency": "TRUMP",
         "base_decimals": 4,
         "counter_currency": "USD",
-        "counter_decimals": 2,
+        "counter_decimals": 4,
         "description": "Official Trump / U.S. dollar",
         "instant_and_market_orders": "Enabled",
-        "instant_order_counter_decimals": 2,
+        "instant_order_counter_decimals": 4,
         "market_symbol": "trumpusd",
         "market_type": "SPOT",
-        "minimum_order_value": "10.00",
+        "minimum_order_value": "10.0000",
         "name": "TRUMP/USD",
         "trading": "Enabled"
       },
@@ -38680,7 +38680,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.0001,
-        "price": 0.01
+        "price": 0.0001
       },
       "baseId": "TRUMP",
       "type": "spot",
@@ -45858,13 +45858,13 @@
         "base_currency": "APE",
         "base_decimals": 2,
         "counter_currency": "EUR",
-        "counter_decimals": 2,
+        "counter_decimals": 6,
         "description": "ApeCoin / Euro",
         "instant_and_market_orders": "Enabled",
-        "instant_order_counter_decimals": 2,
+        "instant_order_counter_decimals": 6,
         "market_symbol": "apeeur",
         "market_type": "SPOT",
-        "minimum_order_value": "10.00",
+        "minimum_order_value": "10.000000",
         "name": "APE/EUR",
         "trading": "Enabled"
       },
@@ -45875,7 +45875,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.01,
-        "price": 0.01
+        "price": 1.0e-6
       },
       "baseId": "APE",
       "type": "spot",

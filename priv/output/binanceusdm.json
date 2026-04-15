@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": true,
@@ -14,7 +14,7 @@
     "tier": "tier1",
     "version": null
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -728,7 +728,8 @@
             "um/feeBurn": 1,
             "um/leverage": 0.2,
             "um/order": 1,
-            "um/positionSide/dual": 0.2
+            "um/positionSide/dual": 0.2,
+            "um/stock/contract": 1
           },
           "put": {
             "cm/order": 1,
@@ -6411,6 +6412,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -10928,6 +10933,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.8500",
                 "multiplierUp": "1.1500"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -13763,8 +13772,8 @@
               {
                 "filterType": "PRICE_FILTER",
                 "maxPrice": "200",
-                "minPrice": "0.0010000",
-                "tickSize": "0.0001000"
+                "minPrice": "0.0000100",
+                "tickSize": "0.0000100"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -13847,7 +13856,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001,
+            "price": 1.0e-5,
             "quote": 1.0e-8
           },
           "baseId": "ENA",
@@ -13881,7 +13890,7 @@
             },
             "price": {
               "max": 200,
-              "min": 0.001
+              "min": 1.0e-5
             }
           },
           "taker": 0.0005,
@@ -14546,6 +14555,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9500",
                 "multiplierUp": "1.0500"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.012500",
@@ -22129,7 +22142,7 @@
             ],
             "triggerProtect": "0.25",
             "underlyingSubType": [
-              "Meme"
+              "Alpha"
             ],
             "underlyingType": "COIN"
           },
@@ -24490,6 +24503,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -32903,8 +32920,8 @@
               {
                 "filterType": "PRICE_FILTER",
                 "maxPrice": "200",
-                "minPrice": "0.0000100",
-                "tickSize": "0.0000100"
+                "minPrice": "0.0001000",
+                "tickSize": "0.0001000"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -32988,7 +33005,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 1.0e-5,
+            "price": 0.0001,
             "quote": 1.0e-8
           },
           "baseId": "GUA",
@@ -33022,7 +33039,7 @@
             },
             "price": {
               "max": 200,
-              "min": 1.0e-5
+              "min": 0.0001
             }
           },
           "taker": 0.0005,
@@ -34291,6 +34308,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.8500",
                 "multiplierUp": "1.1500"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.020000",
@@ -38060,6 +38081,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -39409,6 +39434,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -41058,6 +41087,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9500",
                 "multiplierUp": "1.0500"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -43924,6 +43957,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -52769,7 +52806,7 @@
           "info": {
             "baseAsset": "ETH",
             "baseAssetPrecision": "8",
-            "contractType": "CURRENT_QUARTER",
+            "contractType": "CURRENT_QUARTER DELIVERING",
             "deliveryDate": "1774598400000",
             "filters": [
               {
@@ -53556,6 +53593,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.8500",
                 "multiplierUp": "1.1500"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.020000",
@@ -57773,6 +57814,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.8500",
                 "multiplierUp": "1.1500"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -58196,8 +58241,8 @@
               {
                 "filterType": "PRICE_FILTER",
                 "maxPrice": "200",
-                "minPrice": "0.0001000",
-                "tickSize": "0.0001000"
+                "minPrice": "0.0000100",
+                "tickSize": "0.0000100"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -58224,6 +58269,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.8500",
                 "multiplierUp": "1.1500"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.020000",
@@ -58277,7 +58326,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001,
+            "price": 1.0e-5,
             "quote": 1.0e-8
           },
           "baseId": "BASED",
@@ -58311,7 +58360,7 @@
             },
             "price": {
               "max": 200,
-              "min": 0.0001
+              "min": 1.0e-5
             }
           },
           "taker": 0.0005,
@@ -60033,6 +60082,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9500",
                 "multiplierUp": "1.0500"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.012500",
@@ -61537,6 +61590,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -70270,7 +70327,7 @@
               },
               {
                 "filterType": "MIN_NOTIONAL",
-                "notional": "100"
+                "notional": "50"
               },
               {
                 "filterType": "PERCENT_PRICE",
@@ -70354,7 +70411,7 @@
             },
             "cost": {
               "max": "__undefined",
-              "min": 100
+              "min": 50
             },
             "leverage": {
               "max": "__undefined",
@@ -74347,6 +74404,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.8500",
                 "multiplierUp": "1.1500"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.020000",
@@ -75373,8 +75434,8 @@
               {
                 "filterType": "PRICE_FILTER",
                 "maxPrice": "200",
-                "minPrice": "0.0000100",
-                "tickSize": "0.0000100"
+                "minPrice": "0.0001000",
+                "tickSize": "0.0001000"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -75445,7 +75506,7 @@
             ],
             "triggerProtect": "0.1500",
             "underlyingSubType": [
-              "Meme"
+              "Alpha"
             ],
             "underlyingType": "COIN"
           },
@@ -75457,7 +75518,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 1.0e-5,
+            "price": 0.0001,
             "quote": 1.0e-8
           },
           "baseId": "SIREN",
@@ -75491,7 +75552,7 @@
             },
             "price": {
               "max": 200,
-              "min": 1.0e-5
+              "min": 0.0001
             }
           },
           "taker": 0.0005,
@@ -76155,6 +76216,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -76299,6 +76364,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -77472,8 +77541,8 @@
               {
                 "filterType": "PRICE_FILTER",
                 "maxPrice": "200",
-                "minPrice": "0.0001000",
-                "tickSize": "0.0001000"
+                "minPrice": "0.0000100",
+                "tickSize": "0.0000100"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -77555,7 +77624,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001,
+            "price": 1.0e-5,
             "quote": 1.0e-8
           },
           "baseId": "ENA",
@@ -77589,7 +77658,7 @@
             },
             "price": {
               "max": 200,
-              "min": 0.0001
+              "min": 1.0e-5
             }
           },
           "taker": 0.0005,
@@ -77795,7 +77864,7 @@
               },
               {
                 "filterType": "MIN_NOTIONAL",
-                "notional": "100"
+                "notional": "50"
               },
               {
                 "filterType": "PERCENT_PRICE",
@@ -77880,7 +77949,7 @@
             },
             "cost": {
               "max": "__undefined",
-              "min": 100
+              "min": 50
             },
             "leverage": {
               "max": "__undefined",
@@ -79191,7 +79260,7 @@
             "quoteAsset": "USDT",
             "quotePrecision": "8",
             "requiredMarginPercent": "5.0000",
-            "status": "TRADING",
+            "status": "SETTLING",
             "symbol": "FUNUSDT",
             "timeInForce": [
               "GTC",
@@ -79256,7 +79325,7 @@
           "margin": false,
           "contract": true,
           "percentage": true,
-          "active": true,
+          "active": false,
           "expiry": "__undefined",
           "id": "FUNUSDT",
           "lowercaseId": "funusdt",
@@ -83838,6 +83907,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -84585,6 +84658,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -88162,8 +88239,8 @@
               {
                 "filterType": "PRICE_FILTER",
                 "maxPrice": "200",
-                "minPrice": "0.000100",
-                "tickSize": "0.000100"
+                "minPrice": "0.000010",
+                "tickSize": "0.000010"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -88246,7 +88323,7 @@
           "precision": {
             "amount": 0.1,
             "base": 1.0e-8,
-            "price": 0.0001,
+            "price": 1.0e-5,
             "quote": 1.0e-8
           },
           "baseId": "GTC",
@@ -88280,7 +88357,7 @@
             },
             "price": {
               "max": 200,
-              "min": 0.0001
+              "min": 1.0e-5
             }
           },
           "taker": 0.0005,
@@ -88795,6 +88872,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -89542,6 +89623,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -90475,7 +90560,7 @@
             "quoteAsset": "USDT",
             "quotePrecision": "8",
             "requiredMarginPercent": "5.0000",
-            "status": "TRADING",
+            "status": "SETTLING",
             "symbol": "FIOUSDT",
             "timeInForce": [
               "GTC",
@@ -90540,7 +90625,7 @@
           "margin": false,
           "contract": true,
           "percentage": true,
-          "active": true,
+          "active": false,
           "expiry": "__undefined",
           "id": "FIOUSDT",
           "lowercaseId": "fiousdt",
@@ -92555,6 +92640,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -95110,6 +95199,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -95298,7 +95391,7 @@
             ],
             "triggerProtect": "0.1500",
             "underlyingSubType": [
-              "Meme"
+              "Alpha"
             ],
             "underlyingType": "COIN"
           },
@@ -98266,6 +98359,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -103074,6 +103171,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.8500",
                 "multiplierUp": "1.1500"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.020000",
@@ -107025,7 +107126,7 @@
             "quoteAsset": "USDT",
             "quotePrecision": "8",
             "requiredMarginPercent": "5.0000",
-            "status": "TRADING",
+            "status": "SETTLING",
             "symbol": "OXTUSDT",
             "timeInForce": [
               "GTC",
@@ -107090,7 +107191,7 @@
           "margin": false,
           "contract": true,
           "percentage": true,
-          "active": true,
+          "active": false,
           "expiry": "__undefined",
           "id": "OXTUSDT",
           "lowercaseId": "oxtusdt",
@@ -109367,7 +109468,7 @@
           "info": {
             "baseAsset": "BTC",
             "baseAssetPrecision": "8",
-            "contractType": "CURRENT_QUARTER",
+            "contractType": "CURRENT_QUARTER DELIVERING",
             "deliveryDate": "1774598400000",
             "filters": [
               {
@@ -109851,6 +109952,10 @@
                 "multiplierDecimal": "4",
                 "multiplierDown": "0.9700",
                 "multiplierUp": "1.0300"
+              },
+              {
+                "filterType": "POSITION_RISK_CONTROL",
+                "positionControlSide": "NONE"
               }
             ],
             "liquidationFee": "0.015000",
@@ -111721,47 +111826,47 @@
                     "argument": {
                       "arguments": [
                         {
-                          "end": 642529,
+                          "end": 642394,
                           "left": {
-                            "end": 642522,
+                            "end": 642387,
                             "left": {
-                              "end": 642516,
+                              "end": 642381,
                               "left": {
-                                "end": 642507,
+                                "end": 642372,
                                 "left": {
-                                  "end": 642501,
+                                  "end": 642366,
                                   "left": {
-                                    "end": 642482,
+                                    "end": 642347,
                                     "left": {
                                       "computed": false,
-                                      "end": 642476,
+                                      "end": 642341,
                                       "object": {
-                                        "end": 642473,
-                                        "start": 642469,
+                                        "end": 642338,
+                                        "start": 642334,
                                         "type": "ThisExpression"
                                       },
                                       "optional": false,
                                       "property": {
                                         "decorators": [],
-                                        "end": 642476,
+                                        "end": 642341,
                                         "name": "id",
                                         "optional": false,
-                                        "start": 642474,
+                                        "start": 642339,
                                         "type": "Identifier",
                                         "typeAnnotation": null
                                       },
-                                      "start": 642469,
+                                      "start": 642334,
                                       "type": "MemberExpression"
                                     },
                                     "operator": "+",
                                     "right": {
-                                      "end": 642482,
+                                      "end": 642347,
                                       "raw": "' '",
-                                      "start": 642479,
+                                      "start": 642344,
                                       "type": "Literal",
                                       "value": " "
                                     },
-                                    "start": 642469,
+                                    "start": 642334,
                                     "type": "BinaryExpression"
                                   },
                                   "operator": "+",
@@ -111769,170 +111874,170 @@
                                     "arguments": [],
                                     "callee": {
                                       "computed": false,
-                                      "end": 642498,
+                                      "end": 642363,
                                       "object": {
                                         "decorators": [],
-                                        "end": 642489,
+                                        "end": 642354,
                                         "name": "code",
                                         "optional": false,
-                                        "start": 642485,
+                                        "start": 642350,
                                         "type": "Identifier",
                                         "typeAnnotation": null
                                       },
                                       "optional": false,
                                       "property": {
                                         "decorators": [],
-                                        "end": 642498,
+                                        "end": 642363,
                                         "name": "toString",
                                         "optional": false,
-                                        "start": 642490,
+                                        "start": 642355,
                                         "type": "Identifier",
                                         "typeAnnotation": null
                                       },
-                                      "start": 642485,
+                                      "start": 642350,
                                       "type": "MemberExpression"
                                     },
-                                    "end": 642501,
+                                    "end": 642366,
                                     "optional": false,
-                                    "start": 642485,
+                                    "start": 642350,
                                     "type": "CallExpression",
                                     "typeArguments": null
                                   },
-                                  "start": 642469,
+                                  "start": 642334,
                                   "type": "BinaryExpression"
                                 },
                                 "operator": "+",
                                 "right": {
-                                  "end": 642507,
+                                  "end": 642372,
                                   "raw": "' '",
-                                  "start": 642504,
+                                  "start": 642369,
                                   "type": "Literal",
                                   "value": " "
                                 },
-                                "start": 642469,
+                                "start": 642334,
                                 "type": "BinaryExpression"
                               },
                               "operator": "+",
                               "right": {
                                 "decorators": [],
-                                "end": 642516,
+                                "end": 642381,
                                 "name": "reason",
                                 "optional": false,
-                                "start": 642510,
+                                "start": 642375,
                                 "type": "Identifier",
                                 "typeAnnotation": null
                               },
-                              "start": 642469,
+                              "start": 642334,
                               "type": "BinaryExpression"
                             },
                             "operator": "+",
                             "right": {
-                              "end": 642522,
+                              "end": 642387,
                               "raw": "' '",
-                              "start": 642519,
+                              "start": 642384,
                               "type": "Literal",
                               "value": " "
                             },
-                            "start": 642469,
+                            "start": 642334,
                             "type": "BinaryExpression"
                           },
                           "operator": "+",
                           "right": {
                             "decorators": [],
-                            "end": 642529,
+                            "end": 642394,
                             "name": "body",
                             "optional": false,
-                            "start": 642525,
+                            "start": 642390,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 642469,
+                          "start": 642334,
                           "type": "BinaryExpression"
                         }
                       ],
                       "callee": {
                         "decorators": [],
-                        "end": 642467,
+                        "end": 642332,
                         "name": "DDoSProtection",
                         "optional": false,
-                        "start": 642453,
+                        "start": 642318,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
-                      "end": 642530,
-                      "start": 642449,
+                      "end": 642395,
+                      "start": 642314,
                       "type": "NewExpression",
                       "typeArguments": null
                     },
-                    "end": 642531,
-                    "start": 642443,
+                    "end": 642396,
+                    "start": 642308,
                     "type": "ThrowStatement"
                   }
                 ],
-                "end": 642541,
-                "start": 642429,
+                "end": 642406,
+                "start": 642294,
                 "type": "BlockStatement"
               },
-              "end": 642541,
-              "start": 642391,
+              "end": 642406,
+              "start": 642256,
               "test": {
-                "end": 642427,
+                "end": 642292,
                 "left": {
-                  "end": 642409,
+                  "end": 642274,
                   "expression": {
-                    "end": 642408,
+                    "end": 642273,
                     "left": {
                       "decorators": [],
-                      "end": 642400,
+                      "end": 642265,
                       "name": "code",
                       "optional": false,
-                      "start": 642396,
+                      "start": 642261,
                       "type": "Identifier",
                       "typeAnnotation": null
                     },
                     "operator": "===",
                     "right": {
-                      "end": 642408,
+                      "end": 642273,
                       "raw": "418",
-                      "start": 642405,
+                      "start": 642270,
                       "type": "Literal",
                       "value": 418
                     },
-                    "start": 642396,
+                    "start": 642261,
                     "type": "BinaryExpression"
                   },
-                  "start": 642395,
+                  "start": 642260,
                   "type": "ParenthesizedExpression"
                 },
                 "operator": "||",
                 "right": {
-                  "end": 642427,
+                  "end": 642292,
                   "expression": {
-                    "end": 642426,
+                    "end": 642291,
                     "left": {
                       "decorators": [],
-                      "end": 642418,
+                      "end": 642283,
                       "name": "code",
                       "optional": false,
-                      "start": 642414,
+                      "start": 642279,
                       "type": "Identifier",
                       "typeAnnotation": null
                     },
                     "operator": "===",
                     "right": {
-                      "end": 642426,
+                      "end": 642291,
                       "raw": "429",
-                      "start": 642423,
+                      "start": 642288,
                       "type": "Literal",
                       "value": 429
                     },
-                    "start": 642414,
+                    "start": 642279,
                     "type": "BinaryExpression"
                   },
-                  "start": 642413,
+                  "start": 642278,
                   "type": "ParenthesizedExpression"
                 },
-                "start": 642395,
+                "start": 642260,
                 "type": "LogicalExpression"
               },
               "type": "IfStatement"
@@ -111949,132 +112054,132 @@
                           "argument": {
                             "arguments": [
                               {
-                                "end": 642993,
+                                "end": 642858,
                                 "left": {
-                                  "end": 642986,
+                                  "end": 642851,
                                   "left": {
                                     "computed": false,
-                                    "end": 642936,
+                                    "end": 642801,
                                     "object": {
-                                      "end": 642933,
-                                      "start": 642929,
+                                      "end": 642798,
+                                      "start": 642794,
                                       "type": "ThisExpression"
                                     },
                                     "optional": false,
                                     "property": {
                                       "decorators": [],
-                                      "end": 642936,
+                                      "end": 642801,
                                       "name": "id",
                                       "optional": false,
-                                      "start": 642934,
+                                      "start": 642799,
                                       "type": "Identifier",
                                       "typeAnnotation": null
                                     },
-                                    "start": 642929,
+                                    "start": 642794,
                                     "type": "MemberExpression"
                                   },
                                   "operator": "+",
                                   "right": {
-                                    "end": 642986,
+                                    "end": 642851,
                                     "raw": "' order cost = amount * price is zero or less '",
-                                    "start": 642939,
+                                    "start": 642804,
                                     "type": "Literal",
                                     "value": " order cost = amount * price is zero or less "
                                   },
-                                  "start": 642929,
+                                  "start": 642794,
                                   "type": "BinaryExpression"
                                 },
                                 "operator": "+",
                                 "right": {
                                   "decorators": [],
-                                  "end": 642993,
+                                  "end": 642858,
                                   "name": "body",
                                   "optional": false,
-                                  "start": 642989,
+                                  "start": 642854,
                                   "type": "Identifier",
                                   "typeAnnotation": null
                                 },
-                                "start": 642929,
+                                "start": 642794,
                                 "type": "BinaryExpression"
                               }
                             ],
                             "callee": {
                               "decorators": [],
-                              "end": 642927,
+                              "end": 642792,
                               "name": "InvalidOrder",
                               "optional": false,
-                              "start": 642915,
+                              "start": 642780,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "end": 642994,
-                            "start": 642911,
+                            "end": 642859,
+                            "start": 642776,
                             "type": "NewExpression",
                             "typeArguments": null
                           },
-                          "end": 642995,
-                          "start": 642905,
+                          "end": 642860,
+                          "start": 642770,
                           "type": "ThrowStatement"
                         }
                       ],
-                      "end": 643009,
-                      "start": 642887,
+                      "end": 642874,
+                      "start": 642752,
                       "type": "BlockStatement"
                     },
-                    "end": 643009,
-                    "start": 642832,
+                    "end": 642874,
+                    "start": 642697,
                     "test": {
-                      "end": 642885,
+                      "end": 642750,
                       "left": {
                         "arguments": [
                           {
-                            "end": 642879,
+                            "end": 642744,
                             "raw": "'Price * QTY is zero or less'",
-                            "start": 642850,
+                            "start": 642715,
                             "type": "Literal",
                             "value": "Price * QTY is zero or less"
                           }
                         ],
                         "callee": {
                           "computed": false,
-                          "end": 642848,
+                          "end": 642713,
                           "object": {
                             "decorators": [],
-                            "end": 642840,
+                            "end": 642705,
                             "name": "body",
                             "optional": false,
-                            "start": 642836,
+                            "start": 642701,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
                           "optional": false,
                           "property": {
                             "decorators": [],
-                            "end": 642848,
+                            "end": 642713,
                             "name": "indexOf",
                             "optional": false,
-                            "start": 642841,
+                            "start": 642706,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 642836,
+                          "start": 642701,
                           "type": "MemberExpression"
                         },
-                        "end": 642880,
+                        "end": 642745,
                         "optional": false,
-                        "start": 642836,
+                        "start": 642701,
                         "type": "CallExpression",
                         "typeArguments": null
                       },
                       "operator": ">=",
                       "right": {
-                        "end": 642885,
+                        "end": 642750,
                         "raw": "0",
-                        "start": 642884,
+                        "start": 642749,
                         "type": "Literal",
                         "value": 0
                       },
-                      "start": 642836,
+                      "start": 642701,
                       "type": "BinaryExpression"
                     },
                     "type": "IfStatement"
@@ -112087,132 +112192,132 @@
                           "argument": {
                             "arguments": [
                               {
-                                "end": 643172,
+                                "end": 643037,
                                 "left": {
-                                  "end": 643165,
+                                  "end": 643030,
                                   "left": {
                                     "computed": false,
-                                    "end": 643107,
+                                    "end": 642972,
                                     "object": {
-                                      "end": 643104,
-                                      "start": 643100,
+                                      "end": 642969,
+                                      "start": 642965,
                                       "type": "ThisExpression"
                                     },
                                     "optional": false,
                                     "property": {
                                       "decorators": [],
-                                      "end": 643107,
+                                      "end": 642972,
                                       "name": "id",
                                       "optional": false,
-                                      "start": 643105,
+                                      "start": 642970,
                                       "type": "Identifier",
                                       "typeAnnotation": null
                                     },
-                                    "start": 643100,
+                                    "start": 642965,
                                     "type": "MemberExpression"
                                   },
                                   "operator": "+",
                                   "right": {
-                                    "end": 643165,
+                                    "end": 643030,
                                     "raw": "' order amount should be evenly divisible by lot size '",
-                                    "start": 643110,
+                                    "start": 642975,
                                     "type": "Literal",
                                     "value": " order amount should be evenly divisible by lot size "
                                   },
-                                  "start": 643100,
+                                  "start": 642965,
                                   "type": "BinaryExpression"
                                 },
                                 "operator": "+",
                                 "right": {
                                   "decorators": [],
-                                  "end": 643172,
+                                  "end": 643037,
                                   "name": "body",
                                   "optional": false,
-                                  "start": 643168,
+                                  "start": 643033,
                                   "type": "Identifier",
                                   "typeAnnotation": null
                                 },
-                                "start": 643100,
+                                "start": 642965,
                                 "type": "BinaryExpression"
                               }
                             ],
                             "callee": {
                               "decorators": [],
-                              "end": 643098,
+                              "end": 642963,
                               "name": "InvalidOrder",
                               "optional": false,
-                              "start": 643086,
+                              "start": 642951,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "end": 643173,
-                            "start": 643082,
+                            "end": 643038,
+                            "start": 642947,
                             "type": "NewExpression",
                             "typeArguments": null
                           },
-                          "end": 643174,
-                          "start": 643076,
+                          "end": 643039,
+                          "start": 642941,
                           "type": "ThrowStatement"
                         }
                       ],
-                      "end": 643188,
-                      "start": 643058,
+                      "end": 643053,
+                      "start": 642923,
                       "type": "BlockStatement"
                     },
-                    "end": 643188,
-                    "start": 643022,
+                    "end": 643053,
+                    "start": 642887,
                     "test": {
-                      "end": 643056,
+                      "end": 642921,
                       "left": {
                         "arguments": [
                           {
-                            "end": 643050,
+                            "end": 642915,
                             "raw": "'LOT_SIZE'",
-                            "start": 643040,
+                            "start": 642905,
                             "type": "Literal",
                             "value": "LOT_SIZE"
                           }
                         ],
                         "callee": {
                           "computed": false,
-                          "end": 643038,
+                          "end": 642903,
                           "object": {
                             "decorators": [],
-                            "end": 643030,
+                            "end": 642895,
                             "name": "body",
                             "optional": false,
-                            "start": 643026,
+                            "start": 642891,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
                           "optional": false,
                           "property": {
                             "decorators": [],
-                            "end": 643038,
+                            "end": 642903,
                             "name": "indexOf",
                             "optional": false,
-                            "start": 643031,
+                            "start": 642896,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 643026,
+                          "start": 642891,
                           "type": "MemberExpression"
                         },
-                        "end": 643051,
+                        "end": 642916,
                         "optional": false,
-                        "start": 643026,
+                        "start": 642891,
                         "type": "CallExpression",
                         "typeArguments": null
                       },
                       "operator": ">=",
                       "right": {
-                        "end": 643056,
+                        "end": 642921,
                         "raw": "0",
-                        "start": 643055,
+                        "start": 642920,
                         "type": "Literal",
                         "value": 0
                       },
-                      "start": 643026,
+                      "start": 642891,
                       "type": "BinaryExpression"
                     },
                     "type": "IfStatement"
@@ -112225,163 +112330,163 @@
                           "argument": {
                             "arguments": [
                               {
-                                "end": 643478,
+                                "end": 643343,
                                 "left": {
-                                  "end": 643471,
+                                  "end": 643336,
                                   "left": {
                                     "computed": false,
-                                    "end": 643290,
+                                    "end": 643155,
                                     "object": {
-                                      "end": 643287,
-                                      "start": 643283,
+                                      "end": 643152,
+                                      "start": 643148,
                                       "type": "ThisExpression"
                                     },
                                     "optional": false,
                                     "property": {
                                       "decorators": [],
-                                      "end": 643290,
+                                      "end": 643155,
                                       "name": "id",
                                       "optional": false,
-                                      "start": 643288,
+                                      "start": 643153,
                                       "type": "Identifier",
                                       "typeAnnotation": null
                                     },
-                                    "start": 643283,
+                                    "start": 643148,
                                     "type": "MemberExpression"
                                   },
                                   "operator": "+",
                                   "right": {
-                                    "end": 643471,
+                                    "end": 643336,
                                     "raw": "' order price is invalid, i.e. exceeds allowed price precision, exceeds min price or max price limits or is invalid value in general, use this.priceToPrecision (symbol, amount) '",
-                                    "start": 643293,
+                                    "start": 643158,
                                     "type": "Literal",
                                     "value": " order price is invalid, i.e. exceeds allowed price precision, exceeds min price or max price limits or is invalid value in general, use this.priceToPrecision (symbol, amount) "
                                   },
-                                  "start": 643283,
+                                  "start": 643148,
                                   "type": "BinaryExpression"
                                 },
                                 "operator": "+",
                                 "right": {
                                   "decorators": [],
-                                  "end": 643478,
+                                  "end": 643343,
                                   "name": "body",
                                   "optional": false,
-                                  "start": 643474,
+                                  "start": 643339,
                                   "type": "Identifier",
                                   "typeAnnotation": null
                                 },
-                                "start": 643283,
+                                "start": 643148,
                                 "type": "BinaryExpression"
                               }
                             ],
                             "callee": {
                               "decorators": [],
-                              "end": 643281,
+                              "end": 643146,
                               "name": "InvalidOrder",
                               "optional": false,
-                              "start": 643269,
+                              "start": 643134,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "end": 643479,
-                            "start": 643265,
+                            "end": 643344,
+                            "start": 643130,
                             "type": "NewExpression",
                             "typeArguments": null
                           },
-                          "end": 643480,
-                          "start": 643259,
+                          "end": 643345,
+                          "start": 643124,
                           "type": "ThrowStatement"
                         }
                       ],
-                      "end": 643494,
-                      "start": 643241,
+                      "end": 643359,
+                      "start": 643106,
                       "type": "BlockStatement"
                     },
-                    "end": 643494,
-                    "start": 643201,
+                    "end": 643359,
+                    "start": 643066,
                     "test": {
-                      "end": 643239,
+                      "end": 643104,
                       "left": {
                         "arguments": [
                           {
-                            "end": 643233,
+                            "end": 643098,
                             "raw": "'PRICE_FILTER'",
-                            "start": 643219,
+                            "start": 643084,
                             "type": "Literal",
                             "value": "PRICE_FILTER"
                           }
                         ],
                         "callee": {
                           "computed": false,
-                          "end": 643217,
+                          "end": 643082,
                           "object": {
                             "decorators": [],
-                            "end": 643209,
+                            "end": 643074,
                             "name": "body",
                             "optional": false,
-                            "start": 643205,
+                            "start": 643070,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
                           "optional": false,
                           "property": {
                             "decorators": [],
-                            "end": 643217,
+                            "end": 643082,
                             "name": "indexOf",
                             "optional": false,
-                            "start": 643210,
+                            "start": 643075,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 643205,
+                          "start": 643070,
                           "type": "MemberExpression"
                         },
-                        "end": 643234,
+                        "end": 643099,
                         "optional": false,
-                        "start": 643205,
+                        "start": 643070,
                         "type": "CallExpression",
                         "typeArguments": null
                       },
                       "operator": ">=",
                       "right": {
-                        "end": 643239,
+                        "end": 643104,
                         "raw": "0",
-                        "start": 643238,
+                        "start": 643103,
                         "type": "Literal",
                         "value": 0
                       },
-                      "start": 643205,
+                      "start": 643070,
                       "type": "BinaryExpression"
                     },
                     "type": "IfStatement"
                   }
                 ],
-                "end": 643504,
-                "start": 642818,
+                "end": 643369,
+                "start": 642683,
                 "type": "BlockStatement"
               },
-              "end": 643504,
-              "start": 642801,
+              "end": 643369,
+              "start": 642666,
               "test": {
-                "end": 642816,
+                "end": 642681,
                 "left": {
                   "decorators": [],
-                  "end": 642809,
+                  "end": 642674,
                   "name": "code",
                   "optional": false,
-                  "start": 642805,
+                  "start": 642670,
                   "type": "Identifier",
                   "typeAnnotation": null
                 },
                 "operator": ">=",
                 "right": {
-                  "end": 642816,
+                  "end": 642681,
                   "raw": "400",
-                  "start": 642813,
+                  "start": 642678,
                   "type": "Literal",
                   "value": 400
                 },
-                "start": 642805,
+                "start": 642670,
                 "type": "BinaryExpression"
               },
               "type": "IfStatement"
@@ -112393,46 +112498,46 @@
                   {
                     "argument": {
                       "decorators": [],
-                      "end": 643571,
+                      "end": 643436,
                       "name": "undefined",
                       "optional": false,
-                      "start": 643562,
+                      "start": 643427,
                       "type": "Identifier",
                       "typeAnnotation": null
                     },
-                    "end": 643572,
-                    "start": 643555,
+                    "end": 643437,
+                    "start": 643420,
                     "type": "ReturnStatement"
                   }
                 ],
-                "end": 643619,
-                "start": 643541,
+                "end": 643484,
+                "start": 643406,
                 "type": "BlockStatement"
               },
-              "end": 643619,
-              "start": 643513,
+              "end": 643484,
+              "start": 643378,
               "test": {
-                "end": 643539,
+                "end": 643404,
                 "left": {
                   "decorators": [],
-                  "end": 643525,
+                  "end": 643390,
                   "name": "response",
                   "optional": false,
-                  "start": 643517,
+                  "start": 643382,
                   "type": "Identifier",
                   "typeAnnotation": null
                 },
                 "operator": "===",
                 "right": {
                   "decorators": [],
-                  "end": 643539,
+                  "end": 643404,
                   "name": "undefined",
                   "optional": false,
-                  "start": 643530,
+                  "start": 643395,
                   "type": "Identifier",
                   "typeAnnotation": null
                 },
-                "start": 643517,
+                "start": 643382,
                 "type": "BinaryExpression"
               },
               "type": "IfStatement"
@@ -112441,13 +112546,13 @@
               "declarations": [
                 {
                   "definite": false,
-                  "end": 643774,
+                  "end": 643639,
                   "id": {
                     "decorators": [],
-                    "end": 643730,
+                    "end": 643595,
                     "name": "success",
                     "optional": false,
-                    "start": 643723,
+                    "start": 643588,
                     "type": "Identifier",
                     "typeAnnotation": null
                   },
@@ -112455,63 +112560,63 @@
                     "arguments": [
                       {
                         "decorators": [],
-                        "end": 643756,
+                        "end": 643621,
                         "name": "response",
                         "optional": false,
-                        "start": 643748,
+                        "start": 643613,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
                       {
-                        "end": 643767,
+                        "end": 643632,
                         "raw": "'success'",
-                        "start": 643758,
+                        "start": 643623,
                         "type": "Literal",
                         "value": "success"
                       },
                       {
-                        "end": 643773,
+                        "end": 643638,
                         "raw": "true",
-                        "start": 643769,
+                        "start": 643634,
                         "type": "Literal",
                         "value": true
                       }
                     ],
                     "callee": {
                       "computed": false,
-                      "end": 643746,
+                      "end": 643611,
                       "object": {
-                        "end": 643737,
-                        "start": 643733,
+                        "end": 643602,
+                        "start": 643598,
                         "type": "ThisExpression"
                       },
                       "optional": false,
                       "property": {
                         "decorators": [],
-                        "end": 643746,
+                        "end": 643611,
                         "name": "safeBool",
                         "optional": false,
-                        "start": 643738,
+                        "start": 643603,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
-                      "start": 643733,
+                      "start": 643598,
                       "type": "MemberExpression"
                     },
-                    "end": 643774,
+                    "end": 643639,
                     "optional": false,
-                    "start": 643733,
+                    "start": 643598,
                     "type": "CallExpression",
                     "typeArguments": null
                   },
-                  "start": 643723,
+                  "start": 643588,
                   "type": "VariableDeclarator"
                 }
               ],
               "declare": false,
-              "end": 643775,
+              "end": 643640,
               "kind": "const",
-              "start": 643717,
+              "start": 643582,
               "type": "VariableDeclaration"
             },
             {
@@ -112522,13 +112627,13 @@
                     "declarations": [
                       {
                         "definite": false,
-                        "end": 643864,
+                        "end": 643729,
                         "id": {
                           "decorators": [],
-                          "end": 643828,
+                          "end": 643693,
                           "name": "messageNew",
                           "optional": false,
-                          "start": 643818,
+                          "start": 643683,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
@@ -112536,89 +112641,89 @@
                           "arguments": [
                             {
                               "decorators": [],
-                              "end": 643856,
+                              "end": 643721,
                               "name": "response",
                               "optional": false,
-                              "start": 643848,
+                              "start": 643713,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
                             {
-                              "end": 643863,
+                              "end": 643728,
                               "raw": "'msg'",
-                              "start": 643858,
+                              "start": 643723,
                               "type": "Literal",
                               "value": "msg"
                             }
                           ],
                           "callee": {
                             "computed": false,
-                            "end": 643846,
+                            "end": 643711,
                             "object": {
-                              "end": 643835,
-                              "start": 643831,
+                              "end": 643700,
+                              "start": 643696,
                               "type": "ThisExpression"
                             },
                             "optional": false,
                             "property": {
                               "decorators": [],
-                              "end": 643846,
+                              "end": 643711,
                               "name": "safeString",
                               "optional": false,
-                              "start": 643836,
+                              "start": 643701,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "start": 643831,
+                            "start": 643696,
                             "type": "MemberExpression"
                           },
-                          "end": 643864,
+                          "end": 643729,
                           "optional": false,
-                          "start": 643831,
+                          "start": 643696,
                           "type": "CallExpression",
                           "typeArguments": null
                         },
-                        "start": 643818,
+                        "start": 643683,
                         "type": "VariableDeclarator"
                       }
                     ],
                     "declare": false,
-                    "end": 643865,
+                    "end": 643730,
                     "kind": "const",
-                    "start": 643812,
+                    "start": 643677,
                     "type": "VariableDeclaration"
                   },
                   {
                     "declarations": [
                       {
                         "definite": false,
-                        "end": 643907,
+                        "end": 643772,
                         "id": {
                           "decorators": [],
-                          "end": 643895,
+                          "end": 643760,
                           "name": "parsedMessage",
                           "optional": false,
-                          "start": 643882,
+                          "start": 643747,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
                         "init": {
                           "decorators": [],
-                          "end": 643907,
+                          "end": 643772,
                           "name": "undefined",
                           "optional": false,
-                          "start": 643898,
+                          "start": 643763,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
-                        "start": 643882,
+                        "start": 643747,
                         "type": "VariableDeclarator"
                       }
                     ],
                     "declare": false,
-                    "end": 643908,
+                    "end": 643773,
                     "kind": "let",
-                    "start": 643878,
+                    "start": 643743,
                     "type": "VariableDeclaration"
                   },
                   {
@@ -112630,15 +112735,15 @@
                             "body": [
                               {
                                 "directive": null,
-                                "end": 644035,
+                                "end": 643900,
                                 "expression": {
-                                  "end": 644034,
+                                  "end": 643899,
                                   "left": {
                                     "decorators": [],
-                                    "end": 644008,
+                                    "end": 643873,
                                     "name": "parsedMessage",
                                     "optional": false,
-                                    "start": 643995,
+                                    "start": 643860,
                                     "type": "Identifier",
                                     "typeAnnotation": null
                                   },
@@ -112647,110 +112752,110 @@
                                     "arguments": [
                                       {
                                         "decorators": [],
-                                        "end": 644033,
+                                        "end": 643898,
                                         "name": "messageNew",
                                         "optional": false,
-                                        "start": 644023,
+                                        "start": 643888,
                                         "type": "Identifier",
                                         "typeAnnotation": null
                                       }
                                     ],
                                     "callee": {
                                       "computed": false,
-                                      "end": 644021,
+                                      "end": 643886,
                                       "object": {
                                         "decorators": [],
-                                        "end": 644015,
+                                        "end": 643880,
                                         "name": "JSON",
                                         "optional": false,
-                                        "start": 644011,
+                                        "start": 643876,
                                         "type": "Identifier",
                                         "typeAnnotation": null
                                       },
                                       "optional": false,
                                       "property": {
                                         "decorators": [],
-                                        "end": 644021,
+                                        "end": 643886,
                                         "name": "parse",
                                         "optional": false,
-                                        "start": 644016,
+                                        "start": 643881,
                                         "type": "Identifier",
                                         "typeAnnotation": null
                                       },
-                                      "start": 644011,
+                                      "start": 643876,
                                       "type": "MemberExpression"
                                     },
-                                    "end": 644034,
+                                    "end": 643899,
                                     "optional": false,
-                                    "start": 644011,
+                                    "start": 643876,
                                     "type": "CallExpression",
                                     "typeArguments": null
                                   },
-                                  "start": 643995,
+                                  "start": 643860,
                                   "type": "AssignmentExpression"
                                 },
-                                "start": 643995,
+                                "start": 643860,
                                 "type": "ExpressionStatement"
                               }
                             ],
-                            "end": 644053,
-                            "start": 643973,
+                            "end": 643918,
+                            "start": 643838,
                             "type": "BlockStatement"
                           },
-                          "end": 644164,
+                          "end": 644029,
                           "finalizer": null,
                           "handler": {
                             "body": {
                               "body": [
                                 {
                                   "directive": null,
-                                  "end": 644146,
+                                  "end": 644011,
                                   "expression": {
-                                    "end": 644145,
+                                    "end": 644010,
                                     "left": {
                                       "decorators": [],
-                                      "end": 644133,
+                                      "end": 643998,
                                       "name": "parsedMessage",
                                       "optional": false,
-                                      "start": 644120,
+                                      "start": 643985,
                                       "type": "Identifier",
                                       "typeAnnotation": null
                                     },
                                     "operator": "=",
                                     "right": {
                                       "decorators": [],
-                                      "end": 644145,
+                                      "end": 644010,
                                       "name": "undefined",
                                       "optional": false,
-                                      "start": 644136,
+                                      "start": 644001,
                                       "type": "Identifier",
                                       "typeAnnotation": null
                                     },
-                                    "start": 644120,
+                                    "start": 643985,
                                     "type": "AssignmentExpression"
                                   },
-                                  "start": 644120,
+                                  "start": 643985,
                                   "type": "ExpressionStatement"
                                 }
                               ],
-                              "end": 644164,
-                              "start": 644064,
+                              "end": 644029,
+                              "start": 643929,
                               "type": "BlockStatement"
                             },
-                            "end": 644164,
+                            "end": 644029,
                             "param": {
                               "decorators": [],
-                              "end": 644062,
+                              "end": 643927,
                               "name": "e",
                               "optional": false,
-                              "start": 644061,
+                              "start": 643926,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "start": 644054,
+                            "start": 643919,
                             "type": "CatchClause"
                           },
-                          "start": 643969,
+                          "start": 643834,
                           "type": "TryStatement"
                         },
                         {
@@ -112759,121 +112864,121 @@
                             "body": [
                               {
                                 "directive": null,
-                                "end": 644261,
+                                "end": 644126,
                                 "expression": {
-                                  "end": 644260,
+                                  "end": 644125,
                                   "left": {
                                     "decorators": [],
-                                    "end": 644244,
+                                    "end": 644109,
                                     "name": "response",
                                     "optional": false,
-                                    "start": 644236,
+                                    "start": 644101,
                                     "type": "Identifier",
                                     "typeAnnotation": null
                                   },
                                   "operator": "=",
                                   "right": {
                                     "decorators": [],
-                                    "end": 644260,
+                                    "end": 644125,
                                     "name": "parsedMessage",
                                     "optional": false,
-                                    "start": 644247,
+                                    "start": 644112,
                                     "type": "Identifier",
                                     "typeAnnotation": null
                                   },
-                                  "start": 644236,
+                                  "start": 644101,
                                   "type": "AssignmentExpression"
                                 },
-                                "start": 644236,
+                                "start": 644101,
                                 "type": "ExpressionStatement"
                               }
                             ],
-                            "end": 644279,
-                            "start": 644214,
+                            "end": 644144,
+                            "start": 644079,
                             "type": "BlockStatement"
                           },
-                          "end": 644279,
-                          "start": 644181,
+                          "end": 644144,
+                          "start": 644046,
                           "test": {
-                            "end": 644212,
+                            "end": 644077,
                             "left": {
                               "decorators": [],
-                              "end": 644198,
+                              "end": 644063,
                               "name": "parsedMessage",
                               "optional": false,
-                              "start": 644185,
+                              "start": 644050,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
                             "operator": "!==",
                             "right": {
                               "decorators": [],
-                              "end": 644212,
+                              "end": 644077,
                               "name": "undefined",
                               "optional": false,
-                              "start": 644203,
+                              "start": 644068,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "start": 644185,
+                            "start": 644050,
                             "type": "BinaryExpression"
                           },
                           "type": "IfStatement"
                         }
                       ],
-                      "end": 644293,
-                      "start": 643951,
+                      "end": 644158,
+                      "start": 643816,
                       "type": "BlockStatement"
                     },
-                    "end": 644293,
-                    "start": 643921,
+                    "end": 644158,
+                    "start": 643786,
                     "test": {
-                      "end": 643949,
+                      "end": 643814,
                       "left": {
                         "decorators": [],
-                        "end": 643935,
+                        "end": 643800,
                         "name": "messageNew",
                         "optional": false,
-                        "start": 643925,
+                        "start": 643790,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
                       "operator": "!==",
                       "right": {
                         "decorators": [],
-                        "end": 643949,
+                        "end": 643814,
                         "name": "undefined",
                         "optional": false,
-                        "start": 643940,
+                        "start": 643805,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
-                      "start": 643925,
+                      "start": 643790,
                       "type": "BinaryExpression"
                     },
                     "type": "IfStatement"
                   }
                 ],
-                "end": 644303,
-                "start": 643798,
+                "end": 644168,
+                "start": 643663,
                 "type": "BlockStatement"
               },
-              "end": 644303,
-              "start": 643784,
+              "end": 644168,
+              "start": 643649,
               "test": {
                 "argument": {
                   "decorators": [],
-                  "end": 643796,
+                  "end": 643661,
                   "name": "success",
                   "optional": false,
-                  "start": 643789,
+                  "start": 643654,
                   "type": "Identifier",
                   "typeAnnotation": null
                 },
-                "end": 643796,
+                "end": 643661,
                 "operator": "!",
                 "prefix": true,
-                "start": 643788,
+                "start": 643653,
                 "type": "UnaryExpression"
               },
               "type": "IfStatement"
@@ -112882,13 +112987,13 @@
               "declarations": [
                 {
                   "definite": false,
-                  "end": 644361,
+                  "end": 644226,
                   "id": {
                     "decorators": [],
-                    "end": 644325,
+                    "end": 644190,
                     "name": "message",
                     "optional": false,
-                    "start": 644318,
+                    "start": 644183,
                     "type": "Identifier",
                     "typeAnnotation": null
                   },
@@ -112896,56 +113001,56 @@
                     "arguments": [
                       {
                         "decorators": [],
-                        "end": 644353,
+                        "end": 644218,
                         "name": "response",
                         "optional": false,
-                        "start": 644345,
+                        "start": 644210,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
                       {
-                        "end": 644360,
+                        "end": 644225,
                         "raw": "'msg'",
-                        "start": 644355,
+                        "start": 644220,
                         "type": "Literal",
                         "value": "msg"
                       }
                     ],
                     "callee": {
                       "computed": false,
-                      "end": 644343,
+                      "end": 644208,
                       "object": {
-                        "end": 644332,
-                        "start": 644328,
+                        "end": 644197,
+                        "start": 644193,
                         "type": "ThisExpression"
                       },
                       "optional": false,
                       "property": {
                         "decorators": [],
-                        "end": 644343,
+                        "end": 644208,
                         "name": "safeString",
                         "optional": false,
-                        "start": 644333,
+                        "start": 644198,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
-                      "start": 644328,
+                      "start": 644193,
                       "type": "MemberExpression"
                     },
-                    "end": 644361,
+                    "end": 644226,
                     "optional": false,
-                    "start": 644328,
+                    "start": 644193,
                     "type": "CallExpression",
                     "typeArguments": null
                   },
-                  "start": 644318,
+                  "start": 644183,
                   "type": "VariableDeclarator"
                 }
               ],
               "declare": false,
-              "end": 644362,
+              "end": 644227,
               "kind": "const",
-              "start": 644312,
+              "start": 644177,
               "type": "VariableDeclaration"
             },
             {
@@ -112954,571 +113059,571 @@
                 "body": [
                   {
                     "directive": null,
-                    "end": 644521,
+                    "end": 644386,
                     "expression": {
                       "arguments": [
                         {
                           "arguments": [
                             {
                               "decorators": [],
-                              "end": 644475,
+                              "end": 644340,
                               "name": "url",
                               "optional": false,
-                              "start": 644472,
+                              "start": 644337,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
                             {
-                              "end": 644484,
+                              "end": 644349,
                               "raw": "'exact'",
-                              "start": 644477,
+                              "start": 644342,
                               "type": "Literal",
                               "value": "exact"
                             }
                           ],
                           "callee": {
                             "computed": false,
-                            "end": 644470,
+                            "end": 644335,
                             "object": {
-                              "end": 644451,
-                              "start": 644447,
+                              "end": 644316,
+                              "start": 644312,
                               "type": "ThisExpression"
                             },
                             "optional": false,
                             "property": {
                               "decorators": [],
-                              "end": 644470,
+                              "end": 644335,
                               "name": "getExceptionsByUrl",
                               "optional": false,
-                              "start": 644452,
+                              "start": 644317,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "start": 644447,
+                            "start": 644312,
                             "type": "MemberExpression"
                           },
-                          "end": 644485,
+                          "end": 644350,
                           "optional": false,
-                          "start": 644447,
+                          "start": 644312,
                           "type": "CallExpression",
                           "typeArguments": null
                         },
                         {
                           "decorators": [],
-                          "end": 644494,
+                          "end": 644359,
                           "name": "message",
                           "optional": false,
-                          "start": 644487,
+                          "start": 644352,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
                         {
-                          "end": 644519,
+                          "end": 644384,
                           "left": {
-                            "end": 644509,
+                            "end": 644374,
                             "left": {
                               "computed": false,
-                              "end": 644503,
+                              "end": 644368,
                               "object": {
-                                "end": 644500,
-                                "start": 644496,
+                                "end": 644365,
+                                "start": 644361,
                                 "type": "ThisExpression"
                               },
                               "optional": false,
                               "property": {
                                 "decorators": [],
-                                "end": 644503,
+                                "end": 644368,
                                 "name": "id",
                                 "optional": false,
-                                "start": 644501,
+                                "start": 644366,
                                 "type": "Identifier",
                                 "typeAnnotation": null
                               },
-                              "start": 644496,
+                              "start": 644361,
                               "type": "MemberExpression"
                             },
                             "operator": "+",
                             "right": {
-                              "end": 644509,
+                              "end": 644374,
                               "raw": "' '",
-                              "start": 644506,
+                              "start": 644371,
                               "type": "Literal",
                               "value": " "
                             },
-                            "start": 644496,
+                            "start": 644361,
                             "type": "BinaryExpression"
                           },
                           "operator": "+",
                           "right": {
                             "decorators": [],
-                            "end": 644519,
+                            "end": 644384,
                             "name": "message",
                             "optional": false,
-                            "start": 644512,
+                            "start": 644377,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 644496,
+                          "start": 644361,
                           "type": "BinaryExpression"
                         }
                       ],
                       "callee": {
                         "computed": false,
-                        "end": 644445,
+                        "end": 644310,
                         "object": {
-                          "end": 644416,
-                          "start": 644412,
+                          "end": 644281,
+                          "start": 644277,
                           "type": "ThisExpression"
                         },
                         "optional": false,
                         "property": {
                           "decorators": [],
-                          "end": 644445,
+                          "end": 644310,
                           "name": "throwExactlyMatchedException",
                           "optional": false,
-                          "start": 644417,
+                          "start": 644282,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
-                        "start": 644412,
+                        "start": 644277,
                         "type": "MemberExpression"
                       },
-                      "end": 644520,
+                      "end": 644385,
                       "optional": false,
-                      "start": 644412,
+                      "start": 644277,
                       "type": "CallExpression",
                       "typeArguments": null
                     },
-                    "start": 644412,
+                    "start": 644277,
                     "type": "ExpressionStatement"
                   },
                   {
                     "directive": null,
-                    "end": 644629,
+                    "end": 644494,
                     "expression": {
                       "arguments": [
                         {
                           "computed": true,
-                          "end": 644593,
+                          "end": 644458,
                           "object": {
                             "computed": false,
-                            "end": 644584,
+                            "end": 644449,
                             "object": {
-                              "end": 644573,
-                              "start": 644569,
+                              "end": 644438,
+                              "start": 644434,
                               "type": "ThisExpression"
                             },
                             "optional": false,
                             "property": {
                               "decorators": [],
-                              "end": 644584,
+                              "end": 644449,
                               "name": "exceptions",
                               "optional": false,
-                              "start": 644574,
+                              "start": 644439,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "start": 644569,
+                            "start": 644434,
                             "type": "MemberExpression"
                           },
                           "optional": false,
                           "property": {
-                            "end": 644592,
+                            "end": 644457,
                             "raw": "'exact'",
-                            "start": 644585,
+                            "start": 644450,
                             "type": "Literal",
                             "value": "exact"
                           },
-                          "start": 644569,
+                          "start": 644434,
                           "type": "MemberExpression"
                         },
                         {
                           "decorators": [],
-                          "end": 644602,
+                          "end": 644467,
                           "name": "message",
                           "optional": false,
-                          "start": 644595,
+                          "start": 644460,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
                         {
-                          "end": 644627,
+                          "end": 644492,
                           "left": {
-                            "end": 644617,
+                            "end": 644482,
                             "left": {
                               "computed": false,
-                              "end": 644611,
+                              "end": 644476,
                               "object": {
-                                "end": 644608,
-                                "start": 644604,
+                                "end": 644473,
+                                "start": 644469,
                                 "type": "ThisExpression"
                               },
                               "optional": false,
                               "property": {
                                 "decorators": [],
-                                "end": 644611,
+                                "end": 644476,
                                 "name": "id",
                                 "optional": false,
-                                "start": 644609,
+                                "start": 644474,
                                 "type": "Identifier",
                                 "typeAnnotation": null
                               },
-                              "start": 644604,
+                              "start": 644469,
                               "type": "MemberExpression"
                             },
                             "operator": "+",
                             "right": {
-                              "end": 644617,
+                              "end": 644482,
                               "raw": "' '",
-                              "start": 644614,
+                              "start": 644479,
                               "type": "Literal",
                               "value": " "
                             },
-                            "start": 644604,
+                            "start": 644469,
                             "type": "BinaryExpression"
                           },
                           "operator": "+",
                           "right": {
                             "decorators": [],
-                            "end": 644627,
+                            "end": 644492,
                             "name": "message",
                             "optional": false,
-                            "start": 644620,
+                            "start": 644485,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 644604,
+                          "start": 644469,
                           "type": "BinaryExpression"
                         }
                       ],
                       "callee": {
                         "computed": false,
-                        "end": 644567,
+                        "end": 644432,
                         "object": {
-                          "end": 644538,
-                          "start": 644534,
+                          "end": 644403,
+                          "start": 644399,
                           "type": "ThisExpression"
                         },
                         "optional": false,
                         "property": {
                           "decorators": [],
-                          "end": 644567,
+                          "end": 644432,
                           "name": "throwExactlyMatchedException",
                           "optional": false,
-                          "start": 644539,
+                          "start": 644404,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
-                        "start": 644534,
+                        "start": 644399,
                         "type": "MemberExpression"
                       },
-                      "end": 644628,
+                      "end": 644493,
                       "optional": false,
-                      "start": 644534,
+                      "start": 644399,
                       "type": "CallExpression",
                       "typeArguments": null
                     },
-                    "start": 644534,
+                    "start": 644399,
                     "type": "ExpressionStatement"
                   },
                   {
                     "directive": null,
-                    "end": 644751,
+                    "end": 644616,
                     "expression": {
                       "arguments": [
                         {
                           "arguments": [
                             {
                               "decorators": [],
-                              "end": 644705,
+                              "end": 644570,
                               "name": "url",
                               "optional": false,
-                              "start": 644702,
+                              "start": 644567,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
                             {
-                              "end": 644714,
+                              "end": 644579,
                               "raw": "'broad'",
-                              "start": 644707,
+                              "start": 644572,
                               "type": "Literal",
                               "value": "broad"
                             }
                           ],
                           "callee": {
                             "computed": false,
-                            "end": 644700,
+                            "end": 644565,
                             "object": {
-                              "end": 644681,
-                              "start": 644677,
+                              "end": 644546,
+                              "start": 644542,
                               "type": "ThisExpression"
                             },
                             "optional": false,
                             "property": {
                               "decorators": [],
-                              "end": 644700,
+                              "end": 644565,
                               "name": "getExceptionsByUrl",
                               "optional": false,
-                              "start": 644682,
+                              "start": 644547,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "start": 644677,
+                            "start": 644542,
                             "type": "MemberExpression"
                           },
-                          "end": 644715,
+                          "end": 644580,
                           "optional": false,
-                          "start": 644677,
+                          "start": 644542,
                           "type": "CallExpression",
                           "typeArguments": null
                         },
                         {
                           "decorators": [],
-                          "end": 644724,
+                          "end": 644589,
                           "name": "message",
                           "optional": false,
-                          "start": 644717,
+                          "start": 644582,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
                         {
-                          "end": 644749,
+                          "end": 644614,
                           "left": {
-                            "end": 644739,
+                            "end": 644604,
                             "left": {
                               "computed": false,
-                              "end": 644733,
+                              "end": 644598,
                               "object": {
-                                "end": 644730,
-                                "start": 644726,
+                                "end": 644595,
+                                "start": 644591,
                                 "type": "ThisExpression"
                               },
                               "optional": false,
                               "property": {
                                 "decorators": [],
-                                "end": 644733,
+                                "end": 644598,
                                 "name": "id",
                                 "optional": false,
-                                "start": 644731,
+                                "start": 644596,
                                 "type": "Identifier",
                                 "typeAnnotation": null
                               },
-                              "start": 644726,
+                              "start": 644591,
                               "type": "MemberExpression"
                             },
                             "operator": "+",
                             "right": {
-                              "end": 644739,
+                              "end": 644604,
                               "raw": "' '",
-                              "start": 644736,
+                              "start": 644601,
                               "type": "Literal",
                               "value": " "
                             },
-                            "start": 644726,
+                            "start": 644591,
                             "type": "BinaryExpression"
                           },
                           "operator": "+",
                           "right": {
                             "decorators": [],
-                            "end": 644749,
+                            "end": 644614,
                             "name": "message",
                             "optional": false,
-                            "start": 644742,
+                            "start": 644607,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 644726,
+                          "start": 644591,
                           "type": "BinaryExpression"
                         }
                       ],
                       "callee": {
                         "computed": false,
-                        "end": 644675,
+                        "end": 644540,
                         "object": {
-                          "end": 644646,
-                          "start": 644642,
+                          "end": 644511,
+                          "start": 644507,
                           "type": "ThisExpression"
                         },
                         "optional": false,
                         "property": {
                           "decorators": [],
-                          "end": 644675,
+                          "end": 644540,
                           "name": "throwBroadlyMatchedException",
                           "optional": false,
-                          "start": 644647,
+                          "start": 644512,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
-                        "start": 644642,
+                        "start": 644507,
                         "type": "MemberExpression"
                       },
-                      "end": 644750,
+                      "end": 644615,
                       "optional": false,
-                      "start": 644642,
+                      "start": 644507,
                       "type": "CallExpression",
                       "typeArguments": null
                     },
-                    "start": 644642,
+                    "start": 644507,
                     "type": "ExpressionStatement"
                   },
                   {
                     "directive": null,
-                    "end": 644859,
+                    "end": 644724,
                     "expression": {
                       "arguments": [
                         {
                           "computed": true,
-                          "end": 644823,
+                          "end": 644688,
                           "object": {
                             "computed": false,
-                            "end": 644814,
+                            "end": 644679,
                             "object": {
-                              "end": 644803,
-                              "start": 644799,
+                              "end": 644668,
+                              "start": 644664,
                               "type": "ThisExpression"
                             },
                             "optional": false,
                             "property": {
                               "decorators": [],
-                              "end": 644814,
+                              "end": 644679,
                               "name": "exceptions",
                               "optional": false,
-                              "start": 644804,
+                              "start": 644669,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "start": 644799,
+                            "start": 644664,
                             "type": "MemberExpression"
                           },
                           "optional": false,
                           "property": {
-                            "end": 644822,
+                            "end": 644687,
                             "raw": "'broad'",
-                            "start": 644815,
+                            "start": 644680,
                             "type": "Literal",
                             "value": "broad"
                           },
-                          "start": 644799,
+                          "start": 644664,
                           "type": "MemberExpression"
                         },
                         {
                           "decorators": [],
-                          "end": 644832,
+                          "end": 644697,
                           "name": "message",
                           "optional": false,
-                          "start": 644825,
+                          "start": 644690,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
                         {
-                          "end": 644857,
+                          "end": 644722,
                           "left": {
-                            "end": 644847,
+                            "end": 644712,
                             "left": {
                               "computed": false,
-                              "end": 644841,
+                              "end": 644706,
                               "object": {
-                                "end": 644838,
-                                "start": 644834,
+                                "end": 644703,
+                                "start": 644699,
                                 "type": "ThisExpression"
                               },
                               "optional": false,
                               "property": {
                                 "decorators": [],
-                                "end": 644841,
+                                "end": 644706,
                                 "name": "id",
                                 "optional": false,
-                                "start": 644839,
+                                "start": 644704,
                                 "type": "Identifier",
                                 "typeAnnotation": null
                               },
-                              "start": 644834,
+                              "start": 644699,
                               "type": "MemberExpression"
                             },
                             "operator": "+",
                             "right": {
-                              "end": 644847,
+                              "end": 644712,
                               "raw": "' '",
-                              "start": 644844,
+                              "start": 644709,
                               "type": "Literal",
                               "value": " "
                             },
-                            "start": 644834,
+                            "start": 644699,
                             "type": "BinaryExpression"
                           },
                           "operator": "+",
                           "right": {
                             "decorators": [],
-                            "end": 644857,
+                            "end": 644722,
                             "name": "message",
                             "optional": false,
-                            "start": 644850,
+                            "start": 644715,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 644834,
+                          "start": 644699,
                           "type": "BinaryExpression"
                         }
                       ],
                       "callee": {
                         "computed": false,
-                        "end": 644797,
+                        "end": 644662,
                         "object": {
-                          "end": 644768,
-                          "start": 644764,
+                          "end": 644633,
+                          "start": 644629,
                           "type": "ThisExpression"
                         },
                         "optional": false,
                         "property": {
                           "decorators": [],
-                          "end": 644797,
+                          "end": 644662,
                           "name": "throwBroadlyMatchedException",
                           "optional": false,
-                          "start": 644769,
+                          "start": 644634,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
-                        "start": 644764,
+                        "start": 644629,
                         "type": "MemberExpression"
                       },
-                      "end": 644858,
+                      "end": 644723,
                       "optional": false,
-                      "start": 644764,
+                      "start": 644629,
                       "type": "CallExpression",
                       "typeArguments": null
                     },
-                    "start": 644764,
+                    "start": 644629,
                     "type": "ExpressionStatement"
                   }
                 ],
-                "end": 644869,
-                "start": 644398,
+                "end": 644734,
+                "start": 644263,
                 "type": "BlockStatement"
               },
-              "end": 644869,
-              "start": 644371,
+              "end": 644734,
+              "start": 644236,
               "test": {
-                "end": 644396,
+                "end": 644261,
                 "left": {
                   "decorators": [],
-                  "end": 644382,
+                  "end": 644247,
                   "name": "message",
                   "optional": false,
-                  "start": 644375,
+                  "start": 644240,
                   "type": "Identifier",
                   "typeAnnotation": null
                 },
                 "operator": "!==",
                 "right": {
                   "decorators": [],
-                  "end": 644396,
+                  "end": 644261,
                   "name": "undefined",
                   "optional": false,
-                  "start": 644387,
+                  "start": 644252,
                   "type": "Identifier",
                   "typeAnnotation": null
                 },
-                "start": 644375,
+                "start": 644240,
                 "type": "BinaryExpression"
               },
               "type": "IfStatement"
@@ -113527,13 +113632,13 @@
               "declarations": [
                 {
                   "definite": false,
-                  "end": 644964,
+                  "end": 644829,
                   "id": {
                     "decorators": [],
-                    "end": 644927,
+                    "end": 644792,
                     "name": "error",
                     "optional": false,
-                    "start": 644922,
+                    "start": 644787,
                     "type": "Identifier",
                     "typeAnnotation": null
                   },
@@ -113541,56 +113646,56 @@
                     "arguments": [
                       {
                         "decorators": [],
-                        "end": 644955,
+                        "end": 644820,
                         "name": "response",
                         "optional": false,
-                        "start": 644947,
+                        "start": 644812,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
                       {
-                        "end": 644963,
+                        "end": 644828,
                         "raw": "'code'",
-                        "start": 644957,
+                        "start": 644822,
                         "type": "Literal",
                         "value": "code"
                       }
                     ],
                     "callee": {
                       "computed": false,
-                      "end": 644945,
+                      "end": 644810,
                       "object": {
-                        "end": 644934,
-                        "start": 644930,
+                        "end": 644799,
+                        "start": 644795,
                         "type": "ThisExpression"
                       },
                       "optional": false,
                       "property": {
                         "decorators": [],
-                        "end": 644945,
+                        "end": 644810,
                         "name": "safeString",
                         "optional": false,
-                        "start": 644935,
+                        "start": 644800,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
-                      "start": 644930,
+                      "start": 644795,
                       "type": "MemberExpression"
                     },
-                    "end": 644964,
+                    "end": 644829,
                     "optional": false,
-                    "start": 644930,
+                    "start": 644795,
                     "type": "CallExpression",
                     "typeArguments": null
                   },
-                  "start": 644922,
+                  "start": 644787,
                   "type": "VariableDeclarator"
                 }
               ],
               "declare": false,
-              "end": 644965,
+              "end": 644830,
               "kind": "const",
-              "start": 644916,
+              "start": 644781,
               "type": "VariableDeclaration"
             },
             {
@@ -113604,51 +113709,51 @@
                         {
                           "argument": {
                             "decorators": [],
-                            "end": 645219,
+                            "end": 645084,
                             "name": "undefined",
                             "optional": false,
-                            "start": 645210,
+                            "start": 645075,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "end": 645220,
-                          "start": 645203,
+                          "end": 645085,
+                          "start": 645068,
                           "type": "ReturnStatement"
                         }
                       ],
-                      "end": 645234,
-                      "start": 645185,
+                      "end": 645099,
+                      "start": 645050,
                       "type": "BlockStatement"
                     },
-                    "end": 645234,
-                    "start": 645125,
+                    "end": 645099,
+                    "start": 644990,
                     "test": {
-                      "end": 645183,
+                      "end": 645048,
                       "left": {
-                        "end": 645146,
+                        "end": 645011,
                         "expression": {
-                          "end": 645145,
+                          "end": 645010,
                           "left": {
                             "decorators": [],
-                            "end": 645135,
+                            "end": 645000,
                             "name": "error",
                             "optional": false,
-                            "start": 645130,
+                            "start": 644995,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
                           "operator": "===",
                           "right": {
-                            "end": 645145,
+                            "end": 645010,
                             "raw": "'200'",
-                            "start": 645140,
+                            "start": 645005,
                             "type": "Literal",
                             "value": "200"
                           },
-                          "start": 645130,
+                          "start": 644995,
                           "type": "BinaryExpression"
                         },
-                        "start": 645129,
+                        "start": 644994,
                         "type": "ParenthesizedExpression"
                       },
                       "operator": "||",
@@ -113656,53 +113761,53 @@
                         "arguments": [
                           {
                             "decorators": [],
-                            "end": 645177,
+                            "end": 645042,
                             "name": "error",
                             "optional": false,
-                            "start": 645172,
+                            "start": 645037,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
                           {
-                            "end": 645182,
+                            "end": 645047,
                             "raw": "'0'",
-                            "start": 645179,
+                            "start": 645044,
                             "type": "Literal",
                             "value": "0"
                           }
                         ],
                         "callee": {
                           "computed": false,
-                          "end": 645170,
+                          "end": 645035,
                           "object": {
                             "decorators": [],
-                            "end": 645157,
+                            "end": 645022,
                             "name": "Precise",
                             "optional": false,
-                            "start": 645150,
+                            "start": 645015,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
                           "optional": false,
                           "property": {
                             "decorators": [],
-                            "end": 645170,
+                            "end": 645035,
                             "name": "stringEquals",
                             "optional": false,
-                            "start": 645158,
+                            "start": 645023,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 645150,
+                          "start": 645015,
                           "type": "MemberExpression"
                         },
-                        "end": 645183,
+                        "end": 645048,
                         "optional": false,
-                        "start": 645150,
+                        "start": 645015,
                         "type": "CallExpression",
                         "typeArguments": null
                       },
-                      "start": 645129,
+                      "start": 644994,
                       "type": "LogicalExpression"
                     },
                     "type": "IfStatement"
@@ -113715,146 +113820,146 @@
                           "argument": {
                             "arguments": [
                               {
-                                "end": 645661,
+                                "end": 645526,
                                 "left": {
-                                  "end": 645654,
+                                  "end": 645519,
                                   "left": {
                                     "computed": false,
-                                    "end": 645648,
+                                    "end": 645513,
                                     "object": {
-                                      "end": 645645,
-                                      "start": 645641,
+                                      "end": 645510,
+                                      "start": 645506,
                                       "type": "ThisExpression"
                                     },
                                     "optional": false,
                                     "property": {
                                       "decorators": [],
-                                      "end": 645648,
+                                      "end": 645513,
                                       "name": "id",
                                       "optional": false,
-                                      "start": 645646,
+                                      "start": 645511,
                                       "type": "Identifier",
                                       "typeAnnotation": null
                                     },
-                                    "start": 645641,
+                                    "start": 645506,
                                     "type": "MemberExpression"
                                   },
                                   "operator": "+",
                                   "right": {
-                                    "end": 645654,
+                                    "end": 645519,
                                     "raw": "' '",
-                                    "start": 645651,
+                                    "start": 645516,
                                     "type": "Literal",
                                     "value": " "
                                   },
-                                  "start": 645641,
+                                  "start": 645506,
                                   "type": "BinaryExpression"
                                 },
                                 "operator": "+",
                                 "right": {
                                   "decorators": [],
-                                  "end": 645661,
+                                  "end": 645526,
                                   "name": "body",
                                   "optional": false,
-                                  "start": 645657,
+                                  "start": 645522,
                                   "type": "Identifier",
                                   "typeAnnotation": null
                                 },
-                                "start": 645641,
+                                "start": 645506,
                                 "type": "BinaryExpression"
                               }
                             ],
                             "callee": {
                               "decorators": [],
-                              "end": 645639,
+                              "end": 645504,
                               "name": "DDoSProtection",
                               "optional": false,
-                              "start": 645625,
+                              "start": 645490,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "end": 645662,
-                            "start": 645621,
+                            "end": 645527,
+                            "start": 645486,
                             "type": "NewExpression",
                             "typeArguments": null
                           },
-                          "end": 645663,
-                          "start": 645615,
+                          "end": 645528,
+                          "start": 645480,
                           "type": "ThrowStatement"
                         }
                       ],
-                      "end": 645677,
-                      "start": 645597,
+                      "end": 645542,
+                      "start": 645462,
                       "type": "BlockStatement"
                     },
-                    "end": 645677,
-                    "start": 645517,
+                    "end": 645542,
+                    "start": 645382,
                     "test": {
-                      "end": 645595,
+                      "end": 645460,
                       "left": {
-                        "end": 645540,
+                        "end": 645405,
                         "expression": {
-                          "end": 645539,
+                          "end": 645404,
                           "left": {
                             "decorators": [],
-                            "end": 645527,
+                            "end": 645392,
                             "name": "error",
                             "optional": false,
-                            "start": 645522,
+                            "start": 645387,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
                           "operator": "===",
                           "right": {
-                            "end": 645539,
+                            "end": 645404,
                             "raw": "'-2015'",
-                            "start": 645532,
+                            "start": 645397,
                             "type": "Literal",
                             "value": "-2015"
                           },
-                          "start": 645522,
+                          "start": 645387,
                           "type": "BinaryExpression"
                         },
-                        "start": 645521,
+                        "start": 645386,
                         "type": "ParenthesizedExpression"
                       },
                       "operator": "&&",
                       "right": {
                         "computed": true,
-                        "end": 645595,
+                        "end": 645460,
                         "object": {
                           "computed": false,
-                          "end": 645556,
+                          "end": 645421,
                           "object": {
-                            "end": 645548,
-                            "start": 645544,
+                            "end": 645413,
+                            "start": 645409,
                             "type": "ThisExpression"
                           },
                           "optional": false,
                           "property": {
                             "decorators": [],
-                            "end": 645556,
+                            "end": 645421,
                             "name": "options",
                             "optional": false,
-                            "start": 645549,
+                            "start": 645414,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 645544,
+                          "start": 645409,
                           "type": "MemberExpression"
                         },
                         "optional": false,
                         "property": {
-                          "end": 645594,
+                          "end": 645459,
                           "raw": "'hasAlreadyAuthenticatedSuccessfully'",
-                          "start": 645557,
+                          "start": 645422,
                           "type": "Literal",
                           "value": "hasAlreadyAuthenticatedSuccessfully"
                         },
-                        "start": 645544,
+                        "start": 645409,
                         "type": "MemberExpression"
                       },
-                      "start": 645521,
+                      "start": 645386,
                       "type": "LogicalExpression"
                     },
                     "type": "IfStatement"
@@ -113863,73 +113968,73 @@
                     "declarations": [
                       {
                         "definite": false,
-                        "end": 645727,
+                        "end": 645592,
                         "id": {
                           "decorators": [],
-                          "end": 645704,
+                          "end": 645569,
                           "name": "feedback",
                           "optional": false,
-                          "start": 645696,
+                          "start": 645561,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
                         "init": {
-                          "end": 645727,
+                          "end": 645592,
                           "left": {
-                            "end": 645720,
+                            "end": 645585,
                             "left": {
                               "computed": false,
-                              "end": 645714,
+                              "end": 645579,
                               "object": {
-                                "end": 645711,
-                                "start": 645707,
+                                "end": 645576,
+                                "start": 645572,
                                 "type": "ThisExpression"
                               },
                               "optional": false,
                               "property": {
                                 "decorators": [],
-                                "end": 645714,
+                                "end": 645579,
                                 "name": "id",
                                 "optional": false,
-                                "start": 645712,
+                                "start": 645577,
                                 "type": "Identifier",
                                 "typeAnnotation": null
                               },
-                              "start": 645707,
+                              "start": 645572,
                               "type": "MemberExpression"
                             },
                             "operator": "+",
                             "right": {
-                              "end": 645720,
+                              "end": 645585,
                               "raw": "' '",
-                              "start": 645717,
+                              "start": 645582,
                               "type": "Literal",
                               "value": " "
                             },
-                            "start": 645707,
+                            "start": 645572,
                             "type": "BinaryExpression"
                           },
                           "operator": "+",
                           "right": {
                             "decorators": [],
-                            "end": 645727,
+                            "end": 645592,
                             "name": "body",
                             "optional": false,
-                            "start": 645723,
+                            "start": 645588,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 645707,
+                          "start": 645572,
                           "type": "BinaryExpression"
                         },
-                        "start": 645696,
+                        "start": 645561,
                         "type": "VariableDeclarator"
                       }
                     ],
                     "declare": false,
-                    "end": 645728,
+                    "end": 645593,
                     "kind": "const",
-                    "start": 645690,
+                    "start": 645555,
                     "type": "VariableDeclaration"
                   },
                   {
@@ -113941,250 +114046,250 @@
                             "arguments": [
                               {
                                 "decorators": [],
-                                "end": 646170,
+                                "end": 646035,
                                 "name": "feedback",
                                 "optional": false,
-                                "start": 646162,
+                                "start": 646027,
                                 "type": "Identifier",
                                 "typeAnnotation": null
                               }
                             ],
                             "callee": {
                               "decorators": [],
-                              "end": 646160,
+                              "end": 646025,
                               "name": "MarginModeAlreadySet",
                               "optional": false,
-                              "start": 646140,
+                              "start": 646005,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "end": 646171,
-                            "start": 646136,
+                            "end": 646036,
+                            "start": 646001,
                             "type": "NewExpression",
                             "typeArguments": null
                           },
-                          "end": 646172,
-                          "start": 646130,
+                          "end": 646037,
+                          "start": 645995,
                           "type": "ThrowStatement"
                         }
                       ],
-                      "end": 646186,
-                      "start": 645791,
+                      "end": 646051,
+                      "start": 645656,
                       "type": "BlockStatement"
                     },
-                    "end": 646186,
-                    "start": 645741,
+                    "end": 646051,
+                    "start": 645606,
                     "test": {
-                      "end": 645789,
+                      "end": 645654,
                       "left": {
                         "decorators": [],
-                        "end": 645752,
+                        "end": 645617,
                         "name": "message",
                         "optional": false,
-                        "start": 645745,
+                        "start": 645610,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
                       "operator": "===",
                       "right": {
-                        "end": 645789,
+                        "end": 645654,
                         "raw": "'No need to change margin type.'",
-                        "start": 645757,
+                        "start": 645622,
                         "type": "Literal",
                         "value": "No need to change margin type."
                       },
-                      "start": 645745,
+                      "start": 645610,
                       "type": "BinaryExpression"
                     },
                     "type": "IfStatement"
                   },
                   {
                     "directive": null,
-                    "end": 646291,
+                    "end": 646156,
                     "expression": {
                       "arguments": [
                         {
                           "arguments": [
                             {
                               "decorators": [],
-                              "end": 646262,
+                              "end": 646127,
                               "name": "url",
                               "optional": false,
-                              "start": 646259,
+                              "start": 646124,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
                             {
-                              "end": 646271,
+                              "end": 646136,
                               "raw": "'exact'",
-                              "start": 646264,
+                              "start": 646129,
                               "type": "Literal",
                               "value": "exact"
                             }
                           ],
                           "callee": {
                             "computed": false,
-                            "end": 646257,
+                            "end": 646122,
                             "object": {
-                              "end": 646238,
-                              "start": 646234,
+                              "end": 646103,
+                              "start": 646099,
                               "type": "ThisExpression"
                             },
                             "optional": false,
                             "property": {
                               "decorators": [],
-                              "end": 646257,
+                              "end": 646122,
                               "name": "getExceptionsByUrl",
                               "optional": false,
-                              "start": 646239,
+                              "start": 646104,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "start": 646234,
+                            "start": 646099,
                             "type": "MemberExpression"
                           },
-                          "end": 646272,
+                          "end": 646137,
                           "optional": false,
-                          "start": 646234,
+                          "start": 646099,
                           "type": "CallExpression",
                           "typeArguments": null
                         },
                         {
                           "decorators": [],
-                          "end": 646279,
+                          "end": 646144,
                           "name": "error",
                           "optional": false,
-                          "start": 646274,
+                          "start": 646139,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
                         {
                           "decorators": [],
-                          "end": 646289,
+                          "end": 646154,
                           "name": "feedback",
                           "optional": false,
-                          "start": 646281,
+                          "start": 646146,
                           "type": "Identifier",
                           "typeAnnotation": null
                         }
                       ],
                       "callee": {
                         "computed": false,
-                        "end": 646232,
+                        "end": 646097,
                         "object": {
-                          "end": 646203,
-                          "start": 646199,
+                          "end": 646068,
+                          "start": 646064,
                           "type": "ThisExpression"
                         },
                         "optional": false,
                         "property": {
                           "decorators": [],
-                          "end": 646232,
+                          "end": 646097,
                           "name": "throwExactlyMatchedException",
                           "optional": false,
-                          "start": 646204,
+                          "start": 646069,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
-                        "start": 646199,
+                        "start": 646064,
                         "type": "MemberExpression"
                       },
-                      "end": 646290,
+                      "end": 646155,
                       "optional": false,
-                      "start": 646199,
+                      "start": 646064,
                       "type": "CallExpression",
                       "typeArguments": null
                     },
-                    "start": 646199,
+                    "start": 646064,
                     "type": "ExpressionStatement"
                   },
                   {
                     "directive": null,
-                    "end": 646382,
+                    "end": 646247,
                     "expression": {
                       "arguments": [
                         {
                           "computed": true,
-                          "end": 646363,
+                          "end": 646228,
                           "object": {
                             "computed": false,
-                            "end": 646354,
+                            "end": 646219,
                             "object": {
-                              "end": 646343,
-                              "start": 646339,
+                              "end": 646208,
+                              "start": 646204,
                               "type": "ThisExpression"
                             },
                             "optional": false,
                             "property": {
                               "decorators": [],
-                              "end": 646354,
+                              "end": 646219,
                               "name": "exceptions",
                               "optional": false,
-                              "start": 646344,
+                              "start": 646209,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "start": 646339,
+                            "start": 646204,
                             "type": "MemberExpression"
                           },
                           "optional": false,
                           "property": {
-                            "end": 646362,
+                            "end": 646227,
                             "raw": "'exact'",
-                            "start": 646355,
+                            "start": 646220,
                             "type": "Literal",
                             "value": "exact"
                           },
-                          "start": 646339,
+                          "start": 646204,
                           "type": "MemberExpression"
                         },
                         {
                           "decorators": [],
-                          "end": 646370,
+                          "end": 646235,
                           "name": "error",
                           "optional": false,
-                          "start": 646365,
+                          "start": 646230,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
                         {
                           "decorators": [],
-                          "end": 646380,
+                          "end": 646245,
                           "name": "feedback",
                           "optional": false,
-                          "start": 646372,
+                          "start": 646237,
                           "type": "Identifier",
                           "typeAnnotation": null
                         }
                       ],
                       "callee": {
                         "computed": false,
-                        "end": 646337,
+                        "end": 646202,
                         "object": {
-                          "end": 646308,
-                          "start": 646304,
+                          "end": 646173,
+                          "start": 646169,
                           "type": "ThisExpression"
                         },
                         "optional": false,
                         "property": {
                           "decorators": [],
-                          "end": 646337,
+                          "end": 646202,
                           "name": "throwExactlyMatchedException",
                           "optional": false,
-                          "start": 646309,
+                          "start": 646174,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
-                        "start": 646304,
+                        "start": 646169,
                         "type": "MemberExpression"
                       },
-                      "end": 646381,
+                      "end": 646246,
                       "optional": false,
-                      "start": 646304,
+                      "start": 646169,
                       "type": "CallExpression",
                       "typeArguments": null
                     },
-                    "start": 646304,
+                    "start": 646169,
                     "type": "ExpressionStatement"
                   },
                   {
@@ -114192,61 +114297,61 @@
                       "arguments": [
                         {
                           "decorators": [],
-                          "end": 646428,
+                          "end": 646293,
                           "name": "feedback",
                           "optional": false,
-                          "start": 646420,
+                          "start": 646285,
                           "type": "Identifier",
                           "typeAnnotation": null
                         }
                       ],
                       "callee": {
                         "decorators": [],
-                        "end": 646418,
+                        "end": 646283,
                         "name": "ExchangeError",
                         "optional": false,
-                        "start": 646405,
+                        "start": 646270,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
-                      "end": 646429,
-                      "start": 646401,
+                      "end": 646294,
+                      "start": 646266,
                       "type": "NewExpression",
                       "typeArguments": null
                     },
-                    "end": 646430,
-                    "start": 646395,
+                    "end": 646295,
+                    "start": 646260,
                     "type": "ThrowStatement"
                   }
                 ],
-                "end": 646440,
-                "start": 644999,
+                "end": 646305,
+                "start": 644864,
                 "type": "BlockStatement"
               },
-              "end": 646440,
-              "start": 644974,
+              "end": 646305,
+              "start": 644839,
               "test": {
-                "end": 644997,
+                "end": 644862,
                 "left": {
                   "decorators": [],
-                  "end": 644983,
+                  "end": 644848,
                   "name": "error",
                   "optional": false,
-                  "start": 644978,
+                  "start": 644843,
                   "type": "Identifier",
                   "typeAnnotation": null
                 },
                 "operator": "!==",
                 "right": {
                   "decorators": [],
-                  "end": 644997,
+                  "end": 644862,
                   "name": "undefined",
                   "optional": false,
-                  "start": 644988,
+                  "start": 644853,
                   "type": "Identifier",
                   "typeAnnotation": null
                 },
-                "start": 644978,
+                "start": 644843,
                 "type": "BinaryExpression"
               },
               "type": "IfStatement"
@@ -114259,94 +114364,94 @@
                     "argument": {
                       "arguments": [
                         {
-                          "end": 646522,
+                          "end": 646387,
                           "left": {
-                            "end": 646515,
+                            "end": 646380,
                             "left": {
                               "computed": false,
-                              "end": 646509,
+                              "end": 646374,
                               "object": {
-                                "end": 646506,
-                                "start": 646502,
+                                "end": 646371,
+                                "start": 646367,
                                 "type": "ThisExpression"
                               },
                               "optional": false,
                               "property": {
                                 "decorators": [],
-                                "end": 646509,
+                                "end": 646374,
                                 "name": "id",
                                 "optional": false,
-                                "start": 646507,
+                                "start": 646372,
                                 "type": "Identifier",
                                 "typeAnnotation": null
                               },
-                              "start": 646502,
+                              "start": 646367,
                               "type": "MemberExpression"
                             },
                             "operator": "+",
                             "right": {
-                              "end": 646515,
+                              "end": 646380,
                               "raw": "' '",
-                              "start": 646512,
+                              "start": 646377,
                               "type": "Literal",
                               "value": " "
                             },
-                            "start": 646502,
+                            "start": 646367,
                             "type": "BinaryExpression"
                           },
                           "operator": "+",
                           "right": {
                             "decorators": [],
-                            "end": 646522,
+                            "end": 646387,
                             "name": "body",
                             "optional": false,
-                            "start": 646518,
+                            "start": 646383,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 646502,
+                          "start": 646367,
                           "type": "BinaryExpression"
                         }
                       ],
                       "callee": {
                         "decorators": [],
-                        "end": 646500,
+                        "end": 646365,
                         "name": "ExchangeError",
                         "optional": false,
-                        "start": 646487,
+                        "start": 646352,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
-                      "end": 646523,
-                      "start": 646483,
+                      "end": 646388,
+                      "start": 646348,
                       "type": "NewExpression",
                       "typeArguments": null
                     },
-                    "end": 646524,
-                    "start": 646477,
+                    "end": 646389,
+                    "start": 646342,
                     "type": "ThrowStatement"
                   }
                 ],
-                "end": 646534,
-                "start": 646463,
+                "end": 646399,
+                "start": 646328,
                 "type": "BlockStatement"
               },
-              "end": 646534,
-              "start": 646449,
+              "end": 646399,
+              "start": 646314,
               "test": {
                 "argument": {
                   "decorators": [],
-                  "end": 646461,
+                  "end": 646326,
                   "name": "success",
                   "optional": false,
-                  "start": 646454,
+                  "start": 646319,
                   "type": "Identifier",
                   "typeAnnotation": null
                 },
-                "end": 646461,
+                "end": 646326,
                 "operator": "!",
                 "prefix": true,
-                "start": 646453,
+                "start": 646318,
                 "type": "UnaryExpression"
               },
               "type": "IfStatement"
@@ -114359,49 +114464,49 @@
                     "declarations": [
                       {
                         "definite": false,
-                        "end": 646723,
+                        "end": 646588,
                         "id": {
                           "decorators": [],
-                          "end": 646705,
+                          "end": 646570,
                           "name": "arrayLength",
                           "optional": false,
-                          "start": 646694,
+                          "start": 646559,
                           "type": "Identifier",
                           "typeAnnotation": null
                         },
                         "init": {
                           "computed": false,
-                          "end": 646723,
+                          "end": 646588,
                           "object": {
                             "decorators": [],
-                            "end": 646716,
+                            "end": 646581,
                             "name": "response",
                             "optional": false,
-                            "start": 646708,
+                            "start": 646573,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
                           "optional": false,
                           "property": {
                             "decorators": [],
-                            "end": 646723,
+                            "end": 646588,
                             "name": "length",
                             "optional": false,
-                            "start": 646717,
+                            "start": 646582,
                             "type": "Identifier",
                             "typeAnnotation": null
                           },
-                          "start": 646708,
+                          "start": 646573,
                           "type": "MemberExpression"
                         },
-                        "start": 646694,
+                        "start": 646559,
                         "type": "VariableDeclarator"
                       }
                     ],
                     "declare": false,
-                    "end": 646724,
+                    "end": 646589,
                     "kind": "const",
-                    "start": 646688,
+                    "start": 646553,
                     "type": "VariableDeclaration"
                   },
                   {
@@ -114412,60 +114517,60 @@
                           "declarations": [
                             {
                               "definite": false,
-                              "end": 646886,
+                              "end": 646751,
                               "id": {
                                 "decorators": [],
-                                "end": 646872,
+                                "end": 646737,
                                 "name": "element",
                                 "optional": false,
-                                "start": 646865,
+                                "start": 646730,
                                 "type": "Identifier",
                                 "typeAnnotation": null
                               },
                               "init": {
                                 "computed": true,
-                                "end": 646886,
+                                "end": 646751,
                                 "object": {
                                   "decorators": [],
-                                  "end": 646883,
+                                  "end": 646748,
                                   "name": "response",
                                   "optional": false,
-                                  "start": 646875,
+                                  "start": 646740,
                                   "type": "Identifier",
                                   "typeAnnotation": null
                                 },
                                 "optional": false,
                                 "property": {
-                                  "end": 646885,
+                                  "end": 646750,
                                   "raw": "0",
-                                  "start": 646884,
+                                  "start": 646749,
                                   "type": "Literal",
                                   "value": 0
                                 },
-                                "start": 646875,
+                                "start": 646740,
                                 "type": "MemberExpression"
                               },
-                              "start": 646865,
+                              "start": 646730,
                               "type": "VariableDeclarator"
                             }
                           ],
                           "declare": false,
-                          "end": 646887,
+                          "end": 646752,
                           "kind": "const",
-                          "start": 646859,
+                          "start": 646724,
                           "type": "VariableDeclaration"
                         },
                         {
                           "declarations": [
                             {
                               "definite": false,
-                              "end": 646955,
+                              "end": 646820,
                               "id": {
                                 "decorators": [],
-                                "end": 646919,
+                                "end": 646784,
                                 "name": "errorCode",
                                 "optional": false,
-                                "start": 646910,
+                                "start": 646775,
                                 "type": "Identifier",
                                 "typeAnnotation": null
                               },
@@ -114473,56 +114578,56 @@
                                 "arguments": [
                                   {
                                     "decorators": [],
-                                    "end": 646946,
+                                    "end": 646811,
                                     "name": "element",
                                     "optional": false,
-                                    "start": 646939,
+                                    "start": 646804,
                                     "type": "Identifier",
                                     "typeAnnotation": null
                                   },
                                   {
-                                    "end": 646954,
+                                    "end": 646819,
                                     "raw": "'code'",
-                                    "start": 646948,
+                                    "start": 646813,
                                     "type": "Literal",
                                     "value": "code"
                                   }
                                 ],
                                 "callee": {
                                   "computed": false,
-                                  "end": 646937,
+                                  "end": 646802,
                                   "object": {
-                                    "end": 646926,
-                                    "start": 646922,
+                                    "end": 646791,
+                                    "start": 646787,
                                     "type": "ThisExpression"
                                   },
                                   "optional": false,
                                   "property": {
                                     "decorators": [],
-                                    "end": 646937,
+                                    "end": 646802,
                                     "name": "safeString",
                                     "optional": false,
-                                    "start": 646927,
+                                    "start": 646792,
                                     "type": "Identifier",
                                     "typeAnnotation": null
                                   },
-                                  "start": 646922,
+                                  "start": 646787,
                                   "type": "MemberExpression"
                                 },
-                                "end": 646955,
+                                "end": 646820,
                                 "optional": false,
-                                "start": 646922,
+                                "start": 646787,
                                 "type": "CallExpression",
                                 "typeArguments": null
                               },
-                              "start": 646910,
+                              "start": 646775,
                               "type": "VariableDeclarator"
                             }
                           ],
                           "declare": false,
-                          "end": 646956,
+                          "end": 646821,
                           "kind": "const",
-                          "start": 646904,
+                          "start": 646769,
                           "type": "VariableDeclaration"
                         },
                         {
@@ -114531,384 +114636,384 @@
                             "body": [
                               {
                                 "directive": null,
-                                "end": 647132,
+                                "end": 646997,
                                 "expression": {
                                   "arguments": [
                                     {
                                       "arguments": [
                                         {
                                           "decorators": [],
-                                          "end": 647087,
+                                          "end": 646952,
                                           "name": "url",
                                           "optional": false,
-                                          "start": 647084,
+                                          "start": 646949,
                                           "type": "Identifier",
                                           "typeAnnotation": null
                                         },
                                         {
-                                          "end": 647096,
+                                          "end": 646961,
                                           "raw": "'exact'",
-                                          "start": 647089,
+                                          "start": 646954,
                                           "type": "Literal",
                                           "value": "exact"
                                         }
                                       ],
                                       "callee": {
                                         "computed": false,
-                                        "end": 647082,
+                                        "end": 646947,
                                         "object": {
-                                          "end": 647063,
-                                          "start": 647059,
+                                          "end": 646928,
+                                          "start": 646924,
                                           "type": "ThisExpression"
                                         },
                                         "optional": false,
                                         "property": {
                                           "decorators": [],
-                                          "end": 647082,
+                                          "end": 646947,
                                           "name": "getExceptionsByUrl",
                                           "optional": false,
-                                          "start": 647064,
+                                          "start": 646929,
                                           "type": "Identifier",
                                           "typeAnnotation": null
                                         },
-                                        "start": 647059,
+                                        "start": 646924,
                                         "type": "MemberExpression"
                                       },
-                                      "end": 647097,
+                                      "end": 646962,
                                       "optional": false,
-                                      "start": 647059,
+                                      "start": 646924,
                                       "type": "CallExpression",
                                       "typeArguments": null
                                     },
                                     {
                                       "decorators": [],
-                                      "end": 647108,
+                                      "end": 646973,
                                       "name": "errorCode",
                                       "optional": false,
-                                      "start": 647099,
+                                      "start": 646964,
                                       "type": "Identifier",
                                       "typeAnnotation": null
                                     },
                                     {
-                                      "end": 647130,
+                                      "end": 646995,
                                       "left": {
-                                        "end": 647123,
+                                        "end": 646988,
                                         "left": {
                                           "computed": false,
-                                          "end": 647117,
+                                          "end": 646982,
                                           "object": {
-                                            "end": 647114,
-                                            "start": 647110,
+                                            "end": 646979,
+                                            "start": 646975,
                                             "type": "ThisExpression"
                                           },
                                           "optional": false,
                                           "property": {
                                             "decorators": [],
-                                            "end": 647117,
+                                            "end": 646982,
                                             "name": "id",
                                             "optional": false,
-                                            "start": 647115,
+                                            "start": 646980,
                                             "type": "Identifier",
                                             "typeAnnotation": null
                                           },
-                                          "start": 647110,
+                                          "start": 646975,
                                           "type": "MemberExpression"
                                         },
                                         "operator": "+",
                                         "right": {
-                                          "end": 647123,
+                                          "end": 646988,
                                           "raw": "' '",
-                                          "start": 647120,
+                                          "start": 646985,
                                           "type": "Literal",
                                           "value": " "
                                         },
-                                        "start": 647110,
+                                        "start": 646975,
                                         "type": "BinaryExpression"
                                       },
                                       "operator": "+",
                                       "right": {
                                         "decorators": [],
-                                        "end": 647130,
+                                        "end": 646995,
                                         "name": "body",
                                         "optional": false,
-                                        "start": 647126,
+                                        "start": 646991,
                                         "type": "Identifier",
                                         "typeAnnotation": null
                                       },
-                                      "start": 647110,
+                                      "start": 646975,
                                       "type": "BinaryExpression"
                                     }
                                   ],
                                   "callee": {
                                     "computed": false,
-                                    "end": 647057,
+                                    "end": 646922,
                                     "object": {
-                                      "end": 647028,
-                                      "start": 647024,
+                                      "end": 646893,
+                                      "start": 646889,
                                       "type": "ThisExpression"
                                     },
                                     "optional": false,
                                     "property": {
                                       "decorators": [],
-                                      "end": 647057,
+                                      "end": 646922,
                                       "name": "throwExactlyMatchedException",
                                       "optional": false,
-                                      "start": 647029,
+                                      "start": 646894,
                                       "type": "Identifier",
                                       "typeAnnotation": null
                                     },
-                                    "start": 647024,
+                                    "start": 646889,
                                     "type": "MemberExpression"
                                   },
-                                  "end": 647131,
+                                  "end": 646996,
                                   "optional": false,
-                                  "start": 647024,
+                                  "start": 646889,
                                   "type": "CallExpression",
                                   "typeArguments": null
                                 },
-                                "start": 647024,
+                                "start": 646889,
                                 "type": "ExpressionStatement"
                               },
                               {
                                 "directive": null,
-                                "end": 647247,
+                                "end": 647112,
                                 "expression": {
                                   "arguments": [
                                     {
                                       "computed": true,
-                                      "end": 647212,
+                                      "end": 647077,
                                       "object": {
                                         "computed": false,
-                                        "end": 647203,
+                                        "end": 647068,
                                         "object": {
-                                          "end": 647192,
-                                          "start": 647188,
+                                          "end": 647057,
+                                          "start": 647053,
                                           "type": "ThisExpression"
                                         },
                                         "optional": false,
                                         "property": {
                                           "decorators": [],
-                                          "end": 647203,
+                                          "end": 647068,
                                           "name": "exceptions",
                                           "optional": false,
-                                          "start": 647193,
+                                          "start": 647058,
                                           "type": "Identifier",
                                           "typeAnnotation": null
                                         },
-                                        "start": 647188,
+                                        "start": 647053,
                                         "type": "MemberExpression"
                                       },
                                       "optional": false,
                                       "property": {
-                                        "end": 647211,
+                                        "end": 647076,
                                         "raw": "'exact'",
-                                        "start": 647204,
+                                        "start": 647069,
                                         "type": "Literal",
                                         "value": "exact"
                                       },
-                                      "start": 647188,
+                                      "start": 647053,
                                       "type": "MemberExpression"
                                     },
                                     {
                                       "decorators": [],
-                                      "end": 647223,
+                                      "end": 647088,
                                       "name": "errorCode",
                                       "optional": false,
-                                      "start": 647214,
+                                      "start": 647079,
                                       "type": "Identifier",
                                       "typeAnnotation": null
                                     },
                                     {
-                                      "end": 647245,
+                                      "end": 647110,
                                       "left": {
-                                        "end": 647238,
+                                        "end": 647103,
                                         "left": {
                                           "computed": false,
-                                          "end": 647232,
+                                          "end": 647097,
                                           "object": {
-                                            "end": 647229,
-                                            "start": 647225,
+                                            "end": 647094,
+                                            "start": 647090,
                                             "type": "ThisExpression"
                                           },
                                           "optional": false,
                                           "property": {
                                             "decorators": [],
-                                            "end": 647232,
+                                            "end": 647097,
                                             "name": "id",
                                             "optional": false,
-                                            "start": 647230,
+                                            "start": 647095,
                                             "type": "Identifier",
                                             "typeAnnotation": null
                                           },
-                                          "start": 647225,
+                                          "start": 647090,
                                           "type": "MemberExpression"
                                         },
                                         "operator": "+",
                                         "right": {
-                                          "end": 647238,
+                                          "end": 647103,
                                           "raw": "' '",
-                                          "start": 647235,
+                                          "start": 647100,
                                           "type": "Literal",
                                           "value": " "
                                         },
-                                        "start": 647225,
+                                        "start": 647090,
                                         "type": "BinaryExpression"
                                       },
                                       "operator": "+",
                                       "right": {
                                         "decorators": [],
-                                        "end": 647245,
+                                        "end": 647110,
                                         "name": "body",
                                         "optional": false,
-                                        "start": 647241,
+                                        "start": 647106,
                                         "type": "Identifier",
                                         "typeAnnotation": null
                                       },
-                                      "start": 647225,
+                                      "start": 647090,
                                       "type": "BinaryExpression"
                                     }
                                   ],
                                   "callee": {
                                     "computed": false,
-                                    "end": 647186,
+                                    "end": 647051,
                                     "object": {
-                                      "end": 647157,
-                                      "start": 647153,
+                                      "end": 647022,
+                                      "start": 647018,
                                       "type": "ThisExpression"
                                     },
                                     "optional": false,
                                     "property": {
                                       "decorators": [],
-                                      "end": 647186,
+                                      "end": 647051,
                                       "name": "throwExactlyMatchedException",
                                       "optional": false,
-                                      "start": 647158,
+                                      "start": 647023,
                                       "type": "Identifier",
                                       "typeAnnotation": null
                                     },
-                                    "start": 647153,
+                                    "start": 647018,
                                     "type": "MemberExpression"
                                   },
-                                  "end": 647246,
+                                  "end": 647111,
                                   "optional": false,
-                                  "start": 647153,
+                                  "start": 647018,
                                   "type": "CallExpression",
                                   "typeArguments": null
                                 },
-                                "start": 647153,
+                                "start": 647018,
                                 "type": "ExpressionStatement"
                               }
                             ],
-                            "end": 647265,
-                            "start": 647002,
+                            "end": 647130,
+                            "start": 646867,
                             "type": "BlockStatement"
                           },
-                          "end": 647265,
-                          "start": 646973,
+                          "end": 647130,
+                          "start": 646838,
                           "test": {
-                            "end": 647000,
+                            "end": 646865,
                             "left": {
                               "decorators": [],
-                              "end": 646986,
+                              "end": 646851,
                               "name": "errorCode",
                               "optional": false,
-                              "start": 646977,
+                              "start": 646842,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
                             "operator": "!==",
                             "right": {
                               "decorators": [],
-                              "end": 647000,
+                              "end": 646865,
                               "name": "undefined",
                               "optional": false,
-                              "start": 646991,
+                              "start": 646856,
                               "type": "Identifier",
                               "typeAnnotation": null
                             },
-                            "start": 646977,
+                            "start": 646842,
                             "type": "BinaryExpression"
                           },
                           "type": "IfStatement"
                         }
                       ],
-                      "end": 647279,
-                      "start": 646760,
+                      "end": 647144,
+                      "start": 646625,
                       "type": "BlockStatement"
                     },
-                    "end": 647279,
-                    "start": 646737,
+                    "end": 647144,
+                    "start": 646602,
                     "test": {
-                      "end": 646758,
+                      "end": 646623,
                       "left": {
                         "decorators": [],
-                        "end": 646752,
+                        "end": 646617,
                         "name": "arrayLength",
                         "optional": false,
-                        "start": 646741,
+                        "start": 646606,
                         "type": "Identifier",
                         "typeAnnotation": null
                       },
                       "operator": "===",
                       "right": {
-                        "end": 646758,
+                        "end": 646623,
                         "raw": "1",
-                        "start": 646757,
+                        "start": 646622,
                         "type": "Literal",
                         "value": 1
                       },
-                      "start": 646741,
+                      "start": 646606,
                       "type": "BinaryExpression"
                     },
                     "type": "IfStatement"
                   }
                 ],
-                "end": 647289,
-                "start": 646573,
+                "end": 647154,
+                "start": 646438,
                 "type": "BlockStatement"
               },
-              "end": 647289,
-              "start": 646543,
+              "end": 647154,
+              "start": 646408,
               "test": {
                 "arguments": [
                   {
                     "decorators": [],
-                    "end": 646570,
+                    "end": 646435,
                     "name": "response",
                     "optional": false,
-                    "start": 646562,
+                    "start": 646427,
                     "type": "Identifier",
                     "typeAnnotation": null
                   }
                 ],
                 "callee": {
                   "computed": false,
-                  "end": 646560,
+                  "end": 646425,
                   "object": {
                     "decorators": [],
-                    "end": 646552,
+                    "end": 646417,
                     "name": "Array",
                     "optional": false,
-                    "start": 646547,
+                    "start": 646412,
                     "type": "Identifier",
                     "typeAnnotation": null
                   },
                   "optional": false,
                   "property": {
                     "decorators": [],
-                    "end": 646560,
+                    "end": 646425,
                     "name": "isArray",
                     "optional": false,
-                    "start": 646553,
+                    "start": 646418,
                     "type": "Identifier",
                     "typeAnnotation": null
                   },
-                  "start": 646547,
+                  "start": 646412,
                   "type": "MemberExpression"
                 },
-                "end": 646571,
+                "end": 646436,
                 "optional": false,
-                "start": 646547,
+                "start": 646412,
                 "type": "CallExpression",
                 "typeArguments": null
               },
@@ -114917,20 +115022,20 @@
             {
               "argument": {
                 "decorators": [],
-                "end": 647314,
+                "end": 647179,
                 "name": "undefined",
                 "optional": false,
-                "start": 647305,
+                "start": 647170,
                 "type": "Identifier",
                 "typeAnnotation": null
               },
-              "end": 647315,
-              "start": 647298,
+              "end": 647180,
+              "start": 647163,
               "type": "ReturnStatement"
             }
           ],
-          "end": 647321,
-          "start": 642381,
+          "end": 647186,
+          "start": 642246,
           "type": "BlockStatement"
         },
         "params": [
@@ -118658,6 +118763,16 @@
       },
       "papiGetUmCommissionRate": {
         "name": "papiGetUmCommissionRate",
+        "params": [
+          {
+            "name": "params",
+            "type": "typeliteral"
+          }
+        ],
+        "return_type": "Promise<implicitReturnType>"
+      },
+      "papiPostUmStockContract": {
+        "name": "papiPostUmStockContract",
         "params": [
           {
             "name": "params",
@@ -123058,7 +123173,6 @@
           "cancelAllOrders",
           "cancelOrder",
           "cancelOrders",
-          "costToPrecision",
           "createConvertTrade",
           "createExpiredOptionMarket",
           "createGiftCode",
@@ -124157,7 +124271,6 @@
           "cancelOrder",
           "cancelOrderWs",
           "cancelOrders",
-          "costToPrecision",
           "createConvertTrade",
           "createExpiredOptionMarket",
           "createGiftCode",

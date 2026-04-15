@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": false,
@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": "v3"
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -688,7 +688,7 @@
       "version": "v3"
     },
     "markets": {
-      "market_count": 871,
+      "market_count": 875,
       "markets": {
         "MIRA3L/USDT": {
           "spot": true,
@@ -7112,6 +7112,84 @@
           "id": "XPT3L-USDT",
           "lowercaseId": "__undefined",
           "uuid": "e91c9d48-6064-4c28-a04c-7b5ab473e7a3",
+          "subType": "__undefined"
+        },
+        "EWJ3S/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": false,
+          "maker": "__undefined",
+          "inverse": "__undefined",
+          "info": {
+            "base_asset": {
+              "id": "3a6786cb-fd7f-4720-9ba2-78d180afc576",
+              "name": "EWJ3S",
+              "symbol": "EWJ3S"
+            },
+            "base_scale": "2",
+            "id": "bac8ecb2-d68f-4b27-8e1d-59727d0e0243",
+            "max_quote_value": "500000",
+            "min_quote_value": "10",
+            "name": "EWJ3S-USDT",
+            "quote_asset": {
+              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
+              "name": "TetherUS",
+              "symbol": "USDT"
+            },
+            "quote_scale": "5"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "EWJ3S/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-5
+          },
+          "baseId": "EWJ3S",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "EWJ3S",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": 500000,
+              "min": 10
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": "__undefined",
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "EWJ3S-USDT",
+          "lowercaseId": "__undefined",
+          "uuid": "bac8ecb2-d68f-4b27-8e1d-59727d0e0243",
           "subType": "__undefined"
         },
         "BTC3L/USDT": {
@@ -32845,6 +32923,84 @@
           "uuid": "91ccf62f-2023-4d36-9d88-a077463f79b9",
           "subType": "__undefined"
         },
+        "EWJ3L/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": false,
+          "maker": "__undefined",
+          "inverse": "__undefined",
+          "info": {
+            "base_asset": {
+              "id": "717e5d28-3be3-4e05-9d41-ddff8186a669",
+              "name": "EWJ3L",
+              "symbol": "EWJ3L"
+            },
+            "base_scale": "2",
+            "id": "748aff98-8d8a-425e-93b7-a1c33f39204c",
+            "max_quote_value": "500000",
+            "min_quote_value": "10",
+            "name": "EWJ3L-USDT",
+            "quote_asset": {
+              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
+              "name": "TetherUS",
+              "symbol": "USDT"
+            },
+            "quote_scale": "5"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "EWJ3L/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-5
+          },
+          "baseId": "EWJ3L",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "EWJ3L",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": 500000,
+              "min": 10
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": "__undefined",
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "EWJ3L-USDT",
+          "lowercaseId": "__undefined",
+          "uuid": "748aff98-8d8a-425e-93b7-a1c33f39204c",
+          "subType": "__undefined"
+        },
         "BTC5S/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -54230,6 +54386,84 @@
           "uuid": "ddeaa5ad-9155-4141-a640-2b94daed16a0",
           "subType": "__undefined"
         },
+        "NATGAS3S/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": false,
+          "maker": "__undefined",
+          "inverse": "__undefined",
+          "info": {
+            "base_asset": {
+              "id": "000e0653-e657-4a30-b0de-0b6f22d14cbe",
+              "name": "NATGAS3S",
+              "symbol": "NATGAS3S"
+            },
+            "base_scale": "2",
+            "id": "2d3a3593-3e45-481d-a3ce-2bd9696f1ec8",
+            "max_quote_value": "500000",
+            "min_quote_value": "10",
+            "name": "NATGAS3S-USDT",
+            "quote_asset": {
+              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
+              "name": "TetherUS",
+              "symbol": "USDT"
+            },
+            "quote_scale": "5"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "NATGAS3S/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-5
+          },
+          "baseId": "NATGAS3S",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "NATGAS3S",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": 500000,
+              "min": 10
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": "__undefined",
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "NATGAS3S-USDT",
+          "lowercaseId": "__undefined",
+          "uuid": "2d3a3593-3e45-481d-a3ce-2bd9696f1ec8",
+          "subType": "__undefined"
+        },
         "BERA/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -55717,6 +55951,84 @@
           "id": "rats-USDT",
           "lowercaseId": "__undefined",
           "uuid": "7de93738-2fec-45f0-9ca7-777a774051b8",
+          "subType": "__undefined"
+        },
+        "NATGAS3L/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": false,
+          "maker": "__undefined",
+          "inverse": "__undefined",
+          "info": {
+            "base_asset": {
+              "id": "d7cb7597-81eb-4468-ab6b-0d7ee13b50a5",
+              "name": "NATGAS3L",
+              "symbol": "NATGAS3L"
+            },
+            "base_scale": "2",
+            "id": "1bfb0f97-78ca-4c8a-bb9e-52687b4f8461",
+            "max_quote_value": "500000",
+            "min_quote_value": "10",
+            "name": "NATGAS3L-USDT",
+            "quote_asset": {
+              "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
+              "name": "TetherUS",
+              "symbol": "USDT"
+            },
+            "quote_scale": "5"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "NATGAS3L/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-5
+          },
+          "baseId": "NATGAS3L",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "NATGAS3L",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": 500000,
+              "min": 10
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": "__undefined",
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "NATGAS3L-USDT",
+          "lowercaseId": "__undefined",
+          "uuid": "1bfb0f97-78ca-4c8a-bb9e-52687b4f8461",
           "subType": "__undefined"
         },
         "S/USDT": {
@@ -69020,7 +69332,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 822,
+        "sample_count": 826,
         "separator": "-",
         "suffix": null
       },

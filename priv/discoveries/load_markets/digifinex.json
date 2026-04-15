@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-13T06:22:52.990905Z",
+  "extracted_at": "2026-04-15T12:47:36.224380Z",
   "id": "digifinex",
-  "market_count": 295,
+  "market_count": 294,
   "markets": {
     "XLM/USDT": {
       "spot": true,
@@ -21591,81 +21591,6 @@
       "active": false,
       "expiry": "__undefined",
       "id": "MPT_USDT",
-      "lowercaseId": "__undefined",
-      "subType": "__undefined"
-    },
-    "DOT/USDT": {
-      "spot": true,
-      "contractSize": "__undefined",
-      "linear": "__undefined",
-      "quoteId": "USDT",
-      "tierBased": true,
-      "index": "__undefined",
-      "maker": 0.002,
-      "inverse": "__undefined",
-      "info": {
-        "amount_precision": "2",
-        "base_asset": "DOT",
-        "is_allow": "1",
-        "minimum_amount": "0.08",
-        "minimum_value": "5",
-        "order_types": [
-          "LIMIT",
-          "MARKET"
-        ],
-        "price_precision": "4",
-        "quote_asset": "USDT",
-        "status": "TRADING",
-        "symbol": "DOT_USDT",
-        "zone": "MAIN"
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "DOT/USDT",
-      "settle": "__undefined",
-      "precision": {
-        "amount": 0.01,
-        "price": 0.0001
-      },
-      "baseId": "DOT",
-      "type": "spot",
-      "strike": "__undefined",
-      "settleId": "__undefined",
-      "quote": "USDT",
-      "expiryDatetime": "__undefined",
-      "base": "DOT",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": "__undefined",
-          "min": 0.08
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": 5
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.002,
-      "optionType": "__undefined",
-      "margin": "__undefined",
-      "contract": false,
-      "percentage": true,
-      "active": true,
-      "expiry": "__undefined",
-      "id": "DOT_USDT",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },

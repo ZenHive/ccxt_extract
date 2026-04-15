@@ -1,5 +1,5 @@
 {
-  "count": 106,
+  "count": 107,
   "exchanges": [
     {
       "id": "aftermath",
@@ -3681,6 +3681,25 @@
       }
     },
     {
+      "id": "pacifica",
+      "url_templates": {
+        "private": {
+          "api_param": "private",
+          "http_method": "POST",
+          "resolved_url": "https://api.pacifica.fi/api/v1/account/leverage",
+          "sample_path": "account/leverage",
+          "url_prefix": "https://api.pacifica.fi/api/v1/"
+        },
+        "public": {
+          "api_param": "public",
+          "http_method": "GET",
+          "resolved_url": "https://api.pacifica.fi/api/v1/info",
+          "sample_path": "info",
+          "url_prefix": "https://api.pacifica.fi/api/v1/"
+        }
+      }
+    },
+    {
       "id": "paradex",
       "url_templates": {
         "private": {
@@ -4260,10 +4279,6 @@
       }
     }
   ],
-  "extracted_at": "2026-04-15T12:01:08.799516Z",
-  "tier_scope": [
-    "tier1",
-    "tier2",
-    "dex"
-  ]
+  "extracted_at": "2026-04-15T12:48:13.284763Z",
+  "tier_scope": "all"
 }

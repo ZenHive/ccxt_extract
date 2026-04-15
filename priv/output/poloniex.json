@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": false,
@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": null
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -797,7 +797,7 @@
       }
     },
     "markets": {
-      "market_count": 946,
+      "market_count": 933,
       "markets": {
         "ANON/USDT": {
           "spot": true,
@@ -8709,91 +8709,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "KABOSUETH/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "KABOSUETH",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "KABOSUETH/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "KABOSUETH_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 8,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "1",
-              "priceScale": 8,
-              "quantityScale": 1,
-              "symbol": "KABOSUETH_USDT"
-            },
-            "tradableStartTime": 1729256400000,
-            "visibleStartTime": 1729249200000
-          },
-          "created": 1729256400000,
-          "option": false,
-          "future": false,
-          "symbol": "KABOSUETH/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.1,
-            "price": 1.0e-8
-          },
-          "baseId": "KABOSUETH",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "KABOSUETH",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "KABOSUETH_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "LUIGI/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -10066,91 +9981,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "FLOKI_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "DJT/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "DJT",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "DJT/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "DJT_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 5,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "0.01",
-              "priceScale": 5,
-              "quantityScale": 3,
-              "symbol": "DJT_USDT"
-            },
-            "tradableStartTime": 1718863200000,
-            "visibleStartTime": 1718852400000
-          },
-          "created": 1718863200000,
-          "option": false,
-          "future": false,
-          "symbol": "DJT/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.001,
-            "price": 1.0e-5
-          },
-          "baseId": "DJT",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "DJT",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.01
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "DJT_USDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -22252,7 +22082,7 @@
             },
             "displayName": "BEETS/USDT",
             "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
+            "state": "PAUSE",
             "symbol": "BEETS_USDT",
             "symbolTradeLimit": {
               "amountScale": 5,
@@ -22313,7 +22143,7 @@
           "margin": false,
           "contract": false,
           "percentage": "__undefined",
-          "active": true,
+          "active": false,
           "expiry": "__undefined",
           "id": "BEETS_USDT",
           "lowercaseId": "__undefined",
@@ -31179,91 +31009,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "CLIPPY/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "CLIPPY",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "CLIPPY/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "CLIPPY_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 5,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "0.001",
-              "priceScale": 5,
-              "quantityScale": 3,
-              "symbol": "CLIPPY_USDT"
-            },
-            "tradableStartTime": 1754996400000,
-            "visibleStartTime": 1754989200000
-          },
-          "created": 1754996400000,
-          "option": false,
-          "future": false,
-          "symbol": "CLIPPY/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.001,
-            "price": 1.0e-5
-          },
-          "baseId": "CLIPPY",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "CLIPPY",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.001
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "CLIPPY_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "PEOPLE/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -33471,91 +33216,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "L3_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "VALENTINE/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "VALENTINE",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "VALENTINE/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "VALENTINE_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 5,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "0.001",
-              "priceScale": 5,
-              "quantityScale": 3,
-              "symbol": "VALENTINE_USDT"
-            },
-            "tradableStartTime": 1753250400000,
-            "visibleStartTime": 1753243200000
-          },
-          "created": 1753250400000,
-          "option": false,
-          "future": false,
-          "symbol": "VALENTINE/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.001,
-            "price": 1.0e-5
-          },
-          "baseId": "VALENTINE",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "VALENTINE",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.001
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "VALENTINE_USDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -39849,91 +39509,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "SMILEY/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "SMILEY",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "SMILEY/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "SMILEY_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 8,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "10000000",
-              "priceScale": 15,
-              "quantityScale": 1,
-              "symbol": "SMILEY_USDT"
-            },
-            "tradableStartTime": 1705996800000,
-            "visibleStartTime": 1705939200000
-          },
-          "created": 1705996800000,
-          "option": false,
-          "future": false,
-          "symbol": "SMILEY/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.1,
-            "price": 1.0e-15
-          },
-          "baseId": "SMILEY",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "SMILEY",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 10000000
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "SMILEY_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "ULTIMA/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -41294,91 +40869,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "USDWON/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "USDWON",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "USDWON/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "USDWON_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 6,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "0.01",
-              "priceScale": 6,
-              "quantityScale": 2,
-              "symbol": "USDWON_USDT"
-            },
-            "tradableStartTime": 1758103200000,
-            "visibleStartTime": 1758097800000
-          },
-          "created": 1758103200000,
-          "option": false,
-          "future": false,
-          "symbol": "USDWON/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-6
-          },
-          "baseId": "USDWON",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "USDWON",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.01
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "USDWON_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "URMOM/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -41886,91 +41376,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "TYT_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "APU/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "APU",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "APU/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "APU_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 8,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "10",
-              "priceScale": 9,
-              "quantityScale": 0,
-              "symbol": "APU_USDT"
-            },
-            "tradableStartTime": 1697954400000,
-            "visibleStartTime": 1697904000000
-          },
-          "created": 1697954400000,
-          "option": false,
-          "future": false,
-          "symbol": "APU/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-9
-          },
-          "baseId": "APU",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "APU",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 10
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "APU_USDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -46991,176 +46396,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "TRN_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "MSN/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "MSN",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "MSN/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "MSN_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 2,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "0.000001",
-              "priceScale": 2,
-              "quantityScale": 6,
-              "symbol": "MSN_USDT"
-            },
-            "tradableStartTime": 1714383900000,
-            "visibleStartTime": 1714050000000
-          },
-          "created": 1714383900000,
-          "option": false,
-          "future": false,
-          "symbol": "MSN/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1.0e-6,
-            "price": 0.01
-          },
-          "baseId": "MSN",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "MSN",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 1.0e-6
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "MSN_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "TALK/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "TALK",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "TALK/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "TALK_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 4,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "0.0001",
-              "priceScale": 4,
-              "quantityScale": 4,
-              "symbol": "TALK_USDT"
-            },
-            "tradableStartTime": 1743670800000,
-            "visibleStartTime": 1743663600000
-          },
-          "created": 1743670800000,
-          "option": false,
-          "future": false,
-          "symbol": "TALK/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.0001,
-            "price": 0.0001
-          },
-          "baseId": "TALK",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "TALK",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.0001
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "TALK_USDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -54569,91 +53804,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "FLUFF/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "FLUFF",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "FLUFF/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "FLUFF_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 4,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "0.0001",
-              "priceScale": 4,
-              "quantityScale": 4,
-              "symbol": "FLUFF_USDT"
-            },
-            "tradableStartTime": 1714136400000,
-            "visibleStartTime": 1714104000000
-          },
-          "created": 1714136400000,
-          "option": false,
-          "future": false,
-          "symbol": "FLUFF/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.0001,
-            "price": 0.0001
-          },
-          "baseId": "FLUFF",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "FLUFF",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.0001
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "FLUFF_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "SOL/USDT:USDT": {
           "spot": false,
           "contractSize": 0.1,
@@ -59674,91 +58824,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "FXS/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "FXS",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "FXS/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "PAUSE",
-            "symbol": "FXS_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 3,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "0.00001",
-              "priceScale": 3,
-              "quantityScale": 5,
-              "symbol": "FXS_USDT"
-            },
-            "tradableStartTime": 1659018848706,
-            "visibleStartTime": 1659018848706
-          },
-          "created": 1659018848706,
-          "option": false,
-          "future": false,
-          "symbol": "FXS/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1.0e-5,
-            "price": 0.001
-          },
-          "baseId": "FXS",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "FXS",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 1.0e-5
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": false,
-          "expiry": "__undefined",
-          "id": "FXS_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "ROCKTRON/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -63751,91 +62816,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "C98_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "SZN/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "SZN",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "SZN/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "SZN_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 6,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "0.01",
-              "priceScale": 6,
-              "quantityScale": 2,
-              "symbol": "SZN_USDT"
-            },
-            "tradableStartTime": 1742385600000,
-            "visibleStartTime": 1742378400000
-          },
-          "created": 1742385600000,
-          "option": false,
-          "future": false,
-          "symbol": "SZN/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-6
-          },
-          "baseId": "SZN",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "SZN",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.01
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "SZN_USDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -76679,91 +75659,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "CRYBB/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.0009,
-          "inverse": "__undefined",
-          "feeSide": "get",
-          "info": {
-            "baseCurrencyName": "CRYBB",
-            "crossMargin": {
-              "maxLeverage": 1,
-              "supportCrossMargin": false
-            },
-            "displayName": "CRYBB/USDT",
-            "quoteCurrencyName": "USDT",
-            "state": "NORMAL",
-            "symbol": "CRYBB_USDT",
-            "symbolTradeLimit": {
-              "amountScale": 5,
-              "highestBid": "0",
-              "lowestAsk": "0",
-              "maxAmount": "0",
-              "maxQuantity": "0",
-              "minAmount": "1",
-              "minQuantity": "0.001",
-              "priceScale": 5,
-              "quantityScale": 3,
-              "symbol": "CRYBB_USDT"
-            },
-            "tradableStartTime": 1751626800000,
-            "visibleStartTime": 1751621400000
-          },
-          "created": 1751626800000,
-          "option": false,
-          "future": false,
-          "symbol": "CRYBB/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.001,
-            "price": 1.0e-5
-          },
-          "baseId": "CRYBB",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "CRYBB",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.001
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0009,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "CRYBB_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "POCHITA/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -81332,7 +80227,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 933,
+        "sample_count": 920,
         "separator": "_",
         "suffix": null
       },

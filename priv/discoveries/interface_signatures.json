@@ -3151,10 +3151,20 @@
       "file": "aster.ts",
       "id": "aster",
       "interface_name": "Exchange",
-      "interface_signature_count": 79,
+      "interface_signature_count": 131,
       "interface_signatures": {
         "sapiPublicGetV1AggTrades": {
           "name": "sapiPublicGetV1AggTrades",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateGetV3UserTrades": {
+          "name": "fapiPrivateGetV3UserTrades",
           "params": [
             {
               "name": "params",
@@ -3193,6 +3203,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivateGetV3LeverageBracket": {
+          "name": "fapiPrivateGetV3LeverageBracket",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "sapiPrivatePutV1ListenKey": {
           "name": "sapiPrivatePutV1ListenKey",
           "params": [
@@ -3223,6 +3243,26 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPublicGetV3PremiumIndex": {
+          "name": "fapiPublicGetV3PremiumIndex",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateGetV3Order": {
+          "name": "fapiPrivateGetV3Order",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "sapiPrivateGetV1AllOrders": {
           "name": "sapiPrivateGetV1AllOrders",
           "params": [
@@ -3243,6 +3283,36 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivatePostV3Leverage": {
+          "name": "fapiPrivatePostV3Leverage",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivatePostV3OrderTest": {
+          "name": "fapiPrivatePostV3OrderTest",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivatePostV3ListenKey": {
+          "name": "fapiPrivatePostV3ListenKey",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "fapiPrivateGetV3PositionRisk": {
           "name": "fapiPrivateGetV3PositionRisk",
           "params": [
@@ -3255,6 +3325,16 @@
         },
         "sapiPrivateGetV1CommissionRate": {
           "name": "sapiPrivateGetV1CommissionRate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3Trades": {
+          "name": "fapiPublicGetV3Trades",
           "params": [
             {
               "name": "params",
@@ -3285,6 +3365,16 @@
         },
         "fapiPrivatePostV1BatchOrders": {
           "name": "fapiPrivatePostV1BatchOrders",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivatePostV3MultiAssetsMargin": {
+          "name": "fapiPrivatePostV3MultiAssetsMargin",
           "params": [
             {
               "name": "params",
@@ -3333,6 +3423,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPublicGetV3Klines": {
+          "name": "fapiPublicGetV3Klines",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "fapiPrivateDeleteV1AllOpenOrders": {
           "name": "fapiPrivateDeleteV1AllOpenOrders",
           "params": [
@@ -3363,6 +3463,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPublicGetV3Ticker24hr": {
+          "name": "fapiPublicGetV3Ticker24hr",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "fapiPrivatePostV1CountdownCancelAll": {
           "name": "fapiPrivatePostV1CountdownCancelAll",
           "params": [
@@ -3383,8 +3493,28 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivateDeleteV3AllOpenOrders": {
+          "name": "fapiPrivateDeleteV3AllOpenOrders",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "sapiPrivateGetV1OpenOrders": {
           "name": "sapiPrivateGetV1OpenOrders",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3IndexPriceKlines": {
+          "name": "fapiPublicGetV3IndexPriceKlines",
           "params": [
             {
               "name": "params",
@@ -3403,8 +3533,28 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivateDeleteV3Order": {
+          "name": "fapiPrivateDeleteV3Order",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "fapiPrivateGetV1UserTrades": {
           "name": "fapiPrivateGetV1UserTrades",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivatePostV3MarginType": {
+          "name": "fapiPrivatePostV3MarginType",
           "params": [
             {
               "name": "params",
@@ -3443,6 +3593,36 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivatePutV3ListenKey": {
+          "name": "fapiPrivatePutV3ListenKey",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3FundingInfo": {
+          "name": "fapiPublicGetV3FundingInfo",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateGetV3OpenOrders": {
+          "name": "fapiPrivateGetV3OpenOrders",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "fapiPublicGetV1Ping": {
           "name": "fapiPublicGetV1Ping",
           "params": [
@@ -3473,6 +3653,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivatePostV3Order": {
+          "name": "fapiPrivatePostV3Order",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "sapiPublicGetV1TickerPrice": {
           "name": "sapiPublicGetV1TickerPrice",
           "params": [
@@ -3493,8 +3683,38 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivatePostV3AssetWalletTransfer": {
+          "name": "fapiPrivatePostV3AssetWalletTransfer",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3TickerBookTicker": {
+          "name": "fapiPublicGetV3TickerBookTicker",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "fapiPrivateGetV1PositionSideDual": {
           "name": "fapiPrivateGetV1PositionSideDual",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivatePostV3MmpReset": {
+          "name": "fapiPrivatePostV3MmpReset",
           "params": [
             {
               "name": "params",
@@ -3533,6 +3753,26 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivateGetV3AdlQuantile": {
+          "name": "fapiPrivateGetV3AdlQuantile",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivatePostV3BatchOrders": {
+          "name": "fapiPrivatePostV3BatchOrders",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "sapiPrivateDeleteV1Order": {
           "name": "sapiPrivateDeleteV1Order",
           "params": [
@@ -3545,6 +3785,16 @@
         },
         "fapiPrivateGetV3Balance": {
           "name": "fapiPrivateGetV3Balance",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivatePostV3Noop": {
+          "name": "fapiPrivatePostV3Noop",
           "params": [
             {
               "name": "params",
@@ -3633,8 +3883,38 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivatePostV3PositionSideDual": {
+          "name": "fapiPrivatePostV3PositionSideDual",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "sapiPrivateGetV1Account": {
           "name": "sapiPrivateGetV1Account",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3TickerPrice": {
+          "name": "fapiPublicGetV3TickerPrice",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateGetV3ForceOrders": {
+          "name": "fapiPrivateGetV3ForceOrders",
           "params": [
             {
               "name": "params",
@@ -3683,8 +3963,48 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPublicGetV3Depth": {
+          "name": "fapiPublicGetV3Depth",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "sapiPrivateGetV1Order": {
           "name": "sapiPrivateGetV1Order",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateGetV3AllOrders": {
+          "name": "fapiPrivateGetV3AllOrders",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3AggTrades": {
+          "name": "fapiPublicGetV3AggTrades",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateDeleteV3Mmp": {
+          "name": "fapiPrivateDeleteV3Mmp",
           "params": [
             {
               "name": "params",
@@ -3703,8 +4023,58 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivateDeleteV3BatchOrders": {
+          "name": "fapiPrivateDeleteV3BatchOrders",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "sapiPublicGetV1TickerBookTicker": {
           "name": "sapiPublicGetV1TickerBookTicker",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivatePostV3CountdownCancelAll": {
+          "name": "fapiPrivatePostV3CountdownCancelAll",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3Indexreferences": {
+          "name": "fapiPublicGetV3Indexreferences",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateGetV3PositionSideDual": {
+          "name": "fapiPrivateGetV3PositionSideDual",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateDeleteV3ListenKey": {
+          "name": "fapiPrivateDeleteV3ListenKey",
           "params": [
             {
               "name": "params",
@@ -3763,8 +4133,78 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivateGetV3AccountWithJoinMargin": {
+          "name": "fapiPrivateGetV3AccountWithJoinMargin",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "fapiPublicGetV1MarkPriceKlines": {
           "name": "fapiPublicGetV1MarkPriceKlines",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateGetV3Income": {
+          "name": "fapiPrivateGetV3Income",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateGetV3PositionMarginHistory": {
+          "name": "fapiPrivateGetV3PositionMarginHistory",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateGetV3OpenOrder": {
+          "name": "fapiPrivateGetV3OpenOrder",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3ExchangeInfo": {
+          "name": "fapiPublicGetV3ExchangeInfo",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivatePostV3Mmp": {
+          "name": "fapiPrivatePostV3Mmp",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3HistoricalTrades": {
+          "name": "fapiPublicGetV3HistoricalTrades",
           "params": [
             {
               "name": "params",
@@ -3783,8 +4223,28 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivateGetV3CommissionRate": {
+          "name": "fapiPrivateGetV3CommissionRate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "fapiPublicGetV1PremiumIndex": {
           "name": "fapiPublicGetV1PremiumIndex",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3Ping": {
+          "name": "fapiPublicGetV3Ping",
           "params": [
             {
               "name": "params",
@@ -3843,8 +4303,38 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPublicGetV3Time": {
+          "name": "fapiPublicGetV3Time",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "fapiPrivateGetV1CommissionRate": {
           "name": "fapiPrivateGetV1CommissionRate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3FundingRate": {
+          "name": "fapiPublicGetV3FundingRate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivateGetV3MultiAssetsMargin": {
+          "name": "fapiPrivateGetV3MultiAssetsMargin",
           "params": [
             {
               "name": "params",
@@ -3863,8 +4353,28 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "fapiPrivateGetV3Mmp": {
+          "name": "fapiPrivateGetV3Mmp",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "fapiPrivateGetV4Account": {
           "name": "fapiPrivateGetV4Account",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPrivatePostV3PositionMargin": {
+          "name": "fapiPrivatePostV3PositionMargin",
           "params": [
             {
               "name": "params",
@@ -3935,6 +4445,16 @@
         },
         "fapiPublicGetV1ExchangeInfo": {
           "name": "fapiPublicGetV1ExchangeInfo",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "fapiPublicGetV3MarkPriceKlines": {
+          "name": "fapiPublicGetV3MarkPriceKlines",
           "params": [
             {
               "name": "params",
@@ -6057,7 +6577,7 @@
       "file": "binance.ts",
       "id": "binance",
       "interface_name": "Exchange",
-      "interface_signature_count": 788,
+      "interface_signature_count": 789,
       "interface_signatures": {
         "fapiPublicGetApiTradingStatus": {
           "name": "fapiPublicGetApiTradingStatus",
@@ -9611,6 +10131,16 @@
         },
         "papiGetUmCommissionRate": {
           "name": "papiGetUmCommissionRate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "papiPostUmStockContract": {
+          "name": "papiPostUmStockContract",
           "params": [
             {
               "name": "params",
@@ -13946,7 +14476,7 @@
       "file": "binancecoinm.ts",
       "id": "binancecoinm",
       "interface_name": "binance",
-      "interface_signature_count": 788,
+      "interface_signature_count": 789,
       "interface_signatures": {
         "fapiPublicGetApiTradingStatus": {
           "name": "fapiPublicGetApiTradingStatus",
@@ -17500,6 +18030,16 @@
         },
         "papiGetUmCommissionRate": {
           "name": "papiGetUmCommissionRate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "papiPostUmStockContract": {
+          "name": "papiPostUmStockContract",
           "params": [
             {
               "name": "params",
@@ -21835,7 +22375,7 @@
       "file": "binanceus.ts",
       "id": "binanceus",
       "interface_name": "binance",
-      "interface_signature_count": 840,
+      "interface_signature_count": 841,
       "interface_signatures": {
         "fapiPublicGetApiTradingStatus": {
           "name": "fapiPublicGetApiTradingStatus",
@@ -25609,6 +26149,16 @@
         },
         "papiGetUmCommissionRate": {
           "name": "papiGetUmCommissionRate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "papiPostUmStockContract": {
+          "name": "papiPostUmStockContract",
           "params": [
             {
               "name": "params",
@@ -30244,7 +30794,7 @@
       "file": "binanceusdm.ts",
       "id": "binanceusdm",
       "interface_name": "binance",
-      "interface_signature_count": 788,
+      "interface_signature_count": 789,
       "interface_signatures": {
         "fapiPublicGetApiTradingStatus": {
           "name": "fapiPublicGetApiTradingStatus",
@@ -33798,6 +34348,16 @@
         },
         "papiGetUmCommissionRate": {
           "name": "papiGetUmCommissionRate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "papiPostUmStockContract": {
+          "name": "papiPostUmStockContract",
           "params": [
             {
               "name": "params",
@@ -57405,7 +57965,7 @@
       "file": "blofin.ts",
       "id": "blofin",
       "interface_name": "Exchange",
-      "interface_signature_count": 63,
+      "interface_signature_count": 79,
       "interface_signatures": {
         "publicGetMarketTickers": {
           "name": "publicGetMarketTickers",
@@ -57477,6 +58037,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "privateGetTradeOrderTpslDetail": {
+          "name": "privateGetTradeOrderTpslDetail",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "privatePostTradeOrderAlgo": {
           "name": "privatePostTradeOrderAlgo",
           "params": [
@@ -57539,6 +58109,16 @@
         },
         "publicGetMarketBooks": {
           "name": "publicGetMarketBooks",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetMarketPositionTiers": {
+          "name": "publicGetMarketPositionTiers",
           "params": [
             {
               "name": "params",
@@ -57667,6 +58247,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "privateGetAccountPositionsHistory": {
+          "name": "privateGetAccountPositionsHistory",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "privatePostCopytradingTradePlaceOrder": {
           "name": "privatePostCopytradingTradePlaceOrder",
           "params": [
@@ -57717,8 +58307,38 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "privateGetAssetCurrencies": {
+          "name": "privateGetAssetCurrencies",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privateGetCopytradingConfig": {
+          "name": "privateGetCopytradingConfig",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "privatePostTradeClosePosition": {
           "name": "privatePostTradeClosePosition",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privateGetTradeOrderDetail": {
+          "name": "privateGetTradeOrderDetail",
           "params": [
             {
               "name": "params",
@@ -57769,6 +58389,16 @@
         },
         "privateGetUserQueryApikey": {
           "name": "privateGetUserQueryApikey",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privateGetSpotTradeFillsHistory": {
+          "name": "privateGetSpotTradeFillsHistory",
           "params": [
             {
               "name": "params",
@@ -57887,8 +58517,28 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "privateGetAffiliateInviteesDailyInfo": {
+          "name": "privateGetAffiliateInviteesDailyInfo",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "privateGetCopytradingTradeOrdersPending": {
           "name": "privateGetCopytradingTradeOrdersPending",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privateGetAffiliateSubInvitees": {
+          "name": "privateGetAffiliateSubInvitees",
           "params": [
             {
               "name": "params",
@@ -57909,6 +58559,36 @@
         },
         "privateGetCopytradingAccountBalance": {
           "name": "privateGetCopytradingAccountBalance",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetMarketMarkPriceCandles": {
+          "name": "publicGetMarketMarkPriceCandles",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privateGetAccountConfig": {
+          "name": "privateGetAccountConfig",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAssetDemoApplyMoney": {
+          "name": "privatePostAssetDemoApplyMoney",
           "params": [
             {
               "name": "params",
@@ -57967,6 +58647,26 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "publicGetMarketIndexCandles": {
+          "name": "publicGetMarketIndexCandles",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privateGetAffiliateReferralCode": {
+          "name": "privateGetAffiliateReferralCode",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "privateGetTradeOrdersAlgoHistory": {
           "name": "privateGetTradeOrdersAlgoHistory",
           "params": [
@@ -57979,6 +58679,26 @@
         },
         "publicGetMarketInstruments": {
           "name": "publicGetMarketInstruments",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privateGetAffiliateInvitees": {
+          "name": "privateGetAffiliateInvitees",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privateGetAffiliateSubAffiliates": {
+          "name": "privateGetAffiliateSubAffiliates",
           "params": [
             {
               "name": "params",
@@ -66658,915 +67378,6 @@
         },
         "v1PrivateDeleteOrders": {
           "name": "v1PrivateDeleteOrders",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        }
-      }
-    },
-    {
-      "class_name": "coincatch",
-      "file": "coincatch.ts",
-      "id": "coincatch",
-      "interface_name": "Exchange",
-      "interface_signature_count": 90,
-      "interface_signatures": {
-        "privatePostApiSpotV1TradeCancelBatchOrders": {
-          "name": "privatePostApiSpotV1TradeCancelBatchOrders",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiSpotV1MarketMergeDepth": {
-          "name": "publicGetApiSpotV1MarketMergeDepth",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1OrderAllFills": {
-          "name": "privateGetApiMixV1OrderAllFills",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1AccountAccount": {
-          "name": "privateGetApiMixV1AccountAccount",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1TradeCancelOrderV2": {
-          "name": "privatePostApiSpotV1TradeCancelOrderV2",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1WalletWithdrawalInnerV2": {
-          "name": "privatePostApiSpotV1WalletWithdrawalInnerV2",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketFills": {
-          "name": "publicGetApiMixV1MarketFills",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketContracts": {
-          "name": "publicGetApiMixV1MarketContracts",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1PlanModifyPlanPreset": {
-          "name": "privatePostApiMixV1PlanModifyPlanPreset",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1PlanPlaceTPSL": {
-          "name": "privatePostApiMixV1PlanPlaceTPSL",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketMergeDepth": {
-          "name": "publicGetApiMixV1MarketMergeDepth",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1OrderCancelAllOrders": {
-          "name": "privatePostApiMixV1OrderCancelAllOrders",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiSpotV1MarketCandles": {
-          "name": "publicGetApiSpotV1MarketCandles",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiSpotV1MarketTickers": {
-          "name": "publicGetApiSpotV1MarketTickers",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketTicker": {
-          "name": "publicGetApiMixV1MarketTicker",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1AccountAccountBusinessBill": {
-          "name": "privateGetApiMixV1AccountAccountBusinessBill",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1AccountSetPositionMode": {
-          "name": "privatePostApiMixV1AccountSetPositionMode",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1PlanModifyPlan": {
-          "name": "privatePostApiMixV1PlanModifyPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1OrderCancelSymbolOrders": {
-          "name": "privatePostApiMixV1OrderCancelSymbolOrders",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiSpotV1WalletDepositList": {
-          "name": "privateGetApiSpotV1WalletDepositList",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiSpotV1MarketTicker": {
-          "name": "publicGetApiSpotV1MarketTicker",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1PlanCancelSymbolPlan": {
-          "name": "privatePostApiMixV1PlanCancelSymbolPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1TradeCancelBatchOrdersV2": {
-          "name": "privatePostApiSpotV1TradeCancelBatchOrdersV2",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketOpenInterest": {
-          "name": "publicGetApiMixV1MarketOpenInterest",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1TradeOrders": {
-          "name": "privatePostApiSpotV1TradeOrders",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1PlanHistoryPlan": {
-          "name": "privateGetApiMixV1PlanHistoryPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1PlanModifyPlan": {
-          "name": "privatePostApiSpotV1PlanModifyPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiSpotV1MarketDepth": {
-          "name": "publicGetApiSpotV1MarketDepth",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1PositionAllPositionV2": {
-          "name": "privateGetApiMixV1PositionAllPositionV2",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1PlanCurrentPlan": {
-          "name": "privatePostApiSpotV1PlanCurrentPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketCurrentFundRate": {
-          "name": "publicGetApiMixV1MarketCurrentFundRate",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiSpotV1WalletWithdrawalListV2": {
-          "name": "privateGetApiSpotV1WalletWithdrawalListV2",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1OrderFills": {
-          "name": "privateGetApiMixV1OrderFills",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1AccountBills": {
-          "name": "privatePostApiSpotV1AccountBills",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1PlanPlaceTrailStop": {
-          "name": "privatePostApiMixV1PlanPlaceTrailStop",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1AccountSetLeverage": {
-          "name": "privatePostApiMixV1AccountSetLeverage",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiSpotV1AccountGetInfo": {
-          "name": "privateGetApiSpotV1AccountGetInfo",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1OrderMarginCoinCurrent": {
-          "name": "privateGetApiMixV1OrderMarginCoinCurrent",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1OrderHistoryProductType": {
-          "name": "privateGetApiMixV1OrderHistoryProductType",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiSpotV1PublicTime": {
-          "name": "publicGetApiSpotV1PublicTime",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketCandles": {
-          "name": "publicGetApiMixV1MarketCandles",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiSpotV1PublicCurrencies": {
-          "name": "publicGetApiSpotV1PublicCurrencies",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketDepth": {
-          "name": "publicGetApiMixV1MarketDepth",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1WalletTransferV2": {
-          "name": "privatePostApiSpotV1WalletTransferV2",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketQueryPositionLever": {
-          "name": "publicGetApiMixV1MarketQueryPositionLever",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1TradeCancelOrder": {
-          "name": "privatePostApiSpotV1TradeCancelOrder",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketFundingTime": {
-          "name": "publicGetApiMixV1MarketFundingTime",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1TradeFills": {
-          "name": "privatePostApiSpotV1TradeFills",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketSymbolLeverage": {
-          "name": "publicGetApiMixV1MarketSymbolLeverage",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1OrderBatchOrders": {
-          "name": "privatePostApiMixV1OrderBatchOrders",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1OrderPlaceOrder": {
-          "name": "privatePostApiMixV1OrderPlaceOrder",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketHistoryFundRate": {
-          "name": "publicGetApiMixV1MarketHistoryFundRate",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1PlanPlacePlan": {
-          "name": "privatePostApiMixV1PlanPlacePlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1TradeBatchOrders": {
-          "name": "privatePostApiSpotV1TradeBatchOrders",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiSpotV1MarketHistoryCandles": {
-          "name": "publicGetApiSpotV1MarketHistoryCandles",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1TradeCancelSymbolOrder": {
-          "name": "privatePostApiSpotV1TradeCancelSymbolOrder",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1PlanPlacePositionsTPSL": {
-          "name": "privatePostApiMixV1PlanPlacePositionsTPSL",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1AccountAccounts": {
-          "name": "privateGetApiMixV1AccountAccounts",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1OrderCancelOrder": {
-          "name": "privatePostApiMixV1OrderCancelOrder",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiSpotV1MarketFillsHistory": {
-          "name": "publicGetApiSpotV1MarketFillsHistory",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketFillsHistory": {
-          "name": "publicGetApiMixV1MarketFillsHistory",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1PlanPlacePlan": {
-          "name": "privatePostApiSpotV1PlanPlacePlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1OrderHistory": {
-          "name": "privateGetApiMixV1OrderHistory",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiSpotV1AccountTransferRecords": {
-          "name": "privateGetApiSpotV1AccountTransferRecords",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketTickers": {
-          "name": "publicGetApiMixV1MarketTickers",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1TradeOrderInfo": {
-          "name": "privatePostApiSpotV1TradeOrderInfo",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1AccountOpenCount": {
-          "name": "privatePostApiMixV1AccountOpenCount",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiSpotV1WalletDepositAddress": {
-          "name": "privateGetApiSpotV1WalletDepositAddress",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1WalletWithdrawalV2": {
-          "name": "privatePostApiSpotV1WalletWithdrawalV2",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1PlanCancelPlan": {
-          "name": "privatePostApiSpotV1PlanCancelPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1OrderCurrent": {
-          "name": "privateGetApiMixV1OrderCurrent",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1OrderDetail": {
-          "name": "privateGetApiMixV1OrderDetail",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1PlanBatchCancelPlan": {
-          "name": "privatePostApiSpotV1PlanBatchCancelPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1TradeOpenOrders": {
-          "name": "privatePostApiSpotV1TradeOpenOrders",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1AccountSetMargin": {
-          "name": "privatePostApiMixV1AccountSetMargin",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiSpotV1MarketFills": {
-          "name": "publicGetApiSpotV1MarketFills",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1OrderCancelBatchOrders": {
-          "name": "privatePostApiMixV1OrderCancelBatchOrders",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiSpotV1AccountAssets": {
-          "name": "privateGetApiSpotV1AccountAssets",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1PlanCancelAllPlan": {
-          "name": "privatePostApiMixV1PlanCancelAllPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetPiSpotV1WalletWithdrawalList": {
-          "name": "privateGetPiSpotV1WalletWithdrawalList",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetApiMixV1MarketMarkPrice": {
-          "name": "publicGetApiMixV1MarketMarkPrice",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1PlanModifyTPSLPlan": {
-          "name": "privatePostApiMixV1PlanModifyTPSLPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1PlanCancelPlan": {
-          "name": "privatePostApiMixV1PlanCancelPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1PositionSinglePositionV2": {
-          "name": "privateGetApiMixV1PositionSinglePositionV2",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "publicGetPiMixV1MarketIndex": {
-          "name": "publicGetPiMixV1MarketIndex",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1PlanHistoryPlan": {
-          "name": "privatePostApiSpotV1PlanHistoryPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiSpotV1TradeHistory": {
-          "name": "privatePostApiSpotV1TradeHistory",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1PlanCurrentPlan": {
-          "name": "privateGetApiMixV1PlanCurrentPlan",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privateGetApiMixV1AccountAccountBill": {
-          "name": "privateGetApiMixV1AccountAccountBill",
-          "params": [
-            {
-              "name": "params",
-              "type": "typeliteral"
-            }
-          ],
-          "return_type": "Promise<implicitReturnType>"
-        },
-        "privatePostApiMixV1AccountSetMarginMode": {
-          "name": "privatePostApiMixV1AccountSetMarginMode",
           "params": [
             {
               "name": "params",
@@ -104051,10 +103862,20 @@
       "file": "kraken.ts",
       "id": "kraken",
       "interface_name": "Exchange",
-      "interface_signature_count": 55,
+      "interface_signature_count": 61,
       "interface_signatures": {
         "privatePostRetrieveExport": {
           "name": "privatePostRetrieveExport",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostOrderAmends": {
+          "name": "privatePostOrderAmends",
           "params": [
             {
               "name": "params",
@@ -104075,6 +103896,16 @@
         },
         "privatePostCreateSubaccount": {
           "name": "privatePostCreateSubaccount",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetLevel3": {
+          "name": "publicGetLevel3",
           "params": [
             {
               "name": "params",
@@ -104153,6 +103984,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "publicGetPostTrade": {
+          "name": "publicGetPostTrade",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "privatePostDepositStatus": {
           "name": "privatePostDepositStatus",
           "params": [
@@ -104205,6 +104046,16 @@
         },
         "privatePostEditOrder": {
           "name": "privatePostEditOrder",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetGroupedBook": {
+          "name": "publicGetGroupedBook",
           "params": [
             {
               "name": "params",
@@ -104365,6 +104216,16 @@
         },
         "privatePostQueryTrades": {
           "name": "privatePostQueryTrades",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetPreTrade": {
+          "name": "publicGetPreTrade",
           "params": [
             {
               "name": "params",
@@ -104545,6 +104406,16 @@
         },
         "privatePostQueryLedgers": {
           "name": "privatePostQueryLedgers",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostCreditLines": {
+          "name": "privatePostCreditLines",
           "params": [
             {
               "name": "params",
@@ -105009,7 +104880,7 @@
       "file": "kucoin.ts",
       "id": "kucoin",
       "interface_name": "Exchange",
-      "interface_signature_count": 343,
+      "interface_signature_count": 344,
       "interface_signatures": {
         "futuresPrivatePostSubApiKeyUpdate": {
           "name": "futuresPrivatePostSubApiKeyUpdate",
@@ -105753,6 +105624,16 @@
         },
         "privateDeleteHfMarginOcoOrderCancelById": {
           "name": "privateDeleteHfMarginOcoOrderCancelById",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "utaPrivateGetPositionHistory": {
+          "name": "utaPrivateGetPositionHistory",
           "params": [
             {
               "name": "params",
@@ -108448,7 +108329,7 @@
       "file": "kucoinfutures.ts",
       "id": "kucoinfutures",
       "interface_name": "kucoin",
-      "interface_signature_count": 343,
+      "interface_signature_count": 344,
       "interface_signatures": {
         "futuresPrivatePostSubApiKeyUpdate": {
           "name": "futuresPrivatePostSubApiKeyUpdate",
@@ -109192,6 +109073,16 @@
         },
         "privateDeleteHfMarginOcoOrderCancelById": {
           "name": "privateDeleteHfMarginOcoOrderCancelById",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "utaPrivateGetPositionHistory": {
+          "name": "utaPrivateGetPositionHistory",
           "params": [
             {
               "name": "params",
@@ -114042,7 +113933,7 @@
       "file": "mexc.ts",
       "id": "mexc",
       "interface_name": "Exchange",
-      "interface_signature_count": 184,
+      "interface_signature_count": 233,
       "interface_signatures": {
         "spotPrivatePostCapitalTransfer": {
           "name": "spotPrivatePostCapitalTransfer",
@@ -114154,6 +114045,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivateGetTrackorderListOrders": {
+          "name": "contractPrivateGetTrackorderListOrders",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spotPrivatePostCapitalWithdrawApply": {
           "name": "spotPrivatePostCapitalWithdrawApply",
           "params": [
@@ -114166,6 +114067,26 @@
         },
         "contractPrivatePostOrderCancel": {
           "name": "contractPrivatePostOrderCancel",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "spotPublicGetSymbolOffline": {
+          "name": "spotPublicGetSymbolOffline",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostAccountAssetAnalysisCalendarMonthlyV3": {
+          "name": "contractPrivatePostAccountAssetAnalysisCalendarMonthlyV3",
           "params": [
             {
               "name": "params",
@@ -114274,6 +114195,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivateGetAccountAssetAnalysisYesterdayPnl": {
+          "name": "contractPrivateGetAccountAssetAnalysisYesterdayPnl",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spotPrivateGetCapitalTransferTranId": {
           "name": "spotPrivateGetCapitalTransferTranId",
           "params": [
@@ -114334,6 +114265,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "spotPrivateGetRebateAffiliateCampaign": {
+          "name": "spotPrivateGetRebateAffiliateCampaign",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spotPublicGetKlines": {
           "name": "spotPublicGetKlines",
           "params": [
@@ -114364,6 +114305,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivatePostAccountAssetAnalysisRecentV3": {
+          "name": "contractPrivatePostAccountAssetAnalysisRecentV3",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spot2PrivateDeleteOrderCancelBySymbol": {
           "name": "spot2PrivateDeleteOrderCancelBySymbol",
           "params": [
@@ -114374,8 +114325,28 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivatePostOrderOpenOrderTotalCount": {
+          "name": "contractPrivatePostOrderOpenOrderTotalCount",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "contractPublicGetDetail": {
           "name": "contractPublicGetDetail",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivateGetOrderListOrderDealsV3": {
+          "name": "contractPrivateGetOrderListOrderDealsV3",
           "params": [
             {
               "name": "params",
@@ -114434,8 +114405,28 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivatePostPositionChangeAutoAddIm": {
+          "name": "contractPrivatePostPositionChangeAutoAddIm",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "contractPrivateGetOrderListHistoryOrders": {
           "name": "contractPrivateGetOrderListHistoryOrders",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostAccountAssetAnalysisCalendarDailyV3": {
+          "name": "contractPrivatePostAccountAssetAnalysisCalendarDailyV3",
           "params": [
             {
               "name": "params",
@@ -114554,6 +114545,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivatePostOrderCreate": {
+          "name": "contractPrivatePostOrderCreate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "contractPrivatePostOrderCancelWithExternal": {
           "name": "contractPrivatePostOrderCancelWithExternal",
           "params": [
@@ -114574,8 +114575,28 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "spotPrivateDeleteStrategyGroupUid": {
+          "name": "spotPrivateDeleteStrategyGroupUid",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spotPublicGetTrades": {
           "name": "spotPublicGetTrades",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivateGetAccountAssetAnalysisExport": {
+          "name": "contractPrivateGetAccountAssetAnalysisExport",
           "params": [
             {
               "name": "params",
@@ -114654,6 +114675,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "spotPrivateDeleteStrategyGroup": {
+          "name": "spotPrivateDeleteStrategyGroup",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spotPrivatePostCapitalWithdraw": {
           "name": "spotPrivatePostCapitalWithdraw",
           "params": [
@@ -114666,6 +114697,16 @@
         },
         "spot2PrivateGetOrderQuery": {
           "name": "spot2PrivateGetOrderQuery",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivateGetAccountContractFeeRate": {
+          "name": "contractPrivateGetAccountContractFeeRate",
           "params": [
             {
               "name": "params",
@@ -114696,6 +114737,26 @@
         },
         "spotPrivatePostCapitalTransferInternal": {
           "name": "spotPrivatePostCapitalTransferInternal",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivateGetOrderFeeDetails": {
+          "name": "contractPrivateGetOrderFeeDetails",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivateGetAccountProfitRateType": {
+          "name": "contractPrivateGetAccountProfitRateType",
           "params": [
             {
               "name": "params",
@@ -114774,6 +114835,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivatePostPlanorderPlaceV2": {
+          "name": "contractPrivatePostPlanorderPlaceV2",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "contractPrivatePostPositionChangePositionMode": {
           "name": "contractPrivatePostPositionChangePositionMode",
           "params": [
@@ -114786,6 +114857,16 @@
         },
         "contractPrivateGetOrderGetOrderId": {
           "name": "contractPrivateGetOrderGetOrderId",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostTrackorderPlace": {
+          "name": "contractPrivatePostTrackorderPlace",
           "params": [
             {
               "name": "params",
@@ -114844,6 +114925,26 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "brokerPrivateGetSubAccountStatus": {
+          "name": "brokerPrivateGetSubAccountStatus",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivateGetMarketMakerSelfTradeBlacklist": {
+          "name": "contractPrivateGetMarketMakerSelfTradeBlacklist",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "contractPrivateGetOrderListOrderDeals": {
           "name": "contractPrivateGetOrderListOrderDeals",
           "params": [
@@ -114856,6 +114957,16 @@
         },
         "spot2PrivateGetAssetAddressList": {
           "name": "spot2PrivateGetAssetAddressList",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivateGetAccountConfigContractFeeDiscountConfig": {
+          "name": "contractPrivateGetAccountConfigContractFeeDiscountConfig",
           "params": [
             {
               "name": "params",
@@ -114886,6 +114997,16 @@
         },
         "spotPrivatePostCapitalSubAccountUniversalTransfer": {
           "name": "spotPrivatePostCapitalSubAccountUniversalTransfer",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivateGetAccountContractZeroFeeRate": {
+          "name": "contractPrivateGetAccountContractZeroFeeRate",
           "params": [
             {
               "name": "params",
@@ -114954,6 +115075,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivateGetAccountFeeDeductConfigs": {
+          "name": "contractPrivateGetAccountFeeDeductConfigs",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "brokerPrivatePostSubAccountUniversalTransfer": {
           "name": "brokerPrivatePostSubAccountUniversalTransfer",
           "params": [
@@ -115004,6 +115135,26 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivateGetAccountTieredFeeRateV2": {
+          "name": "contractPrivateGetAccountTieredFeeRateV2",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivateGetStoporderOpenOrders": {
+          "name": "contractPrivateGetStoporderOpenOrders",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spot2PrivatePostAssetInternalTransfer": {
           "name": "spot2PrivatePostAssetInternalTransfer",
           "params": [
@@ -115036,6 +115187,16 @@
         },
         "spot2PrivateGetMarketApiSymbols": {
           "name": "spot2PrivateGetMarketApiSymbols",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "spotPrivateGetRebateAffiliateReferral": {
+          "name": "spotPrivateGetRebateAffiliateReferral",
           "params": [
             {
               "name": "params",
@@ -115114,6 +115275,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivatePostOrderChangeLimitOrder": {
+          "name": "contractPrivatePostOrderChangeLimitOrder",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "contractPrivateGetPositionFundingRecords": {
           "name": "contractPrivateGetPositionFundingRecords",
           "params": [
@@ -115164,6 +115335,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivateGetAccountAssetBookOrderDealFeeTotal": {
+          "name": "contractPrivateGetAccountAssetBookOrderDealFeeTotal",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spotPublicGetDepth": {
           "name": "spotPublicGetDepth",
           "params": [
@@ -115176,6 +115357,16 @@
         },
         "contractPrivatePostOrderSubmitBatch": {
           "name": "contractPrivatePostOrderSubmitBatch",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostPlanorderChangeStopOrder": {
+          "name": "contractPrivatePostPlanorderChangeStopOrder",
           "params": [
             {
               "name": "params",
@@ -115224,6 +115415,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivatePostMarketMakerSelfTradeBlacklistUpdate": {
+          "name": "contractPrivatePostMarketMakerSelfTradeBlacklistUpdate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "contractPublicGetFundingRateHistory": {
           "name": "contractPublicGetFundingRateHistory",
           "params": [
@@ -115244,6 +115445,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivatePostMarketMakerSelfTradeBlacklistCreate": {
+          "name": "contractPrivatePostMarketMakerSelfTradeBlacklistCreate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "brokerPrivateGetSubAccountList": {
           "name": "brokerPrivateGetSubAccountList",
           "params": [
@@ -115256,6 +115467,16 @@
         },
         "spotPrivatePostCapitalDepositAddress": {
           "name": "spotPrivatePostCapitalDepositAddress",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivateGetMarketMakerSelfTradeBlacklistSearch": {
+          "name": "contractPrivateGetMarketMakerSelfTradeBlacklistSearch",
           "params": [
             {
               "name": "params",
@@ -115344,6 +115565,36 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "brokerPrivateGetRebateTaxQuery": {
+          "name": "brokerPrivateGetRebateTaxQuery",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostOrderBatchQueryWithExternal": {
+          "name": "contractPrivatePostOrderBatchQueryWithExternal",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostPositionCloseAll": {
+          "name": "contractPrivatePostPositionCloseAll",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spot2PrivateGetAssetWithdrawList": {
           "name": "spot2PrivateGetAssetWithdrawList",
           "params": [
@@ -115374,6 +115625,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivateGetAccountDiscountType": {
+          "name": "contractPrivateGetAccountDiscountType",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spot2PublicGetCommonTimestamp": {
           "name": "spot2PublicGetCommonTimestamp",
           "params": [
@@ -115386,6 +115647,26 @@
         },
         "spotPrivateGetTradeFee": {
           "name": "spotPrivateGetTradeFee",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostMarketMakerSelfTradeBlacklistDelete": {
+          "name": "contractPrivatePostMarketMakerSelfTradeBlacklistDelete",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostStoporderPlace": {
+          "name": "contractPrivatePostStoporderPlace",
           "params": [
             {
               "name": "params",
@@ -115554,8 +115835,48 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivateGetAccountAssetAnalysisType": {
+          "name": "contractPrivateGetAccountAssetAnalysisType",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostOrderChaseLimitOrder": {
+          "name": "contractPrivatePostOrderChaseLimitOrder",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spotPublicGetTicker24hr": {
           "name": "spotPublicGetTicker24hr",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostTrackorderChangeOrder": {
+          "name": "contractPrivatePostTrackorderChangeOrder",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostPositionReverse": {
+          "name": "contractPrivatePostPositionReverse",
           "params": [
             {
               "name": "params",
@@ -115624,6 +115945,16 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivatePostTrackorderCancel": {
+          "name": "contractPrivatePostTrackorderCancel",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "brokerPrivatePostCapitalDepositSubAddress": {
           "name": "brokerPrivatePostCapitalDepositSubAddress",
           "params": [
@@ -115644,8 +115975,28 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "contractPrivateGetAccountAssetAnalysisTodayPnl": {
+          "name": "contractPrivateGetAccountAssetAnalysisTodayPnl",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spotPrivatePostUserDataStream": {
           "name": "spotPrivatePostUserDataStream",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostOrderBatchCancelWithExternal": {
+          "name": "contractPrivatePostOrderBatchCancelWithExternal",
           "params": [
             {
               "name": "params",
@@ -115794,8 +116145,28 @@
           ],
           "return_type": "Promise<implicitReturnType>"
         },
+        "spotPrivateGetRebateAffiliateSubaffiliates": {
+          "name": "spotPrivateGetRebateAffiliateSubaffiliates",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
         "spotPrivateGetRebateTaxQuery": {
           "name": "spotPrivateGetRebateTaxQuery",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivateGetOrderListCloseOrders": {
+          "name": "contractPrivateGetOrderListCloseOrders",
           "params": [
             {
               "name": "params",
@@ -115846,6 +116217,16 @@
         },
         "spot2PrivateDeleteAssetWithdraw": {
           "name": "spot2PrivateDeleteAssetWithdraw",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "contractPrivatePostAccountAssetAnalysisV3": {
+          "name": "contractPrivatePostAccountAssetAnalysisV3",
           "params": [
             {
               "name": "params",
@@ -130908,6 +131289,405 @@
       }
     },
     {
+      "class_name": "pacifica",
+      "file": "pacifica.ts",
+      "id": "pacifica",
+      "interface_name": "Exchange",
+      "interface_signature_count": 39,
+      "interface_signatures": {
+        "privatePostAccountApiKeys": {
+          "name": "privatePostAccountApiKeys",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAccountSubaccountList": {
+          "name": "privatePostAccountSubaccountList",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAccountApiKeysCreate": {
+          "name": "privatePostAccountApiKeysCreate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetFundingHistory": {
+          "name": "publicGetFundingHistory",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAccountBuilderCodesRevoke": {
+          "name": "privatePostAccountBuilderCodesRevoke",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetAccountBalanceHistory": {
+          "name": "publicGetAccountBalanceHistory",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetKlineMark": {
+          "name": "publicGetKlineMark",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetTradesHistory": {
+          "name": "publicGetTradesHistory",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetInfoPrices": {
+          "name": "publicGetInfoPrices",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAccountBuilderCodesApprove": {
+          "name": "privatePostAccountBuilderCodesApprove",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetTrades": {
+          "name": "publicGetTrades",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostOrdersStopCreate": {
+          "name": "privatePostOrdersStopCreate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetAccountBuilderCodesApprovals": {
+          "name": "publicGetAccountBuilderCodesApprovals",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAccountSubaccountTransfer": {
+          "name": "privatePostAccountSubaccountTransfer",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostOrdersCreateMarket": {
+          "name": "privatePostOrdersCreateMarket",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostOrdersEdit": {
+          "name": "privatePostOrdersEdit",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetPortfolio": {
+          "name": "publicGetPortfolio",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostOrdersCancelAll": {
+          "name": "privatePostOrdersCancelAll",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostPositionsTpsl": {
+          "name": "privatePostPositionsTpsl",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetBook": {
+          "name": "publicGetBook",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostOrdersStopCancel": {
+          "name": "privatePostOrdersStopCancel",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAccountSubaccountCreate": {
+          "name": "privatePostAccountSubaccountCreate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetFundingRateHistory": {
+          "name": "publicGetFundingRateHistory",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostOrdersCancel": {
+          "name": "privatePostOrdersCancel",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetInfo": {
+          "name": "publicGetInfo",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetAccountSettings": {
+          "name": "publicGetAccountSettings",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAccountMargin": {
+          "name": "privatePostAccountMargin",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetAccount": {
+          "name": "publicGetAccount",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostOrdersBatch": {
+          "name": "privatePostOrdersBatch",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAgentBind": {
+          "name": "privatePostAgentBind",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetOrdersHistoryById": {
+          "name": "publicGetOrdersHistoryById",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetKline": {
+          "name": "publicGetKline",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostOrdersCreate": {
+          "name": "privatePostOrdersCreate",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAccountLeverage": {
+          "name": "privatePostAccountLeverage",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetPositions": {
+          "name": "publicGetPositions",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAccountWithdraw": {
+          "name": "privatePostAccountWithdraw",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetOrdersHistory": {
+          "name": "publicGetOrdersHistory",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "publicGetOrders": {
+          "name": "publicGetOrders",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        },
+        "privatePostAccountApiKeysRevoke": {
+          "name": "privatePostAccountApiKeysRevoke",
+          "params": [
+            {
+              "name": "params",
+              "type": "typeliteral"
+            }
+          ],
+          "return_type": "Promise<implicitReturnType>"
+        }
+      }
+    },
+    {
       "class_name": "paradex",
       "file": "paradex.ts",
       "id": "paradex",
@@ -143482,7 +144262,8 @@
       }
     }
   ],
-  "extracted_at": "2026-04-15T02:24:55.369098Z",
-  "total_signatures": 14249,
+  "extracted_at": "2026-04-15T12:48:55.533954Z",
+  "tier_scope": "all",
+  "total_signatures": 14327,
   "with_signatures": 110
 }

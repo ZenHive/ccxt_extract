@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-13T06:22:52.990905Z",
+  "extracted_at": "2026-04-15T12:47:36.224380Z",
   "id": "deepcoin",
-  "market_count": 445,
+  "market_count": 444,
   "markets": {
     "LAYER/USDT:USDT": {
       "spot": false,
@@ -3148,7 +3148,7 @@
         "minSz": "74",
         "quoteCcy": "USDT",
         "state": "live",
-        "tickSz": "0.0001",
+        "tickSz": "0.00001",
         "uly": ""
       },
       "created": "__undefined",
@@ -3158,7 +3158,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "ENA",
       "type": "swap",
@@ -22854,84 +22854,6 @@
       "active": true,
       "expiry": "__undefined",
       "id": "SQD-USDT-SWAP",
-      "lowercaseId": "__undefined",
-      "subType": "linear"
-    },
-    "FUN/USDT:USDT": {
-      "spot": false,
-      "contractSize": 1,
-      "linear": true,
-      "quoteId": "USDT",
-      "tierBased": "__undefined",
-      "index": "__undefined",
-      "maker": 0.001,
-      "inverse": false,
-      "info": {
-        "alias": "",
-        "baseCcy": "FUN",
-        "ctType": "",
-        "ctVal": "1",
-        "ctValCcy": "",
-        "instId": "FUN-USDT-SWAP",
-        "instType": "SWAP",
-        "lever": "20",
-        "listTime": "0",
-        "lotSz": "1",
-        "maxLmtSz": "10000000",
-        "maxMktSz": "10000000",
-        "minSz": "3116",
-        "quoteCcy": "USDT",
-        "state": "live",
-        "tickSz": "0.000001",
-        "uly": ""
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "FUN/USDT:USDT",
-      "settle": "USDT",
-      "precision": {
-        "amount": 1,
-        "price": 1.0e-6
-      },
-      "baseId": "FUN",
-      "type": "swap",
-      "strike": "__undefined",
-      "settleId": "USDT",
-      "quote": "USDT",
-      "expiryDatetime": "__undefined",
-      "base": "FUN",
-      "swap": true,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 10000000,
-          "min": 3116
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": 20,
-          "min": 1
-        },
-        "price": {
-          "max": "__undefined",
-          "min": "__undefined"
-        }
-      },
-      "taker": 0.0015,
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": true,
-      "percentage": "__undefined",
-      "active": true,
-      "expiry": "__undefined",
-      "id": "FUN-USDT-SWAP",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },

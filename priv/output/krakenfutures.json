@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": false,
@@ -13,7 +13,7 @@
     "tier": "unclassified",
     "version": "v3"
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -23428,7 +23428,7 @@
             },
             "maxPositionSize": "600.00000000000",
             "mtf": true,
-            "openingDate": "2026-04-10T08:00:00.155Z",
+            "openingDate": "2026-04-10T08:00:00Z",
             "pair": "BTC:USD",
             "postOnly": false,
             "quote": "USD",
@@ -23476,7 +23476,7 @@
             "tradfi": false,
             "type": "flexible_futures"
           },
-          "created": 1775808000155,
+          "created": 1775808000000,
           "option": false,
           "future": true,
           "symbol": "BTC/USD:USD-260417",
@@ -24027,6 +24027,7 @@
             "feeScheduleUid": "4845910e-81a7-4578-bdeb-8faada1b972f",
             "fundingRateCoefficient": "24",
             "impactMidSize": "25000.00",
+            "isin": "GB00BT023K99",
             "marginLevels": [
               {
                 "initialMargin": "0.05",
@@ -24150,7 +24151,7 @@
             },
             "maxPositionSize": "30000000.00000000000",
             "maxRelativeFundingRate": "0.0025",
-            "mtf": false,
+            "mtf": true,
             "openingDate": "2026-03-05T11:55:03Z",
             "pair": "ALEO:USD",
             "postOnly": false,
@@ -30259,7 +30260,7 @@
             },
             "maxPositionSize": "8000.00000000000",
             "mtf": true,
-            "openingDate": "2026-04-10T08:00:00.077Z",
+            "openingDate": "2026-04-10T08:00:00Z",
             "pair": "ETH:USD",
             "postOnly": false,
             "quote": "USD",
@@ -30307,7 +30308,7 @@
             "tradfi": false,
             "type": "flexible_futures"
           },
-          "created": 1775808000077,
+          "created": 1775808000000,
           "option": false,
           "future": true,
           "symbol": "ETH/USD:USD-260417",
@@ -45593,7 +45594,7 @@
             },
             "maxPositionSize": "6000000.00000000000",
             "maxRelativeFundingRate": "0.0025",
-            "mtf": false,
+            "mtf": true,
             "openingDate": "2026-03-06T09:47:05Z",
             "pair": "OPN:USD",
             "postOnly": false,
@@ -77462,7 +77463,7 @@
             },
             "maxPositionSize": "150000000.00000000000",
             "maxRelativeFundingRate": "0.0025",
-            "mtf": false,
+            "mtf": true,
             "openingDate": "2026-03-18T17:16:47Z",
             "pair": "KAT:USD",
             "postOnly": false,
@@ -94107,7 +94108,7 @@
             "contractValueTradePrecision": "-1",
             "feeScheduleUid": "4845910e-81a7-4578-bdeb-8faada1b972f",
             "fundingRateCoefficient": "24",
-            "impactMidSize": "6500.00",
+            "impactMidSize": "100",
             "isin": "GB00BV89RX78",
             "marginLevels": [
               {
@@ -94230,9 +94231,9 @@
                 ]
               }
             },
-            "maxPositionSize": "10000000.00000000000",
-            "maxRelativeFundingRate": "0.0025",
-            "mtf": false,
+            "maxPositionSize": "10000000",
+            "maxRelativeFundingRate": "0.015",
+            "mtf": true,
             "openingDate": "2026-03-17T15:12:56Z",
             "pair": "RAVE:USD",
             "postOnly": false,

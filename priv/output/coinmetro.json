@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": false,
@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -648,7 +648,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 70
+              "min": 80
             },
             "cost": {
               "max": "__undefined",
@@ -713,7 +713,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 500
+              "min": 600
             },
             "cost": {
               "max": "__undefined",
@@ -2663,7 +2663,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.6
+              "min": 0.7
             },
             "cost": {
               "max": "__undefined",
@@ -2988,7 +2988,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 300
+              "min": 400
             },
             "cost": {
               "max": "__undefined",
@@ -5003,7 +5003,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 6
+              "min": 7
             },
             "cost": {
               "max": "__undefined",
@@ -6108,7 +6108,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.6
+              "min": 0.7
             },
             "cost": {
               "max": "__undefined",
@@ -6823,7 +6823,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 80
+              "min": 70
             },
             "cost": {
               "max": "__undefined",
@@ -7018,7 +7018,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 70
+              "min": 80
             },
             "cost": {
               "max": "__undefined",
@@ -7278,7 +7278,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2000
+              "min": 3000
             },
             "cost": {
               "max": "__undefined",
@@ -7538,7 +7538,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 100
+              "min": 200
             },
             "cost": {
               "max": "__undefined",
@@ -8383,7 +8383,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 500
+              "min": 600
             },
             "cost": {
               "max": "__undefined",
@@ -8903,7 +8903,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 20
+              "min": 30
             },
             "cost": {
               "max": "__undefined",
@@ -9813,7 +9813,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 300
+              "min": 400
             },
             "cost": {
               "max": "__undefined",
@@ -10138,7 +10138,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 300
+              "min": 400
             },
             "cost": {
               "max": "__undefined",

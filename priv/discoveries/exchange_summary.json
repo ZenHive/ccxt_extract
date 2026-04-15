@@ -7,14 +7,14 @@
     },
     "exchanges": {
       "aliases": 3,
-      "real": 106,
-      "total": 109
+      "real": 107,
+      "total": 110
     },
     "exchanges_with_ws": 79,
     "families": 99,
     "orphan_aliases": 0
   },
-  "extracted_at": "2026-04-15T02:28:19.435773Z",
+  "extracted_at": "2026-04-15T12:50:29.303487Z",
   "families": [
     {
       "alias_count": 0,
@@ -360,15 +360,6 @@
       "aliases": [],
       "has_ws": true,
       "root": "coinbaseinternational",
-      "total_members": 1,
-      "variant_count": 0,
-      "variants": []
-    },
-    {
-      "alias_count": 0,
-      "aliases": [],
-      "has_ws": true,
-      "root": "coincatch",
       "total_members": 1,
       "variant_count": 0,
       "variants": []
@@ -785,6 +776,15 @@
       "alias_count": 0,
       "aliases": [],
       "has_ws": true,
+      "root": "pacifica",
+      "total_members": 1,
+      "variant_count": 0,
+      "variants": []
+    },
+    {
+      "alias_count": 0,
+      "aliases": [],
+      "has_ws": true,
       "root": "paradex",
       "total_members": 1,
       "variant_count": 0,
@@ -930,5 +930,6 @@
   "source_files": {
     "class_hierarchy": "class_hierarchy.json",
     "exchanges": "exchanges.json"
-  }
+  },
+  "tier_scope": "all"
 }

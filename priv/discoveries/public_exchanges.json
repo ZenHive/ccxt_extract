@@ -122,6 +122,17 @@
       ]
     },
     {
+      "count": 3,
+      "exchanges": [
+        "grvt",
+        "lighter",
+        "pacifica"
+      ],
+      "pattern": [
+        "privateKey"
+      ]
+    },
+    {
       "count": 2,
       "exchanges": [
         "modetrade",
@@ -143,16 +154,6 @@
         "apiKey",
         "secret",
         "uid"
-      ]
-    },
-    {
-      "count": 2,
-      "exchanges": [
-        "grvt",
-        "lighter"
-      ],
-      "pattern": [
-        "privateKey"
       ]
     },
     {
@@ -225,7 +226,7 @@
       ]
     }
   ],
-  "exchange_count": 106,
+  "exchange_count": 107,
   "exchanges": [
     {
       "credential_pattern": [
@@ -2040,6 +2041,25 @@
     },
     {
       "credential_pattern": [
+        "privateKey"
+      ],
+      "has_fetch_markets": true,
+      "id": "pacifica",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": false,
+        "login": false,
+        "password": false,
+        "privateKey": true,
+        "secret": false,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
         "privateKey",
         "walletAddress"
       ],
@@ -2360,11 +2380,11 @@
       }
     }
   ],
-  "extracted_at": "2026-04-15T12:26:54.751593Z",
+  "extracted_at": "2026-04-15T12:58:02.060397Z",
   "summary": {
     "all_have_fetch_markets": true,
     "credential_pattern_count": 13,
-    "fetch_markets_advertised_count": 106,
+    "fetch_markets_advertised_count": 107,
     "fully_public_count": 1
   },
   "tier_scope": "all"

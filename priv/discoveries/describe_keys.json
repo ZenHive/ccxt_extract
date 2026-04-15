@@ -18,6 +18,7 @@
     "hostname",
     "httpExceptions",
     "id",
+    "isSandboxModeEnabled",
     "limits",
     "markets",
     "name",
@@ -39,7 +40,7 @@
     "userAgent",
     "version"
   ],
-  "count": 106,
+  "count": 107,
   "exchanges": [
     {
       "id": "aftermath",
@@ -3124,6 +3125,42 @@
       }
     },
     {
+      "id": "pacifica",
+      "keys": {
+        "alias": "boolean",
+        "api": "object",
+        "certified": "boolean",
+        "commonCurrencies": "object",
+        "countries": "array",
+        "currencies": "object",
+        "dex": "boolean",
+        "enableRateLimit": "boolean",
+        "exceptions": "object",
+        "features": "object",
+        "fees": "object",
+        "has": "object",
+        "hostname": "string",
+        "httpExceptions": "object",
+        "id": "string",
+        "isSandboxModeEnabled": "boolean",
+        "limits": "object",
+        "markets": "undefined",
+        "name": "string",
+        "options": "object",
+        "paddingMode": "number",
+        "precisionMode": "number",
+        "pro": "boolean",
+        "rateLimit": "number",
+        "requiredCredentials": "object",
+        "rollingWindowSize": "number",
+        "status": "object",
+        "timeframes": "object",
+        "timeout": "number",
+        "urls": "object",
+        "version": "string"
+      }
+    },
+    {
       "id": "paradex",
       "keys": {
         "alias": "boolean",
@@ -3672,5 +3709,6 @@
       }
     }
   ],
-  "extracted_at": "2026-04-13T06:25:20.314048Z"
+  "extracted_at": "2026-04-15T12:50:15.967065Z",
+  "tier_scope": "all"
 }

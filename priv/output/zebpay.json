@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": false,
@@ -13,7 +13,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -496,7 +496,7 @@
       "version": "v1"
     },
     "markets": {
-      "market_count": 635,
+      "market_count": 632,
       "markets": {
         "BANANA/INR:INR": {
           "spot": false,
@@ -1341,19 +1341,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "ETH",
-            "lotSz": "0.000001",
+            "lotSz": "0.0001",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "2",
+            "quantityPrecision": "4",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "ETH-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.00000001",
+            "tickSz": "0.01",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -1362,8 +1362,8 @@
           "symbol": "ETH/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-8
+            "amount": 0.0001,
+            "price": 0.01
           },
           "baseId": "ETH",
           "type": "spot",
@@ -1994,6 +1994,83 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "STETH/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.45,
+          "inverse": "__undefined",
+          "info": {
+            "baseAsset": "STETH",
+            "lotSz": "0.000001",
+            "makerFee": "0.45",
+            "orderTypes": [
+              "LIMIT",
+              "STOP_LOSS_LIMIT",
+              "MARKET"
+            ],
+            "pricePrecision": "6",
+            "quantityPrecision": "6",
+            "quoteAsset": "USDT",
+            "status": "Open",
+            "symbol": "STETH-USDT",
+            "takerFee": "0.45",
+            "tickSz": "0.000001",
+            "timeInForce": []
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "STETH/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 1.0e-6,
+            "price": 1.0e-6
+          },
+          "baseId": "STETH",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "STETH",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.45,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": "__undefined",
+          "percentage": "__undefined",
+          "active": "__undefined",
+          "expiry": "__undefined",
+          "id": "STETH-USDT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
         "BONK/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -2005,14 +2082,14 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "BONK",
-            "lotSz": "0.000001",
+            "lotSz": "1",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
             "pricePrecision": "8",
-            "quantityPrecision": "6",
+            "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "BONK-USDT",
@@ -2026,7 +2103,7 @@
           "symbol": "BONK/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
+            "amount": 1,
             "price": 1.0e-8
           },
           "baseId": "BONK",
@@ -4007,7 +4084,7 @@
               "LIMIT",
               "MARKET"
             ],
-            "pricePrecision": "2",
+            "pricePrecision": "3",
             "quantityPrecision": "0",
             "quoteAsset": "INR",
             "quotePrecision": "0",
@@ -4015,7 +4092,7 @@
             "status": "Open",
             "symbol": "ENAINR",
             "takerFee": "0.1",
-            "tickSz": "0.01",
+            "tickSz": "0.001",
             "timeInForce": [
               "GTC"
             ]
@@ -4027,7 +4104,7 @@
           "settle": "__undefined",
           "precision": {
             "amount": 1,
-            "price": 0.01
+            "price": 0.001
           },
           "baseId": "ENA",
           "type": "swap",
@@ -5081,19 +5158,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "MANA",
-            "lotSz": "0.000001",
+            "lotSz": "1",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "4",
+            "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "MANA-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.000001",
+            "tickSz": "0.0001",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -5102,8 +5179,8 @@
           "symbol": "MANA/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-6
+            "amount": 1,
+            "price": 0.0001
           },
           "baseId": "MANA",
           "type": "spot",
@@ -5241,19 +5318,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "TRX",
-            "lotSz": "0.000001",
+            "lotSz": "0.1",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "4",
+            "quantityPrecision": "1",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "TRX-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.000001",
+            "tickSz": "0.0001",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -5262,8 +5339,8 @@
           "symbol": "TRX/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-6
+            "amount": 0.1,
+            "price": 0.0001
           },
           "baseId": "TRX",
           "type": "spot",
@@ -5992,7 +6069,7 @@
               "LIMIT",
               "MARKET"
             ],
-            "pricePrecision": "4",
+            "pricePrecision": "5",
             "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "quotePrecision": "0",
@@ -6000,7 +6077,7 @@
             "status": "Open",
             "symbol": "ENAUSDT",
             "takerFee": "0.1",
-            "tickSz": "0.0001",
+            "tickSz": "0.00001",
             "timeInForce": [
               "GTC"
             ]
@@ -6012,7 +6089,7 @@
           "settle": "__undefined",
           "precision": {
             "amount": 1,
-            "price": 0.0001
+            "price": 1.0e-5
           },
           "baseId": "ENA",
           "type": "swap",
@@ -12723,19 +12800,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "POL",
-            "lotSz": "0.000001",
+            "lotSz": "0.1",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "4",
+            "quantityPrecision": "1",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "POL-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.000001",
+            "tickSz": "0.0001",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -12744,8 +12821,8 @@
           "symbol": "POL/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-6
+            "amount": 0.1,
+            "price": 0.0001
           },
           "baseId": "POL",
           "type": "spot",
@@ -12883,19 +12960,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "BTC",
-            "lotSz": "0.00000001",
+            "lotSz": "0.00001",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "8",
+            "pricePrecision": "2",
+            "quantityPrecision": "5",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "BTC-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.00000001",
+            "tickSz": "0.01",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -12904,8 +12981,8 @@
           "symbol": "BTC/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-8,
-            "price": 1.0e-8
+            "amount": 1.0e-5,
+            "price": 0.01
           },
           "baseId": "BTC",
           "type": "spot",
@@ -13791,19 +13868,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "LTC",
-            "lotSz": "0.00000001",
+            "lotSz": "0.001",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "8",
+            "pricePrecision": "2",
+            "quantityPrecision": "3",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "LTC-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.00000001",
+            "tickSz": "0.01",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -13812,8 +13889,8 @@
           "symbol": "LTC/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-8,
-            "price": 1.0e-8
+            "amount": 0.001,
+            "price": 0.01
           },
           "baseId": "LTC",
           "type": "spot",
@@ -17187,19 +17264,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "NEAR",
-            "lotSz": "0.000001",
+            "lotSz": "0.1",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "3",
+            "quantityPrecision": "1",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "NEAR-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.000001",
+            "tickSz": "0.001",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -17208,8 +17285,8 @@
           "symbol": "NEAR/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-6
+            "amount": 0.1,
+            "price": 0.001
           },
           "baseId": "NEAR",
           "type": "spot",
@@ -18190,7 +18267,7 @@
               "LIMIT",
               "MARKET"
             ],
-            "pricePrecision": "3",
+            "pricePrecision": "2",
             "quantityPrecision": "0",
             "quoteAsset": "INR",
             "quotePrecision": "0",
@@ -18198,7 +18275,7 @@
             "status": "Open",
             "symbol": "SIRENINR",
             "takerFee": "0.1",
-            "tickSz": "0.001",
+            "tickSz": "0.01",
             "timeInForce": [
               "GTC"
             ]
@@ -18210,7 +18287,7 @@
           "settle": "__undefined",
           "precision": {
             "amount": 1,
-            "price": 0.001
+            "price": 0.01
           },
           "baseId": "SIREN",
           "type": "swap",
@@ -22744,19 +22821,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "SOL",
-            "lotSz": "0.000001",
+            "lotSz": "0.001",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "2",
+            "quantityPrecision": "3",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "SOL-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.00000001",
+            "tickSz": "0.01",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -22765,8 +22842,8 @@
           "symbol": "SOL/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-8
+            "amount": 0.001,
+            "price": 0.01
           },
           "baseId": "SOL",
           "type": "spot",
@@ -27599,90 +27676,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "CELOINR",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "FIO/INR:INR": {
-          "spot": false,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "INR",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.05,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "FIO",
-            "baseAssetPrecision": "0",
-            "lotSz": "1",
-            "maintMarginPercent": "15",
-            "makerFee": "0.05",
-            "maxLeverage": "10",
-            "minLeverage": "1",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "pricePrecision": "4",
-            "quantityPrecision": "0",
-            "quoteAsset": "INR",
-            "quotePrecision": "0",
-            "requiredMarginPercent": "0",
-            "status": "Open",
-            "symbol": "FIOINR",
-            "takerFee": "0.1",
-            "tickSz": "0.0001",
-            "timeInForce": [
-              "GTC"
-            ]
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "FIO/INR:INR",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 0.0001
-          },
-          "baseId": "FIO",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "INR",
-          "expiryDatetime": "__undefined",
-          "base": "FIO",
-          "swap": true,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 10,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.1,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "FIOINR",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -35593,7 +35586,7 @@
               "LIMIT",
               "MARKET"
             ],
-            "pricePrecision": "5",
+            "pricePrecision": "4",
             "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "quotePrecision": "0",
@@ -35601,7 +35594,7 @@
             "status": "Open",
             "symbol": "SIRENUSDT",
             "takerFee": "0.06",
-            "tickSz": "0.00001",
+            "tickSz": "0.0001",
             "timeInForce": [
               "GTC"
             ]
@@ -35613,7 +35606,7 @@
           "settle": "__undefined",
           "precision": {
             "amount": 1,
-            "price": 1.0e-5
+            "price": 0.0001
           },
           "baseId": "SIREN",
           "type": "swap",
@@ -35737,6 +35730,83 @@
           "active": true,
           "expiry": "__undefined",
           "id": "B2USDT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "STETH/INR": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "INR",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.45,
+          "inverse": "__undefined",
+          "info": {
+            "baseAsset": "STETH",
+            "lotSz": "0.000001",
+            "makerFee": "0.45",
+            "orderTypes": [
+              "LIMIT",
+              "STOP_LOSS_LIMIT",
+              "MARKET"
+            ],
+            "pricePrecision": "2",
+            "quantityPrecision": "6",
+            "quoteAsset": "INR",
+            "status": "Open",
+            "symbol": "STETH-INR",
+            "takerFee": "0.45",
+            "tickSz": "0.01",
+            "timeInForce": []
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "STETH/INR",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 1.0e-6,
+            "price": 0.01
+          },
+          "baseId": "STETH",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "INR",
+          "expiryDatetime": "__undefined",
+          "base": "STETH",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.45,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": "__undefined",
+          "percentage": "__undefined",
+          "active": "__undefined",
+          "expiry": "__undefined",
+          "id": "STETH-INR",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -36992,90 +37062,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "FUN/INR:INR": {
-          "spot": false,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "INR",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.05,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "FUN",
-            "baseAssetPrecision": "0",
-            "lotSz": "1",
-            "maintMarginPercent": "15",
-            "makerFee": "0.05",
-            "maxLeverage": "10",
-            "minLeverage": "1",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "pricePrecision": "4",
-            "quantityPrecision": "0",
-            "quoteAsset": "INR",
-            "quotePrecision": "0",
-            "requiredMarginPercent": "0",
-            "status": "Open",
-            "symbol": "FUNINR",
-            "takerFee": "0.1",
-            "tickSz": "0.0001",
-            "timeInForce": [
-              "GTC"
-            ]
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "FUN/INR:INR",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 0.0001
-          },
-          "baseId": "FUN",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "INR",
-          "expiryDatetime": "__undefined",
-          "base": "FUN",
-          "swap": true,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 10,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.1,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "FUNINR",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "DOGE/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -37087,19 +37073,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "DOGE",
-            "lotSz": "0.000001",
+            "lotSz": "1",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "5",
+            "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "DOGE-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.000001",
+            "tickSz": "0.00001",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -37108,8 +37094,8 @@
           "symbol": "DOGE/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-6
+            "amount": 1,
+            "price": 1.0e-5
           },
           "baseId": "DOGE",
           "type": "spot",
@@ -40988,19 +40974,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "ADA",
-            "lotSz": "0.000001",
+            "lotSz": "0.1",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "4",
+            "quantityPrecision": "1",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "ADA-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.000001",
+            "tickSz": "0.0001",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -41009,8 +40995,8 @@
           "symbol": "ADA/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-6
+            "amount": 0.1,
+            "price": 0.0001
           },
           "baseId": "ADA",
           "type": "spot",
@@ -43394,90 +43380,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "GRASSUSDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "FIO/USDT:USDT": {
-          "spot": false,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.05,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "FIO",
-            "baseAssetPrecision": "0",
-            "lotSz": "1",
-            "maintMarginPercent": "15",
-            "makerFee": "0.05",
-            "maxLeverage": "10",
-            "minLeverage": "1",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "pricePrecision": "6",
-            "quantityPrecision": "0",
-            "quoteAsset": "USDT",
-            "quotePrecision": "0",
-            "requiredMarginPercent": "0",
-            "status": "Open",
-            "symbol": "FIOUSDT",
-            "takerFee": "0.1",
-            "tickSz": "0.000001",
-            "timeInForce": [
-              "GTC"
-            ]
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "FIO/USDT:USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-6
-          },
-          "baseId": "FIO",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "FIO",
-          "swap": true,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 10,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.1,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "FIOUSDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -46453,19 +46355,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "AAVE",
-            "lotSz": "0.000001",
+            "lotSz": "0.001",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "2",
+            "quantityPrecision": "3",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "AAVE-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.000001",
+            "tickSz": "0.01",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -46474,8 +46376,8 @@
           "symbol": "AAVE/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-6
+            "amount": 0.001,
+            "price": 0.01
           },
           "baseId": "AAVE",
           "type": "spot",
@@ -47193,19 +47095,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "BNB",
-            "lotSz": "0.00000001",
+            "lotSz": "0.01",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "8",
+            "pricePrecision": "2",
+            "quantityPrecision": "2",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "BNB-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.000001",
+            "tickSz": "0.01",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -47214,8 +47116,8 @@
           "symbol": "BNB/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-8,
-            "price": 1.0e-6
+            "amount": 0.01,
+            "price": 0.01
           },
           "baseId": "BNB",
           "type": "spot",
@@ -47927,90 +47829,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "IRYSINR",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "OXT/INR:INR": {
-          "spot": false,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "INR",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.05,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "OXT",
-            "baseAssetPrecision": "0",
-            "lotSz": "1",
-            "maintMarginPercent": "15",
-            "makerFee": "0.05",
-            "maxLeverage": "10",
-            "minLeverage": "1",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "pricePrecision": "3",
-            "quantityPrecision": "0",
-            "quoteAsset": "INR",
-            "quotePrecision": "0",
-            "requiredMarginPercent": "0",
-            "status": "Open",
-            "symbol": "OXTINR",
-            "takerFee": "0.1",
-            "tickSz": "0.001",
-            "timeInForce": [
-              "GTC"
-            ]
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "OXT/INR:INR",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 0.001
-          },
-          "baseId": "OXT",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "INR",
-          "expiryDatetime": "__undefined",
-          "base": "OXT",
-          "swap": true,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 10,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.1,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "OXTINR",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -48781,19 +48599,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "DOT",
-            "lotSz": "0.000001",
+            "lotSz": "0.01",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "3",
+            "quantityPrecision": "2",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "DOT-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.000001",
+            "tickSz": "0.001",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -48802,8 +48620,8 @@
           "symbol": "DOT/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-6
+            "amount": 0.01,
+            "price": 0.001
           },
           "baseId": "DOT",
           "type": "spot",
@@ -51678,90 +51496,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "OXT/USDT:USDT": {
-          "spot": false,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": "__undefined",
-          "index": "__undefined",
-          "maker": 0.05,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "OXT",
-            "baseAssetPrecision": "0",
-            "lotSz": "1",
-            "maintMarginPercent": "15",
-            "makerFee": "0.05",
-            "maxLeverage": "10",
-            "minLeverage": "1",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "pricePrecision": "5",
-            "quantityPrecision": "0",
-            "quoteAsset": "USDT",
-            "quotePrecision": "0",
-            "requiredMarginPercent": "0",
-            "status": "Open",
-            "symbol": "OXTUSDT",
-            "takerFee": "0.1",
-            "tickSz": "0.00001",
-            "timeInForce": [
-              "GTC"
-            ]
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "OXT/USDT:USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "price": 1.0e-5
-          },
-          "baseId": "OXT",
-          "type": "swap",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "OXT",
-          "swap": true,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "leverage": {
-              "max": 10,
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.1,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "OXTUSDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "ME/INR:INR": {
           "spot": false,
           "contractSize": "__undefined",
@@ -52025,19 +51759,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "XRP",
-            "lotSz": "0.000001",
+            "lotSz": "0.1",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "4",
+            "quantityPrecision": "1",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "XRP-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.00000001",
+            "tickSz": "0.0001",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -52046,8 +51780,8 @@
           "symbol": "XRP/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-8
+            "amount": 0.1,
+            "price": 0.0001
           },
           "baseId": "XRP",
           "type": "spot",
@@ -52185,19 +51919,19 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "ATOM",
-            "lotSz": "0.000001",
+            "lotSz": "0.01",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
-            "pricePrecision": "6",
-            "quantityPrecision": "6",
+            "pricePrecision": "3",
+            "quantityPrecision": "2",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "ATOM-USDT",
             "takerFee": "0.45",
-            "tickSz": "0.000001",
+            "tickSz": "0.001",
             "timeInForce": []
           },
           "created": "__undefined",
@@ -52206,8 +51940,8 @@
           "symbol": "ATOM/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-6,
-            "price": 1.0e-6
+            "amount": 0.01,
+            "price": 0.001
           },
           "baseId": "ATOM",
           "type": "spot",
@@ -53199,14 +52933,14 @@
             "symbol": "ETH/USDT"
           },
           {
-            "baseId": "BONK",
-            "id": "BONK-USDT",
+            "baseId": "STETH",
+            "id": "STETH-USDT",
             "quoteId": "USDT",
-            "symbol": "BONK/USDT"
+            "symbol": "STETH/USDT"
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 84,
+        "sample_count": 86,
         "separator": "-",
         "suffix": null
       },
@@ -53235,7 +52969,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 551,
+        "sample_count": 546,
         "separator": "",
         "suffix": null
       }

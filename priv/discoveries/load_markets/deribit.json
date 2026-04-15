@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-15T12:00:45.866016Z",
+  "extracted_at": "2026-04-15T12:47:36.224380Z",
   "id": "deribit",
-  "market_count": 4278,
+  "market_count": 4288,
   "markets": {
     "ETH/USDC:USDC-260626-7000-C": {
       "spot": false,
@@ -46515,6 +46515,92 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "XRP/USDC:USDC-260416-1.35-C": {
+      "spot": false,
+      "contractSize": 1000,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0003,
+      "inverse": false,
+      "info": {
+        "base_currency": "XRP",
+        "block_trade_commission": "0.0003",
+        "block_trade_min_trade_amount": "75000",
+        "block_trade_tick_size": "0.0005",
+        "contract_size": "1000",
+        "counter_currency": "USDC",
+        "creation_timestamp": "1776254460000",
+        "expiration_timestamp": "1776326400000",
+        "instrument_id": "617115",
+        "instrument_name": "XRP_USDC-16APR26-1d35-C",
+        "instrument_type": "linear",
+        "is_active": true,
+        "kind": "option",
+        "maker_commission": "0.0003",
+        "min_trade_amount": "1000",
+        "option_type": "call",
+        "price_index": "xrp_usdc",
+        "quote_currency": "USDC",
+        "settlement_currency": "USDC",
+        "settlement_period": "day",
+        "state": "open",
+        "strike": "1.35",
+        "taker_commission": "0.0003",
+        "tick_size": "0.0005",
+        "tick_size_steps": []
+      },
+      "created": 1776254460000,
+      "option": true,
+      "future": false,
+      "symbol": "XRP/USDC:USDC-260416-1.35-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1000,
+        "price": 0.0005
+      },
+      "baseId": "XRP",
+      "type": "option",
+      "strike": 1.35,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-04-16T08:00:00.000Z",
+      "base": "XRP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0005
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1776326400000,
+      "id": "XRP_USDC-16APR26-1d35-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "BTC/USDC:USDC-260418-82000-P": {
       "spot": false,
       "contractSize": 1,
@@ -67293,6 +67379,92 @@
       "active": true,
       "expiry": 1776412800000,
       "id": "XRP_USDC-17APR26-1d34-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XRP/USDC:USDC-260416-1.35-P": {
+      "spot": false,
+      "contractSize": 1000,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0003,
+      "inverse": false,
+      "info": {
+        "base_currency": "XRP",
+        "block_trade_commission": "0.0003",
+        "block_trade_min_trade_amount": "75000",
+        "block_trade_tick_size": "0.0005",
+        "contract_size": "1000",
+        "counter_currency": "USDC",
+        "creation_timestamp": "1776254460000",
+        "expiration_timestamp": "1776326400000",
+        "instrument_id": "617116",
+        "instrument_name": "XRP_USDC-16APR26-1d35-P",
+        "instrument_type": "linear",
+        "is_active": true,
+        "kind": "option",
+        "maker_commission": "0.0003",
+        "min_trade_amount": "1000",
+        "option_type": "put",
+        "price_index": "xrp_usdc",
+        "quote_currency": "USDC",
+        "settlement_currency": "USDC",
+        "settlement_period": "day",
+        "state": "open",
+        "strike": "1.35",
+        "taker_commission": "0.0003",
+        "tick_size": "0.0005",
+        "tick_size_steps": []
+      },
+      "created": 1776254460000,
+      "option": true,
+      "future": false,
+      "symbol": "XRP/USDC:USDC-260416-1.35-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1000,
+        "price": 0.0005
+      },
+      "baseId": "XRP",
+      "type": "option",
+      "strike": 1.35,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-04-16T08:00:00.000Z",
+      "base": "XRP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0005
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1776326400000,
+      "id": "XRP_USDC-16APR26-1d35-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -124677,6 +124849,97 @@
       "lowercaseId": "__undefined",
       "subType": "inverse"
     },
+    "AVAX/USDC:USDC-260416-9.9-P": {
+      "spot": false,
+      "contractSize": 100,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0003,
+      "inverse": false,
+      "info": {
+        "base_currency": "AVAX",
+        "block_trade_commission": "0.0003",
+        "block_trade_min_trade_amount": "2500",
+        "block_trade_tick_size": "0.0005",
+        "contract_size": "100",
+        "counter_currency": "USDC",
+        "creation_timestamp": "1776255960000",
+        "expiration_timestamp": "1776326400000",
+        "instrument_id": "617122",
+        "instrument_name": "AVAX_USDC-16APR26-9d9-P",
+        "instrument_type": "linear",
+        "is_active": true,
+        "kind": "option",
+        "maker_commission": "0.0003",
+        "min_trade_amount": "100",
+        "option_type": "put",
+        "price_index": "avax_usdc",
+        "quote_currency": "USDC",
+        "settlement_currency": "USDC",
+        "settlement_period": "day",
+        "state": "open",
+        "strike": "9.9",
+        "taker_commission": "0.0003",
+        "tick_size": "0.0005",
+        "tick_size_steps": [
+          {
+            "above_price": "0.1",
+            "tick_size": "0.002"
+          }
+        ]
+      },
+      "created": 1776255960000,
+      "option": true,
+      "future": false,
+      "symbol": "AVAX/USDC:USDC-260416-9.9-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 100,
+        "price": 0.0005
+      },
+      "baseId": "AVAX",
+      "type": "option",
+      "strike": 9.9,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-04-16T08:00:00.000Z",
+      "base": "AVAX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 100
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0005
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1776326400000,
+      "id": "AVAX_USDC-16APR26-9d9-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "ETH/USDC:USDC-260417": {
       "spot": false,
       "contractSize": 0.001,
@@ -137673,6 +137936,92 @@
       "active": true,
       "expiry": 1776412800000,
       "id": "TRX_USDC-17APR26-0d35-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XRP/USDC:USDC-260416-1.375-P": {
+      "spot": false,
+      "contractSize": 1000,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0003,
+      "inverse": false,
+      "info": {
+        "base_currency": "XRP",
+        "block_trade_commission": "0.0003",
+        "block_trade_min_trade_amount": "75000",
+        "block_trade_tick_size": "0.0005",
+        "contract_size": "1000",
+        "counter_currency": "USDC",
+        "creation_timestamp": "1776254460000",
+        "expiration_timestamp": "1776326400000",
+        "instrument_id": "617118",
+        "instrument_name": "XRP_USDC-16APR26-1d375-P",
+        "instrument_type": "linear",
+        "is_active": true,
+        "kind": "option",
+        "maker_commission": "0.0003",
+        "min_trade_amount": "1000",
+        "option_type": "put",
+        "price_index": "xrp_usdc",
+        "quote_currency": "USDC",
+        "settlement_currency": "USDC",
+        "settlement_period": "day",
+        "state": "open",
+        "strike": "1.375",
+        "taker_commission": "0.0003",
+        "tick_size": "0.0005",
+        "tick_size_steps": []
+      },
+      "created": 1776254460000,
+      "option": true,
+      "future": false,
+      "symbol": "XRP/USDC:USDC-260416-1.375-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1000,
+        "price": 0.0005
+      },
+      "baseId": "XRP",
+      "type": "option",
+      "strike": 1.375,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-04-16T08:00:00.000Z",
+      "base": "XRP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0005
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1776326400000,
+      "id": "XRP_USDC-16APR26-1d375-P",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -172796,6 +173145,92 @@
       "active": true,
       "expiry": 1780041600000,
       "id": "TRX_USDC-29MAY26-0d44-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XRP/USDC:USDC-260416-1.375-C": {
+      "spot": false,
+      "contractSize": 1000,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0003,
+      "inverse": false,
+      "info": {
+        "base_currency": "XRP",
+        "block_trade_commission": "0.0003",
+        "block_trade_min_trade_amount": "75000",
+        "block_trade_tick_size": "0.0005",
+        "contract_size": "1000",
+        "counter_currency": "USDC",
+        "creation_timestamp": "1776254460000",
+        "expiration_timestamp": "1776326400000",
+        "instrument_id": "617117",
+        "instrument_name": "XRP_USDC-16APR26-1d375-C",
+        "instrument_type": "linear",
+        "is_active": true,
+        "kind": "option",
+        "maker_commission": "0.0003",
+        "min_trade_amount": "1000",
+        "option_type": "call",
+        "price_index": "xrp_usdc",
+        "quote_currency": "USDC",
+        "settlement_currency": "USDC",
+        "settlement_period": "day",
+        "state": "open",
+        "strike": "1.375",
+        "taker_commission": "0.0003",
+        "tick_size": "0.0005",
+        "tick_size_steps": []
+      },
+      "created": 1776254460000,
+      "option": true,
+      "future": false,
+      "symbol": "XRP/USDC:USDC-260416-1.375-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1000,
+        "price": 0.0005
+      },
+      "baseId": "XRP",
+      "type": "option",
+      "strike": 1.375,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-04-16T08:00:00.000Z",
+      "base": "XRP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0005
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1776326400000,
+      "id": "XRP_USDC-16APR26-1d375-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -293892,6 +294327,97 @@
       "lowercaseId": "__undefined",
       "subType": "inverse"
     },
+    "AVAX/USDC:USDC-260416-9.9-C": {
+      "spot": false,
+      "contractSize": 100,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0003,
+      "inverse": false,
+      "info": {
+        "base_currency": "AVAX",
+        "block_trade_commission": "0.0003",
+        "block_trade_min_trade_amount": "2500",
+        "block_trade_tick_size": "0.0005",
+        "contract_size": "100",
+        "counter_currency": "USDC",
+        "creation_timestamp": "1776255960000",
+        "expiration_timestamp": "1776326400000",
+        "instrument_id": "617121",
+        "instrument_name": "AVAX_USDC-16APR26-9d9-C",
+        "instrument_type": "linear",
+        "is_active": true,
+        "kind": "option",
+        "maker_commission": "0.0003",
+        "min_trade_amount": "100",
+        "option_type": "call",
+        "price_index": "avax_usdc",
+        "quote_currency": "USDC",
+        "settlement_currency": "USDC",
+        "settlement_period": "day",
+        "state": "open",
+        "strike": "9.9",
+        "taker_commission": "0.0003",
+        "tick_size": "0.0005",
+        "tick_size_steps": [
+          {
+            "above_price": "0.1",
+            "tick_size": "0.002"
+          }
+        ]
+      },
+      "created": 1776255960000,
+      "option": true,
+      "future": false,
+      "symbol": "AVAX/USDC:USDC-260416-9.9-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 100,
+        "price": 0.0005
+      },
+      "baseId": "AVAX",
+      "type": "option",
+      "strike": 9.9,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-04-16T08:00:00.000Z",
+      "base": "AVAX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 100
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0005
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1776326400000,
+      "id": "AVAX_USDC-16APR26-9d9-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "BTC/USD:BTC-260626-115000-C": {
       "spot": false,
       "contractSize": 1,
@@ -304635,6 +305161,92 @@
       "lowercaseId": "__undefined",
       "subType": "inverse"
     },
+    "XRP/USDC:USDC-260416-1.425-P": {
+      "spot": false,
+      "contractSize": 1000,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0003,
+      "inverse": false,
+      "info": {
+        "base_currency": "XRP",
+        "block_trade_commission": "0.0003",
+        "block_trade_min_trade_amount": "75000",
+        "block_trade_tick_size": "0.0005",
+        "contract_size": "1000",
+        "counter_currency": "USDC",
+        "creation_timestamp": "1776254460000",
+        "expiration_timestamp": "1776326400000",
+        "instrument_id": "617120",
+        "instrument_name": "XRP_USDC-16APR26-1d425-P",
+        "instrument_type": "linear",
+        "is_active": true,
+        "kind": "option",
+        "maker_commission": "0.0003",
+        "min_trade_amount": "1000",
+        "option_type": "put",
+        "price_index": "xrp_usdc",
+        "quote_currency": "USDC",
+        "settlement_currency": "USDC",
+        "settlement_period": "day",
+        "state": "open",
+        "strike": "1.425",
+        "taker_commission": "0.0003",
+        "tick_size": "0.0005",
+        "tick_size_steps": []
+      },
+      "created": 1776254460000,
+      "option": true,
+      "future": false,
+      "symbol": "XRP/USDC:USDC-260416-1.425-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1000,
+        "price": 0.0005
+      },
+      "baseId": "XRP",
+      "type": "option",
+      "strike": 1.425,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-04-16T08:00:00.000Z",
+      "base": "XRP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0005
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1776326400000,
+      "id": "XRP_USDC-16APR26-1d425-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "ETH/USD:ETH-270326-3000-P": {
       "spot": false,
       "contractSize": 1,
@@ -307602,6 +308214,92 @@
       "id": "BTC-18APR26-68000-P",
       "lowercaseId": "__undefined",
       "subType": "inverse"
+    },
+    "XRP/USDC:USDC-260416-1.325-P": {
+      "spot": false,
+      "contractSize": 1000,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0003,
+      "inverse": false,
+      "info": {
+        "base_currency": "XRP",
+        "block_trade_commission": "0.0003",
+        "block_trade_min_trade_amount": "75000",
+        "block_trade_tick_size": "0.0005",
+        "contract_size": "1000",
+        "counter_currency": "USDC",
+        "creation_timestamp": "1776254460000",
+        "expiration_timestamp": "1776326400000",
+        "instrument_id": "617114",
+        "instrument_name": "XRP_USDC-16APR26-1d325-P",
+        "instrument_type": "linear",
+        "is_active": true,
+        "kind": "option",
+        "maker_commission": "0.0003",
+        "min_trade_amount": "1000",
+        "option_type": "put",
+        "price_index": "xrp_usdc",
+        "quote_currency": "USDC",
+        "settlement_currency": "USDC",
+        "settlement_period": "day",
+        "state": "open",
+        "strike": "1.325",
+        "taker_commission": "0.0003",
+        "tick_size": "0.0005",
+        "tick_size_steps": []
+      },
+      "created": 1776254460000,
+      "option": true,
+      "future": false,
+      "symbol": "XRP/USDC:USDC-260416-1.325-P",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1000,
+        "price": 0.0005
+      },
+      "baseId": "XRP",
+      "type": "option",
+      "strike": 1.325,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-04-16T08:00:00.000Z",
+      "base": "XRP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0005
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "put",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1776326400000,
+      "id": "XRP_USDC-16APR26-1d325-P",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
     },
     "ETH/USD:ETH-260418-2325-C": {
       "spot": false,
@@ -360632,6 +361330,178 @@
       "id": "ETH-26JUN26-5400-P",
       "lowercaseId": "__undefined",
       "subType": "inverse"
+    },
+    "XRP/USDC:USDC-260416-1.425-C": {
+      "spot": false,
+      "contractSize": 1000,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0003,
+      "inverse": false,
+      "info": {
+        "base_currency": "XRP",
+        "block_trade_commission": "0.0003",
+        "block_trade_min_trade_amount": "75000",
+        "block_trade_tick_size": "0.0005",
+        "contract_size": "1000",
+        "counter_currency": "USDC",
+        "creation_timestamp": "1776254460000",
+        "expiration_timestamp": "1776326400000",
+        "instrument_id": "617119",
+        "instrument_name": "XRP_USDC-16APR26-1d425-C",
+        "instrument_type": "linear",
+        "is_active": true,
+        "kind": "option",
+        "maker_commission": "0.0003",
+        "min_trade_amount": "1000",
+        "option_type": "call",
+        "price_index": "xrp_usdc",
+        "quote_currency": "USDC",
+        "settlement_currency": "USDC",
+        "settlement_period": "day",
+        "state": "open",
+        "strike": "1.425",
+        "taker_commission": "0.0003",
+        "tick_size": "0.0005",
+        "tick_size_steps": []
+      },
+      "created": 1776254460000,
+      "option": true,
+      "future": false,
+      "symbol": "XRP/USDC:USDC-260416-1.425-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1000,
+        "price": 0.0005
+      },
+      "baseId": "XRP",
+      "type": "option",
+      "strike": 1.425,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-04-16T08:00:00.000Z",
+      "base": "XRP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0005
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1776326400000,
+      "id": "XRP_USDC-16APR26-1d425-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "XRP/USDC:USDC-260416-1.325-C": {
+      "spot": false,
+      "contractSize": 1000,
+      "linear": true,
+      "quoteId": "USDC",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0003,
+      "inverse": false,
+      "info": {
+        "base_currency": "XRP",
+        "block_trade_commission": "0.0003",
+        "block_trade_min_trade_amount": "75000",
+        "block_trade_tick_size": "0.0005",
+        "contract_size": "1000",
+        "counter_currency": "USDC",
+        "creation_timestamp": "1776254460000",
+        "expiration_timestamp": "1776326400000",
+        "instrument_id": "617113",
+        "instrument_name": "XRP_USDC-16APR26-1d325-C",
+        "instrument_type": "linear",
+        "is_active": true,
+        "kind": "option",
+        "maker_commission": "0.0003",
+        "min_trade_amount": "1000",
+        "option_type": "call",
+        "price_index": "xrp_usdc",
+        "quote_currency": "USDC",
+        "settlement_currency": "USDC",
+        "settlement_period": "day",
+        "state": "open",
+        "strike": "1.325",
+        "taker_commission": "0.0003",
+        "tick_size": "0.0005",
+        "tick_size_steps": []
+      },
+      "created": 1776254460000,
+      "option": true,
+      "future": false,
+      "symbol": "XRP/USDC:USDC-260416-1.325-C",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1000,
+        "price": 0.0005
+      },
+      "baseId": "XRP",
+      "type": "option",
+      "strike": 1.325,
+      "settleId": "USDC",
+      "quote": "USDC",
+      "expiryDatetime": "2026-04-16T08:00:00.000Z",
+      "base": "XRP",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1000
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0005
+        }
+      },
+      "taker": 0.0003,
+      "optionType": "call",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": 1776326400000,
+      "id": "XRP_USDC-16APR26-1d325-C",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
     },
     "SOL/USDC:USDC-260529-128-P": {
       "spot": false,

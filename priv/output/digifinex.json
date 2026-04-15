@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": false,
@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": "v3"
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -865,7 +865,7 @@
       "version": "v3"
     },
     "markets": {
-      "market_count": 295,
+      "market_count": 294,
       "markets": {
         "XLM/USDT": {
           "spot": true,
@@ -22458,81 +22458,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "DOT/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": true,
-          "index": "__undefined",
-          "maker": 0.002,
-          "inverse": "__undefined",
-          "info": {
-            "amount_precision": "2",
-            "base_asset": "DOT",
-            "is_allow": "1",
-            "minimum_amount": "0.08",
-            "minimum_value": "5",
-            "order_types": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "price_precision": "4",
-            "quote_asset": "USDT",
-            "status": "TRADING",
-            "symbol": "DOT_USDT",
-            "zone": "MAIN"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "DOT/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 0.0001
-          },
-          "baseId": "DOT",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "DOT",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0.08
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.002,
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": true,
-          "active": true,
-          "expiry": "__undefined",
-          "id": "DOT_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "LIMO/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -24450,7 +24375,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 225,
+        "sample_count": 224,
         "separator": "_",
         "suffix": null
       },

@@ -1231,13 +1231,6 @@
       "pagination_count": 5
     },
     {
-      "class_name": "coincatch",
-      "file": "coincatch.ts",
-      "id": "coincatch",
-      "pagination": {},
-      "pagination_count": 0
-    },
-    {
       "class_name": "coincheck",
       "file": "coincheck.ts",
       "id": "coincheck",
@@ -2243,6 +2236,77 @@
       "pagination_count": 0
     },
     {
+      "class_name": "pacifica",
+      "file": "pacifica.ts",
+      "id": "pacifica",
+      "pagination": {
+        "fetchFundingHistory": [
+          {
+            "containing_method": "fetchFundingHistory",
+            "cursor_increment": null,
+            "cursor_received": "next_cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": null,
+            "strategy": "cursor",
+            "target_method": "fetchFundingHistory"
+          }
+        ],
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "cursor_increment": null,
+            "cursor_received": "next_cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": null,
+            "strategy": "cursor",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ],
+        "fetchLedger": [
+          {
+            "containing_method": "fetchLedger",
+            "cursor_increment": null,
+            "cursor_received": "next_cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": null,
+            "strategy": "cursor",
+            "target_method": "fetchLedger"
+          }
+        ],
+        "fetchMyTrades": [
+          {
+            "containing_method": "fetchMyTrades",
+            "cursor_increment": null,
+            "cursor_received": "next_cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": null,
+            "strategy": "cursor",
+            "target_method": "fetchMyTrades"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ],
+        "fetchOrders": [
+          {
+            "containing_method": "fetchOrders",
+            "cursor_increment": null,
+            "cursor_received": "next_cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": null,
+            "strategy": "cursor",
+            "target_method": "fetchOrders"
+          }
+        ]
+      },
+      "pagination_count": 6
+    },
+    {
       "class_name": "paradex",
       "file": "paradex.ts",
       "id": "paradex",
@@ -2549,8 +2613,9 @@
       "pagination_count": 0
     }
   ],
-  "extracted_at": "2026-04-15T02:24:54.696502Z",
-  "total_entries": 197,
+  "extracted_at": "2026-04-15T12:48:57.565282Z",
+  "tier_scope": "all",
+  "total_entries": 203,
   "total_unresolved": 1,
-  "with_pagination": 43
+  "with_pagination": 44
 }

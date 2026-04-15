@@ -1,14 +1,17 @@
 {
   "cross_type": {
-    "rest_only_count": 694,
+    "rest_only_count": 705,
     "rest_only_methods": [
       "actionHash",
       "addHyphenBeforeUsdt",
       "addMargin",
       "addPaginationCursorToResult",
       "amountToPrecision",
+      "approveBuilderCode",
       "approveBuilderFee",
       "authenticateRest",
+      "batchOrdersRequest",
+      "bindAgentWallet",
       "borrowCrossMargin",
       "borrowIsolatedMargin",
       "buildApproveBuilderFeeSig",
@@ -24,6 +27,7 @@
       "cancelAllContractOrders",
       "cancelAllOrders",
       "cancelAllOrdersAfter",
+      "cancelAllOrdersRequest",
       "cancelAllSpotOrders",
       "cancelAllUtaOrders",
       "cancelContractOrder",
@@ -57,6 +61,7 @@
       "costToPrecision",
       "createAccount",
       "createAdvancedOrderRequest",
+      "createApiKey",
       "createAuth",
       "createAuthToken",
       "createContractOrder",
@@ -73,7 +78,6 @@
       "createOrder",
       "createOrderIdFromParts",
       "createOrderRequest",
-      "createOrderWithTakeProfitAndStopLoss",
       "createOrders",
       "createOrdersRequest",
       "createRegularOrderRequest",
@@ -118,11 +122,9 @@
       "encodeAccountType",
       "encodeFlowType",
       "encodeMarginMode",
-      "encodeMarginModeType",
       "encodeOrderSide",
       "encodeOrderTimeInForce",
       "encodeOrderType",
-      "encodeTimeInForce",
       "encodeWithdrawMessage",
       "encodeWorkingType",
       "estimateTxFee",
@@ -134,17 +136,18 @@
       "fetchAccountHelper",
       "fetchAccountIdByType",
       "fetchAccountPositions",
+      "fetchAccountSettings",
       "fetchAccounts",
       "fetchAccountsV2",
       "fetchAccountsV3",
       "fetchAllGreeks",
+      "fetchApiKeys",
       "fetchBalance",
       "fetchBorrowInterest",
       "fetchBorrowRateHistories",
       "fetchBorrowRateHistory",
+      "fetchBuilderApprovals",
       "fetchCanceledAndClosedOrders",
-      "fetchCanceledAndClosedSpotOrders",
-      "fetchCanceledAndClosedSwapOrders",
       "fetchCanceledOrders",
       "fetchClosedContractOrders",
       "fetchClosedOrder",
@@ -400,7 +403,6 @@
       "getPrice",
       "getProductGroupFromMarket",
       "getQuotes",
-      "getResultFromBatchCancelingSwapOrders",
       "getSeeds",
       "getSettlementCurrencies",
       "getSubAccountId",
@@ -420,19 +422,16 @@
       "handleMarginModeAndParams",
       "handleMarketTypeAndParams",
       "handleNetworkIdAndParams",
-      "handleOptionParamsAndRequest",
+      "handleOriginAndSingleAddress",
       "handlePaginationParams",
       "handlePortfolioAndParams",
       "handleProductTypeAndParams",
       "handlePublicAddress",
-      "handleRequiresPriceAndCost",
       "handleSinceAndUntil",
-      "handleTimeInForceAndPostOnly",
       "handleToken",
       "handleTradeType",
       "handleTriggerOptionAndParams",
       "handleTriggerPrices",
-      "handleTriggerStopLossAndTakeProfit",
       "handleTypePostOnlyAndTimeInForce",
       "handleUntilOptionString",
       "hardcodedCurrencies",
@@ -452,10 +451,13 @@
       "keccakMessage",
       "loadAccount",
       "loadAccountInfos",
+      "loadAccountSettings",
       "loadCurrencyNetworks",
       "loadLeverageBrackets",
       "loadMigrationStatus",
       "loadUnifiedStatus",
+      "mapSide",
+      "mapTimeInForce",
       "market",
       "marketOrderAmountToPrecision",
       "modifyLeverageAndMarginMode",
@@ -475,6 +477,7 @@
       "parseAccountId",
       "parseAccountPosition",
       "parseAccountPositions",
+      "parseAccountSettings",
       "parseAccountType",
       "parseAddress",
       "parseArrayParam",
@@ -512,7 +515,6 @@
       "parseDustTrade",
       "parseEmulatedLeverageTiers",
       "parseExpiryDate",
-      "parseFeeDetailString",
       "parseFeeTiers",
       "parseFixedFloatValue",
       "parseFundingBalance",
@@ -536,12 +538,15 @@
       "parseLedgerStatus",
       "parseLedgerType",
       "parseLeverage",
+      "parseLeverageFromMarket",
+      "parseLeverageFromSetting",
       "parseLeverageTiers",
       "parseLiquidation",
       "parseLongShortRatio",
       "parseMarginBalanceHelper",
       "parseMarginLoan",
       "parseMarginMode",
+      "parseMarginModeFromSetting",
       "parseMarginModeType",
       "parseMarginModification",
       "parseMarginStatus",
@@ -570,8 +575,9 @@
       "parseOrderStatus",
       "parseOrderStatusByType",
       "parseOrderTimeInForce",
-      "parseOrderTimeInForeces",
+      "parseOrderTimeInForceInteger",
       "parseOrderType",
+      "parseOrderTypeInteger",
       "parseOrderTypeTimeInForceAndPostOnly",
       "parseParams",
       "parsePortfolioDetails",
@@ -584,7 +590,6 @@
       "parseSettlements",
       "parseSide",
       "parseSpotMarket",
-      "parseSpotMarketId",
       "parseSpotOrUtaTicker",
       "parseSpotOrUtaTrade",
       "parseSpotOrder",
@@ -602,12 +607,14 @@
       "parseTradingFees",
       "parseTradingLimits",
       "parseTransaction",
+      "parseTransactionDepositStatus",
       "parseTransactionFee",
       "parseTransactionFees",
       "parseTransactionState",
       "parseTransactionStatus",
       "parseTransactionStatusByType",
       "parseTransactionType",
+      "parseTransactionWithdrawalStatus",
       "parseTransactions",
       "parseTransactionsByType",
       "parseTransfer",
@@ -621,10 +628,12 @@
       "parseValueToPricision",
       "parseVolatilityHistory",
       "parseWithdrawalStatus",
+      "postActionRequest",
       "pow",
       "preLoadLighterLibrary",
       "prepareAccountRequest",
       "prepareAccountRequestWithCurrencyCode",
+      "prepareMessage",
       "prepareOrdersByStatusRequest",
       "prepareParadexDomain",
       "prepareRequest",
@@ -640,12 +649,13 @@
       "reserveRequestWeight",
       "retrieveAccount",
       "retrieveCredentials",
+      "revokeApiKey",
+      "revokeBuilderCode",
       "safeCurrencyCode",
       "safeDeterministicCall",
       "safeGetDynamic",
       "safeGetRates",
       "safeMarket",
-      "safeMarketCustom",
       "safeNetwork",
       "scaleNumber",
       "setAgentAbstraction",
@@ -672,6 +682,7 @@
       "signTxEd25519",
       "signUserSignedAction",
       "signWithdrawPayload",
+      "sortJsonKeys",
       "spotOrderPrepareRequest",
       "timeInForceToInt",
       "toEn",
@@ -721,7 +732,7 @@
       "requestId",
       "transfer"
     ],
-    "ws_only_count": 356,
+    "ws_only_count": 354,
     "ws_only_methods": [
       "actionAndMarketMessageHash",
       "actionAndOrderIdMessageHash",
@@ -775,7 +786,6 @@
       "getFutureWsCategory",
       "getInstType",
       "getListenKey",
-      "getMarketFromArg",
       "getMarketFromOrder",
       "getMarketType",
       "getMarketTypeByUrl",
@@ -786,11 +796,9 @@
       "getOrderChannelAndMessageHash",
       "getOrdersMessageHashSuffix",
       "getParamsForMultipleSub",
-      "getPrivateInstType",
       "getPrivateType",
       "getPrivateUrl",
       "getPrivateWsUrl",
-      "getPublicInstTypeAndId",
       "getSubscriptionRequest",
       "getTypeByMarket",
       "getUnSubParams",
@@ -824,7 +832,6 @@
       "handleContractTicker",
       "handleCreateEditOrder",
       "handleCryptoMessage",
-      "handleDMCBLMarketByMessageHashes",
       "handleDelta",
       "handleDeltas",
       "handleDeposits",
@@ -996,6 +1003,7 @@
       "setOrderBookSnapshot",
       "setPositionCache",
       "setPositionsCache",
+      "setupApiKeyHeaders",
       "signParams",
       "stream",
       "subscribe",
@@ -1029,6 +1037,7 @@
       "unWatchTopics",
       "unWatchTrades",
       "unWatchTradesForSymbols",
+      "unsubscribe",
       "unsubscribePublic",
       "unwatchPublic",
       "updateBalance",
@@ -1081,7 +1090,7 @@
       "wrapAsPostAction"
     ]
   },
-  "extracted_at": "2026-04-15T12:25:43.017405Z",
+  "extracted_at": "2026-04-15T12:58:02.258359Z",
   "rest": {
     "exchange_count": 110,
     "families": {
@@ -1121,7 +1130,7 @@
         ]
       },
       "cancel": {
-        "count": 16,
+        "count": 17,
         "methods": [
           {
             "exchange_count": 98,
@@ -1149,13 +1158,23 @@
             "percentage": 4.5
           },
           {
-            "exchange_count": 3,
+            "exchange_count": 4,
             "name": "cancelOrderRequest",
-            "percentage": 2.7
+            "percentage": 3.6
+          },
+          {
+            "exchange_count": 2,
+            "name": "cancelOrdersRequest",
+            "percentage": 1.8
           },
           {
             "exchange_count": 1,
             "name": "cancelAllContractOrders",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "cancelAllOrdersRequest",
             "percentage": 0.9
           },
           {
@@ -1171,11 +1190,6 @@
           {
             "exchange_count": 1,
             "name": "cancelContractOrder",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
-            "name": "cancelOrdersRequest",
             "percentage": 0.9
           },
           {
@@ -1224,9 +1238,9 @@
             "percentage": 27.3
           },
           {
-            "exchange_count": 27,
+            "exchange_count": 26,
             "name": "createMarketBuyOrderWithCost",
-            "percentage": 24.5
+            "percentage": 23.6
           },
           {
             "exchange_count": 19,
@@ -1254,14 +1268,14 @@
             "percentage": 5.5
           },
           {
-            "exchange_count": 6,
+            "exchange_count": 5,
             "name": "createSpotOrderRequest",
-            "percentage": 5.5
+            "percentage": 4.5
           },
           {
-            "exchange_count": 5,
+            "exchange_count": 4,
             "name": "createSpotOrder",
-            "percentage": 4.5
+            "percentage": 3.6
           },
           {
             "exchange_count": 3,
@@ -1270,12 +1284,12 @@
           },
           {
             "exchange_count": 3,
-            "name": "createSwapOrder",
+            "name": "createOrdersRequest",
             "percentage": 2.7
           },
           {
             "exchange_count": 3,
-            "name": "createSwapOrderRequest",
+            "name": "createSubAccount",
             "percentage": 2.7
           },
           {
@@ -1285,12 +1299,12 @@
           },
           {
             "exchange_count": 2,
-            "name": "createOrdersRequest",
+            "name": "createSwapOrder",
             "percentage": 1.8
           },
           {
             "exchange_count": 2,
-            "name": "createSubAccount",
+            "name": "createSwapOrderRequest",
             "percentage": 1.8
           },
           {
@@ -1311,6 +1325,11 @@
           {
             "exchange_count": 1,
             "name": "createAdvancedOrderRequest",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "createApiKey",
             "percentage": 0.9
           },
           {
@@ -1341,11 +1360,6 @@
           {
             "exchange_count": 1,
             "name": "createOrderIdFromParts",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
-            "name": "createOrderWithTakeProfitAndStopLoss",
             "percentage": 0.9
           },
           {
@@ -1409,19 +1423,14 @@
             "percentage": 37.3
           },
           {
-            "exchange_count": 6,
+            "exchange_count": 7,
             "name": "editOrderRequest",
-            "percentage": 5.5
+            "percentage": 6.4
           },
           {
             "exchange_count": 6,
             "name": "editOrders",
             "percentage": 5.5
-          },
-          {
-            "exchange_count": 2,
-            "name": "editSpotOrder",
-            "percentage": 1.8
           },
           {
             "exchange_count": 1,
@@ -1440,13 +1449,18 @@
           },
           {
             "exchange_count": 1,
+            "name": "editSpotOrder",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
             "name": "editSpotOrderRequest",
             "percentage": 0.9
           }
         ]
       },
       "encode": {
-        "count": 10,
+        "count": 8,
         "methods": [
           {
             "exchange_count": 2,
@@ -1470,22 +1484,12 @@
           },
           {
             "exchange_count": 1,
-            "name": "encodeMarginModeType",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
             "name": "encodeOrderTimeInForce",
             "percentage": 0.9
           },
           {
             "exchange_count": 1,
             "name": "encodeOrderType",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
-            "name": "encodeTimeInForce",
             "percentage": 0.9
           },
           {
@@ -1501,7 +1505,7 @@
         ]
       },
       "fetch": {
-        "count": 225,
+        "count": 226,
         "methods": [
           {
             "exchange_count": 99,
@@ -1534,9 +1538,9 @@
             "percentage": 80.0
           },
           {
-            "exchange_count": 88,
+            "exchange_count": 87,
             "name": "fetchTicker",
-            "percentage": 80.0
+            "percentage": 79.1
           },
           {
             "exchange_count": 83,
@@ -1554,34 +1558,34 @@
             "percentage": 71.8
           },
           {
-            "exchange_count": 66,
+            "exchange_count": 65,
             "name": "fetchCurrencies",
-            "percentage": 60.0
-          },
-          {
-            "exchange_count": 64,
-            "name": "fetchDeposits",
-            "percentage": 58.2
+            "percentage": 59.1
           },
           {
             "exchange_count": 63,
-            "name": "fetchWithdrawals",
+            "name": "fetchDeposits",
             "percentage": 57.3
           },
           {
-            "exchange_count": 60,
+            "exchange_count": 62,
+            "name": "fetchWithdrawals",
+            "percentage": 56.4
+          },
+          {
+            "exchange_count": 61,
             "name": "fetchClosedOrders",
-            "percentage": 54.5
+            "percentage": 55.5
           },
           {
-            "exchange_count": 58,
+            "exchange_count": 57,
             "name": "fetchDepositAddress",
-            "percentage": 52.7
+            "percentage": 51.8
           },
           {
-            "exchange_count": 54,
+            "exchange_count": 53,
             "name": "fetchTime",
-            "percentage": 49.1
+            "percentage": 48.2
           },
           {
             "exchange_count": 52,
@@ -1589,9 +1593,9 @@
             "percentage": 47.3
           },
           {
-            "exchange_count": 48,
+            "exchange_count": 49,
             "name": "fetchOrders",
-            "percentage": 43.6
+            "percentage": 44.5
           },
           {
             "exchange_count": 43,
@@ -1609,14 +1613,14 @@
             "percentage": 33.6
           },
           {
-            "exchange_count": 34,
+            "exchange_count": 33,
             "name": "fetchFundingRate",
-            "percentage": 30.9
+            "percentage": 30.0
           },
           {
-            "exchange_count": 32,
+            "exchange_count": 31,
             "name": "fetchOrderTrades",
-            "percentage": 29.1
+            "percentage": 28.2
           },
           {
             "exchange_count": 30,
@@ -1624,24 +1628,24 @@
             "percentage": 27.3
           },
           {
-            "exchange_count": 29,
+            "exchange_count": 30,
             "name": "fetchTradingFee",
+            "percentage": 27.3
+          },
+          {
+            "exchange_count": 29,
+            "name": "fetchFundingHistory",
             "percentage": 26.4
           },
           {
-            "exchange_count": 28,
+            "exchange_count": 27,
             "name": "fetchDepositWithdrawFees",
-            "percentage": 25.5
+            "percentage": 24.5
           },
           {
-            "exchange_count": 28,
-            "name": "fetchFundingHistory",
-            "percentage": 25.5
-          },
-          {
-            "exchange_count": 26,
+            "exchange_count": 27,
             "name": "fetchFundingRates",
-            "percentage": 23.6
+            "percentage": 24.5
           },
           {
             "exchange_count": 26,
@@ -1669,14 +1673,14 @@
             "percentage": 20.0
           },
           {
-            "exchange_count": 19,
+            "exchange_count": 20,
             "name": "fetchCanceledOrders",
-            "percentage": 17.3
+            "percentage": 18.2
           },
           {
-            "exchange_count": 19,
+            "exchange_count": 20,
             "name": "fetchOpenInterest",
-            "percentage": 17.3
+            "percentage": 18.2
           },
           {
             "exchange_count": 15,
@@ -1704,11 +1708,6 @@
             "percentage": 10.0
           },
           {
-            "exchange_count": 11,
-            "name": "fetchPositionMode",
-            "percentage": 10.0
-          },
-          {
             "exchange_count": 10,
             "name": "fetchBidsAsks",
             "percentage": 9.1
@@ -1729,13 +1728,28 @@
             "percentage": 9.1
           },
           {
+            "exchange_count": 10,
+            "name": "fetchPositionMode",
+            "percentage": 9.1
+          },
+          {
             "exchange_count": 9,
             "name": "fetchLeverages",
             "percentage": 8.2
           },
           {
             "exchange_count": 9,
+            "name": "fetchOpenInterests",
+            "percentage": 8.2
+          },
+          {
+            "exchange_count": 9,
             "name": "fetchPositionsADLRank",
+            "percentage": 8.2
+          },
+          {
+            "exchange_count": 9,
+            "name": "fetchSwapMarkets",
             "percentage": 8.2
           },
           {
@@ -1760,22 +1774,12 @@
           },
           {
             "exchange_count": 8,
-            "name": "fetchOpenInterests",
-            "percentage": 7.3
-          },
-          {
-            "exchange_count": 8,
             "name": "fetchOrdersByStatus",
             "percentage": 7.3
           },
           {
             "exchange_count": 8,
             "name": "fetchSettlementHistory",
-            "percentage": 7.3
-          },
-          {
-            "exchange_count": 8,
-            "name": "fetchSwapMarkets",
             "percentage": 7.3
           },
           {
@@ -1860,11 +1864,6 @@
           },
           {
             "exchange_count": 5,
-            "name": "fetchPositionsForSymbol",
-            "percentage": 4.5
-          },
-          {
-            "exchange_count": 5,
             "name": "fetchTransactionsHelper",
             "percentage": 4.5
           },
@@ -1916,6 +1915,11 @@
           {
             "exchange_count": 4,
             "name": "fetchPositionHistory",
+            "percentage": 3.6
+          },
+          {
+            "exchange_count": 4,
+            "name": "fetchPositionsForSymbol",
             "percentage": 3.6
           },
           {
@@ -1996,16 +2000,6 @@
           {
             "exchange_count": 2,
             "name": "fetchMarketsV2",
-            "percentage": 1.8
-          },
-          {
-            "exchange_count": 2,
-            "name": "fetchOpenSpotOrders",
-            "percentage": 1.8
-          },
-          {
-            "exchange_count": 2,
-            "name": "fetchOpenSwapOrders",
             "percentage": 1.8
           },
           {
@@ -2095,6 +2089,11 @@
           },
           {
             "exchange_count": 1,
+            "name": "fetchAccountSettings",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
             "name": "fetchAccountsV2",
             "percentage": 0.9
           },
@@ -2105,12 +2104,12 @@
           },
           {
             "exchange_count": 1,
-            "name": "fetchCanceledAndClosedSpotOrders",
+            "name": "fetchApiKeys",
             "percentage": 0.9
           },
           {
             "exchange_count": 1,
-            "name": "fetchCanceledAndClosedSwapOrders",
+            "name": "fetchBuilderApprovals",
             "percentage": 0.9
           },
           {
@@ -2395,6 +2394,16 @@
           },
           {
             "exchange_count": 1,
+            "name": "fetchOpenSpotOrders",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "fetchOpenSwapOrders",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
             "name": "fetchOptionOHLCV",
             "percentage": 0.9
           },
@@ -2631,7 +2640,7 @@
         ]
       },
       "get": {
-        "count": 42,
+        "count": 41,
         "methods": [
           {
             "exchange_count": 3,
@@ -2795,11 +2804,6 @@
           },
           {
             "exchange_count": 1,
-            "name": "getResultFromBatchCancelingSwapOrders",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
             "name": "getSeeds",
             "percentage": 0.9
           },
@@ -2846,7 +2850,7 @@
         ]
       },
       "handle": {
-        "count": 25,
+        "count": 22,
         "methods": [
           {
             "exchange_count": 97,
@@ -2857,6 +2861,11 @@
             "exchange_count": 4,
             "name": "handleMarginModeAndParams",
             "percentage": 3.6
+          },
+          {
+            "exchange_count": 2,
+            "name": "handleBuilderFeeApproval",
+            "percentage": 1.8
           },
           {
             "exchange_count": 2,
@@ -2876,11 +2885,6 @@
           {
             "exchange_count": 1,
             "name": "handleAccountIndex",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
-            "name": "handleBuilderFeeApproval",
             "percentage": 0.9
           },
           {
@@ -2910,7 +2914,7 @@
           },
           {
             "exchange_count": 1,
-            "name": "handleOptionParamsAndRequest",
+            "name": "handleOriginAndSingleAddress",
             "percentage": 0.9
           },
           {
@@ -2926,16 +2930,6 @@
           {
             "exchange_count": 1,
             "name": "handleProductTypeAndParams",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
-            "name": "handleRequiresPriceAndCost",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
-            "name": "handleTimeInForceAndPostOnly",
             "percentage": 0.9
           },
           {
@@ -2960,11 +2954,6 @@
           },
           {
             "exchange_count": 1,
-            "name": "handleTriggerStopLossAndTakeProfit",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
             "name": "handleTypePostOnlyAndTimeInForce",
             "percentage": 0.9
           },
@@ -2976,7 +2965,7 @@
         ]
       },
       "load": {
-        "count": 7,
+        "count": 8,
         "methods": [
           {
             "exchange_count": 2,
@@ -3000,6 +2989,11 @@
           },
           {
             "exchange_count": 1,
+            "name": "loadAccountSettings",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
             "name": "loadCurrencyNetworks",
             "percentage": 0.9
           },
@@ -3016,7 +3010,7 @@
         ]
       },
       "other": {
-        "count": 154,
+        "count": 163,
         "methods": [
           {
             "exchange_count": 110,
@@ -3039,19 +3033,19 @@
             "percentage": 42.7
           },
           {
-            "exchange_count": 22,
-            "name": "addMargin",
-            "percentage": 20.0
-          },
-          {
             "exchange_count": 21,
-            "name": "reduceMargin",
+            "name": "addMargin",
             "percentage": 19.1
           },
           {
-            "exchange_count": 17,
+            "exchange_count": 20,
+            "name": "reduceMargin",
+            "percentage": 18.2
+          },
+          {
+            "exchange_count": 16,
             "name": "modifyMarginHelper",
-            "percentage": 15.5
+            "percentage": 14.5
           },
           {
             "exchange_count": 15,
@@ -3100,6 +3094,11 @@
           },
           {
             "exchange_count": 4,
+            "name": "addPaginationCursorToResult",
+            "percentage": 3.6
+          },
+          {
+            "exchange_count": 4,
             "name": "amountToPrecision",
             "percentage": 3.6
           },
@@ -3110,22 +3109,17 @@
           },
           {
             "exchange_count": 3,
-            "name": "addPaginationCursorToResult",
-            "percentage": 2.7
-          },
-          {
-            "exchange_count": 3,
             "name": "closeAllPositions",
             "percentage": 2.7
           },
           {
             "exchange_count": 3,
-            "name": "costToPrecision",
+            "name": "enableDemoTrading",
             "percentage": 2.7
           },
           {
             "exchange_count": 3,
-            "name": "enableDemoTrading",
+            "name": "initializeClient",
             "percentage": 2.7
           },
           {
@@ -3145,12 +3139,12 @@
           },
           {
             "exchange_count": 2,
-            "name": "customParseBalance",
+            "name": "costToPrecision",
             "percentage": 1.8
           },
           {
             "exchange_count": 2,
-            "name": "initializeClient",
+            "name": "customParseBalance",
             "percentage": 1.8
           },
           {
@@ -3205,12 +3199,27 @@
           },
           {
             "exchange_count": 1,
+            "name": "approveBuilderCode",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
             "name": "approveBuilderFee",
             "percentage": 0.9
           },
           {
             "exchange_count": 1,
             "name": "authenticateRest",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "batchOrdersRequest",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "bindAgentWallet",
             "percentage": 0.9
           },
           {
@@ -3535,6 +3544,16 @@
           },
           {
             "exchange_count": 1,
+            "name": "mapSide",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "mapTimeInForce",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
             "name": "marketOrderAmountToPrecision",
             "percentage": 0.9
           },
@@ -3585,6 +3604,11 @@
           },
           {
             "exchange_count": 1,
+            "name": "postActionRequest",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
             "name": "preLoadLighterLibrary",
             "percentage": 0.9
           },
@@ -3596,6 +3620,11 @@
           {
             "exchange_count": 1,
             "name": "prepareAccountRequestWithCurrencyCode",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "prepareMessage",
             "percentage": 0.9
           },
           {
@@ -3655,6 +3684,16 @@
           },
           {
             "exchange_count": 1,
+            "name": "revokeApiKey",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "revokeBuilderCode",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
             "name": "safeCurrencyCode",
             "percentage": 0.9
           },
@@ -3675,17 +3714,17 @@
           },
           {
             "exchange_count": 1,
-            "name": "safeMarketCustom",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
             "name": "safeNetwork",
             "percentage": 0.9
           },
           {
             "exchange_count": 1,
             "name": "scaleNumber",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "sortJsonKeys",
             "percentage": 0.9
           },
           {
@@ -3791,7 +3830,7 @@
         ]
       },
       "parse": {
-        "count": 160,
+        "count": 165,
         "methods": [
           {
             "exchange_count": 99,
@@ -3814,14 +3853,14 @@
             "percentage": 76.4
           },
           {
-            "exchange_count": 82,
+            "exchange_count": 81,
             "name": "parseTransaction",
-            "percentage": 74.5
+            "percentage": 73.6
           },
           {
-            "exchange_count": 81,
+            "exchange_count": 80,
             "name": "parseBalance",
-            "percentage": 73.6
+            "percentage": 72.7
           },
           {
             "exchange_count": 78,
@@ -3829,9 +3868,9 @@
             "percentage": 70.9
           },
           {
-            "exchange_count": 58,
+            "exchange_count": 57,
             "name": "parseTransactionStatus",
-            "percentage": 52.7
+            "percentage": 51.8
           },
           {
             "exchange_count": 49,
@@ -3854,9 +3893,9 @@
             "percentage": 38.2
           },
           {
-            "exchange_count": 41,
+            "exchange_count": 40,
             "name": "parseDepositAddress",
-            "percentage": 37.3
+            "percentage": 36.4
           },
           {
             "exchange_count": 37,
@@ -3869,18 +3908,18 @@
             "percentage": 30.0
           },
           {
-            "exchange_count": 32,
+            "exchange_count": 33,
             "name": "parseOrderType",
-            "percentage": 29.1
+            "percentage": 30.0
           },
           {
             "exchange_count": 27,
-            "name": "parseLeverage",
+            "name": "parseTradingFee",
             "percentage": 24.5
           },
           {
             "exchange_count": 26,
-            "name": "parseTradingFee",
+            "name": "parseLeverage",
             "percentage": 23.6
           },
           {
@@ -3889,29 +3928,29 @@
             "percentage": 22.7
           },
           {
-            "exchange_count": 24,
+            "exchange_count": 23,
             "name": "parseDepositWithdrawFee",
-            "percentage": 21.8
+            "percentage": 20.9
           },
           {
-            "exchange_count": 22,
-            "name": "parseMarginModification",
-            "percentage": 20.0
-          },
-          {
-            "exchange_count": 22,
+            "exchange_count": 23,
             "name": "parseOpenInterest",
-            "percentage": 20.0
+            "percentage": 20.9
+          },
+          {
+            "exchange_count": 21,
+            "name": "parseMarginModification",
+            "percentage": 19.1
+          },
+          {
+            "exchange_count": 19,
+            "name": "parseIncome",
+            "percentage": 17.3
           },
           {
             "exchange_count": 19,
             "name": "parseTimeInForce",
             "percentage": 17.3
-          },
-          {
-            "exchange_count": 18,
-            "name": "parseIncome",
-            "percentage": 16.4
           },
           {
             "exchange_count": 18,
@@ -3924,13 +3963,13 @@
             "percentage": 14.5
           },
           {
-            "exchange_count": 14,
-            "name": "parseMarginMode",
-            "percentage": 12.7
+            "exchange_count": 13,
+            "name": "parseFundingRateHistory",
+            "percentage": 11.8
           },
           {
             "exchange_count": 13,
-            "name": "parseFundingRateHistory",
+            "name": "parseMarginMode",
             "percentage": 11.8
           },
           {
@@ -3999,11 +4038,6 @@
             "percentage": 6.4
           },
           {
-            "exchange_count": 7,
-            "name": "parseOrderSide",
-            "percentage": 6.4
-          },
-          {
             "exchange_count": 6,
             "name": "parseDepositWithdrawFees",
             "percentage": 5.5
@@ -4011,6 +4045,11 @@
           {
             "exchange_count": 6,
             "name": "parseOption",
+            "percentage": 5.5
+          },
+          {
+            "exchange_count": 6,
+            "name": "parseOrderSide",
             "percentage": 5.5
           },
           {
@@ -4160,11 +4199,6 @@
           },
           {
             "exchange_count": 2,
-            "name": "parseMarginModeType",
-            "percentage": 1.8
-          },
-          {
-            "exchange_count": 2,
             "name": "parseMarketType",
             "percentage": 1.8
           },
@@ -4216,6 +4250,11 @@
           {
             "exchange_count": 1,
             "name": "parseAccountId",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "parseAccountSettings",
             "percentage": 0.9
           },
           {
@@ -4320,11 +4359,6 @@
           },
           {
             "exchange_count": 1,
-            "name": "parseFeeDetailString",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
             "name": "parseFixedFloatValue",
             "percentage": 0.9
           },
@@ -4360,12 +4394,32 @@
           },
           {
             "exchange_count": 1,
+            "name": "parseLeverageFromMarket",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "parseLeverageFromSetting",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
             "name": "parseMarginBalance",
             "percentage": 0.9
           },
           {
             "exchange_count": 1,
             "name": "parseMarginBalanceHelper",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "parseMarginModeFromSetting",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "parseMarginModeType",
             "percentage": 0.9
           },
           {
@@ -4445,7 +4499,12 @@
           },
           {
             "exchange_count": 1,
-            "name": "parseOrderTimeInForeces",
+            "name": "parseOrderTimeInForceInteger",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "parseOrderTypeInteger",
             "percentage": 0.9
           },
           {
@@ -4490,11 +4549,6 @@
           },
           {
             "exchange_count": 1,
-            "name": "parseSpotMarketId",
-            "percentage": 0.9
-          },
-          {
-            "exchange_count": 1,
             "name": "parseSpotOrUtaTicker",
             "percentage": 0.9
           },
@@ -4535,12 +4589,22 @@
           },
           {
             "exchange_count": 1,
+            "name": "parseTransactionDepositStatus",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
             "name": "parseTransactionFee",
             "percentage": 0.9
           },
           {
             "exchange_count": 1,
             "name": "parseTransactionState",
+            "percentage": 0.9
+          },
+          {
+            "exchange_count": 1,
+            "name": "parseTransactionWithdrawalStatus",
             "percentage": 0.9
           },
           {
@@ -4609,9 +4673,9 @@
             "percentage": 19.1
           },
           {
-            "exchange_count": 17,
+            "exchange_count": 16,
             "name": "setPositionMode",
-            "percentage": 15.5
+            "percentage": 14.5
           },
           {
             "exchange_count": 13,
@@ -4664,9 +4728,9 @@
             "percentage": 90.0
           },
           {
-            "exchange_count": 8,
+            "exchange_count": 9,
             "name": "signMessage",
-            "percentage": 7.3
+            "percentage": 8.2
           },
           {
             "exchange_count": 7,
@@ -4727,7 +4791,7 @@
       }
     },
     "method_count_distribution": {
-      "max": 166,
+      "max": 165,
       "mean": 50.3,
       "median": 45,
       "min": 1,
@@ -4737,7 +4801,19 @@
     "rare_methods": [
       {
         "count": 4,
+        "name": "addPaginationCursorToResult"
+      },
+      {
+        "count": 4,
         "name": "amountToPrecision"
+      },
+      {
+        "count": 4,
+        "name": "cancelOrderRequest"
+      },
+      {
+        "count": 4,
+        "name": "createSpotOrder"
       },
       {
         "count": 4,
@@ -4781,6 +4857,10 @@
       },
       {
         "count": 4,
+        "name": "fetchPositionsForSymbol"
+      },
+      {
+        "count": 4,
         "name": "fetchTradingLimits"
       },
       {
@@ -4813,19 +4893,7 @@
       },
       {
         "count": 3,
-        "name": "addPaginationCursorToResult"
-      },
-      {
-        "count": 3,
-        "name": "cancelOrderRequest"
-      },
-      {
-        "count": 3,
         "name": "closeAllPositions"
-      },
-      {
-        "count": 3,
-        "name": "costToPrecision"
       },
       {
         "count": 3,
@@ -4833,11 +4901,11 @@
       },
       {
         "count": 3,
-        "name": "createSwapOrder"
+        "name": "createOrdersRequest"
       },
       {
         "count": 3,
-        "name": "createSwapOrderRequest"
+        "name": "createSubAccount"
       },
       {
         "count": 3,
@@ -4881,6 +4949,10 @@
       },
       {
         "count": 3,
+        "name": "initializeClient"
+      },
+      {
+        "count": 3,
         "name": "orderRequest"
       },
       {
@@ -4917,7 +4989,15 @@
       },
       {
         "count": 2,
+        "name": "cancelOrdersRequest"
+      },
+      {
+        "count": 2,
         "name": "convertToInstrumentType"
+      },
+      {
+        "count": 2,
+        "name": "costToPrecision"
       },
       {
         "count": 2,
@@ -4925,11 +5005,11 @@
       },
       {
         "count": 2,
-        "name": "createOrdersRequest"
+        "name": "createSwapOrder"
       },
       {
         "count": 2,
-        "name": "createSubAccount"
+        "name": "createSwapOrderRequest"
       },
       {
         "count": 2,
@@ -4942,10 +5022,6 @@
       {
         "count": 2,
         "name": "customParseBalance"
-      },
-      {
-        "count": 2,
-        "name": "editSpotOrder"
       },
       {
         "count": 2,
@@ -4982,14 +5058,6 @@
       {
         "count": 2,
         "name": "fetchMarketsV2"
-      },
-      {
-        "count": 2,
-        "name": "fetchOpenSpotOrders"
-      },
-      {
-        "count": 2,
-        "name": "fetchOpenSwapOrders"
       },
       {
         "count": 2,
@@ -5061,6 +5129,10 @@
       },
       {
         "count": 2,
+        "name": "handleBuilderFeeApproval"
+      },
+      {
+        "count": 2,
         "name": "handleMarketTypeAndParams"
       },
       {
@@ -5070,10 +5142,6 @@
       {
         "count": 2,
         "name": "handleSinceAndUntil"
-      },
-      {
-        "count": 2,
-        "name": "initializeClient"
       },
       {
         "count": 2,
@@ -5157,10 +5225,6 @@
       },
       {
         "count": 2,
-        "name": "parseMarginModeType"
-      },
-      {
-        "count": 2,
         "name": "parseMarketType"
       },
       {
@@ -5225,11 +5289,23 @@
       },
       {
         "count": 1,
+        "name": "approveBuilderCode"
+      },
+      {
+        "count": 1,
         "name": "approveBuilderFee"
       },
       {
         "count": 1,
         "name": "authenticateRest"
+      },
+      {
+        "count": 1,
+        "name": "batchOrdersRequest"
+      },
+      {
+        "count": 1,
+        "name": "bindAgentWallet"
       },
       {
         "count": 1,
@@ -5273,6 +5349,10 @@
       },
       {
         "count": 1,
+        "name": "cancelAllOrdersRequest"
+      },
+      {
+        "count": 1,
         "name": "cancelAllSpotOrders"
       },
       {
@@ -5282,10 +5362,6 @@
       {
         "count": 1,
         "name": "cancelContractOrder"
-      },
-      {
-        "count": 1,
-        "name": "cancelOrdersRequest"
       },
       {
         "count": 1,
@@ -5373,6 +5449,10 @@
       },
       {
         "count": 1,
+        "name": "createApiKey"
+      },
+      {
+        "count": 1,
         "name": "createAuth"
       },
       {
@@ -5394,10 +5474,6 @@
       {
         "count": 1,
         "name": "createOrderIdFromParts"
-      },
-      {
-        "count": 1,
-        "name": "createOrderWithTakeProfitAndStopLoss"
       },
       {
         "count": 1,
@@ -5493,6 +5569,10 @@
       },
       {
         "count": 1,
+        "name": "editSpotOrder"
+      },
+      {
+        "count": 1,
         "name": "editSpotOrderRequest"
       },
       {
@@ -5521,19 +5601,11 @@
       },
       {
         "count": 1,
-        "name": "encodeMarginModeType"
-      },
-      {
-        "count": 1,
         "name": "encodeOrderTimeInForce"
       },
       {
         "count": 1,
         "name": "encodeOrderType"
-      },
-      {
-        "count": 1,
-        "name": "encodeTimeInForce"
       },
       {
         "count": 1,
@@ -5577,6 +5649,10 @@
       },
       {
         "count": 1,
+        "name": "fetchAccountSettings"
+      },
+      {
+        "count": 1,
         "name": "fetchAccountsV2"
       },
       {
@@ -5585,11 +5661,11 @@
       },
       {
         "count": 1,
-        "name": "fetchCanceledAndClosedSpotOrders"
+        "name": "fetchApiKeys"
       },
       {
         "count": 1,
-        "name": "fetchCanceledAndClosedSwapOrders"
+        "name": "fetchBuilderApprovals"
       },
       {
         "count": 1,
@@ -5814,6 +5890,14 @@
       {
         "count": 1,
         "name": "fetchOpenOrdersV2"
+      },
+      {
+        "count": 1,
+        "name": "fetchOpenSpotOrders"
+      },
+      {
+        "count": 1,
+        "name": "fetchOpenSwapOrders"
       },
       {
         "count": 1,
@@ -6193,10 +6277,6 @@
       },
       {
         "count": 1,
-        "name": "getResultFromBatchCancelingSwapOrders"
-      },
-      {
-        "count": 1,
         "name": "getSeeds"
       },
       {
@@ -6237,10 +6317,6 @@
       },
       {
         "count": 1,
-        "name": "handleBuilderFeeApproval"
-      },
-      {
-        "count": 1,
         "name": "handleCreateOrderSide"
       },
       {
@@ -6261,7 +6337,7 @@
       },
       {
         "count": 1,
-        "name": "handleOptionParamsAndRequest"
+        "name": "handleOriginAndSingleAddress"
       },
       {
         "count": 1,
@@ -6274,14 +6350,6 @@
       {
         "count": 1,
         "name": "handleProductTypeAndParams"
-      },
-      {
-        "count": 1,
-        "name": "handleRequiresPriceAndCost"
-      },
-      {
-        "count": 1,
-        "name": "handleTimeInForceAndPostOnly"
       },
       {
         "count": 1,
@@ -6298,10 +6366,6 @@
       {
         "count": 1,
         "name": "handleTriggerPrices"
-      },
-      {
-        "count": 1,
-        "name": "handleTriggerStopLossAndTakeProfit"
       },
       {
         "count": 1,
@@ -6353,6 +6417,10 @@
       },
       {
         "count": 1,
+        "name": "loadAccountSettings"
+      },
+      {
+        "count": 1,
         "name": "loadCurrencyNetworks"
       },
       {
@@ -6362,6 +6430,14 @@
       {
         "count": 1,
         "name": "loadUnifiedStatus"
+      },
+      {
+        "count": 1,
+        "name": "mapSide"
+      },
+      {
+        "count": 1,
+        "name": "mapTimeInForce"
       },
       {
         "count": 1,
@@ -6406,6 +6482,10 @@
       {
         "count": 1,
         "name": "parseAccountId"
+      },
+      {
+        "count": 1,
+        "name": "parseAccountSettings"
       },
       {
         "count": 1,
@@ -6489,10 +6569,6 @@
       },
       {
         "count": 1,
-        "name": "parseFeeDetailString"
-      },
-      {
-        "count": 1,
         "name": "parseFixedFloatValue"
       },
       {
@@ -6521,11 +6597,27 @@
       },
       {
         "count": 1,
+        "name": "parseLeverageFromMarket"
+      },
+      {
+        "count": 1,
+        "name": "parseLeverageFromSetting"
+      },
+      {
+        "count": 1,
         "name": "parseMarginBalance"
       },
       {
         "count": 1,
         "name": "parseMarginBalanceHelper"
+      },
+      {
+        "count": 1,
+        "name": "parseMarginModeFromSetting"
+      },
+      {
+        "count": 1,
+        "name": "parseMarginModeType"
       },
       {
         "count": 1,
@@ -6589,7 +6681,11 @@
       },
       {
         "count": 1,
-        "name": "parseOrderTimeInForeces"
+        "name": "parseOrderTimeInForceInteger"
+      },
+      {
+        "count": 1,
+        "name": "parseOrderTypeInteger"
       },
       {
         "count": 1,
@@ -6625,10 +6721,6 @@
       },
       {
         "count": 1,
-        "name": "parseSpotMarketId"
-      },
-      {
-        "count": 1,
         "name": "parseSpotOrUtaTicker"
       },
       {
@@ -6661,11 +6753,19 @@
       },
       {
         "count": 1,
+        "name": "parseTransactionDepositStatus"
+      },
+      {
+        "count": 1,
         "name": "parseTransactionFee"
       },
       {
         "count": 1,
         "name": "parseTransactionState"
+      },
+      {
+        "count": 1,
+        "name": "parseTransactionWithdrawalStatus"
       },
       {
         "count": 1,
@@ -6709,6 +6809,10 @@
       },
       {
         "count": 1,
+        "name": "postActionRequest"
+      },
+      {
+        "count": 1,
         "name": "preLoadLighterLibrary"
       },
       {
@@ -6718,6 +6822,10 @@
       {
         "count": 1,
         "name": "prepareAccountRequestWithCurrencyCode"
+      },
+      {
+        "count": 1,
+        "name": "prepareMessage"
       },
       {
         "count": 1,
@@ -6765,6 +6873,14 @@
       },
       {
         "count": 1,
+        "name": "revokeApiKey"
+      },
+      {
+        "count": 1,
+        "name": "revokeBuilderCode"
+      },
+      {
+        "count": 1,
         "name": "safeCurrencyCode"
       },
       {
@@ -6778,10 +6894,6 @@
       {
         "count": 1,
         "name": "safeGetRates"
-      },
-      {
-        "count": 1,
-        "name": "safeMarketCustom"
       },
       {
         "count": 1,
@@ -6850,6 +6962,10 @@
       {
         "count": 1,
         "name": "signWithdrawPayload"
+      },
+      {
+        "count": 1,
+        "name": "sortJsonKeys"
       },
       {
         "count": 1,
@@ -6932,8 +7048,8 @@
         "name": "withdrawRequest"
       }
     ],
-    "total_methods": 5530,
-    "unique_method_names": 715,
+    "total_methods": 5529,
+    "unique_method_names": 726,
     "unique_methods": [
       {
         "count": 1,
@@ -6945,11 +7061,23 @@
       },
       {
         "count": 1,
+        "name": "approveBuilderCode"
+      },
+      {
+        "count": 1,
         "name": "approveBuilderFee"
       },
       {
         "count": 1,
         "name": "authenticateRest"
+      },
+      {
+        "count": 1,
+        "name": "batchOrdersRequest"
+      },
+      {
+        "count": 1,
+        "name": "bindAgentWallet"
       },
       {
         "count": 1,
@@ -6993,6 +7121,10 @@
       },
       {
         "count": 1,
+        "name": "cancelAllOrdersRequest"
+      },
+      {
+        "count": 1,
         "name": "cancelAllSpotOrders"
       },
       {
@@ -7002,10 +7134,6 @@
       {
         "count": 1,
         "name": "cancelContractOrder"
-      },
-      {
-        "count": 1,
-        "name": "cancelOrdersRequest"
       },
       {
         "count": 1,
@@ -7093,6 +7221,10 @@
       },
       {
         "count": 1,
+        "name": "createApiKey"
+      },
+      {
+        "count": 1,
         "name": "createAuth"
       },
       {
@@ -7114,10 +7246,6 @@
       {
         "count": 1,
         "name": "createOrderIdFromParts"
-      },
-      {
-        "count": 1,
-        "name": "createOrderWithTakeProfitAndStopLoss"
       },
       {
         "count": 1,
@@ -7213,6 +7341,10 @@
       },
       {
         "count": 1,
+        "name": "editSpotOrder"
+      },
+      {
+        "count": 1,
         "name": "editSpotOrderRequest"
       },
       {
@@ -7241,19 +7373,11 @@
       },
       {
         "count": 1,
-        "name": "encodeMarginModeType"
-      },
-      {
-        "count": 1,
         "name": "encodeOrderTimeInForce"
       },
       {
         "count": 1,
         "name": "encodeOrderType"
-      },
-      {
-        "count": 1,
-        "name": "encodeTimeInForce"
       },
       {
         "count": 1,
@@ -7297,6 +7421,10 @@
       },
       {
         "count": 1,
+        "name": "fetchAccountSettings"
+      },
+      {
+        "count": 1,
         "name": "fetchAccountsV2"
       },
       {
@@ -7305,11 +7433,11 @@
       },
       {
         "count": 1,
-        "name": "fetchCanceledAndClosedSpotOrders"
+        "name": "fetchApiKeys"
       },
       {
         "count": 1,
-        "name": "fetchCanceledAndClosedSwapOrders"
+        "name": "fetchBuilderApprovals"
       },
       {
         "count": 1,
@@ -7534,6 +7662,14 @@
       {
         "count": 1,
         "name": "fetchOpenOrdersV2"
+      },
+      {
+        "count": 1,
+        "name": "fetchOpenSpotOrders"
+      },
+      {
+        "count": 1,
+        "name": "fetchOpenSwapOrders"
       },
       {
         "count": 1,
@@ -7913,10 +8049,6 @@
       },
       {
         "count": 1,
-        "name": "getResultFromBatchCancelingSwapOrders"
-      },
-      {
-        "count": 1,
         "name": "getSeeds"
       },
       {
@@ -7957,10 +8089,6 @@
       },
       {
         "count": 1,
-        "name": "handleBuilderFeeApproval"
-      },
-      {
-        "count": 1,
         "name": "handleCreateOrderSide"
       },
       {
@@ -7981,7 +8109,7 @@
       },
       {
         "count": 1,
-        "name": "handleOptionParamsAndRequest"
+        "name": "handleOriginAndSingleAddress"
       },
       {
         "count": 1,
@@ -7994,14 +8122,6 @@
       {
         "count": 1,
         "name": "handleProductTypeAndParams"
-      },
-      {
-        "count": 1,
-        "name": "handleRequiresPriceAndCost"
-      },
-      {
-        "count": 1,
-        "name": "handleTimeInForceAndPostOnly"
       },
       {
         "count": 1,
@@ -8018,10 +8138,6 @@
       {
         "count": 1,
         "name": "handleTriggerPrices"
-      },
-      {
-        "count": 1,
-        "name": "handleTriggerStopLossAndTakeProfit"
       },
       {
         "count": 1,
@@ -8073,6 +8189,10 @@
       },
       {
         "count": 1,
+        "name": "loadAccountSettings"
+      },
+      {
+        "count": 1,
         "name": "loadCurrencyNetworks"
       },
       {
@@ -8082,6 +8202,14 @@
       {
         "count": 1,
         "name": "loadUnifiedStatus"
+      },
+      {
+        "count": 1,
+        "name": "mapSide"
+      },
+      {
+        "count": 1,
+        "name": "mapTimeInForce"
       },
       {
         "count": 1,
@@ -8126,6 +8254,10 @@
       {
         "count": 1,
         "name": "parseAccountId"
+      },
+      {
+        "count": 1,
+        "name": "parseAccountSettings"
       },
       {
         "count": 1,
@@ -8209,10 +8341,6 @@
       },
       {
         "count": 1,
-        "name": "parseFeeDetailString"
-      },
-      {
-        "count": 1,
         "name": "parseFixedFloatValue"
       },
       {
@@ -8241,11 +8369,27 @@
       },
       {
         "count": 1,
+        "name": "parseLeverageFromMarket"
+      },
+      {
+        "count": 1,
+        "name": "parseLeverageFromSetting"
+      },
+      {
+        "count": 1,
         "name": "parseMarginBalance"
       },
       {
         "count": 1,
         "name": "parseMarginBalanceHelper"
+      },
+      {
+        "count": 1,
+        "name": "parseMarginModeFromSetting"
+      },
+      {
+        "count": 1,
+        "name": "parseMarginModeType"
       },
       {
         "count": 1,
@@ -8309,7 +8453,11 @@
       },
       {
         "count": 1,
-        "name": "parseOrderTimeInForeces"
+        "name": "parseOrderTimeInForceInteger"
+      },
+      {
+        "count": 1,
+        "name": "parseOrderTypeInteger"
       },
       {
         "count": 1,
@@ -8345,10 +8493,6 @@
       },
       {
         "count": 1,
-        "name": "parseSpotMarketId"
-      },
-      {
-        "count": 1,
         "name": "parseSpotOrUtaTicker"
       },
       {
@@ -8381,11 +8525,19 @@
       },
       {
         "count": 1,
+        "name": "parseTransactionDepositStatus"
+      },
+      {
+        "count": 1,
         "name": "parseTransactionFee"
       },
       {
         "count": 1,
         "name": "parseTransactionState"
+      },
+      {
+        "count": 1,
+        "name": "parseTransactionWithdrawalStatus"
       },
       {
         "count": 1,
@@ -8429,6 +8581,10 @@
       },
       {
         "count": 1,
+        "name": "postActionRequest"
+      },
+      {
+        "count": 1,
         "name": "preLoadLighterLibrary"
       },
       {
@@ -8438,6 +8594,10 @@
       {
         "count": 1,
         "name": "prepareAccountRequestWithCurrencyCode"
+      },
+      {
+        "count": 1,
+        "name": "prepareMessage"
       },
       {
         "count": 1,
@@ -8485,6 +8645,14 @@
       },
       {
         "count": 1,
+        "name": "revokeApiKey"
+      },
+      {
+        "count": 1,
+        "name": "revokeBuilderCode"
+      },
+      {
+        "count": 1,
         "name": "safeCurrencyCode"
       },
       {
@@ -8498,10 +8666,6 @@
       {
         "count": 1,
         "name": "safeGetRates"
-      },
-      {
-        "count": 1,
-        "name": "safeMarketCustom"
       },
       {
         "count": 1,
@@ -8570,6 +8734,10 @@
       {
         "count": 1,
         "name": "signWithdrawPayload"
+      },
+      {
+        "count": 1,
+        "name": "sortJsonKeys"
       },
       {
         "count": 1,
@@ -8678,19 +8846,19 @@
         "count": 3,
         "methods": [
           {
-            "exchange_count": 12,
+            "exchange_count": 13,
             "name": "cancelOrderWs",
-            "percentage": 15.2
+            "percentage": 16.5
           },
           {
-            "exchange_count": 8,
+            "exchange_count": 9,
             "name": "cancelAllOrdersWs",
-            "percentage": 10.1
+            "percentage": 11.4
           },
           {
-            "exchange_count": 6,
+            "exchange_count": 7,
             "name": "cancelOrdersWs",
-            "percentage": 7.6
+            "percentage": 8.9
           }
         ]
       },
@@ -8698,9 +8866,9 @@
         "count": 4,
         "methods": [
           {
-            "exchange_count": 12,
+            "exchange_count": 13,
             "name": "createOrderWs",
-            "percentage": 15.2
+            "percentage": 16.5
           },
           {
             "exchange_count": 2,
@@ -8723,9 +8891,9 @@
         "count": 1,
         "methods": [
           {
-            "exchange_count": 10,
+            "exchange_count": 11,
             "name": "editOrderWs",
-            "percentage": 12.7
+            "percentage": 13.9
           }
         ]
       },
@@ -8845,7 +9013,7 @@
         ]
       },
       "get": {
-        "count": 31,
+        "count": 28,
         "methods": [
           {
             "exchange_count": 6,
@@ -8899,11 +9067,6 @@
           },
           {
             "exchange_count": 1,
-            "name": "getMarketFromArg",
-            "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
             "name": "getMarketFromOrder",
             "percentage": 1.3
           },
@@ -8949,22 +9112,12 @@
           },
           {
             "exchange_count": 1,
-            "name": "getPrivateInstType",
-            "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
             "name": "getPrivateType",
             "percentage": 1.3
           },
           {
             "exchange_count": 1,
             "name": "getPrivateWsUrl",
-            "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
-            "name": "getPublicInstTypeAndId",
             "percentage": 1.3
           },
           {
@@ -9005,7 +9158,7 @@
         ]
       },
       "handle": {
-        "count": 139,
+        "count": 138,
         "methods": [
           {
             "exchange_count": 69,
@@ -9018,9 +9171,9 @@
             "percentage": 86.1
           },
           {
-            "exchange_count": 55,
+            "exchange_count": 54,
             "name": "handleTicker",
-            "percentage": 69.6
+            "percentage": 68.4
           },
           {
             "exchange_count": 50,
@@ -9043,9 +9196,9 @@
             "percentage": 55.7
           },
           {
-            "exchange_count": 41,
+            "exchange_count": 40,
             "name": "handleDelta",
-            "percentage": 51.9
+            "percentage": 50.6
           },
           {
             "exchange_count": 39,
@@ -9053,24 +9206,24 @@
             "percentage": 49.4
           },
           {
-            "exchange_count": 29,
-            "name": "handleSubscriptionStatus",
-            "percentage": 36.7
-          },
-          {
             "exchange_count": 28,
-            "name": "handleDeltas",
+            "name": "handleSubscriptionStatus",
             "percentage": 35.4
           },
           {
-            "exchange_count": 25,
-            "name": "handlePositions",
-            "percentage": 31.6
+            "exchange_count": 27,
+            "name": "handleDeltas",
+            "percentage": 34.2
           },
           {
-            "exchange_count": 22,
+            "exchange_count": 24,
+            "name": "handlePositions",
+            "percentage": 30.4
+          },
+          {
+            "exchange_count": 23,
             "name": "handleMyTrades",
-            "percentage": 27.8
+            "percentage": 29.1
           },
           {
             "exchange_count": 22,
@@ -9093,14 +9246,14 @@
             "percentage": 24.1
           },
           {
-            "exchange_count": 18,
+            "exchange_count": 19,
             "name": "handleOrders",
-            "percentage": 22.8
+            "percentage": 24.1
           },
           {
-            "exchange_count": 15,
+            "exchange_count": 14,
             "name": "handleAuthenticate",
-            "percentage": 19.0
+            "percentage": 17.7
           },
           {
             "exchange_count": 12,
@@ -9194,23 +9347,8 @@
           },
           {
             "exchange_count": 3,
-            "name": "handleOrderBookUnSubscription",
-            "percentage": 3.8
-          },
-          {
-            "exchange_count": 3,
-            "name": "handleTradesUnSubscription",
-            "percentage": 3.8
-          },
-          {
-            "exchange_count": 3,
             "name": "handleUnSubscribe",
             "percentage": 3.8
-          },
-          {
-            "exchange_count": 2,
-            "name": "handleCheckSumError",
-            "percentage": 2.5
           },
           {
             "exchange_count": 2,
@@ -9234,12 +9372,32 @@
           },
           {
             "exchange_count": 2,
-            "name": "handleOHLCVUnSubscription",
+            "name": "handleMyTradesUnsubscription",
+            "percentage": 2.5
+          },
+          {
+            "exchange_count": 2,
+            "name": "handleOHLCVUnsubscription",
+            "percentage": 2.5
+          },
+          {
+            "exchange_count": 2,
+            "name": "handleOrderBookUnSubscription",
+            "percentage": 2.5
+          },
+          {
+            "exchange_count": 2,
+            "name": "handleOrderBookUnsubscription",
             "percentage": 2.5
           },
           {
             "exchange_count": 2,
             "name": "handleOrderRequest",
+            "percentage": 2.5
+          },
+          {
+            "exchange_count": 2,
+            "name": "handleOrderUnsubscription",
             "percentage": 2.5
           },
           {
@@ -9259,22 +9417,42 @@
           },
           {
             "exchange_count": 2,
+            "name": "handleSubscriptionResponse",
+            "percentage": 2.5
+          },
+          {
+            "exchange_count": 2,
             "name": "handleSubscriptions",
             "percentage": 2.5
           },
           {
             "exchange_count": 2,
-            "name": "handleTickerUnSubscription",
+            "name": "handleTickersUnsubscription",
             "percentage": 2.5
           },
           {
             "exchange_count": 2,
-            "name": "handleUnSubscriptionStatus",
+            "name": "handleTradesUnSubscription",
+            "percentage": 2.5
+          },
+          {
+            "exchange_count": 2,
+            "name": "handleTradesUnsubscription",
             "percentage": 2.5
           },
           {
             "exchange_count": 2,
             "name": "handleUnsubscriptions",
+            "percentage": 2.5
+          },
+          {
+            "exchange_count": 2,
+            "name": "handleWsPost",
+            "percentage": 2.5
+          },
+          {
+            "exchange_count": 2,
+            "name": "handleWsTickers",
             "percentage": 2.5
           },
           {
@@ -9339,6 +9517,11 @@
           },
           {
             "exchange_count": 1,
+            "name": "handleCheckSumError",
+            "percentage": 1.3
+          },
+          {
+            "exchange_count": 1,
             "name": "handleChecksum",
             "percentage": 1.3
           },
@@ -9355,11 +9538,6 @@
           {
             "exchange_count": 1,
             "name": "handleCryptoMessage",
-            "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
-            "name": "handleDMCBLMarketByMessageHashes",
             "percentage": 1.3
           },
           {
@@ -9449,11 +9627,6 @@
           },
           {
             "exchange_count": 1,
-            "name": "handleMyTradesUnsubscription",
-            "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
             "name": "handleNotification",
             "percentage": 1.3
           },
@@ -9469,7 +9642,7 @@
           },
           {
             "exchange_count": 1,
-            "name": "handleOHLCVUnsubscription",
+            "name": "handleOHLCVUnSubscription",
             "percentage": 1.3
           },
           {
@@ -9494,11 +9667,6 @@
           },
           {
             "exchange_count": 1,
-            "name": "handleOrderBookUnsubscription",
-            "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
             "name": "handleOrderBookUpdate",
             "percentage": 1.3
           },
@@ -9510,11 +9678,6 @@
           {
             "exchange_count": 1,
             "name": "handleOrderSnapshot",
-            "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
-            "name": "handleOrderUnsubscription",
             "percentage": 1.3
           },
           {
@@ -9554,11 +9717,6 @@
           },
           {
             "exchange_count": 1,
-            "name": "handleSubscriptionResponse",
-            "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
             "name": "handleTakerOrMaker",
             "percentage": 1.3
           },
@@ -9569,17 +9727,17 @@
           },
           {
             "exchange_count": 1,
+            "name": "handleTickerUnSubscription",
+            "percentage": 1.3
+          },
+          {
+            "exchange_count": 1,
             "name": "handleTickerWs",
             "percentage": 1.3
           },
           {
             "exchange_count": 1,
             "name": "handleTickersAndBidsAsks",
-            "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
-            "name": "handleTickersUnsubscription",
             "percentage": 1.3
           },
           {
@@ -9609,11 +9767,6 @@
           },
           {
             "exchange_count": 1,
-            "name": "handleTradesUnsubscription",
-            "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
             "name": "handleTradesWs",
             "percentage": 1.3
           },
@@ -9635,6 +9788,11 @@
           {
             "exchange_count": 1,
             "name": "handleTransaction",
+            "percentage": 1.3
+          },
+          {
+            "exchange_count": 1,
+            "name": "handleUnSubscriptionStatus",
             "percentage": 1.3
           },
           {
@@ -9691,16 +9849,6 @@
             "exchange_count": 1,
             "name": "handleWsError",
             "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
-            "name": "handleWsPost",
-            "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
-            "name": "handleWsTickers",
-            "percentage": 1.3
           }
         ]
       },
@@ -9730,7 +9878,7 @@
         ]
       },
       "other": {
-        "count": 79,
+        "count": 81,
         "methods": [
           {
             "exchange_count": 79,
@@ -9738,14 +9886,14 @@
             "percentage": 100.0
           },
           {
-            "exchange_count": 50,
+            "exchange_count": 49,
             "name": "authenticate",
-            "percentage": 63.3
+            "percentage": 62.0
           },
           {
-            "exchange_count": 26,
+            "exchange_count": 27,
             "name": "requestId",
-            "percentage": 32.9
+            "percentage": 34.2
           },
           {
             "exchange_count": 24,
@@ -9768,14 +9916,14 @@
             "percentage": 25.3
           },
           {
-            "exchange_count": 20,
+            "exchange_count": 19,
             "name": "unWatchTicker",
-            "percentage": 25.3
+            "percentage": 24.1
           },
           {
-            "exchange_count": 14,
+            "exchange_count": 15,
             "name": "unWatchTickers",
-            "percentage": 17.7
+            "percentage": 19.0
           },
           {
             "exchange_count": 11,
@@ -9803,13 +9951,18 @@
             "percentage": 10.1
           },
           {
+            "exchange_count": 8,
+            "name": "subscribePrivate",
+            "percentage": 10.1
+          },
+          {
             "exchange_count": 7,
             "name": "keepAliveListenKey",
             "percentage": 8.9
           },
           {
             "exchange_count": 7,
-            "name": "subscribePrivate",
+            "name": "unWatchOrders",
             "percentage": 8.9
           },
           {
@@ -9820,11 +9973,6 @@
           {
             "exchange_count": 5,
             "name": "subscribePublic",
-            "percentage": 6.3
-          },
-          {
-            "exchange_count": 5,
-            "name": "unWatchOrders",
             "percentage": 6.3
           },
           {
@@ -9839,7 +9987,7 @@
           },
           {
             "exchange_count": 4,
-            "name": "unWatchPublic",
+            "name": "unWatchMyTrades",
             "percentage": 5.1
           },
           {
@@ -9854,12 +10002,12 @@
           },
           {
             "exchange_count": 3,
-            "name": "unWatchMyTrades",
+            "name": "unWatchPositions",
             "percentage": 3.8
           },
           {
             "exchange_count": 3,
-            "name": "unWatchPositions",
+            "name": "unWatchPublic",
             "percentage": 3.8
           },
           {
@@ -9894,12 +10042,7 @@
           },
           {
             "exchange_count": 2,
-            "name": "unWatchChannel",
-            "percentage": 2.5
-          },
-          {
-            "exchange_count": 2,
-            "name": "unsubscribePublic",
+            "name": "wrapAsPostAction",
             "percentage": 2.5
           },
           {
@@ -10054,6 +10197,11 @@
           },
           {
             "exchange_count": 1,
+            "name": "setupApiKeyHeaders",
+            "percentage": 1.3
+          },
+          {
+            "exchange_count": 1,
             "name": "stream",
             "percentage": 1.3
           },
@@ -10084,6 +10232,11 @@
           },
           {
             "exchange_count": 1,
+            "name": "unWatchChannel",
+            "percentage": 1.3
+          },
+          {
+            "exchange_count": 1,
             "name": "unWatchFundingRate",
             "percentage": 1.3
           },
@@ -10095,6 +10248,16 @@
           {
             "exchange_count": 1,
             "name": "unWatchTopics",
+            "percentage": 1.3
+          },
+          {
+            "exchange_count": 1,
+            "name": "unsubscribe",
+            "percentage": 1.3
+          },
+          {
+            "exchange_count": 1,
+            "name": "unsubscribePublic",
             "percentage": 1.3
           },
           {
@@ -10121,11 +10284,6 @@
             "exchange_count": 1,
             "name": "withdrawWs",
             "percentage": 1.3
-          },
-          {
-            "exchange_count": 1,
-            "name": "wrapAsPostAction",
-            "percentage": 1.3
           }
         ]
       },
@@ -10138,9 +10296,9 @@
             "percentage": 57.0
           },
           {
-            "exchange_count": 38,
+            "exchange_count": 37,
             "name": "parseWsOrder",
-            "percentage": 48.1
+            "percentage": 46.8
           },
           {
             "exchange_count": 26,
@@ -10153,14 +10311,14 @@
             "percentage": 22.8
           },
           {
-            "exchange_count": 18,
+            "exchange_count": 17,
             "name": "parseWsPosition",
-            "percentage": 22.8
+            "percentage": 21.5
           },
           {
-            "exchange_count": 17,
+            "exchange_count": 16,
             "name": "parseWsOHLCV",
-            "percentage": 21.5
+            "percentage": 20.3
           },
           {
             "exchange_count": 15,
@@ -10178,9 +10336,9 @@
             "percentage": 6.3
           },
           {
-            "exchange_count": 4,
+            "exchange_count": 5,
             "name": "parseWsOrderTrade",
-            "percentage": 5.1
+            "percentage": 6.3
           },
           {
             "exchange_count": 4,
@@ -10413,9 +10571,9 @@
             "percentage": 74.7
           },
           {
-            "exchange_count": 57,
+            "exchange_count": 58,
             "name": "watchOrders",
-            "percentage": 72.2
+            "percentage": 73.4
           },
           {
             "exchange_count": 50,
@@ -10433,24 +10591,24 @@
             "percentage": 55.7
           },
           {
-            "exchange_count": 42,
+            "exchange_count": 43,
             "name": "watchMyTrades",
-            "percentage": 53.2
+            "percentage": 54.4
           },
           {
-            "exchange_count": 29,
+            "exchange_count": 28,
             "name": "watchPositions",
-            "percentage": 36.7
+            "percentage": 35.4
           },
           {
-            "exchange_count": 29,
+            "exchange_count": 28,
             "name": "watchTradesForSymbols",
-            "percentage": 36.7
+            "percentage": 35.4
           },
           {
-            "exchange_count": 25,
+            "exchange_count": 24,
             "name": "watchOrderBookForSymbols",
-            "percentage": 31.6
+            "percentage": 30.4
           },
           {
             "exchange_count": 23,
@@ -10458,14 +10616,14 @@
             "percentage": 29.1
           },
           {
-            "exchange_count": 17,
+            "exchange_count": 16,
             "name": "watchPublic",
-            "percentage": 21.5
+            "percentage": 20.3
           },
           {
-            "exchange_count": 16,
+            "exchange_count": 15,
             "name": "watchPrivate",
-            "percentage": 20.3
+            "percentage": 19.0
           },
           {
             "exchange_count": 12,
@@ -10478,9 +10636,9 @@
             "percentage": 8.9
           },
           {
-            "exchange_count": 7,
+            "exchange_count": 6,
             "name": "watchPublicMultiple",
-            "percentage": 8.9
+            "percentage": 7.6
           },
           {
             "exchange_count": 4,
@@ -10508,11 +10666,6 @@
             "percentage": 5.1
           },
           {
-            "exchange_count": 4,
-            "name": "watchPrivateMultiple",
-            "percentage": 5.1
-          },
-          {
             "exchange_count": 3,
             "name": "watchLiquidationsForSymbols",
             "percentage": 3.8
@@ -10530,6 +10683,11 @@
           {
             "exchange_count": 3,
             "name": "watchOrdersForSymbols",
+            "percentage": 3.8
+          },
+          {
+            "exchange_count": 3,
+            "name": "watchPrivateMultiple",
             "percentage": 3.8
           },
           {
@@ -10650,10 +10808,6 @@
       },
       {
         "count": 4,
-        "name": "parseWsOrderTrade"
-      },
-      {
-        "count": 4,
         "name": "parseWsOrderType"
       },
       {
@@ -10666,7 +10820,7 @@
       },
       {
         "count": 4,
-        "name": "unWatchPublic"
+        "name": "unWatchMyTrades"
       },
       {
         "count": 4,
@@ -10687,10 +10841,6 @@
       {
         "count": 4,
         "name": "watchOrderBookSnapshot"
-      },
-      {
-        "count": 4,
-        "name": "watchPrivateMultiple"
       },
       {
         "count": 3,
@@ -10718,14 +10868,6 @@
       },
       {
         "count": 3,
-        "name": "handleOrderBookUnSubscription"
-      },
-      {
-        "count": 3,
-        "name": "handleTradesUnSubscription"
-      },
-      {
-        "count": 3,
         "name": "handleUnSubscribe"
       },
       {
@@ -10738,11 +10880,11 @@
       },
       {
         "count": 3,
-        "name": "unWatchMyTrades"
+        "name": "unWatchPositions"
       },
       {
         "count": 3,
-        "name": "unWatchPositions"
+        "name": "unWatchPublic"
       },
       {
         "count": 3,
@@ -10759,6 +10901,10 @@
       {
         "count": 3,
         "name": "watchOrdersForSymbols"
+      },
+      {
+        "count": 3,
+        "name": "watchPrivateMultiple"
       },
       {
         "count": 2,
@@ -10798,10 +10944,6 @@
       },
       {
         "count": 2,
-        "name": "handleCheckSumError"
-      },
-      {
-        "count": 2,
         "name": "handleConnected"
       },
       {
@@ -10818,11 +10960,27 @@
       },
       {
         "count": 2,
-        "name": "handleOHLCVUnSubscription"
+        "name": "handleMyTradesUnsubscription"
+      },
+      {
+        "count": 2,
+        "name": "handleOHLCVUnsubscription"
+      },
+      {
+        "count": 2,
+        "name": "handleOrderBookUnSubscription"
+      },
+      {
+        "count": 2,
+        "name": "handleOrderBookUnsubscription"
       },
       {
         "count": 2,
         "name": "handleOrderRequest"
+      },
+      {
+        "count": 2,
+        "name": "handleOrderUnsubscription"
       },
       {
         "count": 2,
@@ -10838,19 +10996,35 @@
       },
       {
         "count": 2,
+        "name": "handleSubscriptionResponse"
+      },
+      {
+        "count": 2,
         "name": "handleSubscriptions"
       },
       {
         "count": 2,
-        "name": "handleTickerUnSubscription"
+        "name": "handleTickersUnsubscription"
       },
       {
         "count": 2,
-        "name": "handleUnSubscriptionStatus"
+        "name": "handleTradesUnSubscription"
+      },
+      {
+        "count": 2,
+        "name": "handleTradesUnsubscription"
       },
       {
         "count": 2,
         "name": "handleUnsubscriptions"
+      },
+      {
+        "count": 2,
+        "name": "handleWsPost"
+      },
+      {
+        "count": 2,
+        "name": "handleWsTickers"
       },
       {
         "count": 2,
@@ -10894,14 +11068,6 @@
       },
       {
         "count": 2,
-        "name": "unWatchChannel"
-      },
-      {
-        "count": 2,
-        "name": "unsubscribePublic"
-      },
-      {
-        "count": 2,
         "name": "watchHeartbeat"
       },
       {
@@ -10915,6 +11081,10 @@
       {
         "count": 2,
         "name": "watchTopics"
+      },
+      {
+        "count": 2,
+        "name": "wrapAsPostAction"
       },
       {
         "count": 1,
@@ -11070,10 +11240,6 @@
       },
       {
         "count": 1,
-        "name": "getMarketFromArg"
-      },
-      {
-        "count": 1,
         "name": "getMarketFromOrder"
       },
       {
@@ -11110,19 +11276,11 @@
       },
       {
         "count": 1,
-        "name": "getPrivateInstType"
-      },
-      {
-        "count": 1,
         "name": "getPrivateType"
       },
       {
         "count": 1,
         "name": "getPrivateWsUrl"
-      },
-      {
-        "count": 1,
-        "name": "getPublicInstTypeAndId"
       },
       {
         "count": 1,
@@ -11202,6 +11360,10 @@
       },
       {
         "count": 1,
+        "name": "handleCheckSumError"
+      },
+      {
+        "count": 1,
         "name": "handleChecksum"
       },
       {
@@ -11215,10 +11377,6 @@
       {
         "count": 1,
         "name": "handleCryptoMessage"
-      },
-      {
-        "count": 1,
-        "name": "handleDMCBLMarketByMessageHashes"
       },
       {
         "count": 1,
@@ -11290,10 +11448,6 @@
       },
       {
         "count": 1,
-        "name": "handleMyTradesUnsubscription"
-      },
-      {
-        "count": 1,
         "name": "handleNotification"
       },
       {
@@ -11306,7 +11460,7 @@
       },
       {
         "count": 1,
-        "name": "handleOHLCVUnsubscription"
+        "name": "handleOHLCVUnSubscription"
       },
       {
         "count": 1,
@@ -11326,10 +11480,6 @@
       },
       {
         "count": 1,
-        "name": "handleOrderBookUnsubscription"
-      },
-      {
-        "count": 1,
         "name": "handleOrderBookUpdate"
       },
       {
@@ -11339,10 +11489,6 @@
       {
         "count": 1,
         "name": "handleOrderSnapshot"
-      },
-      {
-        "count": 1,
-        "name": "handleOrderUnsubscription"
       },
       {
         "count": 1,
@@ -11374,10 +11520,6 @@
       },
       {
         "count": 1,
-        "name": "handleSubscriptionResponse"
-      },
-      {
-        "count": 1,
         "name": "handleTakerOrMaker"
       },
       {
@@ -11386,15 +11528,15 @@
       },
       {
         "count": 1,
+        "name": "handleTickerUnSubscription"
+      },
+      {
+        "count": 1,
         "name": "handleTickerWs"
       },
       {
         "count": 1,
         "name": "handleTickersAndBidsAsks"
-      },
-      {
-        "count": 1,
-        "name": "handleTickersUnsubscription"
       },
       {
         "count": 1,
@@ -11418,10 +11560,6 @@
       },
       {
         "count": 1,
-        "name": "handleTradesUnsubscription"
-      },
-      {
-        "count": 1,
         "name": "handleTradesWs"
       },
       {
@@ -11439,6 +11577,10 @@
       {
         "count": 1,
         "name": "handleTransaction"
+      },
+      {
+        "count": 1,
+        "name": "handleUnSubscriptionStatus"
       },
       {
         "count": 1,
@@ -11483,14 +11625,6 @@
       {
         "count": 1,
         "name": "handleWsError"
-      },
-      {
-        "count": 1,
-        "name": "handleWsPost"
-      },
-      {
-        "count": 1,
-        "name": "handleWsTickers"
       },
       {
         "count": 1,
@@ -11670,6 +11804,10 @@
       },
       {
         "count": 1,
+        "name": "setupApiKeyHeaders"
+      },
+      {
+        "count": 1,
         "name": "signParams"
       },
       {
@@ -11698,6 +11836,10 @@
       },
       {
         "count": 1,
+        "name": "unWatchChannel"
+      },
+      {
+        "count": 1,
         "name": "unWatchFundingRate"
       },
       {
@@ -11707,6 +11849,14 @@
       {
         "count": 1,
         "name": "unWatchTopics"
+      },
+      {
+        "count": 1,
+        "name": "unsubscribe"
+      },
+      {
+        "count": 1,
+        "name": "unsubscribePublic"
       },
       {
         "count": 1,
@@ -11775,14 +11925,10 @@
       {
         "count": 1,
         "name": "withdrawWs"
-      },
-      {
-        "count": 1,
-        "name": "wrapAsPostAction"
       }
     ],
-    "total_methods": 2434,
-    "unique_method_names": 377,
+    "total_methods": 2431,
+    "unique_method_names": 375,
     "unique_methods": [
       {
         "count": 1,
@@ -11938,10 +12084,6 @@
       },
       {
         "count": 1,
-        "name": "getMarketFromArg"
-      },
-      {
-        "count": 1,
         "name": "getMarketFromOrder"
       },
       {
@@ -11978,19 +12120,11 @@
       },
       {
         "count": 1,
-        "name": "getPrivateInstType"
-      },
-      {
-        "count": 1,
         "name": "getPrivateType"
       },
       {
         "count": 1,
         "name": "getPrivateWsUrl"
-      },
-      {
-        "count": 1,
-        "name": "getPublicInstTypeAndId"
       },
       {
         "count": 1,
@@ -12070,6 +12204,10 @@
       },
       {
         "count": 1,
+        "name": "handleCheckSumError"
+      },
+      {
+        "count": 1,
         "name": "handleChecksum"
       },
       {
@@ -12083,10 +12221,6 @@
       {
         "count": 1,
         "name": "handleCryptoMessage"
-      },
-      {
-        "count": 1,
-        "name": "handleDMCBLMarketByMessageHashes"
       },
       {
         "count": 1,
@@ -12158,10 +12292,6 @@
       },
       {
         "count": 1,
-        "name": "handleMyTradesUnsubscription"
-      },
-      {
-        "count": 1,
         "name": "handleNotification"
       },
       {
@@ -12174,7 +12304,7 @@
       },
       {
         "count": 1,
-        "name": "handleOHLCVUnsubscription"
+        "name": "handleOHLCVUnSubscription"
       },
       {
         "count": 1,
@@ -12194,10 +12324,6 @@
       },
       {
         "count": 1,
-        "name": "handleOrderBookUnsubscription"
-      },
-      {
-        "count": 1,
         "name": "handleOrderBookUpdate"
       },
       {
@@ -12207,10 +12333,6 @@
       {
         "count": 1,
         "name": "handleOrderSnapshot"
-      },
-      {
-        "count": 1,
-        "name": "handleOrderUnsubscription"
       },
       {
         "count": 1,
@@ -12242,10 +12364,6 @@
       },
       {
         "count": 1,
-        "name": "handleSubscriptionResponse"
-      },
-      {
-        "count": 1,
         "name": "handleTakerOrMaker"
       },
       {
@@ -12254,15 +12372,15 @@
       },
       {
         "count": 1,
+        "name": "handleTickerUnSubscription"
+      },
+      {
+        "count": 1,
         "name": "handleTickerWs"
       },
       {
         "count": 1,
         "name": "handleTickersAndBidsAsks"
-      },
-      {
-        "count": 1,
-        "name": "handleTickersUnsubscription"
       },
       {
         "count": 1,
@@ -12286,10 +12404,6 @@
       },
       {
         "count": 1,
-        "name": "handleTradesUnsubscription"
-      },
-      {
-        "count": 1,
         "name": "handleTradesWs"
       },
       {
@@ -12307,6 +12421,10 @@
       {
         "count": 1,
         "name": "handleTransaction"
+      },
+      {
+        "count": 1,
+        "name": "handleUnSubscriptionStatus"
       },
       {
         "count": 1,
@@ -12351,14 +12469,6 @@
       {
         "count": 1,
         "name": "handleWsError"
-      },
-      {
-        "count": 1,
-        "name": "handleWsPost"
-      },
-      {
-        "count": 1,
-        "name": "handleWsTickers"
       },
       {
         "count": 1,
@@ -12538,6 +12648,10 @@
       },
       {
         "count": 1,
+        "name": "setupApiKeyHeaders"
+      },
+      {
+        "count": 1,
         "name": "signParams"
       },
       {
@@ -12566,6 +12680,10 @@
       },
       {
         "count": 1,
+        "name": "unWatchChannel"
+      },
+      {
+        "count": 1,
         "name": "unWatchFundingRate"
       },
       {
@@ -12575,6 +12693,14 @@
       {
         "count": 1,
         "name": "unWatchTopics"
+      },
+      {
+        "count": 1,
+        "name": "unsubscribe"
+      },
+      {
+        "count": 1,
+        "name": "unsubscribePublic"
       },
       {
         "count": 1,
@@ -12643,10 +12769,6 @@
       {
         "count": 1,
         "name": "withdrawWs"
-      },
-      {
-        "count": 1,
-        "name": "wrapAsPostAction"
       }
     ],
     "universal_methods": [

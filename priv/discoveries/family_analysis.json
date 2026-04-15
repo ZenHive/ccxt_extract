@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-15T02:28:23.171933Z",
+  "extracted_at": "2026-04-15T12:50:33.459098Z",
   "families": [
     {
       "has_ws": true,
@@ -110,8 +110,8 @@
         }
       ],
       "root": "binance",
-      "root_method_count": 166,
-      "shared_method_count": 165,
+      "root_method_count": 165,
+      "shared_method_count": 164,
       "type": "multi_member"
     },
     {
@@ -224,7 +224,7 @@
     },
     {
       "has_ws": true,
-      "method_count": 58,
+      "method_count": 59,
       "root": "blofin",
       "type": "standalone"
     },
@@ -298,12 +298,6 @@
       "has_ws": true,
       "method_count": 54,
       "root": "coinbaseinternational",
-      "type": "standalone"
-    },
-    {
-      "has_ws": true,
-      "method_count": 88,
-      "root": "coincatch",
       "type": "standalone"
     },
     {
@@ -584,7 +578,7 @@
     },
     {
       "has_ws": true,
-      "method_count": 58,
+      "method_count": 60,
       "root": "lighter",
       "type": "standalone"
     },
@@ -683,6 +677,12 @@
       "has_ws": true,
       "method_count": 22,
       "root": "p2b",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 85,
+      "root": "pacifica",
       "type": "standalone"
     },
     {
@@ -881,5 +881,6 @@
     },
     "standalone": 92,
     "total_families": 99
-  }
+  },
+  "tier_scope": "all"
 }

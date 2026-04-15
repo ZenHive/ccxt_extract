@@ -1,5 +1,5 @@
 {
-  "ccxt_version": "4.5.46",
+  "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
     "certified": false,
@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-15T02:27:25.129794Z",
+  "extracted_at": "2026-04-15T12:49:13.807441Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -565,7 +565,7 @@
       "version": "v1"
     },
     "markets": {
-      "market_count": 729,
+      "market_count": 730,
       "markets": {
         "LAYER/USDT:USDT": {
           "spot": false,
@@ -2013,7 +2013,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "100000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "75",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1736402400000",
@@ -2061,7 +2061,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 75,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -5306,7 +5306,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "1000000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1742536800000",
@@ -5354,7 +5354,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -5395,7 +5395,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "200000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "75",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1750327200000",
@@ -5443,7 +5443,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 75,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -5830,7 +5830,7 @@
           "info": {
             "baseAsset": "ALLO",
             "basePrecision": "8",
-            "baseShowPrecision": "4",
+            "baseShowPrecision": "5",
             "contractFactor": "1",
             "feeRateMaker": "0.0002",
             "feeRateTaker": "0.0006",
@@ -5840,7 +5840,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "30000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "25",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1763013600000",
@@ -5848,7 +5848,7 @@
             "openBuyLimitRateMin": "0.98",
             "openSellLimitRateMax": "100",
             "openSellLimitRateMin": "0.05",
-            "priceOrderPrecision": "4",
+            "priceOrderPrecision": "5",
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
@@ -5864,7 +5864,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001
+            "price": 1.0e-5
           },
           "baseId": "ALLO",
           "type": "swap",
@@ -5888,7 +5888,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 25,
               "min": "__undefined"
             },
             "price": {
@@ -6631,7 +6631,7 @@
           "info": {
             "baseAsset": "ENA",
             "basePrecision": "8",
-            "baseShowPrecision": "4",
+            "baseShowPrecision": "5",
             "contractFactor": "1",
             "feeRateMaker": "0.0002",
             "feeRateTaker": "0.0006",
@@ -6649,7 +6649,7 @@
             "openBuyLimitRateMin": "0.98",
             "openSellLimitRateMax": "100",
             "openSellLimitRateMin": "0.05",
-            "priceOrderPrecision": "4",
+            "priceOrderPrecision": "5",
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
@@ -6665,7 +6665,7 @@
           "precision": {
             "amount": 0.01,
             "base": 1.0e-8,
-            "price": 0.0001
+            "price": 1.0e-5
           },
           "baseId": "ENA",
           "type": "swap",
@@ -7264,7 +7264,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "230000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1746525600000",
@@ -7312,7 +7312,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -8332,7 +8332,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "33840000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1744351200000",
@@ -8380,7 +8380,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -8777,7 +8777,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "80000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1753869600000",
@@ -8825,7 +8825,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -10468,7 +10468,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "190000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1686290400000",
@@ -10516,7 +10516,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -10646,7 +10646,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "500000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1753869600000",
@@ -10694,7 +10694,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -11244,6 +11244,95 @@
           "active": true,
           "expiry": "__undefined",
           "id": "BABYDOGE-USDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
+        "OFC/USDT:USDT": {
+          "spot": false,
+          "contractSize": 100,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "baseAsset": "OFC",
+            "basePrecision": "8",
+            "baseShowPrecision": "5",
+            "contractFactor": "100",
+            "feeRateMaker": "0.0002",
+            "feeRateTaker": "0.0006",
+            "limitMaxQty": "200000",
+            "limitMinQty": "1",
+            "liqFeeRate": "0.0006",
+            "marginAsset": "USDT",
+            "marketMaxQty": "20000",
+            "marketMinQty": "1",
+            "maxLeverageLevel": "20",
+            "maxLimitOrderNum": "200",
+            "maxPlanOrderNum": "10",
+            "onboardTime": "1776161424000",
+            "openBuyLimitRateMax": "0.15",
+            "openBuyLimitRateMin": "0.98",
+            "openSellLimitRateMax": "100",
+            "openSellLimitRateMin": "0.15",
+            "priceOrderPrecision": "5",
+            "pricePrecision": "8",
+            "quoteAsset": "USDT",
+            "reverse": false,
+            "status": "NORMAL",
+            "symbol": "OFC-USDT",
+            "volumePrecision": "0"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "OFC/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 0.01,
+            "base": 1.0e-8,
+            "price": 1.0e-5
+          },
+          "baseId": "OFC",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "OFC",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 200000,
+              "min": 1
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 20,
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": "__undefined",
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "OFC-USDT",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -12871,7 +12960,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "1000000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "50",
+            "maxLeverageLevel": "75",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1712815200000",
@@ -12919,7 +13008,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 50,
+              "max": 75,
               "min": "__undefined"
             },
             "price": {
@@ -14028,7 +14117,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "280000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "25",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1742450400000",
@@ -14076,7 +14165,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 25,
               "min": "__undefined"
             },
             "price": {
@@ -15541,7 +15630,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "26500",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "75",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1765360800000",
@@ -15589,7 +15678,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 75,
               "min": "__undefined"
             },
             "price": {
@@ -15719,7 +15808,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "80000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1766037600000",
@@ -15767,7 +15856,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -16075,7 +16164,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "13000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1766037600000",
@@ -16123,7 +16212,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -17855,7 +17944,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "1000000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "75",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1744783200000",
@@ -17903,7 +17992,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 75,
               "min": "__undefined"
             },
             "price": {
@@ -18290,7 +18379,7 @@
           "info": {
             "baseAsset": "HYPER",
             "basePrecision": "8",
-            "baseShowPrecision": "4",
+            "baseShowPrecision": "5",
             "contractFactor": "1",
             "feeRateMaker": "0.0002",
             "feeRateTaker": "0.0006",
@@ -18300,7 +18389,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "100000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1745474400000",
@@ -18308,7 +18397,7 @@
             "openBuyLimitRateMin": "0.98",
             "openSellLimitRateMax": "100",
             "openSellLimitRateMin": "0.05",
-            "priceOrderPrecision": "4",
+            "priceOrderPrecision": "5",
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
@@ -18324,7 +18413,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001
+            "price": 1.0e-5
           },
           "baseId": "HYPER",
           "type": "swap",
@@ -18348,7 +18437,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -20080,7 +20169,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "200000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "75",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1758103200000",
@@ -20128,7 +20217,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 75,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -23808,7 +23897,7 @@
           "info": {
             "baseAsset": "STEEM",
             "basePrecision": "8",
-            "baseShowPrecision": "4",
+            "baseShowPrecision": "5",
             "contractFactor": "1",
             "feeRateMaker": "0.0002",
             "feeRateTaker": "0.0006",
@@ -23818,7 +23907,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "200000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1744956000000",
@@ -23826,7 +23915,7 @@
             "openBuyLimitRateMin": "0.98",
             "openSellLimitRateMax": "100",
             "openSellLimitRateMin": "0.05",
-            "priceOrderPrecision": "4",
+            "priceOrderPrecision": "5",
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
@@ -23842,7 +23931,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001
+            "price": 1.0e-5
           },
           "baseId": "STEEM",
           "type": "swap",
@@ -23866,7 +23955,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -27200,7 +27289,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "40000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1747720800000",
@@ -27248,7 +27337,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -28179,7 +28268,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "200000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "75",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1757930400000",
@@ -28227,7 +28316,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 75,
               "min": "__undefined"
             },
             "price": {
@@ -28614,7 +28703,7 @@
           "info": {
             "baseAsset": "LUMIA",
             "basePrecision": "8",
-            "baseShowPrecision": "4",
+            "baseShowPrecision": "5",
             "contractFactor": "0.1",
             "feeRateMaker": "0.0002",
             "feeRateTaker": "0.0006",
@@ -28624,7 +28713,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "200000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "10",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1730440800000",
@@ -28632,7 +28721,7 @@
             "openBuyLimitRateMin": "0.98",
             "openSellLimitRateMax": "100",
             "openSellLimitRateMin": "0.15",
-            "priceOrderPrecision": "4",
+            "priceOrderPrecision": "5",
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
@@ -28648,7 +28737,7 @@
           "precision": {
             "amount": 10,
             "base": 1.0e-8,
-            "price": 0.0001
+            "price": 1.0e-5
           },
           "baseId": "LUMIA",
           "type": "swap",
@@ -28672,7 +28761,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 10,
               "min": "__undefined"
             },
             "price": {
@@ -30661,7 +30750,7 @@
           "info": {
             "baseAsset": "NEWT",
             "basePrecision": "8",
-            "baseShowPrecision": "4",
+            "baseShowPrecision": "5",
             "contractFactor": "1",
             "feeRateMaker": "0.0002",
             "feeRateTaker": "0.0006",
@@ -30671,7 +30760,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "100000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1751004000000",
@@ -30679,7 +30768,7 @@
             "openBuyLimitRateMin": "0.98",
             "openSellLimitRateMax": "100",
             "openSellLimitRateMin": "0.05",
-            "priceOrderPrecision": "4",
+            "priceOrderPrecision": "5",
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
@@ -30695,7 +30784,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001
+            "price": 1.0e-5
           },
           "baseId": "NEWT",
           "type": "swap",
@@ -30719,7 +30808,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -32629,7 +32718,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "282700",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "75",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1743573600000",
@@ -32677,7 +32766,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 75,
               "min": "__undefined"
             },
             "price": {
@@ -34310,7 +34399,7 @@
           "info": {
             "baseAsset": "BASED",
             "basePrecision": "8",
-            "baseShowPrecision": "4",
+            "baseShowPrecision": "5",
             "contractFactor": "1",
             "feeRateMaker": "0.0002",
             "feeRateTaker": "0.0006",
@@ -34328,7 +34417,7 @@
             "openBuyLimitRateMin": "0.98",
             "openSellLimitRateMax": "100",
             "openSellLimitRateMin": "0.15",
-            "priceOrderPrecision": "4",
+            "priceOrderPrecision": "5",
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
@@ -34344,7 +34433,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001
+            "price": 1.0e-5
           },
           "baseId": "BASED",
           "type": "swap",
@@ -35378,7 +35467,7 @@
           "info": {
             "baseAsset": "METIS",
             "basePrecision": "8",
-            "baseShowPrecision": "2",
+            "baseShowPrecision": "3",
             "contractFactor": "0.01",
             "feeRateMaker": "0.0002",
             "feeRateTaker": "0.0006",
@@ -35388,7 +35477,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "74700",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1744264800000",
@@ -35396,7 +35485,7 @@
             "openBuyLimitRateMin": "0.98",
             "openSellLimitRateMax": "100",
             "openSellLimitRateMin": "0.05",
-            "priceOrderPrecision": "2",
+            "priceOrderPrecision": "3",
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
@@ -35412,7 +35501,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.01
+            "price": 0.001
           },
           "baseId": "METIS",
           "type": "swap",
@@ -35436,7 +35525,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -36100,7 +36189,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "100000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "75",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1753164000000",
@@ -36148,7 +36237,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 75,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -39037,7 +39126,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "10000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "25",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1763373600000",
@@ -39085,7 +39174,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 25,
               "min": "__undefined"
             },
             "price": {
@@ -40028,7 +40117,7 @@
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
-            "status": "ON_SHELF",
+            "status": "NORMAL",
             "symbol": "UP-USDT",
             "volumePrecision": "0"
           },
@@ -40077,7 +40166,7 @@
           "margin": "__undefined",
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": "__undefined",
           "id": "UP-USDT",
           "lowercaseId": "__undefined",
@@ -41618,7 +41707,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "100000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1749189600000",
@@ -41666,7 +41755,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -41796,7 +41885,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "30000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1751968800000",
@@ -41844,7 +41933,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -42508,7 +42597,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "30000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1733810400000",
@@ -42556,7 +42645,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -45089,7 +45178,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "26000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "10",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1746252000000",
@@ -45137,7 +45226,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 10,
               "min": "__undefined"
             },
             "price": {
@@ -47225,7 +47314,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "10000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "75",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1733810400000",
@@ -47273,7 +47362,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 75,
               "min": "__undefined"
             },
             "price": {
@@ -48471,7 +48560,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "1000000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1686636000000",
@@ -48519,7 +48608,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -50429,7 +50518,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "200000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1718690400000",
@@ -50477,7 +50566,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -51408,7 +51497,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "600000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "75",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1745474400000",
@@ -51456,7 +51545,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 75,
               "min": "__undefined"
             },
             "price": {
@@ -53989,7 +54078,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "2000000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "25",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1742536800000",
@@ -54037,7 +54126,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 25,
               "min": "__undefined"
             },
             "price": {
@@ -56570,7 +56659,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "830000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "75",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1764136800000",
@@ -56618,7 +56707,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 75,
               "min": "__undefined"
             },
             "price": {
@@ -57015,7 +57104,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "907000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "25",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1738821600000",
@@ -57063,7 +57152,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 25,
               "min": "__undefined"
             },
             "price": {
@@ -58429,7 +58518,7 @@
           "info": {
             "baseAsset": "HUMA",
             "basePrecision": "8",
-            "baseShowPrecision": "5",
+            "baseShowPrecision": "6",
             "contractFactor": "1",
             "feeRateMaker": "0.0002",
             "feeRateTaker": "0.0006",
@@ -58439,7 +58528,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "1700000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1748412000000",
@@ -58447,7 +58536,7 @@
             "openBuyLimitRateMin": "0.98",
             "openSellLimitRateMax": "100",
             "openSellLimitRateMin": "0.05",
-            "priceOrderPrecision": "5",
+            "priceOrderPrecision": "6",
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
@@ -58463,7 +58552,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 1.0e-5
+            "price": 1.0e-6
           },
           "baseId": "HUMA",
           "type": "swap",
@@ -58487,7 +58576,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -59329,7 +59418,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "190000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "40",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1752559200000",
@@ -59377,7 +59466,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 40,
               "min": "__undefined"
             },
             "price": {
@@ -60654,7 +60743,7 @@
           "info": {
             "baseAsset": "INIT",
             "basePrecision": "8",
-            "baseShowPrecision": "4",
+            "baseShowPrecision": "5",
             "contractFactor": "1",
             "feeRateMaker": "0.0002",
             "feeRateTaker": "0.0006",
@@ -60664,7 +60753,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "100000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1745906400000",
@@ -60672,7 +60761,7 @@
             "openBuyLimitRateMin": "0.98",
             "openSellLimitRateMax": "100",
             "openSellLimitRateMin": "0.05",
-            "priceOrderPrecision": "4",
+            "priceOrderPrecision": "5",
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
@@ -60688,7 +60777,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001
+            "price": 1.0e-5
           },
           "baseId": "INIT",
           "type": "swap",
@@ -60712,7 +60801,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -61287,7 +61376,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "50000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1746338400000",
@@ -61335,7 +61424,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -62167,7 +62256,7 @@
           "info": {
             "baseAsset": "SOPH",
             "basePrecision": "8",
-            "baseShowPrecision": "5",
+            "baseShowPrecision": "6",
             "contractFactor": "10",
             "feeRateMaker": "0.0002",
             "feeRateTaker": "0.0006",
@@ -62185,7 +62274,7 @@
             "openBuyLimitRateMin": "0.98",
             "openSellLimitRateMax": "100",
             "openSellLimitRateMin": "0.05",
-            "priceOrderPrecision": "5",
+            "priceOrderPrecision": "6",
             "pricePrecision": "8",
             "quoteAsset": "USDT",
             "reverse": false,
@@ -62201,7 +62290,7 @@
           "precision": {
             "amount": 0.1,
             "base": 1.0e-8,
-            "price": 1.0e-5
+            "price": 1.0e-6
           },
           "baseId": "SOPH",
           "type": "swap",
@@ -62444,7 +62533,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "9000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "25",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1742968800000",
@@ -62492,7 +62581,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 25,
               "min": "__undefined"
             },
             "price": {
@@ -62889,7 +62978,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "200000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "75",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1701100800000",
@@ -62937,7 +63026,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 75,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -63156,7 +63245,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "6000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "25",
+            "maxLeverageLevel": "75",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1695794400000",
@@ -63204,7 +63293,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 25,
+              "max": 75,
               "min": "__undefined"
             },
             "price": {
@@ -64491,7 +64580,7 @@
             "marginAsset": "USDT",
             "marketMaxQty": "30000",
             "marketMinQty": "1",
-            "maxLeverageLevel": "20",
+            "maxLeverageLevel": "50",
             "maxLimitOrderNum": "200",
             "maxPlanOrderNum": "10",
             "onboardTime": "1765360800000",
@@ -64539,7 +64628,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 20,
+              "max": 50,
               "min": "__undefined"
             },
             "price": {
@@ -65480,7 +65569,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 729,
+        "sample_count": 730,
         "separator": "-",
         "suffix": null
       }

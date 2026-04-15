@@ -29,19 +29,34 @@ defmodule CcxtExtract.MethodAnalysis do
   @doc """
   Run the full analysis: read methods_rest.json + methods_ws.json, compute families.
 
+  Accepts an optional `scope` (from `CcxtExtract.TaskScope.parse_and_resolve!/3`).
+  When narrowed, the `exchanges` lists in both REST and WS aggregates are
+  filtered before the family/universality reduction.
+
   Returns `{:ok, analysis}` or `{:error, {:missing_input, path}}`.
   """
-  @spec extract() :: {:ok, map()} | {:error, {:missing_input, String.t()}}
-  def extract do
+  @spec extract(:all | MapSet.t(String.t())) ::
+          {:ok, map()} | {:error, {:missing_input, String.t()}}
+  def extract(scope \\ :all) do
     rest_path = CcxtExtract.Paths.priv(Path.join("discoveries", @rest_file))
     ws_path = CcxtExtract.Paths.priv(Path.join("discoveries", @ws_file))
 
     with {:ok, rest_data} <- read_json(rest_path),
          {:ok, ws_data} <- read_json(ws_path) do
-      analysis = analyze(rest_data, ws_data)
+      filtered_rest = scope_data(rest_data, scope)
+      filtered_ws = scope_data(ws_data, scope)
+      analysis = analyze(filtered_rest, filtered_ws)
       {:ok, analysis}
     end
   end
+
+  defp scope_data(data, :all), do: data
+
+  defp scope_data(%{"exchanges" => exchanges} = data, %MapSet{} = scope) do
+    %{data | "exchanges" => CcxtExtract.TaskScope.filter_entries(exchanges, scope, "id")}
+  end
+
+  defp scope_data(data, %MapSet{}), do: data
 
   @doc """
   Analyze method families, universality, and distribution for REST and WS data.
@@ -165,12 +180,22 @@ defmodule CcxtExtract.MethodAnalysis do
 
   @doc """
   Write analysis to `priv/discoveries/method_analysis.json`.
+
+  Accepts `:tier_scope` option — the JSON-serialisable value from
+  `CcxtExtract.TaskScope.parse_and_resolve!/3`, stamped into the analysis
+  envelope as `tier_scope`.
   """
-  @spec write!(map(), String.t()) :: :ok
-  def write!(analysis, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
+  @spec write!(map(), keyword()) :: :ok
+  def write!(analysis, opts \\ []) do
+    output_path =
+      Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(Path.join("discoveries", @output_file)))
+
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+    stamped = Map.put(analysis, "tier_scope", tier_scope)
+
     File.mkdir_p!(Path.dirname(output_path))
 
-    json = Jason.encode!(analysis, pretty: true)
+    json = Jason.encode!(stamped, pretty: true)
     File.write!(output_path, json)
     :ok
   end

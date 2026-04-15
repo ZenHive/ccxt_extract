@@ -246,6 +246,28 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
       assert {"test.record_base_methods", []} in task_runs
     end
 
+    test "--tier1 --dex propagates to analytics stage (Task 7)" do
+      output_dir = make_tmp_output_dir()
+
+      {_output, task_runs} =
+        capture_task_run(fn ->
+          with_update_task_overrides(@task_overrides, fn ->
+            Update.run(["--tier1", "--dex", "--output", output_dir])
+          end)
+        end)
+
+      # Both QuickBEAM and derived analytics must receive the scope flags.
+      # Pre-Task-7 they silently received `[]` while extractors were scoped —
+      # producing universe-wide analytics on a scoped pipeline run (manifest /
+      # scope mismatch). All eight analytics are scope-aware (Honesty Rule —
+      # no `:unscoped` carve-out), so every one in the override list must show
+      # the flags propagated.
+      assert {"test.record_describe_keys", ["--tier1", "--dex"]} in task_runs
+      assert {"test.record_describe_key_analysis", ["--tier1", "--dex"]} in task_runs
+      assert {"test.record_summary", ["--tier1", "--dex"]} in task_runs
+      assert {"test.record_family_analysis", ["--tier1", "--dex"]} in task_runs
+    end
+
     test "--exchange repeated and comma-split fans out as sorted unique pairs" do
       output_dir = make_tmp_output_dir()
 

@@ -221,13 +221,14 @@ defmodule CcxtExtract.SummaryIntegrationTest do
     test "writes valid JSON that round-trips", %{summary: summary, tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "exchange_summary.json")
 
-      assert :ok = Summary.write!(summary, output_path)
+      assert :ok = Summary.write!(summary, output_path: output_path)
       assert File.exists?(output_path)
 
       reloaded = output_path |> File.read!() |> Jason.decode!()
       assert reloaded["counts"] == summary["counts"]
       assert length(reloaded["families"]) == length(summary["families"])
       assert reloaded["orphan_aliases"] == summary["orphan_aliases"]
+      assert reloaded["tier_scope"] == "all"
     end
   end
 

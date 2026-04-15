@@ -307,12 +307,13 @@ defmodule CcxtExtract.CoverageReportTest do
       report = CoverageReport.analyze([@full_exchange], @full_inputs)
       output_path = Path.join(tmp_dir, "coverage_report.json")
 
-      assert :ok = CoverageReport.write!(report, output_path)
+      assert :ok = CoverageReport.write!(report, output_path: output_path)
       assert File.exists?(output_path)
 
       decoded = output_path |> File.read!() |> Jason.decode!()
       assert decoded["exchange_count"] == 1
       assert is_list(decoded["exchanges"])
+      assert decoded["tier_scope"] == "all"
     end
   end
 end

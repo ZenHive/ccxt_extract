@@ -13,15 +13,37 @@ defmodule Mix.Tasks.CcxtExtract.ValidateMarkets do
 
       mix ccxt_extract.validate_markets
       mix ccxt_extract.validate_markets --spot-check
-      mix ccxt_extract.validate_markets --spot-check --exchanges binance,bybit,okx
+      mix ccxt_extract.validate_markets --tier1
+      mix ccxt_extract.validate_markets --spot-check --exchange binance --exchange bybit
+
+  ## Options
+
+    * `--spot-check` (or `-s`) — run Layer 2 spot-check after structural
+      validation. Without scope, the spot-check sample defaults to the
+      historical set (binance, bybit, okx). With scope, spot-check covers
+      every in-scope exchange.
+    * `--tier1 --tier2 --tier3 --dex` — restrict validation to the named
+      priority tiers (combinable). Tier inheritance expands roots to their
+      full family.
+    * `--exchange ID` — restrict to explicit exchange IDs (repeatable or
+      comma-separated). Typos fail loudly with fuzzy suggestions.
+    * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+
+  The legacy `--exchanges <csv>` flag has been replaced by canonical
+  `--exchange ID` (repeatable). The active scope is stamped into the JSON
+  envelope as `tier_scope`.
   """
 
   use Mix.Task
 
+  alias CcxtExtract.TaskScope
+
   @impl true
   def run(args) do
-    opts = parse_args!(args)
-    validate_opts = build_validate_opts(opts)
+    {scope, tier_scope, opts} =
+      TaskScope.parse_and_resolve!(args, [spot_check: :boolean], s: :spot_check)
+
+    validate_opts = [scope: scope, spot_check: Keyword.get(opts, :spot_check, false)]
 
     Mix.shell().info("Validating loadMarkets() data...")
 
@@ -30,7 +52,7 @@ defmodule Mix.Tasks.CcxtExtract.ValidateMarkets do
     case CcxtExtract.MarketValidation.validate(validate_opts) do
       {:ok, report} ->
         elapsed_s = (System.monotonic_time(:millisecond) - start_time) / 1_000
-        CcxtExtract.MarketValidation.write!(report)
+        CcxtExtract.MarketValidation.write!(report, tier_scope: tier_scope)
         print_summary(report, elapsed_s)
 
       {:error, {:missing_input, path}} ->
@@ -40,43 +62,6 @@ defmodule Mix.Tasks.CcxtExtract.ValidateMarkets do
         Run extraction first:
           mix ccxt_extract.load_markets
         """)
-    end
-  end
-
-  defp parse_args!(args) do
-    {opts, leftover, invalid} =
-      OptionParser.parse(args,
-        strict: [spot_check: :boolean, exchanges: :string],
-        aliases: [s: :spot_check, e: :exchanges]
-      )
-
-    if invalid != [] do
-      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
-      Mix.raise("Unknown option(s): #{switches}. Supported: --spot-check, --exchanges")
-    end
-
-    if leftover != [] do
-      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}. This task takes no positional arguments.")
-    end
-
-    if Keyword.has_key?(opts, :exchanges) and not Keyword.get(opts, :spot_check, false) do
-      Mix.raise("--exchanges requires --spot-check (exchanges are only used for spot-checking)")
-    end
-
-    opts
-  end
-
-  defp build_validate_opts(opts) do
-    validate_opts = []
-
-    validate_opts =
-      if Keyword.get(opts, :spot_check, false),
-        do: Keyword.put(validate_opts, :spot_check, true),
-        else: validate_opts
-
-    case Keyword.get(opts, :exchanges) do
-      nil -> validate_opts
-      ids -> Keyword.put(validate_opts, :exchanges, String.split(ids, ","))
     end
   end
 

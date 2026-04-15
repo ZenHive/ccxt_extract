@@ -9,23 +9,38 @@ defmodule Mix.Tasks.CcxtExtract.Coverage do
   and computes summary statistics.
 
       mix ccxt_extract.coverage
+      mix ccxt_extract.coverage --tier1 --dex
+      mix ccxt_extract.coverage --exchange binance
+
+  ## Options
+
+    * `--tier1 --tier2 --tier3 --dex` — restrict the coverage report to the
+      named priority tiers (combinable). Tier inheritance expands roots to
+      their full family.
+    * `--exchange ID` — restrict to explicit exchange IDs (repeatable or
+      comma-separated). Typos fail loudly with fuzzy suggestions.
+    * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+
+  The active scope is stamped into the JSON envelope as `tier_scope`. Layer
+  aggregates are still loaded universe-wide; per-layer checks lookup by
+  exchange ID, so unused entries are benign.
   """
 
   use Mix.Task
 
+  alias CcxtExtract.TaskScope
+
   @impl true
   def run(args) do
-    if args != [] do
-      Mix.raise("This task takes no arguments. Usage: mix ccxt_extract.coverage")
-    end
+    {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
 
     Mix.shell().info("Generating coverage report...")
     start_time = System.monotonic_time(:millisecond)
 
-    case CcxtExtract.CoverageReport.extract() do
+    case CcxtExtract.CoverageReport.extract(scope: scope) do
       {:ok, report} ->
         elapsed_s = (System.monotonic_time(:millisecond) - start_time) / 1_000
-        CcxtExtract.CoverageReport.write!(report)
+        CcxtExtract.CoverageReport.write!(report, tier_scope: tier_scope)
         print_summary(report, elapsed_s)
 
       {:error, {:missing_input, path}} ->

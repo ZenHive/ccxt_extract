@@ -11,17 +11,37 @@ defmodule Mix.Tasks.CcxtExtract.MethodAnalysis do
   Writes output to `priv/discoveries/method_analysis.json`.
 
       mix ccxt_extract.method_analysis
+      mix ccxt_extract.method_analysis --tier1 --dex
+      mix ccxt_extract.method_analysis --exchange binance
+
+  ## Options
+
+    * `--tier1 --tier2 --tier3 --dex` — restrict the analysis to the named
+      priority tiers (combinable). Tier inheritance expands roots to their
+      full family.
+    * `--exchange ID` — restrict to explicit exchange IDs (repeatable or
+      comma-separated). Typos fail loudly with fuzzy suggestions.
+    * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+
+  The active scope is stamped into the JSON envelope as `tier_scope`. Both
+  `methods_rest.json` and `methods_ws.json` aggregates are loaded
+  universe-wide; the in-scope subset of `exchanges` lists is used to compute
+  families and cross-type analysis.
   """
 
   use Mix.Task
 
+  alias CcxtExtract.TaskScope
+
   @impl true
-  def run(_args) do
+  def run(args) do
+    {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
+
     Mix.shell().info("Analyzing method families and distributions...")
 
-    case CcxtExtract.MethodAnalysis.extract() do
+    case CcxtExtract.MethodAnalysis.extract(scope) do
       {:ok, analysis} ->
-        CcxtExtract.MethodAnalysis.write!(analysis)
+        CcxtExtract.MethodAnalysis.write!(analysis, tier_scope: tier_scope)
 
         rest = analysis["rest"]
         ws = analysis["ws"]

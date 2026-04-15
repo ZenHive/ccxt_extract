@@ -9,17 +9,38 @@ defmodule Mix.Tasks.CcxtExtract.FamilyAnalysis do
   Writes output to `priv/discoveries/family_analysis.json`.
 
       mix ccxt_extract.family_analysis
+      mix ccxt_extract.family_analysis --tier1 --dex
+      mix ccxt_extract.family_analysis --exchange binance
+
+  ## Options
+
+    * `--tier1 --tier2 --tier3 --dex` — restrict the analysis to families that
+      intersect the named priority tiers (combinable). Tier inheritance
+      expands roots to their full family.
+    * `--exchange ID` — keep families whose root, variants, or aliases include
+      the given exchange ID (repeatable or comma-separated). Within a kept
+      family, ALL members are still analyzed for full family context.
+    * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+
+  The active scope is stamped into the JSON envelope as `tier_scope`. The
+  inheritance tree (`class_hierarchy.json`) and the per-family member set are
+  always read universe-wide — scope filters which families are reported on,
+  not the underlying tree (same precedent as `classes.ex`).
   """
 
   use Mix.Task
 
+  alias CcxtExtract.TaskScope
+
   @impl true
-  def run(_args) do
+  def run(args) do
+    {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
+
     Mix.shell().info("Analyzing exchange families...")
 
-    case CcxtExtract.FamilyAnalysis.extract() do
+    case CcxtExtract.FamilyAnalysis.extract(scope) do
       {:ok, analysis} ->
-        CcxtExtract.FamilyAnalysis.write!(analysis)
+        CcxtExtract.FamilyAnalysis.write!(analysis, tier_scope: tier_scope)
 
         summary = analysis["summary"]
         multi = Enum.filter(analysis["families"], &(&1["type"] == "multi_member"))

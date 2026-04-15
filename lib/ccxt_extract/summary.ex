@@ -20,19 +20,34 @@ defmodule CcxtExtract.Summary do
   @doc """
   Read discovery files and compute exchange summary statistics.
 
+  Accepts an optional `scope` (from `CcxtExtract.TaskScope.parse_and_resolve!/3`).
+  When scope is a `MapSet` of exchange IDs, `exchanges` and `classes` are
+  filtered to the in-scope set before reducing. The inheritance `tree` and
+  `ws_counterparts` always reflect the full CCXT source — `classes.ex`
+  precedent (Task 5 Q2): the hierarchy is load-bearing for family inheritance
+  and must stay universe-wide. `find_root_ancestor/2` walks the full tree so
+  in-scope classes still resolve to their real roots, and `has_ws` lookups
+  against `ws_counterparts` remain honest when scope narrows to a variant
+  whose WS counterpart lives outside the scope.
+
   Returns `{:ok, summary}` or `{:error, {:missing_input, path}}` if
   a required input file does not exist.
   """
-  @spec extract() :: {:ok, map()} | {:error, {:missing_input, String.t()}}
-  def extract do
+  @spec extract(:all | MapSet.t(String.t())) ::
+          {:ok, map()} | {:error, {:missing_input, String.t()}}
+  def extract(scope \\ :all) do
     discoveries = CcxtExtract.Paths.discoveries()
     exchanges_path = Path.join(discoveries, @exchanges_file)
     classes_path = Path.join(discoveries, @classes_file)
 
     with {:ok, exchanges_data} <- read_json(exchanges_path),
          {:ok, classes_data} <- read_json(classes_path) do
-      exchanges = exchanges_data["exchanges"]
-      classes = classes_data["classes"]
+      exchanges =
+        CcxtExtract.TaskScope.filter_entries(exchanges_data["exchanges"], scope, "id")
+
+      classes =
+        CcxtExtract.TaskScope.filter_entries(classes_data["classes"], scope, "id")
+
       tree = classes_data["tree"]
       ws_counterparts = classes_data["ws_counterparts"]
 
@@ -43,12 +58,22 @@ defmodule CcxtExtract.Summary do
 
   @doc """
   Write summary to `priv/discoveries/exchange_summary.json`.
+
+  Accepts `:tier_scope` option — the JSON-serialisable value from
+  `CcxtExtract.TaskScope.parse_and_resolve!/3` that records the active scope
+  in the output envelope.
   """
-  @spec write!(map(), String.t()) :: :ok
-  def write!(summary, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
+  @spec write!(map(), keyword()) :: :ok
+  def write!(summary, opts \\ []) do
+    output_path =
+      Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(Path.join("discoveries", @output_file)))
+
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+    stamped = Map.put(summary, "tier_scope", tier_scope)
+
     File.mkdir_p!(Path.dirname(output_path))
 
-    json = Jason.encode!(summary, pretty: true)
+    json = Jason.encode!(stamped, pretty: true)
     File.write!(output_path, json)
     :ok
   end

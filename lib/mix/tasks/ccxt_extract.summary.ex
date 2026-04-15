@@ -9,6 +9,22 @@ defmodule Mix.Tasks.CcxtExtract.Summary do
   Writes output to `priv/discoveries/exchange_summary.json`.
 
       mix ccxt_extract.summary
+      mix ccxt_extract.summary --tier1 --dex
+      mix ccxt_extract.summary --exchange binance
+
+  ## Options
+
+    * `--tier1 --tier2 --tier3 --dex` — restrict the summary to the named
+      priority tiers (combinable). Tier inheritance expands roots to their
+      full family (e.g. `--tier1` includes the whole binance family).
+    * `--exchange ID` — restrict to explicit exchange IDs (repeatable or
+      comma-separated). Typos fail loudly with fuzzy suggestions.
+    * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+
+  The active scope is stamped into the JSON envelope as `tier_scope`. The
+  class inheritance tree and WS counterparts remain universe-wide (per
+  `classes.ex` precedent) — only the `exchanges`, `classes`, and derived
+  families/orphans reflect the scope.
 
   Requires both input files to exist. Run `mix ccxt_extract.exchanges` and
   `mix ccxt_extract.classes` first if they are missing.
@@ -16,13 +32,17 @@ defmodule Mix.Tasks.CcxtExtract.Summary do
 
   use Mix.Task
 
+  alias CcxtExtract.TaskScope
+
   @impl true
-  def run(_args) do
+  def run(args) do
+    {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
+
     Mix.shell().info("Building exchange summary from discovery files...")
 
-    case CcxtExtract.Summary.extract() do
+    case CcxtExtract.Summary.extract(scope) do
       {:ok, summary} ->
-        CcxtExtract.Summary.write!(summary)
+        CcxtExtract.Summary.write!(summary, tier_scope: tier_scope)
         print_summary(summary)
 
       {:error, {:missing_input, path}} ->

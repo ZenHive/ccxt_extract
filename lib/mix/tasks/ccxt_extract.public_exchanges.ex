@@ -9,17 +9,35 @@ defmodule Mix.Tasks.CcxtExtract.PublicExchanges do
   Writes output to `priv/discoveries/public_exchanges.json`.
 
       mix ccxt_extract.public_exchanges
+      mix ccxt_extract.public_exchanges --tier1 --dex
+      mix ccxt_extract.public_exchanges --exchange binance
+
+  ## Options
+
+    * `--tier1 --tier2 --tier3 --dex` — restrict the analysis to the named
+      priority tiers (combinable). Tier inheritance expands roots to their
+      full family.
+    * `--exchange ID` — restrict to explicit exchange IDs (repeatable or
+      comma-separated). Typos fail loudly with fuzzy suggestions.
+    * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+
+  The active scope is stamped into the JSON envelope as `tier_scope`. Out-of-scope
+  per-exchange describe files are not read.
   """
 
   use Mix.Task
 
+  alias CcxtExtract.TaskScope
+
   @impl true
-  def run(_args) do
+  def run(args) do
+    {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
+
     Mix.shell().info("Analyzing exchange credential requirements...")
 
-    case CcxtExtract.PublicExchanges.extract() do
+    case CcxtExtract.PublicExchanges.extract(scope) do
       {:ok, analysis} ->
-        CcxtExtract.PublicExchanges.write!(analysis)
+        CcxtExtract.PublicExchanges.write!(analysis, tier_scope: tier_scope)
 
         summary = analysis["summary"]
 

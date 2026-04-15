@@ -25,7 +25,7 @@ defmodule CcxtExtract.DescribeKeyAnalysis do
   # Depth 1 = flat object or array of primitives
   # Depth N = nested N levels deep
   @js_extract_nesting_depths """
-  globalThis.extractNestingDepths = function() {
+  globalThis.extractNestingDepths = function(idFilter) {
     function maxDepth(val, depth) {
       if (val === null || val === undefined) return depth;
       if (typeof val !== 'object') return depth;
@@ -48,13 +48,17 @@ defmodule CcxtExtract.DescribeKeyAnalysis do
       return max;
     }
 
-    const ids = Object.keys(ccxt).filter(k => {
+    const allIds = Object.keys(ccxt).filter(k => {
       try {
         return typeof ccxt[k] === 'function' &&
                k !== 'Exchange' && k !== 'Precise' &&
                new ccxt[k]().id;
       } catch(e) { return false; }
     });
+
+    const ids = (idFilter && idFilter.length > 0)
+      ? allIds.filter(k => idFilter.includes(new ccxt[k]().id))
+      : allIds;
 
     const depths = {};
     for (const id of ids) {
@@ -75,19 +79,25 @@ defmodule CcxtExtract.DescribeKeyAnalysis do
   @doc """
   Run the full analysis: read describe_keys.json, compute frequency, extract nesting depths.
 
+  Accepts an optional `scope` from `CcxtExtract.TaskScope.parse_and_resolve!/3`.
+  When narrowed, the `exchanges` list from describe_keys.json is filtered
+  before the frequency reduction, and the QuickBEAM nesting-depth scan
+  iterates only the in-scope class IDs.
+
   Returns `{:ok, analysis}` or `{:error, {:missing_input, path}}` if the
   describe_keys.json file doesn't exist.
   """
-  @spec extract() :: {:ok, map()} | {:error, {:missing_input, String.t()}}
-  def extract do
+  @spec extract(:all | MapSet.t(String.t())) ::
+          {:ok, map()} | {:error, {:missing_input, String.t()}}
+  def extract(scope \\ :all) do
     input_path = CcxtExtract.Paths.priv(Path.join("discoveries", @describe_keys_file))
 
     # NOTE: Combines two data sources — describe_keys.json (from Task 3a) and a fresh
     # QuickBEAM nesting depth scan. Both must be from the same CCXT snapshot.
     # All mix tasks run against the same priv/ccxt/ checkout, so this holds in practice.
     with {:ok, data} <- read_json(input_path) do
-      exchanges = data["exchanges"]
-      nesting_depths = extract_nesting_depths()
+      exchanges = CcxtExtract.TaskScope.filter_entries(data["exchanges"], scope, "id")
+      nesting_depths = extract_nesting_depths(scope)
       analysis = analyze(exchanges, nesting_depths)
       {:ok, analysis}
     end
@@ -122,12 +132,22 @@ defmodule CcxtExtract.DescribeKeyAnalysis do
 
   @doc """
   Write analysis to `priv/discoveries/describe_key_analysis.json`.
+
+  Accepts `:tier_scope` option — the JSON-serialisable value from
+  `CcxtExtract.TaskScope.parse_and_resolve!/3`, stamped into the analysis
+  envelope as `tier_scope`.
   """
-  @spec write!(map(), String.t()) :: :ok
-  def write!(analysis, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
+  @spec write!(map(), keyword()) :: :ok
+  def write!(analysis, opts \\ []) do
+    output_path =
+      Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(Path.join("discoveries", @output_file)))
+
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+    stamped = Map.put(analysis, "tier_scope", tier_scope)
+
     File.mkdir_p!(Path.dirname(output_path))
 
-    json = Jason.encode!(analysis, pretty: true)
+    json = Jason.encode!(stamped, pretty: true)
     File.write!(output_path, json)
     :ok
   end
@@ -135,15 +155,25 @@ defmodule CcxtExtract.DescribeKeyAnalysis do
   @doc """
   Extract max nesting depth per describe() key via QuickBEAM.
 
+  Accepts an optional `scope` from `CcxtExtract.TaskScope.parse_and_resolve!/3`.
+  When narrowed, the JS scan iterates only the in-scope class IDs.
+
   Returns a map of `%{"key_name" => depth_integer}`.
   """
-  @spec extract_nesting_depths() :: map()
-  def extract_nesting_depths do
+  @spec extract_nesting_depths(:all | MapSet.t(String.t())) :: map()
+  def extract_nesting_depths(scope \\ :all) do
     {:ok, rt} = CcxtExtract.QuickbeamRuntime.start()
 
     try do
       {:ok, _} = QuickBEAM.eval(rt, @js_extract_nesting_depths)
-      {:ok, json} = QuickBEAM.call(rt, "extractNestingDepths", [])
+
+      id_filter =
+        case scope do
+          :all -> []
+          %MapSet{} -> Enum.sort(scope)
+        end
+
+      {:ok, json} = QuickBEAM.call(rt, "extractNestingDepths", [id_filter])
       Jason.decode!(json)
     after
       CcxtExtract.QuickbeamRuntime.stop(rt)

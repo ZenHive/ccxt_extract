@@ -28,10 +28,17 @@ defmodule CcxtExtract.FamilyAnalysis do
   Run the full family analysis from existing discovery files.
 
   Reads class_hierarchy.json, exchange_summary.json, and per-exchange describe
-  files. Returns `{:ok, analysis}` or `{:error, {:missing_input, path}}`.
+  files. Accepts an optional `scope` from `CcxtExtract.TaskScope.parse_and_resolve!/3`.
+  When narrowed, families are kept iff the scope intersects the family's root,
+  variants, or aliases — within a kept family, ALL members are still analyzed
+  to preserve family context (the inheritance tree is universe-wide by design,
+  same precedent as `classes.ex`).
+
+  Returns `{:ok, analysis}` or `{:error, {:missing_input, path}}`.
   """
-  @spec extract() :: {:ok, map()} | {:error, {:missing_input, String.t()}}
-  def extract do
+  @spec extract(:all | MapSet.t(String.t())) ::
+          {:ok, map()} | {:error, {:missing_input, String.t()}}
+  def extract(scope \\ :all) do
     discoveries = CcxtExtract.Paths.discoveries()
     classes_path = Path.join(discoveries, @classes_file)
     summary_path = Path.join(discoveries, @summary_file)
@@ -40,17 +47,20 @@ defmodule CcxtExtract.FamilyAnalysis do
     with {:ok, classes_data} <- read_json(classes_path),
          {:ok, summary_data} <- read_json(summary_path),
          :ok <- validate_describe_dir(describe_dir) do
-      analyze(classes_data, summary_data, describe_dir)
+      analyze(classes_data, summary_data, describe_dir, scope)
     end
   end
 
   @doc """
   Build the full analysis from classes data, summary data, and describe directory.
+
+  Filters families by `scope` overlap; class lookup stays universe-wide so root
+  ancestry resolves correctly within kept families.
   """
-  @spec analyze(map(), map(), String.t()) :: {:ok, map()}
-  def analyze(classes_data, summary_data, describe_dir) do
+  @spec analyze(map(), map(), String.t(), :all | MapSet.t(String.t())) :: {:ok, map()}
+  def analyze(classes_data, summary_data, describe_dir, scope \\ :all) do
     classes = classes_data["classes"]
-    families = summary_data["families"]
+    families = filter_families(summary_data["families"], scope)
 
     # Build lookup: exchange id -> class entry (REST only)
     class_lookup =
@@ -77,6 +87,15 @@ defmodule CcxtExtract.FamilyAnalysis do
        "summary" => summary,
        "families" => family_analyses
      }}
+  end
+
+  defp filter_families(families, :all), do: families
+
+  defp filter_families(families, %MapSet{} = scope) do
+    Enum.filter(families, fn family ->
+      members = [family["root"] | (family["variants"] || []) ++ (family["aliases"] || [])]
+      Enum.any?(members, &MapSet.member?(scope, &1))
+    end)
   end
 
   @doc """
@@ -215,12 +234,22 @@ defmodule CcxtExtract.FamilyAnalysis do
 
   @doc """
   Write analysis to `priv/discoveries/family_analysis.json`.
+
+  Accepts `:tier_scope` option — the JSON-serialisable value from
+  `CcxtExtract.TaskScope.parse_and_resolve!/3`, stamped into the analysis
+  envelope as `tier_scope`.
   """
-  @spec write!(map(), String.t()) :: :ok
-  def write!(analysis, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
+  @spec write!(map(), keyword()) :: :ok
+  def write!(analysis, opts \\ []) do
+    output_path =
+      Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(Path.join("discoveries", @output_file)))
+
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+    stamped = Map.put(analysis, "tier_scope", tier_scope)
+
     File.mkdir_p!(Path.dirname(output_path))
 
-    json = Jason.encode!(analysis, pretty: true)
+    json = Jason.encode!(stamped, pretty: true)
     File.write!(output_path, json)
     :ok
   end

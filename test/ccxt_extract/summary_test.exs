@@ -312,5 +312,31 @@ defmodule CcxtExtract.SummaryTest do
       assert is_list(summary["families"])
       assert summary["counts"]["families"] == length(summary["families"])
     end
+
+    test "scoped variant keeps has_ws via universe-wide ws_counterparts" do
+      # Regression: an earlier iteration of Task 7 filtered `ws_counterparts`
+      # by scope before handing it to `build_summary/4`. When scope narrowed
+      # to a variant (e.g. `binanceus`) but NOT its WS-carrying root
+      # (`binance`), the family's `has_ws` flipped to false — misreporting
+      # support to downstream `family_analysis`. Post-fix, `extract/1` passes
+      # `ws_counterparts` universe-wide; this test pins that invariant
+      # directly against `build_summary/4`, which is what `extract/1` calls.
+      scoped_exchanges = Enum.filter(sample_exchanges(), &(&1["id"] == "binanceus"))
+
+      scoped_classes =
+        Enum.filter(sample_classes(), &(&1["id"] == "binanceus" and &1["type"] == "rest"))
+
+      summary =
+        Summary.build_summary(
+          scoped_exchanges,
+          scoped_classes,
+          sample_tree(),
+          sample_ws_counterparts()
+        )
+
+      binanceus_family = Enum.find(summary["families"], &(&1["root"] == "binance"))
+      assert binanceus_family, "binanceus should resolve to the binance family via tree"
+      assert binanceus_family["has_ws"] == true
+    end
   end
 end

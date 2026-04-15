@@ -48,16 +48,22 @@ defmodule CcxtExtract.CoverageReport do
 
   ## Options
 
-    * `:discoveries_dir` - override input directory (for testing)
+    * `:discoveries_dir` — override input directory (for testing)
+    * `:scope` — `:all` (default) or a `MapSet` of exchange IDs from
+      `CcxtExtract.TaskScope.parse_and_resolve!/3`. When narrowed, only
+      in-scope exchanges are analyzed; inputs still load the full discovery
+      aggregates (layer checks look up by ID, so unused entries are benign).
   """
   @spec extract(keyword()) :: {:ok, map()} | {:error, {:missing_input, String.t()}}
   def extract(opts \\ []) do
     dir = Keyword.get(opts, :discoveries_dir, CcxtExtract.Paths.priv("discoveries"))
+    scope = Keyword.get(opts, :scope, :all)
     exchanges_path = Path.join(dir, "exchanges.json")
 
     with {:ok, exchanges_data} <- read_json(exchanges_path) do
+      exchanges = CcxtExtract.TaskScope.filter_entries(exchanges_data["exchanges"], scope, "id")
       inputs = load_all_inputs(dir)
-      {:ok, analyze(exchanges_data["exchanges"], inputs)}
+      {:ok, analyze(exchanges, inputs)}
     end
   end
 
@@ -144,11 +150,19 @@ defmodule CcxtExtract.CoverageReport do
 
   @doc """
   Write coverage report to JSON file.
+
+  Accepts `:tier_scope` option — the JSON-serialisable value from
+  `CcxtExtract.TaskScope.parse_and_resolve!/3`, stamped into the report
+  envelope as `tier_scope`.
   """
-  @spec write!(map(), String.t()) :: :ok
-  def write!(report, output_path \\ CcxtExtract.Paths.priv(@output_file)) do
+  @spec write!(map(), keyword()) :: :ok
+  def write!(report, opts \\ []) do
+    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(@output_file))
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+    stamped = Map.put(report, "tier_scope", tier_scope)
+
     output_path |> Path.dirname() |> File.mkdir_p!()
-    json = Jason.encode!(report, pretty: true)
+    json = Jason.encode!(stamped, pretty: true)
     File.write!(output_path, json)
     :ok
   end

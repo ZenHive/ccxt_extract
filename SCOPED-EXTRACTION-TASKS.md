@@ -70,9 +70,16 @@ into the OXC stage via `run_oxc_extractors/1`. `ccxt_extract.base_methods`
 is excluded via `@unscoped_oxc_extractors` (single-file parse, no
 per-exchange dimension — Honesty Rule).
 
-**Ready next:** Task 7 (analytics — all aggregate and per-exchange-dir
-writers are merge-safe everywhere), Task 10 (direct-pipeline safety
-rail). Task 8 (docs overhaul) and Task 9 (verification sweep) wait for 7.
+**Task 7 landed.** Eight analytics tasks (`summary`, `coverage`,
+`method_analysis`, `public_exchanges`, `validate_markets`,
+`family_analysis`, `describe_keys`, `describe_key_analysis`) accept the
+canonical scope flag set; `validate_markets` migrated from legacy
+`--exchanges <csv>` to canonical `--exchange ID` (repeatable);
+`run_analytics/1` in `update.ex` threads scope into both QuickBEAM and
+derived loops. All scope-aware — no `:unscoped` carve-out.
+
+**Ready next:** Task 10 (direct-pipeline safety rail), Task 8 (docs
+overhaul), Task 9 (verification sweep). Tasks 8 and 9 are now unblocked.
 
 **Known drift (post-Task 101):** cached integration tests are currently red for
 two unrelated reasons, neither tied to the scope refactor: (1) `coincatch` is a
@@ -388,35 +395,42 @@ assertion pattern.
 
 ---
 
-### Task 7: Analytics scope flags ⬜
+### Task 7: Analytics scope flags ✅
 
-**Status:** Pending — **blocked by Task 2** (needs scoped pipeline output)
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-7-analytics-scope-flags).
 **Score:** [D:3/B:5/U:5 → Eff:1.67] 🚀
 
-Eight analytics tasks. Some may be natural no-ops if they already read
-`priv/output/` (which is scoped after Task 2) — verify per-task.
+All eight analytics tasks now accept the canonical scope flag set via
+`TaskScope.parse_and_resolve!/3`. Each output gains a top-level
+`tier_scope` envelope stamp. Per-task notes:
 
-**Tasks:**
-- `ccxt_extract.summary` → `exchange_summary.json`
-- `ccxt_extract.coverage` → `coverage_report.json`
-- `ccxt_extract.method_analysis` → `method_analysis.json`
-- `ccxt_extract.public_exchanges` → `public_exchanges.json`
-- `ccxt_extract.validate_markets` → `market_validation.json`
-- `ccxt_extract.family_analysis` → `family_analysis.json`
-- `ccxt_extract.describe_keys` → `describe_keys.json`
-- `ccxt_extract.describe_key_analysis` → `describe_key_analysis.json`
+- **Derived (6):** `summary`, `coverage`, `method_analysis`,
+  `public_exchanges`, `validate_markets`, `family_analysis` — `extract/0`
+  → `extract/1` taking a `scope` opt; `write!/2` migrated from positional
+  `output_path` to a keyword `opts` list (`output_path`, `tier_scope`).
+- **QuickBEAM (2):** `describe_keys`, `describe_key_analysis` — JS
+  `extractDescribeKeys` / `extractNestingDepths` accept an optional
+  `idFilter` array; only in-scope class IDs get instantiated.
+- **`validate_markets` flag migration:** legacy `--exchanges <csv>`
+  (spot-check sample selector) replaced by canonical `--exchange ID`
+  (repeatable). When scope is narrowed, `--spot-check` covers exactly the
+  in-scope set; without scope, falls back to the historical sample
+  (binance, bybit, okx). Mirrors Task 4's `LoadMarkets` migration.
+- **`family_analysis` semantics:** family kept iff scope intersects root,
+  variants, or aliases. Within a kept family, ALL members analyzed —
+  hierarchy stays universe-wide (Task 5 Q2 precedent).
+- **Orchestrator threading.** `run_analytics/1` in `update.ex` threads
+  `scope_args(opts)` into both QuickBEAM and derived analytic loops.
+  Pre-Task-7 it passed `[]` (parallel to the Task 11 OXC gap). All eight
+  are scope-aware — no `:unscoped` carve-out (Honesty Rule).
 
-**Pattern:** For each task, decide:
-- If it reads `priv/output/`: already scoped implicitly (just add flags for consistency and log the active scope).
-- If it reads `priv/discoveries/` aggregates: filter by scope before computing.
-- If it uses QuickBEAM runtime: scope the runtime exchange list.
+**Tests.** New `test/mix/tasks/analytics_scope_flags_test.exs` (mirrors
+`oxc_scope_flags_test.exs`); new orchestrator-propagation test in
+`update_test.exs`. All 138 affected unit tests + 100 affected integration
+tests + 22 update-orchestrator tests pass. 0 dialyzer warnings. Credo
+finds only pre-existing TODO tags.
 
-**Success criteria:**
-- [ ] Each task accepts scope flag set
-- [ ] Output reflects scope (or is universe-wide where that makes sense, documented)
-- [ ] Tests updated
-
-**Files touched:** 8 task files + tests.
+**Unblocks Tasks 8 (docs overhaul) and 9 (full verification sweep).**
 
 ---
 
@@ -516,7 +530,7 @@ full-universe run skips the check even on a dirty tree.
 
 ```
 Task 1 ─┬─▶ Task 2 ─┬─▶ Task 7 ──┐
- ✅     │    ✅     │             │
+ ✅     │    ✅     │     ✅      │
         ├─▶ Task 3 ─┤             │
         │    ✅     │             │
         ├─▶ Task 4 ─┤             │
@@ -529,7 +543,7 @@ Task 1 ─┬─▶ Task 2 ─┬─▶ Task 7 ──┐
                      (docs wait for all code tasks)
 ```
 
-Tasks 7, 10 ready to start in parallel; Tasks 8 & 9 wait for 7.
+Task 10 still independent; Tasks 8 & 9 unblocked by Task 7.
 
 ## Notes for future sessions
 

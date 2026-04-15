@@ -244,7 +244,7 @@ defmodule CcxtExtract.MethodAnalysisIntegrationTest do
     test "writes valid JSON roundtrip", %{analysis: analysis, tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "method_analysis.json")
 
-      assert :ok = MethodAnalysis.write!(analysis, output_path)
+      assert :ok = MethodAnalysis.write!(analysis, output_path: output_path)
       assert File.exists?(output_path)
 
       parsed = output_path |> File.read!() |> Jason.decode!()

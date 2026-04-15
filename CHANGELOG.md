@@ -6,6 +6,54 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 7: Analytics scope flags
+
+The eight analytics tasks now accept the canonical scope flag set
+(`--tier1/--tier2/--tier3/--dex/--all/--exchange`) via
+`CcxtExtract.TaskScope.parse_and_resolve!/3`:
+
+**Derived analytics:** `summary`, `coverage`, `method_analysis`,
+`public_exchanges`, `validate_markets`, `family_analysis` —
+hand-rolled `Jason.encode! |> File.write!` writers each gained a
+`tier_scope` envelope stamp; their `extract/0` (or `validate/1`) gained
+a `scope` opt that filters input rows before reduction. Outputs are
+universe-wide reductions (not per-exchange aggregates), so a scoped run
+produces a scoped reduction — full overwrite, no merge semantics.
+
+**QuickBEAM analytics:** `describe_keys`, `describe_key_analysis` — the
+JS `extractDescribeKeys` and `extractNestingDepths` functions now accept
+an optional `idFilter` array; when scope is narrowed, only in-scope class
+IDs are instantiated, avoiding wasted work for out-of-scope exchanges.
+
+**Orchestrator threading.** `run_analytics/1` in
+`lib/mix/tasks/ccxt_extract.update.ex` now threads `scope_args(opts)` into
+both the QuickBEAM and derived analytic loops. Pre-Task-7 it passed `[]`
+to every analytic task (parallel to the Task 11 OXC gap), producing
+universe-wide analytics on a scoped pipeline run — the kind of silent
+manifest/scope mismatch the refactor exists to prevent. All eight
+analytics are scope-aware, so there is no `:unscoped` carve-out.
+
+**Flag canonicalisation.** `mix ccxt_extract.validate_markets --exchanges <csv>`
+(legacy spot-check sample selector) is dropped in favour of canonical
+`--exchange ID` (repeatable). With scope, `--spot-check` covers exactly
+the in-scope set; without scope, it falls back to the historical sample
+(binance, bybit, okx). Mirrors the Task 4 `LoadMarkets` flag migration.
+
+**Family analysis semantics.** `family_analysis` keeps a family iff scope
+intersects the family's root, variants, or aliases — within a kept family,
+ALL members are still analyzed to preserve family context. The class
+hierarchy and per-family member set remain universe-wide (same precedent
+as `classes.ex` from Task 5).
+
+**Tests.** New `test/mix/tasks/analytics_scope_flags_test.exs` (mirrors
+`oxc_scope_flags_test.exs`) covers argument parsing, `--all` conflict, and
+unknown-`--exchange` fuzzy suggestions for all eight tasks plus the
+`validate_markets` flag-migration regression. New propagation test in
+`test/mix/tasks/update_test.exs` asserts the orchestrator threads scope
+into both analytic loops.
+
+Unblocks Tasks 8 (docs overhaul) and 9 (full verification sweep).
+
 ### Dependency bumps
 
 - **npm 0.5.1 → 0.5.3.** Adds `NPM.PackageResolver` with Node.js module resolution and `relative_import_path/3`. Includes an ETS race-condition fix in cache initialization. No breaking changes; compatible with existing `~> 0.5` requirement.

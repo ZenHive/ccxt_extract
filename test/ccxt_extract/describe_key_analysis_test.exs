@@ -218,7 +218,7 @@ defmodule CcxtExtract.DescribeKeyAnalysisTest do
       analysis = DescribeKeyAnalysis.analyze(@mock_exchanges)
       output_path = Path.join(tmp_dir, "analysis.json")
 
-      assert :ok = DescribeKeyAnalysis.write!(analysis, output_path)
+      assert :ok = DescribeKeyAnalysis.write!(analysis, output_path: output_path)
       assert File.exists?(output_path)
 
       parsed = output_path |> File.read!() |> Jason.decode!()

@@ -64,9 +64,13 @@ defmodule CcxtExtract.MarketValidation do
 
   ## Options
 
-    * `:spot_check` - run Layer 2 spot-check (default: false)
-    * `:exchanges` - exchanges for spot-check (default: binance, bybit, okx)
-    * `:input_dir` - override input directory (for testing)
+    * `:spot_check` — run Layer 2 spot-check (default: false)
+    * `:scope` — `:all` (default) or a `MapSet` of exchange IDs from
+      `CcxtExtract.TaskScope.parse_and_resolve!/3`. When narrowed, the
+      manifest's `succeeded` list is filtered before validation, and the
+      spot-check sample (when `--spot-check` is set) defaults to the
+      in-scope set instead of the historical sample (binance, bybit, okx).
+    * `:input_dir` — override input directory (for testing)
   """
   @spec validate(keyword()) :: {:ok, map()} | {:error, {:missing_input, String.t()}}
   def validate(opts \\ []) do
@@ -83,15 +87,18 @@ defmodule CcxtExtract.MarketValidation do
 
   # Validates exchange files listed in manifest, returning error if any are missing.
   defp validate_with_manifest(manifest, input_dir, opts) do
+    scope = Keyword.get(opts, :scope, :all)
+    succeeded = CcxtExtract.TaskScope.filter_ids(manifest["succeeded"], scope)
+
     missing =
-      Enum.filter(manifest["succeeded"], fn id ->
+      Enum.filter(succeeded, fn id ->
         not File.exists?(Path.join(input_dir, "#{id}.json"))
       end)
 
     case missing do
       [] ->
         exchange_reports =
-          Map.new(manifest["succeeded"], fn id ->
+          Map.new(succeeded, fn id ->
             path = Path.join(input_dir, "#{id}.json")
             data = path |> File.read!() |> Jason.decode!()
             {id, validate_exchange(data)}
@@ -146,14 +153,22 @@ defmodule CcxtExtract.MarketValidation do
 
   @doc """
   Write validation report to JSON file.
+
+  Accepts `:tier_scope` option — the JSON-serialisable value from
+  `CcxtExtract.TaskScope.parse_and_resolve!/3`, stamped into the report
+  envelope as `tier_scope`.
   """
-  @spec write!(map(), String.t()) :: :ok
-  def write!(report, output_path \\ CcxtExtract.Paths.priv(@output_file)) do
+  @spec write!(map(), keyword()) :: :ok
+  def write!(report, opts \\ []) do
+    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(@output_file))
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+    stamped = Map.put(report, "tier_scope", tier_scope)
+
     output_path
     |> Path.dirname()
     |> File.mkdir_p!()
 
-    json = Jason.encode!(report, pretty: true)
+    json = Jason.encode!(stamped, pretty: true)
     File.write!(output_path, json)
     :ok
   end
@@ -334,11 +349,19 @@ defmodule CcxtExtract.MarketValidation do
     spot_check_result =
       if Keyword.get(opts, :spot_check, false) do
         input_dir = Keyword.get(opts, :input_dir, CcxtExtract.Paths.priv(@load_markets_dir))
-        exchange_ids = Keyword.get(opts, :exchanges, @default_spot_check_exchanges)
-        cached_by_id = load_cached_exchange_data(exchange_ids, input_dir)
 
-        {:ok, result} = spot_check(cached_by_id, exchange_ids)
-        result
+        case spot_check_sample(opts, exchange_reports) do
+          [] ->
+            # Scoped run narrowed `succeeded` to empty. Skip the spot-check
+            # rather than crash downstream (Honesty Rule: say so when there's
+            # nothing to check).
+            nil
+
+          exchange_ids ->
+            cached_by_id = load_cached_exchange_data(exchange_ids, input_dir)
+            {:ok, result} = spot_check(cached_by_id, exchange_ids)
+            result
+        end
       end
 
     %{
@@ -355,6 +378,17 @@ defmodule CcxtExtract.MarketValidation do
       "exchanges" => exchange_reports,
       "spot_check" => spot_check_result
     }
+  end
+
+  # When scope is :all, spot-check the historical default sample (binance, bybit, okx).
+  # When scope is narrowed, spot-check exactly the validated set — the user already
+  # asked us to focus on these exchanges, so re-checking them live is the honest
+  # interpretation of `--spot-check --tier1` etc.
+  defp spot_check_sample(opts, exchange_reports) do
+    case Keyword.get(opts, :scope, :all) do
+      :all -> @default_spot_check_exchanges
+      %MapSet{} -> exchange_reports |> Map.keys() |> Enum.sort()
+    end
   end
 
   # --- Private: Spot-Check Comparison ---

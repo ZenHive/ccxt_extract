@@ -331,7 +331,7 @@ defmodule CcxtExtract.MethodAnalysisTest do
       analysis = MethodAnalysis.analyze(rest_data, ws_data)
       output_path = Path.join(tmp_dir, "analysis.json")
 
-      assert :ok = MethodAnalysis.write!(analysis, output_path)
+      assert :ok = MethodAnalysis.write!(analysis, output_path: output_path)
       assert File.exists?(output_path)
 
       parsed = output_path |> File.read!() |> Jason.decode!()

@@ -287,8 +287,8 @@ defmodule CcxtExtract.MarketValidationTest do
   end
 
   describe "mix task CLI validation" do
-    test "--exchanges without --spot-check raises" do
-      assert_raise Mix.Error, ~r/--exchanges requires --spot-check/, fn ->
+    test "legacy --exchanges flag (plural) is no longer accepted" do
+      assert_raise Mix.Error, ~r/(unknown|invalid|--exchange)/i, fn ->
         ValidateMarkets.run(["--exchanges", "binance"])
       end
     end
@@ -333,6 +333,32 @@ defmodule CcxtExtract.MarketValidationTest do
       assert_raise Protocol.UndefinedError, fn ->
         MarketValidation.validate(input_dir: tmp_dir)
       end
+    end
+
+    @tag :tmp_dir
+    test "spot-check skips cleanly when scope narrows succeeded list to empty", %{tmp_dir: tmp_dir} do
+      # Regression guard: pre-fix, `spot_check_sample/2` returned [] and the
+      # downstream `spot_check/2` crashed. Post-fix, `spot_check` is nil and
+      # the rest of the report is still produced.
+      exchange_data = %{
+        "id" => "testex",
+        "market_count" => 1,
+        "markets" => %{"BTC/USDT" => @valid_spot_market}
+      }
+
+      manifest = %{"succeeded" => ["testex"], "failed" => []}
+      File.write!(Path.join(tmp_dir, "_manifest.json"), Jason.encode!(manifest))
+      File.write!(Path.join(tmp_dir, "testex.json"), Jason.encode!(exchange_data))
+
+      assert {:ok, report} =
+               MarketValidation.validate(
+                 input_dir: tmp_dir,
+                 spot_check: true,
+                 scope: MapSet.new(["nonexistent"])
+               )
+
+      assert report["exchange_count"] == 0
+      assert report["spot_check"] == nil
     end
   end
 

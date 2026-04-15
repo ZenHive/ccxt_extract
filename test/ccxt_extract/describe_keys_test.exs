@@ -46,7 +46,7 @@ defmodule CcxtExtract.DescribeKeysTest do
 
       output_path = Path.join(tmp_dir, "describe_keys.json")
 
-      assert :ok = DescribeKeys.write!(exchanges, output_path)
+      assert :ok = DescribeKeys.write!(exchanges, output_path: output_path)
       assert File.exists?(output_path)
 
       parsed = output_path |> File.read!() |> Jason.decode!()

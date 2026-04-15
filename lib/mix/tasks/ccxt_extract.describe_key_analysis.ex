@@ -11,17 +11,36 @@ defmodule Mix.Tasks.CcxtExtract.DescribeKeyAnalysis do
   Writes output to `priv/discoveries/describe_key_analysis.json`.
 
       mix ccxt_extract.describe_key_analysis
+      mix ccxt_extract.describe_key_analysis --tier1 --dex
+      mix ccxt_extract.describe_key_analysis --exchange binance
+
+  ## Options
+
+    * `--tier1 --tier2 --tier3 --dex` — restrict the analysis to the named
+      priority tiers (combinable). Tier inheritance expands roots to their
+      full family.
+    * `--exchange ID` — restrict to explicit exchange IDs (repeatable or
+      comma-separated). Typos fail loudly with fuzzy suggestions.
+    * `--all` — explicit full-universe run; conflicts with any narrowing flag.
+
+  The active scope is stamped into the JSON envelope as `tier_scope`. Both the
+  `describe_keys.json` input and the QuickBEAM nesting-depth scan are filtered
+  to the in-scope set.
   """
 
   use Mix.Task
 
+  alias CcxtExtract.TaskScope
+
   @impl true
-  def run(_args) do
+  def run(args) do
+    {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
+
     Mix.shell().info("Analyzing describe() key frequency and nesting depth...")
 
-    case CcxtExtract.DescribeKeyAnalysis.extract() do
+    case CcxtExtract.DescribeKeyAnalysis.extract(scope) do
       {:ok, analysis} ->
-        CcxtExtract.DescribeKeyAnalysis.write!(analysis)
+        CcxtExtract.DescribeKeyAnalysis.write!(analysis, tier_scope: tier_scope)
 
         tier_summary =
           analysis["tiers"]

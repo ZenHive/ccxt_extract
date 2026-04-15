@@ -83,7 +83,7 @@ defmodule CcxtExtract.MarketValidationIntegrationTest do
     @tag timeout: 600_000
     test "produces complete report with spot_check" do
       {:ok, report} =
-        MarketValidation.validate(spot_check: true, exchanges: @spot_check_exchanges)
+        MarketValidation.validate(spot_check: true, scope: MapSet.new(@spot_check_exchanges))
 
       assert is_map(report["spot_check"])
       assert is_list(report["spot_check"]["results"])
@@ -97,7 +97,7 @@ defmodule CcxtExtract.MarketValidationIntegrationTest do
       output =
         run_task_capturing_output(
           Mix.Tasks.CcxtExtract.ValidateMarkets,
-          ["--spot-check", "--exchanges", Enum.join(@spot_check_exchanges, ",")]
+          ["--spot-check" | Enum.flat_map(@spot_check_exchanges, &["--exchange", &1])]
         )
 
       assert output =~ "Validating"

@@ -169,7 +169,7 @@ defmodule CcxtExtract.PublicExchangesIntegrationTest do
     test "writes output file", %{analysis: analysis, tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "public_exchanges.json")
 
-      PublicExchanges.write!(analysis, output_path)
+      PublicExchanges.write!(analysis, output_path: output_path)
       assert File.exists?(output_path)
 
       written = output_path |> File.read!() |> Jason.decode!()

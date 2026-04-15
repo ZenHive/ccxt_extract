@@ -99,7 +99,7 @@ defmodule CcxtExtract.FamilyAnalysisIntegrationTest do
     test "writes valid JSON", %{analysis: analysis, tmp_dir: tmp_dir} do
       path = Path.join(tmp_dir, "family_analysis.json")
 
-      assert :ok = FamilyAnalysis.write!(analysis, path)
+      assert :ok = FamilyAnalysis.write!(analysis, output_path: path)
 
       reloaded = path |> File.read!() |> Jason.decode!()
       assert reloaded["summary"]["total_families"] == analysis["summary"]["total_families"]

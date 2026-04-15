@@ -198,7 +198,7 @@ defmodule CcxtExtract.Integration.Cached.FamilyAnalysisCachedTest do
     test "writes valid JSON that round-trips", %{analysis: analysis, tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "family_analysis.json")
 
-      assert :ok = FamilyAnalysis.write!(analysis, output_path)
+      assert :ok = FamilyAnalysis.write!(analysis, output_path: output_path)
       assert File.exists?(output_path)
 
       reloaded = output_path |> File.read!() |> Jason.decode!()

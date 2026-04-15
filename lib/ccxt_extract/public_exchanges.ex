@@ -22,17 +22,25 @@ defmodule CcxtExtract.PublicExchanges do
   @doc """
   Read all per-exchange describe JSON files and classify by credential requirements.
 
+  Accepts an optional `scope` (from `CcxtExtract.TaskScope.parse_and_resolve!/3`).
+  When narrowed, the manifest's `exchanges` list is filtered before loading
+  describe files; out-of-scope describe files are not read.
+
   Returns `{:ok, analysis}` or `{:error, {:missing_input, path}}` if the
   describe directory doesn't exist or has no manifest.
   """
-  @spec extract() :: {:ok, map()} | {:error, {:missing_input, String.t()}}
-  def extract do
+  @spec extract(:all | MapSet.t(String.t())) ::
+          {:ok, map()} | {:error, {:missing_input, String.t()}}
+  def extract(scope \\ :all) do
     manifest_path = CcxtExtract.Paths.priv(Path.join(@describe_dir, "_manifest.json"))
 
     with {:ok, manifest} <- read_json(manifest_path) do
       describe_dir = CcxtExtract.Paths.priv(@describe_dir)
 
-      exchanges = Enum.map(manifest["exchanges"], &load_exchange_describe(describe_dir, &1))
+      exchanges =
+        manifest["exchanges"]
+        |> CcxtExtract.TaskScope.filter_ids(scope)
+        |> Enum.map(&load_exchange_describe(describe_dir, &1))
 
       {:ok, analyze(exchanges)}
     end
@@ -71,11 +79,19 @@ defmodule CcxtExtract.PublicExchanges do
 
   @doc """
   Write analysis to `priv/discoveries/public_exchanges.json`.
+
+  Accepts `:tier_scope` option — the JSON-serialisable value from
+  `CcxtExtract.TaskScope.parse_and_resolve!/3`, stamped into the analysis
+  envelope as `tier_scope`.
   """
-  @spec write!(map(), String.t()) :: :ok
-  def write!(analysis, output_path \\ CcxtExtract.Paths.priv(@output_file)) do
+  @spec write!(map(), keyword()) :: :ok
+  def write!(analysis, opts \\ []) do
+    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(@output_file))
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+    stamped = Map.put(analysis, "tier_scope", tier_scope)
+
     File.mkdir_p!(Path.dirname(output_path))
-    File.write!(output_path, Jason.encode!(analysis, pretty: true))
+    File.write!(output_path, Jason.encode!(stamped, pretty: true))
     :ok
   end
 

@@ -122,7 +122,7 @@ defmodule CcxtExtract.Integration.Cached.MarketValidationCachedTest do
       {:ok, report} = MarketValidation.validate(input_dir: @load_markets_dir)
       output_path = Path.join(tmp_dir, "market_validation.json")
 
-      assert :ok = MarketValidation.write!(report, output_path)
+      assert :ok = MarketValidation.write!(report, output_path: output_path)
       assert File.exists?(output_path)
 
       written = output_path |> File.read!() |> Jason.decode!()

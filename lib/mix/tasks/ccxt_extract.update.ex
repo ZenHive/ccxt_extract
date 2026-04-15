@@ -307,15 +307,21 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     ccxt_extract.family_analysis
   )
 
+  # Threads scope flags through every analytic. All 8 analytic tasks accept the
+  # canonical scope flag set (`--tier*/--all/--exchange`) — Honesty Rule, no
+  # `:unscoped` carve-out (parallel to `run_oxc_extractors/1` where
+  # `ccxt_extract.base_methods` legitimately ignores scope; no analytic does).
   defp run_analytics(opts) do
+    scope = scope_args(opts)
+
     if !opts[:skip_setup] do
       for task <- task_override(:quickbeam_analytics, @default_quickbeam_analytics) do
-        Mix.Task.rerun(task, [])
+        Mix.Task.rerun(task, scope)
       end
     end
 
     for task <- task_override(:derived_analytics, @default_derived_analytics) do
-      Mix.Task.rerun(task, [])
+      Mix.Task.rerun(task, scope)
     end
   end
 

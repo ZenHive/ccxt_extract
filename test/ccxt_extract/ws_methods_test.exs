@@ -6,38 +6,38 @@ defmodule CcxtExtract.WsMethodsTest do
 
   # Mock watch methods (async, subscribe to WS channels)
   @watch_ticker %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "watchTicker"},
     value: %{
       async: true,
       params: [
         %{
-          type: "Identifier",
+          type: :identifier,
           name: "symbol",
-          typeAnnotation: %{typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "string"}}}
+          typeAnnotation: %{typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "string"}}}
         },
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{
             name: "params",
-            typeAnnotation: %{typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "object"}}}
+            typeAnnotation: %{typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "object"}}}
           },
-          right: %{type: "ObjectExpression", properties: []}
+          right: %{type: :object_expression, properties: []}
         }
       ],
       returnType: %{
         typeAnnotation: %{
-          type: "TSTypeReference",
+          type: :ts_type_reference,
           typeName: %{name: "Promise"},
-          typeArguments: %{params: [%{type: "TSTypeReference", typeName: %{name: "Ticker"}}]}
+          typeArguments: %{params: [%{type: :ts_type_reference, typeName: %{name: "Ticker"}}]}
         }
       },
       body: %{
-        type: "FunctionBody",
+        type: :function_body,
         body: [
-          %{type: "VariableDeclaration"},
-          %{type: "ExpressionStatement"},
-          %{type: "ReturnStatement", argument: %{type: "CallExpression"}}
+          %{type: :variable_declaration},
+          %{type: :expression_statement},
+          %{type: :return_statement, argument: %{type: :call_expression}}
         ],
         start: 1000,
         end: 2000
@@ -46,32 +46,32 @@ defmodule CcxtExtract.WsMethodsTest do
   }
 
   @watch_balance %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "watchBalance"},
     value: %{
       async: true,
       params: [
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{
             name: "params",
             typeAnnotation: nil
           },
-          right: %{type: "ObjectExpression", properties: []}
+          right: %{type: :object_expression, properties: []}
         }
       ],
       returnType: %{
         typeAnnotation: %{
-          type: "TSTypeReference",
+          type: :ts_type_reference,
           typeName: %{name: "Promise"},
-          typeArguments: %{params: [%{type: "TSTypeReference", typeName: %{name: "Balances"}}]}
+          typeArguments: %{params: [%{type: :ts_type_reference, typeName: %{name: "Balances"}}]}
         }
       },
       body: %{
-        type: "FunctionBody",
+        type: :function_body,
         body: [
-          %{type: "ExpressionStatement"},
-          %{type: "ReturnStatement"}
+          %{type: :expression_statement},
+          %{type: :return_statement}
         ],
         start: 3000,
         end: 4000
@@ -81,26 +81,26 @@ defmodule CcxtExtract.WsMethodsTest do
 
   # Mock handle methods (sync, process incoming WS messages)
   @handle_ticker %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "handleTicker"},
     value: %{
       async: false,
       params: [
         %{
-          type: "Identifier",
+          type: :identifier,
           name: "client",
-          typeAnnotation: %{typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "Client"}}}
+          typeAnnotation: %{typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "Client"}}}
         },
-        %{type: "Identifier", name: "message", typeAnnotation: nil}
+        %{type: :identifier, name: "message", typeAnnotation: nil}
       ],
       returnType: nil,
       body: %{
-        type: "FunctionBody",
+        type: :function_body,
         body: [
-          %{type: "VariableDeclaration"},
-          %{type: "ExpressionStatement"},
-          %{type: "ExpressionStatement"},
-          %{type: "ExpressionStatement"}
+          %{type: :variable_declaration},
+          %{type: :expression_statement},
+          %{type: :expression_statement},
+          %{type: :expression_statement}
         ],
         start: 5000,
         end: 6000
@@ -109,22 +109,22 @@ defmodule CcxtExtract.WsMethodsTest do
   }
 
   @handle_balance_ws %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "handleBalanceWs"},
     value: %{
       async: false,
       params: [
         %{
-          type: "Identifier",
+          type: :identifier,
           name: "client",
-          typeAnnotation: %{typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "Client"}}}
+          typeAnnotation: %{typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "Client"}}}
         },
-        %{type: "Identifier", name: "message", typeAnnotation: nil}
+        %{type: :identifier, name: "message", typeAnnotation: nil}
       ],
       returnType: nil,
       body: %{
-        type: "FunctionBody",
-        body: [%{type: "ExpressionStatement"}],
+        type: :function_body,
+        body: [%{type: :expression_statement}],
         start: 7000,
         end: 7500
       }
@@ -133,35 +133,35 @@ defmodule CcxtExtract.WsMethodsTest do
 
   # Non-WS methods (should be filtered out)
   @describe_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "describe"},
     value: %{
       async: false,
       params: [],
       returnType: nil,
-      body: %{body: [%{type: "ReturnStatement"}]}
+      body: %{body: [%{type: :return_statement}]}
     }
   }
 
   @fetch_ticker_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "fetchTicker"},
     value: %{
       async: true,
-      params: [%{type: "Identifier", name: "symbol", typeAnnotation: nil}],
+      params: [%{type: :identifier, name: "symbol", typeAnnotation: nil}],
       returnType: nil,
-      body: %{body: [%{type: "ReturnStatement"}]}
+      body: %{body: [%{type: :return_statement}]}
     }
   }
 
   @parse_ticker_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "parseTicker"},
     value: %{
       async: false,
-      params: [%{type: "Identifier", name: "data", typeAnnotation: nil}],
+      params: [%{type: :identifier, name: "data", typeAnnotation: nil}],
       returnType: nil,
-      body: %{body: [%{type: "ReturnStatement"}]}
+      body: %{body: [%{type: :return_statement}]}
     }
   }
 
@@ -170,9 +170,9 @@ defmodule CcxtExtract.WsMethodsTest do
     %{
       body: [
         %{
-          type: "ExportDefaultDeclaration",
+          type: :export_default_declaration,
           declaration: %{
-            type: "ClassDeclaration",
+            type: :class_declaration,
             id: %{name: class_name},
             superClass: %{name: "binanceRest"},
             body: %{body: methods}
@@ -215,7 +215,7 @@ defmodule CcxtExtract.WsMethodsTest do
     end
 
     test "returns nil when no exported class" do
-      ast = %{body: [%{type: "ImportDeclaration", source: %{value: "foo"}}]}
+      ast = %{body: [%{type: :import_declaration, source: %{value: "foo"}}]}
       assert WsMethods.extract_from_ast(ast, "not_a_class.ts") == nil
     end
 
@@ -223,9 +223,9 @@ defmodule CcxtExtract.WsMethodsTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
-              type: "ClassDeclaration",
+              type: :class_declaration,
               id: nil,
               body: %{body: [@watch_ticker]}
             }

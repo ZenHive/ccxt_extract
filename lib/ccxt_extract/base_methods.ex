@@ -55,8 +55,8 @@ defmodule CcxtExtract.BaseMethods do
 
         {:ok, result}
 
-      {:error, reason} ->
-        raise "Failed to parse Exchange.ts: #{inspect(reason)}"
+      {:error, errors} ->
+        raise "Failed to parse Exchange.ts: #{Enum.map_join(errors, "; ", & &1.message)}"
     end
   end
 
@@ -69,7 +69,7 @@ defmodule CcxtExtract.BaseMethods do
 
     output = Map.put(result, "extracted_at", DateTime.to_iso8601(DateTime.utc_now()))
 
-    json = Jason.encode!(output, pretty: true)
+    json = Jason.encode!(CcxtExtract.AstNormalize.normalize(output), pretty: true)
     File.write!(output_path, json)
     :ok
   end
@@ -98,7 +98,7 @@ defmodule CcxtExtract.BaseMethods do
   end
 
   # Extract signature data from a MethodDefinition AST node (full signature)
-  defp extract_member(%{type: "MethodDefinition"} = method) do
+  defp extract_member(%{type: :method_definition} = method) do
     name = method.key.name
 
     %{
@@ -112,7 +112,7 @@ defmodule CcxtExtract.BaseMethods do
   end
 
   # Extract minimal data from a PropertyDefinition (class field alias to imported function)
-  defp extract_member(%{type: "PropertyDefinition"} = prop) do
+  defp extract_member(%{type: :property_definition} = prop) do
     name = prop.key.name
 
     %{
@@ -128,13 +128,13 @@ defmodule CcxtExtract.BaseMethods do
   # Find the class body members from the AST.
   # Exchange.ts uses `export default class Exchange { ... }`
   defp find_class_body(body) do
-    export = Enum.find(body, &(&1.type == "ExportDefaultDeclaration"))
+    export = Enum.find(body, &(&1.type == :export_default_declaration))
 
     if export && export.declaration && export.declaration.body do
       export.declaration.body.body
     else
       # Fallback: plain ClassDeclaration (no export default)
-      class = Enum.find(body, &(&1.type == "ClassDeclaration"))
+      class = Enum.find(body, &(&1.type == :class_declaration))
       class && class.body && class.body.body
     end
   end
@@ -149,7 +149,7 @@ defmodule CcxtExtract.BaseMethods do
   end
 
   # Match MethodDefinition or PropertyDefinition nodes with parse* or safe* names
-  defp base_method?(%{type: type, key: %{name: name}}) when type in ["MethodDefinition", "PropertyDefinition"] do
+  defp base_method?(%{type: type, key: %{name: name}}) when type in [:method_definition, :property_definition] do
     categorize(name) != nil
   end
 

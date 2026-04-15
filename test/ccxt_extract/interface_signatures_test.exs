@@ -11,44 +11,44 @@ defmodule CcxtExtract.InterfaceSignaturesTest do
       ast = %{
         body: [
           %{
-            type: "TSInterfaceDeclaration",
+            type: :ts_interface_declaration,
             id: %{name: "Exchange"},
             body: %{
               body: [
                 %{
-                  type: "TSMethodSignature",
+                  type: :ts_method_signature,
                   key: %{name: "publicGetTicker"},
                   params: [
                     %{
-                      type: "Identifier",
+                      type: :identifier,
                       name: "params",
                       optional: true,
                       typeAnnotation: %{
-                        type: "TSTypeAnnotation",
-                        typeAnnotation: %{type: "TSTypeLiteral", members: []}
+                        type: :ts_type_annotation,
+                        typeAnnotation: %{type: :ts_type_literal, members: []}
                       },
                       decorators: []
                     }
                   ],
                   returnType: %{
-                    type: "TSTypeAnnotation",
+                    type: :ts_type_annotation,
                     typeAnnotation: %{
-                      type: "TSTypeReference",
+                      type: :ts_type_reference,
                       typeName: %{
                         name: "Promise",
-                        type: "Identifier",
+                        type: :identifier,
                         optional: false,
                         typeAnnotation: nil,
                         decorators: []
                       },
                       typeArguments: %{
-                        type: "TSTypeParameterInstantiation",
+                        type: :ts_type_parameter_instantiation,
                         params: [
                           %{
-                            type: "TSTypeReference",
+                            type: :ts_type_reference,
                             typeName: %{
                               name: "implicitReturnType",
-                              type: "Identifier",
+                              type: :identifier,
                               optional: false,
                               typeAnnotation: nil,
                               decorators: []
@@ -61,7 +61,7 @@ defmodule CcxtExtract.InterfaceSignaturesTest do
                   }
                 },
                 %{
-                  type: "TSMethodSignature",
+                  type: :ts_method_signature,
                   key: %{name: "privatePostOrder"},
                   params: [],
                   returnType: nil
@@ -94,12 +94,12 @@ defmodule CcxtExtract.InterfaceSignaturesTest do
       ast = %{
         body: [
           %{
-            type: "TSInterfaceDeclaration",
+            type: :ts_interface_declaration,
             id: %{name: "binance"},
             body: %{
               body: [
                 %{
-                  type: "TSMethodSignature",
+                  type: :ts_method_signature,
                   key: %{name: "publicGetTicker"},
                   params: [],
                   returnType: nil
@@ -118,7 +118,7 @@ defmodule CcxtExtract.InterfaceSignaturesTest do
     end
 
     test "returns nil when no TSInterfaceDeclaration found" do
-      ast = %{body: [%{type: "ClassDeclaration", id: %{name: "Foo"}}]}
+      ast = %{body: [%{type: :class_declaration, id: %{name: "Foo"}}]}
       assert InterfaceSignatures.extract_from_ast(ast, "foo.ts") == nil
     end
   end
@@ -126,18 +126,18 @@ defmodule CcxtExtract.InterfaceSignaturesTest do
   describe "extract_signature/1" do
     test "extracts name, params, and return_type" do
       member = %{
-        type: "TSMethodSignature",
+        type: :ts_method_signature,
         key: %{name: "fetchBalance"},
         params: [
           %{
-            type: "Identifier",
+            type: :identifier,
             name: "code",
             optional: false,
             typeAnnotation: %{
-              type: "TSTypeAnnotation",
+              type: :ts_type_annotation,
               typeAnnotation: %{
-                type: "TSTypeReference",
-                typeName: %{name: "string", type: "Identifier", optional: false, typeAnnotation: nil, decorators: []},
+                type: :ts_type_reference,
+                typeName: %{name: "string", type: :identifier, optional: false, typeAnnotation: nil, decorators: []},
                 typeArguments: nil
               }
             },
@@ -145,16 +145,16 @@ defmodule CcxtExtract.InterfaceSignaturesTest do
           }
         ],
         returnType: %{
-          type: "TSTypeAnnotation",
+          type: :ts_type_annotation,
           typeAnnotation: %{
-            type: "TSTypeReference",
-            typeName: %{name: "Promise", type: "Identifier", optional: false, typeAnnotation: nil, decorators: []},
+            type: :ts_type_reference,
+            typeName: %{name: "Promise", type: :identifier, optional: false, typeAnnotation: nil, decorators: []},
             typeArguments: %{
-              type: "TSTypeParameterInstantiation",
+              type: :ts_type_parameter_instantiation,
               params: [
                 %{
-                  type: "TSTypeReference",
-                  typeName: %{name: "Balances", type: "Identifier", optional: false, typeAnnotation: nil, decorators: []},
+                  type: :ts_type_reference,
+                  typeName: %{name: "Balances", type: :identifier, optional: false, typeAnnotation: nil, decorators: []},
                   typeArguments: nil
                 }
               ]

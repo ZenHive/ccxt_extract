@@ -22,7 +22,7 @@ defmodule CcxtExtract.ParseMethods do
 
   @impl true
   def extract_from_ast(ast, filename) do
-    export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
+    export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
 
     if export && export.declaration && Map.get(export.declaration, :body) do
       class = export.declaration
@@ -62,7 +62,7 @@ defmodule CcxtExtract.ParseMethods do
   @spec find_parse_methods([map()]) :: [map()]
   def find_parse_methods(class_body) do
     Enum.filter(class_body, fn member ->
-      member.type == "MethodDefinition" && String.starts_with?(member.key.name, "parse")
+      member.type == :method_definition && String.starts_with?(member.key.name, "parse")
     end)
   end
 end

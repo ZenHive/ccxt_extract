@@ -6,12 +6,12 @@ defmodule CcxtExtract.MethodsTest do
   describe "extract_method_details/1" do
     test "extracts basic method metadata" do
       method = %{
-        type: "MethodDefinition",
+        type: :method_definition,
         key: %{name: "fetchTicker"},
         value: %{
           async: true,
           params: [
-            %{type: "Identifier", name: "symbol", typeAnnotation: nil}
+            %{type: :identifier, name: "symbol", typeAnnotation: nil}
           ],
           returnType: nil,
           body: %{body: [%{}, %{}, %{}]}
@@ -29,7 +29,7 @@ defmodule CcxtExtract.MethodsTest do
 
     test "extracts sync method with no params" do
       method = %{
-        type: "MethodDefinition",
+        type: :method_definition,
         key: %{name: "describe"},
         value: %{
           async: false,
@@ -50,7 +50,7 @@ defmodule CcxtExtract.MethodsTest do
 
   describe "extract_params/1" do
     test "extracts simple Identifier param" do
-      params = [%{type: "Identifier", name: "symbol", typeAnnotation: nil}]
+      params = [%{type: :identifier, name: "symbol", typeAnnotation: nil}]
 
       assert [%{"name" => "symbol", "type" => nil}] = Methods.extract_params(params)
     end
@@ -58,10 +58,10 @@ defmodule CcxtExtract.MethodsTest do
     test "extracts Identifier param with type annotation" do
       params = [
         %{
-          type: "Identifier",
+          type: :identifier,
           name: "symbol",
           typeAnnotation: %{
-            typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "string"}}
+            typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "string"}}
           }
         }
       ]
@@ -72,9 +72,9 @@ defmodule CcxtExtract.MethodsTest do
     test "extracts AssignmentPattern param (default value)" do
       params = [
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{name: "params", typeAnnotation: nil},
-          right: %{type: "ObjectExpression", properties: []}
+          right: %{type: :object_expression, properties: []}
         }
       ]
 
@@ -84,14 +84,14 @@ defmodule CcxtExtract.MethodsTest do
     test "extracts AssignmentPattern with type annotation on left" do
       params = [
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{
             name: "limit",
             typeAnnotation: %{
-              typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "Int"}}
+              typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "Int"}}
             }
           },
-          right: %{type: "Literal", value: nil}
+          right: %{type: :literal, value: nil}
         }
       ]
 
@@ -101,7 +101,7 @@ defmodule CcxtExtract.MethodsTest do
     test "extracts RestElement param" do
       params = [
         %{
-          type: "RestElement",
+          type: :rest_element,
           argument: %{name: "args", typeAnnotation: nil}
         }
       ]
@@ -112,7 +112,7 @@ defmodule CcxtExtract.MethodsTest do
     test "extracts ObjectPattern as destructured" do
       params = [
         %{
-          type: "ObjectPattern",
+          type: :object_pattern,
           properties: [
             %{key: %{name: "a"}, value: %{name: "a"}},
             %{key: %{name: "b"}, value: %{name: "b"}}
@@ -125,21 +125,21 @@ defmodule CcxtExtract.MethodsTest do
 
     test "handles multiple params with mixed shapes" do
       params = [
-        %{type: "Identifier", name: "symbol", typeAnnotation: nil},
+        %{type: :identifier, name: "symbol", typeAnnotation: nil},
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{name: "since", typeAnnotation: nil},
-          right: %{type: "Literal", value: nil}
+          right: %{type: :literal, value: nil}
         },
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{name: "limit", typeAnnotation: nil},
-          right: %{type: "Literal", value: nil}
+          right: %{type: :literal, value: nil}
         },
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{name: "params", typeAnnotation: nil},
-          right: %{type: "ObjectExpression", properties: []}
+          right: %{type: :object_expression, properties: []}
         }
       ]
 
@@ -153,7 +153,7 @@ defmodule CcxtExtract.MethodsTest do
     end
 
     test "handles unknown param type gracefully" do
-      params = [%{type: "SomeNewNodeType"}]
+      params = [%{type: :some_new_node_type}]
 
       assert [%{"name" => "?:SomeNewNodeType", "type" => nil}] = Methods.extract_params(params)
     end
@@ -174,12 +174,12 @@ defmodule CcxtExtract.MethodsTest do
       function_node = %{
         returnType: %{
           typeAnnotation: %{
-            type: "TSTypeReference",
+            type: :ts_type_reference,
             typeName: %{name: "Promise"},
             typeArguments: %{
-              type: "TSTypeParameterInstantiation",
+              type: :ts_type_parameter_instantiation,
               params: [
-                %{type: "TSTypeReference", typeName: %{name: "Ticker"}, typeArguments: nil}
+                %{type: :ts_type_reference, typeName: %{name: "Ticker"}, typeArguments: nil}
               ]
             }
           }
@@ -192,7 +192,7 @@ defmodule CcxtExtract.MethodsTest do
     test "extracts keyword return type (void)" do
       function_node = %{
         returnType: %{
-          typeAnnotation: %{type: "TSVoidKeyword"}
+          typeAnnotation: %{type: :ts_void_keyword}
         }
       }
 
@@ -206,18 +206,18 @@ defmodule CcxtExtract.MethodsTest do
     end
 
     test "extracts TSTypeReference name without generics" do
-      node = %{type: "TSTypeReference", typeName: %{name: "Order"}, typeArguments: nil}
+      node = %{type: :ts_type_reference, typeName: %{name: "Order"}, typeArguments: nil}
       assert Methods.extract_type_name(node) == "Order"
     end
 
     test "extracts TSTypeReference with single generic param" do
       node = %{
-        type: "TSTypeReference",
+        type: :ts_type_reference,
         typeName: %{name: "Promise"},
         typeArguments: %{
-          type: "TSTypeParameterInstantiation",
+          type: :ts_type_parameter_instantiation,
           params: [
-            %{type: "TSTypeReference", typeName: %{name: "Ticker"}, typeArguments: nil}
+            %{type: :ts_type_reference, typeName: %{name: "Ticker"}, typeArguments: nil}
           ]
         }
       }
@@ -227,13 +227,13 @@ defmodule CcxtExtract.MethodsTest do
 
     test "extracts TSTypeReference with multiple generic params" do
       node = %{
-        type: "TSTypeReference",
+        type: :ts_type_reference,
         typeName: %{name: "Map"},
         typeArguments: %{
-          type: "TSTypeParameterInstantiation",
+          type: :ts_type_parameter_instantiation,
           params: [
-            %{type: "TSStringKeyword"},
-            %{type: "TSTypeReference", typeName: %{name: "Order"}, typeArguments: nil}
+            %{type: :ts_string_keyword},
+            %{type: :ts_type_reference, typeName: %{name: "Order"}, typeArguments: nil}
           ]
         }
       }
@@ -243,17 +243,17 @@ defmodule CcxtExtract.MethodsTest do
 
     test "extracts nested generic types" do
       node = %{
-        type: "TSTypeReference",
+        type: :ts_type_reference,
         typeName: %{name: "Promise"},
         typeArguments: %{
-          type: "TSTypeParameterInstantiation",
+          type: :ts_type_parameter_instantiation,
           params: [
             %{
-              type: "TSTypeReference",
+              type: :ts_type_reference,
               typeName: %{name: "Dictionary"},
               typeArguments: %{
-                type: "TSTypeParameterInstantiation",
-                params: [%{type: "TSStringKeyword"}]
+                type: :ts_type_parameter_instantiation,
+                params: [%{type: :ts_string_keyword}]
               }
             }
           ]
@@ -265,8 +265,8 @@ defmodule CcxtExtract.MethodsTest do
 
     test "extracts TSArrayType" do
       node = %{
-        type: "TSArrayType",
-        elementType: %{type: "TSTypeReference", typeName: %{name: "Trade"}}
+        type: :ts_array_type,
+        elementType: %{type: :ts_type_reference, typeName: %{name: "Trade"}}
       }
 
       assert Methods.extract_type_name(node) == "Trade[]"
@@ -274,10 +274,10 @@ defmodule CcxtExtract.MethodsTest do
 
     test "extracts TSUnionType" do
       node = %{
-        type: "TSUnionType",
+        type: :ts_union_type,
         types: [
-          %{type: "TSStringKeyword"},
-          %{type: "TSUndefinedKeyword"}
+          %{type: :ts_string_keyword},
+          %{type: :ts_undefined_keyword}
         ]
       }
 
@@ -285,16 +285,16 @@ defmodule CcxtExtract.MethodsTest do
     end
 
     test "extracts keyword types" do
-      assert Methods.extract_type_name(%{type: "TSStringKeyword"}) == "string"
-      assert Methods.extract_type_name(%{type: "TSNumberKeyword"}) == "number"
-      assert Methods.extract_type_name(%{type: "TSBooleanKeyword"}) == "boolean"
-      assert Methods.extract_type_name(%{type: "TSAnyKeyword"}) == "any"
-      assert Methods.extract_type_name(%{type: "TSVoidKeyword"}) == "void"
-      assert Methods.extract_type_name(%{type: "TSUndefinedKeyword"}) == "undefined"
+      assert Methods.extract_type_name(%{type: :ts_string_keyword}) == "string"
+      assert Methods.extract_type_name(%{type: :ts_number_keyword}) == "number"
+      assert Methods.extract_type_name(%{type: :ts_boolean_keyword}) == "boolean"
+      assert Methods.extract_type_name(%{type: :ts_any_keyword}) == "any"
+      assert Methods.extract_type_name(%{type: :ts_void_keyword}) == "void"
+      assert Methods.extract_type_name(%{type: :ts_undefined_keyword}) == "undefined"
     end
 
     test "handles TSTypeReference without typeName.name" do
-      node = %{type: "TSTypeReference", typeName: %{type: "TSQualifiedName"}}
+      node = %{type: :ts_type_reference, typeName: %{type: :ts_qualified_name}}
       assert Methods.extract_type_name(node) == "unknown"
     end
   end
@@ -304,23 +304,23 @@ defmodule CcxtExtract.MethodsTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
               id: %{name: "testex"},
               superClass: %{name: "Exchange"},
               body: %{
                 body: [
                   %{
-                    type: "MethodDefinition",
+                    type: :method_definition,
                     key: %{name: "describe"},
                     value: %{async: false, params: [], returnType: nil, body: %{body: [%{}]}}
                   },
                   %{
-                    type: "MethodDefinition",
+                    type: :method_definition,
                     key: %{name: "fetchTicker"},
                     value: %{
                       async: true,
-                      params: [%{type: "Identifier", name: "symbol", typeAnnotation: nil}],
+                      params: [%{type: :identifier, name: "symbol", typeAnnotation: nil}],
                       returnType: nil,
                       body: %{body: [%{}, %{}]}
                     }
@@ -348,7 +348,7 @@ defmodule CcxtExtract.MethodsTest do
     end
 
     test "returns nil when no export default" do
-      ast = %{body: [%{type: "ImportDeclaration", source: %{value: "./foo.js"}, specifiers: []}]}
+      ast = %{body: [%{type: :import_declaration, source: %{value: "./foo.js"}, specifiers: []}]}
       assert Methods.extract_from_ast(ast, "util.ts") == nil
     end
 
@@ -356,8 +356,8 @@ defmodule CcxtExtract.MethodsTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
-            declaration: %{type: "Identifier", name: "foo"}
+            type: :export_default_declaration,
+            declaration: %{type: :identifier, name: "foo"}
           }
         ]
       }
@@ -369,7 +369,7 @@ defmodule CcxtExtract.MethodsTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
               id: nil,
               superClass: %{name: "Exchange"},
@@ -388,15 +388,15 @@ defmodule CcxtExtract.MethodsTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
               id: %{name: "testex"},
               superClass: %{name: "Exchange"},
               body: %{
                 body: [
-                  %{type: "PropertyDefinition", key: %{name: "prop"}},
+                  %{type: :property_definition, key: %{name: "prop"}},
                   %{
-                    type: "MethodDefinition",
+                    type: :method_definition,
                     key: %{name: "describe"},
                     value: %{async: false, params: [], returnType: nil, body: %{body: [%{}]}}
                   }

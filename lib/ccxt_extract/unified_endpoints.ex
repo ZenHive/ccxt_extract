@@ -83,7 +83,7 @@ defmodule CcxtExtract.UnifiedEndpoints do
 
   @impl true
   def extract_from_ast(ast, filename) do
-    export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
+    export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
 
     if export && export.declaration && Map.get(export.declaration, :body) do
       class = export.declaration
@@ -91,7 +91,7 @@ defmodule CcxtExtract.UnifiedEndpoints do
       id = class_name
       parent_class = get_in(class, [:superClass, :name])
 
-      all_methods = Enum.filter(class.body.body, &(&1.type == "MethodDefinition"))
+      all_methods = Enum.filter(class.body.body, &(&1.type == :method_definition))
       method_index = Map.new(all_methods, fn m -> {m.key.name, m} end)
 
       endpoints_map =
@@ -126,7 +126,7 @@ defmodule CcxtExtract.UnifiedEndpoints do
 
   # A unified method starts with a known prefix, passes all exclusion checks,
   # and (for set* methods) is in the unified setter whitelist.
-  defp unified_method?(%{type: "MethodDefinition", key: %{name: name}}) do
+  defp unified_method?(%{type: :method_definition, key: %{name: name}}) do
     has_unified_prefix?(name) and not excluded_method?(name)
   end
 
@@ -208,11 +208,11 @@ defmodule CcxtExtract.UnifiedEndpoints do
   # Collect all this.<name>() call targets from an AST subtree.
   defp collect_this_calls(
          %{
-           type: "CallExpression",
+           type: :call_expression,
            callee: %{
-             type: "MemberExpression",
-             object: %{type: "ThisExpression"},
-             property: %{type: "Identifier", name: name}
+             type: :member_expression,
+             object: %{type: :this_expression},
+             property: %{type: :identifier, name: name}
            }
          } = node
        ) do
@@ -232,11 +232,11 @@ defmodule CcxtExtract.UnifiedEndpoints do
   # --- Super Call Collection ---
 
   # Collect all super.<name>() call targets from an AST subtree.
-  # Mirrors collect_this_calls but matches %{type: "Super"} instead of ThisExpression.
+  # Mirrors collect_this_calls but matches %{type: :super} instead of ThisExpression.
   defp collect_super_calls(
          %{
-           type: "CallExpression",
-           callee: %{type: "MemberExpression", object: %{type: "Super"}, property: %{type: "Identifier", name: name}}
+           type: :call_expression,
+           callee: %{type: :member_expression, object: %{type: :super}, property: %{type: :identifier, name: name}}
          } = node
        ) do
     [name | collect_super_calls_children(node)]
@@ -303,11 +303,11 @@ defmodule CcxtExtract.UnifiedEndpoints do
 
   # Extract a method_name → method_ast_node map from a class AST
   defp build_method_index_from_ast(ast) do
-    export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
+    export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
 
     if export && export.declaration && Map.get(export.declaration, :body) do
       export.declaration.body.body
-      |> Enum.filter(&(&1.type == "MethodDefinition"))
+      |> Enum.filter(&(&1.type == :method_definition))
       |> Map.new(fn m -> {m.key.name, m} end)
     end
   end

@@ -28,7 +28,7 @@ defmodule CcxtExtract.Pagination do
 
   @impl true
   def extract_from_ast(ast, filename) do
-    export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
+    export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
 
     if export && export.declaration && Map.get(export.declaration, :body) do
       class = export.declaration
@@ -37,7 +37,7 @@ defmodule CcxtExtract.Pagination do
 
       {resolved, unresolved} =
         class.body.body
-        |> Enum.filter(&(&1.type == "MethodDefinition"))
+        |> Enum.filter(&(&1.type == :method_definition))
         |> Enum.flat_map(&walk_method_for_pagination/1)
         |> Enum.map(&extract_pagination_entry/1)
         |> split_resolved_unresolved()
@@ -91,7 +91,7 @@ defmodule CcxtExtract.Pagination do
     # First argument is the target method name — string literal or variable reference
     target_method =
       case args do
-        [%{type: "Literal", value: name} | _] when is_binary(name) -> name
+        [%{type: :literal, value: name} | _] when is_binary(name) -> name
         _ -> nil
       end
 
@@ -105,7 +105,7 @@ defmodule CcxtExtract.Pagination do
 
   # Walk a MethodDefinition, returning {containing_method, call_node} tuples.
   # Threads the containing method name so each pagination call knows its provenance.
-  defp walk_method_for_pagination(%{type: "MethodDefinition", key: %{name: name}} = method) do
+  defp walk_method_for_pagination(%{type: :method_definition, key: %{name: name}} = method) do
     method
     |> walk_ast_for_calls()
     |> Enum.map(&{name, &1})
@@ -115,11 +115,11 @@ defmodule CcxtExtract.Pagination do
   # Walks list children in source order (preserving AST structure).
   defp walk_ast_for_calls(
          %{
-           type: "CallExpression",
+           type: :call_expression,
            callee: %{
-             type: "MemberExpression",
-             object: %{type: "ThisExpression"},
-             property: %{type: "Identifier", name: name}
+             type: :member_expression,
+             object: %{type: :this_expression},
+             property: %{type: :identifier, name: name}
            }
          } = node
        ) do
@@ -179,8 +179,8 @@ defmodule CcxtExtract.Pagination do
   end
 
   # Returns the Elixir value for Literal/Identifier AST nodes, nil otherwise
-  defp extract_literal_value(%{type: "Literal", value: v}), do: v
-  defp extract_literal_value(%{type: "Identifier", name: "undefined"}), do: nil
+  defp extract_literal_value(%{type: :literal, value: v}), do: v
+  defp extract_literal_value(%{type: :identifier, name: "undefined"}), do: nil
   defp extract_literal_value(_), do: nil
 
   # Split entries into resolved (target_method is a string) and unresolved (target_method is nil).

@@ -1,5 +1,5 @@
 {
-  "count": 78,
+  "count": 79,
   "exchanges": [
     {
       "class_name": "aftermath",
@@ -18175,6 +18175,925 @@
           ],
           "return_type": null,
           "statements": 8
+        }
+      ]
+    },
+    {
+      "class_name": "coincatch",
+      "file": "coincatch.ts",
+      "id": "coincatch",
+      "method_count": 52,
+      "methods": [
+        {
+          "async": false,
+          "name": "describe",
+          "params": [],
+          "return_type": "any",
+          "statements": 1
+        },
+        {
+          "async": false,
+          "name": "getMarketFromArg",
+          "params": [
+            {
+              "name": "entry",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 9
+        },
+        {
+          "async": true,
+          "name": "authenticate",
+          "params": [
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 8
+        },
+        {
+          "async": true,
+          "name": "watchPublic",
+          "params": [
+            {
+              "name": "messageHash",
+              "type": null
+            },
+            {
+              "name": "subscribeHash",
+              "type": null
+            },
+            {
+              "name": "args",
+              "type": null
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "unWatchPublic",
+          "params": [
+            {
+              "name": "messageHash",
+              "type": null
+            },
+            {
+              "name": "args",
+              "type": null
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "watchPrivate",
+          "params": [
+            {
+              "name": "messageHash",
+              "type": null
+            },
+            {
+              "name": "subscribeHash",
+              "type": null
+            },
+            {
+              "name": "args",
+              "type": null
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 5
+        },
+        {
+          "async": true,
+          "name": "watchPrivateMultiple",
+          "params": [
+            {
+              "name": "messageHashes",
+              "type": null
+            },
+            {
+              "name": "subscribeHashes",
+              "type": null
+            },
+            {
+              "name": "args",
+              "type": null
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 5
+        },
+        {
+          "async": false,
+          "name": "handleAuthenticate",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 3
+        },
+        {
+          "async": true,
+          "name": "watchPublicMultiple",
+          "params": [
+            {
+              "name": "messageHashes",
+              "type": null
+            },
+            {
+              "name": "subscribeHashes",
+              "type": null
+            },
+            {
+              "name": "argsArray",
+              "type": null
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": true,
+          "name": "unWatchChannel",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "channel",
+              "type": "string"
+            },
+            {
+              "name": "messageHashTopic",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<any>",
+          "statements": 6
+        },
+        {
+          "async": false,
+          "name": "getPublicInstTypeAndId",
+          "params": [
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": false,
+          "name": "handleDMCBLMarketByMessageHashes",
+          "params": [
+            {
+              "name": "market",
+              "type": "Market"
+            },
+            {
+              "name": "hash",
+              "type": "string"
+            },
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "timeframe",
+              "type": "Str"
+            }
+          ],
+          "return_type": null,
+          "statements": 7
+        },
+        {
+          "async": true,
+          "name": "watchTicker",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Ticker>",
+          "statements": 7
+        },
+        {
+          "async": true,
+          "name": "unWatchTicker",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<any>",
+          "statements": 2
+        },
+        {
+          "async": true,
+          "name": "watchTickers",
+          "params": [
+            {
+              "name": "symbols",
+              "type": "Strings"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Tickers>",
+          "statements": 8
+        },
+        {
+          "async": false,
+          "name": "handleTicker",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 11
+        },
+        {
+          "async": false,
+          "name": "parseWsTicker",
+          "params": [
+            {
+              "name": "ticker",
+              "type": null
+            },
+            {
+              "name": "market",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 3
+        },
+        {
+          "async": true,
+          "name": "watchOHLCV",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "timeframe",
+              "type": "string"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<OHLCV[]>",
+          "statements": 10
+        },
+        {
+          "async": true,
+          "name": "unWatchOHLCV",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "timeframe",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<any>",
+          "statements": 5
+        },
+        {
+          "async": false,
+          "name": "handleOHLCV",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 16
+        },
+        {
+          "async": false,
+          "name": "parseWsOHLCV",
+          "params": [
+            {
+              "name": "ohlcv",
+              "type": null
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": "OHLCV",
+          "statements": 1
+        },
+        {
+          "async": true,
+          "name": "watchOrderBook",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<OrderBook>",
+          "statements": 1
+        },
+        {
+          "async": true,
+          "name": "unWatchOrderBook",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<any>",
+          "statements": 5
+        },
+        {
+          "async": true,
+          "name": "watchOrderBookForSymbols",
+          "params": [
+            {
+              "name": "symbols",
+              "type": "string[]"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<OrderBook>",
+          "statements": 8
+        },
+        {
+          "async": false,
+          "name": "handleOrderBook",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 14
+        },
+        {
+          "async": true,
+          "name": "handleCheckSumError",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "messageHash",
+              "type": "string"
+            }
+          ],
+          "return_type": null,
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "handleDelta",
+          "params": [
+            {
+              "name": "bookside",
+              "type": null
+            },
+            {
+              "name": "delta",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "handleDeltas",
+          "params": [
+            {
+              "name": "bookside",
+              "type": null
+            },
+            {
+              "name": "deltas",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 1
+        },
+        {
+          "async": true,
+          "name": "watchTrades",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Trade[]>",
+          "statements": 1
+        },
+        {
+          "async": true,
+          "name": "watchTradesForSymbols",
+          "params": [
+            {
+              "name": "symbols",
+              "type": "string[]"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Trade[]>",
+          "statements": 10
+        },
+        {
+          "async": true,
+          "name": "unWatchTrades",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<any>",
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "handleTrades",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 12
+        },
+        {
+          "async": false,
+          "name": "parseWsTrade",
+          "params": [
+            {
+              "name": "trade",
+              "type": null
+            },
+            {
+              "name": "market",
+              "type": null
+            }
+          ],
+          "return_type": "Trade",
+          "statements": 2
+        },
+        {
+          "async": true,
+          "name": "watchBalance",
+          "params": [
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Balances>",
+          "statements": 9
+        },
+        {
+          "async": false,
+          "name": "handleBalance",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 7
+        },
+        {
+          "async": true,
+          "name": "watchOrders",
+          "params": [
+            {
+              "name": "symbol",
+              "type": "Str"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Order[]>",
+          "statements": 19
+        },
+        {
+          "async": false,
+          "name": "handleOrder",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 12
+        },
+        {
+          "async": false,
+          "name": "parseWsOrder",
+          "params": [
+            {
+              "name": "order",
+              "type": "Dict"
+            },
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": "Order",
+          "statements": 15
+        },
+        {
+          "async": true,
+          "name": "watchPositions",
+          "params": [
+            {
+              "name": "symbols",
+              "type": "Strings"
+            },
+            {
+              "name": "since",
+              "type": "Int"
+            },
+            {
+              "name": "limit",
+              "type": "Int"
+            },
+            {
+              "name": "params",
+              "type": null
+            }
+          ],
+          "return_type": "Promise<Position[]>",
+          "statements": 12
+        },
+        {
+          "async": false,
+          "name": "getPrivateInstType",
+          "params": [
+            {
+              "name": "market",
+              "type": "Market"
+            }
+          ],
+          "return_type": null,
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "handlePositions",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 12
+        },
+        {
+          "async": false,
+          "name": "parseWsPosition",
+          "params": [
+            {
+              "name": "position",
+              "type": null
+            },
+            {
+              "name": "market",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 13
+        },
+        {
+          "async": false,
+          "name": "handleErrorMessage",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": "Bool",
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "handleMessage",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 17
+        },
+        {
+          "async": false,
+          "name": "ping",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            }
+          ],
+          "return_type": null,
+          "statements": 1
+        },
+        {
+          "async": false,
+          "name": "handlePong",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "handleSubscriptionStatus",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 1
+        },
+        {
+          "async": false,
+          "name": "handleUnSubscriptionStatus",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 4
+        },
+        {
+          "async": false,
+          "name": "handleOrderBookUnSubscription",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 14
+        },
+        {
+          "async": false,
+          "name": "handleTradesUnSubscription",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 14
+        },
+        {
+          "async": false,
+          "name": "handleTickerUnSubscription",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 14
+        },
+        {
+          "async": false,
+          "name": "handleOHLCVUnSubscription",
+          "params": [
+            {
+              "name": "client",
+              "type": "Client"
+            },
+            {
+              "name": "message",
+              "type": null
+            }
+          ],
+          "return_type": null,
+          "statements": 14
         }
       ]
     },
@@ -42157,6 +43076,6 @@
       ]
     }
   ],
-  "extracted_at": "2026-04-13T06:23:55.910990Z",
+  "extracted_at": "2026-04-15T02:24:42.551801Z",
   "type": "ws"
 }

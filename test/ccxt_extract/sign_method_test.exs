@@ -6,45 +6,45 @@ defmodule CcxtExtract.SignMethodTest do
 
   # Mock AST for a class with a sign() method
   @sign_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "sign"},
     value: %{
       async: false,
       params: [
-        %{type: "Identifier", name: "path", typeAnnotation: nil},
+        %{type: :identifier, name: "path", typeAnnotation: nil},
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{name: "api", typeAnnotation: nil},
-          right: %{type: "Literal", value: "public"}
+          right: %{type: :literal, value: "public"}
         },
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{name: "method", typeAnnotation: nil},
-          right: %{type: "Literal", value: "GET"}
+          right: %{type: :literal, value: "GET"}
         },
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{name: "params", typeAnnotation: nil},
-          right: %{type: "ObjectExpression", properties: []}
+          right: %{type: :object_expression, properties: []}
         },
         %{
-          type: "AssignmentPattern",
-          left: %{name: "headers", typeAnnotation: %{typeAnnotation: %{type: "TSAnyKeyword"}}},
-          right: %{type: "Identifier", name: "undefined"}
+          type: :assignment_pattern,
+          left: %{name: "headers", typeAnnotation: %{typeAnnotation: %{type: :ts_any_keyword}}},
+          right: %{type: :identifier, name: "undefined"}
         },
         %{
-          type: "AssignmentPattern",
-          left: %{name: "body", typeAnnotation: %{typeAnnotation: %{type: "TSAnyKeyword"}}},
-          right: %{type: "Identifier", name: "undefined"}
+          type: :assignment_pattern,
+          left: %{name: "body", typeAnnotation: %{typeAnnotation: %{type: :ts_any_keyword}}},
+          right: %{type: :identifier, name: "undefined"}
         }
       ],
       returnType: nil,
       body: %{
-        type: "FunctionBody",
+        type: :function_body,
         body: [
-          %{type: "VariableDeclaration", declarations: [%{type: "VariableDeclarator"}]},
-          %{type: "IfStatement", test: %{type: "BinaryExpression"}},
-          %{type: "ReturnStatement", argument: %{type: "ObjectExpression"}}
+          %{type: :variable_declaration, declarations: [%{type: :variable_declarator}]},
+          %{type: :if_statement, test: %{type: :binary_expression}},
+          %{type: :return_statement, argument: %{type: :object_expression}}
         ],
         start: 1000,
         end: 2000
@@ -53,22 +53,22 @@ defmodule CcxtExtract.SignMethodTest do
   }
 
   @describe_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "describe"},
     value: %{
       async: false,
       params: [],
       returnType: nil,
-      body: %{body: [%{type: "ReturnStatement"}]}
+      body: %{body: [%{type: :return_statement}]}
     }
   }
 
   @fetch_ticker_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "fetchTicker"},
     value: %{
       async: true,
-      params: [%{type: "Identifier", name: "symbol", typeAnnotation: nil}],
+      params: [%{type: :identifier, name: "symbol", typeAnnotation: nil}],
       returnType: nil,
       body: %{body: [%{}, %{}, %{}]}
     }
@@ -79,9 +79,9 @@ defmodule CcxtExtract.SignMethodTest do
     %{
       body: [
         %{
-          type: "ExportDefaultDeclaration",
+          type: :export_default_declaration,
           declaration: %{
-            type: "ClassDeclaration",
+            type: :class_declaration,
             id: %{name: class_name},
             superClass: %{name: "Exchange"},
             body: %{body: methods}
@@ -113,7 +113,7 @@ defmodule CcxtExtract.SignMethodTest do
     end
 
     test "returns nil when no exported class" do
-      ast = %{body: [%{type: "ImportDeclaration", source: %{value: "foo"}}]}
+      ast = %{body: [%{type: :import_declaration, source: %{value: "foo"}}]}
       assert SignMethod.extract_from_ast(ast, "not_a_class.ts") == nil
     end
 
@@ -121,9 +121,9 @@ defmodule CcxtExtract.SignMethodTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
-              type: "ClassDeclaration",
+              type: :class_declaration,
               id: nil,
               body: %{body: [@describe_method]}
             }

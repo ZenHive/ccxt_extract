@@ -9,7 +9,24 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 ### Dependency bumps
 
 - **npm 0.5.1 → 0.5.3.** Adds `NPM.PackageResolver` with Node.js module resolution and `relative_import_path/3`. Includes an ETS race-condition fix in cache initialization. No breaking changes; compatible with existing `~> 0.5` requirement.
-- **Deferred:** `oxc 0.6 → 0.7` and `quickbeam 0.9 → 0.10` tracked as Task 101 in Maintenance Backlog. The pair upgrade is coupled (quickbeam 0.10 requires oxc ~> 0.7) and oxc 0.7 switches AST `:type`/`:kind` values from strings to snake_case atoms — touches every AST-walking extractor.
+- **oxc 0.6 → 0.7 + quickbeam 0.9 → 0.10.** See Task 101 below.
+
+### Task 101: Migrate to oxc 0.7 + quickbeam 0.10
+
+oxc 0.7 flipped AST `:type` / `:kind` map values from PascalCase strings (`"BlockStatement"`) to snake_case atoms (`:block_statement`). quickbeam 0.10 requires the pair upgrade.
+
+**Source migration (no net behavior change).** Every pattern match on AST type/kind values across 12 production files switched to atoms: `unified_endpoints`, `pagination`, `methods`, `classes`, `base_methods`, `interface_signatures`, `overrides`, `sign_method`, `parse_methods`, `handle_errors`, `ws_methods`, and `mix/tasks/ccxt_extract.setup.ex`. Guard clauses with `in [...]` lists updated in lock-step.
+
+**New: `CcxtExtract.AstNormalize`.** oxc 0.7 atoms serialize through `Jason.encode!` as snake_case strings by default, which would have broken the emitted JSON contract (consumers see `"BlockStatement"` etc.). The new module walks output trees and rewrites atom `:type` values back to PascalCase at the serialization boundary. Handles the `ts_*` acronym prefix (`:ts_array_type` → `"TSArrayType"`). `:kind` atoms pass through unchanged — their snake_case string form already matches the existing contract (`"const"`, `"let"`, `"init"`). Applied inside `MethodAST.extract/1` (covering `sign_method`, `parse_methods`, `handle_errors`, `ws_methods`, `overrides`) and defensively at the four remaining `Jason.encode!` sites that ship AST bodies (`oxc_extractor.ex`, `pipeline.ex`, `base_methods.ex`, `overrides.ex`).
+
+**Verification.** `mix compile` clean. Full test suite passes modulo two pre-existing `coincatch` sync-drift failures in integration cached tests (new CCXT exchange picked up by OXC extractors but absent from the stale QuickBEAM fixtures that `--skip-setup` does not regenerate) — orthogonal to the oxc upgrade. Dialyzer 0 warnings, Credo clean (7 pre-existing TODO tags). Per-exchange output diff is **byte-identical modulo `extracted_at` timestamp + tier reclassifications flowing from family inheritance on regenerated `class_hierarchy.json`**; AST content is unchanged.
+
+**Error shape decision.** oxc 0.7 switched `{:error, reason}` tuples to `{:error, [%{message: String.t()} | _]}`. Only one call site cared about the reason (raise in `base_methods.ex`). Changed to `Enum.map_join(errors, "; ", & &1.message)` — preserves all messages without the noise of `inspect/1` on the full list. Other call sites `inspect(reason)` and still work (slightly uglier output, never triggered in practice).
+
+**Out-of-scope items noted for future work.**
+- `QuickBEAM.Cover` JS line coverage (quickbeam 0.10 feature) not adopted.
+- `Beam.XML.parse` (quickbeam 0.10 feature) — no XML use case.
+- Three 0.7 ergonomic upgrades had zero surface: no `OXC.parse!`/bang calls, no `OXC.imports/2` callers, no `patch_string` users — so no migrations to `rescue OXC.Error`, `collect_imports/2`, or `rewrite_specifiers/3`.
 
 ### Task 1: `Scope` + `ScopeCleanup` foundation modules
 

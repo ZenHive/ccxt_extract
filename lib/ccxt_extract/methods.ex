@@ -119,7 +119,7 @@ defmodule CcxtExtract.Methods do
   """
   @spec extract_from_ast(map(), String.t()) :: map() | nil
   def extract_from_ast(ast, filename) do
-    export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
+    export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
 
     if export && export.declaration && Map.get(export.declaration, :body) do
       class = export.declaration
@@ -128,7 +128,7 @@ defmodule CcxtExtract.Methods do
 
       methods =
         class.body.body
-        |> Enum.filter(&(&1.type == "MethodDefinition"))
+        |> Enum.filter(&(&1.type == :method_definition))
         |> Enum.map(&extract_method_details/1)
 
       %{
@@ -206,7 +206,7 @@ defmodule CcxtExtract.Methods do
   @spec extract_type_name(map() | nil) :: String.t() | nil
   def extract_type_name(nil), do: nil
 
-  def extract_type_name(%{type: "TSTypeReference"} = node) do
+  def extract_type_name(%{type: :ts_type_reference} = node) do
     base = get_in(node, [:typeName, :name]) || "unknown"
 
     case get_in(node, [:typeArguments, :params]) do
@@ -219,20 +219,24 @@ defmodule CcxtExtract.Methods do
     end
   end
 
-  def extract_type_name(%{type: "TSArrayType"} = node) do
+  def extract_type_name(%{type: :ts_array_type} = node) do
     inner = extract_type_name(node.elementType)
     "#{inner}[]"
   end
 
-  def extract_type_name(%{type: "TSUnionType"} = node) do
+  def extract_type_name(%{type: :ts_union_type} = node) do
     Enum.map_join(node.types, " | ", &extract_type_name/1)
   end
 
-  def extract_type_name(%{type: type}) when is_binary(type) do
+  # Fallback: derive the pre-0.7 string mapping from the snake_case atom.
+  # `:ts_string_keyword` -> "string", `:ts_number_keyword` -> "number",
+  # `:ts_qualified_name` -> "qualifiedname" (matches the old lowercase form).
+  def extract_type_name(%{type: type}) when is_atom(type) and type not in [nil, true, false] do
     type
-    |> String.replace_leading("TS", "")
-    |> String.replace_trailing("Keyword", "")
-    |> String.downcase()
+    |> Atom.to_string()
+    |> String.replace_leading("ts_", "")
+    |> String.replace_trailing("_keyword", "")
+    |> String.replace("_", "")
   end
 
   # Glob the right directory based on type
@@ -246,27 +250,27 @@ defmodule CcxtExtract.Methods do
 
   # Extract parameter name and its type annotation node.
   # Different AST shapes store the name and type in different locations.
-  defp extract_param_name_and_type(%{type: "Identifier"} = param) do
+  defp extract_param_name_and_type(%{type: :identifier} = param) do
     {param.name, get_in(param, [:typeAnnotation, :typeAnnotation])}
   end
 
-  defp extract_param_name_and_type(%{type: "AssignmentPattern"} = param) do
+  defp extract_param_name_and_type(%{type: :assignment_pattern} = param) do
     name = get_in(param, [:left, :name]) || "{destructured}"
     type_node = get_in(param, [:left, :typeAnnotation, :typeAnnotation])
     {name, type_node}
   end
 
-  defp extract_param_name_and_type(%{type: "RestElement"} = param) do
+  defp extract_param_name_and_type(%{type: :rest_element} = param) do
     name = "...#{get_in(param, [:argument, :name]) || "args"}"
     type_node = get_in(param, [:argument, :typeAnnotation, :typeAnnotation])
     {name, type_node}
   end
 
-  defp extract_param_name_and_type(%{type: "ObjectPattern"}) do
+  defp extract_param_name_and_type(%{type: :object_pattern}) do
     {"{destructured}", nil}
   end
 
   defp extract_param_name_and_type(%{type: type}) do
-    {"?:#{type}", nil}
+    {"?:#{CcxtExtract.AstNormalize.atom_to_pascal(type)}", nil}
   end
 end

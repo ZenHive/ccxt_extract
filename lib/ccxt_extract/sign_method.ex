@@ -21,7 +21,7 @@ defmodule CcxtExtract.SignMethod do
 
   @impl true
   def extract_from_ast(ast, filename) do
-    export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
+    export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
 
     if export && export.declaration && Map.get(export.declaration, :body) do
       class = export.declaration
@@ -55,7 +55,7 @@ defmodule CcxtExtract.SignMethod do
   @spec find_sign_method([map()]) :: map() | nil
   def find_sign_method(class_body) do
     Enum.find(class_body, fn member ->
-      member.type == "MethodDefinition" && member.key.name == "sign"
+      member.type == :method_definition && member.key.name == "sign"
     end)
   end
 end

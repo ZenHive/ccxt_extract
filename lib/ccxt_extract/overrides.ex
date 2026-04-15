@@ -80,7 +80,7 @@ defmodule CcxtExtract.Overrides do
       "exchanges" => exchanges
     }
 
-    json = Jason.encode!(output, pretty: true)
+    json = Jason.encode!(CcxtExtract.AstNormalize.normalize(output), pretty: true)
     File.write!(output_path, json)
 
     %{with_overrides: with_overrides, total_overrides: total_overrides, total_new: total_new}
@@ -128,7 +128,7 @@ defmodule CcxtExtract.Overrides do
 
   # Extract matching methods from a parsed AST's default-exported class.
   defp methods_from_ast(ast, method_names) do
-    export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
+    export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
 
     if export && export.declaration && Map.get(export.declaration, :body) do
       export.declaration.body.body
@@ -140,7 +140,7 @@ defmodule CcxtExtract.Overrides do
   end
 
   defp method_match?(member, method_names) do
-    member.type == "MethodDefinition" && MapSet.member?(method_names, member.key.name)
+    member.type == :method_definition && MapSet.member?(method_names, member.key.name)
   end
 
   # Recursively accumulate all methods for a node_key (own + ancestors).

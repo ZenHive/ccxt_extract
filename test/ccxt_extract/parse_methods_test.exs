@@ -6,32 +6,32 @@ defmodule CcxtExtract.ParseMethodsTest do
 
   # Mock parse methods with different signatures and return types
   @parse_ticker %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "parseTicker"},
     value: %{
       async: false,
       params: [
         %{
-          type: "Identifier",
+          type: :identifier,
           name: "ticker",
-          typeAnnotation: %{typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "Dict"}}}
+          typeAnnotation: %{typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "Dict"}}}
         },
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{
             name: "market",
-            typeAnnotation: %{typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "Market"}}}
+            typeAnnotation: %{typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "Market"}}}
           },
-          right: %{type: "Identifier", name: "undefined"}
+          right: %{type: :identifier, name: "undefined"}
         }
       ],
-      returnType: %{typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "Ticker"}}},
+      returnType: %{typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "Ticker"}}},
       body: %{
-        type: "FunctionBody",
+        type: :function_body,
         body: [
-          %{type: "VariableDeclaration"},
-          %{type: "VariableDeclaration"},
-          %{type: "ReturnStatement", argument: %{type: "CallExpression"}}
+          %{type: :variable_declaration},
+          %{type: :variable_declaration},
+          %{type: :return_statement, argument: %{type: :call_expression}}
         ],
         start: 5000,
         end: 6000
@@ -40,31 +40,31 @@ defmodule CcxtExtract.ParseMethodsTest do
   }
 
   @parse_order %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "parseOrder"},
     value: %{
       async: false,
       params: [
         %{
-          type: "Identifier",
+          type: :identifier,
           name: "order",
-          typeAnnotation: %{typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "Dict"}}}
+          typeAnnotation: %{typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "Dict"}}}
         },
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{
             name: "market",
-            typeAnnotation: %{typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "Market"}}}
+            typeAnnotation: %{typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "Market"}}}
           },
-          right: %{type: "Identifier", name: "undefined"}
+          right: %{type: :identifier, name: "undefined"}
         }
       ],
-      returnType: %{typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "Order"}}},
+      returnType: %{typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "Order"}}},
       body: %{
-        type: "FunctionBody",
+        type: :function_body,
         body: [
-          %{type: "VariableDeclaration"},
-          %{type: "ReturnStatement"}
+          %{type: :variable_declaration},
+          %{type: :return_statement}
         ],
         start: 7000,
         end: 8000
@@ -73,22 +73,22 @@ defmodule CcxtExtract.ParseMethodsTest do
   }
 
   @parse_trade %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "parseTrade"},
     value: %{
       async: false,
       params: [
-        %{type: "Identifier", name: "trade", typeAnnotation: nil},
+        %{type: :identifier, name: "trade", typeAnnotation: nil},
         %{
-          type: "AssignmentPattern",
+          type: :assignment_pattern,
           left: %{name: "market", typeAnnotation: nil},
-          right: %{type: "Identifier", name: "undefined"}
+          right: %{type: :identifier, name: "undefined"}
         }
       ],
       returnType: nil,
       body: %{
-        type: "FunctionBody",
-        body: [%{type: "ReturnStatement"}],
+        type: :function_body,
+        body: [%{type: :return_statement}],
         start: 9000,
         end: 9500
       }
@@ -97,35 +97,35 @@ defmodule CcxtExtract.ParseMethodsTest do
 
   # Non-parse methods
   @describe_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "describe"},
     value: %{
       async: false,
       params: [],
       returnType: nil,
-      body: %{body: [%{type: "ReturnStatement"}]}
+      body: %{body: [%{type: :return_statement}]}
     }
   }
 
   @sign_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "sign"},
     value: %{
       async: false,
-      params: [%{type: "Identifier", name: "path", typeAnnotation: nil}],
+      params: [%{type: :identifier, name: "path", typeAnnotation: nil}],
       returnType: nil,
-      body: %{body: [%{type: "ReturnStatement"}]}
+      body: %{body: [%{type: :return_statement}]}
     }
   }
 
   @fetch_ticker_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "fetchTicker"},
     value: %{
       async: true,
-      params: [%{type: "Identifier", name: "symbol", typeAnnotation: nil}],
+      params: [%{type: :identifier, name: "symbol", typeAnnotation: nil}],
       returnType: nil,
-      body: %{body: [%{type: "ReturnStatement"}]}
+      body: %{body: [%{type: :return_statement}]}
     }
   }
 
@@ -134,9 +134,9 @@ defmodule CcxtExtract.ParseMethodsTest do
     %{
       body: [
         %{
-          type: "ExportDefaultDeclaration",
+          type: :export_default_declaration,
           declaration: %{
-            type: "ClassDeclaration",
+            type: :class_declaration,
             id: %{name: class_name},
             superClass: %{name: "Exchange"},
             body: %{body: methods}
@@ -170,7 +170,7 @@ defmodule CcxtExtract.ParseMethodsTest do
     end
 
     test "returns nil when no exported class" do
-      ast = %{body: [%{type: "ImportDeclaration", source: %{value: "foo"}}]}
+      ast = %{body: [%{type: :import_declaration, source: %{value: "foo"}}]}
       assert ParseMethods.extract_from_ast(ast, "not_a_class.ts") == nil
     end
 
@@ -178,9 +178,9 @@ defmodule CcxtExtract.ParseMethodsTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
-              type: "ClassDeclaration",
+              type: :class_declaration,
               id: nil,
               body: %{body: [@parse_ticker]}
             }

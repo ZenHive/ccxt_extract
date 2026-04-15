@@ -119,10 +119,10 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ImportDeclaration",
+            type: :import_declaration,
             source: %{value: "../binance.js"},
             specifiers: [
-              %{type: "ImportDefaultSpecifier", local: %{name: "binanceRest"}}
+              %{type: :import_default_specifier, local: %{name: "binanceRest"}}
             ]
           }
         ]
@@ -136,10 +136,10 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ImportDeclaration",
+            type: :import_declaration,
             source: %{value: "./binance.js"},
             specifiers: [
-              %{type: "ImportDefaultSpecifier", local: %{name: "binance"}}
+              %{type: :import_default_specifier, local: %{name: "binance"}}
             ]
           }
         ]
@@ -153,10 +153,10 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ImportDeclaration",
+            type: :import_declaration,
             source: %{value: "./binance.js"},
             specifiers: [
-              %{type: "ImportDefaultSpecifier", local: %{name: "binance"}}
+              %{type: :import_default_specifier, local: %{name: "binance"}}
             ]
           }
         ]
@@ -170,10 +170,10 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ImportDeclaration",
+            type: :import_declaration,
             source: %{value: "../base/errors.js"},
             specifiers: [
-              %{type: "ImportSpecifier", local: %{name: "BadRequest"}, imported: %{name: "BadRequest"}}
+              %{type: :import_specifier, local: %{name: "BadRequest"}, imported: %{name: "BadRequest"}}
             ]
           }
         ]
@@ -184,7 +184,7 @@ defmodule CcxtExtract.ClassesTest do
     end
 
     test "returns empty map for no imports" do
-      ast = %{body: [%{type: "ClassDeclaration"}]}
+      ast = %{body: [%{type: :class_declaration}]}
       assert Classes.build_import_aliases(ast, "rest") == %{}
     end
   end
@@ -194,19 +194,19 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
               id: %{name: "binance"},
               superClass: %{name: "Exchange"},
               body: %{
                 body: [
                   %{
-                    type: "MethodDefinition",
+                    type: :method_definition,
                     key: %{name: "describe"},
                     value: %{async: false, params: [], body: %{body: [%{}, %{}]}}
                   },
                   %{
-                    type: "MethodDefinition",
+                    type: :method_definition,
                     key: %{name: "fetchTicker"},
                     value: %{async: true, params: [%{name: "symbol"}], body: %{body: [%{}]}}
                   }
@@ -246,7 +246,7 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
               id: %{name: "binance"},
               superClass: %{name: "binanceRest"},
@@ -266,7 +266,7 @@ defmodule CcxtExtract.ClassesTest do
     end
 
     test "returns nil when no export default" do
-      ast = %{body: [%{type: "ImportDeclaration", source: %{value: "./foo.js"}, specifiers: []}]}
+      ast = %{body: [%{type: :import_declaration, source: %{value: "./foo.js"}, specifiers: []}]}
       assert Classes.extract_class(ast, "util.ts", "rest", %{}) == nil
     end
 
@@ -274,8 +274,8 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
-            declaration: %{type: "Identifier", name: "foo"}
+            type: :export_default_declaration,
+            declaration: %{type: :identifier, name: "foo"}
           }
         ]
       }
@@ -287,7 +287,7 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
               id: %{name: "Base"},
               superClass: nil,
@@ -308,7 +308,7 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
               id: nil,
               superClass: %{name: "Exchange"},
@@ -329,9 +329,9 @@ defmodule CcxtExtract.ClassesTest do
   describe "extract_methods/1" do
     test "filters only MethodDefinition nodes" do
       members = [
-        %{type: "MethodDefinition", key: %{name: "foo"}, value: %{async: false, params: [], body: %{body: []}}},
-        %{type: "PropertyDefinition", key: %{name: "bar"}},
-        %{type: "MethodDefinition", key: %{name: "baz"}, value: %{async: true, params: [%{}], body: %{body: [%{}]}}}
+        %{type: :method_definition, key: %{name: "foo"}, value: %{async: false, params: [], body: %{body: []}}},
+        %{type: :property_definition, key: %{name: "bar"}},
+        %{type: :method_definition, key: %{name: "baz"}, value: %{async: true, params: [%{}], body: %{body: [%{}]}}}
       ]
 
       methods = Classes.extract_methods(members)
@@ -395,10 +395,10 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
               id: %{name: "foo"},
-              superClass: %{type: "CallExpression", callee: %{name: "getSomeClass"}},
+              superClass: %{type: :call_expression, callee: %{name: "getSomeClass"}},
               body: %{body: []}
             }
           }
@@ -416,7 +416,7 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
               id: %{name: "child"},
               superClass: %{name: "unknownParent"},
@@ -438,10 +438,10 @@ defmodule CcxtExtract.ClassesTest do
       ast = %{
         body: [
           %{
-            type: "ImportDeclaration",
+            type: :import_declaration,
             source: %{value: "some-package"},
             specifiers: [
-              %{type: "ImportDefaultSpecifier", local: %{name: "pkg"}}
+              %{type: :import_default_specifier, local: %{name: "pkg"}}
             ]
           }
         ]

@@ -25,7 +25,7 @@ defmodule CcxtExtract.WsMethods do
 
   @impl true
   def extract_from_ast(ast, filename) do
-    export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
+    export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
 
     if export && export.declaration && Map.get(export.declaration, :body) do
       class = export.declaration
@@ -65,7 +65,7 @@ defmodule CcxtExtract.WsMethods do
   @spec find_ws_methods([map()]) :: [map()]
   def find_ws_methods(class_body) do
     Enum.filter(class_body, fn member ->
-      member.type == "MethodDefinition" &&
+      member.type == :method_definition &&
         (String.starts_with?(member.key.name, "watch") ||
            String.starts_with?(member.key.name, "handle"))
     end)

@@ -29,7 +29,7 @@ defmodule CcxtExtract.MethodAST do
       "return_type" => CcxtExtract.Methods.extract_return_type(method.value),
       "async" => method.value.async,
       "statements" => length(method.value.body.body),
-      "body" => method.value.body
+      "body" => CcxtExtract.AstNormalize.normalize(method.value.body)
     }
   end
 end

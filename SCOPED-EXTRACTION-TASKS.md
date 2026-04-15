@@ -32,11 +32,15 @@ prunes the rest from `priv/output/`, and stamps `tier_scope` in
 git-status safety rail and routes `scope_args` to the pipeline stage.
 Tasks 3/4/5 can now proceed in parallel (see Task Graph).
 
-**Known drift (fixed by Tasks 5/6 + regeneration):** cached integration tests
-are currently red because envelope totals in `parse_methods.json` (1564 vs 1541),
-`ws_methods.json` (1574 vs 1539), and `overrides.json` (100 vs 99) don't match
-the actual entry sums. Tasks 5/6 require envelope recompute on every write,
-which closes this class of bug by construction.
+**Known drift (post-Task 101):** cached integration tests are currently red for
+two unrelated reasons, neither tied to the scope refactor: (1) `coincatch` is a
+new CCXT exchange picked up by OXC-based extractors but absent from the stale
+QuickBEAM fixtures — `--skip-setup` does not regenerate those, leaving orphaned
+entries in discovery files (`test/integration/cached/pipeline_cached_test.exs:208`);
+and (2) `parse_methods` coverage threshold dipped to 99 in
+`test/integration/cached/coverage_report_cached_test.exs:88`. Both clear with a
+full `mix ccxt_extract.update` (no `--skip-setup`) or by refreshing the cached
+fixtures. The original envelope-total drift is resolved.
 
 ### Quick Commands
 

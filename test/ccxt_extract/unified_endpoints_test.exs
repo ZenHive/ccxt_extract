@@ -13,9 +13,9 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
     %{
       body: [
         %{
-          type: "ExportDefaultDeclaration",
+          type: :export_default_declaration,
           declaration: %{
-            type: "ClassDeclaration",
+            type: :class_declaration,
             id: %{name: class_name},
             superClass: nil,
             body: %{body: methods}
@@ -28,10 +28,10 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
   # Build a MethodDefinition whose body contains the given statements
   defp method_with_body(method_name, statements, opts \\ []) do
     %{
-      type: "MethodDefinition",
+      type: :method_definition,
       key: %{name: method_name},
       value: %{
-        type: "FunctionExpression",
+        type: :function_expression,
         async: Keyword.get(opts, :async, true),
         params: [],
         body: %{body: statements}
@@ -42,11 +42,11 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
   # AST node for this.<name>(args...) — used to build method body fixtures
   defp this_call(method_name, args \\ []) do
     %{
-      type: "CallExpression",
+      type: :call_expression,
       callee: %{
-        type: "MemberExpression",
-        object: %{type: "ThisExpression"},
-        property: %{type: "Identifier", name: method_name}
+        type: :member_expression,
+        object: %{type: :this_expression},
+        property: %{type: :identifier, name: method_name}
       },
       arguments: args
     }
@@ -56,11 +56,11 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
     %{
       body: [
         %{
-          type: "ExportDefaultDeclaration",
+          type: :export_default_declaration,
           declaration: %{
-            type: "ClassDeclaration",
+            type: :class_declaration,
             id: %{name: class_name},
-            superClass: %{type: "Identifier", name: parent_name},
+            superClass: %{type: :identifier, name: parent_name},
             body: %{body: methods}
           }
         }
@@ -71,24 +71,24 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
   # AST node for super.<name>(args...) — used for super delegation fixtures
   defp super_call(method_name, args \\ []) do
     %{
-      type: "CallExpression",
+      type: :call_expression,
       callee: %{
-        type: "MemberExpression",
-        object: %{type: "Super"},
-        property: %{type: "Identifier", name: method_name}
+        type: :member_expression,
+        object: %{type: :super},
+        property: %{type: :identifier, name: method_name}
       },
       arguments: args
     }
   end
 
-  defp identifier(name), do: %{type: "Identifier", name: name}
+  defp identifier(name), do: %{type: :identifier, name: name}
 
   # Wrap an expression in a return-await statement (typical pattern)
   defp return_await(expr) do
     %{
-      type: "ReturnStatement",
+      type: :return_statement,
       argument: %{
-        type: "AwaitExpression",
+        type: :await_expression,
         argument: expr
       }
     }
@@ -112,14 +112,14 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
       call2 = this_call("privateGetV5AccountWalletBalance")
 
       if_stmt = %{
-        type: "IfStatement",
+        type: :if_statement,
         test: identifier("isMargin"),
         consequent: %{
-          type: "BlockStatement",
+          type: :block_statement,
           body: [return_await(call1)]
         },
         alternate: %{
-          type: "BlockStatement",
+          type: :block_statement,
           body: [return_await(call2)]
         }
       }
@@ -154,16 +154,16 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
       nested_call = this_call("privatePostV5OrderCreate")
 
       if_stmt = %{
-        type: "IfStatement",
+        type: :if_statement,
         test: identifier("isStop"),
         consequent: %{
-          type: "BlockStatement",
+          type: :block_statement,
           body: [
             %{
-              type: "ExpressionStatement",
+              type: :expression_statement,
               expression: %{
-                type: "AssignmentExpression",
-                right: %{type: "AwaitExpression", argument: nested_call}
+                type: :assignment_expression,
+                right: %{type: :await_expression, argument: nested_call}
               }
             }
           ]
@@ -189,7 +189,7 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
     end
 
     test "no exported class returns nil" do
-      ast = %{body: [%{type: "ImportDeclaration", source: %{value: "foo"}}]}
+      ast = %{body: [%{type: :import_declaration, source: %{value: "foo"}}]}
       assert UnifiedEndpoints.extract_from_ast(ast, "foo.ts") == nil
     end
 
@@ -206,10 +206,10 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
       call = this_call("publicGetV5MarketTickers")
 
       if_stmt = %{
-        type: "IfStatement",
+        type: :if_statement,
         test: identifier("retry"),
-        consequent: %{type: "BlockStatement", body: [return_await(call)]},
-        alternate: %{type: "BlockStatement", body: [return_await(call)]}
+        consequent: %{type: :block_statement, body: [return_await(call)]},
+        alternate: %{type: :block_statement, body: [return_await(call)]}
       }
 
       ast = build_class_ast("test", [method_with_body("fetchTicker", [if_stmt])])
@@ -479,17 +479,17 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
       # htx pattern: fetchMarkets → multiple this.fetchMarketsByTypeAndSubType() calls
       unified_body = [
         %{
-          type: "ExpressionStatement",
+          type: :expression_statement,
           expression:
             this_call("fetchMarketsByTypeAndSubType", [
-              %{type: "Literal", value: "spot"}
+              %{type: :literal, value: "spot"}
             ])
         },
         %{
-          type: "ExpressionStatement",
+          type: :expression_statement,
           expression:
             this_call("fetchMarketsByTypeAndSubType", [
-              %{type: "Literal", value: "swap"}
+              %{type: :literal, value: "swap"}
             ])
         }
       ]
@@ -517,7 +517,7 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
       # directly for one market type and delegates to loadBalance for another.
       body = [
         return_await(this_call("publicGetTicker")),
-        %{type: "ExpressionStatement", expression: this_call("someHelper")}
+        %{type: :expression_statement, expression: this_call("someHelper")}
       ]
 
       helper_body = [return_await(this_call("privateGetOtherEndpoint"))]
@@ -540,7 +540,7 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
 
       interface_call =
         this_call("publicGetTicker", [
-          %{type: "CallExpression", callee: extend_call.callee, arguments: extend_call.arguments}
+          %{type: :call_expression, callee: extend_call.callee, arguments: extend_call.arguments}
         ])
 
       stmt = return_await(interface_call)
@@ -554,8 +554,8 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
 
     test "delegation: multi-hop resolution follows helper chains" do
       # fetchOpenOrders → fetchOrdersByStatus → privateGetOrders
-      body = [%{type: "ExpressionStatement", expression: this_call("fetchOrdersByStatus")}]
-      hop1_body = [%{type: "ExpressionStatement", expression: this_call("fetchOrdersSinglePage")}]
+      body = [%{type: :expression_statement, expression: this_call("fetchOrdersByStatus")}]
+      hop1_body = [%{type: :expression_statement, expression: this_call("fetchOrdersSinglePage")}]
       hop2_body = [return_await(this_call("privateGetOrders"))]
 
       ast =
@@ -572,8 +572,8 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
 
     test "delegation: cycle protection prevents infinite loops" do
       # methodA → methodB → methodA (mutual recursion)
-      body_a = [%{type: "ExpressionStatement", expression: this_call("helperB")}]
-      body_b = [%{type: "ExpressionStatement", expression: this_call("helperA")}]
+      body_a = [%{type: :expression_statement, expression: this_call("helperB")}]
+      body_b = [%{type: :expression_statement, expression: this_call("helperA")}]
 
       # helperA also calls an interface method to verify we still get results
       body_a = body_a ++ [return_await(this_call("publicGetTicker"))]
@@ -593,10 +593,10 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
 
     test "delegation: depth limit stops at max hops" do
       # Chain of 5 hops — should stop at depth 3 and miss the deepest call
-      body0 = [%{type: "ExpressionStatement", expression: this_call("hop1")}]
-      body1 = [%{type: "ExpressionStatement", expression: this_call("hop2")}]
-      body2 = [%{type: "ExpressionStatement", expression: this_call("hop3")}]
-      body3 = [%{type: "ExpressionStatement", expression: this_call("hop4")}]
+      body0 = [%{type: :expression_statement, expression: this_call("hop1")}]
+      body1 = [%{type: :expression_statement, expression: this_call("hop2")}]
+      body2 = [%{type: :expression_statement, expression: this_call("hop3")}]
+      body3 = [%{type: :expression_statement, expression: this_call("hop4")}]
       body4 = [return_await(this_call("privateGetDeepEndpoint"))]
 
       ast =
@@ -628,14 +628,14 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
         "fetchDepositAddress" =>
           method_with_body("fetchDepositAddress", [
             %{
-              type: "IfStatement",
+              type: :if_statement,
               test: identifier("hasFetchDepositAddresses"),
               consequent: %{
-                type: "BlockStatement",
+                type: :block_statement,
                 body: [return_await(this_call("fetchDepositAddresses", [identifier("code")]))]
               },
               alternate: %{
-                type: "BlockStatement",
+                type: :block_statement,
                 body: [
                   return_await(this_call("fetchDepositAddressesByNetwork", [identifier("code")]))
                 ]

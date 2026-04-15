@@ -7,17 +7,17 @@ defmodule CcxtExtract.OverridesTest do
   # --- Mock method definitions ---
 
   @describe_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "describe"},
     value: %{
       async: false,
       params: [],
       returnType: %{
-        typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "any"}}
+        typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "any"}}
       },
       body: %{
-        type: "FunctionBody",
-        body: [%{type: "ReturnStatement"}],
+        type: :function_body,
+        body: [%{type: :return_statement}],
         start: 100,
         end: 200
       }
@@ -25,18 +25,18 @@ defmodule CcxtExtract.OverridesTest do
   }
 
   @sign_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "sign"},
     value: %{
       async: false,
       params: [
-        %{type: "Identifier", name: "path", typeAnnotation: nil},
-        %{type: "Identifier", name: "api", typeAnnotation: nil}
+        %{type: :identifier, name: "path", typeAnnotation: nil},
+        %{type: :identifier, name: "api", typeAnnotation: nil}
       ],
       returnType: nil,
       body: %{
-        type: "FunctionBody",
-        body: [%{type: "VariableDeclaration"}, %{type: "ReturnStatement"}],
+        type: :function_body,
+        body: [%{type: :variable_declaration}, %{type: :return_statement}],
         start: 300,
         end: 500
       }
@@ -44,27 +44,27 @@ defmodule CcxtExtract.OverridesTest do
   }
 
   @fetch_ticker_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "fetchTicker"},
     value: %{
       async: true,
       params: [
         %{
-          type: "Identifier",
+          type: :identifier,
           name: "symbol",
-          typeAnnotation: %{typeAnnotation: %{type: "TSTypeReference", typeName: %{name: "string"}}}
+          typeAnnotation: %{typeAnnotation: %{type: :ts_type_reference, typeName: %{name: "string"}}}
         }
       ],
       returnType: %{
         typeAnnotation: %{
-          type: "TSTypeReference",
+          type: :ts_type_reference,
           typeName: %{name: "Promise"},
-          typeArguments: %{params: [%{type: "TSTypeReference", typeName: %{name: "Ticker"}}]}
+          typeArguments: %{params: [%{type: :ts_type_reference, typeName: %{name: "Ticker"}}]}
         }
       },
       body: %{
-        type: "FunctionBody",
-        body: [%{type: "ExpressionStatement"}, %{type: "ReturnStatement"}],
+        type: :function_body,
+        body: [%{type: :expression_statement}, %{type: :return_statement}],
         start: 600,
         end: 800
       }

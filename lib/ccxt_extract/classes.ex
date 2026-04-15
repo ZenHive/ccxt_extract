@@ -176,12 +176,12 @@ defmodule CcxtExtract.Classes do
   @spec build_import_aliases(map(), String.t()) :: map()
   def build_import_aliases(ast, current_type) do
     ast.body
-    |> Enum.filter(&(&1.type == "ImportDeclaration"))
+    |> Enum.filter(&(&1.type == :import_declaration))
     |> Enum.flat_map(fn import_decl ->
       source_path = import_decl.source.value
 
       import_decl.specifiers
-      |> Enum.filter(&(&1.type == "ImportDefaultSpecifier"))
+      |> Enum.filter(&(&1.type == :import_default_specifier))
       |> Enum.map(fn spec ->
         alias_name = spec.local.name
         {resolved_name, source_type} = resolve_import_path(source_path, current_type)
@@ -199,7 +199,7 @@ defmodule CcxtExtract.Classes do
   """
   @spec extract_class(map(), String.t(), String.t(), map()) :: map() | nil
   def extract_class(ast, filename, type, aliases) do
-    export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
+    export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
 
     if export && export.declaration && Map.get(export.declaration, :body) do
       class = export.declaration
@@ -243,7 +243,7 @@ defmodule CcxtExtract.Classes do
   @spec extract_methods([map()]) :: [map()]
   def extract_methods(members) do
     members
-    |> Enum.filter(&(&1.type == "MethodDefinition"))
+    |> Enum.filter(&(&1.type == :method_definition))
     |> Enum.map(fn m ->
       %{
         "name" => m.key.name,

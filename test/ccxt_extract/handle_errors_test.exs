@@ -6,29 +6,29 @@ defmodule CcxtExtract.HandleErrorsTest do
 
   # Mock AST for a class with a handleErrors() method
   @handle_errors_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "handleErrors"},
     value: %{
       async: false,
       params: [
-        %{type: "Identifier", name: "code", typeAnnotation: nil},
-        %{type: "Identifier", name: "reason", typeAnnotation: nil},
-        %{type: "Identifier", name: "url", typeAnnotation: nil},
-        %{type: "Identifier", name: "method", typeAnnotation: nil},
-        %{type: "Identifier", name: "headers", typeAnnotation: nil},
-        %{type: "Identifier", name: "body", typeAnnotation: nil},
-        %{type: "Identifier", name: "response", typeAnnotation: nil},
-        %{type: "Identifier", name: "requestHeaders", typeAnnotation: nil},
-        %{type: "Identifier", name: "requestBody", typeAnnotation: nil}
+        %{type: :identifier, name: "code", typeAnnotation: nil},
+        %{type: :identifier, name: "reason", typeAnnotation: nil},
+        %{type: :identifier, name: "url", typeAnnotation: nil},
+        %{type: :identifier, name: "method", typeAnnotation: nil},
+        %{type: :identifier, name: "headers", typeAnnotation: nil},
+        %{type: :identifier, name: "body", typeAnnotation: nil},
+        %{type: :identifier, name: "response", typeAnnotation: nil},
+        %{type: :identifier, name: "requestHeaders", typeAnnotation: nil},
+        %{type: :identifier, name: "requestBody", typeAnnotation: nil}
       ],
       returnType: nil,
       body: %{
-        type: "FunctionBody",
+        type: :function_body,
         body: [
-          %{type: "IfStatement", test: %{type: "BinaryExpression"}},
-          %{type: "VariableDeclaration", declarations: [%{type: "VariableDeclarator"}]},
-          %{type: "IfStatement", test: %{type: "CallExpression"}},
-          %{type: "ReturnStatement", argument: nil}
+          %{type: :if_statement, test: %{type: :binary_expression}},
+          %{type: :variable_declaration, declarations: [%{type: :variable_declarator}]},
+          %{type: :if_statement, test: %{type: :call_expression}},
+          %{type: :return_statement, argument: nil}
         ],
         start: 5000,
         end: 6000
@@ -37,24 +37,24 @@ defmodule CcxtExtract.HandleErrorsTest do
   }
 
   @describe_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "describe"},
     value: %{
       async: false,
       params: [],
       returnType: nil,
-      body: %{body: [%{type: "ReturnStatement"}]}
+      body: %{body: [%{type: :return_statement}]}
     }
   }
 
   @sign_method %{
-    type: "MethodDefinition",
+    type: :method_definition,
     key: %{name: "sign"},
     value: %{
       async: false,
-      params: [%{type: "Identifier", name: "path", typeAnnotation: nil}],
+      params: [%{type: :identifier, name: "path", typeAnnotation: nil}],
       returnType: nil,
-      body: %{body: [%{type: "ReturnStatement"}]}
+      body: %{body: [%{type: :return_statement}]}
     }
   }
 
@@ -63,9 +63,9 @@ defmodule CcxtExtract.HandleErrorsTest do
     %{
       body: [
         %{
-          type: "ExportDefaultDeclaration",
+          type: :export_default_declaration,
           declaration: %{
-            type: "ClassDeclaration",
+            type: :class_declaration,
             id: %{name: class_name},
             superClass: %{name: "Exchange"},
             body: %{body: methods}
@@ -97,7 +97,7 @@ defmodule CcxtExtract.HandleErrorsTest do
     end
 
     test "returns nil when no exported class" do
-      ast = %{body: [%{type: "ImportDeclaration", source: %{value: "foo"}}]}
+      ast = %{body: [%{type: :import_declaration, source: %{value: "foo"}}]}
       assert HandleErrors.extract_from_ast(ast, "not_a_class.ts") == nil
     end
 
@@ -105,9 +105,9 @@ defmodule CcxtExtract.HandleErrorsTest do
       ast = %{
         body: [
           %{
-            type: "ExportDefaultDeclaration",
+            type: :export_default_declaration,
             declaration: %{
-              type: "ClassDeclaration",
+              type: :class_declaration,
               id: nil,
               body: %{body: [@describe_method]}
             }

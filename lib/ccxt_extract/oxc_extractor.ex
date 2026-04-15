@@ -132,7 +132,7 @@ defmodule CcxtExtract.OXCExtractor do
 
         output = Map.merge(base, write_stats(exchanges))
 
-        json = Jason.encode!(output, pretty: true)
+        json = Jason.encode!(CcxtExtract.AstNormalize.normalize(output), pretty: true)
         File.write!(output_path, json)
         :ok
       end

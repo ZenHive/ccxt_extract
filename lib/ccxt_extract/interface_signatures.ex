@@ -32,7 +32,7 @@ defmodule CcxtExtract.InterfaceSignatures do
 
       signatures_map =
         iface.body.body
-        |> Enum.filter(&(&1.type == "TSMethodSignature"))
+        |> Enum.filter(&(&1.type == :ts_method_signature))
         |> Map.new(&{&1.key.name, extract_signature(&1)})
 
       %{
@@ -73,6 +73,6 @@ defmodule CcxtExtract.InterfaceSignatures do
   # Each abstract file has exactly one — named "Exchange" for primary exchanges,
   # or the parent name (e.g., "binance", "gate") for alias exchanges.
   defp find_exchange_interface(body) do
-    Enum.find(body, &(&1.type == "TSInterfaceDeclaration"))
+    Enum.find(body, &(&1.type == :ts_interface_declaration))
   end
 end

@@ -52,7 +52,7 @@ defmodule CcxtExtract.BaseMethodsTest do
     end
 
     test "returns empty map when no class found" do
-      ast = %{body: [%{type: "ImportDeclaration", source: %{value: "foo"}}]}
+      ast = %{body: [%{type: :import_declaration, source: %{value: "foo"}}]}
       assert BaseMethods.extract_from_ast(ast) == %{}
     end
   end
@@ -185,9 +185,9 @@ defmodule CcxtExtract.BaseMethodsTest do
     %{
       body: [
         %{
-          type: "ExportDefaultDeclaration",
+          type: :export_default_declaration,
           declaration: %{
-            type: "ClassDeclaration",
+            type: :class_declaration,
             id: %{name: "Exchange"},
             superClass: nil,
             body: %{body: members}
@@ -200,9 +200,9 @@ defmodule CcxtExtract.BaseMethodsTest do
   # Build a PropertyDefinition node (class field assignment like `safeValue = safeValue;`)
   defp property_node(name) do
     %{
-      type: "PropertyDefinition",
-      key: %{name: name, type: "Identifier"},
-      value: %{name: name, type: "Identifier"},
+      type: :property_definition,
+      key: %{name: name, type: :identifier},
+      value: %{name: name, type: :identifier},
       static: false,
       computed: false,
       typeAnnotation: nil
@@ -211,10 +211,10 @@ defmodule CcxtExtract.BaseMethodsTest do
 
   defp method_node(name, async, params, return_type) do
     %{
-      type: "MethodDefinition",
+      type: :method_definition,
       key: %{name: name},
       value: %{
-        type: "FunctionExpression",
+        type: :function_expression,
         async: async,
         params: params,
         body: %{body: []},
@@ -224,19 +224,19 @@ defmodule CcxtExtract.BaseMethodsTest do
   end
 
   defp param(name, nil) do
-    %{type: "Identifier", name: name, optional: false, typeAnnotation: nil, decorators: []}
+    %{type: :identifier, name: name, optional: false, typeAnnotation: nil, decorators: []}
   end
 
   defp param(name, type_name) do
     %{
-      type: "Identifier",
+      type: :identifier,
       name: name,
       optional: false,
       typeAnnotation: %{
-        type: "TSTypeAnnotation",
+        type: :ts_type_annotation,
         typeAnnotation: %{
-          type: "TSTypeReference",
-          typeName: %{name: type_name, type: "Identifier", optional: false, typeAnnotation: nil, decorators: []},
+          type: :ts_type_reference,
+          typeName: %{name: type_name, type: :identifier, optional: false, typeAnnotation: nil, decorators: []},
           typeArguments: nil
         }
       },
@@ -248,10 +248,10 @@ defmodule CcxtExtract.BaseMethodsTest do
 
   defp build_return_type(type_name) do
     %{
-      type: "TSTypeAnnotation",
+      type: :ts_type_annotation,
       typeAnnotation: %{
-        type: "TSTypeReference",
-        typeName: %{name: type_name, type: "Identifier", optional: false, typeAnnotation: nil, decorators: []},
+        type: :ts_type_reference,
+        typeName: %{name: type_name, type: :identifier, optional: false, typeAnnotation: nil, decorators: []},
         typeArguments: nil
       }
     }

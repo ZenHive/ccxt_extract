@@ -344,10 +344,10 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
 
     {parse_us, {:ok, ast}} = :timer.tc(fn -> OXC.parse(source, "binance.ts") end)
 
-    export = Enum.find(ast.body, &(&1.type == "ExportDefaultDeclaration"))
+    export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
     class = export.declaration
     class_name = if class.id, do: class.id.name, else: "anonymous"
-    methods = Enum.filter(class.body.body, &(&1.type == "MethodDefinition"))
+    methods = Enum.filter(class.body.body, &(&1.type == :method_definition))
 
     Mix.shell().info(
       "OXC: parsed binance.ts in #{div(parse_us, 1000)}ms — #{class_name} with #{length(methods)} methods."

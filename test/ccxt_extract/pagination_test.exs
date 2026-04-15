@@ -13,9 +13,9 @@ defmodule CcxtExtract.PaginationTest do
     %{
       body: [
         %{
-          type: "ExportDefaultDeclaration",
+          type: :export_default_declaration,
           declaration: %{
-            type: "ClassDeclaration",
+            type: :class_declaration,
             id: %{name: class_name},
             superClass: nil,
             body: %{body: methods}
@@ -28,10 +28,10 @@ defmodule CcxtExtract.PaginationTest do
   # Build a MethodDefinition whose body contains the given statements
   defp method_with_body(method_name, statements) do
     %{
-      type: "MethodDefinition",
+      type: :method_definition,
       key: %{name: method_name},
       value: %{
-        type: "FunctionExpression",
+        type: :function_expression,
         async: true,
         params: [],
         body: %{body: statements}
@@ -42,25 +42,25 @@ defmodule CcxtExtract.PaginationTest do
   # AST node for this.fetchPaginatedCall*(strategy, args...)
   defp pagination_call(strategy_method, args) do
     %{
-      type: "CallExpression",
+      type: :call_expression,
       callee: %{
-        type: "MemberExpression",
-        object: %{type: "ThisExpression"},
-        property: %{type: "Identifier", name: strategy_method}
+        type: :member_expression,
+        object: %{type: :this_expression},
+        property: %{type: :identifier, name: strategy_method}
       },
       arguments: args
     }
   end
 
-  defp literal(value), do: %{type: "Literal", value: value}
-  defp identifier(name), do: %{type: "Identifier", name: name}
+  defp literal(value), do: %{type: :literal, value: value}
+  defp identifier(name), do: %{type: :identifier, name: name}
 
   # Wrap a pagination call inside a return statement (typical pattern)
   defp return_pagination_call(strategy_method, args) do
     %{
-      type: "ReturnStatement",
+      type: :return_statement,
       argument: %{
-        type: "AwaitExpression",
+        type: :await_expression,
         argument: pagination_call(strategy_method, args)
       }
     }
@@ -184,7 +184,7 @@ defmodule CcxtExtract.PaginationTest do
     end
 
     test "no pagination calls returns empty map" do
-      stmt = %{type: "ReturnStatement", argument: identifier("result")}
+      stmt = %{type: :return_statement, argument: identifier("result")}
       ast = build_class_ast("nopag", [method_with_body("fetchTrades", [stmt])])
 
       result = Pagination.extract_from_ast(ast, "nopag.ts")
@@ -195,7 +195,7 @@ defmodule CcxtExtract.PaginationTest do
     end
 
     test "no exported class returns nil" do
-      ast = %{body: [%{type: "ImportDeclaration", source: %{value: "foo"}}]}
+      ast = %{body: [%{type: :import_declaration, source: %{value: "foo"}}]}
       assert Pagination.extract_from_ast(ast, "foo.ts") == nil
     end
 
@@ -294,12 +294,12 @@ defmodule CcxtExtract.PaginationTest do
         ])
 
       if_stmt = %{
-        type: "IfStatement",
+        type: :if_statement,
         test: identifier("paginate"),
         consequent: %{
-          type: "BlockStatement",
+          type: :block_statement,
           body: [
-            %{type: "ReturnStatement", argument: %{type: "AwaitExpression", argument: nested_call}}
+            %{type: :return_statement, argument: %{type: :await_expression, argument: nested_call}}
           ]
         },
         alternate: nil

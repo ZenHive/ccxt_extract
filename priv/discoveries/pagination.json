@@ -2613,8 +2613,12 @@
       "pagination_count": 0
     }
   ],
-  "extracted_at": "2026-04-15T12:48:57.565282Z",
-  "tier_scope": "all",
+  "extracted_at": "2026-04-15T13:02:36.848186Z",
+  "tier_scope": [
+    "tier1",
+    "tier2",
+    "dex"
+  ],
   "total_entries": 203,
   "total_unresolved": 1,
   "with_pagination": 44

@@ -1,357 +1,344 @@
 {
-  "exchange_count": 107,
-  "extracted_at": "2026-04-15T12:50:29.293288Z",
-  "key_count": 39,
+  "exchange_count": 21,
+  "extracted_at": "2026-04-15T13:03:45.210186Z",
+  "key_count": 35,
   "keys": [
     {
-      "count": 107,
+      "count": 21,
       "key": "alias",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "boolean": 107
+        "boolean": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "api",
-      "max_nesting_depth": 8,
+      "max_nesting_depth": 6,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 107
+        "object": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "certified",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "boolean": 107
+        "boolean": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "commonCurrencies",
       "max_nesting_depth": 1,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 107
+        "object": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "countries",
       "max_nesting_depth": 1,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "array": 107
+        "array": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "currencies",
-      "max_nesting_depth": 6,
+      "max_nesting_depth": 4,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 107
+        "object": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "dex",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "boolean": 107
+        "boolean": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "enableRateLimit",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "boolean": 107
+        "boolean": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "exceptions",
       "max_nesting_depth": 3,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 101,
-        "undefined": 6
+        "object": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "fees",
       "max_nesting_depth": 6,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 107
+        "object": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "has",
       "max_nesting_depth": 1,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 107
+        "object": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "httpExceptions",
       "max_nesting_depth": 1,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 107
+        "object": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "id",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "string": 107
+        "string": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "limits",
       "max_nesting_depth": 2,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 107
+        "object": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "markets",
-      "max_nesting_depth": 4,
+      "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 4,
-        "undefined": 103
+        "undefined": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "name",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "string": 107
+        "string": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
+      "key": "options",
+      "max_nesting_depth": 4,
+      "percentage": 100.0,
+      "tier": "universal",
+      "types": {
+        "object": 21
+      }
+    },
+    {
+      "count": 21,
       "key": "paddingMode",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "number": 107
+        "number": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "precisionMode",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "number": 107
+        "number": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "pro",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "boolean": 107
+        "boolean": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "rateLimit",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "number": 107
+        "number": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "requiredCredentials",
       "max_nesting_depth": 1,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 107
+        "object": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "rollingWindowSize",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "number": 107
+        "number": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "status",
       "max_nesting_depth": 1,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 107
+        "object": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "timeframes",
       "max_nesting_depth": 1,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 93,
-        "undefined": 14
+        "object": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "timeout",
       "max_nesting_depth": 0,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "number": 107
+        "number": 21
       }
     },
     {
-      "count": 107,
+      "count": 21,
       "key": "urls",
       "max_nesting_depth": 4,
       "percentage": 100.0,
       "tier": "universal",
       "types": {
-        "object": 107
+        "object": 21
       }
     },
     {
-      "count": 105,
+      "count": 19,
       "key": "features",
       "max_nesting_depth": 5,
-      "percentage": 98.1,
+      "percentage": 90.5,
       "tier": "common",
       "types": {
-        "object": 105
+        "object": 19
       }
     },
     {
-      "count": 99,
-      "key": "options",
-      "max_nesting_depth": 5,
-      "percentage": 92.5,
-      "tier": "common",
-      "types": {
-        "object": 99
-      }
-    },
-    {
-      "count": 87,
+      "count": 15,
       "key": "version",
       "max_nesting_depth": 0,
-      "percentage": 81.3,
+      "percentage": 71.4,
       "tier": "frequent",
       "types": {
-        "string": 87
+        "string": 15
       }
     },
     {
-      "count": 31,
+      "count": 11,
       "key": "hostname",
       "max_nesting_depth": 0,
-      "percentage": 29.0,
-      "tier": "uncommon",
+      "percentage": 52.4,
+      "tier": "frequent",
       "types": {
-        "string": 31
+        "string": 11
       }
     },
     {
-      "count": 12,
+      "count": 5,
       "key": "userAgent",
       "max_nesting_depth": 0,
-      "percentage": 11.2,
+      "percentage": 23.8,
       "tier": "uncommon",
       "types": {
-        "string": 8,
-        "undefined": 4
+        "string": 2,
+        "undefined": 3
       }
     },
     {
-      "count": 4,
-      "key": "headers",
-      "max_nesting_depth": 1,
-      "percentage": 3.7,
-      "tier": "rare",
-      "types": {
-        "object": 4
-      }
-    },
-    {
-      "count": 3,
+      "count": 2,
       "key": "comment",
       "max_nesting_depth": 0,
-      "percentage": 2.8,
+      "percentage": 9.5,
       "tier": "rare",
       "types": {
-        "string": 3
+        "string": 2
       }
     },
     {
-      "count": 3,
+      "count": 2,
       "key": "quoteJsonNumbers",
       "max_nesting_depth": 0,
-      "percentage": 2.8,
+      "percentage": 9.5,
       "tier": "rare",
       "types": {
-        "boolean": 3
+        "boolean": 2
       }
     },
     {
       "count": 1,
       "key": "handleContentTypeApplicationZip",
       "max_nesting_depth": 0,
-      "percentage": 0.9,
+      "percentage": 4.8,
       "tier": "rare",
       "types": {
         "boolean": 1
@@ -359,66 +346,35 @@
     },
     {
       "count": 1,
-      "key": "isSandboxModeEnabled",
-      "max_nesting_depth": 0,
-      "percentage": 0.9,
-      "tier": "rare",
-      "types": {
-        "boolean": 1
-      }
-    },
-    {
-      "count": 1,
-      "key": "orders",
+      "key": "headers",
       "max_nesting_depth": 1,
-      "percentage": 0.9,
+      "percentage": 4.8,
       "tier": "rare",
       "types": {
         "object": 1
       }
-    },
-    {
-      "count": 1,
-      "key": "requiresEddsa",
-      "max_nesting_depth": 0,
-      "percentage": 0.9,
-      "tier": "rare",
-      "types": {
-        "boolean": 1
-      }
-    },
-    {
-      "count": 1,
-      "key": "secret",
-      "max_nesting_depth": 0,
-      "percentage": 0.9,
-      "tier": "rare",
-      "types": {
-        "undefined": 1
-      }
     }
   ],
-  "tier_scope": "all",
+  "tier_scope": [
+    "tier1",
+    "tier2",
+    "dex"
+  ],
   "tiers": {
     "common": [
-      "features",
-      "options"
+      "features"
     ],
     "frequent": [
+      "hostname",
       "version"
     ],
     "rare": [
       "comment",
       "handleContentTypeApplicationZip",
       "headers",
-      "isSandboxModeEnabled",
-      "orders",
-      "quoteJsonNumbers",
-      "requiresEddsa",
-      "secret"
+      "quoteJsonNumbers"
     ],
     "uncommon": [
-      "hostname",
       "userAgent"
     ],
     "universal": [
@@ -438,6 +394,7 @@
       "limits",
       "markets",
       "name",
+      "options",
       "paddingMode",
       "precisionMode",
       "pro",

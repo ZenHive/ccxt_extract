@@ -12525,8 +12525,12 @@
       }
     }
   ],
-  "extracted_at": "2026-04-15T12:48:59.609721Z",
-  "tier_scope": "all",
+  "extracted_at": "2026-04-15T13:02:38.847661Z",
+  "tier_scope": [
+    "tier1",
+    "tier2",
+    "dex"
+  ],
   "total_mappings": 5373,
   "with_unified_endpoints": 100
 }

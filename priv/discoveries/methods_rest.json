@@ -104824,7 +104824,11 @@
       ]
     }
   ],
-  "extracted_at": "2026-04-15T12:48:38.394802Z",
-  "tier_scope": "all",
+  "extracted_at": "2026-04-15T13:02:17.995116Z",
+  "tier_scope": [
+    "tier1",
+    "tier2",
+    "dex"
+  ],
   "type": "rest"
 }

@@ -40,9 +40,9 @@ defmodule CcxtExtract.QuickbeamRuntime do
   }
   """
 
-  # Return a sorted JSON array of non-alias CCXT class keys.
   # "Non-alias" means `new ccxt[k]().describe().alias` is falsy. Excludes the
-  # base `Exchange` and utility `Precise` classes.
+  # base `Exchange` and utility `Precise` classes (constructing them throws or
+  # has no `.id`, so the try/catch filter drops them).
   @js_get_non_alias_ids """
   globalThis.getNonAliasIds = function() {
     const ids = Object.keys(ccxt).filter(k => {

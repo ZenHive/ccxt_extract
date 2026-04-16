@@ -1,8 +1,7 @@
 defmodule CcxtExtract.MixTasksIntegrationTest do
-  # async: false (default) — the setup describe uses File.cd!/2, which
-  # mutates the BEAM-wide CWD. Flipping this module to async: true would
-  # race with any other async test that reads relative paths.
-  use ExUnit.Case
+  # PrivWriteCase enforces async: false, which is required here anyway
+  # because the setup describe uses File.cd!/2 (mutates BEAM-wide CWD).
+  use CcxtExtract.PrivWriteCase
 
   import CcxtExtract.TaskHelpers
 
@@ -121,8 +120,26 @@ defmodule CcxtExtract.MixTasksIntegrationTest do
       # the real tree is untouched.
       File.cp_r!(real_node_modules_ccxt, tmp_node_modules_ccxt)
 
+      # Point both reads and writes at the fake tmp priv so the Setup task's
+      # clone/copy/verify flow operates purely under tmp_dir. PrivWriteCase
+      # also set :priv_write_override earlier; we override both here and
+      # restore both on exit.
+      prior_read = Application.get_env(:ccxt_extract, :priv_dir_override)
+      prior_write = Application.get_env(:ccxt_extract, :priv_write_override)
       Application.put_env(:ccxt_extract, :priv_dir_override, tmp_priv)
-      on_exit(fn -> Application.delete_env(:ccxt_extract, :priv_dir_override) end)
+      Application.put_env(:ccxt_extract, :priv_write_override, tmp_priv)
+
+      on_exit(fn ->
+        case prior_read do
+          nil -> Application.delete_env(:ccxt_extract, :priv_dir_override)
+          val -> Application.put_env(:ccxt_extract, :priv_dir_override, val)
+        end
+
+        case prior_write do
+          nil -> Application.delete_env(:ccxt_extract, :priv_write_override)
+          val -> Application.put_env(:ccxt_extract, :priv_write_override, val)
+        end
+      end)
 
       :ok
     end

@@ -70,7 +70,7 @@ defmodule CcxtExtract.ContractTest do
   """
   @spec run_all(keyword()) :: {:ok, report()}
   def run_all(opts \\ []) do
-    output_dir = opts[:output_dir] || CcxtExtract.Paths.priv("output")
+    output_dir = opts[:output_dir] || CcxtExtract.Paths.out("output")
     baseline_roots = opts[:baseline_roots] || load_baseline_roots(opts)
     exchanges = load_exchanges(output_dir, opts[:exchanges])
     baseline = %{error_code_fields_roots: baseline_roots}

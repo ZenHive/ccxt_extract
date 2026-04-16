@@ -140,7 +140,7 @@ defmodule CcxtExtract.DescribeKeyAnalysis do
   """
   @spec write!(map(), keyword()) :: :ok
   def write!(analysis, opts \\ []),
-    do: CcxtExtract.DiscoveryWriter.write!(analysis, CcxtExtract.Paths.priv(@output_file), opts)
+    do: CcxtExtract.DiscoveryWriter.write!(analysis, CcxtExtract.Paths.out(@output_file), opts)
 
   @doc """
   Extract max nesting depth per describe() key via QuickBEAM.

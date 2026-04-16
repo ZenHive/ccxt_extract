@@ -132,7 +132,7 @@ defmodule CcxtExtract.OXCExtractor do
           Keyword.get(
             opts,
             :output_path,
-            CcxtExtract.Paths.priv(Path.join("discoveries", @oxc_output_file))
+            CcxtExtract.Paths.out(Path.join("discoveries", @oxc_output_file))
           )
 
         writer_opts = [

@@ -62,7 +62,7 @@ mix ccxt_extract.update --tier1 --exchange hyperliquid   # mixed tier + individu
 
 Default (no scope flag) is all 110 exchanges. OXC *parsing* always walks all CCXT `.ts` files; scope applies at the output-merge boundary. `classes.ex` is a documented exception — scope flags only stamp `tier_scope` because `class_hierarchy.json` is load-bearing for family inheritance. Aggregate writes merge scoped runs with existing on-disk aggregates and recompute envelope totals from the final merged entries, so successive scoped runs accumulate without drift.
 
-`mix ccxt_extract.update` aborts if `priv/output/` or `priv/discoveries/` has uncommitted changes (protects against scoped runs overwriting in-flight work). Commit or stash first, or pass `--force` to bypass the rail.
+`mix ccxt_extract.update` aborts if `priv/output/` or `priv/discoveries/` has uncommitted changes (protects against scoped runs overwriting in-flight work). Commit or stash first, or pass `--force` to bypass the rail. The rail is automatically skipped when `--output DIR` is set — external target dirs are not expected to be git repos, and writes go to `<DIR>/output/` + `<DIR>/discoveries/` under a per-run `:priv_dir_override` so the repo's own `priv/` is untouched.
 
 ## Signing Fixtures
 

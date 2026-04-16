@@ -162,7 +162,7 @@ defmodule CcxtExtract.MarketValidation do
   """
   @spec write!(map(), keyword()) :: :ok
   def write!(report, opts \\ []),
-    do: CcxtExtract.DiscoveryWriter.write!(report, CcxtExtract.Paths.priv(@output_file), opts)
+    do: CcxtExtract.DiscoveryWriter.write!(report, CcxtExtract.Paths.out(@output_file), opts)
 
   # --- Layer 2: Spot-Check ---
 

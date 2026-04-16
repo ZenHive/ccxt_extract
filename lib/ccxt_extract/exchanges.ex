@@ -78,7 +78,7 @@ defmodule CcxtExtract.Exchanges do
   metadata envelope with timestamp and count.
   """
   @spec write!([map()], String.t()) :: :ok
-  def write!(exchanges, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
+  def write!(exchanges, output_path \\ CcxtExtract.Paths.out(Path.join("discoveries", @output_file))) do
     File.mkdir_p!(Path.dirname(output_path))
 
     output = %{

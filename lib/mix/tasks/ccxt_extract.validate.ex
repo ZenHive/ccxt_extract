@@ -35,7 +35,7 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
       Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
     end
 
-    output_dir = opts[:output] || CcxtExtract.Paths.priv("output")
+    output_dir = opts[:output] || CcxtExtract.Paths.out("output")
 
     Mix.shell().info("Validating output in #{output_dir}...")
     start = System.monotonic_time(:millisecond)

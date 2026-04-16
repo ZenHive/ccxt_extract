@@ -17,7 +17,10 @@ defmodule Mix.Tasks.CcxtExtract.AnalyticsScopeFlagsTest do
   those tests require `mix ccxt_extract.setup` to have pulled the TS
   tree at least once.
   """
-  use ExUnit.Case, async: false
+  # PrivWriteCase contains the one test (`--spot-check + --exchange`) that
+  # actually executes a ValidateMarkets run to completion. Without write
+  # redirection that run would mutate `priv/discoveries/market_validation.json`.
+  use CcxtExtract.PrivWriteCase
 
   alias Mix.Tasks.CcxtExtract.ValidateMarkets
 

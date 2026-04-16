@@ -4,7 +4,7 @@ Structural debt identified during end-to-end codebase review (2026-04-16).
 Quick wins (items 4-6) shipped same session; items 1-3 below are multi-session
 refactors requiring isolation and verification checkpoints.
 
-**Dependency order:** Items 1, 2, 3, 6, 7, 8, and 8b are all shipped. No
+**Dependency order:** Items 1, 2, 3, 6, 7, 8, 8b, and 9 are all shipped. No
 remaining independent candidates.
 
 ---
@@ -156,6 +156,52 @@ Deleted all 7 duplicate copies. Two call sites that previously raised
 on corrupt coverage inputs — conscious decision, coverage report is
 best-effort. `test/ccxt_extract/json_io_test.exs` covers all three shapes.
 Full suite: 1579 passed, 0 failed.
+
+## ~~Item 9: Split read vs write paths in `CcxtExtract.Paths`~~ ✅
+
+**D: 3 / B: 4 — ROI: 1.33** — **SHIPPED 2026-04-17**
+
+Natural follow-up to Item 6. Item 6 introduced `:priv_dir_override` as a
+single seam that redirected both reads and writes to a tmp dir — fine for
+the setup test that staged a full CCXT clone, but heavy for the 12 other
+integration tests that only need write isolation (they'd still rather read
+the committed corpus).
+
+Added a narrower `:priv_write_override` seam + `Paths.out/1` and
+`Paths.out_priv_dir/0`. Writes resolve through `:priv_write_override` first,
+then fall through to `:priv_dir_override`, then `:code.priv_dir/1`. Reads
+continue through `Paths.priv/1`. Migrated 22 library modules + 4 mix tasks
+from `Paths.priv(...)` to `Paths.out(...)` at every write site.
+
+New `CcxtExtract.PrivWriteCase` (`test/support/priv_write_case.ex`) ExUnit
+case template assigns `:priv_write_override` to a per-test tmp dir and
+restores prior env on exit. Enforces `async: false` (the env is VM-global).
+Adopted by 12 integration test modules and the analytics-scope-flags test.
+Rewrote `test/mix/tasks/error_path_test.exs` — replaced the rename/restore
+trick (that created `.bak` files in `priv/discoveries/`) with a tmp-dir
+`:priv_dir_override`. No more risk of stranded backups on a crashed run.
+
+**Breaking change to `mix ccxt_extract.update --output DIR`.** Previously
+forwarded `--output` to each sub-stage, placing per-exchange JSON directly
+at `<DIR>/`. Now sets `:priv_dir_override` at the update level via a
+`with_priv_override/2` wrapper so every `Paths.priv/1` and `Paths.out/1`
+in any sub-stage lands under `DIR`. Sub-stages no longer receive `--output`.
+Final per-exchange JSON now lands at `<DIR>/output/` (was `<DIR>/`);
+intermediates land at `<DIR>/discoveries/`. The git-safety-rail is skipped
+under `--output` because external target dirs are not expected to be git
+repos. Safety-rail paths moved from `@safety_paths` module attribute to a
+computed function so overrides correctly isolate the rail in tests.
+
+**Downstream follow-up required** — `ccxt_client/lib/ccxt/spec.ex:26`
+reads specs from `priv/specs/json/<id>.json` (flat); after this change
+`mix ccxt_extract.update --output ../ccxt_client/priv/specs/json` writes
+them to `priv/specs/json/output/<id>.json`. Update the client's
+`@spec_dir` to `"priv/specs/json/output"` and relocate the 23 committed
+specs in a ccxt_client-side commit.
+
+Full suite: **all passed** (compile clean, `update_test.exs`: 23/23).
+
+---
 
 ## ~~Item 8b: Migrate remaining inline `File.read` + `Jason.decode` sites to `JsonIO`~~ ✅
 

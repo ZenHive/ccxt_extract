@@ -85,7 +85,7 @@ defmodule CcxtExtract.Classes do
       Keyword.get(
         opts,
         :output_path,
-        CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))
+        CcxtExtract.Paths.out(Path.join("discoveries", @output_file))
       )
 
     writer_opts = [

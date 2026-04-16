@@ -188,7 +188,7 @@ defmodule CcxtExtract.MethodAnalysis do
   """
   @spec write!(map(), keyword()) :: :ok
   def write!(analysis, opts \\ []),
-    do: CcxtExtract.DiscoveryWriter.write!(analysis, CcxtExtract.Paths.priv(@output_file), opts)
+    do: CcxtExtract.DiscoveryWriter.write!(analysis, CcxtExtract.Paths.out(@output_file), opts)
 
   # --- Private helpers ---
 

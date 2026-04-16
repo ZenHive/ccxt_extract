@@ -81,7 +81,7 @@ defmodule CcxtExtract.Methods do
   @spec write!(:rest | :ws, [map()], keyword()) :: :ok
   def write!(type, exchanges, opts \\ []) when type in [:rest, :ws] do
     filename = if type == :rest, do: @rest_output_file, else: @ws_output_file
-    default_path = CcxtExtract.Paths.priv(Path.join("discoveries", filename))
+    default_path = CcxtExtract.Paths.out(Path.join("discoveries", filename))
     output_path = Keyword.get(opts, :output_path, default_path)
 
     writer_opts = [

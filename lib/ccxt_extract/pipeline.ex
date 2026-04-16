@@ -107,7 +107,7 @@ defmodule CcxtExtract.Pipeline do
       `_base_methods.json` (used for testing).
   """
   @spec write!([map()], String.t(), keyword()) :: :ok
-  def write!(exchanges, output_dir \\ Paths.priv(@output_dir), opts \\ []) do
+  def write!(exchanges, output_dir \\ Paths.out(@output_dir), opts \\ []) do
     discoveries_dir = Keyword.get(opts, :discoveries_dir, Paths.priv("discoveries"))
 
     File.mkdir_p!(output_dir)

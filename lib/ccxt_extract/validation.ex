@@ -156,7 +156,7 @@ defmodule CcxtExtract.Validation do
 
   @doc "Write validation report as JSON."
   @spec write!(map(), String.t()) :: :ok
-  def write!(report, output_path \\ Paths.priv(@output_file)) do
+  def write!(report, output_path \\ Paths.out(@output_file)) do
     File.mkdir_p!(Path.dirname(output_path))
     File.write!(output_path, Jason.encode!(report, pretty: true))
     :ok

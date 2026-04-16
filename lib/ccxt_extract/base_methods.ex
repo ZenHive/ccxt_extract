@@ -64,7 +64,7 @@ defmodule CcxtExtract.BaseMethods do
   Write base methods to `priv/discoveries/_base_methods.json`.
   """
   @spec write!(map(), String.t()) :: :ok
-  def write!(result, output_path \\ CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))) do
+  def write!(result, output_path \\ CcxtExtract.Paths.out(Path.join("discoveries", @output_file))) do
     File.mkdir_p!(Path.dirname(output_path))
 
     output = Map.put(result, "extracted_at", DateTime.to_iso8601(DateTime.utc_now()))

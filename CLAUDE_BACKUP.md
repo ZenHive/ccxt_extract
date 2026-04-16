@@ -134,8 +134,13 @@ relocated to siblings (Task 57) because nested CLAUDE.md discovery pulled
 ccxt_extract's full context into every client session.
 
 To add a client: clone/create it at `~/_DATA/code/<name>/` and consume JSON from
-`../ccxt_extract/priv/output/` or pipe via
-`mix ccxt_extract.pipeline --output ../<name>/<path>`.
+`../ccxt_extract/priv/output/`. For out-of-tree extraction, use
+`mix ccxt_extract.update --output ../<name>/<priv-root>` — `--output` is now
+a priv-tree root, so specs land at `<priv-root>/output/*.json` and
+intermediates at `<priv-root>/discoveries/` (set `:priv_dir_override` under
+the hood; repo's own `priv/` untouched). For a single stage with flat-dir
+semantics, `mix ccxt_extract.pipeline --output <dir>` still writes specs
+directly to `<dir>/`.
 
 ## Tools
 

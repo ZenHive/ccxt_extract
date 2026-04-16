@@ -5,8 +5,18 @@ defmodule CcxtExtract.Paths do
   All paths are anchored to `:code.priv_dir(:ccxt_extract)` so they work
   both in Mix development and in compiled releases.
 
-  Tests can redirect the whole `priv/` tree to a temporary directory by
-  setting the `:priv_dir_override` application env; see `priv_dir/0`.
+  ## Read vs write
+
+  Read paths (`priv/1`, `priv_dir/0`, `discoveries/0`) resolve relative to
+  `priv_dir/0`, which honors `:priv_dir_override`. Write paths (`out/1`,
+  `out_priv_dir/0`) resolve relative to `out_priv_dir/0`, which honors the
+  narrower `:priv_write_override` first, then falls through to `priv_dir/0`.
+
+  This split lets integration tests read from the committed corpus while
+  redirecting writes to a per-test tmp dir. A full `:priv_dir_override`
+  (with no `:priv_write_override`) redirects both — used by external
+  `mix ccxt_extract.update --output /path` runs so every artifact lands
+  under the client's directory.
 
   ## Layout
 
@@ -26,11 +36,10 @@ defmodule CcxtExtract.Paths do
   """
 
   @doc """
-  Absolute path to the `priv/` directory.
+  Absolute path to the `priv/` directory for READS.
 
-  Honors `Application.get_env(:ccxt_extract, :priv_dir_override)` when set,
-  which lets integration tests redirect the whole `priv/` tree to a
-  temporary directory. Falls back to `:code.priv_dir(:ccxt_extract)`.
+  Honors `Application.get_env(:ccxt_extract, :priv_dir_override)` when set.
+  Falls back to `:code.priv_dir(:ccxt_extract)`.
   """
   @spec priv_dir() :: String.t()
   def priv_dir do
@@ -41,7 +50,22 @@ defmodule CcxtExtract.Paths do
   end
 
   @doc """
-  Absolute path to a file within `priv/`.
+  Absolute path to the `priv/` directory for WRITES.
+
+  Honors `Application.get_env(:ccxt_extract, :priv_write_override)` first,
+  then falls through to `priv_dir/0`. Set `:priv_write_override` to isolate
+  writes (e.g. in tests) while keeping reads pointed at the real corpus.
+  """
+  @spec out_priv_dir() :: String.t()
+  def out_priv_dir do
+    case Application.get_env(:ccxt_extract, :priv_write_override) do
+      nil -> priv_dir()
+      override when is_binary(override) -> override
+    end
+  end
+
+  @doc """
+  Absolute path to a file within `priv/` for READS.
 
       CcxtExtract.Paths.priv("discoveries/exchanges.json")
       #=> "/absolute/path/to/priv/discoveries/exchanges.json"
@@ -49,6 +73,18 @@ defmodule CcxtExtract.Paths do
   @spec priv(String.t()) :: String.t()
   def priv(relative_path) do
     Path.join(priv_dir(), relative_path)
+  end
+
+  @doc """
+  Absolute path to a file within `priv/` for WRITES.
+
+  Mirrors `priv/1` but resolves via `out_priv_dir/0`. Use for every path
+  handed to a writer (`DiscoveryWriter.write!/3`, `AggregateWriter.write!/3`,
+  `Pipeline.write!/3`, `File.write!/2`, etc.).
+  """
+  @spec out(String.t()) :: String.t()
+  def out(relative_path) do
+    Path.join(out_priv_dir(), relative_path)
   end
 
   @doc "Path to the CCXT browser bundle (copied to priv during setup)."
@@ -63,7 +99,7 @@ defmodule CcxtExtract.Paths do
   @spec version_file() :: String.t()
   def version_file, do: priv("ccxt_version.json")
 
-  @doc "Path to the discoveries output directory."
+  @doc "Path to the discoveries output directory (READ)."
   @spec discoveries() :: String.t()
   def discoveries, do: priv("discoveries")
 end

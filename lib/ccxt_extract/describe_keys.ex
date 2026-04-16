@@ -98,7 +98,7 @@ defmodule CcxtExtract.DescribeKeys do
   """
   @spec write!([map()], keyword()) :: :ok
   def write!(exchanges, opts \\ []) do
-    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.priv("discoveries/describe_keys.json"))
+    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.out("discoveries/describe_keys.json"))
     tier_scope = Keyword.get(opts, :tier_scope, "all")
 
     File.mkdir_p!(Path.dirname(output_path))

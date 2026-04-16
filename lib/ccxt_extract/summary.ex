@@ -66,7 +66,7 @@ defmodule CcxtExtract.Summary do
   """
   @spec write!(map(), keyword()) :: :ok
   def write!(summary, opts \\ []),
-    do: CcxtExtract.DiscoveryWriter.write!(summary, CcxtExtract.Paths.priv(@output_file), opts)
+    do: CcxtExtract.DiscoveryWriter.write!(summary, CcxtExtract.Paths.out(@output_file), opts)
 
   @doc """
   Build full summary from exchanges, classes, tree, and WS counterparts.

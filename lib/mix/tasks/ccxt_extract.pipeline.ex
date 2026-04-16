@@ -76,7 +76,7 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
     case CcxtExtract.Pipeline.extract(scope: scope) do
       {:ok, exchanges, stats} ->
         report_progress(exchanges)
-        output_dir = opts[:output] || CcxtExtract.Paths.priv("output")
+        output_dir = opts[:output] || CcxtExtract.Paths.out("output")
         elapsed = System.monotonic_time(:millisecond) - start
 
         if opts[:strict] && has_data_issues?(stats) do
@@ -142,7 +142,7 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
     if is_list(override) do
       override
     else
-      [opts[:output] || CcxtExtract.Paths.priv("output")]
+      [opts[:output] || CcxtExtract.Paths.out("output")]
     end
   end
 

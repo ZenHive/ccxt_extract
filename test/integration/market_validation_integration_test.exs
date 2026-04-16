@@ -3,8 +3,7 @@ defmodule CcxtExtract.MarketValidationIntegrationTest do
   Live spot-check tests for MarketValidation.
   Requires QuickBEAM + network — makes real API calls to exchanges.
   """
-  # async: false — run_task_capturing_output mutates global Mix.shell
-  use ExUnit.Case, async: false
+  use CcxtExtract.PrivWriteCase
 
   import CcxtExtract.TaskHelpers
 

@@ -6,13 +6,19 @@ defmodule Mix.Tasks.CcxtExtract.Update do
   validates output, refreshes derived analytics, and reports what changed.
 
       mix ccxt_extract.update
-      mix ccxt_extract.update --latest --output /tmp/exchanges
+      mix ccxt_extract.update --latest --output /tmp/ccxt_priv
       mix ccxt_extract.update --ccxt-version 4.5.45 --strict
-      mix ccxt_extract.update --skip-setup --output /tmp/exchanges
+      mix ccxt_extract.update --skip-setup --output /tmp/ccxt_priv
 
   ## Options
 
-    * `--output DIR` — custom output directory (default: `priv/output`)
+    * `--output DIR` — root directory for all writes (default: this project's
+      `priv/`). Intermediates land at `<DIR>/discoveries/`, final per-exchange
+      JSON at `<DIR>/output/`. This redirects every extractor, pipeline, and
+      analytics write via `:priv_dir_override`, so zero files are mutated
+      under this project's `priv/`. **Breaking change**: previously this
+      flag controlled only the final output dir, so `--output /foo` placed
+      JSON directly at `/foo/`. It is now at `/foo/output/`.
     * `--ccxt-version VERSION` — pin a specific CCXT version
     * `--latest` — force reinstall of the latest CCXT version
     * `--strict` — fail with non-zero exit on validation errors
@@ -68,8 +74,6 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     force: :boolean
   ]
 
-  @safety_paths ["priv/output", "priv/discoveries"]
-
   @aliases [v: :ccxt_version]
 
   @impl true
@@ -85,9 +89,37 @@ defmodule Mix.Tasks.CcxtExtract.Update do
       Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
     end
 
+    with_priv_override(opts, fn -> do_run(opts) end)
+  end
+
+  # Wraps the run body in `:priv_dir_override` when `--output` is given, so
+  # every `Paths.priv/1` and `Paths.out/1` call in any sub-stage lands under
+  # the client's directory. Restores prior env (or deletes) on exit.
+  defp with_priv_override(opts, fun) do
+    case opts[:output] do
+      nil ->
+        fun.()
+
+      path ->
+        resolved = Path.expand(path)
+        prior = Application.get_env(:ccxt_extract, :priv_dir_override)
+        Application.put_env(:ccxt_extract, :priv_dir_override, resolved)
+
+        try do
+          fun.()
+        after
+          case prior do
+            nil -> Application.delete_env(:ccxt_extract, :priv_dir_override)
+            val -> Application.put_env(:ccxt_extract, :priv_dir_override, val)
+          end
+        end
+    end
+  end
+
+  defp do_run(opts) do
     enforce_git_safety_rail!(opts)
 
-    output_dir = opts[:output] || CcxtExtract.Paths.priv("output")
+    output_dir = CcxtExtract.Paths.out("output")
     manifest_path = Path.join(output_dir, "_manifest.json")
 
     Mix.shell().info("Starting full update...")
@@ -145,30 +177,23 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     args
   end
 
-  # Builds arg list for pipeline task
+  # Sub-stage arg builders. `--output` is NOT forwarded: sub-stages resolve
+  # their output directory via `Paths.out/1`, which picks up the
+  # `:priv_dir_override` set by `with_priv_override/2` at the update level.
   defp build_pipeline_args(opts) do
     args = []
-    args = if opts[:output], do: ["--output", opts[:output] | args], else: args
     args = if opts[:strict], do: ["--strict" | args], else: args
     args = if opts[:force], do: ["--force" | args], else: args
     args ++ scope_args(opts)
   end
 
-  # Builds arg list for validate task
   defp build_validate_args(opts) do
-    args = []
-    args = if opts[:output], do: ["--output", opts[:output] | args], else: args
-    args = if opts[:strict], do: ["--strict" | args], else: args
-    args
+    if opts[:strict], do: ["--strict"], else: []
   end
 
-  # Builds arg list for contract_test task. The --strict flag is omitted by
-  # design: this stage prints findings and keeps the pipeline going. Run
-  # `mix ccxt_extract.contract_test --strict` directly for CI enforcement.
-  defp build_contract_test_args(opts) do
-    output_args = if opts[:output], do: ["--output", opts[:output]], else: []
-    output_args ++ scope_args(opts)
-  end
+  # `--strict` is omitted by design: contract_test prints findings and keeps
+  # the pipeline going. Run the task directly with `--strict` for CI.
+  defp build_contract_test_args(opts), do: scope_args(opts)
 
   # QuickBEAM extractors — require JS runtime, some make live API calls.
   # Order matters: exchanges must run first (produces exchanges.json used by others).
@@ -214,24 +239,30 @@ defmodule Mix.Tasks.CcxtExtract.Update do
 
   # Abort early if `priv/output/` or `priv/discoveries/` contains uncommitted
   # changes. `--force` bypasses the rail for intentional re-runs over dirty
-  # trees. Aligned with the project rule that destructive stages must never
-  # silently eat in-flight work.
+  # trees. Skipped when `--output` is set: external targets are not expected
+  # to be git repos and would trip the rail spuriously.
   defp enforce_git_safety_rail!(opts) do
-    if !opts[:force] do
-      dirty = collect_dirty_paths(safety_paths())
+    cond do
+      opts[:force] -> :ok
+      opts[:output] -> :ok
+      true -> do_enforce_git_safety_rail!()
+    end
+  end
 
-      if dirty != [] do
-        listing = Enum.map_join(dirty, "\n", &"  #{&1}")
+  defp do_enforce_git_safety_rail! do
+    dirty = collect_dirty_paths(safety_paths())
 
-        Mix.raise("""
-        Refusing to run: uncommitted changes detected in protected paths.
+    if dirty != [] do
+      listing = Enum.map_join(dirty, "\n", &"  #{&1}")
 
-        #{listing}
+      Mix.raise("""
+      Refusing to run: uncommitted changes detected in protected paths.
 
-        Commit or stash these files first, or re-run with --force to bypass
-        the safety rail (you will lose any scoped-out files on deletion).
-        """)
-      end
+      #{listing}
+
+      Commit or stash these files first, or re-run with --force to bypass
+      the safety rail (you will lose any scoped-out files on deletion).
+      """)
     end
   end
 
@@ -249,12 +280,17 @@ defmodule Mix.Tasks.CcxtExtract.Update do
   end
 
   # Resolves the safety-rail paths, allowing tests to override via
-  # `config :ccxt_extract, #{__MODULE__}, safety_paths: [...]`. Production
-  # uses the module attribute default.
+  # `config :ccxt_extract, #{__MODULE__}, safety_paths: [...]`. Defaults to
+  # the project's own write targets, computed at call time so tests that set
+  # `:priv_dir_override` / `:priv_write_override` stay isolated from the
+  # real `priv/`.
   defp safety_paths do
-    :ccxt_extract
-    |> Application.get_env(__MODULE__, [])
-    |> Keyword.get(:safety_paths, @safety_paths)
+    configured =
+      :ccxt_extract
+      |> Application.get_env(__MODULE__, [])
+      |> Keyword.get(:safety_paths)
+
+    configured || [CcxtExtract.Paths.priv("output"), CcxtExtract.Paths.priv("discoveries")]
   end
 
   # OXC-based extractors — fast AST parsing, no API calls.

@@ -43,7 +43,7 @@ defmodule Mix.Tasks.CcxtExtract.ValidateFixtures do
     fixtures_dir = opts[:fixtures] || CcxtExtract.Paths.priv("fixtures/signing")
 
     report_path =
-      opts[:report] || CcxtExtract.Paths.priv("discoveries/fixture_parity_report.json")
+      opts[:report] || CcxtExtract.Paths.out("discoveries/fixture_parity_report.json")
 
     Mix.shell().info("Regenerating fixtures and diffing against #{fixtures_dir}...")
     start = System.monotonic_time(:millisecond)

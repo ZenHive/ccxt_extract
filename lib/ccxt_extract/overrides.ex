@@ -94,7 +94,7 @@ defmodule CcxtExtract.Overrides do
       Keyword.get(
         opts,
         :output_path,
-        CcxtExtract.Paths.priv(Path.join("discoveries", @output_file))
+        CcxtExtract.Paths.out(Path.join("discoveries", @output_file))
       )
 
     # Overrides entries are keyed by `node_key` ("rest:binance" vs "ws:binance"),

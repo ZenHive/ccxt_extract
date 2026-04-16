@@ -5,9 +5,11 @@ defmodule CcxtExtract.UpdateTestSupport do
     send(test_pid(), {:task_ran, task_name, args})
   end
 
-  def write_manifest(args) do
-    {opts, _leftover, _invalid} = OptionParser.parse(args, strict: [output: :string, strict: :boolean])
-    output_dir = opts[:output] || CcxtExtract.Paths.priv("output")
+  def write_manifest(_args) do
+    # --output is no longer forwarded to sub-stages; update.ex sets
+    # :priv_dir_override at the top level so Paths.priv("output") resolves
+    # under the test's output_dir automatically.
+    output_dir = CcxtExtract.Paths.priv("output")
     manifest_path = Path.join(output_dir, "_manifest.json")
 
     File.mkdir_p!(output_dir)
@@ -201,14 +203,17 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
       assert output =~ "Stage 6: Contract Tests"
       assert output =~ "Stage 7: Analytics"
 
+      # Sub-stages no longer receive `--output`: the update task sets
+      # `:priv_dir_override` before dispatch, and sub-stages pick up the
+      # redirect via `Paths.out/1`. See `with_priv_override/2` in update.ex.
       assert task_runs == [
                {"test.record_setup", []},
                {"test.record_quickbeam_extractors", []},
                {"test.record_oxc_extractors", []},
                {"test.record_base_methods", []},
-               {"test.record_pipeline", ["--output", output_dir]},
-               {"test.record_validate", ["--output", output_dir]},
-               {"test.record_contract_test", ["--output", output_dir]},
+               {"test.record_pipeline", []},
+               {"test.record_validate", []},
+               {"test.record_contract_test", []},
                {"test.record_describe_keys", []},
                {"test.record_describe_key_analysis", []},
                {"test.record_summary", []},
@@ -226,8 +231,8 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
           end)
         end)
 
-      assert {"test.record_pipeline", ["--output", output_dir, "--tier1", "--dex"]} in task_runs
-      assert {"test.record_contract_test", ["--output", output_dir, "--tier1", "--dex"]} in task_runs
+      assert {"test.record_pipeline", ["--tier1", "--dex"]} in task_runs
+      assert {"test.record_contract_test", ["--tier1", "--dex"]} in task_runs
     end
 
     test "--tier1 --dex propagates to OXC extractor stage" do
@@ -285,8 +290,6 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
         end)
 
       assert pipeline_args == [
-               "--output",
-               output_dir,
                "--exchange",
                "binance",
                "--exchange",
@@ -312,7 +315,7 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
           _ -> nil
         end)
 
-      assert contract_test_args == ["--output", output_dir, "--exchange", "binance"]
+      assert contract_test_args == ["--exchange", "binance"]
     end
 
     test "--all propagates to contract_test stage (canonical scope flags)" do
@@ -331,7 +334,7 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
           _ -> nil
         end)
 
-      assert contract_test_args == ["--output", output_dir, "--all"]
+      assert contract_test_args == ["--all"]
     end
   end
 
@@ -397,9 +400,9 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
       assert output =~ "Stage 7: Analytics"
 
       assert task_runs == [
-               {"test.record_pipeline", ["--output", output_dir]},
-               {"test.record_validate", ["--output", output_dir]},
-               {"test.record_contract_test", ["--output", output_dir]},
+               {"test.record_pipeline", []},
+               {"test.record_validate", []},
+               {"test.record_contract_test", []},
                {"test.record_summary", []},
                {"test.record_family_analysis", []}
              ]

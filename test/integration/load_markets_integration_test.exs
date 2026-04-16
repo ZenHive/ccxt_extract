@@ -1,6 +1,5 @@
 defmodule CcxtExtract.LoadMarketsIntegrationTest do
-  # async: false — run_task_capturing_output mutates global Mix.shell
-  use ExUnit.Case, async: false
+  use CcxtExtract.PrivWriteCase
 
   import CcxtExtract.TaskHelpers
 

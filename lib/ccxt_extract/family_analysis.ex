@@ -242,7 +242,7 @@ defmodule CcxtExtract.FamilyAnalysis do
   """
   @spec write!(map(), keyword()) :: :ok
   def write!(analysis, opts \\ []),
-    do: CcxtExtract.DiscoveryWriter.write!(analysis, CcxtExtract.Paths.priv(@output_file), opts)
+    do: CcxtExtract.DiscoveryWriter.write!(analysis, CcxtExtract.Paths.out(@output_file), opts)
 
   # Validate that the describe directory exists and contains JSON files.
   defp validate_describe_dir(dir) do

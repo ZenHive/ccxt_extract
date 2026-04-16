@@ -6,6 +6,37 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Refactor: Split read vs write paths in `CcxtExtract.Paths`
+
+- **New `Paths.out/1` and `Paths.out_priv_dir/0`** — write sites resolve
+  through `:priv_write_override` first, then fall through to
+  `:priv_dir_override`, then `:code.priv_dir/1`. Lets integration tests read
+  from the committed corpus while redirecting writes to a per-test tmp dir.
+- **Migrated 22 library modules + 4 mix tasks** from `Paths.priv(...)` to
+  `Paths.out(...)` at every write site.
+- **New `CcxtExtract.PrivWriteCase`** (`test/support/priv_write_case.ex`) —
+  ExUnit case template that assigns `:priv_write_override` to a per-test tmp
+  dir and restores prior env on exit. Enforces `async: false` (the env is
+  VM-global). Adopted by 12 integration test modules and the
+  analytics-scope-flags test.
+- **Rewrote `test/mix/tasks/error_path_test.exs`** — replaced the
+  rename/restore trick with a tmp-dir `:priv_dir_override`. No more risk of
+  stranded `.bak` files on a crashed test run.
+- **`mix ccxt_extract.update --output DIR` reworked (breaking change)** —
+  previously forwarded `--output` to each sub-stage; now sets
+  `:priv_dir_override` at the update level via a `with_priv_override/2`
+  wrapper, so every `Paths.priv/1` and `Paths.out/1` in any sub-stage lands
+  under `DIR`. Sub-stages no longer receive `--output`. Final per-exchange
+  JSON now lands at `<DIR>/output/` (was `<DIR>/`); intermediates land at
+  `<DIR>/discoveries/`. The git-safety-rail is skipped under `--output`
+  because external target dirs are not expected to be git repos.
+  Safety-rail paths moved from the `@safety_paths` module attribute to a
+  computed function so `:priv_dir_override` / `:priv_write_override`
+  correctly isolate the rail in tests.
+- **Tests** — `test/mix/tasks/update_test.exs` orchestration assertions
+  updated: sub-stages now receive `[]` (or scope flags only), not
+  `["--output", output_dir]`.
+
 ### Refactor: Isolate setup integration tests from developer checkout (REFACTOR.md Item 6)
 
 - **New `:priv_dir_override` application env** — `CcxtExtract.Paths.priv_dir/0`

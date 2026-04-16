@@ -63,7 +63,7 @@ defmodule Mix.Tasks.CcxtExtract.ContractTest do
       Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
     end
 
-    output_dir = opts[:output] || CcxtExtract.Paths.priv("output")
+    output_dir = opts[:output] || CcxtExtract.Paths.out("output")
     report_path = opts[:report] || Path.join(output_dir, "_contract_test_report.json")
 
     universe = TaskScope.load_universe()

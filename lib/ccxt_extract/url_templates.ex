@@ -228,7 +228,7 @@ defmodule CcxtExtract.UrlTemplates do
   def write!(results, opts \\ []) do
     scope = Keyword.get(opts, :scope, :all)
     tier_scope = Keyword.get(opts, :tier_scope, "all")
-    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(@output_file))
+    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.out(@output_file))
 
     CcxtExtract.AggregateWriter.write!(output_path, results,
       entry_key: "exchanges",

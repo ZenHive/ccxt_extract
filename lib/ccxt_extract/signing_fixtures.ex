@@ -448,7 +448,7 @@ defmodule CcxtExtract.SigningFixtures do
   def write!(results, opts \\ []) do
     scope = Keyword.get(opts, :scope, :all)
     tier_scope = Keyword.get(opts, :tier_scope, "all")
-    output_dir = Keyword.get(opts, :output_dir, CcxtExtract.Paths.priv(@output_dir))
+    output_dir = Keyword.get(opts, :output_dir, CcxtExtract.Paths.out(@output_dir))
 
     File.mkdir_p!(output_dir)
 

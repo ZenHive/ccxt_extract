@@ -87,7 +87,7 @@ defmodule CcxtExtract.PublicExchanges do
   """
   @spec write!(map(), keyword()) :: :ok
   def write!(analysis, opts \\ []) do
-    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(@output_file))
+    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.out(@output_file))
     tier_scope = Keyword.get(opts, :tier_scope, "all")
     stamped = Map.put(analysis, "tier_scope", tier_scope)
 

@@ -6,6 +6,15 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Refactor: Extract DiscoveryLoader from pipeline.ex (REFACTOR.md Item 1)
+
+- **`CcxtExtract.Pipeline` drops from 1,122 to 604 lines** — ~520 lines of discovery-file I/O, validation, integrity-stats accumulation, and `canonical_has_keys` derivation move into a new `CcxtExtract.DiscoveryLoader` module (550 lines).
+- **Public API:** `DiscoveryLoader.load_all!/2` (returns the data map + integrity stats) and `DiscoveryLoader.read_json/1` (JSON read with `{:ok, _}` / `{:error, {:missing_input | :invalid_json, _}}` tuples).
+- **Pipeline now focuses on assembly** — `extract/1`, `write!/3`, `build_exchange_data/3` and all field-assembly helpers, parent-resolution helpers, and manifest/schema writers.
+- **9 new isolation tests** in `test/ccxt_extract/discovery_loader_test.exs` — covers `read_json/1` error paths, `load_all!/2` return shape, integrity stats (missing/corrupt/id-mismatch), and `canonical_has_keys` derivation.
+- **Behavior-preserving** — tier1 pipeline output byte-identical to pre-refactor baseline (timestamp fields aside).
+- **New deferred Item 8** in REFACTOR.md — promote `read_json/1` to `CcxtExtract.Paths` (7 duplicated copies across modules, D:1/B:2/ROI:2.00).
+
 ### Refactor: Fail before write in strict mode (REFACTOR.md Item 5)
 
 - **Pipeline Mix task now aborts before `write!` in strict mode** — when `--strict` is set and `has_data_issues?` returns true, the task reports findings and raises without writing invalid output to disk. Previously, invalid output was written first, then the strict check ran. Non-strict path unchanged.

@@ -4,58 +4,22 @@ Structural debt identified during end-to-end codebase review (2026-04-16).
 Quick wins (items 4-6) shipped same session; items 1-3 below are multi-session
 refactors requiring isolation and verification checkpoints.
 
-**Dependency order:** Item 1 (DiscoveryLoader) should land before Item 3
-(generic override merge) — 61b needs clean seams in pipeline.ex to wire into.
-Item 2 (Schema.validate removal) is independent of both.
+**Dependency order:** Items 1 and 2 are shipped. Item 3 (generic override
+merge / Task 61b) can now wire into the clean pipeline seams Item 1
+produced. Item 8 (below) is independent.
 
 ---
 
-## Item 1: Extract DiscoveryLoader from pipeline.ex
+## ~~Item 1: Extract DiscoveryLoader from pipeline.ex~~ ✅
 
-**D: 3 / B: 5 — ROI: 1.67**
+**D: 3 / B: 5 — ROI: 1.67** — **SHIPPED 2026-04-16**
 
-`pipeline.ex` is 1,126 lines doing two jobs: assembly logic (what data goes in
-each field) and discovery-file I/O (loading, validating, integrity stats). The
-`load_all_data` private function spawns 14 distinct file-loading paths.
-`validate_exchange_lookup_entry` (lines 948–1034) is an 8-clause
-filename-string-match forest. Adding one new extractor costs 5 edit sites.
-
-### What to extract
-
-Create `CcxtExtract.DiscoveryLoader` with:
-
-- All `load_*` private functions from pipeline.ex
-- `validate_exchange_lookup_entry` clause forest
-- `validate_exchange_field_entry` helpers
-- Integrity-stats accumulation (`missing_entries`, `corrupt_entries`,
-  `orphan_entries`, `id_mismatch_entries`)
-- `read_json/1` (shared with Pipeline — either move or promote to Paths)
-
-Public API: `DiscoveryLoader.load_all!(dir, exchanges_json)` → returns the
-`%{describe: ..., sign_methods: ..., ...}` data map + integrity stats.
-
-### What stays in pipeline.ex
-
-- `extract/1` (public API)
-- `build_exchange_data/4` and all field-assembly helpers
-- `write!/1`, `build_manifest/3`, `copy_schema!`, `copy_base_methods!`
-- Parent-resolution helpers (`find_parent_exchange_id`, `get_parent_*`)
-
-### Verification checkpoints
-
-1. `mix test test/ccxt_extract/pipeline_test.exs` — all existing tests pass
-2. `mix test test/integration/cached/pipeline_cached_test.exs` — cached
-   integration path unchanged
-3. `mix ccxt_extract.pipeline --tier1` — output JSON byte-identical to
-   pre-refactor baseline (diff `priv/output/binance.json` etc.)
-4. New `test/ccxt_extract/discovery_loader_test.exs` — unit tests for the
-   loader in isolation (mock discovery files, test integrity stats, test
-   corrupt-file handling without running full pipeline)
-
-### Estimated scope
-
-~400 lines move out of pipeline.ex; ~50 lines of new glue code. Pipeline.ex
-drops to ~700 lines. DiscoveryLoader ~450 lines. Net: same LOC, better seams.
+Extracted `CcxtExtract.DiscoveryLoader` — ~520 lines of discovery-file I/O,
+validation, and integrity-stats accumulation moved out of pipeline.ex.
+Pipeline dropped from 1,122 to 604 lines. Loader owns the full data map shape
+including `canonical_has_keys`. Public API: `DiscoveryLoader.load_all!/2` and
+`DiscoveryLoader.read_json/1`. 9 isolation tests added. Output byte-identical
+to pre-refactor baseline (`extracted_at` timestamps aside).
 
 ---
 
@@ -181,6 +145,50 @@ simultaneously (`load_markets.ex:29`).
 Extract shared QuickBEAM JS helpers into a central module. Consider a runtime
 pool or singleton for the bundle load, especially if `load_markets` parallelism
 stays at 5 concurrent runtimes.
+
+---
+
+## Item 8: Promote `read_json/1` to `CcxtExtract.Paths`
+
+**D: 1 / B: 2 — ROI: 2.00**
+
+`read_json/1` is duplicated across 7 modules: `discovery_loader.ex`,
+`describe_key_analysis.ex`, `method_analysis.ex`, `summary.ex`,
+`public_exchanges.ex`, `coverage_report.ex`, `family_analysis.ex`. The
+copies are **not identical** — they split into three shapes:
+
+- **Shape A (4 copies: `describe_key_analysis`, `summary`, `family_analysis`,
+  `method_analysis`):** `File.exists?` + `File.read!` + `Jason.decode!` —
+  returns `{:error, {:missing_input, path}}` or raises on invalid JSON.
+- **Shape B (2 copies: `public_exchanges`, `coverage_report`):** `File.read`
+  matched against `{:ok, _}` / `{:error, :enoent}` only — raises on invalid
+  JSON, and other `File.read` errors (`:eacces`, `:eisdir`) crash the pattern.
+- **Shape C (1 copy: `discovery_loader`):** `File.read` + try/rescue
+  `Jason.DecodeError` — the only shape that returns
+  `{:error, {:invalid_json, detail}}` instead of raising.
+
+### Plan
+
+Promote `DiscoveryLoader.read_json/1` (Shape C — the safest) to
+`CcxtExtract.Paths.read_json/1` (or a new `CcxtExtract.JsonIO` module) and
+delete the 6 other copies. This is a small **behavior upgrade**, not a
+pure mechanical consolidation: callers currently on Shapes A/B will start
+receiving `{:error, {:invalid_json, _}}` tuples instead of a raise.
+
+Before merging the promotion, audit each consumer's call site to confirm
+either (a) the new `:invalid_json` tuple falls through an existing
+`{:error, _}` branch harmlessly, or (b) the call site needs an explicit
+`:invalid_json` clause to preserve intent. Do this when next touching any
+of the consumer modules so the cost is amortized.
+
+### Verification
+
+- `mix test --quiet` — all existing tests pass.
+- `mix compile --warnings-as-errors` — no new warnings.
+- Manually grep each `read_json` call site for `{:error, _}` handling and
+  confirm the new `:invalid_json` branch is either handled or never
+  reachable in practice (no global discovery file is ever malformed JSON
+  in a green tree).
 
 ---
 

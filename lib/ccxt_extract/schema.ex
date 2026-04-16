@@ -878,12 +878,14 @@ defmodule CcxtExtract.Schema do
     ["#{label}: expected list of strings, got #{type_name(value)}" | errors]
   end
 
-  defp type_name(val) when is_binary(val), do: "string"
-  defp type_name(val) when is_integer(val), do: "integer"
-  defp type_name(val) when is_float(val), do: "float"
-  defp type_name(val) when is_boolean(val), do: "boolean"
-  defp type_name(val) when is_list(val), do: "list"
-  defp type_name(val) when is_map(val), do: "map"
-  defp type_name(nil), do: "null"
-  defp type_name(_), do: "unknown"
+  @doc false
+  @spec type_name(term()) :: String.t()
+  def type_name(val) when is_binary(val), do: "string"
+  def type_name(val) when is_integer(val), do: "integer"
+  def type_name(val) when is_float(val), do: "float"
+  def type_name(val) when is_boolean(val), do: "boolean"
+  def type_name(val) when is_list(val), do: "list"
+  def type_name(val) when is_map(val), do: "map"
+  def type_name(nil), do: "null"
+  def type_name(_), do: "unknown"
 end

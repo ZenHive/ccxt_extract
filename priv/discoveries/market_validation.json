@@ -14,19 +14,21 @@
     }
   },
   "spot_check": {
-    "checked_at": "2026-04-16T00:49:26.674812Z",
+    "checked_at": "2026-04-16T02:35:29.172058Z",
     "exchanges_checked": [
       "binance"
     ],
     "exchanges_failed": [],
     "results": [
       {
-        "drift_summary": "0 added, 0 removed",
+        "drift_summary": "1 added, 0 removed",
         "id": "binance",
         "market_count_cached": 4309,
-        "market_count_fresh": 4309,
-        "symbols_added": [],
-        "symbols_added_count": 0,
+        "market_count_fresh": 4310,
+        "symbols_added": [
+          "GENIUS/USDT:USDT"
+        ],
+        "symbols_added_count": 1,
         "symbols_removed": [],
         "symbols_removed_count": 0
       }
@@ -43,5 +45,5 @@
   "tier_scope": [
     "exchange:binance"
   ],
-  "validated_at": "2026-04-16T00:49:26.674821Z"
+  "validated_at": "2026-04-16T02:35:29.172067Z"
 }

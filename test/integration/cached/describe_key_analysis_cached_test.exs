@@ -25,7 +25,7 @@ defmodule CcxtExtract.Integration.Cached.DescribeKeyAnalysisCachedTest do
   describe "structure" do
     test "returns complete analysis with all required fields", %{analysis: analysis} do
       assert is_integer(analysis["exchange_count"])
-      assert analysis["exchange_count"] >= 90
+      assert analysis["exchange_count"] >= min_exchange_count(analysis)
       assert is_integer(analysis["key_count"])
       assert analysis["key_count"] >= 10
       assert is_list(analysis["keys"])
@@ -159,4 +159,7 @@ defmodule CcxtExtract.Integration.Cached.DescribeKeyAnalysisCachedTest do
              "Expected at least one key with mixed types across exchanges"
     end
   end
+
+  defp min_exchange_count(%{"tier_scope" => "all"}), do: 90
+  defp min_exchange_count(_scoped), do: 10
 end

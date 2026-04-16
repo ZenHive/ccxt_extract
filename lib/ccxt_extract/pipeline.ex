@@ -285,6 +285,11 @@ defmodule CcxtExtract.Pipeline do
           parent_id -> resolve_auth_override(parent_id, derived, data)
         end
     end
+  rescue
+    # TODO(REFACTOR Item 3): Remove when generic override merge replaces this function
+    e ->
+      Logger.warning("Override load failed for #{id}, falling back to derived: #{Exception.message(e)}")
+      derived
   end
 
   # Handle errors: rename handle_errors → method, with parent fallback
@@ -934,7 +939,7 @@ defmodule CcxtExtract.Pipeline do
         {:ok, id, value}
 
       {:ok, value} ->
-        {:corrupt, "#{filename}#id=#{inspect(id)} invalid #{field}: expected list, got #{type_name(value)}"}
+        {:corrupt, "#{filename}#id=#{inspect(id)} invalid #{field}: expected list, got #{Schema.type_name(value)}"}
 
       :error ->
         {:corrupt, "#{filename}#id=#{inspect(id)} missing required #{field} key"}
@@ -1043,14 +1048,14 @@ defmodule CcxtExtract.Pipeline do
   defp validate_required_map_field(_filename, _id, _field, value) when is_map(value), do: :ok
 
   defp validate_required_map_field(filename, id, field, value) do
-    {:corrupt, "#{filename}#id=#{inspect(id)} invalid #{field}: expected map, got #{type_name(value)}"}
+    {:corrupt, "#{filename}#id=#{inspect(id)} invalid #{field}: expected map, got #{Schema.type_name(value)}"}
   end
 
   defp validate_optional_map_field(_filename, _id, _field, nil), do: :ok
   defp validate_optional_map_field(_filename, _id, _field, value) when is_map(value), do: :ok
 
   defp validate_optional_map_field(filename, id, field, value) do
-    {:corrupt, "#{filename}#id=#{inspect(id)} invalid #{field}: expected map or null, got #{type_name(value)}"}
+    {:corrupt, "#{filename}#id=#{inspect(id)} invalid #{field}: expected map or null, got #{Schema.type_name(value)}"}
   end
 
   defp read_json(path) do
@@ -1077,15 +1082,6 @@ defmodule CcxtExtract.Pipeline do
       {:error, _} -> %{}
     end
   end
-
-  defp type_name(val) when is_binary(val), do: "string"
-  defp type_name(val) when is_integer(val), do: "integer"
-  defp type_name(val) when is_float(val), do: "float"
-  defp type_name(val) when is_boolean(val), do: "boolean"
-  defp type_name(val) when is_list(val), do: "list"
-  defp type_name(val) when is_map(val), do: "map"
-  defp type_name(nil), do: "null"
-  defp type_name(_), do: "unknown"
 
   defp copy_schema!(output_dir) do
     schema_source = Paths.priv("schema/exchange_v1.json")

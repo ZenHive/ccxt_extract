@@ -6,6 +6,19 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Fix: Default test suite green (REFACTOR.md Item 4)
+
+- **Made cached tests `tier_scope`-aware** — 4 failing tests in 3 files now read the `tier_scope` envelope field and adjust count thresholds for scoped vs full-corpus runs. `describe_key_analysis` and `describe_keys` use `min_exchange_count/1`; `family_analysis` filters `@multi_member_families` at runtime against families present in the data.
+
+### Refactor: Quick wins from end-to-end review
+
+Three quick fixes from the 2026-04-16 codebase review. Larger refactors tracked in [REFACTOR.md](REFACTOR.md).
+
+- **Rescue `OverrideRegistry.load/1` in `resolve_auth_override`** — one invalid override file no longer aborts the entire pipeline for all 110 exchanges. Logs a warning and falls back to derived value.
+- **Deduplicate `type_name/1`** — identical 8-clause function existed in both `pipeline.ex` and `schema.ex`. Now shared as `Schema.type_name/1` (public, `@doc false`); pipeline.ex copy deleted.
+- **Compile-guard `Tiers` for missing `class_hierarchy.json`** — fresh clones now get an actionable `Mix.raise` pointing at `mix ccxt_extract.setup` instead of a bare `File.Error` at compile time.
+- **Created `REFACTOR.md`** — D/B-scored plan for three structural refactors: DiscoveryLoader extraction, Schema.validate removal, generic override merge (Task 61b).
+
 ### Planned
 
 - ROADMAP: Added Phase 11 Task 73c — per-method `structure.request_defaults` extractor. Documented in response to 2026-04-16 ccxt_client consumer report (hyperliquid.fetch_time empty POST body).

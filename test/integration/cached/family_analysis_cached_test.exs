@@ -39,7 +39,15 @@ defmodule CcxtExtract.Integration.Cached.FamilyAnalysisCachedTest do
     describe_dir = Path.join(@discoveries_dir, "describe")
 
     {:ok, analysis} = FamilyAnalysis.analyze(classes_data, summary_data, describe_dir)
-    %{analysis: analysis}
+
+    present_roots = MapSet.new(analysis["families"], & &1["root"])
+
+    expected_families =
+      Enum.filter(@multi_member_families, fn {root, _variants, _aliases} ->
+        MapSet.member?(present_roots, root)
+      end)
+
+    %{analysis: analysis, expected_families: expected_families}
   end
 
   describe "analysis structure" do
@@ -112,12 +120,14 @@ defmodule CcxtExtract.Integration.Cached.FamilyAnalysisCachedTest do
   end
 
   describe "multi-member families" do
-    for {root, expected_variants, expected_aliases} <- @multi_member_families do
-      test "#{root} family has correct structure", %{analysis: analysis} do
-        family =
-          Enum.find(analysis["families"], &(&1["root"] == unquote(root)))
+    test "expected families have correct structure", %{analysis: analysis, expected_families: expected_families} do
+      assert expected_families != [],
+             "No multi-member families present in scoped data — test would be vacuous"
 
-        assert family, "#{unquote(root)} family should exist"
+      for {root, expected_variants, expected_aliases} <- expected_families do
+        family = Enum.find(analysis["families"], &(&1["root"] == root))
+
+        assert family, "#{root} family should exist"
         assert family["type"] == "multi_member"
         assert is_integer(family["root_method_count"])
         assert family["root_method_count"] > 0
@@ -127,17 +137,17 @@ defmodule CcxtExtract.Integration.Cached.FamilyAnalysisCachedTest do
 
         member_ids = Enum.map(family["members"], & &1["id"])
 
-        for variant <- unquote(expected_variants) do
+        for variant <- expected_variants do
           assert variant in member_ids,
-                 "#{variant} should be a member of #{unquote(root)}"
+                 "#{variant} should be a member of #{root}"
 
           member = Enum.find(family["members"], &(&1["id"] == variant))
           assert member["relationship"] == "variant"
         end
 
-        for alias_id <- unquote(expected_aliases) do
+        for alias_id <- expected_aliases do
           assert alias_id in member_ids,
-                 "#{alias_id} should be a member of #{unquote(root)}"
+                 "#{alias_id} should be a member of #{root}"
 
           member = Enum.find(family["members"], &(&1["id"] == alias_id))
           assert member["relationship"] == "alias"

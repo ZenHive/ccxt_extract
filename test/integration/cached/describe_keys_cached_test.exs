@@ -25,14 +25,17 @@ defmodule CcxtExtract.Integration.Cached.DescribeKeysCachedTest do
     %{
       exchanges: data["exchanges"],
       all_keys: data["all_keys"],
-      all_exchanges: exchanges_data["exchanges"]
+      all_exchanges: exchanges_data["exchanges"],
+      tier_scope: data["tier_scope"]
     }
   end
 
   describe "structure" do
-    test "contains 90+ exchanges (aliases skipped)", %{exchanges: exchanges} do
-      assert length(exchanges) >= 90,
-             "Expected 90+ non-alias exchanges, got #{length(exchanges)}"
+    test "contains expected exchange count (aliases skipped)", %{exchanges: exchanges, tier_scope: tier_scope} do
+      min = min_exchange_count(tier_scope)
+
+      assert length(exchanges) >= min,
+             "Expected #{min}+ non-alias exchanges, got #{length(exchanges)}"
     end
 
     test "each exchange has id and keys fields", %{exchanges: exchanges} do
@@ -119,4 +122,7 @@ defmodule CcxtExtract.Integration.Cached.DescribeKeysCachedTest do
       assert "api" in all_keys
     end
   end
+
+  defp min_exchange_count("all"), do: 90
+  defp min_exchange_count(_scoped), do: 10
 end

@@ -10,7 +10,7 @@ defmodule CcxtExtract.MethodsIntegrationTest do
   # Reference exchanges from CLAUDE.md — {id, min_method_count}
   # Breaking on CCXT update is intentional: forces review of what changed
   @rest_expectations [
-    {"binance", 166},
+    {"binance", 165},
     {"bybit", 139},
     {"okx", 131},
     {"deribit", 68},

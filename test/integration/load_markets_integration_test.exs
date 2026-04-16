@@ -120,7 +120,7 @@ defmodule CcxtExtract.LoadMarketsIntegrationTest do
     test "writes per-exchange files and manifest", %{results: results, tmp_dir: tmp_dir} do
       output_dir = Path.join(tmp_dir, "load_markets")
 
-      LoadMarkets.write!(results, output_dir)
+      LoadMarkets.write!(results, output_dir: output_dir)
 
       # Verify manifest
       manifest =
@@ -166,15 +166,15 @@ defmodule CcxtExtract.LoadMarketsIntegrationTest do
       stale_path = Path.join(output_dir, "stale_exchange.json")
       File.write!(stale_path, "{}")
 
-      LoadMarkets.write!(results, output_dir)
+      LoadMarkets.write!(results, output_dir: output_dir)
 
       refute File.exists?(stale_path), "Stale files should be cleaned up"
     end
   end
 
   describe "mix ccxt_extract.load_markets" do
-    test "runs task with --exchanges filter" do
-      output = run_task_capturing_output(Mix.Tasks.CcxtExtract.LoadMarkets, ["--exchanges", "dydx"])
+    test "runs task with --exchange filter" do
+      output = run_task_capturing_output(Mix.Tasks.CcxtExtract.LoadMarkets, ["--exchange", "dydx"])
 
       assert output =~ "Extracting loadMarkets()"
       assert output =~ "Done in"

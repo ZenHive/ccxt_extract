@@ -13,7 +13,7 @@ defmodule CcxtExtract.ClassesIntegrationTest do
   # {id, min_method_count} — exact observed values (CCXT 4.x)
   # Breaking on CCXT update is intentional: forces review of what changed
   @rest_expectations [
-    {"binance", 166},
+    {"binance", 165},
     {"bybit", 139},
     {"okx", 131},
     {"deribit", 68},

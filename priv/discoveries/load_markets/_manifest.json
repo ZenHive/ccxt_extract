@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-15T13:01:36.072133Z",
+  "extracted_at": "2026-04-16T09:27:48.806177Z",
   "failed": [
     {
       "error": "alpaca requires \"apiKey\" credential",
@@ -134,8 +134,6 @@
   ],
   "succeeded_count": 103,
   "tier_scope": [
-    "tier1",
-    "tier2",
-    "dex"
+    "exchange:dydx"
   ]
 }

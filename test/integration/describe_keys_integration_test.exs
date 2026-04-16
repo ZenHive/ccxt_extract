@@ -122,7 +122,7 @@ defmodule CcxtExtract.DescribeKeysIntegrationTest do
     test "writes valid JSON with metadata envelope", %{exchanges: exchanges, tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "describe_keys.json")
 
-      assert :ok = DescribeKeys.write!(exchanges, output_path)
+      assert :ok = DescribeKeys.write!(exchanges, output_path: output_path)
       assert File.exists?(output_path)
 
       parsed = output_path |> File.read!() |> Jason.decode!()

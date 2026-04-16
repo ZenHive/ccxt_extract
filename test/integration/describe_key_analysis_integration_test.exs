@@ -166,7 +166,7 @@ defmodule CcxtExtract.DescribeKeyAnalysisIntegrationTest do
     test "writes valid JSON with complete analysis", %{analysis: analysis, tmp_dir: tmp_dir} do
       output_path = Path.join(tmp_dir, "describe_key_analysis.json")
 
-      assert :ok = DescribeKeyAnalysis.write!(analysis, output_path)
+      assert :ok = DescribeKeyAnalysis.write!(analysis, output_path: output_path)
       assert File.exists?(output_path)
 
       parsed = output_path |> File.read!() |> Jason.decode!()

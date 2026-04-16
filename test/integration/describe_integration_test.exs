@@ -176,7 +176,7 @@ defmodule CcxtExtract.DescribeIntegrationTest do
       output_dir = Path.join(tmp_dir, "describe")
 
       # Call the actual function under test
-      Describe.write!(results, output_dir)
+      Describe.write!(results, output_dir: output_dir)
 
       # Verify manifest
       manifest =

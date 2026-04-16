@@ -8,29 +8,8 @@ defmodule CcxtExtract.DiscoveryLoaderTest do
 
   alias CcxtExtract.DiscoveryLoader
 
-  describe "read_json/1" do
-    @tag :tmp_dir
-    test "returns {:ok, decoded} for valid JSON", %{tmp_dir: tmp_dir} do
-      path = Path.join(tmp_dir, "valid.json")
-      File.write!(path, ~s({"hello": "world"}))
-      assert {:ok, %{"hello" => "world"}} = DiscoveryLoader.read_json(path)
-    end
-
-    @tag :tmp_dir
-    test "returns {:error, {:missing_input, _}} for missing file", %{tmp_dir: tmp_dir} do
-      path = Path.join(tmp_dir, "absent.json")
-      assert {:error, {:missing_input, detail}} = DiscoveryLoader.read_json(path)
-      assert detail =~ "absent.json"
-    end
-
-    @tag :tmp_dir
-    test "returns {:error, {:invalid_json, _}} for malformed JSON", %{tmp_dir: tmp_dir} do
-      path = Path.join(tmp_dir, "bad.json")
-      File.write!(path, "{not json")
-      assert {:error, {:invalid_json, detail}} = DiscoveryLoader.read_json(path)
-      assert detail =~ "bad.json"
-    end
-  end
+  # read_json/1 tests live in test/ccxt_extract/json_io_test.exs since the
+  # helper was promoted to CcxtExtract.JsonIO (REFACTOR.md Item 8).
 
   describe "load_all!/2 shape" do
     @tag :tmp_dir

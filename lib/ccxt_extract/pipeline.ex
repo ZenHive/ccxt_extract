@@ -43,12 +43,12 @@ defmodule CcxtExtract.Pipeline do
       (`missing_entries`, `orphan_entries`, etc.) still reflect the full
       universe so we never hide real discovery drift.
   """
-  @spec extract(keyword()) :: {:ok, [map()], map()} | {:error, {:missing_input, String.t()}}
+  @spec extract(keyword()) :: {:ok, [map()], map()} | {:error, CcxtExtract.JsonIO.read_error()}
   def extract(opts \\ []) do
     dir = Keyword.get(opts, :discoveries_dir, Paths.priv("discoveries"))
     exchanges_path = Path.join(dir, "exchanges.json")
 
-    with {:ok, exchanges_json} <- DiscoveryLoader.read_json(exchanges_path) do
+    with {:ok, exchanges_json} <- CcxtExtract.JsonIO.read_json(exchanges_path) do
       data = DiscoveryLoader.load_all!(dir, exchanges_json)
 
       if data.missing_files != [] do
@@ -594,7 +594,7 @@ defmodule CcxtExtract.Pipeline do
   # map if the file is missing/corrupt. Used by build_manifest to include
   # source_git_sha for reproducibility traceability.
   defp read_ccxt_version_info do
-    case DiscoveryLoader.read_json(Paths.version_file()) do
+    case CcxtExtract.JsonIO.read_json(Paths.version_file()) do
       {:ok, data} -> data
       {:error, _} -> %{}
     end

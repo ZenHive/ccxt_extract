@@ -10,7 +10,7 @@ defmodule CcxtExtract.DiscoveryLoader do
 
   ## Usage
 
-      {:ok, exchanges_json} = DiscoveryLoader.read_json("priv/discoveries/exchanges.json")
+      {:ok, exchanges_json} = CcxtExtract.JsonIO.read_json("priv/discoveries/exchanges.json")
       data = DiscoveryLoader.load_all!("priv/discoveries", exchanges_json)
       data.describe   # => %{"binance" => %{...}, ...}
       data.missing_entries  # => []
@@ -22,6 +22,7 @@ defmodule CcxtExtract.DiscoveryLoader do
   per-exchange files are captured in integrity stats rather than raised.
   """
 
+  alias CcxtExtract.JsonIO
   alias CcxtExtract.Schema
 
   @doc """
@@ -77,35 +78,11 @@ defmodule CcxtExtract.DiscoveryLoader do
     }
   end
 
-  @doc """
-  Read a JSON file and decode it.
-
-  Returns `{:ok, decoded}`, `{:error, {:missing_input, detail}}` when the
-  file does not exist, or `{:error, {:invalid_json, detail}}` when
-  decoding fails.
-  """
-  @spec read_json(String.t()) ::
-          {:ok, term()} | {:error, {:missing_input | :invalid_json, String.t()}}
-  def read_json(path) do
-    case File.read(path) do
-      {:ok, content} ->
-        try do
-          {:ok, Jason.decode!(content)}
-        rescue
-          e in Jason.DecodeError ->
-            {:error, {:invalid_json, "#{path}: #{Exception.message(e)}"}}
-        end
-
-      {:error, reason} ->
-        {:error, {:missing_input, "#{path}: #{reason}"}}
-    end
-  end
-
   # Load per-exchange describe files using manifest
   defp load_describe_files(dir, stats) do
     manifest_path = Path.join(dir, "describe/_manifest.json")
 
-    case read_json(manifest_path) do
+    case JsonIO.read_json(manifest_path) do
       {:ok, %{"exchanges" => exchanges}} when is_list(exchanges) ->
         validate_manifest_ids!(exchanges, manifest_path)
         stats = record_directory_orphans(dir, "describe", exchanges, stats)
@@ -145,7 +122,7 @@ defmodule CcxtExtract.DiscoveryLoader do
   defp read_describe_entry(dir, id) do
     path = Path.join(dir, "describe/#{id}.json")
 
-    case read_json(path) do
+    case JsonIO.read_json(path) do
       {:ok, data} ->
         with :ok <- validate_expected_id(path, "id", id, data["id"]),
              :ok <- validate_expected_id(path, "describe.id", id, get_in(data, ["describe", "id"])) do
@@ -166,7 +143,7 @@ defmodule CcxtExtract.DiscoveryLoader do
   defp load_markets_files(dir, stats) do
     manifest_path = Path.join(dir, "load_markets/_manifest.json")
 
-    case read_json(manifest_path) do
+    case JsonIO.read_json(manifest_path) do
       {:ok, %{"succeeded" => succeeded}} when is_list(succeeded) ->
         validate_manifest_ids!(Enum.map(succeeded, &markets_entry_id/1), manifest_path)
 
@@ -214,7 +191,7 @@ defmodule CcxtExtract.DiscoveryLoader do
     id = if is_map(entry), do: entry["id"], else: entry
     path = Path.join(dir, "load_markets/#{id}.json")
 
-    case read_json(path) do
+    case JsonIO.read_json(path) do
       {:ok, data} ->
         case validate_expected_id(path, "id", id, data["id"]) do
           :ok -> {:ok, id, %{"market_count" => data["market_count"], "markets" => data["markets"]}}
@@ -246,7 +223,7 @@ defmodule CcxtExtract.DiscoveryLoader do
   defp load_classes(dir, expected_ids, stats) do
     path = Path.join(dir, "class_hierarchy.json")
 
-    case read_json(path) do
+    case JsonIO.read_json(path) do
       {:ok, data} ->
         stats = record_global_orphans(stats, "class_hierarchy.json", data["classes"], expected_ids)
         lookup = Enum.group_by(data["classes"], & &1["class_name"])
@@ -264,7 +241,7 @@ defmodule CcxtExtract.DiscoveryLoader do
   defp load_exchange_field(dir, filename, field, expected_ids, stats) do
     path = Path.join(dir, filename)
 
-    case read_json(path) do
+    case JsonIO.read_json(path) do
       {:ok, %{"exchanges" => entries}} when is_list(entries) ->
         stats = record_global_orphans(stats, filename, entries, expected_ids)
 
@@ -285,7 +262,7 @@ defmodule CcxtExtract.DiscoveryLoader do
   defp load_sign_methods(dir, expected_ids, stats) do
     path = Path.join(dir, "sign_methods.json")
 
-    case read_json(path) do
+    case JsonIO.read_json(path) do
       {:ok, data} ->
         stats = record_global_orphans(stats, "sign_methods.json", data["exchanges"], expected_ids)
 
@@ -308,7 +285,7 @@ defmodule CcxtExtract.DiscoveryLoader do
   defp load_exchange_lookup(dir, filename, expected_ids, stats) do
     path = Path.join(dir, filename)
 
-    case read_json(path) do
+    case JsonIO.read_json(path) do
       {:ok, %{"exchanges" => entries}} when is_list(entries) ->
         stats = record_global_orphans(stats, filename, entries, expected_ids)
 
@@ -329,7 +306,7 @@ defmodule CcxtExtract.DiscoveryLoader do
   defp load_overrides(dir, expected_ids, stats) do
     path = Path.join(dir, "overrides.json")
 
-    case read_json(path) do
+    case JsonIO.read_json(path) do
       {:ok, data} ->
         stats = record_global_orphans(stats, "overrides.json", data["exchanges"], expected_ids)
         lookup = Enum.group_by(data["exchanges"], & &1["id"])

@@ -6,6 +6,15 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Refactor: Promote `read_json/1` to `CcxtExtract.JsonIO` (REFACTOR.md Item 8)
+
+- **New `CcxtExtract.JsonIO.read_json/1`** — single canonical JSON reader. `File.read` + `try/rescue Jason.DecodeError`, returns `{:ok, decoded}`, `{:error, {:missing_input, path}}` (bare path, safe for pattern matches), or `{:error, {:invalid_json, detail}}`. Never raises.
+- **Deleted 7 duplicate `read_json/1` copies** across `discovery_loader.ex`, `describe_key_analysis.ex`, `method_analysis.ex`, `summary.ex`, `family_analysis.ex`, `public_exchanges.ex`, `coverage_report.ex`. All callers (including `pipeline.ex`) now go through `JsonIO`.
+- **Behavior changes from promotion** — two call sites previously raised `Jason.DecodeError` on corrupt input and now handle `{:error, {:invalid_json, _}}` explicitly: `public_exchanges.load_exchange_describe/2` raises with a cleaner message, `family_analysis.diff_describe_for_pair/3` logs a warning and returns `[]`. `coverage_report.ex` has five `{:error, _}` catch-all call sites that now degrade gracefully on corrupt coverage inputs instead of raising — conscious decision, coverage report is best-effort reporting.
+- **`@spec` tightening** — `extract/1` across the migrated modules (including `pipeline.ex`) now declares `CcxtExtract.JsonIO.read_error()` instead of only `{:missing_input, String.t()}`, surfacing the new `:invalid_json` variant to Dialyzer.
+- **`JsonIO` moduledoc clarification** — `:missing_input` covers all `File.read` failures (`:enoent`, `:eacces`, `:eisdir`, …), not only "file not found"; the underlying POSIX reason is dropped to keep the tuple shape stable for pattern matches. Documented as an admonition in the `@moduledoc`.
+- **Tests** — `test/ccxt_extract/json_io_test.exs` covers all three return shapes (valid, missing, invalid, plus `:eisdir` via directory path). `discovery_loader_test.exs`'s `read_json/1` block was removed (coverage migrated). Full suite: **1579 passed, 0 failed** (993 fast + 586 integration).
+
 ### Refactor: Generic override merge (REFACTOR.md Item 3 / Task 61b)
 
 - **`OverrideRegistry.apply_all/2` + `pointer_to_keys/1`** — generic RFC 6901 merge stage that applies every override entry's `value` at its `path` via `put_in/3`. Handles both shallow and nested string-key pointers, with RFC 6901 escapes (`~1`→`/`, `~0`→`~`) in the mandated order. Raises loudly on numeric segments — array-index handling lands when a real override needs it.

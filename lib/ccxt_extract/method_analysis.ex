@@ -33,16 +33,17 @@ defmodule CcxtExtract.MethodAnalysis do
   When narrowed, the `exchanges` lists in both REST and WS aggregates are
   filtered before the family/universality reduction.
 
-  Returns `{:ok, analysis}` or `{:error, {:missing_input, path}}`.
+  Returns `{:ok, analysis}`, `{:error, {:missing_input, path}}`, or
+  `{:error, {:invalid_json, detail}}`.
   """
   @spec extract(:all | MapSet.t(String.t())) ::
-          {:ok, map()} | {:error, {:missing_input, String.t()}}
+          {:ok, map()} | {:error, CcxtExtract.JsonIO.read_error()}
   def extract(scope \\ :all) do
     rest_path = CcxtExtract.Paths.priv(Path.join("discoveries", @rest_file))
     ws_path = CcxtExtract.Paths.priv(Path.join("discoveries", @ws_file))
 
-    with {:ok, rest_data} <- read_json(rest_path),
-         {:ok, ws_data} <- read_json(ws_path) do
+    with {:ok, rest_data} <- CcxtExtract.JsonIO.read_json(rest_path),
+         {:ok, ws_data} <- CcxtExtract.JsonIO.read_json(ws_path) do
       filtered_rest = scope_data(rest_data, scope)
       filtered_ws = scope_data(ws_data, scope)
       analysis = analyze(filtered_rest, filtered_ws)
@@ -289,14 +290,5 @@ defmodule CcxtExtract.MethodAnalysis do
     rank = ceil(p / 100 * n)
     index = max(rank - 1, 0)
     Enum.at(sorted_list, index)
-  end
-
-  # Read and decode a JSON file
-  defp read_json(path) do
-    if File.exists?(path) do
-      {:ok, path |> File.read!() |> Jason.decode!()}
-    else
-      {:error, {:missing_input, path}}
-    end
   end
 end

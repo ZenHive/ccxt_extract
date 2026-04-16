@@ -26,15 +26,16 @@ defmodule CcxtExtract.PublicExchanges do
   When narrowed, the manifest's `exchanges` list is filtered before loading
   describe files; out-of-scope describe files are not read.
 
-  Returns `{:ok, analysis}` or `{:error, {:missing_input, path}}` if the
-  describe directory doesn't exist or has no manifest.
+  Returns `{:ok, analysis}`, `{:error, {:missing_input, path}}` if the
+  describe directory doesn't exist or has no manifest, or
+  `{:error, {:invalid_json, detail}}` if the manifest is malformed.
   """
   @spec extract(:all | MapSet.t(String.t())) ::
-          {:ok, map()} | {:error, {:missing_input, String.t()}}
+          {:ok, map()} | {:error, CcxtExtract.JsonIO.read_error()}
   def extract(scope \\ :all) do
     manifest_path = CcxtExtract.Paths.priv(Path.join(@describe_dir, "_manifest.json"))
 
-    with {:ok, manifest} <- read_json(manifest_path) do
+    with {:ok, manifest} <- CcxtExtract.JsonIO.read_json(manifest_path) do
       describe_dir = CcxtExtract.Paths.priv(@describe_dir)
 
       exchanges =
@@ -95,16 +96,19 @@ defmodule CcxtExtract.PublicExchanges do
     :ok
   end
 
-  # Load a single exchange's describe data — raises if file is missing
+  # Load a single exchange's describe data — raises if file is missing or corrupt
   defp load_exchange_describe(describe_dir, id) do
     path = Path.join(describe_dir, "#{id}.json")
 
-    case read_json(path) do
+    case CcxtExtract.JsonIO.read_json(path) do
       {:ok, data} ->
         {id, data["describe"]}
 
       {:error, {:missing_input, _}} ->
         raise "Missing describe file for exchange #{id}: #{path}\nRun `mix ccxt_extract.describe` to regenerate."
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt describe file for exchange #{id}: #{detail}"
     end
   end
 
@@ -139,13 +143,5 @@ defmodule CcxtExtract.PublicExchanges do
       }
     end)
     |> Enum.sort_by(&{-&1["count"], &1["pattern"]})
-  end
-
-  # Read and decode a JSON file
-  defp read_json(path) do
-    case File.read(path) do
-      {:ok, content} -> {:ok, Jason.decode!(content)}
-      {:error, :enoent} -> {:error, {:missing_input, path}}
-    end
   end
 end

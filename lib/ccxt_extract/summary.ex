@@ -30,18 +30,19 @@ defmodule CcxtExtract.Summary do
   against `ws_counterparts` remain honest when scope narrows to a variant
   whose WS counterpart lives outside the scope.
 
-  Returns `{:ok, summary}` or `{:error, {:missing_input, path}}` if
-  a required input file does not exist.
+  Returns `{:ok, summary}`, `{:error, {:missing_input, path}}` if a required
+  input file does not exist, or `{:error, {:invalid_json, detail}}` if one
+  is malformed.
   """
   @spec extract(:all | MapSet.t(String.t())) ::
-          {:ok, map()} | {:error, {:missing_input, String.t()}}
+          {:ok, map()} | {:error, CcxtExtract.JsonIO.read_error()}
   def extract(scope \\ :all) do
     discoveries = CcxtExtract.Paths.discoveries()
     exchanges_path = Path.join(discoveries, @exchanges_file)
     classes_path = Path.join(discoveries, @classes_file)
 
-    with {:ok, exchanges_data} <- read_json(exchanges_path),
-         {:ok, classes_data} <- read_json(classes_path) do
+    with {:ok, exchanges_data} <- CcxtExtract.JsonIO.read_json(exchanges_path),
+         {:ok, classes_data} <- CcxtExtract.JsonIO.read_json(classes_path) do
       exchanges =
         CcxtExtract.TaskScope.filter_entries(exchanges_data["exchanges"], scope, "id")
 
@@ -242,14 +243,5 @@ defmodule CcxtExtract.Summary do
     |> Enum.filter(fn ex -> ex["alias"] && !MapSet.member?(class_ids, ex["id"]) end)
     |> Enum.map(& &1["id"])
     |> Enum.sort()
-  end
-
-  # Read and decode a JSON file, returning {:error, {:missing_input, path}} if missing
-  defp read_json(path) do
-    if File.exists?(path) do
-      {:ok, path |> File.read!() |> Jason.decode!()}
-    else
-      {:error, {:missing_input, path}}
-    end
   end
 end

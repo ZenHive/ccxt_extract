@@ -34,18 +34,19 @@ defmodule CcxtExtract.FamilyAnalysis do
   to preserve family context (the inheritance tree is universe-wide by design,
   same precedent as `classes.ex`).
 
-  Returns `{:ok, analysis}` or `{:error, {:missing_input, path}}`.
+  Returns `{:ok, analysis}`, `{:error, {:missing_input, path}}`, or
+  `{:error, {:invalid_json, detail}}`.
   """
   @spec extract(:all | MapSet.t(String.t())) ::
-          {:ok, map()} | {:error, {:missing_input, String.t()}}
+          {:ok, map()} | {:error, CcxtExtract.JsonIO.read_error()}
   def extract(scope \\ :all) do
     discoveries = CcxtExtract.Paths.discoveries()
     classes_path = Path.join(discoveries, @classes_file)
     summary_path = Path.join(discoveries, @summary_file)
     describe_dir = Path.join(discoveries, @describe_dir)
 
-    with {:ok, classes_data} <- read_json(classes_path),
-         {:ok, summary_data} <- read_json(summary_path),
+    with {:ok, classes_data} <- CcxtExtract.JsonIO.read_json(classes_path),
+         {:ok, summary_data} <- CcxtExtract.JsonIO.read_json(summary_path),
          :ok <- validate_describe_dir(describe_dir) do
       analyze(classes_data, summary_data, describe_dir, scope)
     end
@@ -275,8 +276,8 @@ defmodule CcxtExtract.FamilyAnalysis do
     root_path = Path.join(describe_dir, "#{root_id}.json")
     member_path = Path.join(describe_dir, "#{member_id}.json")
 
-    with {:ok, root_data} <- read_json(root_path),
-         {:ok, member_data} <- read_json(member_path) do
+    with {:ok, root_data} <- CcxtExtract.JsonIO.read_json(root_path),
+         {:ok, member_data} <- CcxtExtract.JsonIO.read_json(member_path) do
       diff_describe_keys(root_data["describe"], member_data["describe"])
     else
       {:error, {:missing_input, ^root_path}} ->
@@ -285,14 +286,10 @@ defmodule CcxtExtract.FamilyAnalysis do
 
       {:error, {:missing_input, _member_path}} ->
         []
-    end
-  end
 
-  defp read_json(path) do
-    if File.exists?(path) do
-      {:ok, path |> File.read!() |> Jason.decode!()}
-    else
-      {:error, {:missing_input, path}}
+      {:error, {:invalid_json, detail}} ->
+        Logger.warning("Corrupt describe file while diffing #{root_id}/#{member_id}: #{detail}")
+        []
     end
   end
 end

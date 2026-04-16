@@ -54,13 +54,13 @@ defmodule CcxtExtract.CoverageReport do
       in-scope exchanges are analyzed; inputs still load the full discovery
       aggregates (layer checks look up by ID, so unused entries are benign).
   """
-  @spec extract(keyword()) :: {:ok, map()} | {:error, {:missing_input, String.t()}}
+  @spec extract(keyword()) :: {:ok, map()} | {:error, CcxtExtract.JsonIO.read_error()}
   def extract(opts \\ []) do
     dir = Keyword.get(opts, :discoveries_dir, CcxtExtract.Paths.priv("discoveries"))
     scope = Keyword.get(opts, :scope, :all)
     exchanges_path = Path.join(dir, "exchanges.json")
 
-    with {:ok, exchanges_data} <- read_json(exchanges_path) do
+    with {:ok, exchanges_data} <- CcxtExtract.JsonIO.read_json(exchanges_path) do
       exchanges = CcxtExtract.TaskScope.filter_entries(exchanges_data["exchanges"], scope, "id")
       inputs = load_all_inputs(dir)
       {:ok, analyze(exchanges, inputs)}
@@ -350,7 +350,7 @@ defmodule CcxtExtract.CoverageReport do
   defp load_describe_manifest(dir, missing) do
     path = Path.join([dir, "describe", "_manifest.json"])
 
-    case read_json(path) do
+    case CcxtExtract.JsonIO.read_json(path) do
       {:ok, data} ->
         ids = data["exchanges"] |> List.wrap() |> MapSet.new()
         {ids, missing}
@@ -363,7 +363,7 @@ defmodule CcxtExtract.CoverageReport do
   defp load_markets_manifest(dir, missing) do
     path = Path.join([dir, "load_markets", "_manifest.json"])
 
-    case read_json(path) do
+    case CcxtExtract.JsonIO.read_json(path) do
       {:ok, data} ->
         succeeded = data["succeeded"] |> List.wrap() |> MapSet.new()
 
@@ -385,7 +385,7 @@ defmodule CcxtExtract.CoverageReport do
   defp load_class_hierarchy(dir, missing) do
     path = Path.join(dir, "class_hierarchy.json")
 
-    case read_json(path) do
+    case CcxtExtract.JsonIO.read_json(path) do
       {:ok, data} ->
         classes = data["classes"] || []
         ids = MapSet.new(classes, & &1["id"])
@@ -401,7 +401,7 @@ defmodule CcxtExtract.CoverageReport do
   defp load_exchange_ids(dir, filename, missing) do
     path = Path.join(dir, filename)
 
-    case read_json(path) do
+    case CcxtExtract.JsonIO.read_json(path) do
       {:ok, data} ->
         ids =
           data["exchanges"]
@@ -419,7 +419,7 @@ defmodule CcxtExtract.CoverageReport do
   defp load_exchange_lookup(dir, filename, missing) do
     path = Path.join(dir, filename)
 
-    case read_json(path) do
+    case CcxtExtract.JsonIO.read_json(path) do
       {:ok, data} ->
         lookup =
           data["exchanges"]
@@ -430,13 +430,6 @@ defmodule CcxtExtract.CoverageReport do
 
       {:error, _} ->
         {%{}, [filename | missing]}
-    end
-  end
-
-  defp read_json(path) do
-    case File.read(path) do
-      {:ok, contents} -> {:ok, Jason.decode!(contents)}
-      {:error, :enoent} -> {:error, {:missing_input, path}}
     end
   end
 end

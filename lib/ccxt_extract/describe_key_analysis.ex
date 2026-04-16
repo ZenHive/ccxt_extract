@@ -84,18 +84,19 @@ defmodule CcxtExtract.DescribeKeyAnalysis do
   before the frequency reduction, and the QuickBEAM nesting-depth scan
   iterates only the in-scope class IDs.
 
-  Returns `{:ok, analysis}` or `{:error, {:missing_input, path}}` if the
-  describe_keys.json file doesn't exist.
+  Returns `{:ok, analysis}`, `{:error, {:missing_input, path}}` if the
+  describe_keys.json file doesn't exist, or `{:error, {:invalid_json, detail}}`
+  if it is malformed.
   """
   @spec extract(:all | MapSet.t(String.t())) ::
-          {:ok, map()} | {:error, {:missing_input, String.t()}}
+          {:ok, map()} | {:error, CcxtExtract.JsonIO.read_error()}
   def extract(scope \\ :all) do
     input_path = CcxtExtract.Paths.priv(Path.join("discoveries", @describe_keys_file))
 
     # NOTE: Combines two data sources — describe_keys.json (from Task 3a) and a fresh
     # QuickBEAM nesting depth scan. Both must be from the same CCXT snapshot.
     # All mix tasks run against the same priv/ccxt/ checkout, so this holds in practice.
-    with {:ok, data} <- read_json(input_path) do
+    with {:ok, data} <- CcxtExtract.JsonIO.read_json(input_path) do
       exchanges = CcxtExtract.TaskScope.filter_entries(data["exchanges"], scope, "id")
       nesting_depths = extract_nesting_depths(scope)
       analysis = analyze(exchanges, nesting_depths)
@@ -250,13 +251,4 @@ defmodule CcxtExtract.DescribeKeyAnalysis do
   end
 
   def classify_tier(_count, 0), do: "rare"
-
-  # Read and decode a JSON file
-  defp read_json(path) do
-    if File.exists?(path) do
-      {:ok, path |> File.read!() |> Jason.decode!()}
-    else
-      {:error, {:missing_input, path}}
-    end
-  end
 end

@@ -4,8 +4,8 @@ Structural debt identified during end-to-end codebase review (2026-04-16).
 Quick wins (items 4-6) shipped same session; items 1-3 below are multi-session
 refactors requiring isolation and verification checkpoints.
 
-**Dependency order:** Items 1, 2, and 3 are shipped. Item 8 (below) is
-independent and remains the next easy win.
+**Dependency order:** Items 1, 2, 3, and 8 are shipped. Items 6 and 7 remain
+as independent next candidates.
 
 ---
 
@@ -118,47 +118,74 @@ stays at 5 concurrent runtimes.
 
 ---
 
-## Item 8: Promote `read_json/1` to `CcxtExtract.Paths`
+## ~~Item 8: Promote `read_json/1` to `CcxtExtract.JsonIO`~~ ✅
 
-**D: 1 / B: 2 — ROI: 2.00**
+**D: 1 / B: 2 — ROI: 2.00** — **SHIPPED 2026-04-16**
 
-`read_json/1` is duplicated across 7 modules: `discovery_loader.ex`,
-`describe_key_analysis.ex`, `method_analysis.ex`, `summary.ex`,
-`public_exchanges.ex`, `coverage_report.ex`, `family_analysis.ex`. The
-copies are **not identical** — they split into three shapes:
+Promoted Shape C (safest, from `DiscoveryLoader`) into a new
+`CcxtExtract.JsonIO` module — `File.read` + try/rescue `Jason.DecodeError`,
+returns `{:ok, decoded}`, `{:error, {:missing_input, path}}` (bare path,
+preserves Shape A/B pattern matches), or `{:error, {:invalid_json, detail}}`.
+Deleted all 7 duplicate copies. Two call sites that previously raised
+`Jason.DecodeError` on corrupt input gained explicit `:invalid_json` arms:
+`public_exchanges.load_exchange_describe/2` raises with a cleaner message,
+`family_analysis.diff_describe_for_pair/3` logs a warning and returns `[]`.
+`coverage_report.ex`'s five `{:error, _}` catch-alls now degrade gracefully
+on corrupt coverage inputs — conscious decision, coverage report is
+best-effort. `test/ccxt_extract/json_io_test.exs` covers all three shapes.
+Full suite: 1579 passed, 0 failed.
 
-- **Shape A (4 copies: `describe_key_analysis`, `summary`, `family_analysis`,
-  `method_analysis`):** `File.exists?` + `File.read!` + `Jason.decode!` —
-  returns `{:error, {:missing_input, path}}` or raises on invalid JSON.
-- **Shape B (2 copies: `public_exchanges`, `coverage_report`):** `File.read`
-  matched against `{:ok, _}` / `{:error, :enoent}` only — raises on invalid
-  JSON, and other `File.read` errors (`:eacces`, `:eisdir`) crash the pattern.
-- **Shape C (1 copy: `discovery_loader`):** `File.read` + try/rescue
-  `Jason.DecodeError` — the only shape that returns
-  `{:error, {:invalid_json, detail}}` instead of raising.
+## Item 8b: Migrate remaining inline `File.read` + `Jason.decode` sites to `JsonIO`
+
+**D: 2 / B: 2 — ROI: 1.00**
+
+Item 8 scoped to the 7 modules named in its original plan. End-to-end
+exploration during Item 8 turned up ~20 additional inline
+`File.read` + `Jason.decode!` / `Jason.decode` sites that still bypass
+`JsonIO.read_json/1`:
+
+- `lib/ccxt_extract/validation.ex` — ~10 sites (lines 152, 172-174, 231-232,
+  1010, 1023, 1040, 1054, 1071, 1090, 1104, 1118, 1132). The existing comment
+  at `validation.ex:980` already flags the debt: *"if a third consumer appears,
+  extract shared loaders using Pipeline.read_json/1's robust…"*.
+- `lib/ccxt_extract/market_validation.ex` — 3 sites (81, 103, 432).
+- `lib/ccxt_extract/contract_test.ex` — 3 sites (311, 328-330).
+- `lib/ccxt_extract/aliases.ex` — lines 67-68.
+- `lib/ccxt_extract/signing_fixtures.ex` — 406, 427-428, 441.
+- `lib/ccxt_extract/aggregate_writer.ex` — line 140.
+- `lib/ccxt_extract/tiers.ex` line 43 uses `JSON.decode!` (stdlib, not Jason) —
+  verify intentional before migrating.
 
 ### Plan
 
-Promote `DiscoveryLoader.read_json/1` (Shape C — the safest) to
-`CcxtExtract.Paths.read_json/1` (or a new `CcxtExtract.JsonIO` module) and
-delete the 6 other copies. This is a small **behavior upgrade**, not a
-pure mechanical consolidation: callers currently on Shapes A/B will start
-receiving `{:error, {:invalid_json, _}}` tuples instead of a raise.
+Walk each module and replace `File.read` + `Jason.decode!` (or `Jason.decode`)
+with `CcxtExtract.JsonIO.read_json/1`. For bang-style call sites, wrap in
+`case`/`with` and raise explicitly on `:invalid_json`; some sites may legitimately
+want to keep a raising variant, in which case add `JsonIO.read_json!/1` first.
+Each caller needs the same `{:error, _}` branch audit as Item 8.
 
-Before merging the promotion, audit each consumer's call site to confirm
-either (a) the new `:invalid_json` tuple falls through an existing
-`{:error, _}` branch harmlessly, or (b) the call site needs an explicit
-`:invalid_json` clause to preserve intent. Do this when next touching any
-of the consumer modules so the cost is amortized.
+**Open questions surfaced by the Item 8 staged review:**
+
+- Decide whether `{:missing_input, path}` should carry the underlying POSIX
+  `reason` (the old `DiscoveryLoader` Shape C embedded `:enoent`/`:eacces` in
+  the detail string; `JsonIO` dropped it for pattern-match ergonomics). If a
+  consumer needs to disambiguate permission/type errors, either widen the
+  tuple or expose a separate `read_json_with_reason/1`.
+- Evaluate collapsing the 7 nearly-identical `case JsonIO.read_json(path) do
+  … {:missing_input, _} → record stat … {:invalid_json, detail} → raise
+  "Corrupt discovery artifact" end` scaffolds in `discovery_loader.ex`
+  (`load_describe_files`, `load_markets_files`, `load_classes`,
+  `load_exchange_field`, `load_sign_methods`, `load_exchange_lookup`,
+  `load_overrides`) into a shared helper. Pre-existing duplication, but
+  Item 8 made it more visible.
+
+Do when next touching these modules so the audit cost is amortized.
 
 ### Verification
 
-- `mix test --quiet` — all existing tests pass.
-- `mix compile --warnings-as-errors` — no new warnings.
-- Manually grep each `read_json` call site for `{:error, _}` handling and
-  confirm the new `:invalid_json` branch is either handled or never
-  reachable in practice (no global discovery file is ever malformed JSON
-  in a green tree).
+Same as Item 8: `mix compile --warnings-as-errors`, `mix test`, and a
+post-migration grep (`Jason.decode`) should find only `aggregate_writer.ex`-style
+call sites that intentionally write JSON, not read it.
 
 ---
 

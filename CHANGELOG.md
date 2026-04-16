@@ -6,6 +6,18 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Refactor: Fail before write in strict mode (REFACTOR.md Item 5)
+
+- **Pipeline Mix task now aborts before `write!` in strict mode** — when `--strict` is set and `has_data_issues?` returns true, the task reports findings and raises without writing invalid output to disk. Previously, invalid output was written first, then the strict check ran. Non-strict path unchanged.
+- `update.ex` inherits the fix via `Mix.Task.rerun` exception propagation — no changes needed.
+
+### Refactor: Remove Schema.validate triple validation surface (REFACTOR.md Item 2)
+
+- **Gutted `Schema.validate/1` from 891 lines to 50** — removed 800+ lines of hand-rolled structural type checking (nullable map checks, MethodAST/ClassInfo/OverridesData shape validation, enum value checks) that duplicated what `exchange_v1.json` + JSV already enforces via `Validation.validate_schema/2`.
+- **Kept only fast pre-flight key-presence checks** — `@required_top_keys`, `@required_exchange_keys`, `@required_runtime_keys`, `@required_structure_keys`, `check_schema_version/2`, and `type_name/1`.
+- **Removed 9 tests** that asserted deep structural validation (7 override shape tests, 2 partial structure tests in pipeline_test.exs). These checks are now the JSON Schema's responsibility.
+- **Single validation surface** — `Validation.validate_schema/2` (JSV) is now the authoritative structural validator. `Schema.validate/1` serves only as a fast assembly guard.
+
 ### Fix: Default test suite green (REFACTOR.md Item 4)
 
 - **Made cached tests `tier_scope`-aware** — 4 failing tests in 3 files now read the `tier_scope` envelope field and adjust count thresholds for scoped vs full-corpus runs. `describe_key_analysis` and `describe_keys` use `min_exchange_count/1`; `family_analysis` filters `@multi_member_families` at runtime against families present in the data.

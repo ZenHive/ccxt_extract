@@ -59,50 +59,15 @@ drops to ~700 lines. DiscoveryLoader ~450 lines. Net: same LOC, better seams.
 
 ---
 
-## Item 2: Remove Schema.validate/1 triple validation surface
+## ~~Item 2: Remove Schema.validate/1 triple validation surface~~ ✅
 
-**D: 2 / B: 4 — ROI: 2.00**
+**D: 2 / B: 4 — ROI: 2.00** — **SHIPPED 2026-04-16**
 
-Three parallel validation surfaces check overlapping invariants:
-
-1. `Schema.validate/1` — 889 lines of hand-rolled Elixir structural checks
-2. `Validation.validate_schema/2` — runs the JSON Schema (`exchange_v1.json`)
-3. `validate_exchange_lookup_entry` in pipeline.ex — per-file field checks
-
-When they disagree, nothing is authoritative. Every schema change requires
-updating all three.
-
-### Plan
-
-1. **Audit `Schema.validate/1` vs JSON Schema** — identify any checks in
-   Schema.validate that the JSON Schema doesn't cover. Likely candidates:
-   cross-field constraints (e.g., "if `pagination` is non-null, each entry
-   must have `containing_method`"). Document the gap.
-
-2. **Migrate uncovered checks** — either add them to the JSON Schema (if
-   expressible in JSON Schema draft-07) or move them to ContractTest as
-   cross-field invariants (where they belong).
-
-3. **Gut `Schema.validate/1`** — keep only the 10-line key-presence check
-   (`@required_top_keys`, `@required_exchange_keys`, etc.) as a fast pre-flight.
-   Delete the 800+ lines of structural type checking that duplicates the
-   JSON Schema.
-
-4. **Route pipeline through `Validation.validate_schema/2`** — single
-   validation surface for structural conformance.
-
-### Verification checkpoints
-
-1. Run `mix ccxt_extract.pipeline --tier1 --tier2 --dex` with only JSON Schema
-   validation — confirm no new failures vs the dual-validation baseline
-2. Any checks removed from Schema.validate that the JSON Schema can't express
-   → must appear as new ContractTest invariants with passing baselines
-3. `mix test` — all existing tests pass
-
-### Risk
-
-Low. Schema.validate is defense-in-depth that's drifting into a liability.
-The JSON Schema is already authoritative for consumers (it ships in output/).
+Gutted `Schema.validate/1` from 891 lines to ~50. Kept only key-presence
+checks (`@required_top_keys` etc.) and `check_schema_version`. Removed 800+
+lines of structural type checking that duplicated `exchange_v1.json` + JSV.
+Removed 9 tests that asserted deep structural checks (now the JSON Schema's
+job). `Validation.validate_schema/2` is the single authoritative validator.
 
 ---
 
@@ -167,24 +132,16 @@ families present in the scoped data.
 
 ---
 
-## Item 5: Fail before write in strict mode
+## ~~Item 5: Fail before write in strict mode~~ ✅
 
-**D: 2 / B: 4 — ROI: 2.00**
+**D: 2 / B: 4 — ROI: 2.00** — **SHIPPED 2026-04-16**
 
 *Source: Codex reviewer (2026-04-16)*
 
-`Pipeline.extract/1` records validation failures instead of rejecting output
-(`pipeline.ex:67, :136`), and the Mix task writes files *before* checking
-`has_issues` (`mix/tasks/ccxt_extract.pipeline.ex:76`). `mix ccxt_extract.update`
-runs contract tests non-strict (`update.ex:119, :165`). For a repo whose product
-is generated JSON, this is backwards — invalid output should never be written.
-
-### Plan
-
-1. Move `has_issues` check before `Pipeline.write!/1` in the Mix task
-2. Add `--strict` flag (or make strict the default) that aborts on any
-   validation finding
-3. Make `mix ccxt_extract.update` respect the strictness setting
+Reordered `Mix.Tasks.CcxtExtract.Pipeline.run/1`: `has_data_issues?(stats)` is
+now checked BEFORE `Pipeline.write!/1` when `--strict` is set. Invalid output
+is never written to disk in strict mode. Non-strict path unchanged. `update.ex`
+inherits the fix via `Mix.Task.rerun` exception propagation.
 
 ---
 

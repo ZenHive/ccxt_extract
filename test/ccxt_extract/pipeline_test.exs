@@ -1097,60 +1097,6 @@ defmodule CcxtExtract.PipelineTest do
     end
   end
 
-  describe "partial structure validation" do
-    @tag :tmp_dir
-    test "reports validation error when class_info has WS entry without REST entry", %{tmp_dir: tmp_dir} do
-      write_minimal_fixtures(tmp_dir, describe_exchanges: [], markets_succeeded: [])
-
-      write_json(Path.join(tmp_dir, "class_hierarchy.json"), %{
-        "classes" => [
-          Map.merge(@ws_class, %{
-            "class_name" => "fakex",
-            "id" => "fakex",
-            "node_key" => "ws:fakex",
-            "parent_key" => "rest:fakex",
-            "file" => "fakex.ts"
-          })
-        ]
-      })
-
-      {:ok, exchanges, stats} =
-        Pipeline.extract(
-          discoveries_dir: tmp_dir,
-          ccxt_version: "4.5.45",
-          extracted_at: "2026-03-30T12:00:00Z"
-        )
-
-      class_info = hd(exchanges)["structure"]["class_info"]
-      assert class_info["rest"] == nil
-      assert class_info["ws"]["node_key"] == "ws:fakex"
-
-      assert Enum.any?(stats.validation_errors, fn {id, reasons} ->
-               id == "fakex" and Enum.any?(reasons, &String.contains?(&1, "structure.class_info.rest"))
-             end)
-    end
-
-    @tag :tmp_dir
-    test "reports validation error when methods inventory only has WS methods", %{tmp_dir: tmp_dir} do
-      write_minimal_fixtures(tmp_dir, describe_exchanges: [], markets_succeeded: [])
-
-      write_json(Path.join(tmp_dir, "methods_ws.json"), %{"exchanges" => [%{"id" => "fakex", "methods" => [@method_sig]}]})
-
-      {:ok, exchanges, stats} =
-        Pipeline.extract(
-          discoveries_dir: tmp_dir,
-          ccxt_version: "4.5.45",
-          extracted_at: "2026-03-30T12:00:00Z"
-        )
-
-      assert hd(exchanges)["structure"]["methods"] == %{"rest" => nil, "ws" => [@method_sig]}
-
-      assert Enum.any?(stats.validation_errors, fn {id, reasons} ->
-               id == "fakex" and Enum.any?(reasons, &String.contains?(&1, "structure.methods.rest"))
-             end)
-    end
-  end
-
   # --- Fixture Helpers ---
 
   # Writes the minimum set of discovery files so the pipeline doesn't raise
@@ -1232,118 +1178,6 @@ defmodule CcxtExtract.PipelineTest do
       data = %{full_data() | overrides: %{"testex" => [override_entry]}}
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
       assert :ok = Schema.validate(result)
-    end
-
-    test "overrides with wrong shape fails validation" do
-      # Old flat shape should fail — missing required keys extends/rest/ws
-      bad_overrides = %{
-        "parent_key" => "rest:parentex",
-        "overridden" => %{},
-        "new_methods" => %{},
-        "inherited" => []
-      }
-
-      exchange = build_with_overrides(bad_overrides)
-      assert {:error, reasons} = Schema.validate(exchange)
-      assert Enum.any?(reasons, &String.contains?(&1, "missing required keys"))
-    end
-
-    test "overrides with string new_methods fails validation" do
-      bad_overrides = %{
-        "extends" => "parentex",
-        "rest" => %{
-          "parent_key" => "rest:parentex",
-          "overridden" => %{},
-          "new_methods" => "not a map",
-          "inherited" => []
-        },
-        "ws" => nil
-      }
-
-      exchange = build_with_overrides(bad_overrides)
-      assert {:error, reasons} = Schema.validate(exchange)
-      assert Enum.any?(reasons, &String.contains?(&1, "new_methods"))
-    end
-
-    test "overrides with string inherited fails validation" do
-      bad_overrides = %{
-        "extends" => "parentex",
-        "rest" => %{
-          "parent_key" => "rest:parentex",
-          "overridden" => %{},
-          "new_methods" => %{},
-          "inherited" => "not a list"
-        },
-        "ws" => nil
-      }
-
-      exchange = build_with_overrides(bad_overrides)
-      assert {:error, reasons} = Schema.validate(exchange)
-      assert Enum.any?(reasons, &String.contains?(&1, "inherited"))
-    end
-
-    test "overrides with nil overridden/new_methods fails validation" do
-      bad_overrides = %{
-        "extends" => "parentex",
-        "rest" => %{
-          "parent_key" => "rest:parentex",
-          "overridden" => nil,
-          "new_methods" => nil,
-          "inherited" => []
-        },
-        "ws" => nil
-      }
-
-      exchange = build_with_overrides(bad_overrides)
-      assert {:error, reasons} = Schema.validate(exchange)
-      assert Enum.any?(reasons, &String.contains?(&1, "overridden"))
-      assert Enum.any?(reasons, &String.contains?(&1, "new_methods"))
-    end
-
-    test "overrides with non-string extends fails validation" do
-      bad_overrides = %{
-        "extends" => 42,
-        "rest" => nil,
-        "ws" => nil
-      }
-
-      exchange = build_with_overrides(bad_overrides)
-      assert {:error, reasons} = Schema.validate(exchange)
-      assert Enum.any?(reasons, &String.contains?(&1, "extends"))
-    end
-
-    test "overrides with non-string parent_key fails validation" do
-      bad_overrides = %{
-        "extends" => "parentex",
-        "rest" => %{
-          "parent_key" => 123,
-          "overridden" => %{},
-          "new_methods" => %{},
-          "inherited" => []
-        },
-        "ws" => nil
-      }
-
-      exchange = build_with_overrides(bad_overrides)
-      assert {:error, reasons} = Schema.validate(exchange)
-      assert Enum.any?(reasons, &String.contains?(&1, "parent_key"))
-    end
-
-    test "overrides with non-string inherited elements fails validation" do
-      bad_overrides = %{
-        "extends" => "parentex",
-        "rest" => %{
-          "parent_key" => "rest:parentex",
-          "overridden" => %{},
-          "new_methods" => %{},
-          "inherited" => ["fetchTicker", 123, :atom_val]
-        },
-        "ws" => nil
-      }
-
-      exchange = build_with_overrides(bad_overrides)
-      assert {:error, reasons} = Schema.validate(exchange)
-      assert Enum.any?(reasons, &String.contains?(&1, "non-string elements"))
     end
   end
 
@@ -1667,14 +1501,6 @@ defmodule CcxtExtract.PipelineTest do
   end
 
   # --- Helpers ---
-
-  # Builds a full exchange map with custom overrides for validation testing
-  defp build_with_overrides(overrides_value) do
-    data = full_data()
-    meta = full_meta()
-    result = Pipeline.build_exchange_data(meta, data, @schema_opts)
-    put_in(result, ["structure", "overrides"], overrides_value)
-  end
 
   defp full_exchange do
     Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)

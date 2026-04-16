@@ -77,13 +77,14 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
       {:ok, exchanges, stats} ->
         report_progress(exchanges)
         output_dir = opts[:output] || CcxtExtract.Paths.priv("output")
-        CcxtExtract.Pipeline.write!(exchanges, output_dir, tier_scope: tier_scope)
-
         elapsed = System.monotonic_time(:millisecond) - start
-        has_issues = report_results(exchanges, stats, output_dir, elapsed)
 
-        if opts[:strict] && has_issues do
+        if opts[:strict] && has_data_issues?(stats) do
+          report_results(exchanges, stats, output_dir, elapsed)
           Mix.raise("Pipeline completed with issues (strict mode). See above for details.")
+        else
+          CcxtExtract.Pipeline.write!(exchanges, output_dir, tier_scope: tier_scope)
+          report_results(exchanges, stats, output_dir, elapsed)
         end
 
       {:error, {:missing_input, path}} ->

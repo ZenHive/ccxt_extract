@@ -4,8 +4,8 @@ Structural debt identified during end-to-end codebase review (2026-04-16).
 Quick wins (items 4-6) shipped same session; items 1-3 below are multi-session
 refactors requiring isolation and verification checkpoints.
 
-**Dependency order:** Items 1, 2, 3, 7, 8, and 8b are shipped. Item 6
-remains as the last independent candidate.
+**Dependency order:** Items 1, 2, 3, 6, 7, 8, and 8b are all shipped. No
+remaining independent candidates.
 
 ---
 
@@ -79,23 +79,34 @@ inherits the fix via `Mix.Task.rerun` exception propagation.
 
 ---
 
-## Item 6: Isolate setup tests from developer checkout
+## ~~Item 6: Isolate setup tests from developer checkout~~ ✅
 
-**D: 3 / B: 3 — ROI: 1.00**
+**D: 3 / B: 3 — ROI: 1.00** — **SHIPPED 2026-04-16**
 
 *Source: Codex reviewer (2026-04-16)*
 
-`mix ccxt_extract.setup` mutates the real `priv/ccxt` repo and local
-`node_modules` (`setup.ex:45, :158`). The setup integration test restores state
-by rewriting real files and checking out git refs in place
-(`mix_tasks_integration_test.exs:92`). This will keep causing local-env and CI
-pain.
+Added `:priv_dir_override` application env seam in
+`CcxtExtract.Paths.priv_dir/0` — one override redirects all six `priv/`
+accessors. Rewrote `describe "mix ccxt_extract.setup"` in
+`test/integration/mix_tasks_integration_test.exs` to stage a faithful mirror
+per test: `git clone --local --no-hardlinks priv/ccxt` into
+`tmp_dir/priv/ccxt`, `File.cp_r!` `node_modules/ccxt` into
+`tmp_dir/node_modules/ccxt`, point `:priv_dir_override` at `tmp_dir/priv`,
+and wrap `Setup.run/1` in `File.cd!(tmp_dir, ...)` so relative
+`node_modules/...` paths resolve inside the clone. Deleted the old
+snapshot/restore block that rewrote real files and re-checked-out git refs
+in place.
 
-### Plan
+Dropped the `--latest` test — that branch fatals when the npm registry has
+advanced past the developer's `priv/ccxt` tag (legitimate production guard,
+untestable in isolation without stubbing npm or git). `--ccxt-version
+CURRENT` covers structurally-equivalent update branches.
 
-Use a temporary directory for setup integration tests instead of mutating the
-developer's checkout. The test should clone/copy into `tmp_dir`, run setup
-there, and verify. Current approach is fragile and non-hermetic.
+Isolation verified: before/after the suite, `priv/ccxt` HEAD and the
+shasums of `priv/ccxt_version.json`, `priv/ccxt_bundle.js`, and
+`node_modules/ccxt/package.json` are byte-identical. Interrupted runs no
+longer leave the checkout on a detached HEAD. Full default suite: **1584
+passed**; integration suite: **7 passed** in ~50s.
 
 ---
 

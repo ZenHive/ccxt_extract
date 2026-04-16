@@ -5,6 +5,9 @@ defmodule CcxtExtract.Paths do
   All paths are anchored to `:code.priv_dir(:ccxt_extract)` so they work
   both in Mix development and in compiled releases.
 
+  Tests can redirect the whole `priv/` tree to a temporary directory by
+  setting the `:priv_dir_override` application env; see `priv_dir/0`.
+
   ## Layout
 
       priv/
@@ -24,12 +27,17 @@ defmodule CcxtExtract.Paths do
 
   @doc """
   Absolute path to the `priv/` directory.
+
+  Honors `Application.get_env(:ccxt_extract, :priv_dir_override)` when set,
+  which lets integration tests redirect the whole `priv/` tree to a
+  temporary directory. Falls back to `:code.priv_dir(:ccxt_extract)`.
   """
   @spec priv_dir() :: String.t()
   def priv_dir do
-    :ccxt_extract
-    |> :code.priv_dir()
-    |> to_string()
+    case Application.get_env(:ccxt_extract, :priv_dir_override) do
+      nil -> :ccxt_extract |> :code.priv_dir() |> to_string()
+      override when is_binary(override) -> override
+    end
   end
 
   @doc """

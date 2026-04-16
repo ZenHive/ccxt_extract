@@ -1,5 +1,6 @@
 defmodule CcxtExtract.PathsTest do
-  use ExUnit.Case, async: true
+  # async: false — priv_dir/1 tests mutate :priv_dir_override application env.
+  use ExUnit.Case, async: false
 
   alias CcxtExtract.Paths
 
@@ -37,6 +38,27 @@ defmodule CcxtExtract.PathsTest do
   describe "discoveries/0" do
     test "returns path ending in discoveries" do
       assert String.ends_with?(Paths.discoveries(), "discoveries")
+    end
+  end
+
+  describe ":priv_dir_override" do
+    setup do
+      on_exit(fn -> Application.delete_env(:ccxt_extract, :priv_dir_override) end)
+      :ok
+    end
+
+    test "priv_dir/0 returns the override when set" do
+      Application.put_env(:ccxt_extract, :priv_dir_override, "/tmp/fake_priv")
+      assert Paths.priv_dir() == "/tmp/fake_priv"
+    end
+
+    test "all accessors follow the override" do
+      Application.put_env(:ccxt_extract, :priv_dir_override, "/tmp/fake_priv")
+      assert Paths.priv("some/file.json") == "/tmp/fake_priv/some/file.json"
+      assert Paths.bundle() == "/tmp/fake_priv/ccxt_bundle.js"
+      assert Paths.ts_src() == "/tmp/fake_priv/ccxt/ts/src"
+      assert Paths.version_file() == "/tmp/fake_priv/ccxt_version.json"
+      assert Paths.discoveries() == "/tmp/fake_priv/discoveries"
     end
   end
 end

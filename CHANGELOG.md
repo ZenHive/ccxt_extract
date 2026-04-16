@@ -6,6 +6,39 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Refactor: Isolate setup integration tests from developer checkout (REFACTOR.md Item 6)
+
+- **New `:priv_dir_override` application env** — `CcxtExtract.Paths.priv_dir/0`
+  now honors `Application.get_env(:ccxt_extract, :priv_dir_override)` when
+  set, falling back to `:code.priv_dir(:ccxt_extract)`. One seam redirects
+  all six accessors (`priv/1`, `bundle/0`, `ts_src/0`, `version_file/0`,
+  `discoveries/0`, and inline `priv("ccxt")` call sites).
+- **Rewrote `describe "mix ccxt_extract.setup"`** in
+  `test/integration/mix_tasks_integration_test.exs` to stage a faithful
+  mirror in `tmp_dir` per test: `git clone --local --no-hardlinks priv/ccxt`
+  into `tmp_dir/priv/ccxt`, `File.cp_r!` `node_modules/ccxt` into
+  `tmp_dir/node_modules/ccxt`, point `:priv_dir_override` at `tmp_dir/priv`,
+  and wrap `Setup.run/1` in `File.cd!(tmp_dir, ...)` so relative
+  `node_modules/...` paths resolve inside the clone. Deleted the old
+  snapshot/restore block that rewrote real files and re-checked-out git
+  refs in place.
+- **Dropped `--latest` test** — that branch fatals when the npm registry
+  has advanced past the developer's `priv/ccxt` tag (the `record_versions`
+  version-sensitive guard), which is a legitimate production safeguard but
+  untestable in isolation without stubbing npm or git. The versioned
+  `--ccxt-version CURRENT` test covers structurally-equivalent
+  `update_ts_source/install_npm_package` branches.
+- **Isolation verified** — before/after the suite, `priv/ccxt`'s git HEAD
+  and the shasums of `priv/ccxt_version.json`, `priv/ccxt_bundle.js`, and
+  `node_modules/ccxt/package.json` are all byte-identical. Interrupted
+  runs no longer leave the checkout on a detached HEAD or at the wrong
+  npm version.
+- **Tests** — 2 new `:priv_dir_override` tests in
+  `test/ccxt_extract/paths_test.exs` (switched module to `async: false`
+  because the env is global). Full default suite: **1584 passed, 0
+  failed**. Integration suite (`--only extraction`
+  `mix_tasks_integration_test.exs`): **7 passed, 0 failed** in ~50s.
+
 ### Refactor: Finish `JsonIO` migration (REFACTOR.md Item 8b)
 
 - **New `CcxtExtract.JsonIO.read_json!/1`** — bang variant, a one-line

@@ -6,6 +6,14 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Refactor: Extract duplicated patterns flagged by `mix ex_dna`
+
+- **New `CcxtExtract.Progress`** — shared `map/2` wraps `Enum.with_index |> Enum.map` with periodic `Logger.info` progress lines (every 20 items). Replaces byte-identical loops in `describe.ex`, `signing_fixtures.ex`, and `url_templates.ex`.
+- **New `CcxtExtract.DiscoveryWriter`** — single `write!/3` that stamps `tier_scope`, creates the parent dir, and writes pretty JSON. Collapses 6 near-identical `write!/2` bodies (`DescribeKeyAnalysis`, `FamilyAnalysis`, `MethodAnalysis`, `Summary`, `CoverageReport`, `MarketValidation`) into one-line delegations. Normalised all 4 analysis modules' `@output_file` to include the `"discoveries/"` prefix (matches the 2 report modules' existing convention). Distinct from `AggregateWriter` — `DiscoveryWriter` writes whole-map reports, not scoped-merge entry lists.
+- **New `CcxtExtract.OXCBatch`** — two pure helpers: `reduce_results/1` (the `{:ok/:skip/:error}` fold) and `parse_file/2` (read + OXC.parse + dispatch). `OXCExtractor`'s injected defaults now delegate; `Methods` and `Classes` also call it directly — they don't fit the `OXCExtractor` `use` surface (multi-arity `extract/1`, dual-dir scan, extra writer options) so forcing them in would have required bolting options onto the macro for two callers.
+- **`mix ex_dna` improvement** — clones dropped from 12 → 4 (4 remaining are the cosmetic AST/File.read patterns local to `authenticated_sections.ex`, `validation.ex`, and `error_code_fields.ex` — intentionally out of scope). Duplicated lines dropped from ~302 to ~92.
+- **No behavioural change.** Full suite: **1579 passed, 0 failed** (same baseline as pre-refactor). `Classes.parse_file/2` kept public (tests depend on it).
+
 ### Refactor: Centralize QuickBEAM JS helpers (REFACTOR.md Item 7)
 
 - **New `CcxtExtract.QuickbeamRuntime.install_extraction_helpers/1`** — single

@@ -156,16 +156,8 @@ defmodule CcxtExtract.CoverageReport do
   envelope as `tier_scope`.
   """
   @spec write!(map(), keyword()) :: :ok
-  def write!(report, opts \\ []) do
-    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(@output_file))
-    tier_scope = Keyword.get(opts, :tier_scope, "all")
-    stamped = Map.put(report, "tier_scope", tier_scope)
-
-    output_path |> Path.dirname() |> File.mkdir_p!()
-    json = Jason.encode!(stamped, pretty: true)
-    File.write!(output_path, json)
-    :ok
-  end
+  def write!(report, opts \\ []),
+    do: CcxtExtract.DiscoveryWriter.write!(report, CcxtExtract.Paths.priv(@output_file), opts)
 
   # --- Input Loading ---
 

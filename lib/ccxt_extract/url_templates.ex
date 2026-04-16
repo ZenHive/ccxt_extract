@@ -192,13 +192,7 @@ defmodule CcxtExtract.UrlTemplates do
 
       Logger.info("Extracting URL templates for #{length(ids)} exchanges...")
 
-      results =
-        ids
-        |> Enum.with_index(1)
-        |> Enum.map(fn {id, idx} ->
-          if rem(idx, 20) == 0, do: Logger.info("  #{idx}/#{length(ids)}...")
-          extract_one(rt, id)
-        end)
+      results = CcxtExtract.Progress.map(ids, &extract_one(rt, &1))
 
       {:ok, results}
     after

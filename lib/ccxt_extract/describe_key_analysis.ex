@@ -16,7 +16,7 @@ defmodule CcxtExtract.DescribeKeyAnalysis do
   """
 
   @describe_keys_file "describe_keys.json"
-  @output_file "describe_key_analysis.json"
+  @output_file "discoveries/describe_key_analysis.json"
 
   # JS function that computes max nesting depth for each top-level describe() key.
   # Walks the value tree recursively, tracking depth. Reports the maximum depth
@@ -139,19 +139,8 @@ defmodule CcxtExtract.DescribeKeyAnalysis do
   envelope as `tier_scope`.
   """
   @spec write!(map(), keyword()) :: :ok
-  def write!(analysis, opts \\ []) do
-    output_path =
-      Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(Path.join("discoveries", @output_file)))
-
-    tier_scope = Keyword.get(opts, :tier_scope, "all")
-    stamped = Map.put(analysis, "tier_scope", tier_scope)
-
-    File.mkdir_p!(Path.dirname(output_path))
-
-    json = Jason.encode!(stamped, pretty: true)
-    File.write!(output_path, json)
-    :ok
-  end
+  def write!(analysis, opts \\ []),
+    do: CcxtExtract.DiscoveryWriter.write!(analysis, CcxtExtract.Paths.priv(@output_file), opts)
 
   @doc """
   Extract max nesting depth per describe() key via QuickBEAM.

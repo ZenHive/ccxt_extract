@@ -22,7 +22,7 @@ defmodule CcxtExtract.FamilyAnalysis do
   @classes_file "class_hierarchy.json"
   @summary_file "exchange_summary.json"
   @describe_dir "describe"
-  @output_file "family_analysis.json"
+  @output_file "discoveries/family_analysis.json"
 
   @doc """
   Run the full family analysis from existing discovery files.
@@ -241,19 +241,8 @@ defmodule CcxtExtract.FamilyAnalysis do
   envelope as `tier_scope`.
   """
   @spec write!(map(), keyword()) :: :ok
-  def write!(analysis, opts \\ []) do
-    output_path =
-      Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(Path.join("discoveries", @output_file)))
-
-    tier_scope = Keyword.get(opts, :tier_scope, "all")
-    stamped = Map.put(analysis, "tier_scope", tier_scope)
-
-    File.mkdir_p!(Path.dirname(output_path))
-
-    json = Jason.encode!(stamped, pretty: true)
-    File.write!(output_path, json)
-    :ok
-  end
+  def write!(analysis, opts \\ []),
+    do: CcxtExtract.DiscoveryWriter.write!(analysis, CcxtExtract.Paths.priv(@output_file), opts)
 
   # Validate that the describe directory exists and contains JSON files.
   defp validate_describe_dir(dir) do

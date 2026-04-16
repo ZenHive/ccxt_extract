@@ -49,11 +49,7 @@ defmodule CcxtExtract.Methods do
     {exchanges, skipped, errors} =
       files
       |> Enum.map(&parse_file/1)
-      |> Enum.reduce({[], [], []}, fn
-        {:ok, exchange}, {ok, skip, err} -> {[exchange | ok], skip, err}
-        {:skip, file}, {ok, skip, err} -> {ok, [file | skip], err}
-        {:error, file, reason}, {ok, skip, err} -> {ok, skip, [{file, reason} | err]}
-      end)
+      |> CcxtExtract.OXCBatch.reduce_results()
 
     for {file, reason} <- errors do
       Logger.warning("Failed to parse #{file}: #{inspect(reason)}")
@@ -114,21 +110,7 @@ defmodule CcxtExtract.Methods do
   or `{:error, filename, reason}` on parse failure.
   """
   @spec parse_file(String.t()) :: {:ok, map()} | {:skip, String.t()} | {:error, String.t(), term()}
-  def parse_file(path) do
-    source = File.read!(path)
-    filename = Path.basename(path)
-
-    case OXC.parse(source, filename) do
-      {:ok, ast} ->
-        case extract_from_ast(ast, filename) do
-          nil -> {:skip, filename}
-          exchange -> {:ok, exchange}
-        end
-
-      {:error, reason} ->
-        {:error, filename, reason}
-    end
-  end
+  def parse_file(path), do: CcxtExtract.OXCBatch.parse_file(path, &extract_from_ast/2)
 
   @doc """
   Extract exchange method data from a parsed AST.

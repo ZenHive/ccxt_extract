@@ -17,7 +17,7 @@ defmodule CcxtExtract.MethodAnalysis do
 
   @rest_file "methods_rest.json"
   @ws_file "methods_ws.json"
-  @output_file "method_analysis.json"
+  @output_file "discoveries/method_analysis.json"
 
   # Known CCXT method prefixes, ordered by convention.
   # Methods not matching any prefix go into "other".
@@ -187,19 +187,8 @@ defmodule CcxtExtract.MethodAnalysis do
   envelope as `tier_scope`.
   """
   @spec write!(map(), keyword()) :: :ok
-  def write!(analysis, opts \\ []) do
-    output_path =
-      Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(Path.join("discoveries", @output_file)))
-
-    tier_scope = Keyword.get(opts, :tier_scope, "all")
-    stamped = Map.put(analysis, "tier_scope", tier_scope)
-
-    File.mkdir_p!(Path.dirname(output_path))
-
-    json = Jason.encode!(stamped, pretty: true)
-    File.write!(output_path, json)
-    :ok
-  end
+  def write!(analysis, opts \\ []),
+    do: CcxtExtract.DiscoveryWriter.write!(analysis, CcxtExtract.Paths.priv(@output_file), opts)
 
   # --- Private helpers ---
 

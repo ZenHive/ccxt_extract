@@ -45,11 +45,7 @@ defmodule CcxtExtract.Classes do
     ws_results = Enum.map(ws_files, &parse_file(&1, "ws"))
 
     {classes, skipped, errors} =
-      Enum.reduce(rest_results ++ ws_results, {[], [], []}, fn
-        {:ok, class}, {ok, skip, err} -> {[class | ok], skip, err}
-        {:skip, file}, {ok, skip, err} -> {ok, [file | skip], err}
-        {:error, file, reason}, {ok, skip, err} -> {ok, skip, [{file, reason} | err]}
-      end)
+      CcxtExtract.OXCBatch.reduce_results(rest_results ++ ws_results)
 
     for {file, reason} <- errors do
       Logger.warning("Failed to parse #{file}: #{inspect(reason)}")
@@ -161,23 +157,13 @@ defmodule CcxtExtract.Classes do
   Returns `{:ok, class_map}`, `{:skip, filename}` if no exported class,
   or `{:error, filename, reason}` on parse failure.
   """
-  @spec parse_file(String.t(), String.t()) :: {:ok, map()} | {:skip, String.t()} | {:error, String.t(), term()}
+  @spec parse_file(String.t(), String.t()) ::
+          {:ok, map()} | {:skip, String.t()} | {:error, String.t(), term()}
   def parse_file(path, type) do
-    source = File.read!(path)
-    filename = Path.basename(path)
-
-    case OXC.parse(source, filename) do
-      {:ok, ast} ->
-        aliases = build_import_aliases(ast, type)
-
-        case extract_class(ast, filename, type, aliases) do
-          nil -> {:skip, filename}
-          class -> {:ok, class}
-        end
-
-      {:error, reason} ->
-        {:error, filename, reason}
-    end
+    CcxtExtract.OXCBatch.parse_file(path, fn ast, filename ->
+      aliases = build_import_aliases(ast, type)
+      extract_class(ast, filename, type, aliases)
+    end)
   end
 
   @doc """

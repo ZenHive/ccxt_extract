@@ -15,7 +15,7 @@ defmodule CcxtExtract.Summary do
 
   @exchanges_file "exchanges.json"
   @classes_file "class_hierarchy.json"
-  @output_file "exchange_summary.json"
+  @output_file "discoveries/exchange_summary.json"
 
   @doc """
   Read discovery files and compute exchange summary statistics.
@@ -65,19 +65,8 @@ defmodule CcxtExtract.Summary do
   in the output envelope.
   """
   @spec write!(map(), keyword()) :: :ok
-  def write!(summary, opts \\ []) do
-    output_path =
-      Keyword.get(opts, :output_path, CcxtExtract.Paths.priv(Path.join("discoveries", @output_file)))
-
-    tier_scope = Keyword.get(opts, :tier_scope, "all")
-    stamped = Map.put(summary, "tier_scope", tier_scope)
-
-    File.mkdir_p!(Path.dirname(output_path))
-
-    json = Jason.encode!(stamped, pretty: true)
-    File.write!(output_path, json)
-    :ok
-  end
+  def write!(summary, opts \\ []),
+    do: CcxtExtract.DiscoveryWriter.write!(summary, CcxtExtract.Paths.priv(@output_file), opts)
 
   @doc """
   Build full summary from exchanges, classes, tree, and WS counterparts.

@@ -198,7 +198,7 @@ defmodule CcxtExtract.ContractTestTest do
       {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: ["response"])
 
       assert report["summary"]["exchanges_checked"] == 2
-      assert report["summary"]["invariants_run"] == 3
+      assert report["summary"]["invariants_run"] == length(ContractTest.invariants())
       assert report["summary"]["total_findings"] == 2
       assert report["summary"]["findings_by_invariant"]["unified_endpoints_claimed_in_has"] == 1
 

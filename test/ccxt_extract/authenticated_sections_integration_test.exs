@@ -58,26 +58,39 @@ defmodule CcxtExtract.AuthenticatedSectionsIntegrationTest do
                Enum.join(dead_overrides, "\n  ")
     end
 
-    test "every override file has the required schema fields" do
-      missing_fields =
+    test "every override file loads cleanly under the v1 registry contract" do
+      failures =
         @overrides_dir
         |> File.ls!()
         |> Enum.filter(&String.ends_with?(&1, ".json"))
         |> Enum.flat_map(fn file ->
-          path = Path.join(@overrides_dir, file)
-          data = path |> File.read!() |> Jason.decode!()
           id = Path.basename(file, ".json")
 
-          cond do
-            not is_list(data["authenticated_sections"]) -> ["#{id}: missing/invalid authenticated_sections"]
-            not is_binary(data["reason"]) -> ["#{id}: missing reason"]
-            not is_binary(data["verified_against"]) -> ["#{id}: missing verified_against"]
-            true -> []
+          try do
+            case CcxtExtract.OverrideRegistry.load(id) do
+              :none ->
+                ["#{id}: OverrideRegistry.load returned :none (file should be readable)"]
+
+              overrides when is_list(overrides) ->
+                case CcxtExtract.OverrideRegistry.find(overrides, "/structure/authenticated_sections") do
+                  {:ok, entry} ->
+                    if is_list(entry["value"]) do
+                      []
+                    else
+                      ["#{id}: authenticated_sections override value is not a list"]
+                    end
+
+                  :none ->
+                    ["#{id}: missing /structure/authenticated_sections entry"]
+                end
+            end
+          rescue
+            e -> ["#{id}: load raised — #{Exception.message(e)}"]
           end
         end)
 
-      assert missing_fields == [],
-             "Override files missing required fields:\n  " <> Enum.join(missing_fields, "\n  ")
+      assert failures == [],
+             "Override files failing v1 contract:\n  " <> Enum.join(failures, "\n  ")
     end
   end
 
@@ -112,22 +125,35 @@ defmodule CcxtExtract.AuthenticatedSectionsIntegrationTest do
     output_path = Path.join(@output_dir, "#{id}.json")
 
     if File.exists?(output_path) do
-      override = @overrides_dir |> Path.join(file) |> File.read!() |> Jason.decode!()
-      override_sections = override["authenticated_sections"] || []
-
-      data = output_path |> File.read!() |> Jason.decode!()
-      sign_method = get_in(data, ["structure", "sign_method"])
-      api_keys = Map.keys(get_in(data, ["runtime", "describe", "api"]) || %{})
-
-      derived = CcxtExtract.AuthenticatedSections.derive(sign_method, api_keys) || []
-
-      if derived != [] and Enum.sort(Enum.uniq(derived)) == Enum.sort(override_sections) do
-        ["#{id}: AST derivation now matches override — override is redundant"]
-      else
-        []
-      end
+      compare_derived_to_override(id, output_path)
     else
       ["#{id}: override has no corresponding exchange output"]
+    end
+  end
+
+  defp compare_derived_to_override(id, output_path) do
+    override_sections = override_sections_for(id)
+
+    data = output_path |> File.read!() |> Jason.decode!()
+    sign_method = get_in(data, ["structure", "sign_method"])
+    api_keys = Map.keys(get_in(data, ["runtime", "describe", "api"]) || %{})
+
+    derived = CcxtExtract.AuthenticatedSections.derive(sign_method, api_keys) || []
+
+    if derived != [] and Enum.sort(Enum.uniq(derived)) == Enum.sort(override_sections) do
+      ["#{id}: AST derivation now matches override — override is redundant"]
+    else
+      []
+    end
+  end
+
+  defp override_sections_for(id) do
+    with overrides when is_list(overrides) <- CcxtExtract.OverrideRegistry.load(id),
+         {:ok, %{"value" => value}} when is_list(value) <-
+           CcxtExtract.OverrideRegistry.find(overrides, "/structure/authenticated_sections") do
+      value
+    else
+      _ -> []
     end
   end
 end

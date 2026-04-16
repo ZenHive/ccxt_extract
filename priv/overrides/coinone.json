@@ -1,5 +1,15 @@
 {
-  "authenticated_sections": ["private", "v2Private", "v2_1Private"],
-  "reason": "sign() reassigns `api = 'public'` inside the v2Public branch before the auth-gating if-chain — AST walker cannot track variable reassignment, so it mis-attributes v2Public as an authenticated section",
-  "verified_against": "priv/ccxt/ts/src/coinone.ts:1238 (sign, reassignment at v2Public branch)"
+  "schema_version": "1",
+  "overrides": [
+    {
+      "path": "/structure/authenticated_sections",
+      "value": [
+        "private",
+        "v2Private",
+        "v2_1Private"
+      ],
+      "reason": "sign() reassigns `api = 'public'` inside the v2Public branch before the auth-gating if-chain — AST walker cannot track variable reassignment, so it mis-attributes v2Public as an authenticated section",
+      "verified_against": "priv/ccxt/ts/src/coinone.ts:1238 (sign, reassignment at v2Public branch)"
+    }
+  ]
 }

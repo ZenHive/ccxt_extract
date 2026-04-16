@@ -179,3 +179,55 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 - **AST node exhaustiveness** — ESTree node types are permissive (`additionalProperties: true`). The schema validates structure, not every possible AST node shape.
 - **Field ordering** — JSON key order is not guaranteed and must not be relied upon.
 - **Cross-field semantic invariants** — the JSON Schema enforces shape, not coherence between fields. `mix ccxt_extract.contract_test` owns that layer: it asserts, for example, that every `structure.unified_endpoints` key is claimed in `runtime.describe.has`, and that every `structure.authenticated_sections` entry is reachable in `runtime.describe.api`. Schema-valid output can still fire contract-test findings; those are drift signals, not schema violations.
+
+---
+
+## Override Contract (v1)
+
+Per-exchange curated overrides live at `priv/overrides/<exchange_id>.json`. They carry knowledge the AST walker and runtime probes cannot reach — imperative signing quirks, exchange-specific inversions, CCXT bugs — and form the third tier of the raw / derived / override model (see `CLAUDE.md` § "Raw vs Derived vs Override").
+
+**This contract versions independently of the exchange JSON `schema_version`.** Override files carry their own `"schema_version": "1"`. Bumping the exchange schema does not imply an override-contract bump, and vice versa.
+
+**JSON Schema:** `priv/schema/override_v1.json` (validated by `mix ccxt_extract.contract_test` via the `override_registry_valid` invariant).
+
+### File format
+
+```json
+{
+  "schema_version": "1",
+  "overrides": [
+    {
+      "path": "/structure/authenticated_sections",
+      "value": ["private"],
+      "reason": "sign() has no checkRequiredCredentials() gate — credentials checked per-method",
+      "verified_against": "priv/ccxt/ts/src/hyperliquid.ts:4877"
+    }
+  ]
+}
+```
+
+### Rules
+
+| Key | Required | Notes |
+|-----|----------|-------|
+| `schema_version` | yes | Must be `"1"`. Any other value is a hard error. |
+| `overrides` | yes | Non-empty array of entries. Paths within a file must be unique. |
+| `overrides[].path` | yes | RFC 6901 JSON Pointer into the emitted exchange JSON (`/structure/...`, `/runtime/describe/...`). Must start with `/`. |
+| `overrides[].value` | yes | Any JSON value. Replaces whatever derivation produced for that path. |
+| `overrides[].reason` | yes | Non-empty string. Why this override exists. Overrides without a reason rot silently. |
+| `overrides[].verified_against` | optional | Source citation (`file:line`) or runtime probe reference proving the override matches real behavior. |
+| `overrides[].unverified` | optional (default `false`) | Set `true` for best-effort overrides that have not been validated. **Mutually exclusive with `verified_against`** — the loader raises if both are present. |
+
+### Parent-chain inheritance
+
+Alias exchanges (e.g. `gateio` → `gate`, `huobi` → `htx`) inherit their parent's override when they don't have their own file. Inheritance walks the `class_hierarchy.json` parent chain; an alias can still override specific paths by shipping its own file that sets just those paths.
+
+### Task-60 scope vs future tiers
+
+Task 60 (this section) ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON Schema, and the `override_registry_valid` contract-test invariant. Today only `/structure/authenticated_sections` is consumed — the `CcxtExtract.Pipeline.resolve_auth_override` helper reads it via `OverrideRegistry.find/2`.
+
+**The generic merge stage** — applying every override entry to the emitted exchange map regardless of path — lands with **Task 61b**. Until that ships, adding a file with a non-`/structure/authenticated_sections` path is legal (the contract-test invariant only checks file validity) but has no effect on the emitted JSON.
+
+**Provenance tagging** — a parallel `_provenance` map that marks each field `"raw"` / `"derived"` / `"override"` — lands with **Task 61a**.
+
+**Schema 2.0.0 bump** (Task 61c) will fold provenance into the exchange JSON itself, which is a breaking change for the exchange contract. The override contract stays at v1 across that bump unless override files themselves gain new required keys.

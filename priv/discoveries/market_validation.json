@@ -1,17 +1,6 @@
 {
-  "exchange_count": 23,
+  "exchange_count": 1,
   "exchanges": {
-    "aster": {
-      "errors": [],
-      "id": "aster",
-      "market_count": 471,
-      "undefined_density": {
-        "density_pct": 19.2,
-        "total_fields": 16485,
-        "undefined_count": 3171
-      },
-      "warnings": []
-    },
     "binance": {
       "errors": [],
       "id": "binance",
@@ -22,252 +11,37 @@
         "undefined_count": 46426
       },
       "warnings": []
-    },
-    "binancecoinm": {
-      "errors": [],
-      "id": "binancecoinm",
-      "market_count": 38,
-      "undefined_density": {
-        "density_pct": 12.4,
-        "total_fields": 1368,
-        "undefined_count": 170
-      },
-      "warnings": []
-    },
-    "binanceus": {
-      "errors": [],
-      "id": "binanceus",
-      "market_count": 618,
-      "undefined_density": {
-        "density_pct": 33.3,
-        "total_fields": 22248,
-        "undefined_count": 7416
-      },
-      "warnings": []
-    },
-    "binanceusdm": {
-      "errors": [],
-      "id": "binanceusdm",
-      "market_count": 712,
-      "undefined_density": {
-        "density_pct": 13.8,
-        "total_fields": 25632,
-        "undefined_count": 3548
-      },
-      "warnings": []
-    },
-    "bitfinex": {
-      "errors": [],
-      "id": "bitfinex",
-      "market_count": 296,
-      "undefined_density": {
-        "density_pct": 29.8,
-        "total_fields": 11248,
-        "undefined_count": 3356
-      },
-      "warnings": []
-    },
-    "bitmex": {
-      "errors": [],
-      "id": "bitmex",
-      "market_count": 131,
-      "undefined_density": {
-        "density_pct": 29.0,
-        "total_fields": 4716,
-        "undefined_count": 1369
-      },
-      "warnings": []
-    },
-    "bybit": {
-      "errors": [],
-      "id": "bybit",
-      "market_count": 3192,
-      "undefined_density": {
-        "density_pct": 13.9,
-        "total_fields": 114912,
-        "undefined_count": 15944
-      },
-      "warnings": []
-    },
-    "coinbaseexchange": {
-      "errors": [],
-      "id": "coinbaseexchange",
-      "market_count": 804,
-      "undefined_density": {
-        "density_pct": 37.1,
-        "total_fields": 28140,
-        "undefined_count": 10452
-      },
-      "warnings": []
-    },
-    "deribit": {
-      "errors": [],
-      "id": "deribit",
-      "market_count": 4288,
-      "undefined_density": {
-        "density_pct": 12.5,
-        "total_fields": 150080,
-        "undefined_count": 18793
-      },
-      "warnings": []
-    },
-    "derive": {
-      "errors": [],
-      "id": "derive",
-      "market_count": 133,
-      "undefined_density": {
-        "density_pct": 19.3,
-        "total_fields": 4655,
-        "undefined_count": 897
-      },
-      "warnings": []
-    },
-    "gate": {
-      "errors": [],
-      "id": "gate",
-      "market_count": 5857,
-      "undefined_density": {
-        "density_pct": 17.2,
-        "total_fields": 216709,
-        "undefined_count": 37378
-      },
-      "warnings": []
-    },
-    "gateio": {
-      "errors": [],
-      "id": "gateio",
-      "market_count": 5857,
-      "undefined_density": {
-        "density_pct": 17.2,
-        "total_fields": 216709,
-        "undefined_count": 37378
-      },
-      "warnings": []
-    },
-    "htx": {
-      "errors": [],
-      "id": "htx",
-      "market_count": 2329,
-      "undefined_density": {
-        "density_pct": 31.3,
-        "total_fields": 83844,
-        "undefined_count": 26216
-      },
-      "warnings": []
-    },
-    "huobi": {
-      "errors": [],
-      "id": "huobi",
-      "market_count": 2329,
-      "undefined_density": {
-        "density_pct": 31.3,
-        "total_fields": 83844,
-        "undefined_count": 26216
-      },
-      "warnings": []
-    },
-    "hyperliquid": {
-      "errors": [],
-      "id": "hyperliquid",
-      "market_count": 679,
-      "undefined_density": {
-        "density_pct": 33.7,
-        "total_fields": 24444,
-        "undefined_count": 8235
-      },
-      "warnings": []
-    },
-    "kraken": {
-      "errors": [],
-      "id": "kraken",
-      "market_count": 1508,
-      "undefined_density": {
-        "density_pct": 34.2,
-        "total_fields": 57304,
-        "undefined_count": 19604
-      },
-      "warnings": []
-    },
-    "kucoin": {
-      "errors": [],
-      "id": "kucoin",
-      "market_count": 1681,
-      "undefined_density": {
-        "density_pct": 29.4,
-        "total_fields": 60516,
-        "undefined_count": 17784
-      },
-      "warnings": []
-    },
-    "kucoinfutures": {
-      "errors": [],
-      "id": "kucoinfutures",
-      "market_count": 579,
-      "undefined_density": {
-        "density_pct": 16.6,
-        "total_fields": 20844,
-        "undefined_count": 3458
-      },
-      "warnings": []
-    },
-    "lighter": {
-      "errors": [],
-      "id": "lighter",
-      "market_count": 171,
-      "undefined_density": {
-        "density_pct": 26.5,
-        "total_fields": 5985,
-        "undefined_count": 1587
-      },
-      "warnings": []
-    },
-    "myokx": {
-      "errors": [],
-      "id": "myokx",
-      "market_count": 2929,
-      "undefined_density": {
-        "density_pct": 23.7,
-        "total_fields": 105444,
-        "undefined_count": 25036
-      },
-      "warnings": []
-    },
-    "okx": {
-      "errors": [],
-      "id": "okx",
-      "market_count": 2929,
-      "undefined_density": {
-        "density_pct": 23.7,
-        "total_fields": 105444,
-        "undefined_count": 25036
-      },
-      "warnings": []
-    },
-    "okxus": {
-      "errors": [],
-      "id": "okxus",
-      "market_count": 2929,
-      "undefined_density": {
-        "density_pct": 23.7,
-        "total_fields": 105444,
-        "undefined_count": 25036
-      },
-      "warnings": []
     }
   },
-  "spot_check": null,
+  "spot_check": {
+    "checked_at": "2026-04-16T00:49:26.674812Z",
+    "exchanges_checked": [
+      "binance"
+    ],
+    "exchanges_failed": [],
+    "results": [
+      {
+        "drift_summary": "0 added, 0 removed",
+        "id": "binance",
+        "market_count_cached": 4309,
+        "market_count_fresh": 4309,
+        "symbols_added": [],
+        "symbols_added_count": 0,
+        "symbols_removed": [],
+        "symbols_removed_count": 0
+      }
+    ]
+  },
   "summary": {
-    "avg_undefined_density_pct": 24.3,
+    "avg_undefined_density_pct": 29.9,
     "errors": 0,
-    "exchanges_valid": 23,
+    "exchanges_valid": 1,
     "exchanges_with_issues": 0,
-    "total_markets_checked": 44769,
+    "total_markets_checked": 4309,
     "warnings": 0
   },
   "tier_scope": [
-    "tier1",
-    "tier2",
-    "dex"
+    "exchange:binance"
   ],
-  "validated_at": "2026-04-15T13:03:48.068561Z"
+  "validated_at": "2026-04-16T00:49:26.674821Z"
 }

@@ -1,5 +1,13 @@
 {
-  "authenticated_sections": ["private"],
-  "reason": "sign() has no checkRequiredCredentials() gate — credentials are checked per-method rather than in sign()",
-  "verified_against": "priv/ccxt/ts/src/derive.ts (sign, no check); grep count in sign() = 0"
+  "schema_version": "1",
+  "overrides": [
+    {
+      "path": "/structure/authenticated_sections",
+      "value": [
+        "private"
+      ],
+      "reason": "sign() has no checkRequiredCredentials() gate — credentials are checked per-method rather than in sign()",
+      "verified_against": "priv/ccxt/ts/src/derive.ts (sign, no check); grep count in sign() = 0"
+    }
+  ]
 }

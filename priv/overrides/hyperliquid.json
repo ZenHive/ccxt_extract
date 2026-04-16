@@ -1,5 +1,13 @@
 {
-  "authenticated_sections": ["private"],
-  "reason": "sign() has no checkRequiredCredentials() gate — credentials are checked per-method (e.g. fetchMyTrades) rather than at the routing layer",
-  "verified_against": "priv/ccxt/ts/src/hyperliquid.ts:4877 (sign, no gate); checkRequiredCredentials called in per-method bodies"
+  "schema_version": "1",
+  "overrides": [
+    {
+      "path": "/structure/authenticated_sections",
+      "value": [
+        "private"
+      ],
+      "reason": "sign() has no checkRequiredCredentials() gate — credentials are checked per-method (e.g. fetchMyTrades) rather than at the routing layer",
+      "verified_against": "priv/ccxt/ts/src/hyperliquid.ts:4877 (sign, no gate); checkRequiredCredentials called in per-method bodies"
+    }
+  ]
 }

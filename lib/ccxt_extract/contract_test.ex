@@ -43,7 +43,8 @@ defmodule CcxtExtract.ContractTest do
   @invariants [
     {"unified_endpoints_claimed_in_has", :check_unified_endpoints_claimed_in_has},
     {"authenticated_sections_reachable_in_api", :check_authenticated_sections_reachable_in_api},
-    {"error_code_fields_root_in_observed_set", :check_error_code_fields_root}
+    {"error_code_fields_root_in_observed_set", :check_error_code_fields_root},
+    {"override_registry_valid", :check_override_registry_valid}
   ]
 
   @doc """
@@ -187,6 +188,31 @@ defmodule CcxtExtract.ContractTest do
       path: error_code_fields_path(index, entry),
       message: "root #{inspect(root)} not in baseline roots #{inspect(roots)}"
     }
+  end
+
+  @doc """
+  Flag `priv/overrides/<exchange>.json` files that fail the v1 registry
+  contract (`CcxtExtract.OverrideRegistry.load/1` raises). Exchanges
+  without an override file emit nothing.
+  """
+  @spec check_override_registry_valid(map(), map()) :: [finding()]
+  def check_override_registry_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+
+    try do
+      _ = CcxtExtract.OverrideRegistry.load(id)
+      []
+    rescue
+      e ->
+        [
+          %{
+            exchange: id,
+            invariant: "override_registry_valid",
+            path: "priv/overrides/#{id}.json",
+            message: Exception.message(e)
+          }
+        ]
+    end
   end
 
   ## Internals

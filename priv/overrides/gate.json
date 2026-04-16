@@ -1,5 +1,13 @@
 {
-  "authenticated_sections": ["private"],
-  "reason": "gate binds `const authentication = api[0]` then tests `if (authentication === 'public') {} else { check() }`. The AST walker's variable-binding strategy only recognizes bindings of form `api === 'X'` or `api[N] === 'X'`, not bare `api[N]`. Override captures the inversion result.",
-  "verified_against": "priv/ccxt/ts/src/gate.ts:6929 (sign, `const authentication = api[0]`)"
+  "schema_version": "1",
+  "overrides": [
+    {
+      "path": "/structure/authenticated_sections",
+      "value": [
+        "private"
+      ],
+      "reason": "gate binds `const authentication = api[0]` then tests `if (authentication === 'public') {} else { check() }`. The AST walker's variable-binding strategy only recognizes bindings of form `api === 'X'` or `api[N] === 'X'`, not bare `api[N]`. Override captures the inversion result.",
+      "verified_against": "priv/ccxt/ts/src/gate.ts:6929 (sign, `const authentication = api[0]`)"
+    }
+  ]
 }

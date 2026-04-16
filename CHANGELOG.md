@@ -6,6 +6,57 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Policy: Consumer contract refined (semantics vs mechanics split)
+
+The previously-absolute rule "consumers must never walk AST" has been refined to distinguish two categories:
+
+- **Semantics** (signing schemes, auth classification, parser intent, response envelope paths, rate-limit policy, error-handler routing): MUST be derived into declarative data. Rule here is unchanged — surfacing AST for semantics fragments the ecosystem as N consumers reimplement CCXT's interpretation.
+- **Mechanics** (bounded imperative blocks executing literal instructions — request body assembly, conditional param sets, literal key transforms): MAY be surfaced as narrowly-scoped AST subtrees when three conditions are met: (1) schema explicitly names permitted node types, (2) expected consumer action is documented, (3) derivation or op DSL is shown not to be strictly cheaper. Default is still derivation; AST surfacing is the documented exception.
+
+**Why:** The absolute form was paying governance benefits (a clean Schelling point, no boundary litigation) in exchange for significant and growing derivation / override cost on method-body mechanics. Hyperliquid's `fetchTime` issue (consumer sent empty POST body because the hardcoded `{type: "exchangeStatus"}` was not captured) surfaced the pattern: ~2,016 `const request: Dict = { ... }` occurrences across 110 exchanges, many with imperative shapes (conditional sets, market-id transforms) that derivation captures poorly and overrides scale worse. Op DSLs are AST with fewer node types and a different name; the old rule's distinction between "op DSL (OK)" and "AST subtree (forbidden)" was arbitrary.
+
+**What does NOT change:**
+
+- Raw AST stays in `priv/discoveries/`, not `priv/output/`. It remains a verification and override-authoring surface, not a consumer surface.
+- The Honesty Rule is unchanged: derivation emits values when provable, `null + reason` otherwise. Refined rule only widens the set of what counts as a legitimate derivation target (mechanics may be contracted AST subtrees, not only flat data or op recipes).
+- The Three-Strikes Rule is unchanged. Third-patch derivations still migrate; mechanics-AST is a new shape derivation can take, not an escape from the three-strikes backstop.
+- Multi-language parity: mechanics subtrees, if surfaced, must decode in any language without a JS parser (bounded node-type sets, ~80 LOC of dispatch). Anything richer than that falls back to derivation or op DSL.
+
+**Scope of this change:** CLAUDE.md only. No schema change yet, no extractor change, no output change. The refined rule is prophylactic — it opens a door that may be used by Phase 11 (request building) if a concrete mechanics surfacing proposal meets the three-condition bar. For the immediate hyperliquid gap, the working plan remains Option D (flat `body.defaults` + `body.unresolved` + `merge_strategy`) — pure derivation, no AST surfacing invoked.
+
+**Files:**
+
+- `CLAUDE.md` — replaced the absolute Consumer contract paragraph in the Mission section with the semantics/mechanics split; updated the corresponding bullet in the "Consumers Exist — Design For Them" section.
+
+### Task 60: Generic JSON-Pointer override contract
+
+Generalized the narrow per-field override precursor from Task 57d into a reusable three-tier contract carrier. Exchange JSON output is byte-identical; only override files and the loader change.
+
+**Shipped:**
+
+- `CcxtExtract.OverrideRegistry` — new loader module that reads `priv/overrides/<exchange>.json`, validates shape at load time (raises on bad data — invalid override files are build-time bugs), and exposes `load/1`, `find/2`, `list_exchanges/0`.
+- **Override file format v1** — each file now carries `{schema_version: "1", overrides: [{path, value, reason, verified_against?, unverified?}, ...]}` where `path` is an RFC 6901 JSON Pointer. `verified_against` and `unverified: true` are mutually exclusive.
+- `priv/schema/override_v1.json` — JSON Schema for override files (draft 2020-12).
+- Migrated all 14 existing override files to the new shape. Content preserved identically — each now ships one entry at `/structure/authenticated_sections`.
+- `CcxtExtract.Pipeline.resolve_auth_override/3` — refactored to delegate to `OverrideRegistry.load/1` + `find/2`. No behavior change.
+- `SCHEMA.md` — new "Override Contract (v1)" section documenting the file format, rules, parent-chain inheritance, and the relationship to Tasks 61a/61b/61c.
+- `override_registry_valid` contract-test invariant — `mix ccxt_extract.contract_test` now validates every exchange's override file loads cleanly.
+- Unit tests (`test/ccxt_extract/override_registry_test.exs`) cover malformed files: missing keys, wrong schema_version, non-pointer paths, empty reasons, mutually-exclusive flags, duplicate paths, unknown keys.
+- Existing `authenticated_sections_integration_test.exs` updated to the new format.
+
+**Out of scope — tracked for later phases:**
+
+- Provenance tagging on raw + derived fields (Task 61a).
+- Generic merge stage applying every override entry to the emitted exchange map regardless of path (Task 61b). Today only `/structure/authenticated_sections` is consumed; other paths are legal but inert.
+- Schema 2.0.0 bump (Task 61c).
+
+**Key decisions:**
+
+- The exchange output schema_version stays at `1.8.0` — no exchange-JSON field changed.
+- Override files carry their own `"schema_version": "1"` independent of the exchange JSON version, so future exchange-schema bumps don't force override-file migrations and vice versa.
+- Loader raises rather than returning `{:error, _}` — matches the Honesty Rule posture; invalid overrides are never silently skipped.
+- Module is named `CcxtExtract.OverrideRegistry` (not `Overrides`) because the existing `CcxtExtract.Overrides` module owns an unrelated concept (class-level method-override extraction from TS source).
+
 ### Task 12: Alias-aware scope guards (post-Task-11 regression)
 
 A consumer running `mix ccxt_extract.update --tier1 --tier2 --dex` hit a

@@ -1,5 +1,14 @@
 {
-  "authenticated_sections": ["privateEdge", "privateTrading"],
-  "reason": "sign() uses api.startsWith('private') — prefix matching not covered by AST walker (direct/indexed/binding strategies)",
-  "verified_against": "priv/ccxt/ts/src/grvt.ts:3248"
+  "schema_version": "1",
+  "overrides": [
+    {
+      "path": "/structure/authenticated_sections",
+      "value": [
+        "privateEdge",
+        "privateTrading"
+      ],
+      "reason": "sign() uses api.startsWith('private') — prefix matching not covered by AST walker (direct/indexed/binding strategies)",
+      "verified_against": "priv/ccxt/ts/src/grvt.ts:3248"
+    }
+  ]
 }

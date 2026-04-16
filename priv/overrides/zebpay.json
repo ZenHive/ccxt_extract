@@ -1,5 +1,13 @@
 {
-  "authenticated_sections": ["private"],
-  "reason": "zebpay binds `const access = this.safeString(api, 0, 'public')` then tests `access === 'public'`. The safeString-of-api pattern is not covered by the AST walker's binding strategies (only direct `api === 'X'` and `api[N] === 'X'`).",
-  "verified_against": "priv/ccxt/ts/src/zebpay.ts (sign, `safeString(api, 0, 'public')`)"
+  "schema_version": "1",
+  "overrides": [
+    {
+      "path": "/structure/authenticated_sections",
+      "value": [
+        "private"
+      ],
+      "reason": "zebpay binds `const access = this.safeString(api, 0, 'public')` then tests `access === 'public'`. The safeString-of-api pattern is not covered by the AST walker's binding strategies (only direct `api === 'X'` and `api[N] === 'X'`).",
+      "verified_against": "priv/ccxt/ts/src/zebpay.ts (sign, `safeString(api, 0, 'public')`)"
+    }
+  ]
 }

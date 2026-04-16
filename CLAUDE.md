@@ -27,7 +27,15 @@ Extract **everything** CCXT knows about 111+ cryptocurrency exchanges into langu
 
 Output: plain maps, JSON-serializable. No Elixir atoms, no structs, no language-specific types. The output must be consumable by any language — Elixir, Rust (`serde_json::from_str`), Python, Go — including consumers that generate code from the JSON (Elixir `use` macros, Rust proc-macros, Python codegen).
 
-**Consumer contract:** A consumer should never need to parse, walk, or pattern-match ESTree AST to do its job. If they have to, we failed. Raw AST stays in the output for verification and novel needs, but every capability a consumer needs (signing, request building, response parsing, error handling, WS dispatch) must be expressible as declarative data.
+**Consumer contract (semantics vs mechanics):**
+
+Consumers must never walk AST to understand **semantics** — signing schemes, auth classification, parser intent, response envelope paths, rate-limit policy, error-handler routing. These MUST be derived into declarative data; every consumer reimplementing semantics from syntax fragments the ecosystem and is a project failure.
+
+Consumers MAY receive narrowly-scoped AST subtrees for **mechanics** — bounded imperative blocks executing literal instructions (request body assembly, conditional param sets, literal key transforms). Surfacing mechanics as AST requires all three: (1) the schema explicitly names the permitted node types for that field, (2) the expected consumer action is documented, (3) the proposer shows derivation or an op DSL is not strictly cheaper. Absent those, default to derivation.
+
+Raw AST in `priv/discoveries/` exists for verification and override authoring — it is not a consumer surface.
+
+Historical note: this rule was previously absolute ("consumers must never walk AST, full stop"). It was refined after Phase 11 planning revealed that the absolute form was paying governance benefits (Schelling point, no boundary disputes) in exchange for significant derivation / override cost on method-body mechanics — a trade that no longer pencils out once the pattern's cost is understood. See CHANGELOG for the reasoning.
 
 ## The One Rule
 
@@ -107,7 +115,7 @@ Earlier versions of this doc said "NO consumers yet, don't design output shaped 
 
 What replaces it:
 
-- Design output so **any language** can consume it without AST walking
+- Semantics must consume in **any language** without any AST walking. Mechanics subtrees, when surfaced under the refined Consumer contract above, must decode in any language without an ESTree library — bounded node-type sets, roughly ~80 LOC of dispatch, and no dependency on a JS parser (the floor the rule must hold to avoid a weakest-consumer tax on Go/Python)
 - Don't shape output for one specific consumer's internal architecture (e.g. don't mirror ccxt_client's module layout)
 - When a consumer requests a field, evaluate whether it belongs in raw, derived, or override — don't reject it as "consumer-specific" if it's knowledge CCXT actually encodes
 - If you catch yourself thinking "we probably don't need X" — stop. Extract X.

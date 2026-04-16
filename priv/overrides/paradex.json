@@ -1,5 +1,13 @@
 {
-  "authenticated_sections": ["private"],
-  "reason": "sign() has no checkRequiredCredentials() gate — credentials are checked in individual methods (e.g. signIn) rather than in sign()",
-  "verified_against": "priv/ccxt/ts/src/paradex.ts:2646 (sign); 1164 (signIn)"
+  "schema_version": "1",
+  "overrides": [
+    {
+      "path": "/structure/authenticated_sections",
+      "value": [
+        "private"
+      ],
+      "reason": "sign() has no checkRequiredCredentials() gate — credentials are checked in individual methods (e.g. signIn) rather than in sign()",
+      "verified_against": "priv/ccxt/ts/src/paradex.ts:2646 (sign); 1164 (signIn)"
+    }
+  ]
 }

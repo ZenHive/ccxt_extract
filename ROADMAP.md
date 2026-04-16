@@ -16,7 +16,7 @@
 
 **Priority goal: endpoint-invocation contract (serves unified + non-unified).** The critical path is **signing → request building → rate limits**. These phases unlock both raw (implicit) and unified endpoints — anything you'd call needs them. Only Phase 12 (response parsing) is unified-specific (i.e., CCXT's normalized method surface like `fetchTicker`/`createOrder`, as opposed to raw implicit endpoints) and thus deprioritized. See [Endpoint-Invocation Priority Order](#endpoint-invocation-priority-order) below.
 
-**Phase 8 — Client harness + contract tests** complete; Task 57c is the only holdover and is blocked on Phase 9 provenance (🎁 **9-pipeline**). The target output is a three-tier merge (raw / derived / override). A narrow, field-specific override loader shipped alongside Task 57d (Schema 1.7.1), but the **generic JSON-Pointer override contract + per-field provenance are still owed** — they remain in Phase 9 (Task 60 unchanged, 61a/b/c gated on it).
+**Phase 8 — Client harness + contract tests** complete; Task 57c is the only holdover and is blocked on Phase 9 provenance (🎁 **9-pipeline**). The target output is a three-tier merge (raw / derived / override). The **generic JSON-Pointer override contract shipped with Task 60** (see CHANGELOG) — override files now use RFC 6901 paths, a `value` payload, required `reason`, and `verified_against`/`unverified` flags, validated by `CcxtExtract.OverrideRegistry` and the `override_registry_valid` contract-test invariant. Per-field provenance (Task 61a) is now unblocked, then the generic merge stage (61b), and Schema 2.0.0 (61c).
 
 **Scope.** This roadmap prioritizes Tier 1, Tier 2, and DEX exchanges (canonical list in `priv/priority_tiers.json`; stamped as `exchange.tier` in each output JSON since schema 1.8.0). Tier 3 and unclassified exchanges are supported — we still extract everything — but tasks that exist only to handle their quirks (exotic signing, custom error handlers, outlier fee schedules) live in Superseded / Deferred until a priority exchange surfaces the need. See `CLAUDE.md` §"Tier-Based Scoping". Scope-refactor tasks (every Mix task now accepts `--tier*/--all/--exchange ID`, `_manifest.json` stamps `tier_scope`, both `mix ccxt_extract.update` and `mix ccxt_extract.pipeline` share a `--force`-gated git-status safety rail) tracked in [SCOPED-EXTRACTION-TASKS.md](SCOPED-EXTRACTION-TASKS.md) — Tasks 1–11 complete; refactor closed.
 
@@ -77,14 +77,15 @@ Tasks grouped into session-sized bundles that share AST passes, schema design, o
 
 ### ✅ Recently Completed
 
-Tasks 58, 57d, 56b, 57b, 59, 57, 56, 55, 54, 53, 52, 49, 47, 46 — see [CHANGELOG.md](CHANGELOG.md). Task 60's narrow per-field precursor (`authenticated_sections` override loader) also shipped; generic JSON-Pointer form remains open under Task 60.
+Tasks 60, 58, 57d, 56b, 57b, 59, 57, 56, 55, 54, 53, 52, 49, 47, 46 — see [CHANGELOG.md](CHANGELOG.md).
 
 ### 📋 Next Up
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 60 | ⬜ | Generic JSON-Pointer override contract + SCHEMA.md (narrow precursor shipped with 57d) |
-| Task 61a | ⬜ | Provenance tagging (`raw`/`derived`/`override`) — unblocks once Task 60 generic form lands |
+| Task 61a | ⬜ | Provenance tagging (`raw`/`derived`/`override`) — now unblocked. With the v1 override contract live (Task 60), 61a can mark fields per-path without guessing at payload shape. |
+| Task 61b | ⬜ | Generic merge pipeline stage — applies every `OverrideRegistry` entry regardless of path. Depends on 61a. |
 | Task 57c | 🔶 | Pattern A/B fixed (341 → 53); Pattern C residual blocked on 61a — honest fix needs provenance tier (see Task 57c entry in Phase 8) |
+| Task 61c | ⬜ | Schema 2.0.0 bump — folds provenance into exchange JSON. Depends on 61a + 61b. |
 | Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ `[Codex]` |
 
 ### Quick Commands
@@ -141,7 +142,7 @@ Completed (Tasks 56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 60 | ⬜ | 🎁 **9-contract** · Generic JSON-Pointer override contract + SCHEMA.md docs [D:3/B:7/U:8 → Eff:2.5] 🎯 — narrow per-field precursor shipped with 57d (Schema 1.7.1). Remaining: JSON-Pointer paths, `value` payload, `unverified: true` flag, SCHEMA.md entry, JSON Schema for override files |
+| Task 60 | ✅ | 🎁 **9-contract** · Generic JSON-Pointer override contract + SCHEMA.md docs [D:3/B:7/U:8 → Eff:2.5] 🎯 — shipped: RFC 6901 `path`, `value` payload, `reason`, `verified_against`/`unverified` exclusivity, `OverrideRegistry` loader, `priv/schema/override_v1.json`, `override_registry_valid` contract-test invariant, 14 existing files migrated. See [CHANGELOG.md](CHANGELOG.md). |
 | Task 61a `[P]` | ⬜ | 🎁 **9-pipeline** · Provenance tagging on raw + derived fields [D:4/B:8/U:8 → Eff:2.0] 🚀 |
 | Task 61b | ⬜ | 🎁 **9-pipeline** · Override merge pipeline stage [D:4/B:9/U:9 → Eff:2.25] 🚀 |
 | Task 61c | ⬜ | 🎁 **9-contract** · Schema 2.0.0 bump + migration notes in SCHEMA.md [D:2/B:6/U:6 → Eff:3.0] 🎯 |

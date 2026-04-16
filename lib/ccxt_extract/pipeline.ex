@@ -268,24 +268,22 @@ defmodule CcxtExtract.Pipeline do
   # Resolve per-exchange override. Own override wins over AST derivation.
   # If no own override, walks parent chain so aliases (e.g. gateio -> gate)
   # inherit the override. Falls back to AST-derived value.
+  #
+  # Today this reads only `/structure/authenticated_sections` from the
+  # generic override registry (Task 60). Broader path application lands
+  # with the generic merge stage in Task 61b.
   defp resolve_auth_override(id, derived, data) do
-    case load_override(id) do
-      %{"authenticated_sections" => sections} when is_list(sections) ->
-        Enum.sort(Enum.uniq(sections))
-
+    with overrides when is_list(overrides) <- CcxtExtract.OverrideRegistry.load(id),
+         {:ok, entry} <-
+           CcxtExtract.OverrideRegistry.find(overrides, "/structure/authenticated_sections"),
+         sections when is_list(sections) <- entry["value"] do
+      Enum.sort(Enum.uniq(sections))
+    else
       _ ->
         case find_parent_exchange_id(id, data) do
           nil -> derived
           parent_id -> resolve_auth_override(parent_id, derived, data)
         end
-    end
-  end
-
-  defp load_override(id) do
-    path = Path.join(:code.priv_dir(:ccxt_extract), "overrides/#{id}.json")
-
-    if File.exists?(path) do
-      path |> File.read!() |> Jason.decode!()
     end
   end
 

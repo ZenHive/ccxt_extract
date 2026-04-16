@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "override_v1.json",
+  "title": "CCXT Extract Override File",
+  "description": "Per-exchange curated overrides. Each file lives at priv/overrides/<exchange_id>.json and carries hand-curated gap-fill entries addressed by RFC 6901 JSON Pointer into the emitted exchange JSON. See SCHEMA.md \u00a7 Override Contract for the full semantics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "overrides"],
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "description": "Override contract version. Independent of the exchange JSON's schema_version."
+    },
+    "overrides": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/OverrideEntry" },
+      "description": "Non-empty list of override entries. Paths within a file must be unique (enforced by the loader, not by JSON Schema)."
+    }
+  },
+  "$defs": {
+    "OverrideEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "value", "reason"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^/",
+          "description": "RFC 6901 JSON Pointer into the emitted exchange JSON (e.g. /structure/authenticated_sections)."
+        },
+        "value": {
+          "description": "Replacement value. Any JSON value; consumer-tier schemas validate shape at the target path."
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Why this override exists. Required — overrides without a reason rot silently."
+        },
+        "verified_against": {
+          "type": "string",
+          "description": "Optional source citation (file:line) or runtime probe reference proving the override matches real behavior. Mutually exclusive with \"unverified\": true."
+        },
+        "unverified": {
+          "type": "boolean",
+          "description": "Optional. Set true when the override is best-effort and has not been validated against runtime/source. Mutually exclusive with verified_against."
+        }
+      },
+      "not": {
+        "allOf": [
+          { "required": ["verified_against"] },
+          { "properties": { "unverified": { "const": true } }, "required": ["unverified"] }
+        ]
+      }
+    }
+  }
+}

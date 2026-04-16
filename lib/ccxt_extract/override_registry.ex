@@ -44,8 +44,8 @@ defmodule CcxtExtract.OverrideRegistry do
   Task 60 ships the contract (format + loader + SCHEMA.md + JSON Schema).
   The generic merge stage that applies every entry to the emitted exchange
   map lands with Task 61b. Today only `find/2` against
-  `/structure/authenticated_sections` is consumed (by
-  `CcxtExtract.Pipeline.resolve_auth_override/3`).
+  `/structure/authenticated_sections` is consumed (by the pipeline's
+  private `resolve_auth_override/3`).
   """
 
   alias CcxtExtract.Paths

@@ -109,6 +109,10 @@
     "zebpay",
     "zonda"
   ],
-  "extracted_at": "2026-04-16T06:24:38.873573Z",
-  "tier_scope": "all"
+  "extracted_at": "2026-04-16T07:17:37.054127Z",
+  "tier_scope": [
+    "exchange:binance",
+    "exchange:deribit",
+    "exchange:kraken"
+  ]
 }

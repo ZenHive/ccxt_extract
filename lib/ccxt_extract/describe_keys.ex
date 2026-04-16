@@ -16,8 +16,9 @@ defmodule CcxtExtract.DescribeKeys do
   # Type detection uses typeof + Array.isArray + null check to produce
   # JSON-friendly type strings: "string", "number", "boolean", "object",
   # "array", "null", "function", "undefined".
-  # TODO: Exchange ID enumeration pattern duplicated from exchanges.ex — extract
-  # shared JS helper when a third module needs the same enumeration logic.
+  #
+  # Relies on shared `getNonAliasIds()` from
+  # `CcxtExtract.QuickbeamRuntime.install_extraction_helpers/1`.
   @js_extract_describe_keys """
   globalThis.extractDescribeKeys = function(idFilter) {
     function jsType(val) {
@@ -27,29 +28,21 @@ defmodule CcxtExtract.DescribeKeys do
       return typeof val;
     }
 
-    const allIds = Object.keys(ccxt).filter(k => {
-      try {
-        return typeof ccxt[k] === 'function' &&
-               k !== 'Exchange' && k !== 'Precise' &&
-               new ccxt[k]().id;
-      } catch(e) { return false; }
-    });
+    const nonAliasIds = JSON.parse(getNonAliasIds());
 
     const ids = (idFilter && idFilter.length > 0)
-      ? allIds.filter(k => idFilter.includes(new ccxt[k]().id))
-      : allIds;
+      ? nonAliasIds.filter(k => idFilter.includes(new ccxt[k]().id))
+      : nonAliasIds;
 
     return JSON.stringify(ids.map(id => {
       const ex = new ccxt[id]();
       const d = ex.describe();
-      if (d.alias) return null;
-
       const keys = {};
       for (const k of Object.keys(d)) {
         keys[k] = jsType(d[k]);
       }
       return { id: d.id, keys: keys };
-    }).filter(Boolean));
+    }));
   }
   """
 
@@ -70,6 +63,7 @@ defmodule CcxtExtract.DescribeKeys do
     {:ok, rt} = CcxtExtract.QuickbeamRuntime.start()
 
     try do
+      :ok = CcxtExtract.QuickbeamRuntime.install_extraction_helpers(rt)
       {:ok, _} = QuickBEAM.eval(rt, @js_extract_describe_keys)
 
       id_filter =

@@ -4,8 +4,8 @@ Structural debt identified during end-to-end codebase review (2026-04-16).
 Quick wins (items 4-6) shipped same session; items 1-3 below are multi-session
 refactors requiring isolation and verification checkpoints.
 
-**Dependency order:** Items 1, 2, 3, and 8 are shipped. Items 6 and 7 remain
-as independent next candidates.
+**Dependency order:** Items 1, 2, 3, 7, and 8 are shipped. Items 6 and 8b
+remain as independent next candidates.
 
 ---
 
@@ -99,22 +99,33 @@ there, and verify. Current approach is fragile and non-hermetic.
 
 ---
 
-## Item 7: Centralize QuickBEAM runtime initialization
+## ~~Item 7: Centralize QuickBEAM JS helpers~~ ✅
 
-**D: 2 / B: 3 — ROI: 1.50**
+**D: 2 / B: 3 — ROI: 1.50** — **SHIPPED 2026-04-16**
 
-*Source: Codex reviewer (2026-04-16)*
+Added `CcxtExtract.QuickbeamRuntime.install_extraction_helpers/1` — a single
+installer that defines three shared JS globals: `getNonAliasIds()`,
+`_errorNameMap`, and `_prepare()`. The helpers now live as module attributes
+in `quickbeam_runtime.ex` and are installed by 6 extractors
+(`describe`, `load_markets`, `url_templates`, `signing_fixtures`,
+`describe_keys`, plus the internal id-listing runtime). Bundle load was
+already centralized in `start/1` — this refactor targeted the JS helpers
+baked into each module's `@js_setup`.
 
-Every runtime reloads the full CCXT bundle (`quickbeam_runtime.ex:45`). Similar
-embedded JS setup is duplicated across `exchanges.ex:17`, `describe.ex:23`, and
-`load_markets.ex:35`. `load_markets` can allocate five 1GB runtimes
-simultaneously (`load_markets.ex:29`).
+Dedup footprint: removed 4 copies of `getNonAliasIds`, 2 copies of
+`_errorNameMap`, and 2 copies of the local `prepare()` walker (now a single
+`globalThis._prepare` with defensive `_errorNameMap` lookup).
+`describe_keys.ex` dropped its inline alias filter to call shared
+`getNonAliasIds()`. `exchanges.ex` kept its inline filter — different
+semantics (includes aliases), not worth a one-consumer shared helper.
 
-### Plan
+Output byte-identical to pre-refactor (verified via scoped re-extraction of
+`binance`, `kraken`, `deribit` — zero diffs modulo `extracted_at`).
+3 new installer tests added in `test/ccxt_extract/quickbeam_runtime_test.exs`.
 
-Extract shared QuickBEAM JS helpers into a central module. Consider a runtime
-pool or singleton for the bundle load, especially if `load_markets` parallelism
-stays at 5 concurrent runtimes.
+`QuickBEAM.Pool` deliberately **not** introduced — single Mix-task process
+lifetime means pooling doesn't amortize bundle reloads. Revisit if a
+long-lived consumer (LiveView dashboard, etc.) ever needs the extractor.
 
 ---
 

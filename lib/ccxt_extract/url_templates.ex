@@ -47,23 +47,13 @@ defmodule CcxtExtract.UrlTemplates do
   # Gate-style exchanges use array api params: sign(path, ["public", "spot"], ...).
   # Most exchanges use string api params: sign(path, "public", ...).
   #
+  # Shared helpers (`getNonAliasIds` etc.) live in
+  # `CcxtExtract.QuickbeamRuntime` and are installed via
+  # `QuickbeamRuntime.install_extraction_helpers/1`.
+  #
   # Security note: This JS code runs inside QuickBEAM (sandboxed Zig NIF runtime)
   # against the CCXT vendor bundle — no user input is involved.
   @js_setup """
-  globalThis.getNonAliasIds = function() {
-    const ids = Object.keys(ccxt).filter(k => {
-      try {
-        return typeof ccxt[k] === 'function' &&
-               k !== 'Exchange' && k !== 'Precise' &&
-               new ccxt[k]().id;
-      } catch(e) { return false; }
-    });
-    return JSON.stringify(ids.filter(id => {
-      const d = new ccxt[id]().describe();
-      return !d.alias;
-    }).sort());
-  }
-
   globalThis.extractUrlTemplates = function(id) {
     const ex = new ccxt[id]();
     const d = ex.describe();
@@ -191,6 +181,7 @@ defmodule CcxtExtract.UrlTemplates do
     {:ok, rt} = CcxtExtract.QuickbeamRuntime.start()
 
     try do
+      :ok = CcxtExtract.QuickbeamRuntime.install_extraction_helpers(rt)
       {:ok, _} = QuickBEAM.eval(rt, @js_setup)
       {:ok, ids_json} = QuickBEAM.call(rt, "getNonAliasIds", [])
 

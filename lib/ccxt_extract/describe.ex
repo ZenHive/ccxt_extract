@@ -20,80 +20,17 @@ defmodule CcxtExtract.Describe do
 
   @output_dir "discoveries/describe"
 
-  # TODO: Exchange ID enumeration pattern duplicated from exchanges.ex and describe_keys.ex —
-  # now 3 modules use the same getNonAliasIds logic. Extract shared JS helper.
-  #
-  # JS functions for full describe() extraction.
-  #
-  # getNonAliasIds: returns sorted list of exchange IDs that are not aliases.
-  # getFullDescribe: returns one exchange's complete describe() as JSON.
-  #
-  # The prepare() function handles two edge cases before JSON serialization:
-  # - Functions (error classes) -> "__function:<name>" with resolved class names
-  # - undefined values (which JSON.stringify would silently drop) -> "__undefined"
-  #
-  # _errorNameMap resolves minified Function.name (e.g. "h") to real error class
-  # names (e.g. "ExchangeError") by instantiating each Error subclass and reading
-  # the this.name property set in CCXT's error constructors.
+  # Caller-specific JS for full describe() extraction. Shared helpers
+  # (`_errorNameMap`, `getNonAliasIds`, `_prepare`) live in
+  # `CcxtExtract.QuickbeamRuntime` and are installed via
+  # `QuickbeamRuntime.install_extraction_helpers/1`.
   #
   # Security note: This JS code runs inside QuickBEAM (sandboxed Zig NIF runtime)
   # against the CCXT vendor bundle — no user input is involved.
   @js_setup """
-  // Build map: minified Function.name → real error class name.
-  // CCXT error classes set this.name = 'ExchangeError' in their constructors,
-  // which survives minification (string literals are never mangled).
-  globalThis._errorNameMap = {};
-  for (const k of Object.keys(ccxt)) {
-    const v = ccxt[k];
-    if (typeof v === 'function') {
-      try {
-        const inst = new v();
-        if (inst instanceof Error && inst.name) {
-          _errorNameMap[v.name] = inst.name;
-        }
-      } catch(e) {}
-    }
-  }
-
-  globalThis.getNonAliasIds = function() {
-    const ids = Object.keys(ccxt).filter(k => {
-      try {
-        return typeof ccxt[k] === 'function' &&
-               k !== 'Exchange' && k !== 'Precise' &&
-               new ccxt[k]().id;
-      } catch(e) { return false; }
-    });
-    return JSON.stringify(ids.filter(id => {
-      const d = new ccxt[id]().describe();
-      return !d.alias;
-    }).sort());
-  }
-
   globalThis.getFullDescribe = function(id) {
     const ex = new ccxt[id]();
-    const d = ex.describe();
-
-    // Walk the object tree, converting undefined to sentinel and functions to names.
-    // We must do this before JSON.stringify because stringify silently drops undefined.
-    function prepare(val) {
-      if (val === undefined) return '__undefined';
-      if (val === null) return null;
-      if (typeof val === 'function') {
-        const resolved = _errorNameMap[val.name] || val.name || 'anonymous';
-        return '__function:' + resolved;
-      }
-      if (Array.isArray(val)) return val.map(prepare);
-      if (typeof val === 'object') {
-        const out = {};
-        for (const k of Object.keys(val)) {
-          out[k] = prepare(val[k]);
-        }
-        return out;
-      }
-      return val;
-    }
-
-    return JSON.stringify(prepare(d));
+    return JSON.stringify(_prepare(ex.describe()));
   }
   """
 
@@ -110,6 +47,7 @@ defmodule CcxtExtract.Describe do
     {:ok, rt} = CcxtExtract.QuickbeamRuntime.start()
 
     try do
+      :ok = CcxtExtract.QuickbeamRuntime.install_extraction_helpers(rt)
       {:ok, _} = QuickBEAM.eval(rt, @js_setup)
       {:ok, ids_json} = QuickBEAM.call(rt, "getNonAliasIds", [])
 

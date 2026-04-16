@@ -32,75 +32,23 @@ defmodule CcxtExtract.LoadMarkets do
   # Per-exchange loadMarkets() timeout — generous for slow exchanges
   @load_markets_timeout_ms 30_000
 
-  # JS functions for loadMarkets() extraction.
+  # Caller-specific JS for loadMarkets() extraction. Shared helpers
+  # (`_errorNameMap`, `getNonAliasIds`, `_prepare`) live in
+  # `CcxtExtract.QuickbeamRuntime` and are installed via
+  # `QuickbeamRuntime.install_extraction_helpers/1`.
   #
-  # getNonAliasIds: returns sorted list of exchange IDs that are not aliases.
-  #   (Same pattern as Describe — duplicated per TODO in describe.ex)
-  #
-  # loadMarketsForExchange: instantiates an exchange, calls loadMarkets(),
-  #   and returns the full market data as JSON. Uses the prepare() sentinel
-  #   pattern from Describe to preserve functions and undefined values.
-  #   In practice, market data contains only __undefined sentinels (no
-  #   __function: refs) — the error name resolution is defensive consistency
-  #   with describe.ex's prepare().
-  #   Wrapped in try/catch — returns {ok: data} or {error: message}.
+  # In practice market data contains only `__undefined` sentinels (no
+  # `__function:` refs) — the error-name resolution inside `_prepare` is
+  # defensive consistency with describe.ex's usage.
   #
   # Security note: This JS code runs inside QuickBEAM (sandboxed Zig NIF runtime)
   # against the CCXT vendor bundle — no user input is involved.
   @js_setup """
-  // Build map: minified Function.name → real error class name.
-  // Same pattern as describe.ex — each runtime needs its own map.
-  globalThis._errorNameMap = {};
-  for (const k of Object.keys(ccxt)) {
-    const v = ccxt[k];
-    if (typeof v === 'function') {
-      try {
-        const inst = new v();
-        if (inst instanceof Error && inst.name) {
-          _errorNameMap[v.name] = inst.name;
-        }
-      } catch(e) {}
-    }
-  }
-
-  globalThis.getNonAliasIds = function() {
-    const ids = Object.keys(ccxt).filter(k => {
-      try {
-        return typeof ccxt[k] === 'function' &&
-               k !== 'Exchange' && k !== 'Precise' &&
-               new ccxt[k]().id;
-      } catch(e) { return false; }
-    });
-    return JSON.stringify(ids.filter(id => {
-      const d = new ccxt[id]().describe();
-      return !d.alias;
-    }).sort());
-  }
-
   globalThis.loadMarketsForExchange = async function(id) {
     try {
       const ex = new ccxt[id]();
       const markets = await ex.loadMarkets();
-
-      function prepare(val) {
-        if (val === undefined) return '__undefined';
-        if (val === null) return null;
-        if (typeof val === 'function') {
-          const resolved = _errorNameMap[val.name] || val.name || 'anonymous';
-          return '__function:' + resolved;
-        }
-        if (Array.isArray(val)) return val.map(prepare);
-        if (typeof val === 'object') {
-          const out = {};
-          for (const k of Object.keys(val)) {
-            out[k] = prepare(val[k]);
-          }
-          return out;
-        }
-        return val;
-      }
-
-      return JSON.stringify({ok: true, markets: prepare(markets), market_count: Object.keys(markets).length});
+      return JSON.stringify({ok: true, markets: _prepare(markets), market_count: Object.keys(markets).length});
     } catch(e) {
       return JSON.stringify({ok: false, error: e.message || String(e)});
     }
@@ -301,7 +249,7 @@ defmodule CcxtExtract.LoadMarkets do
     {:ok, rt} = CcxtExtract.QuickbeamRuntime.start()
 
     try do
-      {:ok, _} = QuickBEAM.eval(rt, @js_setup)
+      :ok = CcxtExtract.QuickbeamRuntime.install_extraction_helpers(rt)
       {:ok, ids_json} = QuickBEAM.call(rt, "getNonAliasIds", [])
       Jason.decode!(ids_json)
     after
@@ -331,6 +279,7 @@ defmodule CcxtExtract.LoadMarkets do
     {:ok, rt} = CcxtExtract.QuickbeamRuntime.start(memory_limit: @runtime_memory_limit)
 
     try do
+      :ok = CcxtExtract.QuickbeamRuntime.install_extraction_helpers(rt)
       {:ok, _} = QuickBEAM.eval(rt, @js_setup)
 
       ids

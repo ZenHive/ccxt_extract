@@ -77,19 +77,7 @@ defmodule CcxtExtract.SigningFixtures do
       };
     }
 
-    globalThis.getNonAliasIds = function() {
-      const ids = Object.keys(ccxt).filter(k => {
-        try {
-          return typeof ccxt[k] === 'function' &&
-                 k !== 'Exchange' && k !== 'Precise' &&
-                 new ccxt[k]().id;
-        } catch(e) { return false; }
-      });
-      return JSON.stringify(ids.filter(id => {
-        const d = new ccxt[id]().describe();
-        return !d.alias;
-      }).sort());
-    }
+    // getNonAliasIds is installed by QuickbeamRuntime.install_extraction_helpers/1.
 
     // Walk describe().api to find leaf sections (nodes with HTTP method keys).
     function collectLeaves(api) {
@@ -398,6 +386,7 @@ defmodule CcxtExtract.SigningFixtures do
     {:ok, rt} = CcxtExtract.QuickbeamRuntime.start()
 
     try do
+      :ok = CcxtExtract.QuickbeamRuntime.install_extraction_helpers(rt)
       {:ok, _} = QuickBEAM.eval(rt, @js_setup)
       {:ok, ids_json} = QuickBEAM.call(rt, "getNonAliasIds", [])
 

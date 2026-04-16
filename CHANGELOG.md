@@ -6,6 +6,37 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Refactor: Centralize QuickBEAM JS helpers (REFACTOR.md Item 7)
+
+- **New `CcxtExtract.QuickbeamRuntime.install_extraction_helpers/1`** — single
+  installer that defines three shared JS globals in a running runtime:
+  `getNonAliasIds()` (sorted JSON array of non-alias CCXT class keys),
+  `_errorNameMap` (minified `Function.name` → real error class name), and
+  `_prepare()` (tree walker that converts `undefined` / functions to JSON-safe
+  sentinels). Helpers live as module attributes in `quickbeam_runtime.ex`.
+- **Deduped 3 JS helpers across 6 modules.** Removed duplicated
+  `getNonAliasIds` from `describe.ex`, `load_markets.ex`, `url_templates.ex`,
+  `signing_fixtures.ex`; removed duplicated `_errorNameMap` build loops from
+  `describe.ex` and `load_markets.ex`; hoisted the local `prepare()` from
+  inner-function scope in `describe.ex` and `load_markets.ex` to a single
+  `globalThis._prepare`. `describe_keys.ex` dropped its inline alias filter
+  and now calls shared `getNonAliasIds()`. `load_markets.ex`'s temporary
+  id-listing runtime no longer re-evals the full `@js_setup` just to get ids.
+- **No scope / API changes.** Output of every extraction task is
+  byte-identical to pre-refactor (verified via scoped re-extraction of
+  `binance`, `kraken`, `deribit` — zero diffs modulo `extracted_at`).
+- **`exchanges.ex` intentionally untouched** — its inline filter includes
+  aliases (different semantics from `getNonAliasIds`); a shared helper for a
+  single caller is premature abstraction.
+- **Pool deferred** — `QuickBEAM.Pool` would not amortize within a single
+  Mix-task run (`load_markets.ex`'s 5 concurrent 1GB runtimes are per-chunk,
+  not per-request). Revisit if a long-lived consumer ever needs the extractor.
+- **Tests** — `test/ccxt_extract/quickbeam_runtime_test.exs` covers the
+  installer end-to-end (3 tests, all pass in ~18s). Full unit suite: **1579
+  passed, 0 failed**. Integration suite shows the same 10 pre-existing
+  failures as baseline (all unrelated — env, CCXT bundle version drift, test
+  bugs tracked as Items 6 / 8b).
+
 ### Refactor: Promote `read_json/1` to `CcxtExtract.JsonIO` (REFACTOR.md Item 8)
 
 - **New `CcxtExtract.JsonIO.read_json/1`** — single canonical JSON reader. `File.read` + `try/rescue Jason.DecodeError`, returns `{:ok, decoded}`, `{:error, {:missing_input, path}}` (bare path, safe for pattern matches), or `{:error, {:invalid_json, detail}}`. Never raises.

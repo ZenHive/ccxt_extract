@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Planned
+
+- ROADMAP: Added Phase 11 Task 73c — per-method `structure.request_defaults` extractor. Documented in response to 2026-04-16 ccxt_client consumer report (hyperliquid.fetch_time empty POST body).
+
 ### Policy: Consumer contract refined (semantics vs mechanics split)
 
 The previously-absolute rule "consumers must never walk AST" has been refined to distinguish two categories:

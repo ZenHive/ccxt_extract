@@ -200,6 +200,9 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 | Task 72 | ⬜ | 🎁 **11+14** · Timestamp source + format per section [D:3/B:6/U:7 → Eff:2.17] 🚀 |
 | Task 73 | ⬜ | 🎁 **11+14** · Per-method rate-limit cost + weight axis [D:3/B:7/U:7 → Eff:2.33] 🚀 |
 | Task 73b | ⬜ | 🎁 **11+14** · User-agent + default headers per exchange [D:2/B:5/U:5 → Eff:2.5] 🎯 |
+| Task 73c | ⬜ | 🎁 **11-request** · Per-method default request body from literal object expressions flowing into HTTP calls. Extract `const request = {…}` (or inline object) whose value reaches `this.<httpCall>(…)`; emit `structure.request_defaults` as `method → {key → {value, kind, reason}}`. Literal primitives resolve to `kind: "literal"`; non-literal values emit `kind: "unresolved"` with a closed-vocabulary reason tag (Honesty Rule). Override-mergeable via `/structure/request_defaults[/<method>]`. Contract invariant: every resolvable entry must have a non-empty `unified_endpoints` entry. Schema bump 1.8.0 → 1.8.1 (additive, nullable). Blocks ccxt_client POST-body integration; current concrete failure: hyperliquid.fetch_time [D:4/B:7/U:9 → Eff:2.0] 🚀 |
+
+> **Three-Strikes escalation for Task 73c:** If the request-object derivation is patched three times to handle new shapes (conditional keys, spread elaboration, reassignment tracking, etc.), the Three-Strikes Rule requires a replacement tier — surfacing a bounded mechanics-AST subtree per CLAUDE.md's mechanics carve-out rather than continuing to stretch the derivation. No task created yet; this is a placeholder for when/if the patch counter reaches 3/3.
 
 ---
 

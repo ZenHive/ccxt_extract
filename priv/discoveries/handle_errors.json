@@ -58710,7 +58710,6 @@
                     ],
                     "end": 391857,
                     "optional": false,
-                    "typeArguments": null,
                     "callee": {
                       "start": 391822,
                       "type": "MemberExpression",
@@ -58731,7 +58730,8 @@
                         "type": "ThisExpression",
                         "end": 391826
                       }
-                    }
+                    },
+                    "typeArguments": null
                   },
                   "start": 391814,
                   "type": "VariableDeclarator",
@@ -58911,7 +58911,6 @@
                       ],
                       "end": 392034,
                       "optional": false,
-                      "typeArguments": null,
                       "callee": {
                         "start": 391957,
                         "type": "MemberExpression",
@@ -58932,7 +58931,8 @@
                           "type": "ThisExpression",
                           "end": 391961
                         }
-                      }
+                      },
+                      "typeArguments": null
                     },
                     "directive": null
                   },
@@ -58955,7 +58955,6 @@
                         }
                       ],
                       "end": 392082,
-                      "typeArguments": null,
                       "callee": {
                         "name": "ExchangeError",
                         "start": 392058,
@@ -58964,7 +58963,8 @@
                         "optional": false,
                         "typeAnnotation": null,
                         "decorators": []
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 ]
@@ -102989,7 +102989,7 @@
       "id": "zonda"
     }
   ],
-  "extracted_at": "2026-04-16T08:21:17.632831Z",
+  "extracted_at": "2026-04-16T09:28:54.267517Z",
   "tier_scope": [
     "exchange:gate",
     "exchange:gateio"

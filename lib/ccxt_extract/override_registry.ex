@@ -48,6 +48,7 @@ defmodule CcxtExtract.OverrideRegistry do
   private `resolve_auth_override/3`).
   """
 
+  alias CcxtExtract.JsonIO
   alias CcxtExtract.Paths
 
   @override_schema_version "1"
@@ -75,8 +76,7 @@ defmodule CcxtExtract.OverrideRegistry do
   def load_path(path) when is_binary(path) do
     if File.exists?(path) do
       path
-      |> File.read!()
-      |> Jason.decode!()
+      |> JsonIO.read_json!()
       |> validate!(path)
     else
       :none

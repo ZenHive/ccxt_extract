@@ -31,6 +31,8 @@ defmodule CcxtExtract.MarketValidation do
       )
   """
 
+  alias CcxtExtract.JsonIO
+
   require Logger
 
   @output_file "discoveries/market_validation.json"
@@ -78,7 +80,7 @@ defmodule CcxtExtract.MarketValidation do
     manifest_path = Path.join(input_dir, "_manifest.json")
 
     if File.exists?(manifest_path) do
-      manifest = manifest_path |> File.read!() |> Jason.decode!()
+      manifest = JsonIO.read_json!(manifest_path)
       validate_with_manifest(manifest, input_dir, opts)
     else
       {:error, {:missing_input, manifest_path}}
@@ -100,7 +102,7 @@ defmodule CcxtExtract.MarketValidation do
         exchange_reports =
           Map.new(succeeded, fn id ->
             path = Path.join(input_dir, "#{id}.json")
-            data = path |> File.read!() |> Jason.decode!()
+            data = JsonIO.read_json!(path)
             {id, validate_exchange(data)}
           end)
 
@@ -418,7 +420,7 @@ defmodule CcxtExtract.MarketValidation do
   defp load_cached_exchange_data(exchange_ids, input_dir) do
     Map.new(exchange_ids, fn id ->
       path = Path.join(input_dir, "#{id}.json")
-      data = if File.exists?(path), do: path |> File.read!() |> Jason.decode!()
+      data = if File.exists?(path), do: JsonIO.read_json!(path)
       {id, data}
     end)
   end

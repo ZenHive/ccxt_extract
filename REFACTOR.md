@@ -4,8 +4,8 @@ Structural debt identified during end-to-end codebase review (2026-04-16).
 Quick wins (items 4-6) shipped same session; items 1-3 below are multi-session
 refactors requiring isolation and verification checkpoints.
 
-**Dependency order:** Items 1, 2, 3, 7, and 8 are shipped. Items 6 and 8b
-remain as independent next candidates.
+**Dependency order:** Items 1, 2, 3, 7, 8, and 8b are shipped. Item 6
+remains as the last independent candidate.
 
 ---
 
@@ -146,57 +146,53 @@ on corrupt coverage inputs — conscious decision, coverage report is
 best-effort. `test/ccxt_extract/json_io_test.exs` covers all three shapes.
 Full suite: 1579 passed, 0 failed.
 
-## Item 8b: Migrate remaining inline `File.read` + `Jason.decode` sites to `JsonIO`
+## ~~Item 8b: Migrate remaining inline `File.read` + `Jason.decode` sites to `JsonIO`~~ ✅
 
-**D: 2 / B: 2 — ROI: 1.00**
+**D: 2 / B: 2 — ROI: 1.00** — **SHIPPED 2026-04-16**
 
-Item 8 scoped to the 7 modules named in its original plan. End-to-end
-exploration during Item 8 turned up ~20 additional inline
-`File.read` + `Jason.decode!` / `Jason.decode` sites that still bypass
-`JsonIO.read_json/1`:
+Added `JsonIO.read_json!/1` — a one-line `File.read!` + `Jason.decode!` pipe
+that preserves the standard Elixir exception types (`File.Error`,
+`Jason.DecodeError`) rather than translating them into tuples. Migrated ~20
+real `File.read` + `Jason.decode` call sites across 9 modules
+(`validation.ex`, `market_validation.ex`, `contract_test.ex`, `aliases.ex`,
+`fixture_parity.ex`, `override_registry.ex`, `handle_errors.ex`,
+`signing_fixtures.ex`, `load_markets.ex`, `aggregate_writer.ex`,
+`mix/tasks/ccxt_extract.update.ex`). Trivial bang-style sites became
+`JsonIO.read_json!(path)` one-liners; sites with `{:error, _}` fallbacks
+became `case JsonIO.read_json(path) do` blocks with explicit
+`{:missing_input, _}` / `{:invalid_json, _}` arms; the 4 sites that needed
+typed error handling (two `rescue Jason.DecodeError` blocks in
+`validation.ex`, the `:enoent` instructional message in `contract_test.ex`,
+and the non-map-vs-malformed distinction in `aggregate_writer.ex`) kept
+their semantics via explicit error arms.
 
-- `lib/ccxt_extract/validation.ex` — ~10 sites (lines 152, 172-174, 231-232,
-  1010, 1023, 1040, 1054, 1071, 1090, 1104, 1118, 1132). The existing comment
-  at `validation.ex:980` already flags the debt: *"if a third consumer appears,
-  extract shared loaders using Pipeline.read_json/1's robust…"*.
-- `lib/ccxt_extract/market_validation.ex` — 3 sites (81, 103, 432).
-- `lib/ccxt_extract/contract_test.ex` — 3 sites (311, 328-330).
-- `lib/ccxt_extract/aliases.ex` — lines 67-68.
-- `lib/ccxt_extract/signing_fixtures.ex` — 406, 427-428, 441.
-- `lib/ccxt_extract/aggregate_writer.ex` — line 140.
-- `lib/ccxt_extract/tiers.ex` line 43 uses `JSON.decode!` (stdlib, not Jason) —
-  verify intentional before migrating.
+Collapsed `DiscoveryLoader.load_exchange_field/5` and `load_exchange_lookup/4`
+into a shared `load_global_exchanges_file/5` helper that takes the
+per-entry validator as a callback — the other 5 scaffolds have distinct
+success-path shapes (fan-out, grouping keys, field-specific extraction) that
+make a shared helper net-negative on clarity.
 
-### Plan
+Resolved open questions from the Item 8 staged review:
+- **POSIX reason not carried** — repo audit showed no consumer needs to
+  disambiguate `:enoent` vs. `:eacces` (`contract_test.ex`'s custom enoent
+  message is already covered by the `:missing_input` vs. `:invalid_json`
+  split). `JsonIO` API stays small.
+- **Only field+lookup consolidated** — the 7-scaffold shared helper was
+  considered and rejected after analysis.
 
-Walk each module and replace `File.read` + `Jason.decode!` (or `Jason.decode`)
-with `CcxtExtract.JsonIO.read_json/1`. For bang-style call sites, wrap in
-`case`/`with` and raise explicitly on `:invalid_json`; some sites may legitimately
-want to keep a raising variant, in which case add `JsonIO.read_json!/1` first.
-Each caller needs the same `{:error, _}` branch audit as Item 8.
+Out of scope (intentionally untouched): `tiers.ex:43, :58` (compile-time
+stdlib `JSON.decode!` via `@external_resource`); QuickBEAM-response
+`Jason.decode!` sites in `describe.ex`, `describe_keys.ex`,
+`describe_key_analysis.ex`, `load_markets.ex:118/:251`,
+`url_templates.ex:190/:209`, `exchanges.ex:64`, `signing_fixtures.ex:395/:421`
+(decode JS runtime output, not files); `mix/tasks/ccxt_extract.setup.ex:112,
+:252, :258` (npm `package.json` reads — third-party metadata, kept with
+setup tooling).
 
-**Open questions surfaced by the Item 8 staged review:**
-
-- Decide whether `{:missing_input, path}` should carry the underlying POSIX
-  `reason` (the old `DiscoveryLoader` Shape C embedded `:enoent`/`:eacces` in
-  the detail string; `JsonIO` dropped it for pattern-match ergonomics). If a
-  consumer needs to disambiguate permission/type errors, either widen the
-  tuple or expose a separate `read_json_with_reason/1`.
-- Evaluate collapsing the 7 nearly-identical `case JsonIO.read_json(path) do
-  … {:missing_input, _} → record stat … {:invalid_json, detail} → raise
-  "Corrupt discovery artifact" end` scaffolds in `discovery_loader.ex`
-  (`load_describe_files`, `load_markets_files`, `load_classes`,
-  `load_exchange_field`, `load_sign_methods`, `load_exchange_lookup`,
-  `load_overrides`) into a shared helper. Pre-existing duplication, but
-  Item 8 made it more visible.
-
-Do when next touching these modules so the audit cost is amortized.
-
-### Verification
-
-Same as Item 8: `mix compile --warnings-as-errors`, `mix test`, and a
-post-migration grep (`Jason.decode`) should find only `aggregate_writer.ex`-style
-call sites that intentionally write JSON, not read it.
+Full suite: **1582 passed, 0 failed** (1579 baseline + 3 new `read_json!/1`
+tests). Post-migration grep confirms no `File.read` + `Jason.decode` pairs
+remain in `lib/` outside `json_io.ex` itself, the out-of-scope QuickBEAM and
+setup.ex sites, and `tiers.ex`'s compile-time stdlib `JSON.decode!`.
 
 ---
 

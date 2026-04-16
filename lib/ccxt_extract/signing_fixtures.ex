@@ -406,11 +406,8 @@ defmodule CcxtExtract.SigningFixtures do
   end
 
   defp existing_ccxt_version(manifest_path) do
-    with true <- File.exists?(manifest_path),
-         {:ok, body} <- File.read(manifest_path),
-         {:ok, %{"ccxt_version" => v}} <- Jason.decode(body) do
-      v
-    else
+    case CcxtExtract.JsonIO.read_json(manifest_path) do
+      {:ok, %{"ccxt_version" => v}} -> v
       _ -> nil
     end
   end

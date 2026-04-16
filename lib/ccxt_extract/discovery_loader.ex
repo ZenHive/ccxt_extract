@@ -239,23 +239,13 @@ defmodule CcxtExtract.DiscoveryLoader do
 
   # Load a global file and index by id, extracting a specific field as value
   defp load_exchange_field(dir, filename, field, expected_ids, stats) do
-    path = Path.join(dir, filename)
-
-    case JsonIO.read_json(path) do
-      {:ok, %{"exchanges" => entries}} when is_list(entries) ->
-        stats = record_global_orphans(stats, filename, entries, expected_ids)
-
-        reduce_validated(entries, stats, &validate_exchange_field_entry(filename, field, &1))
-
-      {:ok, _malformed} ->
-        raise "Corrupt discovery artifact: #{path} missing or invalid \"exchanges\" key"
-
-      {:error, {:missing_input, _}} ->
-        {%{}, add_stat_entry(stats, :missing_files, filename)}
-
-      {:error, {:invalid_json, detail}} ->
-        raise "Corrupt discovery artifact: #{detail}"
-    end
+    load_global_exchanges_file(
+      dir,
+      filename,
+      expected_ids,
+      stats,
+      &validate_exchange_field_entry(filename, field, &1)
+    )
   end
 
   # Load sign_methods — the value is the "sign" key (MethodAST or nil)
@@ -283,13 +273,24 @@ defmodule CcxtExtract.DiscoveryLoader do
 
   # Load a global file and index by id, keeping the full entry
   defp load_exchange_lookup(dir, filename, expected_ids, stats) do
+    load_global_exchanges_file(
+      dir,
+      filename,
+      expected_ids,
+      stats,
+      &validate_exchange_lookup_entry(filename, &1)
+    )
+  end
+
+  # Shared scaffold for global `_.json` files shaped as `%{"exchanges" => [...]}`.
+  # The `validate_fn` decides how each entry becomes `{:ok, id, value}` or `{:corrupt, detail}`.
+  defp load_global_exchanges_file(dir, filename, expected_ids, stats, validate_fn) do
     path = Path.join(dir, filename)
 
     case JsonIO.read_json(path) do
       {:ok, %{"exchanges" => entries}} when is_list(entries) ->
         stats = record_global_orphans(stats, filename, entries, expected_ids)
-
-        reduce_validated(entries, stats, &validate_exchange_lookup_entry(filename, &1))
+        reduce_validated(entries, stats, validate_fn)
 
       {:ok, _malformed} ->
         raise "Corrupt discovery artifact: #{path} missing or invalid \"exchanges\" key"

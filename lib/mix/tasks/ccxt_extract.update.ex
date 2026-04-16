@@ -337,15 +337,9 @@ defmodule Mix.Tasks.CcxtExtract.Update do
   @doc "Reads and decodes a JSON manifest file, returning nil on failure."
   @spec read_manifest(Path.t()) :: map() | nil
   def read_manifest(path) do
-    case File.read(path) do
-      {:ok, content} ->
-        case Jason.decode(content) do
-          {:ok, data} -> data
-          {:error, _} -> nil
-        end
-
-      {:error, _} ->
-        nil
+    case CcxtExtract.JsonIO.read_json(path) do
+      {:ok, data} -> data
+      {:error, _} -> nil
     end
   end
 

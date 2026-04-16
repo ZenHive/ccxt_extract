@@ -34,4 +34,26 @@ defmodule CcxtExtract.JsonIOTest do
       assert detail =~ "bad.json"
     end
   end
+
+  describe "read_json!/1" do
+    @tag :tmp_dir
+    test "returns decoded term for valid JSON", %{tmp_dir: tmp_dir} do
+      path = Path.join(tmp_dir, "valid.json")
+      File.write!(path, ~s({"hello": "world"}))
+      assert %{"hello" => "world"} = JsonIO.read_json!(path)
+    end
+
+    @tag :tmp_dir
+    test "raises File.Error for missing file", %{tmp_dir: tmp_dir} do
+      path = Path.join(tmp_dir, "absent.json")
+      assert_raise File.Error, fn -> JsonIO.read_json!(path) end
+    end
+
+    @tag :tmp_dir
+    test "raises Jason.DecodeError for malformed JSON", %{tmp_dir: tmp_dir} do
+      path = Path.join(tmp_dir, "bad.json")
+      File.write!(path, "{not json")
+      assert_raise Jason.DecodeError, fn -> JsonIO.read_json!(path) end
+    end
+  end
 end

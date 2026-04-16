@@ -44,4 +44,14 @@ defmodule CcxtExtract.JsonIO do
         {:error, {:missing_input, path}}
     end
   end
+
+  @doc """
+  Read and decode a JSON file, raising on failure.
+
+  Raises `File.Error` when the file cannot be read and `Jason.DecodeError`
+  when the content is not valid JSON.
+  """
+  # sobelow_skip ["Traversal.FileModule"]
+  @spec read_json!(Path.t()) :: term()
+  def read_json!(path), do: path |> File.read!() |> Jason.decode!()
 end

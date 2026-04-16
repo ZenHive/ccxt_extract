@@ -6,6 +6,40 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Refactor: Finish `JsonIO` migration (REFACTOR.md Item 8b)
+
+- **New `CcxtExtract.JsonIO.read_json!/1`** — bang variant, a one-line
+  `File.read!` + `Jason.decode!` pipe. Raises `File.Error` on read failure
+  and `Jason.DecodeError` on malformed JSON, preserving the standard
+  exception types rather than wrapping them in `RuntimeError`.
+- **Migrated ~20 inline `File.read` + `Jason.decode` sites** across 11
+  files: `validation.ex`, `market_validation.ex`, `contract_test.ex`,
+  `aliases.ex`, `fixture_parity.ex`, `override_registry.ex`,
+  `handle_errors.ex`, `signing_fixtures.ex`, `load_markets.ex`,
+  `aggregate_writer.ex`, and `mix/tasks/ccxt_extract.update.ex`. Trivial
+  bang sites became `JsonIO.read_json!(path)` one-liners; sites with
+  `{:error, _}` fallbacks became 3-arm `case JsonIO.read_json(path) do`
+  blocks. Four sites with typed error handling kept their semantics via
+  explicit `{:missing_input, _}` / `{:invalid_json, _}` arms (dropped two
+  `rescue Jason.DecodeError` blocks; preserved `contract_test.ex`'s
+  baseline-missing instructional raise; preserved `aggregate_writer.ex`'s
+  non-map-vs-malformed distinction).
+- **Consolidated field+lookup in `DiscoveryLoader`** — extracted a shared
+  `load_global_exchanges_file/5` helper that both `load_exchange_field/5`
+  and `load_exchange_lookup/4` now delegate to. Other 5 scaffolds
+  intentionally untouched (distinct success-path shapes).
+- **Design decisions locked in** — `JsonIO` API stays minimal: no POSIX
+  `reason` in `{:missing_input, path}` (no consumer needs to disambiguate
+  `:enoent` vs. `:eacces`), no decode options. The `:missing_input` vs.
+  `:invalid_json` split is sufficient for every migrated consumer.
+- **Out of scope** — `tiers.ex:43, :58` (compile-time stdlib
+  `JSON.decode!` via `@external_resource`), ~10 QuickBEAM-response decode
+  sites (not file reads), and `mix/tasks/ccxt_extract.setup.ex` npm
+  `package.json` reads (third-party metadata).
+- **Tests** — 3 new `read_json!/1` tests (`File.Error` raise,
+  `Jason.DecodeError` raise, happy-path). Full suite: **1582 passed, 0
+  failed**.
+
 ### Refactor: Extract duplicated patterns flagged by `mix ex_dna`
 
 - **New `CcxtExtract.Progress`** — shared `map/2` wraps `Enum.with_index |> Enum.map` with periodic `Logger.info` progress lines (every 20 items). Replaces byte-identical loops in `describe.ex`, `signing_fixtures.ex`, and `url_templates.ex`.

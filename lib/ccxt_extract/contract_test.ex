@@ -29,6 +29,8 @@ defmodule CcxtExtract.ContractTest do
   New invariants append to `@invariants`; the runner is registry-driven.
   """
 
+  alias CcxtExtract.JsonIO
+
   @type finding :: %{
           exchange: String.t(),
           invariant: String.t(),
@@ -308,7 +310,7 @@ defmodule CcxtExtract.ContractTest do
     end)
     |> maybe_scope_files(scope)
     |> Enum.sort()
-    |> Enum.map(&(&1 |> File.read!() |> Jason.decode!()))
+    |> Enum.map(&JsonIO.read_json!/1)
   end
 
   defp maybe_scope_files(paths, nil), do: paths
@@ -325,11 +327,11 @@ defmodule CcxtExtract.ContractTest do
       opts[:baseline_path] ||
         CcxtExtract.Paths.priv("contract_test/error_code_fields_roots.json")
 
-    case File.read(path) do
+    case JsonIO.read_json(path) do
       {:ok, body} ->
-        body |> Jason.decode!() |> Enum.sort()
+        Enum.sort(body)
 
-      {:error, :enoent} ->
+      {:error, {:missing_input, _}} ->
         raise """
         Contract test baseline missing at #{path}.
 

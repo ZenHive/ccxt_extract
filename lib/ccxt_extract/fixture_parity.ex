@@ -16,6 +16,8 @@ defmodule CcxtExtract.FixtureParity do
   via QuickBEAM and diffs against disk.
   """
 
+  alias CcxtExtract.JsonIO
+
   @fixtures_dir "fixtures/signing"
   @volatile_keys ["generated_at"]
 
@@ -106,7 +108,7 @@ defmodule CcxtExtract.FixtureParity do
     |> Enum.reject(&String.starts_with?(&1, "_"))
     |> Map.new(fn filename ->
       id = Path.rootname(filename)
-      fixture = fixtures_dir |> Path.join(filename) |> File.read!() |> Jason.decode!()
+      fixture = fixtures_dir |> Path.join(filename) |> JsonIO.read_json!()
       {id, fixture}
     end)
   end

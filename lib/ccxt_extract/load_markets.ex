@@ -216,11 +216,8 @@ defmodule CcxtExtract.LoadMarkets do
   # "failed" key all degrade to []. Scoped merge then behaves like a full
   # rewrite for failed entries rather than crashing the pipeline on stale state.
   defp read_existing_failed(manifest_path) do
-    with true <- File.exists?(manifest_path),
-         {:ok, body} <- File.read(manifest_path),
-         {:ok, %{"failed" => failed}} when is_list(failed) <- Jason.decode(body) do
-      failed
-    else
+    case CcxtExtract.JsonIO.read_json(manifest_path) do
+      {:ok, %{"failed" => failed}} when is_list(failed) -> failed
       _ -> []
     end
   end

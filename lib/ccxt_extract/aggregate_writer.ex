@@ -65,6 +65,7 @@ defmodule CcxtExtract.AggregateWriter do
   """
 
   alias CcxtExtract.AstNormalize
+  alias CcxtExtract.JsonIO
 
   @type scope :: :all | MapSet.t(String.t())
   @type stats_fn :: ([map()] -> map())
@@ -134,21 +135,19 @@ defmodule CcxtExtract.AggregateWriter do
     :ok
   end
 
-  # sobelow_skip ["Traversal.FileModule"]
   defp read_existing_entries(path, entry_key) do
-    if File.exists?(path) do
-      case path |> File.read!() |> Jason.decode() do
-        {:ok, data} when is_map(data) ->
-          extract_entries_or_raise(data, entry_key, path)
+    case JsonIO.read_json(path) do
+      {:ok, data} when is_map(data) ->
+        extract_entries_or_raise(data, entry_key, path)
 
-        {:ok, other} ->
-          raise "Corrupt #{path}: expected a JSON object, got #{inspect(other)}"
+      {:ok, other} ->
+        raise "Corrupt #{path}: expected a JSON object, got #{inspect(other)}"
 
-        {:error, reason} ->
-          raise "Malformed JSON in #{path}: #{inspect(reason)}"
-      end
-    else
-      []
+      {:error, {:missing_input, _}} ->
+        []
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Malformed JSON in #{path}: #{detail}"
     end
   end
 

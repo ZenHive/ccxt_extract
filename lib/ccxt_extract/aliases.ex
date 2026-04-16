@@ -36,6 +36,8 @@ defmodule CcxtExtract.Aliases do
       Aliases.exclude_aliases(scope) # => scope with aliases removed
   """
 
+  alias CcxtExtract.JsonIO
+
   @exchanges_file "exchanges.json"
 
   @doc """
@@ -64,8 +66,7 @@ defmodule CcxtExtract.Aliases do
     end
 
     path
-    |> File.read!()
-    |> Jason.decode!()
+    |> JsonIO.read_json!()
     |> Map.fetch!("exchanges")
     |> Enum.filter(& &1["alias"])
     |> MapSet.new(& &1["id"])

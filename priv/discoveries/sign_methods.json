@@ -14234,6 +14234,7 @@
                               "start": 84409,
                               "type": "TSTypeReference",
                               "end": 84413,
+                              "typeArguments": null,
                               "typeName": {
                                 "name": "Dict",
                                 "start": 84409,
@@ -14242,8 +14243,7 @@
                                 "optional": false,
                                 "typeAnnotation": null,
                                 "decorators": []
-                              },
-                              "typeArguments": null
+                              }
                             }
                           },
                           "decorators": []
@@ -28440,6 +28440,7 @@
                                 "start": 52959,
                                 "type": "TSTypeReference",
                                 "end": 52963,
+                                "typeArguments": null,
                                 "typeName": {
                                   "name": "Dict",
                                   "start": 52959,
@@ -28448,8 +28449,7 @@
                                   "optional": false,
                                   "typeAnnotation": null,
                                   "decorators": []
-                                },
-                                "typeArguments": null
+                                }
                               }
                             },
                             "decorators": []
@@ -40507,6 +40507,7 @@
                                       "start": 79585,
                                       "type": "TSTypeReference",
                                       "end": 79589,
+                                      "typeArguments": null,
                                       "typeName": {
                                         "name": "Dict",
                                         "start": 79585,
@@ -40515,8 +40516,7 @@
                                         "optional": false,
                                         "typeAnnotation": null,
                                         "decorators": []
-                                      },
-                                      "typeArguments": null
+                                      }
                                     }
                                   },
                                   "decorators": []
@@ -50108,6 +50108,7 @@
                               "start": 96143,
                               "type": "TSTypeReference",
                               "end": 96147,
+                              "typeArguments": null,
                               "typeName": {
                                 "name": "Dict",
                                 "start": 96143,
@@ -50116,8 +50117,7 @@
                                 "optional": false,
                                 "typeAnnotation": null,
                                 "decorators": []
-                              },
-                              "typeArguments": null
+                              }
                             }
                           },
                           "decorators": []
@@ -110799,6 +110799,7 @@
                         "start": 201698,
                         "type": "TSTypeReference",
                         "end": 201701,
+                        "typeArguments": null,
                         "typeName": {
                           "name": "Str",
                           "start": 201698,
@@ -110807,8 +110808,7 @@
                           "optional": false,
                           "typeAnnotation": null,
                           "decorators": []
-                        },
-                        "typeArguments": null
+                        }
                       }
                     },
                     "decorators": []
@@ -111280,6 +111280,7 @@
                               "start": 202316,
                               "type": "TSTypeReference",
                               "end": 202319,
+                              "typeArguments": null,
                               "typeName": {
                                 "name": "Str",
                                 "start": 202316,
@@ -111288,8 +111289,7 @@
                                 "optional": false,
                                 "typeAnnotation": null,
                                 "decorators": []
-                              },
-                              "typeArguments": null
+                              }
                             }
                           },
                           "decorators": []
@@ -117932,6 +117932,7 @@
                                     "start": 377417,
                                     "type": "TSTypeReference",
                                     "end": 377421,
+                                    "typeArguments": null,
                                     "typeName": {
                                       "name": "Dict",
                                       "start": 377417,
@@ -117940,8 +117941,7 @@
                                       "optional": false,
                                       "typeAnnotation": null,
                                       "decorators": []
-                                    },
-                                    "typeArguments": null
+                                    }
                                   }
                                 },
                                 "decorators": []
@@ -121088,6 +121088,7 @@
                                       "start": 381213,
                                       "type": "TSTypeReference",
                                       "end": 381217,
+                                      "typeArguments": null,
                                       "typeName": {
                                         "name": "Dict",
                                         "start": 381213,
@@ -121096,8 +121097,7 @@
                                         "optional": false,
                                         "typeAnnotation": null,
                                         "decorators": []
-                                      },
-                                      "typeArguments": null
+                                      }
                                     }
                                   },
                                   "decorators": []
@@ -173704,6 +173704,7 @@
                               "start": 106004,
                               "type": "TSTypeReference",
                               "end": 106008,
+                              "typeArguments": null,
                               "typeName": {
                                 "name": "Dict",
                                 "start": 106004,
@@ -173712,8 +173713,7 @@
                                 "optional": false,
                                 "typeAnnotation": null,
                                 "decorators": []
-                              },
-                              "typeArguments": null
+                              }
                             }
                           },
                           "decorators": []
@@ -194209,6 +194209,7 @@
                                   "start": 86585,
                                   "type": "TSTypeReference",
                                   "end": 86588,
+                                  "typeArguments": null,
                                   "typeName": {
                                     "name": "Str",
                                     "start": 86585,
@@ -194217,8 +194218,7 @@
                                     "optional": false,
                                     "typeAnnotation": null,
                                     "decorators": []
-                                  },
-                                  "typeArguments": null
+                                  }
                                 }
                               },
                               "decorators": []
@@ -195554,7 +195554,7 @@
       }
     }
   ],
-  "extracted_at": "2026-04-16T07:02:01.232827Z",
+  "extracted_at": "2026-04-16T08:20:09.037891Z",
   "tier_scope": "all",
   "with_sign": 99
 }

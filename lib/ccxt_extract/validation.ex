@@ -21,6 +21,7 @@ defmodule CcxtExtract.Validation do
       CcxtExtract.Validation.write!(report)
   """
 
+  alias CcxtExtract.JsonIO
   alias CcxtExtract.Paths
 
   require Logger
@@ -149,7 +150,7 @@ defmodule CcxtExtract.Validation do
   @spec build_schema_root() :: JSV.Root.t()
   def build_schema_root do
     schema_path = Paths.priv(@schema_path)
-    raw_schema = schema_path |> File.read!() |> Jason.decode!()
+    raw_schema = JsonIO.read_json!(schema_path)
     JSV.build!(raw_schema)
   end
 
@@ -169,15 +170,9 @@ defmodule CcxtExtract.Validation do
     manifest_path = Path.join(output_dir, "_manifest.json")
 
     manifest =
-      case File.read(manifest_path) do
-        {:ok, content} ->
-          case Jason.decode(content) do
-            {:ok, data} -> data
-            {:error, _} -> nil
-          end
-
-        {:error, _} ->
-          nil
+      case JsonIO.read_json(manifest_path) do
+        {:ok, data} -> data
+        {:error, _} -> nil
       end
 
     if is_nil(manifest) do
@@ -228,18 +223,21 @@ defmodule CcxtExtract.Validation do
   defp read_exchange_file(output_dir, id, {exs, miss, corr, mis}) do
     path = Path.join(output_dir, "#{id}.json")
 
-    with {:ok, content} <- File.read(path),
-         {:ok, data} <- Jason.decode(content) do
-      file_id = get_in(data, ["exchange", "id"])
+    case JsonIO.read_json(path) do
+      {:ok, data} ->
+        file_id = get_in(data, ["exchange", "id"])
 
-      if file_id == id do
-        {[data | exs], miss, corr, mis}
-      else
-        {[data | exs], miss, corr, ["#{id} (file has id=#{file_id})" | mis]}
-      end
-    else
-      {:error, %Jason.DecodeError{}} -> {exs, miss, [id | corr], mis}
-      {:error, _} -> {exs, [id | miss], corr, mis}
+        if file_id == id do
+          {[data | exs], miss, corr, mis}
+        else
+          {[data | exs], miss, corr, ["#{id} (file has id=#{file_id})" | mis]}
+        end
+
+      {:error, {:invalid_json, _}} ->
+        {exs, miss, [id | corr], mis}
+
+      {:error, {:missing_input, _}} ->
+        {exs, [id | miss], corr, mis}
     end
   end
 
@@ -1005,78 +1003,80 @@ defmodule CcxtExtract.Validation do
   defp load_describe_lookup(dir) do
     manifest_path = Path.join(dir, "describe/_manifest.json")
 
-    case File.read(manifest_path) do
-      {:ok, content} ->
-        %{"exchanges" => ids} = Jason.decode!(content)
+    case JsonIO.read_json(manifest_path) do
+      {:ok, %{"exchanges" => ids}} ->
         Map.new(ids, &read_describe_entry(dir, &1))
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         %{}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt describe manifest: #{detail}"
     end
   end
 
   defp read_describe_entry(dir, id) do
     path = Path.join(dir, "describe/#{id}.json")
 
-    case File.read(path) do
+    case JsonIO.read_json(path) do
       {:ok, data} ->
-        {id, Jason.decode!(data)["describe"]}
+        {id, data["describe"]}
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
+        {id, nil}
+
+      {:error, {:invalid_json, detail}} ->
+        Logger.warning("Corrupt describe JSON for #{id}: #{detail}")
         {id, nil}
     end
-  rescue
-    e in Jason.DecodeError ->
-      Logger.warning("Corrupt describe JSON for #{id}: #{Exception.message(e)}")
-      {id, nil}
   end
 
   # Load per-exchange markets files into %{id => markets_data}
   defp load_markets_lookup(dir) do
     manifest_path = Path.join(dir, "load_markets/_manifest.json")
 
-    case File.read(manifest_path) do
-      {:ok, content} ->
-        %{"succeeded" => entries} = Jason.decode!(content)
+    case JsonIO.read_json(manifest_path) do
+      {:ok, %{"succeeded" => entries}} ->
         Map.new(entries, &read_markets_entry(dir, &1))
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         %{}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt load_markets manifest: #{detail}"
     end
   end
 
   defp load_markets_failure_lookup(dir) do
     manifest_path = Path.join(dir, "load_markets/_manifest.json")
 
-    case File.read(manifest_path) do
-      {:ok, content} ->
-        content
-        |> Jason.decode!()
+    case JsonIO.read_json(manifest_path) do
+      {:ok, data} ->
+        data
         |> Map.get("failed", [])
         |> Map.new(fn entry -> {entry["id"], entry["error"]} end)
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         %{}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt load_markets manifest: #{detail}"
     end
   end
 
   defp read_markets_entry(dir, entry) do
     id = if is_map(entry), do: entry["id"], else: entry
+    path = Path.join(dir, "load_markets/#{id}.json")
 
-    try do
-      path = Path.join(dir, "load_markets/#{id}.json")
+    case JsonIO.read_json(path) do
+      {:ok, parsed} ->
+        {id, %{"market_count" => parsed["market_count"], "markets" => parsed["markets"]}}
 
-      case File.read(path) do
-        {:ok, data} ->
-          parsed = Jason.decode!(data)
-          {id, %{"market_count" => parsed["market_count"], "markets" => parsed["markets"]}}
+      {:error, {:missing_input, _}} ->
+        {id, nil}
 
-        {:error, _} ->
-          {id, nil}
-      end
-    rescue
-      e in Jason.DecodeError ->
-        Logger.warning("Corrupt load_markets JSON for #{id}: #{Exception.message(e)}")
+      {:error, {:invalid_json, detail}} ->
+        Logger.warning("Corrupt load_markets JSON for #{id}: #{detail}")
         {id, nil}
     end
   end
@@ -1085,13 +1085,15 @@ defmodule CcxtExtract.Validation do
   defp load_json_index(dir, filename) do
     path = Path.join(dir, filename)
 
-    case File.read(path) do
-      {:ok, content} ->
-        data = Jason.decode!(content)
+    case JsonIO.read_json(path) do
+      {:ok, data} ->
         Map.new(data["exchanges"], fn entry -> {entry["id"], entry} end)
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         %{}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery file #{filename}: #{detail}"
     end
   end
 
@@ -1099,13 +1101,15 @@ defmodule CcxtExtract.Validation do
   defp load_json_index_field(dir, filename, field) do
     path = Path.join(dir, filename)
 
-    case File.read(path) do
-      {:ok, content} ->
-        data = Jason.decode!(content)
+    case JsonIO.read_json(path) do
+      {:ok, data} ->
         Map.new(data["exchanges"], fn entry -> {entry["id"], entry[field]} end)
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         %{}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery file #{filename}: #{detail}"
     end
   end
 
@@ -1113,13 +1117,15 @@ defmodule CcxtExtract.Validation do
   defp load_json_index_key(dir, filename, key) do
     path = Path.join(dir, filename)
 
-    case File.read(path) do
-      {:ok, content} ->
-        data = Jason.decode!(content)
+    case JsonIO.read_json(path) do
+      {:ok, data} ->
         Map.new(data["exchanges"], fn entry -> {entry["id"], entry[key]} end)
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         %{}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery file #{filename}: #{detail}"
     end
   end
 
@@ -1127,13 +1133,15 @@ defmodule CcxtExtract.Validation do
   defp load_json_group_by(dir, filename, list_key, group_field) do
     path = Path.join(dir, filename)
 
-    case File.read(path) do
-      {:ok, content} ->
-        data = Jason.decode!(content)
+    case JsonIO.read_json(path) do
+      {:ok, data} ->
         Enum.group_by(data[list_key], & &1[group_field])
 
-      {:error, _} ->
+      {:error, {:missing_input, _}} ->
         %{}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery file #{filename}: #{detail}"
     end
   end
 

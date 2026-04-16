@@ -19,6 +19,8 @@ defmodule CcxtExtract.HandleErrors do
 
   use CcxtExtract.OXCExtractor, output_file: "handle_errors.json"
 
+  alias CcxtExtract.JsonIO
+
   @impl true
   def source_dir, do: CcxtExtract.Paths.ts_src()
 
@@ -79,7 +81,7 @@ defmodule CcxtExtract.HandleErrors do
       CcxtExtract.Paths.priv(Path.join(["discoveries", "describe", "#{exchange_id}.json"]))
 
     if File.exists?(describe_path) do
-      data = describe_path |> File.read!() |> Jason.decode!()
+      data = JsonIO.read_json!(describe_path)
       describe = data["describe"] || %{}
       {normalize_map(describe["exceptions"]), normalize_map(describe["httpExceptions"])}
     else

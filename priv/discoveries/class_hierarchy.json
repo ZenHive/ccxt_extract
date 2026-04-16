@@ -58557,8 +58557,13 @@
     }
   ],
   "count": 189,
-  "extracted_at": "2026-04-16T09:35:26.927799Z",
-  "tier_scope": "all",
+  "extracted_at": "2026-04-16T10:15:39.156254Z",
+  "tier_scope": [
+    "tier1",
+    "tier2",
+    "tier3",
+    "dex"
+  ],
   "tree": {
     "rest:toobit": [
       "ws:toobit"

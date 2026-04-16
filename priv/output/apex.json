@@ -14,7 +14,7 @@
     "tier": "tier3",
     "version": "v3"
   },
-  "extracted_at": "2026-04-16T05:20:00.553663Z",
+  "extracted_at": "2026-04-16T10:16:05.340082Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -517,7 +517,7 @@
       "version": "v3"
     },
     "markets": {
-      "market_count": 132,
+      "market_count": 133,
       "markets": {
         "LAYER/USDT:USDT": {
           "spot": false,
@@ -878,7 +878,7 @@
             "maxMarketPriceRange": "0.045",
             "enableFundingSettlement": true,
             "baseTokenId": "EDGE",
-            "tagIconUrl": "https://static-pro.apex.exchange/icon/LABLE_NEW.svg",
+            "tagIconUrl": "",
             "stepSize": "1",
             "maxMarketSizeBuffer": "0.98",
             "maintenanceMarginRate": "0.01",
@@ -886,7 +886,7 @@
             "isPrelaunch": false,
             "incrementalPositionValue": "50000",
             "l2PairId": "50337",
-            "tag": "NEW",
+            "tag": "",
             "crossSymbolName": "EDGEUSDT",
             "symbolDisplayName": "EDGEUSDT",
             "enableTrade": true,
@@ -11071,6 +11071,168 @@
           "active": false,
           "expiry": "__undefined",
           "id": "LAUNCHCOIN-USDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
+        "TAO/USDT:USDT": {
+          "spot": false,
+          "contractSize": 0.001,
+          "linear": true,
+          "quoteId": "50344",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0005,
+          "inverse": false,
+          "info": {
+            "crossSymbolId": "349",
+            "crossId": "30002",
+            "fundingInterestRate": "0.0003",
+            "displayMaxLeverage": "50",
+            "settleTimeStamp": "0",
+            "category": "AI",
+            "minOrderSize": "0.001",
+            "digitMerge": "0.01,0.02,0.04,0.1,0.2",
+            "defaultInitialMarginRate": "0.2",
+            "indexPriceVarRate": "0.001",
+            "tickSize": "0.01",
+            "openPositionOiLimitRate": "0.05",
+            "fundingMaxRate": "0.02",
+            "displayMinLeverage": "1",
+            "enableFundingMxValue": true,
+            "maxPositionSize": "600",
+            "contractType": "PERPETUAL_CONTRACT",
+            "enableDisplay": true,
+            "symbol": "TAO-USDT",
+            "settleAssetId": "USDT",
+            "riskTip": false,
+            "predictionContractType": "UNKNOWN_PREDICTION_CONTRACT_TYPE",
+            "maxMarketPriceRange": "0.1",
+            "enableFundingSettlement": true,
+            "baseTokenId": "TAO",
+            "tagIconUrl": "https://static-pro.apex.exchange/icon/LABLE_NEW.svg",
+            "stepSize": "0.001",
+            "maxMarketSizeBuffer": "0.98",
+            "maintenanceMarginRate": "0.01",
+            "fundingMinRate": "-0.02",
+            "isPrelaunch": false,
+            "incrementalPositionValue": "50000",
+            "l2PairId": "50344",
+            "tag": "NEW",
+            "crossSymbolName": "TAOUSDT",
+            "symbolDisplayName": "TAOUSDT",
+            "enableTrade": true,
+            "maxOrderSize": "200",
+            "maxMaintenanceMarginRate": "0.5",
+            "riskLimitConfig": {
+              "imrSteps": [
+                "0.02000",
+                "0.02500",
+                "0.03333",
+                "0.04000",
+                "0.05000",
+                "0.06666",
+                "0.10000",
+                "0.12500",
+                "0.16666",
+                "0.20000",
+                "0.25000",
+                "0.33333",
+                "0.50000",
+                "1.00000"
+              ],
+              "mmrSteps": [
+                "0.01",
+                "0.0125",
+                "0.0167",
+                "0.02",
+                "0.025",
+                "0.0333",
+                "0.05",
+                "0.0625",
+                "0.0833",
+                "0.1",
+                "0.125",
+                "0.1665",
+                "0.25",
+                "0.5"
+              ],
+              "positionSteps": [
+                "0",
+                "50000",
+                "100000",
+                "150000",
+                "200000",
+                "300000",
+                "400000",
+                "500000",
+                "1000000",
+                "1500000",
+                "2000000",
+                "3000000",
+                "4000000",
+                "5000000"
+              ]
+            },
+            "fundingMaxValue": "",
+            "tokenName": "TAO",
+            "enableOpenPosition": true,
+            "incrementalInitialMarginRate": "0.01",
+            "incrementalMaintenanceMarginRate": "0.01",
+            "baselinePositionValue": "50000",
+            "initialMarginRate": "0.02000",
+            "indexPriceDecimals": "2",
+            "fundingImpactMarginNotional": "50000",
+            "maxPositionValue": "5000000",
+            "klineStartTime": "0"
+          },
+          "created": "__undefined",
+          "id2": "TAOUSDT",
+          "option": false,
+          "future": false,
+          "symbol": "TAO/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 0.001,
+            "price": 0.01
+          },
+          "baseId": "TAO",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "TAO",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 200,
+              "min": 0.001
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 50,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0002,
+          "optionType": "__undefined",
+          "margin": "__undefined",
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "TAO-USDT",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -21743,7 +21905,7 @@
           }
         ],
         "id_structure": "opaque",
-        "sample_count": 132,
+        "sample_count": 133,
         "separator": null,
         "suffix": null
       }

@@ -14,7 +14,7 @@
     "tier": "tier3",
     "version": "v1"
   },
-  "extracted_at": "2026-04-16T05:20:00.553663Z",
+  "extracted_at": "2026-04-16T10:16:05.340082Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -5335,15 +5335,9 @@
           "maker": -5.0e-5,
           "inverse": false,
           "info": {
-            "asset_kind": "PERP",
+            "asset_kind": "SPOT",
             "base_currency": "ETH",
-            "clamp_rate": "0.0005",
-            "delta1_cross_margin_params": {
-              "imf_base": "0.02",
-              "imf_factor": "0",
-              "imf_shift": "0",
-              "mmf_factor": "0.5"
-            },
+            "clamp_rate": "0",
             "expiry_at": "0",
             "fee_config": {
               "api_fee": {
@@ -5371,27 +5365,27 @@
                 }
               }
             },
-            "funding_multiplier": "1",
-            "funding_period_hours": "8",
-            "interest_rate": "0.0001",
+            "funding_multiplier": "0",
+            "funding_period_hours": "0",
+            "interest_rate": "0",
             "market_kind": "cross",
-            "max_funding_rate": "0.02",
-            "max_funding_rate_change": "0.0002",
-            "max_open_orders": "150",
-            "max_order_size": "1000",
+            "max_funding_rate": "0",
+            "max_funding_rate_change": "0",
+            "max_open_orders": "50",
+            "max_order_size": "20",
             "max_slippage": "0.001",
-            "max_tob_spread": "0.01",
+            "max_tob_spread": "0.05",
             "min_notional": "10",
-            "open_at": "1692576000000",
-            "oracle_ewma_factor": "0.12945779635696708",
+            "open_at": "1770278700000",
+            "oracle_ewma_factor": "0.043647610787352464",
             "order_size_increment": "0.0001",
-            "position_limit": "9000",
+            "position_limit": "0",
             "price_bands_width": "0.05",
             "price_feed_id": "JBu1AL4obBcCMqKBBxhpWCNUt136ijcuMZLFvTP7iWdB",
             "price_tick_size": "0.01",
             "quote_currency": "USD",
             "settlement_currency": "USDC",
-            "symbol": "ETH-USD-PERP",
+            "symbol": "ETH-USD",
             "tags": [
               "LAYER-1"
             ]
@@ -5419,7 +5413,7 @@
           },
           "limits": {
             "amount": {
-              "max": 1000,
+              "max": 20,
               "min": "__undefined"
             },
             "cost": {
@@ -5442,7 +5436,7 @@
           "percentage": "__undefined",
           "active": "__undefined",
           "expiry": "__undefined",
-          "id": "ETH-USD-PERP",
+          "id": "ETH-USD",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -9081,7 +9075,7 @@
             "asset_kind": "OPTION",
             "base_currency": "BTC",
             "clamp_rate": "0",
-            "expiry_at": "1776499200000",
+            "expiry_at": "1780041600000",
             "fee_config": {
               "api_fee": {
                 "maker_fee": {
@@ -9132,7 +9126,7 @@
             "max_slippage": "0",
             "max_tob_spread": "2",
             "min_notional": "20",
-            "open_at": "1776226509770",
+            "open_at": "1777525200000",
             "option_cross_margin_params": {
               "imf": {
                 "long_itm": "0.2",
@@ -9149,17 +9143,17 @@
                 "short_put_cap": "0.5"
               }
             },
-            "option_type": "PUT",
+            "option_type": "CALL",
             "oracle_ewma_factor": "0.043647610787352464",
             "order_size_increment": "0.001",
-            "position_limit": "20",
+            "position_limit": "0",
             "price_bands_width": "0.3",
             "price_feed_id": "",
             "price_tick_size": "0.01",
             "quote_currency": "USD",
             "settlement_currency": "USDC",
-            "strike_price": "73500",
-            "symbol": "BTC-USD-18APR26-73500-P",
+            "strike_price": "185000",
+            "symbol": "BTC-USD-29MAY26-185000-C",
             "tags": []
           },
           "created": "__undefined",
@@ -9173,7 +9167,7 @@
           },
           "baseId": "BTC",
           "type": "swap",
-          "strike": 73500,
+          "strike": 185000,
           "settleId": "USDC",
           "quote": "USD",
           "expiryDatetime": "__undefined",
@@ -9202,13 +9196,13 @@
             }
           },
           "taker": 0.0003,
-          "optionType": "put",
+          "optionType": "call",
           "margin": "__undefined",
           "contract": true,
           "percentage": "__undefined",
           "active": "__undefined",
           "expiry": "__undefined",
-          "id": "BTC-USD-18APR26-73500-P",
+          "id": "BTC-USD-29MAY26-185000-C",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -10916,12 +10910,13 @@
       "swap": {
         "anomalies": [
           "kSHIB-USD-PERP",
+          "ETH-USD",
           "kBONK-USD-PERP",
           "DIME-USD",
-          "BTC-USD-18APR26-73500-P",
+          "BTC-USD-29MAY26-185000-C",
           "kPEPE-USD-PERP"
         ],
-        "anomaly_count": 5,
+        "anomaly_count": 6,
         "case": "upper",
         "examples": [
           {

@@ -16,7 +16,7 @@
     "tier": "tier3",
     "version": "v2"
   },
-  "extracted_at": "2026-04-16T05:20:00.553663Z",
+  "extracted_at": "2026-04-16T10:16:05.340082Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -2033,7 +2033,7 @@
       "version": "v2"
     },
     "markets": {
-      "market_count": 1334,
+      "market_count": 1335,
       "markets": {
         "WLD/EUR": {
           "spot": true,
@@ -26923,8 +26923,8 @@
           "base": "EDGE",
           "swap": false,
           "marginModes": {
-            "cross": false,
-            "isolated": false
+            "cross": true,
+            "isolated": true
           },
           "limits": {
             "amount": {
@@ -26946,7 +26946,7 @@
           },
           "taker": 0.001,
           "optionType": "__undefined",
-          "margin": false,
+          "margin": true,
           "contract": false,
           "percentage": "__undefined",
           "active": true,
@@ -55415,7 +55415,7 @@
           "info": {
             "posLimit": "0.05",
             "sizeMultiplier": "1",
-            "fundInterval": "1",
+            "fundInterval": "4",
             "pricePlace": "5",
             "deliveryTime": "",
             "openCostUpRatio": "0.01",
@@ -93711,7 +93711,7 @@
             "maintainTime": "",
             "symbol": "APTPERP",
             "minLever": "1",
-            "limitOpenTime": "-1",
+            "limitOpenTime": "1776744000000",
             "supportMarginCoins": [
               "USDC"
             ],
@@ -93729,7 +93729,7 @@
             "makerFeeRate": "0.0002",
             "minTradeUSDT": "5",
             "openTime": "1738905051965",
-            "offTime": "-1",
+            "offTime": "1776754800000",
             "maxSymbolOrderNum": "200",
             "launchTime": ""
           },
@@ -114520,6 +114520,105 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "GENIUS/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "posLimit": "",
+            "sizeMultiplier": "1",
+            "fundInterval": "4",
+            "pricePlace": "5",
+            "deliveryTime": "",
+            "openCostUpRatio": "0.01",
+            "deliveryStartTime": "",
+            "isRwa": "NO",
+            "minTradeNum": "1",
+            "sellLimitPriceRatio": "0.15",
+            "maxLever": "20",
+            "priceEndStep": "1",
+            "maxMarketOrderQty": "200000",
+            "baseCoin": "GENIUS",
+            "maintainTime": "",
+            "symbol": "GENIUSUSDT",
+            "minLever": "1",
+            "limitOpenTime": "-1",
+            "supportMarginCoins": [
+              "USDT"
+            ],
+            "maxProductOrderNum": "1000",
+            "buyLimitPriceRatio": "0.15",
+            "symbolType": "perpetual",
+            "maxPositionNum": "150",
+            "volumePlace": "0",
+            "quoteCoin": "USDT",
+            "takerFeeRate": "0.0006",
+            "maxOrderQty": "800000",
+            "symbolStatus": "normal",
+            "feeRateUpRatio": "0.005",
+            "deliveryPeriod": "",
+            "makerFeeRate": "0.0002",
+            "minTradeUSDT": "5",
+            "openTime": "1776077716409",
+            "offTime": "-1",
+            "maxSymbolOrderNum": "200",
+            "launchTime": ""
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "GENIUS/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 1,
+            "price": 1.0e-5
+          },
+          "baseId": "GENIUS",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "GENIUS",
+          "swap": true,
+          "marginModes": {
+            "cross": true,
+            "isolated": true
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 1
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": 20,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "GENIUSUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
         "KNC/USDT:USDT": {
           "spot": false,
           "contractSize": 1,
@@ -118246,7 +118345,7 @@
             "maintainTime": "",
             "symbol": "WAVESUSDT",
             "minLever": "1",
-            "limitOpenTime": "-1",
+            "limitOpenTime": "1776744000000",
             "supportMarginCoins": [
               "USDT"
             ],
@@ -118264,7 +118363,7 @@
             "makerFeeRate": "0.0002",
             "minTradeUSDT": "5",
             "openTime": "1739526575376",
-            "offTime": "-1",
+            "offTime": "1776754800000",
             "maxSymbolOrderNum": "200",
             "launchTime": ""
           },
@@ -121471,7 +121570,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 616,
+        "sample_count": 617,
         "separator": "",
         "suffix": null
       }

@@ -1,6 +1,12 @@
 {
-  "extracted_at": "2026-04-15T13:03:48.085324Z",
+  "extracted_at": "2026-04-16T10:17:20.057369Z",
   "families": [
+    {
+      "has_ws": true,
+      "method_count": 46,
+      "root": "apex",
+      "type": "standalone"
+    },
     {
       "has_ws": true,
       "method_count": 71,
@@ -74,8 +80,26 @@
     },
     {
       "has_ws": true,
+      "method_count": 95,
+      "root": "bingx",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
       "method_count": 66,
       "root": "bitfinex",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 113,
+      "root": "bitget",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 91,
+      "root": "bitmart",
       "type": "standalone"
     },
     {
@@ -98,6 +122,18 @@
     },
     {
       "has_ws": true,
+      "method_count": 87,
+      "root": "coinex",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 65,
+      "root": "cryptocom",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
       "method_count": 68,
       "root": "deribit",
       "type": "standalone"
@@ -106,6 +142,12 @@
       "has_ws": true,
       "method_count": 49,
       "root": "derive",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 56,
+      "root": "dydx",
       "type": "standalone"
     },
     {
@@ -125,6 +167,12 @@
       "root_method_count": 125,
       "shared_method_count": 124,
       "type": "multi_member"
+    },
+    {
+      "has_ws": true,
+      "method_count": 78,
+      "root": "hashkey",
+      "type": "standalone"
     },
     {
       "has_ws": true,
@@ -191,6 +239,18 @@
     },
     {
       "has_ws": true,
+      "method_count": 92,
+      "root": "mexc",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 64,
+      "root": "modetrade",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
       "members": [
         {
           "describe_changed_keys": [
@@ -231,6 +291,24 @@
       "root_method_count": 132,
       "shared_method_count": 131,
       "type": "multi_member"
+    },
+    {
+      "has_ws": true,
+      "method_count": 59,
+      "root": "paradex",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 88,
+      "root": "woo",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 64,
+      "root": "woofipro",
+      "type": "standalone"
     }
   ],
   "source_files": {
@@ -320,18 +398,19 @@
       "max": 4,
       "min": 1,
       "sizes": {
-        "1": 10,
+        "1": 23,
         "2": 3,
         "3": 1,
         "4": 1
       }
     },
-    "standalone": 10,
-    "total_families": 15
+    "standalone": 23,
+    "total_families": 28
   },
   "tier_scope": [
     "tier1",
     "tier2",
+    "tier3",
     "dex"
   ]
 }

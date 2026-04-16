@@ -14,7 +14,7 @@
     "tier": "tier1",
     "version": null
   },
-  "extracted_at": "2026-04-16T05:20:00.553663Z",
+  "extracted_at": "2026-04-16T10:16:05.340082Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -19504,9 +19504,9 @@
             "filters": [
               {
                 "filterType": "PRICE_FILTER",
-                "maxPrice": "100000",
-                "minPrice": "0.001",
-                "tickSize": "0.001"
+                "maxPrice": "200",
+                "minPrice": "0.000100",
+                "tickSize": "0.000100"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -19561,7 +19561,7 @@
               "DCA",
               "PSB"
             ],
-            "pricePrecision": "3",
+            "pricePrecision": "6",
             "quantityPrecision": "1",
             "quoteAsset": "USDT",
             "quotePrecision": "8",
@@ -19589,7 +19589,7 @@
           "precision": {
             "amount": 0.1,
             "base": 1.0e-8,
-            "price": 0.001,
+            "price": 0.0001,
             "quote": 1.0e-8
           },
           "baseId": "ALICE",
@@ -19622,8 +19622,8 @@
               "min": 0.1
             },
             "price": {
-              "max": 100000,
-              "min": 0.001
+              "max": 200,
+              "min": 0.0001
             }
           },
           "taker": 0.0005,
@@ -52793,153 +52793,6 @@
           "lowercaseId": "susdt",
           "subType": "linear"
         },
-        "ETH/USDT:USDT-260327": {
-          "spot": false,
-          "contractSize": 1,
-          "linear": true,
-          "quoteId": "USDT",
-          "tierBased": false,
-          "index": "__undefined",
-          "maker": 0.0002,
-          "inverse": false,
-          "feeSide": "get",
-          "info": {
-            "baseAsset": "ETH",
-            "baseAssetPrecision": "8",
-            "contractType": "CURRENT_QUARTER DELIVERING",
-            "deliveryDate": "1774598400000",
-            "filters": [
-              {
-                "filterType": "PRICE_FILTER",
-                "maxPrice": "100000",
-                "minPrice": "41.10",
-                "tickSize": "0.01"
-              },
-              {
-                "filterType": "LOT_SIZE",
-                "maxQty": "10000",
-                "minQty": "0.001",
-                "stepSize": "0.001"
-              },
-              {
-                "filterType": "MARKET_LOT_SIZE",
-                "maxQty": "10",
-                "minQty": "0.001",
-                "stepSize": "0.001"
-              },
-              {
-                "filterType": "MAX_NUM_ORDERS",
-                "limit": "200"
-              },
-              {
-                "filterType": "MIN_NOTIONAL",
-                "notional": "5"
-              },
-              {
-                "filterType": "PERCENT_PRICE",
-                "multiplierDecimal": "4",
-                "multiplierDown": "0.9500",
-                "multiplierUp": "1.0500"
-              },
-              {
-                "filterType": "POSITION_RISK_CONTROL",
-                "positionControlSide": "NONE"
-              }
-            ],
-            "liquidationFee": "0.012500",
-            "maintMarginPercent": "2.5000",
-            "marginAsset": "USDT",
-            "marketTakeBound": "0.05",
-            "maxMoveOrderLimit": "10000",
-            "onboardDate": "1758873600000",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET",
-              "STOP",
-              "STOP_MARKET",
-              "TAKE_PROFIT",
-              "TAKE_PROFIT_MARKET",
-              "TRAILING_STOP_MARKET"
-            ],
-            "pair": "ETHUSDT",
-            "permissionSets": [
-              "GRID",
-              "DCA"
-            ],
-            "pricePrecision": "2",
-            "quantityPrecision": "3",
-            "quoteAsset": "USDT",
-            "quotePrecision": "8",
-            "requiredMarginPercent": "5.0000",
-            "status": "DELIVERING",
-            "symbol": "ETHUSDT_260327",
-            "timeInForce": [
-              "GTC",
-              "IOC",
-              "FOK",
-              "GTX",
-              "GTD"
-            ],
-            "triggerProtect": "0.0500",
-            "underlyingSubType": [],
-            "underlyingType": "COIN"
-          },
-          "created": 1758873600000,
-          "option": false,
-          "future": true,
-          "symbol": "ETH/USDT:USDT-260327",
-          "settle": "USDT",
-          "precision": {
-            "amount": 0.001,
-            "base": 1.0e-8,
-            "price": 0.01,
-            "quote": 1.0e-8
-          },
-          "baseId": "ETH",
-          "type": "future",
-          "strike": "__undefined",
-          "settleId": "USDT",
-          "quote": "USDT",
-          "expiryDatetime": "2026-03-27T08:00:00.000Z",
-          "base": "ETH",
-          "swap": false,
-          "marginModes": {
-            "cross": true,
-            "isolated": true
-          },
-          "limits": {
-            "amount": {
-              "max": 10000,
-              "min": 0.001
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "market": {
-              "max": 10,
-              "min": 0.001
-            },
-            "price": {
-              "max": 100000,
-              "min": 41.1
-            }
-          },
-          "taker": 0.0005,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": true,
-          "active": false,
-          "expiry": 1774598400000,
-          "id": "ETHUSDT_260327",
-          "lowercaseId": "ethusdt_260327",
-          "subType": "linear"
-        },
         "SPORTFUN/USDT:USDT": {
           "spot": false,
           "contractSize": 1,
@@ -58543,9 +58396,9 @@
             "filters": [
               {
                 "filterType": "PRICE_FILTER",
-                "maxPrice": "100000",
-                "minPrice": "0.0001",
-                "tickSize": "0.0001"
+                "maxPrice": "200",
+                "minPrice": "0.0000100",
+                "tickSize": "0.0000100"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -58600,7 +58453,7 @@
               "DCA",
               "PSB"
             ],
-            "pricePrecision": "4",
+            "pricePrecision": "7",
             "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "quotePrecision": "8",
@@ -58628,7 +58481,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001,
+            "price": 1.0e-5,
             "quote": 1.0e-8
           },
           "baseId": "OGN",
@@ -58661,8 +58514,8 @@
               "min": 1
             },
             "price": {
-              "max": 100000,
-              "min": 0.0001
+              "max": 200,
+              "min": 1.0e-5
             }
           },
           "taker": 0.0005,
@@ -59429,6 +59282,154 @@
           "expiry": "__undefined",
           "id": "IDUSDT",
           "lowercaseId": "idusdt",
+          "subType": "linear"
+        },
+        "CHIP/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": false,
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "feeSide": "get",
+          "info": {
+            "baseAsset": "CHIP",
+            "baseAssetPrecision": "8",
+            "contractType": "PERPETUAL",
+            "deliveryDate": "4133404800000",
+            "filters": [
+              {
+                "filterType": "PRICE_FILTER",
+                "maxPrice": "0.1000000",
+                "minPrice": "0.0000100",
+                "tickSize": "0.0000100"
+              },
+              {
+                "filterType": "LOT_SIZE",
+                "maxQty": "40000000",
+                "minQty": "1",
+                "stepSize": "1"
+              },
+              {
+                "filterType": "MARKET_LOT_SIZE",
+                "maxQty": "4000000",
+                "minQty": "1",
+                "stepSize": "1"
+              },
+              {
+                "filterType": "MAX_NUM_ORDERS",
+                "limit": "200"
+              },
+              {
+                "filterType": "MIN_NOTIONAL",
+                "notional": "5"
+              },
+              {
+                "filterType": "PERCENT_PRICE",
+                "multiplierDecimal": "4",
+                "multiplierDown": "0.8500",
+                "multiplierUp": "1.1500"
+              }
+            ],
+            "liquidationFee": "0.020000",
+            "maintMarginPercent": "2.5000",
+            "marginAsset": "USDT",
+            "marketTakeBound": "0.15",
+            "maxMoveOrderLimit": "10000",
+            "onboardDate": "1776323700000",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET",
+              "STOP",
+              "STOP_MARKET",
+              "TAKE_PROFIT",
+              "TAKE_PROFIT_MARKET",
+              "TRAILING_STOP_MARKET"
+            ],
+            "pair": "CHIPUSDT",
+            "permissionSets": [
+              "GRID",
+              "COPY",
+              "RPI",
+              "DCA",
+              "PSB"
+            ],
+            "pricePrecision": "7",
+            "quantityPrecision": "0",
+            "quoteAsset": "USDT",
+            "quotePrecision": "8",
+            "requiredMarginPercent": "5.0000",
+            "status": "TRADING",
+            "symbol": "CHIPUSDT",
+            "timeInForce": [
+              "GTC",
+              "IOC",
+              "FOK",
+              "GTX",
+              "GTD"
+            ],
+            "triggerProtect": "0.1500",
+            "underlyingSubType": [
+              "Pre-Market"
+            ],
+            "underlyingType": "PREMARKET"
+          },
+          "created": 1776323700000,
+          "option": false,
+          "future": false,
+          "symbol": "CHIP/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 1,
+            "base": 1.0e-8,
+            "price": 1.0e-5,
+            "quote": 1.0e-8
+          },
+          "baseId": "CHIP",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "CHIP",
+          "swap": true,
+          "marginModes": {
+            "cross": true,
+            "isolated": true
+          },
+          "limits": {
+            "amount": {
+              "max": 40000000,
+              "min": 1
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "market": {
+              "max": 4000000,
+              "min": 1
+            },
+            "price": {
+              "max": 0.1,
+              "min": 1.0e-5
+            }
+          },
+          "taker": 0.0005,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "CHIPUSDT",
+          "lowercaseId": "chipusdt",
           "subType": "linear"
         },
         "MITO/USDT:USDT": {
@@ -71963,9 +71964,9 @@
             "filters": [
               {
                 "filterType": "PRICE_FILTER",
-                "maxPrice": "2000",
-                "minPrice": "0.000001",
-                "tickSize": "0.000001"
+                "maxPrice": "200",
+                "minPrice": "0.0000001",
+                "tickSize": "0.0000001"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -72020,7 +72021,7 @@
               "DCA",
               "PSB"
             ],
-            "pricePrecision": "6",
+            "pricePrecision": "7",
             "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "quotePrecision": "8",
@@ -72048,7 +72049,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 1.0e-6,
+            "price": 1.0e-7,
             "quote": 1.0e-8
           },
           "baseId": "DENT",
@@ -72081,8 +72082,8 @@
               "min": 1
             },
             "price": {
-              "max": 2000,
-              "min": 1.0e-6
+              "max": 200,
+              "min": 1.0e-7
             }
           },
           "taker": 0.0005,
@@ -72264,7 +72265,7 @@
             "filters": [
               {
                 "filterType": "PRICE_FILTER",
-                "maxPrice": "200",
+                "maxPrice": "2000",
                 "minPrice": "0.0000100",
                 "tickSize": "0.0000100"
               },
@@ -72383,7 +72384,7 @@
               "min": 1
             },
             "price": {
-              "max": 200,
+              "max": 2000,
               "min": 1.0e-5
             }
           },
@@ -72869,9 +72870,9 @@
             "filters": [
               {
                 "filterType": "PRICE_FILTER",
-                "maxPrice": "100000",
-                "minPrice": "0.001",
-                "tickSize": "0.001"
+                "maxPrice": "200",
+                "minPrice": "0.000100",
+                "tickSize": "0.000100"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -72926,7 +72927,7 @@
               "DCA",
               "PSB"
             ],
-            "pricePrecision": "3",
+            "pricePrecision": "6",
             "quantityPrecision": "1",
             "quoteAsset": "USDT",
             "quotePrecision": "8",
@@ -72954,7 +72955,7 @@
           "precision": {
             "amount": 0.1,
             "base": 1.0e-8,
-            "price": 0.001,
+            "price": 0.0001,
             "quote": 1.0e-8
           },
           "baseId": "DYDX",
@@ -72987,8 +72988,8 @@
               "min": 0.1
             },
             "price": {
-              "max": 100000,
-              "min": 0.001
+              "max": 200,
+              "min": 0.0001
             }
           },
           "taker": 0.0005,
@@ -73171,8 +73172,8 @@
             "filters": [
               {
                 "filterType": "PRICE_FILTER",
-                "maxPrice": "100000",
-                "minPrice": "0.0010",
+                "maxPrice": "200",
+                "minPrice": "0.0001",
                 "tickSize": "0.0001"
               },
               {
@@ -73289,8 +73290,8 @@
               "min": 1
             },
             "price": {
-              "max": 100000,
-              "min": 0.001
+              "max": 200,
+              "min": 0.0001
             }
           },
           "taker": 0.0005,
@@ -79953,9 +79954,9 @@
             "filters": [
               {
                 "filterType": "PRICE_FILTER",
-                "maxPrice": "100000",
-                "minPrice": "0.0001",
-                "tickSize": "0.0001"
+                "maxPrice": "200",
+                "minPrice": "0.0000100",
+                "tickSize": "0.0000100"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -80010,7 +80011,7 @@
               "DCA",
               "PSB"
             ],
-            "pricePrecision": "4",
+            "pricePrecision": "7",
             "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "quotePrecision": "8",
@@ -80038,7 +80039,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001,
+            "price": 1.0e-5,
             "quote": 1.0e-8
           },
           "baseId": "CHR",
@@ -80071,8 +80072,8 @@
               "min": 1
             },
             "price": {
-              "max": 100000,
-              "min": 0.0001
+              "max": 200,
+              "min": 1.0e-5
             }
           },
           "taker": 0.0005,
@@ -104030,6 +104031,152 @@
           "lowercaseId": "usdcusdt",
           "subType": "linear"
         },
+        "GENIUS/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": false,
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "feeSide": "get",
+          "info": {
+            "baseAsset": "GENIUS",
+            "baseAssetPrecision": "8",
+            "contractType": "PERPETUAL",
+            "deliveryDate": "4133404800000",
+            "filters": [
+              {
+                "filterType": "PRICE_FILTER",
+                "maxPrice": "200",
+                "minPrice": "0.0001000",
+                "tickSize": "0.0001000"
+              },
+              {
+                "filterType": "LOT_SIZE",
+                "maxQty": "1500000",
+                "minQty": "1",
+                "stepSize": "1"
+              },
+              {
+                "filterType": "MARKET_LOT_SIZE",
+                "maxQty": "150000",
+                "minQty": "1",
+                "stepSize": "1"
+              },
+              {
+                "filterType": "MAX_NUM_ORDERS",
+                "limit": "200"
+              },
+              {
+                "filterType": "MIN_NOTIONAL",
+                "notional": "5"
+              },
+              {
+                "filterType": "PERCENT_PRICE",
+                "multiplierDecimal": "4",
+                "multiplierDown": "0.8500",
+                "multiplierUp": "1.1500"
+              }
+            ],
+            "liquidationFee": "0.020000",
+            "maintMarginPercent": "2.5000",
+            "marginAsset": "USDT",
+            "marketTakeBound": "0.15",
+            "maxMoveOrderLimit": "10000",
+            "onboardDate": "1776310200000",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET",
+              "STOP",
+              "STOP_MARKET",
+              "TAKE_PROFIT",
+              "TAKE_PROFIT_MARKET",
+              "TRAILING_STOP_MARKET"
+            ],
+            "pair": "GENIUSUSDT",
+            "permissionSets": [
+              "GRID",
+              "COPY",
+              "RPI",
+              "DCA",
+              "PSB"
+            ],
+            "pricePrecision": "7",
+            "quantityPrecision": "0",
+            "quoteAsset": "USDT",
+            "quotePrecision": "8",
+            "requiredMarginPercent": "5.0000",
+            "status": "TRADING",
+            "symbol": "GENIUSUSDT",
+            "timeInForce": [
+              "GTC",
+              "IOC",
+              "FOK",
+              "GTX",
+              "GTD"
+            ],
+            "triggerProtect": "0.1500",
+            "underlyingSubType": [],
+            "underlyingType": "COIN"
+          },
+          "created": 1776310200000,
+          "option": false,
+          "future": false,
+          "symbol": "GENIUS/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 1,
+            "base": 1.0e-8,
+            "price": 0.0001,
+            "quote": 1.0e-8
+          },
+          "baseId": "GENIUS",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "GENIUS",
+          "swap": true,
+          "marginModes": {
+            "cross": true,
+            "isolated": true
+          },
+          "limits": {
+            "amount": {
+              "max": 1500000,
+              "min": 1
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "market": {
+              "max": 150000,
+              "min": 1
+            },
+            "price": {
+              "max": 200,
+              "min": 0.0001
+            }
+          },
+          "taker": 0.0005,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "GENIUSUSDT",
+          "lowercaseId": "geniususdt",
+          "subType": "linear"
+        },
         "KNC/USDT:USDT": {
           "spot": false,
           "contractSize": 1,
@@ -109455,153 +109602,6 @@
           "lowercaseId": "penguusdt",
           "subType": "linear"
         },
-        "BTC/USDT:USDT-260327": {
-          "spot": false,
-          "contractSize": 1,
-          "linear": true,
-          "quoteId": "USDT",
-          "tierBased": false,
-          "index": "__undefined",
-          "maker": 0.0002,
-          "inverse": false,
-          "feeSide": "get",
-          "info": {
-            "baseAsset": "BTC",
-            "baseAssetPrecision": "8",
-            "contractType": "CURRENT_QUARTER DELIVERING",
-            "deliveryDate": "1774598400000",
-            "filters": [
-              {
-                "filterType": "PRICE_FILTER",
-                "maxPrice": "1000000",
-                "minPrice": "576.3",
-                "tickSize": "0.1"
-              },
-              {
-                "filterType": "LOT_SIZE",
-                "maxQty": "500",
-                "minQty": "0.001",
-                "stepSize": "0.001"
-              },
-              {
-                "filterType": "MARKET_LOT_SIZE",
-                "maxQty": "1",
-                "minQty": "0.001",
-                "stepSize": "0.001"
-              },
-              {
-                "filterType": "MAX_NUM_ORDERS",
-                "limit": "200"
-              },
-              {
-                "filterType": "MIN_NOTIONAL",
-                "notional": "5"
-              },
-              {
-                "filterType": "PERCENT_PRICE",
-                "multiplierDecimal": "4",
-                "multiplierDown": "0.9500",
-                "multiplierUp": "1.0500"
-              },
-              {
-                "filterType": "POSITION_RISK_CONTROL",
-                "positionControlSide": "NONE"
-              }
-            ],
-            "liquidationFee": "0.012500",
-            "maintMarginPercent": "2.5000",
-            "marginAsset": "USDT",
-            "marketTakeBound": "0.05",
-            "maxMoveOrderLimit": "10000",
-            "onboardDate": "1758873600000",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET",
-              "STOP",
-              "STOP_MARKET",
-              "TAKE_PROFIT",
-              "TAKE_PROFIT_MARKET",
-              "TRAILING_STOP_MARKET"
-            ],
-            "pair": "BTCUSDT",
-            "permissionSets": [
-              "GRID",
-              "DCA"
-            ],
-            "pricePrecision": "1",
-            "quantityPrecision": "3",
-            "quoteAsset": "USDT",
-            "quotePrecision": "8",
-            "requiredMarginPercent": "5.0000",
-            "status": "DELIVERING",
-            "symbol": "BTCUSDT_260327",
-            "timeInForce": [
-              "GTC",
-              "IOC",
-              "FOK",
-              "GTX",
-              "GTD"
-            ],
-            "triggerProtect": "0.0500",
-            "underlyingSubType": [],
-            "underlyingType": "COIN"
-          },
-          "created": 1758873600000,
-          "option": false,
-          "future": true,
-          "symbol": "BTC/USDT:USDT-260327",
-          "settle": "USDT",
-          "precision": {
-            "amount": 0.001,
-            "base": 1.0e-8,
-            "price": 0.1,
-            "quote": 1.0e-8
-          },
-          "baseId": "BTC",
-          "type": "future",
-          "strike": "__undefined",
-          "settleId": "USDT",
-          "quote": "USDT",
-          "expiryDatetime": "2026-03-27T08:00:00.000Z",
-          "base": "BTC",
-          "swap": false,
-          "marginModes": {
-            "cross": true,
-            "isolated": true
-          },
-          "limits": {
-            "amount": {
-              "max": 500,
-              "min": 0.001
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "market": {
-              "max": 1,
-              "min": 0.001
-            },
-            "price": {
-              "max": 1000000,
-              "min": 576.3
-            }
-          },
-          "taker": 0.0005,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": true,
-          "percentage": true,
-          "active": false,
-          "expiry": 1774598400000,
-          "id": "BTCUSDT_260327",
-          "lowercaseId": "btcusdt_260327",
-          "subType": "linear"
-        },
         "SAHARA/USDT:USDT": {
           "spot": false,
           "contractSize": 1,
@@ -110533,14 +110533,14 @@
             "symbol": "BTC/USDT:USDT-260626"
           },
           {
-            "baseId": "ETH",
-            "id": "ETHUSDT_260327",
+            "baseId": "BTC",
+            "id": "BTCUSDT_260925",
             "quoteId": "USDT",
-            "symbol": "ETH/USDT:USDT-260327"
+            "symbol": "BTC/USDT:USDT-260925"
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 6,
+        "sample_count": 4,
         "separator": "",
         "suffix": null
       },
@@ -110569,7 +110569,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 706,
+        "sample_count": 708,
         "separator": "",
         "suffix": null
       }

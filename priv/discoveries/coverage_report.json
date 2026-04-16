@@ -1,6 +1,67 @@
 {
-  "exchange_count": 23,
+  "exchange_count": 36,
   "exchanges": [
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
+      "id": "apex",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
     {
       "coverage_max": 10,
       "coverage_pct": 100.0,
@@ -327,7 +388,190 @@
       "coverage_score": 10,
       "gaps": [],
       "has_pro": true,
+      "id": "bingx",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
       "id": "bitfinex",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
+      "id": "bitget",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
+      "id": "bitmart",
       "is_alias": false,
       "layers": {
         "class_hierarchy": {
@@ -571,6 +815,128 @@
       "coverage_score": 10,
       "gaps": [],
       "has_pro": true,
+      "id": "coinex",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
+      "id": "cryptocom",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
       "id": "deribit",
       "is_alias": false,
       "layers": {
@@ -633,6 +999,67 @@
       "gaps": [],
       "has_pro": true,
       "id": "derive",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
+      "id": "dydx",
       "is_alias": false,
       "layers": {
         "class_hierarchy": {
@@ -808,6 +1235,67 @@
           "applicable": true,
           "present": false,
           "reason": "no_ws_methods"
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
+      "id": "hashkey",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
         }
       }
     },
@@ -1246,6 +1734,128 @@
     },
     {
       "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
+      "id": "mexc",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
+      "id": "modetrade",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
       "coverage_pct": 60.0,
       "coverage_score": 6,
       "gaps": [
@@ -1436,9 +2046,192 @@
           "reason": "no_ws_methods"
         }
       }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
+      "id": "paradex",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
+      "id": "woo",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
+    },
+    {
+      "coverage_max": 10,
+      "coverage_pct": 100.0,
+      "coverage_score": 10,
+      "gaps": [],
+      "has_pro": true,
+      "id": "woofipro",
+      "is_alias": false,
+      "layers": {
+        "class_hierarchy": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "describe": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "handle_errors": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "load_markets": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_rest": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "methods_ws": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "overrides": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "parse_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "sign_method": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        },
+        "ws_methods": {
+          "applicable": true,
+          "present": true,
+          "reason": null
+        }
+      }
     }
   ],
-  "extracted_at": "2026-04-15T13:03:46.606782Z",
+  "extracted_at": "2026-04-16T10:17:18.246352Z",
   "gaps_summary": [
     {
       "gap_count": 4,
@@ -1515,67 +2308,68 @@
     }
   ],
   "summary": {
-    "avg_coverage_pct": 88.3,
-    "full_coverage": 15,
+    "avg_coverage_pct": 92.5,
+    "full_coverage": 28,
     "missing_files": [],
     "no_coverage": 0,
     "partial_coverage": 8,
     "per_layer": {
       "class_hierarchy": {
-        "applicable": 23,
+        "applicable": 36,
         "missing": 0,
-        "present": 23
+        "present": 36
       },
       "describe": {
-        "applicable": 21,
+        "applicable": 34,
         "missing": 0,
-        "present": 21
+        "present": 34
       },
       "handle_errors": {
-        "applicable": 21,
+        "applicable": 34,
         "missing": 6,
-        "present": 15
+        "present": 28
       },
       "load_markets": {
-        "applicable": 21,
+        "applicable": 34,
         "missing": 0,
-        "present": 21
+        "present": 34
       },
       "methods_rest": {
-        "applicable": 23,
+        "applicable": 36,
         "missing": 0,
-        "present": 23
+        "present": 36
       },
       "methods_ws": {
-        "applicable": 23,
+        "applicable": 36,
         "missing": 0,
-        "present": 23
+        "present": 36
       },
       "overrides": {
-        "applicable": 23,
+        "applicable": 36,
         "missing": 0,
-        "present": 23
+        "present": 36
       },
       "parse_methods": {
-        "applicable": 21,
+        "applicable": 34,
         "missing": 5,
-        "present": 16
+        "present": 29
       },
       "sign_method": {
-        "applicable": 21,
+        "applicable": 34,
         "missing": 6,
-        "present": 15
+        "present": 28
       },
       "ws_methods": {
-        "applicable": 23,
+        "applicable": 36,
         "missing": 8,
-        "present": 15
+        "present": 28
       }
     }
   },
   "tier_scope": [
     "tier1",
     "tier2",
+    "tier3",
     "dex"
   ]
 }

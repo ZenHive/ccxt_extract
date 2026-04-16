@@ -16,7 +16,7 @@
     "tier": "dex",
     "version": null
   },
-  "extracted_at": "2026-04-16T05:20:00.553663Z",
+  "extracted_at": "2026-04-16T10:16:05.340082Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -745,7 +745,7 @@
       }
     },
     "markets": {
-      "market_count": 471,
+      "market_count": 473,
       "markets": {
         "XNY/USDT:USDT": {
           "spot": false,
@@ -7229,15 +7229,15 @@
                 "ltMultiplierDown": "0.9800",
                 "ltMultiplierUp": "1.0200",
                 "multiplierDecimal": "4",
-                "multiplierDown": "0.9700",
-                "multiplierUp": "1.0300"
+                "multiplierDown": "0.9500",
+                "multiplierUp": "1.0500"
               }
             ],
             "underlyingType": "COIN",
             "pricePrecision": "7",
             "requiredMarginPercent": "20.0000",
             "baseAssetPrecision": "8",
-            "marketTakeBound": "0.02",
+            "marketTakeBound": "0.05",
             "baseAsset": "PLAY",
             "orderTypes": [
               "LIMIT",
@@ -7260,7 +7260,7 @@
             "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "underlyingSubType": [],
-            "triggerProtect": "0.0200",
+            "triggerProtect": "0.0500",
             "marginAsset": "USDT",
             "settlePlan": "0",
             "onboardDate": "1773292500000",
@@ -15629,15 +15629,15 @@
                 "ltMultiplierDown": "0.8000",
                 "ltMultiplierUp": "1.2000",
                 "multiplierDecimal": "4",
-                "multiplierDown": "0.9800",
-                "multiplierUp": "1.0200"
+                "multiplierDown": "0.9500",
+                "multiplierUp": "1.0500"
               }
             ],
             "underlyingType": "COIN",
             "pricePrecision": "7",
             "requiredMarginPercent": "20.0000",
             "baseAssetPrecision": "8",
-            "marketTakeBound": "0.02",
+            "marketTakeBound": "0.05",
             "baseAsset": "WET",
             "orderTypes": [
               "LIMIT",
@@ -15660,7 +15660,7 @@
             "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "underlyingSubType": [],
-            "triggerProtect": "0.0200",
+            "triggerProtect": "0.0500",
             "marginAsset": "USDT",
             "settlePlan": "0",
             "onboardDate": "1765357200000",
@@ -16502,6 +16502,161 @@
           "active": true,
           "expiry": "__undefined",
           "id": "HANAUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
+        "BIRD/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.0001,
+          "inverse": false,
+          "info": {
+            "filters": [
+              {
+                "filterType": "PRICE_FILTER",
+                "maxPrice": "2000",
+                "minPrice": "0.00100",
+                "tickSize": "0.00100"
+              },
+              {
+                "filterType": "LOT_SIZE",
+                "maxQty": "100000",
+                "minQty": "0.01",
+                "stepSize": "0.01"
+              },
+              {
+                "filterType": "MARKET_LOT_SIZE",
+                "maxQty": "100",
+                "minQty": "0.01",
+                "stepSize": "0.01"
+              },
+              {
+                "filterType": "MAX_NUM_ORDERS",
+                "limit": "200"
+              },
+              {
+                "filterType": "MAX_NUM_ALGO_ORDERS",
+                "limit": "10"
+              },
+              {
+                "filterType": "MIN_NOTIONAL",
+                "notional": "5"
+              },
+              {
+                "filterType": "PERCENT_PRICE",
+                "ltMultiplierDown": "0.9800",
+                "ltMultiplierUp": "1.0200",
+                "multiplierDecimal": "4",
+                "multiplierDown": "0.9800",
+                "multiplierUp": "1.0200"
+              }
+            ],
+            "underlyingType": "COIN",
+            "pricePrecision": "5",
+            "requiredMarginPercent": "50.0000",
+            "baseAssetPrecision": "8",
+            "marketTakeBound": "0.02",
+            "baseAsset": "BIRD",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET",
+              "STOP",
+              "STOP_MARKET",
+              "TAKE_PROFIT",
+              "TAKE_PROFIT_MARKET",
+              "TRAILING_STOP_MARKET"
+            ],
+            "tags": [],
+            "status": "TRADING",
+            "channel": "nasdaq",
+            "name": "",
+            "contractType": "PERPETUAL",
+            "symbol": "BIRDUSDT",
+            "sequenceNo": "0",
+            "quotePrecision": "8",
+            "symbolType": "1",
+            "quantityPrecision": "2",
+            "quoteAsset": "USDT",
+            "underlyingSubType": [
+              "STOCK"
+            ],
+            "triggerProtect": "0.0200",
+            "marginAsset": "USDT",
+            "settlePlan": "0",
+            "onboardDate": "1776337200000",
+            "timeInForce": [
+              "GTC",
+              "IOC",
+              "FOK",
+              "GTX",
+              "HIDDEN"
+            ],
+            "imn": null,
+            "maintMarginPercent": "25.0000",
+            "deliveryDate": "4133404800000",
+            "liquidationFee": "0.025000",
+            "pair": "BIRDUSDT",
+            "tradingMode": "1",
+            "createTime": "1776333246573",
+            "twapMinNotional": "1000"
+          },
+          "created": 1776337200000,
+          "option": false,
+          "future": false,
+          "symbol": "BIRD/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 0.01,
+            "base": 1.0e-8,
+            "price": 0.001,
+            "quote": 1.0e-8
+          },
+          "baseId": "BIRD",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "BIRD",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 100000,
+              "min": 0.01
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "market": {
+              "max": 100,
+              "min": 0.01
+            },
+            "price": {
+              "max": 2000,
+              "min": 0.001
+            }
+          },
+          "taker": 3.5e-4,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "BIRDUSDT",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -19604,7 +19759,7 @@
               },
               {
                 "filterType": "MARKET_LOT_SIZE",
-                "maxQty": "100000",
+                "maxQty": "60000",
                 "minQty": "1",
                 "stepSize": "1"
               },
@@ -19715,7 +19870,7 @@
               "min": "__undefined"
             },
             "market": {
-              "max": 100000,
+              "max": 60000,
               "min": 1
             },
             "price": {
@@ -28258,7 +28413,7 @@
               "GTX",
               "HIDDEN"
             ],
-            "imn": null,
+            "imn": "1000.00",
             "maintMarginPercent": "10.0000",
             "deliveryDate": "4133404800000",
             "liquidationFee": "0.025000",
@@ -33307,7 +33462,7 @@
               "GTX",
               "HIDDEN"
             ],
-            "imn": "4000.00",
+            "imn": "1000.00",
             "maintMarginPercent": "2.5000",
             "deliveryDate": "1739350800000",
             "liquidationFee": "0.015000",
@@ -36580,6 +36735,161 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
+        "CHIP/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.0001,
+          "inverse": false,
+          "info": {
+            "filters": [
+              {
+                "filterType": "PRICE_FILTER",
+                "maxPrice": "0.5000000",
+                "minPrice": "0.0000100",
+                "tickSize": "0.0000100"
+              },
+              {
+                "filterType": "LOT_SIZE",
+                "maxQty": "500000",
+                "minQty": "1",
+                "stepSize": "1"
+              },
+              {
+                "filterType": "MARKET_LOT_SIZE",
+                "maxQty": "25000",
+                "minQty": "1",
+                "stepSize": "1"
+              },
+              {
+                "filterType": "MAX_NUM_ORDERS",
+                "limit": "200"
+              },
+              {
+                "filterType": "MAX_NUM_ALGO_ORDERS",
+                "limit": "10"
+              },
+              {
+                "filterType": "MIN_NOTIONAL",
+                "notional": "5"
+              },
+              {
+                "filterType": "PERCENT_PRICE",
+                "ltMultiplierDown": "0.9000",
+                "ltMultiplierUp": "1.1000",
+                "multiplierDecimal": "4",
+                "multiplierDown": "0.9000",
+                "multiplierUp": "1.1000"
+              }
+            ],
+            "underlyingType": "COIN",
+            "pricePrecision": "7",
+            "requiredMarginPercent": "20.0000",
+            "baseAssetPrecision": "8",
+            "marketTakeBound": "0.10",
+            "baseAsset": "CHIP",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET",
+              "STOP",
+              "STOP_MARKET",
+              "TAKE_PROFIT",
+              "TAKE_PROFIT_MARKET",
+              "TRAILING_STOP_MARKET"
+            ],
+            "tags": [],
+            "status": "TRADING",
+            "channel": "{}",
+            "name": "",
+            "contractType": "PERPETUAL",
+            "symbol": "CHIPUSDT",
+            "sequenceNo": "0",
+            "quotePrecision": "8",
+            "symbolType": "0",
+            "quantityPrecision": "0",
+            "quoteAsset": "USDT",
+            "underlyingSubType": [
+              "pre-launch"
+            ],
+            "triggerProtect": "0.1000",
+            "marginAsset": "USDT",
+            "settlePlan": "0",
+            "onboardDate": "1776337200000",
+            "timeInForce": [
+              "GTC",
+              "IOC",
+              "FOK",
+              "GTX",
+              "HIDDEN"
+            ],
+            "imn": "1000.00",
+            "maintMarginPercent": "10.0000",
+            "deliveryDate": "4133404800000",
+            "liquidationFee": "0.025000",
+            "pair": "CHIPUSDT",
+            "tradingMode": "0",
+            "createTime": "1776326082024",
+            "twapMinNotional": "1000"
+          },
+          "created": 1776337200000,
+          "option": false,
+          "future": false,
+          "symbol": "CHIP/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 1,
+            "base": 1.0e-8,
+            "price": 1.0e-5,
+            "quote": 1.0e-8
+          },
+          "baseId": "CHIP",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "CHIP",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 500000,
+              "min": 1
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "market": {
+              "max": 25000,
+              "min": 1
+            },
+            "price": {
+              "max": 0.5,
+              "min": 1.0e-5
+            }
+          },
+          "taker": 3.5e-4,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "CHIPUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
         "SBET/USDT:USDT": {
           "spot": false,
           "contractSize": 1,
@@ -37089,15 +37399,15 @@
                 "ltMultiplierDown": "0.9800",
                 "ltMultiplierUp": "1.0200",
                 "multiplierDecimal": "4",
-                "multiplierDown": "0.9600",
-                "multiplierUp": "1.0400"
+                "multiplierDown": "0.9500",
+                "multiplierUp": "1.0500"
               }
             ],
             "underlyingType": "COIN",
             "pricePrecision": "7",
             "requiredMarginPercent": "5.0000",
             "baseAssetPrecision": "8",
-            "marketTakeBound": "0.04",
+            "marketTakeBound": "0.05",
             "baseAsset": "AXL",
             "orderTypes": [
               "LIMIT",
@@ -37120,7 +37430,7 @@
             "quantityPrecision": "1",
             "quoteAsset": "USDT",
             "underlyingSubType": [],
-            "triggerProtect": "0.0400",
+            "triggerProtect": "0.0500",
             "marginAsset": "USDT",
             "settlePlan": "0",
             "onboardDate": "1769508900000",
@@ -41136,7 +41446,7 @@
               "GTX",
               "HIDDEN"
             ],
-            "imn": null,
+            "imn": "1000.00",
             "maintMarginPercent": "10.0000",
             "deliveryDate": "4133404800000",
             "liquidationFee": "0.025000",
@@ -72963,7 +73273,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 413,
+        "sample_count": 415,
         "separator": "",
         "suffix": null
       }

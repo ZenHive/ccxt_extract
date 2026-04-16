@@ -12,12 +12,6 @@
   },
   "findings": [
     {
-      "exchange": "alpaca",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createMarketSellOrderWithCost but runtime.describe.has.createMarketSellOrderWithCost = \"__undefined\"",
-      "path": "structure.unified_endpoints.createMarketSellOrderWithCost"
-    },
-    {
       "exchange": "bingx",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchCanceledAndClosedOrders but runtime.describe.has.fetchCanceledAndClosedOrders = \"__undefined\"",
@@ -42,78 +36,12 @@
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
     },
     {
-      "exchange": "blofin",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchMarkPrice but runtime.describe.has.fetchMarkPrice = :missing",
-      "path": "structure.unified_endpoints.fetchMarkPrice"
-    },
-    {
-      "exchange": "cex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchOrdersByStatus"
-    },
-    {
-      "exchange": "coinbase",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchOrdersByStatus"
-    },
-    {
-      "exchange": "coinbaseadvanced",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchOrdersByStatus"
-    },
-    {
-      "exchange": "coinbaseinternational",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchDepositsWithdrawals but runtime.describe.has.fetchDepositsWithdrawals = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchDepositsWithdrawals"
-    },
-    {
-      "exchange": "coinbaseinternational",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares transfer but runtime.describe.has.transfer = \"__undefined\"",
-      "path": "structure.unified_endpoints.transfer"
-    },
-    {
       "exchange": "coinex",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
     },
     {
-      "exchange": "coinmate",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTime but runtime.describe.has.fetchTime = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchTime"
-    },
-    {
-      "exchange": "exmo",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createMarketSellOrderWithCost but runtime.describe.has.createMarketSellOrderWithCost = \"__undefined\"",
-      "path": "structure.unified_endpoints.createMarketSellOrderWithCost"
-    },
-    {
-      "exchange": "foxbit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createOrders but runtime.describe.has.createOrders = \"__undefined\"",
-      "path": "structure.unified_endpoints.createOrders"
-    },
-    {
-      "exchange": "foxbit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchOrdersByStatus"
-    },
-    {
-      "exchange": "foxbit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchStatus but runtime.describe.has.fetchStatus = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchStatus"
-    },
-    {
       "exchange": "gate",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares closePosition but runtime.describe.has.closePosition = \"__undefined\"",
@@ -148,12 +76,6 @@
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
-    },
-    {
-      "exchange": "gemini",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOpenInterest but runtime.describe.has.fetchOpenInterest = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchOpenInterest"
     },
     {
       "exchange": "hashkey",
@@ -166,48 +88,6 @@
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchLastPrices but runtime.describe.has.fetchLastPrices = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchLastPrices"
-    },
-    {
-      "exchange": "hollaex",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchDepositWithdrawFees but runtime.describe.has.fetchDepositWithdrawFees = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchDepositWithdrawFees"
-    },
-    {
-      "exchange": "indodax",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchOHLCV but runtime.describe.has.fetchOHLCV = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchOHLCV"
-    },
-    {
-      "exchange": "indodax",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTickers but runtime.describe.has.fetchTickers = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchTickers"
-    },
-    {
-      "exchange": "krakenfutures",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares createOrders but runtime.describe.has.createOrders = \"__undefined\"",
-      "path": "structure.unified_endpoints.createOrders"
-    },
-    {
-      "exchange": "lbank",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchDeposits but runtime.describe.has.fetchDeposits = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchDeposits"
-    },
-    {
-      "exchange": "lbank",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTradingFee but runtime.describe.has.fetchTradingFee = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchTradingFee"
-    },
-    {
-      "exchange": "lbank",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchWithdrawals but runtime.describe.has.fetchWithdrawals = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchWithdrawals"
     },
     {
       "exchange": "mexc",
@@ -264,84 +144,6 @@
       "path": "structure.unified_endpoints.fetchPositionMode"
     },
     {
-      "exchange": "tokocrypto",
-      "invariant": "authenticated_sections_reachable_in_api",
-      "message": "authenticated section \"dapiPrivate\" not reachable in runtime.describe.api tree",
-      "path": "structure.authenticated_sections[0]"
-    },
-    {
-      "exchange": "tokocrypto",
-      "invariant": "authenticated_sections_reachable_in_api",
-      "message": "authenticated section \"dapiPrivateV2\" not reachable in runtime.describe.api tree",
-      "path": "structure.authenticated_sections[1]"
-    },
-    {
-      "exchange": "tokocrypto",
-      "invariant": "authenticated_sections_reachable_in_api",
-      "message": "authenticated section \"fapiPrivate\" not reachable in runtime.describe.api tree",
-      "path": "structure.authenticated_sections[2]"
-    },
-    {
-      "exchange": "tokocrypto",
-      "invariant": "authenticated_sections_reachable_in_api",
-      "message": "authenticated section \"fapiPrivateV2\" not reachable in runtime.describe.api tree",
-      "path": "structure.authenticated_sections[3]"
-    },
-    {
-      "exchange": "tokocrypto",
-      "invariant": "authenticated_sections_reachable_in_api",
-      "message": "authenticated section \"sapi\" not reachable in runtime.describe.api tree",
-      "path": "structure.authenticated_sections[5]"
-    },
-    {
-      "exchange": "tokocrypto",
-      "invariant": "authenticated_sections_reachable_in_api",
-      "message": "authenticated section \"sapiV3\" not reachable in runtime.describe.api tree",
-      "path": "structure.authenticated_sections[6]"
-    },
-    {
-      "exchange": "tokocrypto",
-      "invariant": "authenticated_sections_reachable_in_api",
-      "message": "authenticated section \"wapi\" not reachable in runtime.describe.api tree",
-      "path": "structure.authenticated_sections[7]"
-    },
-    {
-      "exchange": "toobit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchClosedOrders but runtime.describe.has.fetchClosedOrders = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchClosedOrders"
-    },
-    {
-      "exchange": "toobit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchLeverage but runtime.describe.has.fetchLeverage = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchLeverage"
-    },
-    {
-      "exchange": "toobit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchPositions but runtime.describe.has.fetchPositions = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchPositions"
-    },
-    {
-      "exchange": "toobit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTradingFees but runtime.describe.has.fetchTradingFees = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchTradingFees"
-    },
-    {
-      "exchange": "toobit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares setLeverage but runtime.describe.has.setLeverage = \"__undefined\"",
-      "path": "structure.unified_endpoints.setLeverage"
-    },
-    {
-      "exchange": "whitebit",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchBorrowInterest but runtime.describe.has.fetchBorrowInterest = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchBorrowInterest"
-    },
-    {
       "exchange": "woo",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares repayMargin but runtime.describe.has.repayMargin = :missing",
@@ -352,36 +154,18 @@
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares createOrders but runtime.describe.has.createOrders = \"__undefined\"",
       "path": "structure.unified_endpoints.createOrders"
-    },
-    {
-      "exchange": "zebpay",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchStatus but runtime.describe.has.fetchStatus = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchStatus"
-    },
-    {
-      "exchange": "zebpay",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTime but runtime.describe.has.fetchTime = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchTime"
-    },
-    {
-      "exchange": "zebpay",
-      "invariant": "unified_endpoints_claimed_in_has",
-      "message": "unified_endpoints declares fetchTradingFees but runtime.describe.has.fetchTradingFees = \"__undefined\"",
-      "path": "structure.unified_endpoints.fetchTradingFees"
     }
   ],
   "summary": {
-    "exchanges_checked": 110,
+    "exchanges_checked": 36,
     "findings_by_invariant": {
-      "authenticated_sections_reachable_in_api": 7,
+      "authenticated_sections_reachable_in_api": 0,
       "error_code_fields_root_in_observed_set": 0,
       "override_paths_present_in_output": 0,
       "override_registry_valid": 0,
-      "unified_endpoints_claimed_in_has": 53
+      "unified_endpoints_claimed_in_has": 24
     },
     "invariants_run": 5,
-    "total_findings": 60
+    "total_findings": 24
   }
 }

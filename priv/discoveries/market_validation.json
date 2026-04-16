@@ -1,5 +1,5 @@
 {
-  "exchange_count": 2,
+  "exchange_count": 1,
   "exchanges": {
     "binance": {
       "errors": [],
@@ -8,48 +8,23 @@
       "undefined_density": {
         "density_pct": 29.9,
         "total_fields": 155124,
-        "undefined_count": 46426
-      },
-      "warnings": []
-    },
-    "dydx": {
-      "errors": [],
-      "id": "dydx",
-      "market_count": 294,
-      "undefined_density": {
-        "density_pct": 27.8,
-        "total_fields": 10584,
-        "undefined_count": 2940
+        "undefined_count": 46430
       },
       "warnings": []
     }
   },
   "spot_check": {
-    "checked_at": "2026-04-16T09:33:11.271278Z",
+    "checked_at": "2026-04-16T10:26:23.672172Z",
     "exchanges_checked": [
-      "binance",
-      "dydx"
+      "binance"
     ],
     "exchanges_failed": [],
     "results": [
       {
-        "drift_summary": "2 added, 0 removed",
+        "drift_summary": "0 added, 0 removed",
         "id": "binance",
         "market_count_cached": 4309,
-        "market_count_fresh": 4311,
-        "symbols_added": [
-          "CHIP/USDT:USDT",
-          "GENIUS/USDT:USDT"
-        ],
-        "symbols_added_count": 2,
-        "symbols_removed": [],
-        "symbols_removed_count": 0
-      },
-      {
-        "drift_summary": "0 added, 0 removed",
-        "id": "dydx",
-        "market_count_cached": 294,
-        "market_count_fresh": 294,
+        "market_count_fresh": 4309,
         "symbols_added": [],
         "symbols_added_count": 0,
         "symbols_removed": [],
@@ -58,16 +33,15 @@
     ]
   },
   "summary": {
-    "avg_undefined_density_pct": 28.9,
+    "avg_undefined_density_pct": 29.9,
     "errors": 0,
-    "exchanges_valid": 2,
+    "exchanges_valid": 1,
     "exchanges_with_issues": 0,
-    "total_markets_checked": 4603,
+    "total_markets_checked": 4309,
     "warnings": 0
   },
   "tier_scope": [
-    "exchange:binance",
-    "exchange:dydx"
+    "exchange:binance"
   ],
-  "validated_at": "2026-04-16T09:33:11.271291Z"
+  "validated_at": "2026-04-16T10:26:23.672181Z"
 }

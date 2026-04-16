@@ -19,6 +19,7 @@ defmodule CcxtExtract.Pipeline do
   """
 
   alias CcxtExtract.DiscoveryLoader
+  alias CcxtExtract.OverrideRegistry
   alias CcxtExtract.Paths
   alias CcxtExtract.Schema
   alias CcxtExtract.ScopeCleanup
@@ -81,7 +82,12 @@ defmodule CcxtExtract.Pipeline do
         id_mismatch_entries: data.id_mismatch_entries
       }
 
-      {:ok, Enum.reverse(exchanges), stats}
+      final_exchanges =
+        exchanges
+        |> Enum.reverse()
+        |> Enum.map(&apply_exchange_overrides/1)
+
+      {:ok, final_exchanges, stats}
     end
   end
 
@@ -130,6 +136,61 @@ defmodule CcxtExtract.Pipeline do
     Enum.filter(exchanges, &MapSet.member?(scope, &1["id"]))
   end
 
+  # Apply all curated overrides (priv/overrides/<id>.json) to the assembled
+  # exchange map. Runs after assembly+validation so overrides replace whatever
+  # derivation produced. Two-layer error handling: the outer rescue catches
+  # OverrideRegistry.load/1 failures (bad JSON, schema violation) and the
+  # inner per-entry rescue catches put_in/pointer_to_keys raises, naming the
+  # failing pointer. Failures are surfaced two ways: a Logger.warning here
+  # at assembly time, and as a finding from the contract-test invariants
+  # override_registry_valid (file-level) and override_paths_present_in_output
+  # (entry-level). The contract-test finding is the strict channel; this
+  # assembly-time log keeps a single bad file from blocking a full-universe
+  # build.
+  #
+  # TODO(Task 62): `mix ccxt_extract.validate_overrides` will offer a strict
+  # mode that propagates these errors — that task is where fail-hard
+  # semantics belong.
+  defp apply_exchange_overrides(exchange) do
+    id = exchange["exchange"]["id"]
+
+    case OverrideRegistry.load(id) do
+      :none ->
+        exchange
+
+      overrides when is_list(overrides) ->
+        # TODO(Task 61a): tag override-applied paths as "override" in the
+        # _provenance map here — this is the only stage where override
+        # values land in the assembled exchange.
+        Enum.reduce(overrides, exchange, &apply_override_entry(&1, &2, id))
+    end
+  rescue
+    e in [RuntimeError, File.Error, Jason.DecodeError] ->
+      id = exchange["exchange"]["id"]
+
+      Logger.warning(
+        "Override load failed for #{id} (priv/overrides/#{id}.json): #{Exception.message(e)}; leaving exchange unchanged"
+      )
+
+      exchange
+  end
+
+  # Apply a single override entry, naming the failing pointer on error so
+  # operators don't correlate a generic put_in message back to the entry.
+  # TODO(Task 62): strict-mode validate_overrides will propagate these
+  # instead of logging; see apply_exchange_overrides/1 header for rationale.
+  defp apply_override_entry(entry, acc, id) do
+    keys = OverrideRegistry.pointer_to_keys(entry["path"])
+    put_in(acc, keys, entry["value"])
+  rescue
+    e in [RuntimeError, KeyError, ArgumentError, FunctionClauseError] ->
+      Logger.warning(
+        "Override entry #{inspect(entry["path"])} failed for #{id} (priv/overrides/#{id}.json): #{Exception.message(e)}; entry not applied"
+      )
+
+      acc
+  end
+
   # Reduce callback: build one exchange and validate it
   defp assemble_and_validate(meta, data, schema_opts, {acc, errs}) do
     exchange = build_exchange_data(meta, data, schema_opts)
@@ -165,8 +226,9 @@ defmodule CcxtExtract.Pipeline do
     effective_sign = sign_method || get_parent_sign_method(id, data)
     api_keys = describe_api_keys(describe)
 
-    derived_auth = CcxtExtract.AuthenticatedSections.derive(effective_sign, api_keys)
-    authenticated_sections = resolve_auth_override(id, derived_auth, data)
+    # Curated overrides for `/structure/authenticated_sections` are applied
+    # generically at the tail of extract/1 via OverrideRegistry.apply_all/2.
+    authenticated_sections = CcxtExtract.AuthenticatedSections.derive(effective_sign, api_keys)
 
     structure_data = %{
       "class_info" => get_class_info(id, data),
@@ -265,33 +327,6 @@ defmodule CcxtExtract.Pipeline do
   # Top-level keys of describe.api (section names routed through sign()).
   defp describe_api_keys(%{"api" => api}) when is_map(api), do: Map.keys(api)
   defp describe_api_keys(_), do: nil
-
-  # Resolve per-exchange override. Own override wins over AST derivation.
-  # If no own override, walks parent chain so aliases (e.g. gateio -> gate)
-  # inherit the override. Falls back to AST-derived value.
-  #
-  # Today this reads only `/structure/authenticated_sections` from the
-  # generic override registry (Task 60). Broader path application lands
-  # with the generic merge stage in Task 61b.
-  defp resolve_auth_override(id, derived, data) do
-    with overrides when is_list(overrides) <- CcxtExtract.OverrideRegistry.load(id),
-         {:ok, entry} <-
-           CcxtExtract.OverrideRegistry.find(overrides, "/structure/authenticated_sections"),
-         sections when is_list(sections) <- entry["value"] do
-      Enum.sort(Enum.uniq(sections))
-    else
-      _ ->
-        case find_parent_exchange_id(id, data) do
-          nil -> derived
-          parent_id -> resolve_auth_override(parent_id, derived, data)
-        end
-    end
-  rescue
-    # TODO(REFACTOR Item 3): Remove when generic override merge replaces this function
-    e ->
-      Logger.warning("Override load failed for #{id}, falling back to derived: #{Exception.message(e)}")
-      derived
-  end
 
   # Handle errors: rename handle_errors → method, with parent fallback
   defp get_handle_errors(id, data) do

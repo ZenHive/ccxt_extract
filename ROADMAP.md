@@ -83,9 +83,9 @@ Tasks 60, 58, 57d, 56b, 57b, 59, 57, 56, 55, 54, 53, 52, 49, 47, 46 — see [CHA
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 61a | ⬜ | Provenance tagging (`raw`/`derived`/`override`) — now unblocked. With the v1 override contract live (Task 60), 61a can mark fields per-path without guessing at payload shape. |
-| Task 61b | ⬜ | Generic merge pipeline stage — applies every `OverrideRegistry` entry regardless of path. Depends on 61a. |
+| Task 61b | ✅ | Shipped 2026-04-16 — generic RFC 6901 merge via `OverrideRegistry.apply_all/2`; 14/14 override files now flow end-to-end. 61a dependency was aspirational; 61b is useful standalone and provenance tagging will tag override writes when 61a lands. See [CHANGELOG.md](CHANGELOG.md). |
 | Task 57c | 🔶 | Pattern A/B fixed (341 → 53); Pattern C residual blocked on 61a — honest fix needs provenance tier (see Task 57c entry in Phase 8) |
-| Task 61c | ⬜ | Schema 2.0.0 bump — folds provenance into exchange JSON. Depends on 61a + 61b. |
+| Task 61c | ⬜ | Schema 2.0.0 bump — folds provenance into exchange JSON. Depends on 61a (61b ✅ shipped). |
 | Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ `[Codex]` |
 
 ### Quick Commands
@@ -144,22 +144,25 @@ Completed (Tasks 56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 |------|--------|-------|
 | Task 60 | ✅ | 🎁 **9-contract** · Generic JSON-Pointer override contract + SCHEMA.md docs [D:3/B:7/U:8 → Eff:2.5] 🎯 — shipped: RFC 6901 `path`, `value` payload, `reason`, `verified_against`/`unverified` exclusivity, `OverrideRegistry` loader, `priv/schema/override_v1.json`, `override_registry_valid` contract-test invariant, 14 existing files migrated. See [CHANGELOG.md](CHANGELOG.md). |
 | Task 61a `[P]` | ⬜ | 🎁 **9-pipeline** · Provenance tagging on raw + derived fields [D:4/B:8/U:8 → Eff:2.0] 🚀 |
-| Task 61b | ⬜ | 🎁 **9-pipeline** · Override merge pipeline stage [D:4/B:9/U:9 → Eff:2.25] 🚀 |
+| Task 61b | ✅ | 🎁 **9-pipeline** · Override merge pipeline stage [D:4/B:9/U:9 → Eff:2.25] 🎯 SHIPPED 2026-04-16 — see [CHANGELOG.md](CHANGELOG.md). |
 | Task 61c | ⬜ | 🎁 **9-contract** · Schema 2.0.0 bump + migration notes in SCHEMA.md [D:2/B:6/U:6 → Eff:3.0] 🎯 |
 | Task 62 | ⬜ | 🎁 **9-audit** · `mix ccxt_extract.validate_overrides` [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 63 | ⬜ | 🎁 **9-audit** · `mix ccxt_extract.drift_audit` [D:5/B:7/U:6 → Eff:1.3] 📋 |
+| Task 104 | ⬜ | 🎁 **9-pipeline** · Array-index JSON Pointers in `OverrideRegistry` [D:2/B:3/U:2 → Eff:1.5] 📋 — extend `pointer_to_keys/1` to emit `Access.at/1` for numeric segments. Currently raises loudly (see error message). Unblock when a real override file needs `/path/0/...`. |
 
 **Task 60: Override directory contract** — Define `priv/overrides/<exchange>.json` format: JSON Pointer paths into the canonical output, a `value` payload, required `reason`, optional `verified_against` (runtime probe output or CCXT source reference) and `unverified: true` flag. Document in SCHEMA.md. Ship an example override for one exchange.
 
-**Task 61a: Provenance tagging on raw + derived** — Every field in the emitted JSON gains a parallel `_provenance` map keyed by the same paths, with values `"raw"` / `"derived"` / `"override"`. Ship for raw + derived first; override values are tagged when Task 61b lands. Alternative shape (inline per-field `{value, source}` tuples) is rejected as noisy — keep the main payload clean, store provenance alongside.
+**Task 61a: Provenance tagging on raw + derived** — Every field in the emitted JSON gains a parallel `_provenance` map keyed by the same paths, with values `"raw"` / `"derived"` / `"override"`. Task 61b already shipped without provenance (the dependency was aspirational, not structural); when 61a lands it must tag override-applied paths at the tail of `Pipeline.extract/1` where `OverrideRegistry.apply_all/2` runs. Alternative shape (inline per-field `{value, source}` tuples) is rejected as noisy — keep the main payload clean, store provenance alongside.
 
-**Task 61b: Override merge pipeline stage** — Add a merge stage that applies `priv/overrides/<exchange>.json` on top of raw+derived output before emission. Override values tag provenance `"override"`. Invalid override paths (pointing at non-existent locations) fail the pipeline loudly.
+**Task 61b: Override merge pipeline stage (✅ shipped 2026-04-16)** — Applies `priv/overrides/<exchange>.json` on top of raw+derived output as the final stage of `Pipeline.extract/1` via `OverrideRegistry.apply_all/2`. Invalid override applications are rescued and logged at the callsite so one corrupt file can't brick the full build; the `override_paths_present_in_output` contract-test invariant surfaces drift (override value absent at its pointer path) loudly — keeping loud-fail at build-check time, not per-exchange assembly time. Shipped scope: shallow string-key pointers only; numeric segments (array indices) raise until a real override needs deep indexing (Task 104). When Task 61a lands, override-applied paths will be tagged `"override"` in the provenance map.
 
-**Task 61c: Schema 2.0.0 bump** — Bump `schema_version` to 2.0.0 and rename the schema file `exchange_v1.json` → `exchange_v2.json`. Keep `exchange_v1.json` around for one release so consumers can diff; delete in the following release. Document the provenance contract (top-level `_provenance` map, required on every exchange) and the breaking changes in SCHEMA.md.
+**Task 61c: Schema 2.0.0 bump** — Bump `schema_version` to 2.0.0 and rename the schema file `exchange_v1.json` → `exchange_v2.json`. Keep `exchange_v1.json` around for one release so consumers can diff; delete in the following release. Document the provenance contract (top-level `_provenance` map, required on every exchange) and the breaking changes in SCHEMA.md. Discovery (2026-04-16): the `override_paths_present_in_output` integration test in `test/ccxt_extract/contract_test_test.exs` currently exercises the 0-finding case only — add a drifted-override fixture when `run_all/1` is restructured to thread overrides through `observed`.
 
 **Task 62: validate_overrides** — `mix ccxt_extract.validate_overrides` checks each override against runtime behavior where a probe exists (e.g., if override sets a URL, cross-check against runtime url_templates; if override sets a signing field, cross-check against live sign() probe). Emits a report per exchange: verified vs unverified-with-reason.
 
 **Task 63: drift_audit** — `mix ccxt_extract.drift_audit` compares current derivation + overrides against the last-released output. Flags: (a) overrides whose underlying raw data changed (override may be stale), (b) derived fields that flipped value or disappeared, (c) new raw fields not yet derived. Output is an audit report, not a fail; humans decide.
+
+**Task 104: Array-index JSON Pointers in OverrideRegistry** — Extend `OverrideRegistry.pointer_to_keys/1` to emit `Access.at/1` for numeric segments so override paths like `/structure/sign_method/params/0/name` resolve to deep list elements. Today the function raises loudly with a TODO marker — fine while every shipped override file uses shallow string-key pointers. Unblock when an override file needs to replace a specific element of a list. Low urgency; no evidence of need as of 2026-04-16.
 
 ---
 

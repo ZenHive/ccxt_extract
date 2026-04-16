@@ -60,7 +60,6 @@ defmodule CcxtExtract.DiscoveryLoaderTest do
     @tag :tmp_dir
     test "missing describe/_manifest.json records a missing_files entry", %{tmp_dir: tmp_dir} do
       write_minimal_fixtures(tmp_dir, describe_exchanges: [], markets_succeeded: [])
-      # Remove the describe manifest we just wrote
       File.rm!(Path.join(tmp_dir, "describe/_manifest.json"))
 
       exchanges_json = %{"exchanges" => [%{"id" => "fakex"}]}

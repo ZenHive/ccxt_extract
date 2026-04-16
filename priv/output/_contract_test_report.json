@@ -377,10 +377,11 @@
     "findings_by_invariant": {
       "authenticated_sections_reachable_in_api": 7,
       "error_code_fields_root_in_observed_set": 0,
+      "override_paths_present_in_output": 0,
       "override_registry_valid": 0,
       "unified_endpoints_claimed_in_has": 53
     },
-    "invariants_run": 4,
+    "invariants_run": 5,
     "total_findings": 60
   }
 }

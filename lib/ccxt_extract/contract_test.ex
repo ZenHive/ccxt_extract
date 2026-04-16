@@ -44,7 +44,8 @@ defmodule CcxtExtract.ContractTest do
     {"unified_endpoints_claimed_in_has", :check_unified_endpoints_claimed_in_has},
     {"authenticated_sections_reachable_in_api", :check_authenticated_sections_reachable_in_api},
     {"error_code_fields_root_in_observed_set", :check_error_code_fields_root},
-    {"override_registry_valid", :check_override_registry_valid}
+    {"override_registry_valid", :check_override_registry_valid},
+    {"override_paths_present_in_output", :check_override_paths_present_in_output}
   ]
 
   @doc """
@@ -212,6 +213,77 @@ defmodule CcxtExtract.ContractTest do
             message: Exception.message(e)
           }
         ]
+    end
+  end
+
+  @doc """
+  Flag `priv/overrides/<exchange>.json` entries whose `value` is not
+  present at its RFC 6901 `path` in the emitted exchange map. Complements
+  `override_registry_valid` (which only verifies files load) by checking
+  the merge stage (`OverrideRegistry.apply_all/2`) actually landed each
+  entry end-to-end.
+  """
+  @spec check_override_paths_present_in_output(map(), map()) :: [finding()]
+  def check_override_paths_present_in_output(exchange, _observed) do
+    id = exchange_id(exchange)
+
+    # TODO(Task 61a): load overrides once in run_all/1 and thread through
+    # `observed` instead of re-reading per invariant. Negligible at 14 files
+    # today; revisit when override count grows or invariant set expands.
+    case CcxtExtract.OverrideRegistry.load(id) do
+      :none ->
+        []
+
+      overrides when is_list(overrides) ->
+        Enum.flat_map(overrides, &safe_override_path_finding(id, &1, exchange))
+    end
+  rescue
+    e in [RuntimeError, File.Error, Jason.DecodeError] ->
+      [
+        %{
+          exchange: exchange_id(exchange),
+          invariant: "override_paths_present_in_output",
+          path: "priv/overrides/#{exchange_id(exchange)}.json",
+          message: Exception.message(e)
+        }
+      ]
+  end
+
+  # Findings are this invariant's native reporting channel — a raise from
+  # pointer_to_keys/1 (Task 104: unsupported numeric segment) or
+  # get_in/2 on a mis-typed path must surface as a finding, not bubble
+  # up and abort sibling entries in the same file. The enumerated
+  # exception list is deliberate; unrelated exceptions (e.g. SystemLimit)
+  # still propagate.
+  defp safe_override_path_finding(id, entry, exchange) do
+    override_path_finding(id, entry, exchange)
+  rescue
+    e in [RuntimeError, KeyError, ArgumentError, FunctionClauseError] ->
+      [
+        %{
+          exchange: id,
+          invariant: "override_paths_present_in_output",
+          path: entry["path"] || "<unknown>",
+          message: Exception.message(e)
+        }
+      ]
+  end
+
+  defp override_path_finding(id, entry, exchange) do
+    keys = CcxtExtract.OverrideRegistry.pointer_to_keys(entry["path"])
+    actual = get_in(exchange, keys)
+
+    if actual == entry["value"] do
+      []
+    else
+      [
+        %{
+          exchange: id,
+          invariant: "override_paths_present_in_output",
+          path: entry["path"],
+          message: "override value not present at path; got #{inspect(actual)}"
+        }
+      ]
     end
   end
 

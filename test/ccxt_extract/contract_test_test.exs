@@ -148,6 +148,41 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_override_paths_present_in_output/2" do
+    alias CcxtExtract.OverrideRegistry
+
+    test "no findings when exchange has no override file" do
+      exchange = %{"exchange" => %{"id" => "__no_override_#{System.unique_integer([:positive])}__"}}
+      assert ContractTest.check_override_paths_present_in_output(exchange, @base_observed) == []
+    end
+
+    test "no findings when every override value appears at its path in output" do
+      # Construct an exchange map via apply_all/2 using the real production
+      # override file — guarantees every entry's value is observable at its path.
+      seed = %{"exchange" => %{"id" => "hyperliquid"}, "structure" => %{}}
+      overrides = OverrideRegistry.load("hyperliquid")
+      exchange = OverrideRegistry.apply_all(seed, overrides)
+
+      assert ContractTest.check_override_paths_present_in_output(exchange, @base_observed) == []
+    end
+
+    test "finding when exchange output drifts from override value" do
+      # hyperliquid's authenticated_sections override — here the exchange map
+      # carries a drifted value that does not match the override.
+      exchange = %{
+        "exchange" => %{"id" => "hyperliquid"},
+        "structure" => %{"authenticated_sections" => ["drifted"]}
+      }
+
+      [finding] = ContractTest.check_override_paths_present_in_output(exchange, @base_observed)
+
+      assert finding.exchange == "hyperliquid"
+      assert finding.invariant == "override_paths_present_in_output"
+      assert finding.path == "/structure/authenticated_sections"
+      assert finding.message =~ "drifted"
+    end
+  end
+
   describe "run_all/1" do
     setup do
       tmp = Path.join(System.tmp_dir!(), "ccxt_contract_test_#{System.unique_integer([:positive])}")

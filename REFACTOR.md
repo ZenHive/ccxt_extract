@@ -4,9 +4,8 @@ Structural debt identified during end-to-end codebase review (2026-04-16).
 Quick wins (items 4-6) shipped same session; items 1-3 below are multi-session
 refactors requiring isolation and verification checkpoints.
 
-**Dependency order:** Items 1 and 2 are shipped. Item 3 (generic override
-merge / Task 61b) can now wire into the clean pipeline seams Item 1
-produced. Item 8 (below) is independent.
+**Dependency order:** Items 1, 2, and 3 are shipped. Item 8 (below) is
+independent and remains the next easy win.
 
 ---
 
@@ -35,52 +34,23 @@ job). `Validation.validate_schema/2` is the single authoritative validator.
 
 ---
 
-## Item 3: Implement generic override merge (Task 61b)
+## ~~Item 3: Implement generic override merge (Task 61b)~~ ✅
 
-**D: 3 / B: 5 — ROI: 1.67**
+**D: 3 / B: 5 — ROI: 1.67** — **SHIPPED 2026-04-16**
 
-**Blocked by:** Item 1 (DiscoveryLoader extraction) — strongly preferred so the
-merge stage wires into clean pipeline seams rather than the current monolith.
-
-Currently `resolve_auth_override/3` is the only override consumer. Thirteen of
-14 override files pass `override_registry_valid` green while contributing
-nothing to output. The contract-test invariant tests the loader, not the merge.
-
-### Plan
-
-1. **Add `OverrideRegistry.apply_all/2`** — takes an exchange map and an
-   override list, applies each entry's `value` at its RFC 6901 `path` using
-   `put_in/3` with JSON Pointer → Access path resolution.
-
-2. **Wire into pipeline** — after `build_exchange_data` assembles the base map,
-   call `OverrideRegistry.apply_all/2` as the final merge step. This replaces
-   the narrow `resolve_auth_override/3` with the generic path.
-
-3. **Add ContractTest invariant** — `override_paths_present_in_output`:
-   for every override entry, verify the path exists in the final output and
-   the value matches. This tests the merge, not just the loader.
-
-4. **Remove `resolve_auth_override/3`** — dead code once the generic merge
-   handles `/structure/authenticated_sections` along with everything else.
-
-### Verification checkpoints
-
-1. All 14 override files' entries appear in output JSON at their specified paths
-2. `mix ccxt_extract.pipeline --tier1` — output changes only where overrides
-   apply (diff shows override values replacing derived values)
-3. New ContractTest invariant passes green
-4. Existing `override_registry_valid` invariant still passes
-
-### Design decisions for the implementer
-
-- **Conflict resolution:** When an override path targets a field that
-  derivation already populated, override wins (that's the point). But should
-  the pipeline log a warning? Useful for drift detection but noisy.
-- **Deep vs shallow apply:** `/structure/authenticated_sections` is a
-  top-level replace. But `/structure/sign_method/params/0/name` would be a
-  deep set. Does `apply_all` need to handle both? RFC 6901 says yes, but
-  the current override files only use shallow paths. Start shallow, document
-  the depth limitation, extend when a real override needs it.
+Added `OverrideRegistry.apply_all/2` + public `pointer_to_keys/1` — a generic
+RFC 6901 merge stage applied as the final step of `Pipeline.extract/1`.
+Deleted `resolve_auth_override/3` (the narrow single-pointer consumer) and
+its call site. 13 of 14 override files previously loaded green but contributed
+nothing to output; all 14 now flow end-to-end. New ContractTest invariant
+`override_paths_present_in_output` verifies every entry's `value` is
+observable at its pointer path in emitted JSON — 0 findings baseline.
+Added `priv/overrides/gateio.json` to replace the deleted parent-chain walk
+(gateio was inheriting gate's override); no other exchange regressed.
+Output byte-identical to pre-refactor baseline modulo `extracted_at` and
+the legitimate gateio re-introduction. Shallow string-key pointers only;
+numeric segments (array indices) raise loudly — `Access.at/1` support lands
+when a real override file needs it.
 
 ---
 

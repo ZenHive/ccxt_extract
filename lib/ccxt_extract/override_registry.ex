@@ -119,6 +119,82 @@ defmodule CcxtExtract.OverrideRegistry do
     end
   end
 
+  @doc """
+  Apply every override entry in `overrides` to `exchange_map`, returning
+  the transformed map. Each entry's `value` is placed at the RFC 6901
+  `path`, using `put_in/3` over a string-key list resolved from the
+  JSON Pointer.
+
+  Entry order is preserved; since the loader rejects duplicate paths
+  within a single file, no in-file conflicts are possible.
+
+  Values are applied verbatim — no sorting, dedup, or other normalization.
+  Authors are responsible for canonical form. The prior narrow consumer
+  (`Pipeline.resolve_auth_override/3`) did `Enum.sort(Enum.uniq/1)` on
+  `authenticated_sections`; `apply_all/2` does not.
+
+  ## Depth limitation
+
+  Only string-key segments are supported today. Segments that look like
+  array indices (non-negative integers) raise — array handling with
+  `Access.at/1` lands when a real override file needs a deep pointer.
+  All current (Task 60) override files use shallow paths like
+  `/structure/authenticated_sections`.
+  """
+  @spec apply_all(map(), [map()]) :: map()
+  def apply_all(exchange_map, overrides) when is_map(exchange_map) and is_list(overrides) do
+    Enum.reduce(overrides, exchange_map, fn entry, acc ->
+      keys = pointer_to_keys(entry["path"])
+      put_in(acc, keys, entry["value"])
+    end)
+  end
+
+  @doc """
+  Parse an RFC 6901 JSON Pointer into a list of string keys usable with
+  `Kernel.get_in/2` and `Kernel.put_in/3`.
+
+  Raises on pointers that don't start with `/` or that contain a
+  numeric segment (array indices are pending — see `apply_all/2`).
+
+  Handles the two RFC 6901 escape sequences in the mandated order:
+  `~1` → `/` first, then `~0` → `~`. This ensures `~01` correctly
+  round-trips to the literal string `~1`.
+
+  Edge case: `"/"` resolves to the empty-string key `[""]` per RFC 6901
+  (it points at the `""` member of the root object). No shipped override
+  file uses this form, but it parses without error.
+  """
+  @spec pointer_to_keys(String.t()) :: [String.t()]
+  def pointer_to_keys("/" <> rest) do
+    rest
+    |> String.split("/")
+    |> Enum.map(&unescape_segment/1)
+  end
+
+  def pointer_to_keys(other) do
+    raise "Invalid JSON Pointer #{inspect(other)}: must start with '/'"
+  end
+
+  defp unescape_segment(segment) do
+    if numeric_segment?(segment) do
+      # TODO(Task 104): extend to Access.at/1 when a real override file
+      # needs deep-pointer array indexing. Shallow string-key pointers
+      # cover every shipped override as of 2026-04-16.
+      raise """
+      Invalid JSON Pointer segment #{inspect(segment)}: array index segment \
+      is not yet supported. See ROADMAP.md Task 104.
+      """
+    end
+
+    segment
+    |> String.replace("~1", "/")
+    |> String.replace("~0", "~")
+  end
+
+  defp numeric_segment?(segment) do
+    segment != "" and String.match?(segment, ~r/^\d+$/)
+  end
+
   # --- Validation ---
 
   defp validate!(%{"schema_version" => @override_schema_version, "overrides" => overrides} = data, path)

@@ -149,6 +149,108 @@ defmodule CcxtExtract.OverrideRegistryTest do
     end
   end
 
+  describe "pointer_to_keys/1" do
+    test "shallow single-segment pointer" do
+      assert OverrideRegistry.pointer_to_keys("/foo") == ["foo"]
+    end
+
+    test "nested shallow pointer" do
+      assert OverrideRegistry.pointer_to_keys("/structure/authenticated_sections") ==
+               ["structure", "authenticated_sections"]
+    end
+
+    test "unescapes ~1 to /" do
+      assert OverrideRegistry.pointer_to_keys("/a~1b") == ["a/b"]
+    end
+
+    test "unescapes ~0 to ~" do
+      assert OverrideRegistry.pointer_to_keys("/a~0b") == ["a~b"]
+    end
+
+    test "unescapes ~01 as literal ~1 (ordering: ~1 first, then ~0)" do
+      assert OverrideRegistry.pointer_to_keys("/a~01b") == ["a~1b"]
+    end
+
+    test "root pointer '/' resolves to the single empty-string key per RFC 6901" do
+      assert OverrideRegistry.pointer_to_keys("/") == [""]
+    end
+
+    test "raises on numeric segment (array index pending)" do
+      assert_raise RuntimeError, ~r/array index segment.*not yet supported/i, fn ->
+        OverrideRegistry.pointer_to_keys("/items/0/name")
+      end
+    end
+
+    test "raises when pointer does not start with /" do
+      assert_raise RuntimeError, ~r/must start with/, fn ->
+        OverrideRegistry.pointer_to_keys("foo")
+      end
+    end
+  end
+
+  describe "apply_all/2" do
+    test "replaces shallow value" do
+      exchange = %{"a" => 1, "b" => 2}
+      overrides = [%{"path" => "/a", "value" => 99, "reason" => "r"}]
+      assert OverrideRegistry.apply_all(exchange, overrides) == %{"a" => 99, "b" => 2}
+    end
+
+    test "replaces nested value" do
+      exchange = %{"structure" => %{"authenticated_sections" => ["derived"], "other" => 1}}
+
+      overrides = [
+        %{
+          "path" => "/structure/authenticated_sections",
+          "value" => ["override"],
+          "reason" => "r"
+        }
+      ]
+
+      assert OverrideRegistry.apply_all(exchange, overrides) ==
+               %{"structure" => %{"authenticated_sections" => ["override"], "other" => 1}}
+    end
+
+    test "is identity when overrides list is empty" do
+      exchange = %{"a" => 1}
+      assert OverrideRegistry.apply_all(exchange, []) == exchange
+    end
+
+    test "preserves untouched keys" do
+      exchange = %{
+        "structure" => %{"authenticated_sections" => ["x"], "keep" => "kept"},
+        "runtime" => %{"describe" => %{}}
+      }
+
+      overrides = [
+        %{"path" => "/structure/authenticated_sections", "value" => ["y"], "reason" => "r"}
+      ]
+
+      result = OverrideRegistry.apply_all(exchange, overrides)
+      assert result["structure"]["keep"] == "kept"
+      assert result["runtime"] == %{"describe" => %{}}
+    end
+
+    test "applies multiple entries (different paths)" do
+      exchange = %{"a" => 1, "b" => 2}
+
+      overrides = [
+        %{"path" => "/a", "value" => 10, "reason" => "r"},
+        %{"path" => "/b", "value" => 20, "reason" => "r"}
+      ]
+
+      assert OverrideRegistry.apply_all(exchange, overrides) == %{"a" => 10, "b" => 20}
+    end
+
+    test "raises on numeric segment in pointer" do
+      exchange = %{"items" => [%{"name" => "a"}]}
+      overrides = [%{"path" => "/items/0/name", "value" => "b", "reason" => "r"}]
+
+      assert_raise RuntimeError, ~r/array index segment/i, fn ->
+        OverrideRegistry.apply_all(exchange, overrides)
+      end
+    end
+  end
+
   # --- helpers ---
 
   # Writes a JSON body to a tmp file (cleaned up with the tmp_dir), returns the path.

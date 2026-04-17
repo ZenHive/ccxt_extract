@@ -224,9 +224,9 @@ Alias exchanges (e.g. `gateio` → `gate`, `huobi` → `htx`) inherit their pare
 
 ### Task-60 scope vs future tiers
 
-Task 60 (this section) ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON Schema, and the `override_registry_valid` contract-test invariant. Today only `/structure/authenticated_sections` is consumed — the `CcxtExtract.Pipeline.resolve_auth_override` helper reads it via `OverrideRegistry.find/2`.
+Task 60 ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON Schema, and the `override_registry_valid` contract-test invariant. **Task 61b** (shipped 2026-04-16) ships the generic merge stage: every override entry applies to the emitted exchange map at the tail of `Pipeline.extract/1` via `OverrideRegistry.apply_all/2`. All 14 shipped override files flow end-to-end; any RFC 6901 path in an override file takes effect — not just `/structure/authenticated_sections`.
 
-**The generic merge stage** — applying every override entry to the emitted exchange map regardless of path — lands with **Task 61b**. Until that ships, adding a file with a non-`/structure/authenticated_sections` path is legal (the contract-test invariant only checks file validity) but has no effect on the emitted JSON.
+**Current limits.** Shallow string-key pointers only. Numeric/array-index segments (e.g. `/path/0/name`) raise until **Task 104** lands — low urgency; no evidence of need as of 2026-04-17. Invalid override applications are rescued and logged at the callsite so one corrupt file cannot brick the full build; the `override_paths_present_in_output` contract-test invariant surfaces drift (override value absent at its pointer path) at build-check time.
 
 **Provenance tagging** — a parallel `_provenance` map that marks each field `"raw"` / `"derived"` / `"override"` — lands with **Task 61a**.
 

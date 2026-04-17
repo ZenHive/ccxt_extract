@@ -150,4 +150,4 @@ For every `parse*` method, a consumer needs a declarative field map.
 
 ## Provenance
 
-Once Phase 9 (Task 61a/b) lands, every field in this checklist will carry a `_provenance` tag in the emitted JSON: `"raw"` (direct from CCXT source/runtime), `"derived"` (computed from raw by the extractor), or `"override"` (hand-curated in `priv/overrides/`). Unprovable items show as `null` with a reason — consumers can detect gaps without guessing.
+**Partial state (2026-04-17).** The override merge stage (Task 61b) shipped — overrides in `priv/overrides/<id>.json` apply end-to-end via `OverrideRegistry.apply_all/2`. Per-field `_provenance` tagging (Task 61a) is still ⬜; today's output has no `_provenance` map. When 61a lands (then Schema 2.0.0 via 61c), every field in this checklist will carry a `_provenance` tag in the emitted JSON: `"raw"` (direct from CCXT source/runtime), `"derived"` (computed from raw by the extractor), or `"override"` (hand-curated in `priv/overrides/`). Unprovable items already show as `null` with a reason — consumers can detect gaps without guessing.

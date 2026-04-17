@@ -47,7 +47,8 @@ defmodule CcxtExtract.ContractTest do
     {"authenticated_sections_reachable_in_api", :check_authenticated_sections_reachable_in_api},
     {"error_code_fields_root_in_observed_set", :check_error_code_fields_root},
     {"override_registry_valid", :check_override_registry_valid},
-    {"override_paths_present_in_output", :check_override_paths_present_in_output}
+    {"override_paths_present_in_output", :check_override_paths_present_in_output},
+    {"provenance_covers_schema", :check_provenance_covers_schema}
   ]
 
   @doc """
@@ -292,7 +293,171 @@ defmodule CcxtExtract.ContractTest do
     end
   end
 
+  @doc """
+  Flag drift between the `CcxtExtract.Provenance` declared pointer lists
+  (`raw_pointers/0 ++ derived_pointers/0`) and the sections actually
+  emitted under `/exchange`, `/runtime`, and `/structure` in each
+  output exchange JSON. Catches three drift types:
+
+    * `uncovered_section` — Pipeline emits a section but Provenance has
+      no matching pointer (and `_provenance` doesn't tag it `"override"`).
+    * `orphan_declaration` — Provenance declares a pointer whose key path
+      doesn't exist in the emitted exchange map.
+    * `tag_mismatch` — `exchange._provenance[pointer]` is present but its
+      value doesn't match the predicted tag (and isn't `"override"`,
+      which is always allowed).
+
+  Granularity mirrors Provenance's own split: most sections compare at
+  depth-2 (`/section/key`), but parents with deeper declared children
+  (today only `/structure/handle_errors`) compare at depth-3. Derived
+  from the declared set itself, not hardcoded — adding a deeper pointer
+  to `Provenance` automatically shifts enumeration for that prefix.
+  """
+  @spec check_provenance_covers_schema(map(), map()) :: [finding()]
+  def check_provenance_covers_schema(exchange, _observed) do
+    id = exchange_id(exchange)
+    declared = declared_tags()
+    deep = deep_prefixes(declared)
+    provenance = Map.get(exchange, "_provenance", %{})
+    emitted = enumerate_emitted_pointers(exchange, deep)
+
+    uncovered_findings(id, emitted, declared, provenance) ++
+      orphan_findings(id, exchange, declared) ++
+      tag_mismatch_findings(id, declared, provenance)
+  end
+
   ## Internals
+
+  @provenance_section_roots ~w(exchange runtime structure)
+
+  defp declared_tags do
+    raw = Map.new(CcxtExtract.Provenance.raw_pointers(), &{&1, "raw"})
+    derived = Map.new(CcxtExtract.Provenance.derived_pointers(), &{&1, "derived"})
+    Map.merge(raw, derived)
+  end
+
+  defp deep_prefixes(declared) do
+    declared
+    |> Map.keys()
+    |> Enum.filter(&(pointer_depth(&1) >= 3))
+    |> MapSet.new(&parent_prefix/1)
+  end
+
+  defp pointer_depth("/" <> rest), do: rest |> String.split("/") |> length()
+  defp pointer_depth(_), do: 0
+
+  defp parent_prefix("/" <> rest) do
+    parts = rest |> String.split("/") |> Enum.drop(-1)
+    "/" <> Enum.join(parts, "/")
+  end
+
+  defp enumerate_emitted_pointers(exchange, deep) do
+    Enum.flat_map(@provenance_section_roots, fn root ->
+      section = Map.get(exchange, root)
+
+      if is_map(section) do
+        Enum.flat_map(section, &emit_pointer(root, &1, deep))
+      else
+        []
+      end
+    end)
+  end
+
+  defp emit_pointer(root, {key, value}, deep) do
+    prefix = "/#{root}/#{key}"
+
+    cond do
+      MapSet.member?(deep, prefix) and is_map(value) ->
+        Enum.map(Map.keys(value), &"#{prefix}/#{&1}")
+
+      MapSet.member?(deep, prefix) ->
+        # Deep-prefixed section (e.g. /structure/handle_errors) with a
+        # nil or non-map value. We emit nothing here; coverage for the
+        # declared subkeys is decided by the orphan check, which treats
+        # a nil parent as vacuously satisfied (Honesty Rule — see
+        # `walk_pointer/2`). The test "nil parent is vacuously resolved"
+        # exercises this interplay.
+        []
+
+      true ->
+        [prefix]
+    end
+  end
+
+  defp uncovered_findings(id, emitted, declared, provenance) do
+    emitted
+    |> Enum.reject(fn p ->
+      Map.has_key?(declared, p) or Map.get(provenance, p) == "override"
+    end)
+    |> Enum.sort()
+    |> Enum.map(fn p ->
+      %{
+        exchange: id,
+        invariant: "provenance_covers_schema",
+        path: p,
+        message: "section emitted at #{p} but not declared in Provenance raw/derived lists"
+      }
+    end)
+  end
+
+  # No override-tag escape hatch here (unlike uncovered/tag_mismatch): a
+  # declared pointer must point at a real key. "override" can mask a
+  # wrong *value* but can't synthesize a missing key path.
+  defp orphan_findings(id, exchange, declared) do
+    declared
+    |> Map.keys()
+    |> Enum.reject(&pointer_resolves?(exchange, &1))
+    |> Enum.sort()
+    |> Enum.map(fn p ->
+      %{
+        exchange: id,
+        invariant: "provenance_covers_schema",
+        path: p,
+        message: "Provenance declares #{p} but the key path does not resolve in the emitted exchange"
+      }
+    end)
+  end
+
+  defp tag_mismatch_findings(id, declared, provenance) do
+    declared
+    |> Enum.reject(fn {p, expected} ->
+      actual = Map.get(provenance, p)
+      actual in [expected, "override"]
+    end)
+    |> Enum.sort()
+    |> Enum.map(fn {p, expected} ->
+      actual = Map.get(provenance, p)
+
+      %{
+        exchange: id,
+        invariant: "provenance_covers_schema",
+        path: p,
+        message: "tag mismatch at #{p}: expected #{inspect(expected)} or \"override\", got #{inspect(actual)}"
+      }
+    end)
+  end
+
+  # A pointer resolves if the full key path walks through maps (value
+  # may be nil at the end) OR if mid-walk we hit a nil parent — that's
+  # vacuously satisfied per the Honesty Rule (nil-plus-reason is
+  # legitimate, and a nil parent trivially can't track its subkeys).
+  defp pointer_resolves?(exchange, "/" <> rest) do
+    rest |> String.split("/") |> walk_pointer(exchange)
+  end
+
+  defp pointer_resolves?(_exchange, _), do: false
+
+  defp walk_pointer([], _value), do: true
+  defp walk_pointer(_remaining, nil), do: true
+
+  defp walk_pointer([key | rest], map) when is_map(map) do
+    case Map.fetch(map, key) do
+      {:ok, v} -> walk_pointer(rest, v)
+      :error -> false
+    end
+  end
+
+  defp walk_pointer(_, _), do: false
 
   defp exchange_id(%{"exchange" => %{"id" => id}}) when is_binary(id), do: id
   defp exchange_id(%{"id" => id}) when is_binary(id), do: id

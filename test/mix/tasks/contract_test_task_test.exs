@@ -2,6 +2,7 @@ defmodule Mix.Tasks.CcxtExtract.ContractTestTaskTest do
   # async: false — Mix.shell/1 is a global setting.
   use ExUnit.Case, async: false
 
+  alias CcxtExtract.Test.ExchangeFixtures
   alias Mix.Tasks.CcxtExtract.ContractTest, as: Task
 
   setup do
@@ -25,32 +26,22 @@ defmodule Mix.Tasks.CcxtExtract.ContractTestTaskTest do
     File.write!(Path.join(dir, "#{id}.json"), Jason.encode!(Map.put(payload, "id", id)))
   end
 
+  # Every fixture in this test passes through `schema_conformant/2`, so
+  # the `provenance_covers_schema` invariant produces zero findings
+  # against clean fixtures. `violating_exchange/1` layers a
+  # `has.fetchOHLCV = "__undefined"` to trigger the unified-endpoints
+  # invariant only.
   defp clean_exchange(id) do
-    %{
-      "id" => id,
-      "runtime" => %{
-        "describe" => %{"has" => %{"fetchOHLCV" => true}, "api" => %{"public" => %{}}}
-      },
-      "structure" => %{
-        "unified_endpoints" => %{"fetchOHLCV" => ["x"]},
-        "authenticated_sections" => [],
-        "handle_errors" => %{"error_code_fields" => []}
-      }
-    }
+    ExchangeFixtures.schema_conformant(id,
+      describe: %{"has" => %{"fetchOHLCV" => true}, "api" => %{"public" => %{}}},
+      unified_endpoints: %{"fetchOHLCV" => ["x"]}
+    )
   end
 
   defp violating_exchange(id) do
-    %{
-      "id" => id,
-      "runtime" => %{
-        "describe" => %{"has" => %{"fetchOHLCV" => "__undefined"}, "api" => %{"public" => %{}}}
-      },
-      "structure" => %{
-        "unified_endpoints" => %{"fetchOHLCV" => ["x"]},
-        "authenticated_sections" => [],
-        "handle_errors" => %{"error_code_fields" => []}
-      }
-    }
+    id
+    |> clean_exchange()
+    |> put_in(["runtime", "describe", "has"], %{"fetchOHLCV" => "__undefined"})
   end
 
   test "writes report to --report path and exits normally on clean corpus", %{tmp: tmp} do

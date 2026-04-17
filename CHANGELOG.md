@@ -6,6 +6,49 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 61d: Provenance-covers-schema contract invariant
+
+**What shipped:**
+
+- New `provenance_covers_schema` invariant in `CcxtExtract.ContractTest`
+  (registered in `@invariants`). Runs automatically under
+  `mix ccxt_extract.contract_test`.
+- Three drift types produce findings:
+  - **uncovered_section** — `Pipeline`/`Schema` emits a section under
+    `/exchange`, `/runtime`, or `/structure` that `Provenance.raw_pointers/0 ++
+    derived_pointers/0` does not declare (and `_provenance` doesn't tag it as
+    `"override"`).
+  - **orphan_declaration** — `Provenance` declares a pointer whose key path
+    doesn't resolve in the emitted exchange map.
+  - **tag_mismatch** — `exchange._provenance[pointer]` disagrees with the
+    predicted raw/derived split (and isn't `"override"`, which is always
+    accepted).
+- Enumeration granularity is derived from the declared set itself, not
+  hardcoded. Most sections compare at depth-2 (`/runtime/markets`); parents
+  with deeper declared children (today only `/structure/handle_errors`)
+  compare at depth-3. Future sections needing deeper granularity shift
+  automatically when `Provenance` adds a pointer at that depth.
+- Nil-parent resolution is vacuous per the Honesty Rule: if
+  `structure.handle_errors` is `nil` for a given exchange (as for `coinspot`
+  and `independentreserve`), the declared subkey pointers don't produce
+  orphan findings.
+- Synthetic fixtures in `contract_test_task_test.exs` and `run_all/1` tests
+  updated to either populate a fully-conformant `_provenance` map or scope
+  assertions to the non-provenance invariants — existing tests' original
+  intent is preserved.
+
+**Baseline run:** `mix ccxt_extract.contract_test` over the full committed
+corpus reports zero `provenance_covers_schema` findings. Pre-existing
+Pattern C `unified_endpoints_claimed_in_has` and
+`authenticated_sections_reachable_in_api` findings are unchanged and
+tracked by Tasks 57c / 57d.
+
+**Why this matters:** `Provenance.@raw_pointers` and `@derived_pointers` are
+part of the consumer contract at schema 2.0.0. They were hand-curated and
+decoupled from `Pipeline.build_exchange_data/3` — silent drift would leave
+consumers with missing lineage tags or orphan pointers. This invariant fails
+loudly the moment a new section is added in one place but not the other.
+
 ### Task 61c: Schema 2.0.0 bump
 
 **Breaking schema change.** The `_provenance` top-level map shipped additively

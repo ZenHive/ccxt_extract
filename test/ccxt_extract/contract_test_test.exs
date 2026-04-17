@@ -1,9 +1,13 @@
 defmodule CcxtExtract.ContractTestTest do
   use ExUnit.Case, async: true
 
+  import CcxtExtract.Test.ExchangeFixtures, only: [schema_conformant: 1, schema_conformant: 2]
+
   alias CcxtExtract.ContractTest
 
   @base_observed %{error_code_fields_roots: ["response"]}
+
+  defp clean_exchange, do: schema_conformant("good")
 
   describe "check_unified_endpoints_claimed_in_has/2" do
     test "no finding when every unified_endpoints key has matching has=true" do
@@ -183,6 +187,76 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_provenance_covers_schema/2" do
+    test "no findings when every declared pointer resolves and tags match" do
+      assert ContractTest.check_provenance_covers_schema(clean_exchange(), @base_observed) == []
+    end
+
+    test "uncovered_section finding when pipeline emits a section Provenance does not declare" do
+      exchange = put_in(clean_exchange(), ["structure", "new_undeclared_section"], %{})
+
+      [finding] = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
+      assert finding.invariant == "provenance_covers_schema"
+      assert finding.path == "/structure/new_undeclared_section"
+      assert finding.message =~ "not declared in Provenance"
+    end
+
+    test "orphan_declaration finding when a declared pointer does not resolve in output" do
+      # Drop /structure/pagination entirely from the exchange
+      exchange = update_in(clean_exchange(), ["structure"], &Map.delete(&1, "pagination"))
+
+      findings = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
+      paths = Enum.map(findings, & &1.path)
+      assert "/structure/pagination" in paths
+      assert Enum.all?(findings, &(&1.invariant == "provenance_covers_schema"))
+    end
+
+    test "tag_mismatch finding when _provenance tag disagrees with predicted split" do
+      # /runtime/describe is declared raw; flip to "derived" in the map
+      exchange = put_in(clean_exchange(), ["_provenance", "/runtime/describe"], "derived")
+
+      findings = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
+      mismatch = Enum.find(findings, &(&1.path == "/runtime/describe"))
+      assert mismatch
+      assert mismatch.invariant == "provenance_covers_schema"
+      assert mismatch.message =~ "expected \"raw\""
+      assert mismatch.message =~ "got \"derived\""
+    end
+
+    test "override tag is always accepted regardless of predicted split" do
+      # Flip a raw pointer to "override" — should produce NO tag_mismatch
+      exchange = put_in(clean_exchange(), ["_provenance", "/runtime/describe"], "override")
+
+      findings = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
+
+      refute Enum.any?(
+               findings,
+               &(&1.path == "/runtime/describe" and &1.invariant == "provenance_covers_schema")
+             )
+    end
+
+    test "nil parent is vacuously resolved (Honesty Rule) — no orphan findings for its subkeys" do
+      # /structure/handle_errors = nil legitimately means "extractor produced
+      # nothing"; the declared subkeys should NOT be flagged as orphans.
+      exchange = put_in(clean_exchange(), ["structure", "handle_errors"], nil)
+
+      findings = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
+
+      refute Enum.any?(findings, &String.starts_with?(&1.path, "/structure/handle_errors"))
+    end
+
+    test "override path tag suppresses uncovered_section even for undeclared pointers" do
+      # Undeclared section + an override tag at that path → no uncovered finding
+      exchange =
+        clean_exchange()
+        |> put_in(["structure", "custom_override"], %{})
+        |> put_in(["_provenance", "/structure/custom_override"], "override")
+
+      findings = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
+      refute Enum.any?(findings, &(&1.path == "/structure/custom_override"))
+    end
+  end
+
   describe "run_all/1" do
     setup do
       tmp = Path.join(System.tmp_dir!(), "ccxt_contract_test_#{System.unique_integer([:positive])}")
@@ -192,39 +266,31 @@ defmodule CcxtExtract.ContractTestTest do
     end
 
     test "loads JSON, runs invariants, returns deterministic report", %{tmp: tmp} do
-      good = %{
-        "id" => "good",
-        "runtime" => %{
-          "describe" => %{
+      good =
+        "good"
+        |> schema_conformant(
+          describe: %{
             "has" => %{"fetchOHLCV" => true},
             "api" => %{"private" => %{}, "public" => %{}}
-          }
-        },
-        "structure" => %{
-          "unified_endpoints" => %{"fetchOHLCV" => ["x"]},
-          "authenticated_sections" => ["private"],
-          "handle_errors" => %{
-            "error_code_fields" => [
-              %{"object" => "response", "object_path" => nil, "field" => "msg"}
-            ]
-          }
-        }
-      }
+          },
+          unified_endpoints: %{"fetchOHLCV" => ["x"]}
+        )
+        |> put_in(["structure", "authenticated_sections"], ["private"])
+        |> put_in(
+          ["structure", "handle_errors", "error_code_fields"],
+          [%{"object" => "response", "object_path" => nil, "field" => "msg"}]
+        )
 
-      bad = %{
-        "id" => "bad",
-        "runtime" => %{
-          "describe" => %{
+      bad =
+        "bad"
+        |> schema_conformant(
+          describe: %{
             "has" => %{"fetchOHLCV" => "__undefined"},
             "api" => %{"public" => %{}}
-          }
-        },
-        "structure" => %{
-          "unified_endpoints" => %{"fetchOHLCV" => ["x"]},
-          "authenticated_sections" => ["wapi"],
-          "handle_errors" => %{"error_code_fields" => []}
-        }
-      }
+          },
+          unified_endpoints: %{"fetchOHLCV" => ["x"]}
+        )
+        |> put_in(["structure", "authenticated_sections"], ["wapi"])
 
       File.write!(Path.join(tmp, "good.json"), Jason.encode!(good))
       File.write!(Path.join(tmp, "bad.json"), Jason.encode!(bad))
@@ -234,12 +300,15 @@ defmodule CcxtExtract.ContractTestTest do
 
       assert report["summary"]["exchanges_checked"] == 2
       assert report["summary"]["invariants_run"] == length(ContractTest.invariants())
-      assert report["summary"]["total_findings"] == 2
       assert report["summary"]["findings_by_invariant"]["unified_endpoints_claimed_in_has"] == 1
 
       assert report["summary"]["findings_by_invariant"][
                "authenticated_sections_reachable_in_api"
              ] == 1
+
+      # Fixtures are schema-conformant, so only the two intended
+      # invariants fire — no reject filter needed.
+      assert report["summary"]["total_findings"] == 2
 
       # Findings sorted by {exchange, invariant, path}
       [f1, f2] = report["findings"]

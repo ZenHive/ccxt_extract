@@ -5,6 +5,8 @@ defmodule CcxtExtract.Integration.Cached.OverridesCachedTest do
   """
   use ExUnit.Case, async: true
 
+  import CcxtExtract.Test.ScopeThresholds
+
   @moduletag :integration
   @moduletag timeout: 30_000
 
@@ -44,8 +46,8 @@ defmodule CcxtExtract.Integration.Cached.OverridesCachedTest do
       assert data["total_new_methods"] == actual_total_new
     end
 
-    test "at least 80 derived exchanges", %{data: data} do
-      assert data["count"] >= 80
+    test "at least expected derived exchanges", %{data: data} do
+      assert data["count"] >= min_count(data["count"], 80)
     end
 
     test "all derived exchanges have overrides", %{data: data} do

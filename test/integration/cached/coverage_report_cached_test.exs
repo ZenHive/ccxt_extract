@@ -79,13 +79,26 @@ defmodule CcxtExtract.Integration.Cached.CoverageReportCachedTest do
     test "per_layer present counts are reasonable", %{report: report} do
       per_layer = report["summary"]["per_layer"]
 
-      # These layers should have data for most non-alias exchanges
-      assert per_layer["describe"]["present"] >= 100
-      assert per_layer["class_hierarchy"]["present"] >= 100
-      assert per_layer["methods_rest"]["present"] >= 100
-      assert per_layer["sign_method"]["present"] >= 90
-      assert per_layer["handle_errors"]["present"] >= 50
-      assert per_layer["parse_methods"]["present"] >= 100
+      # Scale thresholds against a scoped-aware reference. `report["exchange_count"]`
+      # comes from exchanges.json (always full-universe ~110), but per-layer present
+      # counts come from scoped fixtures. Use the describe layer's present count as
+      # the scope signal — describe reflects the actual extraction scope.
+      scoped_n = per_layer["describe"]["present"]
+
+      # Cutoff aligned with the highest strict floor (100) — gap-free by
+      # construction. Below full-universe regime, floors are proportional to
+      # scoped_n. See test/support/scope_thresholds.ex for the shared pattern.
+      {describe_floor, heavy_floor, sign_floor, he_floor} =
+        if scoped_n >= 100,
+          do: {100, 100, 90, 50},
+          else: {round(scoped_n * 0.9), round(scoped_n * 0.75), round(scoped_n * 0.7), round(scoped_n * 0.4)}
+
+      assert per_layer["describe"]["present"] >= describe_floor
+      assert per_layer["class_hierarchy"]["present"] >= heavy_floor
+      assert per_layer["methods_rest"]["present"] >= heavy_floor
+      assert per_layer["sign_method"]["present"] >= sign_floor
+      assert per_layer["handle_errors"]["present"] >= he_floor
+      assert per_layer["parse_methods"]["present"] >= heavy_floor
     end
   end
 

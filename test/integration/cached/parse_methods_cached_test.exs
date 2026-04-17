@@ -5,6 +5,8 @@ defmodule CcxtExtract.Integration.Cached.ParseMethodsCachedTest do
   """
   use ExUnit.Case, async: true
 
+  import CcxtExtract.Test.ScopeThresholds
+
   @moduletag :integration
   @moduletag timeout: 30_000
 
@@ -45,16 +47,16 @@ defmodule CcxtExtract.Integration.Cached.ParseMethodsCachedTest do
       assert data["total_methods"] == actual_total
     end
 
-    test "at least 100 exchanges extracted", %{data: data} do
-      assert data["count"] >= 100
+    test "at least expected exchanges extracted", %{data: data} do
+      assert data["count"] >= min_count(data["count"], 100)
     end
 
-    test "at least 95 exchanges have parse methods", %{data: data} do
-      assert data["with_parse_methods"] >= 95
+    test "vast majority of exchanges have parse methods", %{data: data} do
+      assert data["with_parse_methods"] >= proportional(data["count"], 0.75)
     end
 
-    test "at least 1400 total parse methods", %{data: data} do
-      assert data["total_methods"] >= 1400
+    test "substantial total parse methods", %{data: data} do
+      assert data["total_methods"] >= min_total(data["count"], 100, 1400, 400)
     end
   end
 

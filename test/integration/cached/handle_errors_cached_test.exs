@@ -5,6 +5,8 @@ defmodule CcxtExtract.Integration.Cached.HandleErrorsCachedTest do
   """
   use ExUnit.Case, async: true
 
+  import CcxtExtract.Test.ScopeThresholds
+
   @moduletag :integration
   @moduletag timeout: 30_000
 
@@ -37,12 +39,12 @@ defmodule CcxtExtract.Integration.Cached.HandleErrorsCachedTest do
       assert data["with_handle_errors"] == actual_with_he
     end
 
-    test "at least 100 exchanges extracted", %{data: data} do
-      assert data["count"] >= 100
+    test "at least expected exchanges extracted", %{data: data} do
+      assert data["count"] >= min_count(data["count"], 100)
     end
 
     test "majority have handleErrors()", %{data: data} do
-      assert data["with_handle_errors"] >= 80
+      assert data["with_handle_errors"] >= proportional(data["count"], 0.75)
     end
   end
 

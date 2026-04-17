@@ -6,6 +6,63 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Fix: Make integration tests scope-aware (16 scope-related failures)
+
+- **Problem** — committed discovery fixtures were generated under a scoped
+  extraction (`tier_scope: ["tier1","tier2","tier3","dex"]` ≈ 34 exchanges).
+  Cached integration tests hardcoded full-universe thresholds (90+/100+/1400+)
+  and failed on scoped fixtures.
+- **Fix strategy** — dispatch on **observed counts** rather than unreliable
+  `tier_scope` envelope stamps. `method_analysis.json` and
+  `public_exchanges.json` stamp `"all"` even under scoped runs, so their own
+  stamp cannot be trusted. Most other fixtures don't stamp `tier_scope` at
+  all. Using actual count as the scope signal is stable for both scoped and
+  full-universe runs.
+- **Files updated** — 7 cached tests + 2 non-cached integration tests:
+  `describe_cached_test`, `handle_errors_cached_test`,
+  `sign_methods_cached_test`, `ws_methods_cached_test`,
+  `overrides_cached_test`, `parse_methods_cached_test`,
+  `coverage_report_cached_test`, `method_analysis_integration_test`,
+  `public_exchanges_integration_test`.
+- **Pattern** — each file gained a `defp min_exchange_count/1` (or inline
+  tuple) that returns the original full-universe threshold when observed
+  count ≥ cutoff, else a proportional floor (~30% of full universe).
+  Ratio-style assertions (e.g. `with_sign >= 95`) became percentages of the
+  observed count (e.g. `>= round(count * 0.75)`). Coverage report uses its
+  own `describe.present` as the scope signal since `exchange_count` comes
+  from the always-full `exchanges.json`.
+- **Untouched** — `exchanges_cached_test` and `classes_cached_test`:
+  `exchanges.json` (110) and `class_hierarchy.json` (189) are always
+  full-universe, their assertions pass as-is.
+- **Remaining 4 failures are separate bugs** (not scope-related):
+  `authenticated_sections` dead override detection, `pipeline_cached` bequant
+  inheritance ×2, `schema_cached` bithumb normalization.
+
+### Post-review fixes: Close cutoff/floor gap + extract shared helper
+
+Follow-on to the scope-aware test fix above, driven by a staged-diff code
+review.
+
+- **Gap bug** — the original `defp min_exchange_count(count) when count >= 90,
+  do: 100` pattern created a dead zone: observations in `[90, 99]` entered
+  the strict branch but failed the `>= 100` assertion. Same shape in
+  `handle_errors`, `parse_methods`, `sign_methods`, `overrides` (cutoff 70,
+  floor 80), `method_analysis` REST, and `coverage_report_cached` (describe
+  floor 100 with cutoff 90). Masked in practice by the bimodal observed
+  distribution (~34 scoped vs ~110 full) but a latent bug for anomalous
+  counts. Fixed by aligning cutoff with floor across all nine files —
+  gap-free by construction.
+- **Shared helper** — extracted `CcxtExtract.Test.ScopeThresholds`
+  (`test/support/scope_thresholds.ex`) with `min_count/3`, `min_total/4`,
+  `proportional/2`. Replaces 6 duplicated `defp min_exchange_count/1`
+  clauses + 3 inline tuple/`if` dispatches. Default scoped fraction is
+  0.3 (documented rationale: preserves the original ~30% floors).
+- **TODO markers** — added `# TODO(scope-envelope):` at `method_analysis`
+  and `public_exchanges` dispatch sites plus in the helper's moduledoc,
+  pointing to SCOPED-EXTRACTION-TASKS.md Task 13 for permanent resolution
+  (stamp `tier_scope` into all aggregate envelopes via `AggregateWriter`,
+  then tests dispatch on the envelope instead of observed count).
+
 ### Refactor: Split read vs write paths in `CcxtExtract.Paths`
 
 - **New `Paths.out/1` and `Paths.out_priv_dir/0`** — write sites resolve

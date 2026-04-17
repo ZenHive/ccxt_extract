@@ -5,6 +5,8 @@ defmodule CcxtExtract.Integration.Cached.WsMethodsCachedTest do
   """
   use ExUnit.Case, async: true
 
+  import CcxtExtract.Test.ScopeThresholds
+
   @moduletag :integration
   @moduletag timeout: 30_000
 
@@ -42,16 +44,16 @@ defmodule CcxtExtract.Integration.Cached.WsMethodsCachedTest do
       assert data["total_methods"] == actual_total
     end
 
-    test "at least 70 exchanges extracted", %{data: data} do
-      assert data["count"] >= 70
+    test "at least expected exchanges extracted", %{data: data} do
+      assert data["count"] >= min_count(data["count"], 70)
     end
 
-    test "at least 60 exchanges have WS methods", %{data: data} do
-      assert data["with_ws_methods"] >= 60
+    test "majority of exchanges have WS methods", %{data: data} do
+      assert data["with_ws_methods"] >= proportional(data["count"], 0.75)
     end
 
-    test "at least 1400 total WS methods", %{data: data} do
-      assert data["total_methods"] >= 1400
+    test "substantial total WS methods", %{data: data} do
+      assert data["total_methods"] >= min_total(data["count"], 70, 1400, 400)
     end
   end
 

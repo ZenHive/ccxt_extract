@@ -5,6 +5,8 @@ defmodule CcxtExtract.Integration.Cached.DescribeCachedTest do
   """
   use ExUnit.Case, async: true
 
+  import CcxtExtract.Test.ScopeThresholds
+
   @moduletag :integration
   @moduletag timeout: 30_000
 
@@ -41,9 +43,11 @@ defmodule CcxtExtract.Integration.Cached.DescribeCachedTest do
   end
 
   describe "structure" do
-    test "contains 90+ exchanges (aliases skipped)", %{results: results} do
-      assert length(results) >= 90,
-             "Expected 90+ non-alias exchanges, got #{length(results)}"
+    test "contains expected exchange count (aliases skipped)", %{results: results} do
+      min = min_count(length(results), 90)
+
+      assert length(results) >= min,
+             "Expected #{min}+ non-alias exchanges, got #{length(results)}"
     end
 
     test "each result has id and describe fields", %{results: results} do

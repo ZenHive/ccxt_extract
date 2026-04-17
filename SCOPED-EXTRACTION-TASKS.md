@@ -25,6 +25,29 @@ of uncommitted work.
 
 ## 🎯 Current Focus
 
+**Post-refactor fix: scope-aware cached integration tests.** Committed
+fixtures under `priv/discoveries/` are now generated under a scoped
+extraction (~34–44 exchanges). 16 cached-test assertions hardcoded
+full-universe thresholds (90+/100+/1400+) and failed. Fix dispatches on
+**observed counts** rather than envelope `tier_scope` stamps, because:
+(a) most fixtures have **no** `tier_scope` field, and (b)
+`method_analysis.json` / `public_exchanges.json` stamp `"all"` even under
+scoped runs — stamp cannot be trusted. Nine test files updated
+(`describe_cached`, `handle_errors_cached`, `sign_methods_cached`,
+`ws_methods_cached`, `overrides_cached`, `parse_methods_cached`,
+`coverage_report_cached`, `method_analysis_integration`,
+`public_exchanges_integration`). Each gained a `defp
+min_exchange_count/1` returning the original full-universe threshold
+when `count ≥ cutoff`, else a ~30% proportional floor. Ratio-style
+assertions became `round(count * 0.75)` percentages. Post-review: the
+per-file helpers were consolidated into
+`CcxtExtract.Test.ScopeThresholds` (`test/support/scope_thresholds.ex`)
+and a latent cutoff/floor gap was closed (observations in `[90, 99]` no
+longer fail the strict branch). See [CHANGELOG.md](CHANGELOG.md)
+Unreleased. **Followup tracked as [Task 13](#task-13-universal-envelope-tier_scope-stamping-followup)**:
+stamp `tier_scope` into all aggregate envelopes via `AggregateWriter` so
+tests can dispatch on the envelope rather than observed count.
+
 **Task 6 landed.** Four remaining OXC-backed tasks (`interface_signatures`,
 `pagination`, `unified_endpoints`, `overrides`) now accept the canonical
 scope flag set via `TaskScope.parse_and_resolve!/3`. Three of the four
@@ -468,6 +491,51 @@ artifact of that check, reusing it keeps a single source of truth.
 
 ---
 
+### Task 13: Universal envelope `tier_scope` stamping (followup) ⬜
+
+**Status:** Not started.
+**Score:** [D:3/B:5/U:4 → Eff:1.67] 🚀
+
+Followup to the scope-refactor (Tasks 1–12) and the post-refactor
+cached-test fix (CHANGELOG Unreleased). Currently, `AggregateWriter`
+stamps `tier_scope` on most aggregate envelopes, but
+`method_analysis.json` and `public_exchanges.json` stamp `"all"`
+regardless of actual scope, and many cached fixtures don't stamp
+`tier_scope` at all.
+
+**Why.** Cached integration tests had to dispatch on **observed
+exchange counts** as a workaround, via
+`CcxtExtract.Test.ScopeThresholds` (`test/support/scope_thresholds.ex`).
+Stamping `tier_scope` universally would let tests dispatch on the
+envelope (stable, explicit) rather than observed count (brittle,
+requires proportional floors and the magic ~30% fraction). Once landed,
+the shared helper becomes thinner or unnecessary.
+
+**Files likely touched:**
+- `lib/ccxt_extract/aggregate_writer.ex` — ensure every aggregate write
+  stamps the active scope.
+- `lib/mix/tasks/ccxt_extract.method_analysis.ex` +
+  `lib/ccxt_extract/method_analysis.ex` — stop hardcoding `"all"`.
+- `lib/mix/tasks/ccxt_extract.public_exchanges.ex` +
+  `lib/ccxt_extract/public_exchanges.ex` — same.
+- Audit all aggregate-emitting tasks for missing stamps.
+- `test/integration/` — migrate 9 cached tests from observed-count
+  dispatch to envelope dispatch. Simplify or remove
+  `test/support/scope_thresholds.ex`.
+
+**Success criteria:**
+- [ ] Every aggregate `.json` under `priv/discoveries/` has an accurate
+      `tier_scope` field matching the run that produced it.
+- [ ] Cached tests use envelope dispatch; scope thresholds helper
+      shrinks to just `proportional/2` (or is removed entirely).
+- [ ] Grep for hardcoded `"tier_scope" => "all"` in `lib/` returns no
+      live hits.
+
+**Grep-verify `# TODO(scope-envelope):` markers** in the test tree to
+find all dispatch sites to migrate.
+
+---
+
 ### Task 7: Analytics scope flags ✅
 
 **Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-7-analytics-scope-flags).
@@ -652,8 +720,9 @@ Task 1 ─┬─▶ Task 2 ─┬─▶ Task 7 ──┐
                      (docs wait for all code tasks)
 ```
 
-All tasks complete. Refactor closes here; Task 12 was a post-sweep
-regression fix rather than planned scope.
+Tasks 1–12 complete. Task 13 tracks one remaining followup surfaced
+by the post-refactor cached-test fix: universal `tier_scope` envelope
+stamping so tests dispatch on the envelope instead of observed counts.
 
 ## Notes for future sessions
 

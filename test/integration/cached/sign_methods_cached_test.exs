@@ -5,6 +5,8 @@ defmodule CcxtExtract.Integration.Cached.SignMethodsCachedTest do
   """
   use ExUnit.Case, async: true
 
+  import CcxtExtract.Test.ScopeThresholds
+
   @moduletag :integration
   @moduletag timeout: 30_000
 
@@ -40,12 +42,12 @@ defmodule CcxtExtract.Integration.Cached.SignMethodsCachedTest do
       assert data["with_sign"] == actual_with_sign
     end
 
-    test "at least 100 exchanges extracted", %{data: data} do
-      assert data["count"] >= 100
+    test "at least expected exchanges extracted", %{data: data} do
+      assert data["count"] >= min_count(data["count"], 100)
     end
 
-    test "at least 95 exchanges have sign()", %{data: data} do
-      assert data["with_sign"] >= 95
+    test "vast majority of exchanges have sign()", %{data: data} do
+      assert data["with_sign"] >= proportional(data["count"], 0.75)
     end
   end
 

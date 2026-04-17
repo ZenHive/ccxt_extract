@@ -134,14 +134,11 @@ gained an `:exclude_aliases` opt that `handle_errors` now uses. Aligns
 stage-3 guards with the `is_alias` → `"alias"` precedent in
 `CoverageReport`. **Refactor complete: Tasks 1–12 all ✅.**
 
-**Known drift (post-Task 101):** the `coincatch` orphan is now resolved — this
-commit regenerates `priv/discoveries/exchanges.json` (109 → 110) so the QuickBEAM
-and OXC discovery sets agree again. One cached-test issue remains:
-`parse_methods` coverage threshold dipped to 99 in
-`test/integration/cached/coverage_report_cached_test.exs:88`, unrelated to the
-scope refactor. Clears with a full `mix ccxt_extract.update` (no `--skip-setup`)
-or by refreshing the cached fixture. The original envelope-total drift is
-resolved.
+**Known drift (post-Task 101): resolved 2026-04-17.** The `parse_methods`
+coverage threshold dip and the cached-fixture holdover both cleared via a
+full-universe `mix ccxt_extract.update` — coverage rebounded to 100/107 and
+`coverage_report_cached_test.exs:88` now passes. See
+[CHANGELOG.md](CHANGELOG.md#task-101-fixture-refresh-for-oxc-07--quickbeam-010).
 
 ### Quick Commands
 

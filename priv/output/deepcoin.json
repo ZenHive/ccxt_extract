@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-16T05:20:00.553663Z",
+  "extracted_at": "2026-04-17T03:38:10.088487Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -22148,7 +22148,7 @@
             "minSz": "40",
             "quoteCcy": "USDT",
             "state": "live",
-            "tickSz": "0.001",
+            "tickSz": "0.0001",
             "uly": ""
           },
           "created": "__undefined",
@@ -22158,7 +22158,7 @@
           "settle": "USDT",
           "precision": {
             "amount": 1,
-            "price": 0.001
+            "price": 0.0001
           },
           "baseId": "DYDX",
           "type": "swap",

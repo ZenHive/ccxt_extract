@@ -790,24 +790,13 @@ defmodule CcxtExtract.UnifiedEndpointsTest do
       end
     end
 
-    @tag :extraction
-    test "parse_file resolves super.*() calls for coincatch" do
-      path = Path.join(CcxtExtract.Paths.ts_src(), "coincatch.ts")
-
-      if File.exists?(path) do
-        assert {:ok, result} = UnifiedEndpoints.parse_file(path)
-        assert result["id"] == "coincatch"
-        assert result["parent_class"] == "Exchange"
-
-        # super.createOrderWithTakeProfitAndStopLoss → base → this.createOrder → transport
-        endpoints = result["unified_endpoints"]["createOrderWithTakeProfitAndStopLoss"]
-
-        assert is_list(endpoints) and endpoints != [],
-               "coincatch createOrderWithTakeProfitAndStopLoss should resolve super.* delegation via parse_file"
-      else
-        flunk("CCXT source not found at #{path}. Run `mix ccxt_extract.setup` first.")
-      end
-    end
+    # TODO(Task 105): Port super.*() delegation coverage to a currently-existing
+    # exchange — coincatch was removed upstream in CCXT 4.5.x so its test was
+    # deleted during Task 101's fixture refresh. The behavior under test was
+    # `parse_file/1` walking `super.createOrderWithTakeProfitAndStopLoss` into
+    # the base class and resolving the transport call. Find another exchange
+    # that exhibits a non-trivial `super.*()` chain and reinstate targeted
+    # coverage, otherwise `parse_file` regressions on that code path escape.
   end
 
   describe "extract/0" do

@@ -1,6 +1,18 @@
 {
-  "exchange_count": 36,
+  "exchange_count": 110,
   "exchanges": [
+    {
+      "id": "aftermath",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "alpaca",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
     {
       "id": "apex",
       "roundtrip_findings": [],
@@ -8,7 +20,37 @@
       "schema_valid": true
     },
     {
+      "id": "arkham",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "ascendex",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "aster",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "backpack",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bequant",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bigone",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
@@ -44,13 +86,43 @@
       "schema_valid": true
     },
     {
+      "id": "bit2c",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bitbank",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bitbns",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "bitfinex",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
     },
     {
+      "id": "bitflyer",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "bitget",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bithumb",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
@@ -68,7 +140,109 @@
       "schema_valid": true
     },
     {
+      "id": "bitopro",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bitrue",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bitso",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bitstamp",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bitteam",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bittrade",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bitvavo",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "blockchaincom",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "blofin",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "btcbox",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "btcmarkets",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "btcturk",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bullish",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "bybit",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "bydfi",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "cex",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "coinbase",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "coinbaseadvanced",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
@@ -80,13 +254,73 @@
       "schema_valid": true
     },
     {
+      "id": "coinbaseinternational",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "coincheck",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "coinex",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
     },
     {
+      "id": "coinmate",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "coinmetro",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "coinone",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "coinsph",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "coinspot",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "cryptocom",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "cryptomus",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "deepcoin",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "delta",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
@@ -104,7 +338,31 @@
       "schema_valid": true
     },
     {
+      "id": "digifinex",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "dydx",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "exmo",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "fmfwio",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "foxbit",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
@@ -122,7 +380,37 @@
       "schema_valid": true
     },
     {
+      "id": "gemini",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "grvt",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "hashkey",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "hibachi",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "hitbtc",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "hollaex",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
@@ -146,7 +434,25 @@
       "schema_valid": true
     },
     {
+      "id": "independentreserve",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "indodax",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "kraken",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "krakenfutures",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
@@ -164,7 +470,31 @@
       "schema_valid": true
     },
     {
+      "id": "latoken",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "lbank",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "lighter",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "luno",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "mercado",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
@@ -188,6 +518,18 @@
       "schema_valid": true
     },
     {
+      "id": "ndax",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "novadax",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "okx",
       "roundtrip_findings": [],
       "schema_errors": [],
@@ -200,7 +542,79 @@
       "schema_valid": true
     },
     {
+      "id": "onetrading",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "oxfun",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "p2b",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "pacifica",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
       "id": "paradex",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "paymium",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "phemex",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "poloniex",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "tokocrypto",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "toobit",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "upbit",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "wavesexchange",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "whitebit",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
@@ -213,6 +627,36 @@
     },
     {
       "id": "woofipro",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "xt",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "yobit",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "zaif",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "zebpay",
+      "roundtrip_findings": [],
+      "schema_errors": [],
+      "schema_valid": true
+    },
+    {
+      "id": "zonda",
       "roundtrip_findings": [],
       "schema_errors": [],
       "schema_valid": true
@@ -236,10 +680,11 @@
     "roundtrip_clean": 11,
     "roundtrip_with_findings": 0,
     "schema_fail": 0,
-    "schema_pass": 36,
+    "schema_pass": 110,
     "total_errors": 0,
     "total_info": 0,
     "total_warnings": 0
   },
-  "validated_at": "2026-04-16T10:16:32.439180Z"
+  "tier_scope": "all",
+  "validated_at": "2026-04-17T03:39:02.079378Z"
 }

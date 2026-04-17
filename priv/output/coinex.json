@@ -16,7 +16,7 @@
     "tier": "tier3",
     "version": "v2"
   },
-  "extracted_at": "2026-04-16T10:16:05.340082Z",
+  "extracted_at": "2026-04-17T03:38:10.088487Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -1457,7 +1457,7 @@
             "maker_fee_rate": "0.0003",
             "market": "2ZUSDT",
             "min_amount": "100",
-            "open_interest_volume": "1129505",
+            "open_interest_volume": "1152870",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -1694,7 +1694,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ZILUSDT",
             "min_amount": "2000",
-            "open_interest_volume": "15129390",
+            "open_interest_volume": "14896170",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -2081,7 +2081,7 @@
             "maker_fee_rate": "0.0003",
             "market": "QNTUSDT",
             "min_amount": "0.1",
-            "open_interest_volume": "1621.85",
+            "open_interest_volume": "1614.8",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -2232,7 +2232,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "JELLYJELLYUSDT",
-            "min_amount": "50",
+            "min_amount": "20",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -2262,7 +2262,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 50
+              "min": 20
             },
             "cost": {
               "max": "__undefined",
@@ -2468,7 +2468,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ASTERUSDT",
             "min_amount": "10",
-            "open_interest_volume": "1024920",
+            "open_interest_volume": "1018745",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -2555,7 +2555,7 @@
             "maker_fee_rate": "0.0003",
             "market": "KSMUSDT",
             "min_amount": "2",
-            "open_interest_volume": "21218.15",
+            "open_interest_volume": "26288.05",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -3017,7 +3017,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BIOUSDT",
             "min_amount": "200",
-            "open_interest_volume": "6094895",
+            "open_interest_volume": "4601380",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -3104,7 +3104,7 @@
             "maker_fee_rate": "0.0003",
             "market": "NEOUSDT",
             "min_amount": "2",
-            "open_interest_volume": "23376.2",
+            "open_interest_volume": "23469.4",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -3341,7 +3341,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ARBUSDC",
             "min_amount": "50",
-            "open_interest_volume": "199635",
+            "open_interest_volume": "199135",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -3642,7 +3642,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "APTUSDT",
-            "min_amount": "2",
+            "min_amount": "1",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -3672,7 +3672,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2
+              "min": 1
             },
             "cost": {
               "max": "__undefined",
@@ -4017,7 +4017,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "BATUSDT",
-            "min_amount": "20",
+            "min_amount": "10",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -4047,7 +4047,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 20
+              "min": 10
             },
             "cost": {
               "max": "__undefined",
@@ -4928,7 +4928,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ANKRUSDT",
             "min_amount": "1000",
-            "open_interest_volume": "3745090",
+            "open_interest_volume": "3905575",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -5165,7 +5165,7 @@
             "maker_fee_rate": "0.0003",
             "market": "FARTCOINUSDT",
             "min_amount": "50",
-            "open_interest_volume": "2556240",
+            "open_interest_volume": "2537505",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -5255,7 +5255,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ETHUSD",
             "min_amount": "10",
-            "open_interest_volume": "2471510",
+            "open_interest_volume": "2402975",
             "quote_ccy": "USD",
             "quote_ccy_precision": "0",
             "status": "online",
@@ -5717,7 +5717,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MOGUSDT",
             "min_amount": "50000000",
-            "open_interest_volume": "174239136115",
+            "open_interest_volume": "188828042450",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "10",
             "status": "online",
@@ -6543,7 +6543,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "VOLTUSDT",
-            "min_amount": "50000000",
+            "min_amount": "20000000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "12",
             "status": "online",
@@ -6573,7 +6573,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 50000000
+              "min": 20000000
             },
             "cost": {
               "max": "__undefined",
@@ -6918,7 +6918,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "NIBIUSDT",
-            "min_amount": "500",
+            "min_amount": "1000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -6948,7 +6948,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 500
+              "min": 1000
             },
             "cost": {
               "max": "__undefined",
@@ -7368,7 +7368,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "PHBUSDT",
-            "min_amount": "20",
+            "min_amount": "10",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -7398,7 +7398,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 20
+              "min": 10
             },
             "cost": {
               "max": "__undefined",
@@ -7743,7 +7743,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "SUIUSDT",
-            "min_amount": "2",
+            "min_amount": "1",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -7773,7 +7773,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2
+              "min": 1
             },
             "cost": {
               "max": "__undefined",
@@ -8056,7 +8056,7 @@
             "maker_fee_rate": "0.0003",
             "market": "HBARUSDT",
             "min_amount": "100",
-            "open_interest_volume": "3986305",
+            "open_interest_volume": "4018060",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -8143,7 +8143,7 @@
             "maker_fee_rate": "0.0003",
             "market": "RVNUSDT",
             "min_amount": "1000",
-            "open_interest_volume": "17038245",
+            "open_interest_volume": "17038230",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -10169,7 +10169,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "SYSBTC",
-            "min_amount": "200",
+            "min_amount": "100",
             "quote_ccy": "BTC",
             "quote_ccy_precision": "12",
             "status": "online",
@@ -10199,7 +10199,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 200
+              "min": 100
             },
             "cost": {
               "max": "__undefined",
@@ -10330,7 +10330,7 @@
             "maker_fee_rate": "0.0003",
             "market": "RATSUSDT",
             "min_amount": "200000",
-            "open_interest_volume": "3297271290",
+            "open_interest_volume": "2265244870",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "10",
             "status": "online",
@@ -10406,7 +10406,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "WIFBTC",
-            "min_amount": "10",
+            "min_amount": "5",
             "quote_ccy": "BTC",
             "quote_ccy_precision": "10",
             "status": "online",
@@ -10436,7 +10436,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 10
+              "min": 5
             },
             "cost": {
               "max": "__undefined",
@@ -10569,7 +10569,7 @@
             "maker_fee_rate": "0.0003",
             "market": "GRTUSDT",
             "min_amount": "500",
-            "open_interest_volume": "2948655",
+            "open_interest_volume": "2743655",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -10731,7 +10731,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SSVUSDT",
             "min_amount": "5",
-            "open_interest_volume": "13615.65",
+            "open_interest_volume": "12563",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -11045,7 +11045,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ICPUSDT",
             "min_amount": "5",
-            "open_interest_volume": "185860",
+            "open_interest_volume": "185171.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -11132,7 +11132,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SKLUSDT",
             "min_amount": "1000",
-            "open_interest_volume": "14205310",
+            "open_interest_volume": "14140240",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -12119,7 +12119,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ENAUSDT",
             "min_amount": "100",
-            "open_interest_volume": "3827920",
+            "open_interest_volume": "3070125",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -12281,7 +12281,7 @@
             "maker_fee_rate": "0.0003",
             "market": "AUSDT",
             "min_amount": "100",
-            "open_interest_volume": "1016030",
+            "open_interest_volume": "1012950",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -13118,7 +13118,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ALCHUSDT",
             "min_amount": "100",
-            "open_interest_volume": "714755",
+            "open_interest_volume": "854545",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -13283,7 +13283,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BTCUSDC",
             "min_amount": "0.0001",
-            "open_interest_volume": "21.511",
+            "open_interest_volume": "19.037",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "0",
             "status": "online",
@@ -13595,7 +13595,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BIGTIMEUSDT",
             "min_amount": "500",
-            "open_interest_volume": "3116770",
+            "open_interest_volume": "3196915",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -13671,7 +13671,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "TRMPUSDT",
-            "min_amount": "2000000",
+            "min_amount": "1000000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "10",
             "status": "online",
@@ -13701,7 +13701,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2000000
+              "min": 1000000
             },
             "cost": {
               "max": "__undefined",
@@ -14501,7 +14501,7 @@
           "info": {
             "base_ccy": "VITA",
             "base_ccy_precision": "8",
-            "delisted_at": "0",
+            "delisted_at": "1776844800000",
             "is_amm_available": true,
             "is_api_trading_available": true,
             "is_margin_available": false,
@@ -15183,7 +15183,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "VINEUSDT",
-            "min_amount": "100",
+            "min_amount": "50",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -15213,7 +15213,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 100
+              "min": 50
             },
             "cost": {
               "max": "__undefined",
@@ -15496,7 +15496,7 @@
             "maker_fee_rate": "0.0003",
             "market": "JASMYUSDT",
             "min_amount": "1000",
-            "open_interest_volume": "30742650",
+            "open_interest_volume": "20646235",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -16258,7 +16258,7 @@
             "maker_fee_rate": "0.0003",
             "market": "USELESSUSDT",
             "min_amount": "200",
-            "open_interest_volume": "706665",
+            "open_interest_volume": "870085",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -16947,7 +16947,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ARBUSDT",
             "min_amount": "50",
-            "open_interest_volume": "2131575",
+            "open_interest_volume": "1813005",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -17561,7 +17561,7 @@
             "maker_fee_rate": "0.0003",
             "market": "STXUSDT",
             "min_amount": "50",
-            "open_interest_volume": "386755",
+            "open_interest_volume": "371755",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -18475,7 +18475,7 @@
             "maker_fee_rate": "0.0003",
             "market": "FILUSDT",
             "min_amount": "10",
-            "open_interest_volume": "434344.5",
+            "open_interest_volume": "414370",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -19076,7 +19076,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "VAIUSDT",
-            "min_amount": "500",
+            "min_amount": "200",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -19106,7 +19106,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 500
+              "min": 200
             },
             "cost": {
               "max": "__undefined",
@@ -19239,7 +19239,7 @@
             "maker_fee_rate": "0.0003",
             "market": "TRXUSDC",
             "min_amount": "20",
-            "open_interest_volume": "9995",
+            "open_interest_volume": "8150",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -19476,7 +19476,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BLURUSDT",
             "min_amount": "500",
-            "open_interest_volume": "705575",
+            "open_interest_volume": "1091840",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -19638,7 +19638,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BDXUSDT",
             "min_amount": "100",
-            "open_interest_volume": "587040",
+            "open_interest_volume": "589155",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -20402,7 +20402,7 @@
             "maker_fee_rate": "0.0003",
             "market": "TONUSDT",
             "min_amount": "5",
-            "open_interest_volume": "2716635",
+            "open_interest_volume": "1276880",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -20791,7 +20791,7 @@
             "maker_fee_rate": "0.0003",
             "market": "GALAUSDT",
             "min_amount": "2000",
-            "open_interest_volume": "24025190",
+            "open_interest_volume": "26421655",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -21028,7 +21028,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BABYDOGEUSDT",
             "min_amount": "20000000000",
-            "open_interest_volume": "357979701130900",
+            "open_interest_volume": "351394052225675",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "12",
             "status": "online",
@@ -21554,7 +21554,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "PUMPUSDT",
-            "min_amount": "1000",
+            "min_amount": "500",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -21584,7 +21584,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1000
+              "min": 500
             },
             "cost": {
               "max": "__undefined",
@@ -22090,7 +22090,7 @@
             "maker_fee_rate": "0.0003",
             "market": "JSTUSDT",
             "min_amount": "100",
-            "open_interest_volume": "2167040",
+            "open_interest_volume": "1643245",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -22552,7 +22552,7 @@
             "maker_fee_rate": "0.0003",
             "market": "GMTUSDT",
             "min_amount": "500",
-            "open_interest_volume": "7656850",
+            "open_interest_volume": "7464915",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -23228,7 +23228,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "PRLUSDT",
-            "min_amount": "10",
+            "min_amount": "5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -23258,7 +23258,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 10
+              "min": 5
             },
             "cost": {
               "max": "__undefined",
@@ -23316,7 +23316,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ETCUSDT",
             "min_amount": "1",
-            "open_interest_volume": "25688.5",
+            "open_interest_volume": "24843.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -23403,7 +23403,7 @@
             "maker_fee_rate": "0.0003",
             "market": "LITUSDT",
             "min_amount": "5",
-            "open_interest_volume": "27725",
+            "open_interest_volume": "30425",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -23640,7 +23640,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MANAUSDT",
             "min_amount": "100",
-            "open_interest_volume": "1254800",
+            "open_interest_volume": "1314570",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -23877,7 +23877,7 @@
             "maker_fee_rate": "0.0003",
             "market": "EGLDUSDT",
             "min_amount": "2",
-            "open_interest_volume": "19894.8",
+            "open_interest_volume": "19056.95",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -23964,7 +23964,7 @@
             "maker_fee_rate": "0.0003",
             "market": "WUSDT",
             "min_amount": "500",
-            "open_interest_volume": "1918850",
+            "open_interest_volume": "1724000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -24276,7 +24276,7 @@
             "maker_fee_rate": "0.0003",
             "market": "XAGUSDT",
             "min_amount": "0.05",
-            "open_interest_volume": "3768.9",
+            "open_interest_volume": "3517.55",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -24577,7 +24577,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "XANUSDT",
-            "min_amount": "100",
+            "min_amount": "200",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -24607,7 +24607,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 100
+              "min": 200
             },
             "cost": {
               "max": "__undefined",
@@ -24963,7 +24963,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ZORAUSDT",
             "min_amount": "500",
-            "open_interest_volume": "5868710",
+            "open_interest_volume": "5767070",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -26402,7 +26402,7 @@
             "maker_fee_rate": "0.0003",
             "market": "XRPUSDT",
             "min_amount": "5",
-            "open_interest_volume": "3352240",
+            "open_interest_volume": "3870520",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -26564,7 +26564,7 @@
             "maker_fee_rate": "0.0003",
             "market": "DOGUSDT",
             "min_amount": "10000",
-            "open_interest_volume": "20217750",
+            "open_interest_volume": "27030650",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -26876,7 +26876,7 @@
             "maker_fee_rate": "0.0003",
             "market": "COMPUSDT",
             "min_amount": "0.5",
-            "open_interest_volume": "6655.35",
+            "open_interest_volume": "8036.15",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -27490,7 +27490,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ADAUSDT",
             "min_amount": "50",
-            "open_interest_volume": "16204245",
+            "open_interest_volume": "16125020",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -28104,7 +28104,7 @@
             "maker_fee_rate": "0.0003",
             "market": "AAVEUSDC",
             "min_amount": "0.05",
-            "open_interest_volume": "250",
+            "open_interest_volume": "252.6",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -28266,7 +28266,7 @@
             "maker_fee_rate": "0.0003",
             "market": "XTZUSDT",
             "min_amount": "20",
-            "open_interest_volume": "797080",
+            "open_interest_volume": "788080",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -28730,7 +28730,7 @@
             "maker_fee_rate": "0.0003",
             "market": "KASUSDT",
             "min_amount": "200",
-            "open_interest_volume": "22375075",
+            "open_interest_volume": "20824390",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -28881,7 +28881,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "OLUSDT",
-            "min_amount": "200",
+            "min_amount": "100",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -28911,7 +28911,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 200
+              "min": 100
             },
             "cost": {
               "max": "__undefined",
@@ -28967,7 +28967,7 @@
             "maker_fee_rate": "0.0003",
             "market": "GLMUSDT",
             "min_amount": "50",
-            "open_interest_volume": "778335",
+            "open_interest_volume": "687150",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -29786,7 +29786,7 @@
           "info": {
             "base_ccy": "PENG",
             "base_ccy_precision": "8",
-            "delisted_at": "0",
+            "delisted_at": "1776844800000",
             "is_amm_available": true,
             "is_api_trading_available": true,
             "is_margin_available": false,
@@ -30104,7 +30104,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SATSUSDT",
             "min_amount": "500000000",
-            "open_interest_volume": "2355361047650",
+            "open_interest_volume": "3461009456105",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "12",
             "status": "online",
@@ -30193,7 +30193,7 @@
             "maker_fee_rate": "0.0003",
             "market": "LTCUSDT",
             "min_amount": "0.1",
-            "open_interest_volume": "33075.45",
+            "open_interest_volume": "35468.2",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -31330,7 +31330,7 @@
             "maker_fee_rate": "0.0003",
             "market": "STORJUSDT",
             "min_amount": "50",
-            "open_interest_volume": "488530",
+            "open_interest_volume": "486655",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -31642,7 +31642,7 @@
             "maker_fee_rate": "0.0003",
             "market": "WCTUSDT",
             "min_amount": "100",
-            "open_interest_volume": "857965",
+            "open_interest_volume": "852140",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -32181,7 +32181,7 @@
             "maker_fee_rate": "0.0003",
             "market": "NEARUSDT",
             "min_amount": "5",
-            "open_interest_volume": "347745",
+            "open_interest_volume": "345345",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -32718,7 +32718,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BERAUSDT",
             "min_amount": "20",
-            "open_interest_volume": "143120",
+            "open_interest_volume": "208350",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -32869,7 +32869,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "HTRBTC",
-            "min_amount": "200",
+            "min_amount": "500",
             "quote_ccy": "BTC",
             "quote_ccy_precision": "12",
             "status": "online",
@@ -32899,7 +32899,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 200
+              "min": 500
             },
             "cost": {
               "max": "__undefined",
@@ -33180,7 +33180,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BABYUSDT",
             "min_amount": "500",
-            "open_interest_volume": "3003890",
+            "open_interest_volume": "2595835",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -33642,7 +33642,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BANUSDT",
             "min_amount": "100",
-            "open_interest_volume": "2806675",
+            "open_interest_volume": "1956110",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -34404,7 +34404,7 @@
             "maker_fee_rate": "0.0003",
             "market": "VETUSDT",
             "min_amount": "1000",
-            "open_interest_volume": "19822505",
+            "open_interest_volume": "19521055",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -34641,7 +34641,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SOMIUSDT",
             "min_amount": "50",
-            "open_interest_volume": "361200",
+            "open_interest_volume": "451615",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -35405,7 +35405,7 @@
             "maker_fee_rate": "0.0003",
             "market": "APTUSDT",
             "min_amount": "10",
-            "open_interest_volume": "636540",
+            "open_interest_volume": "274835",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -35567,7 +35567,7 @@
             "maker_fee_rate": "0.0003",
             "market": "KAIAUSDT",
             "min_amount": "200",
-            "open_interest_volume": "4400740",
+            "open_interest_volume": "4312615",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -36179,7 +36179,7 @@
             "maker_fee_rate": "0.0003",
             "market": "VVVUSDT",
             "min_amount": "1",
-            "open_interest_volume": "29827",
+            "open_interest_volume": "27659.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -36268,7 +36268,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BCHUSDT",
             "min_amount": "0.02",
-            "open_interest_volume": "5811.1",
+            "open_interest_volume": "5720.7",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -36432,7 +36432,7 @@
             "maker_fee_rate": "0.0003",
             "market": "DOGEUSDT",
             "min_amount": "100",
-            "open_interest_volume": "45892125",
+            "open_interest_volume": "41057620",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -36594,7 +36594,7 @@
             "maker_fee_rate": "0.0003",
             "market": "PNUTUSDT",
             "min_amount": "100",
-            "open_interest_volume": "1187430",
+            "open_interest_volume": "2058010",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -36681,7 +36681,7 @@
             "maker_fee_rate": "0.0003",
             "market": "HOTUSDT",
             "min_amount": "20000",
-            "open_interest_volume": "50050690",
+            "open_interest_volume": "50587345",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -36900,7 +36900,7 @@
           "info": {
             "base_ccy": "ARCA",
             "base_ccy_precision": "8",
-            "delisted_at": "0",
+            "delisted_at": "1776844800000",
             "is_amm_available": true,
             "is_api_trading_available": true,
             "is_margin_available": false,
@@ -37368,7 +37368,7 @@
             "maker_fee_rate": "0.0003",
             "market": "LINEAUSDT",
             "min_amount": "2000",
-            "open_interest_volume": "20879835",
+            "open_interest_volume": "23181355",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -37532,7 +37532,7 @@
             "maker_fee_rate": "0.0003",
             "market": "LUNCUSDT",
             "min_amount": "200000",
-            "open_interest_volume": "9746150795",
+            "open_interest_volume": "9422270710",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -37771,7 +37771,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BOMEUSDT",
             "min_amount": "20000",
-            "open_interest_volume": "109831930",
+            "open_interest_volume": "112673745",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -38084,7 +38084,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "NIBIBTC",
-            "min_amount": "500",
+            "min_amount": "1000",
             "quote_ccy": "BTC",
             "quote_ccy_precision": "12",
             "status": "online",
@@ -38114,7 +38114,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 500
+              "min": 1000
             },
             "cost": {
               "max": "__undefined",
@@ -38320,7 +38320,7 @@
             "maker_fee_rate": "0.0003",
             "market": "AUCTIONUSDT",
             "min_amount": "2",
-            "open_interest_volume": "19932",
+            "open_interest_volume": "20106",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -38771,7 +38771,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "HOLDSTATIONUSDT",
-            "min_amount": "10",
+            "min_amount": "5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -38801,7 +38801,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 10
+              "min": 5
             },
             "cost": {
               "max": "__undefined",
@@ -38857,7 +38857,7 @@
             "maker_fee_rate": "0.0003",
             "market": "LUNAUSDT",
             "min_amount": "100",
-            "open_interest_volume": "2301250",
+            "open_interest_volume": "1750750",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -39471,7 +39471,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BNBUSDT",
             "min_amount": "0.01",
-            "open_interest_volume": "2819",
+            "open_interest_volume": "2772.05",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -39547,7 +39547,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "PUPSUSDT",
-            "min_amount": "1000",
+            "min_amount": "500",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -39577,7 +39577,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1000
+              "min": 500
             },
             "cost": {
               "max": "__undefined",
@@ -39633,7 +39633,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BREVUSDT",
             "min_amount": "50",
-            "open_interest_volume": "433355",
+            "open_interest_volume": "425775",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -39945,7 +39945,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ENJUSDT",
             "min_amount": "100",
-            "open_interest_volume": "8899810",
+            "open_interest_volume": "6126400",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -40182,7 +40182,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SNXUSDT",
             "min_amount": "20",
-            "open_interest_volume": "270374",
+            "open_interest_volume": "271539",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -40496,7 +40496,7 @@
             "maker_fee_rate": "0.0003",
             "market": "IMXUSDT",
             "min_amount": "50",
-            "open_interest_volume": "557250",
+            "open_interest_volume": "577710",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -40658,7 +40658,7 @@
             "maker_fee_rate": "0.0003",
             "market": "KAVAUSDT",
             "min_amount": "100",
-            "open_interest_volume": "2204950",
+            "open_interest_volume": "2046150",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -40884,7 +40884,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "ETNBTC",
-            "min_amount": "2000",
+            "min_amount": "1000",
             "quote_ccy": "BTC",
             "quote_ccy_precision": "12",
             "status": "online",
@@ -40914,7 +40914,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2000
+              "min": 1000
             },
             "cost": {
               "max": "__undefined",
@@ -41122,7 +41122,7 @@
             "maker_fee_rate": "0.0003",
             "market": "CHZUSDT",
             "min_amount": "200",
-            "open_interest_volume": "14334915",
+            "open_interest_volume": "4515395",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -41416,7 +41416,7 @@
           "info": {
             "base_ccy": "PEIPEI",
             "base_ccy_precision": "2",
-            "delisted_at": "0",
+            "delisted_at": "1776844800000",
             "is_amm_available": true,
             "is_api_trading_available": true,
             "is_margin_available": false,
@@ -41586,7 +41586,7 @@
             "maker_fee_rate": "0.0003",
             "market": "DOGEUSDC",
             "min_amount": "100",
-            "open_interest_volume": "217120",
+            "open_interest_volume": "217905",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -41673,7 +41673,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ZETAUSDT",
             "min_amount": "100",
-            "open_interest_volume": "831875.5",
+            "open_interest_volume": "2179226",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -41835,7 +41835,7 @@
             "maker_fee_rate": "0.0003",
             "market": "1INCHUSDT",
             "min_amount": "100",
-            "open_interest_volume": "405985",
+            "open_interest_volume": "397570",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -41924,7 +41924,7 @@
             "maker_fee_rate": "0.0003",
             "market": "OKBUSDT",
             "min_amount": "0.1",
-            "open_interest_volume": "595.3",
+            "open_interest_volume": "637.8",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -42161,7 +42161,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MEWUSDT",
             "min_amount": "10000",
-            "open_interest_volume": "172265820",
+            "open_interest_volume": "173773635",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -42473,7 +42473,7 @@
             "maker_fee_rate": "0.0003",
             "market": "AEROUSDT",
             "min_amount": "20",
-            "open_interest_volume": "114555",
+            "open_interest_volume": "108920",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -42549,7 +42549,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "SUIUSDC",
-            "min_amount": "2",
+            "min_amount": "1",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -42579,7 +42579,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2
+              "min": 1
             },
             "cost": {
               "max": "__undefined",
@@ -42935,7 +42935,7 @@
             "maker_fee_rate": "0.0003",
             "market": "DUSKUSDT",
             "min_amount": "50",
-            "open_interest_volume": "1022425",
+            "open_interest_volume": "1594490",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -43097,7 +43097,7 @@
             "maker_fee_rate": "0.0003",
             "market": "RAYUSDT",
             "min_amount": "10",
-            "open_interest_volume": "99645",
+            "open_interest_volume": "94290",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -43411,7 +43411,7 @@
             "maker_fee_rate": "0.0003",
             "market": "THETAUSDT",
             "min_amount": "50",
-            "open_interest_volume": "465450.5",
+            "open_interest_volume": "471025",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -43662,7 +43662,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MEMEUSDT",
             "min_amount": "10000",
-            "open_interest_volume": "119641535",
+            "open_interest_volume": "109788490",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -44124,7 +44124,7 @@
             "maker_fee_rate": "0.0003",
             "market": "FLOWUSDT",
             "min_amount": "200",
-            "open_interest_volume": "885945",
+            "open_interest_volume": "983415",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -44286,7 +44286,7 @@
             "maker_fee_rate": "0.0003",
             "market": "XAUTUSDT",
             "min_amount": "0.002",
-            "open_interest_volume": "614.723",
+            "open_interest_volume": "619.016",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -44898,7 +44898,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ARUSDT",
             "min_amount": "5",
-            "open_interest_volume": "39044.5",
+            "open_interest_volume": "36429",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -44985,7 +44985,7 @@
             "maker_fee_rate": "0.0003",
             "market": "NOTUSDT",
             "min_amount": "20000",
-            "open_interest_volume": "548725725",
+            "open_interest_volume": "529475785",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -45597,7 +45597,7 @@
             "maker_fee_rate": "0.0003",
             "market": "RONUSDT",
             "min_amount": "100",
-            "open_interest_volume": "31455.5",
+            "open_interest_volume": "31015.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -45759,7 +45759,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MINAUSDT",
             "min_amount": "100",
-            "open_interest_volume": "419660",
+            "open_interest_volume": "424670",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -46296,7 +46296,7 @@
             "maker_fee_rate": "0.0003",
             "market": "WOOUSDT",
             "min_amount": "500",
-            "open_interest_volume": "1877625",
+            "open_interest_volume": "2046160",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -46470,7 +46470,7 @@
             "maker_fee_rate": "0.0003",
             "market": "DASHUSDT",
             "min_amount": "0.2",
-            "open_interest_volume": "17700.6",
+            "open_interest_volume": "16032",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -47221,7 +47221,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "HACUSDT",
-            "min_amount": "10",
+            "min_amount": "5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -47251,7 +47251,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 10
+              "min": 5
             },
             "cost": {
               "max": "__undefined",
@@ -47307,7 +47307,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BUSDT",
             "min_amount": "50",
-            "open_interest_volume": "670255",
+            "open_interest_volume": "748095",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -47469,7 +47469,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BRETTUSDT",
             "min_amount": "1000",
-            "open_interest_volume": "9462720",
+            "open_interest_volume": "8350925",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -47784,7 +47784,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ETHUSDC",
             "min_amount": "0.005",
-            "open_interest_volume": "870.845",
+            "open_interest_volume": "854.16",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -48010,7 +48010,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "BOMEUSDT",
-            "min_amount": "5000",
+            "min_amount": "2000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -48040,7 +48040,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 5000
+              "min": 2000
             },
             "cost": {
               "max": "__undefined",
@@ -48096,7 +48096,7 @@
             "maker_fee_rate": "0.0003",
             "market": "AXSUSDT",
             "min_amount": "5",
-            "open_interest_volume": "222789.5",
+            "open_interest_volume": "189636.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -48472,7 +48472,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "WIFUSDT",
-            "min_amount": "10",
+            "min_amount": "5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -48502,7 +48502,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 10
+              "min": 5
             },
             "cost": {
               "max": "__undefined",
@@ -49008,7 +49008,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ZENUSDT",
             "min_amount": "1",
-            "open_interest_volume": "20787.5",
+            "open_interest_volume": "22072",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -49395,7 +49395,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SYRUPUSDT",
             "min_amount": "50",
-            "open_interest_volume": "89455",
+            "open_interest_volume": "99610",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -49707,7 +49707,7 @@
             "maker_fee_rate": "0.0003",
             "market": "IOTAUSDT",
             "min_amount": "100",
-            "open_interest_volume": "2352610",
+            "open_interest_volume": "2330970",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -50169,7 +50169,7 @@
             "maker_fee_rate": "0.0003",
             "market": "AVNTUSDT",
             "min_amount": "50",
-            "open_interest_volume": "643440",
+            "open_interest_volume": "630105",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -50331,7 +50331,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MOVEUSDT",
             "min_amount": "500",
-            "open_interest_volume": "2044720",
+            "open_interest_volume": "2046850",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -50793,7 +50793,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ATHUSDT",
             "min_amount": "1000",
-            "open_interest_volume": "4922350",
+            "open_interest_volume": "5824585",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -51030,7 +51030,7 @@
             "maker_fee_rate": "0.0003",
             "market": "TRUMPUSDT",
             "min_amount": "2",
-            "open_interest_volume": "59948.6",
+            "open_interest_volume": "58918.4",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -51492,7 +51492,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SUPERUSDT",
             "min_amount": "50",
-            "open_interest_volume": "1947805",
+            "open_interest_volume": "2035495",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -52329,7 +52329,7 @@
             "maker_fee_rate": "0.0003",
             "market": "JTOUSDT",
             "min_amount": "20",
-            "open_interest_volume": "217012.5",
+            "open_interest_volume": "229939",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -52630,7 +52630,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "TYBGUSDT",
-            "min_amount": "100000",
+            "min_amount": "200000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -52660,7 +52660,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 100000
+              "min": 200000
             },
             "cost": {
               "max": "__undefined",
@@ -53448,7 +53448,7 @@
           "info": {
             "base_ccy": "CULT",
             "base_ccy_precision": "8",
-            "delisted_at": "0",
+            "delisted_at": "1776844800000",
             "is_amm_available": true,
             "is_api_trading_available": true,
             "is_margin_available": false,
@@ -53693,7 +53693,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ATOMUSDT",
             "min_amount": "5",
-            "open_interest_volume": "112546.5",
+            "open_interest_volume": "119824.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -54005,7 +54005,7 @@
             "maker_fee_rate": "0.0003",
             "market": "KMNOUSDT",
             "min_amount": "500",
-            "open_interest_volume": "3209795",
+            "open_interest_volume": "3178065",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -54317,7 +54317,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SUSDT",
             "min_amount": "200",
-            "open_interest_volume": "4815325",
+            "open_interest_volume": "4897810",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -54704,7 +54704,7 @@
             "maker_fee_rate": "0.0003",
             "market": "PUMPUSDT",
             "min_amount": "5000",
-            "open_interest_volume": "142225775",
+            "open_interest_volume": "132295155",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -55091,7 +55091,7 @@
             "maker_fee_rate": "0.0003",
             "market": "RIVERUSDT",
             "min_amount": "1",
-            "open_interest_volume": "151016.2",
+            "open_interest_volume": "129553.7",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -55242,7 +55242,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "SAIUSDT",
-            "min_amount": "1000",
+            "min_amount": "2000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -55272,7 +55272,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1000
+              "min": 2000
             },
             "cost": {
               "max": "__undefined",
@@ -55330,7 +55330,7 @@
             "maker_fee_rate": "0.0003",
             "market": "CROUSDT",
             "min_amount": "100",
-            "open_interest_volume": "5080630",
+            "open_interest_volume": "5101805",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -55624,7 +55624,7 @@
           "info": {
             "base_ccy": "LOOKS",
             "base_ccy_precision": "8",
-            "delisted_at": "0",
+            "delisted_at": "1776844800000",
             "is_amm_available": true,
             "is_api_trading_available": true,
             "is_margin_available": false,
@@ -56094,7 +56094,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ORDIUSDT",
             "min_amount": "2",
-            "open_interest_volume": "63603.35",
+            "open_interest_volume": "91034.3",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -56395,7 +56395,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "ROBOUSDT",
-            "min_amount": "100",
+            "min_amount": "50",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -56425,7 +56425,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 100
+              "min": 50
             },
             "cost": {
               "max": "__undefined",
@@ -56558,7 +56558,7 @@
             "maker_fee_rate": "0.0003",
             "market": "RUNEUSDT",
             "min_amount": "20",
-            "open_interest_volume": "107840",
+            "open_interest_volume": "234484",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -57245,7 +57245,7 @@
             "maker_fee_rate": "0.0003",
             "market": "PIPPINUSDT",
             "min_amount": "200",
-            "open_interest_volume": "16829880",
+            "open_interest_volume": "9602395",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -59507,7 +59507,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SPXUSDT",
             "min_amount": "20",
-            "open_interest_volume": "382680",
+            "open_interest_volume": "152805",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -59596,7 +59596,7 @@
             "maker_fee_rate": "0.0003",
             "market": "LDOUSDT",
             "min_amount": "20",
-            "open_interest_volume": "248125",
+            "open_interest_volume": "287605",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -60597,7 +60597,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ZROUSDT",
             "min_amount": "5",
-            "open_interest_volume": "67017.5",
+            "open_interest_volume": "66078.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -60834,7 +60834,7 @@
             "maker_fee_rate": "0.0003",
             "market": "PARTIUSDT",
             "min_amount": "200",
-            "open_interest_volume": "2436200",
+            "open_interest_volume": "2610250",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -60996,7 +60996,7 @@
             "maker_fee_rate": "0.0003",
             "market": "IDUSDT",
             "min_amount": "200",
-            "open_interest_volume": "1769595",
+            "open_interest_volume": "1652430",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -61383,7 +61383,7 @@
             "maker_fee_rate": "0.0003",
             "market": "VANAUSDT",
             "min_amount": "5",
-            "open_interest_volume": "17710.5",
+            "open_interest_volume": "24927.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -61759,7 +61759,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "TRBUSDT",
-            "min_amount": "0.1",
+            "min_amount": "0.05",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -61789,7 +61789,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.1
+              "min": 0.05
             },
             "cost": {
               "max": "__undefined",
@@ -62372,7 +62372,7 @@
             "maker_fee_rate": "0.0003",
             "market": "TAOUSDT",
             "min_amount": "0.05",
-            "open_interest_volume": "2537.025",
+            "open_interest_volume": "2725.51",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -62686,7 +62686,7 @@
             "maker_fee_rate": "0.0003",
             "market": "AVAXUSDT",
             "min_amount": "1",
-            "open_interest_volume": "126632",
+            "open_interest_volume": "132566.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -63062,7 +63062,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "HACBTC",
-            "min_amount": "10",
+            "min_amount": "5",
             "quote_ccy": "BTC",
             "quote_ccy_precision": "10",
             "status": "online",
@@ -63092,7 +63092,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 10
+              "min": 5
             },
             "cost": {
               "max": "__undefined",
@@ -63148,7 +63148,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SUSHIUSDT",
             "min_amount": "50",
-            "open_interest_volume": "360448",
+            "open_interest_volume": "357411.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -64372,7 +64372,7 @@
             "maker_fee_rate": "0.0003",
             "market": "PENDLEUSDT",
             "min_amount": "5",
-            "open_interest_volume": "55734.5",
+            "open_interest_volume": "69527",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -64523,7 +64523,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "VADERUSDT",
-            "min_amount": "1000",
+            "min_amount": "500",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -64553,7 +64553,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1000
+              "min": 500
             },
             "cost": {
               "max": "__undefined",
@@ -64761,7 +64761,7 @@
             "maker_fee_rate": "0.0003",
             "market": "OPUSDT",
             "min_amount": "50",
-            "open_interest_volume": "775700",
+            "open_interest_volume": "734230",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -65673,7 +65673,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ZRXUSDT",
             "min_amount": "50",
-            "open_interest_volume": "664945",
+            "open_interest_volume": "727530",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -65762,7 +65762,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SANDUSDT",
             "min_amount": "100",
-            "open_interest_volume": "1088220",
+            "open_interest_volume": "1111355",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -65906,7 +65906,7 @@
           "info": {
             "base_ccy": "BUCK",
             "base_ccy_precision": "8",
-            "delisted_at": "0",
+            "delisted_at": "1776844800000",
             "is_amm_available": true,
             "is_api_trading_available": true,
             "is_margin_available": false,
@@ -65999,7 +65999,7 @@
             "maker_fee_rate": "0.0003",
             "market": "XPLUSDT",
             "min_amount": "50",
-            "open_interest_volume": "2045985",
+            "open_interest_volume": "1973285",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -66163,7 +66163,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SKYUSDT",
             "min_amount": "100",
-            "open_interest_volume": "1816390",
+            "open_interest_volume": "1782490",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -66539,7 +66539,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "WHITEWHALEUSDT",
-            "min_amount": "100",
+            "min_amount": "200",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -66569,7 +66569,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 100
+              "min": 200
             },
             "cost": {
               "max": "__undefined",
@@ -66925,7 +66925,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MELANIAUSDT",
             "min_amount": "50",
-            "open_interest_volume": "488855.5",
+            "open_interest_volume": "481101",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -67301,7 +67301,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "CATIUSDT",
-            "min_amount": "50",
+            "min_amount": "20",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -67331,7 +67331,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 50
+              "min": 20
             },
             "cost": {
               "max": "__undefined",
@@ -67839,7 +67839,7 @@
             "maker_fee_rate": "0.0003",
             "market": "UNIUSDT",
             "min_amount": "2",
-            "open_interest_volume": "140781",
+            "open_interest_volume": "134836",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -67915,7 +67915,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "CLOUSDT",
-            "min_amount": "20",
+            "min_amount": "10",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -67945,7 +67945,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 20
+              "min": 10
             },
             "cost": {
               "max": "__undefined",
@@ -68301,7 +68301,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MANTAUSDT",
             "min_amount": "100",
-            "open_interest_volume": "515677.5",
+            "open_interest_volume": "510046",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -68752,7 +68752,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "DMTUSDT",
-            "min_amount": "0.5",
+            "min_amount": "1",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -68782,7 +68782,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.5
+              "min": 1
             },
             "cost": {
               "max": "__undefined",
@@ -68840,7 +68840,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SHIBUSDT",
             "min_amount": "1000000",
-            "open_interest_volume": "203029254870",
+            "open_interest_volume": "230141430665",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "10",
             "status": "online",
@@ -69077,7 +69077,7 @@
             "maker_fee_rate": "0.0003",
             "market": "GASUSDT",
             "min_amount": "5",
-            "open_interest_volume": "51966",
+            "open_interest_volume": "53234.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -69164,7 +69164,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ETHFIUSDT",
             "min_amount": "20",
-            "open_interest_volume": "80200.5",
+            "open_interest_volume": "75853.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -69563,7 +69563,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MASKUSDT",
             "min_amount": "20",
-            "open_interest_volume": "85360",
+            "open_interest_volume": "87775",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -69952,7 +69952,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BONKUSDT",
             "min_amount": "1000000",
-            "open_interest_volume": "20775494635",
+            "open_interest_volume": "35401945305",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "10",
             "status": "online",
@@ -70039,7 +70039,7 @@
             "maker_fee_rate": "0.0003",
             "market": "AEVOUSDT",
             "min_amount": "500",
-            "open_interest_volume": "1300181",
+            "open_interest_volume": "1252026.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -70203,7 +70203,7 @@
             "maker_fee_rate": "0.0003",
             "market": "INJUSDT",
             "min_amount": "2",
-            "open_interest_volume": "36227.6",
+            "open_interest_volume": "50449.2",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -70367,7 +70367,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BNBUSDC",
             "min_amount": "0.01",
-            "open_interest_volume": "54.715",
+            "open_interest_volume": "55.315",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -70443,7 +70443,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "ETNUSDT",
-            "min_amount": "2000",
+            "min_amount": "1000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -70473,7 +70473,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2000
+              "min": 1000
             },
             "cost": {
               "max": "__undefined",
@@ -70604,7 +70604,7 @@
             "maker_fee_rate": "0.0003",
             "market": "PLUMEUSDT",
             "min_amount": "500",
-            "open_interest_volume": "6268345",
+            "open_interest_volume": "6509290",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -70905,7 +70905,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "DREAMSUSDT",
-            "min_amount": "500",
+            "min_amount": "200",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -70935,7 +70935,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 500
+              "min": 200
             },
             "cost": {
               "max": "__undefined",
@@ -71219,7 +71219,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BTCUSD",
             "min_amount": "10",
-            "open_interest_volume": "12691740",
+            "open_interest_volume": "11962340",
             "quote_ccy": "USD",
             "quote_ccy_precision": "0",
             "status": "online",
@@ -72581,7 +72581,7 @@
             "maker_fee_rate": "0.0003",
             "market": "HYPEUSDT",
             "min_amount": "0.2",
-            "open_interest_volume": "24959.45",
+            "open_interest_volume": "13662.2",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -73043,7 +73043,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MNTUSDT",
             "min_amount": "10",
-            "open_interest_volume": "106860",
+            "open_interest_volume": "109850",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -73344,7 +73344,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "HEUUSDT",
-            "min_amount": "200",
+            "min_amount": "500",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -73374,7 +73374,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 200
+              "min": 500
             },
             "cost": {
               "max": "__undefined",
@@ -73719,7 +73719,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "WIFUSDC",
-            "min_amount": "10",
+            "min_amount": "5",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -73749,7 +73749,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 10
+              "min": 5
             },
             "cost": {
               "max": "__undefined",
@@ -73955,7 +73955,7 @@
             "maker_fee_rate": "0.0003",
             "market": "WLFIUSDT",
             "min_amount": "50",
-            "open_interest_volume": "708840",
+            "open_interest_volume": "680410",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -74869,7 +74869,7 @@
             "maker_fee_rate": "0.0003",
             "market": "DYDXUSDT",
             "min_amount": "50",
-            "open_interest_volume": "1378160",
+            "open_interest_volume": "2152539",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -75106,7 +75106,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ENSUSDT",
             "min_amount": "1",
-            "open_interest_volume": "9727",
+            "open_interest_volume": "9820.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -75718,7 +75718,7 @@
             "maker_fee_rate": "0.0003",
             "market": "USTCUSDT",
             "min_amount": "1000",
-            "open_interest_volume": "17245860",
+            "open_interest_volume": "14742835",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -76330,7 +76330,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SLPUSDT",
             "min_amount": "10000",
-            "open_interest_volume": "40830355",
+            "open_interest_volume": "40136565",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -76717,7 +76717,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ARKMUSDT",
             "min_amount": "50",
-            "open_interest_volume": "205495",
+            "open_interest_volume": "213000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -79057,7 +79057,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BTCUSDT",
             "min_amount": "0.0001",
-            "open_interest_volume": "1238.508",
+            "open_interest_volume": "1257.9775",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "0",
             "status": "online",
@@ -79444,7 +79444,7 @@
             "maker_fee_rate": "0.0003",
             "market": "CFXUSDT",
             "min_amount": "100",
-            "open_interest_volume": "700035",
+            "open_interest_volume": "891710",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -79670,7 +79670,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "APEUSDC",
-            "min_amount": "20",
+            "min_amount": "10",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -79700,7 +79700,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 20
+              "min": 10
             },
             "cost": {
               "max": "__undefined",
@@ -80195,7 +80195,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "BEAMXUSDT",
-            "min_amount": "1000",
+            "min_amount": "500",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -80225,7 +80225,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1000
+              "min": 500
             },
             "cost": {
               "max": "__undefined",
@@ -80508,7 +80508,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SEIUSDT",
             "min_amount": "100",
-            "open_interest_volume": "2617325",
+            "open_interest_volume": "2644675",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -80820,7 +80820,7 @@
             "maker_fee_rate": "0.0003",
             "market": "CVXUSDT",
             "min_amount": "5",
-            "open_interest_volume": "37508",
+            "open_interest_volume": "40765",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -81046,7 +81046,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "CATUSDT",
-            "min_amount": "1000000",
+            "min_amount": "500000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "10",
             "status": "online",
@@ -81076,7 +81076,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1000000
+              "min": 500000
             },
             "cost": {
               "max": "__undefined",
@@ -81209,7 +81209,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SOLUSDT",
             "min_amount": "0.1",
-            "open_interest_volume": "99174.6",
+            "open_interest_volume": "109901.25",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -81823,7 +81823,7 @@
             "maker_fee_rate": "0.0003",
             "market": "AAVEUSDT",
             "min_amount": "0.05",
-            "open_interest_volume": "4745.3",
+            "open_interest_volume": "4526.85",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -81985,7 +81985,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ONDOUSDT",
             "min_amount": "20",
-            "open_interest_volume": "1576330",
+            "open_interest_volume": "1580080",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -82150,7 +82150,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "COWUSDT",
-            "min_amount": "5",
+            "min_amount": "10",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -82180,7 +82180,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 5
+              "min": 10
             },
             "cost": {
               "max": "__undefined",
@@ -82461,7 +82461,7 @@
             "maker_fee_rate": "0.0003",
             "market": "KAITOUSDT",
             "min_amount": "20",
-            "open_interest_volume": "109400",
+            "open_interest_volume": "126005",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -82623,7 +82623,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ONEUSDT",
             "min_amount": "5000",
-            "open_interest_volume": "12333790",
+            "open_interest_volume": "12702310",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -83387,7 +83387,7 @@
             "maker_fee_rate": "0.0003",
             "market": "XLMUSDT",
             "min_amount": "50",
-            "open_interest_volume": "1418250",
+            "open_interest_volume": "1438320",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -83763,7 +83763,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "SIRENUSDT",
-            "min_amount": "2",
+            "min_amount": "1",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -83793,7 +83793,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2
+              "min": 1
             },
             "cost": {
               "max": "__undefined",
@@ -83924,7 +83924,7 @@
             "maker_fee_rate": "0.0003",
             "market": "XMRUSDT",
             "min_amount": "0.02",
-            "open_interest_volume": "501.75",
+            "open_interest_volume": "527.15",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -84375,7 +84375,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "SUIBTC",
-            "min_amount": "2",
+            "min_amount": "1",
             "quote_ccy": "BTC",
             "quote_ccy_precision": "10",
             "status": "online",
@@ -84405,7 +84405,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2
+              "min": 1
             },
             "cost": {
               "max": "__undefined",
@@ -84536,7 +84536,7 @@
             "maker_fee_rate": "0.0003",
             "market": "TURBOUSDT",
             "min_amount": "5000",
-            "open_interest_volume": "107594280",
+            "open_interest_volume": "74639830",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -84773,7 +84773,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SOONUSDT",
             "min_amount": "50",
-            "open_interest_volume": "851410",
+            "open_interest_volume": "931065",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -85460,7 +85460,7 @@
             "maker_fee_rate": "0.0003",
             "market": "UMAUSDT",
             "min_amount": "20",
-            "open_interest_volume": "66026.5",
+            "open_interest_volume": "67146",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -85997,7 +85997,7 @@
             "maker_fee_rate": "0.0003",
             "market": "VIRTUALUSDT",
             "min_amount": "10",
-            "open_interest_volume": "213695",
+            "open_interest_volume": "214880",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -87284,7 +87284,7 @@
             "maker_fee_rate": "0.0003",
             "market": "CAKEUSDT",
             "min_amount": "5",
-            "open_interest_volume": "106989",
+            "open_interest_volume": "161920",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -88871,7 +88871,7 @@
             "maker_fee_rate": "0.0003",
             "market": "KITEUSDT",
             "min_amount": "50",
-            "open_interest_volume": "278350",
+            "open_interest_volume": "262325",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -89110,7 +89110,7 @@
             "maker_fee_rate": "0.0003",
             "market": "TIAUSDT",
             "min_amount": "20",
-            "open_interest_volume": "290590",
+            "open_interest_volume": "345193.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -90386,7 +90386,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "HTRUSDT",
-            "min_amount": "200",
+            "min_amount": "500",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -90416,7 +90416,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 200
+              "min": 500
             },
             "cost": {
               "max": "__undefined",
@@ -91147,7 +91147,7 @@
             "maker_fee_rate": "0.0003",
             "market": "XCHUSDT",
             "min_amount": "5",
-            "open_interest_volume": "11558.5",
+            "open_interest_volume": "11234.45",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -91298,7 +91298,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "FWOGUSDT",
-            "min_amount": "500",
+            "min_amount": "200",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -91328,7 +91328,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 500
+              "min": 200
             },
             "cost": {
               "max": "__undefined",
@@ -91909,7 +91909,7 @@
             "maker_fee_rate": "0.0003",
             "market": "PEOPLEUSDT",
             "min_amount": "1000",
-            "open_interest_volume": "4156380",
+            "open_interest_volume": "4674945",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -92071,7 +92071,7 @@
             "maker_fee_rate": "0.0003",
             "market": "LPTUSDT",
             "min_amount": "5",
-            "open_interest_volume": "78089",
+            "open_interest_volume": "76270.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -92147,7 +92147,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "BRUSDT",
-            "min_amount": "5",
+            "min_amount": "10",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -92177,7 +92177,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 5
+              "min": 10
             },
             "cost": {
               "max": "__undefined",
@@ -92460,7 +92460,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SUIUSDT",
             "min_amount": "10",
-            "open_interest_volume": "1474210",
+            "open_interest_volume": "1472565",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -93300,7 +93300,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "C98USDT",
-            "min_amount": "100",
+            "min_amount": "50",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -93330,7 +93330,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 100
+              "min": 50
             },
             "cost": {
               "max": "__undefined",
@@ -93686,7 +93686,7 @@
             "maker_fee_rate": "0.0003",
             "market": "GRASSUSDT",
             "min_amount": "20",
-            "open_interest_volume": "316280",
+            "open_interest_volume": "336605",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -94150,7 +94150,7 @@
             "maker_fee_rate": "0.0003",
             "market": "POLUSDT",
             "min_amount": "100",
-            "open_interest_volume": "2484990",
+            "open_interest_volume": "2287470",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -94301,7 +94301,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "BEAMXBTC",
-            "min_amount": "1000",
+            "min_amount": "500",
             "quote_ccy": "BTC",
             "quote_ccy_precision": "12",
             "status": "online",
@@ -94331,7 +94331,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1000
+              "min": 500
             },
             "cost": {
               "max": "__undefined",
@@ -94612,7 +94612,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ALGOUSDT",
             "min_amount": "50",
-            "open_interest_volume": "1932470",
+            "open_interest_volume": "2929535",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -95976,7 +95976,7 @@
             "maker_fee_rate": "0.0003",
             "market": "FLOKIUSDT",
             "min_amount": "200000",
-            "open_interest_volume": "4725444760",
+            "open_interest_volume": "4672927405",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -96277,7 +96277,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "XAHUSDT",
-            "min_amount": "100",
+            "min_amount": "50",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -96307,7 +96307,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 100
+              "min": 50
             },
             "cost": {
               "max": "__undefined",
@@ -96363,7 +96363,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ZKUSDT",
             "min_amount": "500",
-            "open_interest_volume": "5629695",
+            "open_interest_volume": "5631245",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -97050,7 +97050,7 @@
             "maker_fee_rate": "0.0003",
             "market": "JUPUSDT",
             "min_amount": "50",
-            "open_interest_volume": "393520",
+            "open_interest_volume": "410640",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -97512,7 +97512,7 @@
             "maker_fee_rate": "0.0003",
             "market": "STRKUSDT",
             "min_amount": "200",
-            "open_interest_volume": "1910200",
+            "open_interest_volume": "1854420",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -98331,7 +98331,7 @@
           "info": {
             "base_ccy": "SERAPH",
             "base_ccy_precision": "8",
-            "delisted_at": "0",
+            "delisted_at": "1776844800000",
             "is_amm_available": true,
             "is_api_trading_available": true,
             "is_margin_available": false,
@@ -98649,7 +98649,7 @@
             "maker_fee_rate": "0.0003",
             "market": "POPCATUSDT",
             "min_amount": "100",
-            "open_interest_volume": "1350235",
+            "open_interest_volume": "842405",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -99036,7 +99036,7 @@
             "maker_fee_rate": "0.0003",
             "market": "EIGENUSDT",
             "min_amount": "50",
-            "open_interest_volume": "224040",
+            "open_interest_volume": "165520",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -99125,7 +99125,7 @@
             "maker_fee_rate": "0.0003",
             "market": "WIFUSDT",
             "min_amount": "50",
-            "open_interest_volume": "1957810",
+            "open_interest_volume": "1397830",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -99526,7 +99526,7 @@
             "maker_fee_rate": "0.0003",
             "market": "GOOGLXUSDT",
             "min_amount": "0.02",
-            "open_interest_volume": "29.33",
+            "open_interest_volume": "26.3",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -100138,7 +100138,7 @@
             "maker_fee_rate": "0.0003",
             "market": "APEUSDT",
             "min_amount": "100",
-            "open_interest_volume": "406311",
+            "open_interest_volume": "755018",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -100225,7 +100225,7 @@
             "maker_fee_rate": "0.0003",
             "market": "RSRUSDT",
             "min_amount": "5000",
-            "open_interest_volume": "30202820",
+            "open_interest_volume": "30203360",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -100376,7 +100376,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "SYSUSDT",
-            "min_amount": "200",
+            "min_amount": "100",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -100406,7 +100406,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 200
+              "min": 100
             },
             "cost": {
               "max": "__undefined",
@@ -100901,7 +100901,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "APEUSDT",
-            "min_amount": "20",
+            "min_amount": "10",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -100931,7 +100931,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 20
+              "min": 10
             },
             "cost": {
               "max": "__undefined",
@@ -101212,7 +101212,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MSTRXUSDT",
             "min_amount": "0.05",
-            "open_interest_volume": "350.25",
+            "open_interest_volume": "345.65",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -101431,14 +101431,14 @@
           "info": {
             "base_ccy": "HMT",
             "base_ccy_precision": "8",
-            "delisted_at": "0",
+            "delisted_at": "1776844800000",
             "is_amm_available": true,
             "is_api_trading_available": true,
             "is_margin_available": false,
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "HMTUSDT",
-            "min_amount": "1000",
+            "min_amount": "2000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -101468,7 +101468,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1000
+              "min": 2000
             },
             "cost": {
               "max": "__undefined",
@@ -101663,7 +101663,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "LUMIAUSDT",
-            "min_amount": "20",
+            "min_amount": "10",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -101693,7 +101693,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 20
+              "min": 10
             },
             "cost": {
               "max": "__undefined",
@@ -101824,7 +101824,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MONUSDT",
             "min_amount": "200",
-            "open_interest_volume": "4161325",
+            "open_interest_volume": "4076370",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -102136,7 +102136,7 @@
             "maker_fee_rate": "0.0003",
             "market": "NVDAXUSDT",
             "min_amount": "0.05",
-            "open_interest_volume": "122.35",
+            "open_interest_volume": "100.15",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -102287,7 +102287,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "RECALLUSDT",
-            "min_amount": "50",
+            "min_amount": "20",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -102317,7 +102317,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 50
+              "min": 20
             },
             "cost": {
               "max": "__undefined",
@@ -102823,7 +102823,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ROSEUSDT",
             "min_amount": "500",
-            "open_interest_volume": "16228755",
+            "open_interest_volume": "20595775",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -102967,7 +102967,7 @@
           "info": {
             "base_ccy": "ALPHA",
             "base_ccy_precision": "8",
-            "delisted_at": "0",
+            "delisted_at": "1776844800000",
             "is_amm_available": true,
             "is_api_trading_available": true,
             "is_margin_available": false,
@@ -103060,7 +103060,7 @@
             "maker_fee_rate": "0.0003",
             "market": "IPUSDT",
             "min_amount": "10",
-            "open_interest_volume": "129556.5",
+            "open_interest_volume": "768577",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -103297,7 +103297,7 @@
             "maker_fee_rate": "0.0003",
             "market": "CRVUSDT",
             "min_amount": "50",
-            "open_interest_volume": "761490",
+            "open_interest_volume": "800885",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -103823,7 +103823,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "USDUCUSDT",
-            "min_amount": "1000",
+            "min_amount": "500",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -103853,7 +103853,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1000
+              "min": 500
             },
             "cost": {
               "max": "__undefined",
@@ -103898,7 +103898,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "OPNUSDT",
-            "min_amount": "10",
+            "min_amount": "5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -103928,7 +103928,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 10
+              "min": 5
             },
             "cost": {
               "max": "__undefined",
@@ -105184,7 +105184,7 @@
             "maker_fee_rate": "0.0003",
             "market": "CKBUSDT",
             "min_amount": "5000",
-            "open_interest_volume": "24911720",
+            "open_interest_volume": "43147175",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -106110,7 +106110,7 @@
             "maker_fee_rate": "0.0003",
             "market": "HUMAUSDT",
             "min_amount": "500",
-            "open_interest_volume": "2108405",
+            "open_interest_volume": "2159510",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -106724,7 +106724,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ADAUSDC",
             "min_amount": "50",
-            "open_interest_volume": "93410",
+            "open_interest_volume": "91490",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -108463,7 +108463,7 @@
             "maker_fee_rate": "0.0003",
             "market": "DOTUSDT",
             "min_amount": "5",
-            "open_interest_volume": "1177503",
+            "open_interest_volume": "1166141",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -108625,7 +108625,7 @@
             "maker_fee_rate": "0.0003",
             "market": "BEAMXUSDT",
             "min_amount": "5000",
-            "open_interest_volume": "8899915",
+            "open_interest_volume": "13427160",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -109076,7 +109076,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "NUMUSDT",
-            "min_amount": "200",
+            "min_amount": "500",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -109106,7 +109106,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 200
+              "min": 500
             },
             "cost": {
               "max": "__undefined",
@@ -109526,7 +109526,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "NEIROCTOUSDT",
-            "min_amount": "20000",
+            "min_amount": "10000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -109556,7 +109556,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 20000
+              "min": 10000
             },
             "cost": {
               "max": "__undefined",
@@ -110289,7 +110289,7 @@
             "maker_fee_rate": "0.0003",
             "market": "SOLUSDC",
             "min_amount": "0.1",
-            "open_interest_volume": "389.25",
+            "open_interest_volume": "642.45",
             "quote_ccy": "USDC",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -110451,7 +110451,7 @@
             "maker_fee_rate": "0.0003",
             "market": "MYXUSDT",
             "min_amount": "20",
-            "open_interest_volume": "1367023",
+            "open_interest_volume": "1450952",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -110838,7 +110838,7 @@
             "maker_fee_rate": "0.0003",
             "market": "FFUSDT",
             "min_amount": "100",
-            "open_interest_volume": "314435",
+            "open_interest_volume": "262935",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -111675,7 +111675,7 @@
             "maker_fee_rate": "0.0003",
             "market": "IOTXUSDT",
             "min_amount": "2000",
-            "open_interest_volume": "15527370",
+            "open_interest_volume": "16278020",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -111751,7 +111751,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "GIGAUSDT",
-            "min_amount": "1000",
+            "min_amount": "500",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -111781,7 +111781,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1000
+              "min": 500
             },
             "cost": {
               "max": "__undefined",
@@ -112289,7 +112289,7 @@
             "maker_fee_rate": "0.0003",
             "market": "LINKUSDT",
             "min_amount": "1",
-            "open_interest_volume": "131171",
+            "open_interest_volume": "122617",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -112901,7 +112901,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ZECUSDT",
             "min_amount": "0.1",
-            "open_interest_volume": "6678",
+            "open_interest_volume": "9132",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -113816,7 +113816,7 @@
             "maker_fee_rate": "0.0003",
             "market": "ETHUSDT",
             "min_amount": "0.005",
-            "open_interest_volume": "8640.095",
+            "open_interest_volume": "9752.16",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "2",
             "status": "online",
@@ -113905,7 +113905,7 @@
             "maker_fee_rate": "0.0003",
             "market": "WLDUSDT",
             "min_amount": "20",
-            "open_interest_volume": "643975",
+            "open_interest_volume": "606365",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -114349,7 +114349,7 @@
           "info": {
             "base_ccy": "TORN",
             "base_ccy_precision": "8",
-            "delisted_at": "0",
+            "delisted_at": "1776844800000",
             "is_amm_available": true,
             "is_api_trading_available": true,
             "is_margin_available": false,
@@ -114806,7 +114806,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "BITCOINUSDT",
-            "min_amount": "100",
+            "min_amount": "50",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -114836,7 +114836,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 100
+              "min": 50
             },
             "cost": {
               "max": "__undefined",
@@ -115569,7 +115569,7 @@
             "maker_fee_rate": "0.0003",
             "market": "TRXUSDT",
             "min_amount": "20",
-            "open_interest_volume": "6677130",
+            "open_interest_volume": "8917185",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -115733,7 +115733,7 @@
             "maker_fee_rate": "0.0003",
             "market": "RENDERUSDT",
             "min_amount": "5",
-            "open_interest_volume": "223018.5",
+            "open_interest_volume": "213846.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -115895,7 +115895,7 @@
             "maker_fee_rate": "0.0003",
             "market": "TRBUSDT",
             "min_amount": "0.5",
-            "open_interest_volume": "4129.5",
+            "open_interest_volume": "4173.5",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -116421,7 +116421,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "APRUSDT",
-            "min_amount": "5",
+            "min_amount": "10",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -116451,7 +116451,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 5
+              "min": 10
             },
             "cost": {
               "max": "__undefined",
@@ -116507,7 +116507,7 @@
             "maker_fee_rate": "0.0003",
             "market": "QTUMUSDT",
             "min_amount": "10",
-            "open_interest_volume": "101848.5",
+            "open_interest_volume": "88222",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -117569,7 +117569,7 @@
             "maker_fee_rate": "0.0003",
             "market": "LRCUSDT",
             "min_amount": "500",
-            "open_interest_volume": "2019265",
+            "open_interest_volume": "1876255",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -117656,7 +117656,7 @@
             "maker_fee_rate": "0.0003",
             "market": "CHEEMSUSDT",
             "min_amount": "20000000",
-            "open_interest_volume": "48411778510",
+            "open_interest_volume": "53872302840",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "10",
             "status": "online",
@@ -117735,7 +117735,7 @@
             "min_amount": "0.1",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
-            "status": "bidding",
+            "status": "online",
             "taker_fee_rate": "0.003"
           },
           "created": "__undefined",
@@ -118043,7 +118043,7 @@
             "maker_fee_rate": "0.0003",
             "market": "WAVESUSDT",
             "min_amount": "20",
-            "open_interest_volume": "218024.5",
+            "open_interest_volume": "235098",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -118655,7 +118655,7 @@
             "maker_fee_rate": "0.0003",
             "market": "IOUSDT",
             "min_amount": "50",
-            "open_interest_volume": "339635",
+            "open_interest_volume": "363320",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "4",
             "status": "online",
@@ -119556,7 +119556,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.002",
             "market": "APTBTC",
-            "min_amount": "2",
+            "min_amount": "1",
             "quote_ccy": "BTC",
             "quote_ccy_precision": "8",
             "status": "online",
@@ -119586,7 +119586,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2
+              "min": 1
             },
             "cost": {
               "max": "__undefined",
@@ -119717,7 +119717,7 @@
             "maker_fee_rate": "0.0003",
             "market": "PYTHUSDT",
             "min_amount": "200",
-            "open_interest_volume": "1055960",
+            "open_interest_volume": "1025045",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -119793,7 +119793,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "USUSDT",
-            "min_amount": "500",
+            "min_amount": "200",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -119823,7 +119823,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 500
+              "min": 200
             },
             "cost": {
               "max": "__undefined",
@@ -120106,7 +120106,7 @@
             "maker_fee_rate": "0.0003",
             "market": "PEPEUSDT",
             "min_amount": "2000000",
-            "open_interest_volume": "330314169640",
+            "open_interest_volume": "289073415330",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "10",
             "status": "online",
@@ -120268,7 +120268,7 @@
             "maker_fee_rate": "0.0003",
             "market": "PENGUUSDT",
             "min_amount": "1000",
-            "open_interest_volume": "14008020",
+            "open_interest_volume": "22614210",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -120344,7 +120344,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "PIZZAUSDT",
-            "min_amount": "50",
+            "min_amount": "10",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -120374,7 +120374,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 50
+              "min": 10
             },
             "cost": {
               "max": "__undefined",
@@ -120644,7 +120644,7 @@
             "is_pre_market_trading_available": false,
             "maker_fee_rate": "0.003",
             "market": "SNAIUSDT",
-            "min_amount": "1000",
+            "min_amount": "2000",
             "quote_ccy": "USDT",
             "quote_ccy_precision": "6",
             "status": "online",
@@ -120674,7 +120674,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1000
+              "min": 2000
             },
             "cost": {
               "max": "__undefined",

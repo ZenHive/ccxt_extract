@@ -1,26 +1,86 @@
 {
   "credential_patterns": [
     {
-      "count": 18,
+      "count": 78,
       "exchanges": [
+        "alpaca",
+        "arkham",
+        "ascendex",
         "aster",
+        "backpack",
+        "bequant",
+        "bigone",
         "binance",
         "binancecoinm",
         "binanceus",
         "binanceusdm",
         "bingx",
+        "bit2c",
+        "bitbank",
+        "bitbns",
         "bitfinex",
+        "bitflyer",
+        "bithumb",
         "bitmex",
+        "bitopro",
+        "bitrue",
+        "bitso",
+        "bitstamp",
+        "bitteam",
+        "bittrade",
+        "bitvavo",
+        "btcbox",
+        "btcmarkets",
+        "btcturk",
+        "bullish",
         "bybit",
+        "bydfi",
+        "cex",
+        "coinbase",
+        "coincheck",
         "coinex",
+        "coinone",
+        "coinsph",
+        "coinspot",
         "cryptocom",
+        "delta",
         "deribit",
+        "digifinex",
+        "exmo",
+        "fmfwio",
+        "foxbit",
         "gate",
+        "gemini",
         "hashkey",
+        "hitbtc",
+        "hollaex",
         "htx",
+        "independentreserve",
+        "indodax",
         "kraken",
+        "krakenfutures",
+        "latoken",
+        "lbank",
+        "luno",
+        "mercado",
         "mexc",
-        "woo"
+        "novadax",
+        "oxfun",
+        "p2b",
+        "paymium",
+        "phemex",
+        "poloniex",
+        "tokocrypto",
+        "toobit",
+        "upbit",
+        "wavesexchange",
+        "whitebit",
+        "woo",
+        "xt",
+        "yobit",
+        "zaif",
+        "zebpay",
+        "zonda"
       ],
       "pattern": [
         "apiKey",
@@ -28,11 +88,14 @@
       ]
     },
     {
-      "count": 8,
+      "count": 11,
       "exchanges": [
         "apex",
         "bitget",
+        "blofin",
         "coinbaseexchange",
+        "coinbaseinternational",
+        "deepcoin",
         "kucoin",
         "kucoinfutures",
         "myokx",
@@ -46,8 +109,9 @@
       ]
     },
     {
-      "count": 3,
+      "count": 4,
       "exchanges": [
+        "aftermath",
         "derive",
         "hyperliquid",
         "paradex"
@@ -55,6 +119,17 @@
       "pattern": [
         "privateKey",
         "walletAddress"
+      ]
+    },
+    {
+      "count": 3,
+      "exchanges": [
+        "grvt",
+        "lighter",
+        "pacifica"
+      ],
+      "pattern": [
+        "privateKey"
       ]
     },
     {
@@ -70,16 +145,10 @@
       ]
     },
     {
-      "count": 1,
+      "count": 2,
       "exchanges": [
-        "dydx"
-      ],
-      "pattern": []
-    },
-    {
-      "count": 1,
-      "exchanges": [
-        "bitmart"
+        "bitmart",
+        "coinmate"
       ],
       "pattern": [
         "apiKey",
@@ -90,15 +159,115 @@
     {
       "count": 1,
       "exchanges": [
-        "lighter"
+        "dydx"
+      ],
+      "pattern": []
+    },
+    {
+      "count": 1,
+      "exchanges": [
+        "hibachi"
       ],
       "pattern": [
+        "accountId",
+        "apiKey",
         "privateKey"
+      ]
+    },
+    {
+      "count": 1,
+      "exchanges": [
+        "onetrading"
+      ],
+      "pattern": [
+        "apiKey"
+      ]
+    },
+    {
+      "count": 1,
+      "exchanges": [
+        "ndax"
+      ],
+      "pattern": [
+        "apiKey",
+        "login",
+        "password",
+        "secret",
+        "uid"
+      ]
+    },
+    {
+      "count": 1,
+      "exchanges": [
+        "blockchaincom"
+      ],
+      "pattern": [
+        "secret"
+      ]
+    },
+    {
+      "count": 1,
+      "exchanges": [
+        "cryptomus"
+      ],
+      "pattern": [
+        "secret",
+        "uid"
+      ]
+    },
+    {
+      "count": 1,
+      "exchanges": [
+        "coinmetro"
+      ],
+      "pattern": [
+        "token",
+        "uid"
       ]
     }
   ],
-  "exchange_count": 34,
+  "exchange_count": 107,
   "exchanges": [
+    {
+      "credential_pattern": [
+        "privateKey",
+        "walletAddress"
+      ],
+      "has_fetch_markets": true,
+      "id": "aftermath",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": false,
+        "login": false,
+        "password": false,
+        "privateKey": true,
+        "secret": false,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": true
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "alpaca",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
     {
       "credential_pattern": [
         "apiKey",
@@ -126,7 +295,107 @@
         "secret"
       ],
       "has_fetch_markets": true,
+      "id": "arkham",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "ascendex",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
       "id": "aster",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "backpack",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bequant",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bigone",
       "required_credentials": {
         "accountId": false,
         "apiKey": true,
@@ -246,7 +515,87 @@
         "secret"
       ],
       "has_fetch_markets": true,
+      "id": "bit2c",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bitbank",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bitbns",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
       "id": "bitfinex",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bitflyer",
       "required_credentials": {
         "accountId": false,
         "apiKey": true,
@@ -273,6 +622,26 @@
         "apiKey": true,
         "login": false,
         "password": true,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bithumb",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
         "privateKey": false,
         "secret": true,
         "token": false,
@@ -328,7 +697,327 @@
         "secret"
       ],
       "has_fetch_markets": true,
+      "id": "bitopro",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bitrue",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bitso",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bitstamp",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bitteam",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bittrade",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bitvavo",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "blockchaincom",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": false,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "password",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "blofin",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": true,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "btcbox",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "btcmarkets",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "btcturk",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bullish",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
       "id": "bybit",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "bydfi",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "cex",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "coinbase",
       "required_credentials": {
         "accountId": false,
         "apiKey": true,
@@ -366,6 +1055,47 @@
     {
       "credential_pattern": [
         "apiKey",
+        "password",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "coinbaseinternational",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": true,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "coincheck",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
         "secret"
       ],
       "has_fetch_markets": true,
@@ -386,10 +1116,172 @@
     {
       "credential_pattern": [
         "apiKey",
+        "secret",
+        "uid"
+      ],
+      "has_fetch_markets": true,
+      "id": "coinmate",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": true,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "token",
+        "uid"
+      ],
+      "has_fetch_markets": true,
+      "id": "coinmetro",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": false,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": false,
+        "token": true,
+        "twofa": false,
+        "uid": true,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "coinone",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "coinsph",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "coinspot",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
         "secret"
       ],
       "has_fetch_markets": true,
       "id": "cryptocom",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "secret",
+        "uid"
+      ],
+      "has_fetch_markets": true,
+      "id": "cryptomus",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": false,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": true,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "password",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "deepcoin",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": true,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "delta",
       "required_credentials": {
         "accountId": false,
         "apiKey": true,
@@ -444,6 +1336,26 @@
       }
     },
     {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "digifinex",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
       "credential_pattern": [],
       "has_fetch_markets": true,
       "id": "dydx",
@@ -454,6 +1366,66 @@
         "password": false,
         "privateKey": false,
         "secret": false,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "exmo",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "fmfwio",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "foxbit",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
         "token": false,
         "twofa": false,
         "uid": false,
@@ -486,7 +1458,107 @@
         "secret"
       ],
       "has_fetch_markets": true,
+      "id": "gemini",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "privateKey"
+      ],
+      "has_fetch_markets": true,
+      "id": "grvt",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": false,
+        "login": false,
+        "password": false,
+        "privateKey": true,
+        "secret": false,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
       "id": "hashkey",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "accountId",
+        "apiKey",
+        "privateKey"
+      ],
+      "has_fetch_markets": true,
+      "id": "hibachi",
+      "required_credentials": {
+        "accountId": true,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": true,
+        "secret": false,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "hitbtc",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "hollaex",
       "required_credentials": {
         "accountId": false,
         "apiKey": true,
@@ -546,7 +1618,67 @@
         "secret"
       ],
       "has_fetch_markets": true,
+      "id": "independentreserve",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "indodax",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
       "id": "kraken",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "krakenfutures",
       "required_credentials": {
         "accountId": false,
         "apiKey": true,
@@ -604,6 +1736,46 @@
     },
     {
       "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "latoken",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "lbank",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
         "privateKey"
       ],
       "has_fetch_markets": true,
@@ -615,6 +1787,46 @@
         "password": false,
         "privateKey": true,
         "secret": false,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "luno",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "mercado",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
         "token": false,
         "twofa": false,
         "uid": false,
@@ -686,6 +1898,49 @@
     {
       "credential_pattern": [
         "apiKey",
+        "login",
+        "password",
+        "secret",
+        "uid"
+      ],
+      "has_fetch_markets": true,
+      "id": "ndax",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": true,
+        "password": true,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": true,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "novadax",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
         "password",
         "secret"
       ],
@@ -727,6 +1982,84 @@
     },
     {
       "credential_pattern": [
+        "apiKey"
+      ],
+      "has_fetch_markets": true,
+      "id": "onetrading",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": false,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "oxfun",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "p2b",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "privateKey"
+      ],
+      "has_fetch_markets": true,
+      "id": "pacifica",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": false,
+        "login": false,
+        "password": false,
+        "privateKey": true,
+        "secret": false,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
         "privateKey",
         "walletAddress"
       ],
@@ -743,6 +2076,166 @@
         "twofa": false,
         "uid": false,
         "walletAddress": true
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "paymium",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "phemex",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "poloniex",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "tokocrypto",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "toobit",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "upbit",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "wavesexchange",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "whitebit",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
       }
     },
     {
@@ -785,13 +2278,113 @@
         "uid": false,
         "walletAddress": false
       }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "xt",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "yobit",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "zaif",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "zebpay",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
+    },
+    {
+      "credential_pattern": [
+        "apiKey",
+        "secret"
+      ],
+      "has_fetch_markets": true,
+      "id": "zonda",
+      "required_credentials": {
+        "accountId": false,
+        "apiKey": true,
+        "login": false,
+        "password": false,
+        "privateKey": false,
+        "secret": true,
+        "token": false,
+        "twofa": false,
+        "uid": false,
+        "walletAddress": false
+      }
     }
   ],
-  "extracted_at": "2026-04-16T10:26:58.931867Z",
+  "extracted_at": "2026-04-17T03:39:48.606185Z",
   "summary": {
     "all_have_fetch_markets": true,
-    "credential_pattern_count": 7,
-    "fetch_markets_advertised_count": 34,
+    "credential_pattern_count": 13,
+    "fetch_markets_advertised_count": 107,
     "fully_public_count": 1
   },
   "tier_scope": "all"

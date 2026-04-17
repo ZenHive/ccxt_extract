@@ -16,7 +16,7 @@
     "tier": "tier3",
     "version": "v2"
   },
-  "extracted_at": "2026-04-16T10:16:05.340082Z",
+  "extracted_at": "2026-04-17T03:38:10.088487Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -839,7 +839,7 @@
       "version": "v2"
     },
     "markets": {
-      "market_count": 862,
+      "market_count": 863,
       "markets": {
         "AXL/USDT": {
           "spot": true,
@@ -10054,6 +10054,176 @@
           },
           "expiry": "__undefined",
           "id": "OAS_USD",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "USDS/USD": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USD",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0025,
+          "inverse": "__undefined",
+          "info": {
+            "base_ccy": "USDS",
+            "beta_product": false,
+            "display_name": "USDS/USD",
+            "expiry_timestamp_ms": 0,
+            "inst_type": "CCY_PAIR",
+            "margin_buy_enabled": false,
+            "margin_sell_enabled": false,
+            "max_leverage": "50",
+            "price_tick_size": "0.00001",
+            "qty_tick_size": "0.1",
+            "quantity_decimals": 1,
+            "quote_ccy": "USD",
+            "quote_decimals": 5,
+            "symbol": "USDS_USD",
+            "tradable": true
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "USDS/USD",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.1,
+            "price": 1.0e-5
+          },
+          "baseId": "USDS",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USD",
+          "expiryDatetime": "__undefined",
+          "base": "USDS",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 50,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.005,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": "__undefined",
+          "active": true,
+          "tiers": {
+            "maker": [
+              [
+                0,
+                0.0025
+              ],
+              [
+                10000,
+                0.002
+              ],
+              [
+                50000,
+                0.0015
+              ],
+              [
+                250000,
+                0.001
+              ],
+              [
+                500000,
+                0.0008
+              ],
+              [
+                2500000,
+                6.5e-4
+              ],
+              [
+                10000000,
+                0
+              ],
+              [
+                25000000,
+                0
+              ],
+              [
+                100000000,
+                0
+              ],
+              [
+                250000000,
+                0
+              ],
+              [
+                500000000,
+                0
+              ]
+            ],
+            "taker": [
+              [
+                0,
+                0.005
+              ],
+              [
+                10000,
+                0.004
+              ],
+              [
+                50000,
+                0.0025
+              ],
+              [
+                250000,
+                0.002
+              ],
+              [
+                500000,
+                0.0018
+              ],
+              [
+                2500000,
+                0.001
+              ],
+              [
+                10000000,
+                0.0005
+              ],
+              [
+                25000000,
+                0.0004
+              ],
+              [
+                100000000,
+                3.5e-4
+              ],
+              [
+                250000000,
+                3.1e-4
+              ],
+              [
+                500000000,
+                2.5e-4
+              ]
+            ]
+          },
+          "expiry": "__undefined",
+          "id": "USDS_USD",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -147953,7 +148123,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 607,
+        "sample_count": 608,
         "separator": "_",
         "suffix": null
       },

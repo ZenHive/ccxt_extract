@@ -13,7 +13,7 @@
     "tier": "unclassified",
     "version": "v2"
   },
-  "extracted_at": "2026-04-16T05:20:00.553663Z",
+  "extracted_at": "2026-04-17T03:38:10.088487Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -3064,15 +3064,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "MELANIA",
-            "base_decimals": 4,
+            "base_decimals": 1,
             "counter_currency": "EUR",
-            "counter_decimals": 3,
+            "counter_decimals": 6,
             "description": "Melania Meme / Euro",
             "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 3,
+            "instant_order_counter_decimals": 6,
             "market_symbol": "melaniaeur",
             "market_type": "SPOT",
-            "minimum_order_value": "10.000",
+            "minimum_order_value": "10.000000",
             "name": "MELANIA/EUR",
             "trading": "Enabled"
           },
@@ -3082,8 +3082,8 @@
           "symbol": "MELANIA/EUR",
           "settle": "__undefined",
           "precision": {
-            "amount": 0.0001,
-            "price": 0.001
+            "amount": 0.1,
+            "price": 1.0e-6
           },
           "baseId": "MELANIA",
           "type": "spot",
@@ -6759,15 +6759,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "AVAX",
-            "base_decimals": 8,
+            "base_decimals": 4,
             "counter_currency": "EUR",
-            "counter_decimals": 5,
+            "counter_decimals": 4,
             "description": "Avalanche / Euro",
             "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 5,
+            "instant_order_counter_decimals": 4,
             "market_symbol": "avaxeur",
             "market_type": "SPOT",
-            "minimum_order_value": "10.00000",
+            "minimum_order_value": "10.0000",
             "name": "AVAX/EUR",
             "trading": "Enabled"
           },
@@ -6777,8 +6777,8 @@
           "symbol": "AVAX/EUR",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-8,
-            "price": 1.0e-5
+            "amount": 0.0001,
+            "price": 0.0001
           },
           "baseId": "AVAX",
           "type": "spot",
@@ -7434,15 +7434,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "SUI",
-            "base_decimals": 4,
+            "base_decimals": 3,
             "counter_currency": "EUR",
-            "counter_decimals": 3,
+            "counter_decimals": 5,
             "description": "Sui / Euro",
             "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 3,
+            "instant_order_counter_decimals": 5,
             "market_symbol": "suieur",
             "market_type": "SPOT",
-            "minimum_order_value": "10.000",
+            "minimum_order_value": "10.00000",
             "name": "SUI/EUR",
             "trading": "Enabled"
           },
@@ -7452,8 +7452,8 @@
           "symbol": "SUI/EUR",
           "settle": "__undefined",
           "precision": {
-            "amount": 0.0001,
-            "price": 0.001
+            "amount": 0.001,
+            "price": 1.0e-5
           },
           "baseId": "SUI",
           "type": "spot",
@@ -13787,15 +13787,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "PYTH",
-            "base_decimals": 4,
+            "base_decimals": 1,
             "counter_currency": "EUR",
-            "counter_decimals": 3,
+            "counter_decimals": 6,
             "description": "Pyth Network / Euro",
-            "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 3,
+            "instant_and_market_orders": "Disabled",
+            "instant_order_counter_decimals": 6,
             "market_symbol": "pytheur",
             "market_type": "SPOT",
-            "minimum_order_value": "10.000",
+            "minimum_order_value": "10.000000",
             "name": "PYTH/EUR",
             "trading": "Enabled"
           },
@@ -13805,8 +13805,8 @@
           "symbol": "PYTH/EUR",
           "settle": "__undefined",
           "precision": {
-            "amount": 0.0001,
-            "price": 0.001
+            "amount": 0.1,
+            "price": 1.0e-6
           },
           "baseId": "PYTH",
           "type": "spot",
@@ -15958,15 +15958,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "MELANIA",
-            "base_decimals": 4,
+            "base_decimals": 2,
             "counter_currency": "USD",
-            "counter_decimals": 3,
+            "counter_decimals": 6,
             "description": "Melania Meme / U.S. dollar",
             "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 3,
+            "instant_order_counter_decimals": 6,
             "market_symbol": "melaniausd",
             "market_type": "SPOT",
-            "minimum_order_value": "10.000",
+            "minimum_order_value": "10.000000",
             "name": "MELANIA/USD",
             "trading": "Enabled"
           },
@@ -15976,8 +15976,8 @@
           "symbol": "MELANIA/USD",
           "settle": "__undefined",
           "precision": {
-            "amount": 0.0001,
-            "price": 0.001
+            "amount": 0.01,
+            "price": 1.0e-6
           },
           "baseId": "MELANIA",
           "type": "spot",
@@ -22144,15 +22144,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "PYTH",
-            "base_decimals": 4,
+            "base_decimals": 1,
             "counter_currency": "USD",
-            "counter_decimals": 3,
+            "counter_decimals": 6,
             "description": "Pyth Network / U.S. dollar",
             "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 3,
+            "instant_order_counter_decimals": 6,
             "market_symbol": "pythusd",
             "market_type": "SPOT",
-            "minimum_order_value": "10.000",
+            "minimum_order_value": "10.000000",
             "name": "PYTH/USD",
             "trading": "Enabled"
           },
@@ -22162,8 +22162,8 @@
           "symbol": "PYTH/USD",
           "settle": "__undefined",
           "precision": {
-            "amount": 0.0001,
-            "price": 0.001
+            "amount": 0.1,
+            "price": 1.0e-6
           },
           "baseId": "PYTH",
           "type": "spot",
@@ -24482,15 +24482,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "AVAX",
-            "base_decimals": 8,
+            "base_decimals": 4,
             "counter_currency": "USD",
-            "counter_decimals": 5,
+            "counter_decimals": 4,
             "description": "Avalanche / U.S. dollar",
             "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 5,
+            "instant_order_counter_decimals": 4,
             "market_symbol": "avaxusd",
             "market_type": "SPOT",
-            "minimum_order_value": "10.00000",
+            "minimum_order_value": "10.0000",
             "name": "AVAX/USD",
             "trading": "Enabled"
           },
@@ -24500,8 +24500,8 @@
           "symbol": "AVAX/USD",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-8,
-            "price": 1.0e-5
+            "amount": 0.0001,
+            "price": 0.0001
           },
           "baseId": "AVAX",
           "type": "spot",
@@ -28664,15 +28664,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "LINK",
-            "base_decimals": 8,
+            "base_decimals": 4,
             "counter_currency": "EUR",
-            "counter_decimals": 2,
+            "counter_decimals": 4,
             "description": "Chainlink / Euro",
             "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 2,
+            "instant_order_counter_decimals": 4,
             "market_symbol": "linkeur",
             "market_type": "SPOT",
-            "minimum_order_value": "10.00",
+            "minimum_order_value": "10.0000",
             "name": "LINK/EUR",
             "trading": "Enabled"
           },
@@ -28682,8 +28682,8 @@
           "symbol": "LINK/EUR",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-8,
-            "price": 0.01
+            "amount": 0.0001,
+            "price": 0.0001
           },
           "baseId": "LINK",
           "type": "spot",
@@ -30668,15 +30668,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "LINK",
-            "base_decimals": 8,
+            "base_decimals": 4,
             "counter_currency": "USD",
-            "counter_decimals": 2,
+            "counter_decimals": 4,
             "description": "Chainlink / U.S. dollar",
             "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 2,
+            "instant_order_counter_decimals": 4,
             "market_symbol": "linkusd",
             "market_type": "SPOT",
-            "minimum_order_value": "10.00",
+            "minimum_order_value": "10.0000",
             "name": "LINK/USD",
             "trading": "Enabled"
           },
@@ -30686,8 +30686,8 @@
           "symbol": "LINK/USD",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-8,
-            "price": 0.01
+            "amount": 0.0001,
+            "price": 0.0001
           },
           "baseId": "LINK",
           "type": "spot",
@@ -40869,15 +40869,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "ZETA",
-            "base_decimals": 5,
+            "base_decimals": 1,
             "counter_currency": "EUR",
-            "counter_decimals": 2,
+            "counter_decimals": 6,
             "description": "ZetaChain / Euro",
-            "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 2,
+            "instant_and_market_orders": "Disabled",
+            "instant_order_counter_decimals": 6,
             "market_symbol": "zetaeur",
             "market_type": "SPOT",
-            "minimum_order_value": "10.00",
+            "minimum_order_value": "10.000000",
             "name": "ZETA/EUR",
             "trading": "Enabled"
           },
@@ -40887,8 +40887,8 @@
           "symbol": "ZETA/EUR",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-5,
-            "price": 0.01
+            "amount": 0.1,
+            "price": 1.0e-6
           },
           "baseId": "ZETA",
           "type": "spot",
@@ -43381,15 +43381,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "SUI",
-            "base_decimals": 4,
+            "base_decimals": 3,
             "counter_currency": "USD",
-            "counter_decimals": 3,
+            "counter_decimals": 5,
             "description": "Sui / U.S. dollar",
             "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 3,
+            "instant_order_counter_decimals": 5,
             "market_symbol": "suiusd",
             "market_type": "SPOT",
-            "minimum_order_value": "10.000",
+            "minimum_order_value": "10.00000",
             "name": "SUI/USD",
             "trading": "Enabled"
           },
@@ -43399,8 +43399,8 @@
           "symbol": "SUI/USD",
           "settle": "__undefined",
           "precision": {
-            "amount": 0.0001,
-            "price": 0.001
+            "amount": 0.001,
+            "price": 1.0e-5
           },
           "baseId": "SUI",
           "type": "spot",
@@ -43548,15 +43548,15 @@
           "inverse": "__undefined",
           "info": {
             "base_currency": "ZETA",
-            "base_decimals": 5,
+            "base_decimals": 1,
             "counter_currency": "USD",
-            "counter_decimals": 2,
+            "counter_decimals": 6,
             "description": "ZetaChain / U.S. dollar",
-            "instant_and_market_orders": "Enabled",
-            "instant_order_counter_decimals": 2,
+            "instant_and_market_orders": "Disabled",
+            "instant_order_counter_decimals": 6,
             "market_symbol": "zetausd",
             "market_type": "SPOT",
-            "minimum_order_value": "10.00",
+            "minimum_order_value": "10.000000",
             "name": "ZETA/USD",
             "trading": "Enabled"
           },
@@ -43566,8 +43566,8 @@
           "symbol": "ZETA/USD",
           "settle": "__undefined",
           "precision": {
-            "amount": 1.0e-5,
-            "price": 0.01
+            "amount": 0.1,
+            "price": 1.0e-6
           },
           "baseId": "ZETA",
           "type": "spot",

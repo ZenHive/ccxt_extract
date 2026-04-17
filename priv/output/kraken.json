@@ -13,7 +13,7 @@
     "tier": "tier2",
     "version": "0"
   },
-  "extracted_at": "2026-04-16T10:16:05.340082Z",
+  "extracted_at": "2026-04-17T03:38:10.088487Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -873,7 +873,7 @@
       "version": "0"
     },
     "markets": {
-      "market_count": 1508,
+      "market_count": 1510,
       "markets": {
         "SIGMA/EUR": {
           "spot": true,
@@ -2316,7 +2316,7 @@
               3
             ],
             "leverage_sell": [],
-            "long_position_limit": "500000",
+            "long_position_limit": "440000",
             "lot": "unit5",
             "lot_decimals": "5",
             "lot_multiplier": "1",
@@ -5683,7 +5683,7 @@
             "ordermin": "16",
             "pair_decimals": "10",
             "quote": "XXBT",
-            "short_position_limit": "260000",
+            "short_position_limit": "230000",
             "status": "online",
             "tick_size": "0.0000000001",
             "wsname": "TRX/XBT"
@@ -11440,7 +11440,7 @@
               4,
               5
             ],
-            "long_position_limit": "170000000000",
+            "long_position_limit": "150000000000",
             "lot": "unit5",
             "lot_decimals": "5",
             "lot_multiplier": "1",
@@ -27150,6 +27150,268 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "SIGN/USD": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USD",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.0023,
+          "inverse": "__undefined",
+          "info": {
+            "aclass_base": "currency",
+            "aclass_quote": "currency",
+            "altname": "SIGNUSD",
+            "base": "SIGN",
+            "cost_decimals": "5",
+            "costmin": "0.5",
+            "execution_venue": "international",
+            "fee_volume_currency": "ZUSD",
+            "fees": [
+              [
+                0,
+                0.4
+              ],
+              [
+                10000,
+                0.35
+              ],
+              [
+                50000,
+                0.24
+              ],
+              [
+                100000,
+                0.22
+              ],
+              [
+                250000,
+                0.2
+              ],
+              [
+                500000,
+                0.18
+              ],
+              [
+                1000000,
+                0.16
+              ],
+              [
+                2500000,
+                0.14
+              ],
+              [
+                5000000,
+                0.12
+              ],
+              [
+                10000000,
+                0.1
+              ],
+              [
+                100000000,
+                0.08
+              ],
+              [
+                500000000,
+                0.05
+              ]
+            ],
+            "fees_maker": [
+              [
+                0,
+                0.23
+              ],
+              [
+                10000,
+                0.18
+              ],
+              [
+                50000,
+                0.12
+              ],
+              [
+                100000,
+                0.1
+              ],
+              [
+                250000,
+                0.08
+              ],
+              [
+                500000,
+                0.06
+              ],
+              [
+                1000000,
+                0.04
+              ],
+              [
+                2500000,
+                0.02
+              ],
+              [
+                5000000,
+                0
+              ],
+              [
+                10000000,
+                -0.02
+              ],
+              [
+                100000000,
+                -0.02
+              ],
+              [
+                500000000,
+                -0.02
+              ]
+            ],
+            "leverage_buy": [],
+            "leverage_sell": [],
+            "lot": "unit5",
+            "lot_decimals": "5",
+            "lot_multiplier": "1",
+            "margin_call": "80",
+            "margin_stop": "40",
+            "ordermin": "50",
+            "pair_decimals": "5",
+            "quote": "ZUSD",
+            "status": "post_only",
+            "tick_size": "0.00001",
+            "wsname": "SIGN/USD"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "SIGN/USD",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.0001,
+            "price": 1.0e-5
+          },
+          "baseId": "SIGN",
+          "type": "spot",
+          "wsId": "SIGN/USD",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USD",
+          "expiryDatetime": "__undefined",
+          "base": "SIGN",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 50
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 0.5
+            },
+            "leverage": {
+              "max": 1,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.004,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": false,
+          "altname": "SIGNUSD",
+          "tiers": {
+            "maker": [
+              [
+                0,
+                0.0016
+              ],
+              [
+                50000,
+                0.0014
+              ],
+              [
+                100000,
+                0.0012
+              ],
+              [
+                250000,
+                0.001
+              ],
+              [
+                500000,
+                0.0008
+              ],
+              [
+                1000000,
+                0.0006
+              ],
+              [
+                2500000,
+                0.0004
+              ],
+              [
+                5000000,
+                0.0002
+              ],
+              [
+                10000000,
+                0
+              ]
+            ],
+            "taker": [
+              [
+                0,
+                0.0026
+              ],
+              [
+                50000,
+                0.0024
+              ],
+              [
+                100000,
+                0.0022
+              ],
+              [
+                250000,
+                0.002
+              ],
+              [
+                500000,
+                0.0018
+              ],
+              [
+                1000000,
+                0.0016
+              ],
+              [
+                2500000,
+                0.0014
+              ],
+              [
+                5000000,
+                0.0012
+              ],
+              [
+                10000000,
+                0.0001
+              ]
+            ]
+          },
+          "expiry": "__undefined",
+          "id": "SIGNUSD",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
         "GRT/GBP": {
           "spot": true,
           "contractSize": "__undefined",
@@ -32825,7 +33087,7 @@
             "ordermin": "3.9",
             "pair_decimals": "4",
             "quote": "ZUSD",
-            "short_position_limit": "320000",
+            "short_position_limit": "360000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "DOT/USD"
@@ -33610,7 +33872,7 @@
               2,
               3
             ],
-            "long_position_limit": "100000",
+            "long_position_limit": "120000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -34140,7 +34402,7 @@
             "leverage_sell": [
               2
             ],
-            "long_position_limit": "350000",
+            "long_position_limit": "310000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -34149,7 +34411,7 @@
             "ordermin": "50",
             "pair_decimals": "9",
             "quote": "XXBT",
-            "short_position_limit": "270000",
+            "short_position_limit": "240000",
             "status": "online",
             "tick_size": "0.000000001",
             "wsname": "ALGO/XBT"
@@ -44574,7 +44836,7 @@
               2,
               3
             ],
-            "long_position_limit": "46000",
+            "long_position_limit": "51000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -46185,7 +46447,7 @@
             "ordermin": "0.6",
             "pair_decimals": "2",
             "quote": "ZEUR",
-            "short_position_limit": "17000",
+            "short_position_limit": "15000",
             "status": "online",
             "tick_size": "0.01",
             "wsname": "AVAX/EUR"
@@ -50422,7 +50684,7 @@
               9,
               10
             ],
-            "long_position_limit": "3400000",
+            "long_position_limit": "3800000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -50431,7 +50693,7 @@
             "ordermin": "13",
             "pair_decimals": "5",
             "quote": "USDC",
-            "short_position_limit": "3600000",
+            "short_position_limit": "4000000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "XDG/USDC"
@@ -65306,7 +65568,7 @@
             "ordermin": "0.6",
             "pair_decimals": "3",
             "quote": "ZEUR",
-            "short_position_limit": "7400",
+            "short_position_limit": "6600",
             "status": "online",
             "tick_size": "0.001",
             "wsname": "ETC/EUR"
@@ -68225,7 +68487,7 @@
             "ordermin": "0.55",
             "pair_decimals": "5",
             "quote": "USDT",
-            "short_position_limit": "21000",
+            "short_position_limit": "18000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "LINK/USDT"
@@ -79682,7 +79944,7 @@
             "ordermin": "3.9",
             "pair_decimals": "4",
             "quote": "USDC",
-            "short_position_limit": "16000",
+            "short_position_limit": "18000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "DOT/USDC"
@@ -81262,7 +81524,7 @@
             "ordermin": "250",
             "pair_decimals": "5",
             "quote": "ZEUR",
-            "short_position_limit": "7800",
+            "short_position_limit": "7000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "LRC/EUR"
@@ -90940,7 +91202,7 @@
             "ordermin": "0.002",
             "pair_decimals": "0",
             "quote": "ZUSD",
-            "short_position_limit": "7",
+            "short_position_limit": "8",
             "status": "online",
             "tick_size": "1",
             "wsname": "YFI/USD"
@@ -91431,7 +91693,7 @@
               2,
               3
             ],
-            "long_position_limit": "2700",
+            "long_position_limit": "2400",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -91440,7 +91702,7 @@
             "ordermin": "0.1",
             "pair_decimals": "5",
             "quote": "USDT",
-            "short_position_limit": "2700",
+            "short_position_limit": "2400",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "LTC/USDT"
@@ -96180,7 +96442,7 @@
             "ordermin": "85",
             "pair_decimals": "4",
             "quote": "ZEUR",
-            "short_position_limit": "150000",
+            "short_position_limit": "130000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "KAVA/EUR"
@@ -103032,7 +103294,7 @@
             "ordermin": "20",
             "pair_decimals": "6",
             "quote": "ZEUR",
-            "short_position_limit": "3400000",
+            "short_position_limit": "3800000",
             "status": "online",
             "tick_size": "0.000001",
             "wsname": "ADA/EUR"
@@ -120003,7 +120265,7 @@
               2,
               3
             ],
-            "long_position_limit": "140000",
+            "long_position_limit": "160000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -120012,7 +120274,7 @@
             "ordermin": "35",
             "pair_decimals": "4",
             "quote": "ZUSD",
-            "short_position_limit": "79000",
+            "short_position_limit": "87000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "IMX/USD"
@@ -125737,7 +125999,7 @@
             "ordermin": "0.008",
             "pair_decimals": "2",
             "quote": "ZUSD",
-            "short_position_limit": "700",
+            "short_position_limit": "780",
             "status": "online",
             "tick_size": "0.01",
             "wsname": "BNB/USD"
@@ -135469,7 +135731,7 @@
             "ordermin": "0.15",
             "pair_decimals": "3",
             "quote": "ZEUR",
-            "short_position_limit": "880",
+            "short_position_limit": "970",
             "status": "online",
             "tick_size": "0.001",
             "wsname": "DASH/EUR"
@@ -138496,7 +138758,7 @@
               2,
               3
             ],
-            "long_position_limit": "390000000000",
+            "long_position_limit": "430000000000",
             "lot": "unit5",
             "lot_decimals": "5",
             "lot_multiplier": "1",
@@ -138505,7 +138767,7 @@
             "ordermin": "35000000",
             "pair_decimals": "10",
             "quote": "ZUSD",
-            "short_position_limit": "260000000000",
+            "short_position_limit": "230000000000",
             "status": "online",
             "tick_size": "0.0000000001",
             "wsname": "MOG/USD"
@@ -148977,7 +149239,7 @@
             "ordermin": "0.02",
             "pair_decimals": "2",
             "quote": "USDT",
-            "short_position_limit": "17000",
+            "short_position_limit": "15000",
             "status": "online",
             "tick_size": "0.01",
             "wsname": "SOL/USDT"
@@ -165256,7 +165518,7 @@
               2,
               3
             ],
-            "long_position_limit": "3000",
+            "long_position_limit": "2600",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -166487,7 +166749,7 @@
             "ordermin": "10",
             "pair_decimals": "6",
             "quote": "ZUSD",
-            "short_position_limit": "19000",
+            "short_position_limit": "15000",
             "status": "online",
             "tick_size": "0.000001",
             "wsname": "NANO/USD"
@@ -191099,7 +191361,7 @@
             "ordermin": "100",
             "pair_decimals": "5",
             "quote": "ZUSD",
-            "short_position_limit": "420000",
+            "short_position_limit": "470000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "MOODENG/USD"
@@ -193202,7 +193464,7 @@
               2,
               3
             ],
-            "long_position_limit": "45000000",
+            "long_position_limit": "50000000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -208384,7 +208646,7 @@
             "leverage_sell": [
               2
             ],
-            "long_position_limit": "13000",
+            "long_position_limit": "17000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -208393,7 +208655,7 @@
             "ordermin": "1.7",
             "pair_decimals": "3",
             "quote": "ZEUR",
-            "short_position_limit": "11000",
+            "short_position_limit": "13000",
             "status": "online",
             "tick_size": "0.001",
             "wsname": "INJ/EUR"
@@ -242695,6 +242957,268 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "SIGN/EUR": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "EUR",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.0023,
+          "inverse": "__undefined",
+          "info": {
+            "aclass_base": "currency",
+            "aclass_quote": "currency",
+            "altname": "SIGNEUR",
+            "base": "SIGN",
+            "cost_decimals": "5",
+            "costmin": "0.45",
+            "execution_venue": "international",
+            "fee_volume_currency": "ZUSD",
+            "fees": [
+              [
+                0,
+                0.4
+              ],
+              [
+                10000,
+                0.35
+              ],
+              [
+                50000,
+                0.24
+              ],
+              [
+                100000,
+                0.22
+              ],
+              [
+                250000,
+                0.2
+              ],
+              [
+                500000,
+                0.18
+              ],
+              [
+                1000000,
+                0.16
+              ],
+              [
+                2500000,
+                0.14
+              ],
+              [
+                5000000,
+                0.12
+              ],
+              [
+                10000000,
+                0.1
+              ],
+              [
+                100000000,
+                0.08
+              ],
+              [
+                500000000,
+                0.05
+              ]
+            ],
+            "fees_maker": [
+              [
+                0,
+                0.23
+              ],
+              [
+                10000,
+                0.18
+              ],
+              [
+                50000,
+                0.12
+              ],
+              [
+                100000,
+                0.1
+              ],
+              [
+                250000,
+                0.08
+              ],
+              [
+                500000,
+                0.06
+              ],
+              [
+                1000000,
+                0.04
+              ],
+              [
+                2500000,
+                0.02
+              ],
+              [
+                5000000,
+                0
+              ],
+              [
+                10000000,
+                -0.02
+              ],
+              [
+                100000000,
+                -0.02
+              ],
+              [
+                500000000,
+                -0.02
+              ]
+            ],
+            "leverage_buy": [],
+            "leverage_sell": [],
+            "lot": "unit5",
+            "lot_decimals": "5",
+            "lot_multiplier": "1",
+            "margin_call": "80",
+            "margin_stop": "40",
+            "ordermin": "50",
+            "pair_decimals": "5",
+            "quote": "ZEUR",
+            "status": "post_only",
+            "tick_size": "0.00001",
+            "wsname": "SIGN/EUR"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "SIGN/EUR",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.0001,
+            "price": 1.0e-5
+          },
+          "baseId": "SIGN",
+          "type": "spot",
+          "wsId": "SIGN/EUR",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "EUR",
+          "expiryDatetime": "__undefined",
+          "base": "SIGN",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 50
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 0.45
+            },
+            "leverage": {
+              "max": 1,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.004,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": false,
+          "altname": "SIGNEUR",
+          "tiers": {
+            "maker": [
+              [
+                0,
+                0.0016
+              ],
+              [
+                50000,
+                0.0014
+              ],
+              [
+                100000,
+                0.0012
+              ],
+              [
+                250000,
+                0.001
+              ],
+              [
+                500000,
+                0.0008
+              ],
+              [
+                1000000,
+                0.0006
+              ],
+              [
+                2500000,
+                0.0004
+              ],
+              [
+                5000000,
+                0.0002
+              ],
+              [
+                10000000,
+                0
+              ]
+            ],
+            "taker": [
+              [
+                0,
+                0.0026
+              ],
+              [
+                50000,
+                0.0024
+              ],
+              [
+                100000,
+                0.0022
+              ],
+              [
+                250000,
+                0.002
+              ],
+              [
+                500000,
+                0.0018
+              ],
+              [
+                1000000,
+                0.0016
+              ],
+              [
+                2500000,
+                0.0014
+              ],
+              [
+                5000000,
+                0.0012
+              ],
+              [
+                10000000,
+                0.0001
+              ]
+            ]
+          },
+          "expiry": "__undefined",
+          "id": "SIGNEUR",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
         "STBL/EUR": {
           "spot": true,
           "contractSize": "__undefined",
@@ -257984,7 +258508,7 @@
             "ordermin": "130",
             "pair_decimals": "5",
             "quote": "ZUSD",
-            "short_position_limit": "680000",
+            "short_position_limit": "610000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "STRK/USD"
@@ -258507,7 +259031,7 @@
               2,
               3
             ],
-            "long_position_limit": "430000",
+            "long_position_limit": "480000",
             "lot": "unit5",
             "lot_decimals": "5",
             "lot_multiplier": "1",
@@ -258516,7 +259040,7 @@
             "ordermin": "20",
             "pair_decimals": "5",
             "quote": "ZEUR",
-            "short_position_limit": "380000",
+            "short_position_limit": "420000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "ONDO/EUR"
@@ -262173,7 +262697,7 @@
             "ordermin": "6",
             "pair_decimals": "3",
             "quote": "ZUSD",
-            "short_position_limit": "97000",
+            "short_position_limit": "110000",
             "status": "online",
             "tick_size": "0.001",
             "wsname": "FIL/USD"
@@ -268204,7 +268728,7 @@
               2,
               3
             ],
-            "long_position_limit": "1300000",
+            "long_position_limit": "1100000",
             "lot": "unit5",
             "lot_decimals": "5",
             "lot_multiplier": "1",
@@ -268213,7 +268737,7 @@
             "ordermin": "50",
             "pair_decimals": "5",
             "quote": "ZEUR",
-            "short_position_limit": "980000",
+            "short_position_limit": "880000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "POL/EUR"
@@ -276912,7 +277436,7 @@
               9,
               10
             ],
-            "long_position_limit": "27000",
+            "long_position_limit": "24000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -276921,7 +277445,7 @@
             "ordermin": "0.1",
             "pair_decimals": "2",
             "quote": "ZUSD",
-            "short_position_limit": "23000",
+            "short_position_limit": "20000",
             "status": "online",
             "tick_size": "0.01",
             "wsname": "LTC/USD"
@@ -287939,7 +288463,7 @@
             "ordermin": "1700",
             "pair_decimals": "5",
             "quote": "ZUSD",
-            "short_position_limit": "6300000",
+            "short_position_limit": "5600000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "GALA/USD"
@@ -288735,7 +289259,7 @@
             "ordermin": "150",
             "pair_decimals": "5",
             "quote": "ZUSD",
-            "short_position_limit": "1900000",
+            "short_position_limit": "1700000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "KAS/USD"
@@ -291352,7 +291876,7 @@
               9,
               10
             ],
-            "long_position_limit": "1600000",
+            "long_position_limit": "1400000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -291361,7 +291885,7 @@
             "ordermin": "20",
             "pair_decimals": "6",
             "quote": "USDT",
-            "short_position_limit": "1600000",
+            "short_position_limit": "1400000",
             "status": "online",
             "tick_size": "0.000001",
             "wsname": "ADA/USDT"
@@ -292419,7 +292943,7 @@
             "ordermin": "90",
             "pair_decimals": "4",
             "quote": "ZUSD",
-            "short_position_limit": "880000",
+            "short_position_limit": "790000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "MINA/USD"
@@ -294270,7 +294794,7 @@
             "ordermin": "25",
             "pair_decimals": "4",
             "quote": "ZUSD",
-            "short_position_limit": "1500000",
+            "short_position_limit": "1700000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "CRV/USD"
@@ -295596,7 +296120,7 @@
             "ordermin": "13",
             "pair_decimals": "9",
             "quote": "XXBT",
-            "short_position_limit": "3200000",
+            "short_position_limit": "2800000",
             "status": "online",
             "tick_size": "0.000000001",
             "wsname": "XDG/XBT"
@@ -299512,7 +300036,7 @@
             "ordermin": "5",
             "pair_decimals": "4",
             "quote": "ZGBP",
-            "short_position_limit": "1900000",
+            "short_position_limit": "2100000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "USDC/GBP"
@@ -301861,7 +302385,7 @@
               2,
               3
             ],
-            "long_position_limit": "240000",
+            "long_position_limit": "270000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -328355,7 +328879,7 @@
             "ordermin": "90",
             "pair_decimals": "4",
             "quote": "ZEUR",
-            "short_position_limit": "430000",
+            "short_position_limit": "480000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "MINA/EUR"
@@ -334917,7 +335441,7 @@
             "ordermin": "180000",
             "pair_decimals": "8",
             "quote": "ZUSD",
-            "short_position_limit": "880000000",
+            "short_position_limit": "1100000000",
             "status": "online",
             "tick_size": "0.00000001",
             "wsname": "FLOKI/USD"
@@ -343046,7 +343570,7 @@
             "ordermin": "10",
             "pair_decimals": "6",
             "quote": "ZEUR",
-            "short_position_limit": "4100",
+            "short_position_limit": "3600",
             "status": "online",
             "tick_size": "0.000001",
             "wsname": "NANO/EUR"
@@ -353306,7 +353830,7 @@
             "ordermin": "5",
             "pair_decimals": "5",
             "quote": "ZEUR",
-            "short_position_limit": "56000",
+            "short_position_limit": "50000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "DAI/EUR"
@@ -364354,7 +364878,7 @@
             "ordermin": "170",
             "pair_decimals": "4",
             "quote": "ZUSD",
-            "short_position_limit": "350000",
+            "short_position_limit": "390000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "FLOW/USD"
@@ -373739,7 +374263,7 @@
               2,
               3
             ],
-            "long_position_limit": "1300",
+            "long_position_limit": "1500",
             "lot": "unit5",
             "lot_decimals": "5",
             "lot_multiplier": "1",
@@ -385363,7 +385887,7 @@
               9,
               10
             ],
-            "long_position_limit": "1300000",
+            "long_position_limit": "1100000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -395838,7 +396362,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 1508,
+        "sample_count": 1510,
         "separator": "",
         "suffix": null
       }

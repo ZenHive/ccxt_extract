@@ -13,7 +13,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-16T05:20:00.553663Z",
+  "extracted_at": "2026-04-17T03:38:10.088487Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -47095,14 +47095,14 @@
           "inverse": "__undefined",
           "info": {
             "baseAsset": "BNB",
-            "lotSz": "0.01",
+            "lotSz": "0.001",
             "makerFee": "0.45",
             "orderTypes": [
               "LIMIT",
               "STOP_LOSS_LIMIT"
             ],
             "pricePrecision": "2",
-            "quantityPrecision": "2",
+            "quantityPrecision": "3",
             "quoteAsset": "USDT",
             "status": "Open",
             "symbol": "BNB-USDT",
@@ -47116,7 +47116,7 @@
           "symbol": "BNB/USDT",
           "settle": "__undefined",
           "precision": {
-            "amount": 0.01,
+            "amount": 0.001,
             "price": 0.01
           },
           "baseId": "BNB",

@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-15T12:47:36.224380Z",
+  "extracted_at": "2026-04-17T03:36:21.100181Z",
   "id": "bigone",
-  "market_count": 875,
+  "market_count": 877,
   "markets": {
     "MIRA3L/USDT": {
       "spot": true,
@@ -2591,6 +2591,84 @@
       "uuid": "10a3c082-f25c-42ef-be26-cad45bcb8465",
       "subType": "__undefined"
     },
+    "GENIUS3L/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "base_asset": {
+          "id": "253a0018-3664-4db5-8e1a-862051587988",
+          "name": "GENIUS3L",
+          "symbol": "GENIUS3L"
+        },
+        "base_scale": "2",
+        "id": "c47a2796-5e45-4cbb-96f0-bb3a7467b94c",
+        "max_quote_value": "500000",
+        "min_quote_value": "10",
+        "name": "GENIUS3L-USDT",
+        "quote_asset": {
+          "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
+          "name": "TetherUS",
+          "symbol": "USDT"
+        },
+        "quote_scale": "5"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "GENIUS3L/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 1.0e-5
+      },
+      "baseId": "GENIUS3L",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "GENIUS3L",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": 500000,
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": "__undefined",
+      "id": "GENIUS3L-USDT",
+      "lowercaseId": "__undefined",
+      "uuid": "c47a2796-5e45-4cbb-96f0-bb3a7467b94c",
+      "subType": "__undefined"
+    },
     "ANIME/USDT": {
       "spot": true,
       "contractSize": "__undefined",
@@ -4624,6 +4702,84 @@
       "id": "我踏马来了3L-USDT",
       "lowercaseId": "__undefined",
       "uuid": "21e591a9-cc33-41b0-9c40-4cc942558b6c",
+      "subType": "__undefined"
+    },
+    "GENIUS3S/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": false,
+      "maker": "__undefined",
+      "inverse": "__undefined",
+      "info": {
+        "base_asset": {
+          "id": "d61fcda0-d237-4065-bed6-6956a4827fae",
+          "name": "GENIUS3S",
+          "symbol": "GENIUS3S"
+        },
+        "base_scale": "2",
+        "id": "8fdb31c8-85b9-4e5f-ad62-807cf7b871c9",
+        "max_quote_value": "500000",
+        "min_quote_value": "10",
+        "name": "GENIUS3S-USDT",
+        "quote_asset": {
+          "id": "17082d1c-0195-4fb6-8779-2cdbcb9eeb3c",
+          "name": "TetherUS",
+          "symbol": "USDT"
+        },
+        "quote_scale": "5"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "GENIUS3S/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 1.0e-5
+      },
+      "baseId": "GENIUS3S",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "GENIUS3S",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": 500000,
+          "min": 10
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": "__undefined",
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": "__undefined",
+      "id": "GENIUS3S-USDT",
+      "lowercaseId": "__undefined",
+      "uuid": "8fdb31c8-85b9-4e5f-ad62-807cf7b871c9",
       "subType": "__undefined"
     },
     "GIGGLE3S/USDT": {

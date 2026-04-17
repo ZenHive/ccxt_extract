@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": null
   },
-  "extracted_at": "2026-04-16T05:20:00.553663Z",
+  "extracted_at": "2026-04-17T03:38:10.088487Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -797,7 +797,7 @@
       }
     },
     "markets": {
-      "market_count": 933,
+      "market_count": 934,
       "markets": {
         "ANON/USDT": {
           "spot": true,
@@ -4881,6 +4881,91 @@
           "active": true,
           "expiry": "__undefined",
           "id": "BAR_USDT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "BRENT/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0009,
+          "inverse": "__undefined",
+          "feeSide": "get",
+          "info": {
+            "baseCurrencyName": "BRENT",
+            "crossMargin": {
+              "maxLeverage": 1,
+              "supportCrossMargin": false
+            },
+            "displayName": "BRENT/USDT",
+            "quoteCurrencyName": "USDT",
+            "state": "NORMAL",
+            "symbol": "BRENT_USDT",
+            "symbolTradeLimit": {
+              "amountScale": 6,
+              "highestBid": "0",
+              "lowestAsk": "0",
+              "maxAmount": "0",
+              "maxQuantity": "0",
+              "minAmount": "1",
+              "minQuantity": "0.01",
+              "priceScale": 6,
+              "quantityScale": 2,
+              "symbol": "BRENT_USDT"
+            },
+            "tradableStartTime": 1776330000000,
+            "visibleStartTime": 1776265200000
+          },
+          "created": 1776330000000,
+          "option": false,
+          "future": false,
+          "symbol": "BRENT/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-6
+          },
+          "baseId": "BRENT",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "BRENT",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 0.01
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 1
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0009,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "BRENT_USDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -80227,7 +80312,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 920,
+        "sample_count": 921,
         "separator": "_",
         "suffix": null
       },

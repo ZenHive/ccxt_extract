@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-15T12:47:36.224380Z",
+  "extracted_at": "2026-04-17T03:36:21.100181Z",
   "id": "ascendex",
   "market_count": 1220,
   "markets": {
@@ -40643,7 +40643,7 @@
       "feeSide": "get",
       "info": {
         "baseAsset": "ME",
-        "collapseDecimals": "0.1,0.01,0.001",
+        "collapseDecimals": "1,0.01,0.0001",
         "commissionReserveRate": "0.002",
         "commissionType": "Quote",
         "displayName": "ME/USDT",
@@ -40655,14 +40655,14 @@
         "minNotional": "5",
         "minQty": "0.000000001",
         "notionalScale": "4",
-        "priceScale": "3",
+        "priceScale": "4",
         "qtyScale": "1",
         "quoteAsset": "USDT",
         "status": "Normal",
         "statusCode": "Normal",
         "statusMessage": "",
         "symbol": "ME/USDT",
-        "tickSize": "0.001",
+        "tickSize": "0.0001",
         "tradingStartTime": "1733843400000",
         "useLot": false,
         "useTick": false
@@ -40674,7 +40674,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 0.001
+        "price": 0.0001
       },
       "baseId": "ME",
       "type": "spot",
@@ -40703,7 +40703,7 @@
         },
         "price": {
           "max": "__undefined",
-          "min": 0.001
+          "min": 0.0001
         }
       },
       "taker": 0.002,
@@ -45333,7 +45333,7 @@
       "feeSide": "get",
       "info": {
         "baseAsset": "DOGS",
-        "collapseDecimals": "0.01,0.0001,0.000001",
+        "collapseDecimals": "0.001,0.00001,0.0000001",
         "commissionReserveRate": "0.004",
         "commissionType": "Quote",
         "displayName": "DOGS/USDT",
@@ -45345,14 +45345,14 @@
         "minNotional": "5",
         "minQty": "0.000000001",
         "notionalScale": "4",
-        "priceScale": "6",
+        "priceScale": "7",
         "qtyScale": "0",
         "quoteAsset": "USDT",
         "status": "Normal",
         "statusCode": "Normal",
         "statusMessage": "",
         "symbol": "DOGS/USDT",
-        "tickSize": "0.000001",
+        "tickSize": "0.0000001",
         "tradingStartTime": "1724674200000",
         "useLot": false,
         "useTick": false
@@ -45364,7 +45364,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 1,
-        "price": 1.0e-6
+        "price": 1.0e-7
       },
       "baseId": "DOGS",
       "type": "spot",
@@ -45393,7 +45393,7 @@
         },
         "price": {
           "max": "__undefined",
-          "min": 1.0e-6
+          "min": 1.0e-7
         }
       },
       "taker": 0.004,
@@ -51379,7 +51379,7 @@
       "feeSide": "get",
       "info": {
         "baseAsset": "IO",
-        "collapseDecimals": "0.1,0.01,0.001",
+        "collapseDecimals": "1,0.01,0.0001",
         "commissionReserveRate": "0.002",
         "commissionType": "Quote",
         "displayName": "IO/USDT",
@@ -51391,14 +51391,14 @@
         "minNotional": "5",
         "minQty": "0.000000001",
         "notionalScale": "4",
-        "priceScale": "3",
+        "priceScale": "4",
         "qtyScale": "1",
         "quoteAsset": "USDT",
         "status": "Normal",
         "statusCode": "Normal",
         "statusMessage": "",
         "symbol": "IO/USDT",
-        "tickSize": "0.001",
+        "tickSize": "0.0001",
         "tradingStartTime": "1718107800000",
         "useLot": false,
         "useTick": false
@@ -51410,7 +51410,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 0.001
+        "price": 0.0001
       },
       "baseId": "IO",
       "type": "spot",
@@ -51439,7 +51439,7 @@
         },
         "price": {
           "max": "__undefined",
-          "min": 0.001
+          "min": 0.0001
         }
       },
       "taker": 0.002,
@@ -69120,7 +69120,7 @@
       "feeSide": "get",
       "info": {
         "baseAsset": "AXS",
-        "collapseDecimals": "1,0.1,0.01",
+        "collapseDecimals": "0.1,0.01,0.001",
         "commissionReserveRate": "0.002",
         "commissionType": "Quote",
         "displayName": "AXS/USDT",
@@ -69132,14 +69132,14 @@
         "minNotional": "5",
         "minQty": "0.000000001",
         "notionalScale": "4",
-        "priceScale": "2",
+        "priceScale": "3",
         "qtyScale": "3",
         "quoteAsset": "USDT",
         "status": "Normal",
         "statusCode": "Normal",
         "statusMessage": "",
         "symbol": "AXS/USDT",
-        "tickSize": "0.01",
+        "tickSize": "0.001",
         "tradingStartTime": "1635541200000",
         "useLot": false,
         "useTick": false
@@ -69151,7 +69151,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.001,
-        "price": 0.01
+        "price": 0.001
       },
       "baseId": "AXS",
       "type": "spot",
@@ -69180,7 +69180,7 @@
         },
         "price": {
           "max": "__undefined",
-          "min": 0.01
+          "min": 0.001
         }
       },
       "taker": 0.002,
@@ -91511,7 +91511,7 @@
       "feeSide": "get",
       "info": {
         "baseAsset": "TNSR",
-        "collapseDecimals": "0.1,0.01,0.001",
+        "collapseDecimals": "1,0.01,0.0001",
         "commissionReserveRate": "0.002",
         "commissionType": "Quote",
         "displayName": "TNSR/USDT",
@@ -91523,14 +91523,14 @@
         "minNotional": "5",
         "minQty": "0.000000001",
         "notionalScale": "4",
-        "priceScale": "3",
+        "priceScale": "4",
         "qtyScale": "1",
         "quoteAsset": "USDT",
         "status": "Normal",
         "statusCode": "Normal",
         "statusMessage": "",
         "symbol": "TNSR/USDT",
-        "tickSize": "0.001",
+        "tickSize": "0.0001",
         "tradingStartTime": "1712592000000",
         "useLot": false,
         "useTick": false
@@ -91542,7 +91542,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 0.001
+        "price": 0.0001
       },
       "baseId": "TNSR",
       "type": "spot",
@@ -91571,7 +91571,7 @@
         },
         "price": {
           "max": "__undefined",
-          "min": 0.001
+          "min": 0.0001
         }
       },
       "taker": 0.002,

@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-15T12:47:36.224380Z",
+  "extracted_at": "2026-04-17T03:36:21.100181Z",
   "id": "blofin",
-  "market_count": 501,
+  "market_count": 503,
   "markets": {
     "LAYER/USDT:USDT": {
       "spot": false,
@@ -6511,7 +6511,7 @@
         "thresholdX": "0.06",
         "thresholdY": "0.06",
         "thresholdZ": "0.3",
-        "tickSize": "0.001"
+        "tickSize": "0.0001"
       },
       "created": 1697617800000,
       "option": false,
@@ -6520,7 +6520,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.001
+        "price": 0.0001
       },
       "baseId": "ALICE",
       "type": "swap",
@@ -20911,7 +20911,7 @@
         "thresholdX": "0.06",
         "thresholdY": "0.06",
         "thresholdZ": "0.3",
-        "tickSize": "0.0001"
+        "tickSize": "0.00001"
       },
       "created": 1692001805000,
       "option": false,
@@ -20920,7 +20920,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 0.1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "OGN",
       "type": "swap",
@@ -21200,6 +21200,86 @@
       "active": true,
       "expiry": "__undefined",
       "id": "ID-USDT",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "CHIP/USDT:USDT": {
+      "spot": false,
+      "contractSize": 10,
+      "linear": true,
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0002,
+      "inverse": false,
+      "info": {
+        "baseCurrency": "CHIP",
+        "contractType": "linear",
+        "contractValue": "10",
+        "expireTime": "4878180000000",
+        "instId": "CHIP-USDT",
+        "instType": "SWAP",
+        "listTime": "1776324600000",
+        "lotSize": "1",
+        "maxLeverage": "5",
+        "maxLimitSize": "4000000",
+        "maxMarketSize": "400000",
+        "minSize": "1",
+        "quoteCurrency": "USDT",
+        "settleCurrency": "USDT",
+        "state": "live",
+        "thresholdX": "0.04",
+        "thresholdY": "0.15",
+        "thresholdZ": "0.15",
+        "tickSize": "0.00001"
+      },
+      "created": 1776324600000,
+      "option": false,
+      "future": false,
+      "symbol": "CHIP/USDT:USDT",
+      "settle": "USDT",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-5
+      },
+      "baseId": "CHIP",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDT",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "CHIP",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 5,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0006,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": "__undefined",
+      "id": "CHIP-USDT",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -26191,7 +26271,7 @@
         "thresholdX": "0.06",
         "thresholdY": "0.06",
         "thresholdZ": "0.3",
-        "tickSize": "0.000001"
+        "tickSize": "0.0000001"
       },
       "created": 1697617800000,
       "option": false,
@@ -26200,7 +26280,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 1.0e-6
+        "price": 1.0e-7
       },
       "baseId": "DENT",
       "type": "swap",
@@ -26511,7 +26591,7 @@
         "thresholdX": "0.04",
         "thresholdY": "0.04",
         "thresholdZ": "0.15",
-        "tickSize": "0.001"
+        "tickSize": "0.0001"
       },
       "created": 1673517600000,
       "option": false,
@@ -26520,7 +26600,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.001
+        "price": 0.0001
       },
       "baseId": "DYDX",
       "type": "swap",
@@ -28831,7 +28911,7 @@
         "thresholdX": "0.06",
         "thresholdY": "0.1",
         "thresholdZ": "0.15",
-        "tickSize": "0.0001"
+        "tickSize": "0.00001"
       },
       "created": 1697617800000,
       "option": false,
@@ -28840,7 +28920,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "CHR",
       "type": "swap",
@@ -37603,6 +37683,86 @@
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
+    "GENIUS/USDT:USDT": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USDT",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0002,
+      "inverse": false,
+      "info": {
+        "baseCurrency": "GENIUS",
+        "contractType": "linear",
+        "contractValue": "1",
+        "expireTime": "4878180000000",
+        "instId": "GENIUS-USDT",
+        "instType": "SWAP",
+        "listTime": "1776311100000",
+        "lotSize": "1",
+        "maxLeverage": "20",
+        "maxLimitSize": "1500000",
+        "maxMarketSize": "150000",
+        "minSize": "1",
+        "quoteCurrency": "USDT",
+        "settleCurrency": "USDT",
+        "state": "live",
+        "thresholdX": "0.04",
+        "thresholdY": "0.15",
+        "thresholdZ": "0.15",
+        "tickSize": "0.0001"
+      },
+      "created": 1776311100000,
+      "option": false,
+      "future": false,
+      "symbol": "GENIUS/USDT:USDT",
+      "settle": "USDT",
+      "precision": {
+        "amount": 1,
+        "price": 0.0001
+      },
+      "baseId": "GENIUS",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDT",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "GENIUS",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 20,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0006,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "expiry": "__undefined",
+      "id": "GENIUS-USDT",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "ETH/USDT:USDT": {
       "spot": false,
       "contractSize": 0.01,
@@ -39229,7 +39389,7 @@
         "settleCurrency": "USDT",
         "state": "live",
         "thresholdX": "0.06",
-        "thresholdY": "0.06",
+        "thresholdY": "0.1",
         "thresholdZ": "0.3",
         "tickSize": "0.00001"
       },

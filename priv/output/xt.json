@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": "v4"
   },
-  "extracted_at": "2026-04-16T05:20:00.553663Z",
+  "extracted_at": "2026-04-17T03:38:10.088487Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -1181,7 +1181,7 @@
       "version": "v4"
     },
     "markets": {
-      "market_count": 2772,
+      "market_count": 2763,
       "markets": {
         "TIA3L/USDT": {
           "spot": true,
@@ -8805,7 +8805,9 @@
             "depthPrecisionMerge": "5",
             "onboardDate": "1735977600000",
             "supportEntrustType": "TAKE_PROFIT,STOP,TAKE_PROFIT_MARKET,STOP_MARKET,TRAILING_STOP_MARKET",
-            "labels": [],
+            "labels": [
+              "HOT"
+            ],
             "displaySwitch": true,
             "initPositionType": "CROSSED",
             "state": "0",
@@ -14521,6 +14523,10 @@
               },
               {
                 "chainId": "2245",
+                "contract": ""
+              },
+              {
+                "chainId": "2395",
                 "contract": ""
               }
             ],
@@ -33242,7 +33248,7 @@
             "initLeverage": "10",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-14T22:05:01",
+            "updatedTime": "2026-04-16T22:05:02",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -33265,7 +33271,7 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "1172",
             "minPrice": "0",
-            "nextOpenTime": "1776204300000",
+            "nextOpenTime": "1776377100000",
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
@@ -33584,136 +33590,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "rlc_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "OXT/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "oxt",
-            "baseCurrencyId": "758",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/68607d4e-7945-448c-82d2-6fdf9dfa1cef-1719458436125.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [
-              {
-                "chainId": "5",
-                "contract": "0x4575f41308EC1483f3d399aa9a2826d74Da13Deb"
-              }
-            ],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "OXT/USDT",
-            "displayWeight": "1000",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "PROTECTION_MARKET",
-                "maxDeviation": "0.1"
-              },
-              {
-                "durationSeconds": "300",
-                "filter": "PROTECTION_ONLINE",
-                "maxPriceMultiple": "10"
-              },
-              {
-                "filter": "QUOTE_QTY",
-                "min": "5"
-              }
-            ],
-            "id": "7319",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "plates": [
-              283,
-              3,
-              213
-            ],
-            "pricePrecision": "4",
-            "quantityPrecision": "0",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1719471600000",
-            "symbol": "oxt_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [
-              "GTC",
-              "IOC"
-            ],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "OXT/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 1,
-            "base": "__undefined",
-            "price": 0.0001,
-            "quote": "__undefined"
-          },
-          "baseId": "oxt",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "OXT",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "oxt_usdt",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -68052,7 +67928,7 @@
             "initLeverage": "50",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-14T22:05:02",
+            "updatedTime": "2026-04-16T22:05:03",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -68075,7 +67951,7 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "1063",
             "minPrice": "0",
-            "nextOpenTime": "1776204300000",
+            "nextOpenTime": "1776377100000",
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
@@ -76761,7 +76637,7 @@
           "inverse": false,
           "info": {
             "cnName": "COSTUSDT",
-            "openSwitch": false,
+            "openSwitch": true,
             "minQty": "1",
             "contractSize": "0.01",
             "curMaxLeverage": null,
@@ -76806,7 +76682,7 @@
             "initLeverage": "10",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-15T10:33:04",
+            "updatedTime": "2026-04-15T15:05:41",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -76839,7 +76715,7 @@
             "quoteCoinDisplayPrecision": "4",
             "baseCoinDisplayPrecision": "2",
             "riskNominalValueCoefficient": "1.00",
-            "tradeSwitch": false,
+            "tradeSwitch": true,
             "minTrackCallbackRate": "0.001",
             "maxTrackCallbackRate": "0.1",
             "marketCloseTakeBound": "0.050000000000000000",
@@ -80706,6 +80582,10 @@
               },
               {
                 "chainId": "2245",
+                "contract": ""
+              },
+              {
+                "chainId": "2395",
                 "contract": ""
               }
             ],
@@ -86442,113 +86322,6 @@
           "active": false,
           "expiry": "__undefined",
           "id": "lbai_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "CLO3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "clo3s",
-            "baseCurrencyId": "5141",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/7ce9bc5b-4826-412d-9e6a-146a0389d092-1767938519989.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "CLO3S/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "11722",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": false,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1767949200000",
-            "symbol": "clo3s_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "CLO3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "clo3s",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "CLO3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": false,
-          "expiry": "__undefined",
-          "id": "clo3s_usdt",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -92571,7 +92344,7 @@
             "initLeverage": "8",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-15T09:00:02",
+            "updatedTime": "2026-04-17T01:00:02",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -92594,7 +92367,7 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "752",
             "minPrice": "0",
-            "nextOpenTime": "1776243600000",
+            "nextOpenTime": "1776387600000",
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
@@ -96931,7 +96704,7 @@
             "initLeverage": "10",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-14T22:05:01",
+            "updatedTime": "2026-04-16T22:05:01",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -96954,7 +96727,7 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "1174",
             "minPrice": "0",
-            "nextOpenTime": "1776204300000",
+            "nextOpenTime": "1776377100000",
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
@@ -125143,7 +124916,7 @@
             "initLeverage": "10",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-14T22:05:01",
+            "updatedTime": "2026-04-16T22:05:01",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -125166,7 +124939,7 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "1173",
             "minPrice": "0",
-            "nextOpenTime": "1776204300000",
+            "nextOpenTime": "1776377100000",
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
@@ -128483,7 +128256,7 @@
             "openSwitch": true,
             "minQty": "1",
             "contractSize": "10",
-            "curMaxLeverage": null,
+            "curMaxLeverage": "5",
             "productType": "perpetual",
             "underlyingType": "U_BASED",
             "pricePrecision": "4",
@@ -128512,13 +128285,13 @@
             "symbolId": "922",
             "plates": [],
             "isOpenApi": true,
-            "riskExpireTime": null,
+            "riskExpireTime": "1776373413982",
             "predictEventType": null,
             "enDesc": null,
-            "initLeverage": "10",
+            "initLeverage": "5",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2025-06-28T13:28:32",
+            "updatedTime": "2026-04-16T20:03:34",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -128547,7 +128320,7 @@
             "offTime": null,
             "quoteCoinDisplayPrecision": "4",
             "baseCoinDisplayPrecision": "4",
-            "riskNominalValueCoefficient": "1.00",
+            "riskNominalValueCoefficient": "0.10",
             "tradeSwitch": true,
             "minTrackCallbackRate": "0.001",
             "maxTrackCallbackRate": "0.1",
@@ -130628,129 +130401,6 @@
           "id": "yala_usdt",
           "lowercaseId": "__undefined",
           "subType": "linear"
-        },
-        "COMMON/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "common",
-            "baseCurrencyId": "4807",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/1d541501-2364-4bd1-b791-30d24bdd5a6f-1761558548831.jpg",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [
-              {
-                "chainId": "2225",
-                "contract": "0x4c87da04887a1F9F21F777E3A8dD55C3C9f84701"
-              }
-            ],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "COMMON/USDT",
-            "displayWeight": "2001",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "PROTECTION_MARKET",
-                "maxDeviation": "0.1"
-              },
-              {
-                "durationSeconds": "300",
-                "filter": "PROTECTION_ONLINE",
-                "maxPriceMultiple": "10"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "5"
-              }
-            ],
-            "id": "11385",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [
-              3
-            ],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1761570000000",
-            "symbol": "common_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "COMMON/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "common",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "COMMON",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "common_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
         },
         "DOGE3L/USDT": {
           "spot": true,
@@ -137032,7 +136682,7 @@
           "inverse": false,
           "info": {
             "cnName": "MSFTUSDT",
-            "openSwitch": false,
+            "openSwitch": true,
             "minQty": "1",
             "contractSize": "0.01",
             "curMaxLeverage": null,
@@ -137077,7 +136727,7 @@
             "initLeverage": "10",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-15T10:33:06",
+            "updatedTime": "2026-04-15T15:05:25",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -137110,7 +136760,7 @@
             "quoteCoinDisplayPrecision": "4",
             "baseCoinDisplayPrecision": "2",
             "riskNominalValueCoefficient": "1.00",
-            "tradeSwitch": false,
+            "tradeSwitch": true,
             "minTrackCallbackRate": "0.001",
             "maxTrackCallbackRate": "0.1",
             "marketCloseTakeBound": "0.050000000000000000",
@@ -148368,113 +148018,6 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
-        "W3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "w3s",
-            "baseCurrencyId": "3370",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/afd3e378-34bd-4244-9f9b-3e4a95fe0f05-1718847742935.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "W3S/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "10044",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1718870400000",
-            "symbol": "w3s_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "W3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "w3s",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "W3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "w3s_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "MTL/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -148761,7 +148304,7 @@
             "initLeverage": "20",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-14T22:05:04",
+            "updatedTime": "2026-04-16T22:05:04",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -148784,7 +148327,7 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "1068",
             "minPrice": "0",
-            "nextOpenTime": "1776204300000",
+            "nextOpenTime": "1776377100000",
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
@@ -150286,8 +149829,8 @@
             ],
             "id": "11890",
             "makerFeeRate": "0.002",
-            "nextState": "ONLINE",
-            "nextStateTime": "1776312000000",
+            "nextState": null,
+            "nextStateTime": null,
             "openapiEnabled": false,
             "orderTypes": [],
             "plates": [
@@ -150299,8 +149842,8 @@
             "quoteCurrency": "usdt",
             "quoteCurrencyId": "11",
             "quoteCurrencyPrecision": "8",
-            "state": "OFFLINE",
-            "stateTime": null,
+            "state": "ONLINE",
+            "stateTime": "1776312000000",
             "symbol": "edlb_usdt",
             "tags": [],
             "takerFeeRate": "0.002",
@@ -152525,6 +152068,10 @@
               },
               {
                 "chainId": "2245",
+                "contract": ""
+              },
+              {
+                "chainId": "2395",
                 "contract": ""
               }
             ],
@@ -159568,6 +159115,10 @@
               {
                 "chainId": "2245",
                 "contract": ""
+              },
+              {
+                "chainId": "2395",
+                "contract": ""
               }
             ],
             "depthMergePrecision": "5",
@@ -163786,130 +163337,6 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
-        "ESQE/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "esqe",
-            "baseCurrencyId": "4915",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/a5e0e340-9e20-4f2f-8df7-5e72b2d89854-1764056919020.jpg",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [
-              {
-                "chainId": "715",
-                "contract": "0xE1E93E92C0c2Aff2dC4D7d4A8b250d973cAd4444"
-              }
-            ],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "ESQE/USDT",
-            "displayWeight": "1000",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "PROTECTION_MARKET",
-                "maxDeviation": "0.1"
-              },
-              {
-                "durationSeconds": "300",
-                "filter": "PROTECTION_ONLINE",
-                "maxPriceMultiple": "10"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "5"
-              }
-            ],
-            "id": "11505",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": false,
-            "orderTypes": [],
-            "plates": [
-              285,
-              3
-            ],
-            "pricePrecision": "7",
-            "quantityPrecision": "1",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1764061200000",
-            "symbol": "esqe_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "ESQE/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.1,
-            "base": "__undefined",
-            "price": 1.0e-7,
-            "quote": "__undefined"
-          },
-          "baseId": "esqe",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "ESQE",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": false,
-          "expiry": "__undefined",
-          "id": "esqe_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "GORK/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -165641,7 +165068,9 @@
             "depthPrecisionMerge": "5",
             "onboardDate": "1687248000000",
             "supportEntrustType": "TAKE_PROFIT,STOP,TAKE_PROFIT_MARKET,STOP_MARKET,TRAILING_STOP_MARKET",
-            "labels": [],
+            "labels": [
+              "HOT"
+            ],
             "displaySwitch": true,
             "initPositionType": "CROSSED",
             "state": "0",
@@ -176918,98 +176347,122 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "MDT/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
+        "NFLX/USDT:USDT": {
+          "spot": false,
+          "contractSize": 0.001,
+          "linear": true,
           "quoteId": "usdt",
           "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
           "info": {
-            "baseCurrency": "mdt",
-            "baseCurrencyId": "1383",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/mdt.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [
-              {
-                "chainId": "5",
-                "contract": "0x814e0908b12a99fecf5bc101bb5d0b8b5cdf7d26"
-              }
+            "cnName": "NFLXUSDT",
+            "openSwitch": true,
+            "minQty": "1",
+            "contractSize": "0.001",
+            "curMaxLeverage": null,
+            "productType": "perpetual",
+            "underlyingType": "U_BASED",
+            "pricePrecision": "2",
+            "fastTrackCallbackRate1": "0.01",
+            "maxOpenOrders": "200",
+            "makerFee": "0.0002",
+            "multiplierUp": "0.1",
+            "enRemark": null,
+            "baseCoinPrecision": "8",
+            "isDisplay": true,
+            "marketTakeBound": "0.001",
+            "enName": "NFLXUSDT",
+            "fastTrackCallbackRate2": "0.02",
+            "symbolGroupId": "31",
+            "takerFee": "0.0006",
+            "tags": [
+              "STOCK"
             ],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "MDT/USDT",
-            "displayWeight": "1000",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "PROTECTION_MARKET",
-                "maxDeviation": "0.1"
-              },
-              {
-                "filter": "QUOTE_QTY",
-                "min": "5"
-              }
-            ],
-            "id": "7900",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
+            "supportTimeInForce": "GTC,FOK,IOC,GTX",
+            "deliveryCompletion": false,
+            "minNotional": "5",
+            "supportPositionType": "CROSSED,ISOLATED",
+            "baseCoin": "nflx",
+            "contractType": "PERPETUAL",
+            "deliveryPrice": null,
+            "symbol": "nflx_usdt",
+            "marketOpenTakeBound": "0.050000000000000000",
+            "symbolId": "1259",
             "plates": [
-              283,
-              228,
-              3
+              22,
+              31,
+              35,
+              2
             ],
-            "pricePrecision": "5",
-            "quantityPrecision": "1",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1708423200000",
-            "symbol": "mdt_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [
-              "GTC",
-              "IOC"
+            "isOpenApi": false,
+            "riskExpireTime": null,
+            "predictEventType": null,
+            "enDesc": null,
+            "initLeverage": "10",
+            "businessNameI18n": null,
+            "multiplierDown": "0.1",
+            "updatedTime": "2026-04-16T15:00:27",
+            "quantityPrecision": "0",
+            "thanosSwitch": true,
+            "cnRemark": null,
+            "maxNotional": "100000",
+            "quoteCoin": "usdt",
+            "quoteCoinPrecision": "8",
+            "minStepPrice": "0.01",
+            "cnDesc": null,
+            "maxPrice": "1",
+            "predictEventParam": null,
+            "depthPrecisionMerge": "5",
+            "onboardDate": "1776351601000",
+            "supportEntrustType": "TAKE_PROFIT,STOP,TAKE_PROFIT_MARKET,STOP_MARKET,TRAILING_STOP_MARKET",
+            "labels": [
+              "NEW",
+              "STOCK"
             ],
-            "tradingEnabled": true,
-            "type": "normal"
+            "displaySwitch": true,
+            "initPositionType": "CROSSED",
+            "state": "0",
+            "supportOrderType": "LIMIT,MARKET",
+            "id": "1259",
+            "minPrice": "0",
+            "nextOpenTime": null,
+            "maxEntrusts": "100",
+            "deliveryDate": null,
+            "liquidationFee": "0.01",
+            "pair": "nflx_usdt",
+            "offTime": null,
+            "quoteCoinDisplayPrecision": "4",
+            "baseCoinDisplayPrecision": "2",
+            "riskNominalValueCoefficient": "1.00",
+            "tradeSwitch": true,
+            "minTrackCallbackRate": "0.001",
+            "maxTrackCallbackRate": "0.1",
+            "marketCloseTakeBound": "0.050000000000000000",
+            "latestPriceDeviation": "0.0500",
+            "predictEventSort": null,
+            "spotCoin": "nflxon"
           },
           "created": "__undefined",
           "option": false,
           "future": false,
-          "symbol": "MDT/USDT",
-          "settle": "__undefined",
+          "symbol": "NFLX/USDT:USDT",
+          "settle": "USDT",
           "precision": {
-            "amount": 0.1,
-            "base": "__undefined",
-            "price": 1.0e-5,
-            "quote": "__undefined"
+            "amount": 1,
+            "base": 1.0e-8,
+            "price": 0.01,
+            "quote": 1.0e-8
           },
-          "baseId": "mdt",
-          "type": "spot",
+          "baseId": "nflx",
+          "type": "swap",
           "strike": "__undefined",
-          "settleId": "__undefined",
+          "settleId": "nflx",
           "quote": "USDT",
           "expiryDatetime": "__undefined",
-          "base": "MDT",
-          "swap": false,
+          "base": "NFLX",
+          "swap": true,
           "marginModes": {
             "cross": "__undefined",
             "isolated": "__undefined"
@@ -177017,10 +176470,10 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": "__undefined"
+              "min": 1
             },
             "cost": {
-              "max": "__undefined",
+              "max": 100000,
               "min": 5
             },
             "leverage": {
@@ -177028,20 +176481,20 @@
               "min": 1
             },
             "price": {
-              "max": "__undefined",
-              "min": "__undefined"
+              "max": 1,
+              "min": 0
             }
           },
-          "taker": "__undefined",
+          "taker": 0.0006,
           "optionType": "__undefined",
           "margin": "__undefined",
-          "contract": false,
+          "contract": true,
           "percentage": "__undefined",
-          "active": true,
+          "active": false,
           "expiry": "__undefined",
-          "id": "mdt_usdt",
+          "id": "nflx_usdt",
           "lowercaseId": "__undefined",
-          "subType": "__undefined"
+          "subType": "linear"
         },
         "AVICI/USDT": {
           "spot": true,
@@ -185855,6 +185308,10 @@
               },
               {
                 "chainId": "2245",
+                "contract": ""
+              },
+              {
+                "chainId": "2395",
                 "contract": ""
               }
             ],
@@ -196095,130 +195552,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "bnb3s_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "BUCK/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "buck",
-            "baseCurrencyId": "3818",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/53cd2add-a1f0-44b2-b852-a60c74b4a700-1731902005351.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [
-              {
-                "chainId": "941",
-                "contract": "FLqmVrv6cp7icjobpRMQJMEyjF3kF84QmC4HXpySpump"
-              }
-            ],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "BUCK/USDT",
-            "displayWeight": "1128",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "PROTECTION_MARKET",
-                "maxDeviation": "0.1"
-              },
-              {
-                "durationSeconds": "300",
-                "filter": "PROTECTION_ONLINE",
-                "maxPriceMultiple": "10"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "5"
-              }
-            ],
-            "id": "10438",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": false,
-            "orderTypes": [],
-            "plates": [
-              140,
-              3
-            ],
-            "pricePrecision": "7",
-            "quantityPrecision": "1",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1731909600000",
-            "symbol": "buck_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "BUCK/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.1,
-            "base": "__undefined",
-            "price": 1.0e-7,
-            "quote": "__undefined"
-          },
-          "baseId": "buck",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "BUCK",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": false,
-          "expiry": "__undefined",
-          "id": "buck_usdt",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -208996,7 +208329,7 @@
           "inverse": false,
           "info": {
             "cnName": "AMDUSDT",
-            "openSwitch": false,
+            "openSwitch": true,
             "minQty": "1",
             "contractSize": "0.01",
             "curMaxLeverage": null,
@@ -209041,7 +208374,7 @@
             "initLeverage": "10",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-15T10:33:09",
+            "updatedTime": "2026-04-15T15:05:20",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -209074,7 +208407,7 @@
             "quoteCoinDisplayPrecision": "4",
             "baseCoinDisplayPrecision": "2",
             "riskNominalValueCoefficient": "1.00",
-            "tradeSwitch": false,
+            "tradeSwitch": true,
             "minTrackCallbackRate": "0.001",
             "maxTrackCallbackRate": "0.1",
             "marketCloseTakeBound": "0.050000000000000000",
@@ -216615,6 +215948,155 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "LLY/USDT:USDT": {
+          "spot": false,
+          "contractSize": 0.01,
+          "linear": true,
+          "quoteId": "usdt",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "cnName": "LLYUSDT",
+            "openSwitch": true,
+            "minQty": "1",
+            "contractSize": "0.01",
+            "curMaxLeverage": null,
+            "productType": "perpetual",
+            "underlyingType": "U_BASED",
+            "pricePrecision": "2",
+            "fastTrackCallbackRate1": "0.01",
+            "maxOpenOrders": "200",
+            "makerFee": "0.0002",
+            "multiplierUp": "0.1",
+            "enRemark": null,
+            "baseCoinPrecision": "8",
+            "isDisplay": true,
+            "marketTakeBound": "0.001",
+            "enName": "LLYUSDT",
+            "fastTrackCallbackRate2": "0.02",
+            "symbolGroupId": "11",
+            "takerFee": "0.0006",
+            "tags": [
+              "STOCK"
+            ],
+            "supportTimeInForce": "GTC,FOK,IOC,GTX",
+            "deliveryCompletion": false,
+            "minNotional": "5",
+            "supportPositionType": "CROSSED,ISOLATED",
+            "baseCoin": "lly",
+            "contractType": "PERPETUAL",
+            "deliveryPrice": null,
+            "symbol": "lly_usdt",
+            "marketOpenTakeBound": "0.050000000000000000",
+            "symbolId": "1258",
+            "plates": [
+              22,
+              31,
+              35,
+              2
+            ],
+            "isOpenApi": false,
+            "riskExpireTime": null,
+            "predictEventType": null,
+            "enDesc": null,
+            "initLeverage": "10",
+            "businessNameI18n": null,
+            "multiplierDown": "0.1",
+            "updatedTime": "2026-04-16T15:00:17",
+            "quantityPrecision": "0",
+            "thanosSwitch": true,
+            "cnRemark": null,
+            "maxNotional": "100000",
+            "quoteCoin": "usdt",
+            "quoteCoinPrecision": "8",
+            "minStepPrice": "0.01",
+            "cnDesc": null,
+            "maxPrice": "1",
+            "predictEventParam": null,
+            "depthPrecisionMerge": "5",
+            "onboardDate": "1776351600000",
+            "supportEntrustType": "TAKE_PROFIT,STOP,TAKE_PROFIT_MARKET,STOP_MARKET,TRAILING_STOP_MARKET",
+            "labels": [
+              "NEW",
+              "STOCK"
+            ],
+            "displaySwitch": true,
+            "initPositionType": "CROSSED",
+            "state": "0",
+            "supportOrderType": "LIMIT,MARKET",
+            "id": "1258",
+            "minPrice": "0",
+            "nextOpenTime": null,
+            "maxEntrusts": "100",
+            "deliveryDate": null,
+            "liquidationFee": "0.01",
+            "pair": "lly_usdt",
+            "offTime": null,
+            "quoteCoinDisplayPrecision": "4",
+            "baseCoinDisplayPrecision": "2",
+            "riskNominalValueCoefficient": "1.00",
+            "tradeSwitch": true,
+            "minTrackCallbackRate": "0.001",
+            "maxTrackCallbackRate": "0.1",
+            "marketCloseTakeBound": "0.050000000000000000",
+            "latestPriceDeviation": "0.0500",
+            "predictEventSort": null,
+            "spotCoin": "llyon"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "LLY/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 1,
+            "base": 1.0e-8,
+            "price": 0.01,
+            "quote": 1.0e-8
+          },
+          "baseId": "lly",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "lly",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "LLY",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 1
+            },
+            "cost": {
+              "max": 100000,
+              "min": 5
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": 1
+            },
+            "price": {
+              "max": 1,
+              "min": 0
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": "__undefined",
+          "contract": true,
+          "percentage": "__undefined",
+          "active": false,
+          "expiry": "__undefined",
+          "id": "lly_usdt",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
         "VELODROME/USDT:USDT": {
           "spot": false,
           "contractSize": 10,
@@ -217753,7 +217235,12 @@
             "baseCurrencyLogo": "https://a.static-global.com/1/currency/e6be9cbe-217c-4668-8ffe-6088109289ad-1775031244370.png",
             "baseCurrencyPrecision": "8",
             "businessNameI18n": null,
-            "chainRelation": [],
+            "chainRelation": [
+              {
+                "chainId": "2395",
+                "contract": "0x7B7c000000000000000000000000000000000001"
+              }
+            ],
             "depthMergePrecision": "5",
             "displayLevel": "NONE",
             "displayName": "MEZO/USDT",
@@ -234411,113 +233898,6 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
-        "W3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "w3l",
-            "baseCurrencyId": "3369",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/c8b7bd9c-530f-446e-b301-2e189456d146-1718847687855.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "W3L/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "10043",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1718870400000",
-            "symbol": "w3l_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "W3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "w3l",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "W3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "w3l_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "GEMS/USDT:USDT": {
           "spot": false,
           "contractSize": 10,
@@ -236502,6 +235882,10 @@
               },
               {
                 "chainId": "2245",
+                "contract": ""
+              },
+              {
+                "chainId": "2395",
                 "contract": ""
               }
             ],
@@ -239247,9 +238631,7 @@
             "depthPrecisionMerge": "5",
             "onboardDate": "1769076000000",
             "supportEntrustType": "TAKE_PROFIT,STOP,TAKE_PROFIT_MARKET,STOP_MARKET,TRAILING_STOP_MARKET",
-            "labels": [
-              "HOT"
-            ],
+            "labels": [],
             "displaySwitch": true,
             "initPositionType": "CROSSED",
             "state": "0",
@@ -244079,7 +243461,7 @@
             "openSwitch": true,
             "minQty": "1",
             "contractSize": "10",
-            "curMaxLeverage": null,
+            "curMaxLeverage": "5",
             "productType": "perpetual",
             "underlyingType": "U_BASED",
             "pricePrecision": "5",
@@ -244112,13 +243494,13 @@
               30
             ],
             "isOpenApi": true,
-            "riskExpireTime": null,
+            "riskExpireTime": "1776363534623",
             "predictEventType": null,
             "enDesc": null,
-            "initLeverage": "10",
+            "initLeverage": "5",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2025-07-07T02:47:16",
+            "updatedTime": "2026-04-16T17:18:55",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -244147,7 +243529,7 @@
             "offTime": null,
             "quoteCoinDisplayPrecision": "4",
             "baseCoinDisplayPrecision": "5",
-            "riskNominalValueCoefficient": "1.00",
+            "riskNominalValueCoefficient": "0.10",
             "tradeSwitch": true,
             "minTrackCallbackRate": "0.001",
             "maxTrackCallbackRate": "0.1",
@@ -259330,7 +258712,7 @@
             "initLeverage": "20",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-14T22:05:05",
+            "updatedTime": "2026-04-16T22:05:05",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -259353,7 +258735,7 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "1161",
             "minPrice": "0",
-            "nextOpenTime": "1776204300000",
+            "nextOpenTime": "1776377100000",
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
@@ -262921,113 +262303,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "avax_usdc",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "CLO3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "clo3l",
-            "baseCurrencyId": "5140",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/44a461ec-b079-4634-a7a9-26990198b4f3-1767938490555.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "CLO3L/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "11721",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": false,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1767949200000",
-            "symbol": "clo3l_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "CLO3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "clo3l",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "CLO3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": false,
-          "expiry": "__undefined",
-          "id": "clo3l_usdt",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -274520,129 +273795,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "DISTORTED/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "distorted",
-            "baseCurrencyId": "5273",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/cdb95fac-0928-4851-bee7-8b465e76a94f-1773282455534.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [
-              {
-                "chainId": "941",
-                "contract": "EPuZ1X6pPzac3ELPsT59LStmgaSr4kBJvaAbL15Fpump"
-              }
-            ],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "DISTORTED/USDT",
-            "displayWeight": "1000",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "PROTECTION_MARKET",
-                "maxDeviation": "0.1"
-              },
-              {
-                "durationSeconds": "300",
-                "filter": "PROTECTION_ONLINE",
-                "maxPriceMultiple": "10"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "5"
-              }
-            ],
-            "id": "11849",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": false,
-            "orderTypes": [],
-            "plates": [
-              3
-            ],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1773282000000",
-            "symbol": "distorted_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "DISTORTED/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "distorted",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "DISTORTED",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": false,
-          "expiry": "__undefined",
-          "id": "distorted_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "ROAM/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -282872,9 +282024,7 @@
             "depthPrecisionMerge": "5",
             "onboardDate": "1742457600000",
             "supportEntrustType": "TAKE_PROFIT,STOP,TAKE_PROFIT_MARKET,STOP_MARKET,TRAILING_STOP_MARKET",
-            "labels": [
-              "HOT"
-            ],
+            "labels": [],
             "displaySwitch": true,
             "initPositionType": "CROSSED",
             "state": "0",
@@ -288276,7 +287426,7 @@
               283,
               3
             ],
-            "pricePrecision": "4",
+            "pricePrecision": "5",
             "quantityPrecision": "2",
             "quoteCurrency": "usdt",
             "quoteCurrencyId": "11",
@@ -288298,7 +287448,7 @@
           "precision": {
             "amount": 0.01,
             "base": "__undefined",
-            "price": 0.0001,
+            "price": 1.0e-5,
             "quote": "__undefined"
           },
           "baseId": "xion",
@@ -288601,129 +287751,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "rats_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "NEIROETH/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "neiroeth",
-            "baseCurrencyId": "3539",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/bb4c69ce-a0cb-4853-9d8b-926c12d5068f-1722396505874.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [
-              {
-                "chainId": "5",
-                "contract": "0xEE2a03Aa6Dacf51C18679C516ad5283d8E7C2637"
-              }
-            ],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "NEIROETH/USDT",
-            "displayWeight": "1000",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "PROTECTION_MARKET",
-                "maxDeviation": "0.1"
-              },
-              {
-                "durationSeconds": "300",
-                "filter": "PROTECTION_ONLINE",
-                "maxPriceMultiple": "10"
-              },
-              {
-                "filter": "QUOTE_QTY",
-                "min": "5"
-              }
-            ],
-            "id": "10189",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [
-              140,
-              3
-            ],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1726541952000",
-            "symbol": "neiroeth_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "NEIROETH/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "neiroeth",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "NEIROETH",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "neiroeth_usdt",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -302892,127 +301919,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "VOXEL/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "voxel",
-            "baseCurrencyId": "1399",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/d1f47990-46d3-4bcf-9ef1-a3da32e4e3b2-1764574531672.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [
-              {
-                "chainId": "698",
-                "contract": "0xd0258a3fd00f38aa8090dfee343f10a9d4d30d3f"
-              }
-            ],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "VOXEL/USDT",
-            "displayWeight": "-7209",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "PROTECTION_MARKET",
-                "maxDeviation": "0.02"
-              },
-              {
-                "filter": "QUOTE_QTY",
-                "min": "5"
-              }
-            ],
-            "id": "7910",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [
-              "LIMIT",
-              "MARKET"
-            ],
-            "plates": [],
-            "pricePrecision": "5",
-            "quantityPrecision": "1",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1639537200000",
-            "symbol": "voxel_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [
-              "GTC",
-              "IOC"
-            ],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "VOXEL/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.1,
-            "base": "__undefined",
-            "price": 1.0e-5,
-            "quote": "__undefined"
-          },
-          "baseId": "voxel",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "VOXEL",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 5
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "voxel_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "XPT/USDT:USDT": {
           "spot": false,
           "contractSize": 0.001,
@@ -303068,7 +301974,7 @@
             "initLeverage": "20",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-14T22:05:06",
+            "updatedTime": "2026-04-16T22:05:06",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -303092,7 +301998,7 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "1182",
             "minPrice": "0",
-            "nextOpenTime": "1776204300000",
+            "nextOpenTime": "1776377100000",
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
@@ -330850,9 +329756,7 @@
             "depthPrecisionMerge": "5",
             "onboardDate": "1657872001000",
             "supportEntrustType": "TAKE_PROFIT,STOP,TAKE_PROFIT_MARKET,STOP_MARKET,TRAILING_STOP_MARKET",
-            "labels": [
-              "HOT"
-            ],
+            "labels": [],
             "displaySwitch": true,
             "initPositionType": "CROSSED",
             "state": "0",
@@ -335492,6 +334396,151 @@
           "id": "bico_usdt",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
+        },
+        "GENIUS/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "usdt",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "cnName": "GENIUSUSDT",
+            "openSwitch": true,
+            "minQty": "1",
+            "contractSize": "1",
+            "curMaxLeverage": null,
+            "productType": "perpetual",
+            "underlyingType": "U_BASED",
+            "pricePrecision": "4",
+            "fastTrackCallbackRate1": "0.01",
+            "maxOpenOrders": "200",
+            "makerFee": "0.0002",
+            "multiplierUp": "0.1",
+            "enRemark": null,
+            "baseCoinPrecision": "8",
+            "isDisplay": true,
+            "marketTakeBound": "0.001",
+            "enName": "GENIUSUSDT",
+            "fastTrackCallbackRate2": "0.02",
+            "symbolGroupId": "12",
+            "takerFee": "0.0006",
+            "tags": null,
+            "supportTimeInForce": "GTC,FOK,IOC,GTX",
+            "deliveryCompletion": false,
+            "minNotional": "5",
+            "supportPositionType": "CROSSED,ISOLATED",
+            "baseCoin": "genius",
+            "contractType": "PERPETUAL",
+            "deliveryPrice": null,
+            "symbol": "genius_usdt",
+            "marketOpenTakeBound": "0.050000000000000000",
+            "symbolId": "1260",
+            "plates": [
+              22,
+              2,
+              7
+            ],
+            "isOpenApi": false,
+            "riskExpireTime": null,
+            "predictEventType": null,
+            "enDesc": null,
+            "initLeverage": "20",
+            "businessNameI18n": null,
+            "multiplierDown": "0.1",
+            "updatedTime": "2026-04-16T15:00:42",
+            "quantityPrecision": "0",
+            "thanosSwitch": true,
+            "cnRemark": null,
+            "maxNotional": "100000",
+            "quoteCoin": "usdt",
+            "quoteCoinPrecision": "8",
+            "minStepPrice": "0.0001",
+            "cnDesc": null,
+            "maxPrice": "1",
+            "predictEventParam": null,
+            "depthPrecisionMerge": "5",
+            "onboardDate": "1776351601000",
+            "supportEntrustType": "TAKE_PROFIT,STOP,TAKE_PROFIT_MARKET,STOP_MARKET,TRAILING_STOP_MARKET",
+            "labels": [
+              "NEW"
+            ],
+            "displaySwitch": true,
+            "initPositionType": "CROSSED",
+            "state": "0",
+            "supportOrderType": "LIMIT,MARKET",
+            "id": "1260",
+            "minPrice": "0",
+            "nextOpenTime": null,
+            "maxEntrusts": "100",
+            "deliveryDate": null,
+            "liquidationFee": "0.01",
+            "pair": "genius_usdt",
+            "offTime": null,
+            "quoteCoinDisplayPrecision": "4",
+            "baseCoinDisplayPrecision": "4",
+            "riskNominalValueCoefficient": "1.00",
+            "tradeSwitch": true,
+            "minTrackCallbackRate": "0.001",
+            "maxTrackCallbackRate": "0.1",
+            "marketCloseTakeBound": "0.050000000000000000",
+            "latestPriceDeviation": "0.0500",
+            "predictEventSort": null,
+            "spotCoin": "genius"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "GENIUS/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 1,
+            "base": 1.0e-8,
+            "price": 0.0001,
+            "quote": 1.0e-8
+          },
+          "baseId": "genius",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "genius",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "GENIUS",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 1
+            },
+            "cost": {
+              "max": 100000,
+              "min": 5
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": 1
+            },
+            "price": {
+              "max": 1,
+              "min": 0
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": "__undefined",
+          "contract": true,
+          "percentage": "__undefined",
+          "active": false,
+          "expiry": "__undefined",
+          "id": "genius_usdt",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
         },
         "1000NFT/USDT:USDT": {
           "spot": false,
@@ -350047,7 +349096,7 @@
             "initLeverage": "20",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-14T22:05:07",
+            "updatedTime": "2026-04-16T22:05:07",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -350071,7 +349120,7 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "1183",
             "minPrice": "0",
-            "nextOpenTime": "1776204300000",
+            "nextOpenTime": "1776377100000",
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
@@ -353844,7 +352893,9 @@
             "depthPrecisionMerge": "5",
             "onboardDate": "1734508800000",
             "supportEntrustType": "TAKE_PROFIT,STOP,TAKE_PROFIT_MARKET,STOP_MARKET,TRAILING_STOP_MARKET",
-            "labels": [],
+            "labels": [
+              "HOT"
+            ],
             "displaySwitch": true,
             "initPositionType": "CROSSED",
             "state": "0",
@@ -355095,6 +354146,10 @@
               },
               {
                 "chainId": "2245",
+                "contract": ""
+              },
+              {
+                "chainId": "2395",
                 "contract": ""
               }
             ],
@@ -357477,7 +356532,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 1655,
+        "sample_count": 1643,
         "separator": "_",
         "suffix": null
       },
@@ -357506,7 +356561,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 938,
+        "sample_count": 941,
         "separator": "_",
         "suffix": null
       }

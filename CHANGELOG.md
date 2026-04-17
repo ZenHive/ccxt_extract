@@ -6,6 +6,46 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 101: Fixture refresh for oxc 0.7 / quickbeam 0.10
+
+The Task 101 source migration (see dated Task 101 entry below) shipped
+against cached fixtures. This entry closes the maintenance holdover by
+regenerating `priv/discoveries/*.json` and `priv/output/*.json` under
+the upgraded extractors and confirming cross-extractor invariants still
+hold.
+
+**What happened:**
+
+- `mix ccxt_extract.update` regenerated the full universe. `parse_methods`
+  coverage cleared the cached threshold that had tripped
+  `coverage_report_cached_test.exs:88`; `describe`, `class_hierarchy`, and
+  `methods_rest` all hold at full coverage.
+- `mix ccxt_extract.contract_test --strict` findings all match the
+  documented baseline: Pattern C `unified_endpoints_claimed_in_has`
+  residuals (Task 57c, blocked on Task 61a provenance) plus
+  `authenticated_sections_reachable_in_api` on `tokocrypto` (unclassified,
+  not in `priv/priority_tiers.json`, so it falls under the Tier 3
+  deferral policy). Strict-mode non-zero exit is load-bearing: the
+  contract test is designed to surface this drift loudly, not hide it.
+- Full test suite `mix test.json --quiet --include extraction` runs
+  green after a single stale-test deletion (see below).
+
+**Stale test removed.** `test/ccxt_extract/unified_endpoints_test.exs`
+carried a test targeting `priv/ccxt/ts/src/coincatch.ts`, which CCXT
+4.5.x no longer ships. The test validated `parse_file/1` resolving a
+`super.createOrderWithTakeProfitAndStopLoss` delegation chain — generic
+behavior, not coincatch-specific. Deleted rather than silently skipped
+(flunk-on-missing-file was the correct fail-loud pattern, but the file
+is permanently gone). A `TODO(Task 105):` marker flags the follow-up:
+port the super-delegation coverage to an exchange that still exists.
+
+**Out of scope for this task.** Two stale `coincatch` doc-comment
+references remain (`lib/ccxt_extract/task_scope.ex:45` as an
+illustrative "new exchange appears when…" example,
+`test/integration/cached/load_markets_cached_test.exs:75` noting "some
+like coincatch return 0"). Both are historical commentary, not
+load-bearing; cleaning them up is not fixture-refresh work.
+
 ### Task 13a: Universal envelope `tier_scope` stamping — code plumbing
 
 Three aggregate JSON emitters previously missing a `tier_scope` stamp

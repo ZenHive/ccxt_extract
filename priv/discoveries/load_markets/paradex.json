@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-16T10:14:39.422798Z",
+  "extracted_at": "2026-04-17T03:36:21.100181Z",
   "id": "paradex",
   "market_count": 85,
   "markets": {
@@ -8472,7 +8472,7 @@
         "asset_kind": "OPTION",
         "base_currency": "BTC",
         "clamp_rate": "0",
-        "expiry_at": "1780041600000",
+        "expiry_at": "1776585600000",
         "fee_config": {
           "api_fee": {
             "maker_fee": {
@@ -8523,7 +8523,7 @@
         "max_slippage": "0",
         "max_tob_spread": "2",
         "min_notional": "20",
-        "open_at": "1777525200000",
+        "open_at": "1776312919652",
         "option_cross_margin_params": {
           "imf": {
             "long_itm": "0.2",
@@ -8543,14 +8543,14 @@
         "option_type": "CALL",
         "oracle_ewma_factor": "0.043647610787352464",
         "order_size_increment": "0.001",
-        "position_limit": "0",
+        "position_limit": "20",
         "price_bands_width": "0.3",
         "price_feed_id": "",
         "price_tick_size": "0.01",
         "quote_currency": "USD",
         "settlement_currency": "USDC",
-        "strike_price": "185000",
-        "symbol": "BTC-USD-29MAY26-185000-C",
+        "strike_price": "73500",
+        "symbol": "BTC-USD-19APR26-73500-C",
         "tags": []
       },
       "created": "__undefined",
@@ -8564,7 +8564,7 @@
       },
       "baseId": "BTC",
       "type": "swap",
-      "strike": 185000,
+      "strike": 73500,
       "settleId": "USDC",
       "quote": "USD",
       "expiryDatetime": "__undefined",
@@ -8599,7 +8599,7 @@
       "percentage": "__undefined",
       "active": "__undefined",
       "expiry": "__undefined",
-      "id": "BTC-USD-29MAY26-185000-C",
+      "id": "BTC-USD-19APR26-73500-C",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },

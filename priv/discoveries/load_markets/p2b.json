@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-15T12:47:36.224380Z",
+  "extracted_at": "2026-04-17T03:36:21.100181Z",
   "id": "p2b",
-  "market_count": 195,
+  "market_count": 192,
   "markets": {
     "XLM/USDT": {
       "spot": true,
@@ -12267,174 +12267,6 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
-    "XLM/BTC": {
-      "spot": true,
-      "contractSize": "__undefined",
-      "linear": "__undefined",
-      "quoteId": "BTC",
-      "tierBased": true,
-      "index": "__undefined",
-      "maker": [
-        [
-          0,
-          0.2
-        ],
-        [
-          1,
-          0.18
-        ],
-        [
-          5,
-          0.16
-        ],
-        [
-          10,
-          0.14
-        ],
-        [
-          25,
-          0.12
-        ],
-        [
-          75,
-          0.1
-        ],
-        [
-          100,
-          0.08
-        ],
-        [
-          150,
-          0.06
-        ],
-        [
-          300,
-          0.04
-        ],
-        [
-          450,
-          0.02
-        ],
-        [
-          500,
-          0.01
-        ]
-      ],
-      "inverse": "__undefined",
-      "info": {
-        "limits": {
-          "max_amount": "90000000",
-          "max_price": "1000",
-          "min_amount": "1",
-          "min_price": "0.00000001",
-          "min_total": "0.0001",
-          "step_size": "1",
-          "tick_size": "0.00000001"
-        },
-        "money": "BTC",
-        "name": "XLM_BTC",
-        "precision": {
-          "fee": "4",
-          "money": "8",
-          "stock": "1"
-        },
-        "stock": "XLM"
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "XLM/BTC",
-      "settle": "__undefined",
-      "precision": {
-        "amount": 1,
-        "price": 1.0e-8
-      },
-      "baseId": "XLM",
-      "type": "spot",
-      "strike": "__undefined",
-      "settleId": "__undefined",
-      "quote": "BTC",
-      "expiryDatetime": "__undefined",
-      "base": "XLM",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 90000000,
-          "min": 1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": 1000,
-          "min": 1.0e-8
-        }
-      },
-      "taker": [
-        [
-          0,
-          0.2
-        ],
-        [
-          1,
-          0.19
-        ],
-        [
-          5,
-          0.18
-        ],
-        [
-          10,
-          0.17
-        ],
-        [
-          25,
-          0.16
-        ],
-        [
-          75,
-          0.15
-        ],
-        [
-          100,
-          0.14
-        ],
-        [
-          150,
-          0.13
-        ],
-        [
-          300,
-          0.12
-        ],
-        [
-          450,
-          0.11
-        ],
-        [
-          500,
-          0.1
-        ]
-      ],
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": false,
-      "percentage": true,
-      "active": true,
-      "expiry": "__undefined",
-      "id": "XLM_BTC",
-      "lowercaseId": "__undefined",
-      "subType": "__undefined"
-    },
     "TRX/ETH": {
       "spot": true,
       "contractSize": "__undefined",
@@ -13334,16 +13166,16 @@
           "max_amount": "0",
           "max_price": "0",
           "min_amount": "0.1",
-          "min_price": "0.00001",
+          "min_price": "0.000001",
           "min_total": "1",
           "step_size": "0.1",
-          "tick_size": "0.00001"
+          "tick_size": "0.000001"
         },
         "money": "USDT",
         "name": "PUSS_USDT",
         "precision": {
-          "fee": "4",
-          "money": "5",
+          "fee": "0",
+          "money": "6",
           "stock": "1"
         },
         "stock": "PUSS"
@@ -13355,7 +13187,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 1.0e-5
+        "price": 1.0e-6
       },
       "baseId": "PUSS",
       "type": "spot",
@@ -13384,7 +13216,7 @@
         },
         "price": {
           "max": "__undefined",
-          "min": 1.0e-5
+          "min": 1.0e-6
         }
       },
       "taker": [
@@ -22683,174 +22515,6 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
-    "ZIL/USDT": {
-      "spot": true,
-      "contractSize": "__undefined",
-      "linear": "__undefined",
-      "quoteId": "USDT",
-      "tierBased": true,
-      "index": "__undefined",
-      "maker": [
-        [
-          0,
-          0.2
-        ],
-        [
-          1,
-          0.18
-        ],
-        [
-          5,
-          0.16
-        ],
-        [
-          10,
-          0.14
-        ],
-        [
-          25,
-          0.12
-        ],
-        [
-          75,
-          0.1
-        ],
-        [
-          100,
-          0.08
-        ],
-        [
-          150,
-          0.06
-        ],
-        [
-          300,
-          0.04
-        ],
-        [
-          450,
-          0.02
-        ],
-        [
-          500,
-          0.01
-        ]
-      ],
-      "inverse": "__undefined",
-      "info": {
-        "limits": {
-          "max_amount": "9000000",
-          "max_price": "1000",
-          "min_amount": "0.1",
-          "min_price": "0.00001",
-          "min_total": "5",
-          "step_size": "0.1",
-          "tick_size": "0.00001"
-        },
-        "money": "USDT",
-        "name": "ZIL_USDT",
-        "precision": {
-          "fee": "4",
-          "money": "5",
-          "stock": "1"
-        },
-        "stock": "ZIL"
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "ZIL/USDT",
-      "settle": "__undefined",
-      "precision": {
-        "amount": 0.1,
-        "price": 1.0e-5
-      },
-      "baseId": "ZIL",
-      "type": "spot",
-      "strike": "__undefined",
-      "settleId": "__undefined",
-      "quote": "USDT",
-      "expiryDatetime": "__undefined",
-      "base": "ZIL",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 9000000,
-          "min": 0.1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": 1000,
-          "min": 1.0e-5
-        }
-      },
-      "taker": [
-        [
-          0,
-          0.2
-        ],
-        [
-          1,
-          0.19
-        ],
-        [
-          5,
-          0.18
-        ],
-        [
-          10,
-          0.17
-        ],
-        [
-          25,
-          0.16
-        ],
-        [
-          75,
-          0.15
-        ],
-        [
-          100,
-          0.14
-        ],
-        [
-          150,
-          0.13
-        ],
-        [
-          300,
-          0.12
-        ],
-        [
-          450,
-          0.11
-        ],
-        [
-          500,
-          0.1
-        ]
-      ],
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": false,
-      "percentage": true,
-      "active": true,
-      "expiry": "__undefined",
-      "id": "ZIL_USDT",
-      "lowercaseId": "__undefined",
-      "subType": "__undefined"
-    },
     "PENGU/USDT": {
       "spot": true,
       "contractSize": "__undefined",
@@ -28896,174 +28560,6 @@
       "active": true,
       "expiry": "__undefined",
       "id": "UUSD_USDT",
-      "lowercaseId": "__undefined",
-      "subType": "__undefined"
-    },
-    "BAND/USDT": {
-      "spot": true,
-      "contractSize": "__undefined",
-      "linear": "__undefined",
-      "quoteId": "USDT",
-      "tierBased": true,
-      "index": "__undefined",
-      "maker": [
-        [
-          0,
-          0.2
-        ],
-        [
-          1,
-          0.18
-        ],
-        [
-          5,
-          0.16
-        ],
-        [
-          10,
-          0.14
-        ],
-        [
-          25,
-          0.12
-        ],
-        [
-          75,
-          0.1
-        ],
-        [
-          100,
-          0.08
-        ],
-        [
-          150,
-          0.06
-        ],
-        [
-          300,
-          0.04
-        ],
-        [
-          450,
-          0.02
-        ],
-        [
-          500,
-          0.01
-        ]
-      ],
-      "inverse": "__undefined",
-      "info": {
-        "limits": {
-          "max_amount": "90000",
-          "max_price": "10000",
-          "min_amount": "0.1",
-          "min_price": "0.001",
-          "min_total": "5",
-          "step_size": "0.1",
-          "tick_size": "0.001"
-        },
-        "money": "USDT",
-        "name": "BAND_USDT",
-        "precision": {
-          "fee": "4",
-          "money": "3",
-          "stock": "1"
-        },
-        "stock": "BAND"
-      },
-      "created": "__undefined",
-      "option": false,
-      "future": false,
-      "symbol": "BAND/USDT",
-      "settle": "__undefined",
-      "precision": {
-        "amount": 0.1,
-        "price": 0.001
-      },
-      "baseId": "BAND",
-      "type": "spot",
-      "strike": "__undefined",
-      "settleId": "__undefined",
-      "quote": "USDT",
-      "expiryDatetime": "__undefined",
-      "base": "BAND",
-      "swap": false,
-      "marginModes": {
-        "cross": "__undefined",
-        "isolated": "__undefined"
-      },
-      "limits": {
-        "amount": {
-          "max": 90000,
-          "min": 0.1
-        },
-        "cost": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "leverage": {
-          "max": "__undefined",
-          "min": "__undefined"
-        },
-        "price": {
-          "max": 10000,
-          "min": 0.001
-        }
-      },
-      "taker": [
-        [
-          0,
-          0.2
-        ],
-        [
-          1,
-          0.19
-        ],
-        [
-          5,
-          0.18
-        ],
-        [
-          10,
-          0.17
-        ],
-        [
-          25,
-          0.16
-        ],
-        [
-          75,
-          0.15
-        ],
-        [
-          100,
-          0.14
-        ],
-        [
-          150,
-          0.13
-        ],
-        [
-          300,
-          0.12
-        ],
-        [
-          450,
-          0.11
-        ],
-        [
-          500,
-          0.1
-        ]
-      ],
-      "optionType": "__undefined",
-      "margin": false,
-      "contract": false,
-      "percentage": true,
-      "active": true,
-      "expiry": "__undefined",
-      "id": "BAND_USDT",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },

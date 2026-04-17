@@ -16,7 +16,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-16T05:20:00.553663Z",
+  "extracted_at": "2026-04-17T03:38:10.088487Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -565,7 +565,7 @@
       "version": "v1"
     },
     "markets": {
-      "market_count": 730,
+      "market_count": 732,
       "markets": {
         "LAYER/USDT:USDT": {
           "spot": false,
@@ -19521,6 +19521,95 @@
           "active": true,
           "expiry": "__undefined",
           "id": "SAPIEN-USDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
+        "FRAX/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "baseAsset": "FRAX",
+            "basePrecision": "8",
+            "baseShowPrecision": "4",
+            "contractFactor": "1",
+            "feeRateMaker": "0.0002",
+            "feeRateTaker": "0.0006",
+            "limitMaxQty": "1000000",
+            "limitMinQty": "1",
+            "liqFeeRate": "0.0006",
+            "marginAsset": "USDT",
+            "marketMaxQty": "100000",
+            "marketMinQty": "1",
+            "maxLeverageLevel": "50",
+            "maxLimitOrderNum": "200",
+            "maxPlanOrderNum": "10",
+            "onboardTime": "1776420000000",
+            "openBuyLimitRateMax": "0.15",
+            "openBuyLimitRateMin": "0.98",
+            "openSellLimitRateMax": "100",
+            "openSellLimitRateMin": "0.15",
+            "priceOrderPrecision": "4",
+            "pricePrecision": "8",
+            "quoteAsset": "USDT",
+            "reverse": false,
+            "status": "ON_SHELF",
+            "symbol": "FRAX-USDT",
+            "volumePrecision": "0"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "FRAX/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 1,
+            "base": 1.0e-8,
+            "price": 0.0001
+          },
+          "baseId": "FRAX",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "FRAX",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 1000000,
+              "min": 1
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 50,
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": "__undefined",
+          "contract": true,
+          "percentage": "__undefined",
+          "active": false,
+          "expiry": "__undefined",
+          "id": "FRAX-USDT",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -61888,6 +61977,95 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
+        "GENIUS/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0002,
+          "inverse": false,
+          "info": {
+            "baseAsset": "GENIUS",
+            "basePrecision": "8",
+            "baseShowPrecision": "4",
+            "contractFactor": "1",
+            "feeRateMaker": "0.0002",
+            "feeRateTaker": "0.0006",
+            "limitMaxQty": "1500000",
+            "limitMinQty": "1",
+            "liqFeeRate": "0.0006",
+            "marginAsset": "USDT",
+            "marketMaxQty": "150000",
+            "marketMinQty": "1",
+            "maxLeverageLevel": "20",
+            "maxLimitOrderNum": "200",
+            "maxPlanOrderNum": "10",
+            "onboardTime": "1776333600000",
+            "openBuyLimitRateMax": "0.15",
+            "openBuyLimitRateMin": "0.98",
+            "openSellLimitRateMax": "100",
+            "openSellLimitRateMin": "0.15",
+            "priceOrderPrecision": "4",
+            "pricePrecision": "8",
+            "quoteAsset": "USDT",
+            "reverse": false,
+            "status": "NORMAL",
+            "symbol": "GENIUS-USDT",
+            "volumePrecision": "0"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "GENIUS/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 1,
+            "base": 1.0e-8,
+            "price": 0.0001
+          },
+          "baseId": "GENIUS",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "GENIUS",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 1500000,
+              "min": 1
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 20,
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0006,
+          "optionType": "__undefined",
+          "margin": "__undefined",
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "expiry": "__undefined",
+          "id": "GENIUS-USDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
         "KNC/USDT:USDT": {
           "spot": false,
           "contractSize": 1,
@@ -65569,7 +65747,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 730,
+        "sample_count": 732,
         "separator": "-",
         "suffix": null
       }

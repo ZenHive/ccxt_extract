@@ -3,7 +3,7 @@
     "parse": 85,
     "safe": 54
   },
-  "extracted_at": "2026-04-16T10:16:02.652960Z",
+  "extracted_at": "2026-04-17T03:38:05.364398Z",
   "method_count": 139,
   "methods": {
     "safeLedgerEntry": {
@@ -2467,5 +2467,6 @@
       "source": "method_definition"
     }
   },
-  "source_file": "base/Exchange.ts"
+  "source_file": "base/Exchange.ts",
+  "tier_scope": "all"
 }

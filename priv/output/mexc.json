@@ -16,7 +16,7 @@
     "tier": "tier3",
     "version": "v3"
   },
-  "extracted_at": "2026-04-16T10:16:05.340082Z",
+  "extracted_at": "2026-04-17T03:38:10.088487Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -1058,7 +1058,7 @@
       "version": "v3"
     },
     "markets": {
-      "market_count": 3282,
+      "market_count": 3280,
       "markets": {
         "PAYPSTOCK/USDT:USDT": {
           "spot": false,
@@ -18143,7 +18143,7 @@
             "firstOpenTime": "1772683200000",
             "fullName": "MANTRA",
             "isMarginTradingAllowed": false,
-            "isSpotTradingAllowed": false,
+            "isSpotTradingAllowed": true,
             "makerCommission": "0",
             "maxQuoteAmount": "2000000",
             "maxQuoteAmountMarket": "100000",
@@ -18211,7 +18211,7 @@
           "margin": false,
           "contract": false,
           "percentage": true,
-          "active": false,
+          "active": true,
           "expiry": "__undefined",
           "id": "MANTRAUSDT",
           "lowercaseId": "__undefined",
@@ -27456,110 +27456,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "XTERUSDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "SOMNUS/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": false,
-          "index": "__undefined",
-          "maker": 0,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "SOMNUS",
-            "baseAssetPrecision": "2",
-            "baseCommissionPrecision": "2",
-            "baseSizePrecision": "0",
-            "conceptPlateIds": [
-              52,
-              23,
-              46
-            ],
-            "contractAddress": "0xb05C2E0B925167F88bD09D1E590645E60aBA2Aee",
-            "filters": [
-              {
-                "askMultiplierDown": "0.2",
-                "bidMultiplierUp": "0.2",
-                "filterType": "PERCENT_PRICE_BY_SIDE"
-              }
-            ],
-            "firstOpenTime": "1770454800000",
-            "fullName": "Somnus AI",
-            "isMarginTradingAllowed": false,
-            "isSpotTradingAllowed": true,
-            "makerCommission": "0",
-            "maxQuoteAmount": "2000000",
-            "maxQuoteAmountMarket": "100000",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET",
-              "LIMIT_MAKER"
-            ],
-            "permissions": [
-              "SPOT"
-            ],
-            "quoteAmountPrecision": "1",
-            "quoteAmountPrecisionMarket": "1",
-            "quoteAsset": "USDT",
-            "quoteAssetPrecision": "7",
-            "quoteCommissionPrecision": "7",
-            "quotePrecision": "7",
-            "st": true,
-            "status": "1",
-            "symbol": "SOMNUSUSDT",
-            "takerCommission": "0.0005",
-            "tradeSideType": "1"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "SOMNUS/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-7
-          },
-          "baseId": "SOMNUS",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "SOMNUS",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0
-            },
-            "cost": {
-              "max": 2000000,
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0005,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": true,
-          "active": true,
-          "expiry": "__undefined",
-          "id": "SOMNUSUSDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -41268,9 +41164,10 @@
                 "filterType": "PERCENT_PRICE_BY_SIDE"
               }
             ],
+            "firstOpenTime": "1776351600000",
             "fullName": "Emblem Vault",
             "isMarginTradingAllowed": false,
-            "isSpotTradingAllowed": false,
+            "isSpotTradingAllowed": true,
             "makerCommission": "0",
             "maxQuoteAmount": "2000000",
             "maxQuoteAmountMarket": "100000",
@@ -41289,10 +41186,10 @@
             "quoteCommissionPrecision": "6",
             "quotePrecision": "6",
             "st": false,
-            "status": "2",
+            "status": "1",
             "symbol": "EMBLEMUSDT",
             "takerCommission": "0.0005",
-            "tradeSideType": "4"
+            "tradeSideType": "1"
           },
           "created": "__undefined",
           "option": false,
@@ -41338,7 +41235,7 @@
           "margin": false,
           "contract": false,
           "percentage": true,
-          "active": false,
+          "active": true,
           "expiry": "__undefined",
           "id": "EMBLEMUSDT",
           "lowercaseId": "__undefined",
@@ -43211,7 +43108,7 @@
             "feeRateType": "BASE",
             "riskLimitMode": "INCREASE",
             "baseCoin": "PLAY",
-            "isHot": true,
+            "isHot": false,
             "volScale": "0",
             "liquidationFeeRate": "0.0002",
             "symbol": "PLAY_USDT",
@@ -76609,9 +76506,9 @@
             "quoteAmountPrecision": "1",
             "quoteAmountPrecisionMarket": "1",
             "quoteAsset": "USDT",
-            "quoteAssetPrecision": "9",
-            "quoteCommissionPrecision": "9",
-            "quotePrecision": "9",
+            "quoteAssetPrecision": "11",
+            "quoteCommissionPrecision": "11",
+            "quotePrecision": "11",
             "st": false,
             "status": "1",
             "symbol": "ATLBRYUSDT",
@@ -76625,7 +76522,7 @@
           "settle": "__undefined",
           "precision": {
             "amount": 0.01,
-            "price": 1.0e-9
+            "price": 1.0e-11
           },
           "baseId": "ATLBRY",
           "type": "spot",
@@ -89733,7 +89630,7 @@
             "apiAllowed": true,
             "takerFeeRate": "0",
             "showAppraisalCountdown": "0",
-            "threshold": "575556",
+            "threshold": "591234",
             "marketOrderPriceLimitRate1": "0.2",
             "riskIncrImr": "0.095",
             "isZeroFeeRate": true,
@@ -158926,12 +158823,12 @@
           "maker": 0.0004,
           "inverse": false,
           "info": {
-            "riskBaseVol": "10000",
+            "riskBaseVol": "16000",
             "contractSize": "10",
             "conceptPlate": [
               "mc-trade-zone-innovation"
             ],
-            "maxVol": "10000",
+            "maxVol": "16000",
             "baseCoinId": "2d5b74e1091546d48f643dd6d6a22090",
             "countryConfigContractMaxLeverage": "0",
             "baseCoinIconUrl": "https://public.mocortech.com/coin/F20241226125746078TJFbPLJ2XNL7kX.jpg",
@@ -158986,11 +158883,11 @@
             "marketOrderPriceLimitRate1": "0.2",
             "riskIncrImr": "0.01",
             "isZeroFeeRate": false,
-            "limitMaxVol": "10000",
+            "limitMaxVol": "16000",
             "futureType": "1",
             "vid": "128f589271cb4951b03e71e6323eb7be",
             "automaticDelivery": "0",
-            "riskIncrVol": "10000",
+            "riskIncrVol": "16000",
             "amountScale": "4",
             "riskLimitType": "BY_VOLUME",
             "state": "0",
@@ -159040,7 +158937,7 @@
           },
           "limits": {
             "amount": {
-              "max": 10000,
+              "max": 16000,
               "min": 1
             },
             "cost": {
@@ -171628,7 +171525,7 @@
             "openingCountdownOption": "1",
             "typeLabel": "2",
             "createTime": "1775730989000",
-            "isNew": true,
+            "isNew": false,
             "priceScale": "2",
             "stopOnlyFair": false,
             "isZeroFeeSymbol": true,
@@ -179006,7 +178903,7 @@
             "feeRateType": "BASE",
             "riskLimitMode": "INCREASE",
             "baseCoin": "ORDI",
-            "isHot": false,
+            "isHot": true,
             "volScale": "0",
             "liquidationFeeRate": "0",
             "symbol": "ORDI_USDT",
@@ -194871,10 +194768,10 @@
           "maker": 0.0001,
           "inverse": false,
           "info": {
-            "riskBaseVol": "30000",
+            "riskBaseVol": "15000",
             "contractSize": "10",
             "conceptPlate": [],
-            "maxVol": "30000",
+            "maxVol": "15000",
             "baseCoinId": "7d17a843559b4b7586b03f39efeafe1f",
             "countryConfigContractMaxLeverage": "0",
             "baseCoinIconUrl": "https://public.mocortech.com/coin/F20260328163538876UPxrxtmF0ITL66.jpeg",
@@ -194929,11 +194826,11 @@
             "marketOrderPriceLimitRate1": "0.2",
             "riskIncrImr": "0.005",
             "isZeroFeeRate": false,
-            "limitMaxVol": "30000",
+            "limitMaxVol": "15000",
             "futureType": "1",
             "vid": "128f589271cb4951b03e71e6323eb7be",
             "automaticDelivery": "0",
-            "riskIncrVol": "30000",
+            "riskIncrVol": "15000",
             "amountScale": "4",
             "riskLimitType": "BY_VOLUME",
             "state": "0",
@@ -194983,7 +194880,7 @@
           },
           "limits": {
             "amount": {
-              "max": 30000,
+              "max": 15000,
               "min": 1
             },
             "cost": {
@@ -232544,109 +232441,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "AIV/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": false,
-          "index": "__undefined",
-          "maker": 0,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "AIV",
-            "baseAssetPrecision": "2",
-            "baseCommissionPrecision": "2",
-            "baseSizePrecision": "0",
-            "conceptPlateIds": [
-              52,
-              23
-            ],
-            "contractAddress": "0xEc24290f0F0C88075558739777090DcB9fef4F04",
-            "filters": [
-              {
-                "askMultiplierDown": "0.2",
-                "bidMultiplierUp": "0.2",
-                "filterType": "PERCENT_PRICE_BY_SIDE"
-              }
-            ],
-            "firstOpenTime": "1770800400000",
-            "fullName": "Aivoryn",
-            "isMarginTradingAllowed": false,
-            "isSpotTradingAllowed": true,
-            "makerCommission": "0",
-            "maxQuoteAmount": "2000000",
-            "maxQuoteAmountMarket": "100000",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET",
-              "LIMIT_MAKER"
-            ],
-            "permissions": [
-              "SPOT"
-            ],
-            "quoteAmountPrecision": "1",
-            "quoteAmountPrecisionMarket": "1",
-            "quoteAsset": "USDT",
-            "quoteAssetPrecision": "8",
-            "quoteCommissionPrecision": "8",
-            "quotePrecision": "8",
-            "st": true,
-            "status": "1",
-            "symbol": "AIVUSDT",
-            "takerCommission": "0.0005",
-            "tradeSideType": "1"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "AIV/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-8
-          },
-          "baseId": "AIV",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "AIV",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0
-            },
-            "cost": {
-              "max": 2000000,
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0005,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": true,
-          "active": true,
-          "expiry": "__undefined",
-          "id": "AIVUSDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "BFT/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -235181,7 +234975,7 @@
             "firstOpenTime": "1751452200000",
             "fullName": "Circle xStock",
             "isMarginTradingAllowed": false,
-            "isSpotTradingAllowed": false,
+            "isSpotTradingAllowed": true,
             "makerCommission": "0",
             "maxQuoteAmount": "2000000",
             "maxQuoteAmountMarket": "100000",
@@ -235249,7 +235043,7 @@
           "margin": false,
           "contract": false,
           "percentage": true,
-          "active": false,
+          "active": true,
           "expiry": "__undefined",
           "id": "CRCLXUSDT",
           "lowercaseId": "__undefined",
@@ -236695,6 +236489,110 @@
           "active": true,
           "expiry": "__undefined",
           "id": "TIBBIRUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "BELIEF/USD1": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USD1",
+          "tierBased": false,
+          "index": "__undefined",
+          "maker": 0.0001,
+          "inverse": "__undefined",
+          "info": {
+            "baseAsset": "BELIEF",
+            "baseAssetPrecision": "2",
+            "baseCommissionPrecision": "2",
+            "baseSizePrecision": "0",
+            "conceptPlateIds": [
+              51,
+              44,
+              29
+            ],
+            "contractAddress": "29CWsqH84TykHDDwA6DtETUtXQPuKbVgKCmxtkBsbrrr",
+            "filters": [
+              {
+                "askMultiplierDown": "0.2",
+                "bidMultiplierUp": "0.2",
+                "filterType": "PERCENT_PRICE_BY_SIDE"
+              }
+            ],
+            "firstOpenTime": "1776139200000",
+            "fullName": "BELIEF",
+            "isMarginTradingAllowed": false,
+            "isSpotTradingAllowed": true,
+            "makerCommission": "0.0001",
+            "maxQuoteAmount": "2000000",
+            "maxQuoteAmountMarket": "100000",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET",
+              "LIMIT_MAKER"
+            ],
+            "permissions": [
+              "SPOT"
+            ],
+            "quoteAmountPrecision": "1",
+            "quoteAmountPrecisionMarket": "1",
+            "quoteAsset": "USD1",
+            "quoteAssetPrecision": "6",
+            "quoteCommissionPrecision": "6",
+            "quotePrecision": "6",
+            "st": false,
+            "status": "1",
+            "symbol": "BELIEFUSD1",
+            "takerCommission": "0.0001",
+            "tradeSideType": "1"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "BELIEF/USD1",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-6
+          },
+          "baseId": "BELIEF",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USD1",
+          "expiryDatetime": "__undefined",
+          "base": "BELIEF",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 0
+            },
+            "cost": {
+              "max": 2000000,
+              "min": 1
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0001,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "BELIEFUSD1",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -243588,7 +243486,7 @@
             "feeRateType": "BASE",
             "riskLimitMode": "INCREASE",
             "baseCoin": "RAVE",
-            "isHot": true,
+            "isHot": false,
             "volScale": "0",
             "liquidationFeeRate": "0.0002",
             "symbol": "RAVE_USDT",
@@ -251808,7 +251706,7 @@
             "feeRateType": "BASE",
             "riskLimitMode": "INCREASE",
             "baseCoin": "SIREN",
-            "isHot": false,
+            "isHot": true,
             "volScale": "0",
             "liquidationFeeRate": "0.0002",
             "symbol": "SIREN_USDT",
@@ -274984,109 +274882,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "NEXFI/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": false,
-          "index": "__undefined",
-          "maker": 0,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "NEXFI",
-            "baseAssetPrecision": "2",
-            "baseCommissionPrecision": "2",
-            "baseSizePrecision": "0",
-            "conceptPlateIds": [
-              19,
-              52
-            ],
-            "contractAddress": "0xbf884bCe6281C0E0893F56C4E83557F746edce12",
-            "filters": [
-              {
-                "askMultiplierDown": "0.2",
-                "bidMultiplierUp": "0.2",
-                "filterType": "PERCENT_PRICE_BY_SIDE"
-              }
-            ],
-            "firstOpenTime": "1769940000000",
-            "fullName": "Nexfi Wallet",
-            "isMarginTradingAllowed": false,
-            "isSpotTradingAllowed": true,
-            "makerCommission": "0",
-            "maxQuoteAmount": "2000000",
-            "maxQuoteAmountMarket": "100000",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET",
-              "LIMIT_MAKER"
-            ],
-            "permissions": [
-              "SPOT"
-            ],
-            "quoteAmountPrecision": "1",
-            "quoteAmountPrecisionMarket": "1",
-            "quoteAsset": "USDT",
-            "quoteAssetPrecision": "8",
-            "quoteCommissionPrecision": "8",
-            "quotePrecision": "8",
-            "st": true,
-            "status": "1",
-            "symbol": "NEXFIUSDT",
-            "takerCommission": "0.0005",
-            "tradeSideType": "1"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "NEXFI/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-8
-          },
-          "baseId": "NEXFI",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "NEXFI",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0
-            },
-            "cost": {
-              "max": 2000000,
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0005,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": true,
-          "active": true,
-          "expiry": "__undefined",
-          "id": "NEXFIUSDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "MLN/USDT:USDT": {
           "spot": false,
           "contractSize": 0.1,
@@ -281000,6 +280795,108 @@
           "active": true,
           "expiry": "__undefined",
           "id": "GPUUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "BELIEF/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": false,
+          "index": "__undefined",
+          "maker": 0,
+          "inverse": "__undefined",
+          "info": {
+            "baseAsset": "BELIEF",
+            "baseAssetPrecision": "2",
+            "baseCommissionPrecision": "2",
+            "baseSizePrecision": "0",
+            "conceptPlateIds": [
+              51
+            ],
+            "contractAddress": "29CWsqH84TykHDDwA6DtETUtXQPuKbVgKCmxtkBsbrrr",
+            "filters": [
+              {
+                "askMultiplierDown": "0.2",
+                "bidMultiplierUp": "0.2",
+                "filterType": "PERCENT_PRICE_BY_SIDE"
+              }
+            ],
+            "firstOpenTime": "1776392100000",
+            "fullName": "BELIEF",
+            "isMarginTradingAllowed": false,
+            "isSpotTradingAllowed": false,
+            "makerCommission": "0",
+            "maxQuoteAmount": "2000000",
+            "maxQuoteAmountMarket": "100000",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET",
+              "LIMIT_MAKER"
+            ],
+            "permissions": [
+              "SPOT"
+            ],
+            "quoteAmountPrecision": "1",
+            "quoteAmountPrecisionMarket": "1",
+            "quoteAsset": "USDT",
+            "quoteAssetPrecision": "5",
+            "quoteCommissionPrecision": "5",
+            "quotePrecision": "5",
+            "st": false,
+            "status": "1",
+            "symbol": "BELIEFUSDT",
+            "takerCommission": "0.0005",
+            "tradeSideType": "1"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "BELIEF/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.01,
+            "price": 1.0e-5
+          },
+          "baseId": "BELIEF",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "BELIEF",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 0
+            },
+            "cost": {
+              "max": 2000000,
+              "min": 1
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0005,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": false,
+          "expiry": "__undefined",
+          "id": "BELIEFUSDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -306021,8 +305918,8 @@
             "riskIncrMmr": "0.005",
             "openingTime": "1745835600000",
             "makerFeeRate": "0.0001",
-            "initialMarginRate": "0.01",
-            "maxLeverage": "100",
+            "initialMarginRate": "0.05",
+            "maxLeverage": "20",
             "bidLimitPriceRate": "0.2",
             "marketOrderMaxLevel": "20",
             "marketOrderPriceLimitRate2": "0.005",
@@ -306068,7 +305965,7 @@
               "min": "__undefined"
             },
             "leverage": {
-              "max": 100,
+              "max": 20,
               "min": 1
             },
             "price": {
@@ -362197,109 +362094,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "AGIALPHA/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": false,
-          "index": "__undefined",
-          "maker": 0,
-          "inverse": "__undefined",
-          "info": {
-            "baseAsset": "AGIALPHA",
-            "baseAssetPrecision": "2",
-            "baseCommissionPrecision": "2",
-            "baseSizePrecision": "0",
-            "conceptPlateIds": [
-              52,
-              23
-            ],
-            "contractAddress": "tWKHzXd5PRmxTF5cMfJkm2Ua3TcjwNNoSRUqx6Apump",
-            "filters": [
-              {
-                "askMultiplierDown": "0.2",
-                "bidMultiplierUp": "0.2",
-                "filterType": "PERCENT_PRICE_BY_SIDE"
-              }
-            ],
-            "firstOpenTime": "1756908000000",
-            "fullName": "AGI Alpha",
-            "isMarginTradingAllowed": false,
-            "isSpotTradingAllowed": true,
-            "makerCommission": "0",
-            "maxQuoteAmount": "2000000",
-            "maxQuoteAmountMarket": "100000",
-            "orderTypes": [
-              "LIMIT",
-              "MARKET",
-              "LIMIT_MAKER"
-            ],
-            "permissions": [
-              "SPOT"
-            ],
-            "quoteAmountPrecision": "1",
-            "quoteAmountPrecisionMarket": "1",
-            "quoteAsset": "USDT",
-            "quoteAssetPrecision": "7",
-            "quoteCommissionPrecision": "7",
-            "quotePrecision": "7",
-            "st": true,
-            "status": "1",
-            "symbol": "AGIALPHAUSDT",
-            "takerCommission": "0.0005",
-            "tradeSideType": "1"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "AGIALPHA/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-7
-          },
-          "baseId": "AGIALPHA",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "AGIALPHA",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 0
-            },
-            "cost": {
-              "max": 2000000,
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.0005,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": true,
-          "active": true,
-          "expiry": "__undefined",
-          "id": "AGIALPHAUSDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "OMG/BTC": {
           "spot": true,
           "contractSize": "__undefined",
@@ -370189,10 +369983,10 @@
           "maker": 0.0001,
           "inverse": false,
           "info": {
-            "riskBaseVol": "670",
+            "riskBaseVol": "1000",
             "contractSize": "100",
             "conceptPlate": [],
-            "maxVol": "670",
+            "maxVol": "1000",
             "baseCoinId": "c118678df60b407eb4ee136e077ee759",
             "countryConfigContractMaxLeverage": "0",
             "baseCoinIconUrl": "https://public.mocortech.com/coin/F20210517145318307S2spyul0pT3oGV.png",
@@ -370246,11 +370040,11 @@
             "marketOrderPriceLimitRate1": "0.2",
             "riskIncrImr": "0.004",
             "isZeroFeeRate": false,
-            "limitMaxVol": "670",
+            "limitMaxVol": "1000",
             "futureType": "1",
             "vid": "128f589271cb4951b03e71e6323eb7be",
             "automaticDelivery": "0",
-            "riskIncrVol": "670",
+            "riskIncrVol": "1000",
             "amountScale": "4",
             "riskLimitType": "BY_VOLUME",
             "state": "0",
@@ -370300,7 +370094,7 @@
           },
           "limits": {
             "amount": {
-              "max": 670,
+              "max": 1000,
               "min": 1
             },
             "cost": {
@@ -373162,12 +372956,12 @@
           "maker": 0.0001,
           "inverse": false,
           "info": {
-            "riskBaseVol": "2200",
+            "riskBaseVol": "3300",
             "contractSize": "1000",
             "conceptPlate": [
               "mc-trade-zone-ai"
             ],
-            "maxVol": "2200",
+            "maxVol": "3300",
             "baseCoinId": "c20d4f570e2148c3b3d3a77a75773103",
             "countryConfigContractMaxLeverage": "0",
             "baseCoinIconUrl": "https://public.mocortech.com/coin/F20250819161813110g70HJdG0E4Mt7T.png",
@@ -373224,11 +373018,11 @@
             "marketOrderPriceLimitRate1": "0.2",
             "riskIncrImr": "0.01",
             "isZeroFeeRate": false,
-            "limitMaxVol": "2200",
+            "limitMaxVol": "3300",
             "futureType": "1",
             "vid": "128f589271cb4951b03e71e6323eb7be",
             "automaticDelivery": "0",
-            "riskIncrVol": "2200",
+            "riskIncrVol": "3300",
             "amountScale": "4",
             "riskLimitType": "BY_VOLUME",
             "state": "0",
@@ -373278,7 +373072,7 @@
           },
           "limits": {
             "amount": {
-              "max": 2200,
+              "max": 3300,
               "min": 1
             },
             "cost": {
@@ -382763,7 +382557,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 2424,
+        "sample_count": 2422,
         "separator": "",
         "suffix": null
       },

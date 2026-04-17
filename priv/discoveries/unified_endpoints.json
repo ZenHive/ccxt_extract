@@ -1,6 +1,174 @@
 {
-  "count": 36,
+  "count": 110,
   "exchanges": [
+    {
+      "class_name": "aftermath",
+      "file": "aftermath.ts",
+      "id": "aftermath",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 31,
+      "unified_endpoints": {
+        "addMargin": [
+          "privatePostBuildAllocate",
+          "privatePostSubmitAllocate"
+        ],
+        "cancelOrder": [
+          "privatePostBuildCancelOrders",
+          "privatePostSubmitCancelOrders"
+        ],
+        "cancelOrders": [
+          "privatePostBuildCancelOrders",
+          "privatePostSubmitCancelOrders"
+        ],
+        "createAccount": [
+          "privatePostBuildCreateAccount",
+          "privatePostSubmitCreateAccount"
+        ],
+        "createOrder": [
+          "privatePostBuildCreateOrders",
+          "privatePostSubmitCreateOrders"
+        ],
+        "createOrders": [
+          "privatePostBuildCreateOrders",
+          "privatePostSubmitCreateOrders"
+        ],
+        "fetchAccounts": [
+          "privatePostAccounts"
+        ],
+        "fetchBalance": [
+          "privatePostBalance"
+        ],
+        "fetchCurrencies": [
+          "publicGetCurrencies"
+        ],
+        "fetchMarkets": [
+          "publicGetMarkets"
+        ],
+        "fetchOHLCV": [
+          "publicPostOHLCV"
+        ],
+        "fetchOpenOrders": [
+          "privatePostMyPendingOrders"
+        ],
+        "fetchOrderBook": [
+          "publicPostOrderbook"
+        ],
+        "fetchPosition": [
+          "privatePostPositions"
+        ],
+        "fetchPositions": [
+          "privatePostPositions"
+        ],
+        "fetchTicker": [
+          "publicPostTicker"
+        ],
+        "fetchTrades": [
+          "publicPostTrades"
+        ],
+        "reduceMargin": [
+          "privatePostBuildDeallocate",
+          "privatePostSubmitDeallocate"
+        ],
+        "setLeverage": [
+          "privatePostBuildSetLeverage",
+          "privatePostSubmitSetLeverage"
+        ],
+        "transfer": [
+          "privatePostBuildDeposit",
+          "privatePostSubmitDeposit"
+        ],
+        "withdraw": [
+          "privatePostBuildWithdraw",
+          "privatePostSubmitWithdraw"
+        ]
+      }
+    },
+    {
+      "class_name": "alpaca",
+      "file": "alpaca.ts",
+      "id": "alpaca",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 27,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "traderPrivateDeleteV2Orders"
+        ],
+        "cancelOrder": [
+          "traderPrivateDeleteV2OrdersOrderId"
+        ],
+        "createMarketBuyOrderWithCost": [
+          "traderPrivatePostV2Orders"
+        ],
+        "createMarketOrderWithCost": [
+          "traderPrivatePostV2Orders"
+        ],
+        "createMarketSellOrderWithCost": [
+          "traderPrivatePostV2Orders"
+        ],
+        "createOrder": [
+          "traderPrivatePostV2Orders"
+        ],
+        "editOrder": [
+          "traderPrivatePatchV2OrdersOrderId"
+        ],
+        "fetchBalance": [
+          "traderPrivateGetV2Account"
+        ],
+        "fetchClosedOrders": [
+          "traderPrivateGetV2Orders"
+        ],
+        "fetchDepositAddress": [
+          "traderPrivateGetV2Wallets"
+        ],
+        "fetchDeposits": [
+          "traderPrivateGetV2WalletsTransfers"
+        ],
+        "fetchDepositsWithdrawals": [
+          "traderPrivateGetV2WalletsTransfers"
+        ],
+        "fetchMarkets": [
+          "traderPrivateGetV2Assets"
+        ],
+        "fetchMyTrades": [
+          "traderPrivateGetV2AccountActivitiesActivityType"
+        ],
+        "fetchOHLCV": [
+          "marketPublicGetV1beta3CryptoLocBars",
+          "marketPublicGetV1beta3CryptoLocLatestBars"
+        ],
+        "fetchOpenOrders": [
+          "traderPrivateGetV2Orders"
+        ],
+        "fetchOrder": [
+          "traderPrivateGetV2OrdersOrderId"
+        ],
+        "fetchOrderBook": [
+          "marketPublicGetV1beta3CryptoLocLatestOrderbooks"
+        ],
+        "fetchOrders": [
+          "traderPrivateGetV2Orders"
+        ],
+        "fetchTicker": [
+          "marketPublicGetV1beta3CryptoLocSnapshots"
+        ],
+        "fetchTickers": [
+          "marketPublicGetV1beta3CryptoLocSnapshots"
+        ],
+        "fetchTime": [
+          "traderPrivateGetV2Clock"
+        ],
+        "fetchTrades": [
+          "marketPublicGetV1beta3CryptoLocLatestTrades",
+          "marketPublicGetV1beta3CryptoLocTrades"
+        ],
+        "fetchWithdrawals": [
+          "traderPrivateGetV2WalletsTransfers"
+        ],
+        "withdraw": [
+          "traderPrivatePostV2WalletsTransfers"
+        ]
+      }
+    },
     {
       "class_name": "apex",
       "file": "apex.ts",
@@ -85,6 +253,230 @@
           "privatePostV3ContractTransferOut",
           "privatePostV3TransferOut",
           "publicGetV3Symbols"
+        ]
+      }
+    },
+    {
+      "class_name": "arkham",
+      "file": "arkham.ts",
+      "id": "arkham",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 33,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "v1PrivatePostOrdersCancelAll",
+          "v1PrivatePostTriggerOrdersCancelAll"
+        ],
+        "cancelOrder": [
+          "v1PrivatePostOrdersCancel",
+          "v1PrivatePostTriggerOrdersCancel"
+        ],
+        "createDepositAddress": [
+          "v1PrivatePostAccountDepositAddressesNew"
+        ],
+        "createOrder": [
+          "v1PrivatePostOrdersNew",
+          "v1PrivatePostTriggerOrdersNew"
+        ],
+        "fetchAccounts": [
+          "v1PrivateGetUser"
+        ],
+        "fetchBalance": [
+          "v1PrivateGetAccountBalances"
+        ],
+        "fetchClosedOrders": [
+          "v1PrivateGetOrdersHistory"
+        ],
+        "fetchCurrencies": [
+          "v1PublicGetAssets"
+        ],
+        "fetchDepositAddress": [
+          "v1PrivateGetAccountDepositAddresses"
+        ],
+        "fetchDepositAddressesByNetwork": [
+          "v1PrivateGetAccountDepositAddresses"
+        ],
+        "fetchDeposits": [
+          "v1PrivateGetAccountDeposits"
+        ],
+        "fetchFundingHistory": [
+          "v1PrivateGetAccountFundingRatePayments"
+        ],
+        "fetchLeverage": [
+          "v1PrivateGetAccountLeverage"
+        ],
+        "fetchLeverageTiers": [
+          "v1PublicGetMarginSchedules"
+        ],
+        "fetchMarkets": [
+          "v1PublicGetPairs"
+        ],
+        "fetchMyTrades": [
+          "v1PrivateGetTradesTime"
+        ],
+        "fetchOHLCV": [
+          "v1PublicGetCandles"
+        ],
+        "fetchOpenOrders": [
+          "v1PrivateGetOrders",
+          "v1PrivateGetTriggerOrders"
+        ],
+        "fetchOrder": [
+          "v1PrivateGetOrdersId"
+        ],
+        "fetchOrderBook": [
+          "v1PublicGetBook"
+        ],
+        "fetchPositions": [
+          "v1PrivateGetAccountPositions"
+        ],
+        "fetchTicker": [
+          "v1PublicGetTicker"
+        ],
+        "fetchTickers": [
+          "v1PublicGetTickers"
+        ],
+        "fetchTime": [
+          "v1PublicGetServerTime"
+        ],
+        "fetchTrades": [
+          "v1PublicGetTrades"
+        ],
+        "fetchTradingFees": [
+          "v1PrivateGetAccountFees"
+        ],
+        "setLeverage": [
+          "v1PrivatePostAccountLeverage"
+        ],
+        "withdraw": [
+          "v1PrivateGetAccountWithdrawalAddresses",
+          "v1PrivatePostAccountWithdraw"
+        ]
+      }
+    },
+    {
+      "class_name": "ascendex",
+      "file": "ascendex.ts",
+      "id": "ascendex",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 47,
+      "unified_endpoints": {
+        "setMarginMode": [
+          "v2PrivateAccountGroupPostFuturesMarginType"
+        ],
+        "fetchOrderBook": [
+          "v1PublicGetDepth"
+        ],
+        "fetchFundingHistory": [
+          "v2PrivateAccountGroupGetFuturesFundingPayments"
+        ],
+        "setLeverage": [
+          "v2PrivateAccountGroupPostFuturesLeverage"
+        ],
+        "addMargin": [
+          "v2PrivateAccountGroupPostFuturesIsolatedPositionMargin"
+        ],
+        "fetchTime": [
+          "v1PublicGetExchangeInfo"
+        ],
+        "fetchDepositWithdrawFees": [
+          "v2PublicGetAssets"
+        ],
+        "fetchPositions": [
+          "v2PrivateAccountGroupGetFuturesPosition"
+        ],
+        "fetchFundingRates": [
+          "v2PublicGetFuturesPricingData"
+        ],
+        "fetchDepositAddress": [
+          "v1PrivateGetWalletDepositAddress"
+        ],
+        "fetchDepositsWithdrawals": [
+          "v1PrivateGetWalletTransactions"
+        ],
+        "fetchClosedOrders": [
+          "v1PrivateAccountCategoryGetOrderHistCurrent",
+          "v2PrivateAccountGroupGetFuturesOrderHistCurrent",
+          "v2PrivateDataGetOrderHist"
+        ],
+        "fetchMarginModes": [
+          "v2PrivateAccountGroupGetFuturesPosition"
+        ],
+        "cancelAllOrders": [
+          "v1PrivateAccountCategoryDeleteOrderAll",
+          "v2PrivateAccountGroupDeleteFuturesOrderAll"
+        ],
+        "fetchContractMarkets": [
+          "v2PublicGetFuturesContract"
+        ],
+        "fetchMarkets": [
+          "v1PublicGetCashProducts",
+          "v1PublicGetProducts",
+          "v2PublicGetFuturesContract"
+        ],
+        "fetchOHLCV": [
+          "v1PublicGetBarhist"
+        ],
+        "cancelOrder": [
+          "v1PrivateAccountCategoryDeleteOrder",
+          "v2PrivateAccountGroupDeleteFuturesOrder"
+        ],
+        "fetchOpenInterests": [
+          "v2PublicGetFuturesPricingData"
+        ],
+        "fetchOpenOrders": [
+          "v1PrivateAccountCategoryGetOrderOpen",
+          "v2PrivateAccountGroupGetFuturesOrderOpen"
+        ],
+        "fetchCurrencies": [
+          "v2PublicGetAssets"
+        ],
+        "transfer": [
+          "v1PrivateAccountGroupPostTransfer"
+        ],
+        "createOrder": [
+          "v1PrivateAccountCategoryPostOrder",
+          "v2PrivateAccountGroupPostFuturesOrder"
+        ],
+        "fetchTrades": [
+          "v1PublicGetTrades"
+        ],
+        "fetchSpotMarkets": [
+          "v1PublicGetCashProducts",
+          "v1PublicGetProducts"
+        ],
+        "fetchLeverageTiers": [
+          "v2PublicGetFuturesContract"
+        ],
+        "reduceMargin": [
+          "v2PrivateAccountGroupPostFuturesIsolatedPositionMargin"
+        ],
+        "fetchTicker": [
+          "v1PublicGetTicker"
+        ],
+        "fetchTickers": [
+          "v1PublicGetTicker",
+          "v2PublicGetFuturesTicker"
+        ],
+        "fetchBalance": [
+          "v1PrivateAccountCategoryGetBalance",
+          "v2PrivateAccountGroupGetFuturesPosition"
+        ],
+        "createOrders": [
+          "v1PrivateAccountCategoryPostOrderBatch"
+        ],
+        "fetchLeverages": [
+          "v2PrivateAccountGroupGetFuturesPosition"
+        ],
+        "fetchAccounts": [
+          "v1PrivateGetInfo"
+        ],
+        "fetchTradingFees": [
+          "v1PrivateAccountGroupGetSpotFee"
+        ],
+        "fetchOrder": [
+          "v1PrivateAccountCategoryGetOrderStatus",
+          "v2PrivateAccountGroupGetFuturesOrderStatus"
         ]
       }
     },
@@ -238,6 +630,186 @@
         "fetchOrder": [
           "fapiPrivateGetV1Order",
           "sapiPrivateGetV1Order"
+        ]
+      }
+    },
+    {
+      "class_name": "backpack",
+      "file": "backpack.ts",
+      "id": "backpack",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 28,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateDeleteApiV1Orders"
+        ],
+        "cancelOrder": [
+          "privateDeleteApiV1Order"
+        ],
+        "createOrder": [
+          "privatePostApiV1Order"
+        ],
+        "createOrders": [
+          "privatePostApiV1Orders"
+        ],
+        "fetchBalance": [
+          "privateGetApiV1Capital"
+        ],
+        "fetchCurrencies": [
+          "publicGetApiV1Assets"
+        ],
+        "fetchDepositAddress": [
+          "privateGetWapiV1CapitalDepositAddress"
+        ],
+        "fetchDeposits": [
+          "privateGetWapiV1CapitalDeposits"
+        ],
+        "fetchFundingHistory": [
+          "privateGetWapiV1HistoryFunding"
+        ],
+        "fetchFundingRate": [
+          "publicGetApiV1MarkPrices"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetApiV1FundingRates"
+        ],
+        "fetchMarkets": [
+          "publicGetApiV1Markets"
+        ],
+        "fetchMyTrades": [
+          "privateGetWapiV1HistoryFills"
+        ],
+        "fetchOHLCV": [
+          "publicGetApiV1Klines"
+        ],
+        "fetchOpenInterest": [
+          "publicGetApiV1OpenInterest"
+        ],
+        "fetchOpenOrder": [
+          "privateGetApiV1Order"
+        ],
+        "fetchOpenOrders": [
+          "privateGetApiV1Orders"
+        ],
+        "fetchOrderBook": [
+          "publicGetApiV1Depth"
+        ],
+        "fetchOrders": [
+          "privateGetWapiV1HistoryOrders"
+        ],
+        "fetchPositions": [
+          "privateGetApiV1Position"
+        ],
+        "fetchStatus": [
+          "publicGetApiV1Status"
+        ],
+        "fetchTicker": [
+          "publicGetApiV1Ticker"
+        ],
+        "fetchTickers": [
+          "publicGetApiV1Tickers"
+        ],
+        "fetchTime": [
+          "publicGetApiV1Time"
+        ],
+        "fetchTrades": [
+          "publicGetApiV1Trades",
+          "publicGetApiV1TradesHistory"
+        ],
+        "fetchWithdrawals": [
+          "privateGetWapiV1CapitalWithdrawals"
+        ],
+        "withdraw": [
+          "privatePostWapiV1CapitalWithdrawals"
+        ]
+      }
+    },
+    {
+      "class_name": "bequant",
+      "file": "bequant.ts",
+      "id": "bequant",
+      "parent_class": "hitbtc",
+      "unified_endpoint_count": 0,
+      "unified_endpoints": {}
+    },
+    {
+      "class_name": "bigone",
+      "file": "bigone.ts",
+      "id": "bigone",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 28,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privatePostOrdersCancel"
+        ],
+        "cancelOrder": [
+          "privatePostOrdersIdCancel"
+        ],
+        "createMarketBuyOrderWithCost": [
+          "privatePostOrders"
+        ],
+        "createOrder": [
+          "privatePostOrders"
+        ],
+        "fetchBalance": [
+          "privateGetAccounts",
+          "privateGetFundAccounts"
+        ],
+        "fetchClosedOrders": [
+          "privateGetOrders"
+        ],
+        "fetchDepositAddress": [
+          "privateGetAssetsAssetSymbolAddress"
+        ],
+        "fetchDeposits": [
+          "privateGetDeposits"
+        ],
+        "fetchMarkets": [
+          "contractPublicGetSymbols",
+          "publicGetAssetPairs"
+        ],
+        "fetchMyTrades": [
+          "privateGetTrades"
+        ],
+        "fetchOHLCV": [
+          "publicGetAssetPairsAssetPairNameCandles"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOrders"
+        ],
+        "fetchOrder": [
+          "privateGetOrdersId"
+        ],
+        "fetchOrderBook": [
+          "contractPublicGetDepthSymbolSnapshot",
+          "publicGetAssetPairsAssetPairNameDepth"
+        ],
+        "fetchOrders": [
+          "privateGetOrders"
+        ],
+        "fetchTicker": [
+          "contractPublicGetInstruments",
+          "publicGetAssetPairsAssetPairNameTicker",
+          "publicGetAssetPairsTickers"
+        ],
+        "fetchTickers": [
+          "contractPublicGetInstruments",
+          "publicGetAssetPairsTickers"
+        ],
+        "fetchTime": [
+          "publicGetPing"
+        ],
+        "fetchTrades": [
+          "publicGetAssetPairsAssetPairNameTrades"
+        ],
+        "fetchWithdrawals": [
+          "privateGetWithdrawals"
+        ],
+        "transfer": [
+          "privatePostTransfer"
+        ],
+        "withdraw": [
+          "privatePostWithdrawals"
         ]
       }
     },
@@ -1137,6 +1709,145 @@
       }
     },
     {
+      "class_name": "bit2c",
+      "file": "bit2c.ts",
+      "id": "bit2c",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 11,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostOrderCancelOrder"
+        ],
+        "fetchBalance": [
+          "privateGetAccountBalanceV2"
+        ],
+        "fetchDepositAddress": [
+          "privatePostFundsAddCoinFundsRequest"
+        ],
+        "fetchMyTrades": [
+          "privateGetOrderOrderHistory"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOrderMyOrders"
+        ],
+        "fetchOrder": [
+          "privateGetOrderGetById"
+        ],
+        "fetchOrderBook": [
+          "publicGetExchangesPairOrderbook"
+        ],
+        "fetchTicker": [
+          "publicGetExchangesPairTicker"
+        ],
+        "fetchTrades": [
+          "publicGetExchangesPairLasttrades",
+          "publicGetExchangesPairTrades"
+        ],
+        "fetchTradingFees": [
+          "privateGetAccountBalance"
+        ]
+      }
+    },
+    {
+      "class_name": "bitbank",
+      "file": "bitbank.ts",
+      "id": "bitbank",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 14,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostUserSpotCancelOrder"
+        ],
+        "createOrder": [
+          "privatePostUserSpotOrder"
+        ],
+        "fetchBalance": [
+          "privateGetUserAssets"
+        ],
+        "fetchDepositAddress": [
+          "privateGetUserWithdrawalAccount"
+        ],
+        "fetchMarkets": [
+          "marketsGetSpotPairs"
+        ],
+        "fetchMyTrades": [
+          "privateGetUserSpotTradeHistory"
+        ],
+        "fetchOHLCV": [
+          "publicGetPairCandlestickCandletypeYyyymmdd"
+        ],
+        "fetchOpenOrders": [
+          "privateGetUserSpotActiveOrders"
+        ],
+        "fetchOrder": [
+          "privateGetUserSpotOrder"
+        ],
+        "fetchOrderBook": [
+          "publicGetPairDepth"
+        ],
+        "fetchTicker": [
+          "publicGetPairTicker"
+        ],
+        "fetchTrades": [
+          "publicGetPairTransactions"
+        ],
+        "fetchTradingFees": [
+          "marketsGetSpotPairs"
+        ],
+        "withdraw": [
+          "privatePostUserRequestWithdrawal"
+        ]
+      }
+    },
+    {
+      "class_name": "bitbns",
+      "file": "bitbns.ts",
+      "id": "bitbns",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 13,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "v2PostCancel"
+        ],
+        "fetchBalance": [
+          "v1PostCurrentCoinBalanceEVERYTHING"
+        ],
+        "fetchDepositAddress": [
+          "v1PostGetCoinAddressSymbol"
+        ],
+        "fetchDeposits": [
+          "v1PostDepositHistorySymbol"
+        ],
+        "fetchMarkets": [
+          "wwwGetOrderFetchMarkets"
+        ],
+        "fetchMyTrades": [
+          "v1PostListExecutedOrdersSymbol"
+        ],
+        "fetchOpenOrders": [
+          "v2PostGetordersnew"
+        ],
+        "fetchOrder": [
+          "v1PostOrderStatusSymbol"
+        ],
+        "fetchOrderBook": [
+          "wwwGetOrderFetchOrderbook"
+        ],
+        "fetchStatus": [
+          "v1GetPlatformStatus"
+        ],
+        "fetchTickers": [
+          "wwwGetOrderFetchTickers"
+        ],
+        "fetchTrades": [
+          "wwwGetExchangeDataTradedetails"
+        ],
+        "fetchWithdrawals": [
+          "v1PostWithdrawHistorySymbol"
+        ]
+      }
+    },
+    {
       "class_name": "bitfinex",
       "file": "bitfinex.ts",
       "id": "bitfinex",
@@ -1261,6 +1972,71 @@
         ],
         "fetchOpenInterestHistory": [
           "publicGetStatusDerivSymbolHist"
+        ]
+      }
+    },
+    {
+      "class_name": "bitflyer",
+      "file": "bitflyer.ts",
+      "id": "bitflyer",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 20,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostCancelchildorder"
+        ],
+        "createOrder": [
+          "privatePostSendchildorder"
+        ],
+        "fetchBalance": [
+          "privateGetGetbalance"
+        ],
+        "fetchClosedOrders": [
+          "privateGetGetchildorders"
+        ],
+        "fetchDeposits": [
+          "privateGetGetcoinins"
+        ],
+        "fetchFundingRate": [
+          "publicGetGetfundingrate"
+        ],
+        "fetchMarkets": [
+          "publicGetGetmarkets",
+          "publicGetGetmarketsEu",
+          "publicGetGetmarketsUsa"
+        ],
+        "fetchMyTrades": [
+          "privateGetGetexecutions"
+        ],
+        "fetchOpenOrders": [
+          "privateGetGetchildorders"
+        ],
+        "fetchOrder": [
+          "privateGetGetchildorders"
+        ],
+        "fetchOrderBook": [
+          "publicGetGetboard"
+        ],
+        "fetchOrders": [
+          "privateGetGetchildorders"
+        ],
+        "fetchPositions": [
+          "privateGetGetpositions"
+        ],
+        "fetchTicker": [
+          "publicGetGetticker"
+        ],
+        "fetchTrades": [
+          "publicGetGetexecutions"
+        ],
+        "fetchTradingFee": [
+          "privateGetGettradingcommission"
+        ],
+        "fetchWithdrawals": [
+          "privateGetGetcoinouts"
+        ],
+        "withdraw": [
+          "privatePostWithdraw"
         ]
       }
     },
@@ -1610,6 +2386,51 @@
       }
     },
     {
+      "class_name": "bithumb",
+      "file": "bithumb.ts",
+      "id": "bithumb",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 12,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostTradeCancel"
+        ],
+        "cancelUnifiedOrder": [
+          "privatePostTradeCancel"
+        ],
+        "fetchBalance": [
+          "privatePostInfoBalance"
+        ],
+        "fetchMarkets": [
+          "publicGetTickerALLQuoteId"
+        ],
+        "fetchOHLCV": [
+          "publicGetCandlestickBaseIdQuoteIdInterval"
+        ],
+        "fetchOpenOrders": [
+          "privatePostInfoOrders"
+        ],
+        "fetchOrder": [
+          "privatePostInfoOrderDetail"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderbookBaseIdQuoteId"
+        ],
+        "fetchTicker": [
+          "publicGetTickerBaseIdQuoteId"
+        ],
+        "fetchTickers": [
+          "publicGetTickerALLQuoteId"
+        ],
+        "fetchTrades": [
+          "publicGetTransactionHistoryBaseIdQuoteId"
+        ],
+        "withdraw": [
+          "privatePostTradeBtcWithdrawal"
+        ]
+      }
+    },
+    {
       "class_name": "bitmart",
       "file": "bitmart.ts",
       "id": "bitmart",
@@ -1939,6 +2760,1058 @@
       }
     },
     {
+      "class_name": "bitopro",
+      "file": "bitopro.ts",
+      "id": "bitopro",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 24,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateDeleteOrdersAll",
+          "privateDeleteOrdersPair"
+        ],
+        "cancelOrder": [
+          "privateDeleteOrdersPairId"
+        ],
+        "cancelOrders": [
+          "privatePutOrders"
+        ],
+        "createOrder": [
+          "privatePostOrdersPair"
+        ],
+        "fetchBalance": [
+          "privateGetAccountsBalance"
+        ],
+        "fetchClosedOrders": [
+          "privateGetOrdersAllPair"
+        ],
+        "fetchCurrencies": [
+          "publicGetProvisioningCurrencies"
+        ],
+        "fetchDepositWithdrawFees": [
+          "publicGetProvisioningCurrencies"
+        ],
+        "fetchDeposits": [
+          "privateGetWalletDepositHistoryCurrency"
+        ],
+        "fetchMarkets": [
+          "publicGetProvisioningTradingPairs"
+        ],
+        "fetchMyTrades": [
+          "privateGetOrdersTradesPair"
+        ],
+        "fetchOHLCV": [
+          "publicGetTradingHistoryPair"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOrdersOpen"
+        ],
+        "fetchOrder": [
+          "privateGetOrdersPairOrderId"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderBookPair"
+        ],
+        "fetchOrders": [
+          "privateGetOrdersAllPair"
+        ],
+        "fetchTicker": [
+          "publicGetTickersPair"
+        ],
+        "fetchTickers": [
+          "publicGetTickers"
+        ],
+        "fetchTrades": [
+          "publicGetTradesPair"
+        ],
+        "fetchTradingFees": [
+          "publicGetProvisioningLimitationsAndFees"
+        ],
+        "fetchWithdrawal": [
+          "privateGetWalletWithdrawCurrencySerial"
+        ],
+        "fetchWithdrawals": [
+          "privateGetWalletWithdrawHistoryCurrency"
+        ],
+        "withdraw": [
+          "privatePostWalletWithdrawCurrency"
+        ]
+      }
+    },
+    {
+      "class_name": "bitrue",
+      "file": "bitrue.ts",
+      "id": "bitrue",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 54,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "dapiV2PrivatePostAllOpenOrders",
+          "fapiV2PrivatePostAllOpenOrders"
+        ],
+        "cancelOrder": [
+          "dapiV2PrivatePostCancel",
+          "fapiV2PrivatePostCancel",
+          "spotV1PrivateDeleteOrder"
+        ],
+        "createMarketBuyOrderWithCost": [
+          "dapiV2PrivatePostOrder",
+          "fapiV2PrivatePostOrder",
+          "spotV1PrivatePostOrder"
+        ],
+        "createOrder": [
+          "dapiV2PrivatePostOrder",
+          "fapiV2PrivatePostOrder",
+          "spotV1PrivatePostOrder"
+        ],
+        "fetchBalance": [
+          "dapiV2PrivateGetAccount",
+          "fapiV2PrivateGetAccount",
+          "spotV1PrivateGetAccount"
+        ],
+        "fetchBidsAsks": [
+          "dapiV1PublicGetTicker",
+          "fapiV1PublicGetTicker",
+          "spotV1PublicGetTickerBookTicker"
+        ],
+        "fetchClosedOrders": [
+          "spotV1PrivateGetAllOrders"
+        ],
+        "fetchCurrencies": [
+          "spotV1PublicGetExchangeInfo"
+        ],
+        "fetchDepositWithdrawFees": [
+          "spotV1PublicGetExchangeInfo"
+        ],
+        "fetchDeposits": [
+          "spotV1PrivateGetDepositHistory"
+        ],
+        "fetchMarkets": [
+          "dapiV1PublicGetContracts",
+          "fapiV1PublicGetContracts",
+          "spotV1PublicGetExchangeInfo"
+        ],
+        "fetchMyTrades": [
+          "dapiV2PrivateGetMyTrades",
+          "fapiV2PrivateGetMyTrades",
+          "spotV2PrivateGetMyTrades"
+        ],
+        "fetchOHLCV": [
+          "dapiV1PublicGetKlines",
+          "fapiV1PublicGetKlines",
+          "spotV1PublicGetMarketKline"
+        ],
+        "fetchOpenOrders": [
+          "dapiV2PrivateGetOpenOrders",
+          "fapiV2PrivateGetOpenOrders",
+          "spotV1PrivateGetOpenOrders"
+        ],
+        "fetchOrder": [
+          "dapiV2PrivateGetOrder",
+          "fapiV2PrivateGetOrder",
+          "spotV1PrivateGetOrder"
+        ],
+        "fetchOrderBook": [
+          "dapiV1PublicGetDepth",
+          "fapiV1PublicGetDepth",
+          "spotV1PublicGetDepth"
+        ],
+        "fetchStatus": [
+          "spotV1PublicGetPing"
+        ],
+        "fetchTicker": [
+          "dapiV1PublicGetTicker",
+          "fapiV1PublicGetTicker",
+          "spotV1PublicGetTicker24hr"
+        ],
+        "fetchTickers": [
+          "spotV1PublicGetTicker24hr"
+        ],
+        "fetchTime": [
+          "spotV1PublicGetTime"
+        ],
+        "fetchTrades": [
+          "spotV1PublicGetTrades"
+        ],
+        "fetchTransfers": [
+          "fapiV2PrivateGetFuturesTransferHistory"
+        ],
+        "fetchWithdrawals": [
+          "spotV1PrivateGetWithdrawHistory"
+        ],
+        "setLeverage": [
+          "dapiV2PrivatePostLevelEdit",
+          "fapiV2PrivatePostLevelEdit"
+        ],
+        "setMargin": [
+          "dapiV2PrivatePostPositionMargin",
+          "fapiV2PrivatePostPositionMargin"
+        ],
+        "transfer": [
+          "fapiV2PrivatePostFuturesTransfer"
+        ],
+        "withdraw": [
+          "spotV1PrivatePostWithdrawCommit"
+        ]
+      }
+    },
+    {
+      "class_name": "bitso",
+      "file": "bitso.ts",
+      "id": "bitso",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 21,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateDeleteOrdersAll"
+        ],
+        "cancelOrder": [
+          "privateDeleteOrdersOid"
+        ],
+        "cancelOrders": [
+          "privateDeleteOrders"
+        ],
+        "createOrder": [
+          "privatePostOrders"
+        ],
+        "fetchBalance": [
+          "privateGetBalance"
+        ],
+        "fetchDeposit": [
+          "privateGetFundingsFid"
+        ],
+        "fetchDepositAddress": [
+          "privateGetFundingDestination"
+        ],
+        "fetchDepositWithdrawFees": [
+          "privateGetFees"
+        ],
+        "fetchDeposits": [
+          "privateGetFundings"
+        ],
+        "fetchLedger": [
+          "privateGetLedger"
+        ],
+        "fetchMarkets": [
+          "publicGetAvailableBooks"
+        ],
+        "fetchMyTrades": [
+          "privateGetUserTrades"
+        ],
+        "fetchOHLCV": [
+          "publicGetOhlc"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOpenOrders"
+        ],
+        "fetchOrder": [
+          "privateGetOrdersOid"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderBook"
+        ],
+        "fetchOrderTrades": [
+          "privateGetOrderTradesOid"
+        ],
+        "fetchTicker": [
+          "publicGetTicker"
+        ],
+        "fetchTrades": [
+          "publicGetTrades"
+        ],
+        "fetchTradingFees": [
+          "privateGetFees"
+        ],
+        "fetchTransactionFees": [
+          "privateGetFees"
+        ]
+      }
+    },
+    {
+      "class_name": "bitstamp",
+      "file": "bitstamp.ts",
+      "id": "bitstamp",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 32,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privatePostCancelAllOrders",
+          "privatePostCancelAllOrdersPair"
+        ],
+        "cancelOrder": [
+          "privatePostCancelOrder"
+        ],
+        "createOrder": [
+          "privatePostBuyInstantPair",
+          "privatePostBuyMarketPair",
+          "privatePostBuyPair",
+          "privatePostSellInstantPair",
+          "privatePostSellMarketPair",
+          "privatePostSellPair"
+        ],
+        "editOrder": [
+          "privatePostReplaceOrder"
+        ],
+        "fetchBalance": [
+          "privatePostAccountBalances"
+        ],
+        "fetchCurrencies": [
+          "publicGetMarkets"
+        ],
+        "fetchDepositWithdrawFees": [
+          "privatePostFeesWithdrawal"
+        ],
+        "fetchDepositsWithdrawals": [
+          "privatePostUserTransactions"
+        ],
+        "fetchFundingRate": [
+          "publicGetFundingRateMarketSymbol"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetFundingRateHistoryPair"
+        ],
+        "fetchLedger": [
+          "privatePostUserTransactions"
+        ],
+        "fetchMarkets": [
+          "publicGetMarkets"
+        ],
+        "fetchOHLCV": [
+          "publicGetOhlcPair"
+        ],
+        "fetchOpenOrders": [
+          "privatePostOpenOrdersAll"
+        ],
+        "fetchOrder": [
+          "privatePostOrderStatus"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderBookPair"
+        ],
+        "fetchOrderStatus": [
+          "privatePostOrderStatus"
+        ],
+        "fetchTicker": [
+          "publicGetTickerPair"
+        ],
+        "fetchTickers": [
+          "publicGetTicker"
+        ],
+        "fetchTrades": [
+          "publicGetTransactionsPair"
+        ],
+        "fetchTradingFee": [
+          "privatePostFeesTrading"
+        ],
+        "fetchTradingFees": [
+          "privatePostFeesTrading"
+        ],
+        "fetchTransactionFees": [
+          "privatePostFeesWithdrawal"
+        ],
+        "fetchWithdrawals": [
+          "privatePostWithdrawalRequests"
+        ],
+        "transfer": [
+          "privatePostTransferFromMain",
+          "privatePostTransferToMain"
+        ]
+      }
+    },
+    {
+      "class_name": "bitteam",
+      "file": "bitteam.ts",
+      "id": "bitteam",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 19,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privatePostTradeApiCcxtCancelAllOrder"
+        ],
+        "cancelOrder": [
+          "privatePostTradeApiCcxtCancelorder"
+        ],
+        "createOrder": [
+          "privatePostTradeApiCcxtOrdercreate"
+        ],
+        "fetchBalance": [
+          "privateGetTradeApiCcxtBalance"
+        ],
+        "fetchCanceledOrders": [
+          "privateGetTradeApiCcxtOrdersOfUser"
+        ],
+        "fetchClosedOrders": [
+          "privateGetTradeApiCcxtOrdersOfUser"
+        ],
+        "fetchCurrencies": [
+          "publicGetTradeApiCmcAssets",
+          "publicGetTradeApiCurrencies"
+        ],
+        "fetchDepositsWithdrawals": [
+          "privateGetTradeApiTransactionsOfUser"
+        ],
+        "fetchMarkets": [
+          "publicGetTradeApiCcxtPairs"
+        ],
+        "fetchMyTrades": [
+          "privateGetTradeApiCcxtTradesOfUser"
+        ],
+        "fetchOHLCV": [
+          "historyGetApiTwHistoryPairNameResolution"
+        ],
+        "fetchOpenOrders": [
+          "privateGetTradeApiCcxtOrdersOfUser"
+        ],
+        "fetchOrder": [
+          "privateGetTradeApiCcxtOrderId"
+        ],
+        "fetchOrderBook": [
+          "publicGetTradeApiCmcOrderbookPair"
+        ],
+        "fetchOrders": [
+          "privateGetTradeApiCcxtOrdersOfUser"
+        ],
+        "fetchTicker": [
+          "publicGetTradeApiPairName"
+        ],
+        "fetchTickers": [
+          "publicGetTradeApiCmcSummary"
+        ],
+        "fetchTrades": [
+          "publicGetTradeApiCmcTradesPair"
+        ]
+      }
+    },
+    {
+      "class_name": "bittrade",
+      "file": "bittrade.ts",
+      "id": "bittrade",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 19,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privatePostOrderOrdersBatchCancelOpenOrders"
+        ],
+        "cancelOrder": [
+          "privatePostOrderOrdersIdSubmitcancel"
+        ],
+        "cancelOrders": [
+          "privatePostOrderOrdersBatchcancel"
+        ],
+        "fetchAccounts": [
+          "privateGetAccountAccounts"
+        ],
+        "fetchCurrencies": [
+          "publicGetSettingsCurrencys"
+        ],
+        "fetchDeposits": [
+          "privateGetQueryDepositWithdraw"
+        ],
+        "fetchMyTrades": [
+          "privateGetOrderMatchresults"
+        ],
+        "fetchOHLCV": [
+          "marketGetHistoryKline"
+        ],
+        "fetchOrder": [
+          "privateGetOrderOrdersId"
+        ],
+        "fetchOrderBook": [
+          "marketGetDepth"
+        ],
+        "fetchOrderTrades": [
+          "privateGetOrderOrdersIdMatchresults"
+        ],
+        "fetchTicker": [
+          "marketGetDetailMerged"
+        ],
+        "fetchTickers": [
+          "marketGetTickers"
+        ],
+        "fetchTime": [
+          "publicGetCommonTimestamp"
+        ],
+        "fetchTrades": [
+          "marketGetHistoryTrade"
+        ],
+        "fetchTradingLimits": [
+          "publicGetCommonExchange"
+        ],
+        "fetchTradingLimitsById": [
+          "publicGetCommonExchange"
+        ],
+        "fetchWithdrawals": [
+          "privateGetQueryDepositWithdraw"
+        ],
+        "withdraw": [
+          "privatePostDwWithdrawApiCreate"
+        ]
+      }
+    },
+    {
+      "class_name": "bitvavo",
+      "file": "bitvavo.ts",
+      "id": "bitvavo",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 23,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateDeleteOrders"
+        ],
+        "cancelOrder": [
+          "privateDeleteOrder"
+        ],
+        "createOrder": [
+          "privatePostOrder"
+        ],
+        "editOrder": [
+          "privatePutOrder"
+        ],
+        "fetchBalance": [
+          "privateGetBalance"
+        ],
+        "fetchCurrencies": [
+          "publicGetAssets"
+        ],
+        "fetchDepositAddress": [
+          "privateGetDeposit"
+        ],
+        "fetchDepositWithdrawFees": [
+          "publicGetAssets"
+        ],
+        "fetchDeposits": [
+          "privateGetDepositHistory"
+        ],
+        "fetchMarkets": [
+          "publicGetMarkets"
+        ],
+        "fetchMyTrades": [
+          "privateGetTrades"
+        ],
+        "fetchOHLCV": [
+          "publicGetMarketCandles"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOrdersOpen"
+        ],
+        "fetchOrder": [
+          "privateGetOrder"
+        ],
+        "fetchOrderBook": [
+          "publicGetMarketBook"
+        ],
+        "fetchOrders": [
+          "privateGetOrders"
+        ],
+        "fetchTicker": [
+          "publicGetTicker24h"
+        ],
+        "fetchTickers": [
+          "publicGetTicker24h"
+        ],
+        "fetchTime": [
+          "publicGetTime"
+        ],
+        "fetchTrades": [
+          "publicGetMarketTrades"
+        ],
+        "fetchTradingFees": [
+          "privateGetAccount"
+        ],
+        "fetchWithdrawals": [
+          "privateGetWithdrawalHistory"
+        ],
+        "withdraw": [
+          "privatePostWithdrawal"
+        ]
+      }
+    },
+    {
+      "class_name": "blockchaincom",
+      "file": "blockchaincom.ts",
+      "id": "blockchaincom",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 23,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateDeleteOrders"
+        ],
+        "cancelOrder": [
+          "privateDeleteOrdersOrderId"
+        ],
+        "createOrder": [
+          "privatePostOrders"
+        ],
+        "fetchBalance": [
+          "privateGetAccounts"
+        ],
+        "fetchCanceledOrders": [
+          "privateGetOrders"
+        ],
+        "fetchClosedOrders": [
+          "privateGetOrders"
+        ],
+        "fetchDeposit": [
+          "privateGetDepositsDepositId"
+        ],
+        "fetchDepositAddress": [
+          "privatePostDepositsCurrency"
+        ],
+        "fetchDeposits": [
+          "privateGetDeposits"
+        ],
+        "fetchL2OrderBook": [
+          "publicGetL2Symbol"
+        ],
+        "fetchL3OrderBook": [
+          "publicGetL3Symbol"
+        ],
+        "fetchMarkets": [
+          "publicGetSymbols"
+        ],
+        "fetchMyTrades": [
+          "privateGetFills"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOrders"
+        ],
+        "fetchOrder": [
+          "privateGetOrdersOrderId"
+        ],
+        "fetchOrderBook": [
+          "publicGetL3Symbol"
+        ],
+        "fetchOrdersByState": [
+          "privateGetOrders"
+        ],
+        "fetchTicker": [
+          "publicGetTickersSymbol"
+        ],
+        "fetchTickers": [
+          "publicGetTickers"
+        ],
+        "fetchTradingFees": [
+          "privateGetFees"
+        ],
+        "fetchWithdrawal": [
+          "privateGetWithdrawalsWithdrawalId"
+        ],
+        "fetchWithdrawals": [
+          "privateGetWithdrawals"
+        ],
+        "withdraw": [
+          "privatePostWithdrawals"
+        ]
+      }
+    },
+    {
+      "class_name": "blofin",
+      "file": "blofin.ts",
+      "id": "blofin",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 43,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostTradeCancelAlgo",
+          "privatePostTradeCancelBatchOrders",
+          "privatePostTradeCancelOrder",
+          "privatePostTradeCancelTpsl"
+        ],
+        "cancelOrders": [
+          "privatePostTradeCancelBatchOrders",
+          "privatePostTradeCancelTpsl"
+        ],
+        "closePosition": [
+          "privatePostTradeClosePosition"
+        ],
+        "createOrder": [
+          "privatePostTradeOrder",
+          "privatePostTradeOrderAlgo",
+          "privatePostTradeOrderTpsl"
+        ],
+        "createOrders": [
+          "privatePostTradeBatchOrders"
+        ],
+        "fetchBalance": [
+          "privateGetAccountBalance",
+          "privateGetAssetBalances"
+        ],
+        "fetchClosedOrders": [
+          "privateGetTradeOrdersHistory",
+          "privateGetTradeOrdersTpslHistory"
+        ],
+        "fetchDeposits": [
+          "privateGetAssetDepositHistory"
+        ],
+        "fetchFundingRate": [
+          "publicGetMarketFundingRate"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetMarketFundingRateHistory"
+        ],
+        "fetchLedger": [
+          "privateGetAssetBills"
+        ],
+        "fetchLeverage": [
+          "privateGetAccountLeverageInfo"
+        ],
+        "fetchLeverages": [
+          "privateGetAccountBatchLeverageInfo"
+        ],
+        "fetchMarginMode": [
+          "privateGetAccountMarginMode"
+        ],
+        "fetchMarkPrice": [
+          "publicGetMarketMarkPrice"
+        ],
+        "fetchMarkets": [
+          "publicGetMarketInstruments"
+        ],
+        "fetchMyTrades": [
+          "privateGetSpotTradeFillsHistory",
+          "privateGetTradeFillsHistory"
+        ],
+        "fetchOHLCV": [
+          "publicGetMarketCandles"
+        ],
+        "fetchOpenOrders": [
+          "privateGetTradeOrdersAlgoPending",
+          "privateGetTradeOrdersPending",
+          "privateGetTradeOrdersTpslPending"
+        ],
+        "fetchOrderBook": [
+          "publicGetMarketBooks"
+        ],
+        "fetchPosition": [
+          "privateGetAccountPositions"
+        ],
+        "fetchPositionMode": [
+          "privateGetAccountPositionMode"
+        ],
+        "fetchPositions": [
+          "privateGetAccountPositions"
+        ],
+        "fetchPositionsADLRank": [
+          "privateGetAccountPositions"
+        ],
+        "fetchTicker": [
+          "publicGetMarketTickers"
+        ],
+        "fetchTickers": [
+          "publicGetMarketTickers"
+        ],
+        "fetchTrades": [
+          "publicGetMarketTrades"
+        ],
+        "fetchWithdrawals": [
+          "privateGetAssetWithdrawalHistory"
+        ],
+        "setLeverage": [
+          "privatePostAccountSetLeverage"
+        ],
+        "setMarginMode": [
+          "privatePostAccountSetMarginMode"
+        ],
+        "setPositionMode": [
+          "privatePostAccountSetPositionMode"
+        ],
+        "transfer": [
+          "privatePostAssetTransfer"
+        ]
+      }
+    },
+    {
+      "class_name": "btcbox",
+      "file": "btcbox.ts",
+      "id": "btcbox",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 12,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostTradeCancel"
+        ],
+        "createOrder": [
+          "privatePostTradeAdd"
+        ],
+        "fetchBalance": [
+          "privatePostBalance"
+        ],
+        "fetchMarkets": [
+          "publicGetTickers"
+        ],
+        "fetchOpenOrders": [
+          "privatePostTradeList"
+        ],
+        "fetchOrder": [
+          "privatePostTradeView"
+        ],
+        "fetchOrderBook": [
+          "publicGetDepth"
+        ],
+        "fetchOrders": [
+          "privatePostTradeList"
+        ],
+        "fetchOrdersByType": [
+          "privatePostTradeList"
+        ],
+        "fetchTicker": [
+          "publicGetTicker"
+        ],
+        "fetchTickers": [
+          "publicGetTickers"
+        ],
+        "fetchTrades": [
+          "publicGetOrders"
+        ]
+      }
+    },
+    {
+      "class_name": "btcmarkets",
+      "file": "btcmarkets.ts",
+      "id": "btcmarkets",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 16,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privateDeleteOrdersId"
+        ],
+        "cancelOrders": [
+          "privateDeleteBatchordersIds"
+        ],
+        "createOrder": [
+          "privatePostOrders"
+        ],
+        "fetchBalance": [
+          "privateGetAccountsMeBalances"
+        ],
+        "fetchClosedOrders": [
+          "privateGetOrders"
+        ],
+        "fetchMarkets": [
+          "publicGetMarkets"
+        ],
+        "fetchMyTrades": [
+          "privateGetTrades"
+        ],
+        "fetchOHLCV": [
+          "publicGetMarketsMarketIdCandles"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOrders"
+        ],
+        "fetchOrder": [
+          "privateGetOrdersId"
+        ],
+        "fetchOrderBook": [
+          "publicGetMarketsMarketIdOrderbook"
+        ],
+        "fetchOrders": [
+          "privateGetOrders"
+        ],
+        "fetchTicker": [
+          "publicGetMarketsMarketIdTicker"
+        ],
+        "fetchTime": [
+          "publicGetTime"
+        ],
+        "fetchTrades": [
+          "publicGetMarketsMarketIdTrades"
+        ],
+        "withdraw": [
+          "privatePostWithdrawals"
+        ]
+      }
+    },
+    {
+      "class_name": "btcturk",
+      "file": "btcturk.ts",
+      "id": "btcturk",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 12,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privateDeleteOrder"
+        ],
+        "createOrder": [
+          "privatePostOrder"
+        ],
+        "fetchBalance": [
+          "privateGetUsersBalances"
+        ],
+        "fetchMarkets": [
+          "publicGetServerExchangeinfo"
+        ],
+        "fetchMyTrades": [
+          "privateGetUsersTransactionsTrade"
+        ],
+        "fetchOHLCV": [
+          "graphGetKlinesHistory"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOpenOrders"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderbook"
+        ],
+        "fetchOrders": [
+          "privateGetAllOrders"
+        ],
+        "fetchTicker": [
+          "publicGetTicker"
+        ],
+        "fetchTickers": [
+          "publicGetTicker"
+        ],
+        "fetchTrades": [
+          "publicGetTrades"
+        ]
+      }
+    },
+    {
+      "class_name": "bullish",
+      "file": "bullish.ts",
+      "id": "bullish",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 75,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin",
+          "privatePostV2Command"
+        ],
+        "cancelOrder": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin",
+          "privatePostV2Command"
+        ],
+        "createOrder": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin",
+          "privatePostV2Orders"
+        ],
+        "editOrder": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin",
+          "privatePostV2Command"
+        ],
+        "fetchAccounts": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin"
+        ],
+        "fetchBalance": [
+          "privateGetV1AccountsAsset",
+          "privateGetV1AccountsAssetSymbol",
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin"
+        ],
+        "fetchBorrowRateHistory": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1HistoryBorrowInterest",
+          "privateGetV1UsersHmacLogin"
+        ],
+        "fetchCanceledAndClosedOrders": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin",
+          "privateGetV2HistoryOrders",
+          "privateGetV2Orders"
+        ],
+        "fetchCanceledOrders": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin",
+          "privateGetV2HistoryOrders",
+          "privateGetV2Orders"
+        ],
+        "fetchClosedOrders": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin",
+          "privateGetV2HistoryOrders",
+          "privateGetV2Orders"
+        ],
+        "fetchCurrencies": [
+          "publicGetV1Assets"
+        ],
+        "fetchDepositAddress": [
+          "privateGetV1UsersHmacLogin",
+          "privateGetV1WalletsDepositInstructionsCryptoSymbol"
+        ],
+        "fetchDepositsWithdrawals": [
+          "privateGetV1UsersHmacLogin",
+          "privateGetV1WalletsTransactions"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetV1HistoryMarketsSymbolFundingRate"
+        ],
+        "fetchMarkets": [
+          "publicGetV1Markets"
+        ],
+        "fetchMyTrades": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1HistoryTrades",
+          "privateGetV1TradesClientOrderIdClientOrderId",
+          "privateGetV1UsersHmacLogin"
+        ],
+        "fetchOHLCV": [
+          "publicGetV1MarketsSymbolCandle"
+        ],
+        "fetchOpenInterest": [
+          "publicGetV1MarketsSymbolTick"
+        ],
+        "fetchOpenOrders": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin",
+          "privateGetV2HistoryOrders",
+          "privateGetV2Orders"
+        ],
+        "fetchOrder": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin",
+          "privateGetV2OrdersOrderId"
+        ],
+        "fetchOrderBook": [
+          "publicGetV1MarketsSymbolOrderbookHybrid"
+        ],
+        "fetchOrderTrades": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1HistoryTrades",
+          "privateGetV1TradesClientOrderIdClientOrderId",
+          "privateGetV1UsersHmacLogin"
+        ],
+        "fetchOrders": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1UsersHmacLogin",
+          "privateGetV2HistoryOrders",
+          "privateGetV2Orders"
+        ],
+        "fetchPositions": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1DerivativesPositions",
+          "privateGetV1UsersHmacLogin"
+        ],
+        "fetchTicker": [
+          "publicGetV1MarketsSymbolTick"
+        ],
+        "fetchTime": [
+          "publicGetV1Time"
+        ],
+        "fetchTrades": [
+          "publicGetV1HistoryMarketsSymbolTrades"
+        ],
+        "fetchTransfers": [
+          "privateGetV1AccountsTradingAccounts",
+          "privateGetV1HistoryTransfer",
+          "privateGetV1UsersHmacLogin"
+        ],
+        "transfer": [
+          "privateGetV1UsersHmacLogin",
+          "privatePostV2Command"
+        ],
+        "withdraw": [
+          "privateGetV1UsersHmacLogin",
+          "privatePostV1WalletsWithdrawal"
+        ]
+      }
+    },
+    {
       "class_name": "bybit",
       "file": "bybit.ts",
       "id": "bybit",
@@ -2249,6 +4122,375 @@
       }
     },
     {
+      "class_name": "bydfi",
+      "file": "bydfi.ts",
+      "id": "bydfi",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 37,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privatePostV1FapiTradeCancelAllOrder"
+        ],
+        "createOrder": [
+          "privatePostV1FapiTradePlaceOrder"
+        ],
+        "createOrders": [
+          "privatePostV1FapiTradeBatchPlaceOrder"
+        ],
+        "editOrder": [
+          "privatePostV1FapiTradeEditOrder"
+        ],
+        "editOrders": [
+          "privatePostV1FapiTradeBatchEditOrder"
+        ],
+        "fetchBalance": [
+          "privateGetV1AccountAssets",
+          "privateGetV1FapiAccountBalance"
+        ],
+        "fetchCanceledAndClosedOrders": [
+          "privateGetV1FapiTradeHistoryOrder"
+        ],
+        "fetchDeposits": [
+          "privateGetV1SpotDepositRecords",
+          "privateGetV1SpotWithdrawRecords"
+        ],
+        "fetchFundingRate": [
+          "publicGetV1FapiMarketFundingRate"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetV1FapiMarketFundingRateHistory"
+        ],
+        "fetchLeverage": [
+          "privateGetV1FapiTradeLeverage"
+        ],
+        "fetchMarginMode": [
+          "privateGetV1FapiUserDataAssetsMargin"
+        ],
+        "fetchMarkets": [
+          "publicGetV1FapiMarketExchangeInfo"
+        ],
+        "fetchMyTrades": [
+          "privateGetV1FapiTradeHistoryTrade"
+        ],
+        "fetchOHLCV": [
+          "publicGetV1FapiMarketKlines"
+        ],
+        "fetchOpenOrder": [
+          "privateGetV1FapiTradeOpenOrder",
+          "privateGetV1FapiTradePlanOrder"
+        ],
+        "fetchOpenOrders": [
+          "privateGetV1FapiTradeOpenOrder",
+          "privateGetV1FapiTradePlanOrder"
+        ],
+        "fetchOrderBook": [
+          "publicGetV1FapiMarketDepth"
+        ],
+        "fetchPositionHistory": [
+          "privateGetV1FapiTradePositionHistory"
+        ],
+        "fetchPositionMode": [
+          "privateGetV1FapiUserDataPositionSideDual"
+        ],
+        "fetchPositions": [
+          "privateGetV1FapiTradePositions"
+        ],
+        "fetchPositionsForSymbol": [
+          "privateGetV1FapiTradePositions"
+        ],
+        "fetchPositionsHistory": [
+          "privateGetV1FapiTradePositionHistory"
+        ],
+        "fetchTicker": [
+          "publicGetV1FapiMarketTicker24hr"
+        ],
+        "fetchTickers": [
+          "publicGetV1FapiMarketTicker24hr"
+        ],
+        "fetchTrades": [
+          "publicGetV1FapiMarketTrades"
+        ],
+        "fetchTransfers": [
+          "privateGetV1AccountTransferRecords"
+        ],
+        "fetchWithdrawals": [
+          "privateGetV1SpotDepositRecords",
+          "privateGetV1SpotWithdrawRecords"
+        ],
+        "setLeverage": [
+          "privatePostV1FapiTradeLeverage"
+        ],
+        "setMarginMode": [
+          "privatePostV1FapiUserDataMarginType"
+        ],
+        "setPositionMode": [
+          "privatePostV1FapiUserDataPositionSideDual"
+        ],
+        "transfer": [
+          "privatePostV1AccountTransfer"
+        ]
+      }
+    },
+    {
+      "class_name": "cex",
+      "file": "cex.ts",
+      "id": "cex",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 30,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privatePostDoCancelAllOrders"
+        ],
+        "cancelOrder": [
+          "privatePostDoCancelMyOrder"
+        ],
+        "createOrder": [
+          "privatePostDoMyNewOrder"
+        ],
+        "fetchAccounts": [
+          "privatePostGetMyAccountStatusV3"
+        ],
+        "fetchBalance": [
+          "privatePostGetMyAccountStatusV3",
+          "privatePostGetMyWalletBalance"
+        ],
+        "fetchClosedOrder": [
+          "privatePostGetMyOrders"
+        ],
+        "fetchClosedOrders": [
+          "privatePostGetMyOrders"
+        ],
+        "fetchCurrencies": [
+          "publicPostGetCurrenciesInfo",
+          "publicPostGetProcessingInfo"
+        ],
+        "fetchDepositAddress": [
+          "privatePostGetDepositAddress"
+        ],
+        "fetchDepositsWithdrawals": [
+          "privatePostGetMyFundingHistory"
+        ],
+        "fetchLedger": [
+          "privatePostGetMyTransactionHistory"
+        ],
+        "fetchMarkets": [
+          "publicPostGetPairsInfo"
+        ],
+        "fetchOHLCV": [
+          "publicPostGetCandles"
+        ],
+        "fetchOpenOrder": [
+          "privatePostGetMyOrders"
+        ],
+        "fetchOpenOrders": [
+          "privatePostGetMyOrders"
+        ],
+        "fetchOrderBook": [
+          "publicPostGetOrderBook"
+        ],
+        "fetchOrdersByStatus": [
+          "privatePostGetMyOrders"
+        ],
+        "fetchTicker": [
+          "publicPostGetTicker"
+        ],
+        "fetchTickers": [
+          "publicPostGetTicker"
+        ],
+        "fetchTime": [
+          "publicPostGetServerTime"
+        ],
+        "fetchTrades": [
+          "publicPostGetTradeHistory"
+        ],
+        "fetchTradingFees": [
+          "privatePostGetMyCurrentFee"
+        ],
+        "transfer": [
+          "privatePostDoDepositFundsFromWallet",
+          "privatePostDoMyInternalTransfer",
+          "privatePostDoWithdrawalFundsToWallet"
+        ],
+        "transferBetweenMainAndSubAccount": [
+          "privatePostDoDepositFundsFromWallet",
+          "privatePostDoWithdrawalFundsToWallet"
+        ],
+        "transferBetweenSubAccounts": [
+          "privatePostDoMyInternalTransfer"
+        ]
+      }
+    },
+    {
+      "class_name": "coinbase",
+      "file": "coinbase.ts",
+      "id": "coinbase",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 69,
+      "unified_endpoints": {
+        "fetchDepositMethodIds": [
+          "v3PrivateGetBrokeragePaymentMethods"
+        ],
+        "fetchDepositMethodId": [
+          "v3PrivateGetBrokeragePaymentMethodsPaymentMethodId"
+        ],
+        "createMarketBuyOrderWithCost": [
+          "v3PrivatePostBrokerageOrders",
+          "v3PrivatePostBrokerageOrdersClosePosition",
+          "v3PrivatePostBrokerageOrdersPreview"
+        ],
+        "fetchOrderBook": [
+          "v3PrivateGetBrokerageProductBook",
+          "v3PublicGetBrokerageMarketProductBook"
+        ],
+        "createConvertTrade": [
+          "v3PrivatePostBrokerageConvertTradeTradeId"
+        ],
+        "editOrder": [
+          "v3PrivatePostBrokerageOrdersEdit",
+          "v3PrivatePostBrokerageOrdersEditPreview"
+        ],
+        "fetchPortfolioDetails": [
+          "v3PrivateGetBrokeragePortfoliosPortfolioUuid"
+        ],
+        "fetchMyBuys": [
+          "v2PrivateGetAccountsAccountIdBuys"
+        ],
+        "fetchTime": [
+          "v2PublicGetTime",
+          "v3PublicGetBrokerageTime"
+        ],
+        "fetchOrders": [
+          "v3PrivateGetBrokerageOrdersHistoricalBatch"
+        ],
+        "fetchConvertTrade": [
+          "v3PrivateGetBrokerageConvertTradeTradeId"
+        ],
+        "fetchPositions": [
+          "v3PrivateGetBrokerageCfmPositions",
+          "v3PrivateGetBrokerageIntxPositionsPortfolioUuid"
+        ],
+        "fetchMySells": [
+          "v2PrivateGetAccountsAccountIdSells"
+        ],
+        "createDepositAddress": [
+          "v2PrivatePostAccountsAccountIdAddresses"
+        ],
+        "fetchPortfolios": [
+          "v3PrivateGetBrokeragePortfolios"
+        ],
+        "fetchClosedOrders": [
+          "v3PrivateGetBrokerageOrdersHistoricalBatch"
+        ],
+        "fetchDepositAddresses": [
+          "v2PrivateGetAccountsAccountIdAddresses"
+        ],
+        "withdraw": [
+          "v2PrivatePostAccountsAccountIdTransactions"
+        ],
+        "fetchMarkets": [
+          "v2PublicGetCurrencies",
+          "v2PublicGetCurrenciesCrypto",
+          "v2PublicGetExchangeRates",
+          "v3PrivateGetBrokerageProducts",
+          "v3PrivateGetBrokerageTransactionSummary",
+          "v3PublicGetBrokerageMarketProducts"
+        ],
+        "fetchOHLCV": [
+          "v3PrivateGetBrokerageProductsProductIdCandles",
+          "v3PublicGetBrokerageMarketProductsProductIdCandles"
+        ],
+        "fetchOrdersByStatus": [
+          "v3PrivateGetBrokerageOrdersHistoricalBatch"
+        ],
+        "fetchBidsAsks": [
+          "v3PrivateGetBrokerageBestBidAsk"
+        ],
+        "cancelOrder": [
+          "v3PrivatePostBrokerageOrdersBatchCancel"
+        ],
+        "fetchOpenOrders": [
+          "v3PrivateGetBrokerageOrdersHistoricalBatch"
+        ],
+        "fetchCurrencies": [
+          "v2PublicGetCurrencies",
+          "v2PublicGetCurrenciesCrypto",
+          "v2PublicGetExchangeRates"
+        ],
+        "fetchLedger": [
+          "v2PrivateGetAccountsAccountIdTransactions"
+        ],
+        "fetchMyTrades": [
+          "v3PrivateGetBrokerageOrdersHistoricalFills"
+        ],
+        "createOrder": [
+          "v3PrivatePostBrokerageOrders",
+          "v3PrivatePostBrokerageOrdersClosePosition",
+          "v3PrivatePostBrokerageOrdersPreview"
+        ],
+        "fetchTrades": [
+          "v3PrivateGetBrokerageProductsProductIdTicker",
+          "v3PublicGetBrokerageMarketProductsProductIdTicker"
+        ],
+        "fetchCanceledOrders": [
+          "v3PrivateGetBrokerageOrdersHistoricalBatch"
+        ],
+        "fetchConvertQuote": [
+          "v3PrivatePostBrokerageConvertQuote"
+        ],
+        "fetchPosition": [
+          "v3PrivateGetBrokerageCfmPositionsProductId",
+          "v3PrivateGetBrokerageIntxPositionsPortfolioUuidSymbol"
+        ],
+        "closePosition": [
+          "v3PrivatePostBrokerageOrdersClosePosition"
+        ],
+        "cancelOrders": [
+          "v3PrivatePostBrokerageOrdersBatchCancel"
+        ],
+        "fetchTicker": [
+          "v2PublicGetPricesSymbolBuy",
+          "v2PublicGetPricesSymbolSell",
+          "v2PublicGetPricesSymbolSpot",
+          "v3PrivateGetBrokerageProductsProductIdTicker",
+          "v3PublicGetBrokerageMarketProductsProductIdTicker"
+        ],
+        "fetchTickers": [
+          "v2PublicGetExchangeRates",
+          "v3PrivateGetBrokerageProducts",
+          "v3PublicGetBrokerageMarketProducts"
+        ],
+        "fetchBalance": [
+          "v2PrivateGetAccounts",
+          "v3PrivateGetBrokerageAccounts",
+          "v3PrivateGetBrokerageCfmBalanceSummary"
+        ],
+        "fetchDeposit": [
+          "v2PrivateGetAccountsAccountIdDepositsDepositId"
+        ],
+        "fetchAccounts": [
+          "v2PrivateGetAccounts",
+          "v3PrivateGetBrokerageAccounts"
+        ],
+        "fetchDepositAddressesByNetwork": [
+          "v2PrivateGetAccountsAccountIdAddresses"
+        ],
+        "fetchTradingFees": [
+          "v3PrivateGetBrokerageTransactionSummary"
+        ],
+        "fetchOrder": [
+          "v3PrivateGetBrokerageOrdersHistoricalOrderId"
+        ]
+      }
+    },
+    {
+      "class_name": "coinbaseadvanced",
+      "file": "coinbaseadvanced.ts",
+      "id": "coinbaseadvanced",
+      "parent_class": "coinbase",
+      "unified_endpoint_count": 0,
+      "unified_endpoints": {}
+    },
+    {
       "class_name": "coinbaseexchange",
       "file": "coinbaseexchange.ts",
       "id": "coinbaseexchange",
@@ -2327,6 +4569,147 @@
         "fetchWithdrawals": [
           "privateGetAccountsIdTransfers",
           "privateGetTransfers"
+        ]
+      }
+    },
+    {
+      "class_name": "coinbaseinternational",
+      "file": "coinbaseinternational.ts",
+      "id": "coinbaseinternational",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 38,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "v1PrivateDeleteOrders",
+          "v1PrivateGetPortfolios"
+        ],
+        "cancelOrder": [
+          "v1PrivateDeleteOrdersId",
+          "v1PrivateGetPortfolios"
+        ],
+        "createDepositAddress": [
+          "v1PrivateGetPortfolios",
+          "v1PublicGetAssetsAssetNetworks"
+        ],
+        "createOrder": [
+          "v1PrivateGetPortfolios",
+          "v1PrivatePostOrders"
+        ],
+        "editOrder": [
+          "v1PrivateGetPortfolios",
+          "v1PrivatePutOrdersId"
+        ],
+        "fetchAccounts": [
+          "v1PrivateGetPortfolios"
+        ],
+        "fetchBalance": [
+          "v1PrivateGetPortfolios",
+          "v1PrivateGetPortfoliosPortfolioBalances"
+        ],
+        "fetchCurrencies": [
+          "v1PublicGetAssets"
+        ],
+        "fetchDeposits": [
+          "v1PrivateGetTransfers"
+        ],
+        "fetchDepositsWithdrawals": [
+          "v1PrivateGetTransfers"
+        ],
+        "fetchFundingHistory": [
+          "v1PrivateGetTransfers"
+        ],
+        "fetchFundingRateHistory": [
+          "v1PublicGetInstrumentsInstrumentFunding"
+        ],
+        "fetchMarkets": [
+          "v1PublicGetInstruments"
+        ],
+        "fetchMyTrades": [
+          "v1PrivateGetPortfoliosFills"
+        ],
+        "fetchOHLCV": [
+          "v1PublicGetInstrumentsInstrumentCandles"
+        ],
+        "fetchOpenOrders": [
+          "v1PrivateGetOrders",
+          "v1PrivateGetPortfolios"
+        ],
+        "fetchOrder": [
+          "v1PrivateGetOrdersId",
+          "v1PrivateGetPortfolios"
+        ],
+        "fetchPosition": [
+          "v1PrivateGetPortfolios",
+          "v1PrivateGetPortfoliosPortfolioPositionsInstrument"
+        ],
+        "fetchPositions": [
+          "v1PrivateGetPortfolios",
+          "v1PrivateGetPortfoliosPortfolioPositions"
+        ],
+        "fetchTicker": [
+          "v1PublicGetInstrumentsInstrumentQuote"
+        ],
+        "fetchTickers": [
+          "v1PublicGetInstruments"
+        ],
+        "fetchTransfers": [
+          "v1PrivateGetTransfers"
+        ],
+        "fetchWithdrawals": [
+          "v1PrivateGetTransfers"
+        ],
+        "setMargin": [
+          "v1PrivateGetPortfolios",
+          "v1PrivatePostPortfoliosMargin"
+        ],
+        "transfer": [
+          "v1PrivatePostPortfoliosTransfer"
+        ],
+        "withdraw": [
+          "v1PrivateGetPortfolios",
+          "v1PublicGetAssetsAssetNetworks"
+        ]
+      }
+    },
+    {
+      "class_name": "coincheck",
+      "file": "coincheck.ts",
+      "id": "coincheck",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 11,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privateDeleteExchangeOrdersId"
+        ],
+        "createOrder": [
+          "privatePostExchangeOrders"
+        ],
+        "fetchBalance": [
+          "privateGetAccountsBalance"
+        ],
+        "fetchDeposits": [
+          "privateGetDepositMoney"
+        ],
+        "fetchMyTrades": [
+          "privateGetExchangeOrdersTransactionsPagination"
+        ],
+        "fetchOpenOrders": [
+          "privateGetExchangeOrdersOpens"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderBooks"
+        ],
+        "fetchTicker": [
+          "publicGetTicker"
+        ],
+        "fetchTrades": [
+          "publicGetTrades"
+        ],
+        "fetchTradingFees": [
+          "privateGetAccounts"
+        ],
+        "fetchWithdrawals": [
+          "privateGetWithdraws"
         ]
       }
     },
@@ -2582,6 +4965,279 @@
       }
     },
     {
+      "class_name": "coinmate",
+      "file": "coinmate.ts",
+      "id": "coinmate",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 14,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostCancelOrderWithInfo"
+        ],
+        "fetchBalance": [
+          "privatePostBalances"
+        ],
+        "fetchDepositsWithdrawals": [
+          "privatePostTransferHistory"
+        ],
+        "fetchMarkets": [
+          "publicGetTradingPairs"
+        ],
+        "fetchMyTrades": [
+          "privatePostTradeHistory"
+        ],
+        "fetchOpenOrders": [
+          "privatePostOpenOrders"
+        ],
+        "fetchOrder": [
+          "privatePostOrderById"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderBook"
+        ],
+        "fetchOrders": [
+          "privatePostOrderHistory"
+        ],
+        "fetchTicker": [
+          "publicGetTicker"
+        ],
+        "fetchTickers": [
+          "publicGetTickerAll"
+        ],
+        "fetchTime": [
+          "publicGetSystemTime"
+        ],
+        "fetchTrades": [
+          "publicGetTransactions"
+        ],
+        "fetchTradingFee": [
+          "privatePostTraderFees"
+        ]
+      }
+    },
+    {
+      "class_name": "coinmetro",
+      "file": "coinmetro.ts",
+      "id": "coinmetro",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 19,
+      "unified_endpoints": {
+        "borrowCrossMargin": [
+          "privatePutUsersMarginCollateral"
+        ],
+        "cancelOrder": [
+          "privatePostExchangeOrdersCloseOrderID",
+          "privatePutExchangeOrdersCancelOrderID"
+        ],
+        "closePosition": [
+          "privatePostExchangeOrdersCloseOrderID"
+        ],
+        "createOrder": [
+          "privatePostExchangeOrdersCreate"
+        ],
+        "fetchBalance": [
+          "privateGetUsersWallets"
+        ],
+        "fetchBidsAsks": [
+          "publicGetExchangePrices"
+        ],
+        "fetchCanceledAndClosedOrders": [
+          "privateGetExchangeOrdersHistorySince"
+        ],
+        "fetchCurrencies": [
+          "publicGetAssets"
+        ],
+        "fetchLedger": [
+          "privateGetUsersWalletsHistorySince"
+        ],
+        "fetchMarkets": [
+          "publicGetAssets",
+          "publicGetMarkets"
+        ],
+        "fetchMyTrades": [
+          "privateGetExchangeFillsSince"
+        ],
+        "fetchOHLCV": [
+          "publicGetExchangeCandlesPairTimeframeFromTo"
+        ],
+        "fetchOpenOrders": [
+          "privateGetExchangeOrdersActive"
+        ],
+        "fetchOrder": [
+          "privateGetExchangeOrdersStatusOrderID"
+        ],
+        "fetchOrderBook": [
+          "publicGetExchangeBookPair"
+        ],
+        "fetchTickers": [
+          "publicGetExchangePrices"
+        ],
+        "fetchTrades": [
+          "publicGetExchangeTicksPairFrom"
+        ]
+      }
+    },
+    {
+      "class_name": "coinone",
+      "file": "coinone.ts",
+      "id": "coinone",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 13,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "v2PrivatePostOrderCancel"
+        ],
+        "fetchBalance": [
+          "v2PrivatePostAccountBalance"
+        ],
+        "fetchCurrencies": [
+          "v2PublicGetCurrencies"
+        ],
+        "fetchDepositAddresses": [
+          "v2PrivatePostAccountDepositAddress"
+        ],
+        "fetchMarkets": [
+          "v2PublicGetTickerNewQuoteCurrency"
+        ],
+        "fetchMyTrades": [
+          "v2PrivatePostOrderCompleteOrders"
+        ],
+        "fetchOpenOrders": [
+          "privatePostOrderLimitOrders"
+        ],
+        "fetchOrder": [
+          "v2PrivatePostOrderQueryOrder"
+        ],
+        "fetchOrderBook": [
+          "v2PublicGetOrderbookQuoteCurrencyTargetCurrency"
+        ],
+        "fetchTicker": [
+          "v2PublicGetTickerNewQuoteCurrencyTargetCurrency"
+        ],
+        "fetchTickers": [
+          "v2PublicGetTickerNewQuoteCurrency",
+          "v2PublicGetTickerNewQuoteCurrencyTargetCurrency"
+        ],
+        "fetchTrades": [
+          "v2PublicGetTradesQuoteCurrencyTargetCurrency"
+        ]
+      }
+    },
+    {
+      "class_name": "coinsph",
+      "file": "coinsph.ts",
+      "id": "coinsph",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 29,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateDeleteOpenapiV1OpenOrders"
+        ],
+        "cancelOrder": [
+          "privateDeleteOpenapiV1Order"
+        ],
+        "createOrder": [
+          "privatePostOpenapiV1Order",
+          "privatePostOpenapiV1OrderTest"
+        ],
+        "fetchBalance": [
+          "privateGetOpenapiV1Account"
+        ],
+        "fetchClosedOrders": [
+          "privateGetOpenapiV1HistoryOrders"
+        ],
+        "fetchCurrencies": [
+          "privateGetOpenapiWalletV1ConfigGetall"
+        ],
+        "fetchDepositAddress": [
+          "privateGetOpenapiWalletV1DepositAddress"
+        ],
+        "fetchDeposits": [
+          "privateGetOpenapiWalletV1DepositHistory"
+        ],
+        "fetchMarkets": [
+          "publicGetOpenapiV1ExchangeInfo"
+        ],
+        "fetchMyTrades": [
+          "privateGetOpenapiV1MyTrades"
+        ],
+        "fetchOHLCV": [
+          "publicGetOpenapiQuoteV1Klines"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOpenapiV1OpenOrders"
+        ],
+        "fetchOrder": [
+          "privateGetOpenapiV1Order"
+        ],
+        "fetchOrderBook": [
+          "publicGetOpenapiQuoteV1Depth"
+        ],
+        "fetchOrderTrades": [
+          "privateGetOpenapiV1MyTrades"
+        ],
+        "fetchStatus": [
+          "publicGetOpenapiV1Ping"
+        ],
+        "fetchTicker": [
+          "publicGetOpenapiQuoteV1Ticker24hr",
+          "publicGetOpenapiQuoteV1TickerBookTicker",
+          "publicGetOpenapiQuoteV1TickerPrice"
+        ],
+        "fetchTickers": [
+          "publicGetOpenapiQuoteV1Ticker24hr",
+          "publicGetOpenapiQuoteV1TickerBookTicker",
+          "publicGetOpenapiQuoteV1TickerPrice"
+        ],
+        "fetchTime": [
+          "publicGetOpenapiV1Time"
+        ],
+        "fetchTrades": [
+          "publicGetOpenapiQuoteV1Trades"
+        ],
+        "fetchTradingFee": [
+          "privateGetOpenapiV1AssetTradeFee"
+        ],
+        "fetchTradingFees": [
+          "privateGetOpenapiV1AssetTradeFee"
+        ],
+        "fetchWithdrawals": [
+          "privateGetOpenapiWalletV1WithdrawHistory"
+        ],
+        "withdraw": [
+          "privatePostOpenapiWalletV1WithdrawApply"
+        ]
+      }
+    },
+    {
+      "class_name": "coinspot",
+      "file": "coinspot.ts",
+      "id": "coinspot",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 7,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostMyBuyCancel",
+          "privatePostMySellCancel"
+        ],
+        "fetchMyTrades": [
+          "privatePostRoMyTransactions"
+        ],
+        "fetchOrderBook": [
+          "privatePostOrders"
+        ],
+        "fetchTicker": [
+          "publicGetLatest"
+        ],
+        "fetchTickers": [
+          "publicGetLatest"
+        ],
+        "fetchTrades": [
+          "privatePostOrdersHistory"
+        ]
+      }
+    },
+    {
       "class_name": "cryptocom",
       "file": "cryptocom.ts",
       "id": "cryptocom",
@@ -2692,6 +5348,296 @@
         ],
         "fetchOrder": [
           "v1PrivatePostPrivateGetOrderDetail"
+        ]
+      }
+    },
+    {
+      "class_name": "cryptomus",
+      "file": "cryptomus.ts",
+      "id": "cryptomus",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 12,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privateDeleteV2UserApiExchangeOrdersOrderId"
+        ],
+        "createOrder": [
+          "privatePostV2UserApiExchangeOrders",
+          "privatePostV2UserApiExchangeOrdersMarket"
+        ],
+        "fetchBalance": [
+          "privateGetV2UserApiExchangeAccountBalance"
+        ],
+        "fetchCanceledAndClosedOrders": [
+          "privateGetV2UserApiExchangeOrdersHistory"
+        ],
+        "fetchCurrencies": [
+          "publicGetV1ExchangeMarketAssets"
+        ],
+        "fetchMarkets": [
+          "publicGetV2UserApiExchangeMarkets"
+        ],
+        "fetchOpenOrders": [
+          "privateGetV2UserApiExchangeOrders"
+        ],
+        "fetchOrderBook": [
+          "publicGetV1ExchangeMarketOrderBookCurrencyPair"
+        ],
+        "fetchTickers": [
+          "publicGetV1ExchangeMarketTickers"
+        ],
+        "fetchTrades": [
+          "publicGetV1ExchangeMarketTradesCurrencyPair"
+        ],
+        "fetchTradingFees": [
+          "privateGetV2UserApiExchangeAccountTariffs"
+        ]
+      }
+    },
+    {
+      "class_name": "deepcoin",
+      "file": "deepcoin.ts",
+      "id": "deepcoin",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 49,
+      "unified_endpoints": {
+        "createMarketOrderWithCost": [
+          "privatePostDeepcoinTradeOrder",
+          "privatePostDeepcoinTradeTriggerOrder"
+        ],
+        "createMarketBuyOrderWithCost": [
+          "privatePostDeepcoinTradeOrder",
+          "privatePostDeepcoinTradeTriggerOrder"
+        ],
+        "fetchOrderBook": [
+          "publicGetDeepcoinMarketBooks"
+        ],
+        "fetchFundingRate": [
+          "publicGetDeepcoinTradeFundRateCurrentFundingRate"
+        ],
+        "setLeverage": [
+          "privatePostDeepcoinAccountSetLeverage"
+        ],
+        "createMarketSellOrderWithCost": [
+          "privatePostDeepcoinTradeOrder",
+          "privatePostDeepcoinTradeTriggerOrder"
+        ],
+        "editOrder": [
+          "privatePostDeepcoinTradeReplaceOrder",
+          "privatePostDeepcoinTradeReplaceOrderSltp"
+        ],
+        "fetchDeposits": [
+          "privateGetDeepcoinAssetDepositList"
+        ],
+        "fetchOrderTrades": [
+          "privateGetDeepcoinTradeFills"
+        ],
+        "fetchMarketsByType": [
+          "publicGetDeepcoinMarketInstruments"
+        ],
+        "fetchPositions": [
+          "privateGetDeepcoinAccountPositions"
+        ],
+        "fetchFundingRates": [
+          "publicGetDeepcoinTradeFundRateCurrentFundingRate"
+        ],
+        "fetchDepositAddress": [
+          "privateGetDeepcoinAssetRechargeChainList"
+        ],
+        "fetchClosedOrders": [
+          "privateGetDeepcoinTradeOrdersHistory",
+          "privateGetDeepcoinTradeTriggerOrdersHistory"
+        ],
+        "fetchDepositAddresses": [
+          "privateGetDeepcoinAssetRechargeChainList"
+        ],
+        "cancelAllOrders": [
+          "privatePostDeepcoinTradeSwapCancelAll"
+        ],
+        "fetchMarkets": [
+          "publicGetDeepcoinMarketInstruments"
+        ],
+        "fetchClosedOrder": [
+          "privateGetDeepcoinTradeFinishOrderByID"
+        ],
+        "fetchOHLCV": [
+          "publicGetDeepcoinMarketCandles",
+          "publicGetDeepcoinMarketIndexCandles",
+          "publicGetDeepcoinMarketMarkPriceCandles"
+        ],
+        "cancelOrder": [
+          "privatePostDeepcoinTradeCancelOrder",
+          "privatePostDeepcoinTradeCancelTriggerOrder"
+        ],
+        "fetchOpenOrders": [
+          "privateGetDeepcoinTradeTriggerOrdersPending",
+          "privateGetDeepcoinTradeV2OrdersPending"
+        ],
+        "fetchWithdrawals": [
+          "privateGetDeepcoinAssetWithdrawList"
+        ],
+        "fetchCanceledAndClosedOrders": [
+          "privateGetDeepcoinTradeOrdersHistory",
+          "privateGetDeepcoinTradeTriggerOrdersHistory"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetDeepcoinTradeFundRateHistory"
+        ],
+        "fetchLedger": [
+          "privateGetDeepcoinAccountBills"
+        ],
+        "transfer": [
+          "privatePostDeepcoinAssetTransfer"
+        ],
+        "fetchMyTrades": [
+          "privateGetDeepcoinTradeFills"
+        ],
+        "fetchOpenOrder": [
+          "privateGetDeepcoinTradeOrderByID"
+        ],
+        "createOrder": [
+          "privatePostDeepcoinTradeOrder",
+          "privatePostDeepcoinTradeTriggerOrder"
+        ],
+        "fetchTrades": [
+          "publicGetDeepcoinMarketTrades"
+        ],
+        "fetchCanceledOrders": [
+          "privateGetDeepcoinTradeOrdersHistory",
+          "privateGetDeepcoinTradeTriggerOrdersHistory"
+        ],
+        "closePosition": [
+          "privatePostDeepcoinTradeBatchClosePosition",
+          "privatePostDeepcoinTradeClosePositionByIds"
+        ],
+        "cancelOrders": [
+          "privatePostDeepcoinTradeBatchCancelOrder"
+        ],
+        "fetchTickers": [
+          "publicGetDeepcoinMarketTickers"
+        ],
+        "fetchBalance": [
+          "privateGetDeepcoinAccountBalances"
+        ],
+        "fetchPositionsForSymbol": [
+          "privateGetDeepcoinAccountPositions"
+        ]
+      }
+    },
+    {
+      "class_name": "delta",
+      "file": "delta.ts",
+      "id": "delta",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 38,
+      "unified_endpoints": {
+        "fetchSettlementHistory": [
+          "publicGetProducts"
+        ],
+        "fetchOrderBook": [
+          "publicGetL2orderbookSymbol"
+        ],
+        "fetchFundingRate": [
+          "publicGetTickersSymbol"
+        ],
+        "setLeverage": [
+          "privatePostProductsProductIdOrdersLeverage"
+        ],
+        "fetchGreeks": [
+          "publicGetTickersSymbol"
+        ],
+        "addMargin": [
+          "privatePostPositionsChangeMargin"
+        ],
+        "editOrder": [
+          "privatePutOrders"
+        ],
+        "fetchMarginMode": [
+          "privateGetProfile"
+        ],
+        "fetchTime": [
+          "publicGetSettings"
+        ],
+        "closeAllPositions": [
+          "privatePostPositionsCloseAll"
+        ],
+        "fetchPositionsADLRank": [
+          "privateGetPositionsMargined"
+        ],
+        "fetchPositions": [
+          "privateGetPositionsMargined"
+        ],
+        "fetchFundingRates": [
+          "publicGetTickers"
+        ],
+        "fetchDepositAddress": [
+          "privateGetDepositsAddress"
+        ],
+        "fetchStatus": [
+          "publicGetSettings"
+        ],
+        "fetchClosedOrders": [
+          "privateGetOrders",
+          "privateGetOrdersHistory"
+        ],
+        "fetchOpenInterest": [
+          "publicGetTickersSymbol"
+        ],
+        "cancelAllOrders": [
+          "privateDeleteOrdersAll"
+        ],
+        "fetchLeverage": [
+          "privateGetProductsProductIdOrdersLeverage"
+        ],
+        "fetchMarkets": [
+          "publicGetProducts"
+        ],
+        "fetchOHLCV": [
+          "publicGetHistoryCandles"
+        ],
+        "cancelOrder": [
+          "privateDeleteOrders"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOrders",
+          "privateGetOrdersHistory"
+        ],
+        "fetchCurrencies": [
+          "publicGetAssets"
+        ],
+        "fetchLedger": [
+          "privateGetWalletTransactions"
+        ],
+        "fetchOption": [
+          "publicGetTickersSymbol"
+        ],
+        "fetchMyTrades": [
+          "privateGetFills"
+        ],
+        "createOrder": [
+          "privatePostOrders"
+        ],
+        "fetchTrades": [
+          "publicGetTradesSymbol"
+        ],
+        "fetchPosition": [
+          "privateGetPositions"
+        ],
+        "reduceMargin": [
+          "privatePostPositionsChangeMargin"
+        ],
+        "fetchTicker": [
+          "publicGetTickersSymbol"
+        ],
+        "fetchTickers": [
+          "publicGetTickers"
+        ],
+        "fetchBalance": [
+          "privateGetWalletBalances"
+        ],
+        "fetchOrder": [
+          "privateGetOrdersClientOrderIdClientOid",
+          "privateGetOrdersOrderId"
         ]
       }
     },
@@ -2924,6 +5870,180 @@
       }
     },
     {
+      "class_name": "digifinex",
+      "file": "digifinex.ts",
+      "id": "digifinex",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 77,
+      "unified_endpoints": {
+        "fetchTradingFee": [
+          "privateSwapGetAccountTradingFeeRate"
+        ],
+        "createMarketBuyOrderWithCost": [
+          "privateSpotPostMarginOrderNew",
+          "privateSpotPostSpotOrderNew",
+          "privateSwapPostTradeOrderPlace"
+        ],
+        "setMarginMode": [
+          "privateSwapPostAccountPositionMode"
+        ],
+        "fetchOrderBook": [
+          "publicSpotGetOrderBook",
+          "publicSwapGetPublicDepth"
+        ],
+        "fetchTransactionsByType": [
+          "privateSpotGetDepositHistory",
+          "privateSpotGetWithdrawHistory"
+        ],
+        "fetchFundingHistory": [
+          "privateSwapGetAccountFundingFee"
+        ],
+        "fetchFundingRate": [
+          "publicSwapGetPublicFundingRate"
+        ],
+        "setLeverage": [
+          "privateSwapPostAccountLeverage"
+        ],
+        "addMargin": [
+          "privateSwapPostAccountPositionMargin"
+        ],
+        "fetchTime": [
+          "publicSpotGetTime"
+        ],
+        "fetchDepositWithdrawFees": [
+          "publicSpotGetCurrencies"
+        ],
+        "fetchOrders": [
+          "privateSpotGetMarginOrderHistory",
+          "privateSpotGetSpotOrderHistory",
+          "privateSwapGetTradeHistoryOrders"
+        ],
+        "fetchDeposits": [
+          "privateSpotGetDepositHistory",
+          "privateSpotGetWithdrawHistory"
+        ],
+        "fetchMarketLeverageTiers": [
+          "publicSwapGetPublicInstrument"
+        ],
+        "fetchPositions": [
+          "privateSpotGetMarginPositions",
+          "privateSwapGetAccountPositions"
+        ],
+        "fetchDepositAddress": [
+          "privateSpotGetDepositAddress"
+        ],
+        "fetchBorrowInterest": [
+          "privateSpotGetMarginPositions"
+        ],
+        "fetchStatus": [
+          "publicSpotGetPing"
+        ],
+        "fetchTransfers": [
+          "privateSwapGetAccountTransferRecord"
+        ],
+        "withdraw": [
+          "privateSpotPostWithdrawNew"
+        ],
+        "fetchMarkets": [
+          "publicSpotGetMarginSymbols",
+          "publicSpotGetMarkets",
+          "publicSpotGetTradesSymbols",
+          "publicSwapGetPublicInstruments"
+        ],
+        "fetchOHLCV": [
+          "publicSpotGetKline",
+          "publicSwapGetPublicCandles"
+        ],
+        "cancelOrder": [
+          "privateSpotPostMarginOrderCancel",
+          "privateSpotPostSpotOrderCancel",
+          "privateSwapPostTradeCancelOrder"
+        ],
+        "fetchFundingInterval": [
+          "publicSwapGetPublicFundingRate"
+        ],
+        "fetchOpenOrders": [
+          "privateSpotGetMarginOrderCurrent",
+          "privateSpotGetSpotOrderCurrent",
+          "privateSwapGetTradeOpenOrders"
+        ],
+        "fetchWithdrawals": [
+          "privateSpotGetDepositHistory",
+          "privateSpotGetWithdrawHistory"
+        ],
+        "fetchCrossBorrowRates": [
+          "privateSpotGetMarginAssets"
+        ],
+        "fetchFundingRateHistory": [
+          "publicSwapGetPublicFundingRateHistory"
+        ],
+        "fetchCurrencies": [
+          "publicSpotGetCurrencies"
+        ],
+        "fetchLedger": [
+          "privateSpotGetMarginFinancelog",
+          "privateSpotGetSpotFinancelog",
+          "privateSwapGetAccountFinanceRecord"
+        ],
+        "transfer": [
+          "privateSpotPostTransfer",
+          "privateSwapPostAccountTransfer"
+        ],
+        "fetchMyTrades": [
+          "privateSpotGetMarginMytrades",
+          "privateSpotGetSpotMytrades",
+          "privateSwapGetTradeHistoryTrades"
+        ],
+        "createOrder": [
+          "privateSpotPostMarginOrderNew",
+          "privateSpotPostSpotOrderNew",
+          "privateSwapPostTradeOrderPlace"
+        ],
+        "fetchTrades": [
+          "publicSpotGetTrades",
+          "publicSwapGetPublicTrades"
+        ],
+        "fetchPosition": [
+          "privateSpotGetMarginPositions",
+          "privateSwapGetAccountPositions"
+        ],
+        "fetchLeverageTiers": [
+          "publicSwapGetPublicInstruments"
+        ],
+        "reduceMargin": [
+          "privateSwapPostAccountPositionMargin"
+        ],
+        "cancelOrders": [
+          "privateSpotPostSpotOrderCancel"
+        ],
+        "fetchTicker": [
+          "publicSpotGetTicker",
+          "publicSwapGetPublicTicker"
+        ],
+        "fetchCrossBorrowRate": [
+          "privateSpotGetMarginAssets"
+        ],
+        "fetchTickers": [
+          "publicSpotGetTicker",
+          "publicSwapGetPublicTickers"
+        ],
+        "fetchBalance": [
+          "privateSpotGetMarginAssets",
+          "privateSpotGetSpotAssets",
+          "privateSwapGetAccountBalance"
+        ],
+        "createOrders": [
+          "privateSpotPostMarketOrderBatchNew",
+          "privateSwapPostTradeBatchOrder"
+        ],
+        "fetchOrder": [
+          "privateSpotGetMarginOrder",
+          "privateSpotGetSpotOrder",
+          "privateSwapGetTradeOrderInfo"
+        ]
+      }
+    },
+    {
       "class_name": "dydx",
       "file": "dydx.ts",
       "id": "dydx",
@@ -3011,6 +6131,239 @@
           "nodeRestGetCosmosAuthV1beta1AccountInfoDydxAddress",
           "nodeRestPostCosmosTxV1beta1Simulate",
           "nodeRpcGetBroadcastTxSync"
+        ]
+      }
+    },
+    {
+      "class_name": "exmo",
+      "file": "exmo.ts",
+      "id": "exmo",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 54,
+      "unified_endpoints": {
+        "fetchPublicTradingFees": [
+          "publicGetPairSettings"
+        ],
+        "createMarketOrderWithCost": [
+          "privatePostMarginUserOrderCreate",
+          "privatePostOrderCreate",
+          "privatePostStopMarketOrderCreate"
+        ],
+        "createMarketBuyOrderWithCost": [
+          "privatePostMarginUserOrderCreate",
+          "privatePostOrderCreate",
+          "privatePostStopMarketOrderCreate"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderBook"
+        ],
+        "createMarketSellOrderWithCost": [
+          "privatePostMarginUserOrderCreate",
+          "privatePostOrderCreate",
+          "privatePostStopMarketOrderCreate"
+        ],
+        "addMargin": [
+          "privatePostMarginUserPositionMarginAdd",
+          "privatePostMarginUserPositionMarginRemove"
+        ],
+        "editOrder": [
+          "privatePostMarginUserOrderUpdate"
+        ],
+        "fetchDepositWithdrawFees": [
+          "publicGetPaymentsProvidersCryptoList"
+        ],
+        "fetchDeposits": [
+          "privatePostWalletOperations"
+        ],
+        "fetchOrderTrades": [
+          "privatePostMarginUserOrderTrades",
+          "privatePostOrderTrades"
+        ],
+        "fetchOrderBooks": [
+          "publicGetOrderBook"
+        ],
+        "fetchDepositAddress": [
+          "privatePostDepositAddress"
+        ],
+        "fetchDepositsWithdrawals": [
+          "privatePostWalletHistory"
+        ],
+        "withdraw": [
+          "privatePostWithdrawCrypt"
+        ],
+        "fetchMarkets": [
+          "privatePostMarginPairList",
+          "publicGetPairSettings"
+        ],
+        "fetchWithdrawal": [
+          "privatePostWalletOperations"
+        ],
+        "fetchOHLCV": [
+          "publicGetCandlesHistory"
+        ],
+        "cancelOrder": [
+          "privatePostMarginUserOrderCancel",
+          "privatePostOrderCancel",
+          "privatePostStopMarketOrderCancel"
+        ],
+        "fetchOpenOrders": [
+          "privatePostMarginUserOrderList",
+          "privatePostUserOpenOrders"
+        ],
+        "fetchWithdrawals": [
+          "privatePostWalletOperations"
+        ],
+        "fetchCurrencies": [
+          "publicGetCurrencyListExtended",
+          "publicGetPaymentsProvidersCryptoList"
+        ],
+        "fetchMyTrades": [
+          "privatePostMarginTrades",
+          "privatePostUserTrades"
+        ],
+        "createOrder": [
+          "privatePostMarginUserOrderCreate",
+          "privatePostOrderCreate",
+          "privatePostStopMarketOrderCreate"
+        ],
+        "fetchTransactionFees": [
+          "publicGetPaymentsProvidersCryptoList"
+        ],
+        "fetchTrades": [
+          "publicGetTrades"
+        ],
+        "fetchCanceledOrders": [
+          "privatePostMarginUserOrderHistory",
+          "privatePostUserCancelledOrders"
+        ],
+        "fetchPrivateTradingFees": [
+          "privatePostMarginPairList"
+        ],
+        "reduceMargin": [
+          "privatePostMarginUserPositionMarginAdd",
+          "privatePostMarginUserPositionMarginRemove"
+        ],
+        "fetchTicker": [
+          "publicGetTicker"
+        ],
+        "fetchTickers": [
+          "publicGetTicker"
+        ],
+        "fetchBalance": [
+          "privatePostMarginUserWalletList",
+          "privatePostUserInfo"
+        ],
+        "fetchDeposit": [
+          "privatePostWalletOperations"
+        ],
+        "fetchTradingFees": [
+          "privatePostMarginPairList",
+          "publicGetPairSettings"
+        ],
+        "fetchOrder": [
+          "privatePostOrderTrades"
+        ]
+      }
+    },
+    {
+      "class_name": "fmfwio",
+      "file": "fmfwio.ts",
+      "id": "fmfwio",
+      "parent_class": "hitbtc",
+      "unified_endpoint_count": 0,
+      "unified_endpoints": {}
+    },
+    {
+      "class_name": "foxbit",
+      "file": "foxbit.ts",
+      "id": "foxbit",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 29,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "v3PrivatePutOrdersCancel"
+        ],
+        "cancelOrder": [
+          "v3PrivatePutOrdersCancel"
+        ],
+        "createOrder": [
+          "v3PrivatePostOrders"
+        ],
+        "createOrders": [
+          "v3PrivatePostOrdersBatch"
+        ],
+        "editOrder": [
+          "v3PrivatePostOrdersCancelReplace"
+        ],
+        "fetchBalance": [
+          "v3PrivateGetAccounts"
+        ],
+        "fetchCanceledOrders": [
+          "v3PrivateGetOrders"
+        ],
+        "fetchClosedOrders": [
+          "v3PrivateGetOrders"
+        ],
+        "fetchCurrencies": [
+          "v3PublicGetCurrencies"
+        ],
+        "fetchDepositAddress": [
+          "v3PrivateGetDepositsAddress"
+        ],
+        "fetchDeposits": [
+          "v3PrivateGetDeposits"
+        ],
+        "fetchLedger": [
+          "v3PrivateGetAccountsSymbolTransactions"
+        ],
+        "fetchMarkets": [
+          "v3PublicGetMarkets"
+        ],
+        "fetchMyTrades": [
+          "v3PrivateGetTrades"
+        ],
+        "fetchOHLCV": [
+          "v3PublicGetMarketsMarketCandlesticks"
+        ],
+        "fetchOpenOrders": [
+          "v3PrivateGetOrders"
+        ],
+        "fetchOrder": [
+          "v3PrivateGetOrdersByOrderIdId"
+        ],
+        "fetchOrderBook": [
+          "v3PublicGetMarketsMarketOrderbook"
+        ],
+        "fetchOrders": [
+          "v3PrivateGetOrders"
+        ],
+        "fetchOrdersByStatus": [
+          "v3PrivateGetOrders"
+        ],
+        "fetchStatus": [
+          "statusPublicGetStatus"
+        ],
+        "fetchTicker": [
+          "v3PublicGetMarketsMarketTicker24hr"
+        ],
+        "fetchTickers": [
+          "v3PublicGetMarketsTicker24hr"
+        ],
+        "fetchTrades": [
+          "v3PublicGetMarketsMarketTradesHistory"
+        ],
+        "fetchTradingFees": [
+          "v3PrivateGetMeFeesTrading"
+        ],
+        "fetchTransactions": [
+          "v3PrivateGetDeposits",
+          "v3PrivateGetWithdrawals"
+        ],
+        "fetchWithdrawals": [
+          "v3PrivateGetWithdrawals"
+        ],
+        "withdraw": [
+          "v3PrivatePostWithdrawals"
         ]
       }
     },
@@ -3386,6 +6739,173 @@
       "unified_endpoints": {}
     },
     {
+      "class_name": "gemini",
+      "file": "gemini.ts",
+      "id": "gemini",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 22,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostV1OrderCancel"
+        ],
+        "createDepositAddress": [
+          "privatePostV1DepositCurrencyNewAddress"
+        ],
+        "createOrder": [
+          "privatePostV1OrderNew"
+        ],
+        "fetchBalance": [
+          "privatePostV1Balances"
+        ],
+        "fetchDepositAddress": [
+          "privatePostV1AddressesNetwork"
+        ],
+        "fetchDepositAddressesByNetwork": [
+          "privatePostV1AddressesNetwork"
+        ],
+        "fetchDepositsWithdrawals": [
+          "privatePostV1Transfers"
+        ],
+        "fetchMarkets": [
+          "publicGetV1Symbols",
+          "publicGetV1SymbolsDetailsSymbol"
+        ],
+        "fetchMyTrades": [
+          "privatePostV1Mytrades"
+        ],
+        "fetchOHLCV": [
+          "publicGetV2CandlesSymbolTimeframe"
+        ],
+        "fetchOpenInterest": [
+          "publicGetV1RiskstatsSymbol"
+        ],
+        "fetchOpenOrders": [
+          "privatePostV1Orders"
+        ],
+        "fetchOrder": [
+          "privatePostV1OrderStatus"
+        ],
+        "fetchOrderBook": [
+          "publicGetV1BookSymbol"
+        ],
+        "fetchTicker": [
+          "publicGetV1PubtickerSymbol",
+          "publicGetV2TickerSymbol"
+        ],
+        "fetchTickers": [
+          "publicGetV1Pricefeed"
+        ],
+        "fetchTrades": [
+          "publicGetV1TradesSymbol"
+        ],
+        "fetchTradingFees": [
+          "privatePostV1Notionalvolume"
+        ],
+        "fetchUSDTMarkets": [
+          "publicGetV1SymbolsDetailsSymbol"
+        ],
+        "withdraw": [
+          "privatePostV1WithdrawCurrency"
+        ]
+      }
+    },
+    {
+      "class_name": "grvt",
+      "file": "grvt.ts",
+      "id": "grvt",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 37,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateTradingPostFullV1CancelAllOrders"
+        ],
+        "cancelOrder": [
+          "privateTradingPostFullV1CancelOrder"
+        ],
+        "createOrder": [
+          "ethGetAddressFromPrivateKey",
+          "privateTradingPostFullV1CreateOrder"
+        ],
+        "fetchBalance": [
+          "privateTradingPostFullV1AccountSummary"
+        ],
+        "fetchCurrencies": [
+          "publicMarketPostFullV1Currency"
+        ],
+        "fetchDeposits": [
+          "privateTradingPostFullV1DepositHistory",
+          "privateTradingPostFullV1TransferHistory"
+        ],
+        "fetchFundingHistory": [
+          "privateTradingPostFullV1FundingPaymentHistory"
+        ],
+        "fetchFundingRateHistory": [
+          "publicMarketPostFullV1Funding"
+        ],
+        "fetchLeverages": [
+          "privateTradingPostFullV1GetAllInitialLeverage"
+        ],
+        "fetchMarginModes": [
+          "privateTradingPostFullV1GetAllInitialLeverage"
+        ],
+        "fetchMarkets": [
+          "ethGetAddressFromPrivateKey",
+          "privateEdgePostAuthApiKeyLogin",
+          "privateEdgePostAuthWalletLogin",
+          "privateTradingPostFullV1AggregatedAccountSummary",
+          "privateTradingPostFullV1AuthorizeBuilder",
+          "privateTradingPostFullV1GetAuthorizedBuilders",
+          "privateTradingPostFullV1GetSubAccounts",
+          "publicMarketPostFullV1AllInstruments"
+        ],
+        "fetchMyTrades": [
+          "privateTradingPostFullV1FillHistory"
+        ],
+        "fetchOHLCV": [
+          "publicMarketPostFullV1Kline"
+        ],
+        "fetchOpenOrders": [
+          "privateTradingPostFullV1OpenOrders"
+        ],
+        "fetchOrder": [
+          "privateTradingPostFullV1Order"
+        ],
+        "fetchOrderBook": [
+          "publicMarketPostFullV1Book"
+        ],
+        "fetchOrders": [
+          "privateTradingPostFullV1OrderHistory"
+        ],
+        "fetchPositions": [
+          "privateTradingPostFullV1Positions"
+        ],
+        "fetchTicker": [
+          "publicMarketPostFullV1Ticker"
+        ],
+        "fetchTrades": [
+          "publicMarketPostFullV1TradeHistory"
+        ],
+        "fetchTransfers": [
+          "privateTradingPostFullV1TransferHistory"
+        ],
+        "fetchWithdrawals": [
+          "privateTradingPostFullV1TransferHistory",
+          "privateTradingPostFullV1WithdrawalHistory"
+        ],
+        "setLeverage": [
+          "privateTradingPostFullV1SetInitialLeverage"
+        ],
+        "transfer": [
+          "ethGetAddressFromPrivateKey",
+          "privateTradingPostFullV1Transfer"
+        ],
+        "withdraw": [
+          "ethGetAddressFromPrivateKey",
+          "privateTradingPostFullV1Withdrawal"
+        ]
+      }
+    },
+    {
       "class_name": "hashkey",
       "file": "hashkey.ts",
       "id": "hashkey",
@@ -3547,6 +7067,352 @@
           "parseOrderTypeTimeInForceAndPostOnly",
           "privateGetApiV1FuturesOrder",
           "privateGetApiV1SpotOrder"
+        ]
+      }
+    },
+    {
+      "class_name": "hibachi",
+      "file": "hibachi.ts",
+      "id": "hibachi",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 30,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateDeleteTradeOrders"
+        ],
+        "cancelOrder": [
+          "privateDeleteTradeOrder"
+        ],
+        "cancelOrders": [
+          "privatePostTradeOrders"
+        ],
+        "createOrder": [
+          "privatePostTradeOrder"
+        ],
+        "createOrders": [
+          "privatePostTradeOrders"
+        ],
+        "editOrder": [
+          "privatePutTradeOrder"
+        ],
+        "editOrders": [
+          "privatePostTradeOrders"
+        ],
+        "fetchBalance": [
+          "privateGetTradeAccountInfo"
+        ],
+        "fetchDepositAddress": [
+          "privateGetCapitalDepositInfo"
+        ],
+        "fetchDeposits": [
+          "privateGetCapitalHistory"
+        ],
+        "fetchFundingRate": [
+          "publicGetMarketDataPrices"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetMarketDataFundingRates"
+        ],
+        "fetchLedger": [
+          "privateGetCapitalHistory",
+          "privateGetTradeAccountTradingHistory"
+        ],
+        "fetchMarkets": [
+          "publicGetMarketExchangeInfo"
+        ],
+        "fetchMyTrades": [
+          "privateGetTradeAccountTrades"
+        ],
+        "fetchOHLCV": [
+          "publicGetMarketDataKlines"
+        ],
+        "fetchOpenInterest": [
+          "publicGetMarketDataOpenInterest"
+        ],
+        "fetchOpenOrders": [
+          "privateGetTradeOrders"
+        ],
+        "fetchOrder": [
+          "privateGetTradeOrder"
+        ],
+        "fetchOrderBook": [
+          "publicGetMarketDataOrderbook"
+        ],
+        "fetchPositions": [
+          "privateGetTradeAccountInfo"
+        ],
+        "fetchTicker": [
+          "publicGetMarketDataPrices",
+          "publicGetMarketDataStats"
+        ],
+        "fetchTime": [
+          "publicGetExchangeUtcTimestamp"
+        ],
+        "fetchTrades": [
+          "publicGetMarketDataTrades"
+        ],
+        "fetchTradingFees": [
+          "privateGetTradeAccountInfo"
+        ],
+        "fetchWithdrawals": [
+          "privateGetCapitalHistory"
+        ],
+        "withdraw": [
+          "privatePostCapitalWithdraw",
+          "publicGetMarketExchangeInfo"
+        ]
+      }
+    },
+    {
+      "class_name": "hitbtc",
+      "file": "hitbtc.ts",
+      "id": "hitbtc",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 76,
+      "unified_endpoints": {
+        "fetchTradingFee": [
+          "privateGetFuturesFeeSymbol",
+          "privateGetSpotFeeSymbol"
+        ],
+        "fetchOrderBook": [
+          "publicGetPublicOrderbookSymbol"
+        ],
+        "fetchFundingRate": [
+          "publicGetPublicFuturesInfoSymbol"
+        ],
+        "setLeverage": [
+          "privatePutFuturesAccountIsolatedSymbol"
+        ],
+        "addMargin": [
+          "privatePutFuturesAccountIsolatedSymbol",
+          "privatePutMarginAccountIsolatedSymbol"
+        ],
+        "editOrder": [
+          "privatePatchFuturesOrderClientOrderId",
+          "privatePatchMarginOrderClientOrderId",
+          "privatePatchSpotOrderClientOrderId"
+        ],
+        "fetchDepositWithdrawFees": [
+          "publicGetPublicCurrency"
+        ],
+        "fetchDeposits": [
+          "privateGetWalletTransactions"
+        ],
+        "fetchOrderTrades": [
+          "privateGetFuturesHistoryTrade",
+          "privateGetMarginHistoryTrade",
+          "privateGetSpotHistoryTrade"
+        ],
+        "fetchOrderBooks": [
+          "publicGetPublicOrderbook"
+        ],
+        "fetchPositions": [
+          "privateGetFuturesAccount",
+          "privateGetMarginAccount"
+        ],
+        "fetchFundingRates": [
+          "publicGetPublicFuturesInfo"
+        ],
+        "fetchDepositAddress": [
+          "privateGetWalletCryptoAddress"
+        ],
+        "createDepositAddress": [
+          "privatePostWalletCryptoAddress"
+        ],
+        "fetchDepositsWithdrawals": [
+          "privateGetWalletTransactions"
+        ],
+        "fetchClosedOrders": [
+          "privateGetFuturesHistoryOrder",
+          "privateGetMarginHistoryOrder",
+          "privateGetSpotHistoryOrder"
+        ],
+        "fetchMarginModes": [
+          "privateGetFuturesConfig",
+          "privateGetMarginConfig"
+        ],
+        "fetchOpenInterest": [
+          "publicGetPublicFuturesInfoSymbol"
+        ],
+        "cancelAllOrders": [
+          "privateDeleteFuturesOrder",
+          "privateDeleteMarginOrder",
+          "privateDeleteSpotOrder"
+        ],
+        "withdraw": [
+          "privatePostWalletCryptoWithdraw"
+        ],
+        "fetchLeverage": [
+          "privateGetFuturesAccountIsolatedSymbol",
+          "privateGetMarginAccountIsolatedSymbol"
+        ],
+        "fetchMarkets": [
+          "publicGetPublicSymbol"
+        ],
+        "fetchOHLCV": [
+          "publicGetPublicCandlesSymbol",
+          "publicGetPublicFuturesCandlesIndexPriceSymbol",
+          "publicGetPublicFuturesCandlesMarkPriceSymbol",
+          "publicGetPublicFuturesCandlesPremiumIndexSymbol"
+        ],
+        "cancelOrder": [
+          "privateDeleteFuturesOrderClientOrderId",
+          "privateDeleteMarginOrderClientOrderId",
+          "privateDeleteSpotOrderClientOrderId"
+        ],
+        "fetchOpenInterests": [
+          "publicGetPublicFuturesInfo"
+        ],
+        "fetchOpenOrders": [
+          "privateGetFuturesOrder",
+          "privateGetMarginOrder",
+          "privateGetSpotOrder"
+        ],
+        "fetchWithdrawals": [
+          "privateGetWalletTransactions"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetPublicFuturesHistoryFunding"
+        ],
+        "fetchCurrencies": [
+          "publicGetPublicCurrency"
+        ],
+        "transfer": [
+          "privatePostWalletTransfer"
+        ],
+        "fetchMyTrades": [
+          "privateGetFuturesHistoryTrade",
+          "privateGetMarginHistoryTrade",
+          "privateGetSpotHistoryTrade"
+        ],
+        "fetchOpenOrder": [
+          "privateGetFuturesOrderClientOrderId",
+          "privateGetMarginOrderClientOrderId",
+          "privateGetSpotOrderClientOrderId"
+        ],
+        "createOrder": [
+          "privatePostFuturesOrder",
+          "privatePostMarginOrder",
+          "privatePostSpotOrder"
+        ],
+        "fetchTrades": [
+          "publicGetPublicTrades",
+          "publicGetPublicTradesSymbol"
+        ],
+        "fetchPosition": [
+          "privateGetFuturesAccountIsolatedSymbol",
+          "privateGetMarginAccountIsolatedSymbol"
+        ],
+        "closePosition": [
+          "privateDeleteFuturesPositionMarginModeSymbol"
+        ],
+        "reduceMargin": [
+          "privatePutFuturesAccountIsolatedSymbol",
+          "privatePutMarginAccountIsolatedSymbol"
+        ],
+        "fetchTicker": [
+          "publicGetPublicTickerSymbol"
+        ],
+        "fetchTickers": [
+          "publicGetPublicTicker"
+        ],
+        "fetchBalance": [
+          "privateGetFuturesBalance",
+          "privateGetSpotBalance",
+          "privateGetWalletBalance"
+        ],
+        "fetchTradingFees": [
+          "privateGetFuturesFee",
+          "privateGetSpotFee"
+        ],
+        "fetchOrder": [
+          "privateGetFuturesHistoryOrder",
+          "privateGetMarginHistoryOrder",
+          "privateGetSpotHistoryOrder"
+        ]
+      }
+    },
+    {
+      "class_name": "hollaex",
+      "file": "hollaex.ts",
+      "id": "hollaex",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 25,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateDeleteOrderAll"
+        ],
+        "cancelOrder": [
+          "privateDeleteOrder"
+        ],
+        "createOrder": [
+          "privatePostOrder"
+        ],
+        "fetchBalance": [
+          "privateGetUserBalance"
+        ],
+        "fetchClosedOrders": [
+          "privateGetOrders"
+        ],
+        "fetchCurrencies": [
+          "publicGetConstants"
+        ],
+        "fetchDepositAddresses": [
+          "privateGetUser"
+        ],
+        "fetchDepositWithdrawFees": [
+          "publicGetConstants"
+        ],
+        "fetchDeposits": [
+          "privateGetUserDeposits"
+        ],
+        "fetchMarkets": [
+          "publicGetConstants"
+        ],
+        "fetchMyTrades": [
+          "privateGetUserTrades"
+        ],
+        "fetchOHLCV": [
+          "publicGetChart"
+        ],
+        "fetchOpenOrder": [
+          "privateGetOrder"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOrders"
+        ],
+        "fetchOrder": [
+          "privateGetOrder"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderbook"
+        ],
+        "fetchOrderBooks": [
+          "publicGetOrderbooks"
+        ],
+        "fetchOrders": [
+          "privateGetOrders"
+        ],
+        "fetchTicker": [
+          "publicGetTicker"
+        ],
+        "fetchTickers": [
+          "publicGetTickers"
+        ],
+        "fetchTrades": [
+          "publicGetTrades"
+        ],
+        "fetchTradingFees": [
+          "publicGetTiers"
+        ],
+        "fetchWithdrawal": [
+          "privateGetUserWithdrawals"
+        ],
+        "fetchWithdrawals": [
+          "privateGetUserWithdrawals"
+        ],
+        "withdraw": [
+          "privatePostUserWithdrawal"
         ]
       }
     },
@@ -4201,6 +8067,120 @@
       }
     },
     {
+      "class_name": "independentreserve",
+      "file": "independentreserve.ts",
+      "id": "independentreserve",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 17,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostCancelOrder"
+        ],
+        "createOrder": [
+          "privatePostPlaceLimitOrder",
+          "privatePostPlaceMarketOrder"
+        ],
+        "fetchBalance": [
+          "privatePostGetAccounts"
+        ],
+        "fetchClosedOrders": [
+          "privatePostGetClosedOrders"
+        ],
+        "fetchDepositAddress": [
+          "privatePostGetDigitalCurrencyDepositAddress"
+        ],
+        "fetchMarkets": [
+          "publicGetGetOrderMinimumVolumes",
+          "publicGetGetValidPrimaryCurrencyCodes",
+          "publicGetGetValidSecondaryCurrencyCodes"
+        ],
+        "fetchMyTrades": [
+          "privatePostGetTrades"
+        ],
+        "fetchOpenOrders": [
+          "privatePostGetOpenOrders"
+        ],
+        "fetchOrder": [
+          "privatePostGetOrderDetails"
+        ],
+        "fetchOrderBook": [
+          "publicGetGetOrderBook"
+        ],
+        "fetchTicker": [
+          "publicGetGetMarketSummary"
+        ],
+        "fetchTrades": [
+          "publicGetGetRecentTrades"
+        ],
+        "fetchTradingFees": [
+          "privatePostGetBrokerageFees"
+        ],
+        "withdraw": [
+          "privatePostWithdrawDigitalCurrency"
+        ]
+      }
+    },
+    {
+      "class_name": "indodax",
+      "file": "indodax.ts",
+      "id": "indodax",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 17,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostCancelOrder"
+        ],
+        "createOrder": [
+          "privatePostTrade"
+        ],
+        "fetchBalance": [
+          "privatePostGetInfo"
+        ],
+        "fetchClosedOrders": [
+          "privatePostOrderHistory"
+        ],
+        "fetchDepositAddresses": [
+          "privatePostGetInfo"
+        ],
+        "fetchDepositsWithdrawals": [
+          "privatePostTransHistory"
+        ],
+        "fetchMarkets": [
+          "publicGetApiPairs"
+        ],
+        "fetchOHLCV": [
+          "publicGetTradingviewHistoryV2"
+        ],
+        "fetchOpenOrders": [
+          "privatePostOpenOrders"
+        ],
+        "fetchOrder": [
+          "privatePostGetOrder"
+        ],
+        "fetchOrderBook": [
+          "publicGetApiDepthPair"
+        ],
+        "fetchTicker": [
+          "publicGetApiTickerPair"
+        ],
+        "fetchTickers": [
+          "publicGetApiTickerAll"
+        ],
+        "fetchTime": [
+          "publicGetApiServerTime"
+        ],
+        "fetchTrades": [
+          "publicGetApiTradesPair"
+        ],
+        "fetchTransactionFee": [
+          "privatePostWithdrawFee"
+        ],
+        "withdraw": [
+          "privatePostWithdrawCoin"
+        ]
+      }
+    },
+    {
       "class_name": "kraken",
       "file": "kraken.ts",
       "id": "kraken",
@@ -4322,6 +8302,104 @@
         ],
         "fetchOrder": [
           "privatePostQueryOrders"
+        ]
+      }
+    },
+    {
+      "class_name": "krakenfutures",
+      "file": "krakenfutures.ts",
+      "id": "krakenfutures",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 33,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privatePostCancelallorders"
+        ],
+        "cancelAllOrdersAfter": [
+          "privatePostCancelallordersafter"
+        ],
+        "cancelOrder": [
+          "privatePostCancelorder"
+        ],
+        "cancelOrders": [
+          "privatePostBatchorder"
+        ],
+        "createOrder": [
+          "privatePostSendorder"
+        ],
+        "createOrders": [
+          "privatePostBatchorder"
+        ],
+        "editOrder": [
+          "privatePostEditorder"
+        ],
+        "fetchBalance": [
+          "privateGetAccounts"
+        ],
+        "fetchCanceledOrders": [
+          "historyGetOrders",
+          "historyGetTriggers"
+        ],
+        "fetchClosedOrders": [
+          "historyGetOrders",
+          "historyGetTriggers"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetHistoricalfundingrates"
+        ],
+        "fetchFundingRates": [
+          "publicGetTickers"
+        ],
+        "fetchLeverage": [
+          "privateGetLeveragepreferences"
+        ],
+        "fetchLeverageTiers": [
+          "publicGetInstruments"
+        ],
+        "fetchLeverages": [
+          "privateGetLeveragepreferences"
+        ],
+        "fetchMarkets": [
+          "publicGetInstruments"
+        ],
+        "fetchMyTrades": [
+          "privateGetFills"
+        ],
+        "fetchOHLCV": [
+          "chartsGetPriceTypeSymbolInterval"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOpenorders"
+        ],
+        "fetchOrder": [
+          "privateGetOrdersStatus"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderbook"
+        ],
+        "fetchOrders": [
+          "privateGetOrdersStatus"
+        ],
+        "fetchPositions": [
+          "privateGetOpenpositions"
+        ],
+        "fetchTickers": [
+          "publicGetTickers"
+        ],
+        "fetchTrades": [
+          "historyGetMarketSymbolExecutions",
+          "publicGetHistory"
+        ],
+        "setLeverage": [
+          "privatePutLeveragepreferences"
+        ],
+        "transfer": [
+          "privatePostTransfer",
+          "privatePostWithdrawal"
+        ],
+        "transferOut": [
+          "privatePostTransfer",
+          "privatePostWithdrawal"
         ]
       }
     },
@@ -4922,6 +9000,214 @@
       }
     },
     {
+      "class_name": "latoken",
+      "file": "latoken.ts",
+      "id": "latoken",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 35,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privatePostAuthOrderCancelAll",
+          "privatePostAuthOrderCancelAllCurrencyQuote",
+          "privatePostAuthStopOrderCancelAll",
+          "privatePostAuthStopOrderCancelAllCurrencyQuote"
+        ],
+        "cancelOrder": [
+          "privatePostAuthOrderCancel",
+          "privatePostAuthStopOrderCancel"
+        ],
+        "createOrder": [
+          "privatePostAuthOrderPlace",
+          "privatePostAuthStopOrderPlace"
+        ],
+        "fetchBalance": [
+          "privateGetAuthAccount"
+        ],
+        "fetchCurrencies": [
+          "publicGetCurrency"
+        ],
+        "fetchMarkets": [
+          "publicGetPair"
+        ],
+        "fetchMyTrades": [
+          "privateGetAuthTrade",
+          "privateGetAuthTradePairCurrencyQuote"
+        ],
+        "fetchOpenOrders": [
+          "privateGetAuthOrderPairCurrencyQuoteActive",
+          "privateGetAuthStopOrderPairCurrencyQuoteActive"
+        ],
+        "fetchOrder": [
+          "privateGetAuthOrderGetOrderId",
+          "privateGetAuthStopOrderGetOrderId"
+        ],
+        "fetchOrderBook": [
+          "publicGetBookCurrencyQuote"
+        ],
+        "fetchOrders": [
+          "privateGetAuthOrder",
+          "privateGetAuthOrderPairCurrencyQuote",
+          "privateGetAuthStopOrder",
+          "privateGetAuthStopOrderPairCurrencyQuote"
+        ],
+        "fetchPrivateTradingFee": [
+          "privateGetAuthTradeFeeCurrencyQuote"
+        ],
+        "fetchPublicTradingFee": [
+          "publicGetTradeFeeCurrencyQuote"
+        ],
+        "fetchTicker": [
+          "publicGetTickerBaseQuote"
+        ],
+        "fetchTickers": [
+          "publicGetTicker"
+        ],
+        "fetchTime": [
+          "publicGetTime"
+        ],
+        "fetchTrades": [
+          "publicGetTradeHistoryCurrencyQuote"
+        ],
+        "fetchTradingFee": [
+          "privateGetAuthTradeFeeCurrencyQuote",
+          "publicGetTradeFeeCurrencyQuote"
+        ],
+        "fetchTransactions": [
+          "privateGetAuthTransaction"
+        ],
+        "fetchTransfers": [
+          "privateGetAuthTransfer"
+        ],
+        "transfer": [
+          "privatePostAuthTransferEmail",
+          "privatePostAuthTransferId",
+          "privatePostAuthTransferPhone"
+        ]
+      }
+    },
+    {
+      "class_name": "lbank",
+      "file": "lbank.ts",
+      "id": "lbank",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 47,
+      "unified_endpoints": {
+        "fetchTradingFee": [
+          "spotPrivatePostSupplementCustomerTradeFee"
+        ],
+        "createMarketBuyOrderWithCost": [
+          "spotPrivatePostCreateOrder",
+          "spotPrivatePostSupplementCreateOrder"
+        ],
+        "fetchOrderBook": [
+          "contractPublicGetCfdOpenApiV1PubMarketOrder",
+          "spotPublicGetDepth"
+        ],
+        "fetchPrivateTransactionFees": [
+          "spotPrivatePostSupplementUserInfo"
+        ],
+        "fetchFundingRate": [
+          "contractPublicGetCfdOpenApiV1PubMarketData"
+        ],
+        "fetchTime": [
+          "contractPublicGetCfdOpenApiV1PubGetTime",
+          "spotPublicGetTimestamp"
+        ],
+        "fetchPrivateDepositWithdrawFees": [
+          "spotPrivatePostSupplementUserInfo"
+        ],
+        "fetchDepositWithdrawFees": [
+          "spotPrivatePostSupplementUserInfo",
+          "spotPublicGetWithdrawConfigs"
+        ],
+        "fetchOrders": [
+          "spotPrivatePostSupplementOrdersInfoHistory"
+        ],
+        "fetchDeposits": [
+          "spotPrivatePostSupplementDepositHistory"
+        ],
+        "fetchFundingRates": [
+          "contractPublicGetCfdOpenApiV1PubMarketData"
+        ],
+        "fetchDepositAddress": [
+          "spotPrivatePostGetDepositAddress",
+          "spotPrivatePostSupplementGetDepositAddress"
+        ],
+        "fetchPublicTransactionFees": [
+          "spotPublicGetWithdrawConfigs"
+        ],
+        "cancelAllOrders": [
+          "spotPrivatePostSupplementCancelOrderBySymbol"
+        ],
+        "withdraw": [
+          "spotPrivatePostSupplementWithdraw"
+        ],
+        "fetchPublicDepositWithdrawFees": [
+          "spotPublicGetWithdrawConfigs"
+        ],
+        "fetchMarkets": [
+          "contractPublicGetCfdOpenApiV1PubInstrument",
+          "spotPublicGetAccuracy"
+        ],
+        "fetchOHLCV": [
+          "spotPublicGetKline"
+        ],
+        "cancelOrder": [
+          "spotPrivatePostSupplementCancelOrder"
+        ],
+        "fetchOpenOrders": [
+          "spotPrivatePostSupplementOrdersInfoNoDeal"
+        ],
+        "fetchWithdrawals": [
+          "spotPrivatePostSupplementWithdraws"
+        ],
+        "fetchCurrencies": [
+          "spotPublicGetWithdrawConfigs"
+        ],
+        "fetchMyTrades": [
+          "spotPrivatePostTransactionHistory"
+        ],
+        "createOrder": [
+          "spotPrivatePostCreateOrder",
+          "spotPrivatePostSupplementCreateOrder"
+        ],
+        "fetchTransactionFees": [
+          "spotPrivatePostSupplementUserInfo",
+          "spotPublicGetWithdrawConfigs"
+        ],
+        "fetchTrades": [
+          "spotPublicGetSupplementTrades",
+          "spotPublicGetTrades"
+        ],
+        "fetchSpotMarkets": [
+          "spotPublicGetAccuracy"
+        ],
+        "fetchSwapMarkets": [
+          "contractPublicGetCfdOpenApiV1PubInstrument"
+        ],
+        "fetchTicker": [
+          "contractPublicGetCfdOpenApiV1PubMarketData",
+          "spotPublicGetTicker24hr"
+        ],
+        "fetchTickers": [
+          "contractPublicGetCfdOpenApiV1PubMarketData",
+          "spotPublicGetTicker24hr"
+        ],
+        "fetchBalance": [
+          "spotPrivatePostSupplementUserInfo",
+          "spotPrivatePostSupplementUserInfoAccount",
+          "spotPrivatePostUserInfo"
+        ],
+        "fetchTradingFees": [
+          "spotPrivatePostSupplementCustomerTradeFee"
+        ],
+        "fetchOrder": [
+          "spotPrivatePostOrdersInfo",
+          "spotPrivatePostSupplementOrdersInfo"
+        ]
+      }
+    },
+    {
       "class_name": "lighter",
       "file": "lighter.ts",
       "id": "lighter",
@@ -5059,6 +9345,125 @@
           "publicGetAccountsByL1Address",
           "publicGetNextNonce",
           "publicPostSendTx"
+        ]
+      }
+    },
+    {
+      "class_name": "luno",
+      "file": "luno.ts",
+      "id": "luno",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 24,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostStoporder"
+        ],
+        "createDepositAddress": [
+          "privatePostFundingAddress"
+        ],
+        "createOrder": [
+          "privatePostMarketorder",
+          "privatePostPostorder"
+        ],
+        "fetchAccounts": [
+          "privateGetBalance"
+        ],
+        "fetchBalance": [
+          "privateGetBalance"
+        ],
+        "fetchClosedOrders": [
+          "privateGetListorders"
+        ],
+        "fetchCurrencies": [
+          "privateGetSendNetworks"
+        ],
+        "fetchDepositAddress": [
+          "privateGetFundingAddress"
+        ],
+        "fetchLedger": [
+          "privateGetAccountsIdTransactions"
+        ],
+        "fetchLedgerByEntries": [
+          "privateGetAccountsIdTransactions"
+        ],
+        "fetchMarkets": [
+          "exchangeGetMarkets"
+        ],
+        "fetchMyTrades": [
+          "privateGetListtrades"
+        ],
+        "fetchOHLCV": [
+          "exchangePrivateGetCandles"
+        ],
+        "fetchOpenOrders": [
+          "privateGetListorders"
+        ],
+        "fetchOrder": [
+          "privateGetOrdersId"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderbook",
+          "publicGetOrderbookTop"
+        ],
+        "fetchOrders": [
+          "privateGetListorders"
+        ],
+        "fetchOrdersByState": [
+          "privateGetListorders"
+        ],
+        "fetchTicker": [
+          "publicGetTicker"
+        ],
+        "fetchTickers": [
+          "publicGetTickers"
+        ],
+        "fetchTrades": [
+          "publicGetTrades"
+        ],
+        "fetchTradingFee": [
+          "privateGetFeeInfo"
+        ]
+      }
+    },
+    {
+      "class_name": "mercado",
+      "file": "mercado.ts",
+      "id": "mercado",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 11,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostCancelOrder"
+        ],
+        "fetchBalance": [
+          "privatePostGetAccountInfo"
+        ],
+        "fetchMarkets": [
+          "publicGetCoins"
+        ],
+        "fetchMyTrades": [
+          "privatePostListOrders"
+        ],
+        "fetchOHLCV": [
+          "v4PublicNetGetCandles"
+        ],
+        "fetchOpenOrders": [
+          "privatePostListOrders"
+        ],
+        "fetchOrder": [
+          "privatePostGetOrder"
+        ],
+        "fetchOrderBook": [
+          "publicGetCoinOrderbook"
+        ],
+        "fetchOrders": [
+          "privatePostListOrders"
+        ],
+        "fetchTicker": [
+          "publicGetCoinTicker"
+        ],
+        "withdraw": [
+          "privatePostWithdrawCoin"
         ]
       }
     },
@@ -5440,6 +9845,161 @@
       "unified_endpoints": {}
     },
     {
+      "class_name": "ndax",
+      "file": "ndax.ts",
+      "id": "ndax",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 25,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privatePostCancelAllOrders"
+        ],
+        "cancelOrder": [
+          "privatePostCancelOrder"
+        ],
+        "createDepositAddress": [
+          "privateGetGetDepositInfo"
+        ],
+        "createOrder": [
+          "privatePostSendOrder"
+        ],
+        "editOrder": [
+          "privatePostCancelReplaceOrder"
+        ],
+        "fetchAccounts": [
+          "privateGetGetUserAccounts"
+        ],
+        "fetchBalance": [
+          "privateGetGetAccountPositions"
+        ],
+        "fetchCurrencies": [
+          "publicGetGetProducts"
+        ],
+        "fetchDepositAddress": [
+          "privateGetGetDepositInfo"
+        ],
+        "fetchDeposits": [
+          "privateGetGetDeposits"
+        ],
+        "fetchLedger": [
+          "privateGetGetAccountTransactions"
+        ],
+        "fetchMarkets": [
+          "publicGetGetInstruments"
+        ],
+        "fetchMyTrades": [
+          "privateGetGetTradesHistory"
+        ],
+        "fetchOHLCV": [
+          "publicGetGetTickerHistory"
+        ],
+        "fetchOpenOrders": [
+          "privateGetGetOpenOrders"
+        ],
+        "fetchOrder": [
+          "privateGetGetOrderStatus"
+        ],
+        "fetchOrderBook": [
+          "publicGetGetL2Snapshot"
+        ],
+        "fetchOrderTrades": [
+          "privatePostGetOrderHistoryByOrderId"
+        ],
+        "fetchOrders": [
+          "privateGetGetOrdersHistory"
+        ],
+        "fetchTicker": [
+          "publicGetGetLevel1"
+        ],
+        "fetchTrades": [
+          "publicGetGetLastTrades"
+        ],
+        "fetchWithdrawals": [
+          "privateGetGetWithdraws"
+        ],
+        "withdraw": [
+          "privateGetGetWithdrawTemplate",
+          "privateGetGetWithdrawTemplateTypes",
+          "privatePostCreateWithdrawTicket"
+        ]
+      }
+    },
+    {
+      "class_name": "novadax",
+      "file": "novadax.ts",
+      "id": "novadax",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 22,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostOrdersCancel"
+        ],
+        "createOrder": [
+          "privatePostOrdersCreate"
+        ],
+        "fetchAccounts": [
+          "privateGetAccountSubs"
+        ],
+        "fetchBalance": [
+          "privateGetAccountGetBalance"
+        ],
+        "fetchClosedOrders": [
+          "privateGetOrdersList"
+        ],
+        "fetchDeposits": [
+          "privateGetWalletQueryDepositWithdraw"
+        ],
+        "fetchDepositsWithdrawals": [
+          "privateGetWalletQueryDepositWithdraw"
+        ],
+        "fetchMarkets": [
+          "publicGetCommonSymbols"
+        ],
+        "fetchMyTrades": [
+          "privateGetOrdersFills"
+        ],
+        "fetchOHLCV": [
+          "publicGetMarketKlineHistory"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOrdersList"
+        ],
+        "fetchOrder": [
+          "privateGetOrdersGet"
+        ],
+        "fetchOrderBook": [
+          "publicGetMarketDepth"
+        ],
+        "fetchOrderTrades": [
+          "privateGetOrdersFill"
+        ],
+        "fetchOrders": [
+          "privateGetOrdersList"
+        ],
+        "fetchTicker": [
+          "publicGetMarketTicker"
+        ],
+        "fetchTickers": [
+          "publicGetMarketTickers"
+        ],
+        "fetchTime": [
+          "publicGetCommonTimestamp"
+        ],
+        "fetchTrades": [
+          "publicGetMarketTrades"
+        ],
+        "fetchWithdrawals": [
+          "privateGetWalletQueryDepositWithdraw"
+        ],
+        "transfer": [
+          "privatePostAccountSubsTransfer"
+        ],
+        "withdraw": [
+          "privatePostAccountWithdrawCoin"
+        ]
+      }
+    },
+    {
       "class_name": "okx",
       "file": "okx.ts",
       "id": "okx",
@@ -5738,6 +10298,366 @@
       "unified_endpoints": {}
     },
     {
+      "class_name": "onetrading",
+      "file": "onetrading.ts",
+      "id": "onetrading",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 22,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateDeleteAccountOrders"
+        ],
+        "cancelOrder": [
+          "privateDeleteAccountOrdersClientClientId",
+          "privateDeleteAccountOrdersOrderId"
+        ],
+        "cancelOrders": [
+          "privateDeleteAccountOrders"
+        ],
+        "createOrder": [
+          "privatePostAccountOrders"
+        ],
+        "fetchBalance": [
+          "privateGetAccountBalances"
+        ],
+        "fetchClosedOrders": [
+          "privateGetAccountOrders"
+        ],
+        "fetchCurrencies": [
+          "publicGetCurrencies"
+        ],
+        "fetchMarkets": [
+          "publicGetInstruments"
+        ],
+        "fetchMyTrades": [
+          "privateGetAccountTrades"
+        ],
+        "fetchOHLCV": [
+          "publicGetCandlesticksInstrumentCode"
+        ],
+        "fetchOpenOrders": [
+          "privateGetAccountOrders"
+        ],
+        "fetchOrder": [
+          "privateGetAccountOrdersOrderId"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderBookInstrumentCode"
+        ],
+        "fetchOrderTrades": [
+          "privateGetAccountOrdersOrderIdTrades"
+        ],
+        "fetchPrivateTradingFees": [
+          "privateGetAccountFees"
+        ],
+        "fetchPublicTradingFees": [
+          "publicGetFees"
+        ],
+        "fetchTicker": [
+          "publicGetMarketTickerInstrumentCode"
+        ],
+        "fetchTickers": [
+          "publicGetMarketTicker"
+        ],
+        "fetchTime": [
+          "publicGetTime"
+        ],
+        "fetchTradingFees": [
+          "privateGetAccountFees",
+          "publicGetFees"
+        ]
+      }
+    },
+    {
+      "class_name": "oxfun",
+      "file": "oxfun.ts",
+      "id": "oxfun",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 31,
+      "unified_endpoints": {
+        "cancelAllOrders": [
+          "privateDeleteV3OrdersCancelAll"
+        ],
+        "cancelOrder": [
+          "privateDeleteV3OrdersCancel"
+        ],
+        "cancelOrders": [
+          "privateDeleteV3OrdersCancel"
+        ],
+        "createMarketBuyOrderWithCost": [
+          "privatePostV3OrdersPlace"
+        ],
+        "createOrder": [
+          "privatePostV3OrdersPlace"
+        ],
+        "createOrders": [
+          "privatePostV3OrdersPlace"
+        ],
+        "fetchAccounts": [
+          "privateGetV3AccountNames"
+        ],
+        "fetchBalance": [
+          "privateGetV3Balances"
+        ],
+        "fetchCurrencies": [
+          "publicGetV3Assets"
+        ],
+        "fetchDepositAddress": [
+          "privateGetV3DepositAddresses"
+        ],
+        "fetchDeposits": [
+          "privateGetV3Deposit"
+        ],
+        "fetchFundingHistory": [
+          "privateGetV3Funding"
+        ],
+        "fetchFundingRate": [
+          "publicGetV3FundingEstimates"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetV3FundingRates"
+        ],
+        "fetchFundingRates": [
+          "publicGetV3FundingEstimates"
+        ],
+        "fetchLeverageTiers": [
+          "publicGetV3LeverageTiers"
+        ],
+        "fetchMarkets": [
+          "publicGetV3Markets",
+          "publicGetV3Tickers"
+        ],
+        "fetchMyTrades": [
+          "privateGetV3Trades"
+        ],
+        "fetchOHLCV": [
+          "publicGetV3Candles"
+        ],
+        "fetchOpenOrders": [
+          "privateGetV3OrdersWorking"
+        ],
+        "fetchOrder": [
+          "privateGetV3OrdersStatus"
+        ],
+        "fetchOrderBook": [
+          "publicGetV3Depth"
+        ],
+        "fetchPositions": [
+          "privateGetV3Positions"
+        ],
+        "fetchTicker": [
+          "publicGetV3Tickers"
+        ],
+        "fetchTickers": [
+          "publicGetV3Tickers"
+        ],
+        "fetchTrades": [
+          "publicGetV3ExchangeTrades"
+        ],
+        "fetchTransfers": [
+          "privateGetV3Transfer"
+        ],
+        "fetchWithdrawals": [
+          "privateGetV3Withdrawal"
+        ],
+        "transfer": [
+          "privatePostV3Transfer"
+        ],
+        "withdraw": [
+          "privatePostV3Withdrawal"
+        ]
+      }
+    },
+    {
+      "class_name": "p2b",
+      "file": "p2b.ts",
+      "id": "p2b",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 13,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostOrderCancel"
+        ],
+        "createOrder": [
+          "privatePostOrderNew"
+        ],
+        "fetchBalance": [
+          "privatePostAccountBalances"
+        ],
+        "fetchClosedOrders": [
+          "privatePostAccountOrderHistory"
+        ],
+        "fetchMarkets": [
+          "publicGetMarkets"
+        ],
+        "fetchMyTrades": [
+          "privatePostAccountMarketDealHistory"
+        ],
+        "fetchOHLCV": [
+          "publicGetMarketKline"
+        ],
+        "fetchOpenOrders": [
+          "privatePostOrders"
+        ],
+        "fetchOrderBook": [
+          "publicGetDepthResult"
+        ],
+        "fetchOrderTrades": [
+          "privatePostAccountOrder"
+        ],
+        "fetchTicker": [
+          "publicGetTicker"
+        ],
+        "fetchTickers": [
+          "publicGetTickers"
+        ],
+        "fetchTrades": [
+          "publicGetHistory"
+        ]
+      }
+    },
+    {
+      "class_name": "pacifica",
+      "file": "pacifica.ts",
+      "id": "pacifica",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 52,
+      "unified_endpoints": {
+        "fetchTradingFee": [
+          "publicGetAccount"
+        ],
+        "setMarginMode": [
+          "privatePostAccountMargin"
+        ],
+        "fetchOrderBook": [
+          "publicGetBook"
+        ],
+        "fetchFundingHistory": [
+          "publicGetFundingHistory"
+        ],
+        "setLeverage": [
+          "privatePostAccountLeverage"
+        ],
+        "editOrder": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersEdit"
+        ],
+        "fetchMarginMode": [
+          "publicGetAccountSettings"
+        ],
+        "fetchOrders": [
+          "publicGetOrdersHistory"
+        ],
+        "fetchPositions": [
+          "publicGetPositions"
+        ],
+        "fetchFundingRates": [
+          "publicGetInfoPrices"
+        ],
+        "fetchBuilderApprovals": [
+          "publicGetAccountBuilderCodesApprovals"
+        ],
+        "fetchClosedOrders": [
+          "publicGetOrdersHistory"
+        ],
+        "fetchOpenInterest": [
+          "publicGetInfo"
+        ],
+        "cancelAllOrders": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersCancelAll"
+        ],
+        "withdraw": [
+          "privatePostAccountWithdraw"
+        ],
+        "fetchLeverage": [
+          "publicGetAccountSettings"
+        ],
+        "fetchMarkets": [
+          "privatePostAccountBuilderCodesApprove",
+          "publicGetAccountSettings",
+          "publicGetInfo"
+        ],
+        "fetchOHLCV": [
+          "publicGetKline"
+        ],
+        "createSubAccount": [
+          "privatePostAccountSubaccountCreate"
+        ],
+        "fetchAccountSettings": [
+          "publicGetAccountSettings"
+        ],
+        "fetchApiKeys": [
+          "privatePostAccountApiKeys"
+        ],
+        "cancelOrder": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersCancel",
+          "privatePostOrdersStopCancel"
+        ],
+        "fetchOpenInterests": [
+          "publicGetInfo"
+        ],
+        "fetchOpenOrders": [
+          "publicGetOrders"
+        ],
+        "fetchCanceledAndClosedOrders": [
+          "publicGetOrdersHistory"
+        ],
+        "fetchFundingRateHistory": [
+          "publicGetFundingRateHistory"
+        ],
+        "fetchLedger": [
+          "publicGetAccountBalanceHistory"
+        ],
+        "transfer": [
+          "privatePostAccountSubaccountTransfer"
+        ],
+        "fetchMyTrades": [
+          "publicGetTradesHistory"
+        ],
+        "createOrder": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersCreate",
+          "privatePostOrdersCreateMarket",
+          "privatePostOrdersStopCreate",
+          "privatePostPositionsTpsl"
+        ],
+        "fetchTrades": [
+          "publicGetTrades"
+        ],
+        "fetchCanceledOrders": [
+          "publicGetOrdersHistory"
+        ],
+        "fetchPosition": [
+          "publicGetPositions"
+        ],
+        "fetchSwapMarkets": [
+          "publicGetInfo"
+        ],
+        "cancelOrders": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersBatch"
+        ],
+        "createApiKey": [
+          "privatePostAccountApiKeysCreate"
+        ],
+        "fetchTickers": [
+          "publicGetInfoPrices"
+        ],
+        "fetchBalance": [
+          "publicGetAccount"
+        ],
+        "createOrders": [
+          "privatePostAccountBuilderCodesApprove",
+          "privatePostOrdersBatch"
+        ],
+        "fetchOrder": [
+          "publicGetOrdersHistoryById"
+        ]
+      }
+    },
+    {
       "class_name": "paradex",
       "file": "paradex.ts",
       "id": "paradex",
@@ -5866,6 +10786,916 @@
           "privatePostAccountMarginMarket",
           "privatePostAuth",
           "publicGetSystemConfig"
+        ]
+      }
+    },
+    {
+      "class_name": "paymium",
+      "file": "paymium.ts",
+      "id": "paymium",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 10,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privateDeleteUserOrdersUuidCancel"
+        ],
+        "createDepositAddress": [
+          "privatePostUserAddresses"
+        ],
+        "createOrder": [
+          "privatePostUserOrders"
+        ],
+        "fetchBalance": [
+          "privateGetUser"
+        ],
+        "fetchDepositAddress": [
+          "privateGetUserAddressesAddress"
+        ],
+        "fetchDepositAddresses": [
+          "privateGetUserAddresses"
+        ],
+        "fetchOrderBook": [
+          "publicGetDataCurrencyDepth"
+        ],
+        "fetchTicker": [
+          "publicGetDataCurrencyTicker"
+        ],
+        "fetchTrades": [
+          "publicGetDataCurrencyTrades"
+        ],
+        "transfer": [
+          "privatePostUserEmailTransfers"
+        ]
+      }
+    },
+    {
+      "class_name": "phemex",
+      "file": "phemex.ts",
+      "id": "phemex",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 77,
+      "unified_endpoints": {
+        "setPositionMode": [
+          "privatePutGPositionsSwitchPosModeSync"
+        ],
+        "setMarginMode": [
+          "privatePutGPositionsLeverage",
+          "privatePutPositionsLeverage"
+        ],
+        "fetchOrderBook": [
+          "v1GetMdFullbook",
+          "v1GetMdOrderbook",
+          "v2GetMdV2Orderbook"
+        ],
+        "fetchFundingHistory": [
+          "privateGetApiDataFuturesFundingFees",
+          "privateGetApiDataGFuturesFundingFees"
+        ],
+        "fetchFundingRate": [
+          "v1GetMdTicker24hr",
+          "v2GetMdV2Ticker24hr"
+        ],
+        "setLeverage": [
+          "privatePutGPositionsLeverage",
+          "privatePutPositionsLeverage"
+        ],
+        "createConvertTrade": [
+          "privatePostAssetsConvert"
+        ],
+        "editOrder": [
+          "privatePutGOrdersReplace",
+          "privatePutOrdersReplace",
+          "privatePutSpotOrders"
+        ],
+        "fetchPositionsADLRank": [
+          "privateGetAccountsAccountPositions",
+          "privateGetGAccountsAccountPositions",
+          "privateGetGAccountsPositions"
+        ],
+        "fetchOrders": [
+          "privateGetApiDataSpotsOrders",
+          "privateGetExchangeOrderList",
+          "privateGetExchangeOrderV2OrderList"
+        ],
+        "fetchDeposits": [
+          "privateGetExchangeWalletsDepositList"
+        ],
+        "fetchPositions": [
+          "privateGetAccountsAccountPositions",
+          "privateGetGAccountsAccountPositions",
+          "privateGetGAccountsPositions"
+        ],
+        "fetchDepositAddress": [
+          "privateGetExchangeWalletsV2DepositAddress"
+        ],
+        "fetchConvertTradeHistory": [
+          "privateGetAssetsConvert"
+        ],
+        "fetchClosedOrders": [
+          "privateGetExchangeOrderList",
+          "privateGetExchangeOrderV2OrderList",
+          "privateGetExchangeSpotOrder"
+        ],
+        "setMargin": [
+          "privatePostPositionsAssign"
+        ],
+        "fetchOpenInterest": [
+          "v2GetMdV2Ticker24hr"
+        ],
+        "fetchTransfers": [
+          "privateGetAssetsTransfer"
+        ],
+        "cancelAllOrders": [
+          "privateDeleteGOrdersAll",
+          "privateDeleteOrdersAll",
+          "privateDeleteSpotOrdersAll"
+        ],
+        "withdraw": [
+          "privatePostPhemexWithdrawWalletsApiCreateWithdraw"
+        ],
+        "fetchMarkets": [
+          "v1GetExchangePublicProducts",
+          "v2GetPublicProducts"
+        ],
+        "fetchOHLCV": [
+          "publicGetMdV2Kline",
+          "publicGetMdV2KlineLast",
+          "publicGetMdV2KlineList"
+        ],
+        "cancelOrder": [
+          "privateDeleteGOrdersCancel",
+          "privateDeleteOrdersCancel",
+          "privateDeleteSpotOrders"
+        ],
+        "fetchOpenOrders": [
+          "privateGetGOrdersActiveList",
+          "privateGetOrdersActiveList",
+          "privateGetSpotOrders"
+        ],
+        "fetchWithdrawals": [
+          "privateGetExchangeWalletsWithdrawList"
+        ],
+        "fetchFundingRateHistory": [
+          "v1GetApiDataPublicDataFundingRateHistory",
+          "v2GetApiDataPublicDataFundingRateHistory"
+        ],
+        "fetchCurrencies": [
+          "v2GetPublicProducts"
+        ],
+        "transfer": [
+          "privatePostAssetsTransfer",
+          "privatePostAssetsUniversalTransfer"
+        ],
+        "fetchMyTrades": [
+          "privateGetExchangeOrderTrade",
+          "privateGetExchangeOrderV2TradingList",
+          "privateGetExchangeSpotOrderTrades"
+        ],
+        "createOrder": [
+          "privatePostGOrders",
+          "privatePostOrders",
+          "privatePostSpotOrders"
+        ],
+        "fetchTrades": [
+          "v1GetMdTrade",
+          "v2GetMdV2Trade"
+        ],
+        "fetchConvertQuote": [
+          "privateGetAssetsQuote"
+        ],
+        "fetchLeverageTiers": [
+          "publicGetCfgV2Products"
+        ],
+        "fetchTicker": [
+          "v1GetMdSpotTicker24hr",
+          "v1GetMdTicker24hr",
+          "v2GetMdV2Ticker24hr"
+        ],
+        "fetchTickers": [
+          "v1GetMdSpotTicker24hrAll",
+          "v1GetMdTicker24hrAll",
+          "v2GetMdV2Ticker24hrAll"
+        ],
+        "fetchBalance": [
+          "privateGetAccountsAccountPositions",
+          "privateGetGAccountsAccountPositions",
+          "privateGetSpotWallets"
+        ],
+        "fetchOrder": [
+          "privateGetApiDataGFuturesOrdersByOrderId",
+          "privateGetApiDataSpotsOrdersByOrderId",
+          "privateGetExchangeOrder"
+        ]
+      }
+    },
+    {
+      "class_name": "poloniex",
+      "file": "poloniex.ts",
+      "id": "poloniex",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 58,
+      "unified_endpoints": {
+        "setPositionMode": [
+          "swapPrivatePostV3PositionMode"
+        ],
+        "fetchOrderBook": [
+          "publicGetMarketsSymbolOrderBook",
+          "swapPublicGetV3MarketOrderBook"
+        ],
+        "fetchPositionMode": [
+          "swapPrivateGetV3PositionMode"
+        ],
+        "setLeverage": [
+          "swapPrivatePostV3PositionLeverage"
+        ],
+        "addMargin": [
+          "swapPrivatePostV3TradePositionMargin"
+        ],
+        "editOrder": [
+          "privatePutOrdersId",
+          "privatePutSmartordersId"
+        ],
+        "fetchTime": [
+          "publicGetTimestamp"
+        ],
+        "fetchDepositWithdrawFees": [
+          "publicGetCurrencies"
+        ],
+        "fetchDeposits": [
+          "privateGetWalletsActivity"
+        ],
+        "fetchOrderTrades": [
+          "privateGetOrdersIdTrades"
+        ],
+        "fetchPositions": [
+          "swapPrivateGetV3TradePositionOpens"
+        ],
+        "fetchDepositAddress": [
+          "privateGetWalletsAddresses"
+        ],
+        "createDepositAddress": [
+          "privatePostWalletsAddress"
+        ],
+        "fetchDepositsWithdrawals": [
+          "privateGetWalletsActivity"
+        ],
+        "fetchClosedOrders": [
+          "swapPrivateGetV3TradeOrderHistory"
+        ],
+        "cancelAllOrders": [
+          "privateDeleteOrders",
+          "privateDeleteSmartorders",
+          "swapPrivateDeleteV3TradeAllOrders"
+        ],
+        "withdraw": [
+          "privatePostWalletsWithdraw"
+        ],
+        "fetchLeverage": [
+          "swapPrivateGetV3PositionLeverages"
+        ],
+        "fetchMarkets": [
+          "publicGetMarkets",
+          "swapPublicGetV3MarketAllInstruments"
+        ],
+        "fetchOHLCV": [
+          "publicGetMarketsSymbolCandles",
+          "swapPublicGetV3MarketCandles"
+        ],
+        "cancelOrder": [
+          "privateDeleteOrdersId",
+          "privateDeleteSmartordersId",
+          "swapPrivateDeleteV3TradeOrder"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOrders",
+          "privateGetSmartorders",
+          "swapPrivateGetV3TradeOrderOpens"
+        ],
+        "fetchWithdrawals": [
+          "privateGetWalletsActivity"
+        ],
+        "fetchCurrencies": [
+          "publicGetCurrencies"
+        ],
+        "transfer": [
+          "privatePostAccountsTransfer"
+        ],
+        "fetchMyTrades": [
+          "privateGetTrades",
+          "swapPrivateGetV3TradeOrderTrades"
+        ],
+        "createOrder": [
+          "privatePostOrders",
+          "privatePostSmartorders",
+          "swapPrivatePostV3TradeOrder"
+        ],
+        "fetchTrades": [
+          "publicGetMarketsSymbolTrades",
+          "swapPublicGetV3MarketTrades"
+        ],
+        "fetchSpotMarkets": [
+          "publicGetMarkets"
+        ],
+        "fetchOrderStatus": [
+          "privateGetOrders",
+          "privateGetSmartorders",
+          "swapPrivateGetV3TradeOrderOpens"
+        ],
+        "fetchSwapMarkets": [
+          "swapPublicGetV3MarketAllInstruments"
+        ],
+        "reduceMargin": [
+          "swapPrivatePostV3TradePositionMargin"
+        ],
+        "fetchTicker": [
+          "publicGetMarketsSymbolTicker24h",
+          "publicGetMarketsTicker24h",
+          "swapPublicGetV3MarketTickers"
+        ],
+        "fetchTickers": [
+          "publicGetMarketsTicker24h",
+          "swapPublicGetV3MarketTickers"
+        ],
+        "fetchBalance": [
+          "privateGetAccountsBalances",
+          "swapPrivateGetV3AccountBalance"
+        ],
+        "fetchTradingFees": [
+          "privateGetFeeinfo"
+        ],
+        "fetchOrder": [
+          "privateGetOrdersId",
+          "privateGetSmartordersId"
+        ]
+      }
+    },
+    {
+      "class_name": "tokocrypto",
+      "file": "tokocrypto.ts",
+      "id": "tokocrypto",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 24,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostOpenV1OrdersCancel"
+        ],
+        "createOrder": [
+          "privatePostOpenV1Orders"
+        ],
+        "fetchBalance": [
+          "privateGetOpenV1AccountSpot"
+        ],
+        "fetchBidsAsks": [
+          "binanceGetTickerBookTicker"
+        ],
+        "fetchClosedOrders": [
+          "privateGetOpenV1Orders"
+        ],
+        "fetchDepositAddress": [
+          "privateGetOpenV1DepositsAddress"
+        ],
+        "fetchDeposits": [
+          "privateGetOpenV1Deposits"
+        ],
+        "fetchMarkets": [
+          "publicGetOpenV1CommonSymbols"
+        ],
+        "fetchMyTrades": [
+          "privateGetOpenV1OrdersTrades"
+        ],
+        "fetchOHLCV": [
+          "binanceGetKlines",
+          "publicGetOpenV1MarketKlines"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOpenV1Orders"
+        ],
+        "fetchOrder": [
+          "privateGetOpenV1Orders"
+        ],
+        "fetchOrderBook": [
+          "binanceGetDepth",
+          "publicGetOpenV1MarketDepth"
+        ],
+        "fetchOrders": [
+          "privateGetOpenV1Orders"
+        ],
+        "fetchTicker": [
+          "binanceGetTicker24hr"
+        ],
+        "fetchTickers": [
+          "binanceGetTicker24hr"
+        ],
+        "fetchTime": [
+          "publicGetOpenV1CommonTime"
+        ],
+        "fetchTrades": [
+          "binanceGetAggTrades",
+          "binanceGetTrades",
+          "publicGetOpenV1MarketTrades"
+        ],
+        "fetchWithdrawals": [
+          "privateGetOpenV1Withdraws"
+        ],
+        "withdraw": [
+          "privatePostOpenV1Withdraws"
+        ]
+      }
+    },
+    {
+      "class_name": "toobit",
+      "file": "toobit.ts",
+      "id": "toobit",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 47,
+      "unified_endpoints": {
+        "setMarginMode": [
+          "privatePostApiV1FuturesMarginType"
+        ],
+        "fetchOrderBook": [
+          "commonGetQuoteV1Depth"
+        ],
+        "setLeverage": [
+          "privatePostApiV1FuturesLeverage"
+        ],
+        "fetchTime": [
+          "commonGetApiV1Time"
+        ],
+        "fetchOrders": [
+          "privateGetApiV1SpotTradeOrders"
+        ],
+        "fetchDeposits": [
+          "privateGetApiV1AccountDepositOrders",
+          "privateGetApiV1AccountWithdrawOrders"
+        ],
+        "fetchPositions": [
+          "privateGetApiV1FuturesPositions"
+        ],
+        "fetchFundingRates": [
+          "commonGetApiV1FuturesFundingRate"
+        ],
+        "fetchDepositAddress": [
+          "privateGetApiV1AccountDepositAddress"
+        ],
+        "fetchStatus": [
+          "commonGetApiV1Ping"
+        ],
+        "fetchClosedOrders": [
+          "privateGetApiV1FuturesHistoryOrders"
+        ],
+        "fetchLastPrices": [
+          "commonGetQuoteV1TickerPrice"
+        ],
+        "cancelAllOrders": [
+          "privateDeleteApiV1FuturesBatchOrders",
+          "privateDeleteApiV1SpotOpenOrders"
+        ],
+        "withdraw": [
+          "privatePostApiV1AccountWithdraw"
+        ],
+        "fetchLeverage": [
+          "privateGetApiV1FuturesAccountLeverage"
+        ],
+        "fetchMarkets": [
+          "commonGetApiV1ExchangeInfo"
+        ],
+        "fetchOHLCV": [
+          "commonGetQuoteV1IndexKlines",
+          "commonGetQuoteV1Klines",
+          "commonGetQuoteV1MarkPriceKlines"
+        ],
+        "fetchBidsAsks": [
+          "commonGetQuoteV1TickerBookTicker"
+        ],
+        "cancelOrder": [
+          "privateDeleteApiV1FuturesOrder",
+          "privateDeleteApiV1SpotOrder"
+        ],
+        "fetchOpenOrders": [
+          "privateGetApiV1FuturesOpenOrders",
+          "privateGetApiV1SpotOpenOrders"
+        ],
+        "fetchWithdrawals": [
+          "privateGetApiV1AccountDepositOrders",
+          "privateGetApiV1AccountWithdrawOrders"
+        ],
+        "fetchFundingRateHistory": [
+          "commonGetApiV1FuturesHistoryFundingRate"
+        ],
+        "fetchCurrencies": [
+          "commonGetApiV1ExchangeInfo"
+        ],
+        "fetchLedger": [
+          "privateGetApiV1AccountBalanceFlow",
+          "privateGetApiV1FuturesBalanceFlow"
+        ],
+        "transfer": [
+          "privatePostApiV1SubAccountTransfer"
+        ],
+        "fetchMyTrades": [
+          "privateGetApiV1AccountTrades",
+          "privateGetApiV1FuturesUserTrades"
+        ],
+        "createOrder": [
+          "privatePostApiV1FuturesOrder",
+          "privatePostApiV1SpotOrder"
+        ],
+        "fetchTrades": [
+          "commonGetQuoteV1Trades"
+        ],
+        "cancelOrders": [
+          "privateDeleteApiV1FuturesCancelOrderByIds",
+          "privateDeleteApiV1SpotCancelOrderByIds"
+        ],
+        "fetchTickers": [
+          "commonGetQuoteV1ContractTicker24hr",
+          "commonGetQuoteV1Ticker24hr"
+        ],
+        "fetchBalance": [
+          "privateGetApiV1Account",
+          "privateGetApiV1FuturesBalance"
+        ],
+        "fetchTradingFees": [
+          "privateGetApiV1FuturesCommissionRate"
+        ],
+        "fetchOrder": [
+          "privateGetApiV1FuturesOrder",
+          "privateGetApiV1SpotOrder"
+        ]
+      }
+    },
+    {
+      "class_name": "upbit",
+      "file": "upbit.ts",
+      "id": "upbit",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 32,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privateDeleteOrder"
+        ],
+        "createDepositAddress": [
+          "privatePostDepositsGenerateCoinAddress"
+        ],
+        "createOrder": [
+          "privatePostOrders",
+          "privatePostOrdersTest"
+        ],
+        "editOrder": [
+          "privatePostOrdersCancelAndNew"
+        ],
+        "fetchBalance": [
+          "privateGetAccounts"
+        ],
+        "fetchCanceledOrders": [
+          "privateGetOrdersClosed"
+        ],
+        "fetchClosedOrders": [
+          "privateGetOrdersClosed"
+        ],
+        "fetchCurrency": [
+          "privateGetWithdrawsChance"
+        ],
+        "fetchCurrencyById": [
+          "privateGetWithdrawsChance"
+        ],
+        "fetchDeposit": [
+          "privateGetDeposit"
+        ],
+        "fetchDepositAddress": [
+          "privateGetDepositsCoinAddress"
+        ],
+        "fetchDepositAddresses": [
+          "privateGetDepositsCoinAddresses"
+        ],
+        "fetchDeposits": [
+          "privateGetDeposits"
+        ],
+        "fetchMarket": [
+          "privateGetOrdersChance"
+        ],
+        "fetchMarketById": [
+          "privateGetOrdersChance"
+        ],
+        "fetchMarkets": [
+          "publicGetMarketAll"
+        ],
+        "fetchOHLCV": [
+          "publicGetCandlesTimeframe",
+          "publicGetCandlesTimeframeUnit"
+        ],
+        "fetchOpenOrders": [
+          "privateGetOrdersOpen"
+        ],
+        "fetchOrder": [
+          "privateGetOrder"
+        ],
+        "fetchOrderBook": [
+          "publicGetOrderbook"
+        ],
+        "fetchOrderBooks": [
+          "publicGetOrderbook"
+        ],
+        "fetchTicker": [
+          "publicGetTicker"
+        ],
+        "fetchTickers": [
+          "publicGetTicker"
+        ],
+        "fetchTrades": [
+          "publicGetTradesTicks"
+        ],
+        "fetchTradingFee": [
+          "privateGetOrdersChance"
+        ],
+        "fetchTradingFees": [
+          "publicGetMarketAll"
+        ],
+        "fetchWithdrawal": [
+          "privateGetWithdraw"
+        ],
+        "fetchWithdrawals": [
+          "privateGetWithdraws"
+        ],
+        "withdraw": [
+          "privatePostWithdrawsCoin",
+          "privatePostWithdrawsKrw"
+        ]
+      }
+    },
+    {
+      "class_name": "wavesexchange",
+      "file": "wavesexchange.ts",
+      "id": "wavesexchange",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 45,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "forwardPostMatcherOrdersWavesAddressCancel",
+          "nodeGetAddressesPublicKeyPublicKey",
+          "privatePostOauth2Token"
+        ],
+        "createOrder": [
+          "matcherGetMatcher",
+          "matcherGetMatcherBalanceReservedPublicKey",
+          "matcherPostMatcherOrderbook",
+          "matcherPostMatcherOrderbookBaseIdQuoteIdCalculateFee",
+          "matcherPostMatcherOrderbookMarket",
+          "matcherPostMatcherOrdersSerialize",
+          "nodeGetAddressesBalanceAddress",
+          "nodeGetAddressesPublicKeyPublicKey",
+          "nodeGetAssetsBalanceAddress",
+          "publicGetAssets"
+        ],
+        "fetchBalance": [
+          "matcherGetMatcherBalanceReservedPublicKey",
+          "nodeGetAddressesBalanceAddress",
+          "nodeGetAddressesPublicKeyPublicKey",
+          "nodeGetAssetsBalanceAddress",
+          "publicGetAssets"
+        ],
+        "fetchClosedOrders": [
+          "forwardGetMatcherOrdersAddress",
+          "nodeGetAddressesPublicKeyPublicKey",
+          "privatePostOauth2Token"
+        ],
+        "fetchDepositAddress": [
+          "nodeGetAddressesPublicKeyPublicKey",
+          "privateGetDepositAddressesCurrency",
+          "privateGetDepositAddressesCurrencyPlatform",
+          "privateGetPlatforms",
+          "privatePostOauth2Token"
+        ],
+        "fetchDepositWithdrawFees": [
+          "privateGetDepositCurrencies",
+          "privateGetWithdrawCurrencies"
+        ],
+        "fetchMarkets": [
+          "marketGetTickers"
+        ],
+        "fetchMyTrades": [
+          "nodeGetAddressesPublicKeyPublicKey",
+          "publicGetTransactionsExchange"
+        ],
+        "fetchOHLCV": [
+          "publicGetCandlesBaseIdQuoteId"
+        ],
+        "fetchOpenOrders": [
+          "forwardGetMatcherOrdersAddress",
+          "nodeGetAddressesPublicKeyPublicKey",
+          "privatePostOauth2Token"
+        ],
+        "fetchOrder": [
+          "matcherGetMatcherOrderbookPublicKeyOrderId"
+        ],
+        "fetchOrderBook": [
+          "matcherGetMatcherOrderbookBaseIdQuoteId"
+        ],
+        "fetchOrders": [
+          "matcherGetMatcherOrderbookBaseIdQuoteIdPublicKeyPublicKey"
+        ],
+        "fetchTicker": [
+          "publicGetPairs"
+        ],
+        "fetchTickers": [
+          "marketGetTickers"
+        ],
+        "fetchTrades": [
+          "publicGetTransactionsExchange"
+        ],
+        "withdraw": [
+          "nodePostTransactionsBroadcast",
+          "privateGetWithdrawAddressesCurrencyAddress",
+          "privateGetWithdrawCurrencies",
+          "privatePostOauth2Token"
+        ]
+      }
+    },
+    {
+      "class_name": "whitebit",
+      "file": "whitebit.ts",
+      "id": "whitebit",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 79,
+      "unified_endpoints": {
+        "createMarketOrderWithCost": [
+          "v4PrivatePostOrderCollateralLimit",
+          "v4PrivatePostOrderCollateralMarket",
+          "v4PrivatePostOrderCollateralTriggerMarket",
+          "v4PrivatePostOrderMarket",
+          "v4PrivatePostOrderNew",
+          "v4PrivatePostOrderStockMarket",
+          "v4PrivatePostOrderStopLimit",
+          "v4PrivatePostOrderStopMarket"
+        ],
+        "fetchTransactions": [
+          "v4PrivatePostMainAccountHistory"
+        ],
+        "createMarketBuyOrderWithCost": [
+          "v4PrivatePostOrderCollateralLimit",
+          "v4PrivatePostOrderCollateralMarket",
+          "v4PrivatePostOrderCollateralTriggerMarket",
+          "v4PrivatePostOrderMarket",
+          "v4PrivatePostOrderNew",
+          "v4PrivatePostOrderStockMarket",
+          "v4PrivatePostOrderStopLimit",
+          "v4PrivatePostOrderStopMarket"
+        ],
+        "fetchOrderBook": [
+          "v4PublicGetOrderbookMarket"
+        ],
+        "fetchFundingHistory": [
+          "v4PrivatePostCollateralAccountFundingHistory"
+        ],
+        "fetchFundingRate": [
+          "v4PublicGetFutures"
+        ],
+        "setLeverage": [
+          "v4PrivatePostCollateralAccountLeverage"
+        ],
+        "createConvertTrade": [
+          "v4PrivatePostConvertConfirm"
+        ],
+        "editOrder": [
+          "v4PrivatePostOrderModify"
+        ],
+        "fetchTime": [
+          "v4PublicGetTime"
+        ],
+        "fetchDepositWithdrawFees": [
+          "v4PublicGetFee"
+        ],
+        "fetchOrders": [
+          "v4PrivatePostOrders",
+          "v4PrivatePostTradeAccountOrderHistory"
+        ],
+        "fetchDeposits": [
+          "v4PrivatePostMainAccountHistory"
+        ],
+        "fetchOrderTrades": [
+          "v4PrivatePostTradeAccountOrder"
+        ],
+        "fetchPositions": [
+          "v4PrivatePostCollateralAccountPositionsOpen"
+        ],
+        "fetchFundingRates": [
+          "v4PublicGetFutures"
+        ],
+        "fetchDepositAddress": [
+          "v4PrivatePostMainAccountAddress",
+          "v4PrivatePostMainAccountFiatDepositUrl"
+        ],
+        "fetchBorrowInterest": [
+          "v4PrivatePostCollateralAccountPositionsOpen"
+        ],
+        "fetchStatus": [
+          "v4PublicGetPing"
+        ],
+        "createDepositAddress": [
+          "v4PrivatePostMainAccountCreateNewAddress"
+        ],
+        "fetchDepositsWithdrawals": [
+          "v4PrivatePostMainAccountHistory"
+        ],
+        "fetchConvertTradeHistory": [
+          "v4PrivatePostConvertHistory"
+        ],
+        "fetchClosedOrders": [
+          "v4PrivatePostTradeAccountOrderHistory"
+        ],
+        "cancelAllOrders": [
+          "v4PrivatePostOrderCancelAll"
+        ],
+        "withdraw": [
+          "v4PrivatePostMainAccountWithdraw"
+        ],
+        "fetchPositionHistory": [
+          "v4PrivatePostCollateralAccountPositionsHistory"
+        ],
+        "fetchMarkets": [
+          "v4PublicGetMarkets"
+        ],
+        "fetchOHLCV": [
+          "v1PublicGetKline"
+        ],
+        "cancelOrder": [
+          "v4PrivatePostOrderCancel"
+        ],
+        "fetchOpenOrders": [
+          "v4PrivatePostOrders"
+        ],
+        "fetchWithdrawals": [
+          "v4PrivatePostMainAccountHistory"
+        ],
+        "fetchFundingRateHistory": [
+          "v4PublicGetFundingHistoryMarket"
+        ],
+        "fetchCurrencies": [
+          "v4PublicGetAssets"
+        ],
+        "transfer": [
+          "v4PrivatePostMainAccountTransfer"
+        ],
+        "fetchMyTrades": [
+          "v4PrivatePostTradeAccountExecutedHistory"
+        ],
+        "createOrder": [
+          "v4PrivatePostOrderCollateralLimit",
+          "v4PrivatePostOrderCollateralMarket",
+          "v4PrivatePostOrderCollateralTriggerMarket",
+          "v4PrivatePostOrderMarket",
+          "v4PrivatePostOrderNew",
+          "v4PrivatePostOrderStockMarket",
+          "v4PrivatePostOrderStopLimit",
+          "v4PrivatePostOrderStopMarket"
+        ],
+        "fetchTransactionFees": [
+          "v4PublicGetFee"
+        ],
+        "fetchTrades": [
+          "v4PublicGetTradesMarket"
+        ],
+        "fetchFundingLimits": [
+          "v4PublicGetAssets",
+          "v4PublicGetFee"
+        ],
+        "fetchConvertQuote": [
+          "v4PrivatePostConvertEstimate"
+        ],
+        "fetchPosition": [
+          "v4PrivatePostCollateralAccountPositionsOpen"
+        ],
+        "fetchTicker": [
+          "v1PublicGetTicker"
+        ],
+        "fetchCrossBorrowRate": [
+          "v4PrivatePostMainAccountSmartPlans"
+        ],
+        "fetchTickers": [
+          "v2PublicGetTicker",
+          "v4PublicGetFutures",
+          "v4PublicGetTicker"
+        ],
+        "fetchBalance": [
+          "v4PrivatePostCollateralAccountBalance",
+          "v4PrivatePostMainAccountBalance",
+          "v4PrivatePostTradeAccountBalance"
+        ],
+        "fetchDeposit": [
+          "v4PrivatePostMainAccountHistory"
+        ],
+        "fetchAccounts": [
+          "v4PrivatePostSubAccountList"
+        ],
+        "cancelAllOrdersAfter": [
+          "v4PrivatePostOrderKillSwitch"
+        ],
+        "fetchTradingFees": [
+          "v4PublicGetAssets"
+        ],
+        "fetchOrder": [
+          "v4PrivatePostOrders",
+          "v4PrivatePostTradeAccountOrderHistory"
         ]
       }
     },
@@ -6183,15 +12013,520 @@
           "v1PrivateGetOrderOid"
         ]
       }
+    },
+    {
+      "class_name": "xt",
+      "file": "xt.ts",
+      "id": "xt",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 146,
+      "unified_endpoints": {
+        "createMarketBuyOrderWithCost": [
+          "privateInversePostFutureTradeV1EntrustCreatePlan",
+          "privateInversePostFutureTradeV1EntrustCreateProfit",
+          "privateInversePostFutureTradeV1OrderCreate",
+          "privateLinearPostFutureTradeV1EntrustCreatePlan",
+          "privateLinearPostFutureTradeV1EntrustCreateProfit",
+          "privateLinearPostFutureTradeV1OrderCreate",
+          "privateSpotPostOrder"
+        ],
+        "setMarginMode": [
+          "privateLinearPostFutureUserV1PositionChangeType"
+        ],
+        "fetchOrderBook": [
+          "publicInverseGetFutureMarketV1PublicQDepth",
+          "publicLinearGetFutureMarketV1PublicQDepth",
+          "publicSpotGetDepth"
+        ],
+        "fetchFundingHistory": [
+          "privateInverseGetFutureUserV1BalanceFundingRateList",
+          "privateLinearGetFutureUserV1BalanceFundingRateList"
+        ],
+        "createSpotOrder": [
+          "privateSpotPostOrder"
+        ],
+        "createContractOrder": [
+          "privateInversePostFutureTradeV1EntrustCreatePlan",
+          "privateInversePostFutureTradeV1EntrustCreateProfit",
+          "privateInversePostFutureTradeV1OrderCreate",
+          "privateLinearPostFutureTradeV1EntrustCreatePlan",
+          "privateLinearPostFutureTradeV1EntrustCreateProfit",
+          "privateLinearPostFutureTradeV1OrderCreate"
+        ],
+        "fetchFundingRate": [
+          "publicInverseGetFutureMarketV1PublicQFundingRate",
+          "publicLinearGetFutureMarketV1PublicQFundingRate"
+        ],
+        "setLeverage": [
+          "privateInversePostFutureUserV1PositionAdjustLeverage",
+          "privateLinearPostFutureUserV1PositionAdjustLeverage"
+        ],
+        "addMargin": [
+          "privateInversePostFutureUserV1PositionMargin",
+          "privateLinearPostFutureUserV1PositionMargin"
+        ],
+        "editOrder": [
+          "privateInversePostFutureTradeV1EntrustUpdateProfitStop",
+          "privateInversePostFutureTradeV1OrderUpdate",
+          "privateLinearPostFutureTradeV1EntrustUpdateProfitStop",
+          "privateLinearPostFutureTradeV1OrderUpdate",
+          "privateSpotPutOrderOrderId"
+        ],
+        "fetchTime": [
+          "publicSpotGetTime"
+        ],
+        "fetchOrders": [
+          "privateInverseGetFutureTradeV1EntrustPlanListHistory",
+          "privateInverseGetFutureTradeV1OrderListHistory",
+          "privateLinearGetFutureTradeV1EntrustPlanListHistory",
+          "privateLinearGetFutureTradeV1OrderListHistory",
+          "privateSpotGetHistoryOrder"
+        ],
+        "fetchDeposits": [
+          "privateSpotGetDepositHistory"
+        ],
+        "fetchMarketLeverageTiers": [
+          "publicInverseGetFutureMarketV1PublicLeverageBracketDetail",
+          "publicLinearGetFutureMarketV1PublicLeverageBracketDetail"
+        ],
+        "fetchPositions": [
+          "privateInverseGetFutureUserV1PositionList",
+          "privateLinearGetFutureUserV1PositionList"
+        ],
+        "fetchDepositAddress": [
+          "privateSpotGetDepositAddress"
+        ],
+        "fetchClosedOrders": [
+          "privateInverseGetFutureTradeV1EntrustPlanList",
+          "privateInverseGetFutureTradeV1EntrustProfitList",
+          "privateInverseGetFutureTradeV1OrderList",
+          "privateLinearGetFutureTradeV1EntrustPlanList",
+          "privateLinearGetFutureTradeV1EntrustProfitList",
+          "privateLinearGetFutureTradeV1OrderList",
+          "privateSpotGetHistoryOrder",
+          "privateSpotGetOpenOrder"
+        ],
+        "cancelAllOrders": [
+          "privateInversePostFutureTradeV1EntrustCancelAllPlan",
+          "privateInversePostFutureTradeV1EntrustCancelAllProfitStop",
+          "privateInversePostFutureTradeV1OrderCancelAll",
+          "privateLinearPostFutureTradeV1EntrustCancelAllPlan",
+          "privateLinearPostFutureTradeV1EntrustCancelAllProfitStop",
+          "privateLinearPostFutureTradeV1OrderCancelAll",
+          "privateSpotDeleteOpenOrder"
+        ],
+        "withdraw": [
+          "privateSpotPostWithdraw"
+        ],
+        "fetchMarkets": [
+          "publicInverseGetFutureMarketV1PublicSymbolList",
+          "publicLinearGetFutureMarketV1PublicSymbolList",
+          "publicSpotGetSymbol"
+        ],
+        "fetchOHLCV": [
+          "publicInverseGetFutureMarketV1PublicQKline",
+          "publicLinearGetFutureMarketV1PublicQKline",
+          "publicSpotGetKline"
+        ],
+        "fetchOrdersByStatus": [
+          "privateInverseGetFutureTradeV1EntrustPlanList",
+          "privateInverseGetFutureTradeV1EntrustProfitList",
+          "privateInverseGetFutureTradeV1OrderList",
+          "privateLinearGetFutureTradeV1EntrustPlanList",
+          "privateLinearGetFutureTradeV1EntrustProfitList",
+          "privateLinearGetFutureTradeV1OrderList",
+          "privateSpotGetHistoryOrder",
+          "privateSpotGetOpenOrder"
+        ],
+        "fetchBidsAsks": [
+          "publicSpotGetTickerBook"
+        ],
+        "cancelOrder": [
+          "privateInversePostFutureTradeV1EntrustCancelPlan",
+          "privateInversePostFutureTradeV1EntrustCancelProfitStop",
+          "privateInversePostFutureTradeV1OrderCancel",
+          "privateLinearPostFutureTradeV1EntrustCancelPlan",
+          "privateLinearPostFutureTradeV1EntrustCancelProfitStop",
+          "privateLinearPostFutureTradeV1OrderCancel",
+          "privateSpotDeleteOrderOrderId"
+        ],
+        "fetchFundingInterval": [
+          "publicInverseGetFutureMarketV1PublicQFundingRate",
+          "publicLinearGetFutureMarketV1PublicQFundingRate"
+        ],
+        "fetchOpenOrders": [
+          "privateInverseGetFutureTradeV1EntrustPlanList",
+          "privateInverseGetFutureTradeV1EntrustProfitList",
+          "privateInverseGetFutureTradeV1OrderList",
+          "privateLinearGetFutureTradeV1EntrustPlanList",
+          "privateLinearGetFutureTradeV1EntrustProfitList",
+          "privateLinearGetFutureTradeV1OrderList",
+          "privateSpotGetHistoryOrder",
+          "privateSpotGetOpenOrder"
+        ],
+        "fetchWithdrawals": [
+          "privateSpotGetWithdrawHistory"
+        ],
+        "fetchFundingRateHistory": [
+          "publicInverseGetFutureMarketV1PublicQFundingRateRecord",
+          "publicLinearGetFutureMarketV1PublicQFundingRateRecord"
+        ],
+        "fetchCurrencies": [
+          "publicSpotGetCurrencies",
+          "publicSpotGetWalletSupportCurrency"
+        ],
+        "fetchLedger": [
+          "privateInverseGetFutureUserV1BalanceBills",
+          "privateLinearGetFutureUserV1BalanceBills"
+        ],
+        "transfer": [
+          "privateSpotPostBalanceTransfer"
+        ],
+        "fetchMyTrades": [
+          "privateInverseGetFutureTradeV1OrderTradeList",
+          "privateLinearGetFutureTradeV1OrderTradeList",
+          "privateSpotGetTrade"
+        ],
+        "createOrder": [
+          "privateInversePostFutureTradeV1EntrustCreatePlan",
+          "privateInversePostFutureTradeV1EntrustCreateProfit",
+          "privateInversePostFutureTradeV1OrderCreate",
+          "privateLinearPostFutureTradeV1EntrustCreatePlan",
+          "privateLinearPostFutureTradeV1EntrustCreateProfit",
+          "privateLinearPostFutureTradeV1OrderCreate",
+          "privateSpotPostOrder"
+        ],
+        "fetchTrades": [
+          "publicInverseGetFutureMarketV1PublicQDeal",
+          "publicLinearGetFutureMarketV1PublicQDeal",
+          "publicSpotGetTradeRecent"
+        ],
+        "fetchCanceledOrders": [
+          "privateInverseGetFutureTradeV1EntrustPlanList",
+          "privateInverseGetFutureTradeV1EntrustProfitList",
+          "privateInverseGetFutureTradeV1OrderList",
+          "privateLinearGetFutureTradeV1EntrustPlanList",
+          "privateLinearGetFutureTradeV1EntrustProfitList",
+          "privateLinearGetFutureTradeV1OrderList",
+          "privateSpotGetHistoryOrder",
+          "privateSpotGetOpenOrder"
+        ],
+        "fetchSpotMarkets": [
+          "publicSpotGetSymbol"
+        ],
+        "fetchSwapAndFutureMarkets": [
+          "publicInverseGetFutureMarketV1PublicSymbolList",
+          "publicLinearGetFutureMarketV1PublicSymbolList"
+        ],
+        "fetchPosition": [
+          "privateInverseGetFutureUserV1PositionList",
+          "privateLinearGetFutureUserV1PositionList"
+        ],
+        "fetchLeverageTiers": [
+          "publicInverseGetFutureMarketV1PublicLeverageBracketList",
+          "publicLinearGetFutureMarketV1PublicLeverageBracketList"
+        ],
+        "reduceMargin": [
+          "privateInversePostFutureUserV1PositionMargin",
+          "privateLinearPostFutureUserV1PositionMargin"
+        ],
+        "cancelOrders": [
+          "privateSpotDeleteBatchOrder"
+        ],
+        "fetchTicker": [
+          "publicInverseGetFutureMarketV1PublicQAggTicker",
+          "publicLinearGetFutureMarketV1PublicQAggTicker",
+          "publicSpotGetTicker24h"
+        ],
+        "fetchTickers": [
+          "publicInverseGetFutureMarketV1PublicQAggTickers",
+          "publicLinearGetFutureMarketV1PublicQAggTickers",
+          "publicSpotGetTicker24h"
+        ],
+        "fetchBalance": [
+          "privateInverseGetFutureUserV1BalanceList",
+          "privateLinearGetFutureUserV1BalanceList",
+          "privateSpotGetBalances"
+        ],
+        "fetchOrder": [
+          "privateInverseGetFutureTradeV1EntrustPlanDetail",
+          "privateInverseGetFutureTradeV1EntrustProfitDetail",
+          "privateInverseGetFutureTradeV1OrderDetail",
+          "privateLinearGetFutureTradeV1EntrustPlanDetail",
+          "privateLinearGetFutureTradeV1EntrustProfitDetail",
+          "privateLinearGetFutureTradeV1OrderDetail",
+          "privateSpotGetOrderOrderId"
+        ]
+      }
+    },
+    {
+      "class_name": "yobit",
+      "file": "yobit.ts",
+      "id": "yobit",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 16,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostCancelOrder"
+        ],
+        "createDepositAddress": [
+          "privatePostGetDepositAddress"
+        ],
+        "createOrder": [
+          "privatePostTrade"
+        ],
+        "fetchBalance": [
+          "privatePostGetInfo"
+        ],
+        "fetchDepositAddress": [
+          "privatePostGetDepositAddress"
+        ],
+        "fetchMarkets": [
+          "publicGetInfo"
+        ],
+        "fetchMyTrades": [
+          "privatePostTradeHistory"
+        ],
+        "fetchOpenOrders": [
+          "privatePostActiveOrders"
+        ],
+        "fetchOrder": [
+          "privatePostOrderInfo"
+        ],
+        "fetchOrderBook": [
+          "publicGetDepthPair"
+        ],
+        "fetchOrderBooks": [
+          "publicGetDepthPair"
+        ],
+        "fetchTicker": [
+          "publicGetTickerPair"
+        ],
+        "fetchTickers": [
+          "publicGetTickerPair"
+        ],
+        "fetchTrades": [
+          "publicGetTradesPair"
+        ],
+        "fetchTradingFees": [
+          "publicGetInfo"
+        ],
+        "withdraw": [
+          "privatePostWithdrawCoinsToAddress"
+        ]
+      }
+    },
+    {
+      "class_name": "zaif",
+      "file": "zaif.ts",
+      "id": "zaif",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 10,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "privatePostCancelOrder"
+        ],
+        "createOrder": [
+          "privatePostTrade"
+        ],
+        "fetchBalance": [
+          "privatePostGetInfo"
+        ],
+        "fetchClosedOrders": [
+          "privatePostTradeHistory"
+        ],
+        "fetchMarkets": [
+          "publicGetCurrencyPairsAll"
+        ],
+        "fetchOpenOrders": [
+          "privatePostActiveOrders"
+        ],
+        "fetchOrderBook": [
+          "publicGetDepthPair"
+        ],
+        "fetchTicker": [
+          "publicGetTickerPair"
+        ],
+        "fetchTrades": [
+          "publicGetTradesPair"
+        ],
+        "withdraw": [
+          "privatePostWithdraw"
+        ]
+      }
+    },
+    {
+      "class_name": "zebpay",
+      "file": "zebpay.ts",
+      "id": "zebpay",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 43,
+      "unified_endpoints": {
+        "addMargin": [
+          "privateSwapPostV1TradeAddMargin"
+        ],
+        "cancelAllOrders": [
+          "privateSpotDeleteV2ExOrdersCancelAll"
+        ],
+        "cancelOrder": [
+          "privateSpotDeleteV2ExOrder",
+          "privateSwapDeleteV1TradeOrder"
+        ],
+        "closePosition": [
+          "privateSwapPostV1TradePositionClose"
+        ],
+        "createOrder": [
+          "privateSpotPostV2ExOrders",
+          "privateSwapPostV1TradeOrder",
+          "privateSwapPostV1TradeOrderAddTPSL"
+        ],
+        "fetchBalance": [
+          "privateSpotGetV2AccountBalance",
+          "privateSwapGetV1WalletBalance"
+        ],
+        "fetchCurrencies": [
+          "publicSpotGetV2ExCurrencies"
+        ],
+        "fetchLeverage": [
+          "privateSwapGetV1TradeUserLeverage"
+        ],
+        "fetchLeverages": [
+          "privateSwapGetV1TradeUserLeverages"
+        ],
+        "fetchMarkets": [
+          "publicSpotGetV2ExExchangeInfo",
+          "publicSwapGetV1MarketMarkets"
+        ],
+        "fetchMyTrades": [
+          "privateSwapGetV1TradeHistory"
+        ],
+        "fetchOHLCV": [
+          "publicSpotGetV2MarketKlines",
+          "publicSwapPostV1MarketKlines"
+        ],
+        "fetchOpenOrders": [
+          "privateSpotGetV2ExOrders",
+          "privateSwapGetV1TradeOrderOpenOrders"
+        ],
+        "fetchOrder": [
+          "privateSpotGetV2ExOrder",
+          "privateSwapGetV1TradeOrder"
+        ],
+        "fetchOrderBook": [
+          "publicSpotGetV2MarketOrderbook",
+          "publicSwapGetV1MarketOrderBook"
+        ],
+        "fetchOrderTrades": [
+          "privateSpotGetV2ExOrderFills"
+        ],
+        "fetchPositions": [
+          "privateSwapGetV1TradePositions"
+        ],
+        "fetchSpotMarkets": [
+          "publicSpotGetV2ExExchangeInfo"
+        ],
+        "fetchStatus": [
+          "publicSpotGetV2SystemStatus",
+          "publicSwapGetV1SystemStatus"
+        ],
+        "fetchSwapMarkets": [
+          "publicSwapGetV1MarketMarkets"
+        ],
+        "fetchTicker": [
+          "publicSpotGetV2MarketTicker",
+          "publicSwapGetV1MarketTicker24Hr"
+        ],
+        "fetchTickers": [
+          "publicSpotGetV2MarketAllTickers"
+        ],
+        "fetchTime": [
+          "publicSpotGetV2SystemTime",
+          "publicSwapGetV1SystemTime"
+        ],
+        "fetchTrades": [
+          "publicSpotGetV2MarketTrades",
+          "publicSwapGetV1MarketAggTrade"
+        ],
+        "fetchTradingFee": [
+          "privateSpotGetV2ExTradefee",
+          "publicSwapGetV1ExchangeTradefee"
+        ],
+        "fetchTradingFees": [
+          "publicSpotGetV2ExTradefees",
+          "publicSwapGetV1ExchangeTradefees"
+        ],
+        "reduceMargin": [
+          "privateSwapPostV1TradeReduceMargin"
+        ],
+        "setLeverage": [
+          "privateSwapPostV1TradeUpdateUserLeverage"
+        ]
+      }
+    },
+    {
+      "class_name": "zonda",
+      "file": "zonda.ts",
+      "id": "zonda",
+      "parent_class": "Exchange",
+      "unified_endpoint_count": 20,
+      "unified_endpoints": {
+        "cancelOrder": [
+          "v1_01PrivateDeleteTradingOfferSymbolIdSidePrice"
+        ],
+        "createOrder": [
+          "v1_01PrivatePostTradingOfferSymbol",
+          "v1_01PrivatePostTradingStopOfferSymbol"
+        ],
+        "fetchBalance": [
+          "v1_01PrivateGetBalancesBITBAYBalance"
+        ],
+        "fetchDepositAddress": [
+          "v1_01PrivateGetApiPaymentsDepositsCryptoAddresses"
+        ],
+        "fetchDepositAddresses": [
+          "v1_01PrivateGetApiPaymentsDepositsCryptoAddresses"
+        ],
+        "fetchLedger": [
+          "v1_01PrivateGetBalancesBITBAYHistory"
+        ],
+        "fetchMarkets": [
+          "v1_01PublicGetTradingTicker"
+        ],
+        "fetchMyTrades": [
+          "v1_01PrivateGetTradingHistoryTransactions"
+        ],
+        "fetchOHLCV": [
+          "v1_01PublicGetTradingCandleHistorySymbolResolution"
+        ],
+        "fetchOpenOrders": [
+          "v1_01PrivateGetTradingOffer"
+        ],
+        "fetchOrderBook": [
+          "v1_01PublicGetTradingOrderbookSymbol"
+        ],
+        "fetchTicker": [
+          "v1_01PublicGetTradingStatsSymbol",
+          "v1_01PublicGetTradingTickerSymbol"
+        ],
+        "fetchTickers": [
+          "v1_01PublicGetTradingStats",
+          "v1_01PublicGetTradingTicker"
+        ],
+        "fetchTrades": [
+          "v1_01PublicGetTradingTransactionsSymbol"
+        ],
+        "transfer": [
+          "v1_01PrivatePostBalancesBITBAYBalanceTransferSourceDestination"
+        ],
+        "withdraw": [
+          "v1_01PrivatePostApiPaymentsWithdrawalsCrypto",
+          "v1_01PrivatePostApiPaymentsWithdrawalsFiat"
+        ]
+      }
     }
   ],
-  "extracted_at": "2026-04-16T10:15:56.141034Z",
-  "tier_scope": [
-    "tier1",
-    "tier2",
-    "tier3",
-    "dex"
-  ],
-  "total_mappings": 3064,
-  "with_unified_endpoints": 29
+  "extracted_at": "2026-04-17T03:37:55.953956Z",
+  "tier_scope": "all",
+  "total_mappings": 5373,
+  "with_unified_endpoints": 100
 }

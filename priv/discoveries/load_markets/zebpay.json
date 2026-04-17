@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-15T12:47:36.224380Z",
+  "extracted_at": "2026-04-17T03:36:21.100181Z",
   "id": "zebpay",
   "market_count": 632,
   "markets": {
@@ -46600,14 +46600,14 @@
       "inverse": "__undefined",
       "info": {
         "baseAsset": "BNB",
-        "lotSz": "0.01",
+        "lotSz": "0.001",
         "makerFee": "0.45",
         "orderTypes": [
           "LIMIT",
           "STOP_LOSS_LIMIT"
         ],
         "pricePrecision": "2",
-        "quantityPrecision": "2",
+        "quantityPrecision": "3",
         "quoteAsset": "USDT",
         "status": "Open",
         "symbol": "BNB-USDT",
@@ -46621,7 +46621,7 @@
       "symbol": "BNB/USDT",
       "settle": "__undefined",
       "precision": {
-        "amount": 0.01,
+        "amount": 0.001,
         "price": 0.01
       },
       "baseId": "BNB",

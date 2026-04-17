@@ -1,6 +1,18 @@
 {
-  "extracted_at": "2026-04-16T10:17:20.057369Z",
+  "extracted_at": "2026-04-17T03:39:51.239960Z",
   "families": [
+    {
+      "has_ws": true,
+      "method_count": 38,
+      "root": "aftermath",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 41,
+      "root": "alpaca",
+      "type": "standalone"
+    },
     {
       "has_ws": true,
       "method_count": 46,
@@ -9,8 +21,32 @@
     },
     {
       "has_ws": true,
+      "method_count": 49,
+      "root": "arkham",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 65,
+      "root": "ascendex",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
       "method_count": 71,
       "root": "aster",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 50,
+      "root": "backpack",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 40,
+      "root": "bigone",
       "type": "standalone"
     },
     {
@@ -85,15 +121,45 @@
       "type": "standalone"
     },
     {
+      "has_ws": false,
+      "method_count": 22,
+      "root": "bit2c",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 26,
+      "root": "bitbank",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 25,
+      "root": "bitbns",
+      "type": "standalone"
+    },
+    {
       "has_ws": true,
       "method_count": 66,
       "root": "bitfinex",
       "type": "standalone"
     },
     {
+      "has_ws": false,
+      "method_count": 32,
+      "root": "bitflyer",
+      "type": "standalone"
+    },
+    {
       "has_ws": true,
       "method_count": 113,
       "root": "bitget",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 27,
+      "root": "bithumb",
       "type": "standalone"
     },
     {
@@ -110,9 +176,117 @@
     },
     {
       "has_ws": true,
+      "method_count": 38,
+      "root": "bitopro",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 44,
+      "root": "bitrue",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 37,
+      "root": "bitso",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 56,
+      "root": "bitstamp",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 33,
+      "root": "bitteam",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 44,
+      "root": "bittrade",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 48,
+      "root": "bitvavo",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 32,
+      "root": "blockchaincom",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 59,
+      "root": "blofin",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 23,
+      "root": "btcbox",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 36,
+      "root": "btcmarkets",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 24,
+      "root": "btcturk",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 62,
+      "root": "bullish",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
       "method_count": 140,
       "root": "bybit",
       "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 61,
+      "root": "bydfi",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 45,
+      "root": "cex",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "members": [
+        {
+          "describe_changed_keys": [],
+          "id": "coinbaseadvanced",
+          "own_method_count": 1,
+          "own_methods": [
+            "describe"
+          ],
+          "relationship": "alias"
+        }
+      ],
+      "root": "coinbase",
+      "root_method_count": 86,
+      "shared_method_count": 85,
+      "type": "multi_member"
     },
     {
       "has_ws": true,
@@ -122,14 +296,74 @@
     },
     {
       "has_ws": true,
+      "method_count": 54,
+      "root": "coinbaseinternational",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 21,
+      "root": "coincheck",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
       "method_count": 87,
       "root": "coinex",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 28,
+      "root": "coinmate",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 36,
+      "root": "coinmetro",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 21,
+      "root": "coinone",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 45,
+      "root": "coinsph",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 13,
+      "root": "coinspot",
       "type": "standalone"
     },
     {
       "has_ws": true,
       "method_count": 65,
       "root": "cryptocom",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 21,
+      "root": "cryptomus",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 66,
+      "root": "deepcoin",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 64,
+      "root": "delta",
       "type": "standalone"
     },
     {
@@ -145,9 +379,27 @@
       "type": "standalone"
     },
     {
+      "has_ws": false,
+      "method_count": 77,
+      "root": "digifinex",
+      "type": "standalone"
+    },
+    {
       "has_ws": true,
       "method_count": 56,
       "root": "dydx",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 52,
+      "root": "exmo",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 43,
+      "root": "foxbit",
       "type": "standalone"
     },
     {
@@ -170,8 +422,71 @@
     },
     {
       "has_ws": true,
+      "method_count": 41,
+      "root": "gemini",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 64,
+      "root": "grvt",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
       "method_count": 78,
       "root": "hashkey",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 51,
+      "root": "hibachi",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "members": [
+        {
+          "describe_changed_keys": [
+            "countries",
+            "id",
+            "name",
+            "pro",
+            "urls"
+          ],
+          "id": "bequant",
+          "own_method_count": 1,
+          "own_methods": [
+            "describe"
+          ],
+          "relationship": "variant"
+        },
+        {
+          "describe_changed_keys": [
+            "countries",
+            "fees",
+            "id",
+            "name",
+            "urls"
+          ],
+          "id": "fmfwio",
+          "own_method_count": 1,
+          "own_methods": [
+            "describe"
+          ],
+          "relationship": "variant"
+        }
+      ],
+      "root": "hitbtc",
+      "root_method_count": 69,
+      "shared_method_count": 68,
+      "type": "multi_member"
+    },
+    {
+      "has_ws": true,
+      "method_count": 38,
+      "root": "hollaex",
       "type": "standalone"
     },
     {
@@ -200,8 +515,26 @@
     },
     {
       "has_ws": true,
+      "method_count": 24,
+      "root": "independentreserve",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 29,
+      "root": "indodax",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
       "method_count": 67,
       "root": "kraken",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 47,
+      "root": "krakenfutures",
       "type": "standalone"
     },
     {
@@ -232,9 +565,33 @@
       "type": "multi_member"
     },
     {
+      "has_ws": false,
+      "method_count": 36,
+      "root": "latoken",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 54,
+      "root": "lbank",
+      "type": "standalone"
+    },
+    {
       "has_ws": true,
       "method_count": 60,
       "root": "lighter",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 34,
+      "root": "luno",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 24,
+      "root": "mercado",
       "type": "standalone"
     },
     {
@@ -247,6 +604,18 @@
       "has_ws": true,
       "method_count": 64,
       "root": "modetrade",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 41,
+      "root": "ndax",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 36,
+      "root": "novadax",
       "type": "standalone"
     },
     {
@@ -294,8 +663,80 @@
     },
     {
       "has_ws": true,
+      "method_count": 33,
+      "root": "onetrading",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 57,
+      "root": "oxfun",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 22,
+      "root": "p2b",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 85,
+      "root": "pacifica",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
       "method_count": 59,
       "root": "paradex",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 19,
+      "root": "paymium",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 77,
+      "root": "phemex",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 66,
+      "root": "poloniex",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 35,
+      "root": "tokocrypto",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 62,
+      "root": "toobit",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 44,
+      "root": "upbit",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 49,
+      "root": "wavesexchange",
+      "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 77,
+      "root": "whitebit",
       "type": "standalone"
     },
     {
@@ -309,6 +750,36 @@
       "method_count": 64,
       "root": "woofipro",
       "type": "standalone"
+    },
+    {
+      "has_ws": true,
+      "method_count": 70,
+      "root": "xt",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 25,
+      "root": "yobit",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 20,
+      "root": "zaif",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 40,
+      "root": "zebpay",
+      "type": "standalone"
+    },
+    {
+      "has_ws": false,
+      "method_count": 32,
+      "root": "zonda",
+      "type": "standalone"
     }
   ],
   "source_files": {
@@ -319,20 +790,20 @@
   "summary": {
     "most_changed_describe_keys": [
       {
-        "count": 6,
-        "key": "has"
-      },
-      {
-        "count": 6,
+        "count": 8,
         "key": "id"
       },
       {
-        "count": 6,
+        "count": 8,
         "key": "name"
       },
       {
-        "count": 6,
+        "count": 8,
         "key": "urls"
+      },
+      {
+        "count": 6,
+        "key": "has"
       },
       {
         "count": 4,
@@ -344,6 +815,10 @@
       },
       {
         "count": 3,
+        "key": "countries"
+      },
+      {
+        "count": 3,
         "key": "features"
       },
       {
@@ -351,12 +826,12 @@
         "key": "hostname"
       },
       {
-        "count": 1,
-        "key": "api"
+        "count": 2,
+        "key": "fees"
       },
       {
         "count": 1,
-        "key": "countries"
+        "key": "api"
       },
       {
         "count": 1,
@@ -364,12 +839,12 @@
       },
       {
         "count": 1,
-        "key": "fees"
+        "key": "pro"
       }
     ],
     "most_common_own_methods": [
       {
-        "count": 8,
+        "count": 11,
         "method": "describe"
       },
       {
@@ -393,24 +868,19 @@
         "method": "transfer"
       }
     ],
-    "multi_member": 5,
+    "multi_member": 7,
     "size_distribution": {
       "max": 4,
       "min": 1,
       "sizes": {
-        "1": 23,
-        "2": 3,
-        "3": 1,
+        "1": 92,
+        "2": 4,
+        "3": 2,
         "4": 1
       }
     },
-    "standalone": 23,
-    "total_families": 28
+    "standalone": 92,
+    "total_families": 99
   },
-  "tier_scope": [
-    "tier1",
-    "tier2",
-    "tier3",
-    "dex"
-  ]
+  "tier_scope": "all"
 }

@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-15T12:47:36.224380Z",
+  "extracted_at": "2026-04-17T03:36:21.100181Z",
   "id": "whitebit",
   "market_count": 1057,
   "markets": {
@@ -8149,11 +8149,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000000",
+        "maxTotal": "1000000000",
         "minAmount": "10",
         "minTotal": "1",
         "money": "USDC",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "SEI_USDC",
         "stock": "SEI",
         "stockPrec": "1",
@@ -8168,7 +8168,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "SEI",
       "type": "spot",
@@ -8188,7 +8188,7 @@
           "min": 10
         },
         "cost": {
-          "max": 10000000000,
+          "max": 1000000000,
           "min": 1
         },
         "leverage": {
@@ -8757,11 +8757,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000000",
+        "maxTotal": "1000000000",
         "minAmount": "10",
         "minTotal": "1",
         "money": "EUR",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "SAGA_EUR",
         "stock": "SAGA",
         "stockPrec": "1",
@@ -8776,7 +8776,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "SAGA",
       "type": "spot",
@@ -8796,7 +8796,7 @@
           "min": 10
         },
         "cost": {
-          "max": 10000000000,
+          "max": 1000000000,
           "min": 1
         },
         "leverage": {
@@ -9593,11 +9593,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "1000000000",
+        "maxTotal": "100000000",
         "minAmount": "1",
         "minTotal": "1",
         "money": "USDC",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "DYDX_USDC",
         "stock": "DYDX",
         "stockPrec": "2",
@@ -9612,7 +9612,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.01,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "DYDX",
       "type": "spot",
@@ -9632,7 +9632,7 @@
           "min": 1
         },
         "cost": {
-          "max": 1000000000,
+          "max": 100000000,
           "min": 1
         },
         "leverage": {
@@ -10581,11 +10581,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000000",
+        "maxTotal": "1000000000",
         "minAmount": "10",
         "minTotal": "1",
         "money": "USDT",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "SEI_USDT",
         "stock": "SEI",
         "stockPrec": "1",
@@ -10600,7 +10600,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "SEI",
       "type": "spot",
@@ -10620,7 +10620,7 @@
           "min": 10
         },
         "cost": {
-          "max": 10000000000,
+          "max": 1000000000,
           "min": 1
         },
         "leverage": {
@@ -10657,11 +10657,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "100000000000",
+        "maxTotal": "10000000000",
         "minAmount": "10",
         "minTotal": "45",
         "money": "TRY",
-        "moneyPrec": "2",
+        "moneyPrec": "3",
         "name": "IO_TRY",
         "stock": "IO",
         "stockPrec": "2",
@@ -10676,7 +10676,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.01,
-        "price": 0.01
+        "price": 0.001
       },
       "baseId": "IO",
       "type": "spot",
@@ -10696,7 +10696,7 @@
           "min": 10
         },
         "cost": {
-          "max": 100000000000,
+          "max": 10000000000,
           "min": 45
         },
         "leverage": {
@@ -11265,11 +11265,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000000",
+        "maxTotal": "1000000000",
         "minAmount": "100",
         "minTotal": "1",
         "money": "USDT",
-        "moneyPrec": "5",
+        "moneyPrec": "6",
         "name": "LINEA_USDT",
         "stock": "LINEA",
         "stockPrec": "0",
@@ -11284,7 +11284,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 1,
-        "price": 1.0e-5
+        "price": 1.0e-6
       },
       "baseId": "LINEA",
       "type": "spot",
@@ -11304,7 +11304,7 @@
           "min": 100
         },
         "cost": {
-          "max": 10000000000,
+          "max": 1000000000,
           "min": 1
         },
         "leverage": {
@@ -23349,11 +23349,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000",
+        "maxTotal": "1000000",
         "minAmount": "1",
         "minTotal": "1",
         "money": "USDT",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "DYDX_USDT",
         "stock": "DYDX",
         "stockPrec": "4",
@@ -23368,7 +23368,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.0001,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "DYDX",
       "type": "spot",
@@ -23388,7 +23388,7 @@
           "min": 1
         },
         "cost": {
-          "max": 10000000,
+          "max": 1000000,
           "min": 1
         },
         "leverage": {
@@ -28441,11 +28441,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000",
+        "maxTotal": "1000000",
         "minAmount": "100",
         "minTotal": "1",
         "money": "USDT",
-        "moneyPrec": "5",
+        "moneyPrec": "6",
         "name": "RTF_USDT",
         "stock": "RTF",
         "stockPrec": "3",
@@ -28460,7 +28460,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.001,
-        "price": 1.0e-5
+        "price": 1.0e-6
       },
       "baseId": "RTF",
       "type": "spot",
@@ -28480,7 +28480,7 @@
           "min": 100
         },
         "cost": {
-          "max": 10000000,
+          "max": 1000000,
           "min": 1
         },
         "leverage": {
@@ -33685,11 +33685,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000000",
+        "maxTotal": "1000000000",
         "minAmount": "10",
         "minTotal": "1",
         "money": "USDT",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "NIL_USDT",
         "stock": "NIL",
         "stockPrec": "1",
@@ -33704,7 +33704,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "NIL",
       "type": "spot",
@@ -33724,7 +33724,7 @@
           "min": 10
         },
         "cost": {
-          "max": 10000000000,
+          "max": 1000000000,
           "min": 1
         },
         "leverage": {
@@ -39233,11 +39233,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000000",
+        "maxTotal": "1000000000",
         "minAmount": "10",
         "minTotal": "1",
         "money": "USDT",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "SAGA_USDT",
         "stock": "SAGA",
         "stockPrec": "1",
@@ -39252,7 +39252,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "SAGA",
       "type": "spot",
@@ -39272,7 +39272,7 @@
           "min": 10
         },
         "cost": {
-          "max": 10000000000,
+          "max": 1000000000,
           "min": 1
         },
         "leverage": {
@@ -46909,11 +46909,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000",
+        "maxTotal": "1000000",
         "minAmount": "1",
         "minTotal": "1",
         "money": "EUR",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "DYDX_EUR",
         "stock": "DYDX",
         "stockPrec": "4",
@@ -46928,7 +46928,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.0001,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "DYDX",
       "type": "spot",
@@ -46948,7 +46948,7 @@
           "min": 1
         },
         "cost": {
-          "max": 10000000,
+          "max": 1000000,
           "min": 1
         },
         "leverage": {
@@ -49645,11 +49645,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000000",
+        "maxTotal": "1000000000",
         "minAmount": "10",
         "minTotal": "1",
         "money": "EUR",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "SEI_EUR",
         "stock": "SEI",
         "stockPrec": "1",
@@ -49664,7 +49664,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "SEI",
       "type": "spot",
@@ -49684,7 +49684,7 @@
           "min": 10
         },
         "cost": {
-          "max": 10000000000,
+          "max": 1000000000,
           "min": 1
         },
         "leverage": {
@@ -52457,11 +52457,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "1000000000000",
+        "maxTotal": "100000000000",
         "minAmount": "10",
         "minTotal": "45",
         "money": "TRY",
-        "moneyPrec": "2",
+        "moneyPrec": "3",
         "name": "SAGA_TRY",
         "stock": "SAGA",
         "stockPrec": "1",
@@ -52476,7 +52476,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 0.01
+        "price": 0.001
       },
       "baseId": "SAGA",
       "type": "spot",
@@ -52496,7 +52496,7 @@
           "min": 10
         },
         "cost": {
-          "max": 1000000000000,
+          "max": 100000000000,
           "min": 45
         },
         "leverage": {
@@ -62185,11 +62185,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000",
+        "maxTotal": "1000000",
         "minAmount": "10",
         "minTotal": "1",
         "money": "USDT",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "CELO_USDT",
         "stock": "CELO",
         "stockPrec": "4",
@@ -62204,7 +62204,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.0001,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "CELO",
       "type": "spot",
@@ -62224,7 +62224,7 @@
           "min": 10
         },
         "cost": {
-          "max": 10000000,
+          "max": 1000000,
           "min": 1
         },
         "leverage": {
@@ -75865,11 +75865,11 @@
         "isCollateral": false,
         "isTradFiFutures": false,
         "makerFee": "0.1",
-        "maxTotal": "10000000000",
+        "maxTotal": "1000000000",
         "minAmount": "10",
         "minTotal": "1",
         "money": "USDC",
-        "moneyPrec": "4",
+        "moneyPrec": "5",
         "name": "NIL_USDC",
         "stock": "NIL",
         "stockPrec": "1",
@@ -75884,7 +75884,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "NIL",
       "type": "spot",
@@ -75904,7 +75904,7 @@
           "min": 10
         },
         "cost": {
-          "max": 10000000000,
+          "max": 1000000000,
           "min": 1
         },
         "leverage": {

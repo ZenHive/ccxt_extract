@@ -1,6 +1,20 @@
 {
-  "count": 36,
+  "count": 110,
   "exchanges": [
+    {
+      "class_name": "aftermath",
+      "file": "aftermath.ts",
+      "id": "aftermath",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "alpaca",
+      "file": "alpaca.ts",
+      "id": "alpaca",
+      "pagination": {},
+      "pagination_count": 0
+    },
     {
       "class_name": "apex",
       "file": "apex.ts",
@@ -9,9 +23,63 @@
       "pagination_count": 0
     },
     {
+      "class_name": "arkham",
+      "file": "arkham.ts",
+      "id": "arkham",
+      "pagination": {
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ]
+      },
+      "pagination_count": 1
+    },
+    {
+      "class_name": "ascendex",
+      "file": "ascendex.ts",
+      "id": "ascendex",
+      "pagination": {
+        "fetchFundingHistory": [
+          {
+            "containing_method": "fetchFundingHistory",
+            "max_entries_per_request": 25,
+            "page_key": "page",
+            "strategy": "incremental",
+            "target_method": "fetchFundingHistory"
+          }
+        ]
+      },
+      "pagination_count": 1
+    },
+    {
       "class_name": "aster",
       "file": "aster.ts",
       "id": "aster",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "backpack",
+      "file": "backpack.ts",
+      "id": "backpack",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "bequant",
+      "file": "bequant.ts",
+      "id": "bequant",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "bigone",
+      "file": "bigone.ts",
+      "id": "bigone",
       "pagination": {},
       "pagination_count": 0
     },
@@ -174,6 +242,27 @@
       "pagination_count": 4
     },
     {
+      "class_name": "bit2c",
+      "file": "bit2c.ts",
+      "id": "bit2c",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "bitbank",
+      "file": "bitbank.ts",
+      "id": "bitbank",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "bitbns",
+      "file": "bitbns.ts",
+      "id": "bitbns",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
       "class_name": "bitfinex",
       "file": "bitfinex.ts",
       "id": "bitfinex",
@@ -236,6 +325,13 @@
         ]
       },
       "pagination_count": 7
+    },
+    {
+      "class_name": "bitflyer",
+      "file": "bitflyer.ts",
+      "id": "bitflyer",
+      "pagination": {},
+      "pagination_count": 0
     },
     {
       "class_name": "bitget",
@@ -402,6 +498,13 @@
       "pagination_count": 15
     },
     {
+      "class_name": "bithumb",
+      "file": "bithumb.ts",
+      "id": "bithumb",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
       "class_name": "bitmart",
       "file": "bitmart.ts",
       "id": "bitmart",
@@ -464,6 +567,264 @@
         ]
       },
       "pagination_count": 5
+    },
+    {
+      "class_name": "bitopro",
+      "file": "bitopro.ts",
+      "id": "bitopro",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "bitrue",
+      "file": "bitrue.ts",
+      "id": "bitrue",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "bitso",
+      "file": "bitso.ts",
+      "id": "bitso",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "bitstamp",
+      "file": "bitstamp.ts",
+      "id": "bitstamp",
+      "pagination": {
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ]
+      },
+      "pagination_count": 1
+    },
+    {
+      "class_name": "bitteam",
+      "file": "bitteam.ts",
+      "id": "bitteam",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "bittrade",
+      "file": "bittrade.ts",
+      "id": "bittrade",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "bitvavo",
+      "file": "bitvavo.ts",
+      "id": "bitvavo",
+      "pagination": {
+        "fetchMyTrades": [
+          {
+            "containing_method": "fetchMyTrades",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchMyTrades"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": 1440,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ],
+        "fetchOrders": [
+          {
+            "containing_method": "fetchOrders",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchOrders"
+          }
+        ],
+        "fetchTrades": [
+          {
+            "containing_method": "fetchTrades",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchTrades"
+          }
+        ]
+      },
+      "pagination_count": 4
+    },
+    {
+      "class_name": "blockchaincom",
+      "file": "blockchaincom.ts",
+      "id": "blockchaincom",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "blofin",
+      "file": "blofin.ts",
+      "id": "blofin",
+      "pagination": {
+        "fetchClosedOrders": [
+          {
+            "containing_method": "fetchClosedOrders",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchClosedOrders"
+          }
+        ],
+        "fetchDeposits": [
+          {
+            "containing_method": "fetchDeposits",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchDeposits"
+          }
+        ],
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "max_entries_per_request": 100,
+            "strategy": "deterministic",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ],
+        "fetchLedger": [
+          {
+            "containing_method": "fetchLedger",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchLedger"
+          }
+        ],
+        "fetchMyTrades": [
+          {
+            "containing_method": "fetchMyTrades",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchMyTrades"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": 100,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ],
+        "fetchOpenOrders": [
+          {
+            "containing_method": "fetchOpenOrders",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchOpenOrders"
+          }
+        ],
+        "fetchTrades": [
+          {
+            "containing_method": "fetchTrades",
+            "cursor_increment": null,
+            "cursor_received": "tradeId",
+            "cursor_sent": "after",
+            "max_entries_per_request": 100,
+            "strategy": "cursor",
+            "target_method": "fetchTrades"
+          }
+        ],
+        "fetchWithdrawals": [
+          {
+            "containing_method": "fetchWithdrawals",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchWithdrawals"
+          }
+        ]
+      },
+      "pagination_count": 9
+    },
+    {
+      "class_name": "btcbox",
+      "file": "btcbox.ts",
+      "id": "btcbox",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "btcmarkets",
+      "file": "btcmarkets.ts",
+      "id": "btcmarkets",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "btcturk",
+      "file": "btcturk.ts",
+      "id": "btcturk",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "bullish",
+      "file": "bullish.ts",
+      "id": "bullish",
+      "pagination": {
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ],
+        "fetchMyTrades": [
+          {
+            "containing_method": "fetchMyTrades",
+            "max_entries_per_request": 100,
+            "strategy": "dynamic",
+            "target_method": "fetchMyTrades"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ],
+        "fetchOrders": [
+          {
+            "containing_method": "fetchOrders",
+            "max_entries_per_request": 100,
+            "strategy": "dynamic",
+            "target_method": "fetchOrders"
+          }
+        ],
+        "fetchTrades": [
+          {
+            "containing_method": "fetchTrades",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchTrades"
+          }
+        ],
+        "fetchTransfers": [
+          {
+            "containing_method": "fetchTransfers",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchTransfers"
+          }
+        ]
+      },
+      "pagination_count": 6
     },
     {
       "class_name": "bybit",
@@ -633,6 +994,159 @@
       "pagination_count": 15
     },
     {
+      "class_name": "bydfi",
+      "file": "bydfi.ts",
+      "id": "bydfi",
+      "pagination": {
+        "fetchCanceledAndClosedOrders": [
+          {
+            "containing_method": "fetchCanceledAndClosedOrders",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchCanceledAndClosedOrders"
+          }
+        ],
+        "fetchMyTrades": [
+          {
+            "containing_method": "fetchMyTrades",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchMyTrades"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ],
+        "fetchTransfers": [
+          {
+            "containing_method": "fetchTransfers",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchTransfers"
+          }
+        ]
+      },
+      "pagination_count": 5,
+      "pagination_unresolved": [
+        {
+          "containing_method": "fetchTransactionsHelper",
+          "max_entries_per_request": null,
+          "strategy": "dynamic",
+          "target_method": null
+        }
+      ]
+    },
+    {
+      "class_name": "cex",
+      "file": "cex.ts",
+      "id": "cex",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "coinbase",
+      "file": "coinbase.ts",
+      "id": "coinbase",
+      "pagination": {
+        "fetchAccounts": [
+          {
+            "containing_method": "fetchAccountsV2",
+            "cursor_increment": null,
+            "cursor_received": "next_starting_after",
+            "cursor_sent": "starting_after",
+            "max_entries_per_request": 100,
+            "strategy": "cursor",
+            "target_method": "fetchAccounts"
+          },
+          {
+            "containing_method": "fetchAccountsV3",
+            "cursor_increment": null,
+            "cursor_received": "cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": 250,
+            "strategy": "cursor",
+            "target_method": "fetchAccounts"
+          }
+        ],
+        "fetchClosedOrders": [
+          {
+            "containing_method": "fetchClosedOrders",
+            "cursor_increment": null,
+            "cursor_received": "cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": 100,
+            "strategy": "cursor",
+            "target_method": "fetchClosedOrders"
+          }
+        ],
+        "fetchLedger": [
+          {
+            "containing_method": "fetchLedger",
+            "cursor_increment": null,
+            "cursor_received": "next_starting_after",
+            "cursor_sent": "starting_after",
+            "max_entries_per_request": 100,
+            "strategy": "cursor",
+            "target_method": "fetchLedger"
+          }
+        ],
+        "fetchMyTrades": [
+          {
+            "containing_method": "fetchMyTrades",
+            "cursor_increment": null,
+            "cursor_received": "cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": 250,
+            "strategy": "cursor",
+            "target_method": "fetchMyTrades"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ],
+        "fetchOpenOrders": [
+          {
+            "containing_method": "fetchOpenOrders",
+            "cursor_increment": null,
+            "cursor_received": "cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": 100,
+            "strategy": "cursor",
+            "target_method": "fetchOpenOrders"
+          }
+        ],
+        "fetchOrders": [
+          {
+            "containing_method": "fetchOrders",
+            "cursor_increment": null,
+            "cursor_received": "cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": 1000,
+            "strategy": "cursor",
+            "target_method": "fetchOrders"
+          }
+        ]
+      },
+      "pagination_count": 8
+    },
+    {
+      "class_name": "coinbaseadvanced",
+      "file": "coinbaseadvanced.ts",
+      "id": "coinbaseadvanced",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
       "class_name": "coinbaseexchange",
       "file": "coinbaseexchange.ts",
       "id": "coinbaseexchange",
@@ -665,6 +1179,65 @@
       "pagination_count": 3
     },
     {
+      "class_name": "coinbaseinternational",
+      "file": "coinbaseinternational.ts",
+      "id": "coinbaseinternational",
+      "pagination": {
+        "fetchDepositsWithdrawals": [
+          {
+            "containing_method": "fetchDepositsWithdrawals",
+            "max_entries_per_request": null,
+            "page_key": null,
+            "strategy": "incremental",
+            "target_method": "fetchDepositsWithdrawals"
+          }
+        ],
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "max_entries_per_request": null,
+            "page_key": null,
+            "strategy": "incremental",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ],
+        "fetchMyTrades": [
+          {
+            "containing_method": "fetchMyTrades",
+            "max_entries_per_request": null,
+            "page_key": null,
+            "strategy": "incremental",
+            "target_method": "fetchMyTrades"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": 10000,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ],
+        "fetchOpenOrders": [
+          {
+            "containing_method": "fetchOpenOrders",
+            "max_entries_per_request": null,
+            "page_key": null,
+            "strategy": "incremental",
+            "target_method": "fetchOpenOrders"
+          }
+        ]
+      },
+      "pagination_count": 5
+    },
+    {
+      "class_name": "coincheck",
+      "file": "coincheck.ts",
+      "id": "coincheck",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
       "class_name": "coinex",
       "file": "coinex.ts",
       "id": "coinex",
@@ -679,6 +1252,41 @@
         ]
       },
       "pagination_count": 1
+    },
+    {
+      "class_name": "coinmate",
+      "file": "coinmate.ts",
+      "id": "coinmate",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "coinmetro",
+      "file": "coinmetro.ts",
+      "id": "coinmetro",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "coinone",
+      "file": "coinone.ts",
+      "id": "coinone",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "coinsph",
+      "file": "coinsph.ts",
+      "id": "coinsph",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "coinspot",
+      "file": "coinspot.ts",
+      "id": "coinspot",
+      "pagination": {},
+      "pagination_count": 0
     },
     {
       "class_name": "cryptocom",
@@ -727,6 +1335,72 @@
         ]
       },
       "pagination_count": 5
+    },
+    {
+      "class_name": "cryptomus",
+      "file": "cryptomus.ts",
+      "id": "cryptomus",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "deepcoin",
+      "file": "deepcoin.ts",
+      "id": "deepcoin",
+      "pagination": {
+        "fetchCanceledAndClosedOrders": [
+          {
+            "containing_method": "fetchCanceledAndClosedOrders",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchCanceledAndClosedOrders"
+          }
+        ],
+        "fetchDeposits": [
+          {
+            "containing_method": "fetchDeposits",
+            "cursor_increment": 1,
+            "cursor_received": "code",
+            "cursor_sent": null,
+            "max_entries_per_request": 50,
+            "strategy": "cursor",
+            "target_method": "fetchDeposits"
+          },
+          {
+            "containing_method": "fetchWithdrawals",
+            "cursor_increment": 1,
+            "cursor_received": "code",
+            "cursor_sent": null,
+            "max_entries_per_request": 50,
+            "strategy": "cursor",
+            "target_method": "fetchDeposits"
+          }
+        ],
+        "fetchMyTrades": [
+          {
+            "containing_method": "fetchMyTrades",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchMyTrades"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ]
+      },
+      "pagination_count": 5
+    },
+    {
+      "class_name": "delta",
+      "file": "delta.ts",
+      "id": "delta",
+      "pagination": {},
+      "pagination_count": 0
     },
     {
       "class_name": "deribit",
@@ -799,9 +1473,37 @@
       "pagination_count": 3
     },
     {
+      "class_name": "digifinex",
+      "file": "digifinex.ts",
+      "id": "digifinex",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
       "class_name": "dydx",
       "file": "dydx.ts",
       "id": "dydx",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "exmo",
+      "file": "exmo.ts",
+      "id": "exmo",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "fmfwio",
+      "file": "fmfwio.ts",
+      "id": "fmfwio",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "foxbit",
+      "file": "foxbit.ts",
+      "id": "foxbit",
       "pagination": {},
       "pagination_count": 0
     },
@@ -885,6 +1587,61 @@
       "pagination_count": 0
     },
     {
+      "class_name": "gemini",
+      "file": "gemini.ts",
+      "id": "gemini",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "grvt",
+      "file": "grvt.ts",
+      "id": "grvt",
+      "pagination": {
+        "fetchFundingHistory": [
+          {
+            "containing_method": "fetchFundingHistory",
+            "max_entries_per_request": 1000,
+            "strategy": "dynamic",
+            "target_method": "fetchFundingHistory"
+          }
+        ],
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ],
+        "fetchMyTrades": [
+          {
+            "containing_method": "fetchMyTrades",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchMyTrades"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ],
+        "fetchTransfers": [
+          {
+            "containing_method": "fetchTransfers",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchTransfers"
+          }
+        ]
+      },
+      "pagination_count": 5
+    },
+    {
       "class_name": "hashkey",
       "file": "hashkey.ts",
       "id": "hashkey",
@@ -893,6 +1650,53 @@
           {
             "containing_method": "fetchOHLCV",
             "max_entries_per_request": 1000,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ]
+      },
+      "pagination_count": 1
+    },
+    {
+      "class_name": "hibachi",
+      "file": "hibachi.ts",
+      "id": "hibachi",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "hitbtc",
+      "file": "hitbtc.ts",
+      "id": "hitbtc",
+      "pagination": {
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "max_entries_per_request": 1000,
+            "strategy": "deterministic",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": 1000,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ]
+      },
+      "pagination_count": 2
+    },
+    {
+      "class_name": "hollaex",
+      "file": "hollaex.ts",
+      "id": "hollaex",
+      "pagination": {
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": null,
             "strategy": "deterministic",
             "target_method": "fetchOHLCV"
           }
@@ -966,6 +1770,20 @@
       "pagination_count": 0
     },
     {
+      "class_name": "independentreserve",
+      "file": "independentreserve.ts",
+      "id": "independentreserve",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "indodax",
+      "file": "indodax.ts",
+      "id": "indodax",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
       "class_name": "kraken",
       "file": "kraken.ts",
       "id": "kraken",
@@ -987,6 +1805,30 @@
             "max_entries_per_request": null,
             "strategy": "cursor",
             "target_method": "fetchWithdrawals"
+          }
+        ]
+      },
+      "pagination_count": 2
+    },
+    {
+      "class_name": "krakenfutures",
+      "file": "krakenfutures.ts",
+      "id": "krakenfutures",
+      "pagination": {
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": 2000,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ],
+        "fetchTrades": [
+          {
+            "containing_method": "fetchTrades",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchTrades"
           }
         ]
       },
@@ -1122,6 +1964,20 @@
       "pagination_count": 0
     },
     {
+      "class_name": "latoken",
+      "file": "latoken.ts",
+      "id": "latoken",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "lbank",
+      "file": "lbank.ts",
+      "id": "lbank",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
       "class_name": "lighter",
       "file": "lighter.ts",
       "id": "lighter",
@@ -1172,6 +2028,20 @@
         ]
       },
       "pagination_count": 4
+    },
+    {
+      "class_name": "luno",
+      "file": "luno.ts",
+      "id": "luno",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "mercado",
+      "file": "mercado.ts",
+      "id": "mercado",
+      "pagination": {},
+      "pagination_count": 0
     },
     {
       "class_name": "mexc",
@@ -1237,6 +2107,20 @@
       "class_name": "myokx",
       "file": "myokx.ts",
       "id": "myokx",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "ndax",
+      "file": "ndax.ts",
+      "id": "ndax",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "novadax",
+      "file": "novadax.ts",
+      "id": "novadax",
       "pagination": {},
       "pagination_count": 0
     },
@@ -1331,6 +2215,98 @@
       "pagination_count": 0
     },
     {
+      "class_name": "onetrading",
+      "file": "onetrading.ts",
+      "id": "onetrading",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "oxfun",
+      "file": "oxfun.ts",
+      "id": "oxfun",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "p2b",
+      "file": "p2b.ts",
+      "id": "p2b",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "pacifica",
+      "file": "pacifica.ts",
+      "id": "pacifica",
+      "pagination": {
+        "fetchFundingHistory": [
+          {
+            "containing_method": "fetchFundingHistory",
+            "cursor_increment": null,
+            "cursor_received": "next_cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": null,
+            "strategy": "cursor",
+            "target_method": "fetchFundingHistory"
+          }
+        ],
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "cursor_increment": null,
+            "cursor_received": "next_cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": null,
+            "strategy": "cursor",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ],
+        "fetchLedger": [
+          {
+            "containing_method": "fetchLedger",
+            "cursor_increment": null,
+            "cursor_received": "next_cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": null,
+            "strategy": "cursor",
+            "target_method": "fetchLedger"
+          }
+        ],
+        "fetchMyTrades": [
+          {
+            "containing_method": "fetchMyTrades",
+            "cursor_increment": null,
+            "cursor_received": "next_cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": null,
+            "strategy": "cursor",
+            "target_method": "fetchMyTrades"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ],
+        "fetchOrders": [
+          {
+            "containing_method": "fetchOrders",
+            "cursor_increment": null,
+            "cursor_received": "next_cursor",
+            "cursor_sent": "cursor",
+            "max_entries_per_request": null,
+            "strategy": "cursor",
+            "target_method": "fetchOrders"
+          }
+        ]
+      },
+      "pagination_count": 6
+    },
+    {
       "class_name": "paradex",
       "file": "paradex.ts",
       "id": "paradex",
@@ -1392,6 +2368,106 @@
         ]
       },
       "pagination_count": 5
+    },
+    {
+      "class_name": "paymium",
+      "file": "paymium.ts",
+      "id": "paymium",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "phemex",
+      "file": "phemex.ts",
+      "id": "phemex",
+      "pagination": {
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "max_entries_per_request": 100,
+            "strategy": "deterministic",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ]
+      },
+      "pagination_count": 1
+    },
+    {
+      "class_name": "poloniex",
+      "file": "poloniex.ts",
+      "id": "poloniex",
+      "pagination": {
+        "fetchMyTrades": [
+          {
+            "containing_method": "fetchMyTrades",
+            "max_entries_per_request": null,
+            "strategy": "dynamic",
+            "target_method": "fetchMyTrades"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": 500,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ]
+      },
+      "pagination_count": 2
+    },
+    {
+      "class_name": "tokocrypto",
+      "file": "tokocrypto.ts",
+      "id": "tokocrypto",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "toobit",
+      "file": "toobit.ts",
+      "id": "toobit",
+      "pagination": {
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ]
+      },
+      "pagination_count": 1
+    },
+    {
+      "class_name": "upbit",
+      "file": "upbit.ts",
+      "id": "upbit",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "wavesexchange",
+      "file": "wavesexchange.ts",
+      "id": "wavesexchange",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "whitebit",
+      "file": "whitebit.ts",
+      "id": "whitebit",
+      "pagination": {
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "max_entries_per_request": null,
+            "strategy": "deterministic",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ]
+      },
+      "pagination_count": 1
     },
     {
       "class_name": "woo",
@@ -1480,16 +2556,66 @@
         ]
       },
       "pagination_count": 4
+    },
+    {
+      "class_name": "xt",
+      "file": "xt.ts",
+      "id": "xt",
+      "pagination": {
+        "fetchFundingRateHistory": [
+          {
+            "containing_method": "fetchFundingRateHistory",
+            "cursor_increment": 1,
+            "cursor_received": "id",
+            "cursor_sent": "id",
+            "max_entries_per_request": 200,
+            "strategy": "cursor",
+            "target_method": "fetchFundingRateHistory"
+          }
+        ],
+        "fetchOHLCV": [
+          {
+            "containing_method": "fetchOHLCV",
+            "max_entries_per_request": 1000,
+            "strategy": "deterministic",
+            "target_method": "fetchOHLCV"
+          }
+        ]
+      },
+      "pagination_count": 2
+    },
+    {
+      "class_name": "yobit",
+      "file": "yobit.ts",
+      "id": "yobit",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "zaif",
+      "file": "zaif.ts",
+      "id": "zaif",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "zebpay",
+      "file": "zebpay.ts",
+      "id": "zebpay",
+      "pagination": {},
+      "pagination_count": 0
+    },
+    {
+      "class_name": "zonda",
+      "file": "zonda.ts",
+      "id": "zonda",
+      "pagination": {},
+      "pagination_count": 0
     }
   ],
-  "extracted_at": "2026-04-16T10:15:54.152153Z",
-  "tier_scope": [
-    "tier1",
-    "tier2",
-    "tier3",
-    "dex"
-  ],
-  "total_entries": 135,
-  "total_unresolved": 0,
-  "with_pagination": 24
+  "extracted_at": "2026-04-17T03:37:53.865001Z",
+  "tier_scope": "all",
+  "total_entries": 203,
+  "total_unresolved": 1,
+  "with_pagination": 44
 }

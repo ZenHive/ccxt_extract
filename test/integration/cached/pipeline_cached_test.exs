@@ -244,7 +244,7 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
       assert binance["exchange"]["id"] == "binance"
       assert :ok = Schema.validate(binance)
 
-      schema_path = Path.join(tmp_dir, "exchange_v1.json")
+      schema_path = Path.join(tmp_dir, "exchange_v2.json")
       assert File.exists?(schema_path)
       assert schema_path |> File.read!() |> Jason.decode!() |> is_map()
     end

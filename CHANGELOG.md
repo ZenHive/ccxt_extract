@@ -6,6 +6,52 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 61c: Schema 2.0.0 bump
+
+**Breaking schema change.** The `_provenance` top-level map shipped additively
+at `schema_version: "1.8.1"` (Task 61a, 2026-04-17) is now required and
+non-null on every emitted exchange JSON. Consumers that adopted `_provenance`
+under 1.8.1 work unchanged at 2.0.0; consumers still on 1.x must bump their
+version-check to major `2`.
+
+**What shipped:**
+
+- `priv/schema/exchange_v2.json` — new JSON Schema file. `schema_version`
+  const is `"2.0.0"`, `_provenance` is in the root `required` list, and
+  `ProvenanceMap` is a bare object (no `oneOf` null branch). The `$id`
+  points at `exchange_v2.json`.
+- `priv/schema/exchange_v1.json` — retained, unmodified, for ONE release so
+  maintainers can diff the two schemas side-by-side. It is NOT copied into
+  output directories — the output surface carries only the current contract.
+  Task 107 tracks deletion in the next schema release.
+- `CcxtExtract.Schema.@schema_version` → `"2.0.0"`; `_provenance` added to
+  `@required_top_keys` (pre-flight check). The JSV path still catches
+  structural drift via `exchange_v2.json`.
+- `CcxtExtract.Validation`, `CcxtExtract.Pipeline`,
+  `CcxtExtract.ContractTest`, `CcxtExtract.ScopeCleanup`, and the
+  `Mix.Tasks.CcxtExtract.Pipeline` moduledoc switched every
+  `exchange_v1.json` filename reference to `exchange_v2.json` (both schema
+  load and output-dir copy + safelist paths).
+- All 110 `priv/output/*.json` regenerated via `mix ccxt_extract.pipeline`:
+  `"schema_version": "2.0.0"` everywhere, `_provenance` required and
+  populated (28+ entries per exchange). `mix ccxt_extract.validate` →
+  110/110 pass. `mix ccxt_extract.contract_test` findings unchanged from
+  documented baseline (53 Pattern C under `unified_endpoints_claimed_in_has`,
+  7 `authenticated_sections_reachable_in_api`).
+- SCHEMA.md: new "Version 2.0.0 — Current" section with Migration Notes
+  (Python/Rust/Elixir snippets); 1.8.1 row added to Version History.
+- Tests updated for new filename: `pipeline_test.exs`,
+  `contract_test_test.exs`, `scope_cleanup_test.exs`,
+  `pipeline_cached_test.exs`. Full suite 1606/1606 passing.
+
+**Deliberately out of scope:**
+
+- Drifted-override fixture for `override_paths_present_in_output` — tracked
+  as new Task 106 (requires upstream `ContractTest.run_all/1` restructuring
+  to thread overrides through `observed`).
+- Deleting `priv/schema/exchange_v1.json` — tracked as new Task 107 for
+  the next schema release.
+
 ### Follow-ups from Task 61a code review
 
 Low-priority cleanup surfaced while reviewing the Task 61a staged diff:

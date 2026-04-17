@@ -4,7 +4,7 @@ defmodule CcxtExtract.Validation do
 
   Two validation layers:
 
-  - **JSON Schema** — validate output against `exchange_v1.json` (draft 2020-12)
+  - **JSON Schema** — validate output against `exchange_v2.json` (draft 2020-12)
     using JSV. Catches type errors, extra properties, missing required fields.
   - **Round-trip** — compare pipeline output sections against source discovery
     data. Catches data loss or incorrect transformation in the pipeline.
@@ -26,7 +26,7 @@ defmodule CcxtExtract.Validation do
 
   require Logger
 
-  @schema_path "schema/exchange_v1.json"
+  @schema_path "schema/exchange_v2.json"
   @output_file "output/_validation_report.json"
 
   @reference_exchanges ~w(binance bybit okx deribit coinbaseexchange kraken kucoin gate htx bitmex hyperliquid)
@@ -99,7 +99,7 @@ defmodule CcxtExtract.Validation do
   end
 
   @doc """
-  Validate a single exchange map against `exchange_v1.json` using JSV.
+  Validate a single exchange map against `exchange_v2.json` using JSV.
 
   Returns `:ok` or `{:error, findings}` where findings is a list of
   JSON-serializable maps.
@@ -146,7 +146,7 @@ defmodule CcxtExtract.Validation do
   end
 
   @doc """
-  Build the compiled JSON Schema root from `exchange_v1.json`.
+  Build the compiled JSON Schema root from `exchange_v2.json`.
 
   Exposed for reuse — callers validating many exchanges should build once.
   """
@@ -198,11 +198,11 @@ defmodule CcxtExtract.Validation do
       end)
 
     # Detect orphan files (JSON files in output_dir not listed in manifest)
-    # Also skip exchange_v1.json (schema copy) and _base_methods.json
+    # Also skip exchange_v2.json (schema copy) and _base_methods.json
 
     manifest_set = MapSet.new(manifest_ids)
     # Exclude metadata files (_manifest.json, _validation_report.json) and schema copy
-    known_files = MapSet.new(["exchange_v1"])
+    known_files = MapSet.new(["exchange_v2"])
 
     orphans =
       output_dir

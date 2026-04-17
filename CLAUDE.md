@@ -39,7 +39,7 @@ Neither tool alone is sufficient. `contract_test` cross-validates the two (e.g.,
 
 ### Per-exchange JSON pipeline
 
-Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v1.json`. Provenance is becoming explicit (see Phase 9 / Task 61a in ROADMAP) — fields will carry `raw`/`derived`/`override` tags plus the reason for any override.
+Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v2.json`. Provenance is becoming explicit (see Phase 9 / Task 61a in ROADMAP) — fields will carry `raw`/`derived`/`override` tags plus the reason for any override.
 
 The stages are, in order:
 
@@ -115,7 +115,7 @@ mix ccxt_extract.update --tier1 --output /path/to/consumer/ccxt
 # assemble only (discoveries → output/)
 mix ccxt_extract.pipeline
 
-# validate outputs against priv/schema/exchange_v1.json
+# validate outputs against priv/schema/exchange_v2.json
 mix ccxt_extract.validate
 
 # cross-extractor invariants (QuickBEAM vs OXC)

@@ -1374,20 +1374,20 @@ defmodule CcxtExtract.PipelineTest do
 
   describe "write!/2" do
     @tag :tmp_dir
-    test "copies exchange_v1.json into the output directory", %{tmp_dir: tmp_dir} do
+    test "copies exchange_v2.json into the output directory", %{tmp_dir: tmp_dir} do
       Pipeline.write!([full_exchange()], tmp_dir)
 
-      schema_path = Path.join(tmp_dir, "exchange_v1.json")
+      schema_path = Path.join(tmp_dir, "exchange_v2.json")
       assert File.exists?(schema_path)
       assert schema_path |> File.read!() |> Jason.decode!() |> is_map()
-      assert File.read!(schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v1.json"))
+      assert File.read!(schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v2.json"))
     end
 
     @tag :tmp_dir
     test "removes stale exchange files and refreshes schema and manifest", %{tmp_dir: tmp_dir} do
       stale_exchange_path = Path.join(tmp_dir, "staleex.json")
       stale_manifest_path = Path.join(tmp_dir, "_manifest.json")
-      stale_schema_path = Path.join(tmp_dir, "exchange_v1.json")
+      stale_schema_path = Path.join(tmp_dir, "exchange_v2.json")
 
       File.write!(stale_exchange_path, Jason.encode!(%{"exchange" => %{"id" => "staleex"}}))
       File.write!(stale_manifest_path, Jason.encode!(%{"exchange_count" => 0, "exchanges" => []}))
@@ -1402,7 +1402,7 @@ defmodule CcxtExtract.PipelineTest do
       assert manifest["exchange_count"] == 1
       assert manifest["exchanges"] == ["testex"]
 
-      assert File.read!(stale_schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v1.json"))
+      assert File.read!(stale_schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v2.json"))
     end
   end
 
@@ -1565,7 +1565,7 @@ defmodule CcxtExtract.PipelineTest do
       # Simulate a prior extract that left leftover files behind.
       File.write!(Path.join(output_dir, "stale.json"), "{}")
       File.write!(Path.join(output_dir, "_kept.json"), "{}")
-      File.write!(Path.join(output_dir, "exchange_v1.json"), "{}")
+      File.write!(Path.join(output_dir, "exchange_v2.json"), "{}")
 
       # Discoveries dir just needs the schema + base methods copy targets.
       discoveries_dir = Path.join(tmp_dir, "discoveries")
@@ -1592,7 +1592,7 @@ defmodule CcxtExtract.PipelineTest do
 
       refute File.exists?(Path.join(output_dir, "stale.json"))
       assert File.exists?(Path.join(output_dir, "_kept.json"))
-      assert File.exists?(Path.join(output_dir, "exchange_v1.json"))
+      assert File.exists?(Path.join(output_dir, "exchange_v2.json"))
       assert File.exists?(Path.join(output_dir, "fakex.json"))
     end
 

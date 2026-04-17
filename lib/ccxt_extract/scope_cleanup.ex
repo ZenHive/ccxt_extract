@@ -27,7 +27,7 @@ defmodule CcxtExtract.ScopeCleanup do
   Options:
 
     * `:preserve` — additional basenames to keep (e.g.
-      `"exchange_v1.json"`). Default `[]`.
+      `"exchange_v2.json"`). Default `[]`.
     * `:recurse` — descend into subdirectories. Subdirectory names
       themselves are never removed; only per-exchange files within.
       Default `false`.

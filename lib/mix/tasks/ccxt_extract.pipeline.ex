@@ -3,11 +3,11 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
   @moduledoc """
   Reads all discovery data and assembles validated per-exchange JSON files
-  conforming to the `exchange_v1.json` schema.
+  conforming to the `exchange_v2.json` schema.
 
   Each output file combines runtime data (describe, markets) and structural
   data (class hierarchy, method ASTs, overrides) into a single JSON document.
-  The output directory also includes `_manifest.json` and `exchange_v1.json`.
+  The output directory also includes `_manifest.json` and `exchange_v2.json`.
 
       mix ccxt_extract.pipeline
       mix ccxt_extract.pipeline --output /tmp/exchange_output

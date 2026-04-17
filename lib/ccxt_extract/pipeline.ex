@@ -4,7 +4,7 @@ defmodule CcxtExtract.Pipeline do
 
   Reads discovery data produced by individual extractors (QuickBEAM runtime
   values + OXC AST data) and combines them into validated per-exchange JSON
-  files conforming to `exchange_v1.json` schema.
+  files conforming to `exchange_v2.json` schema.
 
   ## Usage
 
@@ -96,7 +96,7 @@ defmodule CcxtExtract.Pipeline do
   Write per-exchange JSON files, the schema, and a manifest.
 
   Prunes per-exchange JSON files outside the written set before writing,
-  preserving the shared schema (`exchange_v1.json`) and any `_`-prefixed
+  preserving the shared schema (`exchange_v2.json`) and any `_`-prefixed
   metadata file (manifests, base methods).
 
   ## Options
@@ -114,7 +114,7 @@ defmodule CcxtExtract.Pipeline do
     File.mkdir_p!(output_dir)
 
     in_scope = MapSet.new(exchanges, & &1["exchange"]["id"])
-    {:ok, _removed} = ScopeCleanup.prune_out_of_scope(output_dir, in_scope, preserve: ["exchange_v1.json"])
+    {:ok, _removed} = ScopeCleanup.prune_out_of_scope(output_dir, in_scope, preserve: ["exchange_v2.json"])
 
     for exchange <- exchanges do
       id = exchange["exchange"]["id"]
@@ -620,8 +620,8 @@ defmodule CcxtExtract.Pipeline do
   end
 
   defp copy_schema!(output_dir) do
-    schema_source = Paths.priv("schema/exchange_v1.json")
-    schema_target = Path.join(output_dir, "exchange_v1.json")
+    schema_source = Paths.priv("schema/exchange_v2.json")
+    schema_target = Path.join(output_dir, "exchange_v2.json")
     File.cp!(schema_source, schema_target)
   end
 

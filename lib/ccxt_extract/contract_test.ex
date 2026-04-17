@@ -299,9 +299,9 @@ defmodule CcxtExtract.ContractTest do
   defp exchange_id(_), do: "<unknown>"
 
   # Schema copies and metadata files live alongside per-exchange JSON but
-  # are not exchanges. `exchange_v1.json` is the JSON Schema copy; files
+  # are not exchanges. `exchange_v2.json` is the JSON Schema copy; files
   # starting with `_` are manifests/reports. Mirrors validation.ex:207.
-  @non_exchange_files ~w(exchange_v1.json)
+  @non_exchange_files ~w(exchange_v2.json)
 
   defp load_exchanges(output_dir, scope) do
     output_dir

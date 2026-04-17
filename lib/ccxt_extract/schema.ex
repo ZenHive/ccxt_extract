@@ -1,6 +1,6 @@
 defmodule CcxtExtract.Schema do
   @moduledoc """
-  Build and validate per-exchange JSON output conforming to `exchange_v1.json`.
+  Build and validate per-exchange JSON output conforming to `exchange_v2.json`.
 
   Assembles data from all extraction layers into a single per-exchange map
   with three top-level sections: `exchange` (metadata), `runtime` (QuickBEAM
@@ -29,14 +29,14 @@ defmodule CcxtExtract.Schema do
   Pipeline integrity stats and validation reports distinguish expected nulls
   from missing/corrupt discovery inputs that prevented usable data assembly.
 
-  ### `_provenance` (schema 1.8.1+)
+  ### `_provenance` (required since schema 2.0.0)
 
-  Since schema 1.8.1, `build_exchange/4` always emits a top-level
-  `_provenance` map tagging each section as `raw`/`derived`/`override`
-  (see `CcxtExtract.Provenance`). `validate/1` does NOT enforce its
-  presence — the field is optional at 1.8.x and becomes required at
-  schema 2.0.0 (Task 61c). Omission from `@required_top_keys` is
-  intentional for this reason.
+  Every emitted exchange JSON carries a top-level `_provenance` map
+  tagging each section as `raw`/`derived`/`override` (see
+  `CcxtExtract.Provenance`). The field is required and non-null since
+  schema 2.0.0 (Task 61c) — `validate/1` enforces presence via
+  `@required_top_keys`, and `exchange_v2.json` enforces the object shape
+  at JSV time.
 
   ## Usage
 
@@ -45,9 +45,9 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "1.8.1"
+  @schema_version "2.0.0"
 
-  @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
+  @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe markets symbol_patterns url_templates)
   @required_structure_keys ~w(class_info methods sign_method authenticated_sections handle_errors parse_methods ws_methods interface_signatures pagination overrides unified_endpoints)
@@ -59,7 +59,7 @@ defmodule CcxtExtract.Schema do
   def schema_version, do: @schema_version
 
   @doc """
-  Build a per-exchange output map conforming to `exchange_v1.json`.
+  Build a per-exchange output map conforming to `exchange_v2.json`.
 
   ## Parameters
 
@@ -103,7 +103,7 @@ defmodule CcxtExtract.Schema do
 
   This is intentionally lightweight — it only catches obviously malformed or
   incomplete maps before they reach the pipeline. For full draft 2020-12
-  enforcement against `priv/schema/exchange_v1.json` (type checking, enum
+  enforcement against `priv/schema/exchange_v2.json` (type checking, enum
   values, nested shapes, additionalProperties), use
   `CcxtExtract.Validation.validate_schema/2`.
 
@@ -116,7 +116,7 @@ defmodule CcxtExtract.Schema do
   InterfaceSignature shapes, OverridesData/OverrideEntry shapes,
   HandleErrorsData, ErrorCodeFieldEntry, ThrowDispatchEntry, enum values for
   helpers/exceptions_source/roles/operators/lookup methods. All of those
-  checks are now authoritative only in `exchange_v1.json` and enforced at
+  checks are now authoritative only in `exchange_v2.json` and enforced at
   pipeline output time via `CcxtExtract.Validation.validate_schema/2`.
   """
   @spec validate(map()) :: :ok | {:error, [String.t()]}

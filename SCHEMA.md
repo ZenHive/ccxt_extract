@@ -48,39 +48,78 @@ end
 
 ---
 
-## Version 1.8.1 — Current
+## Version 2.0.0 — Current
 
-**Status:** Active
+**Status:** Active (released 2026-04-17, Task 61c)
 
-**JSON Schema:** `exchange_v1.json` (included in every output directory)
+**JSON Schema:** `exchange_v2.json` (included in every output directory)
 
-### What changed from 1.8.0
+### What changed from 1.8.1 (breaking)
 
-Additive nullable field: `_provenance`. Top-level map keyed by RFC 6901 JSON
-Pointers into the payload, with values tagging each path as `"raw"` (discovery
-passthrough), `"derived"` (assembly-time computation), or `"override"` (replaced
-by an entry in `priv/overrides/<id>.json`). See [Provenance Map](#provenance-map-schema-181) below.
+- **`_provenance` is now required and non-null** on every emitted exchange
+  JSON. Previously optional/nullable (1.8.1 additive). The field describes
+  per-path source tiers (`raw` / `derived` / `override`) and is populated
+  unconditionally by `CcxtExtract.Schema.build_exchange/4`.
+- **JSON Schema file renamed** `exchange_v1.json` → `exchange_v2.json`.
+  `priv/schema/exchange_v1.json` is retained for ONE release so maintainers
+  can diff the two; it is **not** copied into the output directory. The
+  next schema release will delete the v1 file.
+- **Consumer major-version pin** moves from `1` → `2`. Update your version
+  check (see Migration Notes below).
 
-1.8.0 consumers remain compatible: the field is optional at this version and
-may be ignored. Task 61c will bump to 2.0.0 and make `_provenance` required;
-consumers that want to rely on provenance tags should start reading the field
-now so 2.0.0 adoption is mechanical.
+No field semantics changed, no fields were removed or renamed. If you adopted
+`_provenance` during the 1.8.1 window, your reader code works unchanged at
+2.0.0.
+
+### Migration Notes
+
+Update the version-check snippet your consumer uses on load:
+
+```python
+# Python
+data = json.load(f)
+major = int(data["schema_version"].split(".")[0])
+if major != 2:
+    raise ValueError(f"Unsupported schema version: {data['schema_version']}")
+# _provenance is now guaranteed present and non-null:
+provenance = data["_provenance"]  # type: dict[str, Literal["raw","derived","override"]]
+```
+
+```rust
+// Rust
+let major: u32 = data["schema_version"].split('.').next().unwrap().parse()?;
+assert_eq!(major, 2, "Unsupported schema version");
+// _provenance is guaranteed object-typed, not null.
+let provenance = data["_provenance"].as_object().expect("_provenance is required in 2.0.0");
+```
+
+```elixir
+# Elixir
+case data do
+  %{"schema_version" => "2." <> _, "_provenance" => provenance}
+      when is_map(provenance) -> :ok
+  %{"schema_version" => v} -> raise "Unsupported schema version: #{v}"
+end
+```
+
+Consumers that pointed at `exchange_v1.json` for schema introspection should
+point at `exchange_v2.json` in their build steps.
 
 ### Top-Level Structure
 
-Every per-exchange JSON file has exactly these top-level keys (all required except `_provenance`):
+Every per-exchange JSON file has exactly these top-level keys (**all required**):
 
 | Key | Type | Description |
 |-----|------|-------------|
-| `schema_version` | `"1.8.1"` | This contract version |
+| `schema_version` | `"2.0.0"` | This contract version |
 | `extracted_at` | string (ISO 8601) | When extraction ran |
 | `ccxt_version` | string | CCXT npm package version used |
 | `exchange` | ExchangeMeta | Exchange identity and metadata |
 | `runtime` | RuntimeData | QuickBEAM-extracted values |
 | `structure` | StructureData | OXC AST-extracted structure |
-| `_provenance` | ProvenanceMap \| null | **Added in 1.8.1** (optional). Per-path source tags. See below. |
+| `_provenance` | ProvenanceMap | Required non-null per-path source tags (see below) |
 
-### Provenance Map (schema 1.8.1)
+### Provenance Map (schema 2.0.0)
 
 The `_provenance` field is a flat map keyed by JSON Pointer strings. Every
 value is one of three string tiers:
@@ -195,7 +234,7 @@ All keys are always materialized (never absent). Consumers check for `null`, nev
 
 ### Key Type Definitions
 
-For complete type definitions (all fields, nesting, and constraints), see `exchange_v1.json` — the JSON Schema shipped in every output directory. The summary below covers the most-referenced types:
+For complete type definitions (all fields, nesting, and constraints), see `exchange_v2.json` — the JSON Schema shipped in every output directory. The summary below covers the most-referenced types:
 
 - **MethodAST** — `{ async, params, return_type, statements, body }` where `body` is a complete ESTree BlockStatement
 - **InterfaceSignature** — `{ name, params, return_type }` (no body — these are type declarations, not implementations)
@@ -245,6 +284,8 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.0.0 | 2026-04-17 | **Breaking.** Promote `_provenance` to required, non-null top-level key. Rename schema file `exchange_v1.json` → `exchange_v2.json`. `priv/schema/exchange_v1.json` retained one release for diff reference, then deleted. Consumer major-version pin bumps `1` → `2`. No field semantics changed; readers that already consumed `_provenance` at 1.8.1 work unchanged. See [Version 2.0.0 — Current](#version-200--current) for migration notes. |
+| 1.8.1 | 2026-04 | Add additive, nullable top-level `_provenance` map keyed by RFC 6901 JSON Pointers with values `"raw"` / `"derived"` / `"override"`. Stamped by `CcxtExtract.Provenance.build_default/0` at assembly time; override-applied paths flipped to `"override"` at the tail of `Pipeline.extract/1`. Optional at 1.8.x — consumers reading 1.8.0 still parse 1.8.1 output. Promoted to required at 2.0.0. |
 | 1.8.0 | 2026-04 | Add optional `exchange.tier` field (`"tier1" \| "tier2" \| "tier3" \| "dex" \| "unclassified"`). Additive — consumers reading 1.7.1 still parse 1.8.0 output cleanly. Hand-curated in `priv/priority_tiers.json`; stamped by `CcxtExtract.Tiers.get_priority_tier/1` during pipeline assembly. Also adds `tier_scope` to `_manifest.json` (`string` when `"all"`, otherwise `string[]` of canonical tokens — tiers first, then `"exchange:<id>"` entries) recording the active scope of a run; lets consumers detect partial aggregates from scoped extraction. |
 | 1.7.1 | 2026-04 | Fix `structure.authenticated_sections` extraction. Field shape unchanged; population fixed to handle nested `api[N] === 'X'` patterns and a narrow override loader. |
 | 1.7.0 | 2026-04 | Add `structure.handle_errors.throw_dispatches` — one entry per `this.throwExactly/BroadlyMatchedException` call in the handleErrors() method. Each entry records which helper was called, the normalized exceptions-map source (`exceptions`/`exceptions.exact`/`exceptions.broad`/`by_url.exact`/`by_url.broad`/`other`), a raw-string rendering of the source expression (anti-rot hatch), the resolved safe* binding for arg[1], and the unique resolved safe* binding referenced anywhere in arg[2] when one can be proven. Alias chains like `errorInfo = message` are followed before resolution. |
@@ -316,6 +357,6 @@ Task 60 ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON 
 
 **Current limits.** Shallow string-key pointers only. Numeric/array-index segments (e.g. `/path/0/name`) raise until **Task 104** lands — low urgency; no evidence of need as of 2026-04-17. Invalid override applications are rescued and logged at the callsite so one corrupt file cannot brick the full build; the `override_paths_present_in_output` contract-test invariant surfaces drift (override value absent at its pointer path) at build-check time.
 
-**Provenance tagging** — a parallel `_provenance` map that marks each field `"raw"` / `"derived"` / `"override"` — lands with **Task 61a**.
+**Provenance tagging** — the parallel `_provenance` map marking each field `"raw"` / `"derived"` / `"override"` — shipped in **Task 61a** (2026-04-17) as an additive, nullable field at schema 1.8.1, and was promoted to required, non-null at **Task 61c** / schema 2.0.0 (2026-04-17). Override-applied paths get their provenance entry flipped from `"derived"` (or `"raw"`) to `"override"` at the tail of `Pipeline.extract/1`.
 
-**Schema 2.0.0 bump** (Task 61c) will fold provenance into the exchange JSON itself, which is a breaking change for the exchange contract. The override contract stays at v1 across that bump unless override files themselves gain new required keys.
+**Exchange schema at 2.0.0.** The `_provenance` promotion is the breaking change. The override contract stays at v1 across this bump — override file format is unchanged.

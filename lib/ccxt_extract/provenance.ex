@@ -36,8 +36,10 @@ defmodule CcxtExtract.Provenance do
 
   ## Schema bump
 
-  Added in `schema_version: "1.8.1"` as an additive, nullable top-level
-  key. Task 61c bumps to `2.0.0` and makes `_provenance` required.
+  Introduced additively in `schema_version: "1.8.1"` (nullable). Promoted
+  to required, non-null at `schema_version: "2.0.0"` by Task 61c —
+  `exchange_v2.json` enforces the object shape at JSV time and
+  `Schema.validate/1` enforces presence via `@required_top_keys`.
 
   ## Usage
 

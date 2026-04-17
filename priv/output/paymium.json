@@ -1,4 +1,34 @@
 {
+  "_provenance": {
+    "/exchange/alias": "raw",
+    "/exchange/certified": "raw",
+    "/exchange/country": "raw",
+    "/exchange/id": "raw",
+    "/exchange/name": "raw",
+    "/exchange/pro": "raw",
+    "/exchange/referral": "raw",
+    "/exchange/tier": "derived",
+    "/exchange/version": "raw",
+    "/runtime/describe": "raw",
+    "/runtime/markets": "raw",
+    "/runtime/symbol_patterns": "derived",
+    "/runtime/url_templates": "raw",
+    "/structure/authenticated_sections": "derived",
+    "/structure/class_info": "raw",
+    "/structure/handle_errors/error_code_fields": "derived",
+    "/structure/handle_errors/exceptions": "raw",
+    "/structure/handle_errors/http_exceptions": "raw",
+    "/structure/handle_errors/method": "raw",
+    "/structure/handle_errors/throw_dispatches": "derived",
+    "/structure/interface_signatures": "raw",
+    "/structure/methods": "raw",
+    "/structure/overrides": "raw",
+    "/structure/pagination": "raw",
+    "/structure/parse_methods": "raw",
+    "/structure/sign_method": "raw",
+    "/structure/unified_endpoints": "derived",
+    "/structure/ws_methods": "raw"
+  },
   "ccxt_version": "4.5.48",
   "exchange": {
     "alias": false,
@@ -17,7 +47,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-17T03:38:10.088487Z",
+  "extracted_at": "2026-04-17T04:28:44.528051Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -628,7 +658,7 @@
       }
     }
   },
-  "schema_version": "1.8.0",
+  "schema_version": "1.8.1",
   "structure": {
     "authenticated_sections": [
       "private"

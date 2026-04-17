@@ -29,6 +29,15 @@ defmodule CcxtExtract.Schema do
   Pipeline integrity stats and validation reports distinguish expected nulls
   from missing/corrupt discovery inputs that prevented usable data assembly.
 
+  ### `_provenance` (schema 1.8.1+)
+
+  Since schema 1.8.1, `build_exchange/4` always emits a top-level
+  `_provenance` map tagging each section as `raw`/`derived`/`override`
+  (see `CcxtExtract.Provenance`). `validate/1` does NOT enforce its
+  presence — the field is optional at 1.8.x and becomes required at
+  schema 2.0.0 (Task 61c). Omission from `@required_top_keys` is
+  intentional for this reason.
+
   ## Usage
 
       exchange = CcxtExtract.Schema.build_exchange(meta, runtime, structure, ccxt_version: "4.5.45")
@@ -36,7 +45,7 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "1.8.0"
+  @schema_version "1.8.1"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure)
   @required_exchange_keys ~w(id name alias)
@@ -80,7 +89,8 @@ defmodule CcxtExtract.Schema do
       "ccxt_version" => ccxt_version,
       "exchange" => build_exchange_section(exchange_meta),
       "runtime" => build_runtime_section(runtime_data),
-      "structure" => build_structure_section(structure_data)
+      "structure" => build_structure_section(structure_data),
+      "_provenance" => CcxtExtract.Provenance.build_default()
     }
   end
 

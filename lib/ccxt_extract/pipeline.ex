@@ -21,6 +21,7 @@ defmodule CcxtExtract.Pipeline do
   alias CcxtExtract.DiscoveryLoader
   alias CcxtExtract.OverrideRegistry
   alias CcxtExtract.Paths
+  alias CcxtExtract.Provenance
   alias CcxtExtract.Schema
   alias CcxtExtract.ScopeCleanup
 
@@ -159,10 +160,12 @@ defmodule CcxtExtract.Pipeline do
         exchange
 
       overrides when is_list(overrides) ->
-        # TODO(Task 61a): tag override-applied paths as "override" in the
-        # _provenance map here — this is the only stage where override
-        # values land in the assembled exchange.
-        Enum.reduce(overrides, exchange, &apply_override_entry(&1, &2, id))
+        {updated, applied_paths} =
+          Enum.reduce(overrides, {exchange, []}, fn entry, {acc, paths} ->
+            apply_override_entry(entry, acc, paths, id)
+          end)
+
+        stamp_override_provenance(updated, applied_paths)
     end
   rescue
     e in [RuntimeError, File.Error, Jason.DecodeError] ->
@@ -175,20 +178,35 @@ defmodule CcxtExtract.Pipeline do
       exchange
   end
 
-  # Apply a single override entry, naming the failing pointer on error so
-  # operators don't correlate a generic put_in message back to the entry.
+  # Apply a single override entry, threading the applied-path list so the
+  # _provenance map can mark successfully-applied paths as "override".
+  # Entries that raise are logged and dropped from the path list — failed
+  # overrides must not claim override provenance for a raw value that was
+  # never replaced.
   # TODO(Task 62): strict-mode validate_overrides will propagate these
   # instead of logging; see apply_exchange_overrides/1 header for rationale.
-  defp apply_override_entry(entry, acc, id) do
+  defp apply_override_entry(entry, acc, paths, id) do
     keys = OverrideRegistry.pointer_to_keys(entry["path"])
-    put_in(acc, keys, entry["value"])
+    {put_in(acc, keys, entry["value"]), [entry["path"] | paths]}
   rescue
     e in [RuntimeError, KeyError, ArgumentError, FunctionClauseError] ->
       Logger.warning(
         "Override entry #{inspect(entry["path"])} failed for #{id} (priv/overrides/#{id}.json): #{Exception.message(e)}; entry not applied"
       )
 
-      acc
+      {acc, paths}
+  end
+
+  # Stamp "override" in the _provenance map for every path that successfully
+  # applied. Default provenance already tags every known pointer as raw or
+  # derived; this replaces those tags (or adds new ones for sub-tree paths
+  # deeper than default granularity) for the overridden subset.
+  defp stamp_override_provenance(exchange, []), do: exchange
+
+  defp stamp_override_provenance(exchange, paths) do
+    Map.update(exchange, "_provenance", Provenance.build_default(), fn provenance ->
+      Provenance.stamp_overrides(provenance, paths)
+    end)
   end
 
   # Reduce callback: build one exchange and validate it
@@ -227,7 +245,8 @@ defmodule CcxtExtract.Pipeline do
     api_keys = describe_api_keys(describe)
 
     # Curated overrides for `/structure/authenticated_sections` are applied
-    # generically at the tail of extract/1 via OverrideRegistry.apply_all/2.
+    # at the tail of extract/1 by apply_exchange_overrides/1, which threads
+    # applied-pointer paths into the _provenance map.
     authenticated_sections = CcxtExtract.AuthenticatedSections.derive(effective_sign, api_keys)
 
     structure_data = %{

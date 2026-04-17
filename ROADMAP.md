@@ -16,7 +16,7 @@
 
 **Priority goal: endpoint-invocation contract (serves unified + non-unified).** The critical path is **signing → request building → rate limits**. These phases unlock both raw (implicit) and unified endpoints — anything you'd call needs them. Only Phase 12 (response parsing) is unified-specific (i.e., CCXT's normalized method surface like `fetchTicker`/`createOrder`, as opposed to raw implicit endpoints) and thus deprioritized. See [Endpoint-Invocation Priority Order](#endpoint-invocation-priority-order) below.
 
-**Phase 8 — Client harness + contract tests** complete; Task 57c is the only holdover and is blocked on Phase 9 provenance (🎁 **9-pipeline**). The target output is a three-tier merge (raw / derived / override). The **generic JSON-Pointer override contract shipped with Task 60** (see CHANGELOG) — override files use RFC 6901 paths, a `value` payload, required `reason`, and `verified_against`/`unverified` flags, validated by `CcxtExtract.OverrideRegistry` and the `override_registry_valid` contract-test invariant. The **generic merge stage shipped with Task 61b** (2026-04-16) — all 14 override files now flow end-to-end via `OverrideRegistry.apply_all/2`. Still pending: per-field provenance tagging (Task 61a), then Schema 2.0.0 (61c). Today's output is `schema_version: 1.8.0`, overrides-applied, **no `_provenance` map yet** — running an extract won't produce one; 61a is code work.
+**Phase 8 — Client harness + contract tests** complete; Task 57c is the only holdover and is now unblocked after Task 61a provenance shipped (2026-04-17). The target output is a three-tier merge (raw / derived / override). The **generic JSON-Pointer override contract shipped with Task 60** (see CHANGELOG) — override files use RFC 6901 paths, a `value` payload, required `reason`, and `verified_against`/`unverified` flags, validated by `CcxtExtract.OverrideRegistry` and the `override_registry_valid` contract-test invariant. The **generic merge stage shipped with Task 61b** (2026-04-16). **Task 61a shipped 2026-04-17** — every emitted JSON now carries a `_provenance` map tagging each section as raw/derived/override; override-applied paths flip to `"override"` at the tail of `Pipeline.extract/1`. Today's output is `schema_version: 1.8.1` (additive bump). Still pending: the breaking Schema 2.0.0 bump (61c) that makes `_provenance` required.
 
 **Scope.** This roadmap prioritizes Tier 1, Tier 2, and DEX exchanges (canonical list in `priv/priority_tiers.json`; stamped as `exchange.tier` in each output JSON since schema 1.8.0). Tier 3 and unclassified exchanges are supported — we still extract everything — but tasks that exist only to handle their quirks (exotic signing, custom error handlers, outlier fee schedules) live in Superseded / Deferred until a priority exchange surfaces the need. See `CLAUDE.md` §"Tier-Based Scoping". Scope-refactor tasks (every Mix task now accepts `--tier*/--all/--exchange ID`, `_manifest.json` stamps `tier_scope`, both `mix ccxt_extract.update` and `mix ccxt_extract.pipeline` share a `--force`-gated git-status safety rail) tracked in [SCOPED-EXTRACTION-TASKS.md](SCOPED-EXTRACTION-TASKS.md) — Tasks 1–11 complete. **Task 13** (universal envelope `tier_scope` stamping across all aggregate files, not just `_manifest.json`) remains open — see Maintenance Backlog.
 
@@ -77,16 +77,16 @@ Tasks grouped into session-sized bundles that share AST passes, schema design, o
 
 ### ✅ Recently Completed
 
-Tasks 60, 58, 57d, 56b, 57b, 59, 57, 56, 55, 54, 53, 52, 49, 47, 46 — see [CHANGELOG.md](CHANGELOG.md).
+Tasks 61a, 37, 60, 58, 57d, 56b, 57b, 59, 57, 56, 55, 54, 53, 52, 49, 47, 46 — see [CHANGELOG.md](CHANGELOG.md).
 
 ### 📋 Next Up
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 61a | ⬜ | Provenance tagging (`raw`/`derived`/`override`) — now unblocked. With the v1 override contract live (Task 60), 61a can mark fields per-path without guessing at payload shape. |
-| Task 61b | ✅ | Shipped 2026-04-16 — generic RFC 6901 merge via `OverrideRegistry.apply_all/2`; 14/14 override files now flow end-to-end. 61a dependency was aspirational; 61b is useful standalone and provenance tagging will tag override writes when 61a lands. See [CHANGELOG.md](CHANGELOG.md). |
-| Task 57c | 🔶 | Pattern A/B fixed (341 → 53); Pattern C residual blocked on 61a — honest fix needs provenance tier (see Task 57c entry in Phase 8) |
-| Task 61c | ⬜ | Schema 2.0.0 bump — folds provenance into exchange JSON. Depends on 61a (61b ✅ shipped). |
-| Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ `[Codex]` |
+| Task 61c | ⬜ | Schema 2.0.0 bump — now unblocked (61a shipped 2026-04-17, 61b shipped 2026-04-16). Promotes `_provenance` from additive-nullable to required. |
+| Task 57c | ⬜ | Now unblocked (61a shipped). Pattern A/B fixed (341 → 53); Pattern C residual can tag `has`-confirmed entries as `"derived"` at the provenance tier instead of silently filtering. |
+| Task 61b | ✅ | Shipped 2026-04-16 — generic RFC 6901 merge via `OverrideRegistry.apply_all/2`. See [CHANGELOG.md](CHANGELOG.md). |
+| Task 61a | ✅ | Shipped 2026-04-17 — `_provenance` map keyed by JSON Pointer, values `raw`/`derived`/`override`; schema bumped to 1.8.1 (additive, nullable). See [CHANGELOG.md](CHANGELOG.md). |
+| Task 37 | ✅ | Shipped 2026-04-17 — Credo reverted from git-branch workaround to Hex `~> 1.7.18`. Handled by `[Codex]` rescue subagent. |
 
 ### Quick Commands
 ```bash
@@ -107,7 +107,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 37 | ⬜ | Fix Credo compatibility on Elixir 1.18+ [D:2/B:4/U:3 → Eff:1.50] `[Codex]` |
+| Task 37 | ✅ | Shipped 2026-04-17 — Credo git-branch workaround reverted to Hex `~> 1.7.18`. See [CHANGELOG.md](CHANGELOG.md). |
 | Task 101 | ✅ | Fixture refresh for oxc 0.7 / quickbeam 0.10 — shipped 2026-04-17. Full-universe regen cleared the cached `parse_methods` threshold in `coverage_report_cached_test.exs`; contract_test `--strict` findings all match documented baseline (Pattern C + tokocrypto unclassified). See [CHANGELOG.md](CHANGELOG.md#task-101-fixture-refresh-for-oxc-07--quickbeam-010). |
 | Task 105 | ⬜ | Port `super.*()` delegation coverage off coincatch [D:2/B:3/U:2 → Eff:1.25] 📋 — coincatch was removed upstream; the test that validated `parse_file/1` walking a super-delegation chain was deleted in Task 101. Find another currently-shipping exchange with a non-trivial `super.*()` chain and reinstate targeted coverage, otherwise `parse_file` regressions on that code path escape. TODO marker at `test/ccxt_extract/unified_endpoints_test.exs`. |
 | Task 13a | ✅ | Universal envelope `tier_scope` stamping — code-plumbing half [D:1/B:4/U:5 → Eff:4.5] 🎯 — shipped: `_base_methods.json` stamps `"all"` (universe-agnostic); `_validation_report.json` derives scope from `_manifest.json`; `_contract_test_report.json` threads scope from the TaskScope-parsed flags. See [CHANGELOG.md](CHANGELOG.md#task-13a). |
@@ -126,7 +126,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 57c | 🔶 | 🎁 **9-pipeline-follow-up** · Pattern A/B fixed (341 → 53). Residual 53 Pattern C findings cluster on Tier 3 / unclassified exchanges — defer until provenance lands (61a) AND a Tier 1/2/DEX exchange surfaces a Pattern C failure [D:3/B:5/U:5 → Eff:1.67] 🚀 |
+| Task 57c | ⬜ | 🎁 **9-pipeline-follow-up** · Pattern A/B fixed (341 → 53). Provenance now lands (Task 61a, 2026-04-17) so the honest Pattern C fix is unblocked — tag `has`-confirmed entries as `"derived"` rather than silently filtering. Still deferred until a Tier 1/2/DEX exchange surfaces a Pattern C failure. [D:3/B:5/U:5 → Eff:1.67] 🚀 |
 
 Completed (Tasks 56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG.md).
 
@@ -147,16 +147,17 @@ Completed (Tasks 56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 60 | ✅ | 🎁 **9-contract** · Generic JSON-Pointer override contract + SCHEMA.md docs [D:3/B:7/U:8 → Eff:2.5] 🎯 — shipped: RFC 6901 `path`, `value` payload, `reason`, `verified_against`/`unverified` exclusivity, `OverrideRegistry` loader, `priv/schema/override_v1.json`, `override_registry_valid` contract-test invariant, 14 existing files migrated. See [CHANGELOG.md](CHANGELOG.md). |
-| Task 61a `[P]` | ⬜ | 🎁 **9-pipeline** · Provenance tagging on raw + derived fields [D:4/B:8/U:8 → Eff:2.0] 🚀 |
+| Task 61a `[P]` | ✅ | 🎁 **9-pipeline** · Provenance tagging on raw + derived fields [D:4/B:8/U:8 → Eff:2.0] 🚀 SHIPPED 2026-04-17 — see [CHANGELOG.md](CHANGELOG.md). |
 | Task 61b | ✅ | 🎁 **9-pipeline** · Override merge pipeline stage [D:4/B:9/U:9 → Eff:2.25] 🎯 SHIPPED 2026-04-16 — see [CHANGELOG.md](CHANGELOG.md). |
 | Task 61c | ⬜ | 🎁 **9-contract** · Schema 2.0.0 bump + migration notes in SCHEMA.md [D:2/B:6/U:6 → Eff:3.0] 🎯 |
+| Task 61d | ⬜ | 🎁 **9-pipeline** · Provenance-covers-schema contract invariant [D:2/B:5/U:5 → Eff:2.5] 🎯 — add a `mix ccxt_extract.contract_test` invariant that fails when a `/runtime/*` or `/structure/*` section emitted by `Pipeline.build_exchange_data/3` is missing from `Provenance.raw_pointers/0 ++ Provenance.derived_pointers/0` (or its tag disagrees with the derivation-vs-passthrough split). Override paths that flip a pointer are allowed — those are intentional deeper grants. Surfaces schema/pointer drift before it reaches consumers. |
 | Task 62 | ⬜ | 🎁 **9-audit** · `mix ccxt_extract.validate_overrides` [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 63 | ⬜ | 🎁 **9-audit** · `mix ccxt_extract.drift_audit` [D:5/B:7/U:6 → Eff:1.3] 📋 |
 | Task 104 | ⬜ | 🎁 **9-pipeline** · Array-index JSON Pointers in `OverrideRegistry` [D:2/B:3/U:2 → Eff:1.5] 📋 — extend `pointer_to_keys/1` to emit `Access.at/1` for numeric segments. Currently raises loudly (see error message). Unblock when a real override file needs `/path/0/...`. |
 
 **Task 60: Override directory contract** — Define `priv/overrides/<exchange>.json` format: JSON Pointer paths into the canonical output, a `value` payload, required `reason`, optional `verified_against` (runtime probe output or CCXT source reference) and `unverified: true` flag. Document in SCHEMA.md. Ship an example override for one exchange.
 
-**Task 61a: Provenance tagging on raw + derived** — Every field in the emitted JSON gains a parallel `_provenance` map keyed by the same paths, with values `"raw"` / `"derived"` / `"override"`. Task 61b already shipped without provenance (the dependency was aspirational, not structural); when 61a lands it must tag override-applied paths at the tail of `Pipeline.extract/1` where `OverrideRegistry.apply_all/2` runs. Alternative shape (inline per-field `{value, source}` tuples) is rejected as noisy — keep the main payload clean, store provenance alongside.
+**Task 61a: Provenance tagging on raw + derived (✅ shipped 2026-04-17)** — Every emitted exchange JSON now carries a top-level `_provenance` map keyed by RFC 6901 JSON Pointers, with values `"raw"` / `"derived"` / `"override"`. `CcxtExtract.Provenance.build_default/0` stamps the default map in `Schema.build_exchange/4`; `Pipeline.apply_exchange_overrides/1` threads applied-pointer paths through the per-entry reduce and `Provenance.stamp_overrides/2` flips them to `"override"` at the tail. Granularity is section + direct children — fine enough to distinguish derivation modules, coarse enough to avoid per-leaf noise. `handle_errors` sub-keys split individually (three raw, two derived). Schema bumped 1.8.0 → 1.8.1 (additive, nullable). Task 61c makes it required at 2.0.0.
 
 **Task 61b: Override merge pipeline stage (✅ shipped 2026-04-16)** — Applies `priv/overrides/<exchange>.json` on top of raw+derived output as the final stage of `Pipeline.extract/1` via `OverrideRegistry.apply_all/2`. Invalid override applications are rescued and logged at the callsite so one corrupt file can't brick the full build; the `override_paths_present_in_output` contract-test invariant surfaces drift (override value absent at its pointer path) loudly — keeping loud-fail at build-check time, not per-exchange assembly time. Shipped scope: shallow string-key pointers only; numeric segments (array indices) raise until a real override needs deep indexing (Task 104). When Task 61a lands, override-applied paths will be tagged `"override"` in the provenance map.
 
@@ -341,7 +342,7 @@ mix ccxt_extract.pipeline                     ../ccxt_client/              Elixi
 
 **Sibling-repo clients.** Each language client is an independent git repo living as a sibling of `ccxt_extract/` (e.g. `../ccxt_client/`). Clients were briefly nested under `clients/<lang>/<project>/` (Task 56) but relocated back to siblings (Task 56b) because nested `CLAUDE.md` discovery pulled ccxt_extract's full context into every client session.
 
-**Three-tier JSON is the target contract.** Once Phase 9 fully ships, output will merge raw extraction + derived analysis + curated overrides with per-field provenance. **Partial state (2026-04-17):** Tasks 60 + 61b shipped — overrides apply end-to-end via `OverrideRegistry.apply_all/2`. Per-field `_provenance` tagging (Task 61a) and the Schema 2.0.0 bump (61c) remain ⬜; today's `schema_version: 1.8.0` output carries no `_provenance` map. Either way, consumers read the emitted JSON; they do not re-derive or walk AST. Contract tests (`mix ccxt_extract.contract_test`, Task 57) will enforce cross-field invariants so drift surfaces before it reaches a consumer.
+**Three-tier JSON is the target contract.** Once Phase 9 fully ships, output will merge raw extraction + derived analysis + curated overrides with per-field provenance. **Current state (2026-04-17):** Tasks 60, 61a, 61b shipped — overrides apply end-to-end via `OverrideRegistry.apply_all/2` and each path carries a `_provenance` tier tag (`"raw"` / `"derived"` / `"override"`) at `schema_version: 1.8.1`. Only the Schema 2.0.0 bump (Task 61c) remains, which promotes `_provenance` from additive-nullable to required. Either way, consumers read the emitted JSON; they do not re-derive or walk AST. Contract tests (`mix ccxt_extract.contract_test`, Task 57) enforce cross-field invariants so drift surfaces before it reaches a consumer.
 
 **Versioning follows semver** on the `schema_version` field. See [SCHEMA.md](SCHEMA.md).
 

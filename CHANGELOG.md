@@ -6,6 +6,86 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Follow-ups from Task 61a code review
+
+Low-priority cleanup surfaced while reviewing the Task 61a staged diff:
+
+- `lib/ccxt_extract/pipeline.ex` — narrative comment inside
+  `build_exchange_data/3` no longer references
+  `OverrideRegistry.apply_all/2`, which is not on the assembly path.
+  The live flow is `apply_exchange_overrides/1` threading applied
+  paths into `_provenance`.
+- `lib/ccxt_extract/schema.ex` — moduledoc now documents that
+  `_provenance` is always emitted at 1.8.1+ but intentionally absent
+  from `@required_top_keys` until Schema 2.0.0 (Task 61c).
+- `ROADMAP.md` — added **Task 61d** under Phase 9 covering the
+  provenance-covers-schema contract invariant (D:2/B:5/U:5 → Eff:2.5).
+  Without it, adding a new `/runtime/*` or `/structure/*` section
+  silently drops its provenance tag.
+
+### Task 61a: Provenance tagging on raw + derived fields
+
+Every emitted per-exchange JSON now carries a top-level `_provenance` map
+tagging each section path as `"raw"`, `"derived"`, or `"override"`. Schema
+bumped 1.8.0 → 1.8.1 (additive, nullable — Task 61c will make it required
+at 2.0.0).
+
+**What shipped:**
+
+- New `CcxtExtract.Provenance` module — `build_default/0` returns the
+  constant schema-shape provenance map; `stamp_overrides/2` flips entries
+  at applied pointer paths to `"override"`. `validate/1` enforces
+  JSON-Pointer keys and the `raw | derived | override` value vocabulary.
+- `Schema.build_exchange/4` stamps `_provenance` on every emitted
+  exchange. `@schema_version` bumped to `"1.8.1"` (stamp + validator
+  update atomically via the module constant).
+- `Pipeline.apply_exchange_overrides/1` now threads a path list through
+  the per-entry reduce; successfully-applied overrides flip their pointer
+  in `_provenance` to `"override"`. Failed entries are dropped from the
+  list so they cannot claim override provenance for a raw value that
+  was never replaced.
+- `priv/schema/exchange_v1.json` adds a `ProvenanceMap` definition
+  constraining keys to JSON Pointer strings (`^/`) and values to the
+  three-tier enum. `_provenance` is allowed at top-level (`additionalProperties: false` respected) and documented as nullable for this additive release.
+
+**Granularity choice.** Default entries tag section + direct children.
+Over every top-level key plus the `handle_errors` sub-keys that split
+raw/derived. Not per-leaf: `/runtime/markets/BTC/USDT` does not carry a
+tag because the whole section comes from one source; tagging every leaf
+would balloon the map without adding lineage information.
+
+**Verified against hyperliquid.** The existing
+`/structure/authenticated_sections` override now emits
+`"_provenance": {"/structure/authenticated_sections": "override", ...}`
+in `priv/output/hyperliquid.json`. All 110 exchanges regenerated
+successfully; `mix ccxt_extract.validate` reports 110/110 pass with
+round-trip clean; `mix ccxt_extract.contract_test` shows no new
+findings — the 53 Pattern C and 7 `authenticated_sections_reachable_in_api`
+findings are the pre-existing baseline documented under Task 101.
+
+**Unblocks:**
+
+- Task 57c (Pattern C drift) — provenance tier now exists for the
+  honest fix (tag AST-derived vs `has`-confirmed entries rather than
+  silently filtering disagreement).
+- Task 61c (Schema 2.0.0 bump) — promotes `_provenance` from optional
+  to required and renames the schema file.
+
+**Cross-repo.** `../ccxt_client/ROADMAP.md` updated — consumers reading
+1.8.0 JSON continue to work; those that want provenance-aware parsing
+can opt in now.
+
+### Task 37: Credo compatibility on Elixir 1.18+
+
+`mix.exs` reverted the `rrrene/credo` git-branch workaround in favor of
+the Hex release `credo ~> 1.7.18`, which ships multi-line sigil support
+for Elixir 1.18+ / 1.20. `mix credo --strict --format json` now produces
+valid JSON and exits 2 for legitimate findings (no more tool crash).
+
+No inline suppressions added — pre-existing Credo findings are still
+tracked through the normal channel. Codex (GPT-5.4) handled this one
+via the codex-rescue subagent.
+
 ### Task 101: Fixture refresh for oxc 0.7 / quickbeam 0.10
 
 The Task 101 source migration (see dated Task 101 entry below) shipped

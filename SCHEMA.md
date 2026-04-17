@@ -48,24 +48,112 @@ end
 
 ---
 
-## Version 1.8.0 — Current
+## Version 1.8.1 — Current
 
 **Status:** Active
 
 **JSON Schema:** `exchange_v1.json` (included in every output directory)
 
+### What changed from 1.8.0
+
+Additive nullable field: `_provenance`. Top-level map keyed by RFC 6901 JSON
+Pointers into the payload, with values tagging each path as `"raw"` (discovery
+passthrough), `"derived"` (assembly-time computation), or `"override"` (replaced
+by an entry in `priv/overrides/<id>.json`). See [Provenance Map](#provenance-map-schema-181) below.
+
+1.8.0 consumers remain compatible: the field is optional at this version and
+may be ignored. Task 61c will bump to 2.0.0 and make `_provenance` required;
+consumers that want to rely on provenance tags should start reading the field
+now so 2.0.0 adoption is mechanical.
+
 ### Top-Level Structure
 
-Every per-exchange JSON file has exactly these top-level keys (all required, never absent):
+Every per-exchange JSON file has exactly these top-level keys (all required except `_provenance`):
 
 | Key | Type | Description |
 |-----|------|-------------|
-| `schema_version` | `"1.8.0"` | This contract version |
+| `schema_version` | `"1.8.1"` | This contract version |
 | `extracted_at` | string (ISO 8601) | When extraction ran |
 | `ccxt_version` | string | CCXT npm package version used |
 | `exchange` | ExchangeMeta | Exchange identity and metadata |
 | `runtime` | RuntimeData | QuickBEAM-extracted values |
 | `structure` | StructureData | OXC AST-extracted structure |
+| `_provenance` | ProvenanceMap \| null | **Added in 1.8.1** (optional). Per-path source tags. See below. |
+
+### Provenance Map (schema 1.8.1)
+
+The `_provenance` field is a flat map keyed by JSON Pointer strings. Every
+value is one of three string tiers:
+
+- `"raw"` — the field at this path is a direct passthrough from a discovery
+  file. No transformation happened between the extractor and emission.
+- `"derived"` — the field was computed at assembly time by a derivation
+  module (`SymbolPatterns.derive/2`, `AuthenticatedSections.derive/2`,
+  `ErrorCodeFields.derive/1`, `ThrowDispatches.derive/1`, the
+  `get_unified_endpoints/2` pipeline in `Pipeline`). The value is still
+  AST-provable; nothing hand-curated reached it.
+- `"override"` — the field was replaced by an entry in
+  `priv/overrides/<id>.json` at the tail of `Pipeline.extract/1`. The
+  override file carries a required `reason` explaining the divergence
+  from extraction — consumers who want that context should read the
+  override file directly.
+
+Granularity is section + direct children. The map does not recurse to every
+leaf; it describes which MODULE produced the field, not each byte. The
+exception is `/structure/handle_errors`, whose sub-keys split between raw and
+derived and therefore carry per-subkey tags.
+
+**Default entries (when no override applies):**
+
+```json
+{
+  "_provenance": {
+    "/exchange/id": "raw",
+    "/exchange/name": "raw",
+    "/exchange/certified": "raw",
+    "/exchange/pro": "raw",
+    "/exchange/version": "raw",
+    "/exchange/country": "raw",
+    "/exchange/alias": "raw",
+    "/exchange/referral": "raw",
+    "/exchange/tier": "derived",
+    "/runtime/describe": "raw",
+    "/runtime/markets": "raw",
+    "/runtime/symbol_patterns": "derived",
+    "/runtime/url_templates": "raw",
+    "/structure/class_info": "raw",
+    "/structure/methods": "raw",
+    "/structure/sign_method": "raw",
+    "/structure/authenticated_sections": "derived",
+    "/structure/handle_errors/method": "raw",
+    "/structure/handle_errors/exceptions": "raw",
+    "/structure/handle_errors/http_exceptions": "raw",
+    "/structure/handle_errors/error_code_fields": "derived",
+    "/structure/handle_errors/throw_dispatches": "derived",
+    "/structure/parse_methods": "raw",
+    "/structure/ws_methods": "raw",
+    "/structure/interface_signatures": "raw",
+    "/structure/pagination": "raw",
+    "/structure/overrides": "raw",
+    "/structure/unified_endpoints": "derived"
+  }
+}
+```
+
+**Override stamping.** When `priv/overrides/<id>.json` contains
+`{"path": "/structure/authenticated_sections", ...}`, the provenance value at
+that pointer flips from `"derived"` to `"override"`. Override paths deeper
+than default granularity (e.g. `/structure/sign_method/params/timestamp`) get
+added as new entries with value `"override"` — the ancestor entry
+(`/structure/sign_method`) keeps its `"raw"` tag because the rest of the
+sub-tree is still raw.
+
+**Null semantics.** The tier describes where the field WOULD have come from,
+not whether it's currently populated. Many fields are `null` for many
+exchanges (e.g., `/structure/ws_methods` on rest-only exchanges). Provenance
+still records the tier so consumers can distinguish "this is raw null,
+discovery had no data" from "this is override null, curator chose to erase
+upstream data."
 
 ### Two-Layer Model
 

@@ -42,7 +42,8 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
 
     validation_opts = [
       output_dir: output_dir,
-      schema_only: opts[:schema_only] || false
+      schema_only: opts[:schema_only] || false,
+      tier_scope: read_manifest_tier_scope(output_dir)
     ]
 
     {:ok, report} = CcxtExtract.Validation.validate_all(validation_opts)
@@ -101,6 +102,19 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
     end
 
     has_gaps
+  end
+
+  # The validate mix task doesn't parse scope flags — it checks whatever
+  # the pipeline wrote. Derive the active scope from the emitted manifest
+  # so the validation report reflects reality. Falls back to "all" when
+  # the manifest is missing or doesn't carry a stamp.
+  defp read_manifest_tier_scope(output_dir) do
+    path = Path.join(output_dir, "_manifest.json")
+
+    case CcxtExtract.JsonIO.read_json(path) do
+      {:ok, %{"tier_scope" => ts}} when not is_nil(ts) -> ts
+      _ -> "all"
+    end
   end
 
   defp report_top_errors(report, summary) do

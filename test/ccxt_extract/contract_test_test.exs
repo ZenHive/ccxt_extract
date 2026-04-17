@@ -276,5 +276,20 @@ defmodule CcxtExtract.ContractTestTest do
       assert :ok = ContractTest.write!(report, out)
       assert out |> File.read!() |> Jason.decode!() == report
     end
+
+    test ~s|tier_scope defaults to "all" when opt not passed|, %{tmp: tmp} do
+      File.write!(Path.join(tmp, "x.json"), Jason.encode!(%{"id" => "x"}))
+      {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: [])
+      assert report["tier_scope"] == "all"
+    end
+
+    test "tier_scope is stamped verbatim from opts", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "x.json"), Jason.encode!(%{"id" => "x"}))
+
+      {:ok, report} =
+        ContractTest.run_all(output_dir: tmp, baseline_roots: [], tier_scope: ["tier1", "tier2"])
+
+      assert report["tier_scope"] == ["tier1", "tier2"]
+    end
   end
 end

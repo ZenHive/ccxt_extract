@@ -68,13 +68,14 @@ defmodule Mix.Tasks.CcxtExtract.ContractTest do
 
     universe = TaskScope.load_universe()
     scope = TaskScope.resolve_scope!(opts, universe)
+    tier_scope = CcxtExtract.Scope.to_manifest_value(opts)
 
     check_corpus!(scope, universe, output_dir)
 
     Mix.shell().info("Running contract tests on #{output_dir}...")
 
     start = System.monotonic_time(:millisecond)
-    {:ok, report} = CcxtExtract.ContractTest.run_all(run_opts(output_dir, scope))
+    {:ok, report} = CcxtExtract.ContractTest.run_all(run_opts(output_dir, scope, tier_scope))
 
     elapsed = System.monotonic_time(:millisecond) - start
     has_findings = report_results(report, elapsed)
@@ -87,9 +88,10 @@ defmodule Mix.Tasks.CcxtExtract.ContractTest do
     end
   end
 
-  defp run_opts(output_dir, :all), do: [output_dir: output_dir]
+  defp run_opts(output_dir, :all, tier_scope), do: [output_dir: output_dir, tier_scope: tier_scope]
 
-  defp run_opts(output_dir, %MapSet{} = scope), do: [output_dir: output_dir, exchanges: Enum.sort(scope)]
+  defp run_opts(output_dir, %MapSet{} = scope, tier_scope),
+    do: [output_dir: output_dir, exchanges: Enum.sort(scope), tier_scope: tier_scope]
 
   defp check_corpus!(:all, universe, output_dir) do
     missing = TaskScope.scoped_ids_missing_file(MapSet.new(universe), output_dir)

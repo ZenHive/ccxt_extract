@@ -987,6 +987,30 @@ defmodule CcxtExtract.ValidationTest do
     end
   end
 
+  describe "tier_scope envelope" do
+    @tmp_dir Path.join(System.tmp_dir!(), "ccxt_extract_validation_tier_scope_test")
+
+    setup do
+      File.rm_rf!(@tmp_dir)
+      File.mkdir_p!(@tmp_dir)
+      File.write!(Path.join(@tmp_dir, "_manifest.json"), Jason.encode!(%{"exchanges" => []}))
+      on_exit(fn -> File.rm_rf!(@tmp_dir) end)
+      {:ok, tmp: @tmp_dir}
+    end
+
+    test ~s|defaults to "all" when :tier_scope opt not passed|, %{tmp: tmp} do
+      {:ok, report} = Validation.validate_all(output_dir: tmp, schema_only: true)
+      assert report["tier_scope"] == "all"
+    end
+
+    test "stamps the caller-supplied scope verbatim", %{tmp: tmp} do
+      {:ok, report} =
+        Validation.validate_all(output_dir: tmp, schema_only: true, tier_scope: ["tier1", "dex"])
+
+      assert report["tier_scope"] == ["tier1", "dex"]
+    end
+  end
+
   # Writes exchange JSON files + manifest to a temp directory
   defp write_output_dir(dir, exchanges) do
     File.mkdir_p!(dir)

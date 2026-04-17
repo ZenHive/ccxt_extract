@@ -45,12 +45,15 @@ defmodule CcxtExtract.Validation do
     * `:discoveries_dir` — override source discovery directory for round-trip checks
     * `:schema_only` — skip round-trip comparison (default: false)
     * `:reference_exchanges` — override which exchanges get round-trip checks
+    * `:tier_scope` — `CcxtExtract.Scope.to_manifest_value/1` output; stamped on
+      the report envelope. Defaults to `"all"`.
   """
   @spec validate_all(keyword()) :: {:ok, map()}
   def validate_all(opts \\ []) do
     output_dir = Keyword.get(opts, :output_dir, Paths.priv("output"))
     schema_only = Keyword.get(opts, :schema_only, false)
     ref_exchanges = Keyword.get(opts, :reference_exchanges, @reference_exchanges)
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
 
     # Load exchanges from emitted JSON files on disk
     {exchanges, file_stats} = load_output_files(output_dir)
@@ -91,7 +94,7 @@ defmodule CcxtExtract.Validation do
         }
       end)
 
-    report = build_report(exchange_results, ref_exchanges, schema_only, file_stats)
+    report = build_report(exchange_results, ref_exchanges, schema_only, file_stats, tier_scope)
     {:ok, report}
   end
 
@@ -1147,7 +1150,7 @@ defmodule CcxtExtract.Validation do
 
   # --- Report Building ---
 
-  defp build_report(exchange_results, ref_exchanges, schema_only, file_stats) do
+  defp build_report(exchange_results, ref_exchanges, schema_only, file_stats, tier_scope) do
     all_findings =
       Enum.flat_map(exchange_results, fn r ->
         schema_findings =
@@ -1177,6 +1180,7 @@ defmodule CcxtExtract.Validation do
       "validated_at" => DateTime.to_iso8601(DateTime.utc_now()),
       "exchange_count" => length(exchange_results),
       "schema_version" => CcxtExtract.Schema.schema_version(),
+      "tier_scope" => tier_scope,
       "summary" => %{
         "schema_pass" => schema_pass,
         "schema_fail" => schema_fail,

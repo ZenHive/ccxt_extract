@@ -135,6 +135,40 @@ defmodule CcxtExtract.BaseMethodsTest do
     end
   end
 
+  describe "write!/2 envelope" do
+    @tmp_dir Path.join(System.tmp_dir!(), "ccxt_extract_base_methods_write_test")
+
+    setup do
+      File.rm_rf!(@tmp_dir)
+      File.mkdir_p!(@tmp_dir)
+      on_exit(fn -> File.rm_rf!(@tmp_dir) end)
+      {:ok, tmp: @tmp_dir}
+    end
+
+    test ~s|stamps tier_scope "all" by default (base class is universe-agnostic)|, %{tmp: tmp} do
+      path = Path.join(tmp, "_base_methods.json")
+      assert :ok = BaseMethods.write!(%{"method_count" => 0, "methods" => %{}}, output_path: path)
+
+      decoded = path |> File.read!() |> Jason.decode!()
+      assert decoded["tier_scope"] == "all"
+      assert is_binary(decoded["extracted_at"])
+    end
+
+    test "accepts a caller-supplied tier_scope override", %{tmp: tmp} do
+      path = Path.join(tmp, "_base_methods.json")
+
+      assert :ok =
+               BaseMethods.write!(
+                 %{"method_count" => 0, "methods" => %{}},
+                 output_path: path,
+                 tier_scope: ["tier1"]
+               )
+
+      decoded = path |> File.read!() |> Jason.decode!()
+      assert decoded["tier_scope"] == ["tier1"]
+    end
+  end
+
   describe "extract/0" do
     @tag :extraction
     test "extracts methods from real Exchange.ts" do

@@ -6,6 +6,50 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 13a: Universal envelope `tier_scope` stamping — code plumbing
+
+Three aggregate JSON emitters previously missing a `tier_scope` stamp
+now carry one, closing the code-side half of Task 13. Test migration
+from observed-count dispatch to envelope dispatch is tracked separately
+as Task 13b.
+
+**What shipped:**
+
+- `BaseMethods.write!/2` now takes keyword opts (`:output_path`,
+  `:tier_scope`) instead of a positional path. `_base_methods.json`
+  stamps `tier_scope: "all"` unconditionally — the file is
+  universe-agnostic (describes CCXT's base `Exchange` class that every
+  exchange inherits).
+- `Validation.validate_all/1` accepts `:tier_scope`; the report envelope
+  gains a top-level `tier_scope` field. The `validate` mix task derives
+  the stamp from `_manifest.json` in the output directory, falling back
+  to `"all"` when the manifest is absent or unstamped — so the report
+  accurately reflects the scope that was actually validated.
+- `ContractTest.run_all/1` accepts `:tier_scope`; the report envelope
+  gains a top-level `tier_scope` field. The `contract_test` mix task
+  threads `CcxtExtract.Scope.to_manifest_value/1` output alongside the
+  resolved scope MapSet, so the stamp reflects the CLI flags.
+
+**Why the two mix tasks treat scope differently** — `contract_test`
+already parses scope flags (tier/exchange/all), so it stamps what was
+explicitly requested. `validate` doesn't parse scope flags (it checks
+whatever the pipeline wrote); deriving from `_manifest.json` is the
+honest alternative to hardcoding `"all"`.
+
+**Not changed** — `method_analysis.json` and `public_exchanges.json`
+already thread `tier_scope` from their mix tasks through `write!/2`.
+Their committed fixtures show `"all"` only because they predate the
+fix; regenerating via `mix ccxt_extract.update --tier1 --tier2 --tier3
+--dex` produces accurate stamps. No code leak remains.
+
+**Verified** — `mix test.json --quiet --summary-only` green with
+`:extraction` tests excluded (default); `mix dialyzer.json --quiet`
+clean; `mix credo --strict --format json` introduced no new issues
+(remaining `TagTODO` hits are pre-existing); `mix sobelow
+--mark-skip-all` refreshed for the new file-traversal false positives
+in `base_methods.ex` / `contract_test.ex` / `validation.ex` (paths
+come from app config, not user input).
+
 ### Fix: Resolve the 4 remaining scoped-extraction test failures
 
 Follow-on to the scope-aware test fix below. Parallel subagent

@@ -491,10 +491,40 @@ artifact of that check, reusing it keeps a single source of truth.
 
 ---
 
-### Task 13: Universal envelope `tier_scope` stamping (followup) ⬜
+### Task 13: Universal envelope `tier_scope` stamping (followup) 🔄 — split
 
-**Status:** Not started.
-**Score:** [D:3/B:5/U:4 → Eff:1.67] 🚀
+**Split into 13a (code plumbing, ✅ shipped) and 13b (test migration, ⬜ open).**
+
+### Task 13a: Code plumbing — aggregate writers stamp `tier_scope` ✅
+
+**Status:** Complete — see [CHANGELOG.md](CHANGELOG.md#task-13a).
+**Score:** [D:1/B:4/U:5 → Eff:4.5] 🎯
+
+Three emitters previously missing a `tier_scope` stamp now carry one:
+
+- `_base_methods.json` — `BaseMethods.write!/2` accepts a `:tier_scope`
+  option defaulting to `"all"`. The file is universe-agnostic (parses
+  the base `Exchange.ts` class that every exchange inherits), so `"all"`
+  is semantically correct and not a placeholder.
+- `_validation_report.json` — `Validation.validate_all/1` accepts a
+  `:tier_scope` option; `Mix.Tasks.CcxtExtract.Validate` derives it by
+  reading `_manifest.json` from the output directory, falling back to
+  `"all"` when the manifest is absent or unstamped. Report envelope
+  gains a top-level `tier_scope` field.
+- `_contract_test_report.json` — `ContractTest.run_all/1` accepts a
+  `:tier_scope` option; `Mix.Tasks.CcxtExtract.ContractTest` threads
+  `CcxtExtract.Scope.to_manifest_value/1` output alongside the resolved
+  `scope`. Report envelope gains a top-level `tier_scope` field.
+
+**Not touched** — the two aggregates that already stamp correctly
+through opts (`method_analysis.json`, `public_exchanges.json`). Their
+apparent leak is stale committed fixtures, not code drift. Fresh runs
+already produce accurate stamps.
+
+### Task 13b: Test migration — envelope dispatch in cached tests ⬜
+
+**Status:** Not started — depends on Task 13a.
+**Score:** [D:2/B:3/U:3 → Eff:1.5] 🚀
 
 Followup to the scope-refactor (Tasks 1–12) and the post-refactor
 cached-test fix (CHANGELOG Unreleased). Currently, `AggregateWriter`

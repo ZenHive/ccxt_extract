@@ -67,6 +67,8 @@ defmodule CcxtExtract.ContractTest do
       are silently skipped — callers that need strict "missing" detection
       should diff their requested set against the emitted
       `summary.exchanges_checked` / `findings` set.
+    * `:tier_scope` — `CcxtExtract.Scope.to_manifest_value/1` output;
+      stamped on the report envelope. Defaults to `"all"`.
   """
   @spec run_all(keyword()) :: {:ok, report()}
   def run_all(opts \\ []) do
@@ -74,13 +76,14 @@ defmodule CcxtExtract.ContractTest do
     baseline_roots = opts[:baseline_roots] || load_baseline_roots(opts)
     exchanges = load_exchanges(output_dir, opts[:exchanges])
     baseline = %{error_code_fields_roots: baseline_roots}
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
 
     findings =
       exchanges
       |> Enum.flat_map(&run_invariants(&1, baseline))
       |> Enum.sort_by(&{&1.exchange, &1.invariant, &1.path})
 
-    {:ok, build_report(exchanges, findings, baseline)}
+    {:ok, build_report(exchanges, findings, baseline, tier_scope)}
   end
 
   @doc """
@@ -383,8 +386,9 @@ defmodule CcxtExtract.ContractTest do
 
   defp collect_map_keys(_), do: MapSet.new()
 
-  defp build_report(exchanges, findings, baseline) do
+  defp build_report(exchanges, findings, baseline, tier_scope) do
     %{
+      "tier_scope" => tier_scope,
       "summary" => %{
         "exchanges_checked" => length(exchanges),
         "invariants_run" => length(@invariants),

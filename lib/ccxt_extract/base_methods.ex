@@ -13,6 +13,12 @@ defmodule CcxtExtract.BaseMethods do
 
       {:ok, result} = CcxtExtract.BaseMethods.extract()
       CcxtExtract.BaseMethods.write!(result)
+
+  `_base_methods.json` is universe-agnostic — it describes CCXT's base
+  `Exchange` class, which every exchange inherits. `write!/2` therefore
+  stamps `tier_scope: "all"` unconditionally. The option is accepted for
+  signature symmetry with the scoped aggregate writers but is not
+  expected to vary.
   """
 
   @output_file "_base_methods.json"
@@ -62,12 +68,21 @@ defmodule CcxtExtract.BaseMethods do
 
   @doc """
   Write base methods to `priv/discoveries/_base_methods.json`.
+
+  Accepts `:output_path` (default: `priv/discoveries/_base_methods.json`)
+  and `:tier_scope` (default: `"all"` — this file is universe-agnostic).
   """
-  @spec write!(map(), String.t()) :: :ok
-  def write!(result, output_path \\ CcxtExtract.Paths.out(Path.join("discoveries", @output_file))) do
+  @spec write!(map(), keyword()) :: :ok
+  def write!(result, opts \\ []) when is_list(opts) do
+    output_path = Keyword.get(opts, :output_path, CcxtExtract.Paths.out(Path.join("discoveries", @output_file)))
+    tier_scope = Keyword.get(opts, :tier_scope, "all")
+
     File.mkdir_p!(Path.dirname(output_path))
 
-    output = Map.put(result, "extracted_at", DateTime.to_iso8601(DateTime.utc_now()))
+    output =
+      result
+      |> Map.put("extracted_at", DateTime.to_iso8601(DateTime.utc_now()))
+      |> Map.put("tier_scope", tier_scope)
 
     json = Jason.encode!(CcxtExtract.AstNormalize.normalize(output), pretty: true)
     File.write!(output_path, json)

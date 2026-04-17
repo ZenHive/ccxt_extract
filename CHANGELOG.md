@@ -6,6 +6,44 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Fix: Resolve the 4 remaining scoped-extraction test failures
+
+Follow-on to the scope-aware test fix below. Parallel subagent
+investigation confirmed that none of the 4 remaining failures were real
+code bugs — all were stale test assumptions that predate the
+`tier_scope` narrowing.
+
+- **Fix: Scope-gate override registry dead-code check** — `check_override_alive/1`
+  in `test/ccxt_extract/authenticated_sections_integration_test.exs` now returns
+  `[]` for `:unclassified` exchanges. Previously it flagged 9 out-of-scope
+  override files (grvt, coinone, wavesexchange, coinspot, zebpay, p2b,
+  digifinex, lbank, toobit) as dead code even though their absence from
+  `priv/output/` is expected under scoped extraction. The real dead-override
+  check still fires for in-scope exchanges with missing output. Reuses the
+  same `CcxtExtract.Tiers.get_priority_tier/1` pattern already used by
+  `check_exchange/1`.
+- **Fix: Scope-gate bequant inheritance tests in `pipeline_cached_test`** —
+  wrapped two tests (`bequant inherits handle_errors from parent hitbtc`
+  and `bequant converts empty parse_methods source to null`) in
+  `is_map(source)` guards, matching the existing `deribit` soft-skip
+  pattern at line 130. Both bequant and its parent hitbtc are currently
+  out-of-scope, so the fixtures lack the entries the tests read from.
+  Pipeline inheritance logic (`Pipeline.get_handle_errors/2`) is correct
+  and untouched; tests reactivate automatically when either exchange is
+  promoted.
+- **Remove: bithumb `throw_dispatches` regression test** — deleted the
+  `bithumb normalizes bare this.exceptions` test in
+  `test/integration/cached/schema_cached_test.exs`, matching the
+  established whitebit-removal pattern in the same describe block.
+  Bithumb is absent from every scoped discovery fixture, causing
+  `length(nil)` to crash at line 284. A `nil`-guard would make the
+  regression vacuously pass and lose value; explicit removal with a
+  reinstate comment is the project's convention.
+
+**Verified:** `mix test.json --quiet --summary-only` → 2035 total,
+1577 passed, 0 failed, 458 excluded (integration tag); `mix credo
+--strict` introduces no new issues; `mix dialyzer.json` → 0 warnings.
+
 ### Fix: Make integration tests scope-aware (16 scope-related failures)
 
 - **Problem** — committed discovery fixtures were generated under a scoped

@@ -23,10 +23,11 @@ defmodule CcxtExtract.Validation do
 
   alias CcxtExtract.JsonIO
   alias CcxtExtract.Paths
+  alias CcxtExtract.Schema
 
   require Logger
 
-  @schema_path "schema/exchange_v2.json"
+  @schema_path "schema/" <> Schema.schema_filename()
   @output_file "output/_validation_report.json"
 
   @reference_exchanges ~w(binance bybit okx deribit coinbaseexchange kraken kucoin gate htx bitmex hyperliquid)
@@ -1179,7 +1180,7 @@ defmodule CcxtExtract.Validation do
     %{
       "validated_at" => DateTime.to_iso8601(DateTime.utc_now()),
       "exchange_count" => length(exchange_results),
-      "schema_version" => CcxtExtract.Schema.schema_version(),
+      "schema_version" => Schema.schema_version(),
       "tier_scope" => tier_scope,
       "summary" => %{
         "schema_pass" => schema_pass,

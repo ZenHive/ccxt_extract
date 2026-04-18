@@ -114,7 +114,7 @@ defmodule CcxtExtract.Pipeline do
     File.mkdir_p!(output_dir)
 
     in_scope = MapSet.new(exchanges, & &1["exchange"]["id"])
-    {:ok, _removed} = ScopeCleanup.prune_out_of_scope(output_dir, in_scope, preserve: ["exchange_v2.json"])
+    {:ok, _removed} = ScopeCleanup.prune_out_of_scope(output_dir, in_scope, preserve: [Schema.schema_filename()])
 
     for exchange <- exchanges do
       id = exchange["exchange"]["id"]
@@ -653,8 +653,8 @@ defmodule CcxtExtract.Pipeline do
   end
 
   defp copy_schema!(output_dir) do
-    schema_source = Paths.priv("schema/exchange_v2.json")
-    schema_target = Path.join(output_dir, "exchange_v2.json")
+    schema_source = Paths.priv("schema/" <> Schema.schema_filename())
+    schema_target = Path.join(output_dir, Schema.schema_filename())
     File.cp!(schema_source, schema_target)
   end
 

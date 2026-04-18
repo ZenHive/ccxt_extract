@@ -46,6 +46,7 @@ defmodule CcxtExtract.Schema do
   """
 
   @schema_version "2.1.0"
+  @schema_filename "exchange_v2.json"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
@@ -57,6 +58,10 @@ defmodule CcxtExtract.Schema do
   @doc "Returns the current schema version string."
   @spec schema_version() :: String.t()
   def schema_version, do: @schema_version
+
+  @doc "Returns the current schema filename (JSON Schema file + output-dir copy)."
+  @spec schema_filename() :: String.t()
+  def schema_filename, do: @schema_filename
 
   @doc """
   Build a per-exchange output map conforming to `exchange_v2.json`.

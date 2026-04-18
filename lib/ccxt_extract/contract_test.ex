@@ -52,6 +52,35 @@ defmodule CcxtExtract.ContractTest do
     {"request_defaults_resolvable_reachable_from_unified", :check_request_defaults_resolvable_reachable_from_unified}
   ]
 
+  # Corpus-level invariants run once per run_all/1 (not per-exchange). Used
+  # for architectural truths about the codebase itself — e.g. Paths
+  # read-vs-write split — where no individual exchange is the subject.
+  # Findings use `exchange: "_corpus"` as a stable sentinel so downstream
+  # sorting and reporting treat them as a peer row, not per-exchange noise.
+  @corpus_invariants [
+    {"paths_rw_split", :check_paths_rw_split}
+  ]
+
+  @paths_read_helpers [:priv, :priv_dir, :discoveries, :ts_src, :bundle, :version_file]
+
+  @file_writer_fns [
+    :write,
+    :write!,
+    :mkdir_p,
+    :mkdir_p!,
+    :cp,
+    :cp!,
+    :cp_r,
+    :cp_r!,
+    :rm,
+    :rm!,
+    :rm_rf,
+    :rm_rf!,
+    :rename,
+    :touch,
+    :touch!
+  ]
+
   @doc """
   Load every `priv/output/<exchange>.json` (skipping `_*.json` manifests),
   run all invariants, return a deterministic report.
@@ -80,10 +109,10 @@ defmodule CcxtExtract.ContractTest do
     baseline = %{error_code_fields_roots: baseline_roots}
     tier_scope = Keyword.get(opts, :tier_scope, "all")
 
-    findings =
-      exchanges
-      |> Enum.flat_map(&run_invariants(&1, baseline))
-      |> Enum.sort_by(&{&1.exchange, &1.invariant, &1.path})
+    per_exchange_findings = Enum.flat_map(exchanges, &run_invariants(&1, baseline))
+    corpus_findings = run_corpus_invariants(opts)
+
+    findings = Enum.sort_by(per_exchange_findings ++ corpus_findings, &{&1.exchange, &1.invariant, &1.path})
 
     {:ok, build_report(exchanges, findings, baseline, tier_scope)}
   end
@@ -98,9 +127,13 @@ defmodule CcxtExtract.ContractTest do
     :ok
   end
 
-  @doc "Registry of `{name, function_atom}` tuples. Public for test introspection."
+  @doc "Registry of per-exchange `{name, function_atom}` tuples. Public for test introspection."
   @spec invariants() :: [{String.t(), atom()}]
   def invariants, do: @invariants
+
+  @doc "Registry of corpus-level `{name, function_atom}` tuples. Public for test introspection."
+  @spec corpus_invariants() :: [{String.t(), atom()}]
+  def corpus_invariants, do: @corpus_invariants
 
   ## Invariants
 
@@ -531,7 +564,7 @@ defmodule CcxtExtract.ContractTest do
   # Schema copies and metadata files live alongside per-exchange JSON but
   # are not exchanges. `exchange_v2.json` is the JSON Schema copy; files
   # starting with `_` are manifests/reports. Mirrors validation.ex:207.
-  @non_exchange_files ~w(exchange_v2.json)
+  @non_exchange_files [CcxtExtract.Schema.schema_filename()]
 
   defp load_exchanges(output_dir, scope) do
     output_dir
@@ -585,6 +618,94 @@ defmodule CcxtExtract.ContractTest do
     end)
   end
 
+  defp run_corpus_invariants(opts) do
+    Enum.flat_map(@corpus_invariants, fn {_name, fun} ->
+      apply(__MODULE__, fun, [opts])
+    end)
+  end
+
+  @doc """
+  Flag same-file flows from a `CcxtExtract.Paths` read helper (`priv`,
+  `priv_dir`, `discoveries`, `ts_src`, `bundle`, `version_file`) into a
+  `File` writer (`write*`, `mkdir_p*`, `cp*`, `rm*`, `rename`, `touch*`).
+
+  Uses `Reach.Project.taint_analysis/2` over `lib/**/*.ex` and filters to
+  same-file, unsanitized flows. Cross-module flows are conservatively
+  dropped — Reach's source frontend over-approximates through function
+  boundaries (e.g. `FixtureParity.check(fixtures_dir)` taints an unrelated
+  `File.write!` inside the callee), and dynamic-dispatch writers
+  (`writer.(dest)`) are invisible to the source frontend. This is a
+  best-effort guard against the common direct-call leak pattern.
+
+  ## Options
+
+    * `:glob` — override the source glob (default: `"lib/**/*.ex"`). Used
+      by tests to target a narrower module set.
+
+  Corpus-scoped: returns all findings tagged with `exchange: "_corpus"`.
+  Gracefully returns `[]` when Reach is unavailable (e.g. prod compile
+  where the dep is `only: [:dev, :test]`).
+  """
+  @spec check_paths_rw_split(keyword()) :: [finding()]
+  def check_paths_rw_split(opts \\ []) do
+    if Code.ensure_loaded?(Reach.Project) do
+      glob = Keyword.get(opts, :glob, "lib/**/*.ex")
+      # credo:disable-for-next-line Credo.Check.Refactor.Apply
+      project = apply(Reach.Project, :from_glob, [glob])
+
+      @paths_read_helpers
+      |> Enum.flat_map(&paths_rw_findings(project, &1))
+      |> Enum.filter(&paths_rw_reportable?/1)
+      |> Enum.map(&paths_rw_to_finding/1)
+      |> Enum.uniq()
+    else
+      []
+    end
+  end
+
+  # `apply/3` is intentional: `:reach` is `only: [:dev, :test]` so
+  # `Reach.Project` is absent when compiling in prod. Direct calls trigger
+  # compile-time warnings ("module is not available"); `apply/3` defers
+  # resolution to runtime (guarded by `Code.ensure_loaded?/1` above).
+  defp paths_rw_findings(project, fn_name) do
+    # credo:disable-for-next-line Credo.Check.Refactor.Apply
+    apply(Reach.Project, :taint_analysis, [
+      project,
+      [
+        sources: [type: :call, module: CcxtExtract.Paths, function: fn_name],
+        sinks: &paths_rw_sink?/1
+      ]
+    ])
+  end
+
+  defp paths_rw_sink?(node) do
+    node.type == :call and
+      node.meta[:module] == File and
+      node.meta[:function] in @file_writer_fns
+  end
+
+  # Keep only unsanitized, same-file flows. See module doc on check_paths_rw_split/1.
+  defp paths_rw_reportable?(%{sanitized: true}), do: false
+
+  defp paths_rw_reportable?(%{source: %{source_span: s}, sink: %{source_span: k}}) when not is_nil(s) and not is_nil(k) do
+    s.file == k.file
+  end
+
+  defp paths_rw_reportable?(_), do: false
+
+  defp paths_rw_to_finding(%{source: source, sink: sink}) do
+    src_fn = "#{inspect(source.meta.module)}.#{source.meta.function}/#{source.meta.arity}"
+    sink_fn = "File.#{sink.meta.function}/#{sink.meta.arity}"
+
+    %{
+      exchange: "_corpus",
+      invariant: "paths_rw_split",
+      path: "#{source.source_span.file}:#{source.source_span.start_line}",
+      message:
+        "#{src_fn} (read helper) flows into #{sink_fn} at #{sink.source_span.file}:#{sink.source_span.start_line} — use the matching `out_*` write helper"
+    }
+  end
+
   defp entry_root(%{"object_path" => [root | _]}) when is_binary(root), do: root
   defp entry_root(%{"object_path" => nil, "object" => object}) when is_binary(object), do: object
   defp entry_root(%{"object" => object}) when is_binary(object), do: object
@@ -621,7 +742,7 @@ defmodule CcxtExtract.ContractTest do
       "tier_scope" => tier_scope,
       "summary" => %{
         "exchanges_checked" => length(exchanges),
-        "invariants_run" => length(@invariants),
+        "invariants_run" => length(@invariants) + length(@corpus_invariants),
         "total_findings" => length(findings),
         "findings_by_invariant" => count_by_invariant(findings)
       },

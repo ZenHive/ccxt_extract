@@ -41,6 +41,18 @@ defmodule CcxtExtract.PathsTest do
     end
   end
 
+  describe "out_bundle/0" do
+    test "returns path ending in ccxt_bundle.js" do
+      assert String.ends_with?(Paths.out_bundle(), "ccxt_bundle.js")
+    end
+  end
+
+  describe "out_version_file/0" do
+    test "returns path ending in ccxt_version.json" do
+      assert String.ends_with?(Paths.out_version_file(), "ccxt_version.json")
+    end
+  end
+
   describe ":priv_dir_override" do
     setup do
       on_exit(fn -> Application.delete_env(:ccxt_extract, :priv_dir_override) end)
@@ -59,6 +71,29 @@ defmodule CcxtExtract.PathsTest do
       assert Paths.ts_src() == "/tmp/fake_priv/ccxt/ts/src"
       assert Paths.version_file() == "/tmp/fake_priv/ccxt_version.json"
       assert Paths.discoveries() == "/tmp/fake_priv/discoveries"
+      assert Paths.out_bundle() == "/tmp/fake_priv/ccxt_bundle.js"
+      assert Paths.out_version_file() == "/tmp/fake_priv/ccxt_version.json"
+    end
+  end
+
+  describe ":priv_write_override" do
+    setup do
+      on_exit(fn ->
+        Application.delete_env(:ccxt_extract, :priv_dir_override)
+        Application.delete_env(:ccxt_extract, :priv_write_override)
+      end)
+
+      :ok
+    end
+
+    test "out_bundle/0 and out_version_file/0 follow :priv_write_override while read helpers do not" do
+      Application.put_env(:ccxt_extract, :priv_dir_override, "/tmp/fake_priv")
+      Application.put_env(:ccxt_extract, :priv_write_override, "/tmp/fake_out")
+
+      assert Paths.bundle() == "/tmp/fake_priv/ccxt_bundle.js"
+      assert Paths.version_file() == "/tmp/fake_priv/ccxt_version.json"
+      assert Paths.out_bundle() == "/tmp/fake_out/ccxt_bundle.js"
+      assert Paths.out_version_file() == "/tmp/fake_out/ccxt_version.json"
     end
   end
 end

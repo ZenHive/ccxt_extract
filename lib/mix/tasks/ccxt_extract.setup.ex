@@ -119,7 +119,7 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
   # Copy browser bundle from node_modules to priv/ so extraction works
   # via :code.priv_dir without depending on node_modules at runtime.
   defp copy_bundle_to_priv do
-    dest = CcxtExtract.Paths.bundle()
+    dest = CcxtExtract.Paths.out_bundle()
 
     if File.exists?(dest) && File.stat!(@npm_bundle).size == File.stat!(dest).size do
       Mix.shell().info("Bundle already in priv/, skipping copy.")
@@ -283,7 +283,7 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
       "recorded_at" => DateTime.to_iso8601(DateTime.utc_now())
     }
 
-    version_file = CcxtExtract.Paths.version_file()
+    version_file = CcxtExtract.Paths.out_version_file()
     File.write!(version_file, Jason.encode!(versions, pretty: true))
     Mix.shell().info("\nVersions recorded to #{version_file}")
     versions

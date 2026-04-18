@@ -6,6 +6,55 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Cleanup sprint: Tasks 108 / 107 / 111 / 112
+
+**Branch:** `cleanup/schema-and-paths-hygiene`. Four items cleared from the
+Maintenance Backlog as a single doc-coordinated pass.
+
+**Task 108 — Centralize schema-filename literal.** Added `@schema_filename
+"exchange_v2.json"` and `CcxtExtract.Schema.schema_filename/0` as the single
+source of truth. Retargeted 5 code sites: `pipeline.ex` (preserve list, schema
+source path, schema target path), `validation.ex` (`@schema_path`), and
+`contract_test.ex` (`@non_exchange_files`). Future schema-file renames are now
+a one-line change. Module-attribute compile order works because `Schema` has
+no dependency on `Validation` or `ContractTest`.
+
+**Task 107 — Deleted `priv/schema/exchange_v1.json`.** Retained one release
+during the 2.0.0 bump (per the SCHEMA.md migration note) so maintainers could
+diff the two schemas; that role is now complete. SCHEMA.md version-history
+entry updated to record the deletion date.
+
+**Task 111 — Paths read/write-split hygiene.** Added `Paths.out_bundle/0` and
+`Paths.out_version_file/0` as write-path companions to the existing `bundle/0`
+and `version_file/0` readers. Retargeted the two `File.cp!` /
+`File.write!` sites in `mix ccxt_extract.setup` (`setup.ex:122` and `:286`) so
+writes honor `:priv_write_override`. Read helpers remain unchanged for the
+six read sites (`pipeline.ex`, `quickbeam_runtime.ex`, the example scripts,
+setup's post-copy verification). Module docstring now lists bundle/version
+helpers under both read and write sections. Three new unit tests cover
+`out_bundle/0`, `out_version_file/0`, and the `:priv_write_override` narrowing
+behavior.
+
+**Task 112 — `paths_rw_split` Reach-based contract invariant.** New
+corpus-level invariant (runs once per `ContractTest.run_all/1`, not
+per-exchange) uses `Reach.Project.taint_analysis/2` over `lib/**/*.ex` to flag
+flows from a `CcxtExtract.Paths` read helper (`priv`, `priv_dir`,
+`discoveries`, `ts_src`, `bundle`, `version_file`) into a `File` writer
+(`write*`, `mkdir_p*`, `cp*`, `rm*`, `rename`, `touch*`). Same-file filter
+drops cross-module taint false positives (Reach's source frontend
+over-approximates through function boundaries, e.g.
+`FixtureParity.check(fixtures_dir)` would otherwise leak). New registry
+split `@invariants` (per-exchange) from `@corpus_invariants` (corpus);
+`run_all/1` runs both and merges findings. Corpus findings carry
+`exchange: "_corpus"`. Includes three unit tests: real-`lib/` green path,
+planted same-file violation catches, cross-module fixture stays silent.
+Graceful fallback (`Code.ensure_loaded?(Reach.Project)`) when Reach is
+unavailable (prod compile).
+
+**Why bundled:** 108+107 share the Schema 2.0.0 surface; 111+112 are a
+"fix then lock" pair. All four share doc updates (ROADMAP, CHANGELOG,
+SCHEMA, CLAUDE) — serializing them in one branch avoids merge churn.
+
 ### Tooling: Reach added as dev/test dependency
 
 **What shipped:**

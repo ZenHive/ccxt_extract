@@ -351,6 +351,62 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_paths_rw_split/1" do
+    setup do
+      tmp = Path.join(System.tmp_dir!(), "ccxt_paths_rw_split_#{System.unique_integer([:positive])}")
+      File.mkdir_p!(tmp)
+      on_exit(fn -> File.rm_rf!(tmp) end)
+      {:ok, tmp: tmp}
+    end
+
+    test "returns no findings for real lib/ (baseline green after Task 111)" do
+      assert ContractTest.check_paths_rw_split() == []
+    end
+
+    test "flags a same-file read-helper → File.write! flow in a planted fixture", %{tmp: tmp} do
+      leak_file = Path.join(tmp, "leak.ex")
+
+      File.write!(leak_file, """
+      defmodule Fixture.Leak do
+        def run do
+          path = CcxtExtract.Paths.priv("leak.json")
+          File.write!(path, "x")
+        end
+      end
+      """)
+
+      findings = ContractTest.check_paths_rw_split(glob: Path.join(tmp, "**/*.ex"))
+
+      assert [finding] = findings
+      assert finding.exchange == "_corpus"
+      assert finding.invariant == "paths_rw_split"
+      assert finding.path =~ "leak.ex:"
+      assert finding.message =~ "CcxtExtract.Paths.priv"
+      assert finding.message =~ "File.write!"
+    end
+
+    test "does not flag cross-module flow (same-file filter)", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "reader.ex"), """
+      defmodule Fixture.Reader do
+        def run do
+          fixtures = CcxtExtract.Paths.priv("fixtures")
+          Fixture.Writer.write(fixtures, "report.json")
+        end
+      end
+      """)
+
+      File.write!(Path.join(tmp, "writer.ex"), """
+      defmodule Fixture.Writer do
+        def write(_unused, path) do
+          File.write!(path, "x")
+        end
+      end
+      """)
+
+      assert ContractTest.check_paths_rw_split(glob: Path.join(tmp, "**/*.ex")) == []
+    end
+  end
+
   describe "run_all/1" do
     setup do
       tmp = Path.join(System.tmp_dir!(), "ccxt_contract_test_#{System.unique_integer([:positive])}")
@@ -393,7 +449,10 @@ defmodule CcxtExtract.ContractTestTest do
       {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: ["response"])
 
       assert report["summary"]["exchanges_checked"] == 2
-      assert report["summary"]["invariants_run"] == length(ContractTest.invariants())
+
+      assert report["summary"]["invariants_run"] ==
+               length(ContractTest.invariants()) + length(ContractTest.corpus_invariants())
+
       assert report["summary"]["findings_by_invariant"]["unified_endpoints_claimed_in_has"] == 1
 
       assert report["summary"]["findings_by_invariant"][

@@ -7,10 +7,12 @@ defmodule CcxtExtract.Paths do
 
   ## Read vs write
 
-  Read paths (`priv/1`, `priv_dir/0`, `discoveries/0`) resolve relative to
-  `priv_dir/0`, which honors `:priv_dir_override`. Write paths (`out/1`,
-  `out_priv_dir/0`) resolve relative to `out_priv_dir/0`, which honors the
-  narrower `:priv_write_override` first, then falls through to `priv_dir/0`.
+  Read paths (`priv/1`, `priv_dir/0`, `discoveries/0`, `bundle/0`,
+  `version_file/0`, `ts_src/0`) resolve relative to `priv_dir/0`, which
+  honors `:priv_dir_override`. Write paths (`out/1`, `out_priv_dir/0`,
+  `out_bundle/0`, `out_version_file/0`) resolve relative to
+  `out_priv_dir/0`, which honors the narrower `:priv_write_override` first,
+  then falls through to `priv_dir/0`.
 
   This split lets integration tests read from the committed corpus while
   redirecting writes to a per-test tmp dir. A full `:priv_dir_override`
@@ -87,17 +89,25 @@ defmodule CcxtExtract.Paths do
     Path.join(out_priv_dir(), relative_path)
   end
 
-  @doc "Path to the CCXT browser bundle (copied to priv during setup)."
+  @doc "Path to the CCXT browser bundle for READS (resolved via `priv_dir/0`)."
   @spec bundle() :: String.t()
   def bundle, do: priv("ccxt_bundle.js")
+
+  @doc "Path to the CCXT browser bundle for WRITES (setup copies to this target)."
+  @spec out_bundle() :: String.t()
+  def out_bundle, do: out("ccxt_bundle.js")
 
   @doc "Path to the CCXT TypeScript source directory."
   @spec ts_src() :: String.t()
   def ts_src, do: priv("ccxt/ts/src")
 
-  @doc "Path to the version tracking file."
+  @doc "Path to the version tracking file for READS (resolved via `priv_dir/0`)."
   @spec version_file() :: String.t()
   def version_file, do: priv("ccxt_version.json")
+
+  @doc "Path to the version tracking file for WRITES (setup stamps this target)."
+  @spec out_version_file() :: String.t()
+  def out_version_file, do: out("ccxt_version.json")
 
   @doc "Path to the discoveries output directory (READ)."
   @spec discoveries() :: String.t()

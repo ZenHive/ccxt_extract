@@ -69,10 +69,12 @@ Corpus-level tasks (`setup`, `exchanges`, `base_methods`, top-level `validate`) 
 
 `CcxtExtract.Paths` splits read sites from write sites:
 
-- `Paths.priv/1`, `Paths.priv_dir/0`, `Paths.discoveries/0` — **reads**, honor `:priv_dir_override`.
-- `Paths.out/1`, `Paths.out_priv_dir/0` — **writes**, honor `:priv_write_override` first, then fall through to `:priv_dir_override`.
+- `Paths.priv/1`, `Paths.priv_dir/0`, `Paths.discoveries/0`, `Paths.bundle/0`, `Paths.version_file/0`, `Paths.ts_src/0` — **reads**, honor `:priv_dir_override`.
+- `Paths.out/1`, `Paths.out_priv_dir/0`, `Paths.out_bundle/0`, `Paths.out_version_file/0` — **writes**, honor `:priv_write_override` first, then fall through to `:priv_dir_override`.
 
-Integration tests set the narrower `:priv_write_override` via `CcxtExtract.PrivWriteCase` (`test/support/priv_write_case.ex`) to redirect writes into a tmp dir while reads still hit the committed corpus. `PrivWriteCase` enforces `async: false` because the override is a VM-global app env. When adding a new write site, use `Paths.out(...)` not `Paths.priv(...)`. External consumers running `mix ccxt_extract.update --output DIR` get the broader `:priv_dir_override` so everything (reads + writes) lands under `DIR`.
+Integration tests set the narrower `:priv_write_override` via `CcxtExtract.PrivWriteCase` (`test/support/priv_write_case.ex`) to redirect writes into a tmp dir while reads still hit the committed corpus. `PrivWriteCase` enforces `async: false` because the override is a VM-global app env. When adding a new write site, use `Paths.out(...)` / `out_bundle/0` / `out_version_file/0`, not the read helpers. External consumers running `mix ccxt_extract.update --output DIR` get the broader `:priv_dir_override` so everything (reads + writes) lands under `DIR`.
+
+The split is enforced by the `paths_rw_split` corpus-level invariant in `mix ccxt_extract.contract_test` — `Reach.Project.taint_analysis/2` over `lib/**/*.ex` with a same-file filter. New direct-call leaks like `File.write!(Paths.priv(...))` surface at the next contract-test run.
 
 ### Safety rails
 

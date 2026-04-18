@@ -6,6 +6,16 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 102: Close stale cross-repo obligation
+
+Marked ✅ in Maintenance Backlog. The read-path drift Task 102 tracked
+was resolved upstream by `ccxt_client` Task 85 (shipped 2026-04-17):
+`ccxt_client/lib/ccxt/spec.ex:37` now reads `@spec_dir
+"priv/specs/json/output"`, which matches where `mix ccxt_extract.update
+--output DIR` writes under REFACTOR Item 9's split read/write layout.
+No code change in this repo — doc-only close to keep the cross-repo
+rule honest.
+
 ### Chore: stop tracking derived extraction corpus in git
 
 `priv/output/` (582MB, 115 files) and `priv/discoveries/*` (494MB, 233

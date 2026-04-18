@@ -20,6 +20,7 @@
   {"lib/ccxt_extract/fixture_parity.ex", :call_without_opaque},
   {"lib/ccxt_extract/signing_fixtures.ex", :call_without_opaque},
   {"lib/ccxt_extract/discovery_loader.ex", :call_without_opaque},
+  {"lib/ccxt_extract/contract_test.ex", :call_without_opaque},
   # Task 4: MapSet.t() scope arguments flow through the four QuickBEAM-backed
   # extractor modules; warnings surface where the MapSet is unpacked/iterated
   # (load_markets also in its Mix task because scope is forwarded into

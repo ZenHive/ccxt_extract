@@ -55,6 +55,7 @@ defmodule CcxtExtract.MixProject do
       {:ex_dna, "~> 1.1", only: [:dev, :test], runtime: false},
       {:ex_ast, "~> 0.2", only: [:dev, :test], runtime: false},
       {:ex_slop, "~> 0.2.0", only: [:dev, :test], runtime: false},
+      {:reach, "~> 1.2", only: [:dev, :test], runtime: false},
       {:tidewave, "~> 0.5", only: :dev},
       {:bandit, "~> 1.10", only: :dev}
     ]
@@ -64,7 +65,7 @@ defmodule CcxtExtract.MixProject do
     [
       "ccxt_extract.regenerate_fixtures": ["ccxt_extract.signing_fixtures"],
       tidewave: [
-        "run --no-halt -e 'Agent.start(fn -> Bandit.start_link(plug: Tidewave, port: 4001) end)'"
+        "run --no-halt -e 'Agent.start(fn -> Bandit.start_link(plug: Tidewave, port: 4002) end)'"
       ]
     ]
   end

@@ -6,6 +6,48 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Tooling: Reach added as dev/test dependency
+
+**What shipped:**
+
+- `{:reach, "~> 1.2", only: [:dev, :test], runtime: false}` in `mix.exs`
+  alongside the other code-analysis deps (`ex_dna`, `ex_ast`, `ex_slop`).
+- `@~/.claude/includes/reach.md` added to the project's CLAUDE.md imports.
+
+**Why:** Reach builds a program dependence graph / system dependence
+graph for Elixir and exposes slicing, taint analysis, independence
+checks, and dead-code detection. Fills a gap between Dialyzer (types)
+and Credo (style) — namely, *data-flow* invariants that cut across
+modules.
+
+**Initial probe — findings queued as Tasks 111 and 112:**
+
+A probe run against `lib/**/*.ex` (85 modules, ~1.2s build) surfaced:
+
+- **Task 111** — `Paths.version_file/0` and `Paths.bundle/0` are built
+  on read-path `priv/1` but used as write targets in
+  `mix ccxt_extract.setup` (`File.cp!` dest, `File.write!` target).
+  Violates the read/write-split invariant in CLAUDE.md §Paths. Low
+  practical blast radius (setup is one-shot, not covered by
+  `PrivWriteCase`), but real doc-vs-code drift.
+- **Task 112** — Add a Reach-based contract-test invariant that locks
+  the read/write-split permanently, catching Task 111-style drift
+  automatically. `Reach.Project.taint_analysis` over
+  `CcxtExtract.Paths` read sources → `File.write*` sinks, with
+  convergence-false-positive filtering.
+
+**Known Reach limitations noted in the include:**
+
+- Source frontend drops dynamic dispatch — use the BEAM frontend
+  (`Reach.module_to_graph/1`) for callback-heavy code. Low impact here
+  since ccxt_extract has no callback patterns.
+- `dead_code/1` has documented false-positive classes (guard-function
+  calls, block-tail binary ops, case-branch-bound vars). The probe
+  confirmed this: 937 raw hits → 367 after filtering `is_*` locals →
+  still noise-heavy (many `String.t/0` typespec references mis-parsed
+  as calls). Dead-code cleanup is not queued — triage cost exceeds
+  cleanup value.
+
 ### Task 73c: Per-method default request body extractor (schema 2.1.0)
 
 **What shipped:**

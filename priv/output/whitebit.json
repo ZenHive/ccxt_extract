@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "unclassified",
     "version": "v4"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -720,7 +721,7 @@
       "version": "v4"
     },
     "markets": {
-      "market_count": 1057,
+      "market_count": 1056,
       "markets": {
         "AXL/USDT": {
           "spot": true,
@@ -24585,82 +24586,6 @@
           "id": "BCH_PERP",
           "lowercaseId": "__undefined",
           "subType": "linear"
-        },
-        "MDI/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "USDT",
-          "tierBased": false,
-          "index": "__undefined",
-          "maker": 0.001,
-          "inverse": "__undefined",
-          "info": {
-            "feePrec": "6",
-            "isCollateral": false,
-            "isTradFiFutures": false,
-            "makerFee": "0.1",
-            "maxTotal": "100000",
-            "minAmount": "100000",
-            "minTotal": "1",
-            "money": "USDT",
-            "moneyPrec": "8",
-            "name": "MDI_USDT",
-            "stock": "MDI",
-            "stockPrec": "2",
-            "takerFee": "0.1",
-            "tradesEnabled": true,
-            "type": "spot"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "MDI/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "price": 1.0e-8
-          },
-          "baseId": "MDI",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "MDI",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": 100000
-            },
-            "cost": {
-              "max": 100000,
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": 0.001,
-          "optionType": "__undefined",
-          "margin": false,
-          "contract": false,
-          "percentage": true,
-          "active": true,
-          "expiry": "__undefined",
-          "id": "MDI_USDT",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
         },
         "DOGE/USDT:USDT": {
           "spot": false,
@@ -81086,7 +81011,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 763,
+        "sample_count": 762,
         "separator": "_",
         "suffix": null
       },
@@ -81180,7 +81105,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [],
     "class_info": {
@@ -134621,6 +134546,256 @@
         ],
         "return_type": "TransferEntry",
         "statements": 1
+      }
+    },
+    "request_defaults": {
+      "cancelAllOrdersAfter": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "cancelOrder": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "orderId": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "createConvertTrade": {
+        "quoteId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createDepositAddress": {
+        "ticker": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createOrder": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "side": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "editOrder": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchConvertQuote": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "direction": {
+          "kind": "literal",
+          "reason": null,
+          "value": "from"
+        },
+        "from": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "to": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchCrossBorrowRate": {
+        "ticker": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDeposit": {
+        "limit": {
+          "kind": "literal",
+          "reason": null,
+          "value": 1
+        },
+        "offset": {
+          "kind": "literal",
+          "reason": null,
+          "value": 0
+        },
+        "transactionMethod": {
+          "kind": "literal",
+          "reason": null,
+          "value": 1
+        },
+        "uniqueId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDepositAddress": {
+        "ticker": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDeposits": {
+        "limit": {
+          "kind": "literal",
+          "reason": null,
+          "value": 100
+        },
+        "offset": {
+          "kind": "literal",
+          "reason": null,
+          "value": 0
+        },
+        "transactionMethod": {
+          "kind": "literal",
+          "reason": null,
+          "value": 1
+        }
+      },
+      "fetchFundingHistory": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingRateHistory": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "interval": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "orderId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderTrades": {
+        "orderId": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchPosition": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchPositionHistory": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTicker": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "setLeverage": {
+        "leverage": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "transfer": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "from": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "ticker": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "to": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "withdraw": {
+        "address": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "amount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "ticker": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

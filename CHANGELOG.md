@@ -6,6 +6,102 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 73c: Per-method default request body extractor (schema 2.1.0)
+
+**What shipped:**
+
+- New `CcxtExtract.RequestDefaults` OXC extractor — walks each exchange
+  class method looking for `this.<httpVerb>()` call sites, traces the
+  first argument back to a literal `ObjectExpression` across three
+  resolution tiers:
+  1. direct literal (`this.publicPostX({'type': 'foo'})`)
+  2. `this.extend(X, params)` unwrap (recurses into X)
+  3. identifier-to-sole-declarator trace — recurses into the declarator's
+     `init`, so `const request = {...}` works via tier 1 and
+     `const request = this.extend({...}, params)` works via tier 2
+     without a new resolution strategy
+  Computed member calls (`this[method](request)`) are resolved when
+  `method` traces to a sole string-literal declarator whose value matches
+  the HTTP-verb pattern (same sole-literal constraint as tier 3).
+- Each property classified per the Honesty Rule:
+  - `kind: "literal"` — primitive / nested-literal with `reason: null`
+  - `kind: "unresolved"` — non-literal expression with a closed-vocabulary
+    reason: `conditional_value`, `identifier_reference`, `dynamic_construction`,
+    `computed_key`, or `spread_elaboration`
+- New `mix ccxt_extract.request_defaults` mix task (scoped-flags aware).
+- New `structure.request_defaults` field on every per-exchange output,
+  populated by `Pipeline.get_request_defaults/2` with alias-parent merge
+  (mirrors `unified_endpoints`).
+- Schema bumped `2.0.0` → `2.1.0`. New `$defs`: `RequestDefaults`
+  (map-of-method-to-entries) and `RequestDefaultsEntry` (`{value, kind,
+  reason}`); enum enforces the reason vocabulary. Value is nullable, but
+  the key is **now in `StructureData.required`** — strict validators will
+  reject pre-2.1.0 output lacking it. Permissive readers that ignore
+  unknown keys continue to work unchanged.
+- Provenance: `/structure/request_defaults` added to
+  `CcxtExtract.Provenance.@derived_pointers`.
+- New contract invariant
+  `request_defaults_resolvable_reachable_from_unified` — flags methods
+  with a resolvable literal entry that aren't a key in `unified_endpoints`
+  or named as one of its interface-method values. Baseline corpus surfaces
+  32 findings (helper methods reachable only via transitive call); tracked
+  as follow-up Task 110.
+- Driving failure fixed: `hyperliquid.fetchTime` now emits
+  `{"type": {"value": "exchangeStatus", "kind": "literal", "reason": null}}`,
+  unblocking `ccxt_client.hyperliquid.fetch_time` empty-POST-body
+  integration.
+
+**Key decisions:**
+
+- D1 walker stops at three resolution tiers (no conditional-mutation
+  tracking). Conditional-key methods emit as unresolved rather than
+  producing a partial literal that consumers might mistake for complete.
+- D2 emission scope is broad at the extractor (all methods with literal
+  bodies ship to the raw discovery file); the reachability invariant
+  operates on the pipeline-emitted output. Keeps raw discovery
+  informative while letting the contract tighten over time.
+- D3 multi-call-site methods collapse iff every call site produces an
+  identical literal body; divergent bodies fall back to skip rather than
+  emit per-call-site breakdowns.
+- D4 schema bumped to **minor** (2.1.0) rather than patch. The value
+  shape is additive and nullable (permissive readers are fine), but
+  `request_defaults` is promoted into `StructureData.required` — that's
+  a strict-validator-visible shape change, which patch bumps should not
+  carry. Reserves patch bumps for bug fixes and non-required-set
+  extractor improvements.
+- D5 tier-3 identifier trace now short-circuits to `:skip` when the
+  walker finds any `assignment_expression` or `update_expression`
+  targeting the traced variable anywhere in the method body. Driving
+  case: `ndax.signIn` declares `let request = {'grant_type': ...}`,
+  POSTs once, then reassigns `request = {'Code': ...}` and POSTs again.
+  Without the gate both call sites collapse to the original declarator
+  init and emit a stale literal for the second endpoint; with the gate
+  the whole method honestly drops out (Honesty Rule).
+
+**Post-review fixes (same cycle):**
+
+- Wired `ccxt_extract.request_defaults` into the `ccxt_extract.update`
+  orchestrator — the task existed but was not in `@default_oxc_extractors`,
+  so every `update` ran with stale `request_defaults.json`.
+- Honesty-Rule fix in `classify_property_value/1`: nested
+  `ObjectExpression` with any non-literal child now emits
+  `value: nil` (was: the full per-key entry map), matching the
+  docstring, CHANGELOG description, and schema `RequestDefaultsEntry`
+  contract. Affected `bullish.withdraw`, `foxbit.editOrder`,
+  `hyperliquid.fetchOHLCV`, `woo.transfer`, and similar.
+- Tier-3 declarator trace recurses into `init` (rather than requiring a
+  raw `ObjectExpression`), picking up real CCXT patterns like
+  `const request = this.extend({...}, params);` — e.g.
+  `btcbox.fetchOrder`, `kraken.fetchLedgerEntriesByIds`.
+- Computed-member HTTP-call detection for `this[method](...)` where
+  `method` resolves to a sole string-literal declarator — e.g.
+  `bit2c.createOrder`. When `method` is built from a binary/conditional
+  expression (coinspot, bittrade), the walker honestly skips rather
+  than guessing.
+- Defensive catch-all for non-identifier method keys
+  (string-literal / computed class-method names) so they skip instead
+  of raising `FunctionClauseError`.
+
 ### Task 61d: Provenance-covers-schema contract invariant
 
 **What shipped:**

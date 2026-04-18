@@ -219,6 +219,7 @@ defmodule CcxtExtract.PipelineTest do
           "unified_endpoint_count" => 2
         }
       },
+      request_defaults: %{},
       url_templates: %{
         "testex" => %{
           "id" => "testex",
@@ -280,6 +281,7 @@ defmodule CcxtExtract.PipelineTest do
       interface_signatures: %{},
       pagination: %{},
       unified_endpoints: %{},
+      request_defaults: %{},
       url_templates: %{},
       overrides: %{},
       missing_files: []
@@ -1134,6 +1136,7 @@ defmodule CcxtExtract.PipelineTest do
     write_json(Path.join(dir, "interface_signatures.json"), empty_global)
     write_json(Path.join(dir, "pagination.json"), empty_global)
     write_json(Path.join(dir, "unified_endpoints.json"), empty_global)
+    write_json(Path.join(dir, "request_defaults.json"), empty_global)
     write_json(Path.join(dir, "url_templates.json"), empty_global)
     write_json(Path.join(dir, "overrides.json"), empty_global)
 

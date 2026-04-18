@@ -314,6 +314,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     {"ccxt_extract.interface_signatures", :scoped},
     {"ccxt_extract.pagination", :scoped},
     {"ccxt_extract.unified_endpoints", :scoped},
+    {"ccxt_extract.request_defaults", :scoped},
     {"ccxt_extract.overrides", :scoped},
     {"ccxt_extract.base_methods", :unscoped}
   ]

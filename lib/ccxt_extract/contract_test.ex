@@ -48,7 +48,8 @@ defmodule CcxtExtract.ContractTest do
     {"error_code_fields_root_in_observed_set", :check_error_code_fields_root},
     {"override_registry_valid", :check_override_registry_valid},
     {"override_paths_present_in_output", :check_override_paths_present_in_output},
-    {"provenance_covers_schema", :check_provenance_covers_schema}
+    {"provenance_covers_schema", :check_provenance_covers_schema},
+    {"request_defaults_resolvable_reachable_from_unified", :check_request_defaults_resolvable_reachable_from_unified}
   ]
 
   @doc """
@@ -137,6 +138,70 @@ defmodule CcxtExtract.ContractTest do
   defp has_claims_support?(has, name) do
     Map.get(has, name) in [true, "emulated"]
   end
+
+  @doc """
+  Flag `request_defaults` methods that contain at least one `kind: "literal"`
+  entry but aren't reachable from `structure.unified_endpoints` — where
+  "reachable" means: the method name is either a key of `unified_endpoints`
+  OR appears as a value in some `unified_endpoints[*]` list. Helper methods
+  like hyperliquid.fetchSwapMarkets — not directly unified but called from
+  a unified `fetchMarkets` entry — stay in bounds.
+
+  Unresolved-only method entries are ignored because their presence is
+  informational (the Honesty Rule preserves them so consumers know the
+  endpoint has a structured body); they don't assert a consumer contract
+  the way literal entries do.
+  """
+  # TODO(Task 110): Baseline corpus surfaces ~32 legitimate "helper method"
+  # findings — e.g. bybit.fetchSpotMarkets, coinbase.fetchAccountsV2. These
+  # helpers are called by a unified method but unified_endpoints values store
+  # interface names (publicGetX), not helper names, so the reachability check
+  # has no way to see the transitive call. Either add a transitive-call
+  # analysis or maintain a baseline allowlist for known helpers.
+  @spec check_request_defaults_resolvable_reachable_from_unified(map(), map()) :: [finding()]
+  def check_request_defaults_resolvable_reachable_from_unified(exchange, _observed) do
+    id = exchange_id(exchange)
+    defaults = get_in(exchange, ["structure", "request_defaults"]) || %{}
+    unified = get_in(exchange, ["structure", "unified_endpoints"]) || %{}
+    reachable = unified_reachable_names(unified)
+
+    defaults
+    |> Enum.sort_by(fn {method, _} -> method end)
+    |> Enum.filter(fn {_method, body} -> has_literal_entry?(body) end)
+    |> Enum.reject(fn {method, _} -> MapSet.member?(reachable, method) end)
+    |> Enum.map(fn {method, _} ->
+      %{
+        exchange: id,
+        invariant: "request_defaults_resolvable_reachable_from_unified",
+        path: "structure.request_defaults.#{method}",
+        message:
+          "request_defaults.#{method} has a resolvable literal entry but #{method} is not reachable from unified_endpoints (neither a key nor a value)"
+      }
+    end)
+  end
+
+  defp unified_reachable_names(unified) when is_map(unified) do
+    keys = Map.keys(unified)
+
+    values =
+      Enum.flat_map(unified, fn
+        {_k, names} when is_list(names) -> Enum.filter(names, &is_binary/1)
+        _ -> []
+      end)
+
+    MapSet.new(keys ++ values)
+  end
+
+  defp unified_reachable_names(_), do: MapSet.new()
+
+  defp has_literal_entry?(body) when is_map(body) do
+    Enum.any?(body, fn
+      {_k, %{"kind" => "literal"}} -> true
+      _ -> false
+    end)
+  end
+
+  defp has_literal_entry?(_), do: false
 
   @doc """
   Flag `authenticated_sections` entries that aren't reachable in

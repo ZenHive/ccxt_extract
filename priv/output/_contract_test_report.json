@@ -18,6 +18,24 @@
       "path": "structure.unified_endpoints.createMarketSellOrderWithCost"
     },
     {
+      "exchange": "binanceus",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.borrowIsolatedMargin has a resolvable literal entry but borrowIsolatedMargin is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.borrowIsolatedMargin"
+    },
+    {
+      "exchange": "binanceus",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchFundingHistory has a resolvable literal entry but fetchFundingHistory is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchFundingHistory"
+    },
+    {
+      "exchange": "binanceus",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.repayIsolatedMargin has a resolvable literal entry but repayIsolatedMargin is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.repayIsolatedMargin"
+    },
+    {
       "exchange": "bingx",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchCanceledAndClosedOrders but runtime.describe.has.fetchCanceledAndClosedOrders = \"__undefined\"",
@@ -42,10 +60,28 @@
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
     },
     {
+      "exchange": "blockchaincom",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchOrdersByState has a resolvable literal entry but fetchOrdersByState is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchOrdersByState"
+    },
+    {
       "exchange": "blofin",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchMarkPrice but runtime.describe.has.fetchMarkPrice = :missing",
       "path": "structure.unified_endpoints.fetchMarkPrice"
+    },
+    {
+      "exchange": "bybit",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchOptionMarkets has a resolvable literal entry but fetchOptionMarkets is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchOptionMarkets"
+    },
+    {
+      "exchange": "bybit",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchSpotMarkets has a resolvable literal entry but fetchSpotMarkets is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchSpotMarkets"
     },
     {
       "exchange": "cex",
@@ -55,9 +91,57 @@
     },
     {
       "exchange": "coinbase",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.deposit has a resolvable literal entry but deposit is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.deposit"
+    },
+    {
+      "exchange": "coinbase",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchAccountsV2 has a resolvable literal entry but fetchAccountsV2 is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchAccountsV2"
+    },
+    {
+      "exchange": "coinbase",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchAccountsV3 has a resolvable literal entry but fetchAccountsV3 is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchAccountsV3"
+    },
+    {
+      "exchange": "coinbase",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchTickerV3 has a resolvable literal entry but fetchTickerV3 is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchTickerV3"
+    },
+    {
+      "exchange": "coinbase",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
+    },
+    {
+      "exchange": "coinbaseadvanced",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.deposit has a resolvable literal entry but deposit is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.deposit"
+    },
+    {
+      "exchange": "coinbaseadvanced",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchAccountsV2 has a resolvable literal entry but fetchAccountsV2 is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchAccountsV2"
+    },
+    {
+      "exchange": "coinbaseadvanced",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchAccountsV3 has a resolvable literal entry but fetchAccountsV3 is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchAccountsV3"
+    },
+    {
+      "exchange": "coinbaseadvanced",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchTickerV3 has a resolvable literal entry but fetchTickerV3 is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchTickerV3"
     },
     {
       "exchange": "coinbaseadvanced",
@@ -79,6 +163,12 @@
     },
     {
       "exchange": "coinex",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.modifyMarginHelper has a resolvable literal entry but modifyMarginHelper is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.modifyMarginHelper"
+    },
+    {
+      "exchange": "coinex",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOrdersByStatus but runtime.describe.has.fetchOrdersByStatus = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchOrdersByStatus"
@@ -88,6 +178,24 @@
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchTime but runtime.describe.has.fetchTime = \"__undefined\"",
       "path": "structure.unified_endpoints.fetchTime"
+    },
+    {
+      "exchange": "derive",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchOptionMarkets has a resolvable literal entry but fetchOptionMarkets is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchOptionMarkets"
+    },
+    {
+      "exchange": "derive",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchSpotMarkets has a resolvable literal entry but fetchSpotMarkets is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchSpotMarkets"
+    },
+    {
+      "exchange": "derive",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchSwapMarkets has a resolvable literal entry but fetchSwapMarkets is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchSwapMarkets"
     },
     {
       "exchange": "exmo",
@@ -174,6 +282,48 @@
       "path": "structure.unified_endpoints.fetchDepositWithdrawFees"
     },
     {
+      "exchange": "htx",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchContractOrders has a resolvable literal entry but fetchContractOrders is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchContractOrders"
+    },
+    {
+      "exchange": "huobi",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchContractOrders has a resolvable literal entry but fetchContractOrders is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchContractOrders"
+    },
+    {
+      "exchange": "hyperliquid",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.approveBuilderFee has a resolvable literal entry but approveBuilderFee is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.approveBuilderFee"
+    },
+    {
+      "exchange": "hyperliquid",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.enableUserDexAbstraction has a resolvable literal entry but enableUserDexAbstraction is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.enableUserDexAbstraction"
+    },
+    {
+      "exchange": "hyperliquid",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchSpotMarkets has a resolvable literal entry but fetchSpotMarkets is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchSpotMarkets"
+    },
+    {
+      "exchange": "hyperliquid",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchSwapMarkets has a resolvable literal entry but fetchSwapMarkets is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchSwapMarkets"
+    },
+    {
+      "exchange": "hyperliquid",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.setUserAbstraction has a resolvable literal entry but setUserAbstraction is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.setUserAbstraction"
+    },
+    {
       "exchange": "indodax",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares fetchOHLCV but runtime.describe.has.fetchOHLCV = \"__undefined\"",
@@ -186,10 +336,46 @@
       "path": "structure.unified_endpoints.fetchTickers"
     },
     {
+      "exchange": "kraken",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchOrdersByIds has a resolvable literal entry but fetchOrdersByIds is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchOrdersByIds"
+    },
+    {
       "exchange": "krakenfutures",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares createOrders but runtime.describe.has.createOrders = \"__undefined\"",
       "path": "structure.unified_endpoints.createOrders"
+    },
+    {
+      "exchange": "kucoin",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.cancelAllUtaOrders has a resolvable literal entry but cancelAllUtaOrders is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.cancelAllUtaOrders"
+    },
+    {
+      "exchange": "kucoin",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchLeverageTiers has a resolvable literal entry but fetchLeverageTiers is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchLeverageTiers"
+    },
+    {
+      "exchange": "kucoinfutures",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.cancelAllUtaOrders has a resolvable literal entry but cancelAllUtaOrders is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.cancelAllUtaOrders"
+    },
+    {
+      "exchange": "kucoinfutures",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchLeverageTiers has a resolvable literal entry but fetchLeverageTiers is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchLeverageTiers"
+    },
+    {
+      "exchange": "lbank",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.fetchSwapMarkets has a resolvable literal entry but fetchSwapMarkets is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.fetchSwapMarkets"
     },
     {
       "exchange": "lbank",
@@ -343,6 +529,12 @@
     },
     {
       "exchange": "woo",
+      "invariant": "request_defaults_resolvable_reachable_from_unified",
+      "message": "request_defaults.modifyMarginHelper has a resolvable literal entry but modifyMarginHelper is not reachable from unified_endpoints (neither a key nor a value)",
+      "path": "structure.request_defaults.modifyMarginHelper"
+    },
+    {
+      "exchange": "woo",
       "invariant": "unified_endpoints_claimed_in_has",
       "message": "unified_endpoints declares repayMargin but runtime.describe.has.repayMargin = :missing",
       "path": "structure.unified_endpoints.repayMargin"
@@ -380,10 +572,11 @@
       "override_paths_present_in_output": 0,
       "override_registry_valid": 0,
       "provenance_covers_schema": 0,
+      "request_defaults_resolvable_reachable_from_unified": 32,
       "unified_endpoints_claimed_in_has": 53
     },
-    "invariants_run": 6,
-    "total_findings": 60
+    "invariants_run": 7,
+    "total_findings": 92
   },
   "tier_scope": "all"
 }

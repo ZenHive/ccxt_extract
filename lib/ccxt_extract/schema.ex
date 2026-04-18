@@ -45,12 +45,12 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "2.0.0"
+  @schema_version "2.1.0"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe markets symbol_patterns url_templates)
-  @required_structure_keys ~w(class_info methods sign_method authenticated_sections handle_errors parse_methods ws_methods interface_signatures pagination overrides unified_endpoints)
+  @required_structure_keys ~w(class_info methods sign_method authenticated_sections handle_errors parse_methods ws_methods interface_signatures pagination overrides unified_endpoints request_defaults)
 
   # --- Public API ---
 
@@ -185,7 +185,8 @@ defmodule CcxtExtract.Schema do
       "interface_signatures" => data["interface_signatures"],
       "pagination" => data["pagination"],
       "overrides" => data["overrides"],
-      "unified_endpoints" => data["unified_endpoints"]
+      "unified_endpoints" => data["unified_endpoints"],
+      "request_defaults" => data["request_defaults"]
     }
   end
 

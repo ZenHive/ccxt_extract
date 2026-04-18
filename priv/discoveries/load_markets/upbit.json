@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-17T03:36:21.100181Z",
+  "extracted_at": "2026-04-17T13:02:03.844794Z",
   "id": "upbit",
-  "market_count": 709,
+  "market_count": 710,
   "markets": {
     "SOON/BTC": {
       "spot": true,
@@ -17984,6 +17984,70 @@
       "active": true,
       "expiry": "__undefined",
       "id": "KRW-TFUEL",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "SOON/KRW": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "KRW",
+      "tierBased": false,
+      "index": false,
+      "maker": 0.0005,
+      "inverse": "__undefined",
+      "info": {
+        "english_name": "SOON",
+        "korean_name": "쑨",
+        "market": "KRW-SOON"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "SOON/KRW",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 1.0e-8,
+        "price": 1.0e-8
+      },
+      "baseId": "SOON",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "KRW",
+      "expiryDatetime": "__undefined",
+      "base": "SOON",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "KRW-SOON",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },

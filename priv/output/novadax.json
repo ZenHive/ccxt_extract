@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -652,7 +653,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "ELIZACTO",
-            "minOrderAmount": "30436.3",
+            "minOrderAmount": "10911.24",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -684,7 +685,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 30436.3
+              "min": 10911.24
             },
             "cost": {
               "max": "__undefined",
@@ -3872,7 +3873,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "PIZZA",
-            "minOrderAmount": "10.4",
+            "minOrderAmount": "26.31",
             "minOrderValue": "25",
             "pricePrecision": "3",
             "quoteCurrency": "BRL",
@@ -3904,7 +3905,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 10.4
+              "min": 26.31
             },
             "cost": {
               "max": "__undefined",
@@ -6882,7 +6883,7 @@
           "info": {
             "amountPrecision": "0",
             "baseCurrency": "PORK",
-            "minOrderAmount": "29732633",
+            "minOrderAmount": "30427967",
             "minOrderValue": "25",
             "pricePrecision": "10",
             "quoteCurrency": "BRL",
@@ -6914,7 +6915,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 29732633
+              "min": 30427967
             },
             "cost": {
               "max": "__undefined",
@@ -7022,7 +7023,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "ZEREBRO",
-            "minOrderAmount": "477.22",
+            "minOrderAmount": "321.7",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -7054,7 +7055,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 477.22
+              "min": 321.7
             },
             "cost": {
               "max": "__undefined",
@@ -9752,7 +9753,7 @@
           "info": {
             "amountPrecision": "1",
             "baseCurrency": "HIFI",
-            "minOrderAmount": "209.9",
+            "minOrderAmount": "772.8",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -9784,7 +9785,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 209.9
+              "min": 772.8
             },
             "cost": {
               "max": "__undefined",
@@ -13882,7 +13883,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "BR",
-            "minOrderAmount": "20",
+            "minOrderAmount": "45.44",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -13914,7 +13915,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 20
+              "min": 45.44
             },
             "cost": {
               "max": "__undefined",
@@ -16332,7 +16333,7 @@
           "info": {
             "amountPrecision": "4",
             "baseCurrency": "BAN",
-            "minOrderAmount": "54.2973",
+            "minOrderAmount": "69.9933",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -16364,7 +16365,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 54.2973
+              "min": 69.9933
             },
             "cost": {
               "max": "__undefined",
@@ -22772,7 +22773,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "WAL",
-            "minOrderAmount": "62.62",
+            "minOrderAmount": "43.28",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -22804,7 +22805,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 62.62
+              "min": 43.28
             },
             "cost": {
               "max": "__undefined",
@@ -26342,7 +26343,7 @@
           "info": {
             "amountPrecision": "3",
             "baseCurrency": "LAI",
-            "minOrderAmount": "131540.61",
+            "minOrderAmount": "207990.5",
             "minOrderValue": "25",
             "pricePrecision": "8",
             "quoteCurrency": "BRL",
@@ -26374,7 +26375,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 131540.61
+              "min": 207990.5
             },
             "cost": {
               "max": "__undefined",
@@ -30052,7 +30053,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "SIREN",
-            "minOrderAmount": "2.78",
+            "minOrderAmount": "7.76",
             "minOrderValue": "25",
             "pricePrecision": "5",
             "quoteCurrency": "BRL",
@@ -30084,7 +30085,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2.78
+              "min": 7.76
             },
             "cost": {
               "max": "__undefined",
@@ -34672,7 +34673,7 @@
           "info": {
             "amountPrecision": "2",
             "baseCurrency": "MUBI",
-            "minOrderAmount": "6939.35",
+            "minOrderAmount": "2524.67",
             "minOrderValue": "25",
             "pricePrecision": "4",
             "quoteCurrency": "BRL",
@@ -34704,7 +34705,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 6939.35
+              "min": 2524.67
             },
             "cost": {
               "max": "__undefined",
@@ -42344,7 +42345,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -54950,6 +54951,113 @@
         ],
         "return_type": "Str",
         "statements": 2
+      }
+    },
+    "request_defaults": {
+      "cancelOrder": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createOrder": {
+        "side": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "unit": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderTrades": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTicker": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "transfer": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "subId": {
+          "kind": "unresolved",
+          "reason": "conditional_value",
+          "value": null
+        },
+        "transferAmount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "transferType": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "withdraw": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "code": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "wallet": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

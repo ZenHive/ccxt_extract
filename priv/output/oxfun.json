@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "unclassified",
     "version": "v3"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -675,7 +676,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -50392,6 +50393,173 @@
         ],
         "return_type": null,
         "statements": 2
+      }
+    },
+    "request_defaults": {
+      "cancelOrder": {
+        "responseType": {
+          "kind": "literal",
+          "reason": null,
+          "value": "FULL"
+        },
+        "timestamp": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "cancelOrders": {
+        "responseType": {
+          "kind": "literal",
+          "reason": null,
+          "value": "FULL"
+        },
+        "timestamp": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "createOrder": {
+        "responseType": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "timestamp": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "createOrders": {
+        "orders": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "responseType": {
+          "kind": "literal",
+          "reason": null,
+          "value": "FULL"
+        },
+        "timestamp": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchDepositAddress": {
+        "asset": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "network": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingHistory": {
+        "marketCode": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingRate": {
+        "marketCode": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchFundingRateHistory": {
+        "marketCode": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "marketCode": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "timeframe": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "orderId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "marketCode": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTicker": {
+        "marketCode": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "marketCode": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "transfer": {
+        "asset": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "fromAccount": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "quantity": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "toAccount": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "withdraw": {
+        "address": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "asset": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "quantity": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

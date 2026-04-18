@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "unclassified",
     "version": null
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -9277,7 +9278,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -43714,6 +43715,330 @@
         ],
         "return_type": null,
         "statements": 3
+      }
+    },
+    "request_defaults": {
+      "cancelAllOrders": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "cancelOrder": {
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createOrder": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "InstrumentId": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "OrderType": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "Quantity": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "Side": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "TimeInForce": {
+          "kind": "literal",
+          "reason": null,
+          "value": 1
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "editOrder": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "InstrumentId": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "OrderIdToReplace": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "OrderType": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "Quantity": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "Side": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "TimeInForce": {
+          "kind": "literal",
+          "reason": null,
+          "value": 1
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchAccounts": {
+        "UserId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "UserName": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchBalance": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchCurrencies": {
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDepositAddress": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "GenerateNewKey": {
+          "kind": "literal",
+          "reason": null,
+          "value": false
+        },
+        "ProductId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDeposits": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchLedger": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchMarkets": {
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchMyTrades": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "InstrumentId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "Interval": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOpenOrders": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "OrderId": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "Depth": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "InstrumentId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderTrades": {
+        "OMSId": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "OrderId": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchOrders": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTicker": {
+        "InstrumentId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "InstrumentId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchWithdrawals": {
+        "AccountId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "omsId": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

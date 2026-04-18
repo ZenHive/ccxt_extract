@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -44,7 +45,7 @@
     "tier": "tier3",
     "version": "v1"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -5365,9 +5366,15 @@
           "maker": -5.0e-5,
           "inverse": false,
           "info": {
-            "asset_kind": "SPOT",
+            "asset_kind": "PERP",
             "base_currency": "ETH",
-            "clamp_rate": "0",
+            "clamp_rate": "0.0005",
+            "delta1_cross_margin_params": {
+              "imf_base": "0.02",
+              "imf_factor": "0",
+              "imf_shift": "0",
+              "mmf_factor": "0.5"
+            },
             "expiry_at": "0",
             "fee_config": {
               "api_fee": {
@@ -5395,27 +5402,27 @@
                 }
               }
             },
-            "funding_multiplier": "0",
-            "funding_period_hours": "0",
-            "interest_rate": "0",
+            "funding_multiplier": "1",
+            "funding_period_hours": "8",
+            "interest_rate": "0.0001",
             "market_kind": "cross",
-            "max_funding_rate": "0",
-            "max_funding_rate_change": "0",
-            "max_open_orders": "50",
-            "max_order_size": "20",
+            "max_funding_rate": "0.02",
+            "max_funding_rate_change": "0.0002",
+            "max_open_orders": "150",
+            "max_order_size": "1000",
             "max_slippage": "0.001",
-            "max_tob_spread": "0.05",
+            "max_tob_spread": "0.01",
             "min_notional": "10",
-            "open_at": "1770278700000",
-            "oracle_ewma_factor": "0.043647610787352464",
+            "open_at": "1692576000000",
+            "oracle_ewma_factor": "0.12945779635696708",
             "order_size_increment": "0.0001",
-            "position_limit": "0",
+            "position_limit": "9000",
             "price_bands_width": "0.05",
             "price_feed_id": "JBu1AL4obBcCMqKBBxhpWCNUt136ijcuMZLFvTP7iWdB",
             "price_tick_size": "0.01",
             "quote_currency": "USD",
             "settlement_currency": "USDC",
-            "symbol": "ETH-USD",
+            "symbol": "ETH-USD-PERP",
             "tags": [
               "LAYER-1"
             ]
@@ -5443,7 +5450,7 @@
           },
           "limits": {
             "amount": {
-              "max": 20,
+              "max": 1000,
               "min": "__undefined"
             },
             "cost": {
@@ -5466,7 +5473,7 @@
           "percentage": "__undefined",
           "active": "__undefined",
           "expiry": "__undefined",
-          "id": "ETH-USD",
+          "id": "ETH-USD-PERP",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -9105,7 +9112,7 @@
             "asset_kind": "OPTION",
             "base_currency": "BTC",
             "clamp_rate": "0",
-            "expiry_at": "1776585600000",
+            "expiry_at": "1777017600000",
             "fee_config": {
               "api_fee": {
                 "maker_fee": {
@@ -9153,10 +9160,10 @@
             "max_funding_rate_change": "0",
             "max_open_orders": "150",
             "max_order_size": "100",
-            "max_slippage": "0",
+            "max_slippage": "0.01",
             "max_tob_spread": "2",
             "min_notional": "20",
-            "open_at": "1776312919652",
+            "open_at": "1774873087845",
             "option_cross_margin_params": {
               "imf": {
                 "long_itm": "0.2",
@@ -9173,7 +9180,7 @@
                 "short_put_cap": "0.5"
               }
             },
-            "option_type": "CALL",
+            "option_type": "PUT",
             "oracle_ewma_factor": "0.043647610787352464",
             "order_size_increment": "0.001",
             "position_limit": "20",
@@ -9182,8 +9189,8 @@
             "price_tick_size": "0.01",
             "quote_currency": "USD",
             "settlement_currency": "USDC",
-            "strike_price": "73500",
-            "symbol": "BTC-USD-19APR26-73500-C",
+            "strike_price": "58000",
+            "symbol": "BTC-USD-24APR26-58000-P",
             "tags": []
           },
           "created": "__undefined",
@@ -9197,7 +9204,7 @@
           },
           "baseId": "BTC",
           "type": "swap",
-          "strike": 73500,
+          "strike": 58000,
           "settleId": "USDC",
           "quote": "USD",
           "expiryDatetime": "__undefined",
@@ -9226,13 +9233,13 @@
             }
           },
           "taker": 0.0003,
-          "optionType": "call",
+          "optionType": "put",
           "margin": "__undefined",
           "contract": true,
           "percentage": "__undefined",
           "active": "__undefined",
           "expiry": "__undefined",
-          "id": "BTC-USD-19APR26-73500-C",
+          "id": "BTC-USD-24APR26-58000-P",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -10940,13 +10947,12 @@
       "swap": {
         "anomalies": [
           "kSHIB-USD-PERP",
-          "ETH-USD",
           "kBONK-USD-PERP",
           "DIME-USD",
-          "BTC-USD-19APR26-73500-C",
+          "BTC-USD-24APR26-58000-P",
           "kPEPE-USD-PERP"
         ],
-        "anomaly_count": 6,
+        "anomaly_count": 5,
         "case": "upper",
         "examples": [
           {
@@ -10991,7 +10997,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -45313,6 +45319,148 @@
         ],
         "return_type": null,
         "statements": 2
+      }
+    },
+    "request_defaults": {
+      "cancelAllOrders": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createOrder": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "side": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "type": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchAllGreeks": {
+        "market": {
+          "kind": "literal",
+          "reason": null,
+          "value": "ALL"
+        }
+      },
+      "fetchFundingRateHistory": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchGreeks": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchLeverage": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchMarginMode": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "resolution": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOpenInterest": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTicker": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTickers": {
+        "market": {
+          "kind": "literal",
+          "reason": null,
+          "value": "ALL"
+        }
+      },
+      "fetchTrades": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "setLeverage": {
+        "leverage": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "margin_type": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "setMarginMode": {
+        "leverage": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "margin_type": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

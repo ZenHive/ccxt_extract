@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "unclassified",
     "version": "v2"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -2814,7 +2815,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0.1",
-            "popularity": "0",
+            "popularity": "40",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -7338,7 +7339,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "60",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -9678,7 +9679,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "100",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -10848,7 +10849,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "60",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -13032,7 +13033,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "40",
             "priceDecimals": "12",
             "priceTick": "0.000000000001000000",
             "quantityDecimals": "0",
@@ -19506,7 +19507,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "40",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "3",
@@ -21222,7 +21223,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "100",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -22704,7 +22705,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "80",
+            "popularity": "0",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -24498,7 +24499,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0.00001",
-            "popularity": "60",
+            "popularity": "40",
             "priceDecimals": "2",
             "priceTick": "0.010000000000000000",
             "quantityDecimals": "7",
@@ -26838,7 +26839,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "80",
+            "popularity": "60",
             "priceDecimals": "7",
             "priceTick": "0.000000100000000000",
             "quantityDecimals": "2",
@@ -30582,7 +30583,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "60",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -31362,7 +31363,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "60",
             "priceDecimals": "11",
             "priceTick": "0.000000000010000000",
             "quantityDecimals": "2",
@@ -32064,7 +32065,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "20",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -33000,7 +33001,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "40",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -33156,7 +33157,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "20",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -40956,7 +40957,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0.0001",
-            "popularity": "40",
+            "popularity": "0",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "3",
@@ -47040,7 +47041,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "100",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "4",
@@ -47898,7 +47899,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "60",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -53592,7 +53593,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "20",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -76212,7 +76213,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "90",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -79566,7 +79567,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "90",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -89082,7 +89083,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "20",
             "priceDecimals": "8",
             "priceTick": "0.000000010000000000",
             "quantityDecimals": "2",
@@ -95010,7 +95011,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "0",
+            "popularity": "80",
             "priceDecimals": "7",
             "priceTick": "0.000000100000000000",
             "quantityDecimals": "2",
@@ -95478,7 +95479,7 @@
             "maxOrderCostUsd": "999999999999999999",
             "minOrderCostUsd": "0",
             "minOrderQuantity": "0",
-            "popularity": "60",
+            "popularity": "0",
             "priceDecimals": "18",
             "priceTick": "0.000000000000000001",
             "quantityDecimals": "-6",
@@ -97712,7 +97713,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -109785,6 +109786,153 @@
         ],
         "return_type": "Str",
         "statements": 2
+      }
+    },
+    "request_defaults": {
+      "cancelOrder": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createOrder": {
+        "baseCurrency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "clientOrderId": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "condition": {
+          "kind": "literal",
+          "reason": null,
+          "value": "GTC"
+        },
+        "quantity": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "quoteCurrency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "side": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "timestamp": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "type": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOpenOrders": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "quote": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "quote": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchPrivateTradingFee": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "quote": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchPublicTradingFee": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "quote": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTicker": {
+        "base": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "quote": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "quote": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "transfer": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "recipient": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "value": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
       }
     },
     "sign_method": {

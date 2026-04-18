@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -43,7 +44,7 @@
     "tier": "tier2",
     "version": "v2"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -848,7 +849,7 @@
       "version": "v2"
     },
     "markets": {
-      "market_count": 296,
+      "market_count": 299,
       "markets": {
         "XLM/USDT": {
           "spot": true,
@@ -4390,6 +4391,173 @@
           "id": "tDOTUSD",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
+        },
+        "ENA/USDT:USDT": {
+          "spot": false,
+          "tradfi": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USTF0",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.001,
+          "inverse": false,
+          "feeSide": "get",
+          "info": [
+            null,
+            null,
+            null,
+            "0.001",
+            "50000.0",
+            null,
+            null,
+            null,
+            0.01,
+            0.005
+          ],
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "ENA/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 8,
+            "price": 5
+          },
+          "baseId": "ENAF0",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "ENA",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 50000,
+              "min": 0.001
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": 1.0e-8
+            }
+          },
+          "taker": 0.002,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": true,
+          "active": true,
+          "tiers": {
+            "maker": [
+              [
+                0,
+                0.001
+              ],
+              [
+                500000,
+                0.0008
+              ],
+              [
+                1000000,
+                0.0006
+              ],
+              [
+                2500000,
+                0.0004
+              ],
+              [
+                5000000,
+                0.0002
+              ],
+              [
+                7500000,
+                0
+              ],
+              [
+                10000000,
+                0
+              ],
+              [
+                15000000,
+                0
+              ],
+              [
+                20000000,
+                0
+              ],
+              [
+                25000000,
+                0
+              ],
+              [
+                30000000,
+                0
+              ]
+            ],
+            "taker": [
+              [
+                0,
+                0.002
+              ],
+              [
+                500000,
+                0.002
+              ],
+              [
+                1000000,
+                0.002
+              ],
+              [
+                2500000,
+                0.002
+              ],
+              [
+                5000000,
+                0.002
+              ],
+              [
+                7500000,
+                0.002
+              ],
+              [
+                10000000,
+                0.0018
+              ],
+              [
+                15000000,
+                0.0016
+              ],
+              [
+                20000000,
+                0.0014
+              ],
+              [
+                25000000,
+                0.0012
+              ],
+              [
+                30000000,
+                0.001
+              ]
+            ]
+          },
+          "expiry": "__undefined",
+          "id": "tENAF0:USTF0",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
         },
         "TON/USDT": {
           "spot": true,
@@ -23426,6 +23594,173 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "LDO/USDT:USDT": {
+          "spot": false,
+          "tradfi": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USTF0",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.001,
+          "inverse": false,
+          "feeSide": "get",
+          "info": [
+            null,
+            null,
+            null,
+            "0.001",
+            "50000.0",
+            null,
+            null,
+            null,
+            0.01,
+            0.005
+          ],
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "LDO/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 8,
+            "price": 5
+          },
+          "baseId": "LDOF0",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "LDO",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 50000,
+              "min": 0.001
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": 1.0e-8
+            }
+          },
+          "taker": 0.002,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": true,
+          "active": true,
+          "tiers": {
+            "maker": [
+              [
+                0,
+                0.001
+              ],
+              [
+                500000,
+                0.0008
+              ],
+              [
+                1000000,
+                0.0006
+              ],
+              [
+                2500000,
+                0.0004
+              ],
+              [
+                5000000,
+                0.0002
+              ],
+              [
+                7500000,
+                0
+              ],
+              [
+                10000000,
+                0
+              ],
+              [
+                15000000,
+                0
+              ],
+              [
+                20000000,
+                0
+              ],
+              [
+                25000000,
+                0
+              ],
+              [
+                30000000,
+                0
+              ]
+            ],
+            "taker": [
+              [
+                0,
+                0.002
+              ],
+              [
+                500000,
+                0.002
+              ],
+              [
+                1000000,
+                0.002
+              ],
+              [
+                2500000,
+                0.002
+              ],
+              [
+                5000000,
+                0.002
+              ],
+              [
+                7500000,
+                0.002
+              ],
+              [
+                10000000,
+                0.0018
+              ],
+              [
+                15000000,
+                0.0016
+              ],
+              [
+                20000000,
+                0.0014
+              ],
+              [
+                25000000,
+                0.0012
+              ],
+              [
+                30000000,
+                0.001
+              ]
+            ]
+          },
+          "expiry": "__undefined",
+          "id": "tLDOF0:USTF0",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
         "KAIA/USDT": {
           "spot": true,
           "tradfi": false,
@@ -32350,6 +32685,173 @@
           "id": "tDOGE:UST",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
+        },
+        "SEI/USDT:USDT": {
+          "spot": false,
+          "tradfi": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USTF0",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.001,
+          "inverse": false,
+          "feeSide": "get",
+          "info": [
+            null,
+            null,
+            null,
+            "0.001",
+            "50000.0",
+            null,
+            null,
+            null,
+            0.01,
+            0.005
+          ],
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "SEI/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 8,
+            "price": 5
+          },
+          "baseId": "SEIF0",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "SEI",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 50000,
+              "min": 0.001
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": 1.0e-8
+            }
+          },
+          "taker": 0.002,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": true,
+          "active": true,
+          "tiers": {
+            "maker": [
+              [
+                0,
+                0.001
+              ],
+              [
+                500000,
+                0.0008
+              ],
+              [
+                1000000,
+                0.0006
+              ],
+              [
+                2500000,
+                0.0004
+              ],
+              [
+                5000000,
+                0.0002
+              ],
+              [
+                7500000,
+                0
+              ],
+              [
+                10000000,
+                0
+              ],
+              [
+                15000000,
+                0
+              ],
+              [
+                20000000,
+                0
+              ],
+              [
+                25000000,
+                0
+              ],
+              [
+                30000000,
+                0
+              ]
+            ],
+            "taker": [
+              [
+                0,
+                0.002
+              ],
+              [
+                500000,
+                0.002
+              ],
+              [
+                1000000,
+                0.002
+              ],
+              [
+                2500000,
+                0.002
+              ],
+              [
+                5000000,
+                0.002
+              ],
+              [
+                7500000,
+                0.002
+              ],
+              [
+                10000000,
+                0.0018
+              ],
+              [
+                15000000,
+                0.0016
+              ],
+              [
+                20000000,
+                0.0014
+              ],
+              [
+                25000000,
+                0.0012
+              ],
+              [
+                30000000,
+                0.001
+              ]
+            ]
+          },
+          "expiry": "__undefined",
+          "id": "tSEIF0:USTF0",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
         },
         "SOL/USDT:USDT": {
           "spot": false,
@@ -50808,7 +51310,7 @@
           }
         ],
         "id_structure": "opaque",
-        "sample_count": 82,
+        "sample_count": 85,
         "separator": null,
         "suffix": null
       }
@@ -50830,7 +51332,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -112609,6 +113111,237 @@
         ],
         "return_type": "Str",
         "statements": 2
+      }
+    },
+    "request_defaults": {
+      "cancelAllOrders": {
+        "all": {
+          "kind": "literal",
+          "reason": null,
+          "value": 1
+        }
+      },
+      "cancelOrders": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createOrders": {
+        "ops": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "editOrder": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchCurrencies": {
+        "config": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDepositAddress": {
+        "method": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "op_renew": {
+          "kind": "literal",
+          "reason": null,
+          "value": 0
+        },
+        "wallet": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingRateHistory": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingRates": {
+        "keys": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchMarkets": {
+        "config": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchMyTrades": {
+        "end": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "limit": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "sort": {
+          "kind": "literal",
+          "reason": null,
+          "value": 1
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "timeframe": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchOpenInterest": {
+        "keys": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOpenInterestHistory": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOpenInterests": {
+        "keys": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "precision": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderTrades": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTicker": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "setMargin": {
+        "collateral": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "transfer": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "currency_to": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "from": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "to": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "withdraw": {
+        "address": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "amount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "method": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "wallet": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

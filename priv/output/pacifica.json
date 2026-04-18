@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -44,7 +45,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -731,7 +732,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "0.00000893",
             "symbol": "ADA",
             "tick_size": "0.00001"
           },
@@ -950,7 +951,7 @@
           "info": {
             "base_asset": "EURUSD",
             "created_at": "1770794446066",
-            "funding_rate": "0.000015",
+            "funding_rate": "0.00000653",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.1",
@@ -959,7 +960,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "0.00000302",
             "symbol": "EURUSD",
             "tick_size": "0.0001"
           },
@@ -1026,7 +1027,7 @@
           "info": {
             "base_asset": "kBONK",
             "created_at": "1754008594378",
-            "funding_rate": "-0.00001993",
+            "funding_rate": "-0.00004805",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "1",
@@ -1035,7 +1036,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "-0.00000763",
+            "next_funding_rate": "-0.00006114",
             "symbol": "kBONK",
             "tick_size": "0.000001"
           },
@@ -1111,7 +1112,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.00001787",
             "symbol": "XPL",
             "tick_size": "0.0001"
           },
@@ -1263,7 +1264,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.00002939",
             "symbol": "ASTER",
             "tick_size": "0.00001"
           },
@@ -1491,7 +1492,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.0001444",
             "symbol": "VIRTUAL",
             "tick_size": "0.0001"
           },
@@ -1634,7 +1635,7 @@
           "info": {
             "base_asset": "BP",
             "created_at": "1770790169465",
-            "funding_rate": "0.000015",
+            "funding_rate": "-0.00008811",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.1",
@@ -1710,7 +1711,7 @@
           "info": {
             "base_asset": "2Z",
             "created_at": "1759413888328",
-            "funding_rate": "0.000015",
+            "funding_rate": "-0.00002125",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "1",
@@ -1719,7 +1720,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.0000118",
             "symbol": "2Z",
             "tick_size": "0.0001"
           },
@@ -1786,7 +1787,7 @@
           "info": {
             "base_asset": "JUP",
             "created_at": "1767596087494",
-            "funding_rate": "0.00001198",
+            "funding_rate": "0.00000695",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "1",
@@ -1795,7 +1796,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "-0.00000827",
+            "next_funding_rate": "-0.00003271",
             "symbol": "JUP",
             "tick_size": "0.0001"
           },
@@ -1938,7 +1939,7 @@
           "info": {
             "base_asset": "SOL",
             "created_at": "1748881333944",
-            "funding_rate": "-0.00000781",
+            "funding_rate": "0.00000148",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.01",
@@ -1947,7 +1948,7 @@
             "max_tick": "1000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "-0.00001624",
+            "next_funding_rate": "-0.00000616",
             "symbol": "SOL",
             "tick_size": "0.01"
           },
@@ -2251,7 +2252,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.00000106",
             "symbol": "ZRO",
             "tick_size": "0.0001"
           },
@@ -2394,7 +2395,7 @@
           "info": {
             "base_asset": "MON",
             "created_at": "1761661533549",
-            "funding_rate": "-0.0000123",
+            "funding_rate": "0.000015",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "1",
@@ -2403,7 +2404,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.00000159",
+            "next_funding_rate": "0.000015",
             "symbol": "MON",
             "tick_size": "0.00001"
           },
@@ -2470,7 +2471,7 @@
           "info": {
             "base_asset": "LINK",
             "created_at": "1754614641996",
-            "funding_rate": "0.000015",
+            "funding_rate": "0.00001466",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.1",
@@ -2479,7 +2480,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.00003022",
             "symbol": "LINK",
             "tick_size": "0.001"
           },
@@ -2555,7 +2556,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "0.00000932",
             "symbol": "SUI",
             "tick_size": "0.0001"
           },
@@ -2698,7 +2699,7 @@
           "info": {
             "base_asset": "WLFI",
             "created_at": "1755995923305",
-            "funding_rate": "0.00001386",
+            "funding_rate": "0.000015",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "1",
@@ -2783,7 +2784,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.00001101",
             "symbol": "UNI",
             "tick_size": "0.001"
           },
@@ -2850,7 +2851,7 @@
           "info": {
             "base_asset": "kPEPE",
             "created_at": "1754872885745",
-            "funding_rate": "0.000015",
+            "funding_rate": "-0.00000301",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "1",
@@ -2926,7 +2927,7 @@
           "info": {
             "base_asset": "PENGU",
             "created_at": "1754008619727",
-            "funding_rate": "0.0000064",
+            "funding_rate": "0.000015",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "1",
@@ -2935,7 +2936,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.00000709",
+            "next_funding_rate": "0.000015",
             "symbol": "PENGU",
             "tick_size": "0.000001"
           },
@@ -3078,7 +3079,7 @@
           "info": {
             "base_asset": "LIT",
             "created_at": "1766193978022",
-            "funding_rate": "-0.00002478",
+            "funding_rate": "0.000015",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.1",
@@ -3087,7 +3088,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "-0.00003572",
+            "next_funding_rate": "0.000015",
             "symbol": "LIT",
             "tick_size": "0.0001"
           },
@@ -3230,7 +3231,7 @@
           "info": {
             "base_asset": "PAXG",
             "created_at": "1761011734935",
-            "funding_rate": "-0.00000204",
+            "funding_rate": "0.00000813",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.001",
@@ -3239,7 +3240,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "-0.00000516",
+            "next_funding_rate": "-0.00000358",
             "symbol": "PAXG",
             "tick_size": "0.1"
           },
@@ -3458,7 +3459,7 @@
           "info": {
             "base_asset": "BTC",
             "created_at": "1748881333944",
-            "funding_rate": "-0.00002642",
+            "funding_rate": "-0.0000038",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.00001",
@@ -3467,7 +3468,7 @@
             "max_tick": "1000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "-0.00002701",
+            "next_funding_rate": "-0.0000167",
             "symbol": "BTC",
             "tick_size": "1"
           },
@@ -3619,7 +3620,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "0.00000494",
             "symbol": "TRUMP",
             "tick_size": "0.0001"
           },
@@ -3762,7 +3763,7 @@
           "info": {
             "base_asset": "ENA",
             "created_at": "1753584068277",
-            "funding_rate": "0.000015",
+            "funding_rate": "-0.00000805",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "1",
@@ -3771,7 +3772,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.00002351",
             "symbol": "ENA",
             "tick_size": "0.00001"
           },
@@ -3838,7 +3839,7 @@
           "info": {
             "base_asset": "PUMP",
             "created_at": "1752514956730",
-            "funding_rate": "-0.0000056",
+            "funding_rate": "0.000015",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "1",
@@ -3847,7 +3848,7 @@
             "max_tick": "1000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.00009017",
             "symbol": "PUMP",
             "tick_size": "0.000001"
           },
@@ -4066,7 +4067,7 @@
           "info": {
             "base_asset": "SP500",
             "created_at": "1773934291323",
-            "funding_rate": "0.000015",
+            "funding_rate": "-0.00010562",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.0001",
@@ -4075,7 +4076,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.00001022",
             "symbol": "SP500",
             "tick_size": "0.1"
           },
@@ -4151,7 +4152,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.00003787",
             "symbol": "FARTCOIN",
             "tick_size": "0.0001"
           },
@@ -4218,7 +4219,7 @@
           "info": {
             "base_asset": "HYPE",
             "created_at": "1752885340917",
-            "funding_rate": "-0.00006427",
+            "funding_rate": "-0.00000631",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.01",
@@ -4227,7 +4228,7 @@
             "max_tick": "1000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "-0.00003846",
+            "next_funding_rate": "-0.00004165",
             "symbol": "HYPE",
             "tick_size": "0.001"
           },
@@ -4294,7 +4295,7 @@
           "info": {
             "base_asset": "WIF",
             "created_at": "1767596157195",
-            "funding_rate": "-0.00000605",
+            "funding_rate": "-0.00000705",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "1",
@@ -4303,7 +4304,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "-0.0000307",
+            "next_funding_rate": "-0.00008244",
             "symbol": "WIF",
             "tick_size": "0.00001"
           },
@@ -4370,7 +4371,7 @@
           "info": {
             "base_asset": "PIPPIN",
             "created_at": "1767596497695",
-            "funding_rate": "0.000015",
+            "funding_rate": "0.00009008",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "1",
@@ -4379,7 +4380,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.00001904",
+            "next_funding_rate": "0.000015",
             "symbol": "PIPPIN",
             "tick_size": "0.00001"
           },
@@ -4446,7 +4447,7 @@
           "info": {
             "base_asset": "ZEC",
             "created_at": "1761531461413",
-            "funding_rate": "0.00000757",
+            "funding_rate": "0.000015",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.01",
@@ -4455,7 +4456,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.00001259",
+            "next_funding_rate": "0.000015",
             "symbol": "ZEC",
             "tick_size": "0.01"
           },
@@ -4674,7 +4675,7 @@
           "info": {
             "base_asset": "ETH",
             "created_at": "1748881333944",
-            "funding_rate": "0.000015",
+            "funding_rate": "0.00000177",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.0001",
@@ -4683,7 +4684,7 @@
             "max_tick": "1000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.000015",
+            "next_funding_rate": "-0.0000086",
             "symbol": "ETH",
             "tick_size": "0.1"
           },
@@ -5054,7 +5055,7 @@
           "info": {
             "base_asset": "AAVE",
             "created_at": "1754443188769",
-            "funding_rate": "0.000015",
+            "funding_rate": "0.00000473",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.01",
@@ -5063,7 +5064,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.00000768",
+            "next_funding_rate": "-0.00000797",
             "symbol": "AAVE",
             "tick_size": "0.01"
           },
@@ -5215,7 +5216,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.00001759",
+            "next_funding_rate": "0.000015",
             "symbol": "BNB",
             "tick_size": "0.01"
           },
@@ -5282,7 +5283,7 @@
           "info": {
             "base_asset": "XMR",
             "created_at": "1764738732608",
-            "funding_rate": "0.000015",
+            "funding_rate": "0.00002454",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.01",
@@ -5291,7 +5292,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "0.00004161",
+            "next_funding_rate": "0.000015",
             "symbol": "XMR",
             "tick_size": "0.01"
           },
@@ -5358,7 +5359,7 @@
           "info": {
             "base_asset": "USDJPY",
             "created_at": "1768463049127",
-            "funding_rate": "-0.00017153",
+            "funding_rate": "0.000015",
             "instrument_type": "perpetual",
             "isolated_only": false,
             "lot_size": "0.001",
@@ -5367,7 +5368,7 @@
             "max_tick": "10000000",
             "min_order_size": "10",
             "min_tick": "0",
-            "next_funding_rate": "-0.00017192",
+            "next_funding_rate": "0.000015",
             "symbol": "USDJPY",
             "tick_size": "0.01"
           },
@@ -5478,7 +5479,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [],
     "class_info": {
@@ -60257,6 +60258,104 @@
         ],
         "return_type": "TransferEntry",
         "statements": 1
+      }
+    },
+    "request_defaults": {
+      "fetchAccountSettings": {
+        "account": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchBalance": {
+        "account": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchBuilderApprovals": {
+        "account": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingHistory": {
+        "account": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingRateHistory": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchLedger": {
+        "account": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOpenOrders": {
+        "account": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "order_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "agg_level": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrders": {
+        "account": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchPositions": {
+        "account": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTradingFee": {
+        "account": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "tier3",
     "version": "v2"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -869,7 +870,7 @@
       "version": "v2"
     },
     "markets": {
-      "market_count": 863,
+      "market_count": 865,
       "markets": {
         "AXL/USDT": {
           "spot": true,
@@ -46588,6 +46589,178 @@
           },
           "expiry": "__undefined",
           "id": "WLFIUSD-PERP",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
+        "BTC/USD:USD-260731": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USD",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0025,
+          "inverse": false,
+          "info": {
+            "base_ccy": "BTC",
+            "beta_product": false,
+            "contract_size": "1",
+            "display_name": "BTCUSD Futures 20260731",
+            "expiry_timestamp_ms": 1785484800000,
+            "inst_type": "FUTURE",
+            "margin_buy_enabled": false,
+            "margin_sell_enabled": false,
+            "max_leverage": "100",
+            "price_tick_size": "0.1",
+            "qty_tick_size": "0.0001",
+            "quantity_decimals": 4,
+            "quote_ccy": "USD",
+            "quote_decimals": 1,
+            "symbol": "BTCUSD-260731",
+            "tradable": true,
+            "underlying_symbol": "BTCUSD-INDEX"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": true,
+          "symbol": "BTC/USD:USD-260731",
+          "settle": "USD",
+          "precision": {
+            "amount": 0.0001,
+            "price": 0.1
+          },
+          "baseId": "BTC",
+          "type": "future",
+          "strike": "__undefined",
+          "settleId": "USD",
+          "quote": "USD",
+          "expiryDatetime": "2026-07-31T08:00:00.000Z",
+          "base": "BTC",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 100,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.005,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "tiers": {
+            "maker": [
+              [
+                0,
+                0.0025
+              ],
+              [
+                10000,
+                0.002
+              ],
+              [
+                50000,
+                0.0015
+              ],
+              [
+                250000,
+                0.001
+              ],
+              [
+                500000,
+                0.0008
+              ],
+              [
+                2500000,
+                6.5e-4
+              ],
+              [
+                10000000,
+                0
+              ],
+              [
+                25000000,
+                0
+              ],
+              [
+                100000000,
+                0
+              ],
+              [
+                250000000,
+                0
+              ],
+              [
+                500000000,
+                0
+              ]
+            ],
+            "taker": [
+              [
+                0,
+                0.005
+              ],
+              [
+                10000,
+                0.004
+              ],
+              [
+                50000,
+                0.0025
+              ],
+              [
+                250000,
+                0.002
+              ],
+              [
+                500000,
+                0.0018
+              ],
+              [
+                2500000,
+                0.001
+              ],
+              [
+                10000000,
+                0.0005
+              ],
+              [
+                25000000,
+                0.0004
+              ],
+              [
+                100000000,
+                3.5e-4
+              ],
+              [
+                250000000,
+                3.1e-4
+              ],
+              [
+                500000000,
+                2.5e-4
+              ]
+            ]
+          },
+          "expiry": 1785484800000,
+          "id": "BTCUSD-260731",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -117041,6 +117214,178 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
+        "ETH/USD:USD-260731": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USD",
+          "tierBased": "__undefined",
+          "index": "__undefined",
+          "maker": 0.0025,
+          "inverse": false,
+          "info": {
+            "base_ccy": "ETH",
+            "beta_product": false,
+            "contract_size": "1",
+            "display_name": "ETHUSD Futures 20260731",
+            "expiry_timestamp_ms": 1785484800000,
+            "inst_type": "FUTURE",
+            "margin_buy_enabled": false,
+            "margin_sell_enabled": false,
+            "max_leverage": "100",
+            "price_tick_size": "0.01",
+            "qty_tick_size": "0.0001",
+            "quantity_decimals": 4,
+            "quote_ccy": "USD",
+            "quote_decimals": 2,
+            "symbol": "ETHUSD-260731",
+            "tradable": true,
+            "underlying_symbol": "ETHUSD-INDEX"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": true,
+          "symbol": "ETH/USD:USD-260731",
+          "settle": "USD",
+          "precision": {
+            "amount": 0.0001,
+            "price": 0.01
+          },
+          "baseId": "ETH",
+          "type": "future",
+          "strike": "__undefined",
+          "settleId": "USD",
+          "quote": "USD",
+          "expiryDatetime": "2026-07-31T08:00:00.000Z",
+          "base": "ETH",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": 100,
+              "min": 1
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.005,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": "__undefined",
+          "active": true,
+          "tiers": {
+            "maker": [
+              [
+                0,
+                0.0025
+              ],
+              [
+                10000,
+                0.002
+              ],
+              [
+                50000,
+                0.0015
+              ],
+              [
+                250000,
+                0.001
+              ],
+              [
+                500000,
+                0.0008
+              ],
+              [
+                2500000,
+                6.5e-4
+              ],
+              [
+                10000000,
+                0
+              ],
+              [
+                25000000,
+                0
+              ],
+              [
+                100000000,
+                0
+              ],
+              [
+                250000000,
+                0
+              ],
+              [
+                500000000,
+                0
+              ]
+            ],
+            "taker": [
+              [
+                0,
+                0.005
+              ],
+              [
+                10000,
+                0.004
+              ],
+              [
+                50000,
+                0.0025
+              ],
+              [
+                250000,
+                0.002
+              ],
+              [
+                500000,
+                0.0018
+              ],
+              [
+                2500000,
+                0.001
+              ],
+              [
+                10000000,
+                0.0005
+              ],
+              [
+                25000000,
+                0.0004
+              ],
+              [
+                100000000,
+                3.5e-4
+              ],
+              [
+                250000000,
+                3.1e-4
+              ],
+              [
+                500000000,
+                2.5e-4
+              ]
+            ]
+          },
+          "expiry": 1785484800000,
+          "id": "ETHUSD-260731",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
         "UNI/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -148124,7 +148469,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 10,
+        "sample_count": 12,
         "separator": "",
         "suffix": null
       },
@@ -148260,7 +148605,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [],
     "class_info": {
@@ -207639,6 +207984,170 @@
         ],
         "return_type": null,
         "statements": 2
+      }
+    },
+    "request_defaults": {
+      "cancelOrder": {
+        "order_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "cancelOrders": {
+        "contingency_type": {
+          "kind": "literal",
+          "reason": null,
+          "value": "LIST"
+        },
+        "order_list": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "cancelOrdersForSymbols": {
+        "contingency_type": {
+          "kind": "literal",
+          "reason": null,
+          "value": "LIST"
+        },
+        "order_list": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "closePosition": {
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "type": {
+          "kind": "literal",
+          "reason": null,
+          "value": "MARKET"
+        }
+      },
+      "createOrders": {
+        "contingency_type": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "order_list": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDepositAddressesByNetwork": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingRate": {
+        "count": {
+          "kind": "literal",
+          "reason": null,
+          "value": 1
+        },
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "valuation_type": {
+          "kind": "literal",
+          "reason": null,
+          "value": "estimated_funding_rate"
+        }
+      },
+      "fetchFundingRateHistory": {
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "valuation_type": {
+          "kind": "literal",
+          "reason": null,
+          "value": "funding_hist"
+        }
+      },
+      "fetchOHLCV": {
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "timeframe": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "order_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchPosition": {
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchSettlementHistory": {
+        "instrument_type": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTradingFee": {
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "withdraw": {
+        "address": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "amount": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -743,7 +744,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 600
+              "min": 300
             },
             "cost": {
               "max": "__undefined",
@@ -2043,7 +2044,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 70
+              "min": 60
             },
             "cost": {
               "max": "__undefined",
@@ -2433,7 +2434,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 40
+              "min": 30
             },
             "cost": {
               "max": "__undefined",
@@ -2628,7 +2629,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1
+              "min": 0.9
             },
             "cost": {
               "max": "__undefined",
@@ -3213,7 +3214,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 70
+              "min": 60
             },
             "cost": {
               "max": "__undefined",
@@ -8283,7 +8284,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 90
+              "min": 70
             },
             "cost": {
               "max": "__undefined",
@@ -8413,7 +8414,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 600
+              "min": 300
             },
             "cost": {
               "max": "__undefined",
@@ -8933,7 +8934,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 20
+              "min": 30
             },
             "cost": {
               "max": "__undefined",
@@ -8998,7 +8999,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 70
+              "min": 60
             },
             "cost": {
               "max": "__undefined",
@@ -9128,7 +9129,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 30
+              "min": 20
             },
             "cost": {
               "max": "__undefined",
@@ -10248,7 +10249,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -27447,6 +27448,55 @@
         ],
         "return_type": "Trade",
         "statements": 10
+      }
+    },
+    "request_defaults": {
+      "cancelOrder": {
+        "orderID": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "closePosition": {
+        "orderID": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "pair": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "timeframe": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "orderID": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "pair": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "pair": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

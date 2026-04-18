@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-17T03:36:21.100181Z",
+  "extracted_at": "2026-04-17T13:02:03.844794Z",
   "id": "cryptocom",
-  "market_count": 863,
+  "market_count": 865,
   "markets": {
     "AXL/USDT": {
       "spot": true,
@@ -45720,6 +45720,178 @@
       },
       "expiry": "__undefined",
       "id": "WLFIUSD-PERP",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "BTC/USD:USD-260731": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0025,
+      "inverse": false,
+      "info": {
+        "base_ccy": "BTC",
+        "beta_product": false,
+        "contract_size": "1",
+        "display_name": "BTCUSD Futures 20260731",
+        "expiry_timestamp_ms": 1785484800000,
+        "inst_type": "FUTURE",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false,
+        "max_leverage": "100",
+        "price_tick_size": "0.1",
+        "qty_tick_size": "0.0001",
+        "quantity_decimals": 4,
+        "quote_ccy": "USD",
+        "quote_decimals": 1,
+        "symbol": "BTCUSD-260731",
+        "tradable": true,
+        "underlying_symbol": "BTCUSD-INDEX"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": true,
+      "symbol": "BTC/USD:USD-260731",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.1
+      },
+      "baseId": "BTC",
+      "type": "future",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "2026-07-31T08:00:00.000Z",
+      "base": "BTC",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 100,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.0025
+          ],
+          [
+            10000,
+            0.002
+          ],
+          [
+            50000,
+            0.0015
+          ],
+          [
+            250000,
+            0.001
+          ],
+          [
+            500000,
+            0.0008
+          ],
+          [
+            2500000,
+            6.5e-4
+          ],
+          [
+            10000000,
+            0
+          ],
+          [
+            25000000,
+            0
+          ],
+          [
+            100000000,
+            0
+          ],
+          [
+            250000000,
+            0
+          ],
+          [
+            500000000,
+            0
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.005
+          ],
+          [
+            10000,
+            0.004
+          ],
+          [
+            50000,
+            0.0025
+          ],
+          [
+            250000,
+            0.002
+          ],
+          [
+            500000,
+            0.0018
+          ],
+          [
+            2500000,
+            0.001
+          ],
+          [
+            10000000,
+            0.0005
+          ],
+          [
+            25000000,
+            0.0004
+          ],
+          [
+            100000000,
+            3.5e-4
+          ],
+          [
+            250000000,
+            3.1e-4
+          ],
+          [
+            500000000,
+            2.5e-4
+          ]
+        ]
+      },
+      "expiry": 1785484800000,
+      "id": "BTCUSD-260731",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },
@@ -116172,6 +116344,178 @@
       "id": "ETHFI_USD",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
+    },
+    "ETH/USD:USD-260731": {
+      "spot": false,
+      "contractSize": 1,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": "__undefined",
+      "index": "__undefined",
+      "maker": 0.0025,
+      "inverse": false,
+      "info": {
+        "base_ccy": "ETH",
+        "beta_product": false,
+        "contract_size": "1",
+        "display_name": "ETHUSD Futures 20260731",
+        "expiry_timestamp_ms": 1785484800000,
+        "inst_type": "FUTURE",
+        "margin_buy_enabled": false,
+        "margin_sell_enabled": false,
+        "max_leverage": "100",
+        "price_tick_size": "0.01",
+        "qty_tick_size": "0.0001",
+        "quantity_decimals": 4,
+        "quote_ccy": "USD",
+        "quote_decimals": 2,
+        "symbol": "ETHUSD-260731",
+        "tradable": true,
+        "underlying_symbol": "ETHUSD-INDEX"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": true,
+      "symbol": "ETH/USD:USD-260731",
+      "settle": "USD",
+      "precision": {
+        "amount": 0.0001,
+        "price": 0.01
+      },
+      "baseId": "ETH",
+      "type": "future",
+      "strike": "__undefined",
+      "settleId": "USD",
+      "quote": "USD",
+      "expiryDatetime": "2026-07-31T08:00:00.000Z",
+      "base": "ETH",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 100,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": "__undefined",
+      "active": true,
+      "tiers": {
+        "maker": [
+          [
+            0,
+            0.0025
+          ],
+          [
+            10000,
+            0.002
+          ],
+          [
+            50000,
+            0.0015
+          ],
+          [
+            250000,
+            0.001
+          ],
+          [
+            500000,
+            0.0008
+          ],
+          [
+            2500000,
+            6.5e-4
+          ],
+          [
+            10000000,
+            0
+          ],
+          [
+            25000000,
+            0
+          ],
+          [
+            100000000,
+            0
+          ],
+          [
+            250000000,
+            0
+          ],
+          [
+            500000000,
+            0
+          ]
+        ],
+        "taker": [
+          [
+            0,
+            0.005
+          ],
+          [
+            10000,
+            0.004
+          ],
+          [
+            50000,
+            0.0025
+          ],
+          [
+            250000,
+            0.002
+          ],
+          [
+            500000,
+            0.0018
+          ],
+          [
+            2500000,
+            0.001
+          ],
+          [
+            10000000,
+            0.0005
+          ],
+          [
+            25000000,
+            0.0004
+          ],
+          [
+            100000000,
+            3.5e-4
+          ],
+          [
+            250000000,
+            3.1e-4
+          ],
+          [
+            500000000,
+            2.5e-4
+          ]
+        ]
+      },
+      "expiry": 1785484800000,
+      "id": "ETHUSD-260731",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
     },
     "UNI/USDT": {
       "spot": true,

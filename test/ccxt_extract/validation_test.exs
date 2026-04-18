@@ -268,6 +268,7 @@ defmodule CcxtExtract.ValidationTest do
             "unified_endpoint_count" => 2
           }
         },
+        request_defaults: %{},
         overrides: %{},
         url_templates: %{
           "testex" => %{
@@ -554,6 +555,7 @@ defmodule CcxtExtract.ValidationTest do
         interface_signatures: %{},
         pagination: %{},
         unified_endpoints: %{},
+        request_defaults: %{},
         overrides: %{},
         url_templates: %{}
       }
@@ -595,6 +597,7 @@ defmodule CcxtExtract.ValidationTest do
         interface_signatures: %{},
         pagination: %{},
         unified_endpoints: %{},
+        request_defaults: %{},
         overrides: %{},
         url_templates: %{}
       }

@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "dex",
     "version": null
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -775,7 +776,7 @@
       }
     },
     "markets": {
-      "market_count": 474,
+      "market_count": 477,
       "markets": {
         "XNY/USDT:USDT": {
           "spot": false,
@@ -3931,7 +3932,7 @@
             "liquidationFee": "0.025000",
             "pair": "BTCDOMUSDT",
             "tradingMode": "0",
-            "createTime": "1775832237054",
+            "createTime": "1775832237053",
             "twapMinNotional": "1000"
           },
           "created": 1775841600000,
@@ -6594,6 +6595,161 @@
           "active": true,
           "expiry": "__undefined",
           "id": "ENAUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
+        "1000SATS/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.0001,
+          "inverse": false,
+          "info": {
+            "filters": [
+              {
+                "filterType": "PRICE_FILTER",
+                "maxPrice": "200",
+                "minPrice": "0.0000001",
+                "tickSize": "0.0000001"
+              },
+              {
+                "filterType": "LOT_SIZE",
+                "maxQty": "600000000",
+                "minQty": "1",
+                "stepSize": "1"
+              },
+              {
+                "filterType": "MARKET_LOT_SIZE",
+                "maxQty": "60000000",
+                "minQty": "1",
+                "stepSize": "1"
+              },
+              {
+                "filterType": "MAX_NUM_ORDERS",
+                "limit": "200"
+              },
+              {
+                "filterType": "MAX_NUM_ALGO_ORDERS",
+                "limit": "10"
+              },
+              {
+                "filterType": "MIN_NOTIONAL",
+                "notional": "5"
+              },
+              {
+                "filterType": "PERCENT_PRICE",
+                "ltMultiplierDown": "0.9800",
+                "ltMultiplierUp": "1.0200",
+                "multiplierDecimal": "4",
+                "multiplierDown": "0.9800",
+                "multiplierUp": "1.0200"
+              }
+            ],
+            "underlyingType": "COIN",
+            "pricePrecision": "7",
+            "requiredMarginPercent": "20.0000",
+            "baseAssetPrecision": "8",
+            "marketTakeBound": "0.02",
+            "baseAsset": "1000SATS",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET",
+              "STOP",
+              "STOP_MARKET",
+              "TAKE_PROFIT",
+              "TAKE_PROFIT_MARKET",
+              "TRAILING_STOP_MARKET"
+            ],
+            "tags": [],
+            "status": "TRADING",
+            "channel": "{}",
+            "name": "",
+            "contractType": "PERPETUAL",
+            "symbol": "1000SATSUSDT",
+            "sequenceNo": "0",
+            "quotePrecision": "8",
+            "symbolType": "0",
+            "quantityPrecision": "0",
+            "quoteAsset": "USDT",
+            "underlyingSubType": [
+              "Meme"
+            ],
+            "triggerProtect": "0.0200",
+            "marginAsset": "USDT",
+            "settlePlan": "0",
+            "onboardDate": "1776427200000",
+            "timeInForce": [
+              "GTC",
+              "IOC",
+              "FOK",
+              "GTX",
+              "HIDDEN"
+            ],
+            "imn": null,
+            "maintMarginPercent": "10.0000",
+            "deliveryDate": "4133404800000",
+            "liquidationFee": "0.025000",
+            "pair": "1000SATSUSDT",
+            "tradingMode": "0",
+            "createTime": "1776420609958",
+            "twapMinNotional": "1000"
+          },
+          "created": 1776427200000,
+          "option": false,
+          "future": false,
+          "symbol": "1000SATS/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 1,
+            "base": 1.0e-8,
+            "price": 1.0e-7,
+            "quote": 1.0e-8
+          },
+          "baseId": "1000SATS",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "1000SATS",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 600000000,
+              "min": 1
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "market": {
+              "max": 60000000,
+              "min": 1
+            },
+            "price": {
+              "max": 200,
+              "min": 1.0e-7
+            }
+          },
+          "taker": 3.5e-4,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "1000SATSUSDT",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -17631,8 +17787,8 @@
               {
                 "filterType": "PRICE_FILTER",
                 "maxPrice": "200",
-                "minPrice": "0.0001000",
-                "tickSize": "0.0001000"
+                "minPrice": "0.0000100",
+                "tickSize": "0.0000100"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -17722,7 +17878,7 @@
           "precision": {
             "amount": 1,
             "base": 1.0e-8,
-            "price": 0.0001,
+            "price": 1.0e-5,
             "quote": 1.0e-8
           },
           "baseId": "HYPER",
@@ -17756,7 +17912,7 @@
             },
             "price": {
               "max": 200,
-              "min": 0.0001
+              "min": 1.0e-5
             }
           },
           "taker": 3.5e-4,
@@ -19397,7 +19553,7 @@
             "liquidationFee": "0.025000",
             "pair": "BABAUSDT",
             "tradingMode": "1",
-            "createTime": "1775833695974",
+            "createTime": "1775833695973",
             "twapMinNotional": "1000"
           },
           "created": 1775841600000,
@@ -24579,7 +24735,7 @@
             "tags": [],
             "status": "TRADING",
             "channel": "{}",
-            "name": "Test",
+            "name": "",
             "contractType": "PERPETUAL",
             "symbol": "TSTUSDT",
             "sequenceNo": "0",
@@ -24599,14 +24755,14 @@
               "GTX",
               "HIDDEN"
             ],
-            "imn": null,
+            "imn": "1000.00",
             "maintMarginPercent": "10.0000",
             "deliveryDate": "4133404800000",
             "liquidationFee": "0.025000",
             "pair": "TSTUSDT",
             "tradingMode": "0",
-            "createTime": "1776393011175",
-            "twapMinNotional": ""
+            "createTime": "1776393011176",
+            "twapMinNotional": "1000"
           },
           "created": 1776394800000,
           "option": false,
@@ -28503,6 +28659,161 @@
           "active": false,
           "expiry": "__undefined",
           "id": "LINAUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
+        "VINE/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.0001,
+          "inverse": false,
+          "info": {
+            "filters": [
+              {
+                "filterType": "PRICE_FILTER",
+                "maxPrice": "200",
+                "minPrice": "0.0000100",
+                "tickSize": "0.0000100"
+              },
+              {
+                "filterType": "LOT_SIZE",
+                "maxQty": "500000",
+                "minQty": "1",
+                "stepSize": "1"
+              },
+              {
+                "filterType": "MARKET_LOT_SIZE",
+                "maxQty": "50000",
+                "minQty": "1",
+                "stepSize": "1"
+              },
+              {
+                "filterType": "MAX_NUM_ORDERS",
+                "limit": "200"
+              },
+              {
+                "filterType": "MAX_NUM_ALGO_ORDERS",
+                "limit": "10"
+              },
+              {
+                "filterType": "MIN_NOTIONAL",
+                "notional": "5"
+              },
+              {
+                "filterType": "PERCENT_PRICE",
+                "ltMultiplierDown": "0.9700",
+                "ltMultiplierUp": "1.0300",
+                "multiplierDecimal": "4",
+                "multiplierDown": "0.9700",
+                "multiplierUp": "1.0300"
+              }
+            ],
+            "underlyingType": "COIN",
+            "pricePrecision": "7",
+            "requiredMarginPercent": "20.0000",
+            "baseAssetPrecision": "8",
+            "marketTakeBound": "0.03",
+            "baseAsset": "VINE",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET",
+              "STOP",
+              "STOP_MARKET",
+              "TAKE_PROFIT",
+              "TAKE_PROFIT_MARKET",
+              "TRAILING_STOP_MARKET"
+            ],
+            "tags": [],
+            "status": "TRADING",
+            "channel": "{}",
+            "name": "",
+            "contractType": "PERPETUAL",
+            "symbol": "VINEUSDT",
+            "sequenceNo": "0",
+            "quotePrecision": "8",
+            "symbolType": "0",
+            "quantityPrecision": "0",
+            "quoteAsset": "USDT",
+            "underlyingSubType": [
+              "Meme"
+            ],
+            "triggerProtect": "0.0300",
+            "marginAsset": "USDT",
+            "settlePlan": "0",
+            "onboardDate": "1776427200000",
+            "timeInForce": [
+              "GTC",
+              "IOC",
+              "FOK",
+              "GTX",
+              "HIDDEN"
+            ],
+            "imn": null,
+            "maintMarginPercent": "10.0000",
+            "deliveryDate": "4133404800000",
+            "liquidationFee": "0.025000",
+            "pair": "VINEUSDT",
+            "tradingMode": "0",
+            "createTime": "1776421534075",
+            "twapMinNotional": "1000"
+          },
+          "created": 1776427200000,
+          "option": false,
+          "future": false,
+          "symbol": "VINE/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 1,
+            "base": 1.0e-8,
+            "price": 1.0e-5,
+            "quote": 1.0e-8
+          },
+          "baseId": "VINE",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "VINE",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 500000,
+              "min": 1
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "market": {
+              "max": 50000,
+              "min": 1
+            },
+            "price": {
+              "max": 200,
+              "min": 1.0e-5
+            }
+          },
+          "taker": 3.5e-4,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "VINEUSDT",
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
@@ -37014,7 +37325,7 @@
             "liquidationFee": "0.025000",
             "pair": "CHIPUSDT",
             "tradingMode": "0",
-            "createTime": "1776326082024",
+            "createTime": "1776326082023",
             "twapMinNotional": "1000"
           },
           "created": 1776336600000,
@@ -37427,15 +37738,15 @@
                 "ltMultiplierDown": "0.9800",
                 "ltMultiplierUp": "1.0200",
                 "multiplierDecimal": "4",
-                "multiplierDown": "0.9800",
-                "multiplierUp": "1.0200"
+                "multiplierDown": "0.9500",
+                "multiplierUp": "1.0500"
               }
             ],
             "underlyingType": "COIN",
             "pricePrecision": "6",
             "requiredMarginPercent": "20.0000",
             "baseAssetPrecision": "8",
-            "marketTakeBound": "0.02",
+            "marketTakeBound": "0.05",
             "baseAsset": "VANA",
             "orderTypes": [
               "LIMIT",
@@ -37460,7 +37771,7 @@
             "underlyingSubType": [
               "AI"
             ],
-            "triggerProtect": "0.0200",
+            "triggerProtect": "0.0500",
             "marginAsset": "USDT",
             "settlePlan": "0",
             "onboardDate": "1770818400000",
@@ -50360,7 +50671,7 @@
             "liquidationFee": "0.025000",
             "pair": "PDDUSDT",
             "tradingMode": "1",
-            "createTime": "1775833686954",
+            "createTime": "1775833686953",
             "twapMinNotional": "1000"
           },
           "created": 1775841600000,
@@ -53807,7 +54118,7 @@
               },
               {
                 "filterType": "MARKET_LOT_SIZE",
-                "maxQty": "100000",
+                "maxQty": "50000",
                 "minQty": "1",
                 "stepSize": "1"
               },
@@ -53828,15 +54139,15 @@
                 "ltMultiplierDown": "0.9000",
                 "ltMultiplierUp": "1.1000",
                 "multiplierDecimal": "4",
-                "multiplierDown": "0.9800",
-                "multiplierUp": "1.0200"
+                "multiplierDown": "0.8500",
+                "multiplierUp": "1.1500"
               }
             ],
             "underlyingType": "COIN",
             "pricePrecision": "7",
             "requiredMarginPercent": "5.0000",
             "baseAssetPrecision": "8",
-            "marketTakeBound": "0.02",
+            "marketTakeBound": "0.15",
             "baseAsset": "SOON",
             "orderTypes": [
               "LIMIT",
@@ -53859,7 +54170,7 @@
             "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "underlyingSubType": [],
-            "triggerProtect": "0.0200",
+            "triggerProtect": "0.1500",
             "marginAsset": "USDT",
             "settlePlan": "0",
             "onboardDate": "1767713400000",
@@ -53916,7 +54227,7 @@
               "min": "__undefined"
             },
             "market": {
-              "max": 100000,
+              "max": 50000,
               "min": 1
             },
             "price": {
@@ -55646,7 +55957,7 @@
               },
               {
                 "filterType": "MARKET_LOT_SIZE",
-                "maxQty": "50000",
+                "maxQty": "30000",
                 "minQty": "1",
                 "stepSize": "1"
               },
@@ -55755,7 +56066,7 @@
               "min": "__undefined"
             },
             "market": {
-              "max": 50000,
+              "max": 30000,
               "min": 1
             },
             "price": {
@@ -56705,8 +57016,8 @@
               {
                 "filterType": "PRICE_FILTER",
                 "maxPrice": "200",
-                "minPrice": "0.001000",
-                "tickSize": "0.001000"
+                "minPrice": "0.000100",
+                "tickSize": "0.000100"
               },
               {
                 "filterType": "LOT_SIZE",
@@ -56796,7 +57107,7 @@
           "precision": {
             "amount": 0.1,
             "base": 1.0e-8,
-            "price": 0.001,
+            "price": 0.0001,
             "quote": 1.0e-8
           },
           "baseId": "EUL",
@@ -56830,7 +57141,7 @@
             },
             "price": {
               "max": 200,
-              "min": 0.001
+              "min": 0.0001
             }
           },
           "taker": 3.5e-4,
@@ -58879,15 +59190,15 @@
                 "ltMultiplierDown": "0.9800",
                 "ltMultiplierUp": "1.0200",
                 "multiplierDecimal": "4",
-                "multiplierDown": "0.7000",
-                "multiplierUp": "1.3000"
+                "multiplierDown": "0.9500",
+                "multiplierUp": "1.0500"
               }
             ],
             "underlyingType": "COIN",
             "pricePrecision": "7",
             "requiredMarginPercent": "20.0000",
             "baseAssetPrecision": "8",
-            "marketTakeBound": "0.30",
+            "marketTakeBound": "0.05",
             "baseAsset": "SIGN",
             "orderTypes": [
               "LIMIT",
@@ -58910,7 +59221,7 @@
             "quantityPrecision": "0",
             "quoteAsset": "USDT",
             "underlyingSubType": [],
-            "triggerProtect": "0.3000",
+            "triggerProtect": "0.0500",
             "marginAsset": "USDT",
             "settlePlan": "0",
             "onboardDate": "1772772300000",
@@ -67097,6 +67408,159 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
+        "MOVR/USDT:USDT": {
+          "spot": false,
+          "contractSize": 1,
+          "linear": true,
+          "quoteId": "USDT",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.0001,
+          "inverse": false,
+          "info": {
+            "filters": [
+              {
+                "filterType": "PRICE_FILTER",
+                "maxPrice": "5000",
+                "minPrice": "0.001000",
+                "tickSize": "0.001000"
+              },
+              {
+                "filterType": "LOT_SIZE",
+                "maxQty": "3000",
+                "minQty": "0.01",
+                "stepSize": "0.01"
+              },
+              {
+                "filterType": "MARKET_LOT_SIZE",
+                "maxQty": "300",
+                "minQty": "0.01",
+                "stepSize": "0.01"
+              },
+              {
+                "filterType": "MAX_NUM_ORDERS",
+                "limit": "200"
+              },
+              {
+                "filterType": "MAX_NUM_ALGO_ORDERS",
+                "limit": "10"
+              },
+              {
+                "filterType": "MIN_NOTIONAL",
+                "notional": "5"
+              },
+              {
+                "filterType": "PERCENT_PRICE",
+                "ltMultiplierDown": "0.9800",
+                "ltMultiplierUp": "1.0200",
+                "multiplierDecimal": "4",
+                "multiplierDown": "0.9800",
+                "multiplierUp": "1.0200"
+              }
+            ],
+            "underlyingType": "COIN",
+            "pricePrecision": "6",
+            "requiredMarginPercent": "20.0000",
+            "baseAssetPrecision": "8",
+            "marketTakeBound": "0.02",
+            "baseAsset": "MOVR",
+            "orderTypes": [
+              "LIMIT",
+              "MARKET",
+              "STOP",
+              "STOP_MARKET",
+              "TAKE_PROFIT",
+              "TAKE_PROFIT_MARKET",
+              "TRAILING_STOP_MARKET"
+            ],
+            "tags": [],
+            "status": "TRADING",
+            "channel": "{}",
+            "name": "",
+            "contractType": "PERPETUAL",
+            "symbol": "MOVRUSDT",
+            "sequenceNo": "0",
+            "quotePrecision": "8",
+            "symbolType": "0",
+            "quantityPrecision": "2",
+            "quoteAsset": "USDT",
+            "underlyingSubType": [],
+            "triggerProtect": "0.0200",
+            "marginAsset": "USDT",
+            "settlePlan": "0",
+            "onboardDate": "1776427200000",
+            "timeInForce": [
+              "GTC",
+              "IOC",
+              "FOK",
+              "GTX",
+              "HIDDEN"
+            ],
+            "imn": null,
+            "maintMarginPercent": "10.0000",
+            "deliveryDate": "4133404800000",
+            "liquidationFee": "0.025000",
+            "pair": "MOVRUSDT",
+            "tradingMode": "0",
+            "createTime": "1776421629095",
+            "twapMinNotional": "1000"
+          },
+          "created": 1776427200000,
+          "option": false,
+          "future": false,
+          "symbol": "MOVR/USDT:USDT",
+          "settle": "USDT",
+          "precision": {
+            "amount": 0.01,
+            "base": 1.0e-8,
+            "price": 0.001,
+            "quote": 1.0e-8
+          },
+          "baseId": "MOVR",
+          "type": "swap",
+          "strike": "__undefined",
+          "settleId": "USDT",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "MOVR",
+          "swap": true,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": 3000,
+              "min": 0.01
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 5
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "market": {
+              "max": 300,
+              "min": 0.01
+            },
+            "price": {
+              "max": 5000,
+              "min": 0.001
+            }
+          },
+          "taker": 3.5e-4,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": true,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "MOVRUSDT",
+          "lowercaseId": "__undefined",
+          "subType": "linear"
+        },
         "DAM/USDT:USDT": {
           "spot": false,
           "contractSize": 1,
@@ -70642,18 +71106,18 @@
               {
                 "filterType": "PRICE_FILTER",
                 "maxPrice": "2000",
-                "minPrice": "0.01000",
-                "tickSize": "0.01000"
+                "minPrice": "0.00100",
+                "tickSize": "0.00100"
               },
               {
                 "filterType": "LOT_SIZE",
-                "maxQty": "700",
+                "maxQty": "1000",
                 "minQty": "0.1",
                 "stepSize": "0.1"
               },
               {
                 "filterType": "MARKET_LOT_SIZE",
-                "maxQty": "0.1",
+                "maxQty": "50",
                 "minQty": "0.1",
                 "stepSize": "0.1"
               },
@@ -70674,15 +71138,15 @@
                 "ltMultiplierDown": "0",
                 "ltMultiplierUp": "0",
                 "multiplierDecimal": "4",
-                "multiplierDown": "0.9700",
-                "multiplierUp": "1.0300"
+                "multiplierDown": "0.9800",
+                "multiplierUp": "1.0200"
               }
             ],
             "underlyingType": "COIN",
             "pricePrecision": "5",
             "requiredMarginPercent": "5.0000",
             "baseAssetPrecision": "8",
-            "marketTakeBound": "0.03",
+            "marketTakeBound": "0.02",
             "baseAsset": "TRB",
             "orderTypes": [
               "LIMIT",
@@ -70694,8 +71158,8 @@
               "TRAILING_STOP_MARKET"
             ],
             "tags": [],
-            "status": "SETTLING",
-            "channel": "",
+            "status": "TRADING",
+            "channel": "{}",
             "name": "",
             "contractType": "PERPETUAL",
             "symbol": "TRBUSDT",
@@ -70705,10 +71169,10 @@
             "quantityPrecision": "1",
             "quoteAsset": "USDT",
             "underlyingSubType": [],
-            "triggerProtect": "0.0300",
+            "triggerProtect": "0.0200",
             "marginAsset": "USDT",
             "settlePlan": "0",
-            "onboardDate": "1697180400000",
+            "onboardDate": "1776427200000",
             "timeInForce": [
               "GTC",
               "IOC",
@@ -70716,16 +71180,16 @@
               "GTX",
               "HIDDEN"
             ],
-            "imn": "4000.00",
+            "imn": "1000.00",
             "maintMarginPercent": "2.5000",
-            "deliveryDate": "1735030800000",
-            "liquidationFee": "0.015000",
+            "deliveryDate": "4133404800000",
+            "liquidationFee": "0.025000",
             "pair": "TRBUSDT",
             "tradingMode": "0",
             "createTime": "1697185411386",
             "twapMinNotional": "1000"
           },
-          "created": 1697180400000,
+          "created": 1776427200000,
           "option": false,
           "future": false,
           "symbol": "TRB/USDT:USDT",
@@ -70733,7 +71197,7 @@
           "precision": {
             "amount": 0.1,
             "base": 1.0e-8,
-            "price": 0.01,
+            "price": 0.001,
             "quote": 1.0e-8
           },
           "baseId": "TRB",
@@ -70750,7 +71214,7 @@
           },
           "limits": {
             "amount": {
-              "max": 700,
+              "max": 1000,
               "min": 0.1
             },
             "cost": {
@@ -70762,12 +71226,12 @@
               "min": "__undefined"
             },
             "market": {
-              "max": 0.1,
+              "max": 50,
               "min": 0.1
             },
             "price": {
               "max": 2000,
-              "min": 0.01
+              "min": 0.001
             }
           },
           "taker": 3.5e-4,
@@ -70775,7 +71239,7 @@
           "margin": false,
           "contract": true,
           "percentage": true,
-          "active": false,
+          "active": true,
           "expiry": "__undefined",
           "id": "TRBUSDT",
           "lowercaseId": "__undefined",
@@ -71487,7 +71951,7 @@
             "liquidationFee": "0.025000",
             "pair": "AKEUSDT",
             "tradingMode": "0",
-            "createTime": "1776053362079",
+            "createTime": "1776053362080",
             "twapMinNotional": "1000"
           },
           "created": 1776057300000,
@@ -73456,7 +73920,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 416,
+        "sample_count": 419,
         "separator": "",
         "suffix": null
       }
@@ -73492,7 +73956,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "fapiPrivate",
@@ -164128,6 +164592,190 @@
         ],
         "return_type": "TradingFeeInterface",
         "statements": 4
+      }
+    },
+    "request_defaults": {
+      "cancelAllOrders": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "cancelOrder": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "cancelOrders": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createOrders": {
+        "batchOrders": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingHistory": {
+        "incomeType": {
+          "kind": "literal",
+          "reason": null,
+          "value": "FUNDING_FEE"
+        }
+      },
+      "fetchFundingRate": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchMarginAdjustmentHistory": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchMyTrades": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOpenOrder": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrders": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTicker": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTradingFee": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "modifyMarginHelper": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "type": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "setLeverage": {
+        "leverage": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "setMarginMode": {
+        "marginType": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "setPositionMode": {
+        "dualSidePosition": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "transfer": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "asset": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "withdraw": {
+        "asset": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "nonce": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "receiver": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

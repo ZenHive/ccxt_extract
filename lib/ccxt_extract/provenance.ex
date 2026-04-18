@@ -80,6 +80,7 @@ defmodule CcxtExtract.Provenance do
     /structure/handle_errors/error_code_fields
     /structure/handle_errors/throw_dispatches
     /structure/unified_endpoints
+    /structure/request_defaults
   )
 
   @doc """

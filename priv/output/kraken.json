@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -43,7 +44,7 @@
     "tier": "tier2",
     "version": "0"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -21139,7 +21140,7 @@
             "ordermin": "1500000",
             "pair_decimals": "9",
             "quote": "ZEUR",
-            "short_position_limit": "31000000000",
+            "short_position_limit": "35000000000",
             "status": "online",
             "tick_size": "0.000000001",
             "wsname": "PEPE/EUR"
@@ -31827,7 +31828,7 @@
             "ordermin": "13",
             "pair_decimals": "7",
             "quote": "ZEUR",
-            "short_position_limit": "11000000",
+            "short_position_limit": "13000000",
             "status": "online",
             "tick_size": "0.0000001",
             "wsname": "XDG/EUR"
@@ -68517,7 +68518,7 @@
             "ordermin": "0.55",
             "pair_decimals": "5",
             "quote": "USDT",
-            "short_position_limit": "18000",
+            "short_position_limit": "16000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "LINK/USDT"
@@ -79974,7 +79975,7 @@
             "ordermin": "3.9",
             "pair_decimals": "4",
             "quote": "USDC",
-            "short_position_limit": "18000",
+            "short_position_limit": "20000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "DOT/USDC"
@@ -106982,7 +106983,7 @@
             "ordermin": "1.65",
             "pair_decimals": "5",
             "quote": "USDC",
-            "short_position_limit": "870000",
+            "short_position_limit": "960000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "XRP/USDC"
@@ -120304,7 +120305,7 @@
             "ordermin": "35",
             "pair_decimals": "4",
             "quote": "ZUSD",
-            "short_position_limit": "87000",
+            "short_position_limit": "96000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "IMX/USD"
@@ -146129,7 +146130,7 @@
             "ordermin": "5500",
             "pair_decimals": "6",
             "quote": "ZEUR",
-            "short_position_limit": "5600000",
+            "short_position_limit": "6300000",
             "status": "online",
             "tick_size": "0.000001",
             "wsname": "SC/EUR"
@@ -157942,7 +157943,7 @@
               2,
               3
             ],
-            "long_position_limit": "710000",
+            "long_position_limit": "630000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -160591,7 +160592,7 @@
             "ordermin": "55",
             "pair_decimals": "4",
             "quote": "ZUSD",
-            "short_position_limit": "320000",
+            "short_position_limit": "360000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "APE/USD"
@@ -162185,7 +162186,7 @@
             "ordermin": "0.1",
             "pair_decimals": "2",
             "quote": "ZEUR",
-            "short_position_limit": "7600",
+            "short_position_limit": "8400",
             "status": "online",
             "tick_size": "0.01",
             "wsname": "LTC/EUR"
@@ -175175,7 +175176,7 @@
             "ordermin": "3.9",
             "pair_decimals": "6",
             "quote": "XETH",
-            "short_position_limit": "11000",
+            "short_position_limit": "9800",
             "status": "online",
             "tick_size": "0.000001",
             "wsname": "DOT/ETH"
@@ -178068,7 +178069,7 @@
               2,
               3
             ],
-            "long_position_limit": "670000",
+            "long_position_limit": "600000",
             "lot": "unit5",
             "lot_decimals": "5",
             "lot_multiplier": "1",
@@ -187727,7 +187728,7 @@
             "ordermin": "4",
             "pair_decimals": "3",
             "quote": "ZUSD",
-            "short_position_limit": "260000",
+            "short_position_limit": "230000",
             "status": "online",
             "tick_size": "0.001",
             "wsname": "NEAR/USD"
@@ -196668,7 +196669,7 @@
               9,
               10
             ],
-            "long_position_limit": "79000",
+            "long_position_limit": "87000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -208685,7 +208686,7 @@
             "ordermin": "1.7",
             "pair_decimals": "3",
             "quote": "ZEUR",
-            "short_position_limit": "13000",
+            "short_position_limit": "15000",
             "status": "online",
             "tick_size": "0.001",
             "wsname": "INJ/EUR"
@@ -208955,7 +208956,7 @@
             "ordermin": "35",
             "pair_decimals": "4",
             "quote": "ZUSD",
-            "short_position_limit": "24000",
+            "short_position_limit": "21000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "KNC/USD"
@@ -230794,7 +230795,7 @@
             "ordermin": "12",
             "pair_decimals": "4",
             "quote": "ZUSD",
-            "short_position_limit": "36000",
+            "short_position_limit": "32000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "KAITO/USD"
@@ -237582,7 +237583,7 @@
             "ordermin": "0.55",
             "pair_decimals": "5",
             "quote": "ZEUR",
-            "short_position_limit": "39000",
+            "short_position_limit": "35000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "LINK/EUR"
@@ -254829,7 +254830,7 @@
               2,
               3
             ],
-            "long_position_limit": "97000000",
+            "long_position_limit": "110000000",
             "lot": "unit5",
             "lot_decimals": "5",
             "lot_multiplier": "1",
@@ -254838,7 +254839,7 @@
             "ordermin": "3000",
             "pair_decimals": "6",
             "quote": "ZUSD",
-            "short_position_limit": "94000000",
+            "short_position_limit": "110000000",
             "status": "online",
             "tick_size": "0.000001",
             "wsname": "PUMP/USD"
@@ -297733,7 +297734,7 @@
               4,
               5
             ],
-            "long_position_limit": "83000",
+            "long_position_limit": "74000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -317391,7 +317392,7 @@
             "ordermin": "15",
             "pair_decimals": "3",
             "quote": "ZEUR",
-            "short_position_limit": "46000",
+            "short_position_limit": "51000",
             "status": "online",
             "tick_size": "0.001",
             "wsname": "LDO/EUR"
@@ -319223,7 +319224,7 @@
             "ordermin": "280",
             "pair_decimals": "5",
             "quote": "ZUSD",
-            "short_position_limit": "84000",
+            "short_position_limit": "93000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "GOAT/USD"
@@ -320792,7 +320793,7 @@
             "leverage_sell": [
               2
             ],
-            "long_position_limit": "60000",
+            "long_position_limit": "67000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -328113,7 +328114,7 @@
             "ordermin": "95",
             "pair_decimals": "5",
             "quote": "ZUSD",
-            "short_position_limit": "1500000",
+            "short_position_limit": "1700000",
             "status": "online",
             "tick_size": "0.00001",
             "wsname": "SEI/USD"
@@ -329432,7 +329433,7 @@
               2,
               3
             ],
-            "long_position_limit": "98000",
+            "long_position_limit": "88000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -335462,7 +335463,7 @@
               2,
               3
             ],
-            "long_position_limit": "1200000000",
+            "long_position_limit": "1400000000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -339380,7 +339381,7 @@
             "ordermin": "0.15",
             "pair_decimals": "3",
             "quote": "ZUSD",
-            "short_position_limit": "2700",
+            "short_position_limit": "3000",
             "status": "online",
             "tick_size": "0.001",
             "wsname": "DASH/USD"
@@ -344619,7 +344620,7 @@
               4,
               5
             ],
-            "long_position_limit": "710",
+            "long_position_limit": "630",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -349112,7 +349113,7 @@
               4,
               5
             ],
-            "long_position_limit": "1900",
+            "long_position_limit": "1700",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -358570,7 +358571,7 @@
             "ordermin": "5",
             "pair_decimals": "4",
             "quote": "CHF",
-            "short_position_limit": "1300000",
+            "short_position_limit": "1100000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "USDC/CHF"
@@ -359890,7 +359891,7 @@
             "ordermin": "15",
             "pair_decimals": "3",
             "quote": "ZUSD",
-            "short_position_limit": "210000",
+            "short_position_limit": "240000",
             "status": "online",
             "tick_size": "0.001",
             "wsname": "LDO/USD"
@@ -364899,7 +364900,7 @@
               2,
               3
             ],
-            "long_position_limit": "430000",
+            "long_position_limit": "480000",
             "lot": "unit",
             "lot_decimals": "8",
             "lot_multiplier": "1",
@@ -364908,7 +364909,7 @@
             "ordermin": "170",
             "pair_decimals": "4",
             "quote": "ZUSD",
-            "short_position_limit": "390000",
+            "short_position_limit": "430000",
             "status": "online",
             "tick_size": "0.0001",
             "wsname": "FLOW/USD"
@@ -396421,7 +396422,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -465637,6 +465638,146 @@
         ],
         "return_type": "TransferEntry",
         "statements": 3
+      }
+    },
+    "request_defaults": {
+      "cancelAllOrdersAfter": {
+        "timeout": {
+          "kind": "unresolved",
+          "reason": "conditional_value",
+          "value": null
+        }
+      },
+      "cancelOrders": {
+        "orders": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDepositAddress": {
+        "asset": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "method": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDepositMethods": {
+        "asset": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchLedgerEntriesByIds": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "pair": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "trades": {
+          "kind": "literal",
+          "reason": null,
+          "value": true
+        },
+        "txid": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "pair": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrdersByIds": {
+        "trades": {
+          "kind": "literal",
+          "reason": null,
+          "value": true
+        },
+        "txid": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchPositions": {
+        "consolidation": {
+          "kind": "literal",
+          "reason": null,
+          "value": "market"
+        },
+        "docalcs": {
+          "kind": "literal",
+          "reason": null,
+          "value": "true"
+        }
+      },
+      "fetchTicker": {
+        "pair": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "pair": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTradingFee": {
+        "fee-info": {
+          "kind": "literal",
+          "reason": null,
+          "value": true
+        },
+        "pair": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "transfer": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "asset": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "from": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "to": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

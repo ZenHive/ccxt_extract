@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "unclassified",
     "version": "v1"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -580,7 +581,7 @@
       "version": "v1"
     },
     "markets": {
-      "market_count": 709,
+      "market_count": 710,
       "markets": {
         "SOON/BTC": {
           "spot": true,
@@ -18563,6 +18564,70 @@
           "active": true,
           "expiry": "__undefined",
           "id": "KRW-TFUEL",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "SOON/KRW": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "KRW",
+          "tierBased": false,
+          "index": false,
+          "maker": 0.0005,
+          "inverse": "__undefined",
+          "info": {
+            "english_name": "SOON",
+            "korean_name": "쑨",
+            "market": "KRW-SOON"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "SOON/KRW",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 1.0e-8,
+            "price": 1.0e-8
+          },
+          "baseId": "SOON",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "KRW",
+          "expiryDatetime": "__undefined",
+          "base": "SOON",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.0005,
+          "optionType": "__undefined",
+          "margin": false,
+          "contract": false,
+          "percentage": true,
+          "active": true,
+          "expiry": "__undefined",
+          "id": "KRW-SOON",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -45991,7 +46056,7 @@
           }
         ],
         "id_structure": "quoteId_baseId",
-        "sample_count": 709,
+        "sample_count": 710,
         "separator": "-",
         "suffix": null
       }
@@ -46013,7 +46078,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -78436,6 +78501,152 @@
         ],
         "return_type": null,
         "statements": 2
+      }
+    },
+    "request_defaults": {
+      "cancelOrder": {
+        "uuid": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createDepositAddress": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createOrder": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "side": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchCanceledOrders": {
+        "state": {
+          "kind": "literal",
+          "reason": null,
+          "value": "cancel"
+        }
+      },
+      "fetchClosedOrders": {
+        "state": {
+          "kind": "literal",
+          "reason": null,
+          "value": "done"
+        }
+      },
+      "fetchCurrencyById": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDeposit": {
+        "uuid": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDepositAddress": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "net_type": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchMarketById": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "count": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "timeframe": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "uuid": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBooks": {
+        "markets": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTickers": {
+        "markets": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "count": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTradingFee": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchWithdrawal": {
+        "uuid": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "withdraw": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

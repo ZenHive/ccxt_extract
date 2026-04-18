@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -44,7 +45,7 @@
     "tier": "dex",
     "version": "v1"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -1419,7 +1420,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-78-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -1436,7 +1437,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -1484,7 +1485,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-78-P",
           "lowercaseId": "__undefined",
@@ -1599,7 +1600,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-82-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -1616,7 +1617,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -1664,7 +1665,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-82-C",
           "lowercaseId": "__undefined",
@@ -1869,7 +1870,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-84-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -1886,7 +1887,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -1934,7 +1935,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-84-P",
           "lowercaseId": "__undefined",
@@ -2049,7 +2050,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-95-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -2066,7 +2067,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -2114,7 +2115,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-95-C",
           "lowercaseId": "__undefined",
@@ -2230,7 +2231,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-88-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -2247,7 +2248,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -2295,7 +2296,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-88-C",
           "lowercaseId": "__undefined",
@@ -2500,7 +2501,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-85-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -2517,7 +2518,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -2565,7 +2566,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-85-C",
           "lowercaseId": "__undefined",
@@ -2777,7 +2778,7 @@
             "minimum_amount": "10",
             "option_details": null,
             "perp_details": {
-              "aggregate_funding": "0.141365741828592383",
+              "aggregate_funding": "0.141393001072099662",
               "funding_rate": "0.0000125",
               "index": "OP-USD",
               "max_rate_per_hour": "0.004",
@@ -3048,8 +3049,8 @@
             "minimum_amount": "1",
             "option_details": null,
             "perp_details": {
-              "aggregate_funding": "0.679774569995662641",
-              "funding_rate": "0.0000125",
+              "aggregate_funding": "0.683952065347180566",
+              "funding_rate": "-0.000052314477448738",
               "index": "HYPE-USD",
               "max_rate_per_hour": "0.004",
               "min_rate_per_hour": "-0.004",
@@ -3132,7 +3133,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-96-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -3149,7 +3150,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -3197,7 +3198,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-96-P",
           "lowercaseId": "__undefined",
@@ -3319,7 +3320,7 @@
             "minimum_amount": "100",
             "option_details": null,
             "perp_details": {
-              "aggregate_funding": "-0.020629252751333907",
+              "aggregate_funding": "-0.020615598547972961",
               "funding_rate": "0.0000125",
               "index": "ENA-USD",
               "max_rate_per_hour": "0.004",
@@ -3672,7 +3673,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-92-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -3689,7 +3690,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -3737,7 +3738,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-92-P",
           "lowercaseId": "__undefined",
@@ -3762,7 +3763,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-98-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -3779,7 +3780,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -3827,7 +3828,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-98-P",
           "lowercaseId": "__undefined",
@@ -3852,7 +3853,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-85-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -3869,7 +3870,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -3917,7 +3918,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-85-P",
           "lowercaseId": "__undefined",
@@ -4212,7 +4213,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-86-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -4229,7 +4230,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -4277,7 +4278,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-86-C",
           "lowercaseId": "__undefined",
@@ -4752,7 +4753,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-88-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -4769,7 +4770,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -4817,7 +4818,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-88-P",
           "lowercaseId": "__undefined",
@@ -5745,7 +5746,7 @@
             "minimum_amount": "10",
             "option_details": null,
             "perp_details": {
-              "aggregate_funding": "0.350083209206025689",
+              "aggregate_funding": "0.350569202666439515",
               "funding_rate": "0.0000125",
               "index": "XRP-USD",
               "max_rate_per_hour": "0.004",
@@ -5836,7 +5837,7 @@
             "minimum_amount": "10",
             "option_details": null,
             "perp_details": {
-              "aggregate_funding": "2.761134126299240433",
+              "aggregate_funding": "2.762402196522372298",
               "funding_rate": "0.0000125",
               "index": "LINK-USD",
               "max_rate_per_hour": "0.004",
@@ -5920,7 +5921,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-82-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -5937,7 +5938,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -5985,7 +5986,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-82-P",
           "lowercaseId": "__undefined",
@@ -6732,8 +6733,8 @@
             "minimum_amount": "0.1",
             "option_details": null,
             "perp_details": {
-              "aggregate_funding": "997.856553520221562111",
-              "funding_rate": "6.53662210606E-7",
+              "aggregate_funding": "997.970246731586530343",
+              "funding_rate": "0.000005692996081454",
               "index": "ETH-USD",
               "max_rate_per_hour": "0.004",
               "min_rate_per_hour": "-0.004",
@@ -7361,7 +7362,7 @@
             "minimum_amount": "1000",
             "option_details": null,
             "perp_details": {
-              "aggregate_funding": "0.045528021499962977",
+              "aggregate_funding": "0.045537110086380665",
               "funding_rate": "0.0000125",
               "index": "DOGE-USD",
               "max_rate_per_hour": "0.004",
@@ -7715,7 +7716,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-80-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -7732,7 +7733,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -7780,7 +7781,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-80-P",
           "lowercaseId": "__undefined",
@@ -7985,7 +7986,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-90-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -8002,7 +8003,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -8050,7 +8051,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-90-P",
           "lowercaseId": "__undefined",
@@ -8352,7 +8353,7 @@
             "minimum_amount": "10",
             "option_details": null,
             "perp_details": {
-              "aggregate_funding": "0.002915791528141444",
+              "aggregate_funding": "0.003117240038516254",
               "funding_rate": "0.0000125",
               "index": "ADA-USD",
               "max_rate_per_hour": "0.004",
@@ -8982,8 +8983,8 @@
             "minimum_amount": "0.1",
             "option_details": null,
             "perp_details": {
-              "aggregate_funding": "35.721457414871358043",
-              "funding_rate": "0.0000125",
+              "aggregate_funding": "35.72397353729171751",
+              "funding_rate": "0.000008925991553448",
               "index": "SOL-USD",
               "max_rate_per_hour": "0.004",
               "min_rate_per_hour": "-0.004",
@@ -9516,7 +9517,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-94-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -9533,7 +9534,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -9581,7 +9582,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-94-P",
           "lowercaseId": "__undefined",
@@ -9606,7 +9607,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-80-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -9623,7 +9624,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -9671,7 +9672,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-80-C",
           "lowercaseId": "__undefined",
@@ -9696,7 +9697,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-98-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -9713,7 +9714,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -9761,7 +9762,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-98-C",
           "lowercaseId": "__undefined",
@@ -9793,7 +9794,7 @@
             "minimum_amount": "10",
             "option_details": null,
             "perp_details": {
-              "aggregate_funding": "0.449994815240431173",
+              "aggregate_funding": "0.450094083943504569",
               "funding_rate": "0.0000125",
               "index": "SUI-USD",
               "max_rate_per_hour": "0.004",
@@ -9967,7 +9968,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-95-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -9984,7 +9985,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -10032,7 +10033,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-95-P",
           "lowercaseId": "__undefined",
@@ -10146,7 +10147,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-94-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -10163,7 +10164,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -10211,7 +10212,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-94-C",
           "lowercaseId": "__undefined",
@@ -10782,8 +10783,8 @@
             "minimum_amount": "0.01",
             "option_details": null,
             "perp_details": {
-              "aggregate_funding": "23705.046399752435206754",
-              "funding_rate": "0.00001004147764165",
+              "aggregate_funding": "23710.344848035208169163",
+              "funding_rate": "0.0000125",
               "index": "BTC-USD",
               "max_rate_per_hour": "0.004",
               "min_rate_per_hour": "-0.004",
@@ -10866,7 +10867,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-90-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -10883,7 +10884,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -10931,7 +10932,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-90-C",
           "lowercaseId": "__undefined",
@@ -10956,7 +10957,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-96-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -10973,7 +10974,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -11021,7 +11022,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-96-C",
           "lowercaseId": "__undefined",
@@ -11046,7 +11047,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-86-P",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -11063,7 +11064,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -11111,7 +11112,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-86-P",
           "lowercaseId": "__undefined",
@@ -11674,7 +11675,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-84-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -11691,7 +11692,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -11739,7 +11740,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-84-C",
           "lowercaseId": "__undefined",
@@ -12033,7 +12034,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-78-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -12050,7 +12051,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -12098,7 +12099,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-78-C",
           "lowercaseId": "__undefined",
@@ -12302,7 +12303,7 @@
             "fifo_min_allocation": "100",
             "instrument_name": "SOL-20260508-92-C",
             "instrument_type": "option",
-            "is_active": false,
+            "is_active": true,
             "maker_fee_rate": "0.0001",
             "mark_price_fee_rate_cap": "0.125",
             "maximum_amount": "100000",
@@ -12319,7 +12320,7 @@
             "pro_rata_fraction": "0.8",
             "quote_currency": "USDC",
             "scheduled_activation": 1776412800,
-            "scheduled_deactivation": 9223372036854776000,
+            "scheduled_deactivation": 1778227140,
             "taker_fee_rate": "0.0003",
             "tick_size": "0.1"
           },
@@ -12367,7 +12368,7 @@
           "margin": false,
           "contract": true,
           "percentage": "__undefined",
-          "active": false,
+          "active": true,
           "expiry": 1778227200000,
           "id": "SOL-20260508-92-C",
           "lowercaseId": "__undefined",
@@ -12754,7 +12755,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -51062,6 +51063,252 @@
         ],
         "return_type": null,
         "statements": 1
+      }
+    },
+    "request_defaults": {
+      "cancelAllOrders": {
+        "subaccount_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "cancelOrder": {
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "subaccount_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createOrder": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "direction": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "limit_price": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "max_fee": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "nonce": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "order_type": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "referral_code": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "signature_expiry_sec": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "signer": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "subaccount_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "editOrder": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "direction": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "limit_price": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "max_fee": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "nonce": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "order_id_to_cancel": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "order_type": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "signature_expiry_sec": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "signer": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "subaccount_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchBalance": {
+        "wallet": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDeposits": {
+        "subaccount_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingHistory": {
+        "subaccount_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingRateHistory": {
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchMyTrades": {
+        "subaccount_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOptionMarkets": {
+        "expired": {
+          "kind": "literal",
+          "reason": null,
+          "value": false
+        },
+        "instrument_type": {
+          "kind": "literal",
+          "reason": null,
+          "value": "option"
+        }
+      },
+      "fetchOrderTrades": {
+        "order_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "subaccount_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrders": {
+        "subaccount_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchPositions": {
+        "subaccount_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchSpotMarkets": {
+        "expired": {
+          "kind": "literal",
+          "reason": null,
+          "value": false
+        },
+        "instrument_type": {
+          "kind": "literal",
+          "reason": null,
+          "value": "erc20"
+        }
+      },
+      "fetchSwapMarkets": {
+        "expired": {
+          "kind": "literal",
+          "reason": null,
+          "value": false
+        },
+        "instrument_type": {
+          "kind": "literal",
+          "reason": null,
+          "value": "perp"
+        }
+      },
+      "fetchTicker": {
+        "instrument_name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchWithdrawals": {
+        "subaccount_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

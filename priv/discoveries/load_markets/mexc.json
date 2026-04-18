@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-17T03:36:21.100181Z",
+  "extracted_at": "2026-04-17T13:02:03.844794Z",
   "id": "mexc",
-  "market_count": 3280,
+  "market_count": 3286,
   "markets": {
     "PAYPSTOCK/USDT:USDT": {
       "spot": false,
@@ -1697,10 +1697,10 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "3000",
+        "riskBaseVol": "1500",
         "contractSize": "100",
         "conceptPlate": [],
-        "maxVol": "3000",
+        "maxVol": "1500",
         "baseCoinId": "8c2c62f99fe8465eb7b0bddad71404c8",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F20250722121548555HRshQWyztDhIpI.jpeg",
@@ -1755,11 +1755,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
-        "limitMaxVol": "3000",
+        "limitMaxVol": "1500",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "3000",
+        "riskIncrVol": "1500",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -1809,7 +1809,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3000,
+          "max": 1500,
           "min": 1
         },
         "cost": {
@@ -24925,10 +24925,10 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "6500",
+        "riskBaseVol": "2000",
         "contractSize": "10",
         "conceptPlate": [],
-        "maxVol": "6500",
+        "maxVol": "2000",
         "baseCoinId": "06f22ab281c44564b087913b3dcbfd64",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F20250824211519321o1rlL6FdlgBMqg.jpeg",
@@ -24981,11 +24981,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
-        "limitMaxVol": "6500",
+        "limitMaxVol": "2000",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "6500",
+        "riskIncrVol": "2000",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -25035,7 +25035,7 @@
       },
       "limits": {
         "amount": {
-          "max": 6500,
+          "max": 2000,
           "min": 1
         },
         "cost": {
@@ -42030,12 +42030,12 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "12000",
+        "riskBaseVol": "18000",
         "contractSize": "10",
         "conceptPlate": [
           "mc-trade-zone-GameFi"
         ],
-        "maxVol": "12000",
+        "maxVol": "18000",
         "baseCoinId": "46b37e7b692746b3bf4b6070d7b68ab2",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F20250730154156168Hl2xor7tMZmlw5.png",
@@ -42092,11 +42092,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
-        "limitMaxVol": "12000",
+        "limitMaxVol": "18000",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "12000",
+        "riskIncrVol": "18000",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -42146,7 +42146,7 @@
       },
       "limits": {
         "amount": {
-          "max": 12000,
+          "max": 18000,
           "min": 1
         },
         "cost": {
@@ -45843,12 +45843,12 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "500",
+        "riskBaseVol": "800",
         "contractSize": "10",
         "conceptPlate": [
           "mc-trade-zone-contract-new"
         ],
-        "maxVol": "500",
+        "maxVol": "800",
         "baseCoinId": "6ee3c1e00aa0471b876bc4ebb61803ec",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F202604151728444030wLRAs3ekOgrrS.jpeg",
@@ -45905,11 +45905,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.01",
         "isZeroFeeRate": false,
-        "limitMaxVol": "500",
+        "limitMaxVol": "800",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "500",
+        "riskIncrVol": "800",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -45959,7 +45959,7 @@
       },
       "limits": {
         "amount": {
-          "max": 500,
+          "max": 800,
           "min": 1
         },
         "cost": {
@@ -49866,6 +49866,161 @@
       "id": "BERAUSDC",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
+    },
+    "ABTSTOCK/USDT:USDT": {
+      "spot": false,
+      "contractSize": 0.01,
+      "linear": true,
+      "quoteId": "USDT",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": false,
+      "info": {
+        "riskBaseVol": "10500",
+        "contractSize": "0.01",
+        "conceptPlate": [
+          "mc-trade-zone-contract-new",
+          "mc-trade-zone-Stock",
+          "mc-trade-zone-0fees"
+        ],
+        "maxVol": "10500",
+        "baseCoinId": "fd7b0f1f7dc54c288d0f1b37693028eb",
+        "countryConfigContractMaxLeverage": "0",
+        "baseCoinIconUrl": "https://public.mocortech.com/coin/F202602101735480856Z7rg9MQrbHoE7.png",
+        "volUnit": "1",
+        "showBeforeOpen": true,
+        "riskLevelLimit": "1",
+        "priceCoefficientVariation": "0.05",
+        "conceptPlateId": [
+          -1,
+          57,
+          45
+        ],
+        "minVol": "1",
+        "positionOpenType": "3",
+        "feeRateType": "BASE",
+        "riskLimitMode": "INCREASE",
+        "baseCoin": "ABTSTOCK",
+        "isHot": false,
+        "volScale": "0",
+        "liquidationFeeRate": "0",
+        "symbol": "ABTSTOCK_USDT",
+        "quoteCoinName": "USDT",
+        "displayName": "ABT_USDT永续",
+        "priceUnit": "0.01",
+        "leverageFeeRates": [],
+        "riskLongShortSwitch": "0",
+        "indexOrigin": [
+          "ONDO",
+          "MEXC_FUTURE",
+          "MEXC"
+        ],
+        "type": "2",
+        "maintenanceMarginRate": "0.01",
+        "appraisal": "0",
+        "depthStepList": [
+          "0.01",
+          "0.1"
+        ],
+        "displayNameEn": "ABT_USDT PERPETUAL",
+        "minLeverage": "1",
+        "maxNumOrders": [
+          200,
+          50
+        ],
+        "settleCoin": "USDT",
+        "quoteCoin": "USDT",
+        "triggerProtect": "0.1",
+        "baseCoinName": "ABT",
+        "isHidden": false,
+        "apiAllowed": true,
+        "takerFeeRate": "0",
+        "showAppraisalCountdown": "0",
+        "threshold": "0",
+        "marketOrderPriceLimitRate1": "0.2",
+        "riskIncrImr": "0.005",
+        "isZeroFeeRate": true,
+        "limitMaxVol": "10500",
+        "futureType": "1",
+        "vid": "128f589271cb4951b03e71e6323eb7be",
+        "automaticDelivery": "0",
+        "riskIncrVol": "10500",
+        "amountScale": "4",
+        "riskLimitType": "BY_VOLUME",
+        "state": "0",
+        "askLimitPriceRate": "0.2",
+        "isMaxLeverage": false,
+        "id": "1863",
+        "preMarket": false,
+        "riskIncrMmr": "0.005",
+        "openingTime": "1776423120000",
+        "makerFeeRate": "0",
+        "initialMarginRate": "0.02",
+        "maxLeverage": "50",
+        "bidLimitPriceRate": "0.2",
+        "marketOrderMaxLevel": "20",
+        "marketOrderPriceLimitRate2": "0.005",
+        "feeRateMode": "NORMAL",
+        "fn": "ABT_USDT永续",
+        "openingCountdownOption": "1",
+        "typeLabel": "2",
+        "createTime": "1776422332000",
+        "isNew": true,
+        "priceScale": "2",
+        "stopOnlyFair": false,
+        "isZeroFeeSymbol": true,
+        "tieredFeeRates": []
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ABTSTOCK/USDT:USDT",
+      "settle": "USDT",
+      "precision": {
+        "amount": 1,
+        "price": 0.01
+      },
+      "baseId": "ABTSTOCK",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDT",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "ABTSTOCK",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 10500,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "ABTSTOCK_USDT",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
     },
     "RBT/USDT": {
       "spot": true,
@@ -54145,7 +54300,7 @@
         "takerFeeRate": "0.0004",
         "showAppraisalCountdown": "0",
         "threshold": "0",
-        "marketOrderPriceLimitRate1": "0.2",
+        "marketOrderPriceLimitRate1": "0.4",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
         "limitMaxVol": "25000",
@@ -54156,7 +54311,7 @@
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
-        "askLimitPriceRate": "0.2",
+        "askLimitPriceRate": "0.4",
         "isMaxLeverage": false,
         "id": "1611",
         "preMarket": false,
@@ -54165,7 +54320,7 @@
         "makerFeeRate": "0.0001",
         "initialMarginRate": "0.01",
         "maxLeverage": "100",
-        "bidLimitPriceRate": "0.2",
+        "bidLimitPriceRate": "0.4",
         "marketOrderMaxLevel": "20",
         "marketOrderPriceLimitRate2": "0.005",
         "feeRateMode": "NORMAL",
@@ -62036,14 +62191,14 @@
       "maker": 0.0004,
       "inverse": false,
       "info": {
-        "riskBaseVol": "160",
+        "riskBaseVol": "320",
         "contractSize": "100",
         "conceptPlate": [
           "mc-trade-zone-contract-new",
           "mc-trade-zone-Chinese",
           "mc-trade-zone-innovation"
         ],
-        "maxVol": "160",
+        "maxVol": "320",
         "baseCoinId": "146416ed93864e0b8f3fb4a1f7abd75e",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F20260408225333470ysQuB1iSygV4TG.png",
@@ -62100,11 +62255,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.01",
         "isZeroFeeRate": false,
-        "limitMaxVol": "160",
+        "limitMaxVol": "320",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "160",
+        "riskIncrVol": "320",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -62154,7 +62309,7 @@
       },
       "limits": {
         "amount": {
-          "max": 160,
+          "max": 320,
           "min": 1
         },
         "cost": {
@@ -64492,7 +64647,7 @@
         "openingCountdownOption": "1",
         "typeLabel": "0",
         "createTime": "1775716133000",
-        "isNew": false,
+        "isNew": true,
         "priceScale": "5",
         "stopOnlyFair": false,
         "isZeroFeeSymbol": false,
@@ -93459,7 +93614,7 @@
         "quoteAssetPrecision": "7",
         "quoteCommissionPrecision": "7",
         "quotePrecision": "7",
-        "st": false,
+        "st": true,
         "status": "1",
         "symbol": "KORIUSDT",
         "takerCommission": "0.0005",
@@ -94310,10 +94465,10 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "16000",
+        "riskBaseVol": "8500",
         "contractSize": "10000000",
         "conceptPlate": [],
-        "maxVol": "16000",
+        "maxVol": "8500",
         "baseCoinId": "0d12d573c9da4aa19c3f318310f4e697",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F20231218191436113Ov3i9jCkyDoBvt.png",
@@ -94370,11 +94525,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.09",
         "isZeroFeeRate": false,
-        "limitMaxVol": "16000",
+        "limitMaxVol": "8500",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "16000",
+        "riskIncrVol": "8500",
         "amountScale": "10",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -94424,7 +94579,7 @@
       },
       "limits": {
         "amount": {
-          "max": 16000,
+          "max": 8500,
           "min": 1
         },
         "cost": {
@@ -118087,13 +118242,13 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "5500",
+        "riskBaseVol": "3700",
         "contractSize": "1000",
         "conceptPlate": [
           "mc-trade-zone-MEME",
           "mc-trade-zone-0fees"
         ],
-        "maxVol": "5500",
+        "maxVol": "3700",
         "baseCoinId": "0488635ed670415592edf4021857c05e",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F202403142229386115acvSAzpuAW17y.jpg",
@@ -118153,11 +118308,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.095",
         "isZeroFeeRate": false,
-        "limitMaxVol": "5500",
+        "limitMaxVol": "3700",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "5500",
+        "riskIncrVol": "3700",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -118207,7 +118362,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5500,
+          "max": 3700,
           "min": 1
         },
         "cost": {
@@ -121703,9 +121858,9 @@
         "quoteAmountPrecision": "1",
         "quoteAmountPrecisionMarket": "1",
         "quoteAsset": "USDT",
-        "quoteAssetPrecision": "6",
-        "quoteCommissionPrecision": "6",
-        "quotePrecision": "6",
+        "quoteAssetPrecision": "8",
+        "quoteCommissionPrecision": "8",
+        "quotePrecision": "8",
         "st": false,
         "status": "1",
         "symbol": "LSMUSDT",
@@ -121719,7 +121874,7 @@
       "settle": "__undefined",
       "precision": {
         "amount": 0.01,
-        "price": 1.0e-6
+        "price": 1.0e-8
       },
       "baseId": "LSM",
       "type": "spot",
@@ -137932,7 +138087,7 @@
             "imr": "0.001",
             "level": "1",
             "maxLeverage": "1000",
-            "maxVol": "20000",
+            "maxVol": "40000",
             "mmr": "0.0004"
           },
           {
@@ -147002,6 +147157,108 @@
       "active": true,
       "expiry": "__undefined",
       "id": "TRADEUSDT",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
+    "TRX/EUR": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "EUR",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "baseAsset": "TRX",
+        "baseAssetPrecision": "2",
+        "baseCommissionPrecision": "2",
+        "baseSizePrecision": "0",
+        "conceptPlateIds": [
+          51
+        ],
+        "contractAddress": "",
+        "filters": [
+          {
+            "askMultiplierDown": "0.2",
+            "bidMultiplierUp": "0.2",
+            "filterType": "PERCENT_PRICE_BY_SIDE"
+          }
+        ],
+        "firstOpenTime": "1776420000000",
+        "fullName": "Tron",
+        "isMarginTradingAllowed": false,
+        "isSpotTradingAllowed": true,
+        "makerCommission": "0",
+        "maxQuoteAmount": "1000000",
+        "maxQuoteAmountMarket": "500000",
+        "orderTypes": [
+          "LIMIT",
+          "MARKET",
+          "LIMIT_MAKER"
+        ],
+        "permissions": [
+          "SPOT"
+        ],
+        "quoteAmountPrecision": "1",
+        "quoteAmountPrecisionMarket": "1",
+        "quoteAsset": "EUR",
+        "quoteAssetPrecision": "4",
+        "quoteCommissionPrecision": "4",
+        "quotePrecision": "4",
+        "st": false,
+        "status": "1",
+        "symbol": "TRXEUR",
+        "takerCommission": "0",
+        "tradeSideType": "1"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "TRX/EUR",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 0.0001
+      },
+      "baseId": "TRX",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "EUR",
+      "expiryDatetime": "__undefined",
+      "base": "TRX",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0
+        },
+        "cost": {
+          "max": 1000000,
+          "min": 1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "TRXEUR",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
@@ -161505,7 +161762,7 @@
         "openingCountdownOption": "1",
         "typeLabel": "0",
         "createTime": "1775194674000",
-        "isNew": false,
+        "isNew": true,
         "priceScale": "5",
         "stopOnlyFair": false,
         "isZeroFeeSymbol": false,
@@ -182674,12 +182931,12 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "10000",
+        "riskBaseVol": "6500",
         "contractSize": "10",
         "conceptPlate": [
           "mc-trade-zone-MEME"
         ],
-        "maxVol": "10000",
+        "maxVol": "6500",
         "baseCoinId": "9b8d4c617855489bae1c9ab0ecae3f05",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F20241203193955823vJ2ZXXE5Jge6uE.png",
@@ -182737,11 +182994,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
-        "limitMaxVol": "10000",
+        "limitMaxVol": "6500",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "10000",
+        "riskIncrVol": "6500",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -182791,7 +183048,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10000,
+          "max": 6500,
           "min": 1
         },
         "cost": {
@@ -201663,10 +201920,10 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "6500",
+        "riskBaseVol": "4150",
         "contractSize": "10",
         "conceptPlate": [],
-        "maxVol": "6500",
+        "maxVol": "4150",
         "baseCoinId": "0bfab54aad424ef8a6fa61367683c3a9",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F202503311931431494OC0ZSTKaetHS9.jpeg",
@@ -201721,11 +201978,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
-        "limitMaxVol": "6500",
+        "limitMaxVol": "4150",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "6500",
+        "riskIncrVol": "4150",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -201775,7 +202032,7 @@
       },
       "limits": {
         "amount": {
-          "max": 6500,
+          "max": 4150,
           "min": 1
         },
         "cost": {
@@ -206181,10 +206438,10 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "4000",
+        "riskBaseVol": "5800",
         "contractSize": "10",
         "conceptPlate": [],
-        "maxVol": "4000",
+        "maxVol": "5800",
         "baseCoinId": "aaf5b4f13edf4847b22835917ac851f4",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F202502281549037999rYheE1P2HF6nG.png",
@@ -206239,11 +206496,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
-        "limitMaxVol": "4000",
+        "limitMaxVol": "5800",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "4000",
+        "riskIncrVol": "5800",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -206293,7 +206550,7 @@
       },
       "limits": {
         "amount": {
-          "max": 4000,
+          "max": 5800,
           "min": 1
         },
         "cost": {
@@ -242408,12 +242665,12 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "280",
+        "riskBaseVol": "310",
         "contractSize": "10",
         "conceptPlate": [
           "mc-trade-zone-web3"
         ],
-        "maxVol": "280",
+        "maxVol": "310",
         "baseCoinId": "b5cd4444f1d846a09f6493611269bed9",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F20251211135513760qMmYODXV4Cj1Dx.jpeg",
@@ -242443,7 +242700,8 @@
           "LBANK",
           "BINANCE_FUTURE",
           "BINANCETICKER",
-          "MEXC"
+          "MEXC",
+          "KUCOIN"
         ],
         "type": "1",
         "maintenanceMarginRate": "0.01",
@@ -242470,11 +242728,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
-        "limitMaxVol": "280",
+        "limitMaxVol": "310",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "280",
+        "riskIncrVol": "310",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -242524,7 +242782,7 @@
       },
       "limits": {
         "amount": {
-          "max": 280,
+          "max": 310,
           "min": 1
         },
         "cost": {
@@ -247001,7 +247259,7 @@
         "firstOpenTime": "1640858400000",
         "fullName": "Coinweb",
         "isMarginTradingAllowed": false,
-        "isSpotTradingAllowed": false,
+        "isSpotTradingAllowed": true,
         "makerCommission": "0",
         "maxQuoteAmount": "2000000",
         "maxQuoteAmountMarket": "100000",
@@ -247069,7 +247327,7 @@
       "margin": false,
       "contract": false,
       "percentage": true,
-      "active": false,
+      "active": true,
       "expiry": "__undefined",
       "id": "CWEBUSDT",
       "lowercaseId": "__undefined",
@@ -285065,7 +285323,7 @@
         "quoteAssetPrecision": "6",
         "quoteCommissionPrecision": "6",
         "quotePrecision": "6",
-        "st": false,
+        "st": true,
         "status": "1",
         "symbol": "TRUUSDT",
         "takerCommission": "0.0005",
@@ -287959,7 +288217,7 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "3550000",
+        "riskBaseVol": "2550000",
         "contractSize": "1",
         "conceptPlate": [
           "mc-trade-zone-0fees",
@@ -288063,7 +288321,7 @@
             "imr": "0.005",
             "level": "2",
             "maxLeverage": "200",
-            "maxVol": "3550000",
+            "maxVol": "2550000",
             "mmr": "0.004"
           }
         ],
@@ -304788,10 +305046,10 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "180000",
+        "riskBaseVol": "330000",
         "contractSize": "10",
         "conceptPlate": [],
-        "maxVol": "180000",
+        "maxVol": "330000",
         "baseCoinId": "5ae1f53d3c894191aa6c85405d9392c9",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F20250425181924784GOr0sRzmV1BMhQ.png",
@@ -304846,11 +305104,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
-        "limitMaxVol": "180000",
+        "limitMaxVol": "330000",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "180000",
+        "riskIncrVol": "330000",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -304900,7 +305158,7 @@
       },
       "limits": {
         "amount": {
-          "max": 180000,
+          "max": 330000,
           "min": 1
         },
         "cost": {
@@ -324551,9 +324809,7 @@
       "info": {
         "riskBaseVol": "10",
         "contractSize": "1",
-        "conceptPlate": [
-          "mc-trade-zone-contract-new"
-        ],
+        "conceptPlate": [],
         "maxVol": "10",
         "baseCoinId": "19f8fa0e1c8348cf9155c7532315f467",
         "countryConfigContractMaxLeverage": "0",
@@ -324562,9 +324818,7 @@
         "showBeforeOpen": true,
         "riskLevelLimit": "1",
         "priceCoefficientVariation": "0.05",
-        "conceptPlateId": [
-          -1
-        ],
+        "conceptPlateId": [],
         "minVol": "1",
         "positionOpenType": "3",
         "feeRateType": "BASE",
@@ -326037,12 +326291,12 @@
       "maker": 0.0004,
       "inverse": false,
       "info": {
-        "riskBaseVol": "100",
+        "riskBaseVol": "160",
         "contractSize": "100",
         "conceptPlate": [
           "mc-trade-zone-innovation"
         ],
-        "maxVol": "100",
+        "maxVol": "160",
         "baseCoinId": "1ea9587bdcf74a19992a9cdb93d95b8c",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F20260323104615406Ox3cLLTZu7sFI0.png",
@@ -326097,11 +326351,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.01",
         "isZeroFeeRate": false,
-        "limitMaxVol": "100",
+        "limitMaxVol": "160",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "100",
+        "riskIncrVol": "160",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -326151,7 +326405,7 @@
       },
       "limits": {
         "amount": {
-          "max": 100,
+          "max": 160,
           "min": 1
         },
         "cost": {
@@ -330137,6 +330391,108 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
+    "MOGU/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDT",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "baseAsset": "MOGU",
+        "baseAssetPrecision": "2",
+        "baseCommissionPrecision": "2",
+        "baseSizePrecision": "0",
+        "conceptPlateIds": [
+          51,
+          29
+        ],
+        "contractAddress": "0x732Ef17BeCED8655a5026e7D51CFf0773774B950",
+        "filters": [
+          {
+            "askMultiplierDown": "0.2",
+            "bidMultiplierUp": "0.2",
+            "filterType": "PERCENT_PRICE_BY_SIDE"
+          }
+        ],
+        "fullName": "AbstractMogu",
+        "isMarginTradingAllowed": false,
+        "isSpotTradingAllowed": false,
+        "makerCommission": "0",
+        "maxQuoteAmount": "2000000",
+        "maxQuoteAmountMarket": "100000",
+        "orderTypes": [
+          "LIMIT",
+          "MARKET",
+          "LIMIT_MAKER"
+        ],
+        "permissions": [
+          "SPOT"
+        ],
+        "quoteAmountPrecision": "1",
+        "quoteAmountPrecisionMarket": "1",
+        "quoteAsset": "USDT",
+        "quoteAssetPrecision": "5",
+        "quoteCommissionPrecision": "5",
+        "quotePrecision": "5",
+        "st": false,
+        "status": "2",
+        "symbol": "MOGUUSDT",
+        "takerCommission": "0.0005",
+        "tradeSideType": "4"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "MOGU/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 1.0e-5
+      },
+      "baseId": "MOGU",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "MOGU",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0
+        },
+        "cost": {
+          "max": 2000000,
+          "min": 1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "MOGUUSDT",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
     "OOB/USDT": {
       "spot": true,
       "contractSize": "__undefined",
@@ -330765,12 +331121,12 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "1600",
+        "riskBaseVol": "2600",
         "contractSize": "1",
         "conceptPlate": [
           "mc-trade-zone-nft"
         ],
-        "maxVol": "1600",
+        "maxVol": "2600",
         "baseCoinId": "16b8442e2c4342b698e43917f0de9531",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F20210419145328735tDojCTaLEyiGky.png",
@@ -330827,11 +331183,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
-        "limitMaxVol": "1600",
+        "limitMaxVol": "2600",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "1600",
+        "riskIncrVol": "2600",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -330881,7 +331237,7 @@
       },
       "limits": {
         "amount": {
-          "max": 1600,
+          "max": 2600,
           "min": 1
         },
         "cost": {
@@ -332547,6 +332903,161 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
+    "ALBSTOCK/USDT:USDT": {
+      "spot": false,
+      "contractSize": 0.01,
+      "linear": true,
+      "quoteId": "USDT",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": false,
+      "info": {
+        "riskBaseVol": "4650",
+        "contractSize": "0.01",
+        "conceptPlate": [
+          "mc-trade-zone-contract-new",
+          "mc-trade-zone-Stock",
+          "mc-trade-zone-0fees"
+        ],
+        "maxVol": "4650",
+        "baseCoinId": "",
+        "countryConfigContractMaxLeverage": "0",
+        "baseCoinIconUrl": "https://public.mocortech.com/coin/F20260327153124207Kn7xQXzE6j8Z5t.png",
+        "volUnit": "1",
+        "showBeforeOpen": true,
+        "riskLevelLimit": "1",
+        "priceCoefficientVariation": "0.05",
+        "conceptPlateId": [
+          -1,
+          57,
+          45
+        ],
+        "minVol": "1",
+        "positionOpenType": "3",
+        "feeRateType": "BASE",
+        "riskLimitMode": "INCREASE",
+        "baseCoin": "ALBSTOCK",
+        "isHot": false,
+        "volScale": "0",
+        "liquidationFeeRate": "0",
+        "symbol": "ALBSTOCK_USDT",
+        "quoteCoinName": "USDT",
+        "displayName": "ALB_USDT永续",
+        "priceUnit": "0.01",
+        "leverageFeeRates": [],
+        "riskLongShortSwitch": "0",
+        "indexOrigin": [
+          "ONDO",
+          "MEXC_FUTURE",
+          "MEXC"
+        ],
+        "type": "2",
+        "maintenanceMarginRate": "0.01",
+        "appraisal": "0",
+        "depthStepList": [
+          "0.01",
+          "0.1"
+        ],
+        "displayNameEn": "ALB_USDT PERPETUAL",
+        "minLeverage": "1",
+        "maxNumOrders": [
+          200,
+          50
+        ],
+        "settleCoin": "USDT",
+        "quoteCoin": "USDT",
+        "triggerProtect": "0.1",
+        "baseCoinName": "ALB",
+        "isHidden": false,
+        "apiAllowed": true,
+        "takerFeeRate": "0",
+        "showAppraisalCountdown": "0",
+        "threshold": "0",
+        "marketOrderPriceLimitRate1": "0.2",
+        "riskIncrImr": "0.005",
+        "isZeroFeeRate": true,
+        "limitMaxVol": "4650",
+        "futureType": "1",
+        "vid": "128f589271cb4951b03e71e6323eb7be",
+        "automaticDelivery": "0",
+        "riskIncrVol": "4650",
+        "amountScale": "4",
+        "riskLimitType": "BY_VOLUME",
+        "state": "0",
+        "askLimitPriceRate": "0.2",
+        "isMaxLeverage": false,
+        "id": "1864",
+        "preMarket": false,
+        "riskIncrMmr": "0.005",
+        "openingTime": "1776423120000",
+        "makerFeeRate": "0",
+        "initialMarginRate": "0.02",
+        "maxLeverage": "50",
+        "bidLimitPriceRate": "0.2",
+        "marketOrderMaxLevel": "20",
+        "marketOrderPriceLimitRate2": "0.005",
+        "feeRateMode": "NORMAL",
+        "fn": "ALB_USDT永续",
+        "openingCountdownOption": "1",
+        "typeLabel": "2",
+        "createTime": "1776422389000",
+        "isNew": true,
+        "priceScale": "2",
+        "stopOnlyFair": false,
+        "isZeroFeeSymbol": true,
+        "tieredFeeRates": []
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ALBSTOCK/USDT:USDT",
+      "settle": "USDT",
+      "precision": {
+        "amount": 1,
+        "price": 0.01
+      },
+      "baseId": "ALBSTOCK",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDT",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "ALBSTOCK",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 4650,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 50,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "ALBSTOCK_USDT",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
     "JPMON/USDT": {
       "spot": true,
       "contractSize": "__undefined",
@@ -332865,12 +333376,12 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "40000",
+        "riskBaseVol": "60000",
         "contractSize": "10",
         "conceptPlate": [
           "mc-trade-zone-0fees"
         ],
-        "maxVol": "40000",
+        "maxVol": "60000",
         "baseCoinId": "71cd0eba2a3d476ca1c119f9d7d4acab",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F20250922131418245gsH1rTCMMoPTw9.jpg",
@@ -332928,11 +333439,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
-        "limitMaxVol": "40000",
+        "limitMaxVol": "60000",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "40000",
+        "riskIncrVol": "60000",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -332982,7 +333493,7 @@
       },
       "limits": {
         "amount": {
-          "max": 40000,
+          "max": 60000,
           "min": 1
         },
         "cost": {
@@ -348883,8 +349394,8 @@
         "riskIncrMmr": "0.004",
         "openingTime": "0",
         "makerFeeRate": "0.0001",
-        "initialMarginRate": "0.005",
-        "maxLeverage": "200",
+        "initialMarginRate": "0.02",
+        "maxLeverage": "50",
         "bidLimitPriceRate": "0.2",
         "marketOrderMaxLevel": "20",
         "marketOrderPriceLimitRate2": "0.005",
@@ -348930,7 +349441,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 200,
+          "max": 50,
           "min": 1
         },
         "price": {
@@ -349266,14 +349777,14 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "5000",
+        "riskBaseVol": "8000",
         "contractSize": "10",
         "conceptPlate": [
           "mc-trade-zone-PerpDex",
           "mc-trade-zone-DeFi",
           "mc-trade-zone-0fees"
         ],
-        "maxVol": "5000",
+        "maxVol": "8000",
         "baseCoinId": "136ffe9797564b0db301fade92fd569e",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F202505051923238905rE5BkUBiz75dK.jpeg",
@@ -349331,11 +349842,11 @@
         "marketOrderPriceLimitRate1": "0.4",
         "riskIncrImr": "0.005",
         "isZeroFeeRate": false,
-        "limitMaxVol": "5000",
+        "limitMaxVol": "8000",
         "futureType": "1",
         "vid": "128f589271cb4951b03e71e6323eb7be",
         "automaticDelivery": "0",
-        "riskIncrVol": "5000",
+        "riskIncrVol": "8000",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -349385,7 +349896,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5000,
+          "max": 8000,
           "min": 1
         },
         "cost": {
@@ -361037,6 +361548,108 @@
       "lowercaseId": "__undefined",
       "subType": "__undefined"
     },
+    "ASTEROID/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "quoteId": "USDT",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 0,
+      "inverse": "__undefined",
+      "info": {
+        "baseAsset": "ASTEROID",
+        "baseAssetPrecision": "2",
+        "baseCommissionPrecision": "2",
+        "baseSizePrecision": "0",
+        "conceptPlateIds": [
+          51
+        ],
+        "contractAddress": "0xf280B16EF293D8e534e370794ef26bF312694126",
+        "filters": [
+          {
+            "askMultiplierDown": "0.2",
+            "bidMultiplierUp": "0.2",
+            "filterType": "PERCENT_PRICE_BY_SIDE"
+          }
+        ],
+        "firstOpenTime": "1776430800000",
+        "fullName": "ASTEROID SHIBA",
+        "isMarginTradingAllowed": false,
+        "isSpotTradingAllowed": true,
+        "makerCommission": "0",
+        "maxQuoteAmount": "2000000",
+        "maxQuoteAmountMarket": "100000",
+        "orderTypes": [
+          "LIMIT",
+          "MARKET",
+          "LIMIT_MAKER"
+        ],
+        "permissions": [
+          "SPOT"
+        ],
+        "quoteAmountPrecision": "1",
+        "quoteAmountPrecisionMarket": "1",
+        "quoteAsset": "USDT",
+        "quoteAssetPrecision": "8",
+        "quoteCommissionPrecision": "8",
+        "quotePrecision": "8",
+        "st": false,
+        "status": "1",
+        "symbol": "ASTEROIDUSDT",
+        "takerCommission": "0.0005",
+        "tradeSideType": "1"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "ASTEROID/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 1.0e-8
+      },
+      "baseId": "ASTEROID",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "ASTEROID",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": 0
+        },
+        "cost": {
+          "max": 2000000,
+          "min": 1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.0005,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "ASTEROIDUSDT",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined"
+    },
     "OMG/BTC": {
       "spot": true,
       "contractSize": "__undefined",
@@ -361679,8 +362292,8 @@
         "riskIncrMmr": "0.005",
         "openingTime": "1747986000000",
         "makerFeeRate": "0.0001",
-        "initialMarginRate": "0.02",
-        "maxLeverage": "50",
+        "initialMarginRate": "0.05",
+        "maxLeverage": "20",
         "bidLimitPriceRate": "0.2",
         "marketOrderMaxLevel": "20",
         "marketOrderPriceLimitRate2": "0.005",
@@ -361726,7 +362339,7 @@
           "min": "__undefined"
         },
         "leverage": {
-          "max": 50,
+          "max": 20,
           "min": 1
         },
         "price": {
@@ -374056,12 +374669,12 @@
       "maker": 0.0001,
       "inverse": false,
       "info": {
-        "riskBaseVol": "5500",
+        "riskBaseVol": "3700",
         "contractSize": "1000",
         "conceptPlate": [
           "mc-trade-zone-0fees"
         ],
-        "maxVol": "5500",
+        "maxVol": "3700",
         "baseCoinId": "0488635ed670415592edf4021857c05e",
         "countryConfigContractMaxLeverage": "0",
         "baseCoinIconUrl": "https://public.mocortech.com/coin/F202403142229386115acvSAzpuAW17y.jpg",
@@ -374117,11 +374730,11 @@
         "marketOrderPriceLimitRate1": "0.2",
         "riskIncrImr": "0.004",
         "isZeroFeeRate": false,
-        "limitMaxVol": "5500",
+        "limitMaxVol": "3700",
         "futureType": "1",
         "vid": "34309140878b4ae99f195ac091d49bab",
         "automaticDelivery": "0",
-        "riskIncrVol": "5500",
+        "riskIncrVol": "3700",
         "amountScale": "4",
         "riskLimitType": "BY_VOLUME",
         "state": "0",
@@ -374171,7 +374784,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5500,
+          "max": 3700,
           "min": 1
         },
         "cost": {
@@ -380321,6 +380934,159 @@
       "id": "MXETH",
       "lowercaseId": "__undefined",
       "subType": "__undefined"
+    },
+    "BELIEF/USDT:USDT": {
+      "spot": false,
+      "contractSize": 100,
+      "linear": true,
+      "quoteId": "USDT",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": 0.0004,
+      "inverse": false,
+      "info": {
+        "riskBaseVol": "110",
+        "contractSize": "100",
+        "conceptPlate": [
+          "mc-trade-zone-contract-new",
+          "mc-trade-zone-innovation"
+        ],
+        "maxVol": "110",
+        "baseCoinId": "4d6de9dfac9f4fd484533223d473d305",
+        "countryConfigContractMaxLeverage": "0",
+        "baseCoinIconUrl": "https://public.mocortech.com/coin/F20260414113646669nVZIHLkxwnrZTB.jpeg",
+        "volUnit": "1",
+        "showBeforeOpen": true,
+        "riskLevelLimit": "1",
+        "priceCoefficientVariation": "0.05",
+        "conceptPlateId": [
+          -1,
+          51
+        ],
+        "minVol": "1",
+        "positionOpenType": "3",
+        "feeRateType": "BASE",
+        "riskLimitMode": "INCREASE",
+        "baseCoin": "BELIEF",
+        "isHot": false,
+        "volScale": "0",
+        "liquidationFeeRate": "0.0002",
+        "symbol": "BELIEF_USDT",
+        "quoteCoinName": "USDT",
+        "displayName": "BELIEF_USDT永续",
+        "priceUnit": "0.00001",
+        "leverageFeeRates": [],
+        "riskLongShortSwitch": "0",
+        "indexOrigin": [
+          "LBANK",
+          "MEXC_FUTURE",
+          "MEXC"
+        ],
+        "type": "1",
+        "maintenanceMarginRate": "0.02",
+        "appraisal": "0",
+        "depthStepList": [
+          "0.00001",
+          "0.0001"
+        ],
+        "displayNameEn": "BELIEF_USDT PERPETUAL",
+        "minLeverage": "1",
+        "maxNumOrders": [
+          200,
+          50
+        ],
+        "settleCoin": "USDT",
+        "quoteCoin": "USDT",
+        "triggerProtect": "0.1",
+        "baseCoinName": "BELIEF",
+        "isHidden": false,
+        "apiAllowed": false,
+        "takerFeeRate": "0.001",
+        "showAppraisalCountdown": "0",
+        "threshold": "0",
+        "marketOrderPriceLimitRate1": "0.2",
+        "riskIncrImr": "0.01",
+        "isZeroFeeRate": false,
+        "limitMaxVol": "110",
+        "futureType": "1",
+        "vid": "128f589271cb4951b03e71e6323eb7be",
+        "automaticDelivery": "0",
+        "riskIncrVol": "110",
+        "amountScale": "4",
+        "riskLimitType": "BY_VOLUME",
+        "state": "0",
+        "askLimitPriceRate": "0.2",
+        "isMaxLeverage": false,
+        "id": "1862",
+        "preMarket": false,
+        "riskIncrMmr": "0.01",
+        "openingTime": "1776403200000",
+        "makerFeeRate": "0.0004",
+        "initialMarginRate": "0.05",
+        "maxLeverage": "20",
+        "bidLimitPriceRate": "0.2",
+        "marketOrderMaxLevel": "20",
+        "marketOrderPriceLimitRate2": "0.005",
+        "feeRateMode": "NORMAL",
+        "fn": "BELIEF_USDT永续",
+        "openingCountdownOption": "1",
+        "typeLabel": "0",
+        "createTime": "1776401765000",
+        "isNew": true,
+        "priceScale": "5",
+        "stopOnlyFair": false,
+        "isZeroFeeSymbol": false,
+        "tieredFeeRates": []
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BELIEF/USDT:USDT",
+      "settle": "USDT",
+      "precision": {
+        "amount": 1,
+        "price": 1.0e-5
+      },
+      "baseId": "BELIEF",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "USDT",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "BELIEF",
+      "swap": true,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "limits": {
+        "amount": {
+          "max": 110,
+          "min": 1
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "leverage": {
+          "max": 20,
+          "min": 1
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "BELIEF_USDT",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
     },
     "APT/USDC": {
       "spot": true,

@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "unclassified",
     "version": "v2"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -1443,15 +1444,15 @@
             "limits": {
               "amount": {
                 "max": "200",
-                "min": "0.0006"
+                "min": "0.0004"
               },
               "cost": {
-                "max": "483000",
+                "max": "694397.1999999998",
                 "min": "1"
               },
               "price": {
-                "max": "2415",
-                "min": "1035"
+                "max": "3471.9859999999994",
+                "min": "1487.994"
               }
             },
             "precision": {
@@ -1486,10 +1487,10 @@
           "limits": {
             "amount": {
               "max": 200,
-              "min": 0.0006
+              "min": 0.0004
             },
             "cost": {
-              "max": 483000,
+              "max": 694397.1999999998,
               "min": 1
             },
             "leverage": {
@@ -1497,8 +1498,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 2415,
-              "min": 1035
+              "max": 3471.9859999999994,
+              "min": 1487.994
             }
           },
           "taker": 0.0025,
@@ -2870,12 +2871,12 @@
                 "min": "0.0004"
               },
               "cost": {
-                "max": "34524000",
+                "max": "32293256.799999997",
                 "min": "50"
               },
               "price": {
-                "max": "172620",
-                "min": "73980"
+                "max": "161466.28399999999",
+                "min": "69199.836"
               }
             },
             "precision": {
@@ -2913,7 +2914,7 @@
               "min": 0.0004
             },
             "cost": {
-              "max": 34524000,
+              "max": 32293256.799999997,
               "min": 50
             },
             "leverage": {
@@ -2921,8 +2922,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 172620,
-              "min": 73980
+              "max": 161466.28399999999,
+              "min": 69199.836
             }
           },
           "taker": 0.0025,
@@ -3315,12 +3316,12 @@
                 "min": "2"
               },
               "cost": {
-                "max": "53088000",
+                "max": "49812000",
                 "min": "50"
               },
               "price": {
-                "max": "26.544",
-                "min": "11.376"
+                "max": "24.906",
+                "min": "10.674"
               }
             },
             "precision": {
@@ -3358,7 +3359,7 @@
               "min": 2
             },
             "cost": {
-              "max": 53088000,
+              "max": 49812000,
               "min": 50
             },
             "leverage": {
@@ -3366,8 +3367,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 26.544,
-              "min": 11.376
+              "max": 24.906,
+              "min": 10.674
             }
           },
           "taker": 0.0025,
@@ -5629,12 +5630,12 @@
                 "min": "0.00001389"
               },
               "cost": {
-                "max": "2015411.9999999998",
+                "max": "2015159.44",
                 "min": "1"
               },
               "price": {
-                "max": "100770.59999999999",
-                "min": "43187.4"
+                "max": "100757.972",
+                "min": "43181.988"
               }
             },
             "precision": {
@@ -5672,7 +5673,7 @@
               "min": 1.389e-5
             },
             "cost": {
-              "max": 2015411.9999999998,
+              "max": 2015159.44,
               "min": 1
             },
             "leverage": {
@@ -5680,8 +5681,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 100770.59999999999,
-              "min": 43187.4
+              "max": 100757.972,
+              "min": 43181.988
             }
           },
           "taker": 0.0025,
@@ -7050,15 +7051,15 @@
             "limits": {
               "amount": {
                 "max": "200000",
-                "min": "0.0011"
+                "min": "0.0014"
               },
               "cost": {
-                "max": "13300319199.999998",
+                "max": "10228019200",
                 "min": "50"
               },
               "price": {
-                "max": "66501.59599999999",
-                "min": "28500.683999999997"
+                "max": "51140.096",
+                "min": "21917.183999999997"
               }
             },
             "precision": {
@@ -7093,10 +7094,10 @@
           "limits": {
             "amount": {
               "max": 200000,
-              "min": 0.0011
+              "min": 0.0014
             },
             "cost": {
-              "max": 13300319199.999998,
+              "max": 10228019200,
               "min": 50
             },
             "leverage": {
@@ -7104,8 +7105,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 66501.59599999999,
-              "min": 28500.683999999997
+              "max": 51140.096,
+              "min": 21917.183999999997
             }
           },
           "taker": 0.0025,
@@ -7317,15 +7318,15 @@
             "limits": {
               "amount": {
                 "max": "20000000",
-                "min": "0.1992"
+                "min": "0.1984"
               },
               "cost": {
-                "max": "7028000000",
+                "max": "7055999999.999999",
                 "min": "50"
               },
               "price": {
-                "max": "351.4",
-                "min": "150.6"
+                "max": "352.79999999999995",
+                "min": "151.2"
               }
             },
             "precision": {
@@ -7360,10 +7361,10 @@
           "limits": {
             "amount": {
               "max": 20000000,
-              "min": 0.1992
+              "min": 0.1984
             },
             "cost": {
-              "max": 7028000000,
+              "max": 7055999999.999999,
               "min": 50
             },
             "leverage": {
@@ -7371,8 +7372,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 351.4,
-              "min": 150.6
+              "max": 352.79999999999995,
+              "min": 151.2
             }
           },
           "taker": 0.0025,
@@ -7673,15 +7674,15 @@
             "limits": {
               "amount": {
                 "max": "2000000",
-                "min": "3.33"
+                "min": "3.57"
               },
               "cost": {
-                "max": "42000000",
+                "max": "39199999.99999999",
                 "min": "50"
               },
               "price": {
-                "max": "21",
-                "min": "9"
+                "max": "19.599999999999998",
+                "min": "8.4"
               }
             },
             "precision": {
@@ -7716,10 +7717,10 @@
           "limits": {
             "amount": {
               "max": 2000000,
-              "min": 3.33
+              "min": 3.57
             },
             "cost": {
-              "max": 42000000,
+              "max": 39199999.99999999,
               "min": 50
             },
             "leverage": {
@@ -7727,8 +7728,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 21,
-              "min": 9
+              "max": 19.599999999999998,
+              "min": 8.4
             }
           },
           "taker": 0.0025,
@@ -7943,12 +7944,12 @@
                 "min": "8"
               },
               "cost": {
-                "max": "7980000",
+                "max": "8399999.999999998",
                 "min": "50"
               },
               "price": {
-                "max": "7.9799999999999995",
-                "min": "3.42"
+                "max": "8.399999999999999",
+                "min": "3.5999999999999996"
               }
             },
             "precision": {
@@ -7986,7 +7987,7 @@
               "min": 8
             },
             "cost": {
-              "max": 7980000,
+              "max": 8399999.999999998,
               "min": 50
             },
             "leverage": {
@@ -7994,8 +7995,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 7.9799999999999995,
-              "min": 3.42
+              "max": 8.399999999999999,
+              "min": 3.5999999999999996
             }
           },
           "taker": 0.0025,
@@ -10079,12 +10080,12 @@
                 "min": "0.00001495"
               },
               "cost": {
-                "max": "93632909.72",
+                "max": "93633383.75999999",
                 "min": "50"
               },
               "price": {
-                "max": "4681645.486",
-                "min": "2006419.494"
+                "max": "4681669.187999999",
+                "min": "2006429.6519999998"
               }
             },
             "precision": {
@@ -10122,7 +10123,7 @@
               "min": 1.495e-5
             },
             "cost": {
-              "max": 93632909.72,
+              "max": 93633383.75999999,
               "min": 50
             },
             "leverage": {
@@ -10130,8 +10131,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 4681645.486,
-              "min": 2006419.494
+              "max": 4681669.187999999,
+              "min": 2006429.6519999998
             }
           },
           "taker": 0.0025,
@@ -11411,15 +11412,15 @@
             "limits": {
               "amount": {
                 "max": "10000",
-                "min": "0.0908"
+                "min": "0.0877"
               },
               "cost": {
-                "max": "7705599.999999999",
+                "max": "7980139.999999999",
                 "min": "50"
               },
               "price": {
-                "max": "770.56",
-                "min": "330.23999999999995"
+                "max": "798.0139999999999",
+                "min": "342.006"
               }
             },
             "precision": {
@@ -11454,10 +11455,10 @@
           "limits": {
             "amount": {
               "max": 10000,
-              "min": 0.0908
+              "min": 0.0877
             },
             "cost": {
-              "max": 7705599.999999999,
+              "max": 7980139.999999999,
               "min": 50
             },
             "leverage": {
@@ -11465,8 +11466,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 770.56,
-              "min": 330.23999999999995
+              "max": 798.0139999999999,
+              "min": 342.006
             }
           },
           "taker": 0.0025,
@@ -11767,15 +11768,15 @@
             "limits": {
               "amount": {
                 "max": "500000",
-                "min": "4.91"
+                "min": "5.42"
               },
               "cost": {
-                "max": "7125999.999999999",
+                "max": "6461000",
                 "min": "50"
               },
               "price": {
-                "max": "14.251999999999999",
-                "min": "6.108"
+                "max": "12.922",
+                "min": "5.538"
               }
             },
             "precision": {
@@ -11810,10 +11811,10 @@
           "limits": {
             "amount": {
               "max": 500000,
-              "min": 4.91
+              "min": 5.42
             },
             "cost": {
-              "max": 7125999.999999999,
+              "max": 6461000,
               "min": 50
             },
             "leverage": {
@@ -11821,8 +11822,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 14.251999999999999,
-              "min": 6.108
+              "max": 12.922,
+              "min": 5.538
             }
           },
           "taker": 0.0025,
@@ -13013,15 +13014,15 @@
             "limits": {
               "amount": {
                 "max": "2000000",
-                "min": "0.0085"
+                "min": "0.0074"
               },
               "cost": {
-                "max": "16489619999.999998",
+                "max": "19002368000",
                 "min": "50"
               },
               "price": {
-                "max": "8244.81",
-                "min": "3533.49"
+                "max": "9501.184",
+                "min": "4071.936"
               }
             },
             "precision": {
@@ -13056,10 +13057,10 @@
           "limits": {
             "amount": {
               "max": 2000000,
-              "min": 0.0085
+              "min": 0.0074
             },
             "cost": {
-              "max": 16489619999.999998,
+              "max": 19002368000,
               "min": 50
             },
             "leverage": {
@@ -13067,8 +13068,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 8244.81,
-              "min": 3533.49
+              "max": 9501.184,
+              "min": 4071.936
             }
           },
           "taker": 0.0025,
@@ -13105,12 +13106,12 @@
                 "min": "5"
               },
               "cost": {
-                "max": "24611999.999999996",
+                "max": "26040000",
                 "min": "50"
               },
               "price": {
-                "max": "12.305999999999997",
-                "min": "5.273999999999999"
+                "max": "13.02",
+                "min": "5.58"
               }
             },
             "precision": {
@@ -13148,7 +13149,7 @@
               "min": 5
             },
             "cost": {
-              "max": 24611999.999999996,
+              "max": 26040000,
               "min": 50
             },
             "leverage": {
@@ -13156,8 +13157,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 12.305999999999997,
-              "min": 5.273999999999999
+              "max": 13.02,
+              "min": 5.58
             }
           },
           "taker": 0.0025,
@@ -16754,12 +16755,12 @@
                 "min": "2"
               },
               "cost": {
-                "max": "4838400",
+                "max": "4849599.999999999",
                 "min": "50"
               },
               "price": {
-                "max": "24.192",
-                "min": "10.368"
+                "max": "24.247999999999998",
+                "min": "10.392"
               }
             },
             "precision": {
@@ -16797,7 +16798,7 @@
               "min": 2
             },
             "cost": {
-              "max": 4838400,
+              "max": 4849599.999999999,
               "min": 50
             },
             "leverage": {
@@ -16805,8 +16806,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 24.192,
-              "min": 10.368
+              "max": 24.247999999999998,
+              "min": 10.392
             }
           },
           "taker": 0.0025,
@@ -17288,12 +17289,12 @@
                 "min": "0.58"
               },
               "cost": {
-                "max": "60542999.99999999",
+                "max": "60766999.99999999",
                 "min": "50"
               },
               "price": {
-                "max": "121.08599999999998",
-                "min": "51.894"
+                "max": "121.53399999999999",
+                "min": "52.086"
               }
             },
             "precision": {
@@ -17331,7 +17332,7 @@
               "min": 0.58
             },
             "cost": {
-              "max": 60542999.99999999,
+              "max": 60766999.99999999,
               "min": 50
             },
             "leverage": {
@@ -17339,8 +17340,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 121.08599999999998,
-              "min": 51.894
+              "max": 121.53399999999999,
+              "min": 52.086
             }
           },
           "taker": 0.0025,
@@ -19421,15 +19422,15 @@
             "limits": {
               "amount": {
                 "max": "200000000",
-                "min": "27777.78"
+                "min": "31250.00"
               },
               "cost": {
-                "max": "503999.99999999994",
+                "max": "447999.99999999994",
                 "min": "50"
               },
               "price": {
-                "max": "0.0025199999999999997",
-                "min": "0.00108"
+                "max": "0.00224",
+                "min": "0.00096"
               }
             },
             "precision": {
@@ -19464,10 +19465,10 @@
           "limits": {
             "amount": {
               "max": 200000000,
-              "min": 27777.78
+              "min": 31250
             },
             "cost": {
-              "max": 503999.99999999994,
+              "max": 447999.99999999994,
               "min": 50
             },
             "leverage": {
@@ -19475,8 +19476,8 @@
               "min": "__undefined"
             },
             "price": {
-              "max": 0.0025199999999999997,
-              "min": 0.00108
+              "max": 0.00224,
+              "min": 9.6e-4
             }
           },
           "taker": 0.0025,
@@ -20569,7 +20570,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [],
     "class_info": {
@@ -30797,6 +30798,111 @@
         ],
         "return_type": null,
         "statements": 3
+      }
+    },
+    "request_defaults": {
+      "cancelOrder": {
+        "entry_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDepositAddress": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchDeposits": {
+        "page": {
+          "kind": "literal",
+          "reason": null,
+          "value": 0
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchMyTrades": {
+        "page": {
+          "kind": "literal",
+          "reason": null,
+          "value": 0
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOpenOrders": {
+        "page": {
+          "kind": "literal",
+          "reason": null,
+          "value": 0
+        },
+        "side": {
+          "kind": "unresolved",
+          "reason": "conditional_value",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "entry_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "coin": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchWithdrawals": {
+        "page": {
+          "kind": "literal",
+          "reason": null,
+          "value": 0
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

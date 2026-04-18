@@ -260,6 +260,7 @@ defmodule CcxtExtract.Pipeline do
       "interface_signatures" => get_interface_signatures(id, data),
       "pagination" => get_pagination(id, data),
       "unified_endpoints" => get_unified_endpoints(id, data),
+      "request_defaults" => get_request_defaults(id, data),
       "overrides" => get_overrides(id, data)
     }
 
@@ -501,6 +502,38 @@ defmodule CcxtExtract.Pipeline do
       nil -> nil
       %{"unified_endpoints" => endpoints} when map_size(endpoints) > 0 -> endpoints
       _ -> nil
+    end
+  end
+
+  # Request defaults: read the per-method default-request-body map from the
+  # discovery lookup and fall back to the parent when the exchange is an alias
+  # that didn't produce its own entry. No filtering against unified_endpoints
+  # here — that invariant is enforced by the contract test. A method M appears
+  # in the output iff the extractor found a resolvable literal body for it
+  # (possibly via this.extend unwrap or const-trace); callers check the
+  # per-entry `kind` to distinguish literal from unresolved.
+  defp get_request_defaults(id, data) do
+    id
+    |> extract_request_defaults_map(data)
+    |> merge_parent_request_defaults(find_parent_exchange_id(id, data), data)
+  end
+
+  defp extract_request_defaults_map(id, data) do
+    case Map.get(data.request_defaults, id) do
+      nil -> nil
+      %{"request_defaults" => defaults} when map_size(defaults) > 0 -> defaults
+      _ -> nil
+    end
+  end
+
+  defp merge_parent_request_defaults(defaults, nil, _data), do: defaults
+
+  defp merge_parent_request_defaults(nil, parent_id, data), do: extract_request_defaults_map(parent_id, data)
+
+  defp merge_parent_request_defaults(defaults, parent_id, data) do
+    case extract_request_defaults_map(parent_id, data) do
+      nil -> defaults
+      parent -> Map.merge(parent, defaults)
     end
   end
 

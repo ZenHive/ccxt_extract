@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-17T03:36:21.100181Z",
+  "extracted_at": "2026-04-17T13:02:03.844794Z",
   "id": "aftermath",
-  "market_count": 15,
+  "market_count": 16,
   "markets": {
     "AF100/USD:USDC": {
       "spot": false,
@@ -101,6 +101,107 @@
       "active": true,
       "expiry": "__undefined",
       "id": "0x90eebf712f2ad859f9944862ee97db2e98033c64338e2bc4b018d0ec6617c7ca",
+      "lowercaseId": "__undefined",
+      "subType": "linear"
+    },
+    "BNB/USD:USDC": {
+      "spot": false,
+      "contractSize": 1.0e-5,
+      "linear": true,
+      "quoteId": "USD",
+      "tierBased": false,
+      "index": "__undefined",
+      "maker": -5.0e-5,
+      "inverse": false,
+      "info": {
+        "active": true,
+        "base": "BNB",
+        "baseId": "BNB",
+        "contract": true,
+        "contractSize": "0.00001",
+        "future": false,
+        "id": "0xd37b8dd4f0cf09a3809d35805ebd653815a6dfed8764ca0ba6e234f37703b015",
+        "inverse": false,
+        "limits": {
+          "cost": {
+            "min": "1.0"
+          },
+          "leverage": {
+            "max": "5.0"
+          }
+        },
+        "linear": true,
+        "maker": "-0.00005",
+        "margin": false,
+        "marginModes": {
+          "cross": false,
+          "isolated": true
+        },
+        "option": false,
+        "percentage": true,
+        "precision": {
+          "amount": "0.00001",
+          "price": "0.00001"
+        },
+        "quote": "USD",
+        "quoteId": "USD",
+        "settle": "USDC",
+        "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+        "spot": false,
+        "subType": "linear",
+        "swap": true,
+        "symbol": "BNB/USD:USDC",
+        "taker": "0.00045",
+        "tierBased": false,
+        "type": "swap"
+      },
+      "created": "__undefined",
+      "option": false,
+      "future": false,
+      "symbol": "BNB/USD:USDC",
+      "settle": "USDC",
+      "precision": {
+        "amount": 1.0e-5,
+        "price": 1.0e-5
+      },
+      "baseId": "BNB",
+      "type": "swap",
+      "strike": "__undefined",
+      "settleId": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+      "quote": "USD",
+      "expiryDatetime": "__undefined",
+      "base": "BNB",
+      "swap": true,
+      "marginModes": {
+        "cross": false,
+        "isolated": true
+      },
+      "limits": {
+        "amount": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "cost": {
+          "max": "__undefined",
+          "min": 1
+        },
+        "leverage": {
+          "max": 5,
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": "__undefined"
+        }
+      },
+      "taker": 4.5e-4,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": true,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "0xd37b8dd4f0cf09a3809d35805ebd653815a6dfed8764ca0ba6e234f37703b015",
       "lowercaseId": "__undefined",
       "subType": "linear"
     },

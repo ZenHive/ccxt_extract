@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "unclassified",
     "version": "v4"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -1211,7 +1212,7 @@
       "version": "v4"
     },
     "markets": {
-      "market_count": 2763,
+      "market_count": 2751,
       "markets": {
         "TIA3L/USDT": {
           "spot": true,
@@ -2829,7 +2830,7 @@
             "deliveryPrice": null,
             "symbol": "s_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "927",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -7152,7 +7153,7 @@
             "deliveryPrice": null,
             "symbol": "btc_usd_260925",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1239",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -10206,112 +10207,6 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
-        "AI3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "ai3s",
-            "baseCurrencyId": "3350",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/d78dc874-8fff-40a9-8d02-dcb65bab91c9-1718640552307.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "AI3S/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "10020",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1718640000000",
-            "symbol": "ai3s_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "AI3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "ai3s",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "AI3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "ai3s_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "ACU/USDT:USDT": {
           "spot": false,
           "contractSize": 1,
@@ -12402,7 +12297,7 @@
             "deliveryPrice": null,
             "symbol": "doge_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "15",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -12669,7 +12564,7 @@
             "deliveryPrice": null,
             "symbol": "jto_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "946",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -13399,7 +13294,7 @@
             "deliveryPrice": "2.093",
             "symbol": "xrp_usd_250627",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "862",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -14185,7 +14080,7 @@
             "deliveryPrice": null,
             "symbol": "link_usd_251226",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1036",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -16511,7 +16406,7 @@
             "deliveryPrice": null,
             "symbol": "core_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "355",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -17053,7 +16948,7 @@
             "deliveryPrice": null,
             "symbol": "eth_usd",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "13",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -17836,7 +17731,7 @@
             "deliveryPrice": "0.642",
             "symbol": "ada_usd_240329",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "563",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -18466,7 +18361,7 @@
             "deliveryPrice": "13.089",
             "symbol": "link_usd_250627",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "863",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -18973,7 +18868,7 @@
             "deliveryPrice": null,
             "symbol": "gala_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "62",
+            "symbolId": null,
             "plates": [
               22,
               2
@@ -19626,7 +19521,7 @@
             "deliveryPrice": "123.34",
             "symbol": "sol_usd_251226",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1042",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -22463,7 +22358,7 @@
             "deliveryPrice": "216.51",
             "symbol": "bnb_usd_230929",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "491",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -25050,7 +24945,7 @@
             "deliveryPrice": "0.2516",
             "symbol": "ada_usd_230929",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "488",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -25189,7 +25084,7 @@
             "deliveryPrice": null,
             "symbol": "egld_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "308",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -27594,7 +27489,7 @@
             "deliveryPrice": null,
             "symbol": "dot_usd_230331",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "378",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -28226,7 +28121,7 @@
             "deliveryPrice": null,
             "symbol": "sui_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "903",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -28648,7 +28543,7 @@
             "deliveryPrice": "0",
             "symbol": "bnb_usd_230331",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "382",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -28915,7 +28810,7 @@
             "deliveryPrice": "0.5562",
             "symbol": "ada_usd_250627",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "860",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -29852,7 +29747,7 @@
             "deliveryPrice": "1670.17",
             "symbol": "eth_usd_230929",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "487",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -30997,7 +30892,7 @@
             "deliveryPrice": "76.11",
             "symbol": "ltc_usd_231229",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "537",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -31538,7 +31433,7 @@
             "deliveryPrice": null,
             "symbol": "xmr_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "69",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -31795,7 +31690,7 @@
             "deliveryPrice": null,
             "symbol": "icx_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "313",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -31936,7 +31831,7 @@
             "deliveryPrice": null,
             "symbol": "dash_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "1136",
+            "symbolId": null,
             "plates": [
               30,
               19
@@ -32732,7 +32627,7 @@
             "deliveryPrice": null,
             "symbol": "op_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "315",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -33663,7 +33558,7 @@
             "deliveryPrice": "3.823",
             "symbol": "dot_usd_250926",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "968",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -35916,7 +35811,7 @@
             "deliveryPrice": null,
             "symbol": "near_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "45",
+            "symbolId": null,
             "plates": [
               1
             ],
@@ -37967,7 +37862,7 @@
             "deliveryPrice": null,
             "symbol": "wld_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "746",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -38355,7 +38250,7 @@
             "deliveryPrice": "89061",
             "symbol": "btc_usd_251226",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1031",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -40233,7 +40128,7 @@
             "deliveryPrice": "0.7044",
             "symbol": "ada_usd_250328",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "733",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -42521,7 +42416,7 @@
             "deliveryPrice": null,
             "symbol": "bch_usd_230331",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "376",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -43167,7 +43062,7 @@
             "deliveryPrice": "86.03",
             "symbol": "sol_usd_260327",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1119",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -43694,7 +43589,7 @@
             "deliveryPrice": "3438.7",
             "symbol": "eth_usd_240628",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "599",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -45464,7 +45359,7 @@
             "deliveryPrice": "12.797",
             "symbol": "link_usd_240927",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "632",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -45856,7 +45751,7 @@
             "deliveryPrice": "0.615",
             "symbol": "ada_usd_231229",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "534",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -47893,7 +47788,7 @@
             "deliveryPrice": "14.18",
             "symbol": "link_usd_240628",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "603",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -48173,7 +48068,7 @@
             "deliveryPrice": "630.53",
             "symbol": "bnb_usd_250328",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "881",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -49462,7 +49357,7 @@
             "deliveryPrice": null,
             "symbol": "chz_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "318",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -50982,7 +50877,7 @@
             "deliveryPrice": null,
             "symbol": "matic_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "49",
+            "symbolId": null,
             "plates": [
               1
             ],
@@ -52207,7 +52102,7 @@
             "deliveryPrice": "3925.16",
             "symbol": "eth_usd_250926",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "972",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -52672,7 +52567,7 @@
             "openSwitch": true,
             "minQty": "1",
             "contractSize": "1",
-            "curMaxLeverage": null,
+            "curMaxLeverage": "5",
             "productType": "perpetual",
             "underlyingType": "U_BASED",
             "pricePrecision": "3",
@@ -52704,13 +52599,13 @@
               22
             ],
             "isOpenApi": true,
-            "riskExpireTime": null,
+            "riskExpireTime": "1776415821825",
             "predictEventType": null,
             "enDesc": null,
-            "initLeverage": "20",
+            "initLeverage": "5",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-03-27T08:37:51",
+            "updatedTime": "2026-04-17T07:50:22",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -52739,7 +52634,7 @@
             "offTime": null,
             "quoteCoinDisplayPrecision": "4",
             "baseCoinDisplayPrecision": "3",
-            "riskNominalValueCoefficient": "1.00",
+            "riskNominalValueCoefficient": "0.10",
             "tradeSwitch": true,
             "minTrackCallbackRate": "0.001",
             "maxTrackCallbackRate": "0.1",
@@ -53351,7 +53246,7 @@
             "deliveryPrice": null,
             "symbol": "algo_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "91",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -55217,7 +55112,7 @@
             "deliveryPrice": "20.348",
             "symbol": "link_usd_250926",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "966",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -57301,7 +57196,7 @@
             "deliveryPrice": null,
             "symbol": "iota_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "947",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -57687,7 +57582,7 @@
             "deliveryPrice": "42438.3",
             "symbol": "btc_usd_231229",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "535",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -60130,7 +60025,7 @@
             "deliveryPrice": "95.41",
             "symbol": "ltc_usd_230630",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "373",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -60896,7 +60791,7 @@
             "deliveryPrice": null,
             "symbol": "dot_usd_251226",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1038",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -62435,7 +62330,7 @@
             "deliveryPrice": "4.338",
             "symbol": "dot_usd_250328",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "736",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -63584,7 +63479,7 @@
             "deliveryPrice": null,
             "symbol": "dot_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "30",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -64108,7 +64003,7 @@
             "deliveryPrice": "22.746",
             "symbol": "link_usd_241227",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "693",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -64798,7 +64693,7 @@
             "deliveryPrice": "9.452",
             "symbol": "dot_usd_240329",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "559",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -65590,7 +65485,7 @@
             "deliveryPrice": "0.8703",
             "symbol": "ada_usd_241227",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "688",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -71306,7 +71201,7 @@
             "deliveryPrice": null,
             "symbol": "bch_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "17",
+            "symbolId": null,
             "plates": [
               1
             ],
@@ -74228,7 +74123,7 @@
             "deliveryPrice": null,
             "symbol": "apt_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "317",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -75212,7 +75107,7 @@
             "deliveryPrice": null,
             "symbol": "theta_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "100",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -75609,7 +75504,7 @@
             "deliveryPrice": "360.02",
             "symbol": "bch_usd_240927",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "633",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -77097,7 +76992,7 @@
             "deliveryPrice": null,
             "symbol": "ton_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "911",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -78881,112 +78776,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "METIS3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "metis3s",
-            "baseCurrencyId": "3247",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/884a6f83-cf02-4ad0-98be-6e476989243c-1717385704100.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "METIS3S/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "9893",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1718640000000",
-            "symbol": "metis3s_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "METIS3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "metis3s",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "METIS3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "metis3s_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "NEIROETH/USDT:USDT": {
           "spot": false,
           "contractSize": 10,
@@ -79450,7 +79239,7 @@
             "deliveryPrice": "946.97",
             "symbol": "bnb_usd_250926",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "971",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -80887,7 +80676,7 @@
             "deliveryPrice": null,
             "symbol": "pol_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "915",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -81437,7 +81226,7 @@
             "deliveryPrice": null,
             "symbol": "dot_usd_260327",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1113",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -83976,7 +83765,7 @@
             "deliveryPrice": null,
             "symbol": "ada_usd",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "28",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -88837,7 +88626,7 @@
             "deliveryPrice": "94.36",
             "symbol": "ltc_usd_240329",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "564",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -91707,7 +91496,7 @@
             "deliveryPrice": "1881.3",
             "symbol": "eth_usd_230630",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "291",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -92374,7 +92163,7 @@
             "initLeverage": "8",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-04-17T01:00:02",
+            "updatedTime": "2026-04-17T09:00:02",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -92397,7 +92186,7 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "752",
             "minPrice": "0",
-            "nextOpenTime": "1776387600000",
+            "nextOpenTime": "1776416400000",
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
@@ -95569,7 +95358,7 @@
             "deliveryPrice": null,
             "symbol": "xlm_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "88",
+            "symbolId": null,
             "plates": [
               1
             ],
@@ -97759,7 +97548,7 @@
             "deliveryPrice": "1.3604",
             "symbol": "xrp_usd_260327",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "1114",
+            "symbolId": null,
             "plates": [
               22
             ],
@@ -98403,7 +98192,7 @@
             "deliveryPrice": "216.96",
             "symbol": "bnb_usd_240927",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "638",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -98542,7 +98331,7 @@
             "deliveryPrice": null,
             "symbol": "ltc_usd_230331",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "372",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -98944,7 +98733,7 @@
             "deliveryPrice": "18.917",
             "symbol": "link_usd_240329",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "568",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -101392,7 +101181,7 @@
             "deliveryPrice": "88.74",
             "symbol": "ltc_usd_250328",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "732",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -101531,7 +101320,7 @@
             "deliveryPrice": "5.069",
             "symbol": "dot_usd_230630",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "379",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -108768,7 +108557,7 @@
             "deliveryPrice": null,
             "symbol": "zil_usd",
             "marketOpenTakeBound": "0.005000000000000000",
-            "symbolId": "67",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -111949,7 +111738,7 @@
             "deliveryPrice": null,
             "symbol": "mana_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "54",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -113727,7 +113516,7 @@
             "deliveryPrice": null,
             "symbol": "bch_usd_251226",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1037",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -114963,7 +114752,7 @@
             "deliveryPrice": null,
             "symbol": "eos_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "24",
+            "symbolId": null,
             "plates": [
               1
             ],
@@ -115365,7 +115154,7 @@
             "deliveryPrice": null,
             "symbol": "ltc_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "19",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -120162,7 +119951,7 @@
             "deliveryPrice": null,
             "symbol": "sol_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "26",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -120446,7 +120235,7 @@
             "deliveryPrice": null,
             "symbol": "uni_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "309",
+            "symbolId": null,
             "plates": [
               1
             ],
@@ -121895,7 +121684,7 @@
             "deliveryPrice": null,
             "symbol": "trx_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "32",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -122418,7 +122207,7 @@
             "deliveryPrice": null,
             "symbol": "xtz_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "58",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -125344,7 +125133,7 @@
             "deliveryPrice": "314.41",
             "symbol": "bch_usd_250328",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "735",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -125850,112 +125639,6 @@
           "id": "omni_usdt",
           "lowercaseId": "__undefined",
           "subType": "linear"
-        },
-        "PIXEL3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "pixel3s",
-            "baseCurrencyId": "3390",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/1cb95efa-a708-4179-9dbb-dea990f9d67b-1718932672018.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "PIXEL3S/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "10063",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1718640000000",
-            "symbol": "pixel3s_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "PIXEL3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "pixel3s",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "PIXEL3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "pixel3s_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
         },
         "MEME/USDT:USDT": {
           "spot": false,
@@ -126767,7 +126450,7 @@
             "deliveryPrice": null,
             "symbol": "om_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "914",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -127431,7 +127114,7 @@
             "deliveryPrice": "0.2825",
             "symbol": "ada_usd_230630",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "371",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -130684,7 +130367,7 @@
             "deliveryPrice": null,
             "symbol": "knc_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "314",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -132800,7 +132483,7 @@
             "deliveryPrice": "27099.8",
             "symbol": "btc_usd_230929",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "486",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -133746,7 +133429,7 @@
             "deliveryPrice": null,
             "symbol": "seiusd_usdt",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "932",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -133887,7 +133570,7 @@
             "deliveryPrice": null,
             "symbol": "ada_usd_260327",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "1111",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -136229,7 +135912,7 @@
             "deliveryPrice": null,
             "symbol": "link_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "36",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -141999,7 +141682,7 @@
             "deliveryPrice": "628.78",
             "symbol": "bnb_usd_260327",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1116",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -145762,7 +145445,7 @@
             "deliveryPrice": null,
             "symbol": "arb_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "948",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -146169,7 +145852,7 @@
             "deliveryPrice": "30740.6",
             "symbol": "btc_usd_230630",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "234",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -146559,7 +146242,7 @@
             "deliveryPrice": null,
             "symbol": "xt_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "306",
+            "symbolId": null,
             "plates": [
               1
             ],
@@ -148810,113 +148493,6 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
-        "METIS3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "metis3l",
-            "baseCurrencyId": "3249",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/ab7b7111-7dda-4f3a-a132-2ab7105d1b35-1717385730814.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "METIS3L/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "9892",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1717488000000",
-            "symbol": "metis3l_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "METIS3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "metis3l",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "METIS3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "metis3l_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "ALGO/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -149719,7 +149295,7 @@
             "deliveryPrice": "0.6288",
             "symbol": "xrp_usd_231229",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "538",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -151208,7 +150784,7 @@
             "deliveryPrice": "102.94",
             "symbol": "ltc_usd_250926",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "964",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -152528,7 +152104,7 @@
             "deliveryPrice": null,
             "symbol": "trump_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "912",
+            "symbolId": null,
             "plates": [
               27
             ],
@@ -152669,7 +152245,7 @@
             "deliveryPrice": null,
             "symbol": "ftm_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "310",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -153635,113 +153211,6 @@
           "active": true,
           "expiry": "__undefined",
           "id": "link_eth",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "BB3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "bb3l",
-            "baseCurrencyId": "3359",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/1e645262-5287-4f6c-a818-80529bbe9cd5-1718762047047.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "BB3L/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "10032",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1718784000000",
-            "symbol": "bb3l_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "BB3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "bb3l",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "BB3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "bb3l_usdt",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -154769,7 +154238,7 @@
             "deliveryPrice": null,
             "symbol": "wif_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "704",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -156947,7 +156416,7 @@
             "deliveryPrice": "6.262",
             "symbol": "dot_usd_240628",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "595",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -163898,7 +163367,7 @@
             "deliveryPrice": null,
             "symbol": "bnb_usd_260626",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1181",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -164673,7 +164142,7 @@
             "deliveryPrice": "8.418",
             "symbol": "dot_usd_231229",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "540",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -165724,113 +165193,6 @@
           "id": "uai_usdt",
           "lowercaseId": "__undefined",
           "subType": "linear"
-        },
-        "BB3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "bb3s",
-            "baseCurrencyId": "3360",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/5dc3e2ab-ad3b-41af-a5cf-952753ed5b64-1718762066536.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "BB3S/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "10033",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1718784000000",
-            "symbol": "bb3s_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "BB3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "bb3s",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "BB3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "bb3s_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
         },
         "ARG/USDT": {
           "spot": true,
@@ -169746,7 +169108,7 @@
             "deliveryPrice": "2974.94",
             "symbol": "eth_usd_251226",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1039",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -170152,7 +169514,7 @@
             "deliveryPrice": "109273.4",
             "symbol": "btc_usd_250926",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "970",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -170291,7 +169653,7 @@
             "deliveryPrice": "607.89",
             "symbol": "bnb_usd_240329",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "566",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -170530,113 +169892,6 @@
           "id": "jailstool_usdt",
           "lowercaseId": "__undefined",
           "subType": "linear"
-        },
-        "RESOLV3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "resolv3s",
-            "baseCurrencyId": "4465",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/f3f0ddbc-d872-469d-8ea4-99227469e7b4-1750217098146.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "RESOLV3S/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "11059",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1750237200000",
-            "symbol": "resolv3s_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "RESOLV3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "resolv3s",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "RESOLV3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "resolv3s_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
         },
         "CVX/USDT": {
           "spot": true,
@@ -171299,7 +170554,7 @@
             "deliveryPrice": null,
             "symbol": "xrp_usd",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "14",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -171940,7 +171195,7 @@
             "deliveryPrice": "73.03",
             "symbol": "ltc_usd_240628",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "600",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -172434,7 +171689,7 @@
             "deliveryPrice": "3552.99",
             "symbol": "eth_usd_240329",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "562",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -172930,7 +172185,7 @@
             "deliveryPrice": null,
             "symbol": "eth_usd_230331",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "290",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -174439,7 +173694,7 @@
             "deliveryPrice": null,
             "symbol": "bnb_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "307",
+            "symbolId": null,
             "plates": [
               1
             ],
@@ -175731,7 +174986,7 @@
             "deliveryPrice": "107265.1",
             "symbol": "btc_usd_250627",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "858",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -177422,7 +176677,7 @@
             "deliveryPrice": null,
             "symbol": "gmt_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "40",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -180023,7 +179278,7 @@
             "deliveryPrice": "237.25",
             "symbol": "bch_usd_230929",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "477",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -180162,7 +179417,7 @@
             "deliveryPrice": null,
             "symbol": "eth_usd_260626",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1180",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -180443,7 +179698,7 @@
             "deliveryPrice": "4.907",
             "symbol": "dot_usd_240927",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "634",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -183010,7 +182265,7 @@
             "deliveryPrice": "443.82",
             "symbol": "bch_usd_241227",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "692",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -184936,7 +184191,7 @@
             "deliveryPrice": null,
             "symbol": "ldo_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "941",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -188890,7 +188145,7 @@
             "deliveryPrice": null,
             "symbol": "atom_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "34",
+            "symbolId": null,
             "plates": [
               1
             ],
@@ -190049,7 +189304,7 @@
             "deliveryPrice": "2.239",
             "symbol": "xrp_usd_250328",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "738",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -191798,7 +191053,7 @@
             "deliveryPrice": "2.1587",
             "symbol": "xrp_usd_241227",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "691",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -192321,7 +191576,7 @@
             "deliveryPrice": null,
             "symbol": "ada_usd_251226",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "1035",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -192460,7 +191715,7 @@
             "deliveryPrice": null,
             "symbol": "link_usd_260327",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1112",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -193094,7 +192349,7 @@
             "deliveryPrice": "195.63",
             "symbol": "sol_usd_250926",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1041",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -196603,7 +195858,7 @@
             "deliveryPrice": null,
             "symbol": "ada_usd_230331",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "370",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -197629,7 +196884,7 @@
             "deliveryPrice": null,
             "symbol": "tao_usd",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "918",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -201280,7 +200535,7 @@
             "deliveryPrice": null,
             "symbol": "xrp_usd_230331",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "374",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -204264,7 +203519,7 @@
             "deliveryPrice": null,
             "symbol": "aave_usd",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "50",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -205444,7 +204699,7 @@
             "deliveryPrice": null,
             "symbol": "hbar_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "949",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -205727,7 +204982,7 @@
             "deliveryPrice": "0.7738",
             "symbol": "ada_usd_250926",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "965",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -206008,7 +205263,7 @@
             "deliveryPrice": null,
             "symbol": "ens_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "319",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -206519,7 +205774,7 @@
             "deliveryPrice": null,
             "symbol": "bch_usd_250926",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "967",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -208537,7 +207792,7 @@
             "deliveryPrice": null,
             "symbol": "axs_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "38",
+            "symbolId": null,
             "plates": [
               1
             ],
@@ -210080,7 +209335,7 @@
             "deliveryPrice": null,
             "symbol": "btc_usd",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "12",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -210224,7 +209479,7 @@
             "deliveryPrice": null,
             "symbol": "fet_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "924",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -210946,112 +210201,6 @@
           "id": "loom_usdt",
           "lowercaseId": "__undefined",
           "subType": "linear"
-        },
-        "DODO3S/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "dodo3s",
-            "baseCurrencyId": "3336",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/bb5cc7f7-207c-442f-a6ff-399526b1617c-1718640210317.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "DODO3S/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "10006",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1718640000000",
-            "symbol": "dodo3s_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "DODO3S/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "dodo3s",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "DODO3S",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "dodo3s_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
         },
         "USDQ/USDT": {
           "spot": true,
@@ -213710,113 +212859,6 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
-        "PIXEL3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "pixel3l",
-            "baseCurrencyId": "3389",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/91a08525-6be9-4644-af2a-c908763fe1d9-1718932643983.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "PIXEL3L/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "10062",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1718956800000",
-            "symbol": "pixel3l_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "PIXEL3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "pixel3l",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "PIXEL3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "pixel3l_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "SENT/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -215377,7 +214419,7 @@
             "deliveryPrice": null,
             "symbol": "btc_usd_260626",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1175",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -217151,7 +216193,7 @@
             "deliveryPrice": "715.51",
             "symbol": "bnb_usd_241227",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "684",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -218434,7 +217476,7 @@
             "initLeverage": "10",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2025-09-04T12:06:40",
+            "updatedTime": "2026-04-17T10:46:41",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -218455,12 +217497,12 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "281",
             "minPrice": "0",
-            "nextOpenTime": "0",
+            "nextOpenTime": null,
             "maxEntrusts": "200",
             "deliveryDate": null,
             "liquidationFee": "0.01",
             "pair": "dent_usdt",
-            "offTime": null,
+            "offTime": "2026-04-21T08:00:00.000Z",
             "quoteCoinDisplayPrecision": "4",
             "baseCoinDisplayPrecision": "6",
             "riskNominalValueCoefficient": "1.00",
@@ -219218,7 +218260,7 @@
             "deliveryPrice": "843.66",
             "symbol": "bnb_usd_251226",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1040",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -220489,7 +219531,7 @@
             "deliveryPrice": null,
             "symbol": "dogs_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "904",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -221402,7 +220444,7 @@
             "deliveryPrice": null,
             "symbol": "vet_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "98",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -221932,7 +220974,7 @@
             "deliveryPrice": null,
             "symbol": "sand_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "60",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -222359,7 +221401,7 @@
             "deliveryPrice": null,
             "symbol": "jup_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "937",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -222989,7 +222031,7 @@
             "deliveryPrice": "0.4753",
             "symbol": "xrp_usd_240628",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "601",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -230095,7 +229137,7 @@
             "deliveryPrice": "577.25",
             "symbol": "bnb_usd_240628",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "592",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -230351,7 +229393,7 @@
             "deliveryPrice": "68717.6",
             "symbol": "btc_usd_260327",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1115",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -231022,7 +230064,7 @@
             "deliveryPrice": "4.102",
             "symbol": "dot_usd_230929",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "478",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -232520,7 +231562,7 @@
             "deliveryPrice": "14.563",
             "symbol": "link_usd_250328",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "734",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -232923,7 +231965,7 @@
             "deliveryPrice": null,
             "symbol": "1000shib_usd",
             "marketOpenTakeBound": "0.100000000000000000",
-            "symbolId": "913",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -233064,7 +232106,7 @@
             "deliveryPrice": "253.62",
             "symbol": "bch_usd_231229",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "539",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -239968,7 +239010,7 @@
             "deliveryPrice": null,
             "symbol": "sei_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "933",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -240524,7 +239566,7 @@
             "deliveryPrice": "2350.79",
             "symbol": "eth_usd_231229",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "536",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -246823,7 +245865,7 @@
             "deliveryPrice": "578.11",
             "symbol": "bch_usd_240329",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "558",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -247557,7 +246599,7 @@
             "deliveryPrice": null,
             "symbol": "ltc_usd_260327",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1110",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -247942,7 +246984,7 @@
             "deliveryPrice": "61403.5",
             "symbol": "btc_usd_240628",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "594",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -248208,7 +247250,7 @@
             "deliveryPrice": null,
             "symbol": "link_usd_230331",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "380",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -248347,7 +247389,7 @@
             "deliveryPrice": null,
             "symbol": "bnb_usd_260925",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1240",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -248486,7 +247528,7 @@
             "deliveryPrice": null,
             "symbol": "rose_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "312",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -250754,7 +249796,7 @@
             "deliveryPrice": null,
             "symbol": "ltc_usd_251226",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1034",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -253679,7 +252721,7 @@
             "deliveryPrice": "2659.6",
             "symbol": "eth_usd_240927",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "635",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -254345,7 +253387,7 @@
             "deliveryPrice": null,
             "symbol": "ondo_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "942",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -255307,7 +254349,7 @@
             "deliveryPrice": null,
             "symbol": "ape_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "43",
+            "symbolId": null,
             "plates": [
               1
             ],
@@ -255448,7 +254490,7 @@
             "deliveryPrice": "15.891",
             "symbol": "link_usd_231229",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "541",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -256231,7 +255273,7 @@
             "deliveryPrice": null,
             "symbol": "mnt_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "920",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -259118,113 +258160,6 @@
           "lowercaseId": "__undefined",
           "subType": "linear"
         },
-        "RESOLV3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "resolv3l",
-            "baseCurrencyId": "4464",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/c4bf1885-b3ee-4329-b62e-74d14ceb1938-1750217013245.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "RESOLV3L/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "11058",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1750237200000",
-            "symbol": "resolv3l_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "RESOLV3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "resolv3l",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "RESOLV3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "resolv3l_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "DHRX/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -260124,7 +259059,7 @@
             "deliveryPrice": null,
             "symbol": "grt_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "928",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -264825,7 +263760,7 @@
             "deliveryPrice": "0.475",
             "symbol": "xrp_usd_230630",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "375",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -266602,7 +265537,7 @@
             "deliveryPrice": null,
             "symbol": "fil_usd",
             "marketOpenTakeBound": "0.100000000000000000",
-            "symbolId": "102",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -268969,7 +267904,7 @@
             "deliveryPrice": "3358.33",
             "symbol": "eth_usd_241227",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "689",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -273611,7 +272546,7 @@
             "deliveryPrice": "1913.63",
             "symbol": "eth_usd_250328",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "737",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -274653,7 +273588,7 @@
             "deliveryPrice": null,
             "symbol": "avax_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "311",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -276209,7 +275144,7 @@
             "deliveryPrice": "103.23",
             "symbol": "ltc_usd_241227",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "690",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -276593,7 +275528,7 @@
             "deliveryPrice": "65446.4",
             "symbol": "btc_usd_240927",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "640",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -276978,7 +275913,7 @@
             "deliveryPrice": "70165.5",
             "symbol": "btc_usd_240329",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "561",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -277764,7 +276699,7 @@
             "deliveryPrice": "0.6154",
             "symbol": "xrp_usd_240329",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "565",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -278189,7 +277124,7 @@
             "deliveryPrice": null,
             "symbol": "jasmy_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "607",
+            "symbolId": null,
             "plates": [
               15,
               2,
@@ -282431,7 +281366,7 @@
             "deliveryPrice": null,
             "symbol": "etc_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "21",
+            "symbolId": null,
             "plates": [
               1,
               30
@@ -284078,7 +283013,7 @@
             "deliveryPrice": "0.4101",
             "symbol": "ada_usd_240927",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "631",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -284451,7 +283386,7 @@
             "deliveryPrice": "85508.2",
             "symbol": "btc_usd_250328",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "739",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -285819,7 +284754,7 @@
             "deliveryPrice": null,
             "symbol": "sol_usd_260626",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1177",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -287562,7 +286497,7 @@
             "deliveryPrice": null,
             "symbol": "icp_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "917",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -287824,7 +286759,7 @@
             "deliveryPrice": "68.98",
             "symbol": "ltc_usd_240927",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "636",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -291484,7 +290419,7 @@
             "deliveryPrice": "6.145",
             "symbol": "link_usd_230630",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "381",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -291887,7 +290822,7 @@
             "deliveryPrice": "84.93",
             "symbol": "ltc_usd_250627",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "856",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -292169,7 +291104,7 @@
             "deliveryPrice": null,
             "symbol": "xrp_usd_260925",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "1238",
+            "symbolId": null,
             "plates": [
               22
             ],
@@ -297317,7 +296252,7 @@
             "deliveryPrice": null,
             "symbol": "sushi_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "908",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -299335,7 +298270,7 @@
             "deliveryPrice": null,
             "symbol": "tia_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "925",
+            "symbolId": null,
             "plates": [
               30
             ],
@@ -301372,7 +300307,7 @@
             "deliveryPrice": "7.002",
             "symbol": "dot_usd_241227",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "687",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -303566,7 +302501,7 @@
             "deliveryPrice": null,
             "symbol": "eth_usd_260925",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1241",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -304353,7 +303288,7 @@
             "deliveryPrice": null,
             "symbol": "rune_usd",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "316",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -305352,7 +304287,7 @@
             "initLeverage": "5",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2026-03-08T06:59:41",
+            "updatedTime": "2026-04-17T10:46:01",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -305373,12 +304308,12 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "396",
             "minPrice": "0",
-            "nextOpenTime": "0",
+            "nextOpenTime": null,
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
             "pair": "dego_usdt",
-            "offTime": null,
+            "offTime": "2026-04-21T08:00:01.000Z",
             "quoteCoinDisplayPrecision": "4",
             "baseCoinDisplayPrecision": "4",
             "riskNominalValueCoefficient": "0.10",
@@ -305624,7 +304559,7 @@
             "deliveryPrice": "645.25",
             "symbol": "bnb_usd_250627",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "882",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -307542,113 +306477,6 @@
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
-        "AI3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "ai3l",
-            "baseCurrencyId": "3349",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/85bca334-c7a6-4747-9d81-ee44ae25ced0-1718640531364.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "AI3L/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "10019",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1718697600000",
-            "symbol": "ai3l_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "AI3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "ai3l",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "AI3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "ai3l_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
         "TALEX/USDT": {
           "spot": true,
           "contractSize": "__undefined",
@@ -309443,7 +308271,7 @@
             "deliveryPrice": "3.306",
             "symbol": "dot_usd_250627",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "859",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -314310,7 +313138,7 @@
             "deliveryPrice": "2066.92",
             "symbol": "eth_usd_260327",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1117",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -314590,7 +313418,7 @@
             "deliveryPrice": "302.9",
             "symbol": "bch_usd_230630",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "377",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -316588,7 +315416,7 @@
             "deliveryPrice": "318.18",
             "symbol": "bnb_usd_231229",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "542",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -317361,7 +316189,7 @@
             "deliveryPrice": "95572.2",
             "symbol": "btc_usd_241227",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "686",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -318764,7 +317592,7 @@
             "deliveryPrice": "7.775",
             "symbol": "link_usd_230929",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "479",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -319465,7 +318293,7 @@
             "deliveryPrice": "0.3864",
             "symbol": "ada_usd_240628",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "598",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -319604,7 +318432,7 @@
             "deliveryPrice": "65.95",
             "symbol": "ltc_usd_230929",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "489",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -320273,7 +319101,7 @@
             "deliveryPrice": "237.84",
             "symbol": "bnb_usd_230630",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "383",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -324368,7 +323196,7 @@
             "deliveryPrice": null,
             "symbol": "pyth_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "945",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -325236,7 +324064,7 @@
             "deliveryPrice": "501.55",
             "symbol": "bch_usd_250627",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "857",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -326164,7 +324992,7 @@
             "deliveryPrice": "393.93",
             "symbol": "bch_usd_240628",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "602",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -326692,7 +325520,7 @@
             "deliveryPrice": "0.5075",
             "symbol": "xrp_usd_230929",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "490",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -333964,7 +332792,7 @@
             "deliveryPrice": null,
             "symbol": "xrp_usd_260626",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "1179",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -335267,7 +334095,7 @@
             "deliveryPrice": "0.5888",
             "symbol": "xrp_usd_240927",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "637",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -337477,7 +336305,7 @@
             "deliveryPrice": null,
             "symbol": "render_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "938",
+            "symbolId": null,
             "plates": [
               2,
               30
@@ -343316,7 +342144,7 @@
             "deliveryPrice": "2.7547",
             "symbol": "xrp_usd_250926",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "969",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -343832,7 +342660,7 @@
             "deliveryPrice": null,
             "symbol": "crv_usd",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "64",
+            "symbolId": null,
             "plates": [
               2
             ],
@@ -344774,7 +343602,7 @@
             "deliveryPrice": "1.8746",
             "symbol": "xrp_usd_251226",
             "marketOpenTakeBound": "0.080000000000000000",
-            "symbolId": "1033",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -345814,7 +344642,7 @@
             "deliveryPrice": null,
             "symbol": "sol_usd_260925",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "1243",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -346312,113 +345140,6 @@
           "active": false,
           "expiry": "__undefined",
           "id": "rave_usdt",
-          "lowercaseId": "__undefined",
-          "subType": "__undefined"
-        },
-        "DODO3L/USDT": {
-          "spot": true,
-          "contractSize": "__undefined",
-          "linear": "__undefined",
-          "quoteId": "usdt",
-          "tierBased": "__undefined",
-          "index": false,
-          "maker": "__undefined",
-          "inverse": "__undefined",
-          "info": {
-            "baseCurrency": "dodo3l",
-            "baseCurrencyId": "3335",
-            "baseCurrencyLogo": "https://a.static-global.com/1/currency/77b8a77f-6391-493d-910a-ce8bc2c16acb-1718640186554.png",
-            "baseCurrencyPrecision": "8",
-            "businessNameI18n": null,
-            "chainRelation": [],
-            "depthMergePrecision": "5",
-            "displayLevel": "FULL",
-            "displayName": "DODO3L/USDT",
-            "displayWeight": "1",
-            "filters": [
-              {
-                "buyMaxDeviation": "0.8",
-                "buyPriceLimitCoefficient": "4",
-                "filter": "PROTECTION_LIMIT",
-                "sellMaxDeviation": "4",
-                "sellPriceLimitCoefficient": "0.8"
-              },
-              {
-                "avgPriceMins": "5",
-                "filter": "QUOTE_QTY",
-                "min": "1"
-              }
-            ],
-            "id": "10005",
-            "makerFeeRate": "0.002",
-            "nextState": null,
-            "nextStateTime": null,
-            "openapiEnabled": true,
-            "orderTypes": [],
-            "plates": [],
-            "pricePrecision": "6",
-            "quantityPrecision": "2",
-            "quoteCurrency": "usdt",
-            "quoteCurrencyId": "11",
-            "quoteCurrencyPrecision": "8",
-            "state": "ONLINE",
-            "stateTime": "1718697600000",
-            "symbol": "dodo3l_usdt",
-            "tags": [],
-            "takerFeeRate": "0.002",
-            "timeInForces": [],
-            "tradingEnabled": true,
-            "type": "normal"
-          },
-          "created": "__undefined",
-          "option": false,
-          "future": false,
-          "symbol": "DODO3L/USDT",
-          "settle": "__undefined",
-          "precision": {
-            "amount": 0.01,
-            "base": "__undefined",
-            "price": 1.0e-6,
-            "quote": "__undefined"
-          },
-          "baseId": "dodo3l",
-          "type": "spot",
-          "strike": "__undefined",
-          "settleId": "__undefined",
-          "quote": "USDT",
-          "expiryDatetime": "__undefined",
-          "base": "DODO3L",
-          "swap": false,
-          "marginModes": {
-            "cross": "__undefined",
-            "isolated": "__undefined"
-          },
-          "limits": {
-            "amount": {
-              "max": "__undefined",
-              "min": "__undefined"
-            },
-            "cost": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "leverage": {
-              "max": "__undefined",
-              "min": 1
-            },
-            "price": {
-              "max": "__undefined",
-              "min": "__undefined"
-            }
-          },
-          "taker": "__undefined",
-          "optionType": "__undefined",
-          "margin": "__undefined",
-          "contract": false,
-          "percentage": "__undefined",
-          "active": true,
-          "expiry": "__undefined",
-          "id": "dodo3l_usdt",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -349789,7 +348510,7 @@
             "deliveryPrice": null,
             "symbol": "btc_usd_230331",
             "marketOpenTakeBound": "0.050000000000000000",
-            "symbolId": "233",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": false,
             "riskExpireTime": null,
@@ -351065,7 +349786,7 @@
             "deliveryPrice": "2445.75",
             "symbol": "eth_usd_250627",
             "marketOpenTakeBound": "0.030000000000000000",
-            "symbolId": "861",
+            "symbolId": null,
             "plates": [],
             "isOpenApi": true,
             "riskExpireTime": null,
@@ -355323,7 +354044,7 @@
             "initLeverage": "5",
             "businessNameI18n": null,
             "multiplierDown": "0.1",
-            "updatedTime": "2025-12-26T14:54:49",
+            "updatedTime": "2026-04-17T10:47:35",
             "quantityPrecision": "0",
             "thanosSwitch": true,
             "cnRemark": null,
@@ -355344,12 +354065,12 @@
             "supportOrderType": "LIMIT,MARKET",
             "id": "431",
             "minPrice": "0",
-            "nextOpenTime": "0",
+            "nextOpenTime": null,
             "maxEntrusts": "100",
             "deliveryDate": null,
             "liquidationFee": "0.01",
             "pair": "tru_usdt",
-            "offTime": null,
+            "offTime": "2026-04-21T08:00:00.000Z",
             "quoteCoinDisplayPrecision": "4",
             "baseCoinDisplayPrecision": "5",
             "riskNominalValueCoefficient": "0.10",
@@ -356562,7 +355283,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 1643,
+        "sample_count": 1631,
         "separator": "_",
         "suffix": null
       },
@@ -356669,7 +355390,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -417678,6 +416399,229 @@
         ],
         "return_type": null,
         "statements": 1
+      }
+    },
+    "request_defaults": {
+      "cancelOrders": {
+        "orderIds": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createContractOrder": {
+        "origQty": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createSpotOrder": {
+        "side": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "type": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchDepositAddress": {
+        "chain": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingHistory": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingRate": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingRateHistory": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchMarketLeverageTiers": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "interval": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchPosition": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTicker": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "modifyMarginHelper": {
+        "margin": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "positionSide": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "type": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "setLeverage": {
+        "leverage": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "positionSide": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "setMarginMode": {
+        "positionSide": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "positionType": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "transfer": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "bizId": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "from": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "to": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "withdraw": {
+        "address": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "amount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "chain": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "unclassified",
     "version": "v3"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -895,7 +896,7 @@
       "version": "v3"
     },
     "markets": {
-      "market_count": 294,
+      "market_count": 295,
       "markets": {
         "XLM/USDT": {
           "spot": true,
@@ -7730,6 +7731,80 @@
           "active": false,
           "expiry": "__undefined",
           "id": "DZTB_USDT",
+          "lowercaseId": "__undefined",
+          "subType": "__undefined"
+        },
+        "PTH/USDT": {
+          "spot": true,
+          "contractSize": "__undefined",
+          "linear": "__undefined",
+          "quoteId": "USDT",
+          "tierBased": true,
+          "index": "__undefined",
+          "maker": 0.002,
+          "inverse": "__undefined",
+          "info": {
+            "amount_precision": "4",
+            "base_asset": "PTH",
+            "is_allow": "0",
+            "minimum_amount": "0.0001",
+            "minimum_value": "2",
+            "order_types": [
+              "LIMIT"
+            ],
+            "price_precision": "5",
+            "quote_asset": "USDT",
+            "status": "TRADING",
+            "symbol": "PTH_USDT",
+            "zone": "INNOVATE"
+          },
+          "created": "__undefined",
+          "option": false,
+          "future": false,
+          "symbol": "PTH/USDT",
+          "settle": "__undefined",
+          "precision": {
+            "amount": 0.0001,
+            "price": 1.0e-5
+          },
+          "baseId": "PTH",
+          "type": "spot",
+          "strike": "__undefined",
+          "settleId": "__undefined",
+          "quote": "USDT",
+          "expiryDatetime": "__undefined",
+          "base": "PTH",
+          "swap": false,
+          "marginModes": {
+            "cross": "__undefined",
+            "isolated": "__undefined"
+          },
+          "limits": {
+            "amount": {
+              "max": "__undefined",
+              "min": 0.0001
+            },
+            "cost": {
+              "max": "__undefined",
+              "min": 2
+            },
+            "leverage": {
+              "max": "__undefined",
+              "min": "__undefined"
+            },
+            "price": {
+              "max": "__undefined",
+              "min": "__undefined"
+            }
+          },
+          "taker": 0.002,
+          "optionType": "__undefined",
+          "margin": "__undefined",
+          "contract": false,
+          "percentage": true,
+          "active": false,
+          "expiry": "__undefined",
+          "id": "PTH_USDT",
           "lowercaseId": "__undefined",
           "subType": "__undefined"
         },
@@ -24406,7 +24481,7 @@
           }
         ],
         "id_structure": "baseId_quoteId",
-        "sample_count": 224,
+        "sample_count": 225,
         "separator": "_",
         "suffix": null
       },
@@ -24492,7 +24567,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -53074,6 +53149,132 @@
         ],
         "return_type": "Str",
         "statements": 2
+      }
+    },
+    "request_defaults": {
+      "cancelOrder": {
+        "order_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "cancelOrders": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "order_id": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        }
+      },
+      "fetchDepositAddress": {
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingRate": {
+        "instrument_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchFundingRateHistory": {
+        "instrument_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchMarketLeverageTiers": {
+        "instrument_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "order_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTradingFee": {
+        "instrument_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "modifyMarginHelper": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "instrument_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "side": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "type": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "setLeverage": {
+        "instrument_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "leverage": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "setMarginMode": {
+        "instrument_id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "margin_mode": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "withdraw": {
+        "address": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "amount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "currency": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

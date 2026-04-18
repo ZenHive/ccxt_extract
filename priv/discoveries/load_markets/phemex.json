@@ -1,7 +1,7 @@
 {
-  "extracted_at": "2026-04-17T03:36:21.100181Z",
+  "extracted_at": "2026-04-17T13:02:03.844794Z",
   "id": "phemex",
-  "market_count": 1933,
+  "market_count": 1937,
   "markets": {
     "COMBO/USDT": {
       "spot": true,
@@ -10479,6 +10479,104 @@
       "subType": "linear",
       "priceScale": 4
     },
+    "BAR/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "ratioScale": 8,
+      "quoteId": "USDT",
+      "tierBased": false,
+      "index": false,
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "tipOrderQty": "23000",
+        "ratioScale": "8",
+        "pricePrecision": "4",
+        "baseTickSizeEv": "10000000",
+        "minOrderValue": "1 USDT",
+        "description": "BARUSDT is a BAR/USDT spot trading pair. Minimum order value is 1 USDT",
+        "defaultTakerFee": "0.001",
+        "defaultMakerFeeEr": "100000",
+        "status": "Delisted",
+        "maxOrderValue": "500,000 USDT",
+        "quoteTickSizeEv": "10000",
+        "baseQtyPrecision": "1",
+        "symbol": "sBARUSDT",
+        "ieoOpenPriceEp": "400000000",
+        "maxOrderValueEv": "50000000000000",
+        "displaySymbol": "BAR / USDT",
+        "type": "Spot",
+        "defaultMakerFee": "0.001",
+        "listTime": "1667376000000",
+        "buyPriceUpperLimitPct": "150",
+        "quoteCurrency": "USDT",
+        "minOrderValueEv": "100000000",
+        "baseCurrency": "BAR",
+        "valueScale": "8",
+        "maxBaseOrderSizeEv": "91524800000000",
+        "maxBaseOrderSize": "915,248 BAR",
+        "quoteQtyPrecision": "2",
+        "quoteTickSize": "0.0001 USDT",
+        "sellPriceLowerLimitPct": "50",
+        "priceScale": "8",
+        "defaultTakerFeeEr": "100000",
+        "baseTickSize": "0.1 BAR",
+        "code": "42901",
+        "ieoInitDurationMs": "300000"
+      },
+      "created": 1667376000000,
+      "option": false,
+      "future": false,
+      "symbol": "BAR/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.0001
+      },
+      "baseId": "BAR",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "BAR",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "valueScale": 8,
+      "limits": {
+        "amount": {
+          "max": 915248,
+          "min": 0.1
+        },
+        "cost": {
+          "max": 500000,
+          "min": 1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "sBARUSDT",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined",
+      "priceScale": 8
+    },
     "EPT/USDT:USDT": {
       "spot": false,
       "contractSize": 1,
@@ -19834,13 +19932,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "4",
-        "minPriceRp": "1.0",
+        "pricePrecision": "5",
+        "minPriceRp": "0.1",
         "description": "A/USDT perpetual contracts are priced on the .AUSDT Index. Each contract is worth 1 A. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "50.0",
         "qtyStepSize": "1.0",
-        "tickSize": "0.0001",
-        "maxPriceRp": "500000",
+        "tickSize": "0.00001",
+        "maxPriceRp": "200000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -19881,7 +19979,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "A",
       "type": "swap",
@@ -26990,13 +27088,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "5",
-        "minPriceRp": "0.1",
+        "pricePrecision": "6",
+        "minPriceRp": "0.01",
         "description": "HEMI/USDT perpetual contracts are priced on the .HEMIUSDT Index. Each contract is worth 1 HEMI. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "20.0",
         "qtyStepSize": "1.0",
-        "tickSize": "0.00001",
-        "maxPriceRp": "200000",
+        "tickSize": "0.000001",
+        "maxPriceRp": "20000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -27037,7 +27135,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 1.0e-5
+        "price": 1.0e-6
       },
       "baseId": "HEMI",
       "type": "swap",
@@ -31127,12 +31225,12 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "3",
-        "minPriceRp": "10.0",
+        "pricePrecision": "4",
+        "minPriceRp": "1.0",
         "description": "ALICE/USDT perpetual contracts are priced on the .ALICEUSDT Index. Each contract is worth 1 ALICE. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "20.0",
         "qtyStepSize": "0.1",
-        "tickSize": "0.001",
+        "tickSize": "0.0001",
         "maxPriceRp": "500000",
         "status": "Listed",
         "riskLimits": [
@@ -31174,7 +31272,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 0.1,
-        "price": 0.001
+        "price": 0.0001
       },
       "baseId": "ALICE",
       "type": "swap",
@@ -36346,13 +36444,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "4",
-        "minPriceRp": "1.0",
+        "pricePrecision": "5",
+        "minPriceRp": "0.1",
         "description": "KERNEL/USDT perpetual contracts are priced on the .KERNELUSDT Index. Each contract is worth 1 KERNEL. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "20.0",
         "qtyStepSize": "1.0",
-        "tickSize": "0.0001",
-        "maxPriceRp": "500000",
+        "tickSize": "0.00001",
+        "maxPriceRp": "200000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -36393,7 +36491,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "KERNEL",
       "type": "swap",
@@ -57789,13 +57887,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "5",
-        "minPriceRp": "0.1",
+        "pricePrecision": "4",
+        "minPriceRp": "1.0",
         "description": "GUA/USDT perpetual contracts are priced on the .GUAUSDT Index. Each contract is worth 1 GUA. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "20.0",
         "qtyStepSize": "0.01",
-        "tickSize": "0.00001",
-        "maxPriceRp": "200000",
+        "tickSize": "0.0001",
+        "maxPriceRp": "500000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -57836,7 +57934,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 0.01,
-        "price": 1.0e-5
+        "price": 0.0001
       },
       "baseId": "GUA",
       "type": "swap",
@@ -92678,13 +92776,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "4",
-        "minPriceRp": "1.0",
+        "pricePrecision": "5",
+        "minPriceRp": "0.1",
         "description": "ONG/USDT perpetual contracts are priced on the .ONGUSDT Index. Each contract is worth 1 ONG. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "50.0",
         "qtyStepSize": "1.0",
-        "tickSize": "0.0001",
-        "maxPriceRp": "500000",
+        "tickSize": "0.00001",
+        "maxPriceRp": "200000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -92725,7 +92823,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "ONG",
       "type": "swap",
@@ -92876,6 +92974,104 @@
       "lowercaseId": "__undefined",
       "subType": "linear",
       "priceScale": 0
+    },
+    "ARG/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "ratioScale": 8,
+      "quoteId": "USDT",
+      "tierBased": false,
+      "index": false,
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "tipOrderQty": "13000",
+        "ratioScale": "8",
+        "pricePrecision": "4",
+        "baseTickSizeEv": "1000000",
+        "minOrderValue": "1 USDT",
+        "description": "ARGUSDT is a ARG/USDT spot trading pair. Minimum order value is 1 USDT",
+        "defaultTakerFee": "0.001",
+        "defaultMakerFeeEr": "100000",
+        "status": "Delisted",
+        "maxOrderValue": "500,000 USDT",
+        "quoteTickSizeEv": "10000",
+        "baseQtyPrecision": "2",
+        "symbol": "sARGUSDT",
+        "ieoOpenPriceEp": "700000000",
+        "maxOrderValueEv": "50000000000000",
+        "displaySymbol": "ARG / USDT",
+        "type": "Spot",
+        "defaultMakerFee": "0.001",
+        "listTime": "1669291200000",
+        "buyPriceUpperLimitPct": "150",
+        "quoteCurrency": "USDT",
+        "minOrderValueEv": "100000000",
+        "baseCurrency": "ARG",
+        "valueScale": "8",
+        "maxBaseOrderSizeEv": "76734000000000",
+        "maxBaseOrderSize": "767,340 ARG",
+        "quoteQtyPrecision": "2",
+        "quoteTickSize": "0.0001 USDT",
+        "sellPriceLowerLimitPct": "50",
+        "priceScale": "8",
+        "defaultTakerFeeEr": "100000",
+        "baseTickSize": "0.01 ARG",
+        "code": "44101",
+        "ieoInitDurationMs": "300000"
+      },
+      "created": 1669291200000,
+      "option": false,
+      "future": false,
+      "symbol": "ARG/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 0.0001
+      },
+      "baseId": "ARG",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "ARG",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "valueScale": 8,
+      "limits": {
+        "amount": {
+          "max": 767340,
+          "min": 0.01
+        },
+        "cost": {
+          "max": 500000,
+          "min": 1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "sARGUSDT",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined",
+      "priceScale": 8
     },
     "TCOM/USDT": {
       "spot": true,
@@ -94220,7 +94416,7 @@
         "description": "BBUSDT is a BB/USDT spot trading pair. Minimum order value is 1 USDT",
         "defaultTakerFee": "0.001",
         "defaultMakerFeeEr": "100000",
-        "status": "Listed",
+        "status": "Delisted",
         "maxOrderValue": "500,000 USDT",
         "leverage": "5",
         "quoteTickSizeEv": "10000",
@@ -94291,7 +94487,7 @@
       "margin": false,
       "contract": false,
       "percentage": true,
-      "active": true,
+      "active": false,
       "expiry": "__undefined",
       "id": "sBBUSDT",
       "lowercaseId": "__undefined",
@@ -98761,6 +98957,104 @@
       "subType": "linear",
       "priceScale": 0
     },
+    "PSG/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "ratioScale": 8,
+      "quoteId": "USDT",
+      "tierBased": false,
+      "index": false,
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "tipOrderQty": "15000",
+        "ratioScale": "8",
+        "pricePrecision": "4",
+        "baseTickSizeEv": "1000000",
+        "minOrderValue": "1 USDT",
+        "description": "PSGUSDT is a PSG/USDT spot trading pair. Minimum order value is 1 USDT",
+        "defaultTakerFee": "0.001",
+        "defaultMakerFeeEr": "100000",
+        "status": "Delisted",
+        "maxOrderValue": "500,000 USDT",
+        "quoteTickSizeEv": "10000",
+        "baseQtyPrecision": "2",
+        "symbol": "sPSGUSDT",
+        "ieoOpenPriceEp": "650000000",
+        "maxOrderValueEv": "50000000000000",
+        "displaySymbol": "PSG / USDT",
+        "type": "Spot",
+        "defaultMakerFee": "0.001",
+        "listTime": "1667376000000",
+        "buyPriceUpperLimitPct": "150",
+        "quoteCurrency": "USDT",
+        "minOrderValueEv": "100000000",
+        "baseCurrency": "PSG",
+        "valueScale": "8",
+        "maxBaseOrderSizeEv": "53464400000000",
+        "maxBaseOrderSize": "534,644 PSG",
+        "quoteQtyPrecision": "2",
+        "quoteTickSize": "0.0001 USDT",
+        "sellPriceLowerLimitPct": "50",
+        "priceScale": "8",
+        "defaultTakerFeeEr": "100000",
+        "baseTickSize": "0.01 PSG",
+        "code": "42401",
+        "ieoInitDurationMs": "300000"
+      },
+      "created": 1667376000000,
+      "option": false,
+      "future": false,
+      "symbol": "PSG/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.01,
+        "price": 0.0001
+      },
+      "baseId": "PSG",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "PSG",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "valueScale": 8,
+      "limits": {
+        "amount": {
+          "max": 534644,
+          "min": 0.01
+        },
+        "cost": {
+          "max": 500000,
+          "min": 1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": false,
+      "expiry": "__undefined",
+      "id": "sPSGUSDT",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined",
+      "priceScale": 8
+    },
     "KLAY/USD:USD": {
       "spot": false,
       "contractSize": 1,
@@ -101382,13 +101676,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "4",
-        "minPriceRp": "1.0",
+        "pricePrecision": "5",
+        "minPriceRp": "0.1",
         "description": "OGN/USDT perpetual contracts are priced on the .OGNUSDT Index. Each contract is worth 1 OGN. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "20.0",
         "qtyStepSize": "1.0",
-        "tickSize": "0.0001",
-        "maxPriceRp": "500000",
+        "tickSize": "0.00001",
+        "maxPriceRp": "200000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -101429,7 +101723,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "OGN",
       "type": "swap",
@@ -110309,13 +110603,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "4",
-        "minPriceRp": "10.0",
+        "pricePrecision": "5",
+        "minPriceRp": "0.1",
         "description": "SAND/USDT perpetual contracts are priced on the .SANDUSDT Index. Each contract is worth 1 SAND. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "50.0",
         "qtyStepSize": "1.0",
-        "tickSize": "0.0001",
-        "maxPriceRp": "500000",
+        "tickSize": "0.00001",
+        "maxPriceRp": "200000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -110356,7 +110650,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "SAND",
       "type": "swap",
@@ -125466,12 +125760,12 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "3",
-        "minPriceRp": "10.0",
+        "pricePrecision": "4",
+        "minPriceRp": "1.0",
         "description": "DYDX/USDT perpetual contracts are priced on the .DYDXUSDT Index. Each contract is worth 1 DYDX. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "50.0",
         "qtyStepSize": "0.1",
-        "tickSize": "0.001",
+        "tickSize": "0.0001",
         "maxPriceRp": "500000",
         "status": "Listed",
         "riskLimits": [
@@ -125513,7 +125807,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 0.1,
-        "price": 0.001
+        "price": 0.0001
       },
       "baseId": "DYDX",
       "type": "swap",
@@ -128448,13 +128742,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "5",
-        "minPriceRp": "0.1",
+        "pricePrecision": "4",
+        "minPriceRp": "1.0",
         "description": "SIREN/USDT perpetual contracts are priced on the .SIRENUSDT Index. Each contract is worth 1 SIREN. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "20.0",
         "qtyStepSize": "1.0",
-        "tickSize": "0.00001",
-        "maxPriceRp": "200000",
+        "tickSize": "0.0001",
+        "maxPriceRp": "500000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -128495,7 +128789,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 1.0e-5
+        "price": 0.0001
       },
       "baseId": "SIREN",
       "type": "swap",
@@ -135177,13 +135471,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "4",
-        "minPriceRp": "1.0",
+        "pricePrecision": "5",
+        "minPriceRp": "0.1",
         "description": "CHR/USDT perpetual contracts are priced on the .CHRUSDT Index. Each contract is worth 1 CHR. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "20.0",
         "qtyStepSize": "1.0",
-        "tickSize": "0.0001",
-        "maxPriceRp": "500000",
+        "tickSize": "0.00001",
+        "maxPriceRp": "200000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -135224,7 +135518,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "CHR",
       "type": "swap",
@@ -136714,13 +137008,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "4",
-        "minPriceRp": "1.0",
+        "pricePrecision": "5",
+        "minPriceRp": "0.1",
         "description": "CELO/USDT perpetual contracts are priced on the .CELOUSDT Index. Each contract is worth 1 CELO. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "50.0",
         "qtyStepSize": "0.1",
-        "tickSize": "0.0001",
-        "maxPriceRp": "500000",
+        "tickSize": "0.00001",
+        "maxPriceRp": "200000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -136761,7 +137055,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 0.1,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "CELO",
       "type": "swap",
@@ -150969,13 +151263,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "5",
-        "minPriceRp": "0.1",
+        "pricePrecision": "6",
+        "minPriceRp": "0.01",
         "description": "ASTR/USDT perpetual contracts are priced on the .ASTRUSDT Index. Each contract is worth 1 ASTR. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "20.0",
         "qtyStepSize": "1.0",
-        "tickSize": "0.00001",
-        "maxPriceRp": "200000",
+        "tickSize": "0.000001",
+        "maxPriceRp": "20000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -151016,7 +151310,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 1.0e-5
+        "price": 1.0e-6
       },
       "baseId": "ASTR",
       "type": "swap",
@@ -162047,13 +162341,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "5",
-        "minPriceRp": "0.1",
+        "pricePrecision": "6",
+        "minPriceRp": "0.01",
         "description": "PIXEL/USDT perpetual contracts are priced on the .PIXELUSDT Index. Each contract is worth 1 PIXEL. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "50.0",
         "qtyStepSize": "1.0",
-        "tickSize": "0.00001",
-        "maxPriceRp": "200000",
+        "tickSize": "0.000001",
+        "maxPriceRp": "20000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -162094,7 +162388,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 1,
-        "price": 1.0e-5
+        "price": 1.0e-6
       },
       "baseId": "PIXEL",
       "type": "swap",
@@ -177645,13 +177939,13 @@
         "defaultLeverage": "-10",
         "majorSymbol": false,
         "ratioScale": "0",
-        "pricePrecision": "4",
-        "minPriceRp": "1.0",
+        "pricePrecision": "5",
+        "minPriceRp": "0.1",
         "description": "ZKC/USDT perpetual contracts are priced on the .ZKCUSDT Index. Each contract is worth 1 ZKC. Funding fees are paid and received every 8 hours at UTC time: 00:00, 08:00 and 16:00.",
         "maxOpenPosLeverage": "20.0",
         "qtyStepSize": "0.01",
-        "tickSize": "0.0001",
-        "maxPriceRp": "500000",
+        "tickSize": "0.00001",
+        "maxPriceRp": "200000",
         "status": "Listed",
         "riskLimits": [
           {
@@ -177692,7 +177986,7 @@
       "settle": "USDT",
       "precision": {
         "amount": 0.01,
-        "price": 0.0001
+        "price": 1.0e-5
       },
       "baseId": "ZKC",
       "type": "swap",
@@ -180624,7 +180918,7 @@
         "perpProductSubType": "Normal",
         "priceScale": "0",
         "tipOrderQtyRq": "3600",
-        "fundingInterval": "28800",
+        "fundingInterval": "14400",
         "code": "74841"
       },
       "created": "__undefined",
@@ -187261,6 +187555,102 @@
       "active": false,
       "expiry": "__undefined",
       "id": "sDAOUSDT",
+      "lowercaseId": "__undefined",
+      "subType": "__undefined",
+      "priceScale": 8
+    },
+    "CFG/USDT": {
+      "spot": true,
+      "contractSize": "__undefined",
+      "linear": "__undefined",
+      "ratioScale": 8,
+      "quoteId": "USDT",
+      "tierBased": false,
+      "index": false,
+      "maker": 0.001,
+      "inverse": "__undefined",
+      "info": {
+        "baseCurrency": "CFG",
+        "baseQtyPrecision": "1",
+        "baseTickSize": "0.1 CFG",
+        "baseTickSizeEv": "10000000",
+        "buyPriceUpperLimitPct": "150",
+        "code": "190701",
+        "defaultMakerFee": "0.001",
+        "defaultMakerFeeEr": "100000",
+        "defaultTakerFee": "0.001",
+        "defaultTakerFeeEr": "100000",
+        "description": "CFGUSDT is a CFG/USDT spot trading pair. Minimum order value is 1 USDT",
+        "displaySymbol": "CFG / USDT",
+        "listTime": "1776420000000",
+        "maxBaseOrderSize": "2,093,800 CFG",
+        "maxBaseOrderSizeEv": "209380000000000",
+        "maxOrderValue": "500,000 USDT",
+        "maxOrderValueEv": "50000000000000",
+        "minOrderValue": "1 USDT",
+        "minOrderValueEv": "100000000",
+        "pricePrecision": "4",
+        "priceScale": "8",
+        "quoteCurrency": "USDT",
+        "quoteQtyPrecision": "2",
+        "quoteTickSize": "0.0001 USDT",
+        "quoteTickSizeEv": "10000",
+        "ratioScale": "8",
+        "sellPriceLowerLimitPct": "50",
+        "status": "Listed",
+        "symbol": "sCFGUSDT",
+        "tipOrderQty": "523450",
+        "type": "Spot",
+        "valueScale": "8"
+      },
+      "created": 1776420000000,
+      "option": false,
+      "future": false,
+      "symbol": "CFG/USDT",
+      "settle": "__undefined",
+      "precision": {
+        "amount": 0.1,
+        "price": 0.0001
+      },
+      "baseId": "CFG",
+      "type": "spot",
+      "strike": "__undefined",
+      "settleId": "__undefined",
+      "quote": "USDT",
+      "expiryDatetime": "__undefined",
+      "base": "CFG",
+      "swap": false,
+      "marginModes": {
+        "cross": "__undefined",
+        "isolated": "__undefined"
+      },
+      "valueScale": 8,
+      "limits": {
+        "amount": {
+          "max": 2093800,
+          "min": 0.1
+        },
+        "cost": {
+          "max": 500000,
+          "min": 1
+        },
+        "leverage": {
+          "max": "__undefined",
+          "min": "__undefined"
+        },
+        "price": {
+          "max": "__undefined",
+          "min": 0.0001
+        }
+      },
+      "taker": 0.001,
+      "optionType": "__undefined",
+      "margin": false,
+      "contract": false,
+      "percentage": true,
+      "active": true,
+      "expiry": "__undefined",
+      "id": "sCFGUSDT",
       "lowercaseId": "__undefined",
       "subType": "__undefined",
       "priceScale": 8

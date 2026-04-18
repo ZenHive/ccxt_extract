@@ -9,6 +9,100 @@ defmodule CcxtExtract.ContractTestTest do
 
   defp clean_exchange, do: schema_conformant("good")
 
+  describe "check_request_defaults_resolvable_reachable_from_unified/2" do
+    defp literal_entry(value), do: %{"value" => value, "kind" => "literal", "reason" => nil}
+    defp unresolved_entry(reason), do: %{"value" => nil, "kind" => "unresolved", "reason" => reason}
+
+    test "no finding when literal method is a direct unified_endpoints key" do
+      exchange = %{
+        "id" => "goodex",
+        "structure" => %{
+          "unified_endpoints" => %{"fetchTime" => ["publicPostInfo"]},
+          "request_defaults" => %{"fetchTime" => %{"type" => literal_entry("exchangeStatus")}}
+        }
+      }
+
+      assert ContractTest.check_request_defaults_resolvable_reachable_from_unified(
+               exchange,
+               @base_observed
+             ) == []
+    end
+
+    test "no finding when literal method appears as a value in unified_endpoints" do
+      # NOTE(Task 110): In the current corpus, unified_endpoints VALUES are
+      # always interface-method names (e.g. publicPostInfo) — never helper
+      # method names (a corpus scan over priv/output/*.json finds 7306
+      # interface-style values and 0 helper-style). This test locks the
+      # predicate contract — that a method name appearing anywhere in a
+      # unified_endpoints value list is considered reachable — for a future
+      # world where transitive-helper analysis populates values with helper
+      # names. It does NOT represent a shape that occurs in today's output.
+      exchange = %{
+        "id" => "synthex",
+        "structure" => %{
+          "unified_endpoints" => %{"fetchTime" => ["publicPostInfo", "fetchTimeHelper"]},
+          "request_defaults" => %{
+            "fetchTimeHelper" => %{"type" => literal_entry("exchangeStatus")}
+          }
+        }
+      }
+
+      assert ContractTest.check_request_defaults_resolvable_reachable_from_unified(
+               exchange,
+               @base_observed
+             ) == []
+    end
+
+    test "finding when a literal method is neither a key nor a value in unified_endpoints" do
+      exchange = %{
+        "id" => "deadex",
+        "structure" => %{
+          "unified_endpoints" => %{"fetchTicker" => ["publicGetTicker"]},
+          "request_defaults" => %{
+            "fetchOrphan" => %{"type" => literal_entry("x")}
+          }
+        }
+      }
+
+      [finding] =
+        ContractTest.check_request_defaults_resolvable_reachable_from_unified(
+          exchange,
+          @base_observed
+        )
+
+      assert finding.exchange == "deadex"
+      assert finding.invariant == "request_defaults_resolvable_reachable_from_unified"
+      assert finding.path == "structure.request_defaults.fetchOrphan"
+      assert finding.message =~ "fetchOrphan"
+    end
+
+    test "unresolved-only method is ignored even when unreachable" do
+      exchange = %{
+        "id" => "unresolvedex",
+        "structure" => %{
+          "unified_endpoints" => %{"fetchTicker" => ["publicGetTicker"]},
+          "request_defaults" => %{
+            "fetchOrphan" => %{"type" => unresolved_entry("identifier_reference")}
+          }
+        }
+      }
+
+      assert ContractTest.check_request_defaults_resolvable_reachable_from_unified(
+               exchange,
+               @base_observed
+             ) == []
+    end
+
+    test "no finding when request_defaults is absent or empty" do
+      exchange = %{"id" => "emptyex", "structure" => %{"unified_endpoints" => %{}}}
+
+      assert ContractTest.check_request_defaults_resolvable_reachable_from_unified(
+               exchange,
+               @base_observed
+             ) == []
+    end
+  end
+
   describe "check_unified_endpoints_claimed_in_has/2" do
     test "no finding when every unified_endpoints key has matching has=true" do
       exchange = %{

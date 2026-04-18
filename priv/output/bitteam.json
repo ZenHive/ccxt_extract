@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -46,7 +47,7 @@
     "tier": "unclassified",
     "version": "v2.0.6"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -598,20 +599,20 @@
             "active": true,
             "baseAssetId": "11",
             "baseStep": "8",
-            "change24": "0.28",
+            "change24": "1.99",
             "description": "BTC RUB pair",
             "fullName": "BTC RUB",
-            "highPrice24": "6325424.793843",
+            "highPrice24": "6432837.667701",
             "id": "56",
-            "lastBuy": "6307522.6482",
-            "lastPrice": "6325424.793843",
-            "lastSell": "6325424.793843",
+            "lastBuy": "6432837.667701",
+            "lastPrice": "6432837.667701",
+            "lastSell": "6289620.502557",
             "lowPrice24": "6253816.211271",
             "makerFee": "200",
             "name": "btc_rub",
             "quoteAssetId": "39",
             "quoteStep": "6",
-            "quoteVolume24": "9183.365155630712",
+            "quoteVolume24": "8046.078363311095",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -628,9 +629,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2024-12-27T09:53:48.348Z",
-            "updateId": "722",
-            "volume24": "0.00145842",
-            "volume24USD": "89.90929668015248"
+            "updateId": "765",
+            "volume24": "0.00127836",
+            "volume24USD": "78.80888118925942"
           },
           "created": 1735293228348,
           "option": false,
@@ -700,17 +701,17 @@
             "change24": "1.09",
             "description": "ETH   USDT",
             "fullName": "ETH USDT",
-            "highPrice24": "2351.738344",
+            "highPrice24": "2358.088673",
             "id": "2",
-            "lastBuy": "2351.738344",
-            "lastPrice": "2351.738344",
-            "lastSell": "2326.337028",
-            "lowPrice24": "2339.037686",
+            "lastBuy": "2358.088673",
+            "lastPrice": "2358.088673",
+            "lastSell": "2313.63637",
+            "lowPrice24": "2313.63637",
             "makerFee": "200",
             "name": "eth_usdt",
             "quoteAssetId": "3",
             "quoteStep": "6",
-            "quoteVolume24": "40.94736841774226",
+            "quoteVolume24": "91.63240011825494",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -727,9 +728,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2021-01-28T09:19:30.706Z",
-            "updateId": "945",
-            "volume24": "0.0174429",
-            "volume24USD": "38.9621075439159"
+            "updateId": "1010",
+            "volume24": "0.03919543",
+            "volume24USD": "87.55061135992453"
           },
           "created": 1611825570706,
           "option": false,
@@ -1093,20 +1094,20 @@
             "active": true,
             "baseAssetId": "15",
             "baseStep": "6",
-            "change24": "2.48",
+            "change24": "-0.81",
             "description": "TRX vs USDT",
             "fullName": "TRX USDT",
             "highPrice24": "0.329515",
             "id": "28",
             "lastBuy": "0.329515",
-            "lastPrice": "0.329515",
-            "lastSell": "0.32155",
-            "lowPrice24": "0.32509",
+            "lastPrice": "0.324205",
+            "lastSell": "0.324205",
+            "lowPrice24": "0.324205",
             "makerFee": "200",
             "name": "trx_usdt",
             "quoteAssetId": "3",
             "quoteStep": "6",
-            "quoteVolume24": "62.18726290975",
+            "quoteVolume24": "78.55204680597",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -1123,9 +1124,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2021-12-01T03:49:55.501Z",
-            "updateId": "475",
-            "volume24": "190.01692",
-            "volume24USD": "60.0909507808"
+            "updateId": "490",
+            "volume24": "240.137775",
+            "volume24USD": "75.941169966"
           },
           "created": 1638330595501,
           "option": false,
@@ -1390,20 +1391,20 @@
             "active": true,
             "baseAssetId": "31",
             "baseStep": "8",
-            "change24": "1.67",
+            "change24": "3.05",
             "description": "Ton Rub pair",
             "fullName": "TON RUB",
-            "highPrice24": "118.532884",
+            "highPrice24": "120.150714",
             "id": "55",
-            "lastBuy": "120.797846",
-            "lastPrice": "118.532884",
+            "lastBuy": "120.150714",
+            "lastPrice": "120.150714",
             "lastSell": "118.532884",
-            "lowPrice24": "118.532884",
+            "lowPrice24": "120.150714",
             "makerFee": "200",
             "name": "ton_rub",
             "quoteAssetId": "39",
             "quoteStep": "6",
-            "quoteVolume24": "1450.290580233546",
+            "quoteVolume24": "2178.490004458804",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -1420,9 +1421,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2024-06-18T15:32:53.015Z",
-            "updateId": "4811",
-            "volume24": "12.23534374",
-            "volume24USD": "13.062246620410619"
+            "updateId": "4839",
+            "volume24": "18.13131135",
+            "volume24USD": "19.356682201815296"
           },
           "created": 1718724773015,
           "option": false,
@@ -1786,20 +1787,20 @@
             "active": true,
             "baseAssetId": "11",
             "baseStep": "8",
-            "change24": "1.65",
+            "change24": "1.22",
             "description": "BTC and USDT",
             "fullName": "BTC USDT",
-            "highPrice24": "75094.239844",
+            "highPrice24": "75602.21531",
             "id": "22",
-            "lastBuy": "75094.239844",
-            "lastPrice": "75094.239844",
-            "lastSell": "73874.29732",
+            "lastBuy": "75602.21531",
+            "lastPrice": "75602.21531",
+            "lastSell": "74687.592336",
             "lowPrice24": "74687.592336",
             "makerFee": "200",
             "name": "btc_usdt",
             "quoteAssetId": "3",
             "quoteStep": "6",
-            "quoteVolume24": "74.98324269578968",
+            "quoteVolume24": "58.35305700419078",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -1816,9 +1817,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2021-03-01T13:04:52.512Z",
-            "updateId": "1045",
-            "volume24": "0.00100245",
-            "volume24USD": "71.6094265820664"
+            "updateId": "1064",
+            "volume24": "0.00078014",
+            "volume24USD": "55.72884238987808"
           },
           "created": 1614603892512,
           "option": false,
@@ -1984,20 +1985,20 @@
             "active": true,
             "baseAssetId": "5",
             "baseStep": "8",
-            "change24": "-3.05",
+            "change24": "-27.44",
             "description": "BTT USDT PAIR",
             "fullName": "BTT USDT",
             "highPrice24": "0.000164",
             "id": "35",
-            "lastBuy": "0.000159",
-            "lastPrice": "0.000159",
-            "lastSell": "0.000159",
-            "lowPrice24": "0.000157",
+            "lastBuy": "0.000119",
+            "lastPrice": "0.000119",
+            "lastSell": "0.000118",
+            "lowPrice24": "0.000118",
             "makerFee": "200",
             "name": "btt_usdt",
             "quoteAssetId": "3",
             "quoteStep": "6",
-            "quoteVolume24": "4982.184320320649",
+            "quoteVolume24": "3736.897395458102",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -2014,9 +2015,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2022-09-02T08:29:21.093Z",
-            "updateId": "12847",
-            "volume24": "31032850.17964961",
-            "volume24USD": "5275.584530540434"
+            "updateId": "13284",
+            "volume24": "23347961.15224737",
+            "volume24USD": "3969.153395882053"
           },
           "created": 1662107361093,
           "option": false,
@@ -2677,20 +2678,20 @@
             "active": true,
             "baseAssetId": "15",
             "baseStep": "6",
-            "change24": "0",
+            "change24": "0.54",
             "description": "TRX RUB pair",
             "fullName": "TRX RUB",
-            "highPrice24": "27.474949",
+            "highPrice24": "27.695731",
             "id": "58",
-            "lastBuy": "27.401355",
-            "lastPrice": "27.401355",
-            "lastSell": "27.401355",
-            "lowPrice24": "27.401355",
+            "lastBuy": "27.622137",
+            "lastPrice": "27.622137",
+            "lastSell": "27.474949",
+            "lowPrice24": "27.474949",
             "makerFee": "200",
             "name": "trx_rub",
             "quoteAssetId": "39",
             "quoteStep": "6",
-            "quoteVolume24": "2721.139055165868",
+            "quoteVolume24": "7502.09012272974",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -2707,9 +2708,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2024-12-27T09:56:13.768Z",
-            "updateId": "445",
-            "volume24": "99.147204",
-            "volume24USD": "27.456619965054838"
+            "updateId": "468",
+            "volume24": "271.97078",
+            "volume24USD": "75.3162776840337"
           },
           "created": 1735293373768,
           "option": false,
@@ -2875,20 +2876,20 @@
             "active": true,
             "baseAssetId": "16",
             "baseStep": "8",
-            "change24": "2.63",
+            "change24": "2.47",
             "description": "BNB RUB Pair",
             "fullName": "BNB RUB",
             "highPrice24": "53177.763487",
             "id": "59",
             "lastBuy": "53100.250843",
-            "lastPrice": "53100.250843",
-            "lastSell": "51737.643517",
-            "lowPrice24": "52217.683507",
+            "lastPrice": "53017.750157",
+            "lastSell": "53017.750157",
+            "lowPrice24": "53017.750157",
             "makerFee": "200",
             "name": "bnb_rub",
             "quoteAssetId": "39",
             "quoteStep": "6",
-            "quoteVolume24": "8049.702146656983",
+            "quoteVolume24": "4844.818323472033",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -2905,9 +2906,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2024-12-27T09:57:34.784Z",
-            "updateId": "468",
-            "volume24": "0.15251695",
-            "volume24USD": "81.02456729679645"
+            "updateId": "485",
+            "volume24": "0.09123963",
+            "volume24USD": "48.471016113748725"
           },
           "created": 1735293454784,
           "option": false,
@@ -2974,20 +2975,20 @@
             "active": true,
             "baseAssetId": "9",
             "baseStep": "8",
-            "change24": "1.28",
+            "change24": "-1.17",
             "description": "DEL USDT pair",
             "fullName": "DEL USDT",
             "highPrice24": "0.001321",
             "id": "24",
-            "lastBuy": "0.00119",
-            "lastPrice": "0.00119",
-            "lastSell": "0.001183",
-            "lowPrice24": "0.001169",
+            "lastBuy": "0.00118",
+            "lastPrice": "0.00118",
+            "lastSell": "0.00117",
+            "lowPrice24": "0.00117",
             "makerFee": "200",
             "name": "del_usdt",
             "quoteAssetId": "3",
             "quoteStep": "6",
-            "quoteVolume24": "79354.30734127192",
+            "quoteVolume24": "82064.29857634178",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -3004,9 +3005,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2021-03-17T11:59:20.091Z",
-            "updateId": "118906",
-            "volume24": "66877602.25134899",
-            "volume24USD": "78246.79463407832"
+            "updateId": "125431",
+            "volume24": "68834483.956254",
+            "volume24USD": "80536.34622881719"
           },
           "created": 1615982360091,
           "option": false,
@@ -3667,20 +3668,20 @@
             "active": true,
             "baseAssetId": "3",
             "baseStep": "6",
-            "change24": "0.12",
+            "change24": "-0.03",
             "description": "USDT RUB Pair",
             "fullName": "USDT RUB Pair",
-            "highPrice24": "85.01",
+            "highPrice24": "85.524716",
             "id": "53",
-            "lastBuy": "84.966875",
-            "lastPrice": "84.966875",
+            "lastBuy": "84.886429",
+            "lastPrice": "84.886429",
             "lastSell": "83.940569",
             "lowPrice24": "83.101163",
             "makerFee": "200",
             "name": "usdt_rub",
             "quoteAssetId": "39",
             "quoteStep": "6",
-            "quoteVolume24": "11975732.87512299",
+            "quoteVolume24": "11814095.108254895",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -3697,9 +3698,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2024-03-22T18:47:34.695Z",
-            "updateId": "48333",
-            "volume24": "141615.126627",
-            "volume24USD": "124410.71329694946"
+            "updateId": "50553",
+            "volume24": "139481.329875",
+            "volume24USD": "122536.14535869348"
           },
           "created": 1711133254695,
           "option": false,
@@ -3964,20 +3965,20 @@
             "active": true,
             "baseAssetId": "9",
             "baseStep": "8",
-            "change24": "1.78",
+            "change24": "-0.27",
             "description": "Del rub pair",
             "fullName": "DEL RUB",
             "highPrice24": "0.1097",
             "id": "51",
-            "lastBuy": "0.102366",
-            "lastPrice": "0.102366",
-            "lastSell": "0.10181",
+            "lastBuy": "0.10142",
+            "lastPrice": "0.10142",
+            "lastSell": "0.10099",
             "lowPrice24": "0.100002",
             "makerFee": "200",
             "name": "del_rub",
             "quoteAssetId": "39",
             "quoteStep": "6",
-            "quoteVolume24": "21217234.50577868",
+            "quoteVolume24": "21201020.651264958",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -3994,9 +3995,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2024-03-21T10:24:04.167Z",
-            "updateId": "103989",
-            "volume24": "209105728.86093014",
-            "volume24USD": "216653.94381906046"
+            "updateId": "109331",
+            "volume24": "207939916.96086833",
+            "volume24USD": "215446.04890735497"
           },
           "created": 1711016644167,
           "option": false,
@@ -4558,20 +4559,20 @@
             "active": true,
             "baseAssetId": "2",
             "baseStep": "8",
-            "change24": "-0.37",
+            "change24": "1.85",
             "description": "ETH RUB pair",
             "fullName": "ETH RUB",
-            "highPrice24": "199389.448932",
+            "highPrice24": "200116.263448",
             "id": "57",
-            "lastBuy": "197935.8199",
-            "lastPrice": "197209.005384",
-            "lastSell": "197209.005384",
+            "lastBuy": "200116.263448",
+            "lastPrice": "200116.263448",
+            "lastSell": "195755.376352",
             "lowPrice24": "195755.376352",
             "makerFee": "200",
             "name": "eth_rub",
             "quoteAssetId": "39",
             "quoteStep": "6",
-            "quoteVolume24": "13338.72047727404",
+            "quoteVolume24": "12954.511678722984",
             "settings": {
               "default_slippage": "10",
               "limit_usd": "0.1",
@@ -4588,9 +4589,9 @@
             "status": "1",
             "takerFee": "200",
             "timeStart": "2024-12-27T09:55:02.834Z",
-            "updateId": "717",
-            "volume24": "0.0675311",
-            "volume24USD": "130.09502437551993"
+            "updateId": "761",
+            "volume24": "0.0656336",
+            "volume24USD": "126.43959289650434"
           },
           "created": 1735293302834,
           "option": false,
@@ -4703,7 +4704,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -20856,6 +20857,84 @@
         ],
         "return_type": null,
         "statements": 5
+      }
+    },
+    "request_defaults": {
+      "cancelOrder": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createOrder": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "pairId": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "side": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "type": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "pairName": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "resolution": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "pair": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrders": {
+        "type": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTicker": {
+        "name": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "pair": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

@@ -28,6 +28,8 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
     * `:describe` — value for `runtime.describe` (default: `%{}`)
     * `:unified_endpoints` — value for `structure.unified_endpoints`
       (default: `%{}`)
+    * `:request_defaults` — value for `structure.request_defaults`
+      (default: `%{}`)
 
   Any field not exposed as an option is set to `nil`, `[]`, or `%{}`
   so the map walks cleanly under every declared pointer. Tests that
@@ -37,6 +39,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
   def schema_conformant(id, opts \\ []) when is_binary(id) do
     describe = Keyword.get(opts, :describe, %{})
     unified_endpoints = Keyword.get(opts, :unified_endpoints, %{})
+    request_defaults = Keyword.get(opts, :request_defaults, %{})
 
     %{
       "id" => id,
@@ -74,7 +77,8 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "interface_signatures" => nil,
         "pagination" => nil,
         "overrides" => nil,
-        "unified_endpoints" => unified_endpoints
+        "unified_endpoints" => unified_endpoints,
+        "request_defaults" => request_defaults
       },
       "_provenance" => Provenance.build_default()
     }

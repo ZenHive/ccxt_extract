@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-17T03:36:21.100181Z",
+  "extracted_at": "2026-04-17T13:02:03.844794Z",
   "id": "cex",
   "market_count": 1035,
   "markets": {
@@ -243,7 +243,7 @@
       "info": {
         "base": "TAKE",
         "baseLotSize": "0.000001",
-        "baseMax": "39640000",
+        "baseMax": "26240000",
         "baseMin": "822",
         "basePrecision": "6",
         "maxPrice": "1.66700",
@@ -280,7 +280,7 @@
       },
       "limits": {
         "amount": {
-          "max": 39640000,
+          "max": 26240000,
           "min": 822
         },
         "cost": {
@@ -322,9 +322,9 @@
         "baseMax": "61730000",
         "baseMin": "695",
         "basePrecision": "6",
-        "maxPrice": "1.7000",
-        "minPrice": "0.0030",
-        "pricePrecision": "4",
+        "maxPrice": "1.700000",
+        "minPrice": "0.003000",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -339,7 +339,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "COOKIE",
@@ -471,7 +471,7 @@
       "info": {
         "base": "1000SATS",
         "baseLotSize": "0.000001",
-        "baseMax": "88890000000",
+        "baseMax": "51540000000",
         "baseMin": "999750",
         "basePrecision": "6",
         "maxPrice": "0.0064440",
@@ -508,7 +508,7 @@
       },
       "limits": {
         "amount": {
-          "max": 88890000000,
+          "max": 51540000000,
           "min": 999750
         },
         "cost": {
@@ -623,12 +623,12 @@
       "info": {
         "base": "2Z",
         "baseLotSize": "0.000001",
-        "baseMax": "12950000",
+        "baseMax": "10700000",
         "baseMin": "168",
         "basePrecision": "6",
-        "maxPrice": "1.50000",
-        "minPrice": "0.01500",
-        "pricePrecision": "5",
+        "maxPrice": "1.500000",
+        "minPrice": "0.015000",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -643,7 +643,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "2Z",
@@ -660,7 +660,7 @@
       },
       "limits": {
         "amount": {
-          "max": 12950000,
+          "max": 10700000,
           "min": 168
         },
         "cost": {
@@ -775,8 +775,8 @@
       "info": {
         "base": "SIGN",
         "baseLotSize": "0.000001",
-        "baseMax": "31540000",
-        "baseMin": "420",
+        "baseMax": "51690000",
+        "baseMin": "581",
         "basePrecision": "6",
         "maxPrice": "0.86000",
         "minPrice": "0.00860",
@@ -812,8 +812,8 @@
       },
       "limits": {
         "amount": {
-          "max": 31540000,
-          "min": 420
+          "max": 51690000,
+          "min": 581
         },
         "cost": {
           "max": 1000000,
@@ -1079,7 +1079,7 @@
       "info": {
         "base": "BR",
         "baseLotSize": "0.000001",
-        "baseMax": "5755000",
+        "baseMax": "8257000",
         "baseMin": "225",
         "basePrecision": "6",
         "maxPrice": "0.4779",
@@ -1116,7 +1116,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5755000,
+          "max": 8257000,
           "min": 225
         },
         "cost": {
@@ -1307,7 +1307,7 @@
       "info": {
         "base": "TRB",
         "baseLotSize": "0.00000100",
-        "baseMax": "61140",
+        "baseMax": "50670",
         "baseMin": "0.83",
         "basePrecision": "8",
         "maxPrice": "650.00",
@@ -1344,7 +1344,7 @@
       },
       "limits": {
         "amount": {
-          "max": 61140,
+          "max": 50670,
           "min": 0.83
         },
         "cost": {
@@ -2067,7 +2067,7 @@
       "info": {
         "base": "PEPE",
         "baseLotSize": "1",
-        "baseMax": "305800000000",
+        "baseMax": "256100000000",
         "baseMin": "3450750",
         "basePrecision": "0",
         "maxPrice": "0.00008170",
@@ -2104,7 +2104,7 @@
       },
       "limits": {
         "amount": {
-          "max": 305800000000,
+          "max": 256100000000,
           "min": 3450750
         },
         "cost": {
@@ -2143,7 +2143,7 @@
       "info": {
         "base": "HAEDAL",
         "baseLotSize": "0.000001",
-        "baseMax": "38920000",
+        "baseMax": "31620000",
         "baseMin": "451",
         "basePrecision": "6",
         "maxPrice": "0.305111",
@@ -2180,7 +2180,7 @@
       },
       "limits": {
         "amount": {
-          "max": 38920000,
+          "max": 31620000,
           "min": 451
         },
         "cost": {
@@ -2526,9 +2526,9 @@
         "baseMax": "59880000",
         "baseMin": "674",
         "basePrecision": "6",
-        "maxPrice": "0.1940",
-        "minPrice": "0.0019",
-        "pricePrecision": "4",
+        "maxPrice": "0.194000",
+        "minPrice": "0.001900",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -2543,7 +2543,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "DYM",
@@ -2830,9 +2830,9 @@
         "baseMax": "122400",
         "baseMin": "11.9",
         "basePrecision": "6",
-        "maxPrice": "81.200",
-        "minPrice": "0.144",
-        "pricePrecision": "3",
+        "maxPrice": "81.2000",
+        "minPrice": "0.1440",
+        "pricePrecision": "4",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -2847,7 +2847,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "VVV",
@@ -3210,9 +3210,9 @@
         "baseMax": "194100",
         "baseMin": "2.7",
         "basePrecision": "6",
-        "maxPrice": "110.00",
-        "minPrice": "1.10",
-        "pricePrecision": "2",
+        "maxPrice": "110.0000",
+        "minPrice": "1.1000",
+        "pricePrecision": "4",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -3227,7 +3227,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.01,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "AUCTION",
@@ -3435,7 +3435,7 @@
       "info": {
         "base": "AAVE",
         "baseLotSize": "0.00000100",
-        "baseMax": "11180",
+        "baseMax": "8722",
         "baseMin": "0.20385",
         "basePrecision": "8",
         "maxPrice": "3612.70",
@@ -3472,7 +3472,7 @@
       },
       "limits": {
         "amount": {
-          "max": 11180,
+          "max": 8722,
           "min": 0.20385
         },
         "cost": {
@@ -3511,7 +3511,7 @@
       "info": {
         "base": "LDO",
         "baseLotSize": "0.000001",
-        "baseMax": "2782000",
+        "baseMax": "2355000",
         "baseMin": "41",
         "basePrecision": "6",
         "maxPrice": "4.07060",
@@ -3548,7 +3548,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2782000,
+          "max": 2355000,
           "min": 41
         },
         "cost": {
@@ -3739,7 +3739,7 @@
       "info": {
         "base": "BEAT",
         "baseLotSize": "0.000001",
-        "baseMax": "2624000",
+        "baseMax": "2187000",
         "baseMin": "75",
         "basePrecision": "6",
         "maxPrice": "25.0000",
@@ -3776,7 +3776,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2624000,
+          "max": 2187000,
           "min": 75
         },
         "cost": {
@@ -3891,7 +3891,7 @@
       "info": {
         "base": "ACT",
         "baseLotSize": "0.000001",
-        "baseMax": "75680000",
+        "baseMax": "64280000",
         "baseMin": "852",
         "basePrecision": "6",
         "maxPrice": "1.890000",
@@ -3928,7 +3928,7 @@
       },
       "limits": {
         "amount": {
-          "max": 75680000,
+          "max": 64280000,
           "min": 852
         },
         "cost": {
@@ -3970,9 +3970,9 @@
         "baseMax": "1096000",
         "baseMin": "12.4",
         "basePrecision": "6",
-        "maxPrice": "14.0000",
-        "minPrice": "0.1400",
-        "pricePrecision": "4",
+        "maxPrice": "14.00000",
+        "minPrice": "0.14000",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -3987,7 +3987,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SUI",
@@ -4119,7 +4119,7 @@
       "info": {
         "base": "WIF",
         "baseLotSize": "0.000001",
-        "baseMax": "5662000",
+        "baseMax": "4671000",
         "baseMin": "64",
         "basePrecision": "6",
         "maxPrice": "20.00000",
@@ -4156,7 +4156,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5662000,
+          "max": 4671000,
           "min": 64
         },
         "cost": {
@@ -4195,7 +4195,7 @@
       "info": {
         "base": "BOME",
         "baseLotSize": "0.000001",
-        "baseMax": "2382000000",
+        "baseMax": "1834000000",
         "baseMin": "28845",
         "basePrecision": "6",
         "maxPrice": "0.00432400",
@@ -4232,7 +4232,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2382000000,
+          "max": 1834000000,
           "min": 28845
         },
         "cost": {
@@ -4727,8 +4727,8 @@
       "info": {
         "base": "SIGN",
         "baseLotSize": "0.000001",
-        "baseMax": "31540000",
-        "baseMin": "420",
+        "baseMax": "51690000",
+        "baseMin": "581",
         "basePrecision": "6",
         "maxPrice": "0.86000",
         "minPrice": "0.00860",
@@ -4764,8 +4764,8 @@
       },
       "limits": {
         "amount": {
-          "max": 31540000,
-          "min": 420
+          "max": 51690000,
+          "min": 581
         },
         "cost": {
           "max": 1000000,
@@ -4879,7 +4879,7 @@
       "info": {
         "base": "TRADOOR",
         "baseLotSize": "0.000001",
-        "baseMax": "177000",
+        "baseMax": "138200",
         "baseMin": "14.5",
         "basePrecision": "6",
         "maxPrice": "20.0000",
@@ -4916,7 +4916,7 @@
       },
       "limits": {
         "amount": {
-          "max": 177000,
+          "max": 138200,
           "min": 14.5
         },
         "cost": {
@@ -4958,9 +4958,9 @@
         "baseMax": "48170000",
         "baseMin": "555",
         "basePrecision": "6",
-        "maxPrice": "0.46000",
-        "minPrice": "0.00460",
-        "pricePrecision": "5",
+        "maxPrice": "0.460000",
+        "minPrice": "0.004600",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -4975,7 +4975,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "SPK",
@@ -5031,7 +5031,7 @@
       "info": {
         "base": "JST",
         "baseLotSize": "0.00000100",
-        "baseMax": "12300000",
+        "baseMax": "15330000",
         "baseMin": "368",
         "basePrecision": "8",
         "maxPrice": "0.367100",
@@ -5068,7 +5068,7 @@
       },
       "limits": {
         "amount": {
-          "max": 12300000,
+          "max": 15330000,
           "min": 368
         },
         "cost": {
@@ -5259,7 +5259,7 @@
       "info": {
         "base": "TRADOOR",
         "baseLotSize": "0.000001",
-        "baseMax": "177000",
+        "baseMax": "138200",
         "baseMin": "14.5",
         "basePrecision": "6",
         "maxPrice": "20.0000",
@@ -5296,7 +5296,7 @@
       },
       "limits": {
         "amount": {
-          "max": 177000,
+          "max": 138200,
           "min": 14.5
         },
         "cost": {
@@ -5490,9 +5490,9 @@
         "baseMax": "9615000",
         "baseMin": "109",
         "basePrecision": "6",
-        "maxPrice": "14.500",
-        "minPrice": "0.022",
-        "pricePrecision": "3",
+        "maxPrice": "14.50000",
+        "minPrice": "0.02200",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -5507,7 +5507,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "IO",
@@ -5566,9 +5566,9 @@
         "baseMax": "154500000",
         "baseMin": "1739",
         "basePrecision": "6",
-        "maxPrice": "0.160000",
-        "minPrice": "0.001600",
-        "pricePrecision": "6",
+        "maxPrice": "0.1600000",
+        "minPrice": "0.0016000",
+        "pricePrecision": "7",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -5583,7 +5583,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "T",
@@ -6019,7 +6019,7 @@
       "info": {
         "base": "ORDI",
         "baseLotSize": "0.000001",
-        "baseMax": "451800",
+        "baseMax": "130700",
         "baseMin": "5.3",
         "basePrecision": "6",
         "maxPrice": "778.0000",
@@ -6056,7 +6056,7 @@
       },
       "limits": {
         "amount": {
-          "max": 451800,
+          "max": 130700,
           "min": 5.3
         },
         "cost": {
@@ -6706,9 +6706,9 @@
         "baseMax": "1409000",
         "baseMin": "21",
         "basePrecision": "6",
-        "maxPrice": "15.0000",
-        "minPrice": "0.1500",
-        "pricePrecision": "4",
+        "maxPrice": "15.00000",
+        "minPrice": "0.15000",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -6723,7 +6723,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "ASTER",
@@ -6779,7 +6779,7 @@
       "info": {
         "base": "EUL",
         "baseLotSize": "0.000001",
-        "baseMax": "997000",
+        "baseMax": "684200",
         "baseMin": "14.2",
         "basePrecision": "6",
         "maxPrice": "9.5840",
@@ -6816,7 +6816,7 @@
       },
       "limits": {
         "amount": {
-          "max": 997000,
+          "max": 684200,
           "min": 14.2
         },
         "cost": {
@@ -7086,9 +7086,9 @@
         "baseMax": "2862000",
         "baseMin": "34",
         "basePrecision": "8",
-        "maxPrice": "50.0000",
-        "minPrice": "0.0629",
-        "pricePrecision": "4",
+        "maxPrice": "50.00000",
+        "minPrice": "0.06290",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -7103,7 +7103,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "XTZ",
@@ -7238,9 +7238,9 @@
         "baseMax": "1374000",
         "baseMin": "18.9",
         "basePrecision": "6",
-        "maxPrice": "5.6270",
-        "minPrice": "0.0563",
-        "pricePrecision": "4",
+        "maxPrice": "5.62700",
+        "minPrice": "0.05630",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -7255,7 +7255,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "MNT",
@@ -7387,7 +7387,7 @@
       "info": {
         "base": "ICNT",
         "baseLotSize": "0.000001",
-        "baseMax": "3787000",
+        "baseMax": "2817000",
         "baseMin": "43",
         "basePrecision": "6",
         "maxPrice": "3.38670",
@@ -7424,7 +7424,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3787000,
+          "max": 2817000,
           "min": 43
         },
         "cost": {
@@ -7466,9 +7466,9 @@
         "baseMax": "12840000",
         "baseMin": "145",
         "basePrecision": "8",
-        "maxPrice": "0.7510",
-        "minPrice": "0.0075",
-        "pricePrecision": "4",
+        "maxPrice": "0.751000",
+        "minPrice": "0.007500",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -7483,7 +7483,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "CRO",
@@ -7843,7 +7843,7 @@
       "info": {
         "base": "ENA",
         "baseLotSize": "0.000001",
-        "baseMax": "12150000",
+        "baseMax": "8827000",
         "baseMin": "137",
         "basePrecision": "6",
         "maxPrice": "9.190000",
@@ -7880,7 +7880,7 @@
       },
       "limits": {
         "amount": {
-          "max": 12150000,
+          "max": 8827000,
           "min": 137
         },
         "cost": {
@@ -8302,9 +8302,9 @@
         "baseMax": "11120000",
         "baseMin": "263.625",
         "basePrecision": "6",
-        "maxPrice": "100.00000",
-        "minPrice": "0.00100",
-        "pricePrecision": "5",
+        "maxPrice": "100.000000",
+        "minPrice": "0.001000",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -8319,7 +8319,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "HBAR",
@@ -8378,9 +8378,9 @@
         "baseMax": "2862000",
         "baseMin": "34",
         "basePrecision": "8",
-        "maxPrice": "50.000",
-        "minPrice": "0.100",
-        "pricePrecision": "3",
+        "maxPrice": "50.00000",
+        "minPrice": "0.10000",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -8395,7 +8395,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "XTZ",
@@ -8603,7 +8603,7 @@
       "info": {
         "base": "KSM",
         "baseLotSize": "0.00000100",
-        "baseMax": "230200",
+        "baseMax": "181700",
         "baseMin": "2.7",
         "basePrecision": "8",
         "maxPrice": "48.1111",
@@ -8640,7 +8640,7 @@
       },
       "limits": {
         "amount": {
-          "max": 230200,
+          "max": 181700,
           "min": 2.7
         },
         "cost": {
@@ -8755,7 +8755,7 @@
       "info": {
         "base": "MYX",
         "baseLotSize": "0.000001",
-        "baseMax": "3020000",
+        "baseMax": "3692000",
         "baseMin": "55",
         "basePrecision": "6",
         "maxPrice": "3.06250",
@@ -8792,7 +8792,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3020000,
+          "max": 3692000,
           "min": 55
         },
         "cost": {
@@ -8907,12 +8907,12 @@
       "info": {
         "base": "H",
         "baseLotSize": "0.000001",
-        "baseMax": "10670000",
+        "baseMax": "8481000",
         "baseMin": "349",
         "basePrecision": "6",
-        "maxPrice": "0.81000",
-        "minPrice": "0.00810",
-        "pricePrecision": "5",
+        "maxPrice": "0.810000",
+        "minPrice": "0.008100",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -8927,7 +8927,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "H",
@@ -8944,7 +8944,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10670000,
+          "max": 8481000,
           "min": 349
         },
         "cost": {
@@ -8983,7 +8983,7 @@
       "info": {
         "base": "1000SATS",
         "baseLotSize": "0.000001",
-        "baseMax": "88890000000",
+        "baseMax": "51540000000",
         "baseMin": "999750",
         "basePrecision": "6",
         "maxPrice": "0.0064440",
@@ -9020,7 +9020,7 @@
       },
       "limits": {
         "amount": {
-          "max": 88890000000,
+          "max": 51540000000,
           "min": 999750
         },
         "cost": {
@@ -9059,7 +9059,7 @@
       "info": {
         "base": "DYDX",
         "baseLotSize": "0.000001",
-        "baseMax": "10940000",
+        "baseMax": "7668000",
         "baseMin": "124",
         "basePrecision": "6",
         "maxPrice": "6.937000",
@@ -9096,7 +9096,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10940000,
+          "max": 7668000,
           "min": 124
         },
         "cost": {
@@ -9290,9 +9290,9 @@
         "baseMax": "16310000",
         "baseMin": "184",
         "basePrecision": "6",
-        "maxPrice": "3.00000",
-        "minPrice": "0.03000",
-        "pricePrecision": "5",
+        "maxPrice": "3.000000",
+        "minPrice": "0.030000",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -9307,7 +9307,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "TREE",
@@ -9366,9 +9366,9 @@
         "baseMax": "5451000",
         "baseMin": "62",
         "basePrecision": "6",
-        "maxPrice": "10.0000",
-        "minPrice": "0.1000",
-        "pricePrecision": "4",
+        "maxPrice": "10.00000",
+        "minPrice": "0.10000",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -9383,7 +9383,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "DIA",
@@ -9515,7 +9515,7 @@
       "info": {
         "base": "ZEREBRO",
         "baseLotSize": "0.000001",
-        "baseMax": "112200000",
+        "baseMax": "77620000",
         "baseMin": "1736",
         "basePrecision": "6",
         "maxPrice": "0.0806510",
@@ -9552,7 +9552,7 @@
       },
       "limits": {
         "amount": {
-          "max": 112200000,
+          "max": 77620000,
           "min": 1736
         },
         "cost": {
@@ -9670,9 +9670,9 @@
         "baseMax": "16310000",
         "baseMin": "184",
         "basePrecision": "6",
-        "maxPrice": "3.00000",
-        "minPrice": "0.03000",
-        "pricePrecision": "5",
+        "maxPrice": "3.000000",
+        "minPrice": "0.030000",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -9687,7 +9687,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "TREE",
@@ -9819,12 +9819,12 @@
       "info": {
         "base": "ROSE",
         "baseLotSize": "0.000001",
-        "baseMax": "105400000",
+        "baseMax": "85080000",
         "baseMin": "1186",
         "basePrecision": "6",
-        "maxPrice": "1.332100",
-        "minPrice": "0.002440",
-        "pricePrecision": "6",
+        "maxPrice": "1.3321000",
+        "minPrice": "0.0024400",
+        "pricePrecision": "7",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -9839,7 +9839,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "ROSE",
@@ -9856,7 +9856,7 @@
       },
       "limits": {
         "amount": {
-          "max": 105400000,
+          "max": 85080000,
           "min": 1186
         },
         "cost": {
@@ -9974,9 +9974,9 @@
         "baseMax": "61730000",
         "baseMin": "695",
         "basePrecision": "6",
-        "maxPrice": "1.7000",
-        "minPrice": "0.0030",
-        "pricePrecision": "4",
+        "maxPrice": "1.700000",
+        "minPrice": "0.003000",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -9991,7 +9991,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "COOKIE",
@@ -10123,7 +10123,7 @@
       "info": {
         "base": "MAV",
         "baseLotSize": "0.000001",
-        "baseMax": "69780000",
+        "baseMax": "58820000",
         "baseMin": "913",
         "basePrecision": "6",
         "maxPrice": "0.4500",
@@ -10160,7 +10160,7 @@
       },
       "limits": {
         "amount": {
-          "max": 69780000,
+          "max": 58820000,
           "min": 913
         },
         "cost": {
@@ -10579,7 +10579,7 @@
       "info": {
         "base": "AIXBT",
         "baseLotSize": "0.000001",
-        "baseMax": "42040000",
+        "baseMax": "34260000",
         "baseMin": "572",
         "basePrecision": "6",
         "maxPrice": "1.861000",
@@ -10616,7 +10616,7 @@
       },
       "limits": {
         "amount": {
-          "max": 42040000,
+          "max": 34260000,
           "min": 572
         },
         "cost": {
@@ -10658,9 +10658,9 @@
         "baseMax": "14790000",
         "baseMin": "167.625",
         "basePrecision": "6",
-        "maxPrice": "0.9270",
-        "minPrice": "0.0092",
-        "pricePrecision": "4",
+        "maxPrice": "0.927000",
+        "minPrice": "0.009200",
+        "pricePrecision": "6",
         "quote": "EUR",
         "quoteLotSize": "0.01000000",
         "quoteMax": "835900",
@@ -10675,7 +10675,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "REQ",
@@ -11035,7 +11035,7 @@
       "info": {
         "base": "NOM",
         "baseLotSize": "0.000001",
-        "baseMax": "286800000",
+        "baseMax": "335800000",
         "baseMin": "6197",
         "basePrecision": "6",
         "maxPrice": "0.054550",
@@ -11072,7 +11072,7 @@
       },
       "limits": {
         "amount": {
-          "max": 286800000,
+          "max": 335800000,
           "min": 6197
         },
         "cost": {
@@ -11266,9 +11266,9 @@
         "baseMax": "12840000",
         "baseMin": "207.3",
         "basePrecision": "8",
-        "maxPrice": "0.7510",
-        "minPrice": "0.0075",
-        "pricePrecision": "4",
+        "maxPrice": "0.751000",
+        "minPrice": "0.007500",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -11283,7 +11283,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "CRO",
@@ -11491,7 +11491,7 @@
       "info": {
         "base": "LDO",
         "baseLotSize": "0.000001",
-        "baseMax": "2782000",
+        "baseMax": "2355000",
         "baseMin": "41",
         "basePrecision": "6",
         "maxPrice": "3.41111",
@@ -11528,7 +11528,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2782000,
+          "max": 2355000,
           "min": 41
         },
         "cost": {
@@ -11719,7 +11719,7 @@
       "info": {
         "base": "SOON",
         "baseLotSize": "0.000001",
-        "baseMax": "8581000",
+        "baseMax": "4490000",
         "baseMin": "97",
         "basePrecision": "6",
         "maxPrice": "8.50000",
@@ -11756,7 +11756,7 @@
       },
       "limits": {
         "amount": {
-          "max": 8581000,
+          "max": 4490000,
           "min": 97
         },
         "cost": {
@@ -12026,9 +12026,9 @@
         "baseMax": "4643000",
         "baseMin": "79",
         "basePrecision": "6",
-        "maxPrice": "4.5000",
-        "minPrice": "0.0450",
-        "pricePrecision": "4",
+        "maxPrice": "4.50000",
+        "minPrice": "0.04500",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -12043,7 +12043,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "COW",
@@ -12330,9 +12330,9 @@
         "baseMax": "2862000",
         "baseMin": "34",
         "basePrecision": "8",
-        "maxPrice": "6.7140",
-        "minPrice": "0.0672",
-        "pricePrecision": "4",
+        "maxPrice": "6.71400",
+        "minPrice": "0.06720",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -12347,7 +12347,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "XTZ",
@@ -12862,9 +12862,9 @@
         "baseMax": "166300",
         "baseMin": "1.9",
         "basePrecision": "6",
-        "maxPrice": "500.00",
-        "minPrice": "1.00",
-        "pricePrecision": "2",
+        "maxPrice": "500.0000",
+        "minPrice": "1.0000",
+        "pricePrecision": "4",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -12879,7 +12879,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.01,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "GMX",
@@ -12938,9 +12938,9 @@
         "baseMax": "3067000",
         "baseMin": "44",
         "basePrecision": "6",
-        "maxPrice": "10.0000",
-        "minPrice": "0.1000",
-        "pricePrecision": "4",
+        "maxPrice": "10.00000",
+        "minPrice": "0.10000",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -12955,7 +12955,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SPX",
@@ -13315,7 +13315,7 @@
       "info": {
         "base": "PUMP",
         "baseLotSize": "0.000001",
-        "baseMax": "582700000",
+        "baseMax": "494400000",
         "baseMin": "7555",
         "basePrecision": "6",
         "maxPrice": "0.0660000",
@@ -13352,7 +13352,7 @@
       },
       "limits": {
         "amount": {
-          "max": 582700000,
+          "max": 494400000,
           "min": 7555
         },
         "cost": {
@@ -13391,7 +13391,7 @@
       "info": {
         "base": "METIS",
         "baseLotSize": "0.000001",
-        "baseMax": "349000",
+        "baseMax": "212300",
         "baseMin": "4.1",
         "basePrecision": "6",
         "maxPrice": "1301.20",
@@ -13428,7 +13428,7 @@
       },
       "limits": {
         "amount": {
-          "max": 349000,
+          "max": 212300,
           "min": 4.1
         },
         "cost": {
@@ -13543,7 +13543,7 @@
       "info": {
         "base": "BABY",
         "baseLotSize": "0.000001",
-        "baseMax": "78520000",
+        "baseMax": "62630000",
         "baseMin": "930",
         "basePrecision": "6",
         "maxPrice": "0.139000",
@@ -13580,7 +13580,7 @@
       },
       "limits": {
         "amount": {
-          "max": 78520000,
+          "max": 62630000,
           "min": 930
         },
         "cost": {
@@ -13622,9 +13622,9 @@
         "baseMax": "113600000",
         "baseMin": "1815",
         "basePrecision": "6",
-        "maxPrice": "0.350000",
-        "minPrice": "0.003500",
-        "pricePrecision": "6",
+        "maxPrice": "0.3500000",
+        "minPrice": "0.0035000",
+        "pricePrecision": "7",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -13639,7 +13639,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "XAN",
@@ -13771,7 +13771,7 @@
       "info": {
         "base": "TRB",
         "baseLotSize": "0.00000100",
-        "baseMax": "61140",
+        "baseMax": "50670",
         "baseMin": "1.05525",
         "basePrecision": "8",
         "maxPrice": "867.00",
@@ -13808,7 +13808,7 @@
       },
       "limits": {
         "amount": {
-          "max": 61140,
+          "max": 50670,
           "min": 1.05525
         },
         "cost": {
@@ -13926,9 +13926,9 @@
         "baseMax": "1374000",
         "baseMin": "18.9",
         "basePrecision": "6",
-        "maxPrice": "10.0000",
-        "minPrice": "0.1000",
-        "pricePrecision": "4",
+        "maxPrice": "10.00000",
+        "minPrice": "0.10000",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -13943,7 +13943,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "MNT",
@@ -14075,7 +14075,7 @@
       "info": {
         "base": "BRETT",
         "baseLotSize": "0.000001",
-        "baseMax": "163400000",
+        "baseMax": "128500000",
         "baseMin": "1911",
         "basePrecision": "6",
         "maxPrice": "0.210000",
@@ -14112,7 +14112,7 @@
       },
       "limits": {
         "amount": {
-          "max": 163400000,
+          "max": 128500000,
           "min": 1911
         },
         "cost": {
@@ -14230,9 +14230,9 @@
         "baseMax": "13150000",
         "baseMin": "148",
         "basePrecision": "6",
-        "maxPrice": "1.40000",
-        "minPrice": "0.01400",
-        "pricePrecision": "5",
+        "maxPrice": "1.400000",
+        "minPrice": "0.014000",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -14247,7 +14247,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "FF",
@@ -14303,7 +14303,7 @@
       "info": {
         "base": "ARB",
         "baseLotSize": "0.000001",
-        "baseMax": "10310000",
+        "baseMax": "7665000",
         "baseMin": "121",
         "basePrecision": "6",
         "maxPrice": "5.177000",
@@ -14340,7 +14340,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10310000,
+          "max": 7665000,
           "min": 121
         },
         "cost": {
@@ -14382,9 +14382,9 @@
         "baseMax": "171900",
         "baseMin": "2.1",
         "basePrecision": "6",
-        "maxPrice": "220.000",
-        "minPrice": "0.200",
-        "pricePrecision": "3",
+        "maxPrice": "220.0000",
+        "minPrice": "0.2000",
+        "pricePrecision": "4",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -14399,7 +14399,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "ENS",
@@ -14455,7 +14455,7 @@
       "info": {
         "base": "STORJ",
         "baseLotSize": "0.00000100",
-        "baseMax": "11180000",
+        "baseMax": "9418000",
         "baseMin": "126",
         "basePrecision": "8",
         "maxPrice": "3.707000",
@@ -14492,7 +14492,7 @@
       },
       "limits": {
         "amount": {
-          "max": 11180000,
+          "max": 9418000,
           "min": 126
         },
         "cost": {
@@ -14607,7 +14607,7 @@
       "info": {
         "base": "NOM",
         "baseLotSize": "0.000001",
-        "baseMax": "286800000",
+        "baseMax": "335800000",
         "baseMin": "6197",
         "basePrecision": "6",
         "maxPrice": "0.054550",
@@ -14644,7 +14644,7 @@
       },
       "limits": {
         "amount": {
-          "max": 286800000,
+          "max": 335800000,
           "min": 6197
         },
         "cost": {
@@ -14762,9 +14762,9 @@
         "baseMax": "826700000",
         "baseMin": "17753",
         "basePrecision": "6",
-        "maxPrice": "0.6100000",
-        "minPrice": "0.0006147",
-        "pricePrecision": "7",
+        "maxPrice": "0.61000000",
+        "minPrice": "0.00061470",
+        "pricePrecision": "8",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -14779,7 +14779,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-7,
+        "price": 1.0e-8,
         "quote": 1.0e-8
       },
       "baseId": "PTB",
@@ -15063,12 +15063,12 @@
       "info": {
         "base": "0G",
         "baseLotSize": "0.000001",
-        "baseMax": "1917000",
+        "baseMax": "1603000",
         "baseMin": "23",
         "basePrecision": "6",
-        "maxPrice": "62.0000",
-        "minPrice": "0.1194",
-        "pricePrecision": "4",
+        "maxPrice": "62.00000",
+        "minPrice": "0.11940",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -15083,7 +15083,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "0G",
@@ -15100,7 +15100,7 @@
       },
       "limits": {
         "amount": {
-          "max": 1917000,
+          "max": 1603000,
           "min": 23
         },
         "cost": {
@@ -15215,7 +15215,7 @@
       "info": {
         "base": "ZETA",
         "baseLotSize": "0.000001",
-        "baseMax": "19460000",
+        "baseMax": "15600000",
         "baseMin": "227",
         "basePrecision": "6",
         "maxPrice": "2.696000",
@@ -15252,7 +15252,7 @@
       },
       "limits": {
         "amount": {
-          "max": 19460000,
+          "max": 15600000,
           "min": 227
         },
         "cost": {
@@ -15443,7 +15443,7 @@
       "info": {
         "base": "ONG",
         "baseLotSize": "0.00000100",
-        "baseMax": "10520000",
+        "baseMax": "12420000",
         "baseMin": "183",
         "basePrecision": "8",
         "maxPrice": "50.000000",
@@ -15480,7 +15480,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10520000,
+          "max": 12420000,
           "min": 183
         },
         "cost": {
@@ -15519,7 +15519,7 @@
       "info": {
         "base": "MAV",
         "baseLotSize": "0.000001",
-        "baseMax": "69780000",
+        "baseMax": "58820000",
         "baseMin": "913",
         "basePrecision": "6",
         "maxPrice": "0.4500",
@@ -15556,7 +15556,7 @@
       },
       "limits": {
         "amount": {
-          "max": 69780000,
+          "max": 58820000,
           "min": 913
         },
         "cost": {
@@ -15598,9 +15598,9 @@
         "baseMax": "113600000",
         "baseMin": "1815",
         "basePrecision": "6",
-        "maxPrice": "0.350000",
-        "minPrice": "0.003500",
-        "pricePrecision": "6",
+        "maxPrice": "0.3500000",
+        "minPrice": "0.0035000",
+        "pricePrecision": "7",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -15615,7 +15615,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "XAN",
@@ -15826,9 +15826,9 @@
         "baseMax": "2728000",
         "baseMin": "37",
         "basePrecision": "6",
-        "maxPrice": "7.438",
-        "minPrice": "0.075",
-        "pricePrecision": "3",
+        "maxPrice": "7.43800",
+        "minPrice": "0.07500",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -15843,7 +15843,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "AERO",
@@ -15975,7 +15975,7 @@
       "info": {
         "base": "GMT",
         "baseLotSize": "0.000001",
-        "baseMax": "102200000",
+        "baseMax": "85100000",
         "baseMin": "1185",
         "basePrecision": "6",
         "maxPrice": "0.124741",
@@ -16012,7 +16012,7 @@
       },
       "limits": {
         "amount": {
-          "max": 102200000,
+          "max": 85100000,
           "min": 1185
         },
         "cost": {
@@ -16358,9 +16358,9 @@
         "baseMax": "6327000",
         "baseMin": "97",
         "basePrecision": "6",
-        "maxPrice": "3.2210",
-        "minPrice": "0.0323",
-        "pricePrecision": "4",
+        "maxPrice": "3.22100",
+        "minPrice": "0.03230",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -16375,7 +16375,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "RED",
@@ -16510,9 +16510,9 @@
         "baseMax": "30080000",
         "baseMin": "366",
         "basePrecision": "6",
-        "maxPrice": "0.91130",
-        "minPrice": "0.00912",
-        "pricePrecision": "5",
+        "maxPrice": "0.911300",
+        "minPrice": "0.009120",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -16527,7 +16527,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "KAS",
@@ -16735,8 +16735,8 @@
       "info": {
         "base": "FUN",
         "baseLotSize": "0.000001",
-        "baseMax": "1700000000",
-        "baseMin": "19148",
+        "baseMax": "2351000000",
+        "baseMin": "26498",
         "basePrecision": "6",
         "maxPrice": "1.0000000",
         "minPrice": "0.0001600",
@@ -16772,8 +16772,8 @@
       },
       "limits": {
         "amount": {
-          "max": 1700000000,
-          "min": 19148
+          "max": 2351000000,
+          "min": 26498
         },
         "cost": {
           "max": 1000000,
@@ -16814,9 +16814,9 @@
         "baseMax": "64890000",
         "baseMin": "906",
         "basePrecision": "6",
-        "maxPrice": "0.51410",
-        "minPrice": "0.00515",
-        "pricePrecision": "5",
+        "maxPrice": "0.514100",
+        "minPrice": "0.005150",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -16831,7 +16831,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "GUN",
@@ -16963,7 +16963,7 @@
       "info": {
         "base": "THETA",
         "baseLotSize": "0.00000001",
-        "baseMax": "6402000",
+        "baseMax": "5015000",
         "baseMin": "73",
         "basePrecision": "8",
         "maxPrice": "2.04111",
@@ -17000,7 +17000,7 @@
       },
       "limits": {
         "amount": {
-          "max": 6402000,
+          "max": 5015000,
           "min": 73
         },
         "cost": {
@@ -17118,9 +17118,9 @@
         "baseMax": "12840000",
         "baseMin": "207.3",
         "basePrecision": "8",
-        "maxPrice": "4.5000",
-        "minPrice": "0.0140",
-        "pricePrecision": "4",
+        "maxPrice": "4.500000",
+        "minPrice": "0.014000",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -17135,7 +17135,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "CRO",
@@ -17270,9 +17270,9 @@
         "baseMax": "6327000",
         "baseMin": "97",
         "basePrecision": "6",
-        "maxPrice": "3.2210",
-        "minPrice": "0.0323",
-        "pricePrecision": "4",
+        "maxPrice": "3.22100",
+        "minPrice": "0.03230",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -17287,7 +17287,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "RED",
@@ -17422,9 +17422,9 @@
         "baseMax": "180000",
         "baseMin": "2.1",
         "basePrecision": "6",
-        "maxPrice": "125.400",
-        "minPrice": "1.254",
-        "pricePrecision": "3",
+        "maxPrice": "125.4000",
+        "minPrice": "1.2540",
+        "pricePrecision": "4",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -17439,7 +17439,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "ZEN",
@@ -17650,9 +17650,9 @@
         "baseMax": "194100",
         "baseMin": "2.7",
         "basePrecision": "6",
-        "maxPrice": "110.00",
-        "minPrice": "1.10",
-        "pricePrecision": "2",
+        "maxPrice": "110.0000",
+        "minPrice": "1.1000",
+        "pricePrecision": "4",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -17667,7 +17667,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.01,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "AUCTION",
@@ -18334,9 +18334,9 @@
         "baseMax": "165200000",
         "baseMin": "1858",
         "basePrecision": "6",
-        "maxPrice": "0.28940",
-        "minPrice": "0.00289",
-        "pricePrecision": "5",
+        "maxPrice": "0.2894000",
+        "minPrice": "0.0028900",
+        "pricePrecision": "7",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -18351,7 +18351,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "ACH",
@@ -18559,7 +18559,7 @@
       "info": {
         "base": "ARIA",
         "baseLotSize": "0.000001",
-        "baseMax": "2028000",
+        "baseMax": "10030000",
         "baseMin": "176",
         "basePrecision": "6",
         "maxPrice": "1.00000",
@@ -18596,7 +18596,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2028000,
+          "max": 10030000,
           "min": 176
         },
         "cost": {
@@ -18863,7 +18863,7 @@
       "info": {
         "base": "PUMP",
         "baseLotSize": "0.000001",
-        "baseMax": "582700000",
+        "baseMax": "494400000",
         "baseMin": "7555",
         "basePrecision": "6",
         "maxPrice": "0.0660000",
@@ -18900,7 +18900,7 @@
       },
       "limits": {
         "amount": {
-          "max": 582700000,
+          "max": 494400000,
           "min": 7555
         },
         "cost": {
@@ -19018,9 +19018,9 @@
         "baseMax": "171900",
         "baseMin": "2.1",
         "basePrecision": "6",
-        "maxPrice": "175.010",
-        "minPrice": "1.751",
-        "pricePrecision": "3",
+        "maxPrice": "175.0100",
+        "minPrice": "1.7510",
+        "pricePrecision": "4",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -19035,7 +19035,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "ENS",
@@ -19170,9 +19170,9 @@
         "baseMax": "11120000",
         "baseMin": "126",
         "basePrecision": "6",
-        "maxPrice": "100.00000",
-        "minPrice": "0.00100",
-        "pricePrecision": "5",
+        "maxPrice": "100.000000",
+        "minPrice": "0.001000",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -19187,7 +19187,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "HBAR",
@@ -19471,7 +19471,7 @@
       "info": {
         "base": "EUL",
         "baseLotSize": "0.000001",
-        "baseMax": "997000",
+        "baseMax": "684200",
         "baseMin": "14.2",
         "basePrecision": "6",
         "maxPrice": "9.5840",
@@ -19508,7 +19508,7 @@
       },
       "limits": {
         "amount": {
-          "max": 997000,
+          "max": 684200,
           "min": 14.2
         },
         "cost": {
@@ -19699,7 +19699,7 @@
       "info": {
         "base": "ONG",
         "baseLotSize": "0.00000100",
-        "baseMax": "10520000",
+        "baseMax": "12420000",
         "baseMin": "183",
         "basePrecision": "8",
         "maxPrice": "50.000000",
@@ -19736,7 +19736,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10520000,
+          "max": 12420000,
           "min": 183
         },
         "cost": {
@@ -19851,7 +19851,7 @@
       "info": {
         "base": "STORJ",
         "baseLotSize": "0.00000100",
-        "baseMax": "11180000",
+        "baseMax": "9418000",
         "baseMin": "126",
         "basePrecision": "8",
         "maxPrice": "15.000000",
@@ -19888,7 +19888,7 @@
       },
       "limits": {
         "amount": {
-          "max": 11180000,
+          "max": 9418000,
           "min": 126
         },
         "cost": {
@@ -20231,7 +20231,7 @@
       "info": {
         "base": "SPACE",
         "baseLotSize": "0.000001",
-        "baseMax": "198600000",
+        "baseMax": "153300000",
         "baseMin": "2235",
         "basePrecision": "6",
         "maxPrice": "0.0867610",
@@ -20268,7 +20268,7 @@
       },
       "limits": {
         "amount": {
-          "max": 198600000,
+          "max": 153300000,
           "min": 2235
         },
         "cost": {
@@ -20383,7 +20383,7 @@
       "info": {
         "base": "HFT",
         "baseLotSize": "0.000001",
-        "baseMax": "76990000",
+        "baseMax": "65110000",
         "baseMin": "866",
         "basePrecision": "6",
         "maxPrice": "4.187000",
@@ -20420,7 +20420,7 @@
       },
       "limits": {
         "amount": {
-          "max": 76990000,
+          "max": 65110000,
           "min": 866
         },
         "cost": {
@@ -20687,7 +20687,7 @@
       "info": {
         "base": "THETA",
         "baseLotSize": "0.00000001",
-        "baseMax": "6402000",
+        "baseMax": "5015000",
         "baseMin": "73",
         "basePrecision": "8",
         "maxPrice": "2.04111",
@@ -20724,7 +20724,7 @@
       },
       "limits": {
         "amount": {
-          "max": 6402000,
+          "max": 5015000,
           "min": 73
         },
         "cost": {
@@ -20839,7 +20839,7 @@
       "info": {
         "base": "AAVE",
         "baseLotSize": "0.00000100",
-        "baseMax": "11180",
+        "baseMax": "8722",
         "baseMin": "0.20385",
         "basePrecision": "8",
         "maxPrice": "3000.00",
@@ -20876,7 +20876,7 @@
       },
       "limits": {
         "amount": {
-          "max": 11180,
+          "max": 8722,
           "min": 0.20385
         },
         "cost": {
@@ -21754,9 +21754,9 @@
         "baseMax": "6253000",
         "baseMin": "70",
         "basePrecision": "6",
-        "maxPrice": "11.8000",
-        "minPrice": "0.0236",
-        "pricePrecision": "4",
+        "maxPrice": "11.80000",
+        "minPrice": "0.02360",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -21771,7 +21771,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SOMI",
@@ -21830,9 +21830,9 @@
         "baseMax": "154500000",
         "baseMin": "1739",
         "basePrecision": "6",
-        "maxPrice": "0.160000",
-        "minPrice": "0.001600",
-        "pricePrecision": "6",
+        "maxPrice": "0.1600000",
+        "minPrice": "0.0016000",
+        "pricePrecision": "7",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -21847,7 +21847,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "T",
@@ -22359,7 +22359,7 @@
       "info": {
         "base": "JST",
         "baseLotSize": "0.00000100",
-        "baseMax": "12300000",
+        "baseMax": "15330000",
         "baseMin": "368",
         "basePrecision": "8",
         "maxPrice": "0.367100",
@@ -22396,7 +22396,7 @@
       },
       "limits": {
         "amount": {
-          "max": 12300000,
+          "max": 15330000,
           "min": 368
         },
         "cost": {
@@ -22587,7 +22587,7 @@
       "info": {
         "base": "SAPIEN",
         "baseLotSize": "0.000001",
-        "baseMax": "15130000",
+        "baseMax": "11610000",
         "baseMin": "177",
         "basePrecision": "6",
         "maxPrice": "2.30000",
@@ -22624,7 +22624,7 @@
       },
       "limits": {
         "amount": {
-          "max": 15130000,
+          "max": 11610000,
           "min": 177
         },
         "cost": {
@@ -22815,7 +22815,7 @@
       "info": {
         "base": "CROSS",
         "baseLotSize": "0.000001",
-        "baseMax": "14960000",
+        "baseMax": "12630000",
         "baseMin": "203",
         "basePrecision": "6",
         "maxPrice": "3.20000",
@@ -22852,7 +22852,7 @@
       },
       "limits": {
         "amount": {
-          "max": 14960000,
+          "max": 12630000,
           "min": 203
         },
         "cost": {
@@ -22970,9 +22970,9 @@
         "baseMax": "122400",
         "baseMin": "11.9",
         "basePrecision": "6",
-        "maxPrice": "81.200",
-        "minPrice": "0.144",
-        "pricePrecision": "3",
+        "maxPrice": "81.2000",
+        "minPrice": "0.1440",
+        "pricePrecision": "4",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -22987,7 +22987,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "VVV",
@@ -23043,7 +23043,7 @@
       "info": {
         "base": "LAB",
         "baseLotSize": "0.000001",
-        "baseMax": "1597000",
+        "baseMax": "1896000",
         "baseMin": "57",
         "basePrecision": "6",
         "maxPrice": "1.98330",
@@ -23080,7 +23080,7 @@
       },
       "limits": {
         "amount": {
-          "max": 1597000,
+          "max": 1896000,
           "min": 57
         },
         "cost": {
@@ -23122,9 +23122,9 @@
         "baseMax": "12710000",
         "baseMin": "144",
         "basePrecision": "6",
-        "maxPrice": "7.5000",
-        "minPrice": "0.0114",
-        "pricePrecision": "4",
+        "maxPrice": "7.500000",
+        "minPrice": "0.011400",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -23139,7 +23139,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "A",
@@ -23271,7 +23271,7 @@
       "info": {
         "base": "DYDX",
         "baseLotSize": "0.000001",
-        "baseMax": "10940000",
+        "baseMax": "7668000",
         "baseMin": "124",
         "basePrecision": "6",
         "maxPrice": "26.033000",
@@ -23308,7 +23308,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10940000,
+          "max": 7668000,
           "min": 124
         },
         "cost": {
@@ -23347,7 +23347,7 @@
       "info": {
         "base": "GRIFFAIN",
         "baseLotSize": "0.000001",
-        "baseMax": "71480000",
+        "baseMax": "55780000",
         "baseMin": "1360",
         "basePrecision": "6",
         "maxPrice": "1.600000",
@@ -23384,7 +23384,7 @@
       },
       "limits": {
         "amount": {
-          "max": 71480000,
+          "max": 55780000,
           "min": 1360
         },
         "cost": {
@@ -23578,9 +23578,9 @@
         "baseMax": "155300000",
         "baseMin": "1748",
         "basePrecision": "6",
-        "maxPrice": "0.340000",
-        "minPrice": "0.003400",
-        "pricePrecision": "6",
+        "maxPrice": "0.3400000",
+        "minPrice": "0.0034000",
+        "pricePrecision": "7",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -23595,7 +23595,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "SKL",
@@ -23651,7 +23651,7 @@
       "info": {
         "base": "NEAR",
         "baseLotSize": "0.000001",
-        "baseMax": "839700",
+        "baseMax": "701000",
         "baseMin": "11.6",
         "basePrecision": "6",
         "maxPrice": "42.10000",
@@ -23688,7 +23688,7 @@
       },
       "limits": {
         "amount": {
-          "max": 839700,
+          "max": 701000,
           "min": 11.6
         },
         "cost": {
@@ -23879,7 +23879,7 @@
       "info": {
         "base": "PEPE",
         "baseLotSize": "1",
-        "baseMax": "305800000000",
+        "baseMax": "256100000000",
         "baseMin": "3450750",
         "basePrecision": "0",
         "maxPrice": "0.00008170",
@@ -23916,7 +23916,7 @@
       },
       "limits": {
         "amount": {
-          "max": 305800000000,
+          "max": 256100000000,
           "min": 3450750
         },
         "cost": {
@@ -23955,8 +23955,8 @@
       "info": {
         "base": "FUN",
         "baseLotSize": "0.000001",
-        "baseMax": "1700000000",
-        "baseMin": "19148",
+        "baseMax": "2351000000",
+        "baseMin": "26498",
         "basePrecision": "6",
         "maxPrice": "0.0115100",
         "minPrice": "0.0001100",
@@ -23992,8 +23992,8 @@
       },
       "limits": {
         "amount": {
-          "max": 1700000000,
-          "min": 19148
+          "max": 2351000000,
+          "min": 26498
         },
         "cost": {
           "max": 835900,
@@ -24031,7 +24031,7 @@
       "info": {
         "base": "SOON",
         "baseLotSize": "0.000001",
-        "baseMax": "8581000",
+        "baseMax": "4490000",
         "baseMin": "97",
         "basePrecision": "6",
         "maxPrice": "8.50000",
@@ -24068,7 +24068,7 @@
       },
       "limits": {
         "amount": {
-          "max": 8581000,
+          "max": 4490000,
           "min": 97
         },
         "cost": {
@@ -24487,7 +24487,7 @@
       "info": {
         "base": "HYPE",
         "baseLotSize": "0.000001",
-        "baseMax": "27020",
+        "baseMax": "22650",
         "baseMin": "0.6075",
         "basePrecision": "6",
         "maxPrice": "200.000",
@@ -24524,7 +24524,7 @@
       },
       "limits": {
         "amount": {
-          "max": 27020,
+          "max": 22650,
           "min": 0.6075
         },
         "cost": {
@@ -24566,9 +24566,9 @@
         "baseMax": "12490",
         "baseMin": "0.2",
         "basePrecision": "6",
-        "maxPrice": "1112.00",
-        "minPrice": "11.12",
-        "pricePrecision": "2",
+        "maxPrice": "1112.000",
+        "minPrice": "11.120",
+        "pricePrecision": "3",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -24583,7 +24583,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.01,
+        "price": 0.001,
         "quote": 1.0e-8
       },
       "baseId": "QNT",
@@ -24870,9 +24870,9 @@
         "baseMax": "5451000",
         "baseMin": "62",
         "basePrecision": "6",
-        "maxPrice": "10.0000",
-        "minPrice": "0.1000",
-        "pricePrecision": "4",
+        "maxPrice": "10.00000",
+        "minPrice": "0.10000",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -24887,7 +24887,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "DIA",
@@ -25019,7 +25019,7 @@
       "info": {
         "base": "EUL",
         "baseLotSize": "0.000001",
-        "baseMax": "997000",
+        "baseMax": "684200",
         "baseMin": "14.2",
         "basePrecision": "6",
         "maxPrice": "9.5840",
@@ -25056,7 +25056,7 @@
       },
       "limits": {
         "amount": {
-          "max": 997000,
+          "max": 684200,
           "min": 14.2
         },
         "cost": {
@@ -25098,9 +25098,9 @@
         "baseMax": "12710000",
         "baseMin": "144",
         "basePrecision": "6",
-        "maxPrice": "7.5000",
-        "minPrice": "0.0114",
-        "pricePrecision": "4",
+        "maxPrice": "7.500000",
+        "minPrice": "0.011400",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -25115,7 +25115,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "A",
@@ -25174,9 +25174,9 @@
         "baseMax": "1409000",
         "baseMin": "21",
         "basePrecision": "6",
-        "maxPrice": "15.0000",
-        "minPrice": "0.1500",
-        "pricePrecision": "4",
+        "maxPrice": "15.00000",
+        "minPrice": "0.15000",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -25191,7 +25191,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "ASTER",
@@ -25250,9 +25250,9 @@
         "baseMax": "48170000",
         "baseMin": "555",
         "basePrecision": "6",
-        "maxPrice": "0.46000",
-        "minPrice": "0.00460",
-        "pricePrecision": "5",
+        "maxPrice": "0.460000",
+        "minPrice": "0.004600",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -25267,7 +25267,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "SPK",
@@ -25703,7 +25703,7 @@
       "info": {
         "base": "EPIC",
         "baseLotSize": "0.000001",
-        "baseMax": "3634000",
+        "baseMax": "3062000",
         "baseMin": "48",
         "basePrecision": "6",
         "maxPrice": "3.07800",
@@ -25740,7 +25740,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3634000,
+          "max": 3062000,
           "min": 48
         },
         "cost": {
@@ -26311,7 +26311,7 @@
       "info": {
         "base": "PIPPIN",
         "baseLotSize": "0.000001",
-        "baseMax": "38020000",
+        "baseMax": "28680000",
         "baseMin": "428",
         "basePrecision": "6",
         "maxPrice": "0.35940",
@@ -26348,7 +26348,7 @@
       },
       "limits": {
         "amount": {
-          "max": 38020000,
+          "max": 28680000,
           "min": 428
         },
         "cost": {
@@ -26694,9 +26694,9 @@
         "baseMax": "165200000",
         "baseMin": "1858",
         "basePrecision": "6",
-        "maxPrice": "0.28940",
-        "minPrice": "0.00289",
-        "pricePrecision": "5",
+        "maxPrice": "0.2894000",
+        "minPrice": "0.0028900",
+        "pricePrecision": "7",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -26711,7 +26711,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "ACH",
@@ -27074,9 +27074,9 @@
         "baseMax": "166300",
         "baseMin": "1.9",
         "basePrecision": "6",
-        "maxPrice": "500.00",
-        "minPrice": "1.00",
-        "pricePrecision": "2",
+        "maxPrice": "500.0000",
+        "minPrice": "1.0000",
+        "pricePrecision": "4",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -27091,7 +27091,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.01,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "GMX",
@@ -27226,9 +27226,9 @@
         "baseMax": "1096000",
         "baseMin": "15",
         "basePrecision": "6",
-        "maxPrice": "10.3610",
-        "minPrice": "0.1037",
-        "pricePrecision": "4",
+        "maxPrice": "10.36100",
+        "minPrice": "0.10370",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -27243,7 +27243,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SUI",
@@ -27302,9 +27302,9 @@
         "baseMax": "1236000000",
         "baseMin": "16560",
         "basePrecision": "6",
-        "maxPrice": "0.0135700",
-        "minPrice": "0.0001357",
-        "pricePrecision": "7",
+        "maxPrice": "0.01357000",
+        "minPrice": "0.00013570",
+        "pricePrecision": "8",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -27319,7 +27319,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-7,
+        "price": 1.0e-8,
         "quote": 1.0e-8
       },
       "baseId": "ELIZAOS",
@@ -27606,9 +27606,9 @@
         "baseMax": "34010000",
         "baseMin": "383",
         "basePrecision": "8",
-        "maxPrice": "5.0000",
-        "minPrice": "0.0100",
-        "pricePrecision": "4",
+        "maxPrice": "5.000000",
+        "minPrice": "0.010000",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -27623,7 +27623,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "CVC",
@@ -28363,7 +28363,7 @@
       "info": {
         "base": "JST",
         "baseLotSize": "0.00000100",
-        "baseMax": "12300000",
+        "baseMax": "15330000",
         "baseMin": "368",
         "basePrecision": "8",
         "maxPrice": "0.367100",
@@ -28400,7 +28400,7 @@
       },
       "limits": {
         "amount": {
-          "max": 12300000,
+          "max": 15330000,
           "min": 368
         },
         "cost": {
@@ -28819,7 +28819,7 @@
       "info": {
         "base": "SAPIEN",
         "baseLotSize": "0.000001",
-        "baseMax": "15130000",
+        "baseMax": "11610000",
         "baseMin": "177",
         "basePrecision": "6",
         "maxPrice": "2.30000",
@@ -28856,7 +28856,7 @@
       },
       "limits": {
         "amount": {
-          "max": 15130000,
+          "max": 11610000,
           "min": 177
         },
         "cost": {
@@ -29351,7 +29351,7 @@
       "info": {
         "base": "BLUR",
         "baseLotSize": "0.000001",
-        "baseMax": "52740000",
+        "baseMax": "39940000",
         "baseMin": "594",
         "basePrecision": "6",
         "maxPrice": "0.211190",
@@ -29388,7 +29388,7 @@
       },
       "limits": {
         "amount": {
-          "max": 52740000,
+          "max": 39940000,
           "min": 594
         },
         "cost": {
@@ -29427,7 +29427,7 @@
       "info": {
         "base": "SPACE",
         "baseLotSize": "0.000001",
-        "baseMax": "198600000",
+        "baseMax": "153300000",
         "baseMin": "2235",
         "basePrecision": "6",
         "maxPrice": "0.0867610",
@@ -29464,7 +29464,7 @@
       },
       "limits": {
         "amount": {
-          "max": 198600000,
+          "max": 153300000,
           "min": 2235
         },
         "cost": {
@@ -29579,7 +29579,7 @@
       "info": {
         "base": "DOGS",
         "baseLotSize": "0.000001",
-        "baseMax": "37530000000",
+        "baseMax": "30470000000",
         "baseMin": "422250",
         "basePrecision": "6",
         "maxPrice": "0.02390000",
@@ -29616,7 +29616,7 @@
       },
       "limits": {
         "amount": {
-          "max": 37530000000,
+          "max": 30470000000,
           "min": 422250
         },
         "cost": {
@@ -29734,9 +29734,9 @@
         "baseMax": "1236000000",
         "baseMin": "16560",
         "basePrecision": "6",
-        "maxPrice": "0.0135700",
-        "minPrice": "0.0001357",
-        "pricePrecision": "7",
+        "maxPrice": "0.01357000",
+        "minPrice": "0.00013570",
+        "pricePrecision": "8",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -29751,7 +29751,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-7,
+        "price": 1.0e-8,
         "quote": 1.0e-8
       },
       "baseId": "ELIZAOS",
@@ -29883,7 +29883,7 @@
       "info": {
         "base": "PEOPLE",
         "baseLotSize": "0.000001",
-        "baseMax": "154800000",
+        "baseMax": "121700000",
         "baseMin": "1742",
         "basePrecision": "6",
         "maxPrice": "0.0698000",
@@ -29920,7 +29920,7 @@
       },
       "limits": {
         "amount": {
-          "max": 154800000,
+          "max": 121700000,
           "min": 1742
         },
         "cost": {
@@ -30111,12 +30111,12 @@
       "info": {
         "base": "H",
         "baseLotSize": "0.000001",
-        "baseMax": "10670000",
+        "baseMax": "8481000",
         "baseMin": "349",
         "basePrecision": "6",
-        "maxPrice": "0.81000",
-        "minPrice": "0.00810",
-        "pricePrecision": "5",
+        "maxPrice": "0.810000",
+        "minPrice": "0.008100",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -30131,7 +30131,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "H",
@@ -30148,7 +30148,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10670000,
+          "max": 8481000,
           "min": 349
         },
         "cost": {
@@ -30415,7 +30415,7 @@
       "info": {
         "base": "BOME",
         "baseLotSize": "0.000001",
-        "baseMax": "2382000000",
+        "baseMax": "1834000000",
         "baseMin": "28845",
         "basePrecision": "6",
         "maxPrice": "0.00432400",
@@ -30452,7 +30452,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2382000000,
+          "max": 1834000000,
           "min": 28845
         },
         "cost": {
@@ -30494,9 +30494,9 @@
         "baseMax": "620200",
         "baseMin": "10",
         "basePrecision": "8",
-        "maxPrice": "27.00",
-        "minPrice": "0.27",
-        "pricePrecision": "2",
+        "maxPrice": "27.0000",
+        "minPrice": "0.2700",
+        "pricePrecision": "4",
         "quote": "EUR",
         "quoteLotSize": "0.01000000",
         "quoteMax": "835900",
@@ -30511,7 +30511,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.01,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "CAKE",
@@ -30795,7 +30795,7 @@
       "info": {
         "base": "WIF",
         "baseLotSize": "0.000001",
-        "baseMax": "5662000",
+        "baseMax": "4671000",
         "baseMin": "64",
         "basePrecision": "6",
         "maxPrice": "20.00000",
@@ -30832,7 +30832,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5662000,
+          "max": 4671000,
           "min": 64
         },
         "cost": {
@@ -30871,7 +30871,7 @@
       "info": {
         "base": "COMP",
         "baseLotSize": "0.00000100",
-        "baseMax": "48430",
+        "baseMax": "40790",
         "baseMin": "0.72",
         "basePrecision": "8",
         "maxPrice": "2378.990",
@@ -30908,7 +30908,7 @@
       },
       "limits": {
         "amount": {
-          "max": 48430,
+          "max": 40790,
           "min": 0.72
         },
         "cost": {
@@ -31026,9 +31026,9 @@
         "baseMax": "53400000",
         "baseMin": "725",
         "basePrecision": "6",
-        "maxPrice": "0.19820",
-        "minPrice": "0.00199",
-        "pricePrecision": "5",
+        "maxPrice": "0.198200",
+        "minPrice": "0.001990",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -31043,7 +31043,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "SUN",
@@ -31175,7 +31175,7 @@
       "info": {
         "base": "ENJ",
         "baseLotSize": "0.00000100",
-        "baseMax": "21260000",
+        "baseMax": "14260000",
         "baseMin": "539",
         "basePrecision": "8",
         "maxPrice": "0.178460",
@@ -31212,7 +31212,7 @@
       },
       "limits": {
         "amount": {
-          "max": 21260000,
+          "max": 14260000,
           "min": 539
         },
         "cost": {
@@ -31251,7 +31251,7 @@
       "info": {
         "base": "ENA",
         "baseLotSize": "0.000001",
-        "baseMax": "12150000",
+        "baseMax": "8827000",
         "baseMin": "137",
         "basePrecision": "6",
         "maxPrice": "9.190000",
@@ -31288,7 +31288,7 @@
       },
       "limits": {
         "amount": {
-          "max": 12150000,
+          "max": 8827000,
           "min": 137
         },
         "cost": {
@@ -31482,9 +31482,9 @@
         "baseMax": "48090000",
         "baseMin": "787",
         "basePrecision": "6",
-        "maxPrice": "0.79000",
-        "minPrice": "0.00790",
-        "pricePrecision": "5",
+        "maxPrice": "0.790000",
+        "minPrice": "0.007900",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -31499,7 +31499,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "SAHARA",
@@ -31555,7 +31555,7 @@
       "info": {
         "base": "ORDI",
         "baseLotSize": "0.000001",
-        "baseMax": "451800",
+        "baseMax": "130700",
         "baseMin": "5.3",
         "basePrecision": "6",
         "maxPrice": "778.0000",
@@ -31592,7 +31592,7 @@
       },
       "limits": {
         "amount": {
-          "max": 451800,
+          "max": 130700,
           "min": 5.3
         },
         "cost": {
@@ -31634,9 +31634,9 @@
         "baseMax": "6327000",
         "baseMin": "97",
         "basePrecision": "6",
-        "maxPrice": "3.2210",
-        "minPrice": "0.0323",
-        "pricePrecision": "4",
+        "maxPrice": "3.22100",
+        "minPrice": "0.03230",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -31651,7 +31651,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "RED",
@@ -31859,7 +31859,7 @@
       "info": {
         "base": "ENJ",
         "baseLotSize": "0.00000100",
-        "baseMax": "21260000",
+        "baseMax": "14260000",
         "baseMin": "539",
         "basePrecision": "8",
         "maxPrice": "100.000000",
@@ -31896,7 +31896,7 @@
       },
       "limits": {
         "amount": {
-          "max": 21260000,
+          "max": 14260000,
           "min": 539
         },
         "cost": {
@@ -31938,9 +31938,9 @@
         "baseMax": "2728000",
         "baseMin": "37",
         "basePrecision": "6",
-        "maxPrice": "7.483",
-        "minPrice": "0.075",
-        "pricePrecision": "3",
+        "maxPrice": "7.48300",
+        "minPrice": "0.07500",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -31955,7 +31955,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "AERO",
@@ -32391,7 +32391,7 @@
       "info": {
         "base": "COMP",
         "baseLotSize": "0.00000100",
-        "baseMax": "48430",
+        "baseMax": "40790",
         "baseMin": "0.72",
         "basePrecision": "8",
         "maxPrice": "418.500",
@@ -32428,7 +32428,7 @@
       },
       "limits": {
         "amount": {
-          "max": 48430,
+          "max": 40790,
           "min": 0.72
         },
         "cost": {
@@ -32543,7 +32543,7 @@
       "info": {
         "base": "THETA",
         "baseLotSize": "0.00000001",
-        "baseMax": "6402000",
+        "baseMax": "5015000",
         "baseMin": "73",
         "basePrecision": "8",
         "maxPrice": "2.04000",
@@ -32580,7 +32580,7 @@
       },
       "limits": {
         "amount": {
-          "max": 6402000,
+          "max": 5015000,
           "min": 73
         },
         "cost": {
@@ -32695,7 +32695,7 @@
       "info": {
         "base": "OP",
         "baseLotSize": "0.000001",
-        "baseMax": "9183000",
+        "baseMax": "7608000",
         "baseMin": "104",
         "basePrecision": "6",
         "maxPrice": "1.86740",
@@ -32732,7 +32732,7 @@
       },
       "limits": {
         "amount": {
-          "max": 9183000,
+          "max": 7608000,
           "min": 104
         },
         "cost": {
@@ -32923,7 +32923,7 @@
       "info": {
         "base": "ONG",
         "baseLotSize": "0.00000100",
-        "baseMax": "10520000",
+        "baseMax": "12420000",
         "baseMin": "183",
         "basePrecision": "8",
         "maxPrice": "50.000000",
@@ -32960,7 +32960,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10520000,
+          "max": 12420000,
           "min": 183
         },
         "cost": {
@@ -32999,7 +32999,7 @@
       "info": {
         "base": "GIGGLE",
         "baseLotSize": "0.000001",
-        "baseMax": "20290",
+        "baseMax": "24580",
         "baseMin": "0.51",
         "basePrecision": "6",
         "maxPrice": "660.000",
@@ -33036,7 +33036,7 @@
       },
       "limits": {
         "amount": {
-          "max": 20290,
+          "max": 24580,
           "min": 0.51
         },
         "cost": {
@@ -33075,7 +33075,7 @@
       "info": {
         "base": "DOGS",
         "baseLotSize": "0.000001",
-        "baseMax": "37530000000",
+        "baseMax": "30470000000",
         "baseMin": "422250",
         "basePrecision": "6",
         "maxPrice": "0.02390000",
@@ -33112,7 +33112,7 @@
       },
       "limits": {
         "amount": {
-          "max": 37530000000,
+          "max": 30470000000,
           "min": 422250
         },
         "cost": {
@@ -33230,9 +33230,9 @@
         "baseMax": "3067000",
         "baseMin": "44",
         "basePrecision": "6",
-        "maxPrice": "10.0000",
-        "minPrice": "0.1000",
-        "pricePrecision": "4",
+        "maxPrice": "10.00000",
+        "minPrice": "0.10000",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -33247,7 +33247,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SPX",
@@ -33531,7 +33531,7 @@
       "info": {
         "base": "THETA",
         "baseLotSize": "0.00000001",
-        "baseMax": "6402000",
+        "baseMax": "5015000",
         "baseMin": "73",
         "basePrecision": "8",
         "maxPrice": "0.00030980",
@@ -33568,7 +33568,7 @@
       },
       "limits": {
         "amount": {
-          "max": 6402000,
+          "max": 5015000,
           "min": 73
         },
         "cost": {
@@ -33607,7 +33607,7 @@
       "info": {
         "base": "ENJ",
         "baseLotSize": "0.00000100",
-        "baseMax": "21260000",
+        "baseMax": "14260000",
         "baseMin": "539",
         "basePrecision": "8",
         "maxPrice": "100.000000",
@@ -33644,7 +33644,7 @@
       },
       "limits": {
         "amount": {
-          "max": 21260000,
+          "max": 14260000,
           "min": 539
         },
         "cost": {
@@ -33686,9 +33686,9 @@
         "baseMax": "1409000",
         "baseMin": "21",
         "basePrecision": "6",
-        "maxPrice": "15.0000",
-        "minPrice": "0.1500",
-        "pricePrecision": "4",
+        "maxPrice": "15.00000",
+        "minPrice": "0.15000",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -33703,7 +33703,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "ASTER",
@@ -33762,9 +33762,9 @@
         "baseMax": "5451000",
         "baseMin": "62",
         "basePrecision": "6",
-        "maxPrice": "10.0000",
-        "minPrice": "0.1000",
-        "pricePrecision": "4",
+        "maxPrice": "10.00000",
+        "minPrice": "0.10000",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -33779,7 +33779,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "DIA",
@@ -34294,9 +34294,9 @@
         "baseMax": "64890000",
         "baseMin": "906",
         "basePrecision": "6",
-        "maxPrice": "0.51410",
-        "minPrice": "0.00515",
-        "pricePrecision": "5",
+        "maxPrice": "0.514100",
+        "minPrice": "0.005150",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -34311,7 +34311,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "GUN",
@@ -34519,12 +34519,12 @@
       "info": {
         "base": "H",
         "baseLotSize": "0.000001",
-        "baseMax": "10670000",
+        "baseMax": "8481000",
         "baseMin": "349",
         "basePrecision": "6",
-        "maxPrice": "0.81000",
-        "minPrice": "0.00810",
-        "pricePrecision": "5",
+        "maxPrice": "0.810000",
+        "minPrice": "0.008100",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -34539,7 +34539,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "H",
@@ -34556,7 +34556,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10670000,
+          "max": 8481000,
           "min": 349
         },
         "cost": {
@@ -34975,12 +34975,12 @@
       "info": {
         "base": "0G",
         "baseLotSize": "0.000001",
-        "baseMax": "1917000",
+        "baseMax": "1603000",
         "baseMin": "23",
         "basePrecision": "6",
-        "maxPrice": "62.0000",
-        "minPrice": "0.1194",
-        "pricePrecision": "4",
+        "maxPrice": "62.00000",
+        "minPrice": "0.11940",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -34995,7 +34995,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "0G",
@@ -35012,7 +35012,7 @@
       },
       "limits": {
         "amount": {
-          "max": 1917000,
+          "max": 1603000,
           "min": 23
         },
         "cost": {
@@ -35051,7 +35051,7 @@
       "info": {
         "base": "MEME",
         "baseLotSize": "0.000001",
-        "baseMax": "2039000000",
+        "baseMax": "1721000000",
         "baseMin": "22658",
         "basePrecision": "6",
         "maxPrice": "0.00710861",
@@ -35088,7 +35088,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2039000000,
+          "max": 1721000000,
           "min": 22658
         },
         "cost": {
@@ -35127,7 +35127,7 @@
       "info": {
         "base": "AIXBT",
         "baseLotSize": "0.000001",
-        "baseMax": "42040000",
+        "baseMax": "34260000",
         "baseMin": "572",
         "basePrecision": "6",
         "maxPrice": "1.861000",
@@ -35164,7 +35164,7 @@
       },
       "limits": {
         "amount": {
-          "max": 42040000,
+          "max": 34260000,
           "min": 572
         },
         "cost": {
@@ -35206,9 +35206,9 @@
         "baseMax": "202400000",
         "baseMin": "2277",
         "basePrecision": "6",
-        "maxPrice": "0.675900",
-        "minPrice": "0.001341",
-        "pricePrecision": "6",
+        "maxPrice": "0.6759000",
+        "minPrice": "0.0013410",
+        "pricePrecision": "7",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -35223,7 +35223,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "FWOG",
@@ -35434,9 +35434,9 @@
         "baseMax": "53400000",
         "baseMin": "725",
         "basePrecision": "6",
-        "maxPrice": "0.19820",
-        "minPrice": "0.00199",
-        "pricePrecision": "5",
+        "maxPrice": "0.198200",
+        "minPrice": "0.001990",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -35451,7 +35451,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "SUN",
@@ -35583,7 +35583,7 @@
       "info": {
         "base": "AR",
         "baseLotSize": "0.000001",
-        "baseMax": "579500",
+        "baseMax": "472100",
         "baseMin": "6.7",
         "basePrecision": "6",
         "maxPrice": "384.2000",
@@ -35620,7 +35620,7 @@
       },
       "limits": {
         "amount": {
-          "max": 579500,
+          "max": 472100,
           "min": 6.7
         },
         "cost": {
@@ -35662,9 +35662,9 @@
         "baseMax": "14790000",
         "baseMin": "167.625",
         "basePrecision": "6",
-        "maxPrice": "0.9320",
-        "minPrice": "0.0093",
-        "pricePrecision": "4",
+        "maxPrice": "0.932000",
+        "minPrice": "0.009300",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -35679,7 +35679,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "REQ",
@@ -35887,7 +35887,7 @@
       "info": {
         "base": "OP",
         "baseLotSize": "0.000001",
-        "baseMax": "9183000",
+        "baseMax": "7608000",
         "baseMin": "104",
         "basePrecision": "6",
         "maxPrice": "11.70000",
@@ -35924,7 +35924,7 @@
       },
       "limits": {
         "amount": {
-          "max": 9183000,
+          "max": 7608000,
           "min": 104
         },
         "cost": {
@@ -36039,7 +36039,7 @@
       "info": {
         "base": "HYPE",
         "baseLotSize": "0.000001",
-        "baseMax": "27020",
+        "baseMax": "22650",
         "baseMin": "0.6075",
         "basePrecision": "6",
         "maxPrice": "200.000",
@@ -36076,7 +36076,7 @@
       },
       "limits": {
         "amount": {
-          "max": 27020,
+          "max": 22650,
           "min": 0.6075
         },
         "cost": {
@@ -36571,7 +36571,7 @@
       "info": {
         "base": "ARKM",
         "baseLotSize": "0.000001",
-        "baseMax": "10260000",
+        "baseMax": "8114000",
         "baseMin": "119",
         "basePrecision": "6",
         "maxPrice": "30.000000",
@@ -36608,7 +36608,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10260000,
+          "max": 8114000,
           "min": 119
         },
         "cost": {
@@ -36802,9 +36802,9 @@
         "baseMax": "9615000",
         "baseMin": "109",
         "basePrecision": "6",
-        "maxPrice": "14.500",
-        "minPrice": "0.022",
-        "pricePrecision": "3",
+        "maxPrice": "14.50000",
+        "minPrice": "0.02200",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -36819,7 +36819,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "IO",
@@ -36951,7 +36951,7 @@
       "info": {
         "base": "PEPE",
         "baseLotSize": "1",
-        "baseMax": "305800000000",
+        "baseMax": "256100000000",
         "baseMin": "3450750",
         "basePrecision": "0",
         "maxPrice": "0.00007350",
@@ -36988,7 +36988,7 @@
       },
       "limits": {
         "amount": {
-          "max": 305800000000,
+          "max": 256100000000,
           "min": 3450750
         },
         "cost": {
@@ -38395,7 +38395,7 @@
       "info": {
         "base": "NEAR",
         "baseLotSize": "0.000001",
-        "baseMax": "839700",
+        "baseMax": "701000",
         "baseMin": "11.6",
         "basePrecision": "6",
         "maxPrice": "42.10000",
@@ -38432,7 +38432,7 @@
       },
       "limits": {
         "amount": {
-          "max": 839700,
+          "max": 701000,
           "min": 11.6
         },
         "cost": {
@@ -38471,7 +38471,7 @@
       "info": {
         "base": "PEOPLE",
         "baseLotSize": "0.000001",
-        "baseMax": "154800000",
+        "baseMax": "121700000",
         "baseMin": "1742",
         "basePrecision": "6",
         "maxPrice": "0.0698000",
@@ -38508,7 +38508,7 @@
       },
       "limits": {
         "amount": {
-          "max": 154800000,
+          "max": 121700000,
           "min": 1742
         },
         "cost": {
@@ -38550,9 +38550,9 @@
         "baseMax": "59880000",
         "baseMin": "674",
         "basePrecision": "6",
-        "maxPrice": "0.1940",
-        "minPrice": "0.0019",
-        "pricePrecision": "4",
+        "maxPrice": "0.194000",
+        "minPrice": "0.001900",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -38567,7 +38567,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "DYM",
@@ -38702,9 +38702,9 @@
         "baseMax": "48090000",
         "baseMin": "787",
         "basePrecision": "6",
-        "maxPrice": "0.79000",
-        "minPrice": "0.00790",
-        "pricePrecision": "5",
+        "maxPrice": "0.790000",
+        "minPrice": "0.007900",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -38719,7 +38719,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "SAHARA",
@@ -38851,7 +38851,7 @@
       "info": {
         "base": "MOODENG",
         "baseLotSize": "0.000001",
-        "baseMax": "21240000",
+        "baseMax": "17630000",
         "baseMin": "260",
         "basePrecision": "6",
         "maxPrice": "1.50000",
@@ -38888,7 +38888,7 @@
       },
       "limits": {
         "amount": {
-          "max": 21240000,
+          "max": 17630000,
           "min": 260
         },
         "cost": {
@@ -38930,9 +38930,9 @@
         "baseMax": "156900000",
         "baseMin": "1856",
         "basePrecision": "6",
-        "maxPrice": "5.879000",
-        "minPrice": "0.001361",
-        "pricePrecision": "6",
+        "maxPrice": "5.8790000",
+        "minPrice": "0.0013610",
+        "pricePrecision": "7",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -38947,7 +38947,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "ALT",
@@ -39079,7 +39079,7 @@
       "info": {
         "base": "67",
         "baseLotSize": "0.000001",
-        "baseMax": "387900000",
+        "baseMax": "580200000",
         "baseMin": "7473",
         "basePrecision": "6",
         "maxPrice": "0.0275100",
@@ -39116,7 +39116,7 @@
       },
       "limits": {
         "amount": {
-          "max": 387900000,
+          "max": 580200000,
           "min": 7473
         },
         "cost": {
@@ -39459,7 +39459,7 @@
       "info": {
         "base": "DYDX",
         "baseLotSize": "0.000001",
-        "baseMax": "10940000",
+        "baseMax": "7668000",
         "baseMin": "124",
         "basePrecision": "6",
         "maxPrice": "170.000000",
@@ -39496,7 +39496,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10940000,
+          "max": 7668000,
           "min": 124
         },
         "cost": {
@@ -39611,7 +39611,7 @@
       "info": {
         "base": "POPCAT",
         "baseLotSize": "0.000001",
-        "baseMax": "20050000",
+        "baseMax": "16990000",
         "baseMin": "239",
         "basePrecision": "6",
         "maxPrice": "0.522470",
@@ -39648,7 +39648,7 @@
       },
       "limits": {
         "amount": {
-          "max": 20050000,
+          "max": 16990000,
           "min": 239
         },
         "cost": {
@@ -40070,9 +40070,9 @@
         "baseMax": "3067000",
         "baseMin": "44",
         "basePrecision": "6",
-        "maxPrice": "10.0000",
-        "minPrice": "0.1000",
-        "pricePrecision": "4",
+        "maxPrice": "10.00000",
+        "minPrice": "0.10000",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -40087,7 +40087,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SPX",
@@ -40602,9 +40602,9 @@
         "baseMax": "12490",
         "baseMin": "0.2",
         "basePrecision": "6",
-        "maxPrice": "1127.20",
-        "minPrice": "11.28",
-        "pricePrecision": "2",
+        "maxPrice": "1127.200",
+        "minPrice": "11.280",
+        "pricePrecision": "3",
         "quote": "EUR",
         "quoteLotSize": "0.01000000",
         "quoteMax": "835900",
@@ -40619,7 +40619,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.01,
+        "price": 0.001,
         "quote": 1.0e-8
       },
       "baseId": "QNT",
@@ -40678,9 +40678,9 @@
         "baseMax": "22090000",
         "baseMin": "363",
         "basePrecision": "6",
-        "maxPrice": "2.60000",
-        "minPrice": "0.02600",
-        "pricePrecision": "5",
+        "maxPrice": "2.600000",
+        "minPrice": "0.026000",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -40695,7 +40695,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "USELESS",
@@ -40751,7 +40751,7 @@
       "info": {
         "base": "TRB",
         "baseLotSize": "0.00000100",
-        "baseMax": "61140",
+        "baseMax": "50670",
         "baseMin": "0.83",
         "basePrecision": "8",
         "maxPrice": "917.40",
@@ -40788,7 +40788,7 @@
       },
       "limits": {
         "amount": {
-          "max": 61140,
+          "max": 50670,
           "min": 0.83
         },
         "cost": {
@@ -40830,9 +40830,9 @@
         "baseMax": "24670",
         "baseMin": "0.8",
         "basePrecision": "8",
-        "maxPrice": "4096.0",
-        "minPrice": "2.8",
-        "pricePrecision": "1",
+        "maxPrice": "4096.000",
+        "minPrice": "2.800",
+        "pricePrecision": "3",
         "quote": "USDT",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -40847,7 +40847,7 @@
       "precision": {
         "amount": "0.00000001",
         "base": 1.0e-8,
-        "price": 0.1,
+        "price": 0.001,
         "quote": 1.0e-8
       },
       "baseId": "DASH",
@@ -41058,9 +41058,9 @@
         "baseMax": "2728000",
         "baseMin": "37",
         "basePrecision": "6",
-        "maxPrice": "7.483",
-        "minPrice": "0.075",
-        "pricePrecision": "3",
+        "maxPrice": "7.48300",
+        "minPrice": "0.07500",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -41075,7 +41075,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "AERO",
@@ -41359,7 +41359,7 @@
       "info": {
         "base": "MAV",
         "baseLotSize": "0.000001",
-        "baseMax": "69780000",
+        "baseMax": "58820000",
         "baseMin": "913",
         "basePrecision": "6",
         "maxPrice": "0.4500",
@@ -41396,7 +41396,7 @@
       },
       "limits": {
         "amount": {
-          "max": 69780000,
+          "max": 58820000,
           "min": 913
         },
         "cost": {
@@ -41739,7 +41739,7 @@
       "info": {
         "base": "METIS",
         "baseLotSize": "0.000001",
-        "baseMax": "349000",
+        "baseMax": "212300",
         "baseMin": "4.1",
         "basePrecision": "6",
         "maxPrice": "1301.20",
@@ -41776,7 +41776,7 @@
       },
       "limits": {
         "amount": {
-          "max": 349000,
+          "max": 212300,
           "min": 4.1
         },
         "cost": {
@@ -41894,9 +41894,9 @@
         "baseMax": "13150000",
         "baseMin": "148",
         "basePrecision": "6",
-        "maxPrice": "1.40000",
-        "minPrice": "0.01400",
-        "pricePrecision": "5",
+        "maxPrice": "1.400000",
+        "minPrice": "0.014000",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -41911,7 +41911,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "FF",
@@ -42046,9 +42046,9 @@
         "baseMax": "493400",
         "baseMin": "8.9",
         "basePrecision": "6",
-        "maxPrice": "29.400",
-        "minPrice": "0.290",
-        "pricePrecision": "3",
+        "maxPrice": "29.4000",
+        "minPrice": "0.2900",
+        "pricePrecision": "4",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -42063,7 +42063,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "ZRO",
@@ -42955,7 +42955,7 @@
       "info": {
         "base": "CROSS",
         "baseLotSize": "0.000001",
-        "baseMax": "14960000",
+        "baseMax": "12630000",
         "baseMin": "203",
         "basePrecision": "6",
         "maxPrice": "3.20000",
@@ -42992,7 +42992,7 @@
       },
       "limits": {
         "amount": {
-          "max": 14960000,
+          "max": 12630000,
           "min": 203
         },
         "cost": {
@@ -43031,7 +43031,7 @@
       "info": {
         "base": "MUBARAK",
         "baseLotSize": "0.000001",
-        "baseMax": "85010000",
+        "baseMax": "67410000",
         "baseMin": "957",
         "basePrecision": "6",
         "maxPrice": "0.450000",
@@ -43068,7 +43068,7 @@
       },
       "limits": {
         "amount": {
-          "max": 85010000,
+          "max": 67410000,
           "min": 957
         },
         "cost": {
@@ -43107,7 +43107,7 @@
       "info": {
         "base": "ACT",
         "baseLotSize": "0.000001",
-        "baseMax": "75680000",
+        "baseMax": "64280000",
         "baseMin": "852",
         "basePrecision": "6",
         "maxPrice": "1.890000",
@@ -43144,7 +43144,7 @@
       },
       "limits": {
         "amount": {
-          "max": 75680000,
+          "max": 64280000,
           "min": 852
         },
         "cost": {
@@ -43186,9 +43186,9 @@
         "baseMax": "4437000",
         "baseMin": "50",
         "basePrecision": "6",
-        "maxPrice": "4.4000",
-        "minPrice": "0.0440",
-        "pricePrecision": "4",
+        "maxPrice": "4.40000",
+        "minPrice": "0.04400",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -43203,7 +43203,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SYRUP",
@@ -43262,9 +43262,9 @@
         "baseMax": "1542000",
         "baseMin": "22",
         "basePrecision": "6",
-        "maxPrice": "5.3000",
-        "minPrice": "0.0530",
-        "pricePrecision": "4",
+        "maxPrice": "5.30000",
+        "minPrice": "0.05300",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -43279,7 +43279,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "VIRTUAL",
@@ -43715,7 +43715,7 @@
       "info": {
         "base": "PNUT",
         "baseLotSize": "0.000001",
-        "baseMax": "25420000",
+        "baseMax": "14780000",
         "baseMin": "298",
         "basePrecision": "6",
         "maxPrice": "0.502460",
@@ -43752,7 +43752,7 @@
       },
       "limits": {
         "amount": {
-          "max": 25420000,
+          "max": 14780000,
           "min": 298
         },
         "cost": {
@@ -44019,7 +44019,7 @@
       "info": {
         "base": "AAVE",
         "baseLotSize": "0.00000100",
-        "baseMax": "11180",
+        "baseMax": "8722",
         "baseMin": "0.13",
         "basePrecision": "8",
         "maxPrice": "1262.10",
@@ -44056,7 +44056,7 @@
       },
       "limits": {
         "amount": {
-          "max": 11180,
+          "max": 8722,
           "min": 0.13
         },
         "cost": {
@@ -44326,9 +44326,9 @@
         "baseMax": "2862000",
         "baseMin": "34",
         "basePrecision": "8",
-        "maxPrice": "50.0000",
-        "minPrice": "0.0493",
-        "pricePrecision": "4",
+        "maxPrice": "50.00000",
+        "minPrice": "0.04930",
+        "pricePrecision": "5",
         "quote": "GBP",
         "quoteLotSize": "0.01000000",
         "quoteMax": "790200",
@@ -44343,7 +44343,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "XTZ",
@@ -44475,7 +44475,7 @@
       "info": {
         "base": "PEOPLE",
         "baseLotSize": "0.000001",
-        "baseMax": "154800000",
+        "baseMax": "121700000",
         "baseMin": "1742",
         "basePrecision": "6",
         "maxPrice": "0.0698000",
@@ -44512,7 +44512,7 @@
       },
       "limits": {
         "amount": {
-          "max": 154800000,
+          "max": 121700000,
           "min": 1742
         },
         "cost": {
@@ -44703,7 +44703,7 @@
       "info": {
         "base": "BABY",
         "baseLotSize": "0.000001",
-        "baseMax": "78520000",
+        "baseMax": "62630000",
         "baseMin": "930",
         "basePrecision": "6",
         "maxPrice": "0.139000",
@@ -44740,7 +44740,7 @@
       },
       "limits": {
         "amount": {
-          "max": 78520000,
+          "max": 62630000,
           "min": 930
         },
         "cost": {
@@ -44779,7 +44779,7 @@
       "info": {
         "base": "TRADOOR",
         "baseLotSize": "0.000001",
-        "baseMax": "177000",
+        "baseMax": "138200",
         "baseMin": "14.5",
         "basePrecision": "6",
         "maxPrice": "20.0000",
@@ -44816,7 +44816,7 @@
       },
       "limits": {
         "amount": {
-          "max": 177000,
+          "max": 138200,
           "min": 14.5
         },
         "cost": {
@@ -45162,9 +45162,9 @@
         "baseMax": "113600000",
         "baseMin": "1815",
         "basePrecision": "6",
-        "maxPrice": "0.350000",
-        "minPrice": "0.003500",
-        "pricePrecision": "6",
+        "maxPrice": "0.3500000",
+        "minPrice": "0.0035000",
+        "pricePrecision": "7",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -45179,7 +45179,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "XAN",
@@ -45238,9 +45238,9 @@
         "baseMax": "3552000",
         "baseMin": "40",
         "basePrecision": "6",
-        "maxPrice": "100.000",
-        "minPrice": "0.100",
-        "pricePrecision": "3",
+        "maxPrice": "100.00000",
+        "minPrice": "0.10000",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -45255,7 +45255,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "WLD",
@@ -45311,7 +45311,7 @@
       "info": {
         "base": "DYDX",
         "baseLotSize": "0.000001",
-        "baseMax": "10940000",
+        "baseMax": "7668000",
         "baseMin": "124",
         "basePrecision": "6",
         "maxPrice": "0.912600",
@@ -45348,7 +45348,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10940000,
+          "max": 7668000,
           "min": 124
         },
         "cost": {
@@ -45466,9 +45466,9 @@
         "baseMax": "12490",
         "baseMin": "0.2",
         "basePrecision": "6",
-        "maxPrice": "1900.00",
-        "minPrice": "19.00",
-        "pricePrecision": "2",
+        "maxPrice": "1900.000",
+        "minPrice": "19.000",
+        "pricePrecision": "3",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -45483,7 +45483,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.01,
+        "price": 0.001,
         "quote": 1.0e-8
       },
       "baseId": "QNT",
@@ -45539,7 +45539,7 @@
       "info": {
         "base": "OPN",
         "baseLotSize": "0.000001",
-        "baseMax": "5924000",
+        "baseMax": "4917000",
         "baseMin": "67",
         "basePrecision": "6",
         "maxPrice": "2.86640",
@@ -45576,7 +45576,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5924000,
+          "max": 4917000,
           "min": 67
         },
         "cost": {
@@ -45691,7 +45691,7 @@
       "info": {
         "base": "GRIFFAIN",
         "baseLotSize": "0.000001",
-        "baseMax": "71480000",
+        "baseMax": "55780000",
         "baseMin": "1360",
         "basePrecision": "6",
         "maxPrice": "1.600000",
@@ -45728,7 +45728,7 @@
       },
       "limits": {
         "amount": {
-          "max": 71480000,
+          "max": 55780000,
           "min": 1360
         },
         "cost": {
@@ -45846,9 +45846,9 @@
         "baseMax": "194100",
         "baseMin": "2.7",
         "basePrecision": "6",
-        "maxPrice": "110.00",
-        "minPrice": "1.10",
-        "pricePrecision": "2",
+        "maxPrice": "110.0000",
+        "minPrice": "1.1000",
+        "pricePrecision": "4",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -45863,7 +45863,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.01,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "AUCTION",
@@ -45998,9 +45998,9 @@
         "baseMax": "1640000",
         "baseMin": "33",
         "basePrecision": "6",
-        "maxPrice": "6.6980",
-        "minPrice": "0.0670",
-        "pricePrecision": "4",
+        "maxPrice": "6.69800",
+        "minPrice": "0.06700",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -46015,7 +46015,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "B2",
@@ -46071,7 +46071,7 @@
       "info": {
         "base": "RPL",
         "baseLotSize": "0.000001",
-        "baseMax": "605200",
+        "baseMax": "491200",
         "baseMin": "7.6",
         "basePrecision": "6",
         "maxPrice": "74.5000",
@@ -46108,7 +46108,7 @@
       },
       "limits": {
         "amount": {
-          "max": 605200,
+          "max": 491200,
           "min": 7.6
         },
         "cost": {
@@ -46150,9 +46150,9 @@
         "baseMax": "12840000",
         "baseMin": "207.3",
         "basePrecision": "8",
-        "maxPrice": "0.7330",
-        "minPrice": "0.0073",
-        "pricePrecision": "4",
+        "maxPrice": "0.733000",
+        "minPrice": "0.007300",
+        "pricePrecision": "6",
         "quote": "EUR",
         "quoteLotSize": "0.01000000",
         "quoteMax": "835900",
@@ -46167,7 +46167,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "CRO",
@@ -46299,7 +46299,7 @@
       "info": {
         "base": "HAEDAL",
         "baseLotSize": "0.000001",
-        "baseMax": "38920000",
+        "baseMax": "31620000",
         "baseMin": "451",
         "basePrecision": "6",
         "maxPrice": "0.305111",
@@ -46336,7 +46336,7 @@
       },
       "limits": {
         "amount": {
-          "max": 38920000,
+          "max": 31620000,
           "min": 451
         },
         "cost": {
@@ -46530,9 +46530,9 @@
         "baseMax": "1640000",
         "baseMin": "33",
         "basePrecision": "6",
-        "maxPrice": "6.6980",
-        "minPrice": "0.0670",
-        "pricePrecision": "4",
+        "maxPrice": "6.69800",
+        "minPrice": "0.06700",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -46547,7 +46547,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "B2",
@@ -46603,7 +46603,7 @@
       "info": {
         "base": "SOON",
         "baseLotSize": "0.000001",
-        "baseMax": "8581000",
+        "baseMax": "4490000",
         "baseMin": "97",
         "basePrecision": "6",
         "maxPrice": "8.50000",
@@ -46640,7 +46640,7 @@
       },
       "limits": {
         "amount": {
-          "max": 8581000,
+          "max": 4490000,
           "min": 97
         },
         "cost": {
@@ -46831,7 +46831,7 @@
       "info": {
         "base": "MUBARAK",
         "baseLotSize": "0.000001",
-        "baseMax": "85010000",
+        "baseMax": "67410000",
         "baseMin": "957",
         "basePrecision": "6",
         "maxPrice": "0.450000",
@@ -46868,7 +46868,7 @@
       },
       "limits": {
         "amount": {
-          "max": 85010000,
+          "max": 67410000,
           "min": 957
         },
         "cost": {
@@ -47211,7 +47211,7 @@
       "info": {
         "base": "ZAMA",
         "baseLotSize": "0.000001",
-        "baseMax": "28110000",
+        "baseMax": "33780000",
         "baseMin": "629",
         "basePrecision": "6",
         "maxPrice": "0.200000",
@@ -47248,7 +47248,7 @@
       },
       "limits": {
         "amount": {
-          "max": 28110000,
+          "max": 33780000,
           "min": 629
         },
         "cost": {
@@ -47743,7 +47743,7 @@
       "info": {
         "base": "ARKM",
         "baseLotSize": "0.000001",
-        "baseMax": "10260000",
+        "baseMax": "8114000",
         "baseMin": "119",
         "basePrecision": "6",
         "maxPrice": "30.000000",
@@ -47780,7 +47780,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10260000,
+          "max": 8114000,
           "min": 119
         },
         "cost": {
@@ -47822,9 +47822,9 @@
         "baseMax": "1542000",
         "baseMin": "22",
         "basePrecision": "6",
-        "maxPrice": "5.3000",
-        "minPrice": "0.0530",
-        "pricePrecision": "4",
+        "maxPrice": "5.30000",
+        "minPrice": "0.05300",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -47839,7 +47839,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "VIRTUAL",
@@ -47971,7 +47971,7 @@
       "info": {
         "base": "67",
         "baseLotSize": "0.000001",
-        "baseMax": "387900000",
+        "baseMax": "580200000",
         "baseMin": "7473",
         "basePrecision": "6",
         "maxPrice": "0.0275200",
@@ -48008,7 +48008,7 @@
       },
       "limits": {
         "amount": {
-          "max": 387900000,
+          "max": 580200000,
           "min": 7473
         },
         "cost": {
@@ -48050,9 +48050,9 @@
         "baseMax": "2862000",
         "baseMin": "34",
         "basePrecision": "8",
-        "maxPrice": "50.0000",
-        "minPrice": "0.0581",
-        "pricePrecision": "4",
+        "maxPrice": "50.00000",
+        "minPrice": "0.05810",
+        "pricePrecision": "5",
         "quote": "EUR",
         "quoteLotSize": "0.01000000",
         "quoteMax": "835900",
@@ -48067,7 +48067,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "XTZ",
@@ -48123,7 +48123,7 @@
       "info": {
         "base": "TAKE",
         "baseLotSize": "0.000001",
-        "baseMax": "39640000",
+        "baseMax": "26240000",
         "baseMin": "822",
         "basePrecision": "6",
         "maxPrice": "1.66700",
@@ -48160,7 +48160,7 @@
       },
       "limits": {
         "amount": {
-          "max": 39640000,
+          "max": 26240000,
           "min": 822
         },
         "cost": {
@@ -48199,7 +48199,7 @@
       "info": {
         "base": "WIF",
         "baseLotSize": "0.000001",
-        "baseMax": "5662000",
+        "baseMax": "4671000",
         "baseMin": "64",
         "basePrecision": "6",
         "maxPrice": "11.40000",
@@ -48236,7 +48236,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5662000,
+          "max": 4671000,
           "min": 64
         },
         "cost": {
@@ -48275,12 +48275,12 @@
       "info": {
         "base": "BIO",
         "baseLotSize": "0.000001",
-        "baseMax": "57800000",
+        "baseMax": "30210000",
         "baseMin": "651",
         "basePrecision": "6",
-        "maxPrice": "1.1620",
-        "minPrice": "0.0117",
-        "pricePrecision": "4",
+        "maxPrice": "1.162000",
+        "minPrice": "0.011700",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -48295,7 +48295,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "BIO",
@@ -48312,7 +48312,7 @@
       },
       "limits": {
         "amount": {
-          "max": 57800000,
+          "max": 30210000,
           "min": 651
         },
         "cost": {
@@ -48658,9 +48658,9 @@
         "baseMax": "155300000",
         "baseMin": "1748",
         "basePrecision": "6",
-        "maxPrice": "0.340000",
-        "minPrice": "0.003400",
-        "pricePrecision": "6",
+        "maxPrice": "0.3400000",
+        "minPrice": "0.0034000",
+        "pricePrecision": "7",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -48675,7 +48675,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "SKL",
@@ -48734,9 +48734,9 @@
         "baseMax": "1236000000",
         "baseMin": "16560",
         "basePrecision": "6",
-        "maxPrice": "0.0135700",
-        "minPrice": "0.0001357",
-        "pricePrecision": "7",
+        "maxPrice": "0.01357000",
+        "minPrice": "0.00013570",
+        "pricePrecision": "8",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -48751,7 +48751,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-7,
+        "price": 1.0e-8,
         "quote": 1.0e-8
       },
       "baseId": "ELIZAOS",
@@ -48959,7 +48959,7 @@
       "info": {
         "base": "STORJ",
         "baseLotSize": "0.00000100",
-        "baseMax": "11180000",
+        "baseMax": "9418000",
         "baseMin": "126",
         "basePrecision": "8",
         "maxPrice": "8.785400",
@@ -48996,7 +48996,7 @@
       },
       "limits": {
         "amount": {
-          "max": 11180000,
+          "max": 9418000,
           "min": 126
         },
         "cost": {
@@ -49114,9 +49114,9 @@
         "baseMax": "34750000",
         "baseMin": "454",
         "basePrecision": "6",
-        "maxPrice": "1.10000",
-        "minPrice": "0.01100",
-        "pricePrecision": "5",
+        "maxPrice": "1.100000",
+        "minPrice": "0.011000",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -49131,7 +49131,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "DEEP",
@@ -49187,7 +49187,7 @@
       "info": {
         "base": "HAEDAL",
         "baseLotSize": "0.000001",
-        "baseMax": "38920000",
+        "baseMax": "31620000",
         "baseMin": "451",
         "basePrecision": "6",
         "maxPrice": "0.305110",
@@ -49224,7 +49224,7 @@
       },
       "limits": {
         "amount": {
-          "max": 38920000,
+          "max": 31620000,
           "min": 451
         },
         "cost": {
@@ -49415,7 +49415,7 @@
       "info": {
         "base": "ZETA",
         "baseLotSize": "0.000001",
-        "baseMax": "19460000",
+        "baseMax": "15600000",
         "baseMin": "227",
         "basePrecision": "6",
         "maxPrice": "24.500000",
@@ -49452,7 +49452,7 @@
       },
       "limits": {
         "amount": {
-          "max": 19460000,
+          "max": 15600000,
           "min": 227
         },
         "cost": {
@@ -49643,7 +49643,7 @@
       "info": {
         "base": "ARB",
         "baseLotSize": "0.000001",
-        "baseMax": "10310000",
+        "baseMax": "7665000",
         "baseMin": "121",
         "basePrecision": "6",
         "maxPrice": "0.00033260",
@@ -49680,7 +49680,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10310000,
+          "max": 7665000,
           "min": 121
         },
         "cost": {
@@ -49719,7 +49719,7 @@
       "info": {
         "base": "TIA",
         "baseLotSize": "0.00000001",
-        "baseMax": "3208000",
+        "baseMax": "2499000",
         "baseMin": "37",
         "basePrecision": "8",
         "maxPrice": "3.42511",
@@ -49756,7 +49756,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3208000,
+          "max": 2499000,
           "min": 37
         },
         "cost": {
@@ -50403,12 +50403,12 @@
       "info": {
         "base": "ROSE",
         "baseLotSize": "0.000001",
-        "baseMax": "105400000",
+        "baseMax": "85080000",
         "baseMin": "1186",
         "basePrecision": "6",
-        "maxPrice": "1.332100",
-        "minPrice": "0.002440",
-        "pricePrecision": "6",
+        "maxPrice": "1.3321000",
+        "minPrice": "0.0024400",
+        "pricePrecision": "7",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -50423,7 +50423,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "ROSE",
@@ -50440,7 +50440,7 @@
       },
       "limits": {
         "amount": {
-          "max": 105400000,
+          "max": 85080000,
           "min": 1186
         },
         "cost": {
@@ -50482,9 +50482,9 @@
         "baseMax": "16310000",
         "baseMin": "184",
         "basePrecision": "6",
-        "maxPrice": "3.00000",
-        "minPrice": "0.03000",
-        "pricePrecision": "5",
+        "maxPrice": "3.000000",
+        "minPrice": "0.030000",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -50499,7 +50499,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "TREE",
@@ -50634,9 +50634,9 @@
         "baseMax": "22090000",
         "baseMin": "363",
         "basePrecision": "6",
-        "maxPrice": "2.60000",
-        "minPrice": "0.02600",
-        "pricePrecision": "5",
+        "maxPrice": "2.600000",
+        "minPrice": "0.026000",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -50651,7 +50651,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "USELESS",
@@ -50707,7 +50707,7 @@
       "info": {
         "base": "ARB",
         "baseLotSize": "0.000001",
-        "baseMax": "10310000",
+        "baseMax": "7665000",
         "baseMin": "121",
         "basePrecision": "6",
         "maxPrice": "100.000000",
@@ -50744,7 +50744,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10310000,
+          "max": 7665000,
           "min": 121
         },
         "cost": {
@@ -50862,9 +50862,9 @@
         "baseMax": "171900",
         "baseMin": "2.1",
         "basePrecision": "6",
-        "maxPrice": "220.000",
-        "minPrice": "0.200",
-        "pricePrecision": "3",
+        "maxPrice": "220.0000",
+        "minPrice": "0.2000",
+        "pricePrecision": "4",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -50879,7 +50879,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "ENS",
@@ -50935,7 +50935,7 @@
       "info": {
         "base": "TIA",
         "baseLotSize": "0.00000001",
-        "baseMax": "3208000",
+        "baseMax": "2499000",
         "baseMin": "37",
         "basePrecision": "8",
         "maxPrice": "3.42511",
@@ -50972,7 +50972,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3208000,
+          "max": 2499000,
           "min": 37
         },
         "cost": {
@@ -51087,7 +51087,7 @@
       "info": {
         "base": "PUMP",
         "baseLotSize": "0.000001",
-        "baseMax": "582700000",
+        "baseMax": "494400000",
         "baseMin": "7555",
         "basePrecision": "6",
         "maxPrice": "0.0660000",
@@ -51124,7 +51124,7 @@
       },
       "limits": {
         "amount": {
-          "max": 582700000,
+          "max": 494400000,
           "min": 7555
         },
         "cost": {
@@ -51315,7 +51315,7 @@
       "info": {
         "base": "SAPIEN",
         "baseLotSize": "0.000001",
-        "baseMax": "15130000",
+        "baseMax": "11610000",
         "baseMin": "177",
         "basePrecision": "6",
         "maxPrice": "2.30000",
@@ -51352,7 +51352,7 @@
       },
       "limits": {
         "amount": {
-          "max": 15130000,
+          "max": 11610000,
           "min": 177
         },
         "cost": {
@@ -51695,7 +51695,7 @@
       "info": {
         "base": "MEME",
         "baseLotSize": "0.000001",
-        "baseMax": "2039000000",
+        "baseMax": "1721000000",
         "baseMin": "22658",
         "basePrecision": "6",
         "maxPrice": "0.00710861",
@@ -51732,7 +51732,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2039000000,
+          "max": 1721000000,
           "min": 22658
         },
         "cost": {
@@ -51847,7 +51847,7 @@
       "info": {
         "base": "BLUR",
         "baseLotSize": "0.000001",
-        "baseMax": "52740000",
+        "baseMax": "39940000",
         "baseMin": "594",
         "basePrecision": "6",
         "maxPrice": "0.211190",
@@ -51884,7 +51884,7 @@
       },
       "limits": {
         "amount": {
-          "max": 52740000,
+          "max": 39940000,
           "min": 594
         },
         "cost": {
@@ -52151,7 +52151,7 @@
       "info": {
         "base": "AR",
         "baseLotSize": "0.000001",
-        "baseMax": "579500",
+        "baseMax": "472100",
         "baseMin": "6.7",
         "basePrecision": "6",
         "maxPrice": "384.2000",
@@ -52188,7 +52188,7 @@
       },
       "limits": {
         "amount": {
-          "max": 579500,
+          "max": 472100,
           "min": 6.7
         },
         "cost": {
@@ -52227,12 +52227,12 @@
       "info": {
         "base": "0G",
         "baseLotSize": "0.000001",
-        "baseMax": "1917000",
+        "baseMax": "1603000",
         "baseMin": "23",
         "basePrecision": "6",
-        "maxPrice": "62.0000",
-        "minPrice": "0.1194",
-        "pricePrecision": "4",
+        "maxPrice": "62.00000",
+        "minPrice": "0.11940",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -52247,7 +52247,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "0G",
@@ -52264,7 +52264,7 @@
       },
       "limits": {
         "amount": {
-          "max": 1917000,
+          "max": 1603000,
           "min": 23
         },
         "cost": {
@@ -52610,9 +52610,9 @@
         "baseMax": "12490",
         "baseMin": "0.17",
         "basePrecision": "6",
-        "maxPrice": "1112.00",
-        "minPrice": "11.12",
-        "pricePrecision": "2",
+        "maxPrice": "1112.000",
+        "minPrice": "11.120",
+        "pricePrecision": "3",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -52627,7 +52627,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.01,
+        "price": 0.001,
         "quote": 1.0e-8
       },
       "baseId": "QNT",
@@ -52914,9 +52914,9 @@
         "baseMax": "154500000",
         "baseMin": "1739",
         "basePrecision": "6",
-        "maxPrice": "0.160000",
-        "minPrice": "0.001600",
-        "pricePrecision": "6",
+        "maxPrice": "0.1600000",
+        "minPrice": "0.0016000",
+        "pricePrecision": "7",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -52931,7 +52931,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "T",
@@ -53443,7 +53443,7 @@
       "info": {
         "base": "OP",
         "baseLotSize": "0.000001",
-        "baseMax": "9183000",
+        "baseMax": "7608000",
         "baseMin": "104",
         "basePrecision": "6",
         "maxPrice": "21.67300",
@@ -53480,7 +53480,7 @@
       },
       "limits": {
         "amount": {
-          "max": 9183000,
+          "max": 7608000,
           "min": 104
         },
         "cost": {
@@ -53522,9 +53522,9 @@
         "baseMax": "4643000",
         "baseMin": "79",
         "basePrecision": "6",
-        "maxPrice": "4.5000",
-        "minPrice": "0.0450",
-        "pricePrecision": "4",
+        "maxPrice": "4.50000",
+        "minPrice": "0.04500",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -53539,7 +53539,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "COW",
@@ -53750,9 +53750,9 @@
         "baseMax": "180000",
         "baseMin": "2.1",
         "basePrecision": "6",
-        "maxPrice": "125.400",
-        "minPrice": "1.254",
-        "pricePrecision": "3",
+        "maxPrice": "125.4000",
+        "minPrice": "1.2540",
+        "pricePrecision": "4",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -53767,7 +53767,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "ZEN",
@@ -53823,7 +53823,7 @@
       "info": {
         "base": "BEAT",
         "baseLotSize": "0.000001",
-        "baseMax": "2624000",
+        "baseMax": "2187000",
         "baseMin": "75",
         "basePrecision": "6",
         "maxPrice": "25.0000",
@@ -53860,7 +53860,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2624000,
+          "max": 2187000,
           "min": 75
         },
         "cost": {
@@ -53902,9 +53902,9 @@
         "baseMax": "826700000",
         "baseMin": "17753",
         "basePrecision": "6",
-        "maxPrice": "0.6100000",
-        "minPrice": "0.0006147",
-        "pricePrecision": "7",
+        "maxPrice": "0.61000000",
+        "minPrice": "0.00061470",
+        "pricePrecision": "8",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -53919,7 +53919,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-7,
+        "price": 1.0e-8,
         "quote": 1.0e-8
       },
       "baseId": "PTB",
@@ -53975,8 +53975,8 @@
       "info": {
         "base": "SIGN",
         "baseLotSize": "0.000001",
-        "baseMax": "31540000",
-        "baseMin": "420",
+        "baseMax": "51690000",
+        "baseMin": "581",
         "basePrecision": "6",
         "maxPrice": "0.86000",
         "minPrice": "0.00860",
@@ -54012,8 +54012,8 @@
       },
       "limits": {
         "amount": {
-          "max": 31540000,
-          "min": 420
+          "max": 51690000,
+          "min": 581
         },
         "cost": {
           "max": 1002000,
@@ -54203,7 +54203,7 @@
       "info": {
         "base": "COMP",
         "baseLotSize": "0.00000100",
-        "baseMax": "48430",
+        "baseMax": "40790",
         "baseMin": "0.72",
         "basePrecision": "8",
         "maxPrice": "456.900",
@@ -54240,7 +54240,7 @@
       },
       "limits": {
         "amount": {
-          "max": 48430,
+          "max": 40790,
           "min": 0.72
         },
         "cost": {
@@ -54434,9 +54434,9 @@
         "baseMax": "1374000",
         "baseMin": "18.9",
         "basePrecision": "6",
-        "maxPrice": "10.0000",
-        "minPrice": "0.1000",
-        "pricePrecision": "4",
+        "maxPrice": "10.00000",
+        "minPrice": "0.10000",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -54451,7 +54451,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "MNT",
@@ -54887,7 +54887,7 @@
       "info": {
         "base": "COMP",
         "baseLotSize": "0.00000100",
-        "baseMax": "48430",
+        "baseMax": "40790",
         "baseMin": "0.72",
         "basePrecision": "8",
         "maxPrice": "1830.000",
@@ -54924,7 +54924,7 @@
       },
       "limits": {
         "amount": {
-          "max": 48430,
+          "max": 40790,
           "min": 0.72
         },
         "cost": {
@@ -54963,7 +54963,7 @@
       "info": {
         "base": "AIXBT",
         "baseLotSize": "0.000001",
-        "baseMax": "42040000",
+        "baseMax": "34260000",
         "baseMin": "572",
         "basePrecision": "6",
         "maxPrice": "1.861000",
@@ -55000,7 +55000,7 @@
       },
       "limits": {
         "amount": {
-          "max": 42040000,
+          "max": 34260000,
           "min": 572
         },
         "cost": {
@@ -55115,7 +55115,7 @@
       "info": {
         "base": "MYX",
         "baseLotSize": "0.000001",
-        "baseMax": "3020000",
+        "baseMax": "3692000",
         "baseMin": "55",
         "basePrecision": "6",
         "maxPrice": "3.06250",
@@ -55152,7 +55152,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3020000,
+          "max": 3692000,
           "min": 55
         },
         "cost": {
@@ -55270,9 +55270,9 @@
         "baseMax": "1640000",
         "baseMin": "33",
         "basePrecision": "6",
-        "maxPrice": "6.6980",
-        "minPrice": "0.0670",
-        "pricePrecision": "4",
+        "maxPrice": "6.69800",
+        "minPrice": "0.06700",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -55287,7 +55287,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "B2",
@@ -55343,7 +55343,7 @@
       "info": {
         "base": "OPN",
         "baseLotSize": "0.000001",
-        "baseMax": "5924000",
+        "baseMax": "4917000",
         "baseMin": "67",
         "basePrecision": "6",
         "maxPrice": "2.86640",
@@ -55380,7 +55380,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5924000,
+          "max": 4917000,
           "min": 67
         },
         "cost": {
@@ -55571,7 +55571,7 @@
       "info": {
         "base": "BRETT",
         "baseLotSize": "0.000001",
-        "baseMax": "163400000",
+        "baseMax": "128500000",
         "baseMin": "1911",
         "basePrecision": "6",
         "maxPrice": "0.210000",
@@ -55608,7 +55608,7 @@
       },
       "limits": {
         "amount": {
-          "max": 163400000,
+          "max": 128500000,
           "min": 1911
         },
         "cost": {
@@ -55726,9 +55726,9 @@
         "baseMax": "13150000",
         "baseMin": "148",
         "basePrecision": "6",
-        "maxPrice": "1.40000",
-        "minPrice": "0.01400",
-        "pricePrecision": "5",
+        "maxPrice": "1.400000",
+        "minPrice": "0.014000",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -55743,7 +55743,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "FF",
@@ -56103,7 +56103,7 @@
       "info": {
         "base": "ZEREBRO",
         "baseLotSize": "0.000001",
-        "baseMax": "112200000",
+        "baseMax": "77620000",
         "baseMin": "1736",
         "basePrecision": "6",
         "maxPrice": "0.0806510",
@@ -56140,7 +56140,7 @@
       },
       "limits": {
         "amount": {
-          "max": 112200000,
+          "max": 77620000,
           "min": 1736
         },
         "cost": {
@@ -56258,9 +56258,9 @@
         "baseMax": "53400000",
         "baseMin": "725",
         "basePrecision": "6",
-        "maxPrice": "0.19820",
-        "minPrice": "0.00199",
-        "pricePrecision": "5",
+        "maxPrice": "0.198200",
+        "minPrice": "0.001990",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -56275,7 +56275,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "SUN",
@@ -56331,7 +56331,7 @@
       "info": {
         "base": "BABY",
         "baseLotSize": "0.000001",
-        "baseMax": "78520000",
+        "baseMax": "62630000",
         "baseMin": "930",
         "basePrecision": "6",
         "maxPrice": "0.139000",
@@ -56368,7 +56368,7 @@
       },
       "limits": {
         "amount": {
-          "max": 78520000,
+          "max": 62630000,
           "min": 930
         },
         "cost": {
@@ -56483,7 +56483,7 @@
       "info": {
         "base": "MOODENG",
         "baseLotSize": "0.000001",
-        "baseMax": "21240000",
+        "baseMax": "17630000",
         "baseMin": "260",
         "basePrecision": "6",
         "maxPrice": "1.50000",
@@ -56520,7 +56520,7 @@
       },
       "limits": {
         "amount": {
-          "max": 21240000,
+          "max": 17630000,
           "min": 260
         },
         "cost": {
@@ -56714,9 +56714,9 @@
         "baseMax": "3552000",
         "baseMin": "40",
         "basePrecision": "6",
-        "maxPrice": "14.190",
-        "minPrice": "0.142",
-        "pricePrecision": "3",
+        "maxPrice": "14.19000",
+        "minPrice": "0.14200",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -56731,7 +56731,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "WLD",
@@ -56790,9 +56790,9 @@
         "baseMax": "30080000",
         "baseMin": "366",
         "basePrecision": "6",
-        "maxPrice": "0.91130",
-        "minPrice": "0.00912",
-        "pricePrecision": "5",
+        "maxPrice": "0.911300",
+        "minPrice": "0.009120",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -56807,7 +56807,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "KAS",
@@ -57091,7 +57091,7 @@
       "info": {
         "base": "BRETT",
         "baseLotSize": "0.000001",
-        "baseMax": "163400000",
+        "baseMax": "128500000",
         "baseMin": "1911",
         "basePrecision": "6",
         "maxPrice": "0.210000",
@@ -57128,7 +57128,7 @@
       },
       "limits": {
         "amount": {
-          "max": 163400000,
+          "max": 128500000,
           "min": 1911
         },
         "cost": {
@@ -57243,7 +57243,7 @@
       "info": {
         "base": "PNUT",
         "baseLotSize": "0.000001",
-        "baseMax": "25420000",
+        "baseMax": "14780000",
         "baseMin": "298",
         "basePrecision": "6",
         "maxPrice": "0.502460",
@@ -57280,7 +57280,7 @@
       },
       "limits": {
         "amount": {
-          "max": 25420000,
+          "max": 14780000,
           "min": 298
         },
         "cost": {
@@ -57322,9 +57322,9 @@
         "baseMax": "30080000",
         "baseMin": "366",
         "basePrecision": "6",
-        "maxPrice": "0.91130",
-        "minPrice": "0.00912",
-        "pricePrecision": "5",
+        "maxPrice": "0.911300",
+        "minPrice": "0.009120",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -57339,7 +57339,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "KAS",
@@ -57471,7 +57471,7 @@
       "info": {
         "base": "POPCAT",
         "baseLotSize": "0.000001",
-        "baseMax": "20050000",
+        "baseMax": "16990000",
         "baseMin": "239",
         "basePrecision": "6",
         "maxPrice": "0.522470",
@@ -57508,7 +57508,7 @@
       },
       "limits": {
         "amount": {
-          "max": 20050000,
+          "max": 16990000,
           "min": 239
         },
         "cost": {
@@ -57930,9 +57930,9 @@
         "baseMax": "48170000",
         "baseMin": "555",
         "basePrecision": "6",
-        "maxPrice": "0.46000",
-        "minPrice": "0.00460",
-        "pricePrecision": "5",
+        "maxPrice": "0.460000",
+        "minPrice": "0.004600",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -57947,7 +57947,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "SPK",
@@ -58155,7 +58155,7 @@
       "info": {
         "base": "GMT",
         "baseLotSize": "0.000001",
-        "baseMax": "102200000",
+        "baseMax": "85100000",
         "baseMin": "1185",
         "basePrecision": "6",
         "maxPrice": "0.124741",
@@ -58192,7 +58192,7 @@
       },
       "limits": {
         "amount": {
-          "max": 102200000,
+          "max": 85100000,
           "min": 1185
         },
         "cost": {
@@ -58234,9 +58234,9 @@
         "baseMax": "22090000",
         "baseMin": "363",
         "basePrecision": "6",
-        "maxPrice": "2.60000",
-        "minPrice": "0.02600",
-        "pricePrecision": "5",
+        "maxPrice": "2.600000",
+        "minPrice": "0.026000",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -58251,7 +58251,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "USELESS",
@@ -58459,7 +58459,7 @@
       "info": {
         "base": "TAKE",
         "baseLotSize": "0.000001",
-        "baseMax": "39640000",
+        "baseMax": "26240000",
         "baseMin": "822",
         "basePrecision": "6",
         "maxPrice": "1.66700",
@@ -58496,7 +58496,7 @@
       },
       "limits": {
         "amount": {
-          "max": 39640000,
+          "max": 26240000,
           "min": 822
         },
         "cost": {
@@ -58614,9 +58614,9 @@
         "baseMax": "24670",
         "baseMin": "0.8",
         "basePrecision": "8",
-        "maxPrice": "2.000000",
-        "minPrice": "0.000038",
-        "pricePrecision": "6",
+        "maxPrice": "2.00000000",
+        "minPrice": "0.00003800",
+        "pricePrecision": "8",
         "quote": "BTC",
         "quoteLotSize": "0.00000001",
         "quoteMax": "14",
@@ -58631,7 +58631,7 @@
       "precision": {
         "amount": "0.00000001",
         "base": 1.0e-8,
-        "price": 1.0e-6,
+        "price": 1.0e-8,
         "quote": 1.0e-8
       },
       "baseId": "DASH",
@@ -58687,7 +58687,7 @@
       "info": {
         "base": "TIA",
         "baseLotSize": "0.00000001",
-        "baseMax": "3208000",
+        "baseMax": "2499000",
         "baseMin": "37",
         "basePrecision": "8",
         "maxPrice": "3.42511",
@@ -58724,7 +58724,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3208000,
+          "max": 2499000,
           "min": 37
         },
         "cost": {
@@ -58915,7 +58915,7 @@
       "info": {
         "base": "OP",
         "baseLotSize": "0.000001",
-        "baseMax": "9183000",
+        "baseMax": "7608000",
         "baseMin": "104",
         "basePrecision": "6",
         "maxPrice": "23.10000",
@@ -58952,7 +58952,7 @@
       },
       "limits": {
         "amount": {
-          "max": 9183000,
+          "max": 7608000,
           "min": 104
         },
         "cost": {
@@ -59374,9 +59374,9 @@
         "baseMax": "202400000",
         "baseMin": "2277",
         "basePrecision": "6",
-        "maxPrice": "0.675900",
-        "minPrice": "0.001341",
-        "pricePrecision": "6",
+        "maxPrice": "0.6759000",
+        "minPrice": "0.0013410",
+        "pricePrecision": "7",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -59391,7 +59391,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "FWOG",
@@ -59602,9 +59602,9 @@
         "baseMax": "12710000",
         "baseMin": "144",
         "basePrecision": "6",
-        "maxPrice": "7.5000",
-        "minPrice": "0.0114",
-        "pricePrecision": "4",
+        "maxPrice": "7.500000",
+        "minPrice": "0.011400",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -59619,7 +59619,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "A",
@@ -59903,7 +59903,7 @@
       "info": {
         "base": "BR",
         "baseLotSize": "0.000001",
-        "baseMax": "5755000",
+        "baseMax": "8257000",
         "baseMin": "225",
         "basePrecision": "6",
         "maxPrice": "0.4779",
@@ -59940,7 +59940,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5755000,
+          "max": 8257000,
           "min": 225
         },
         "cost": {
@@ -59982,9 +59982,9 @@
         "baseMax": "180000",
         "baseMin": "2.1",
         "basePrecision": "6",
-        "maxPrice": "125.400",
-        "minPrice": "1.254",
-        "pricePrecision": "3",
+        "maxPrice": "125.4000",
+        "minPrice": "1.2540",
+        "pricePrecision": "4",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -59999,7 +59999,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "ZEN",
@@ -60207,7 +60207,7 @@
       "info": {
         "base": "METIS",
         "baseLotSize": "0.000001",
-        "baseMax": "349000",
+        "baseMax": "212300",
         "baseMin": "4.1",
         "basePrecision": "6",
         "maxPrice": "1301.20",
@@ -60244,7 +60244,7 @@
       },
       "limits": {
         "amount": {
-          "max": 349000,
+          "max": 212300,
           "min": 4.1
         },
         "cost": {
@@ -60359,7 +60359,7 @@
       "info": {
         "base": "EPIC",
         "baseLotSize": "0.000001",
-        "baseMax": "3634000",
+        "baseMax": "3062000",
         "baseMin": "48",
         "basePrecision": "6",
         "maxPrice": "3.07800",
@@ -60396,7 +60396,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3634000,
+          "max": 3062000,
           "min": 48
         },
         "cost": {
@@ -60511,12 +60511,12 @@
       "info": {
         "base": "BIO",
         "baseLotSize": "0.000001",
-        "baseMax": "57800000",
+        "baseMax": "30210000",
         "baseMin": "651",
         "basePrecision": "6",
-        "maxPrice": "1.1620",
-        "minPrice": "0.0117",
-        "pricePrecision": "4",
+        "maxPrice": "1.162000",
+        "minPrice": "0.011700",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -60531,7 +60531,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "BIO",
@@ -60548,7 +60548,7 @@
       },
       "limits": {
         "amount": {
-          "max": 57800000,
+          "max": 30210000,
           "min": 651
         },
         "cost": {
@@ -60590,9 +60590,9 @@
         "baseMax": "34750000",
         "baseMin": "454",
         "basePrecision": "6",
-        "maxPrice": "1.10000",
-        "minPrice": "0.01100",
-        "pricePrecision": "5",
+        "maxPrice": "1.100000",
+        "minPrice": "0.011000",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -60607,7 +60607,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "DEEP",
@@ -60818,9 +60818,9 @@
         "baseMax": "4437000",
         "baseMin": "50",
         "basePrecision": "6",
-        "maxPrice": "4.4000",
-        "minPrice": "0.0440",
-        "pricePrecision": "4",
+        "maxPrice": "4.40000",
+        "minPrice": "0.04400",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -60835,7 +60835,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SYRUP",
@@ -61119,7 +61119,7 @@
       "info": {
         "base": "KSM",
         "baseLotSize": "0.00000100",
-        "baseMax": "230200",
+        "baseMax": "181700",
         "baseMin": "2.7",
         "basePrecision": "8",
         "maxPrice": "48.1111",
@@ -61156,7 +61156,7 @@
       },
       "limits": {
         "amount": {
-          "max": 230200,
+          "max": 181700,
           "min": 2.7
         },
         "cost": {
@@ -61274,9 +61274,9 @@
         "baseMax": "4643000",
         "baseMin": "79",
         "basePrecision": "6",
-        "maxPrice": "4.5000",
-        "minPrice": "0.0450",
-        "pricePrecision": "4",
+        "maxPrice": "4.50000",
+        "minPrice": "0.04500",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -61291,7 +61291,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "COW",
@@ -61499,8 +61499,8 @@
       "info": {
         "base": "FUN",
         "baseLotSize": "0.000001",
-        "baseMax": "1700000000",
-        "baseMin": "19148",
+        "baseMax": "2351000000",
+        "baseMin": "26498",
         "basePrecision": "6",
         "maxPrice": "0.1350000",
         "minPrice": "0.0001400",
@@ -61536,8 +61536,8 @@
       },
       "limits": {
         "amount": {
-          "max": 1700000000,
-          "min": 19148
+          "max": 2351000000,
+          "min": 26498
         },
         "cost": {
           "max": 1000000,
@@ -61727,7 +61727,7 @@
       "info": {
         "base": "67",
         "baseLotSize": "0.000001",
-        "baseMax": "387900000",
+        "baseMax": "580200000",
         "baseMin": "7473",
         "basePrecision": "6",
         "maxPrice": "0.0275000",
@@ -61764,7 +61764,7 @@
       },
       "limits": {
         "amount": {
-          "max": 387900000,
+          "max": 580200000,
           "min": 7473
         },
         "cost": {
@@ -62335,7 +62335,7 @@
       "info": {
         "base": "BOME",
         "baseLotSize": "0.000001",
-        "baseMax": "2382000000",
+        "baseMax": "1834000000",
         "baseMin": "28845",
         "basePrecision": "6",
         "maxPrice": "0.00432400",
@@ -62372,7 +62372,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2382000000,
+          "max": 1834000000,
           "min": 28845
         },
         "cost": {
@@ -62563,7 +62563,7 @@
       "info": {
         "base": "CROSS",
         "baseLotSize": "0.000001",
-        "baseMax": "14960000",
+        "baseMax": "12630000",
         "baseMin": "203",
         "basePrecision": "6",
         "maxPrice": "3.20000",
@@ -62600,7 +62600,7 @@
       },
       "limits": {
         "amount": {
-          "max": 14960000,
+          "max": 12630000,
           "min": 203
         },
         "cost": {
@@ -62946,9 +62946,9 @@
         "baseMax": "11120000",
         "baseMin": "126",
         "basePrecision": "6",
-        "maxPrice": "100.00000",
-        "minPrice": "0.00100",
-        "pricePrecision": "5",
+        "maxPrice": "100.000000",
+        "minPrice": "0.001000",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -62963,7 +62963,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "HBAR",
@@ -63019,7 +63019,7 @@
       "info": {
         "base": "LDO",
         "baseLotSize": "0.000001",
-        "baseMax": "2782000",
+        "baseMax": "2355000",
         "baseMin": "41",
         "basePrecision": "6",
         "maxPrice": "2.91111",
@@ -63056,7 +63056,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2782000,
+          "max": 2355000,
           "min": 41
         },
         "cost": {
@@ -63551,7 +63551,7 @@
       "info": {
         "base": "GOAT",
         "baseLotSize": "0.000001",
-        "baseMax": "68040000",
+        "baseMax": "55820000",
         "baseMin": "766",
         "basePrecision": "6",
         "maxPrice": "0.235490",
@@ -63588,7 +63588,7 @@
       },
       "limits": {
         "amount": {
-          "max": 68040000,
+          "max": 55820000,
           "min": 766
         },
         "cost": {
@@ -63779,7 +63779,7 @@
       "info": {
         "base": "BR",
         "baseLotSize": "0.000001",
-        "baseMax": "5755000",
+        "baseMax": "8257000",
         "baseMin": "225",
         "basePrecision": "6",
         "maxPrice": "0.4779",
@@ -63816,7 +63816,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5755000,
+          "max": 8257000,
           "min": 225
         },
         "cost": {
@@ -63934,9 +63934,9 @@
         "baseMax": "48090000",
         "baseMin": "787",
         "basePrecision": "6",
-        "maxPrice": "0.79000",
-        "minPrice": "0.00790",
-        "pricePrecision": "5",
+        "maxPrice": "0.790000",
+        "minPrice": "0.007900",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -63951,7 +63951,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "SAHARA",
@@ -64083,7 +64083,7 @@
       "info": {
         "base": "NEIRO",
         "baseLotSize": "0.000001",
-        "baseMax": "16420000000",
+        "baseMax": "9783000000",
         "baseMin": "184875",
         "basePrecision": "6",
         "maxPrice": "0.00330600",
@@ -64120,7 +64120,7 @@
       },
       "limits": {
         "amount": {
-          "max": 16420000000,
+          "max": 9783000000,
           "min": 184875
         },
         "cost": {
@@ -64463,7 +64463,7 @@
       "info": {
         "base": "HFT",
         "baseLotSize": "0.000001",
-        "baseMax": "76990000",
+        "baseMax": "65110000",
         "baseMin": "866",
         "basePrecision": "6",
         "maxPrice": "4.187000",
@@ -64500,7 +64500,7 @@
       },
       "limits": {
         "amount": {
-          "max": 76990000,
+          "max": 65110000,
           "min": 866
         },
         "cost": {
@@ -64919,7 +64919,7 @@
       "info": {
         "base": "GIGGLE",
         "baseLotSize": "0.000001",
-        "baseMax": "20290",
+        "baseMax": "24580",
         "baseMin": "0.51",
         "basePrecision": "6",
         "maxPrice": "660.000",
@@ -64956,7 +64956,7 @@
       },
       "limits": {
         "amount": {
-          "max": 20290,
+          "max": 24580,
           "min": 0.51
         },
         "cost": {
@@ -64995,7 +64995,7 @@
       "info": {
         "base": "HYPE",
         "baseLotSize": "0.000001",
-        "baseMax": "27020",
+        "baseMax": "22650",
         "baseMin": "0.6075",
         "basePrecision": "6",
         "maxPrice": "200.000",
@@ -65032,7 +65032,7 @@
       },
       "limits": {
         "amount": {
-          "max": 27020,
+          "max": 22650,
           "min": 0.6075
         },
         "cost": {
@@ -65074,9 +65074,9 @@
         "baseMax": "155300000",
         "baseMin": "1748",
         "basePrecision": "6",
-        "maxPrice": "0.340000",
-        "minPrice": "0.003400",
-        "pricePrecision": "6",
+        "maxPrice": "0.3400000",
+        "minPrice": "0.0034000",
+        "pricePrecision": "7",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -65091,7 +65091,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "SKL",
@@ -65147,7 +65147,7 @@
       "info": {
         "base": "PIPPIN",
         "baseLotSize": "0.000001",
-        "baseMax": "38020000",
+        "baseMax": "28680000",
         "baseMin": "428",
         "basePrecision": "6",
         "maxPrice": "0.35940",
@@ -65184,7 +65184,7 @@
       },
       "limits": {
         "amount": {
-          "max": 38020000,
+          "max": 28680000,
           "min": 428
         },
         "cost": {
@@ -65299,7 +65299,7 @@
       "info": {
         "base": "MUBARAK",
         "baseLotSize": "0.000001",
-        "baseMax": "85010000",
+        "baseMax": "67410000",
         "baseMin": "957",
         "basePrecision": "6",
         "maxPrice": "0.450000",
@@ -65336,7 +65336,7 @@
       },
       "limits": {
         "amount": {
-          "max": 85010000,
+          "max": 67410000,
           "min": 957
         },
         "cost": {
@@ -66062,9 +66062,9 @@
         "baseMax": "6253000",
         "baseMin": "70",
         "basePrecision": "6",
-        "maxPrice": "11.8000",
-        "minPrice": "0.0236",
-        "pricePrecision": "4",
+        "maxPrice": "11.80000",
+        "minPrice": "0.02360",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -66079,7 +66079,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SOMI",
@@ -66135,7 +66135,7 @@
       "info": {
         "base": "MYX",
         "baseLotSize": "0.000001",
-        "baseMax": "3020000",
+        "baseMax": "3692000",
         "baseMin": "55",
         "basePrecision": "6",
         "maxPrice": "3.06250",
@@ -66172,7 +66172,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3020000,
+          "max": 3692000,
           "min": 55
         },
         "cost": {
@@ -66822,9 +66822,9 @@
         "baseMax": "432700000",
         "baseMin": "4868",
         "basePrecision": "6",
-        "maxPrice": "0.739600",
-        "minPrice": "0.001186",
-        "pricePrecision": "6",
+        "maxPrice": "0.7396000",
+        "minPrice": "0.0011860",
+        "pricePrecision": "7",
         "quote": "EUR",
         "quoteLotSize": "0.01000000",
         "quoteMax": "835900",
@@ -66839,7 +66839,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "IDEX",
@@ -67126,9 +67126,9 @@
         "baseMax": "156900000",
         "baseMin": "1856",
         "basePrecision": "6",
-        "maxPrice": "5.879000",
-        "minPrice": "0.001361",
-        "pricePrecision": "6",
+        "maxPrice": "5.8790000",
+        "minPrice": "0.0013610",
+        "pricePrecision": "7",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -67143,7 +67143,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "ALT",
@@ -67199,7 +67199,7 @@
       "info": {
         "base": "ALCH",
         "baseLotSize": "0.000001",
-        "baseMax": "15980000",
+        "baseMax": "13060000",
         "baseMin": "203",
         "basePrecision": "6",
         "maxPrice": "1.400000",
@@ -67236,7 +67236,7 @@
       },
       "limits": {
         "amount": {
-          "max": 15980000,
+          "max": 13060000,
           "min": 203
         },
         "cost": {
@@ -67351,7 +67351,7 @@
       "info": {
         "base": "AAVE",
         "baseLotSize": "0.00000100",
-        "baseMax": "11180",
+        "baseMax": "8722",
         "baseMin": "0.20385",
         "basePrecision": "8",
         "maxPrice": "1578.19",
@@ -67388,7 +67388,7 @@
       },
       "limits": {
         "amount": {
-          "max": 11180,
+          "max": 8722,
           "min": 0.20385
         },
         "cost": {
@@ -67427,7 +67427,7 @@
       "info": {
         "base": "OPN",
         "baseLotSize": "0.000001",
-        "baseMax": "5924000",
+        "baseMax": "4917000",
         "baseMin": "67",
         "basePrecision": "6",
         "maxPrice": "2.86640",
@@ -67464,7 +67464,7 @@
       },
       "limits": {
         "amount": {
-          "max": 5924000,
+          "max": 4917000,
           "min": 67
         },
         "cost": {
@@ -67503,7 +67503,7 @@
       "info": {
         "base": "NEIRO",
         "baseLotSize": "0.000001",
-        "baseMax": "16420000000",
+        "baseMax": "9783000000",
         "baseMin": "184875",
         "basePrecision": "6",
         "maxPrice": "0.00330600",
@@ -67540,7 +67540,7 @@
       },
       "limits": {
         "amount": {
-          "max": 16420000000,
+          "max": 9783000000,
           "min": 184875
         },
         "cost": {
@@ -67658,9 +67658,9 @@
         "baseMax": "24670",
         "baseMin": "0.8",
         "basePrecision": "8",
-        "maxPrice": "4096.00",
-        "minPrice": "2.00",
-        "pricePrecision": "2",
+        "maxPrice": "4096.000",
+        "minPrice": "2.000",
+        "pricePrecision": "3",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -67675,7 +67675,7 @@
       "precision": {
         "amount": "0.00000001",
         "base": 1.0e-8,
-        "price": 0.01,
+        "price": 0.001,
         "quote": 1.0e-8
       },
       "baseId": "DASH",
@@ -67810,9 +67810,9 @@
         "baseMax": "18670000",
         "baseMin": "210",
         "basePrecision": "6",
-        "maxPrice": "3.9000",
-        "minPrice": "0.0077",
-        "pricePrecision": "4",
+        "maxPrice": "3.900000",
+        "minPrice": "0.007700",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -67827,7 +67827,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "WCT",
@@ -67883,7 +67883,7 @@
       "info": {
         "base": "ARIA",
         "baseLotSize": "0.000001",
-        "baseMax": "2028000",
+        "baseMax": "10030000",
         "baseMin": "176",
         "basePrecision": "6",
         "maxPrice": "1.00000",
@@ -67920,7 +67920,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2028000,
+          "max": 10030000,
           "min": 176
         },
         "cost": {
@@ -67959,7 +67959,7 @@
       "info": {
         "base": "ZAMA",
         "baseLotSize": "0.000001",
-        "baseMax": "28110000",
+        "baseMax": "33780000",
         "baseMin": "629",
         "basePrecision": "6",
         "maxPrice": "0.200000",
@@ -67996,7 +67996,7 @@
       },
       "limits": {
         "amount": {
-          "max": 28110000,
+          "max": 33780000,
           "min": 629
         },
         "cost": {
@@ -68111,7 +68111,7 @@
       "info": {
         "base": "NOM",
         "baseLotSize": "0.000001",
-        "baseMax": "286800000",
+        "baseMax": "335800000",
         "baseMin": "6197",
         "basePrecision": "6",
         "maxPrice": "0.054550",
@@ -68148,7 +68148,7 @@
       },
       "limits": {
         "amount": {
-          "max": 286800000,
+          "max": 335800000,
           "min": 6197
         },
         "cost": {
@@ -68266,9 +68266,9 @@
         "baseMax": "34750000",
         "baseMin": "454",
         "basePrecision": "6",
-        "maxPrice": "1.10000",
-        "minPrice": "0.01100",
-        "pricePrecision": "5",
+        "maxPrice": "1.100000",
+        "minPrice": "0.011000",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -68283,7 +68283,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "DEEP",
@@ -68494,9 +68494,9 @@
         "baseMax": "64890000",
         "baseMin": "906",
         "basePrecision": "6",
-        "maxPrice": "0.51410",
-        "minPrice": "0.00515",
-        "pricePrecision": "5",
+        "maxPrice": "0.514100",
+        "minPrice": "0.005150",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -68511,7 +68511,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "GUN",
@@ -68567,7 +68567,7 @@
       "info": {
         "base": "ARIA",
         "baseLotSize": "0.000001",
-        "baseMax": "2028000",
+        "baseMax": "10030000",
         "baseMin": "176",
         "basePrecision": "6",
         "maxPrice": "1.00000",
@@ -68604,7 +68604,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2028000,
+          "max": 10030000,
           "min": 176
         },
         "cost": {
@@ -69023,7 +69023,7 @@
       "info": {
         "base": "MOODENG",
         "baseLotSize": "0.000001",
-        "baseMax": "21240000",
+        "baseMax": "17630000",
         "baseMin": "260",
         "basePrecision": "6",
         "maxPrice": "1.50000",
@@ -69060,7 +69060,7 @@
       },
       "limits": {
         "amount": {
-          "max": 21240000,
+          "max": 17630000,
           "min": 260
         },
         "cost": {
@@ -69102,9 +69102,9 @@
         "baseMax": "3552000",
         "baseMin": "40",
         "basePrecision": "6",
-        "maxPrice": "100.000",
-        "minPrice": "0.100",
-        "pricePrecision": "3",
+        "maxPrice": "100.00000",
+        "minPrice": "0.10000",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -69119,7 +69119,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "WLD",
@@ -69178,9 +69178,9 @@
         "baseMax": "14790000",
         "baseMin": "167.625",
         "basePrecision": "6",
-        "maxPrice": "1.0000",
-        "minPrice": "0.0100",
-        "pricePrecision": "4",
+        "maxPrice": "1.000000",
+        "minPrice": "0.010000",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -69195,7 +69195,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "REQ",
@@ -69251,7 +69251,7 @@
       "info": {
         "base": "GIGGLE",
         "baseLotSize": "0.000001",
-        "baseMax": "20290",
+        "baseMax": "24580",
         "baseMin": "0.51",
         "basePrecision": "6",
         "maxPrice": "660.000",
@@ -69288,7 +69288,7 @@
       },
       "limits": {
         "amount": {
-          "max": 20290,
+          "max": 24580,
           "min": 0.51
         },
         "cost": {
@@ -69327,7 +69327,7 @@
       "info": {
         "base": "BEAT",
         "baseLotSize": "0.000001",
-        "baseMax": "2624000",
+        "baseMax": "2187000",
         "baseMin": "75",
         "basePrecision": "6",
         "maxPrice": "25.0000",
@@ -69364,7 +69364,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2624000,
+          "max": 2187000,
           "min": 75
         },
         "cost": {
@@ -69406,9 +69406,9 @@
         "baseMax": "432700000",
         "baseMin": "4868",
         "basePrecision": "6",
-        "maxPrice": "0.914900",
-        "minPrice": "0.001186",
-        "pricePrecision": "6",
+        "maxPrice": "0.9149000",
+        "minPrice": "0.0011860",
+        "pricePrecision": "7",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -69423,7 +69423,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "IDEX",
@@ -69555,7 +69555,7 @@
       "info": {
         "base": "NEAR",
         "baseLotSize": "0.000001",
-        "baseMax": "839700",
+        "baseMax": "701000",
         "baseMin": "11.6",
         "basePrecision": "6",
         "maxPrice": "41.63000",
@@ -69592,7 +69592,7 @@
       },
       "limits": {
         "amount": {
-          "max": 839700,
+          "max": 701000,
           "min": 11.6
         },
         "cost": {
@@ -69631,7 +69631,7 @@
       "info": {
         "base": "ZEREBRO",
         "baseLotSize": "0.000001",
-        "baseMax": "112200000",
+        "baseMax": "77620000",
         "baseMin": "1736",
         "basePrecision": "6",
         "maxPrice": "0.0806510",
@@ -69668,7 +69668,7 @@
       },
       "limits": {
         "amount": {
-          "max": 112200000,
+          "max": 77620000,
           "min": 1736
         },
         "cost": {
@@ -69859,12 +69859,12 @@
       "info": {
         "base": "BIO",
         "baseLotSize": "0.000001",
-        "baseMax": "57800000",
+        "baseMax": "30210000",
         "baseMin": "651",
         "basePrecision": "6",
-        "maxPrice": "1.1620",
-        "minPrice": "0.0117",
-        "pricePrecision": "4",
+        "maxPrice": "1.162000",
+        "minPrice": "0.011700",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -69879,7 +69879,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "BIO",
@@ -69896,7 +69896,7 @@
       },
       "limits": {
         "amount": {
-          "max": 57800000,
+          "max": 30210000,
           "min": 651
         },
         "cost": {
@@ -70090,9 +70090,9 @@
         "baseMax": "1456000000",
         "baseMin": "16380",
         "basePrecision": "6",
-        "maxPrice": "5.0000000",
-        "minPrice": "0.0003500",
-        "pricePrecision": "7",
+        "maxPrice": "5.00000000",
+        "minPrice": "0.00035000",
+        "pricePrecision": "8",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -70107,7 +70107,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-7,
+        "price": 1.0e-8,
         "quote": 1.0e-8
       },
       "baseId": "SGB",
@@ -70467,7 +70467,7 @@
       "info": {
         "base": "SPACE",
         "baseLotSize": "0.000001",
-        "baseMax": "198600000",
+        "baseMax": "153300000",
         "baseMin": "2235",
         "basePrecision": "6",
         "maxPrice": "0.0867610",
@@ -70504,7 +70504,7 @@
       },
       "limits": {
         "amount": {
-          "max": 198600000,
+          "max": 153300000,
           "min": 2235
         },
         "cost": {
@@ -70546,9 +70546,9 @@
         "baseMax": "1096000",
         "baseMin": "20",
         "basePrecision": "6",
-        "maxPrice": "14.0000",
-        "minPrice": "0.1400",
-        "pricePrecision": "4",
+        "maxPrice": "14.00000",
+        "minPrice": "0.14000",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -70563,7 +70563,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SUI",
@@ -70695,7 +70695,7 @@
       "info": {
         "base": "ZETA",
         "baseLotSize": "0.000001",
-        "baseMax": "19460000",
+        "baseMax": "15600000",
         "baseMin": "227",
         "basePrecision": "6",
         "maxPrice": "24.500000",
@@ -70732,7 +70732,7 @@
       },
       "limits": {
         "amount": {
-          "max": 19460000,
+          "max": 15600000,
           "min": 227
         },
         "cost": {
@@ -70923,7 +70923,7 @@
       "info": {
         "base": "EPIC",
         "baseLotSize": "0.000001",
-        "baseMax": "3634000",
+        "baseMax": "3062000",
         "baseMin": "48",
         "basePrecision": "6",
         "maxPrice": "3.07800",
@@ -70960,7 +70960,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3634000,
+          "max": 3062000,
           "min": 48
         },
         "cost": {
@@ -70999,7 +70999,7 @@
       "info": {
         "base": "ALCH",
         "baseLotSize": "0.000001",
-        "baseMax": "15980000",
+        "baseMax": "13060000",
         "baseMin": "203",
         "basePrecision": "6",
         "maxPrice": "1.400000",
@@ -71036,7 +71036,7 @@
       },
       "limits": {
         "amount": {
-          "max": 15980000,
+          "max": 13060000,
           "min": 203
         },
         "cost": {
@@ -71227,7 +71227,7 @@
       "info": {
         "base": "ALCH",
         "baseLotSize": "0.000001",
-        "baseMax": "15980000",
+        "baseMax": "13060000",
         "baseMin": "203",
         "basePrecision": "6",
         "maxPrice": "1.400000",
@@ -71264,7 +71264,7 @@
       },
       "limits": {
         "amount": {
-          "max": 15980000,
+          "max": 13060000,
           "min": 203
         },
         "cost": {
@@ -71303,7 +71303,7 @@
       "info": {
         "base": "PIPPIN",
         "baseLotSize": "0.000001",
-        "baseMax": "38020000",
+        "baseMax": "28680000",
         "baseMin": "428",
         "basePrecision": "6",
         "maxPrice": "0.35940",
@@ -71340,7 +71340,7 @@
       },
       "limits": {
         "amount": {
-          "max": 38020000,
+          "max": 28680000,
           "min": 428
         },
         "cost": {
@@ -71683,12 +71683,12 @@
       "info": {
         "base": "RAY",
         "baseLotSize": "0.000001",
-        "baseMax": "1751000",
+        "baseMax": "1448000",
         "baseMin": "19.8",
         "basePrecision": "6",
-        "maxPrice": "80.0000",
-        "minPrice": "0.1150",
-        "pricePrecision": "4",
+        "maxPrice": "80.00000",
+        "minPrice": "0.11500",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -71703,7 +71703,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "RAY",
@@ -71720,7 +71720,7 @@
       },
       "limits": {
         "amount": {
-          "max": 1751000,
+          "max": 1448000,
           "min": 19.8
         },
         "cost": {
@@ -71759,7 +71759,7 @@
       "info": {
         "base": "LDO",
         "baseLotSize": "0.000001",
-        "baseMax": "2782000",
+        "baseMax": "2355000",
         "baseMin": "41",
         "basePrecision": "6",
         "maxPrice": "3.41111",
@@ -71796,7 +71796,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2782000,
+          "max": 2355000,
           "min": 41
         },
         "cost": {
@@ -71838,9 +71838,9 @@
         "baseMax": "493400",
         "baseMin": "8.9",
         "basePrecision": "6",
-        "maxPrice": "29.400",
-        "minPrice": "0.290",
-        "pricePrecision": "3",
+        "maxPrice": "29.4000",
+        "minPrice": "0.2900",
+        "pricePrecision": "4",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -71855,7 +71855,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.001,
+        "price": 0.0001,
         "quote": 1.0e-8
       },
       "baseId": "ZRO",
@@ -71987,7 +71987,7 @@
       "info": {
         "base": "ZAMA",
         "baseLotSize": "0.000001",
-        "baseMax": "28110000",
+        "baseMax": "33780000",
         "baseMin": "629",
         "basePrecision": "6",
         "maxPrice": "0.200000",
@@ -72024,7 +72024,7 @@
       },
       "limits": {
         "amount": {
-          "max": 28110000,
+          "max": 33780000,
           "min": 629
         },
         "cost": {
@@ -72370,9 +72370,9 @@
         "baseMax": "202400000",
         "baseMin": "2277",
         "basePrecision": "6",
-        "maxPrice": "0.675900",
-        "minPrice": "0.001076",
-        "pricePrecision": "6",
+        "maxPrice": "0.6759000",
+        "minPrice": "0.0010760",
+        "pricePrecision": "7",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -72387,7 +72387,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "FWOG",
@@ -73279,7 +73279,7 @@
       "info": {
         "base": "ARB",
         "baseLotSize": "0.000001",
-        "baseMax": "10310000",
+        "baseMax": "7665000",
         "baseMin": "121",
         "basePrecision": "6",
         "maxPrice": "100.000000",
@@ -73316,7 +73316,7 @@
       },
       "limits": {
         "amount": {
-          "max": 10310000,
+          "max": 7665000,
           "min": 121
         },
         "cost": {
@@ -73358,9 +73358,9 @@
         "baseMax": "4437000",
         "baseMin": "50",
         "basePrecision": "6",
-        "maxPrice": "4.4000",
-        "minPrice": "0.0440",
-        "pricePrecision": "4",
+        "maxPrice": "4.40000",
+        "minPrice": "0.04400",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -73375,7 +73375,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SYRUP",
@@ -73738,9 +73738,9 @@
         "baseMax": "18670000",
         "baseMin": "210",
         "basePrecision": "6",
-        "maxPrice": "3.9000",
-        "minPrice": "0.0077",
-        "pricePrecision": "4",
+        "maxPrice": "3.900000",
+        "minPrice": "0.007700",
+        "pricePrecision": "6",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -73755,7 +73755,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "WCT",
@@ -73887,7 +73887,7 @@
       "info": {
         "base": "ICNT",
         "baseLotSize": "0.000001",
-        "baseMax": "3787000",
+        "baseMax": "2817000",
         "baseMin": "43",
         "basePrecision": "6",
         "maxPrice": "3.38670",
@@ -73924,7 +73924,7 @@
       },
       "limits": {
         "amount": {
-          "max": 3787000,
+          "max": 2817000,
           "min": 43
         },
         "cost": {
@@ -74115,7 +74115,7 @@
       "info": {
         "base": "ENJ",
         "baseLotSize": "0.00000100",
-        "baseMax": "21260000",
+        "baseMax": "14260000",
         "baseMin": "539",
         "basePrecision": "8",
         "maxPrice": "0.940400",
@@ -74152,7 +74152,7 @@
       },
       "limits": {
         "amount": {
-          "max": 21260000,
+          "max": 14260000,
           "min": 539
         },
         "cost": {
@@ -74194,9 +74194,9 @@
         "baseMax": "1456000000",
         "baseMin": "16380",
         "basePrecision": "6",
-        "maxPrice": "0.0920000",
-        "minPrice": "0.0003500",
-        "pricePrecision": "7",
+        "maxPrice": "0.09200000",
+        "minPrice": "0.00035000",
+        "pricePrecision": "8",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -74211,7 +74211,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-7,
+        "price": 1.0e-8,
         "quote": 1.0e-8
       },
       "baseId": "SGB",
@@ -74267,12 +74267,12 @@
       "info": {
         "base": "2Z",
         "baseLotSize": "0.000001",
-        "baseMax": "12950000",
+        "baseMax": "10700000",
         "baseMin": "168",
         "basePrecision": "6",
-        "maxPrice": "1.50000",
-        "minPrice": "0.01500",
-        "pricePrecision": "5",
+        "maxPrice": "1.500000",
+        "minPrice": "0.015000",
+        "pricePrecision": "6",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -74287,7 +74287,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "2Z",
@@ -74304,7 +74304,7 @@
       },
       "limits": {
         "amount": {
-          "max": 12950000,
+          "max": 10700000,
           "min": 168
         },
         "cost": {
@@ -74343,12 +74343,12 @@
       "info": {
         "base": "2Z",
         "baseLotSize": "0.000001",
-        "baseMax": "12950000",
+        "baseMax": "10700000",
         "baseMin": "168",
         "basePrecision": "6",
-        "maxPrice": "1.50000",
-        "minPrice": "0.01500",
-        "pricePrecision": "5",
+        "maxPrice": "1.500000",
+        "minPrice": "0.015000",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -74363,7 +74363,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-5,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "2Z",
@@ -74380,7 +74380,7 @@
       },
       "limits": {
         "amount": {
-          "max": 12950000,
+          "max": 10700000,
           "min": 168
         },
         "cost": {
@@ -74498,9 +74498,9 @@
         "baseMax": "826700000",
         "baseMin": "17753",
         "basePrecision": "6",
-        "maxPrice": "0.6100000",
-        "minPrice": "0.0006147",
-        "pricePrecision": "7",
+        "maxPrice": "0.61000000",
+        "minPrice": "0.00061470",
+        "pricePrecision": "8",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -74515,7 +74515,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-7,
+        "price": 1.0e-8,
         "quote": 1.0e-8
       },
       "baseId": "PTB",
@@ -74878,9 +74878,9 @@
         "baseMax": "1542000",
         "baseMin": "22",
         "basePrecision": "6",
-        "maxPrice": "5.3000",
-        "minPrice": "0.0530",
-        "pricePrecision": "4",
+        "maxPrice": "5.30000",
+        "minPrice": "0.05300",
+        "pricePrecision": "5",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -74895,7 +74895,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "VIRTUAL",
@@ -75179,12 +75179,12 @@
       "info": {
         "base": "RAY",
         "baseLotSize": "0.000001",
-        "baseMax": "1751000",
+        "baseMax": "1448000",
         "baseMin": "19.8",
         "basePrecision": "6",
-        "maxPrice": "80.0000",
-        "minPrice": "0.1150",
-        "pricePrecision": "4",
+        "maxPrice": "80.00000",
+        "minPrice": "0.11500",
+        "pricePrecision": "5",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -75199,7 +75199,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "RAY",
@@ -75216,7 +75216,7 @@
       },
       "limits": {
         "amount": {
-          "max": 1751000,
+          "max": 1448000,
           "min": 19.8
         },
         "cost": {
@@ -75331,7 +75331,7 @@
       "info": {
         "base": "ENA",
         "baseLotSize": "0.000001",
-        "baseMax": "12150000",
+        "baseMax": "8827000",
         "baseMin": "137",
         "basePrecision": "6",
         "maxPrice": "9.190000",
@@ -75368,7 +75368,7 @@
       },
       "limits": {
         "amount": {
-          "max": 12150000,
+          "max": 8827000,
           "min": 137
         },
         "cost": {
@@ -75559,7 +75559,7 @@
       "info": {
         "base": "GOAT",
         "baseLotSize": "0.000001",
-        "baseMax": "68040000",
+        "baseMax": "55820000",
         "baseMin": "766",
         "basePrecision": "6",
         "maxPrice": "0.235490",
@@ -75596,7 +75596,7 @@
       },
       "limits": {
         "amount": {
-          "max": 68040000,
+          "max": 55820000,
           "min": 766
         },
         "cost": {
@@ -76091,7 +76091,7 @@
       "info": {
         "base": "MEME",
         "baseLotSize": "0.000001",
-        "baseMax": "2039000000",
+        "baseMax": "1721000000",
         "baseMin": "22658",
         "basePrecision": "6",
         "maxPrice": "0.02556000",
@@ -76128,7 +76128,7 @@
       },
       "limits": {
         "amount": {
-          "max": 2039000000,
+          "max": 1721000000,
           "min": 22658
         },
         "cost": {
@@ -76322,9 +76322,9 @@
         "baseMax": "6253000",
         "baseMin": "70",
         "basePrecision": "6",
-        "maxPrice": "11.8000",
-        "minPrice": "0.0236",
-        "pricePrecision": "4",
+        "maxPrice": "11.80000",
+        "minPrice": "0.02360",
+        "pricePrecision": "5",
         "quote": "USDC",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1002000",
@@ -76339,7 +76339,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-5,
         "quote": 1.0e-8
       },
       "baseId": "SOMI",
@@ -76398,9 +76398,9 @@
         "baseMax": "432700000",
         "baseMin": "4868",
         "basePrecision": "6",
-        "maxPrice": "0.600000",
-        "minPrice": "0.000970",
-        "pricePrecision": "6",
+        "maxPrice": "0.6000000",
+        "minPrice": "0.0009700",
+        "pricePrecision": "7",
         "quote": "USD",
         "quoteLotSize": "0.01000000",
         "quoteMax": "1000000",
@@ -76415,7 +76415,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-6,
+        "price": 1.0e-7,
         "quote": 1.0e-8
       },
       "baseId": "IDEX",
@@ -76623,7 +76623,7 @@
       "info": {
         "base": "KSM",
         "baseLotSize": "0.00000100",
-        "baseMax": "230200",
+        "baseMax": "181700",
         "baseMin": "2.7",
         "basePrecision": "8",
         "maxPrice": "48.1111",
@@ -76660,7 +76660,7 @@
       },
       "limits": {
         "amount": {
-          "max": 230200,
+          "max": 181700,
           "min": 2.7
         },
         "cost": {
@@ -76851,7 +76851,7 @@
       "info": {
         "base": "RPL",
         "baseLotSize": "0.000001",
-        "baseMax": "605200",
+        "baseMax": "491200",
         "baseMin": "7.6",
         "basePrecision": "6",
         "maxPrice": "74.5000",
@@ -76888,7 +76888,7 @@
       },
       "limits": {
         "amount": {
-          "max": 605200,
+          "max": 491200,
           "min": 7.6
         },
         "cost": {
@@ -76927,7 +76927,7 @@
       "info": {
         "base": "NEAR",
         "baseLotSize": "0.000001",
-        "baseMax": "839700",
+        "baseMax": "701000",
         "baseMin": "11.6",
         "basePrecision": "6",
         "maxPrice": "0.00096800",
@@ -76964,7 +76964,7 @@
       },
       "limits": {
         "amount": {
-          "max": 839700,
+          "max": 701000,
           "min": 11.6
         },
         "cost": {
@@ -77538,9 +77538,9 @@
         "baseMax": "61730000",
         "baseMin": "695",
         "basePrecision": "6",
-        "maxPrice": "1.7000",
-        "minPrice": "0.0030",
-        "pricePrecision": "4",
+        "maxPrice": "1.700000",
+        "minPrice": "0.003000",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -77555,7 +77555,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "COOKIE",
@@ -77842,9 +77842,9 @@
         "baseMax": "34010000",
         "baseMin": "383",
         "basePrecision": "8",
-        "maxPrice": "5.0000",
-        "minPrice": "0.0100",
-        "pricePrecision": "4",
+        "maxPrice": "5.000000",
+        "minPrice": "0.010000",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -77859,7 +77859,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "CVC",
@@ -77918,9 +77918,9 @@
         "baseMax": "18670000",
         "baseMin": "210",
         "basePrecision": "6",
-        "maxPrice": "3.9000",
-        "minPrice": "0.0077",
-        "pricePrecision": "4",
+        "maxPrice": "3.900000",
+        "minPrice": "0.007700",
+        "pricePrecision": "6",
         "quote": "USDT",
         "quoteLotSize": "0.00000100",
         "quoteMax": "1000000",
@@ -77935,7 +77935,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "WCT",
@@ -78222,9 +78222,9 @@
         "baseMax": "1456000000",
         "baseMin": "16380",
         "basePrecision": "6",
-        "maxPrice": "0.0930000",
-        "minPrice": "0.0001735",
-        "pricePrecision": "7",
+        "maxPrice": "0.09300000",
+        "minPrice": "0.00017350",
+        "pricePrecision": "8",
         "quote": "EUR",
         "quoteLotSize": "0.01000000",
         "quoteMax": "835900",
@@ -78239,7 +78239,7 @@
       "precision": {
         "amount": "0.000001",
         "base": 1.0e-6,
-        "price": 1.0e-7,
+        "price": 1.0e-8,
         "quote": 1.0e-8
       },
       "baseId": "SGB",
@@ -78526,9 +78526,9 @@
         "baseMax": "34010000",
         "baseMin": "383",
         "basePrecision": "8",
-        "maxPrice": "1.0050",
-        "minPrice": "0.0100",
-        "pricePrecision": "4",
+        "maxPrice": "1.005000",
+        "minPrice": "0.010000",
+        "pricePrecision": "6",
         "quote": "EUR",
         "quoteLotSize": "0.01000000",
         "quoteMax": "835900",
@@ -78543,7 +78543,7 @@
       "precision": {
         "amount": "0.00000100",
         "base": 1.0e-8,
-        "price": 0.0001,
+        "price": 1.0e-6,
         "quote": 1.0e-8
       },
       "baseId": "CVC",

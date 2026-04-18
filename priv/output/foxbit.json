@@ -25,6 +25,7 @@
     "/structure/overrides": "raw",
     "/structure/pagination": "raw",
     "/structure/parse_methods": "raw",
+    "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
@@ -43,7 +44,7 @@
     "tier": "unclassified",
     "version": "1"
   },
-  "extracted_at": "2026-04-17T08:30:37.343734Z",
+  "extracted_at": "2026-04-18T00:19:30.905845Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -1682,7 +1683,7 @@
             "price_min": "0.001",
             "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.22119544",
+            "quantity_min": "0.20201113",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -1717,7 +1718,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.22119544
+              "min": 0.20201113
             },
             "cost": {
               "max": "__undefined",
@@ -2052,7 +2053,7 @@
             "price_min": "0.0001",
             "price_precision": "0",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.00000125",
+            "quantity_min": "0.00000119",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -2087,7 +2088,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1.25e-6
+              "min": 1.19e-6
             },
             "cost": {
               "max": "__undefined",
@@ -2884,7 +2885,7 @@
             "price_min": "0.001",
             "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.449955",
+            "quantity_min": "0.42293233",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -2919,7 +2920,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.449955
+              "min": 0.42293233
             },
             "cost": {
               "max": "__undefined",
@@ -3439,7 +3440,7 @@
             "price_min": "1.0e-05",
             "price_precision": "5",
             "quantity_increment": "0.0001",
-            "quantity_min": "2.95663601",
+            "quantity_min": "2.80146921",
             "quantity_precision": "4",
             "quote": {
               "name": "Real",
@@ -3474,7 +3475,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 2.95663601
+              "min": 2.80146921
             },
             "cost": {
               "max": "__undefined",
@@ -3531,7 +3532,7 @@
             "price_min": "0.0001",
             "price_precision": "5",
             "quantity_increment": "0.0001",
-            "quantity_min": "1.59100552",
+            "quantity_min": "2.49861188",
             "quantity_precision": "4",
             "quote": {
               "name": "Real",
@@ -3566,7 +3567,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1.59100552
+              "min": 2.49861188
             },
             "cost": {
               "max": "__undefined",
@@ -3902,7 +3903,7 @@
             "price_min": "1.0e-05",
             "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "25.9965338",
+            "quantity_min": "27.28926622",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -3937,7 +3938,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 25.9965338
+              "min": 27.28926622
             },
             "cost": {
               "max": "__undefined",
@@ -5382,7 +5383,7 @@
             "price_min": "0.001",
             "price_precision": "4",
             "quantity_increment": "0.0001",
-            "quantity_min": "0.27524619",
+            "quantity_min": "0.29194239",
             "quantity_precision": "4",
             "quote": {
               "name": "Real",
@@ -5417,7 +5418,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.27524619
+              "min": 0.29194239
             },
             "cost": {
               "max": "__undefined",
@@ -7326,7 +7327,7 @@
             "price_min": "0.001",
             "price_precision": "5",
             "quantity_increment": "0.00000001",
-            "quantity_min": "1.0",
+            "quantity_min": "0.94067478",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -7361,7 +7362,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 1
+              "min": 0.94067478
             },
             "cost": {
               "max": "__undefined",
@@ -7881,7 +7882,7 @@
             "price_min": "0.01",
             "price_precision": "2",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.00383926",
+            "quantity_min": "0.00363695",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -7916,7 +7917,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.00383926
+              "min": 0.00363695
             },
             "cost": {
               "max": "__undefined",
@@ -9639,7 +9640,7 @@
             "price_min": "0.001",
             "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.20116227",
+            "quantity_min": "0.21257499",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -9674,7 +9675,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.20116227
+              "min": 0.21257499
             },
             "cost": {
               "max": "__undefined",
@@ -10472,7 +10473,7 @@
             "price_min": "0.0001",
             "price_precision": "5",
             "quantity_increment": "0.1",
-            "quantity_min": "0.62928262",
+            "quantity_min": "0.67057088",
             "quantity_precision": "1",
             "quote": {
               "name": "Real",
@@ -10507,7 +10508,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.62928262
+              "min": 0.67057088
             },
             "cost": {
               "max": "__undefined",
@@ -10934,7 +10935,7 @@
             "price_min": "1.0e-05",
             "price_precision": "5",
             "quantity_increment": "0.00001",
-            "quantity_min": "32.89473684",
+            "quantity_min": "30.0",
             "quantity_precision": "5",
             "quote": {
               "name": "Real",
@@ -10969,7 +10970,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 32.89473684
+              "min": 30
             },
             "cost": {
               "max": "__undefined",
@@ -11581,7 +11582,7 @@
             "price_min": "0.01",
             "price_precision": "3",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.02063558",
+            "quantity_min": "0.019446",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -11616,7 +11617,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.02063558
+              "min": 0.019446
             },
             "cost": {
               "max": "__undefined",
@@ -12600,7 +12601,7 @@
             "price_min": "0.001",
             "price_precision": "4",
             "quantity_increment": "0.00000001",
-            "quantity_min": "0.55514434",
+            "quantity_min": "0.52693208",
             "quantity_precision": "8",
             "quote": {
               "name": "Real",
@@ -12635,7 +12636,7 @@
           "limits": {
             "amount": {
               "max": "__undefined",
-              "min": 0.55514434
+              "min": 0.52693208
             },
             "cost": {
               "max": "__undefined",
@@ -12915,7 +12916,7 @@
       }
     }
   },
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "structure": {
     "authenticated_sections": [],
     "class_info": {
@@ -28731,6 +28732,151 @@
         ],
         "return_type": null,
         "statements": 2
+      }
+    },
+    "request_defaults": {
+      "cancelAllOrders": {
+        "type": {
+          "kind": "literal",
+          "reason": null,
+          "value": "ALL"
+        }
+      },
+      "cancelOrder": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "type": {
+          "kind": "literal",
+          "reason": null,
+          "value": "ID"
+        }
+      },
+      "createOrder": {
+        "market_symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "side": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "type": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "createOrders": {
+        "data": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "editOrder": {
+        "cancel": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "create": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "mode": {
+          "kind": "literal",
+          "reason": null,
+          "value": "ALLOW_FAILURE"
+        }
+      },
+      "fetchDepositAddress": {
+        "currency_symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchMyTrades": {
+        "market_symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOHLCV": {
+        "interval": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrder": {
+        "id": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrderBook": {
+        "depth": {
+          "kind": "unresolved",
+          "reason": "conditional_value",
+          "value": null
+        },
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchOrdersByStatus": {
+        "state": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTicker": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "fetchTrades": {
+        "market": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
+      },
+      "withdraw": {
+        "amount": {
+          "kind": "unresolved",
+          "reason": "dynamic_construction",
+          "value": null
+        },
+        "currency_symbol": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        },
+        "destination_address": {
+          "kind": "unresolved",
+          "reason": "identifier_reference",
+          "value": null
+        }
       }
     },
     "sign_method": {

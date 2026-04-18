@@ -1,5 +1,5 @@
 {
-  "extracted_at": "2026-04-17T03:36:21.100181Z",
+  "extracted_at": "2026-04-17T13:02:03.844794Z",
   "id": "binanceusdm",
   "market_count": 712,
   "markets": {
@@ -30535,6 +30535,7 @@
         "permissionSets": [
           "GRID",
           "COPY",
+          "RPI",
           "DCA",
           "PSB"
         ],
@@ -67014,6 +67015,7 @@
         "permissionSets": [
           "GRID",
           "COPY",
+          "RPI",
           "DCA",
           "PSB"
         ],
@@ -68765,7 +68767,7 @@
         "baseAsset": "DENT",
         "baseAssetPrecision": "8",
         "contractType": "PERPETUAL",
-        "deliveryDate": "4133404800000",
+        "deliveryDate": "1776762000000",
         "filters": [
           {
             "filterType": "PRICE_FILTER",
@@ -72266,8 +72268,8 @@
           {
             "filterType": "PERCENT_PRICE",
             "multiplierDecimal": "4",
-            "multiplierDown": "0.8500",
-            "multiplierUp": "1.1500"
+            "multiplierDown": "0.8000",
+            "multiplierUp": "1.2000"
           },
           {
             "filterType": "POSITION_RISK_CONTROL",
@@ -72277,7 +72279,7 @@
         "liquidationFee": "0.025000",
         "maintMarginPercent": "2.5000",
         "marginAsset": "USDT",
-        "marketTakeBound": "0.15",
+        "marketTakeBound": "0.20",
         "maxMoveOrderLimit": "10000",
         "onboardDate": "1742634000000",
         "orderTypes": [
@@ -72310,7 +72312,7 @@
           "GTX",
           "GTD"
         ],
-        "triggerProtect": "0.1500",
+        "triggerProtect": "0.2000",
         "underlyingSubType": [
           "Alpha"
         ],
@@ -93175,7 +93177,7 @@
         "baseAsset": "DEGO",
         "baseAssetPrecision": "8",
         "contractType": "PERPETUAL",
-        "deliveryDate": "4133404800000",
+        "deliveryDate": "1776762000000",
         "filters": [
           {
             "filterType": "PRICE_FILTER",
@@ -107023,7 +107025,7 @@
         "baseAsset": "TRU",
         "baseAssetPrecision": "8",
         "contractType": "PERPETUAL",
-        "deliveryDate": "4133404800000",
+        "deliveryDate": "1776762000000",
         "filters": [
           {
             "filterType": "PRICE_FILTER",

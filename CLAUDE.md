@@ -95,6 +95,16 @@ Raw extraction runs for every CCXT exchange regardless of tier. **Derivation eff
 
 ---
 
+## Cross-surface git workflow
+
+This repo gets worked from multiple Claude surfaces — Claude Code CLI (local clone), Claude macOS app (separate clone), occasionally the iOS app. Each surface has its own working copy; history on `zenhive` may have been rewritten by another surface between sessions. `git fetch --prune zenhive` early in every session.
+
+When local is many commits ahead of remote, compare **author dates** against the remote tip before pushing. Locals authored **before** remote's last commit are usually duplicates of rewritten history from another surface (same message, different SHA), not new work — only commits authored **after** remote's tip are genuinely new.
+
+To integrate after another surface's rewrite: `git rebase --onto zenhive/development <last-duplicate-sha> development -X theirs` replays only the genuinely-new commits and auto-resolves JSON conflicts toward local (regenerable via `mix ccxt_extract.update`). Never force-push.
+
+---
+
 ## Common commands
 
 ```bash

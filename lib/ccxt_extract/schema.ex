@@ -182,13 +182,14 @@ defmodule CcxtExtract.Schema do
 
   defp build_structure_section(data) do
     auth_sections = data["authenticated_sections"]
+    sign_method = data["sign_method"]
 
     %{
       "class_info" => data["class_info"],
       "methods" => data["methods"],
-      "sign_method" => data["sign_method"],
+      "sign_method" => sign_method,
       "authenticated_sections" => auth_sections,
-      "sign_recipe" => SignRecipe.build_default(auth_sections),
+      "sign_recipe" => SignRecipe.Derive.derive(sign_method, auth_sections),
       "handle_errors" => data["handle_errors"],
       "parse_methods" => data["parse_methods"],
       "ws_methods" => data["ws_methods"],

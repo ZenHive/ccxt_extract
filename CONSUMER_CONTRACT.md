@@ -15,8 +15,8 @@ A consumer must be able to sign an authenticated request per API section without
 | Item | Status | Source |
 |------|--------|--------|
 | Per-section declarative signing recipe (schema scaffold) | 🚧 | `structure.sign_recipe` shipped at schema 2.2.0 (Task 64) — all derivation fields null, `unresolved_reason: "not_yet_derived"` until Tasks 65–69 populate. Keys mirror `structure.authenticated_sections`. |
-| Crypto op (HMAC-SHA256/512, RSA, Ed25519, etc.) per section | 🚧 | `sign_recipe.<section>.crypto_op` — shape shipped; values pending Task 65 |
-| Signature placement (header name, query param name, body field) | 🚧 | `sign_recipe.<section>.signature_placement` — shape shipped; values pending Task 65 |
+| Crypto op (HMAC-SHA256/512, RSA, Ed25519, etc.) per section | 🚧 | `sign_recipe.<section>.crypto_op` — shipped for priority exchanges via Task 65 (2026-04-18); binance/bybit honestly emit `ambiguous_ast` for multi-algo conditional sign(); hyperliquid emits `custom_signing_family`. |
+| Signature placement (header name, query param name, body field) | 🚧 | `sign_recipe.<section>.signature_placement` — shipped for 10 priority exchanges covering header / query / body placements via Task 65 (2026-04-18); htx-style indirect `request` object composition tracked as Task 113. |
 | Canonical string recipe — HMAC-simple family | 🚧 | `sign_recipe.<section>.canonical_string` — shape shipped; values pending Task 66a |
 | Canonical string recipe — HMAC-with-body family | 🚧 | `sign_recipe.<section>.canonical_string` — shape shipped; values pending Task 66b |
 | Canonical string recipe — JWT/RSA/Ed25519 family | 🔶 | Shape shipped at 2.2.0; Task 66c deferred — no priority exchange uses these |

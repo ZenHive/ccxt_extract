@@ -48,7 +48,7 @@
     "tier": "unclassified",
     "version": "v2"
   },
-  "extracted_at": "2026-04-18T02:41:56.145743Z",
+  "extracted_at": "2026-04-18T05:45:28.542828Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -23843,11 +23843,16 @@
       "private": {
         "auth_headers": null,
         "canonical_string": null,
-        "crypto_op": null,
+        "crypto_op": {
+          "algo": "hmac_sha256"
+        },
         "nonce": null,
         "patch_count": 0,
         "pre_sign_transforms": null,
-        "signature_placement": null,
+        "signature_placement": {
+          "key": "signature",
+          "location": "header"
+        },
         "unresolved_reason": "not_yet_derived"
       }
     },

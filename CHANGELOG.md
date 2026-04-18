@@ -6,6 +6,121 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 65: `crypto_op` + `signature_placement` derivation
+
+Phase 10's first derivation task. The `structure.sign_recipe` scaffold
+shipped by Task 64 starts with every field `null` and
+`unresolved_reason: "not_yet_derived"`; Task 65 fills two of those fields
+for priority exchanges by walking the `sign()` AST. No schema bump — the
+record shape is already declared at 2.2.0; this is data only.
+
+**What was built:**
+
+- **New module `CcxtExtract.SignRecipe.Derive`** (`lib/ccxt_extract/sign_recipe/derive.ex`).
+  Single public function `derive/2` takes the `sign_method` AST plus the
+  derived `authenticated_sections` list and emits a per-section recipe
+  map with populated `crypto_op` and `signature_placement`. All other
+  derivation fields (`canonical_string`, `auth_headers`, `nonce`,
+  `pre_sign_transforms`) stay `null` — Tasks 66a/66b/67/68 populate
+  those later.
+
+- **Crypto-op detection (first match wins):**
+  - `this.hmac(_, _, <Identifier>, _?)` where the algorithm identifier is
+    `sha256` / `sha512` / `sha384` → `{"algo": "hmac_sha256|512|384"}`.
+  - Bare-callee `eddsa(...)` → `{"algo": "ed25519"}`.
+  - Bare-callee `rsa(...)` → `{"algo": "rsa"}`.
+  - Bare-callee `jwt(...)` → `{"algo": "custom", "reason": "jwt (deferred to Task 66c)"}`.
+  - Multiple distinct crypto calls in the same sign() body (RSA+HMAC
+    conditional by key format) → `crypto_op: nil` +
+    `unresolved_reason: "ambiguous_ast"`.
+  - No crypto call found → `unresolved_reason: "custom_signing_family"`.
+
+- **Signature placement detection (context-aware).** Phase A identifies
+  the signature identifier via `const signature = this.hmac(...)` (or
+  similar) bindings, preferring the canonical CCXT name `signature` /
+  `sig` / `sign` when multiple crypto-bound bindings coexist — keeps
+  kucoin's `partnerSignature` / `passphrase` bindings out of placement
+  scoring. Phase B scans assignments that reference the signature:
+  - `headers['K'] = <any RHS containing sig>` → header K. The RHS may be
+    a direct Identifier, a `'prefix=' + sig + ',...'` chain, or an
+    inline `this.hmac(...)` call — inline matching uses crypto-call byte
+    fingerprints (phemex).
+  - `headers = { 'K': <value with sig> }` or
+    `headers = cond ? existing : { 'K': sig }` (recursed through
+    ConditionalExpression branches) → header K. Handles kucoin's
+    ternary.
+  - `query = <+chain>` / `query += <+chain>` / `url = <+chain>` /
+    `url += <+chain>` containing `"K="` literal adjacent to sig →
+    query K.
+  - `body = this.json({..., 'K': sig, ...})` / `this.urlencode(...)` →
+    body K.
+
+- **Honesty rules.** `unresolved_reason` stays `"not_yet_derived"` while
+  any of the six derivation fields is still null (Task 65 only fills
+  two); only *terminal* cases (`custom_signing_family`, `ambiguous_ast`,
+  `no_sign_method`) flip it. The populate ladder continues through
+  Tasks 66–68 and Task 69 closes it by setting `unresolved_reason` to
+  `null` once every field is non-null.
+
+**Priority-exchange outcomes (selected):**
+
+| Exchange | `crypto_op` | `signature_placement` | `unresolved_reason` |
+|----------|-------------|-----------------------|---------------------|
+| okx | hmac_sha256 | header `OK-ACCESS-SIGN` | not_yet_derived |
+| kucoin | hmac_sha256 | header `KC-API-SIGN` | not_yet_derived |
+| coinbase | hmac_sha256 | header `CB-ACCESS-SIGN` | not_yet_derived |
+| deribit | hmac_sha256 | header `Authorization` | not_yet_derived |
+| kraken | hmac_sha512 | header `API-Sign` | not_yet_derived |
+| bitget | hmac_sha256 | header `ACCESS-SIGN` | not_yet_derived |
+| gate | hmac_sha512 | header `SIGN` | not_yet_derived |
+| phemex | hmac_sha256 | header `x-phemex-request-signature` | not_yet_derived |
+| binance | `null` | `null` | ambiguous_ast |
+| bybit | `null` | `null` | ambiguous_ast |
+| hyperliquid | `null` | `null` | custom_signing_family |
+
+Binance and bybit both dispatch on key format at runtime (RSA vs HMAC),
+so a single `crypto_op` value isn't honest — `ambiguous_ast` preserves
+the truth. Hyperliquid's real signing lives in `signL1Action` (EIP-712
+ECDSA), not `sign()`, so the scaffold is correctly `custom_signing_family`.
+
+**Wiring:**
+
+- `Schema.build_structure_section/1` now threads `sign_method` into
+  `SignRecipe.Derive.derive/2` (replaces the previous
+  `SignRecipe.build_default/1` call).
+- `Pipeline.sync_sign_recipe/1` re-runs `Derive.derive/2` on the subset
+  of sections newly introduced by an override that bumped
+  `authenticated_sections`, preserving derived recipes for sections that
+  survive the sync.
+
+- **htx remains `signature_placement: null`.** htx builds
+  `request = { ..., Signature: signature }` and later concatenates it
+  into `url` via `this.urlencode(request)` — an indirect object-level
+  composition that the initial derivation does not track. Logged as a
+  discovered follow-up task (see ROADMAP).
+
+**Contract tests.** Zero new findings from `sign_recipe_keys_match_auth_sections`
+or `sign_recipe_shape_valid` across the full committed corpus.
+Pre-existing baselines (Task 57c Pattern C, Task 110 request_defaults
+reachability, authenticated_sections inheritance) are unchanged.
+
+**Tests:**
+
+- `test/ccxt_extract/sign_recipe/derive_test.exs` — 25 synthetic AST
+  unit tests covering every detection path (HMAC sha256/512/384,
+  Ed25519, RSA, JWT custom, multi-algo ambiguity, inline call, ternary
+  headers, conflicting placement, section replication, record-shape
+  invariants).
+- `test/integration/cached/sign_recipe_cached_test.exs` — 12
+  corpus-level assertions pinning priority-exchange outcomes and
+  validating closed-vocabulary values across every committed
+  `priv/output/<id>.json`.
+
+**Three-Strikes counter.** `patch_count` ships at `0` for every recipe.
+The first patch to the derivation rules (e.g., handling a new crypto
+family, a new placement pattern) bumps affected recipes to `1`; at `3`,
+the knowledge migrates to `priv/overrides/<id>.json` per CLAUDE.md.
+
 ### Task 64: Signing recipe schema scaffold (schema 2.2.0)
 
 **Branch:** `task-64/signing-recipe-scaffold`. Phase 10 opens by defining the

@@ -196,16 +196,24 @@ defmodule CcxtExtract.Pipeline do
   defp sync_sign_recipe(exchange) do
     auth_sections = get_in(exchange, ["structure", "authenticated_sections"])
     existing = get_in(exchange, ["structure", "sign_recipe"]) || %{}
-    synced = synced_recipe_map(auth_sections, existing)
+    sign_method = get_in(exchange, ["structure", "sign_method"])
+    synced = synced_recipe_map(auth_sections, existing, sign_method)
     put_in(exchange, ["structure", "sign_recipe"], synced)
   end
 
-  defp synced_recipe_map(nil, _existing), do: %{}
-  defp synced_recipe_map([], _existing), do: %{}
+  defp synced_recipe_map(nil, _existing, _sign_method), do: %{}
+  defp synced_recipe_map([], _existing, _sign_method), do: %{}
 
-  defp synced_recipe_map(auth_sections, existing) when is_list(auth_sections) do
+  defp synced_recipe_map(auth_sections, existing, sign_method) when is_list(auth_sections) do
+    # For sections that already exist (pre-override or derived), keep their
+    # derived values. For sections newly introduced by an override that
+    # bumped authenticated_sections, re-run Derive so the new section gets
+    # a real crypto_op/placement rather than a permanent null_recipe.
+    new_sections = Enum.reject(auth_sections, &Map.has_key?(existing, &1))
+    new_recipes = SignRecipe.Derive.derive(sign_method, new_sections)
+
     Map.new(auth_sections, fn section ->
-      {section, Map.get(existing, section, SignRecipe.null_recipe())}
+      {section, Map.get(existing, section) || Map.get(new_recipes, section) || SignRecipe.null_recipe()}
     end)
   end
 

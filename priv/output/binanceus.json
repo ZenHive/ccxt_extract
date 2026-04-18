@@ -48,7 +48,7 @@
     "tier": "tier1",
     "version": null
   },
-  "extracted_at": "2026-04-18T02:41:56.145743Z",
+  "extracted_at": "2026-04-18T05:45:28.542828Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -119418,7 +119418,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "dapiPrivateV2": {
         "auth_headers": null,
@@ -119428,7 +119428,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "eapiPrivate": {
         "auth_headers": null,
@@ -119438,7 +119438,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "fapiPrivate": {
         "auth_headers": null,
@@ -119448,7 +119448,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "fapiPrivateV2": {
         "auth_headers": null,
@@ -119458,7 +119458,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "fapiPrivateV3": {
         "auth_headers": null,
@@ -119468,7 +119468,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "papi": {
         "auth_headers": null,
@@ -119478,7 +119478,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "papiV2": {
         "auth_headers": null,
@@ -119488,7 +119488,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "private": {
         "auth_headers": null,
@@ -119498,7 +119498,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "sapi": {
         "auth_headers": null,
@@ -119508,7 +119508,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "sapiV2": {
         "auth_headers": null,
@@ -119518,7 +119518,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "sapiV3": {
         "auth_headers": null,
@@ -119528,7 +119528,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "sapiV4": {
         "auth_headers": null,
@@ -119538,7 +119538,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       }
     },
     "unified_endpoints": {

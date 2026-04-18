@@ -48,7 +48,7 @@
     "tier": "tier2",
     "version": "v2"
   },
-  "extracted_at": "2026-04-18T02:41:56.145743Z",
+  "extracted_at": "2026-04-18T05:45:28.542828Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -162224,7 +162224,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "earn": {
         "auth_headers": null,
@@ -162234,7 +162234,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "futuresPrivate": {
         "auth_headers": null,
@@ -162244,7 +162244,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       },
       "private": {
         "auth_headers": null,
@@ -162254,7 +162254,7 @@
         "patch_count": 0,
         "pre_sign_transforms": null,
         "signature_placement": null,
-        "unresolved_reason": "not_yet_derived"
+        "unresolved_reason": "no_sign_method"
       }
     },
     "unified_endpoints": {

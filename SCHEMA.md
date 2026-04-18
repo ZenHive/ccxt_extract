@@ -434,13 +434,13 @@ Consumers that encounter a null derivation field must either read the raw `struc
 
 Phase 10 bundles populate fields in this order (see ROADMAP.md § Phase 10):
 
-| Task | What it fills |
-|------|---------------|
-| 65 | `crypto_op`, `signature_placement` |
-| 66a | `canonical_string` (HMAC-simple family — binance-style) |
-| 66b | `canonical_string` (HMAC-with-body family — bybit-style) |
-| 67 | `auth_headers`, `nonce` |
-| 68 | `pre_sign_transforms` |
-| 69 | Round-trip validation; flip `unresolved_reason` to `null` once all fields non-null |
+| Task | What it fills | Status |
+|------|---------------|--------|
+| 65 | `crypto_op`, `signature_placement` | ✅ Shipped 2026-04-18 |
+| 66a | `canonical_string` (HMAC-simple family — binance-style) | ⬜ |
+| 66b | `canonical_string` (HMAC-with-body family — bybit-style) | ⬜ |
+| 67 | `auth_headers`, `nonce` | ⬜ |
+| 68 | `pre_sign_transforms` | ⬜ |
+| 69 | Round-trip validation; flip `unresolved_reason` to `null` once all fields non-null | ⬜ |
 
 JWT / RSA / Ed25519 and outlier signing families (Tasks 66c / 66d) are deferred — no Tier 1/2/DEX exchange in `priv/priority_tiers.json` needs them as of 2026-04-18.

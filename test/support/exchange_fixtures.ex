@@ -16,6 +16,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
   """
 
   alias CcxtExtract.Provenance
+  alias CcxtExtract.SignRecipe
 
   @doc """
   Returns a schema-conformant exchange map with top-level `"id" => id`
@@ -30,6 +31,12 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
       (default: `%{}`)
     * `:request_defaults` — value for `structure.request_defaults`
       (default: `%{}`)
+    * `:authenticated_sections` — list of section names (default: `[]`).
+      `structure.sign_recipe` is derived from this list via
+      `SignRecipe.build_default/1`, so the two stay in lockstep by
+      construction (matches the `sign_recipe_keys_match_auth_sections`
+      contract invariant). Tests that want to drift the two intentionally
+      should `put_in/3` after construction.
 
   Any field not exposed as an option is set to `nil`, `[]`, or `%{}`
   so the map walks cleanly under every declared pointer. Tests that
@@ -40,6 +47,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
     describe = Keyword.get(opts, :describe, %{})
     unified_endpoints = Keyword.get(opts, :unified_endpoints, %{})
     request_defaults = Keyword.get(opts, :request_defaults, %{})
+    auth_sections = Keyword.get(opts, :authenticated_sections, [])
 
     %{
       "id" => id,
@@ -64,7 +72,8 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "class_info" => nil,
         "methods" => nil,
         "sign_method" => nil,
-        "authenticated_sections" => [],
+        "authenticated_sections" => auth_sections,
+        "sign_recipe" => SignRecipe.build_default(auth_sections),
         "handle_errors" => %{
           "method" => nil,
           "exceptions" => nil,

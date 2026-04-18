@@ -14,15 +14,16 @@ A consumer must be able to sign an authenticated request per API section without
 
 | Item | Status | Source |
 |------|--------|--------|
-| Crypto op (HMAC-SHA256/512, RSA, Ed25519, etc.) per section | ⬜ | Phase 10 — Task 65 |
-| Signature placement (header name, query param name, body field) | ⬜ | Phase 10 — Task 65 |
-| Canonical string recipe — HMAC-simple family | ⬜ | Phase 10 — Task 66a |
-| Canonical string recipe — HMAC-with-body family | ⬜ | Phase 10 — Task 66b |
-| Canonical string recipe — JWT/RSA/Ed25519 family | ⬜ | Phase 10 — Task 66c |
-| Canonical string recipe — custom/outlier family | ⬜ | Phase 10 — Task 66d |
-| Auth header set (API key header, passphrase, signature, timestamp) | ⬜ | Phase 10 — Task 67 |
-| Nonce/timestamp source (ms, sec, μs, monotonic, exchange-supplied) | ⬜ | Phase 10 — Task 67 |
-| Pre-sign transforms (hex-encode, base64, lowercase, URL-encode body) | ⬜ | Phase 10 — Task 68 |
+| Per-section declarative signing recipe (schema scaffold) | 🚧 | `structure.sign_recipe` shipped at schema 2.2.0 (Task 64) — all derivation fields null, `unresolved_reason: "not_yet_derived"` until Tasks 65–69 populate. Keys mirror `structure.authenticated_sections`. |
+| Crypto op (HMAC-SHA256/512, RSA, Ed25519, etc.) per section | 🚧 | `sign_recipe.<section>.crypto_op` — shape shipped; values pending Task 65 |
+| Signature placement (header name, query param name, body field) | 🚧 | `sign_recipe.<section>.signature_placement` — shape shipped; values pending Task 65 |
+| Canonical string recipe — HMAC-simple family | 🚧 | `sign_recipe.<section>.canonical_string` — shape shipped; values pending Task 66a |
+| Canonical string recipe — HMAC-with-body family | 🚧 | `sign_recipe.<section>.canonical_string` — shape shipped; values pending Task 66b |
+| Canonical string recipe — JWT/RSA/Ed25519 family | 🔶 | Shape shipped at 2.2.0; Task 66c deferred — no priority exchange uses these |
+| Canonical string recipe — custom/outlier family | 🔶 | Shape shipped at 2.2.0; Task 66d deferred — migrate via overrides per Three-Strikes |
+| Auth header set (API key header, passphrase, signature, timestamp) | 🚧 | `sign_recipe.<section>.auth_headers` — shape shipped; values pending Task 67 |
+| Nonce/timestamp source (ms, sec, μs, monotonic, exchange-supplied) | 🚧 | `sign_recipe.<section>.nonce` — shape shipped; values pending Task 67 |
+| Pre-sign transforms (hex-encode, base64, lowercase, URL-encode body) | 🚧 | `sign_recipe.<section>.pre_sign_transforms` — shape shipped; values pending Task 68 |
 | Which API sections require auth | ✅ | `structure.authenticated_sections` (Task 52) |
 | Raw `sign()` AST (escape hatch) | ✅ | `structure.sign_method` |
 

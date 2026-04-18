@@ -24,6 +24,7 @@ defmodule CcxtExtract.Pipeline do
   alias CcxtExtract.Provenance
   alias CcxtExtract.Schema
   alias CcxtExtract.ScopeCleanup
+  alias CcxtExtract.SignRecipe
 
   require Logger
 
@@ -157,7 +158,7 @@ defmodule CcxtExtract.Pipeline do
 
     case OverrideRegistry.load(id) do
       :none ->
-        exchange
+        sync_sign_recipe(exchange)
 
       overrides when is_list(overrides) ->
         {updated, applied_paths} =
@@ -165,7 +166,9 @@ defmodule CcxtExtract.Pipeline do
             apply_override_entry(entry, acc, paths, id)
           end)
 
-        stamp_override_provenance(updated, applied_paths)
+        updated
+        |> sync_sign_recipe()
+        |> stamp_override_provenance(applied_paths)
     end
   rescue
     e in [RuntimeError, File.Error, Jason.DecodeError] ->
@@ -176,6 +179,34 @@ defmodule CcxtExtract.Pipeline do
       )
 
       exchange
+  end
+
+  # Keep `structure.sign_recipe` keys in lockstep with
+  # `structure.authenticated_sections` after overrides may have mutated
+  # either. An override that flips authenticated_sections (e.g. hyperliquid
+  # adding "private") without touching sign_recipe would otherwise leave
+  # the recipe missing a section, violating the
+  # sign_recipe_keys_match_auth_sections contract invariant.
+  #
+  # This runs AFTER override application so that any override targeting
+  # recipe sub-paths (e.g. /structure/sign_recipe/private/crypto_op) still
+  # survives the sync: keys that appear in both the new auth_sections and
+  # the existing recipe are preserved untouched. Keys added by auth_sections
+  # that have no recipe entry get a fresh `null_recipe`.
+  defp sync_sign_recipe(exchange) do
+    auth_sections = get_in(exchange, ["structure", "authenticated_sections"])
+    existing = get_in(exchange, ["structure", "sign_recipe"]) || %{}
+    synced = synced_recipe_map(auth_sections, existing)
+    put_in(exchange, ["structure", "sign_recipe"], synced)
+  end
+
+  defp synced_recipe_map(nil, _existing), do: %{}
+  defp synced_recipe_map([], _existing), do: %{}
+
+  defp synced_recipe_map(auth_sections, existing) when is_list(auth_sections) do
+    Map.new(auth_sections, fn section ->
+      {section, Map.get(existing, section, SignRecipe.null_recipe())}
+    end)
   end
 
   # Apply a single override entry, threading the applied-path list so the

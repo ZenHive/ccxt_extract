@@ -423,24 +423,20 @@ defmodule CcxtExtract.ContractTestTest do
             "has" => %{"fetchOHLCV" => true},
             "api" => %{"private" => %{}, "public" => %{}}
           },
-          unified_endpoints: %{"fetchOHLCV" => ["x"]}
+          unified_endpoints: %{"fetchOHLCV" => ["x"]},
+          authenticated_sections: ["private"]
         )
-        |> put_in(["structure", "authenticated_sections"], ["private"])
         |> put_in(
           ["structure", "handle_errors", "error_code_fields"],
           [%{"object" => "response", "object_path" => nil, "field" => "msg"}]
         )
 
       bad =
-        "bad"
-        |> schema_conformant(
-          describe: %{
-            "has" => %{"fetchOHLCV" => "__undefined"},
-            "api" => %{"public" => %{}}
-          },
-          unified_endpoints: %{"fetchOHLCV" => ["x"]}
+        schema_conformant("bad",
+          describe: %{"has" => %{"fetchOHLCV" => "__undefined"}, "api" => %{"public" => %{}}},
+          unified_endpoints: %{"fetchOHLCV" => ["x"]},
+          authenticated_sections: ["wapi"]
         )
-        |> put_in(["structure", "authenticated_sections"], ["wapi"])
 
       File.write!(Path.join(tmp, "good.json"), Jason.encode!(good))
       File.write!(Path.join(tmp, "bad.json"), Jason.encode!(bad))

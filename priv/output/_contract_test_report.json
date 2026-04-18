@@ -573,9 +573,11 @@
       "override_registry_valid": 0,
       "provenance_covers_schema": 0,
       "request_defaults_resolvable_reachable_from_unified": 32,
+      "sign_recipe_keys_match_auth_sections": 0,
+      "sign_recipe_shape_valid": 0,
       "unified_endpoints_claimed_in_has": 53
     },
-    "invariants_run": 8,
+    "invariants_run": 10,
     "total_findings": 92
   },
   "tier_scope": "all"

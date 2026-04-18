@@ -27,6 +27,7 @@
     "/structure/parse_methods": "raw",
     "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
+    "/structure/sign_recipe": "derived",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
   },
@@ -47,7 +48,7 @@
     "tier": "unclassified",
     "version": "v2"
   },
-  "extracted_at": "2026-04-18T00:19:30.905845Z",
+  "extracted_at": "2026-04-18T02:41:56.145743Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -4115,7 +4116,7 @@
       }
     }
   },
-  "schema_version": "2.1.0",
+  "schema_version": "2.2.0",
   "structure": {
     "authenticated_sections": [
       "private"
@@ -31967,6 +31968,18 @@
       ],
       "return_type": null,
       "statements": 6
+    },
+    "sign_recipe": {
+      "private": {
+        "auth_headers": null,
+        "canonical_string": null,
+        "crypto_op": null,
+        "nonce": null,
+        "patch_count": 0,
+        "pre_sign_transforms": null,
+        "signature_placement": null,
+        "unresolved_reason": "not_yet_derived"
+      }
     },
     "unified_endpoints": {
       "cancelAllOrders": [

@@ -224,6 +224,7 @@ All keys are always materialized (never absent). Consumers check for `null`, nev
 | `methods` | MethodInventory or null | Method signature inventory (names, params, return types — no AST bodies) |
 | `sign_method` | MethodAST or null | `sign()` method with full ESTree AST body |
 | `authenticated_sections` | string[] or null | API sections proven to require authentication via `checkRequiredCredentials()` gates in sign() AST. Handles `api === 'X'` and `api[N] === 'X'` patterns. Sorted. Null when sign() absent; empty list when sign() exists but no `checkRequiredCredentials()` gates found. Note: some exchanges authenticate without `checkRequiredCredentials()` — use `sign_method` AST for broader auth detection. |
+| `sign_recipe` | map(section -> SignRecipeRecord) | Per-section declarative signing recipe. Keys mirror `authenticated_sections` (enforced by the `sign_recipe_keys_match_auth_sections` contract invariant). Empty map `{}` when the exchange has no authenticated sections. Each record is `{crypto_op, canonical_string, signature_placement, auth_headers, nonce, pre_sign_transforms, unresolved_reason, patch_count}` — all derivation fields nullable; populated incrementally by Phase 10 tasks 65–69. Scaffolded in 2.2.0 with every field `null` + `unresolved_reason: "not_yet_derived"`. See [Signing Recipe (2.2.0+)](#signing-recipe-220). |
 | `handle_errors` | HandleErrorsData or null | `handleErrors()` AST plus exception mappings |
 | `parse_methods` | map(name -> MethodAST) or null | `parse*()` methods with AST bodies |
 | `ws_methods` | map(name -> MethodAST) or null | `watch*()` / `handle*()` WS methods with AST bodies |
@@ -246,6 +247,7 @@ For complete type definitions (all fields, nesting, and constraints), see `excha
 - **ThrowDispatchEntry** — `{ helper, exceptions_source, exceptions_source_raw, lookup, message_lookup }` — a single `this.throwExactlyMatchedException()` / `this.throwBroadlyMatchedException()` call from handleErrors(). `exceptions_source` normalizes arg[0] to `"exceptions"`, `"exceptions.exact"`, `"exceptions.broad"`, `"by_url.exact"`, `"by_url.broad"`, or `"other"`; `exceptions_source_raw` preserves the original expression as a compact string. `lookup` is the resolved safe* binding for arg[1]. `message_lookup` is the unique resolved safe* binding referenced anywhere inside arg[2] (including aliases like `errorInfo = message` and wrappers like `this.json(message)`), or null when the message expression does not point at a single bound lookup value.
 - **PaginationEntry** — `{ strategy, containing_method, target_method, max_entries_per_request, ... }` where `strategy` is one of `"dynamic"`, `"deterministic"`, `"cursor"`, `"incremental"`. `containing_method` is the method body where the call was found; `target_method` is the method name passed to `fetchPaginatedCall*` (null for unresolved variable references). Strategy-specific fields: cursor has `cursor_received`, `cursor_sent`, `cursor_increment`; incremental has `page_key`. Null values mean the parameter was not statically resolvable from source.
 - **OverridesData** — `{ extends, rest, ws }` where `extends` is the parent exchange id, and each entry contains `overridden` (methods redefined from parent, with AST), `new_methods` (methods not on parent), and `inherited` (method names only)
+- **SignRecipeRecord** — `{ crypto_op, canonical_string, signature_placement, auth_headers, nonce, pre_sign_transforms, unresolved_reason, patch_count }`. All derivation fields are nullable — scaffold defaults every field to `null`. `crypto_op`: `{ algo ∈ "hmac_sha256" | "hmac_sha512" | "hmac_sha384" | "ed25519" | "rsa" | "custom", reason? }`. `canonical_string`: `{ family ∈ "hmac_simple" | "hmac_with_body" | "jwt" | "custom", components: [{ source, value? }], encoding ∈ "url_encoded" | "json" | "raw" }` where `source` ∈ `"timestamp" | "api_key" | "recv_window" | "method" | "path" | "query" | "body" | "literal"`. `signature_placement`: `{ location ∈ "header" | "query" | "body", key }`. `auth_headers`: `[{ name, source ∈ "api_key" | "passphrase" | "timestamp" | "signature" | "recv_window" | "literal", value? }]` — excludes the signature header itself (use `signature_placement` for that). `nonce`: `{ source ∈ "timestamp_ms" | "timestamp_sec" | "timestamp_us" | "timestamp_ns" | "monotonic" | "exchange_supplied", format ∈ "integer" | "iso8601" | "hex" | "string" }`. `pre_sign_transforms`: `[{ op ∈ "hex_encode" | "base64_encode" | "lowercase" | "url_encode" | "json_encode", target ∈ "signature" | "body" | "canonical_string" }]`. `unresolved_reason`: `null` | `"not_yet_derived"` | `"custom_signing_family"` | `"ambiguous_ast"` | `"no_sign_method"` — must be `null` only when every derivation field above is non-null (enforced by Task 69). `patch_count`: non-negative integer, Three-Strikes counter (see CLAUDE.md). Standalone JSON Schema at `priv/schema/sign_recipe_v1.json`.
 - **RequestDefaultsEntry** — `{ value, kind, reason }` where `kind` ∈ `"literal" | "unresolved"`. For `literal`: `value` is the resolved primitive (string/number/boolean/null), a map of string keys → primitives (nested literal), or a list of primitives (array of literals); `reason` is null. For `unresolved`: `value` is null; `reason` ∈ `"conditional_value"` (ternary/logical expression), `"identifier_reference"` (variable or member access), `"dynamic_construction"` (call, binary, template literal, partially-literal object/array), `"computed_key"` (key was a computed `[expr]`), `"spread_elaboration"` (reserved for future spread tracking). Keys preserve the exchange's own literal string keys; computed keys surface as the synthetic key `"_computed"`.
 - **ClassInfo** — `{ rest, ws }` where each is a ClassEntry with `class_name`, `extends_resolved`, `parent_key`, `file`, `method_count`, and optional `method_details`
 - **MethodInventory** — `{ rest, ws }` where each is a list of MethodSignature (like MethodAST but without `body`)
@@ -286,6 +288,7 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.2.0 | 2026-04-18 | Add `structure.sign_recipe` as per-section declarative signing recipe — scaffold only. Keys mirror `authenticated_sections`; values are `SignRecipeRecord` with every derivation field (`crypto_op`, `canonical_string`, `signature_placement`, `auth_headers`, `nonce`, `pre_sign_transforms`) `null` and `unresolved_reason: "not_yet_derived"`. Populated incrementally by Phase 10 tasks 65–69. Standalone JSON Schema at `priv/schema/sign_recipe_v1.json` kept in lockstep with `exchange_v2.json#/$defs/SignRecipeRecord`. Two new contract-test invariants: `sign_recipe_keys_match_auth_sections` and `sign_recipe_shape_valid`. Provenance: `/structure/sign_recipe` tagged `"derived"`. **Minor bump** because the key is now in `StructureData.required` — strict validators reject 2.1.0 output lacking it; permissive readers are unaffected. See [Signing Recipe (2.2.0+)](#signing-recipe-220). |
 | 2.1.0 | 2026-04-18 | Add nullable `structure.request_defaults` and promote it into `StructureData.required` — per-method default request body as `method → {key → RequestDefaultsEntry}` where each entry is `{value, kind, reason}` with `kind ∈ "literal" | "unresolved"`. Unresolved `reason` enum: `conditional_value`, `identifier_reference`, `dynamic_construction`, `computed_key`, `spread_elaboration`. Populated by `CcxtExtract.RequestDefaults`; consumers use this to POST correct type-discriminated bodies (e.g., hyperliquid's `{"type": "exchangeStatus"}` for fetchTime) without walking AST. `_provenance["/structure/request_defaults"] = "derived"`. **Minor bump** because the key is now in `StructureData.required` — strict validators will reject 2.0.0 output lacking it; permissive readers that ignore unknown keys are unaffected. |
 | 2.0.0 | 2026-04-17 | **Breaking.** Promote `_provenance` to required, non-null top-level key. Rename schema file `exchange_v1.json` → `exchange_v2.json`. `priv/schema/exchange_v1.json` retained one release for diff reference, deleted 2026-04-18 (Task 107). Consumer major-version pin bumps `1` → `2`. No field semantics changed; readers that already consumed `_provenance` at 1.8.1 work unchanged. See [Version 2.0.0 — Current](#version-200--current) for migration notes. |
 | 1.8.1 | 2026-04 | Add additive, nullable top-level `_provenance` map keyed by RFC 6901 JSON Pointers with values `"raw"` / `"derived"` / `"override"`. Stamped by `CcxtExtract.Provenance.build_default/0` at assembly time; override-applied paths flipped to `"override"` at the tail of `Pipeline.extract/1`. Optional at 1.8.x — consumers reading 1.8.0 still parse 1.8.1 output. Promoted to required at 2.0.0. |
@@ -363,3 +366,81 @@ Task 60 ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON 
 **Provenance tagging** — the parallel `_provenance` map marking each field `"raw"` / `"derived"` / `"override"` — shipped in **Task 61a** (2026-04-17) as an additive, nullable field at schema 1.8.1, and was promoted to required, non-null at **Task 61c** / schema 2.0.0 (2026-04-17). Override-applied paths get their provenance entry flipped from `"derived"` (or `"raw"`) to `"override"` at the tail of `Pipeline.extract/1`.
 
 **Exchange schema at 2.0.0.** The `_provenance` promotion is the breaking change. The override contract stays at v1 across this bump — override file format is unchanged.
+
+---
+
+## Signing Recipe (2.2.0+)
+
+`structure.sign_recipe` is a declarative per-section signing recipe shipped at schema 2.2.0. A consumer reading the recipe for an authenticated section can construct an authenticated HTTP request without walking the raw `sign()` AST.
+
+**JSON Schema:** `priv/schema/sign_recipe_v1.json` — standalone, reusable for external consumers. Kept in lockstep with `exchange_v2.json#/$defs/SignRecipeRecord` (parity checked by `test/ccxt_extract/sign_recipe_test.exs`).
+
+### Shape
+
+```jsonc
+{
+  "structure": {
+    "sign_recipe": {
+      "private": {
+        "crypto_op": null,            // Task 65
+        "canonical_string": null,     // Tasks 66a / 66b
+        "signature_placement": null,  // Task 65
+        "auth_headers": null,         // Task 67
+        "nonce": null,                // Task 67
+        "pre_sign_transforms": null,  // Task 68
+        "unresolved_reason": "not_yet_derived",
+        "patch_count": 0
+      },
+      "sapi": { /* … same shape … */ }
+    }
+  }
+}
+```
+
+See `SignRecipeRecord` under [Key Type Definitions](#key-type-definitions) for the enum tables of every field.
+
+### Why per-section
+
+Real exchanges vary signing per API section:
+
+- **binance** emits 13 recipe entries (one per `private`, `sapi`, `sapiV2`, `fapiPrivate`, `fapiPrivateV3`, `eapiPrivate`, `papi`, …). Most share HMAC-SHA256+query but some don't.
+- **bybit** splits GET (query canonical) vs POST (body canonical) inside `sign()` — section-level granularity captures the divergence.
+- **okx / coinbase / kucoin** each carry multiple versioned private sections with different header conventions.
+
+Keying the recipe on section name (mirroring `runtime.url_templates`) is the only honest way to represent this. Identical-looking sections still get their own entry — a consumer reading `sign_recipe[section]` always finds a record without disambiguating upstream.
+
+### Keys mirror authenticated_sections
+
+`Map.keys(sign_recipe)` **must equal** `authenticated_sections` as sets. Enforced by the `sign_recipe_keys_match_auth_sections` contract-test invariant and maintained by `Pipeline.sync_sign_recipe/1`, which runs after override merge so override-driven changes to `authenticated_sections` propagate into recipe key coverage automatically. An override that wants to target specific recipe fields (e.g. `/structure/sign_recipe/private/crypto_op`) survives the sync — keys present in both the post-override `authenticated_sections` and the post-override recipe map keep their values.
+
+Exchanges with no authenticated sections emit `"sign_recipe": {}`.
+
+### Null-by-default + unresolved_reason
+
+Every derivation field starts `null` with `unresolved_reason: "not_yet_derived"` in 2.2.0. Phase 10 tasks 65–69 flip individual subsets of fields to derived values. When every derivation field is non-null, **Task 69** flips `unresolved_reason` to `null`. Before that, the closed-vocabulary `unresolved_reason` enum (`not_yet_derived` / `custom_signing_family` / `ambiguous_ast` / `no_sign_method`) tells consumers why a field is still null.
+
+Consumers that encounter a null derivation field must either read the raw `structure.sign_method` AST or fall back to an override — per the Honesty Rule, no silent guesses.
+
+### Three-Strikes counter
+
+`patch_count` starts at `0` and bumps each time a Phase 10 derivation rule gets patched to handle a new edge case for a given recipe. At `3`, the knowledge migrates to `priv/overrides/<id>.json` instead of accreting further special cases in derivation. See CLAUDE.md § "Three-Strikes Rule" for the full workflow.
+
+### Contract invariants
+
+- `sign_recipe_keys_match_auth_sections` — per-exchange. Fails on any key in `authenticated_sections` without a recipe entry, or any recipe entry not in `authenticated_sections`.
+- `sign_recipe_shape_valid` — per-exchange. Belt-and-suspenders over each recipe record: required keys present, `patch_count` is a non-negative integer, `unresolved_reason` is null or in the closed vocabulary. Deeper shape/enum validation lives in `Validation.validate_schema/2` against `exchange_v2.json#/$defs/SignRecipeRecord`.
+
+### Populate order
+
+Phase 10 bundles populate fields in this order (see ROADMAP.md § Phase 10):
+
+| Task | What it fills |
+|------|---------------|
+| 65 | `crypto_op`, `signature_placement` |
+| 66a | `canonical_string` (HMAC-simple family — binance-style) |
+| 66b | `canonical_string` (HMAC-with-body family — bybit-style) |
+| 67 | `auth_headers`, `nonce` |
+| 68 | `pre_sign_transforms` |
+| 69 | Round-trip validation; flip `unresolved_reason` to `null` once all fields non-null |
+
+JWT / RSA / Ed25519 and outlier signing families (Tasks 66c / 66d) are deferred — no Tier 1/2/DEX exchange in `priv/priority_tiers.json` needs them as of 2026-04-18.

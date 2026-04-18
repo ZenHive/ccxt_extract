@@ -45,13 +45,15 @@ defmodule CcxtExtract.Schema do
 
   """
 
-  @schema_version "2.1.0"
+  alias CcxtExtract.SignRecipe
+
+  @schema_version "2.2.0"
   @schema_filename "exchange_v2.json"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe markets symbol_patterns url_templates)
-  @required_structure_keys ~w(class_info methods sign_method authenticated_sections handle_errors parse_methods ws_methods interface_signatures pagination overrides unified_endpoints request_defaults)
+  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe handle_errors parse_methods ws_methods interface_signatures pagination overrides unified_endpoints request_defaults)
 
   # --- Public API ---
 
@@ -179,11 +181,14 @@ defmodule CcxtExtract.Schema do
   end
 
   defp build_structure_section(data) do
+    auth_sections = data["authenticated_sections"]
+
     %{
       "class_info" => data["class_info"],
       "methods" => data["methods"],
       "sign_method" => data["sign_method"],
-      "authenticated_sections" => data["authenticated_sections"],
+      "authenticated_sections" => auth_sections,
+      "sign_recipe" => SignRecipe.build_default(auth_sections),
       "handle_errors" => data["handle_errors"],
       "parse_methods" => data["parse_methods"],
       "ws_methods" => data["ws_methods"],

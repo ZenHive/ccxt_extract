@@ -27,6 +27,7 @@
     "/structure/parse_methods": "raw",
     "/structure/request_defaults": "derived",
     "/structure/sign_method": "raw",
+    "/structure/sign_recipe": "derived",
     "/structure/unified_endpoints": "derived",
     "/structure/ws_methods": "raw"
   },
@@ -47,7 +48,7 @@
     "tier": "unclassified",
     "version": "v4"
   },
-  "extracted_at": "2026-04-18T00:19:30.905845Z",
+  "extracted_at": "2026-04-18T02:41:56.145743Z",
   "runtime": {
     "describe": {
       "alias": false,
@@ -81105,7 +81106,7 @@
       }
     }
   },
-  "schema_version": "2.1.0",
+  "schema_version": "2.2.0",
   "structure": {
     "authenticated_sections": [],
     "class_info": {
@@ -136661,6 +136662,7 @@
       "return_type": null,
       "statements": 10
     },
+    "sign_recipe": {},
     "unified_endpoints": {
       "fetchTransactions": [
         "v4PrivatePostMainAccountHistory"

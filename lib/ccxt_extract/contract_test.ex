@@ -30,6 +30,7 @@ defmodule CcxtExtract.ContractTest do
   """
 
   alias CcxtExtract.JsonIO
+  alias CcxtExtract.SignRecipe
 
   @type finding :: %{
           exchange: String.t(),
@@ -49,7 +50,9 @@ defmodule CcxtExtract.ContractTest do
     {"override_registry_valid", :check_override_registry_valid},
     {"override_paths_present_in_output", :check_override_paths_present_in_output},
     {"provenance_covers_schema", :check_provenance_covers_schema},
-    {"request_defaults_resolvable_reachable_from_unified", :check_request_defaults_resolvable_reachable_from_unified}
+    {"request_defaults_resolvable_reachable_from_unified", :check_request_defaults_resolvable_reachable_from_unified},
+    {"sign_recipe_keys_match_auth_sections", :check_sign_recipe_keys_match_auth_sections},
+    {"sign_recipe_shape_valid", :check_sign_recipe_shape_valid}
   ]
 
   # Corpus-level invariants run once per run_all/1 (not per-exchange). Used
@@ -260,6 +263,135 @@ defmodule CcxtExtract.ContractTest do
         message: "authenticated section #{inspect(name)} not reachable in runtime.describe.api tree"
       }
     end)
+  end
+
+  @doc """
+  Flag drift between `structure.sign_recipe` keys and
+  `structure.authenticated_sections`. The two must agree as sets: every
+  authenticated section gets one recipe; no recipe exists for a
+  non-authenticated section.
+
+  Expected clean under the Task 64 scaffold (`SignRecipe.build_default/1`
+  builds the recipe directly from `authenticated_sections`). Future
+  derivation tasks (65–69) flip recipe values but must not add or remove
+  recipe keys.
+  """
+  @spec check_sign_recipe_keys_match_auth_sections(map(), map()) :: [finding()]
+  def check_sign_recipe_keys_match_auth_sections(exchange, _observed) do
+    id = exchange_id(exchange)
+    recipe = get_in(exchange, ["structure", "sign_recipe"]) || %{}
+    sections = get_in(exchange, ["structure", "authenticated_sections"]) || []
+
+    recipe_keys = recipe |> Map.keys() |> MapSet.new()
+    section_keys = MapSet.new(sections)
+
+    missing =
+      section_keys
+      |> MapSet.difference(recipe_keys)
+      |> Enum.sort()
+      |> Enum.map(fn name ->
+        %{
+          exchange: id,
+          invariant: "sign_recipe_keys_match_auth_sections",
+          path: "structure.sign_recipe.#{name}",
+          message: "authenticated section #{inspect(name)} has no sign_recipe entry"
+        }
+      end)
+
+    extra =
+      recipe_keys
+      |> MapSet.difference(section_keys)
+      |> Enum.sort()
+      |> Enum.map(fn name ->
+        %{
+          exchange: id,
+          invariant: "sign_recipe_keys_match_auth_sections",
+          path: "structure.sign_recipe.#{name}",
+          message: "sign_recipe has entry #{inspect(name)} but it is not in authenticated_sections"
+        }
+      end)
+
+    missing ++ extra
+  end
+
+  @doc """
+  Structural belt-and-suspenders check over each `structure.sign_recipe`
+  record:
+    * the eight required keys are present (no missing / no extras),
+    * `patch_count` is a non-negative integer,
+    * `unresolved_reason` is either `null` or in the closed vocabulary.
+
+  Deeper per-field enum/shape validation is done by
+  `CcxtExtract.Validation.validate_schema/2` against `exchange_v2.json#/$defs/SignRecipeRecord`.
+  This invariant catches the narrow case where JSV validation was skipped
+  or the schema drifted.
+  """
+  @spec check_sign_recipe_shape_valid(map(), map()) :: [finding()]
+  def check_sign_recipe_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    recipe = get_in(exchange, ["structure", "sign_recipe"]) || %{}
+
+    recipe
+    |> Enum.sort_by(fn {section, _} -> section end)
+    |> Enum.flat_map(fn {section, record} -> sign_recipe_record_findings(id, section, record) end)
+  end
+
+  defp sign_recipe_record_findings(id, section, record) when is_map(record) do
+    missing = SignRecipe.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- SignRecipe.required_keys()
+
+    missing_findings =
+      Enum.map(missing, fn key ->
+        sign_recipe_finding(id, section, "missing required key #{inspect(key)}")
+      end)
+
+    extra_findings =
+      Enum.map(extra, fn key ->
+        sign_recipe_finding(id, section, "unexpected key #{inspect(key)}")
+      end)
+
+    value_findings =
+      Enum.reject(
+        [
+          patch_count_finding(id, section, Map.get(record, "patch_count")),
+          unresolved_reason_finding(id, section, Map.get(record, "unresolved_reason"))
+        ],
+        &is_nil/1
+      )
+
+    missing_findings ++ extra_findings ++ value_findings
+  end
+
+  defp sign_recipe_record_findings(id, section, _record) do
+    [sign_recipe_finding(id, section, "recipe record must be a map")]
+  end
+
+  defp sign_recipe_finding(id, section, message) do
+    %{
+      exchange: id,
+      invariant: "sign_recipe_shape_valid",
+      path: "structure.sign_recipe.#{section}",
+      message: message
+    }
+  end
+
+  defp patch_count_finding(_id, _section, v) when is_integer(v) and v >= 0, do: nil
+
+  defp patch_count_finding(id, section, v),
+    do: sign_recipe_finding(id, section, "patch_count must be a non-negative integer, got #{inspect(v)}")
+
+  defp unresolved_reason_finding(_id, _section, nil), do: nil
+
+  defp unresolved_reason_finding(id, section, v) do
+    if v in SignRecipe.unresolved_reasons() do
+      nil
+    else
+      sign_recipe_finding(
+        id,
+        section,
+        "unresolved_reason must be null or one of #{inspect(SignRecipe.unresolved_reasons())}, got #{inspect(v)}"
+      )
+    end
   end
 
   @doc """

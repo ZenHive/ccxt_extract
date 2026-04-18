@@ -8,7 +8,7 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "2.1.0",
+      "const": "2.2.0",
       "description": "Schema version. Consumers should check this before parsing."
     },
     "extracted_at": {
@@ -275,7 +275,7 @@
     "StructureData": {
       "type": "object",
       "description": "Structural data extracted via OXC TypeScript AST parsing. Layer 2: what an exchange DOES (code structure, method bodies).",
-      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "handle_errors", "parse_methods", "ws_methods", "interface_signatures", "pagination", "overrides", "unified_endpoints", "request_defaults"],
+      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "sign_recipe", "handle_errors", "parse_methods", "ws_methods", "interface_signatures", "pagination", "overrides", "unified_endpoints", "request_defaults"],
       "additionalProperties": false,
       "properties": {
         "class_info": {
@@ -305,6 +305,11 @@
             { "type": "array", "items": { "type": "string" } }
           ],
           "description": "API sections proven to require authentication via checkRequiredCredentials() gates in sign() AST. Handles api === 'X' and api[N] === 'X' patterns. Sorted. Null when sign() absent; empty list when sign() exists but no checkRequiredCredentials() gates found. Some exchanges authenticate without checkRequiredCredentials() — use sign_method AST for broader auth detection."
+        },
+        "sign_recipe": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/SignRecipeRecord" },
+          "description": "Map of section name -> SignRecipeRecord. Keys mirror structure.authenticated_sections (contract-test invariant sign_recipe_keys_match_auth_sections enforces parity). Empty map when sign_method is null or no authenticated sections were detected. Scaffolded in schema 2.2.0; Task 64 emits all-null records with unresolved_reason = \"not_yet_derived\". Tasks 65–69 populate derivation fields incrementally. Standalone copy at priv/schema/sign_recipe_v1.json (must stay in sync)."
         },
         "handle_errors": {
           "oneOf": [
@@ -424,6 +429,175 @@
             }
           ],
           "description": "Null when kind='literal'. Otherwise a closed-vocabulary tag: 'conditional_value' (ternary / logical expression), 'identifier_reference' (variable or member access), 'dynamic_construction' (call, binary, template literal, partially-literal object/array), 'computed_key' (key was a computed expression), 'spread_elaboration' (reserved for future spread tracking)."
+        }
+      }
+    },
+
+    "SignRecipeRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["crypto_op", "canonical_string", "signature_placement", "auth_headers", "nonce", "pre_sign_transforms", "unresolved_reason", "patch_count"],
+      "description": "Declarative per-section signing recipe. Authoritative copy of priv/schema/sign_recipe_v1.json (kept in lockstep). See CcxtExtract.SignRecipe moduledoc and SCHEMA.md § Signing Recipe. All derivation fields are nullable: Task 64 ships every record with null derivation fields + unresolved_reason = \"not_yet_derived\". Tasks 65–69 populate fields incrementally.",
+      "properties": {
+        "crypto_op": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/SignRecipeCryptoOp" }],
+          "description": "Hash / signature algorithm. Populated by Task 65."
+        },
+        "canonical_string": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/SignRecipeCanonicalString" }],
+          "description": "Ordered components the exchange concatenates before signing, plus family + encoding. Populated by Tasks 66a (HMAC-simple) / 66b (HMAC-with-body)."
+        },
+        "signature_placement": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/SignRecipeSignaturePlacement" }],
+          "description": "Where the final signature is attached to the request. Populated by Task 65."
+        },
+        "auth_headers": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "array", "items": { "$ref": "#/$defs/SignRecipeAuthHeader" } }
+          ],
+          "description": "Ordered list of auth-related headers (excluding the signature header itself — see signature_placement). Populated by Task 67."
+        },
+        "nonce": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/SignRecipeNonce" }],
+          "description": "Timestamp / nonce source and wire format. Populated by Task 67."
+        },
+        "pre_sign_transforms": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "array", "items": { "$ref": "#/$defs/SignRecipePreSignTransform" } }
+          ],
+          "description": "Ordered transforms applied to the canonical string, body, or resulting signature before going on the wire. Populated by Task 68."
+        },
+        "unresolved_reason": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string", "enum": ["not_yet_derived", "custom_signing_family", "ambiguous_ast", "no_sign_method"] }
+          ],
+          "description": "Closed-vocabulary reason when derivation fields are null. \"not_yet_derived\" is the scaffold default. Must be null only when every derivation field above is non-null (enforced by Task 69)."
+        },
+        "patch_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Three-Strikes counter (see CLAUDE.md). At 3, migrate the recipe to priv/overrides/<id>.json rather than continuing to stretch derivation."
+        }
+      }
+    },
+
+    "SignRecipeCryptoOp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algo"],
+      "properties": {
+        "algo": {
+          "type": "string",
+          "enum": ["hmac_sha256", "hmac_sha512", "hmac_sha384", "ed25519", "rsa", "custom"]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional rationale; required only when algo = \"custom\"."
+        }
+      }
+    },
+
+    "SignRecipeCanonicalString": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "components", "encoding"],
+      "properties": {
+        "family": {
+          "type": "string",
+          "enum": ["hmac_simple", "hmac_with_body", "jwt", "custom"]
+        },
+        "components": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SignRecipeCanonicalComponent" }
+        },
+        "encoding": {
+          "type": "string",
+          "enum": ["url_encoded", "json", "raw"]
+        }
+      }
+    },
+
+    "SignRecipeCanonicalComponent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["timestamp", "api_key", "recv_window", "method", "path", "query", "body", "literal"]
+        },
+        "value": {
+          "type": "string",
+          "description": "Required iff source = \"literal\"; absent otherwise."
+        }
+      }
+    },
+
+    "SignRecipeSignaturePlacement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["location", "key"],
+      "properties": {
+        "location": {
+          "type": "string",
+          "enum": ["header", "query", "body"]
+        },
+        "key": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+
+    "SignRecipeAuthHeader": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "source"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "source": {
+          "type": "string",
+          "enum": ["api_key", "passphrase", "timestamp", "signature", "recv_window", "literal"]
+        },
+        "value": {
+          "type": "string",
+          "description": "Required iff source = \"literal\"; absent otherwise."
+        }
+      }
+    },
+
+    "SignRecipeNonce": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "format"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["timestamp_ms", "timestamp_sec", "timestamp_us", "timestamp_ns", "monotonic", "exchange_supplied"]
+        },
+        "format": {
+          "type": "string",
+          "enum": ["integer", "iso8601", "hex", "string"]
+        }
+      }
+    },
+
+    "SignRecipePreSignTransform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "target"],
+      "properties": {
+        "op": {
+          "type": "string",
+          "enum": ["hex_encode", "base64_encode", "lowercase", "url_encode", "json_encode"]
+        },
+        "target": {
+          "type": "string",
+          "enum": ["signature", "body", "canonical_string"]
         }
       }
     },

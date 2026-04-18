@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sign_recipe_v1.json",
+  "title": "CCXT Extract Signing Recipe Record",
+  "description": "Declarative per-section signing recipe. One record per authenticated API section, keyed in `structure.sign_recipe` by section name (e.g. \"private\", \"sapi\", \"fapiPrivate\"). Consumers use this record to construct an authenticated HTTP request without walking the raw sign() AST. All derivation fields are nullable: null means the value has not yet been derived (see `unresolved_reason`) — per the Honesty Rule, extraction never silently guesses. Task 64 ships the schema with every field null; Tasks 65\u201369 populate the fields incrementally. An exchange-schema copy lives at `exchange_v2.json#/$defs/SignRecipeRecord`; the two must stay in lockstep (enforced by `test/ccxt_extract/sign_recipe_test.exs`).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["crypto_op", "canonical_string", "signature_placement", "auth_headers", "nonce", "pre_sign_transforms", "unresolved_reason", "patch_count"],
+  "properties": {
+    "crypto_op": {
+      "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/CryptoOp" }],
+      "description": "Hash / signature algorithm plus optional rationale. Populated by Task 65."
+    },
+    "canonical_string": {
+      "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/CanonicalString" }],
+      "description": "Ordered list of components the exchange concatenates before signing, plus the family classification and encoding. Populated by Tasks 66a (HMAC-simple) and 66b (HMAC-with-body). JWT / RSA / Ed25519 (66c) and custom (66d) are currently deferred."
+    },
+    "signature_placement": {
+      "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/SignaturePlacement" }],
+      "description": "Where the final signature is attached to the request. Populated by Task 65."
+    },
+    "auth_headers": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "array", "items": { "$ref": "#/$defs/AuthHeader" } }
+      ],
+      "description": "Ordered list of auth-related headers required on the request. Excludes the signature header itself (use `signature_placement` for that). Populated by Task 67."
+    },
+    "nonce": {
+      "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/Nonce" }],
+      "description": "Timestamp / nonce source and wire format. Populated by Task 67."
+    },
+    "pre_sign_transforms": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "array", "items": { "$ref": "#/$defs/PreSignTransform" } }
+      ],
+      "description": "Ordered list of transforms applied to the canonical string, body, or resulting signature before it goes on the wire. Populated by Task 68."
+    },
+    "unresolved_reason": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "enum": ["not_yet_derived", "custom_signing_family", "ambiguous_ast", "no_sign_method"] }
+      ],
+      "description": "Closed-vocabulary reason when one or more derivation fields are null. `\"not_yet_derived\"` is the scaffold default before any Phase 10 derivation has run. Must be null only when every derivation field above is non-null; Task 69 enforces this invariant."
+    },
+    "patch_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Three-Strikes counter (see CLAUDE.md). Each time a derivation rule is patched to handle a new edge case, the patch_count for affected recipes bumps by one. At 3, the knowledge migrates to `priv/overrides/<id>.json` rather than accreting more special cases in derivation."
+    }
+  },
+  "$defs": {
+    "CryptoOp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algo"],
+      "properties": {
+        "algo": {
+          "type": "string",
+          "enum": ["hmac_sha256", "hmac_sha512", "hmac_sha384", "ed25519", "rsa", "custom"]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional rationale; required only when `algo = \"custom\"`."
+        }
+      }
+    },
+
+    "CanonicalString": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "components", "encoding"],
+      "properties": {
+        "family": {
+          "type": "string",
+          "enum": ["hmac_simple", "hmac_with_body", "jwt", "custom"]
+        },
+        "components": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/CanonicalComponent" }
+        },
+        "encoding": {
+          "type": "string",
+          "enum": ["url_encoded", "json", "raw"]
+        }
+      }
+    },
+
+    "CanonicalComponent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["timestamp", "api_key", "recv_window", "method", "path", "query", "body", "literal"]
+        },
+        "value": {
+          "type": "string",
+          "description": "Required iff `source = \"literal\"`; absent otherwise."
+        }
+      }
+    },
+
+    "SignaturePlacement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["location", "key"],
+      "properties": {
+        "location": {
+          "type": "string",
+          "enum": ["header", "query", "body"]
+        },
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Header name, query-param name, or body-field name carrying the final signature (e.g. \"X-BAPI-SIGN\", \"signature\")."
+        }
+      }
+    },
+
+    "AuthHeader": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "source"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string",
+          "enum": ["api_key", "passphrase", "timestamp", "signature", "recv_window", "literal"]
+        },
+        "value": {
+          "type": "string",
+          "description": "Required iff `source = \"literal\"`; absent otherwise."
+        }
+      }
+    },
+
+    "Nonce": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "format"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["timestamp_ms", "timestamp_sec", "timestamp_us", "timestamp_ns", "monotonic", "exchange_supplied"]
+        },
+        "format": {
+          "type": "string",
+          "enum": ["integer", "iso8601", "hex", "string"]
+        }
+      }
+    },
+
+    "PreSignTransform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "target"],
+      "properties": {
+        "op": {
+          "type": "string",
+          "enum": ["hex_encode", "base64_encode", "lowercase", "url_encode", "json_encode"]
+        },
+        "target": {
+          "type": "string",
+          "enum": ["signature", "body", "canonical_string"]
+        }
+      }
+    }
+  }
+}

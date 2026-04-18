@@ -6,6 +6,100 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 64: Signing recipe schema scaffold (schema 2.2.0)
+
+**Branch:** `task-64/signing-recipe-scaffold`. Phase 10 opens by defining the
+per-section declarative signing recipe shape; value derivation follows in
+Tasks 65–69. Ships the schema, the scaffold builder, wiring into the
+pipeline, and two contract-test invariants — no AST derivation yet.
+
+**What was built:**
+
+- **New JSON Schema** `priv/schema/sign_recipe_v1.json` — standalone
+  definition of a recipe record. Closed-vocabulary enums for `crypto_op.algo`
+  (`hmac_sha256` / `hmac_sha512` / `hmac_sha384` / `ed25519` / `rsa` /
+  `custom`), `canonical_string.family` (`hmac_simple` / `hmac_with_body` /
+  `jwt` / `custom`), `canonical_string.components[].source`
+  (`timestamp` / `api_key` / `recv_window` / `method` / `path` / `query` /
+  `body` / `literal`), `canonical_string.encoding` (`url_encoded` / `json` /
+  `raw`), `signature_placement.location` (`header` / `query` / `body`),
+  `auth_headers[].source` (`api_key` / `passphrase` / `timestamp` /
+  `signature` / `recv_window` / `literal`), `nonce.source` (`timestamp_ms` /
+  `timestamp_sec` / `timestamp_us` / `timestamp_ns` / `monotonic` /
+  `exchange_supplied`), `nonce.format` (`integer` / `iso8601` / `hex` /
+  `string`), `pre_sign_transforms[].op` (`hex_encode` / `base64_encode` /
+  `lowercase` / `url_encode` / `json_encode`), and
+  `pre_sign_transforms[].target` (`signature` / `body` / `canonical_string`).
+  `unresolved_reason` vocabulary: `not_yet_derived` (scaffold default),
+  `custom_signing_family`, `ambiguous_ast`, `no_sign_method`, plus `null`.
+
+- **Inline copy** under `priv/schema/exchange_v2.json#/$defs/SignRecipeRecord`
+  (plus 7 subtype defs — `SignRecipeCryptoOp`, `SignRecipeCanonicalString`,
+  `SignRecipeCanonicalComponent`, `SignRecipeSignaturePlacement`,
+  `SignRecipeAuthHeader`, `SignRecipeNonce`, `SignRecipePreSignTransform`)
+  so pipeline JSV validation enforces the shape at build time. Parity
+  between the two schemas is guaranteed by a test in `sign_recipe_test.exs`.
+
+- **Module `CcxtExtract.SignRecipe`** — `build_default/1` builds the
+  section-keyed recipe map from a list of authenticated sections;
+  `null_recipe/0` returns a single null record. No AST parsing. Handles
+  `nil` (sign() absent) and `[]` (no auth gates) → empty map.
+
+- **Wiring:**
+  - `Schema.build_exchange/4` → `build_structure_section/1` now derives
+    `sign_recipe` from `authenticated_sections` via
+    `SignRecipe.build_default/1`.
+  - `Schema.@required_structure_keys` now includes `sign_recipe`.
+  - `Schema.@schema_version` bumped `"2.1.0"` → `"2.2.0"`.
+  - `exchange_v2.json` `schema_version.const` bumped to `"2.2.0"`.
+  - `StructureData.required` in the JSON Schema now requires
+    `sign_recipe`.
+  - `Provenance.@derived_pointers` gained `/structure/sign_recipe`.
+  - `Pipeline.sync_sign_recipe/1` runs after override merge: any override
+    that changes `authenticated_sections` (e.g. hyperliquid adding
+    `"private"`) propagates into recipe key coverage automatically while
+    preserving existing recipe values for sections that survive the sync.
+
+- **Contract-test invariants (both run per-exchange):**
+  - `sign_recipe_keys_match_auth_sections` — `Map.keys(sign_recipe)`
+    equals `authenticated_sections` as sets. Fails on missing or extra
+    recipe entries.
+  - `sign_recipe_shape_valid` — belt-and-suspenders over each record:
+    the eight required keys present, `patch_count` is a non-negative
+    integer, `unresolved_reason` is `null` or in the closed vocabulary.
+    Deeper shape/enum validation remains in
+    `Validation.validate_schema/2` against the JSON Schema.
+  - Both invariants report zero findings across the full committed
+    corpus.
+
+- **Test fixture refactor.** `Test.ExchangeFixtures.schema_conformant/2`
+  gained an `:authenticated_sections` option that builds the matching
+  `sign_recipe` via `SignRecipe.build_default/1`. Future invariants
+  touching both fields can't drift in test-land.
+
+- **Unit tests** — new `test/ccxt_extract/sign_recipe_test.exs` covers
+  `null_recipe/0` (8 required keys, nulls, initial `unresolved_reason`),
+  `build_default/1` (per-section, nil/empty, duplicates collapse, JSV
+  conformance), and the standalone-vs-inline schema parity check.
+
+**Why a minor bump.** Additive field, all values null. But `sign_recipe`
+is now in `StructureData.required`, so strict validators reject 2.1.0
+output lacking it. Permissive readers ignoring unknown keys are
+unaffected. Matches the precedent set by 2.1.0 (request_defaults).
+
+**Downstream impact.** `ccxt_client/lib/ccxt/signing/classifier.ex` (the
+~300-line regex-over-serialized-AST pattern classifier) becomes
+retireable once Tasks 65–69 populate the recipe fields; its 9 pattern
+labels plus header-name extraction map directly onto `crypto_op`,
+`canonical_string`, `signature_placement`, `auth_headers`. No action on
+the client side at 2.2.0 — the field is all-null; the classifier
+continues operating from raw `sign_method` AST unchanged.
+
+**Three-Strikes Rule:** every recipe carries a `patch_count` counter,
+starting at `0`. When a Phase 10 derivation rule gets patched three times
+for a given recipe, the knowledge migrates to
+`priv/overrides/<id>.json` rather than accreting further special cases.
+
 ### Cleanup sprint: Tasks 108 / 107 / 111 / 112
 
 **Branch:** `cleanup/schema-and-paths-hygiene`. Four items cleared from the

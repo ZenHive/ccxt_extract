@@ -77,6 +77,7 @@ defmodule CcxtExtract.Provenance do
     /exchange/tier
     /runtime/symbol_patterns
     /structure/authenticated_sections
+    /structure/sign_recipe
     /structure/handle_errors/error_code_fields
     /structure/handle_errors/throw_dispatches
     /structure/unified_endpoints

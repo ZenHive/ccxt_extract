@@ -6,6 +6,65 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Chore: stop tracking derived extraction corpus in git
+
+`priv/output/` (582MB, 115 files) and `priv/discoveries/*` (494MB, 233
+files) are now gitignored. These paths are derived state regenerated
+wholesale by `mix ccxt_extract.update` and were the source of ~1GB
+commits on every full-universe run. The `.git` directory had already
+grown to 827MB against only 124 commits, and the largest single JSON
+(`binance.json`, 54MB) was on a trajectory to cross GitHub's 100MB
+single-file hard limit.
+
+**What changed:**
+
+- `.gitignore` — contents-level patterns (`/priv/output/*`,
+  `/priv/discoveries/*`) with a negated exception for
+  `!/priv/discoveries/class_hierarchy.json`. Directory-level patterns
+  would block git from descending entirely, defeating the negation.
+- `git rm --cached` ran on all currently-tracked corpus files
+  (347 deletions); `class_hierarchy.json` re-added explicitly.
+- `mix.exs` — new `setup` alias `deps.get → ccxt_extract.update` so
+  fresh clones materialize the corpus with one command.
+  (`ccxt_extract.update` internally runs `ccxt_extract.setup` in
+  Stage 1; listing it explicitly would double-run the slow npm
+  install + bundle copy.)
+- `test/test_helper.exs` — corpus-presence gatekeeper halts the suite
+  with actionable setup instructions when sentinel files are missing,
+  rather than letting cached tests fail later with cryptic
+  `File.read!/1` errors (matches CLAUDE.md's "never hide test
+  failures" rule).
+- `README.md` — Setup section reordered so the required
+  `priv/ccxt` sparse-clone is documented as Step 1 (not an
+  afterthought); `mix setup` is Step 2. Flagged Task 115 as the
+  follow-up that will make setup self-heal.
+- `lib/ccxt_extract/tiers.ex:52-59` — compile-time `Mix.raise` on
+  missing `class_hierarchy.json` now points at `mix setup` for fresh
+  clones and `mix ccxt_extract.classes` for regeneration.
+- `README.md` — Setup section replaced with `mix setup`; Priority
+  Tiers section gained a paragraph on the now-inert safety rail.
+- `CLAUDE.md` — Architecture section documents the untracked derived
+  state; Safety rails section notes the rail's reduced scope
+  (only `class_hierarchy.json` is still protected).
+
+**Why `class_hierarchy.json` stays committed:**
+`lib/ccxt_extract/tiers.ex:39-53` reads it at module-attribute scope
+via `@external_resource` + `File.read!`, so `mix compile` fails before
+`mix setup` can run if it's absent. That file is 1.3MB vs. the 1GB
+being untracked — worth keeping.
+
+**Not in this change:** history purge. The 827MB `.git` retains all
+past blobs. A separate maintenance event (with an explicit carveout
+of CLAUDE.md's "never force-push" rule) will run `git filter-repo`
+with a keep-list preserving `class_hierarchy.json`, then force-push.
+Tracked as a future task, not bundled here.
+
+**Why not re-track later:** noted in ROADMAP — once extraction becomes
+deterministic (no timestamp noise, stable map ordering, no scoped-merge
+drift), the corpus becomes re-committable because diffs would finally
+mean something. Today's churn (every `update` touches every file) is
+the actual problem; size is the symptom.
+
 ### Task 65: `crypto_op` + `signature_placement` derivation
 
 Phase 10's first derivation task. The `structure.sign_recipe` scaffold

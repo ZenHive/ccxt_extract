@@ -7,34 +7,62 @@ Extract CCXT exchange knowledge into language-agnostic JSON using:
 
 ## Setup
 
-Install dependencies and prepare CCXT:
+Fresh clones need two steps — a one-time sparse checkout of CCXT's
+TypeScript source (OXC's input), then the Mix bootstrap that installs
+deps, verifies the toolchain, and regenerates the derived JSON corpus.
+
+**Step 1 — Sparse-clone CCXT TypeScript source** (required: `mix ccxt_extract.setup` hard-fails without it):
 
 ```bash
-mix deps.get
-mix ccxt_extract.setup
+git clone --depth 1 --sparse https://github.com/ccxt/ccxt.git priv/ccxt
+cd priv/ccxt && git sparse-checkout set ts/src && cd -
 ```
 
-`mix ccxt_extract.setup`:
+Optionally include `package.json` so setup can verify the TS source
+version against the npm bundle:
 
+```bash
+cd priv/ccxt && git sparse-checkout add package.json && cd -
+```
+
+> Follow-up planned: make `mix ccxt_extract.setup` self-heal by doing
+> this sparse clone itself when `priv/ccxt` is absent. Tracked in
+> ROADMAP (Task 115). Until then, Step 1 is manual.
+
+**Step 2 — Mix bootstrap:**
+
+```bash
+mix setup
+```
+
+`mix setup` is an alias for `deps.get` + `ccxt_extract.update`
+(`ccxt_extract.update` internally runs `ccxt_extract.setup` in Stage 1,
+so it's not listed separately). It:
+
+- resolves Elixir dependencies
 - installs CCXT from npm
 - copies the browser bundle to `priv/ccxt_bundle.js`
 - verifies QuickBEAM can load CCXT
 - verifies OXC can parse a CCXT exchange file
 - records version metadata in `priv/ccxt_version.json`
+- runs every extractor and the assembly pipeline to materialize
+  `priv/discoveries/*` and `priv/output/<id>.json`
 
-For TypeScript source extraction, provide a CCXT checkout at `priv/ccxt`:
+The derived corpus (`priv/output/` and `priv/discoveries/*`) is **not
+committed** to git — too large, too churny, regenerated per CCXT
+release. The one tracked exception is
+`priv/discoveries/class_hierarchy.json`, which
+`lib/ccxt_extract/tiers.ex` reads at compile time via `@external_resource`.
 
-```bash
-git clone --depth 1 --sparse https://github.com/ccxt/ccxt.git priv/ccxt
-cd priv/ccxt && git sparse-checkout set ts/src
-```
+**Just the toolchain, no corpus?** Skip `mix setup` and run
+`mix ccxt_extract.setup` directly — it performs the npm install,
+bundle copy, and version recording without the (slow) extraction pass.
 
-Optional: include `package.json` too if you want setup to verify the TypeScript
-source version against the npm bundle:
-
-```bash
-git sparse-checkout add package.json
-```
+**`mix test` refuses to start without the corpus.** `test/test_helper.exs`
+checks for sentinel files (`priv/discoveries/exchanges.json`,
+`priv/discoveries/class_hierarchy.json`, `priv/output/binance.json`) and
+halts with setup instructions if any are missing — rather than letting
+cached integration tests fail later with cryptic `File.read!/1` errors.
 
 ## Examples
 
@@ -63,6 +91,8 @@ mix ccxt_extract.update --tier1 --exchange hyperliquid   # mixed tier + individu
 Default (no scope flag) is all 110 exchanges. OXC *parsing* always walks all CCXT `.ts` files; scope applies at the output-merge boundary. `classes.ex` is a documented exception — scope flags only stamp `tier_scope` because `class_hierarchy.json` is load-bearing for family inheritance. Aggregate writes merge scoped runs with existing on-disk aggregates and recompute envelope totals from the final merged entries, so successive scoped runs accumulate without drift.
 
 `mix ccxt_extract.update` aborts if `priv/output/` or `priv/discoveries/` has uncommitted changes (protects against scoped runs overwriting in-flight work). Commit or stash first, or pass `--force` to bypass the rail. The rail is automatically skipped when `--output DIR` is set — external target dirs are not expected to be git repos, and writes go to `<DIR>/output/` + `<DIR>/discoveries/` under a per-run `:priv_dir_override` so the repo's own `priv/` is untouched.
+
+Since those paths are now gitignored (only `priv/discoveries/class_hierarchy.json` remains tracked), the rail is effectively inert for day-to-day regeneration — `git status` doesn't see the files, so no "uncommitted changes" abort fires. It still protects `class_hierarchy.json` itself, which is the one file whose drift between runs is worth a human review.
 
 ## Signing Fixtures
 

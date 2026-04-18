@@ -63,6 +63,10 @@ defmodule CcxtExtract.MixProject do
 
   defp aliases do
     [
+      # `ccxt_extract.update` internally runs `ccxt_extract.setup` in Stage 1
+      # (lib/mix/tasks/ccxt_extract.update.ex:131), so listing setup explicitly
+      # here would double-run it. `deps.get` is the only additional step.
+      setup: ["deps.get", "ccxt_extract.update"],
       "ccxt_extract.regenerate_fixtures": ["ccxt_extract.signing_fixtures"],
       tidewave: [
         "run --no-halt -e 'Agent.start(fn -> Bandit.start_link(plug: Tidewave, port: 4002) end)'"

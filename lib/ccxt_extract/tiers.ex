@@ -50,7 +50,13 @@ defmodule CcxtExtract.Tiers do
   # Build a REST-only parent map so variants resolve to their family root.
   # WS entries would introduce self-loops (ws:<id> "extends" rest:<id>).
   if !File.exists?(@class_hierarchy_path) do
-    Mix.raise("#{@class_hierarchy_path} not found. Run `mix ccxt_extract.classes` (or `mix ccxt_extract.setup`) first.")
+    Mix.raise("""
+    #{@class_hierarchy_path} not found. This file is compile-time load-bearing
+    and is the one priv/discoveries/ entry that remains tracked in git.
+
+    Fresh clone? Run `mix setup`.
+    Regenerating after deletion? Run `mix ccxt_extract.classes`.
+    """)
   end
 
   parent_map =

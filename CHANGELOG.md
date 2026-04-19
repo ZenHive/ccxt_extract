@@ -6,6 +6,65 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 66a: HMAC-simple canonical_string derivation (schema 2.3.0)
+
+🎁 **10-HMAC** · First derivation pass over `structure.sign_recipe.<section>.canonical_string`.
+Exploration surfaced that every priority HMAC exchange with a verb-branched
+`sign()` (OKX/Bitget/KuCoin/Coinbase-v2/Phemex/Bybit-v5) builds DIFFERENT
+canonical strings per HTTP verb — GET signs a query-only string
+(hmac_simple), POST signs a body-concatenated string (hmac_with_body).
+Task 64's single-slot shape couldn't represent this cleanly.
+
+**Schema change (2.2.0 → 2.3.0, additive):** `canonical_string` is now a
+per-verb map keyed on `GET`/`POST`/`PUT`/`DELETE`/`PATCH` or the sentinel
+`*` (uniform across all verbs). A single section can carry multiple
+families under different verb keys. Task 66a populates hmac_simple
+entries; Task 66b will populate hmac_with_body entries in parallel.
+Practically additive because Task 64 emitted all-null canonical_string
+records at 2.2.0 — no consumer depended on the old populated shape.
+
+**Implementation:** new `CcxtExtract.SignRecipe.CanonicalString` module
+walks the sign() body and:
+
+- locates the primary `this.hmac(arg1, ...)` call whose result binds to
+  the canonical `signature` identifier;
+- peels `this.encode(...)` off `arg1` and traces the substrate variable
+  (typically `auth`/`payload`/`what`) through its declaration and
+  compound `+=` chain;
+- detects `IfStatement` branches on `method === 'X'` to emit per-verb
+  component lists;
+- classifies each `+`-chain piece into the schema vocabulary
+  (timestamp/method/path/query/body/literal/api_key/recv_window);
+- substitutes local-const identifiers (e.g. OKX's `const urlencodedQuery
+  = '?' + this.urlencode(query)`) but NOT reassigned ones — those are
+  dynamic per code path and their stable-source tag would be a lie;
+- drops any branch that references `body` (hmac_with_body → Task 66b).
+
+**Coverage on first run:** 4 sections across the full 110-exchange
+universe emit populated recipes:
+
+- `okx.private.GET` → `[timestamp, method, path, literal("?"), query]`
+- `delta.private.GET` → `[method, timestamp, path, query]`
+- `bit2c.private.*` → `[query]` (single urlencoded blob)
+- `latoken.private.*` → `[method, path, query]`
+
+Every other exchange correctly emits `null` with a truthful reason:
+
+- Binance / Bybit (12 + 1 sections): `unresolved_reason: "ambiguous_ast"`
+  at the recipe level (Task 65 short-circuit honored).
+- Hyperliquid: `unresolved_reason: "custom_signing_family"`.
+- Kraken / Gate: unrepresentable patterns (binaryConcat + SHA hash of
+  body, newline-joined `[method, path, query, SHA512(body), ts]`) —
+  tracked as Task 66e (expanded source vocabulary).
+- Deribit / HTX: need `source: "nonce"` / `source: "hostname"` — also
+  66e.
+- KuCoin / Coinbaseexchange: reassigned-identifier-in-chain pattern
+  (`let payload = ''`; reassigned for non-GET) — tracked as part of
+  66a's future iteration or 66b's broader scope.
+
+Contract-test invariants `sign_recipe_keys_match_auth_sections` and
+`sign_recipe_shape_valid` stay clean at 0 findings.
+
 ### Task 102: Close stale cross-repo obligation
 
 Marked ✅ in Maintenance Backlog. The read-path drift Task 102 tracked

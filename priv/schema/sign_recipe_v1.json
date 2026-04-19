@@ -12,8 +12,18 @@
       "description": "Hash / signature algorithm plus optional rationale. Populated by Task 65."
     },
     "canonical_string": {
-      "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/CanonicalString" }],
-      "description": "Ordered list of components the exchange concatenates before signing, plus the family classification and encoding. Populated by Tasks 66a (HMAC-simple) and 66b (HMAC-with-body). JWT / RSA / Ed25519 (66c) and custom (66d) are currently deferred."
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": false,
+          "patternProperties": {
+            "^(GET|POST|PUT|DELETE|PATCH|\\*)$": { "$ref": "#/$defs/CanonicalString" }
+          },
+          "description": "Per-verb map. Keys are HTTP verb names (GET|POST|PUT|DELETE|PATCH) when the sign() method branches on `method === 'X'`, or the sentinel `*` when every verb in the section shares the same canonical string. Populated by Tasks 66a (HMAC-simple entries) and 66b (HMAC-with-body entries) in parallel — a single section may carry both families under different verb keys (e.g. OKX.private.GET = hmac_simple, OKX.private.POST = hmac_with_body). JWT / RSA / Ed25519 (66c) and custom (66d) are currently deferred."
+        }
+      ]
     },
     "signature_placement": {
       "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/SignaturePlacement" }],

@@ -64,6 +64,7 @@ defmodule CcxtExtract.SignRecipe.Derive do
   """
 
   alias CcxtExtract.SignRecipe
+  alias CcxtExtract.SignRecipe.CanonicalString
 
   @type derive_note :: nil | String.t()
 
@@ -94,11 +95,13 @@ defmodule CcxtExtract.SignRecipe.Derive do
     signature_placement = detect_placement(body_stmts, {sig_names, crypto_fps})
 
     unresolved = compute_unresolved_reason(crypto_op, crypto_note)
+    canonical_string = CanonicalString.derive(body_stmts, crypto_calls, sig_names, unresolved)
 
     record =
       SignRecipe.null_recipe()
       |> Map.put("crypto_op", crypto_op)
       |> Map.put("signature_placement", signature_placement)
+      |> Map.put("canonical_string", canonical_string)
       |> Map.put("unresolved_reason", unresolved)
 
     Map.new(auth_sections, fn section -> {section, record} end)

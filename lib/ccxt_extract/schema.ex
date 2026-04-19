@@ -47,7 +47,7 @@ defmodule CcxtExtract.Schema do
 
   alias CcxtExtract.SignRecipe
 
-  @schema_version "2.2.0"
+  @schema_version "2.3.0"
   @schema_filename "exchange_v2.json"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)

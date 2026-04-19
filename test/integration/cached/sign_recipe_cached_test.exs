@@ -93,6 +93,77 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
     end
   end
 
+  describe "canonical_string per-verb map (Task 66a)" do
+    test "okx.private emits hmac_simple GET entry" do
+      record = recipe("okx", "private")
+      cs = record["canonical_string"]
+
+      assert is_map(cs), "okx.private.canonical_string should be a per-verb map, got: #{inspect(cs)}"
+
+      assert %{"GET" => %{"family" => "hmac_simple", "components" => components, "encoding" => "url_encoded"}} = cs
+
+      # Shape check: [timestamp, method, path, literal("?"), query]
+      sources = Enum.map(components, & &1["source"])
+      assert sources == ["timestamp", "method", "path", "literal", "query"]
+
+      # Literal value between path and query is "?"
+      literal = Enum.find(components, &(&1["source"] == "literal"))
+      assert literal["value"] == "?"
+
+      # POST branch is hmac_with_body (includes `body`) so Task 66a correctly
+      # drops it; Task 66b will populate it.
+      refute Map.has_key?(cs, "POST")
+    end
+
+    test "Binance sections remain null under ambiguous_ast" do
+      # 12 binance sections all short-circuit to nil at the recipe level
+      # (RSA/EdDSA/HMAC conditional on key format). Task 66a explicitly
+      # respects this tag — see CanonicalString.@terminal_reasons.
+      for section <-
+            ~w(private sapi sapiV2 sapiV3 sapiV4 papi papiV2 fapiPrivate fapiPrivateV2 fapiPrivateV3 dapiPrivate dapiPrivateV2 eapiPrivate) do
+        record = recipe("binance", section)
+
+        assert record["canonical_string"] == nil,
+               "binance.#{section} expected null canonical_string (ambiguous_ast), got: #{inspect(record["canonical_string"])}"
+      end
+    end
+
+    test "Bybit and Hyperliquid also null" do
+      # Bybit: ambiguous_ast (RSA/HMAC by key format)
+      # Hyperliquid: custom_signing_family (signing lives outside sign())
+      assert recipe("bybit", "private")["canonical_string"] == nil
+      assert recipe("hyperliquid", "private")["canonical_string"] == nil
+    end
+
+    test "Kraken/Gate remain null — pre-hash body pattern is Task 66e scope" do
+      # Kraken: binaryConcat(encode(url), hash(encode(nonce + body)))
+      # Gate: payloadArray.join("\n") with SHA512(body) slot
+      # Neither decomposes cleanly under the current component vocabulary.
+      assert recipe("kraken", "private")["canonical_string"] == nil
+      assert recipe("gate", "private")["canonical_string"] == nil
+    end
+
+    test "KuCoin/Coinbaseexchange remain null — reassigned identifier in chain" do
+      # Both use `let payload = ''; if (method === 'POST') { payload = this.json(...) }`
+      # style. The reassignment-filter rejects these because the initial value
+      # doesn't represent the value at hmac-time. Revisit when Task 66a gets
+      # per-verb-reassignment-in-chain analysis.
+      assert recipe("coinbaseexchange", "private")["canonical_string"] == nil
+
+      for section <- ~w(private broker earn futuresPrivate) do
+        assert recipe("kucoin", section)["canonical_string"] == nil,
+               "kucoin.#{section} expected null"
+      end
+    end
+
+    test "Deribit remains null — requires source: \"nonce\" (Task 66e)" do
+      # Deribit canonical: timestamp + "\n" + nonce + "\n" + method + "\n" + path + "\n\n"
+      # The nonce component doesn't have a clean source tag; tagging as
+      # timestamp would produce a consumer-ambiguous recipe (two timestamps).
+      assert recipe("deribit", "private")["canonical_string"] == nil
+    end
+  end
+
   describe "shape invariants across all exchanges" do
     test "every recipe record has the required eight keys" do
       required =

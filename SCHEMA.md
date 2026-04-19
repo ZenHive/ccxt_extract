@@ -288,6 +288,7 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.3.0 | 2026-04-19 | Reshape `sign_recipe.<section>.canonical_string` from a **single record** to a **per-verb map** keyed on HTTP verb (`GET`/`POST`/`PUT`/`DELETE`/`PATCH`) or the sentinel `*` (uniform across all verbs). A single section can now carry multiple families (e.g. OKX.private: `GET` = hmac_simple for query-signed GETs; a future `POST` entry will be hmac_with_body for body-signed POSTs). Task 66a populates hmac_simple entries; Task 66b will populate hmac_with_body entries in parallel. Practically additive — no consumer previously parsed a populated `canonical_string` (every record landed null at 2.2.0). **Minor bump** because the populated shape is new. First-run coverage: OKX.private.GET populated; all other priority exchanges remain null with truthful `unresolved_reason` tags pending Tasks 66b/66e/66f. |
 | 2.2.0 | 2026-04-18 | Add `structure.sign_recipe` as per-section declarative signing recipe — scaffold only. Keys mirror `authenticated_sections`; values are `SignRecipeRecord` with every derivation field (`crypto_op`, `canonical_string`, `signature_placement`, `auth_headers`, `nonce`, `pre_sign_transforms`) `null` and `unresolved_reason: "not_yet_derived"`. Populated incrementally by Phase 10 tasks 65–69. Standalone JSON Schema at `priv/schema/sign_recipe_v1.json` kept in lockstep with `exchange_v2.json#/$defs/SignRecipeRecord`. Two new contract-test invariants: `sign_recipe_keys_match_auth_sections` and `sign_recipe_shape_valid`. Provenance: `/structure/sign_recipe` tagged `"derived"`. **Minor bump** because the key is now in `StructureData.required` — strict validators reject 2.1.0 output lacking it; permissive readers are unaffected. See [Signing Recipe (2.2.0+)](#signing-recipe-220). |
 | 2.1.0 | 2026-04-18 | Add nullable `structure.request_defaults` and promote it into `StructureData.required` — per-method default request body as `method → {key → RequestDefaultsEntry}` where each entry is `{value, kind, reason}` with `kind ∈ "literal" | "unresolved"`. Unresolved `reason` enum: `conditional_value`, `identifier_reference`, `dynamic_construction`, `computed_key`, `spread_elaboration`. Populated by `CcxtExtract.RequestDefaults`; consumers use this to POST correct type-discriminated bodies (e.g., hyperliquid's `{"type": "exchangeStatus"}` for fetchTime) without walking AST. `_provenance["/structure/request_defaults"] = "derived"`. **Minor bump** because the key is now in `StructureData.required` — strict validators will reject 2.0.0 output lacking it; permissive readers that ignore unknown keys are unaffected. |
 | 2.0.0 | 2026-04-17 | **Breaking.** Promote `_provenance` to required, non-null top-level key. Rename schema file `exchange_v1.json` → `exchange_v2.json`. `priv/schema/exchange_v1.json` retained one release for diff reference, deleted 2026-04-18 (Task 107). Consumer major-version pin bumps `1` → `2`. No field semantics changed; readers that already consumed `_provenance` at 1.8.1 work unchanged. See [Version 2.0.0 — Current](#version-200--current) for migration notes. |
@@ -382,12 +383,28 @@ Task 60 ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON 
   "structure": {
     "sign_recipe": {
       "private": {
-        "crypto_op": null,            // Task 65
-        "canonical_string": null,     // Tasks 66a / 66b
-        "signature_placement": null,  // Task 65
-        "auth_headers": null,         // Task 67
-        "nonce": null,                // Task 67
-        "pre_sign_transforms": null,  // Task 68
+        "crypto_op": {"algo": "hmac_sha256"},      // Task 65
+        "canonical_string": {                       // Tasks 66a (populated entries) / 66b (pending)
+          "GET": {
+            "family": "hmac_simple",
+            "components": [
+              {"source": "timestamp"},
+              {"source": "method"},
+              {"source": "path"},
+              {"source": "literal", "value": "?"},
+              {"source": "query"}
+            ],
+            "encoding": "url_encoded"
+          }
+          // "POST" entry is hmac_with_body — 66b will populate
+        },
+        "signature_placement": {                    // Task 65
+          "location": "header",
+          "key": "OK-ACCESS-SIGN"
+        },
+        "auth_headers": null,                       // Task 67
+        "nonce": null,                              // Task 67
+        "pre_sign_transforms": null,                // Task 68
         "unresolved_reason": "not_yet_derived",
         "patch_count": 0
       },
@@ -437,8 +454,8 @@ Phase 10 bundles populate fields in this order (see ROADMAP.md § Phase 10):
 | Task | What it fills | Status |
 |------|---------------|--------|
 | 65 | `crypto_op`, `signature_placement` | ✅ Shipped 2026-04-18 |
-| 66a | `canonical_string` (HMAC-simple family — binance-style) | ⬜ |
-| 66b | `canonical_string` (HMAC-with-body family — bybit-style) | ⬜ |
+| 66a | `canonical_string` (HMAC-simple entries; per-verb map) | ✅ Shipped 2026-04-19 |
+| 66b | `canonical_string` (HMAC-with-body entries; per-verb map) | ⬜ |
 | 67 | `auth_headers`, `nonce` | ⬜ |
 | 68 | `pre_sign_transforms` | ⬜ |
 | 69 | Round-trip validation; flip `unresolved_reason` to `null` once all fields non-null | ⬜ |

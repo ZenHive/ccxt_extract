@@ -8,7 +8,7 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "2.2.0",
+      "const": "2.3.0",
       "description": "Schema version. Consumers should check this before parsing."
     },
     "extracted_at": {
@@ -444,8 +444,18 @@
           "description": "Hash / signature algorithm. Populated by Task 65."
         },
         "canonical_string": {
-          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/SignRecipeCanonicalString" }],
-          "description": "Ordered components the exchange concatenates before signing, plus family + encoding. Populated by Tasks 66a (HMAC-simple) / 66b (HMAC-with-body)."
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": false,
+              "patternProperties": {
+                "^(GET|POST|PUT|DELETE|PATCH|\\*)$": { "$ref": "#/$defs/SignRecipeCanonicalString" }
+              }
+            }
+          ],
+          "description": "Per-verb map of canonical-string records. Keys are HTTP verb names (GET|POST|PUT|DELETE|PATCH) when sign() branches on method, or the sentinel `*` when every verb shares the same canonical string. A single section may mix families (e.g. GET = hmac_simple, POST = hmac_with_body). Populated by Tasks 66a (HMAC-simple entries) / 66b (HMAC-with-body entries)."
         },
         "signature_placement": {
           "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/SignRecipeSignaturePlacement" }],

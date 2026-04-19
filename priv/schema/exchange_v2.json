@@ -8,7 +8,7 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "2.3.0",
+      "const": "2.4.0",
       "description": "Schema version. Consumers should check this before parsing."
     },
     "extracted_at": {
@@ -111,7 +111,7 @@
     "RuntimeData": {
       "type": "object",
       "description": "Runtime values extracted via QuickBEAM JavaScript execution. Layer 1: what an exchange IS (configuration, capabilities, markets).",
-      "required": ["describe", "markets", "symbol_patterns", "url_templates"],
+      "required": ["describe", "markets", "symbol_patterns", "url_templates", "testnet_urls"],
       "additionalProperties": false,
       "properties": {
         "describe": {
@@ -141,6 +141,45 @@
             { "$ref": "#/$defs/UrlTemplates" }
           ],
           "description": "URL templates per API section, showing base URL, sample path, and fully resolved URL from sign(). Consumers derive path prefixes injected by sign() (e.g., OKX's /api/v5/, Gate's /spot/). Null for alias exchanges or when sign() fails for all sections."
+        },
+        "testnet_urls": {
+          "$ref": "#/$defs/TestnetUrls",
+          "description": "Derived testnet / sandbox URL catalog with {hostname} placeholders pre-resolved. See $defs/TestnetUrls for pattern classification."
+        }
+      }
+    },
+
+    "TestnetUrls": {
+      "type": "object",
+      "description": "Testnet / sandbox URL catalog derived from describe.urls.test + describe.options.sandboxMode. Promotes the raw testnet signals out of the opaque runtime.describe blob so consumers read one canonical shape. Introduced at schema 2.4.0 (Task 100).",
+      "required": ["pattern", "urls", "sandbox_flag_field", "unresolved_reason"],
+      "additionalProperties": false,
+      "properties": {
+        "pattern": {
+          "type": "string",
+          "enum": ["separate_host", "sandbox_flag", "none"],
+          "description": "Classification: 'separate_host' when describe.urls.test is non-empty; 'sandbox_flag' when only describe.options.sandboxMode is present; 'none' when neither is present."
+        },
+        "urls": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "object", "additionalProperties": true }
+          ],
+          "description": "Testnet URL map from describe.urls.test with {hostname} substitutions resolved. Shape preserved from CCXT (flat section map OR nested host → section map). Non-null only when pattern == 'separate_host'."
+        },
+        "sandbox_flag_field": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ],
+          "description": "Name of the describe.options flag used to switch to sandbox mode (currently always 'sandboxMode' when present). Populated independently of pattern — may coexist with 'separate_host' (okx uses both a same-host URL AND a flag)."
+        },
+        "unresolved_reason": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string", "enum": ["no_testnet_data"] }
+          ],
+          "description": "Non-null only when pattern == 'none'. Explains why no testnet data was derived."
         }
       }
     },

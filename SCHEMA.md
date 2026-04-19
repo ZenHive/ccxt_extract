@@ -48,9 +48,25 @@ end
 
 ---
 
-## Version 2.0.0 — Current
+## Version 2.4.0 — Current
 
-**Status:** Active (released 2026-04-17, Task 61c)
+**Status:** Active (released 2026-04-19, Task 100)
+
+**JSON Schema:** `exchange_v2.json` (included in every output directory)
+
+**Latest change:** Adds `runtime.testnet_urls` — a required, structured
+testnet / sandbox URL catalog derived from `describe.urls.test` and
+`describe.options.sandboxMode`. See **Testnet URL Catalog** below.
+
+The previous `## Version 2.0.0` baseline documentation follows; subsequent
+minor bumps (2.1.0 request_defaults, 2.2.0 sign_recipe scaffold, 2.3.0
+per-verb canonical_string, 2.4.0 testnet_urls) are additive — consumers
+pinned to major version `2` continue to read without change aside from
+the new required-field shapes.
+
+## Version 2.0.0 — Baseline
+
+**Status:** Superseded by 2.4.0 (but consumer major-version contract is still `2`)
 
 **JSON Schema:** `exchange_v2.json` (included in every output directory)
 
@@ -159,6 +175,7 @@ derived and therefore carry per-subkey tags.
     "/runtime/describe": "raw",
     "/runtime/markets": "raw",
     "/runtime/symbol_patterns": "derived",
+    "/runtime/testnet_urls": "derived",
     "/runtime/url_templates": "raw",
     "/structure/class_info": "raw",
     "/structure/methods": "raw",
@@ -288,6 +305,7 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.4.0 | 2026-04-19 | Add nullable-by-pattern `runtime.testnet_urls` and promote it into `RuntimeData.required` — structured testnet / sandbox URL catalog with `pattern` enum (`separate_host` / `sandbox_flag` / `none`), `{hostname}` pre-resolution, and independent `sandbox_flag_field` that tracks `options.sandboxMode` presence. Replaces consumer-side reach-into `runtime.describe.urls.test` (opaque passthrough). New `testnet_urls_shape_valid` contract invariant. `_provenance["/runtime/testnet_urls"] = "derived"`. **Minor bump** because the key is now in `RuntimeData.required` — strict validators reject 2.3.0 output lacking it; permissive readers are unaffected. See [Testnet URL Catalog (2.4.0+)](#testnet-url-catalog-240). |
 | 2.3.0 | 2026-04-19 | Reshape `sign_recipe.<section>.canonical_string` from a **single record** to a **per-verb map** keyed on HTTP verb (`GET`/`POST`/`PUT`/`DELETE`/`PATCH`) or the sentinel `*` (uniform across all verbs). A single section can now carry multiple families (e.g. OKX.private: `GET` = hmac_simple for query-signed GETs; a future `POST` entry will be hmac_with_body for body-signed POSTs). Task 66a populates hmac_simple entries; Task 66b will populate hmac_with_body entries in parallel. Practically additive — no consumer previously parsed a populated `canonical_string` (every record landed null at 2.2.0). **Minor bump** because the populated shape is new. First-run coverage: OKX.private.GET populated; all other priority exchanges remain null with truthful `unresolved_reason` tags pending Tasks 66b/66e/66f. |
 | 2.2.0 | 2026-04-18 | Add `structure.sign_recipe` as per-section declarative signing recipe — scaffold only. Keys mirror `authenticated_sections`; values are `SignRecipeRecord` with every derivation field (`crypto_op`, `canonical_string`, `signature_placement`, `auth_headers`, `nonce`, `pre_sign_transforms`) `null` and `unresolved_reason: "not_yet_derived"`. Populated incrementally by Phase 10 tasks 65–69. Standalone JSON Schema at `priv/schema/sign_recipe_v1.json` kept in lockstep with `exchange_v2.json#/$defs/SignRecipeRecord`. Two new contract-test invariants: `sign_recipe_keys_match_auth_sections` and `sign_recipe_shape_valid`. Provenance: `/structure/sign_recipe` tagged `"derived"`. **Minor bump** because the key is now in `StructureData.required` — strict validators reject 2.1.0 output lacking it; permissive readers are unaffected. See [Signing Recipe (2.2.0+)](#signing-recipe-220). |
 | 2.1.0 | 2026-04-18 | Add nullable `structure.request_defaults` and promote it into `StructureData.required` — per-method default request body as `method → {key → RequestDefaultsEntry}` where each entry is `{value, kind, reason}` with `kind ∈ "literal" | "unresolved"`. Unresolved `reason` enum: `conditional_value`, `identifier_reference`, `dynamic_construction`, `computed_key`, `spread_elaboration`. Populated by `CcxtExtract.RequestDefaults`; consumers use this to POST correct type-discriminated bodies (e.g., hyperliquid's `{"type": "exchangeStatus"}` for fetchTime) without walking AST. `_provenance["/structure/request_defaults"] = "derived"`. **Minor bump** because the key is now in `StructureData.required` — strict validators will reject 2.0.0 output lacking it; permissive readers that ignore unknown keys are unaffected. |
@@ -461,3 +479,81 @@ Phase 10 bundles populate fields in this order (see ROADMAP.md § Phase 10):
 | 69 | Round-trip validation; flip `unresolved_reason` to `null` once all fields non-null | ⬜ |
 
 JWT / RSA / Ed25519 and outlier signing families (Tasks 66c / 66d) are deferred — no Tier 1/2/DEX exchange in `priv/priority_tiers.json` needs them as of 2026-04-18.
+
+---
+
+## Testnet URL Catalog (2.4.0+)
+
+`runtime.testnet_urls` is a structured, required, derived field that
+replaces reaching into the opaque `runtime.describe.urls.test` /
+`runtime.describe.options.sandboxMode` blobs. Shipped at schema 2.4.0
+(Task 100, 2026-04-19).
+
+### Shape
+
+```json
+"testnet_urls": {
+  "pattern": "separate_host" | "sandbox_flag" | "none",
+  "urls": { "public": "...", "private": "..." } | null,
+  "sandbox_flag_field": "sandboxMode" | null,
+  "unresolved_reason": null | "no_testnet_data"
+}
+```
+
+See `$defs/TestnetUrls` in `priv/schema/exchange_v2.json` for the
+canonical definition.
+
+### Pattern classification
+
+| `pattern` | When | `urls` | `sandbox_flag_field` | `unresolved_reason` |
+|---|---|---|---|---|
+| `"separate_host"` | `describe.urls.test` is a non-empty map | Non-null; CCXT's shape preserved (flat section map or nested host → section map), with `{hostname}` placeholders resolved against `describe.hostname` | May be null OR `"sandboxMode"` — not mutually exclusive | `null` |
+| `"sandbox_flag"` | `urls.test` absent/empty but `options.sandboxMode` key exists | `null` | `"sandboxMode"` | `null` |
+| `"none"` | Neither signal present | `null` | `null` | `"no_testnet_data"` |
+
+### Why `sandbox_flag_field` is independent of `pattern`
+
+Several priority exchanges (okx, gate, hyperliquid) carry BOTH a
+testnet URL entry AND a `sandboxMode` flag. The separate host might
+be the same host with a different path, or a true separate testnet
+host that ALSO needs the flag set — the truth is "both." A pure enum
+on `pattern` alone would force a lossy choice. Tracking flag presence
+independently lets a consumer write one deterministic adapter:
+
+```text
+testnet_urls.urls   → base URL to hit for sandbox traffic
+testnet_urls.sandbox_flag_field → name of the runtime flag to set (e.g. pass through to setSandboxMode)
+```
+
+### `{hostname}` resolution
+
+When `describe.urls.test` string leaves contain `{hostname}` templates,
+they are substituted with `describe.hostname` at extract time so
+consumers never see placeholders. If `hostname` is absent the literal
+`{hostname}` survives and the `testnet_urls_shape_valid` contract
+invariant flags it as a finding. No silent fallback: either the URL is
+fully resolved or the extraction surfaces the gap.
+
+### Contract invariants
+
+- `testnet_urls_shape_valid` — per-exchange. Fails on: key-set drift,
+  `pattern` not in the closed enum, cross-field inconsistency (e.g.
+  `pattern: "none"` with `urls` non-nil), or any residual `{hostname}`
+  placeholder in a resolved URL string.
+
+### Provenance
+
+`/runtime/testnet_urls` is tagged `"derived"` in
+`CcxtExtract.Provenance.@derived_pointers`. The underlying raw inputs
+(`describe.urls`, `describe.options`) remain tagged `"raw"` as part of
+`/runtime/describe`.
+
+### Proxy patterns — deferred
+
+The roadmap entry mentioned "proxy patterns" alongside testnet URLs.
+Grep confirms no priority exchange (`priv/priority_tiers.json` tier1 +
+tier2 + DEX) ships a `proxyUrl` in `describe()`. The consumer contract
+(`ccxt_client` `Exchange.new/2`) also does not model proxies today, so
+there is no consumer action to unblock. If a future priority exchange
+surfaces `proxyUrl`, `runtime.proxy_patterns` becomes a follow-up
+derivation — not an expansion of `testnet_urls`.

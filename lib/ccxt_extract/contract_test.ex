@@ -31,6 +31,7 @@ defmodule CcxtExtract.ContractTest do
 
   alias CcxtExtract.JsonIO
   alias CcxtExtract.SignRecipe
+  alias CcxtExtract.TestnetUrls
 
   @type finding :: %{
           exchange: String.t(),
@@ -52,7 +53,8 @@ defmodule CcxtExtract.ContractTest do
     {"provenance_covers_schema", :check_provenance_covers_schema},
     {"request_defaults_resolvable_reachable_from_unified", :check_request_defaults_resolvable_reachable_from_unified},
     {"sign_recipe_keys_match_auth_sections", :check_sign_recipe_keys_match_auth_sections},
-    {"sign_recipe_shape_valid", :check_sign_recipe_shape_valid}
+    {"sign_recipe_shape_valid", :check_sign_recipe_shape_valid},
+    {"testnet_urls_shape_valid", :check_testnet_urls_shape_valid}
   ]
 
   # Corpus-level invariants run once per run_all/1 (not per-exchange). Used
@@ -392,6 +394,158 @@ defmodule CcxtExtract.ContractTest do
         "unresolved_reason must be null or one of #{inspect(SignRecipe.unresolved_reasons())}, got #{inspect(v)}"
       )
     end
+  end
+
+  @doc """
+  Validate `runtime.testnet_urls` structural invariants that JSON Schema
+  can't easily express:
+
+    * `pattern` is one of `TestnetUrls.patterns/0`
+    * key set matches `TestnetUrls.required_keys/0` exactly (no extras, no missing)
+    * pattern/field population is consistent:
+      - `pattern: "separate_host"` → `urls` is a non-empty map, `unresolved_reason` is nil
+      - `pattern: "sandbox_flag"` → `urls` is nil, `sandbox_flag_field` is a non-empty string, `unresolved_reason` is nil
+      - `pattern: "none"` → `urls` and `sandbox_flag_field` are nil,
+        `unresolved_reason` is `"no_testnet_data"`
+    * No `{hostname}` placeholder leakage in resolved URL strings.
+
+  JSON Schema catches shape/enum drift; this invariant catches
+  cross-field inconsistencies and unresolved hostname templates —
+  both of which are extraction bugs, not schema violations.
+  """
+  @spec check_testnet_urls_shape_valid(map(), map()) :: [finding()]
+  def check_testnet_urls_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    record = get_in(exchange, ["runtime", "testnet_urls"])
+
+    testnet_urls_record_findings(id, record)
+  end
+
+  defp testnet_urls_record_findings(id, record) when is_map(record) do
+    missing = TestnetUrls.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- TestnetUrls.required_keys()
+
+    missing_findings =
+      Enum.map(missing, fn key -> testnet_urls_finding(id, "missing required key #{inspect(key)}") end)
+
+    extra_findings =
+      Enum.map(extra, fn key -> testnet_urls_finding(id, "unexpected key #{inspect(key)}") end)
+
+    consistency_findings =
+      case missing do
+        [] -> testnet_urls_consistency_findings(id, record)
+        _ -> []
+      end
+
+    missing_findings ++ extra_findings ++ consistency_findings
+  end
+
+  defp testnet_urls_record_findings(id, _record) do
+    [testnet_urls_finding(id, "runtime.testnet_urls must be a map")]
+  end
+
+  defp testnet_urls_consistency_findings(id, record) do
+    pattern = Map.get(record, "pattern")
+
+    pattern_finding =
+      if pattern in TestnetUrls.patterns() do
+        nil
+      else
+        testnet_urls_finding(id, "pattern must be one of #{inspect(TestnetUrls.patterns())}, got #{inspect(pattern)}")
+      end
+
+    field_findings = pattern_field_findings(id, pattern, record)
+    hostname_findings = hostname_leak_findings(id, Map.get(record, "urls"))
+
+    Enum.reject([pattern_finding | field_findings ++ hostname_findings], &is_nil/1)
+  end
+
+  defp pattern_field_findings(id, "separate_host", record) do
+    urls = Map.get(record, "urls")
+    reason = Map.get(record, "unresolved_reason")
+
+    [
+      if(is_map(urls) and map_size(urls) > 0,
+        do: nil,
+        else: testnet_urls_finding(id, "pattern=separate_host requires urls to be a non-empty map, got #{inspect(urls)}")
+      ),
+      if(is_nil(reason),
+        do: nil,
+        else: testnet_urls_finding(id, "pattern=separate_host requires unresolved_reason=nil, got #{inspect(reason)}")
+      )
+    ]
+  end
+
+  defp pattern_field_findings(id, "sandbox_flag", record) do
+    urls = Map.get(record, "urls")
+    flag = Map.get(record, "sandbox_flag_field")
+    reason = Map.get(record, "unresolved_reason")
+
+    [
+      if(is_nil(urls),
+        do: nil,
+        else: testnet_urls_finding(id, "pattern=sandbox_flag requires urls=nil, got #{inspect(urls)}")
+      ),
+      if(is_binary(flag) and byte_size(flag) > 0,
+        do: nil,
+        else:
+          testnet_urls_finding(
+            id,
+            "pattern=sandbox_flag requires sandbox_flag_field to be a non-empty string, got #{inspect(flag)}"
+          )
+      ),
+      if(is_nil(reason),
+        do: nil,
+        else: testnet_urls_finding(id, "pattern=sandbox_flag requires unresolved_reason=nil, got #{inspect(reason)}")
+      )
+    ]
+  end
+
+  defp pattern_field_findings(id, "none", record) do
+    urls = Map.get(record, "urls")
+    flag = Map.get(record, "sandbox_flag_field")
+    reason = Map.get(record, "unresolved_reason")
+
+    [
+      if(is_nil(urls), do: nil, else: testnet_urls_finding(id, "pattern=none requires urls=nil, got #{inspect(urls)}")),
+      if(is_nil(flag),
+        do: nil,
+        else: testnet_urls_finding(id, "pattern=none requires sandbox_flag_field=nil, got #{inspect(flag)}")
+      ),
+      if(reason == "no_testnet_data",
+        do: nil,
+        else:
+          testnet_urls_finding(id, "pattern=none requires unresolved_reason=\"no_testnet_data\", got #{inspect(reason)}")
+      )
+    ]
+  end
+
+  defp pattern_field_findings(_id, _pattern, _record), do: []
+
+  # Walk leaves; any string containing {hostname} is a resolution leak.
+  defp hostname_leak_findings(_id, nil), do: []
+
+  defp hostname_leak_findings(id, urls) do
+    urls
+    |> collect_strings()
+    |> Enum.filter(&String.contains?(&1, "{hostname}"))
+    |> Enum.map(fn s ->
+      testnet_urls_finding(id, "unresolved {hostname} placeholder in URL #{inspect(s)}")
+    end)
+  end
+
+  defp collect_strings(value) when is_binary(value), do: [value]
+  defp collect_strings(value) when is_map(value), do: Enum.flat_map(value, fn {_k, v} -> collect_strings(v) end)
+  defp collect_strings(value) when is_list(value), do: Enum.flat_map(value, &collect_strings/1)
+  defp collect_strings(_), do: []
+
+  defp testnet_urls_finding(id, message) do
+    %{
+      exchange: id,
+      invariant: "testnet_urls_shape_valid",
+      path: "runtime.testnet_urls",
+      message: message
+    }
   end
 
   @doc """

@@ -276,7 +276,8 @@ defmodule CcxtExtract.Pipeline do
       "describe" => describe,
       "markets" => markets,
       "symbol_patterns" => CcxtExtract.SymbolPatterns.derive(markets, describe),
-      "url_templates" => get_url_templates(id, data)
+      "url_templates" => get_url_templates(id, data),
+      "testnet_urls" => CcxtExtract.TestnetUrls.derive(describe)
     }
 
     sign_method = get_sign_method(id, data)

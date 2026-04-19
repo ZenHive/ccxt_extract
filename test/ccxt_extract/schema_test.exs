@@ -77,7 +77,8 @@ defmodule CcxtExtract.SchemaTest do
           "resolved_url" => "https://api.testex.com/api/v1/ticker",
           "url_prefix" => "https://api.testex.com/api/v1/"
         }
-      }
+      },
+      "testnet_urls" => CcxtExtract.TestnetUrls.none_record()
     }
   end
 
@@ -144,7 +145,13 @@ defmodule CcxtExtract.SchemaTest do
 
   # Null runtime for alias exchanges
   defp alias_runtime do
-    %{"describe" => nil, "markets" => nil, "symbol_patterns" => nil, "url_templates" => nil}
+    %{
+      "describe" => nil,
+      "markets" => nil,
+      "symbol_patterns" => nil,
+      "url_templates" => nil,
+      "testnet_urls" => CcxtExtract.TestnetUrls.none_record()
+    }
   end
 
   # Null structure for alias exchanges

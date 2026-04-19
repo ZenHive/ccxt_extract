@@ -76,6 +76,7 @@ defmodule CcxtExtract.Provenance do
   @derived_pointers ~w(
     /exchange/tier
     /runtime/symbol_patterns
+    /runtime/testnet_urls
     /structure/authenticated_sections
     /structure/sign_recipe
     /structure/handle_errors/error_code_fields

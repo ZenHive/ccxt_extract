@@ -6,6 +6,83 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 100: Testnet / sandbox URL catalog (schema 2.4.0)
+
+🎁 **16-testnet** · Promotes raw testnet signals out of the opaque
+`runtime.describe` blob into a structured, provenance-tagged
+`runtime.testnet_urls` derived field. Unblocks ccxt_client Task 61.
+
+**What was done:**
+
+- New `CcxtExtract.TestnetUrls.derive/1` module (pure, ~130 lines).
+  Classifies every exchange as one of three patterns and resolves
+  `{hostname}` placeholders up-front.
+- Wired into `Pipeline.build_exchange_data/3` alongside `SymbolPatterns`
+  and `UrlTemplates`. `Schema.@required_runtime_keys` now includes
+  `testnet_urls`.
+- New `testnet_urls_shape_valid` contract invariant (tenth entry in
+  `ContractTest.@invariants`): validates `pattern` enum, required key
+  set, cross-field consistency (pattern ↔ populated fields), and
+  flags any `{hostname}` placeholder that survives resolution.
+- Provenance: `/runtime/testnet_urls` tagged `"derived"` in
+  `CcxtExtract.Provenance.@derived_pointers`.
+- Schema 2.3.0 → 2.4.0 (additive minor bump). New `$defs/TestnetUrls`
+  in `priv/schema/exchange_v2.json`; `@schema_version` literal +
+  `@required_runtime_keys` updated.
+
+**Record shape:**
+
+```json
+"testnet_urls": {
+  "pattern": "separate_host" | "sandbox_flag" | "none",
+  "urls": {"public": "...", "private": "..."} | null,
+  "sandbox_flag_field": "sandboxMode" | null,
+  "unresolved_reason": null | "no_testnet_data"
+}
+```
+
+- `pattern: "separate_host"` — `describe.urls.test` is a non-empty
+  map; `{hostname}` placeholders resolved against `describe.hostname`.
+- `pattern: "sandbox_flag"` — `urls.test` absent but
+  `options.sandboxMode` key present.
+- `pattern: "none"` — neither signal present; `unresolved_reason`
+  carries the honest reason.
+
+`sandbox_flag_field` is populated *independently* of `pattern` — okx
+emits `"separate_host"` + `sandbox_flag_field: "sandboxMode"` because
+it uses a same-host URL AND a runtime flag.
+
+**Priority-tier coverage (post-extract):** bybit/binance/derive/
+lighter/hyperliquid/deribit/coinbaseexchange emit `separate_host`
+with fully resolved URLs; okx/gate/hyperliquid coexist `separate_host`
++ sandbox flag; aster/kraken emit `none` with
+`unresolved_reason: "no_testnet_data"`. Zero `{hostname}` placeholder
+leakage across the priority universe.
+
+**Key decisions:**
+
+- Pattern is classification-by-data, not prescription. Not every
+  exchange with `urls.test` has a separate-host testnet (okx's is
+  `{"rest": "https://{hostname}"}` — same host, flag-switched); that's
+  honest truth, not a bug.
+- `sandbox_flag_field` tracks flag presence independently of pattern
+  so coexistence (okx-style) is representable. A pure enum on
+  `pattern` alone would force a lossy choice.
+- Proxy patterns (mentioned in the roadmap task) explicitly out of
+  scope — no priority exchange uses `proxyUrl` today and the client
+  doesn't model them. If a future priority exchange needs proxies,
+  that's a follow-up.
+- Placeholder resolution happens at extract time (one pass) rather
+  than per-request in every consumer. The contract invariant flags
+  any leak so we notice new templates we can't resolve yet.
+
+**Cross-repo:** `../ccxt_client/ROADMAP.md` Task 61 ("Testnet URL
+adoption") is now unblocked. Consumer action: replace
+`describe["urls"]["test"]` access at `exchange.ex:505-510` with
+`spec["runtime"]["testnet_urls"]` lookup; gain correct flag handling
+for the 4 priority exchanges that use `sandboxMode`; stop silently
+falling through to production for `pattern: "none"` exchanges.
+
 ### Task 66a: HMAC-simple canonical_string derivation (schema 2.3.0)
 
 🎁 **10-HMAC** · First derivation pass over `structure.sign_recipe.<section>.canonical_string`.

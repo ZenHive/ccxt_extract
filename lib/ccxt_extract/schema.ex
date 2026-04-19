@@ -47,12 +47,12 @@ defmodule CcxtExtract.Schema do
 
   alias CcxtExtract.SignRecipe
 
-  @schema_version "2.3.0"
+  @schema_version "2.4.0"
   @schema_filename "exchange_v2.json"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
-  @required_runtime_keys ~w(describe markets symbol_patterns url_templates)
+  @required_runtime_keys ~w(describe markets symbol_patterns url_templates testnet_urls)
   @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe handle_errors parse_methods ws_methods interface_signatures pagination overrides unified_endpoints request_defaults)
 
   # --- Public API ---
@@ -176,7 +176,8 @@ defmodule CcxtExtract.Schema do
       "describe" => data["describe"],
       "markets" => data["markets"],
       "symbol_patterns" => data["symbol_patterns"],
-      "url_templates" => data["url_templates"]
+      "url_templates" => data["url_templates"],
+      "testnet_urls" => data["testnet_urls"] || CcxtExtract.TestnetUrls.none_record()
     }
   end
 

@@ -299,6 +299,51 @@ defmodule Mix.Tasks.CcxtExtract.UpdateTest do
              ]
     end
 
+    test "--pretty forwards to pipeline stage but not to contract_test" do
+      output_dir = make_tmp_output_dir()
+
+      {_output, task_runs} =
+        capture_task_run(fn ->
+          with_update_task_overrides(@task_overrides, fn ->
+            Update.run(["--pretty", "--exchange", "binance", "--output", output_dir])
+          end)
+        end)
+
+      pipeline_args =
+        Enum.find_value(task_runs, fn
+          {"test.record_pipeline", args} -> args
+          _ -> nil
+        end)
+
+      contract_test_args =
+        Enum.find_value(task_runs, fn
+          {"test.record_contract_test", args} -> args
+          _ -> nil
+        end)
+
+      assert "--pretty" in pipeline_args
+      refute "--pretty" in contract_test_args
+    end
+
+    test "default (no --pretty) does NOT forward --pretty to pipeline" do
+      output_dir = make_tmp_output_dir()
+
+      {_output, task_runs} =
+        capture_task_run(fn ->
+          with_update_task_overrides(@task_overrides, fn ->
+            Update.run(["--exchange", "binance", "--output", output_dir])
+          end)
+        end)
+
+      pipeline_args =
+        Enum.find_value(task_runs, fn
+          {"test.record_pipeline", args} -> args
+          _ -> nil
+        end)
+
+      refute "--pretty" in pipeline_args
+    end
+
     test "--exchange propagates to contract_test stage (canonical scope flags)" do
       output_dir = make_tmp_output_dir()
 

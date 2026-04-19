@@ -107,6 +107,9 @@ defmodule CcxtExtract.Pipeline do
       CLI opts. Defaults to `"all"` when omitted.
     * `:discoveries_dir` — override the source directory for
       `_base_methods.json` (used for testing).
+    * `:pretty` — boolean. When true, emit per-exchange JSON with
+      indentation (~2× size). Default `false`. Manifests, fixtures, and
+      reports remain pretty-printed regardless of this flag.
   """
   @spec write!([map()], String.t(), keyword()) :: :ok
   def write!(exchanges, output_dir \\ Paths.out(@output_dir), opts \\ []) do
@@ -117,10 +120,12 @@ defmodule CcxtExtract.Pipeline do
     in_scope = MapSet.new(exchanges, & &1["exchange"]["id"])
     {:ok, _removed} = ScopeCleanup.prune_out_of_scope(output_dir, in_scope, preserve: [Schema.schema_filename()])
 
+    pretty? = Keyword.get(opts, :pretty, false)
+
     for exchange <- exchanges do
       id = exchange["exchange"]["id"]
       path = Path.join(output_dir, "#{id}.json")
-      File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.normalize(exchange), pretty: true))
+      File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.normalize(exchange), pretty: pretty?))
     end
 
     manifest = build_manifest(exchanges, opts)

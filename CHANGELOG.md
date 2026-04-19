@@ -6,6 +6,50 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 116: Compact JSON on per-exchange spec writes
+
+🎁 **spec-size · A** · Flips `priv/output/<id>.json` encoding from
+pretty-printed to compact while preserving pretty-print on humans-read
+files (manifests, port-contract fixtures, validation/contract reports,
+discovery envelopes). Primary consumer is `ccxt_client`, blocked from
+its first Hex publish by the corpus exceeding the 128 MB cap.
+
+**What was done:**
+
+- `Pipeline.write!/3` gained a `:pretty` boolean opt (default `false`).
+  Only `priv/output/<id>.json` writes consult it; `_manifest.json` stays
+  pretty regardless.
+- `mix ccxt_extract.pipeline` and `mix ccxt_extract.update` gained a
+  `--pretty` flag that forwards through to the writer. Defaults flip the
+  outputs to compact for downstream consumers, with the flag preserved
+  for human debug inspection.
+- All 18 other `Jason.encode*` call sites in the codebase remain pretty
+  by intent — port-contract fixtures (`priv/fixtures/signing/<id>.json`)
+  are diffed by humans during port review; envelopes/manifests/reports
+  are diagnostic surfaces.
+
+**Measured impact (binance, single-exchange spot check):**
+
+- Pretty: 56,221,155 bytes
+- Compact: 25,649,407 bytes
+- Reduction: 54.4% (better than the roadmap's pre-task estimate of ~48%)
+
+**Insufficient alone for ccxt_client Hex publish.** Pairs with the
+schema 3.0.0 prune (Task 117) — the two together clear the 128 MB cap
+with headroom. T116 ships first because the prune is a breaking change
+that needs separate cross-repo coordination with `ccxt_client` Task 105.
+
+**Schema impact:** none. Encoding is not a schema concern — output is
+byte-different but semantically identical. Consumers that decode via
+`Jason.decode!` (or any standards-conformant JSON parser) see no change.
+
+**Cross-repo:** `ccxt_client/ROADMAP.md` Hex Publishing Status updated
+to mark item (1) shipped, item (2) [Task 117] still outstanding.
+Task 105 (`SymbolResolver` migration) remains blocked on T117 — it
+needs the new `runtime.symbols_index` field that T117 introduces.
+
+---
+
 ### Task 100: Testnet / sandbox URL catalog (schema 2.4.0)
 
 🎁 **16-testnet** · Promotes raw testnet signals out of the opaque

@@ -33,6 +33,9 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     * `--force` — bypass the git-status safety rail. Without this, the task
       aborts when `priv/output/` or `priv/discoveries/` has uncommitted
       changes so a scoped re-run cannot silently delete in-flight work.
+    * `--pretty` — emit per-exchange JSON with indentation (~2× size; default
+      compact). Forwarded to the pipeline stage. Manifests, fixtures, and
+      reports remain pretty-printed regardless of this flag.
 
   ## Stages
 
@@ -71,7 +74,8 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     dex: :boolean,
     all: :boolean,
     exchange: :keep,
-    force: :boolean
+    force: :boolean,
+    pretty: :boolean
   ]
 
   @aliases [v: :ccxt_version]
@@ -184,6 +188,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     args = []
     args = if opts[:strict], do: ["--strict" | args], else: args
     args = if opts[:force], do: ["--force" | args], else: args
+    args = if opts[:pretty], do: ["--pretty" | args], else: args
     args ++ scope_args(opts)
   end
 

@@ -19,6 +19,9 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
     * `--output` — custom output directory (default: `priv/output`)
     * `--strict` — fail with non-zero exit if validation errors or missing per-exchange files
+    * `--pretty` — emit per-exchange JSON with indentation (~2× size; default
+      compact). Useful for human inspection during debugging. Manifests,
+      fixtures, and reports remain pretty-printed regardless of this flag.
     * `--tier1 --tier2 --tier3 --dex` — restrict assembly to the named priority
       tiers (combinable). Tier membership resolves via
       `priv/priority_tiers.json` with family inheritance.
@@ -48,7 +51,7 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
   @progress_interval 20
 
   @switches Keyword.merge(
-              [output: :string, strict: :boolean, force: :boolean],
+              [output: :string, strict: :boolean, force: :boolean, pretty: :boolean],
               TaskScope.scope_switches()
             )
 
@@ -83,7 +86,11 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
           report_results(exchanges, stats, output_dir, elapsed)
           Mix.raise("Pipeline completed with issues (strict mode). See above for details.")
         else
-          CcxtExtract.Pipeline.write!(exchanges, output_dir, tier_scope: tier_scope)
+          CcxtExtract.Pipeline.write!(exchanges, output_dir,
+            tier_scope: tier_scope,
+            pretty: opts[:pretty] || false
+          )
+
           report_results(exchanges, stats, output_dir, elapsed)
         end
 

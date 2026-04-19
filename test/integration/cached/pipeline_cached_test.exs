@@ -96,10 +96,16 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
       assert is_list(ex["structure"]["methods"]["rest"])
       assert is_map(ex["structure"]["sign_method"])
       assert is_map(ex["structure"]["handle_errors"])
-      assert is_map(ex["structure"]["parse_methods"])
-      assert map_size(ex["structure"]["parse_methods"]) > 0
-      assert is_map(ex["structure"]["ws_methods"])
-      assert map_size(ex["structure"]["ws_methods"]) > 0
+
+      # parse_methods + ws_methods are no longer emitted (schema 3.0.0, Task 117).
+      # Extractors still run and discovery files exist under priv/discoveries/,
+      # but consumers of the emitted per-exchange JSON no longer see these fields.
+      refute Map.has_key?(ex["structure"], "parse_methods")
+      refute Map.has_key?(ex["structure"], "ws_methods")
+
+      # Derived replacement for the pruned runtime.markets.markets snapshot.
+      assert is_map(ex["runtime"]["symbols_index"])
+      assert map_size(ex["runtime"]["symbols_index"]) > 0
     end
 
     test "binanceus has both REST and WS overrides", %{lookup: lookup} do
@@ -143,11 +149,12 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
 
       # Runtime data resolved from parent (htx)
       assert is_map(ex["runtime"]["describe"]), "alias should inherit parent describe"
-      assert is_map(ex["runtime"]["markets"]), "alias should inherit parent markets"
+
+      assert is_map(ex["runtime"]["symbols_index"]),
+             "alias should inherit parent symbols_index (derived from parent's markets)"
 
       # Structural data stays nil — these are per-exchange AST extractions
       assert ex["structure"]["sign_method"] == nil
-      assert ex["structure"]["parse_methods"] == nil
     end
   end
 
@@ -244,7 +251,7 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
       assert binance["exchange"]["id"] == "binance"
       assert :ok = Schema.validate(binance)
 
-      schema_path = Path.join(tmp_dir, "exchange_v2.json")
+      schema_path = Path.join(tmp_dir, "exchange_v3.json")
       assert File.exists?(schema_path)
       assert schema_path |> File.read!() |> Jason.decode!() |> is_map()
     end

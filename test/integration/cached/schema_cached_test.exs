@@ -59,14 +59,6 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     load_json(Path.join(@fixtures_dir, "handle_errors.json"))["exchanges"]
   end
 
-  defp load_parse_methods do
-    load_json(Path.join(@fixtures_dir, "parse_methods.json"))["exchanges"]
-  end
-
-  defp load_ws_methods do
-    load_json(Path.join(@fixtures_dir, "ws_methods.json"))["exchanges"]
-  end
-
   defp load_overrides do
     load_json(Path.join(@fixtures_dir, "overrides.json"))["exchanges"]
   end
@@ -144,7 +136,10 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     }
   end
 
-  # Builds a complete per-exchange output from fixture data
+  # Builds a complete per-exchange output from fixture data. Schema 3.0.0
+  # (Task 117): runtime.markets replaced by runtime.symbols_index; structure
+  # drops parse_methods / ws_methods (extractors still populate discovery
+  # files — this test just no longer threads them into the emitted JSON).
   defp build_from_fixtures(id) do
     meta = load_exchange_meta(id)
     hierarchy = load_class_hierarchy()
@@ -152,13 +147,11 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     ws_methods = load_methods("ws")
     sign_entry = find_by_id(load_sign_methods(), id)
     he_entry = find_by_id(load_handle_errors(), id)
-    pm_entry = find_by_id(load_parse_methods(), id)
-    wm_entry = find_by_id(load_ws_methods(), id)
     ov_entries = Enum.filter(load_overrides(), &(&1["id"] == id))
 
     runtime = %{
       "describe" => load_describe(id),
-      "markets" => load_markets(id)
+      "symbols_index" => CcxtExtract.SymbolsIndex.derive(load_markets(id))
     }
 
     structure = %{
@@ -166,8 +159,6 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
       "methods" => build_methods(id, rest_methods, ws_methods),
       "sign_method" => if(sign_entry, do: sign_entry["sign"]),
       "handle_errors" => build_handle_errors(he_entry),
-      "parse_methods" => if(pm_entry, do: pm_entry["parse_methods"]),
-      "ws_methods" => if(wm_entry, do: wm_entry["ws_methods"]),
       "overrides" => build_overrides(ov_entries)
     }
 
@@ -192,10 +183,16 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
       assert is_map(describe["api"])
     end
 
-    test "has markets data", %{exchange: exchange} do
-      markets = exchange["runtime"]["markets"]
-      assert is_map(markets)
-      assert markets["market_count"] > 0
+    test "has symbols_index", %{exchange: exchange} do
+      idx = exchange["runtime"]["symbols_index"]
+      assert is_map(idx)
+      assert map_size(idx) > 0
+
+      for {_sym, entry} <- idx do
+        assert entry |> Map.keys() |> Enum.sort() == ["spot", "swap"]
+        assert is_boolean(entry["spot"])
+        assert is_boolean(entry["swap"])
+      end
     end
 
     test "has sign method AST", %{exchange: exchange} do
@@ -205,21 +202,13 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
       assert is_list(sign["params"])
     end
 
-    test "has parse methods", %{exchange: exchange} do
-      pm = exchange["structure"]["parse_methods"]
-      assert is_map(pm)
-      assert map_size(pm) > 0
-
-      for {_name, method} <- pm do
-        assert is_map(method["body"])
-        assert is_list(method["params"])
-      end
-    end
-
-    test "has WS methods", %{exchange: exchange} do
-      wm = exchange["structure"]["ws_methods"]
-      assert is_map(wm)
-      assert map_size(wm) > 0
+    # parse_methods + ws_methods are no longer emitted (schema 3.0.0, Task 117).
+    # The extractors still run and discovery files exist — see
+    # test/integration/cached/parse_methods_cached_test.exs and
+    # test/integration/cached/ws_methods_cached_test.exs.
+    test "structure no longer carries parse_methods or ws_methods", %{exchange: exchange} do
+      refute Map.has_key?(exchange["structure"], "parse_methods")
+      refute Map.has_key?(exchange["structure"], "ws_methods")
     end
 
     test "has class info with REST and WS", %{exchange: exchange} do

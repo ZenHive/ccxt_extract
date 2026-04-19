@@ -4,7 +4,7 @@ defmodule CcxtExtract.Validation do
 
   Two validation layers:
 
-  - **JSON Schema** — validate output against `exchange_v2.json` (draft 2020-12)
+  - **JSON Schema** — validate output against `exchange_v3.json` (draft 2020-12)
     using JSV. Catches type errors, extra properties, missing required fields.
   - **Round-trip** — compare pipeline output sections against source discovery
     data. Catches data loss or incorrect transformation in the pipeline.
@@ -100,7 +100,7 @@ defmodule CcxtExtract.Validation do
   end
 
   @doc """
-  Validate a single exchange map against `exchange_v2.json` using JSV.
+  Validate a single exchange map against `exchange_v3.json` using JSV.
 
   Returns `:ok` or `{:error, findings}` where findings is a list of
   JSON-serializable maps.
@@ -130,24 +130,22 @@ defmodule CcxtExtract.Validation do
   def validate_roundtrip(output, source_data, exchange_id) do
     []
     |> check_describe_roundtrip(output, source_data, exchange_id)
-    |> check_markets_roundtrip(output, source_data, exchange_id)
+    |> check_symbols_index_roundtrip(output, source_data, exchange_id)
     |> check_class_info_roundtrip(output, source_data, exchange_id)
     |> check_methods_roundtrip(output, source_data, exchange_id)
     |> check_sign_method_roundtrip(output, source_data, exchange_id)
     |> check_handle_errors_roundtrip(output, source_data, exchange_id)
-    |> check_parse_methods_roundtrip(output, source_data, exchange_id)
-    |> check_ws_methods_roundtrip(output, source_data, exchange_id)
     |> check_interface_signatures_roundtrip(output, source_data, exchange_id)
     |> check_pagination_roundtrip(output, source_data, exchange_id)
     |> check_unified_endpoints_roundtrip(output, source_data, exchange_id)
     |> check_overrides_roundtrip(output, source_data, exchange_id)
-    |> check_symbol_patterns_roundtrip(output, exchange_id)
+    |> check_symbol_patterns_roundtrip(output, source_data, exchange_id)
     |> check_url_templates_roundtrip(output, source_data, exchange_id)
     |> Enum.reverse()
   end
 
   @doc """
-  Build the compiled JSON Schema root from `exchange_v2.json`.
+  Build the compiled JSON Schema root from `exchange_v3.json`.
 
   Exposed for reuse — callers validating many exchanges should build once.
   """
@@ -199,11 +197,11 @@ defmodule CcxtExtract.Validation do
       end)
 
     # Detect orphan files (JSON files in output_dir not listed in manifest)
-    # Also skip exchange_v2.json (schema copy) and _base_methods.json
+    # Also skip exchange_v3.json (schema copy) and _base_methods.json
 
     manifest_set = MapSet.new(manifest_ids)
     # Exclude metadata files (_manifest.json, _validation_report.json) and schema copy
-    known_files = MapSet.new(["exchange_v2"])
+    known_files = MapSet.new(["exchange_v3"])
 
     orphans =
       output_dir
@@ -340,31 +338,38 @@ defmodule CcxtExtract.Validation do
     end
   end
 
-  # Compare runtime.markets — count, symbol set, and full market data.
+  # Compare runtime.symbols_index against source markets — symbol set only.
+  # Per-market fields (price/precision/fees/limits/baseId/quoteId) are not
+  # emitted since schema 3.0.0 (Task 117), so there's nothing to compare there.
   # Alias exchanges have no own source — resolve parent's source instead.
-  defp check_markets_roundtrip(findings, output, source, id) do
-    output_markets = get_in(output, ["runtime", "markets"])
+  defp check_symbols_index_roundtrip(findings, output, source, id) do
+    output_index = get_in(output, ["runtime", "symbols_index"])
     source_markets = Map.get(source.load_markets, id) || resolve_parent_source(source, id, :load_markets)
     source_failure = Map.get(source.load_markets_failed, id)
 
-    case classify_markets_state(output_markets, source_markets, source_failure) do
+    case classify_symbols_state(output_index, source_markets, source_failure) do
       :both_absent ->
         findings
 
       :source_failed_upstream ->
         [
-          roundtrip_finding(id, "runtime.markets", "info", "source load_markets failed upstream; round-trip skipped")
+          roundtrip_finding(
+            id,
+            "runtime.symbols_index",
+            "info",
+            "source load_markets failed upstream; round-trip skipped"
+          )
           | findings
         ]
 
       :output_missing ->
-        [roundtrip_finding(id, "runtime.markets", "error", "output is null but source has data") | findings]
+        [roundtrip_finding(id, "runtime.symbols_index", "error", "output is null but source has data") | findings]
 
       :source_failure_mismatch ->
         [
           roundtrip_finding(
             id,
-            "runtime.markets",
+            "runtime.symbols_index",
             "error",
             "output has data but source load_markets manifest recorded failure"
           )
@@ -372,80 +377,38 @@ defmodule CcxtExtract.Validation do
         ]
 
       :source_missing ->
-        [roundtrip_finding(id, "runtime.markets", "warning", "output has data but no source artifact") | findings]
+        [roundtrip_finding(id, "runtime.symbols_index", "warning", "output has data but no source artifact") | findings]
 
       :compare ->
-        findings
-        |> check_market_count(output_markets, source_markets, id)
-        |> check_market_symbols(output_markets, source_markets, id)
-        |> check_market_data(output_markets, source_markets, id)
+        check_symbols_index_keys(findings, output_index, source_markets, id)
     end
   end
 
-  # Classify the nil/present state of markets data via tuple matching
-  defp classify_markets_state(nil, nil, nil), do: :both_absent
-  defp classify_markets_state(nil, nil, _failure), do: :source_failed_upstream
-  defp classify_markets_state(nil, _source, _failure), do: :output_missing
-  defp classify_markets_state(_output, _source, failure) when not is_nil(failure), do: :source_failure_mismatch
-  defp classify_markets_state(_output, nil, _failure), do: :source_missing
-  defp classify_markets_state(_output, _source, _failure), do: :compare
+  # Classify the nil/present state of symbols_index vs source markets
+  defp classify_symbols_state(nil, nil, nil), do: :both_absent
+  defp classify_symbols_state(nil, nil, _failure), do: :source_failed_upstream
+  defp classify_symbols_state(nil, _source, _failure), do: :output_missing
+  defp classify_symbols_state(_output, _source, failure) when not is_nil(failure), do: :source_failure_mismatch
+  defp classify_symbols_state(_output, nil, _failure), do: :source_missing
+  defp classify_symbols_state(_output, _source, _failure), do: :compare
 
-  defp check_market_count(findings, output_markets, source_markets, id) do
-    output_count = output_markets["market_count"]
-    source_count = source_markets["market_count"]
-
-    if output_count == source_count do
-      findings
-    else
-      [
-        roundtrip_finding(
-          id,
-          "runtime.markets",
-          "error",
-          "market_count mismatch: output=#{output_count} source=#{source_count}"
-        )
-        | findings
-      ]
-    end
-  end
-
-  defp check_market_symbols(findings, output_markets, source_markets, id) do
-    output_syms = market_keys(output_markets["markets"])
-    source_syms = market_keys(source_markets["markets"])
+  # Keyset-only comparison: since schema 3.0.0 the output no longer copies
+  # per-market fields through from source, so there is no copy-correctness to
+  # round-trip. The derived `{spot, swap}` booleans are covered by unit tests
+  # on `CcxtExtract.SymbolsIndex.derive/1` (see test/ccxt_extract/symbols_index_test.exs);
+  # `Schema` and pipeline tests cross-check them at assembly time. A sampled
+  # cross-check here would duplicate derivation logic and invite drift.
+  defp check_symbols_index_keys(findings, output_index, source_markets, id) do
+    output_syms = output_index |> Map.keys() |> MapSet.new()
+    source_syms = source_markets["markets"] |> Kernel.||(%{}) |> Map.keys() |> MapSet.new()
 
     missing = MapSet.difference(source_syms, output_syms)
     extra = MapSet.difference(output_syms, source_syms)
 
     findings
-    |> maybe_add_finding(missing, id, "runtime.markets", "error", "missing symbols from source")
-    |> maybe_add_finding(extra, id, "runtime.markets", "warning", "extra symbols not in source")
+    |> maybe_add_finding(missing, id, "runtime.symbols_index", "error", "missing symbols from source")
+    |> maybe_add_finding(extra, id, "runtime.symbols_index", "warning", "extra symbols not in source")
   end
-
-  defp check_market_data(findings, output_markets, source_markets, id) do
-    output_map = output_markets["markets"] || %{}
-    source_map = source_markets["markets"] || %{}
-
-    if output_map == source_map do
-      findings
-    else
-      # Count how many individual markets differ
-      diff_count =
-        Enum.count(source_map, fn {sym, src_market} -> Map.get(output_map, sym) != src_market end)
-
-      [
-        roundtrip_finding(
-          id,
-          "runtime.markets",
-          "error",
-          "market data mismatch: #{diff_count} market(s) differ between output and source"
-        )
-        | findings
-      ]
-    end
-  end
-
-  defp market_keys(nil), do: MapSet.new()
-  defp market_keys(map) when is_map(map), do: map |> Map.keys() |> MapSet.new()
 
   defp maybe_add_finding(findings, set, id, path, severity, label) do
     if MapSet.size(set) > 0 do
@@ -630,25 +593,12 @@ defmodule CcxtExtract.Validation do
     )
   end
 
-  # Compare structure.parse_methods (method name set)
-  defp check_parse_methods_roundtrip(findings, output, source, id) do
-    output_pm = get_in(output, ["structure", "parse_methods"])
-
-    source_entry = Map.get(source.parse_methods, id)
-    source_pm = source_entry && source_entry["parse_methods"]
-
-    check_method_map(findings, output_pm, source_pm, id, "structure.parse_methods")
-  end
-
-  # Compare structure.ws_methods (method name set)
-  defp check_ws_methods_roundtrip(findings, output, source, id) do
-    output_wm = get_in(output, ["structure", "ws_methods"])
-
-    source_entry = Map.get(source.ws_methods, id)
-    source_wm = source_entry && source_entry["ws_methods"]
-
-    check_method_map(findings, output_wm, source_wm, id, "structure.ws_methods")
-  end
+  # structure.parse_methods and structure.ws_methods are no longer emitted
+  # in the output (pruned in schema 3.0.0 / Task 117). The extractors still
+  # run and write priv/discoveries/*.json for Phase 12 / Phase 15 internal
+  # consumers — see source.parse_methods and source.ws_methods if needed.
+  # No roundtrip check exists here because there is no output column to
+  # compare against.
 
   # Compare structure.interface_signatures (signature name → signature map)
   defp check_interface_signatures_roundtrip(findings, output, source, id) do
@@ -819,13 +769,16 @@ defmodule CcxtExtract.Validation do
   end
 
   # symbol_patterns is derived from markets, not independently discovered.
-  # Check presence consistency: if markets exist, symbol_patterns should too.
-  defp check_symbol_patterns_roundtrip(findings, output, id) do
-    markets = get_in(output, ["runtime", "markets"])
+  # Check presence consistency: if source has markets, symbol_patterns should
+  # be emitted; if source lacks markets, symbol_patterns must be nil. Since
+  # schema 3.0.0 (Task 117) output no longer carries the raw markets map, we
+  # check against the source discovery data instead.
+  defp check_symbol_patterns_roundtrip(findings, output, source, id) do
+    source_markets = Map.get(source.load_markets, id) || resolve_parent_source(source, id, :load_markets)
     patterns = get_in(output, ["runtime", "symbol_patterns"])
 
     findings
-    |> check_symbol_patterns_presence(markets, patterns, id)
+    |> check_symbol_patterns_presence(source_markets, patterns, id)
     |> check_symbol_patterns_shape(patterns, id)
   end
 
@@ -833,12 +786,14 @@ defmodule CcxtExtract.Validation do
 
   defp check_symbol_patterns_presence(findings, nil, _patterns, id),
     do: [
-      roundtrip_finding(id, "runtime.symbol_patterns", "error", "symbol_patterns present but markets is null") | findings
+      roundtrip_finding(id, "runtime.symbol_patterns", "error", "symbol_patterns present but source markets is null")
+      | findings
     ]
 
   defp check_symbol_patterns_presence(findings, _markets, nil, id),
     do: [
-      roundtrip_finding(id, "runtime.symbol_patterns", "error", "markets present but symbol_patterns is null") | findings
+      roundtrip_finding(id, "runtime.symbol_patterns", "error", "source markets present but symbol_patterns is null")
+      | findings
     ]
 
   defp check_symbol_patterns_presence(findings, _markets, _patterns, _id), do: findings

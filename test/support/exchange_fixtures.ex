@@ -64,7 +64,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
       },
       "runtime" => %{
         "describe" => describe,
-        "markets" => nil,
+        "symbols_index" => nil,
         "symbol_patterns" => %{},
         "url_templates" => nil,
         "testnet_urls" => CcxtExtract.TestnetUrls.none_record()
@@ -82,8 +82,6 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
           "error_code_fields" => [],
           "throw_dispatches" => []
         },
-        "parse_methods" => nil,
-        "ws_methods" => nil,
         "interface_signatures" => nil,
         "pagination" => nil,
         "overrides" => nil,

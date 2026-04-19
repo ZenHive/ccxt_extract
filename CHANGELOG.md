@@ -6,6 +6,96 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 117: Schema 3.0.0 dead-weight prune
+
+🎁 **spec-size · B** · Breaking schema bump that drops three fields with
+zero live readers in `ccxt_client/{lib,test}/`, replacing the biggest of
+them with a compact derived index. Pairs with Task 116's compact-encoding
+flip to clear the `ccxt_client` Hex 128 MB publish cap with headroom.
+
+**What was done:**
+
+- New `CcxtExtract.SymbolsIndex.derive/1` — pure module producing
+  `%{"BTC/USDT" => %{"spot" => true, "swap" => false}, ...}` from the
+  resolved `loadMarkets()` map. Uses the `type == "spot"/"swap"` fallback
+  when boolean flags are absent; returns `nil` for nil/empty input.
+- Schema 2.4.0 → 3.0.0 (breaking). `runtime.markets` (the full
+  loadMarkets snapshot — ~85% of every large exchange's emitted bytes)
+  replaced by `runtime.symbols_index`. `structure.parse_methods` and
+  `structure.ws_methods` no longer emitted to per-exchange JSON.
+- **Extractors and discovery files preserved.** The `parse_methods` and
+  `ws_methods` AST dumps still write to `priv/discoveries/` for Phase 12
+  (unified `parseTicker`/`parseOrder`/…) and Phase 15 (WS channel
+  handlers) to consume internally. Only emission to the per-exchange
+  spec JSON dropped.
+- JSON Schema renamed `priv/schema/exchange_v2.json` →
+  `priv/schema/exchange_v3.json` via `git mv`. Replaced `MarketsData`
+  `$def` with `SymbolsIndex` `$def` (`additionalProperties` object with
+  required `{spot: boolean, swap: boolean}`). Dropped `parse_methods` /
+  `ws_methods` from `StructureData.required` and property definitions.
+- `CcxtExtract.Provenance`: removed three `@raw_pointers`
+  (`/runtime/markets`, `/structure/parse_methods`,
+  `/structure/ws_methods`), added `/runtime/symbols_index` to
+  `@derived_pointers`. `provenance_covers_schema` contract invariant
+  re-baselined clean.
+- `Validation.validate_roundtrip/3`: dropped per-market round-trip
+  (`check_markets_roundtrip`, `check_parse_methods_roundtrip`,
+  `check_ws_methods_roundtrip`), added
+  `check_symbols_index_roundtrip/4` that compares the symbol key set
+  between output and `priv/discoveries/load_markets/<id>.json`.
+  `check_symbol_patterns_roundtrip/4` now reads source markets directly
+  (output no longer carries them).
+- Hardcoded `"exchange_v2"` stem flipped to `"exchange_v3"` across
+  `validation.ex`, test files, and fixtures. Tests rewrote markets
+  assertions to `symbols_index` shape; parse/ws_methods emission
+  assertions deleted.
+- Override-alive test (`authenticated_sections_integration_test`) and
+  bitget sign-recipe test made scope-aware — they now skip gracefully
+  when an exchange isn't present in the current priority-tier corpus
+  rather than hard-failing.
+
+**Measured impact (binance, total spec size):**
+
+- Post-T116 (compact, pre-T117): 25.6 MB
+- Post-T117: 2.15 MB
+- Additional reduction: 91.6% on top of T116. Combined T116+T117
+  reduction vs. original pretty-printed spec: ~96%.
+
+**Why these fields were dead weight:**
+
+- `runtime.markets.markets` — consumers have to call the real
+  `loadMarkets()` at runtime anyway for price/precision/fees/limits,
+  because markets drift between extraction runs. The only live reader
+  (`ccxt_client/test/support/test_generator/symbol_resolver.ex`) read
+  exclusively the per-symbol `spot`/`swap` flags — exactly what
+  `symbols_index` exposes compactly.
+- `structure.parse_methods` — no live readers in `ccxt_client/` beyond
+  a presence assertion at `test/ccxt/spec_test.exs:43-46`. The AST
+  dumps were 24.5 MB corpus-wide. Phase 12 will consume them from
+  discoveries directly.
+- `structure.ws_methods` — same story: zero live readers,
+  `lib/ccxt/ws/config.ex:19` is a confirmed moduledoc comment arguing
+  *for* removal. 19.8 MB corpus-wide. Phase 15 will consume discoveries.
+
+**Consumer migration.** See the new "Version 3.0.0 — Current" section in
+[SCHEMA.md](SCHEMA.md) for Python/Rust/Elixir derivation snippets. Key
+transform: `market_count = len(symbols_index)` /
+`symbols = list(symbols_index.keys())` /
+`spot_symbols = [s for s, m in symbols_index.items() if m["spot"]]`.
+For price/precision/fees/limits/info/baseId/quoteId, consumers call
+`loadMarkets()` on the live exchange at runtime — the only safe source
+anyway.
+
+**Cross-repo coordination.** `../ccxt_client/ROADMAP.md` Task 105
+(SymbolResolver migration + `spec_test` presence-check update, ~5 LOC)
+was upstream-blocked on this task; now unblocked.
+
+**Follow-up:** Task 118 tracks deletion of the superseded
+`priv/schema/exchange_v2.json` after one release grace window
+(precedent: Task 61c → Task 107).
+
+---
+
 ### Task 116: Compact JSON on per-exchange spec writes
 
 🎁 **spec-size · A** · Flips `priv/output/<id>.json` encoding from

@@ -32,13 +32,13 @@ defmodule CcxtExtract.ScopeCleanupTest do
     end
 
     test ":preserve list keeps non-underscore files", %{tmp: tmp} do
-      write_files(tmp, ["exchange_v2.json", "kraken.json"])
+      write_files(tmp, ["exchange_v3.json", "kraken.json"])
 
       assert {:ok, [removed]} =
-               ScopeCleanup.prune_out_of_scope(tmp, MapSet.new(), preserve: ["exchange_v2.json"])
+               ScopeCleanup.prune_out_of_scope(tmp, MapSet.new(), preserve: ["exchange_v3.json"])
 
       assert Path.basename(removed) == "kraken.json"
-      assert File.exists?(Path.join(tmp, "exchange_v2.json"))
+      assert File.exists?(Path.join(tmp, "exchange_v3.json"))
     end
 
     test "no-op when everything is in scope", %{tmp: tmp} do

@@ -58557,8 +58557,17 @@
     }
   ],
   "count": 189,
-  "extracted_at": "2026-04-19T05:18:13.607127Z",
-  "tier_scope": "all",
+  "extracted_at": "2026-04-19T17:17:06.833743Z",
+  "tier_scope": [
+    "exchange:alpaca",
+    "exchange:bitget",
+    "exchange:btcbox",
+    "exchange:bullish",
+    "exchange:delta",
+    "exchange:mercado",
+    "exchange:oxfun",
+    "exchange:paradex"
+  ],
   "tree": {
     "rest:toobit": [
       "ws:toobit"

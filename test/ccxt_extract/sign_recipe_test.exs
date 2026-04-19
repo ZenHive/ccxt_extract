@@ -67,20 +67,20 @@ defmodule CcxtExtract.SignRecipeTest do
     end
   end
 
-  describe "exchange_v2.json parity" do
-    test "SignRecipeRecord in exchange_v2.json matches sign_recipe_v1.json" do
+  describe "exchange_v3.json parity" do
+    test "SignRecipeRecord in exchange_v3.json matches sign_recipe_v1.json" do
       standalone = read_schema!(@recipe_schema_path)
-      exchange_schema = read_schema!("schema/exchange_v2.json")
+      exchange_schema = read_schema!("schema/exchange_v3.json")
       inline = get_in(exchange_schema, ["$defs", "SignRecipeRecord"])
 
-      assert inline != nil, "exchange_v2.json must define $defs.SignRecipeRecord"
+      assert inline != nil, "exchange_v3.json must define $defs.SignRecipeRecord"
 
       # The two schemas may carry different descriptions (one is standalone,
       # one is inside the exchange schema), but the validation-relevant
       # fields must match.
       for key <- ~w(additionalProperties required type) do
         assert inline[key] == standalone[key],
-               "SignRecipeRecord.#{key} drift: exchange_v2.json has #{inspect(inline[key])} but sign_recipe_v1.json has #{inspect(standalone[key])}"
+               "SignRecipeRecord.#{key} drift: exchange_v3.json has #{inspect(inline[key])} but sign_recipe_v1.json has #{inspect(standalone[key])}"
       end
 
       # Enum tables inside properties must also match. The standalone uses
@@ -136,7 +136,7 @@ defmodule CcxtExtract.SignRecipeTest do
 
   # Enum-carrying properties inside SignRecipe sub-defs. The left half is
   # the def name in `sign_recipe_v1.json`, the right half is the
-  # `SignRecipe`-prefixed name in `exchange_v2.json`. A trailing list of
+  # `SignRecipe`-prefixed name in `exchange_v3.json`. A trailing list of
   # property paths names the enum-bearing leaves to compare.
   @subdef_enum_paths [
     {"CryptoOp", "SignRecipeCryptoOp", ["algo"]},
@@ -158,7 +158,7 @@ defmodule CcxtExtract.SignRecipeTest do
              "expected enum at $defs.#{standalone_def}.properties.#{prop} in both schemas"
 
       assert Enum.sort(standalone_enum) == Enum.sort(inline_enum),
-             "enum drift at $defs.#{standalone_def}.properties.#{prop} — sign_recipe_v1 has #{inspect(standalone_enum)}, exchange_v2 has #{inspect(inline_enum)}"
+             "enum drift at $defs.#{standalone_def}.properties.#{prop} — sign_recipe_v1 has #{inspect(standalone_enum)}, exchange_v3 has #{inspect(inline_enum)}"
     end
   end
 

@@ -33,14 +33,14 @@ Every output field is produced by exactly one of two complementary passes. Under
 
 | Tool | Input | Output scope | Speed | Used in |
 |------|-------|--------------|-------|---------|
-| **OXC** (Rust NIF) | CCXT TS source at `priv/ccxt/ts/src/` | **Structural** — method ASTs, class hierarchy, type annotations, section membership, sign-method bodies | ~43ms per file | `oxc_extractor`, `oxc_batch`, `method_ast`, `parse_methods`, `sign_method`, `sign_recipe` (scaffold, Task 64 — populated by Tasks 65–69), `handle_errors`, `throw_dispatches`, `interface_signatures`, `request_defaults` |
+| **OXC** (Rust NIF) | CCXT TS source at `priv/ccxt/ts/src/` | **Structural** — method ASTs, class hierarchy, type annotations, section membership, sign-method bodies | ~43ms per file | `oxc_extractor`, `oxc_batch`, `method_ast`, `parse_methods` (discovery files only — not emitted to per-exchange JSON since schema 3.0.0 / Task 117; Phase 12 consumes from `priv/discoveries/parse_methods.json`), `sign_method`, `sign_recipe` (scaffold, Task 64 — populated by Tasks 65–69), `handle_errors`, `throw_dispatches`, `interface_signatures`, `request_defaults`, `ws_methods` (discovery files only — same Phase 15 treatment) |
 | **QuickBEAM** (Zig NIF) | `priv/ccxt_bundle.js` (the browser bundle copied during `ccxt_extract.setup`) | **Resolved runtime** — full `describe()` after inheritance, URL templates, rate limits, nonce defaults | ~13s for all exchanges | `quickbeam_runtime`, `describe`, `load_markets`, `url_templates`, `signing_fixtures` |
 
 Neither tool alone is sufficient. `contract_test` cross-validates the two (e.g., every method named in resolved `describe().api` must exist in the parsed class AST or an ancestor). Divergence means a silent regression — fix the extractor, not the test.
 
 ### Per-exchange JSON pipeline
 
-Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v2.json`. Provenance is becoming explicit (see Phase 9 / Task 61a in ROADMAP) — fields will carry `raw`/`derived`/`override` tags plus the reason for any override.
+Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v3.json`. Provenance is becoming explicit (see Phase 9 / Task 61a in ROADMAP) — fields will carry `raw`/`derived`/`override` tags plus the reason for any override.
 
 **Both paths are gitignored derived state.** `priv/output/` and `priv/discoveries/*` are not tracked in git — they're regenerated per CCXT release and would otherwise bloat the repo (~1GB of JSON per full-universe run, already accumulated 827MB in `.git`). The one exception is `priv/discoveries/class_hierarchy.json`, which `lib/ccxt_extract/tiers.ex` reads at compile time via `@external_resource` and must remain committed. Fresh clones materialize the rest via `mix setup`; external consumers via `mix ccxt_extract.update --output DIR`.
 
@@ -131,7 +131,7 @@ mix ccxt_extract.update --tier1 --output /path/to/consumer/ccxt
 # assemble only (discoveries → output/)
 mix ccxt_extract.pipeline
 
-# validate outputs against priv/schema/exchange_v2.json
+# validate outputs against priv/schema/exchange_v3.json
 mix ccxt_extract.validate
 
 # cross-extractor invariants (QuickBEAM vs OXC)

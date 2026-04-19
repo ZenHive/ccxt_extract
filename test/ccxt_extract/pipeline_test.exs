@@ -299,17 +299,17 @@ defmodule CcxtExtract.PipelineTest do
 
       # Runtime
       assert result["runtime"]["describe"]["has"]["fetchTicker"] == true
-      assert result["runtime"]["markets"]["market_count"] == 100
+      assert is_map(result["runtime"]["symbols_index"])
       assert is_map(result["runtime"]["symbol_patterns"])
 
-      # Structure
+      # Structure — parse_methods/ws_methods pruned in schema 3.0.0 (Task 117)
       assert result["structure"]["class_info"]["rest"]["node_key"] == "rest:testex"
       assert result["structure"]["class_info"]["ws"]["node_key"] == "ws:testex"
       assert result["structure"]["methods"]["rest"] == [@method_sig]
       assert result["structure"]["methods"]["ws"] == [@method_sig]
       assert result["structure"]["sign_method"]["statements"] == 12
-      assert result["structure"]["parse_methods"]["parseTicker"]["statements"] == 12
-      assert result["structure"]["ws_methods"]["watchTicker"]["statements"] == 12
+      refute Map.has_key?(result["structure"], "parse_methods")
+      refute Map.has_key?(result["structure"], "ws_methods")
       assert result["structure"]["interface_signatures"]["publicGetTicker"]["name"] == "publicGetTicker"
 
       # Pagination
@@ -328,14 +328,14 @@ defmodule CcxtExtract.PipelineTest do
 
       assert result["exchange"]["alias"] == true
       assert result["runtime"]["describe"] == nil
-      assert result["runtime"]["markets"] == nil
+      assert result["runtime"]["symbols_index"] == nil
       assert result["runtime"]["symbol_patterns"] == nil
       assert result["structure"]["class_info"] == nil
       assert result["structure"]["methods"] == nil
       assert result["structure"]["sign_method"] == nil
       assert result["structure"]["handle_errors"] == nil
-      assert result["structure"]["parse_methods"] == nil
-      assert result["structure"]["ws_methods"] == nil
+      refute Map.has_key?(result["structure"], "parse_methods")
+      refute Map.has_key?(result["structure"], "ws_methods")
       assert result["structure"]["interface_signatures"] == nil
       assert result["structure"]["pagination"] == nil
       assert result["structure"]["overrides"] == nil
@@ -368,7 +368,8 @@ defmodule CcxtExtract.PipelineTest do
       result = Pipeline.build_exchange_data(alias_meta(), data, @schema_opts)
 
       assert result["runtime"]["describe"] == parent_describe
-      assert result["runtime"]["markets"] == parent_markets
+      # runtime.markets no longer emitted; symbols_index derived from the same source.
+      assert result["runtime"]["symbols_index"] == %{"BTC/USDT" => %{"spot" => false, "swap" => false}}
       assert is_map(result["runtime"]["symbol_patterns"])
     end
 
@@ -1377,20 +1378,20 @@ defmodule CcxtExtract.PipelineTest do
 
   describe "write!/2" do
     @tag :tmp_dir
-    test "copies exchange_v2.json into the output directory", %{tmp_dir: tmp_dir} do
+    test "copies exchange_v3.json into the output directory", %{tmp_dir: tmp_dir} do
       Pipeline.write!([full_exchange()], tmp_dir)
 
-      schema_path = Path.join(tmp_dir, "exchange_v2.json")
+      schema_path = Path.join(tmp_dir, "exchange_v3.json")
       assert File.exists?(schema_path)
       assert schema_path |> File.read!() |> Jason.decode!() |> is_map()
-      assert File.read!(schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v2.json"))
+      assert File.read!(schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v3.json"))
     end
 
     @tag :tmp_dir
     test "removes stale exchange files and refreshes schema and manifest", %{tmp_dir: tmp_dir} do
       stale_exchange_path = Path.join(tmp_dir, "staleex.json")
       stale_manifest_path = Path.join(tmp_dir, "_manifest.json")
-      stale_schema_path = Path.join(tmp_dir, "exchange_v2.json")
+      stale_schema_path = Path.join(tmp_dir, "exchange_v3.json")
 
       File.write!(stale_exchange_path, Jason.encode!(%{"exchange" => %{"id" => "staleex"}}))
       File.write!(stale_manifest_path, Jason.encode!(%{"exchange_count" => 0, "exchanges" => []}))
@@ -1405,7 +1406,7 @@ defmodule CcxtExtract.PipelineTest do
       assert manifest["exchange_count"] == 1
       assert manifest["exchanges"] == ["testex"]
 
-      assert File.read!(stale_schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v2.json"))
+      assert File.read!(stale_schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v3.json"))
     end
   end
 
@@ -1568,7 +1569,7 @@ defmodule CcxtExtract.PipelineTest do
       # Simulate a prior extract that left leftover files behind.
       File.write!(Path.join(output_dir, "stale.json"), "{}")
       File.write!(Path.join(output_dir, "_kept.json"), "{}")
-      File.write!(Path.join(output_dir, "exchange_v2.json"), "{}")
+      File.write!(Path.join(output_dir, "exchange_v3.json"), "{}")
 
       # Discoveries dir just needs the schema + base methods copy targets.
       discoveries_dir = Path.join(tmp_dir, "discoveries")
@@ -1595,7 +1596,7 @@ defmodule CcxtExtract.PipelineTest do
 
       refute File.exists?(Path.join(output_dir, "stale.json"))
       assert File.exists?(Path.join(output_dir, "_kept.json"))
-      assert File.exists?(Path.join(output_dir, "exchange_v2.json"))
+      assert File.exists?(Path.join(output_dir, "exchange_v3.json"))
       assert File.exists?(Path.join(output_dir, "fakex.json"))
     end
 

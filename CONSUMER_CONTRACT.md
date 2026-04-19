@@ -65,7 +65,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 | `parsePosition` field map | ⬜ | Phase 12 — Task 80 |
 | `parseTransaction` (deposit/withdrawal) field map | ⬜ | Phase 12 — Task 81 |
 | `parseDepositAddress` field map | ⬜ | Phase 12 — Task 82 |
-| Raw `parse*` AST (escape hatch) | ✅ | `structure.parse_methods` |
+| Raw `parse*` AST (escape hatch) | ✅ | `priv/discoveries/parse_methods.json` (discovery only since schema 3.0.0 / Task 117 — no longer emitted into per-exchange spec JSON; Phase 12 consumes from discoveries) |
 | Type-coercion table per field (safeString/safeNumber/safeTimestamp) | ⬜ | Folded into each per-type task |
 | Base normalizers (`safe*` implementations) reference | ✅ | `_base_methods.json` (Task 31) |
 
@@ -112,7 +112,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 | Snapshot vs delta semantics — trades | ⬜ | Phase 15 — Task 95b |
 | Snapshot vs delta semantics — OHLCV | ⬜ | Phase 15 — Task 95c |
 | Reconnect triggers + backoff policy hints | ⬜ | Phase 15 — Task 96 |
-| Raw WS method ASTs (escape hatch) | ✅ | `structure.ws_methods` |
+| Raw WS method ASTs (escape hatch) | ✅ | `priv/discoveries/ws_methods.json` (discovery only since schema 3.0.0 / Task 117 — no longer emitted into per-exchange spec JSON; Phase 15 consumes from discoveries) |
 
 ---
 
@@ -120,7 +120,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 
 | Item | Status | Source |
 |------|--------|--------|
-| Market structure (symbol, precision, limits, type) | ✅ | `runtime.markets` |
+| Market symbol index (per-symbol spot/swap classification) | ✅ | `runtime.symbols_index` (schema 3.0.0 / Task 117 — compact `%{symbol => %{spot, swap}}`). Full market structure (price, precision, limits, info) must be fetched at runtime via live `loadMarkets()` — it drifts between extraction runs and is no longer emitted to spec. |
 | Symbol format patterns per market type | ✅ | `runtime.symbol_patterns` (Task 40) |
 | Currency aliases (`commonCurrencies`) | ⬜ | Phase 16 — Task 97 |
 | Network info (USDT-ERC20 vs TRC20, etc.) | ⬜ | Phase 16 — Task 97 |
@@ -140,7 +140,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 |------|--------|--------|
 | Exchange identity + aliases | ✅ | `exchange.*`, alias resolution (Task 44) |
 | Class hierarchy + parent fallback | ✅ | `structure.class_info`, `structure.overrides` |
-| REST + WS method inventory | ✅ | `structure.methods`, `structure.ws_methods` |
+| REST + WS method inventory | ✅ | `structure.methods` (REST); WS inventory now in `priv/discoveries/methods_ws.json` since schema 3.0.0 / Task 117 |
 | Interface signatures (typed method signatures) | ✅ | `structure.interface_signatures` (Task 30) |
 | Capability flags (`has.*`) | ✅ | `runtime.describe.has` |
 | Base Exchange method catalog | ✅ | `_base_methods.json` (Task 31) |

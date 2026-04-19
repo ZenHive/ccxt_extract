@@ -52,9 +52,15 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
       assert record["signature_placement"] == %{"location" => "header", "key" => "API-Sign"}
     end
 
+    # bitget is tier3 (priv/priority_tiers.json) and excluded from the default
+    # tier1+tier2+dex extraction scope, so priv/output/bitget.json may be
+    # absent. Tagged `:tier3_corpus` and excluded by default (test_helper.exs);
+    # run explicitly with `mix test --include tier3_corpus` once bitget is in
+    # the committed corpus. Task 120 will replace this with a tier_scope-aware
+    # skip that reads `_manifest.json` at runtime.
+    @tag :tier3_corpus
     test "bitget.private — HMAC-SHA256 header ACCESS-SIGN" do
       record = recipe("bitget", "private")
-
       assert record["crypto_op"] == %{"algo" => "hmac_sha256"}
       assert record["signature_placement"] == %{"location" => "header", "key" => "ACCESS-SIGN"}
     end

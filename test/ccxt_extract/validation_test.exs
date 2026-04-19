@@ -75,7 +75,7 @@ defmodule CcxtExtract.ValidationTest do
   defp full_runtime do
     %{
       "describe" => %{"id" => "testex", "has" => %{"fetchTicker" => true}},
-      "markets" => %{"market_count" => 100, "markets" => %{"BTC/USDT" => %{"active" => true}}},
+      "symbols_index" => %{"BTC/USDT" => %{"spot" => true, "swap" => false}},
       "symbol_patterns" => %{
         "spot" => %{
           "id_structure" => "baseId_quoteId",
@@ -114,8 +114,6 @@ defmodule CcxtExtract.ValidationTest do
         "error_code_fields" => [],
         "throw_dispatches" => []
       },
-      "parse_methods" => %{"parseTicker" => @sample_method_ast},
-      "ws_methods" => %{"watchTicker" => @sample_method_ast},
       "interface_signatures" => %{"publicGetTicker" => @sample_interface_sig},
       "pagination" => %{
         "fetchTrades" => [
@@ -132,7 +130,7 @@ defmodule CcxtExtract.ValidationTest do
     }
   end
 
-  defp alias_runtime, do: %{"describe" => nil, "markets" => nil, "symbol_patterns" => nil, "url_templates" => nil}
+  defp alias_runtime, do: %{"describe" => nil, "symbols_index" => nil, "symbol_patterns" => nil, "url_templates" => nil}
 
   defp alias_structure do
     %{
@@ -141,8 +139,6 @@ defmodule CcxtExtract.ValidationTest do
       "sign_method" => nil,
       "authenticated_sections" => nil,
       "handle_errors" => nil,
-      "parse_methods" => nil,
-      "ws_methods" => nil,
       "interface_signatures" => nil,
       "pagination" => nil,
       "overrides" => nil,
@@ -313,57 +309,45 @@ defmodule CcxtExtract.ValidationTest do
              end)
     end
 
-    test "detects market count mismatch" do
+    # Since schema 3.0.0 (Task 117) the full `runtime.markets` snapshot is no
+    # longer emitted — only a compact `runtime.symbols_index` with per-symbol
+    # spot/swap booleans. The roundtrip check compares symbol *key sets*, not
+    # market data; per-market fields aren't in the output to compare.
+
+    test "detects dropped symbols in symbols_index" do
       exchange = build_full_exchange()
 
       source =
         put_in(matching_source_data(), [:load_markets, "testex"], %{
-          "market_count" => 200,
-          "markets" => %{}
-        })
-
-      findings = Validation.validate_roundtrip(exchange, source, "testex")
-
-      assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.markets" && f["severity"] == "error" &&
-                 String.contains?(f["message"], "market_count mismatch")
-             end)
-    end
-
-    test "detects dropped market symbols" do
-      exchange = build_full_exchange()
-
-      source =
-        put_in(matching_source_data(), [:load_markets, "testex"], %{
-          "market_count" => 100,
+          "market_count" => 2,
           "markets" => %{"BTC/USDT" => %{"active" => true}, "ETH/USDT" => %{"active" => true}}
         })
 
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.markets" && f["severity"] == "error" &&
+               f["path"] == "runtime.symbols_index" && f["severity"] == "error" &&
                  String.contains?(f["message"], "missing symbols")
              end)
     end
 
-    test "detects corrupted market data even when count and symbols match" do
+    test "warns on extra symbols not in source" do
       exchange =
-        put_in(build_full_exchange(), ["runtime", "markets"], %{
-          "market_count" => 100,
-          "markets" => %{"BTC/USDT" => %{"active" => false}}
+        put_in(build_full_exchange(), ["runtime", "symbols_index"], %{
+          "BTC/USDT" => %{"spot" => true, "swap" => false},
+          "ETH/USDT" => %{"spot" => true, "swap" => false}
         })
 
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.markets" && f["severity"] == "error" &&
-                 String.contains?(f["message"], "market data mismatch")
+               f["path"] == "runtime.symbols_index" && f["severity"] == "warning" &&
+                 String.contains?(f["message"], "extra symbols")
              end)
     end
 
     test "reports load_markets manifest failures as info when output is null" do
-      exchange = put_in(build_full_exchange(), ["runtime", "markets"], nil)
+      exchange = put_in(build_full_exchange(), ["runtime", "symbols_index"], nil)
 
       source =
         matching_source_data()
@@ -373,12 +357,12 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.markets" && f["severity"] == "info" &&
+               f["path"] == "runtime.symbols_index" && f["severity"] == "info" &&
                  String.contains?(f["message"], "round-trip skipped")
              end)
     end
 
-    test "detects markets data when source manifest recorded load_markets failure" do
+    test "detects symbols_index data when source manifest recorded load_markets failure" do
       source =
         matching_source_data()
         |> Map.put(:load_markets, %{})
@@ -387,18 +371,18 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(build_full_exchange(), source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.markets" && f["severity"] == "error" &&
+               f["path"] == "runtime.symbols_index" && f["severity"] == "error" &&
                  String.contains?(f["message"], "manifest recorded failure")
              end)
     end
 
-    test "warns when output has markets but no source artifact" do
+    test "warns when output has symbols_index but no source artifact" do
       source = Map.put(matching_source_data(), :load_markets, %{})
 
       findings = Validation.validate_roundtrip(build_full_exchange(), source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.markets" && f["severity"] == "warning" &&
+               f["path"] == "runtime.symbols_index" && f["severity"] == "warning" &&
                  String.contains?(f["message"], "no source artifact")
              end)
     end
@@ -456,37 +440,10 @@ defmodule CcxtExtract.ValidationTest do
              end)
     end
 
-    test "detects corrupted parse method AST" do
-      corrupted_ast = %{@sample_method_ast | "body" => %{"type" => "EmptyStatement"}}
-
-      exchange =
-        put_in(build_full_exchange(), ["structure", "parse_methods"], %{
-          "parseTicker" => corrupted_ast
-        })
-
-      findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
-
-      assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.parse_methods.parseTicker" && f["severity"] == "error" &&
-                 String.contains?(f["message"], "data mismatch")
-             end)
-    end
-
-    test "detects corrupted ws method AST" do
-      corrupted_ast = %{@sample_method_ast | "statements" => 0, "params" => []}
-
-      exchange =
-        put_in(build_full_exchange(), ["structure", "ws_methods"], %{
-          "watchTicker" => corrupted_ast
-        })
-
-      findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
-
-      assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.ws_methods.watchTicker" && f["severity"] == "error" &&
-                 String.contains?(f["message"], "data mismatch")
-             end)
-    end
+    # structure.parse_methods + structure.ws_methods are no longer emitted since
+    # schema 3.0.0 (Task 117). The extractor discovery files still carry the
+    # ASTs for future internal consumers (Phase 12 response parsing, Phase 15
+    # WS dispatch), but there is no output column to round-trip against.
 
     test "detects missing sign_method" do
       # Output has nil sign_method but source has data
@@ -496,17 +453,6 @@ defmodule CcxtExtract.ValidationTest do
 
       assert Enum.any?(findings, fn f ->
                f["path"] == "structure.sign_method" && f["severity"] == "error"
-             end)
-    end
-
-    test "detects missing parse methods" do
-      # Output has nil but source has methods
-      exchange = put_in(build_full_exchange(), ["structure", "parse_methods"], nil)
-
-      findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
-
-      assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.parse_methods" && f["severity"] == "error"
              end)
     end
 
@@ -569,10 +515,18 @@ defmodule CcxtExtract.ValidationTest do
       parent_describe = %{"id" => "parentex", "has" => %{"fetchTicker" => true}}
       parent_markets = %{"market_count" => 50, "markets" => %{"BTC/USDT" => %{"active" => true}}}
 
+      # symbols_index is derived from the parent's markets map at pipeline time;
+      # call the real derivation so this test stays in lockstep with SymbolsIndex.
+      parent_symbols_index = CcxtExtract.SymbolsIndex.derive(parent_markets)
+
       exchange =
         Schema.build_exchange(
           @alias_meta,
-          %{"describe" => parent_describe, "markets" => parent_markets, "symbol_patterns" => nil},
+          %{
+            "describe" => parent_describe,
+            "symbols_index" => parent_symbols_index,
+            "symbol_patterns" => nil
+          },
           alias_structure(),
           @base_opts
         )
@@ -604,12 +558,12 @@ defmodule CcxtExtract.ValidationTest do
 
       findings = Validation.validate_roundtrip(exchange, source, "aliasex")
 
-      # No false "output has data but no source" warnings for describe or markets
+      # No false "output has data but no source" warnings for describe or symbols_index
       describe_warnings = Enum.filter(findings, &(&1["path"] == "runtime.describe" && &1["severity"] == "warning"))
-      markets_warnings = Enum.filter(findings, &(&1["path"] == "runtime.markets" && &1["severity"] == "warning"))
+      symbols_warnings = Enum.filter(findings, &(&1["path"] == "runtime.symbols_index" && &1["severity"] == "warning"))
 
       assert describe_warnings == []
-      assert markets_warnings == []
+      assert symbols_warnings == []
     end
 
     test "detects class_info method_count mismatch" do
@@ -866,18 +820,21 @@ defmodule CcxtExtract.ValidationTest do
              end)
     end
 
-    test "detects symbol_patterns present but markets null" do
-      exchange = put_in(build_full_exchange(), ["runtime", "markets"], nil)
+    test "detects symbol_patterns present but source markets missing" do
+      # Since schema 3.0.0 (Task 117) the consistency check is symbol_patterns
+      # vs SOURCE markets (output no longer carries markets). Drop the source
+      # markets entry for testex to exercise the mismatch.
+      source = Map.put(matching_source_data(), :load_markets, %{})
 
-      findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
+      findings = Validation.validate_roundtrip(build_full_exchange(), source, "testex")
 
       assert Enum.any?(findings, fn f ->
                f["path"] == "runtime.symbol_patterns" && f["severity"] == "error" &&
-                 String.contains?(f["message"], "markets is null")
+                 String.contains?(f["message"], "source markets is null")
              end)
     end
 
-    test "detects symbol_patterns null but markets present" do
+    test "detects symbol_patterns null when source markets are present" do
       exchange = put_in(build_full_exchange(), ["runtime", "symbol_patterns"], nil)
 
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")

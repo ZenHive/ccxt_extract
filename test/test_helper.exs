@@ -34,4 +34,4 @@ if missing != [] do
   System.halt(1)
 end
 
-ExUnit.start(exclude: [:extraction])
+ExUnit.start(exclude: [:extraction, :tier3_corpus])

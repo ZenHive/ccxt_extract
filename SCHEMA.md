@@ -24,35 +24,150 @@ Every per-exchange JSON file and `_manifest.json` includes a `schema_version` fi
 # Python
 data = json.load(f)
 major = int(data["schema_version"].split(".")[0])
-if major != 1:
+if major != 3:
     raise ValueError(f"Unsupported schema version: {data['schema_version']}")
 ```
 
 ```rust
 // Rust
 let major: u32 = data["schema_version"].split('.').next().unwrap().parse()?;
-assert_eq!(major, 1, "Unsupported schema version");
+assert_eq!(major, 3, "Unsupported schema version");
 ```
 
 ```elixir
 # Elixir
 case data do
-  %{"schema_version" => "1." <> _} -> :ok
+  %{"schema_version" => "3." <> _} -> :ok
   %{"schema_version" => v} -> raise "Unsupported schema version: #{v}"
 end
 ```
 
 **Handle unknown fields gracefully.** Patch versions may add new nullable keys. Consumers should ignore fields they don't recognize rather than failing on them.
 
-**Pin to a major version.** Your consumer code targets a major schema version (currently 1). Within that major version, all changes are backward-compatible (minor bumps use aliases to preserve old access paths).
+**Pin to a major version.** Your consumer code targets a major schema version (currently 3). Within that major version, all changes are backward-compatible (minor bumps use aliases to preserve old access paths).
 
 ---
 
-## Version 2.4.0 — Current
+## Version 3.0.0 — Current
 
-**Status:** Active (released 2026-04-19, Task 100)
+**Status:** Active (released 2026-04-20, Task 117)
 
-**JSON Schema:** `exchange_v2.json` (included in every output directory)
+**JSON Schema:** `exchange_v3.json` (included in every output directory)
+
+**Summary:** Breaking prune of three dead-weight fields that accounted for
+~85% of every large exchange's emitted JSON (binance `runtime.markets`
+was 23.6 MB on its own). The replacement for `runtime.markets` is the
+compact derived `runtime.symbols_index`. `structure.parse_methods` and
+`structure.ws_methods` are dropped outright — consumers never read them
+in production, and the extractors still populate `priv/discoveries/*.json`
+for internal Phase 12 / Phase 15 derivation consumers.
+
+### What changed from 2.x (breaking)
+
+- **`runtime.markets` is gone.** Replaced by `runtime.symbols_index` — a
+  compact map `%{symbol => {spot: bool, swap: bool}}` keyed by CCXT
+  unified symbol (e.g. `"BTC/USDT"`, `"BTC/USDT:USDT"`). For `market_count`,
+  take the map size of `symbols_index`. For `price`, `precision`, `fees`,
+  `limits`, `info`, `baseId`, or `quoteId`, call the exchange's real
+  `loadMarkets()` at runtime — the old snapshot was stale anyway.
+- **`structure.parse_methods` is gone.** The extractor still runs and
+  emits `priv/discoveries/parse_methods.json` for internal consumers, but
+  the AST dump is no longer shipped in per-exchange output.
+- **`structure.ws_methods` is gone.** Same — `priv/discoveries/ws_methods.json`
+  retained internally, not emitted in per-exchange output.
+- **JSON Schema file renamed** `exchange_v2.json` → `exchange_v3.json`.
+  `priv/schema/exchange_v2.json` is retained for one release so maintainers
+  can diff; the next schema release will delete it.
+- **Consumer major-version pin** moves from `2` → `3`. Update your version
+  check (see Migration Notes below).
+- **Provenance map** loses `/runtime/markets`, `/structure/parse_methods`,
+  `/structure/ws_methods` (all were `raw`); gains `/runtime/symbols_index`
+  (tagged `derived`). `provenance_covers_schema` contract-test invariant
+  auto-rebaselines off `CcxtExtract.Provenance.{raw_pointers,derived_pointers}/0`.
+
+### Migration Notes
+
+```python
+# Python — version check + derivations
+data = json.load(f)
+major = int(data["schema_version"].split(".")[0])
+if major != 3:
+    raise ValueError(f"Unsupported schema version: {data['schema_version']}")
+
+# runtime.markets is gone. Use runtime.symbols_index:
+symbols_index = data["runtime"]["symbols_index"]  # {symbol: {spot, swap}}
+market_count = len(symbols_index)                  # was data["runtime"]["markets"]["market_count"]
+symbols = list(symbols_index.keys())               # was data["runtime"]["markets"]["markets"].keys()
+spot_symbols = [s for s, m in symbols_index.items() if m["spot"]]
+swap_symbols = [s for s, m in symbols_index.items() if m["swap"]]
+
+# For price / precision / fees / limits / info / baseId / quoteId — these were
+# only ever a snapshot that drifts between extraction runs. Call the exchange's
+# real loadMarkets() at runtime.
+```
+
+```rust
+// Rust
+let symbols_index = data["runtime"]["symbols_index"].as_object().unwrap();
+let market_count = symbols_index.len();
+let spot_symbols: Vec<&String> = symbols_index
+    .iter()
+    .filter(|(_, m)| m["spot"].as_bool().unwrap_or(false))
+    .map(|(s, _)| s)
+    .collect();
+```
+
+```elixir
+# Elixir
+case data do
+  %{"schema_version" => "3." <> _, "runtime" => %{"symbols_index" => idx}}
+      when is_map(idx) ->
+    market_count = map_size(idx)
+    spot_symbols = for {s, %{"spot" => true}} <- idx, do: s
+    {:ok, market_count, spot_symbols}
+
+  %{"schema_version" => v} ->
+    {:error, {:unsupported_schema_version, v}}
+end
+```
+
+Consumers that pointed at `exchange_v2.json` for schema introspection should
+point at `exchange_v3.json` in their build steps.
+
+### Fields Removed
+
+Every removed key path and its recommended migration:
+
+| Removed path | Migration |
+|--------------|-----------|
+| `runtime.markets` | Use `runtime.symbols_index` (see above) |
+| `runtime.markets.market_count` | `map_size(symbols_index)` / `len()` / `.len()` |
+| `runtime.markets.markets` | `Map.keys(symbols_index)` for the symbol list; call real `loadMarkets()` for per-market metadata |
+| `structure.parse_methods` | Was an internal AST dump; not intended for consumers. If you were using it, reconsider — it's discovery-file data now |
+| `structure.ws_methods` | Same as above |
+
+### Why
+
+Cross-repo grep at Task 117 filing confirmed zero live readers of
+`runtime.markets.markets` beyond per-symbol `spot`/`swap` boolean
+classification, and zero live readers of `structure.parse_methods` /
+`structure.ws_methods` in any downstream consumer (`ccxt_client` and
+others). The three fields together accounted for ~85% of every large
+exchange's emitted JSON. Dropping them clears the Hex 128 MB publish cap
+for downstream packages with ≥30 % headroom.
+
+The previous `## Version 2.x` baseline documentation follows; subsequent
+minor bumps (2.1.0 request_defaults, 2.2.0 sign_recipe scaffold, 2.3.0
+per-verb canonical_string, 2.4.0 testnet_urls) shipped under the 2.x
+line and are preserved here for historical reference.
+
+---
+
+## Version 2.4.0 — Superseded
+
+**Status:** Superseded by 3.0.0 (released 2026-04-20, Task 117)
+
+**JSON Schema:** `exchange_v2.json` (retained one release after rename)
 
 **Latest change:** Adds `runtime.testnet_urls` — a required, structured
 testnet / sandbox URL catalog derived from `describe.urls.test` and
@@ -305,6 +420,7 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 3.0.0 | 2026-04-20 | **Breaking.** Replace `runtime.markets` with compact derived `runtime.symbols_index` (map of symbol → `{spot: bool, swap: bool}`); drop `structure.parse_methods` and `structure.ws_methods` from emitted output (extractors retained; discovery files still written to `priv/discoveries/` for internal Phase 12 / Phase 15 consumers). Rename JSON Schema file `exchange_v2.json` → `exchange_v3.json`. `priv/schema/exchange_v2.json` retained one release for diff reference. Provenance map drops three raw pointers and gains `/runtime/symbols_index` (derived). Consumer major-version pin bumps `2` → `3`. Clears the ccxt_client Hex 128 MB publish cap (binance pretty-JSON 56.2 MB → compact-JSON + pruned 25.6 MB → ~2 MB). See [Version 3.0.0 — Current](#version-300--current) for migration notes. |
 | 2.4.0 | 2026-04-19 | Add nullable-by-pattern `runtime.testnet_urls` and promote it into `RuntimeData.required` — structured testnet / sandbox URL catalog with `pattern` enum (`separate_host` / `sandbox_flag` / `none`), `{hostname}` pre-resolution, and independent `sandbox_flag_field` that tracks `options.sandboxMode` presence. Replaces consumer-side reach-into `runtime.describe.urls.test` (opaque passthrough). New `testnet_urls_shape_valid` contract invariant. `_provenance["/runtime/testnet_urls"] = "derived"`. **Minor bump** because the key is now in `RuntimeData.required` — strict validators reject 2.3.0 output lacking it; permissive readers are unaffected. See [Testnet URL Catalog (2.4.0+)](#testnet-url-catalog-240). |
 | 2.3.0 | 2026-04-19 | Reshape `sign_recipe.<section>.canonical_string` from a **single record** to a **per-verb map** keyed on HTTP verb (`GET`/`POST`/`PUT`/`DELETE`/`PATCH`) or the sentinel `*` (uniform across all verbs). A single section can now carry multiple families (e.g. OKX.private: `GET` = hmac_simple for query-signed GETs; a future `POST` entry will be hmac_with_body for body-signed POSTs). Task 66a populates hmac_simple entries; Task 66b will populate hmac_with_body entries in parallel. Practically additive — no consumer previously parsed a populated `canonical_string` (every record landed null at 2.2.0). **Minor bump** because the populated shape is new. First-run coverage: OKX.private.GET populated; all other priority exchanges remain null with truthful `unresolved_reason` tags pending Tasks 66b/66e/66f. |
 | 2.2.0 | 2026-04-18 | Add `structure.sign_recipe` as per-section declarative signing recipe — scaffold only. Keys mirror `authenticated_sections`; values are `SignRecipeRecord` with every derivation field (`crypto_op`, `canonical_string`, `signature_placement`, `auth_headers`, `nonce`, `pre_sign_transforms`) `null` and `unresolved_reason: "not_yet_derived"`. Populated incrementally by Phase 10 tasks 65–69. Standalone JSON Schema at `priv/schema/sign_recipe_v1.json` kept in lockstep with `exchange_v2.json#/$defs/SignRecipeRecord`. Two new contract-test invariants: `sign_recipe_keys_match_auth_sections` and `sign_recipe_shape_valid`. Provenance: `/structure/sign_recipe` tagged `"derived"`. **Minor bump** because the key is now in `StructureData.required` — strict validators reject 2.1.0 output lacking it; permissive readers are unaffected. See [Signing Recipe (2.2.0+)](#signing-recipe-220). |

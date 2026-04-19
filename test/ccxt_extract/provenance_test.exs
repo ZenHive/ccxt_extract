@@ -22,7 +22,7 @@ defmodule CcxtExtract.ProvenanceTest do
       provenance = Provenance.build_default()
 
       assert provenance["/runtime/describe"] == "raw"
-      assert provenance["/runtime/markets"] == "raw"
+      assert provenance["/runtime/url_templates"] == "raw"
       assert provenance["/structure/class_info"] == "raw"
       assert provenance["/structure/sign_method"] == "raw"
     end
@@ -30,10 +30,23 @@ defmodule CcxtExtract.ProvenanceTest do
     test "tags known derived fields as derived" do
       provenance = Provenance.build_default()
 
+      assert provenance["/runtime/symbols_index"] == "derived"
       assert provenance["/runtime/symbol_patterns"] == "derived"
       assert provenance["/structure/authenticated_sections"] == "derived"
       assert provenance["/structure/unified_endpoints"] == "derived"
       assert provenance["/exchange/tier"] == "derived"
+    end
+
+    test "pruned pointers are absent from the default map" do
+      # Schema 3.0.0 (Task 117) dropped /runtime/markets, /structure/parse_methods,
+      # and /structure/ws_methods from the emitted output. Provenance must not
+      # declare them — the provenance_covers_schema invariant would flag them as
+      # orphan declarations.
+      provenance = Provenance.build_default()
+
+      refute Map.has_key?(provenance, "/runtime/markets")
+      refute Map.has_key?(provenance, "/structure/parse_methods")
+      refute Map.has_key?(provenance, "/structure/ws_methods")
     end
 
     test "tags mixed handle_errors sub-keys individually" do

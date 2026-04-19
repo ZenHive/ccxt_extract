@@ -4,7 +4,7 @@ defmodule CcxtExtract.Pipeline do
 
   Reads discovery data produced by individual extractors (QuickBEAM runtime
   values + OXC AST data) and combines them into validated per-exchange JSON
-  files conforming to `exchange_v2.json` schema.
+  files conforming to `exchange_v3.json` schema.
 
   ## Usage
 
@@ -97,7 +97,7 @@ defmodule CcxtExtract.Pipeline do
   Write per-exchange JSON files, the schema, and a manifest.
 
   Prunes per-exchange JSON files outside the written set before writing,
-  preserving the shared schema (`exchange_v2.json`) and any `_`-prefixed
+  preserving the shared schema (`exchange_v3.json`) and any `_`-prefixed
   metadata file (manifests, base methods).
 
   ## Options
@@ -279,7 +279,7 @@ defmodule CcxtExtract.Pipeline do
 
     runtime_data = %{
       "describe" => describe,
-      "markets" => markets,
+      "symbols_index" => CcxtExtract.SymbolsIndex.derive(markets),
       "symbol_patterns" => CcxtExtract.SymbolPatterns.derive(markets, describe),
       "url_templates" => get_url_templates(id, data),
       "testnet_urls" => CcxtExtract.TestnetUrls.derive(describe)
@@ -300,8 +300,6 @@ defmodule CcxtExtract.Pipeline do
       "sign_method" => sign_method,
       "authenticated_sections" => authenticated_sections,
       "handle_errors" => get_handle_errors(id, data),
-      "parse_methods" => get_parse_methods(id, data),
-      "ws_methods" => get_ws_methods(id, data),
       "interface_signatures" => get_interface_signatures(id, data),
       "pagination" => get_pagination(id, data),
       "unified_endpoints" => get_unified_endpoints(id, data),
@@ -421,24 +419,6 @@ defmodule CcxtExtract.Pipeline do
     case find_parent_exchange_id(id, data) do
       nil -> nil
       parent_id -> get_handle_errors(parent_id, data)
-    end
-  end
-
-  # Parse methods: extract the parse_methods map
-  defp get_parse_methods(id, data) do
-    case Map.get(data.parse_methods, id) do
-      nil -> nil
-      %{"parse_methods" => methods} when map_size(methods) > 0 -> methods
-      _ -> nil
-    end
-  end
-
-  # WS methods: extract the ws_methods map
-  defp get_ws_methods(id, data) do
-    case Map.get(data.ws_methods, id) do
-      nil -> nil
-      %{"ws_methods" => methods} when map_size(methods) > 0 -> methods
-      _ -> nil
     end
   end
 

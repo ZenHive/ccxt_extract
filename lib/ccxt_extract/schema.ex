@@ -1,6 +1,6 @@
 defmodule CcxtExtract.Schema do
   @moduledoc """
-  Build and validate per-exchange JSON output conforming to `exchange_v2.json`.
+  Build and validate per-exchange JSON output conforming to `exchange_v3.json`.
 
   Assembles data from all extraction layers into a single per-exchange map
   with three top-level sections: `exchange` (metadata), `runtime` (QuickBEAM
@@ -15,9 +15,15 @@ defmodule CcxtExtract.Schema do
 
   ## Two-Layer Model
 
-  - **runtime** — what an exchange IS: describe() config, loadMarkets() data
+  - **runtime** — what an exchange IS: describe() config, symbols_index derived
+    from loadMarkets()
   - **structure** — what an exchange DOES: class hierarchy, method signatures,
-    method AST bodies (sign, handleErrors, parse*, ws*), overrides
+    sign / handleErrors AST bodies, overrides
+
+  Since schema 3.0.0 (Task 117) the `runtime.markets` full snapshot,
+  `structure.parse_methods` and `structure.ws_methods` are no longer emitted.
+  The parse/ws method ASTs are still extracted to `priv/discoveries/*.json`
+  for internal consumers (Phase 12 response parsing, Phase 15 WS dispatch).
 
   ## Two-State Optionality
 
@@ -35,7 +41,7 @@ defmodule CcxtExtract.Schema do
   tagging each section as `raw`/`derived`/`override` (see
   `CcxtExtract.Provenance`). The field is required and non-null since
   schema 2.0.0 (Task 61c) — `validate/1` enforces presence via
-  `@required_top_keys`, and `exchange_v2.json` enforces the object shape
+  `@required_top_keys`, and `exchange_v3.json` enforces the object shape
   at JSV time.
 
   ## Usage
@@ -47,13 +53,13 @@ defmodule CcxtExtract.Schema do
 
   alias CcxtExtract.SignRecipe
 
-  @schema_version "2.4.0"
-  @schema_filename "exchange_v2.json"
+  @schema_version "3.0.0"
+  @schema_filename "exchange_v3.json"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
-  @required_runtime_keys ~w(describe markets symbol_patterns url_templates testnet_urls)
-  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe handle_errors parse_methods ws_methods interface_signatures pagination overrides unified_endpoints request_defaults)
+  @required_runtime_keys ~w(describe symbols_index symbol_patterns url_templates testnet_urls)
+  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe handle_errors interface_signatures pagination overrides unified_endpoints request_defaults)
 
   # --- Public API ---
 
@@ -66,15 +72,17 @@ defmodule CcxtExtract.Schema do
   def schema_filename, do: @schema_filename
 
   @doc """
-  Build a per-exchange output map conforming to `exchange_v2.json`.
+  Build a per-exchange output map conforming to `exchange_v3.json`.
 
   ## Parameters
 
     * `exchange_meta` — exchange identity map with keys: id, name, certified,
       pro, version, country, alias, referral
-    * `runtime_data` — map with keys: describe, markets (each a map or nil)
+    * `runtime_data` — map with keys: describe, symbols_index, symbol_patterns,
+      url_templates, testnet_urls (each a map or nil)
     * `structure_data` — map with keys: class_info, methods, sign_method,
-      handle_errors, parse_methods, ws_methods, overrides (each a map or nil)
+      authenticated_sections, handle_errors, interface_signatures, pagination,
+      overrides, unified_endpoints, request_defaults (each a map or nil)
 
   ## Options
 
@@ -110,7 +118,7 @@ defmodule CcxtExtract.Schema do
 
   This is intentionally lightweight — it only catches obviously malformed or
   incomplete maps before they reach the pipeline. For full draft 2020-12
-  enforcement against `priv/schema/exchange_v2.json` (type checking, enum
+  enforcement against `priv/schema/exchange_v3.json` (type checking, enum
   values, nested shapes, additionalProperties), use
   `CcxtExtract.Validation.validate_schema/2`.
 
@@ -123,7 +131,7 @@ defmodule CcxtExtract.Schema do
   InterfaceSignature shapes, OverridesData/OverrideEntry shapes,
   HandleErrorsData, ErrorCodeFieldEntry, ThrowDispatchEntry, enum values for
   helpers/exceptions_source/roles/operators/lookup methods. All of those
-  checks are now authoritative only in `exchange_v2.json` and enforced at
+  checks are now authoritative only in `exchange_v3.json` and enforced at
   pipeline output time via `CcxtExtract.Validation.validate_schema/2`.
   """
   @spec validate(map()) :: :ok | {:error, [String.t()]}
@@ -174,7 +182,7 @@ defmodule CcxtExtract.Schema do
   defp build_runtime_section(data) do
     %{
       "describe" => data["describe"],
-      "markets" => data["markets"],
+      "symbols_index" => data["symbols_index"],
       "symbol_patterns" => data["symbol_patterns"],
       "url_templates" => data["url_templates"],
       "testnet_urls" => data["testnet_urls"] || CcxtExtract.TestnetUrls.none_record()
@@ -192,8 +200,6 @@ defmodule CcxtExtract.Schema do
       "authenticated_sections" => auth_sections,
       "sign_recipe" => SignRecipe.Derive.derive(sign_method, auth_sections),
       "handle_errors" => data["handle_errors"],
-      "parse_methods" => data["parse_methods"],
-      "ws_methods" => data["ws_methods"],
       "interface_signatures" => data["interface_signatures"],
       "pagination" => data["pagination"],
       "overrides" => data["overrides"],

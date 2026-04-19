@@ -67,7 +67,10 @@ defmodule CcxtExtract.SchemaTest do
   defp full_runtime do
     %{
       "describe" => %{"id" => "testex", "has" => %{"fetchTicker" => true}},
-      "markets" => %{"market_count" => 100, "markets" => %{"BTC/USDT" => %{"active" => true}}},
+      "symbols_index" => %{
+        "BTC/USDT" => %{"spot" => true, "swap" => false},
+        "BTC/USDT:USDT" => %{"spot" => false, "swap" => true}
+      },
       "symbol_patterns" => %{"spot" => %{"separator" => "", "case" => "upper"}, "currency_aliases" => %{}},
       "url_templates" => %{
         "public" => %{
@@ -120,8 +123,6 @@ defmodule CcxtExtract.SchemaTest do
           }
         ]
       },
-      "parse_methods" => %{"parseTicker" => @sample_method_ast},
-      "ws_methods" => %{"watchTicker" => @sample_method_ast},
       "interface_signatures" => %{
         "publicGetTicker" => %{
           "name" => "publicGetTicker",
@@ -147,7 +148,7 @@ defmodule CcxtExtract.SchemaTest do
   defp alias_runtime do
     %{
       "describe" => nil,
-      "markets" => nil,
+      "symbols_index" => nil,
       "symbol_patterns" => nil,
       "url_templates" => nil,
       "testnet_urls" => CcxtExtract.TestnetUrls.none_record()
@@ -162,8 +163,6 @@ defmodule CcxtExtract.SchemaTest do
       "sign_method" => nil,
       "authenticated_sections" => nil,
       "handle_errors" => nil,
-      "parse_methods" => nil,
-      "ws_methods" => nil,
       "interface_signatures" => nil,
       "pagination" => nil,
       "overrides" => nil,
@@ -196,11 +195,14 @@ defmodule CcxtExtract.SchemaTest do
       assert result["exchange"]["referral"]["discount"] == 0.1
 
       assert result["runtime"]["describe"]["has"]["fetchTicker"] == true
-      assert result["runtime"]["markets"]["market_count"] == 100
+      assert is_map(result["runtime"]["symbols_index"])
+      assert result["runtime"]["symbols_index"]["BTC/USDT"] == %{"spot" => true, "swap" => false}
+      assert result["runtime"]["symbols_index"]["BTC/USDT:USDT"] == %{"spot" => false, "swap" => true}
 
       assert result["structure"]["sign_method"]["body"]["type"] == "BlockStatement"
-      assert result["structure"]["parse_methods"]["parseTicker"]["statements"] == 12
-      assert result["structure"]["ws_methods"]["watchTicker"]["async"] == false
+      # parse_methods + ws_methods pruned in schema 3.0.0 (Task 117) — no longer emitted.
+      refute Map.has_key?(result["structure"], "parse_methods")
+      refute Map.has_key?(result["structure"], "ws_methods")
       assert result["structure"]["overrides"] == nil
     end
 
@@ -209,19 +211,16 @@ defmodule CcxtExtract.SchemaTest do
 
       assert result["exchange"]["alias"] == true
       assert result["runtime"]["describe"] == nil
-      assert result["runtime"]["markets"] == nil
+      assert result["runtime"]["symbols_index"] == nil
       assert result["structure"]["sign_method"] == nil
-      assert result["structure"]["parse_methods"] == nil
-      assert result["structure"]["ws_methods"] == nil
     end
 
     test "builds output for non-pro exchange (no WS layers)" do
       meta = %{@full_meta | "pro" => false}
-      structure = %{full_structure() | "ws_methods" => nil, "methods" => %{"rest" => [@sample_method_sig], "ws" => nil}}
+      structure = %{full_structure() | "methods" => %{"rest" => [@sample_method_sig], "ws" => nil}}
       result = Schema.build_exchange(meta, full_runtime(), structure, @base_opts)
 
       assert result["exchange"]["pro"] == false
-      assert result["structure"]["ws_methods"] == nil
       assert result["structure"]["methods"]["ws"] == nil
     end
 
@@ -308,8 +307,6 @@ defmodule CcxtExtract.SchemaTest do
         "sign_method" => nil,
         "authenticated_sections" => nil,
         "handle_errors" => nil,
-        "parse_methods" => nil,
-        "ws_methods" => nil,
         "interface_signatures" => nil,
         "pagination" => nil,
         "overrides" => nil,

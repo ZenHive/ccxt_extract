@@ -38,8 +38,14 @@ defmodule CcxtExtract.Provenance do
 
   Introduced additively in `schema_version: "1.8.1"` (nullable). Promoted
   to required, non-null at `schema_version: "2.0.0"` by Task 61c —
-  `exchange_v2.json` enforces the object shape at JSV time and
+  `exchange_v3.json` enforces the object shape at JSV time and
   `Schema.validate/1` enforces presence via `@required_top_keys`.
+
+  Schema 3.0.0 (Task 117) pruned `/runtime/markets`,
+  `/structure/parse_methods`, and `/structure/ws_methods` from the raw
+  pointer set. `/runtime/symbols_index` was added as a derived pointer —
+  it replaces the `runtime.markets.markets` full snapshot with a compact
+  `{symbol => {spot: bool, swap: bool}}` index.
 
   ## Usage
 
@@ -58,7 +64,6 @@ defmodule CcxtExtract.Provenance do
     /exchange/alias
     /exchange/referral
     /runtime/describe
-    /runtime/markets
     /runtime/url_templates
     /structure/class_info
     /structure/methods
@@ -66,8 +71,6 @@ defmodule CcxtExtract.Provenance do
     /structure/handle_errors/method
     /structure/handle_errors/exceptions
     /structure/handle_errors/http_exceptions
-    /structure/parse_methods
-    /structure/ws_methods
     /structure/interface_signatures
     /structure/pagination
     /structure/overrides
@@ -75,6 +78,7 @@ defmodule CcxtExtract.Provenance do
 
   @derived_pointers ~w(
     /exchange/tier
+    /runtime/symbols_index
     /runtime/symbol_patterns
     /runtime/testnet_urls
     /structure/authenticated_sections

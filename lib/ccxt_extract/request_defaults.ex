@@ -79,7 +79,7 @@ defmodule CcxtExtract.RequestDefaults do
   @non_interface_prefixes ~w(is handle)
 
   # Closed vocabulary for `kind: "unresolved"` reason tags — listed here as
-  # a reading aid; the schema file `priv/schema/exchange_v2.json` is the
+  # a reading aid; the schema file `priv/schema/exchange_v3.json` is the
   # authoritative enum (RequestDefaultsEntry.reason). Producer is
   # `classify_property_value/1` below.
   #   conditional_value     — ternary or logical expression

@@ -22,7 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 @~/.claude/includes/oxc.md
 @~/.claude/includes/quickbeam.md
 @~/.claude/includes/reach.md
-
+@~/.claude/includes/agent-economy.md
 ---
 
 ## Architecture (big picture)

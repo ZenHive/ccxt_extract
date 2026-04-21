@@ -99,26 +99,23 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
     end
   end
 
-  describe "canonical_string per-verb map (Task 66a)" do
-    test "okx.private emits hmac_simple GET entry" do
+  describe "canonical_string per-verb map (Tasks 66a + 66b)" do
+    test "okx.private emits hmac_simple GET + hmac_with_body POST" do
       record = recipe("okx", "private")
       cs = record["canonical_string"]
 
       assert is_map(cs), "okx.private.canonical_string should be a per-verb map, got: #{inspect(cs)}"
 
-      assert %{"GET" => %{"family" => "hmac_simple", "components" => components, "encoding" => "url_encoded"}} = cs
+      # Task 66a: GET branch — hmac_simple with query.
+      assert %{"GET" => %{"family" => "hmac_simple", "components" => get_components, "encoding" => "url_encoded"}} = cs
+      assert Enum.map(get_components, & &1["source"]) == ["timestamp", "method", "path", "literal", "query"]
+      assert Enum.find(get_components, &(&1["source"] == "literal"))["value"] == "?"
 
-      # Shape check: [timestamp, method, path, literal("?"), query]
-      sources = Enum.map(components, & &1["source"])
-      assert sources == ["timestamp", "method", "path", "literal", "query"]
+      # Task 66b: POST branch — hmac_with_body with body.
+      assert %{"POST" => %{"family" => "hmac_with_body", "components" => post_components, "encoding" => "url_encoded"}} =
+               cs
 
-      # Literal value between path and query is "?"
-      literal = Enum.find(components, &(&1["source"] == "literal"))
-      assert literal["value"] == "?"
-
-      # POST branch is hmac_with_body (includes `body`) so Task 66a correctly
-      # drops it; Task 66b will populate it.
-      refute Map.has_key?(cs, "POST")
+      assert Enum.map(post_components, & &1["source"]) == ["timestamp", "method", "path", "body"]
     end
 
     test "Binance sections remain null under ambiguous_ast" do

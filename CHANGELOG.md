@@ -6,6 +6,101 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 66b: HMAC-with-body canonical_string family (POST populates)
+
+🎁 **10-HMAC** · Second half of the per-verb `canonical_string` map —
+extends 66a's hmac_simple GET coverage with hmac_with_body POST entries
+where provable. No schema bump: the shape shipped in 2.3.0 already
+enumerated `"hmac_with_body"` as a valid family and `"body"` as a valid
+`source`; 66b fills the slot.
+
+**Implementation:**
+
+- `CanonicalString.classify_branch/3` no longer drops branches whose
+  components include `source: "body"`. Instead the branch's `family`
+  field is selected per-branch: `"hmac_with_body"` when any component
+  is a body source, `"hmac_simple"` otherwise. One section can now
+  emit GET as hmac_simple and POST as hmac_with_body side-by-side under
+  the same per-verb map.
+- Narrow addition to `CanonicalString.classify_piece/2`: `@body_names`
+  (literally `"body"` and `"bodyPayload"`) are exempt from the
+  reassigned-filter. Every observed CCXT sign() reassignment to these
+  names sets the variable to body content (`this.json(...)`,
+  `this.urlencode(...)`), so the identifier name is itself the
+  authoritative source tag — consistent with the `@known_names`
+  short-circuit already in `expand_piece/3`. Without the exemption,
+  OKX's `body = this.json(query); auth += body` and bitget's mirror
+  pattern would have populated with `:skip` and aborted the POST branch.
+- The exemption is deliberately narrow. Other `@known_names` (path
+  aliases like `payload`, query aliases) still respect the reassigned
+  filter — kucoin's `let endpart = ''; endpart = body` and coinbase's
+  `let payload = ''; payload = this.json(body)` stay honestly null
+  because the initial value doesn't represent at-hmac semantics and
+  alias tracing would risk false positives. Deferred to Task 66h.
+- `flip_verb/1` comment swapped: the prior `TODO(Task 66b)` marker is
+  replaced with `TODO(Task 66g)` — future expansion to per-verb maps
+  distinguishing POST/PUT/DELETE/PATCH stays deferred because no
+  priority-tier sign() body actually branches on a non-GET verb.
+- Module docstring updated: scope now covers both hmac_simple and
+  hmac_with_body; removed the 66a-era "drops body-bearing branches"
+  language.
+
+**Coverage on first run:**
+
+Populates `canonical_string.POST` as `hmac_with_body`:
+
+- `okx.private.POST` → `[timestamp, method, path, body]` (okx.ts:6514–6528)
+
+Tier 3 (populates only when `--include tier3_corpus` is in scope):
+
+- `bitget.private.POST` → `[timestamp, method, path, body]` (bitget.ts:11126–11141)
+
+Stays `null` (recipe-level `unresolved_reason` unchanged):
+
+- `binance`, `binanceus`, `bybit`, `aster`, `coinbase` → `ambiguous_ast`
+  (RSA/Ed25519 conditional branches, merged-query shapes — Task 66f).
+- `htx`, `gate`, `deribit`, `bitfinex` → `not_yet_derived` (delimited
+  `Array.join("\n")` encoding, `nonce`/`hostname`/nested-hash vocabulary
+  gaps — Task 66e).
+- `hyperliquid`, `derive`, `lighter`, `kraken` → `custom_signing_family`
+  (EIP-712, ECDSA, binaryConcat — tagged at Task 65).
+- `kucoin`, `coinbaseexchange` → `not_yet_derived` (conditionally-
+  reassigned body alias pattern; deferred to Task 66h).
+
+**Tests:**
+
+- `test/ccxt_extract/sign_recipe/canonical_string_test.exs`: the
+  former "POST branch dropped (body reference)" test now asserts GET
+  hmac_simple + POST hmac_with_body side-by-side under the OKX-shape
+  fixture. A new "single non-GET branch with body → POST only" test
+  locks in the minimal populating shape. The former "both branches
+  reference body → nil overall" test flips to asserting both GET and
+  POST emit `hmac_with_body` (no body-bearing drop anymore).
+- `test/integration/cached/sign_recipe_cached_test.exs`: the cached
+  `okx.private` assertion now pins both the GET and POST shape.
+
+**Cross-repo:** `../ccxt_client/ROADMAP.md` T54 (retire
+`Signing.Classifier`) and T56 (spec-driven signing pattern modules) were
+blocked on the full canonical_string surface. With 66b shipped, two of
+the six Phase 10 derivation fields (crypto_op + canonical_string) are
+now populated end-to-end for OKX; the remaining blockers are T67
+(auth_headers + nonce) and T68 (pre_sign_transforms). T54/T56 stay
+upstream-blocked on those last two pieces but their block scope
+narrowed.
+
+**Deferred (out of scope):**
+
+- `source: "nonce"` — bitfinex vocabulary gap; tracked under Task 66e.
+- `encoding: "delimited"` + separator field — htx/gate/deribit; Task 66e.
+- `source: "hostname"` — htx; Task 66e.
+- Body pre-transforms (gate's `this.hash(body, sha512)`) — Task 66e.
+- RSA/Ed25519 disambiguation by key format — binance/bybit; Task 66f.
+- Sub-verb expansion (POST vs PUT vs DELETE vs PATCH) — Task 66g.
+- Conditionally-reassigned body alias tracing (kucoin `endpart`,
+  coinbase `payload`) — Task 66h.
+
+---
+
 ### Task 117: Schema 3.0.0 dead-weight prune
 
 🎁 **spec-size · B** · Breaking schema bump that drops three fields with

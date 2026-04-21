@@ -518,7 +518,7 @@ Task 60 ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON 
     "sign_recipe": {
       "private": {
         "crypto_op": {"algo": "hmac_sha256"},      // Task 65
-        "canonical_string": {                       // Tasks 66a (populated entries) / 66b (pending)
+        "canonical_string": {                       // Tasks 66a + 66b (both populated)
           "GET": {
             "family": "hmac_simple",
             "components": [
@@ -529,8 +529,17 @@ Task 60 ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON 
               {"source": "query"}
             ],
             "encoding": "url_encoded"
+          },
+          "POST": {                                  // Task 66b — HMAC-with-body
+            "family": "hmac_with_body",
+            "components": [
+              {"source": "timestamp"},
+              {"source": "method"},
+              {"source": "path"},
+              {"source": "body"}
+            ],
+            "encoding": "url_encoded"
           }
-          // "POST" entry is hmac_with_body — 66b will populate
         },
         "signature_placement": {                    // Task 65
           "location": "header",
@@ -589,7 +598,7 @@ Phase 10 bundles populate fields in this order (see ROADMAP.md § Phase 10):
 |------|---------------|--------|
 | 65 | `crypto_op`, `signature_placement` | ✅ Shipped 2026-04-18 |
 | 66a | `canonical_string` (HMAC-simple entries; per-verb map) | ✅ Shipped 2026-04-19 |
-| 66b | `canonical_string` (HMAC-with-body entries; per-verb map) | ⬜ |
+| 66b | `canonical_string` (HMAC-with-body entries; per-verb map) | ✅ Shipped 2026-04-21 (no schema bump — 2.3.0 slot fill) |
 | 67 | `auth_headers`, `nonce` | ⬜ |
 | 68 | `pre_sign_transforms` | ⬜ |
 | 69 | Round-trip validation; flip `unresolved_reason` to `null` once all fields non-null | ⬜ |

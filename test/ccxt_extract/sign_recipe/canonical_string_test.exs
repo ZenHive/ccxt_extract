@@ -251,9 +251,13 @@ defmodule CcxtExtract.SignRecipe.CanonicalStringTest do
     #   else { body = this.json(params); auth += body; }
     #   signature = this.hmac(this.encode(auth), ...);
     #
-    # Expected: GET branch is hmac_simple, POST branch contains body so skipped.
+    # Expected: GET branch emits hmac_simple, POST branch emits hmac_with_body.
+    # The `body = this.json(...)` direct assignment puts `body` into the
+    # `reassigned` set, but `@body_names` are exempt from that filter in
+    # `classify_piece/2` because the identifier name `body` is itself the
+    # canonical HTTP-body source tag in CCXT sign().
 
-    test "GET branch emits hmac_simple, POST branch dropped (body reference)" do
+    test "GET emits hmac_simple, POST emits hmac_with_body (OKX-shape sign)" do
       init = plus_chain([identifier("timestamp"), identifier("method"), identifier("path")])
 
       get_branch = [
@@ -271,12 +275,6 @@ defmodule CcxtExtract.SignRecipe.CanonicalStringTest do
         sig_decl(identifier("auth"))
       ]
 
-      # NOTE: this test can't actually pass because `body = this.json(...)`
-      # is a direct assignment to `body` inside the POST branch, which
-      # triggers `any_direct_reassign_after_init?` for the VARIABLE "body"
-      # (but we're tracking "auth", not "body"). So the auth trace proceeds
-      # normally. The POST branch append (`auth += body`) classifies `body`
-      # as source "body" → drops that branch.
       result = CanonicalString.derive(body, [], ["signature"], "not_yet_derived")
 
       assert result == %{
@@ -288,6 +286,49 @@ defmodule CcxtExtract.SignRecipe.CanonicalStringTest do
                    %{"source" => "path"},
                    %{"source" => "literal", "value" => "?"},
                    %{"source" => "query"}
+                 ],
+                 "encoding" => "url_encoded"
+               },
+               "POST" => %{
+                 "family" => "hmac_with_body",
+                 "components" => [
+                   %{"source" => "timestamp"},
+                   %{"source" => "method"},
+                   %{"source" => "path"},
+                   %{"source" => "body"}
+                 ],
+                 "encoding" => "url_encoded"
+               }
+             }
+    end
+
+    test "single non-GET branch with body → POST hmac_with_body only" do
+      # Minimal shape: let auth = INIT; if (method === 'POST') { auth += body };
+      # No else-branch. Locks in the minimal populating shape for 66b: only
+      # POST appears in the per-verb map; GET's implicit init-only canonical
+      # is not emitted (pre-existing behavior — see build_verb_entries/2).
+      init = plus_chain([identifier("timestamp"), identifier("path")])
+
+      post_branch = [
+        direct_assign("body", this_call("json", [identifier("params")])),
+        compound_assign("auth", identifier("body"))
+      ]
+
+      body = [
+        var_decl("auth", init),
+        if_method("POST", post_branch),
+        sig_decl(identifier("auth"))
+      ]
+
+      result = CanonicalString.derive(body, [], ["signature"], "not_yet_derived")
+
+      assert result == %{
+               "POST" => %{
+                 "family" => "hmac_with_body",
+                 "components" => [
+                   %{"source" => "timestamp"},
+                   %{"source" => "path"},
+                   %{"source" => "body"}
                  ],
                  "encoding" => "url_encoded"
                }
@@ -330,7 +371,10 @@ defmodule CcxtExtract.SignRecipe.CanonicalStringTest do
       assert get_in(result, ["POST", "family"]) == "hmac_simple"
     end
 
-    test "both branches reference body → nil overall (66b's scope)" do
+    test "both branches reference body → both emit hmac_with_body" do
+      # Contrived shape: both branches append `body` to the auth chain. Under
+      # 66a this returned nil (any body-bearing branch was dropped); under 66b
+      # both emit hmac_with_body entries side-by-side under GET and POST.
       init = plus_chain([identifier("timestamp"), identifier("method")])
       get_branch = [compound_assign("auth", identifier("body"))]
       post_branch = [compound_assign("auth", identifier("body"))]
@@ -341,7 +385,12 @@ defmodule CcxtExtract.SignRecipe.CanonicalStringTest do
         sig_decl(identifier("auth"))
       ]
 
-      assert is_nil(CanonicalString.derive(body, [], ["signature"], "not_yet_derived"))
+      result = CanonicalString.derive(body, [], ["signature"], "not_yet_derived")
+      assert result |> Map.keys() |> Enum.sort() == ["GET", "POST"]
+      assert get_in(result, ["GET", "family"]) == "hmac_with_body"
+      assert get_in(result, ["POST", "family"]) == "hmac_with_body"
+      assert List.last(get_in(result, ["GET", "components"])) == %{"source" => "body"}
+      assert List.last(get_in(result, ["POST", "components"])) == %{"source" => "body"}
     end
 
     test "unconditional += after method-conditional += preserves source order" do

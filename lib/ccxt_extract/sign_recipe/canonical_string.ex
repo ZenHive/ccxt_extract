@@ -1,30 +1,33 @@
 defmodule CcxtExtract.SignRecipe.CanonicalString do
   @moduledoc """
-  Task 66a — populate `canonical_string` on every `structure.sign_recipe`
-  record as a **per-verb map** of hmac_simple entries.
+  Tasks 66a + 66b — populate `canonical_string` on every
+  `structure.sign_recipe` record as a **per-verb map** of hmac_simple
+  (66a) and hmac_with_body (66b) entries.
 
   # Patch count: 0/3. First patch migrates to priv/overrides/.
   # See ROADMAP.md § Phase 10 "Three-Strikes Rule".
 
   ## Scope
 
-  For each authenticated section whose sign() builds a plain
-  HMAC-over-concatenated-string without referencing the request body,
-  emit `%{verb_key => %{family, components, encoding}}` where:
+  For each authenticated section whose sign() builds an
+  HMAC-over-concatenated-string, emit
+  `%{verb_key => %{family, components, encoding}}` where:
 
     * `verb_key` — `"GET"`/`"POST"`/`"PUT"`/`"DELETE"`/`"PATCH"` when the
       sign() method branches on `method === 'X'`, or the sentinel `"*"`
       when the canonical string is uniform across all verbs.
-    * `family` — always `"hmac_simple"` here. HMAC-with-body entries are
-      Task 66b's scope; 66a skips any branch whose `+`-chain references
-      `body` / `this.json(...)`.
+    * `family` — `"hmac_simple"` when the branch has no body component,
+      `"hmac_with_body"` when any component has `source: "body"`. The
+      family is a per-branch property; one section can ship GET as
+      hmac_simple and POST as hmac_with_body side-by-side.
     * `components` — ordered list of `%{source, value?}` where
       `source ∈ timestamp|api_key|recv_window|method|path|query|body|literal`.
     * `encoding` — currently always `"url_encoded"` (the default for
       `+`-chain concatenation of urlencoded query blobs). `"raw"` and
       `"json"` are reserved for later tasks.
 
-  Returns `nil` when no verb yields a clean hmac_simple decomposition.
+  Returns `nil` when no verb yields a clean decomposition (all branches
+  abort on unclassifiable pieces or reassigned identifiers).
 
   ## Honesty Rule
 
@@ -58,14 +61,15 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
   4. **Classify each branch's `+`-chain.** Each AST piece maps to one of
      the eight component sources in the schema vocabulary. Consecutive
      literals merge. Any unrecognized piece aborts the branch (null it).
-     Any branch containing a `body` component is 66b's scope and gets
-     dropped (not nulled — dropped from the per-verb map, so other verbs
-     can still ship).
+     A branch whose components include a `body` source emits
+     `family: "hmac_with_body"` (Task 66b); otherwise `family:
+     "hmac_simple"`. One section can ship GET as hmac_simple and POST
+     as hmac_with_body side-by-side under the same per-verb map.
 
   5. **Emit the per-verb map.** At least one verb must survive; otherwise
      `canonical_string` stays `nil`.
 
-  ## What 66a does NOT attempt (truthful deferrals)
+  ## What 66a/66b do NOT attempt (truthful deferrals)
 
     * `Array.join(\"\\n\")` — Gate's `payloadArray.join`, Deribit's
       newline-separated chain, HTX's `[method, hostname, path, query].join`.
@@ -404,11 +408,11 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
 
   # CCXT sign() methods almost universally branch GET-vs-everything-else; the
   # else-branch of a `method === 'GET'` test is treated as "POST" (the dominant
-  # non-GET verb). We accept one misclassification: PUT/DELETE/PATCH endpoints
-  # share the "POST" key. This is safe for 66a specifically because the
-  # else-branch almost always contains `body` and is dropped from the hmac_simple
-  # result anyway — TODO(Task 66b): populate it cleanly once HMAC-with-body
-  # derivation distinguishes the individual non-GET verbs.
+  # non-GET verb). Consumers applying the POST recipe to PUT/DELETE/PATCH of the
+  # same section get the right canonical string today because no priority
+  # exchange distinguishes those verbs inside sign() — they all fall into the
+  # same else-branch. TODO(Task 66g): expand to per-verb (POST/PUT/DELETE/PATCH)
+  # map when a sign() actually distinguishes them.
   defp flip_verb("GET"), do: "POST"
   defp flip_verb("POST"), do: "GET"
   defp flip_verb(_), do: nil
@@ -458,17 +462,14 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
         nil
 
       components ->
-        if Enum.any?(components, &body_component?/1) do
-          # hmac_with_body — Task 66b's scope.
-          nil
-        else
-          {verb,
-           %{
-             "family" => "hmac_simple",
-             "components" => components,
-             "encoding" => "url_encoded"
-           }}
-        end
+        family = if Enum.any?(components, &body_component?/1), do: "hmac_with_body", else: "hmac_simple"
+
+        {verb,
+         %{
+           "family" => family,
+           "components" => components,
+           "encoding" => "url_encoded"
+         }}
     end
   end
 
@@ -566,16 +567,30 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
   # An Identifier whose name is in `reassigned` returns `:skip` regardless
   # of how well it matches the known-name tables — its value at hmac-time
   # is dynamic and any stable source tag would be a lie.
+  #
+  # EXCEPTION: `@body_names` (literally `body` / `bodyPayload`) are the
+  # canonical HTTP body surface in CCXT sign(). Every observed reassignment
+  # to these names sets the variable to body content (`this.json(...)`,
+  # `this.urlencode(...)`, `this.encode(...)`), so the identifier name is
+  # itself the authoritative source tag — consistent with the
+  # `@known_names` short-circuit in `expand_piece/3`. Without this
+  # exemption, OKX's `body = this.json(query); auth += body` and bitget's
+  # mirror pattern would never populate their POST canonical_string.
+  # Other `@known_names` (path aliases like `payload`, query aliases) do
+  # NOT get this exemption — kucoin's `let endpart = ''; endpart = body`
+  # and coinbase's `let payload = ''; payload = this.json(body)` stay
+  # honestly null because the initial value doesn't represent at-hmac
+  # semantics.
 
   @spec classify_piece(map(), [String.t()]) :: {:ok, component()} | :skip
   defp classify_piece(%{"type" => "Identifier", "name" => n}, reassigned) do
     cond do
+      n in @body_names -> {:ok, %{"source" => "body"}}
       n in reassigned -> :skip
       n in @timestamp_names -> {:ok, %{"source" => "timestamp"}}
       n in @method_names -> {:ok, %{"source" => "method"}}
       n in @path_names -> {:ok, %{"source" => "path"}}
       n in @query_names -> {:ok, %{"source" => "query"}}
-      n in @body_names -> {:ok, %{"source" => "body"}}
       n in @recv_window_names -> {:ok, %{"source" => "recv_window"}}
       true -> :skip
     end

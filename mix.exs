@@ -54,7 +54,7 @@ defmodule CcxtExtract.MixProject do
       # Code analysis tools
       {:ex_dna, "~> 1.1", only: [:dev, :test], runtime: false},
       {:ex_ast, "~> 0.2", only: [:dev, :test], runtime: false},
-      {:ex_slop, "~> 0.2.0", only: [:dev, :test], runtime: false},
+      {:ex_slop, "~> 0.3.0", only: [:dev, :test], runtime: false},
       {:reach, "~> 1.2", only: [:dev, :test], runtime: false},
       {:tidewave, "~> 0.5", only: :dev},
       {:bandit, "~> 1.10", only: :dev}

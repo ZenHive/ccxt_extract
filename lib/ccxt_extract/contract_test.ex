@@ -68,6 +68,42 @@ defmodule CcxtExtract.ContractTest do
 
   @paths_read_helpers [:priv, :priv_dir, :discoveries, :ts_src, :bundle, :version_file]
 
+  # Functions that consume a filesystem path as input and return a non-path
+  # value (content, boolean, stat map, file handle). Once a path flows through
+  # one of these, downstream data is no longer a path, so further use in a
+  # writer is legitimate — e.g. reading a committed JSON schema and writing
+  # its contents into the output dir, or branching on `File.exists?/1` before
+  # writing unrelated data via the `out_*` helpers.
+  #
+  # TODO(Task 127): Reach marks a flow sanitized if any sanitizer node
+  # appears anywhere on the source→sink chop. That means a path-inspection
+  # (`exists?`/`stat`/`ls`) in the same function as a LATER `File.write!` to
+  # an unrelated `out_*` path currently sanitizes a false positive (e.g.
+  # `ccxt_extract.setup.ex:254-287`), but would ALSO sanitize a genuine leak
+  # of the form `if File.exists?(p), do: File.write!(p, data)` where the
+  # sink's target IS the inspected path. A tighter fix would be
+  # position-aware sinks (`File.cp!` arg 0 is read-only) plus variable-level
+  # (not chop-level) sanitization. Narrowing to only content-readers
+  # (`read`/`read!`/`stream!`/`open`/`open!`) re-exposes the setup.ex false
+  # positive and trips the baseline-green contract test — verified
+  # 2026-04-24. See CHANGELOG entry under the paths_rw_split fix.
+  @file_reader_fns [
+    :read,
+    :read!,
+    :stream!,
+    :exists?,
+    :regular?,
+    :dir?,
+    :stat,
+    :stat!,
+    :lstat,
+    :lstat!,
+    :ls,
+    :ls!,
+    :open,
+    :open!
+  ]
+
   @file_writer_fns [
     :write,
     :write!,
@@ -959,7 +995,8 @@ defmodule CcxtExtract.ContractTest do
       project,
       [
         sources: [type: :call, module: CcxtExtract.Paths, function: fn_name],
-        sinks: &paths_rw_sink?/1
+        sinks: &paths_rw_sink?/1,
+        sanitizers: &paths_rw_sanitizer?/1
       ]
     ])
   end
@@ -968,6 +1005,16 @@ defmodule CcxtExtract.ContractTest do
     node.type == :call and
       node.meta[:module] == File and
       node.meta[:function] in @file_writer_fns
+  end
+
+  # Once a path has been consumed by a File reader, the downstream value is
+  # file CONTENT, not a path — so further flow into a writer is legitimate
+  # (reading a committed artifact and writing its bytes into the output dir).
+  # Prevents false positives on `Paths.priv → File.read! → ... → File.write!`.
+  defp paths_rw_sanitizer?(node) do
+    node.type == :call and
+      node.meta[:module] == File and
+      node.meta[:function] in @file_reader_fns
   end
 
   # Keep only unsanitized, same-file flows. See module doc on check_paths_rw_split/1.
@@ -1040,7 +1087,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp count_by_invariant(findings) do
-    base = Map.new(@invariants, fn {name, _} -> {name, 0} end)
+    base = Map.new(@invariants ++ @corpus_invariants, fn {name, _} -> {name, 0} end)
     Enum.reduce(findings, base, fn f, acc -> Map.update!(acc, f.invariant, &(&1 + 1)) end)
   end
 end

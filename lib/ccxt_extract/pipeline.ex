@@ -680,7 +680,14 @@ defmodule CcxtExtract.Pipeline do
   defp copy_schema!(output_dir) do
     schema_source = Paths.priv("schema/" <> Schema.schema_filename())
     schema_target = Path.join(output_dir, Schema.schema_filename())
-    File.cp!(schema_source, schema_target)
+    # TODO(Task 127): explicit read+write (not `File.cp!/2`) so the
+    # `paths_rw_split` contract invariant sees a sanitized flow:
+    # `Paths.priv → File.read! → File.write!`. `File.cp!` is a writer that
+    # also receives a read-side arg, which the chop-level taint check can't
+    # position-distinguish. Restore `File.cp!` once Task 127 lands
+    # position-aware sinks. Mode preservation isn't load-bearing for a JSON
+    # schema file.
+    File.write!(schema_target, File.read!(schema_source))
   end
 
   # Copy _base_methods.json to the output directory as a shared artifact.

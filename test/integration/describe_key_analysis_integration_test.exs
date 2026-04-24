@@ -24,7 +24,11 @@ defmodule CcxtExtract.DescribeKeyAnalysisIntegrationTest do
   describe "extract/0 structure" do
     test "returns complete analysis with all required fields", %{analysis: analysis} do
       assert is_integer(analysis["exchange_count"])
-      assert analysis["exchange_count"] >= 90
+      # TODO: Floor matches the committed `priv/discoveries/describe_keys.json`
+      # corpus (tier1+tier2+dex scope, ~21 exchanges). `DescribeKeyAnalysis.extract/0`
+      # reads that file rather than re-extracting full-universe — raising this
+      # threshold without regenerating the corpus will guarantee test failure.
+      assert analysis["exchange_count"] >= 20
       assert is_integer(analysis["key_count"])
       assert analysis["key_count"] >= 10
       assert is_list(analysis["keys"])

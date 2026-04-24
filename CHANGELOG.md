@@ -6,6 +6,33 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Changed
+
+- **Task 123** — `structure.authenticated_sections` now emits nested
+  `<parent>.<child>` dotted paths alongside flat top-level names for
+  exchanges whose `describe.api` nests authenticated children one level
+  deep under container keys. htx and its huobi twin now emit
+  `["contract.private", "private", "spot.private", "v2Private"]`
+  instead of just `["private", "v2Private"]`. The expansion is
+  additive: exchanges with flat `describe.api` maps (binance, bybit,
+  okx, …) are byte-identical before/after. No schema bump —
+  `authenticated_sections` remains `string[]`. Implementation: a new
+  `expand_nested/2` post-processing pass in
+  `CcxtExtract.AuthenticatedSections.derive/2` walks `describe.api`
+  one level deeper for every derived name, emitting `"#{parent}.#{child}"`
+  for every child key whose name matches the derived name-class
+  (same filter the sign-AST scan uses — `private`, `v2Private`, etc.).
+  The three-strikes patch count stays at 3/3 — this is a completeness
+  pass, not a new AST strategy. Signature changed from
+  `derive(sign_method, api_keys)` to `derive(sign_method, api)`;
+  `describe_api_keys/1` helper in `pipeline.ex` removed (single caller).
+  Contract-test `authenticated_sections_reachable_in_api` now handles
+  dotted paths via `get_in/2` tree resolution; `sign_recipe_keys_match_auth_sections`
+  stays clean because `Pipeline.sync_sign_recipe/1` mirrors recipe keys
+  to the expanded list automatically. Unblocks 234 ccxt_client
+  integration-test failures (raw_endpoint_probe classification cascade
+  for htx + huobi) — see `../ccxt_client/ROADMAP.md` Task 110.
+
 ### Fixed
 
 - `paths_rw_split` contract invariant: `copy_schema!/1` in

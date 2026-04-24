@@ -32,6 +32,21 @@ defmodule CcxtExtract.AuthenticatedSections do
 
   Requires `api_keys` (from `describe.api`) to compute the complement.
 
+  ## Nested sub-section expansion (post-derivation)
+
+  After the sign-AST scan yields a flat list of section names, walk
+  `describe.api` one level deeper: for every top-level `<parent>` whose
+  sub-tree is a map, if any `<child>` key in that sub-tree is an exact
+  match for one of the already-derived section names, emit
+  `<parent>.<child>` alongside the flat names. This covers
+  htx/huobi-style schemas where authenticated endpoints nest under
+  container keys (`contract.private`, `spot.private`) that a flat scan
+  would miss. The child-name check is set-membership against the
+  already-derived names, not a regex over a name class — a child key
+  the sign AST never identified as authenticated is never added
+  (even if it spells the same shape, e.g. `privateV3`). See
+  `expand_nested/2`.
+
   ## What goes to overrides instead
 
   - `api.startsWith('private')` (grvt) — prefix matching
@@ -47,30 +62,60 @@ defmodule CcxtExtract.AuthenticatedSections do
   @doc """
   Derive authenticated section names from a sign() method AST.
 
-  `api_keys` is the list of top-level keys in `describe.api` (e.g. from
-  `Map.keys(describe["api"])`). Required for alternate-branch inversion;
-  if `nil`, inversion is skipped and only direct/indexed/binding patterns
-  are used.
+  `api` is the full `describe.api` map (or `nil`). Its top-level keys feed
+  alternate-branch inversion; its nested sub-trees feed one-level-deep
+  expansion (`<parent>.<child>` paths). If `nil`, both passes are skipped
+  and only the direct/indexed/binding patterns on the sign AST are used.
 
-  Returns a sorted, deduplicated list of section name strings, or nil if the
-  method AST is nil.
+  Returns a sorted, deduplicated list of section name strings, or `nil` if
+  the method AST is nil.
   """
-  @spec derive(map() | nil, [String.t()] | nil) :: [String.t()] | nil
-  def derive(sign_method, api_keys \\ nil)
+  @spec derive(map() | nil, map() | nil) :: [String.t()] | nil
+  def derive(sign_method, api \\ nil)
 
-  def derive(nil, _api_keys), do: nil
+  def derive(nil, _api), do: nil
 
-  def derive(%{"body" => %{"body" => body_stmts}}, api_keys) when is_list(body_stmts) do
+  def derive(%{"body" => %{"body" => body_stmts}}, api) when is_list(body_stmts) do
+    api_keys = if is_map(api), do: Map.keys(api)
     bindings = resolve_variable_bindings(body_stmts)
     ctx = %{bindings: bindings, api_keys: api_keys}
 
-    body_stmts
-    |> collect_from_if_statements(ctx)
+    raw_names =
+      body_stmts
+      |> collect_from_if_statements(ctx)
+      |> Enum.uniq()
+
+    raw_names
+    |> expand_nested(api)
     |> Enum.uniq()
     |> Enum.sort()
   end
 
   def derive(_, _), do: nil
+
+  # Post-derivation: for every top-level <parent> in describe.api whose
+  # sub-tree is a map, emit "<parent>.<child>" for every child key whose
+  # name matches a derived section name. Returns names ++ dotted paths.
+  # When api is not a map, returns names unchanged.
+  defp expand_nested(names, api) when is_map(api) and is_list(names) do
+    name_set = MapSet.new(names)
+
+    dotted =
+      Enum.flat_map(api, fn
+        {parent, subtree} when is_map(subtree) and is_binary(parent) ->
+          subtree
+          |> Map.keys()
+          |> Enum.filter(&MapSet.member?(name_set, &1))
+          |> Enum.map(&"#{parent}.#{&1}")
+
+        _ ->
+          []
+      end)
+
+    names ++ dotted
+  end
+
+  defp expand_nested(names, _api), do: names
 
   # Scan top-level VariableDeclarations for `api === 'sectionName'` bindings.
   defp resolve_variable_bindings(body_stmts) do

@@ -292,7 +292,7 @@ defmodule CcxtExtract.ContractTest do
 
     sections
     |> Enum.with_index()
-    |> Enum.reject(fn {name, _i} -> MapSet.member?(reachable, name) end)
+    |> Enum.reject(fn {name, _i} -> reachable_in_api?(name, api, reachable) end)
     |> Enum.map(fn {name, i} ->
       %{
         exchange: id,
@@ -302,6 +302,15 @@ defmodule CcxtExtract.ContractTest do
       }
     end)
   end
+
+  defp reachable_in_api?(name, api, reachable) when is_binary(name) do
+    case String.split(name, ".", parts: 2) do
+      [flat] -> MapSet.member?(reachable, flat)
+      [parent, child] -> is_map(get_in(api, [parent, child]))
+    end
+  end
+
+  defp reachable_in_api?(_name, _api, _reachable), do: false
 
   @doc """
   Flag drift between `structure.sign_recipe` keys and

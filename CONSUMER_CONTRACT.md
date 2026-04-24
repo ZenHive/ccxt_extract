@@ -24,7 +24,7 @@ A consumer must be able to sign an authenticated request per API section without
 | Auth header set (API key header, passphrase, signature, timestamp) | 🚧 | `sign_recipe.<section>.auth_headers` — shape shipped; values pending Task 67 |
 | Nonce/timestamp source (ms, sec, μs, monotonic, exchange-supplied) | 🚧 | `sign_recipe.<section>.nonce` — shape shipped; values pending Task 67 |
 | Pre-sign transforms (hex-encode, base64, lowercase, URL-encode body) | 🚧 | `sign_recipe.<section>.pre_sign_transforms` — shape shipped; values pending Task 68 |
-| Which API sections require auth | ✅ | `structure.authenticated_sections` (Task 52) |
+| Which API sections require auth | ✅ | `structure.authenticated_sections` (Task 52). As of Task 123 (2026-04-24) the list also includes dotted `<parent>.<child>` paths (e.g. `contract.private`, `spot.private`) when `describe.api` nests authenticated children under container keys. Consumers must pattern-match on either tier. |
 | Raw `sign()` AST (escape hatch) | ✅ | `structure.sign_method` |
 
 ---

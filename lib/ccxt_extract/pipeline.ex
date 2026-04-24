@@ -287,12 +287,12 @@ defmodule CcxtExtract.Pipeline do
 
     sign_method = get_sign_method(id, data)
     effective_sign = sign_method || get_parent_sign_method(id, data)
-    api_keys = describe_api_keys(describe)
+    describe_api = get_in(describe, ["api"])
 
     # Curated overrides for `/structure/authenticated_sections` are applied
     # at the tail of extract/1 by apply_exchange_overrides/1, which threads
     # applied-pointer paths into the _provenance map.
-    authenticated_sections = CcxtExtract.AuthenticatedSections.derive(effective_sign, api_keys)
+    authenticated_sections = CcxtExtract.AuthenticatedSections.derive(effective_sign, describe_api)
 
     structure_data = %{
       "class_info" => get_class_info(id, data),
@@ -386,10 +386,6 @@ defmodule CcxtExtract.Pipeline do
         end
     end
   end
-
-  # Top-level keys of describe.api (section names routed through sign()).
-  defp describe_api_keys(%{"api" => api}) when is_map(api), do: Map.keys(api)
-  defp describe_api_keys(_), do: nil
 
   # Handle errors: rename handle_errors → method, with parent fallback
   defp get_handle_errors(id, data) do

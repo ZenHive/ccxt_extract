@@ -326,7 +326,7 @@ defmodule CcxtExtract.AuthenticatedSectionsTest do
           )
         ])
 
-      assert AuthenticatedSections.derive(ast, ["public", "private"]) == ["private"]
+      assert AuthenticatedSections.derive(ast, %{"public" => nil, "private" => nil}) == ["private"]
     end
 
     test "inverts else-branch: flattens else-if chain, accumulates non-auth across branches" do
@@ -349,8 +349,9 @@ defmodule CcxtExtract.AuthenticatedSectionsTest do
           if_statement(api_equals("public"), noop, else_if)
         ])
 
-      assert AuthenticatedSections.derive(ast, ["public", "webExchange", "private", "v2Private"]) ==
-               ["private", "v2Private"]
+      api = %{"public" => nil, "webExchange" => nil, "private" => nil, "v2Private" => nil}
+
+      assert AuthenticatedSections.derive(ast, api) == ["private", "v2Private"]
     end
 
     test "inversion is skipped when api_keys is nil (derive/1 fallback)" do
@@ -425,6 +426,81 @@ defmodule CcxtExtract.AuthenticatedSectionsTest do
           end
         end
       end
+    end
+  end
+
+  describe "nested sub-section expansion" do
+    test "emits dotted paths for children matching the derived name-class" do
+      # sign AST derives ["private"]; htx-style describe.api nests authenticated
+      # endpoints under container keys (contract.private, spot.private)
+      ast =
+        method_ast([
+          if_statement(api_equals("private"), [check_required_credentials_call()])
+        ])
+
+      api = %{
+        "contract" => %{"private" => %{}, "public" => %{}},
+        "private" => %{},
+        "spot" => %{"private" => %{}, "public" => %{}}
+      }
+
+      assert AuthenticatedSections.derive(ast, api) ==
+               ["contract.private", "private", "spot.private"]
+    end
+
+    test "does not emit dotted paths for children outside the derived name-class" do
+      # derived set is ["private"] — a "public" child must NOT be added
+      ast =
+        method_ast([
+          if_statement(api_equals("private"), [check_required_credentials_call()])
+        ])
+
+      api = %{"contract" => %{"private" => %{}, "public" => %{}}}
+
+      result = AuthenticatedSections.derive(ast, api)
+      assert "contract.private" in result
+      refute "contract.public" in result
+    end
+
+    test "single-arg derive(ast) still returns flat names only (backward compat)" do
+      ast =
+        method_ast([
+          if_statement(api_equals("private"), [check_required_credentials_call()])
+        ])
+
+      assert AuthenticatedSections.derive(ast) == ["private"]
+      assert AuthenticatedSections.derive(ast, nil) == ["private"]
+    end
+
+    test "scalar sub-tree is skipped defensively (no raise)" do
+      # describe.api with a non-map value under a top-level key — shouldn't happen
+      # in practice, but the expansion must not explode on malformed input
+      ast =
+        method_ast([
+          if_statement(api_equals("private"), [check_required_credentials_call()])
+        ])
+
+      api = %{"private" => %{}, "weird" => "not a map"}
+
+      assert AuthenticatedSections.derive(ast, api) == ["private"]
+    end
+
+    test "v2Private twin: name-class filter prevents spurious parent expansion" do
+      # sign derives ["private", "v2Private"]; api has a "v2" container whose
+      # child is "v2Private". Assert dotted form is "v2.v2Private" (child matches),
+      # NOT "v2.private" (no such child) and NOT any expansion from the "v2"
+      # parent just because it happens to be a key.
+      test_expr = logical_or(api_equals("private"), api_equals("v2Private"))
+
+      ast = method_ast([if_statement(test_expr, [check_required_credentials_call()])])
+
+      api = %{
+        "contract" => %{"private" => %{}},
+        "v2" => %{"v2Private" => %{}}
+      }
+
+      assert AuthenticatedSections.derive(ast, api) ==
+               ["contract.private", "private", "v2.v2Private", "v2Private"]
     end
   end
 end

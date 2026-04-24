@@ -67,6 +67,75 @@ defmodule CcxtExtract.SignRecipeTest do
     end
   end
 
+  describe "derivation_fields/0 and all_derivation_fields_populated?/1 (Task 69)" do
+    test "derivation_fields/0 returns the six populated-by-Phase-10 keys" do
+      assert SignRecipe.derivation_fields() == [
+               "crypto_op",
+               "canonical_string",
+               "signature_placement",
+               "auth_headers",
+               "nonce",
+               "pre_sign_transforms"
+             ]
+    end
+
+    test "derivation_fields/0 is a strict subset of required_keys/0" do
+      assert SignRecipe.derivation_fields() -- SignRecipe.required_keys() == []
+      # Required minus derivation = metadata (unresolved_reason + patch_count).
+      leftover = SignRecipe.required_keys() -- SignRecipe.derivation_fields()
+      assert Enum.sort(leftover) == ["patch_count", "unresolved_reason"]
+    end
+
+    test "scaffold null_recipe is NOT populated (every field nil)" do
+      refute SignRecipe.all_derivation_fields_populated?(SignRecipe.null_recipe())
+    end
+
+    test "all six fields populated returns true (honest-empty [] counts as populated)" do
+      # Empty list for auth_headers / pre_sign_transforms is non-nil,
+      # which means "we proved there are zero" — honest-empty, NOT
+      # unresolved. Exercising both list fields with [] here covers
+      # that semantic inline.
+      populated =
+        SignRecipe.null_recipe()
+        |> Map.put("crypto_op", %{"algo" => "hmac_sha256"})
+        |> Map.put("canonical_string", %{})
+        |> Map.put("signature_placement", %{"location" => "header", "key" => "X"})
+        |> Map.put("auth_headers", [])
+        |> Map.put("nonce", %{"source" => "timestamp_ms", "format" => "integer"})
+        |> Map.put("pre_sign_transforms", [])
+
+      assert SignRecipe.all_derivation_fields_populated?(populated)
+    end
+
+    test "any single null field returns false" do
+      for null_key <- SignRecipe.derivation_fields() do
+        record =
+          SignRecipe.null_recipe()
+          |> Map.put("crypto_op", %{"algo" => "hmac_sha256"})
+          |> Map.put("canonical_string", %{})
+          |> Map.put("signature_placement", %{"location" => "header", "key" => "X"})
+          |> Map.put("auth_headers", [])
+          |> Map.put("nonce", %{"source" => "timestamp_ms", "format" => "integer"})
+          |> Map.put("pre_sign_transforms", [])
+          |> Map.put(null_key, nil)
+
+        refute SignRecipe.all_derivation_fields_populated?(record),
+               "expected #{null_key}=nil to return false from populated? predicate"
+      end
+    end
+
+    test "missing key returns false (malformed record safety)" do
+      refute SignRecipe.all_derivation_fields_populated?(%{})
+      refute SignRecipe.all_derivation_fields_populated?(%{"crypto_op" => %{}})
+    end
+
+    test "non-map input returns false" do
+      refute SignRecipe.all_derivation_fields_populated?(nil)
+      refute SignRecipe.all_derivation_fields_populated?([])
+      refute SignRecipe.all_derivation_fields_populated?("oops")
+    end
+  end
+
   describe "exchange_v3.json parity" do
     test "SignRecipeRecord in exchange_v3.json matches sign_recipe_v1.json" do
       standalone = read_schema!(@recipe_schema_path)

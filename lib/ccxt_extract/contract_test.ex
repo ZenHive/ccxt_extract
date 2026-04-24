@@ -54,6 +54,7 @@ defmodule CcxtExtract.ContractTest do
     {"request_defaults_resolvable_reachable_from_unified", :check_request_defaults_resolvable_reachable_from_unified},
     {"sign_recipe_keys_match_auth_sections", :check_sign_recipe_keys_match_auth_sections},
     {"sign_recipe_shape_valid", :check_sign_recipe_shape_valid},
+    {"sign_recipe_honesty_valid", :check_sign_recipe_honesty_valid},
     {"testnet_urls_shape_valid", :check_testnet_urls_shape_valid}
   ]
 
@@ -439,6 +440,86 @@ defmodule CcxtExtract.ContractTest do
         "unresolved_reason must be null or one of #{inspect(SignRecipe.unresolved_reasons())}, got #{inspect(v)}"
       )
     end
+  end
+
+  @doc """
+  Validate the `structure.sign_recipe` honesty biconditional (Task 69):
+
+      unresolved_reason == nil  ⇔  every derivation field non-nil
+
+  One half is enforced in `SignRecipe.Derive` (the write-side flip),
+  the other half here. Any record that escapes with a null tag but a
+  null derivation field (a consumer would mistakenly trust the recipe
+  as fully resolved), or with a populated tag but all-six fields
+  non-null (the tag is lying about what's known), is flagged.
+
+  Terminal tags (`"custom_signing_family"`, `"ambiguous_ast"`,
+  `"no_sign_method"`) coexist with any null derivation field by
+  construction — those records are honestly partial and pass cleanly.
+  The `"not_yet_derived"` tag is the scaffold default; records
+  carrying it with all six fields populated are the bug this invariant
+  catches when Derive is bypassed (e.g. through an override chain).
+  """
+  @spec check_sign_recipe_honesty_valid(map(), map()) :: [finding()]
+  def check_sign_recipe_honesty_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    recipe = get_in(exchange, ["structure", "sign_recipe"]) || %{}
+
+    recipe
+    |> Enum.sort_by(fn {section, _} -> section end)
+    |> Enum.flat_map(fn {section, record} -> sign_recipe_honesty_record_findings(id, section, record) end)
+  end
+
+  defp sign_recipe_honesty_record_findings(id, section, record) when is_map(record) do
+    tag = Map.get(record, "unresolved_reason")
+    all_populated? = SignRecipe.all_derivation_fields_populated?(record)
+
+    cond do
+      is_nil(tag) and not all_populated? ->
+        missing = null_derivation_fields(record)
+
+        [
+          sign_recipe_honesty_finding(
+            id,
+            section,
+            "unresolved_reason is null but derivation field(s) #{inspect(missing)} are null"
+          )
+        ]
+
+      not is_nil(tag) and all_populated? ->
+        [
+          sign_recipe_honesty_finding(
+            id,
+            section,
+            "unresolved_reason is #{inspect(tag)} but all six derivation fields are populated " <>
+              "(tag should be null)"
+          )
+        ]
+
+      true ->
+        []
+    end
+  end
+
+  defp sign_recipe_honesty_record_findings(_id, _section, _record), do: []
+
+  defp null_derivation_fields(record) do
+    Enum.filter(SignRecipe.derivation_fields(), fn key ->
+      case Map.fetch(record, key) do
+        {:ok, nil} -> true
+        :error -> true
+        _ -> false
+      end
+    end)
+  end
+
+  defp sign_recipe_honesty_finding(id, section, message) do
+    %{
+      exchange: id,
+      invariant: "sign_recipe_honesty_valid",
+      path: "structure.sign_recipe.#{section}",
+      message: message
+    }
   end
 
   @doc """

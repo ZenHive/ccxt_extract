@@ -6,6 +6,54 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Added
+
+- **Task 69 — Signing recipe biconditional contract.** Closes Phase
+  10's honesty contract: `sign_recipe.<section>.unresolved_reason` is
+  now `null` **if and only if** every one of the six derivation fields
+  (`crypto_op`, `canonical_string`, `signature_placement`,
+  `auth_headers`, `nonce`, `pre_sign_transforms`) is non-null. The
+  biconditional can't be expressed in JSON Schema, so the rule is
+  enforced in two places: write-side in
+  `CcxtExtract.SignRecipe.Derive.derive/2` — a new
+  `resolve_unresolved_reason/1` step runs at emit time and flips
+  `"not_yet_derived"` → `null` whenever
+  `SignRecipe.all_derivation_fields_populated?/1` returns true;
+  read-side via the new `sign_recipe_honesty_valid` contract-test
+  invariant, which walks every emitted section and emits a finding
+  when either half of the biconditional is violated (null tag with a
+  null derivation field, or tagged-populated with all six fields
+  non-null). Terminal tags (`"ambiguous_ast"`,
+  `"custom_signing_family"`, `"no_sign_method"`) are never flipped —
+  those records always carry at least one null field by construction,
+  so the biconditional holds trivially. No schema bump (the enum
+  already allowed `null` at 2.2.0). No record actually flips to
+  `null` in the priority corpus today because `pre_sign_transforms`
+  is universally null until Task 68 lands — the invariant is
+  pre-emptive enforcement so that T68's emission is validated on
+  arrival rather than requiring a coupled roll-out. New public helpers
+  `SignRecipe.derivation_fields/0` and
+  `SignRecipe.all_derivation_fields_populated?/1` are the single
+  source of truth shared between `Derive` and `ContractTest` — prior
+  to this task, the six-field list would have needed to be duplicated
+  across two sites. Added `check_sign_recipe_honesty_valid/2` +
+  helpers in `lib/ccxt_extract/contract_test.ex` following the same
+  `sort_by |> flat_map` skeleton as the existing
+  `sign_recipe_shape_valid` invariant. Corpus run
+  (`mix ccxt_extract.contract_test --tier1 --tier2 --dex`): zero
+  `sign_recipe_honesty_valid` findings, zero regressions across the
+  other invariants. Test coverage: 8 new tests in
+  `test/ccxt_extract/sign_recipe_test.exs` (derivation_fields list,
+  subset-of-required_keys property, honest-empty collections vs null,
+  every-single-null-fails sweep, non-map input safety), 3 new tests in
+  `test/ccxt_extract/sign_recipe/derive_test.exs` (write-side flip
+  path including terminal-tag invariance), 10 new tests in
+  `test/ccxt_extract/contract_test_test.exs` covering both violation
+  directions, terminal-tag no-op, and multi-section deterministic
+  sort. Unblocks `../ccxt_client/ROADMAP.md` Task 54 (retire
+  `Signing.Classifier`) by one step — Task 68 is now the sole
+  remaining upstream blocker.
+
 ### Changed
 
 - **Task 123** — `structure.authenticated_sections` now emits nested

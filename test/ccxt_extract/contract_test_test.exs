@@ -407,6 +407,145 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_sign_recipe_honesty_valid/2 (Task 69)" do
+    alias CcxtExtract.SignRecipe
+
+    defp exchange_with_recipe(id, recipe_map) do
+      clean_exchange()
+      |> put_in(["exchange", "id"], id)
+      |> put_in(["structure", "sign_recipe"], recipe_map)
+    end
+
+    defp populated_recipe do
+      SignRecipe.null_recipe()
+      |> Map.put("crypto_op", %{"algo" => "hmac_sha256"})
+      |> Map.put("canonical_string", %{})
+      |> Map.put("signature_placement", %{"location" => "header", "key" => "X-SIGN"})
+      |> Map.put("auth_headers", [])
+      |> Map.put("nonce", %{"source" => "timestamp_ms", "format" => "integer"})
+      |> Map.put("pre_sign_transforms", [])
+    end
+
+    test "empty sign_recipe map emits no findings" do
+      exchange = exchange_with_recipe("empty_recipe", %{})
+      assert ContractTest.check_sign_recipe_honesty_valid(exchange, @base_observed) == []
+    end
+
+    test "scaffold null_recipe (all-null + not_yet_derived tag) emits no findings" do
+      # Biconditional holds: tag is populated (non-nil), and all six fields
+      # are null, so the "iff" clause is satisfied on both sides.
+      recipe = %{"private" => SignRecipe.null_recipe()}
+      exchange = exchange_with_recipe("scaffold", recipe)
+      assert ContractTest.check_sign_recipe_honesty_valid(exchange, @base_observed) == []
+    end
+
+    test "fully-populated record with unresolved_reason: nil emits no findings (happy path)" do
+      recipe = %{"private" => Map.put(populated_recipe(), "unresolved_reason", nil)}
+      exchange = exchange_with_recipe("fully_populated", recipe)
+      assert ContractTest.check_sign_recipe_honesty_valid(exchange, @base_observed) == []
+    end
+
+    test "fully-populated record with non-null tag emits a right→left violation finding" do
+      # Derive's write-side should have flipped this to nil. Escape =>
+      # means something bypassed Derive (e.g. override chain) — flag it.
+      recipe = %{"private" => Map.put(populated_recipe(), "unresolved_reason", "not_yet_derived")}
+      exchange = exchange_with_recipe("stale_tag", recipe)
+
+      [finding] = ContractTest.check_sign_recipe_honesty_valid(exchange, @base_observed)
+
+      assert finding.exchange == "stale_tag"
+      assert finding.invariant == "sign_recipe_honesty_valid"
+      assert finding.path == "structure.sign_recipe.private"
+      assert finding.message =~ "not_yet_derived"
+      assert finding.message =~ "all six derivation fields are populated"
+    end
+
+    test "partial record with unresolved_reason: nil emits a left→right violation finding" do
+      recipe = %{
+        "private" =>
+          populated_recipe()
+          |> Map.put("pre_sign_transforms", nil)
+          |> Map.put("unresolved_reason", nil)
+      }
+
+      exchange = exchange_with_recipe("lying_tag", recipe)
+
+      [finding] = ContractTest.check_sign_recipe_honesty_valid(exchange, @base_observed)
+
+      assert finding.exchange == "lying_tag"
+      assert finding.invariant == "sign_recipe_honesty_valid"
+      assert finding.path == "structure.sign_recipe.private"
+      assert finding.message =~ "unresolved_reason is null"
+      assert finding.message =~ ~s("pre_sign_transforms")
+    end
+
+    test "left→right finding names every null field, not just one" do
+      recipe = %{
+        "private" =>
+          populated_recipe()
+          |> Map.put("auth_headers", nil)
+          |> Map.put("nonce", nil)
+          |> Map.put("pre_sign_transforms", nil)
+          |> Map.put("unresolved_reason", nil)
+      }
+
+      exchange = exchange_with_recipe("multi_null", recipe)
+
+      [finding] = ContractTest.check_sign_recipe_honesty_valid(exchange, @base_observed)
+
+      assert finding.message =~ "auth_headers"
+      assert finding.message =~ "nonce"
+      assert finding.message =~ "pre_sign_transforms"
+    end
+
+    test "terminal ambiguous_ast tag on partial record emits no findings" do
+      # ambiguous_ast means crypto_op is nil by construction — biconditional
+      # holds because the tag is non-null AND at least one field is null.
+      recipe = %{
+        "private" =>
+          populated_recipe()
+          |> Map.put("crypto_op", nil)
+          |> Map.put("unresolved_reason", "ambiguous_ast")
+      }
+
+      exchange = exchange_with_recipe("ambiguous", recipe)
+      assert ContractTest.check_sign_recipe_honesty_valid(exchange, @base_observed) == []
+    end
+
+    test "terminal no_sign_method tag with all-null fields emits no findings" do
+      recipe = %{
+        "private" => Map.put(SignRecipe.null_recipe(), "unresolved_reason", "no_sign_method")
+      }
+
+      exchange = exchange_with_recipe("no_sign", recipe)
+      assert ContractTest.check_sign_recipe_honesty_valid(exchange, @base_observed) == []
+    end
+
+    test "terminal custom_signing_family tag with all-null fields emits no findings" do
+      recipe = %{
+        "private" => Map.put(SignRecipe.null_recipe(), "unresolved_reason", "custom_signing_family")
+      }
+
+      exchange = exchange_with_recipe("custom_family", recipe)
+      assert ContractTest.check_sign_recipe_honesty_valid(exchange, @base_observed) == []
+    end
+
+    test "multiple sections reported deterministically (sorted by section name)" do
+      recipe = %{
+        "zprivate" => Map.put(populated_recipe(), "unresolved_reason", "not_yet_derived"),
+        "aprivate" => Map.put(populated_recipe(), "unresolved_reason", "not_yet_derived")
+      }
+
+      exchange = exchange_with_recipe("multi_section", recipe)
+      findings = ContractTest.check_sign_recipe_honesty_valid(exchange, @base_observed)
+
+      assert length(findings) == 2
+      # Alphabetical order means aprivate comes before zprivate.
+      assert Enum.at(findings, 0).path == "structure.sign_recipe.aprivate"
+      assert Enum.at(findings, 1).path == "structure.sign_recipe.zprivate"
+    end
+  end
+
   describe "run_all/1" do
     setup do
       tmp = Path.join(System.tmp_dir!(), "ccxt_contract_test_#{System.unique_integer([:positive])}")

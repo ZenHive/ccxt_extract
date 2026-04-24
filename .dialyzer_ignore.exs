@@ -21,6 +21,9 @@
   {"lib/ccxt_extract/signing_fixtures.ex", :call_without_opaque},
   {"lib/ccxt_extract/discovery_loader.ex", :call_without_opaque},
   {"lib/ccxt_extract/contract_test.ex", :call_without_opaque},
+  # Task 123: expand_nested/2 filters map keys against a MapSet; Dialyzer cannot
+  # see through the opaque MapSet internals — same known Elixir limitation.
+  {"lib/ccxt_extract/authenticated_sections.ex", :call_without_opaque},
   # Task 4: MapSet.t() scope arguments flow through the four QuickBEAM-backed
   # extractor modules; warnings surface where the MapSet is unpacked/iterated
   # (load_markets also in its Mix task because scope is forwarded into

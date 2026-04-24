@@ -57,6 +57,7 @@ defmodule CcxtExtract.SignRecipe do
   @initial_unresolved_reason "not_yet_derived"
 
   @required_keys ~w(crypto_op canonical_string signature_placement auth_headers nonce pre_sign_transforms unresolved_reason patch_count)
+  @derivation_fields ~w(crypto_op canonical_string signature_placement auth_headers nonce pre_sign_transforms)
   @unresolved_reasons ~w(not_yet_derived custom_signing_family ambiguous_ast no_sign_method)
 
   # Subset of `@unresolved_reasons` that short-circuits every derivation
@@ -73,6 +74,43 @@ defmodule CcxtExtract.SignRecipe do
   """
   @spec required_keys() :: [String.t()]
   def required_keys, do: @required_keys
+
+  @doc """
+  The six derivation fields on every `structure.sign_recipe` record —
+  the strict subset of `required_keys/0` that Phase 10 tasks populate
+  field-by-field (Tasks 65–68). The biconditional enforced by Task 69
+  says `unresolved_reason` is `nil` iff every field in this list is
+  non-nil on the record. `required_keys/0 -- derivation_fields/0`
+  yields the two metadata keys (`unresolved_reason`, `patch_count`)
+  that are NOT subject to the biconditional.
+  """
+  @spec derivation_fields() :: [String.t()]
+  def derivation_fields, do: @derivation_fields
+
+  @doc """
+  Return `true` if every key in `derivation_fields/0` is present on the
+  recipe record AND non-nil. Returns `false` on malformed input (non-map
+  or missing keys) — the safe default is "do not flip unresolved_reason"
+  when we can't prove the record is fully populated.
+
+  Used by `CcxtExtract.SignRecipe.Derive` (write-side flip) and
+  `CcxtExtract.ContractTest` (read-side invariant) — shared predicate
+  so both sites agree on "populated" semantics. Empty list / map /
+  string count as populated (non-nil) — the honest-empty cases
+  (`auth_headers: []`) must pass through without forcing a tag.
+  """
+  @spec all_derivation_fields_populated?(term()) :: boolean()
+  def all_derivation_fields_populated?(record) when is_map(record) do
+    Enum.all?(@derivation_fields, fn key ->
+      case Map.fetch(record, key) do
+        {:ok, nil} -> false
+        {:ok, _value} -> true
+        :error -> false
+      end
+    end)
+  end
+
+  def all_derivation_fields_populated?(_), do: false
 
   @doc """
   Closed vocabulary for `unresolved_reason`. Must stay in sync with the

@@ -116,6 +116,7 @@ defmodule CcxtExtract.SignRecipe.Derive do
       |> Map.put("auth_headers", auth_headers)
       |> Map.put("nonce", nonce)
       |> Map.put("unresolved_reason", unresolved)
+      |> resolve_unresolved_reason()
 
     Map.new(auth_sections, fn section -> {section, record} end)
   end
@@ -223,14 +224,33 @@ defmodule CcxtExtract.SignRecipe.Derive do
 
   # A non-null unresolved_reason means the recipe as a whole is terminal for
   # Task 65's scope (no later task will turn this into a complete record).
-  # When Task 65 merely fills two of six fields (crypto_op + placement are
-  # populated, others still null), we leave "not_yet_derived" in place —
-  # Tasks 66a/66b/67/68 will flip individual nulls; Task 69 sets
-  # unresolved_reason to nil when all six are populated.
+  # Terminal tags ("absent"/"ambiguous"/"custom") never flip — by
+  # construction their records have at least one null derivation field
+  # (e.g. crypto_op == nil for ambiguous), so the biconditional holds.
+  # The "not_yet_derived" default is flipped to nil by
+  # resolve_unresolved_reason/1 below when every derivation field
+  # populates (Task 69 write-side).
   defp compute_unresolved_reason(_crypto_op, "absent"), do: "custom_signing_family"
   defp compute_unresolved_reason(_crypto_op, "ambiguous"), do: "ambiguous_ast"
   defp compute_unresolved_reason(_crypto_op, "custom"), do: "custom_signing_family"
   defp compute_unresolved_reason(_crypto_op, nil), do: "not_yet_derived"
+
+  # Task 69 biconditional write-side: when the scaffold default
+  # "not_yet_derived" is still on the record AND every derivation field
+  # has populated, flip unresolved_reason to nil. Terminal tags pass
+  # through unchanged — their records always have a null derivation
+  # field, so leaving the tag in place keeps the biconditional intact.
+  # The read-side (sign_recipe_honesty_valid in ContractTest) fails
+  # loudly on any record that violates this invariant.
+  defp resolve_unresolved_reason(%{"unresolved_reason" => "not_yet_derived"} = record) do
+    if SignRecipe.all_derivation_fields_populated?(record) do
+      Map.put(record, "unresolved_reason", nil)
+    else
+      record
+    end
+  end
+
+  defp resolve_unresolved_reason(record), do: record
 
   # --- Signature placement detection ----------------------------------------
 

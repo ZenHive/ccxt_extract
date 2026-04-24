@@ -623,7 +623,9 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
     test "unresolved_reason stays 'not_yet_derived' when crypto_op+placement populated" do
       # Task 65 only fills 2 of 6 derivation fields. The other four are
       # still null, so unresolved_reason must remain 'not_yet_derived'
-      # until Task 69 flips it.
+      # until Task 69's write-side flips it — and that flip only fires
+      # when all six fields are non-null (including pre_sign_transforms,
+      # populated by Task 68).
       ast =
         method_ast([
           var("signature", hmac_call("sha256")),
@@ -632,6 +634,64 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
 
       %{"private" => record} = Derive.derive(ast, ["private"])
       assert record["unresolved_reason"] == "not_yet_derived"
+      # Sanity check: at least pre_sign_transforms is still null (Task 68
+      # hasn't landed), proving the honesty biconditional's RHS fails and
+      # thus the tag stays populated.
+      assert record["pre_sign_transforms"] == nil
+    end
+  end
+
+  describe "derive/2 — Task 69 unresolved_reason biconditional (write-side)" do
+    # The Derive write-side flips "not_yet_derived" → nil when every
+    # derivation field is non-null on the assembled record. Until Task
+    # 68 populates pre_sign_transforms, no AST path exercises the flip
+    # end-to-end — these tests verify the two sides of the biconditional
+    # that ARE reachable from today's AST derivation, and validate the
+    # flip mechanically by asserting the predicate-controlled behavior.
+
+    test "Derive never produces unresolved_reason: nil today (Task 68 unshipped)" do
+      # Until Task 68 populates pre_sign_transforms, no AST path through
+      # Derive can produce an all-six-non-nil record — so the write-side
+      # flip is a no-op on every emission today. This test pins that
+      # status so a regression (e.g. Derive accidentally flipping early)
+      # trips the suite.
+      # TODO(Task 68): add positive flip assertion here once pre_sign_transforms is populated.
+      ast =
+        method_ast([
+          var("signature", hmac_call("sha256")),
+          assign_header("X-SIGN", identifier("signature"))
+        ])
+
+      %{"private" => record} = Derive.derive(ast, ["private"])
+
+      refute SignRecipe.all_derivation_fields_populated?(record)
+      assert record["unresolved_reason"] == "not_yet_derived"
+    end
+
+    test "terminal ambiguous_ast tag stays terminal regardless of population" do
+      # Ambiguous case: both hmac and rsa appear in the body. Task 65
+      # emits crypto_op: nil + unresolved_reason: "ambiguous_ast". The
+      # Task 69 flip MUST NOT fire on terminal tags — biconditional
+      # remains intact because crypto_op: nil alone fails the RHS.
+      ast =
+        method_ast([
+          var("sig1", hmac_call("sha256")),
+          var("sig2", bare_call("rsa", [identifier("message"), identifier("key")]))
+        ])
+
+      %{"private" => record} = Derive.derive(ast, ["private"])
+
+      assert record["unresolved_reason"] == "ambiguous_ast"
+      assert record["crypto_op"] == nil
+      refute SignRecipe.all_derivation_fields_populated?(record)
+    end
+
+    test "no_sign_method records never flip (auth sections with nil AST)" do
+      %{"private" => record} = Derive.derive(nil, ["private"])
+
+      assert record["unresolved_reason"] == "no_sign_method"
+      # Terminal tag + all-null fields → biconditional holds trivially.
+      refute SignRecipe.all_derivation_fields_populated?(record)
     end
   end
 end

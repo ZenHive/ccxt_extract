@@ -96,6 +96,18 @@ Raw extraction runs for every CCXT exchange regardless of tier. **Derivation eff
 
 `priv/overrides/<id>.json` uses RFC 6901 JSON-Pointer paths with a `value` payload, required `reason`, and `verified_against`/`unverified` flags. `CcxtExtract.OverrideRegistry` validates them and the `override_registry_valid` contract-test invariant gates them. Overrides are a last resort for fields that extraction can't prove — every override needs a reason.
 
+### Source of truth: CCXT, not exchange docs
+
+Extraction targets the CCXT JS source (OXC) + resolved runtime (QuickBEAM) — **not** exchange-vendor API docs. CCXT is a reconciliation layer: years of maintainer work reconcile published docs → real wire behavior → exchange bugs → undocumented quirks, and that reconciliation lives in method bodies and `describe()` maps. Docs lag reality (CCXT routinely ships wire fixes before vendor docs update); 110+ exchanges mean 110+ incompatible doc shapes (rare OpenAPI specs, hand-written markdown, PDFs, Postman collections, occasional non-English-only pages). CCXT has already normalized that surface into one schema — that normalization is the asset this library crystallizes into JSON.
+
+Exchange docs enter the pipeline in three narrow roles only:
+
+1. **Override justification** — `verified_against` in `priv/overrides/<id>.json` cites a docs URL as evidence when an override corrects CCXT. Docs are evidence for a claim, not a primary source.
+2. **Gap enrichment (Tier 1 only)** — fields CCXT doesn't model at all (leverage tiers, rebate schedules, sub-account limits). Track as a roadmap task before reading docs.
+3. **Verification (future)** — a third-source check in `contract_test` would strengthen today's OXC-vs-QuickBEAM cross-check (still CCXT-vs-CCXT). Not yet built.
+
+**Do not** propose redesigning the pipeline to read vendor docs as a primary source — that's 110× the work for less reliability. Narrow gaps go through overrides or a tracked task, not a refactor.
+
 ---
 
 ## Cross-surface git workflow

@@ -1,20 +1,25 @@
 defmodule CcxtExtract.SignRecipe.Derive do
   @moduledoc """
-  Task 65 — populate `crypto_op` and `signature_placement` on every
-  `structure.sign_recipe` record from the `sign()` method AST.
+  Orchestrator for `structure.sign_recipe` derivation. Populates every
+  field except `pre_sign_transforms` (Task 68 territory).
 
   # Patch count: 0/3. First patch migrates to priv/overrides/.
   # See ROADMAP.md § Phase 10 "Three-Strikes Rule".
 
   ## Scope
 
-    * `crypto_op` — HMAC algorithm / Ed25519 / RSA / custom.
-    * `signature_placement` — where the signature attaches (header / query /
-      body) and under which key.
+    * `crypto_op` — HMAC algorithm / Ed25519 / RSA / custom. (Task 65)
+    * `signature_placement` — where the signature attaches (header /
+      query / body) and under which key. (Task 65)
+    * `canonical_string` — per-verb map of HMAC-input decompositions.
+      (Tasks 66a + 66b, delegated to `CanonicalString.derive/4`)
+    * `auth_headers` — ordered list of non-signature auth headers the
+      consumer attaches. (Task 67, delegated to `AuthHeaders.derive/4`)
+    * `nonce` — timestamp / nonce `{source, format}` classification.
+      (Task 67, delegated to `Nonce.derive/2`)
 
-  Every other derivation field (`canonical_string`, `auth_headers`, `nonce`,
-  `pre_sign_transforms`) stays `null` — Tasks 66a/66b/67/68 populate those
-  later. `unresolved_reason` stays `"not_yet_derived"` while any derivation
+  `pre_sign_transforms` stays `null` — Task 68 populates it.
+  `unresolved_reason` stays `"not_yet_derived"` while any derivation
   field remains null; Task 69 flips it to `nil` when everything is filled.
 
   ## Strategy
@@ -64,7 +69,11 @@ defmodule CcxtExtract.SignRecipe.Derive do
   """
 
   alias CcxtExtract.SignRecipe
+  alias CcxtExtract.SignRecipe.ASTHelpers
+  alias CcxtExtract.SignRecipe.AuthHeaders
   alias CcxtExtract.SignRecipe.CanonicalString
+  alias CcxtExtract.SignRecipe.Nonce
+  alias CcxtExtract.SignRecipe.SigRef
 
   @type derive_note :: nil | String.t()
 
@@ -91,17 +100,21 @@ defmodule CcxtExtract.SignRecipe.Derive do
     {crypto_op, crypto_note} = classify_crypto_op(crypto_calls)
 
     sig_names = collect_signature_bindings(crypto_calls, body_stmts)
-    crypto_fps = Enum.map(crypto_calls, fn {_algo, node} -> call_fingerprint(node) end)
+    crypto_fps = Enum.map(crypto_calls, fn {_algo, node} -> SigRef.fingerprint(node) end)
     signature_placement = detect_placement(body_stmts, {sig_names, crypto_fps})
 
     unresolved = compute_unresolved_reason(crypto_op, crypto_note)
     canonical_string = CanonicalString.derive(body_stmts, crypto_calls, sig_names, unresolved)
+    auth_headers = AuthHeaders.derive(body_stmts, sig_names, crypto_fps, unresolved)
+    nonce = Nonce.derive(body_stmts, unresolved)
 
     record =
       SignRecipe.null_recipe()
       |> Map.put("crypto_op", crypto_op)
       |> Map.put("signature_placement", signature_placement)
       |> Map.put("canonical_string", canonical_string)
+      |> Map.put("auth_headers", auth_headers)
+      |> Map.put("nonce", nonce)
       |> Map.put("unresolved_reason", unresolved)
 
     Map.new(auth_sections, fn section -> {section, record} end)
@@ -230,12 +243,12 @@ defmodule CcxtExtract.SignRecipe.Derive do
   # binding). Returns a list of identifier names.
   @spec collect_signature_bindings([{term(), map()}], list()) :: [String.t()]
   defp collect_signature_bindings(crypto_calls, body_stmts) do
-    call_fingerprints = Enum.map(crypto_calls, fn {_algo, node} -> call_fingerprint(node) end)
+    call_fingerprints = Enum.map(crypto_calls, fn {_algo, node} -> SigRef.fingerprint(node) end)
 
     crypto_bound =
       body_stmts
-      |> collect_bindings()
-      |> Enum.filter(fn {_name, init} -> call_fingerprint(init) in call_fingerprints end)
+      |> ASTHelpers.collect_bindings()
+      |> Enum.filter(fn {_name, init} -> SigRef.fingerprint(init) in call_fingerprints end)
       |> Enum.map(fn {name, _init} -> name end)
       |> Enum.uniq()
 
@@ -252,47 +265,6 @@ defmodule CcxtExtract.SignRecipe.Derive do
   defp canonical_signature_name?(name) when is_binary(name), do: name in @canonical_signature_names
 
   defp canonical_signature_name?(_), do: false
-
-  # Byte-offset fingerprint: two crypto-call nodes are the "same" node iff
-  # their `start` + `end` + callee match. Avoids structural equality on large
-  # AST maps.
-  defp call_fingerprint(%{"type" => "CallExpression", "start" => s, "end" => e}), do: {s, e}
-  defp call_fingerprint(_), do: :__not_a_call__
-
-  defp collect_bindings(node) when is_map(node) do
-    own =
-      case node do
-        %{"type" => "VariableDeclaration", "declarations" => decls} when is_list(decls) ->
-          Enum.flat_map(decls, fn
-            %{
-              "type" => "VariableDeclarator",
-              "id" => %{"type" => "Identifier", "name" => name},
-              "init" => init
-            }
-            when not is_nil(init) ->
-              [{name, init}]
-
-            _ ->
-              []
-          end)
-
-        _ ->
-          []
-      end
-
-    children =
-      node
-      |> Map.values()
-      |> Enum.flat_map(&collect_bindings/1)
-
-    own ++ children
-  end
-
-  defp collect_bindings(nodes) when is_list(nodes) do
-    Enum.flat_map(nodes, &collect_bindings/1)
-  end
-
-  defp collect_bindings(_), do: []
 
   # Scan the body for assignments of `sig_names` members into headers, query,
   # or body. Returns a single placement map or nil if nothing conclusive.
@@ -350,7 +322,7 @@ defmodule CcxtExtract.SignRecipe.Derive do
          sig_names
        )
        when is_binary(key) do
-    if has_sig_ref?(rhs, sig_names),
+    if SigRef.has?(rhs, sig_names),
       do: %{"location" => "header", "key" => key}
   end
 
@@ -370,7 +342,7 @@ defmodule CcxtExtract.SignRecipe.Derive do
          sig_names
        )
        when is_binary(key) do
-    if has_sig_ref?(rhs, sig_names),
+    if SigRef.has?(rhs, sig_names),
       do: %{"location" => "header", "key" => key}
   end
 
@@ -458,8 +430,8 @@ defmodule CcxtExtract.SignRecipe.Derive do
   end
 
   defp prop_with_sig(%{"type" => "Property", "value" => val} = p, sig_names, location) do
-    with {:ok, key} <- object_prop_key(p),
-         true <- has_sig_ref?(val, sig_names) do
+    with {:ok, key} <- ASTHelpers.object_prop_key(p),
+         true <- SigRef.has?(val, sig_names) do
       %{"location" => location, "key" => key}
     else
       _ -> nil
@@ -473,9 +445,9 @@ defmodule CcxtExtract.SignRecipe.Derive do
   # Only called from `query = ...` / `query += ...` assignment contexts,
   # so header-value chains like deribit's Authorization don't reach here.
   defp chain_query_placement(rhs, sig_names) do
-    pieces = flatten_plus_chain(rhs)
+    pieces = ASTHelpers.flatten_plus_chain(rhs)
 
-    if Enum.any?(pieces, &has_sig_ref?(&1, sig_names)),
+    if Enum.any?(pieces, &SigRef.has?(&1, sig_names)),
       do: Enum.find_value(pieces, &query_key_placement/1)
   end
 
@@ -487,44 +459,6 @@ defmodule CcxtExtract.SignRecipe.Derive do
   end
 
   defp query_key_placement(_), do: nil
-
-  # Recursive check: does `node` transitively reference the signature?
-  # Matches two shapes:
-  #   * an Identifier whose name is in `names` (e.g. `signature`), OR
-  #   * a CallExpression whose byte-range matches a known crypto call
-  #     (handles inline `headers['X-SIGN'] = this.hmac(...)` with no
-  #     intermediate binding — phemex).
-  defp has_sig_ref?(%{"type" => "Identifier", "name" => n}, {names, _fps}), do: n in names
-
-  defp has_sig_ref?(%{"type" => "CallExpression"} = node, {_names, fps} = sig_ctx) do
-    call_fingerprint(node) in fps or Enum.any?(Map.values(node), &has_sig_ref?(&1, sig_ctx))
-  end
-
-  defp has_sig_ref?(node, sig_ctx) when is_map(node) do
-    Enum.any?(Map.values(node), &has_sig_ref?(&1, sig_ctx))
-  end
-
-  defp has_sig_ref?(nodes, sig_ctx) when is_list(nodes) do
-    Enum.any?(nodes, &has_sig_ref?(&1, sig_ctx))
-  end
-
-  defp has_sig_ref?(_, _), do: false
-
-  # ObjectExpression property helpers. Property keys may be Literal (quoted)
-  # or Identifier (bareword shorthand); we accept both forms.
-  defp object_prop_key(%{"type" => "Property", "key" => %{"type" => "Literal", "value" => v}}) when is_binary(v),
-    do: {:ok, v}
-
-  defp object_prop_key(%{"type" => "Property", "key" => %{"type" => "Identifier", "name" => v}}), do: {:ok, v}
-
-  defp object_prop_key(_), do: :error
-
-  # Flatten `a + b + c + d` into [a, b, c, d] without evaluating.
-  defp flatten_plus_chain(%{"type" => "BinaryExpression", "operator" => "+", "left" => l, "right" => r}) do
-    flatten_plus_chain(l) ++ flatten_plus_chain(r)
-  end
-
-  defp flatten_plus_chain(node), do: [node]
 
   # "signature=" / "&signature=" / "?signature=" → {"ok", "signature"}.
   # A literal that is ONLY "&" or "?" is not a key-carrier → :error.

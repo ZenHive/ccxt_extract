@@ -167,6 +167,127 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
     end
   end
 
+  describe "auth_headers + nonce (Task 67)" do
+    test "okx.private — three canonical headers, iso8601 timestamp_ms nonce" do
+      record = recipe("okx", "private")
+
+      assert record["auth_headers"] == [
+               %{"name" => "OK-ACCESS-KEY", "source" => "api_key"},
+               %{"name" => "OK-ACCESS-PASSPHRASE", "source" => "passphrase"},
+               %{"name" => "OK-ACCESS-TIMESTAMP", "source" => "timestamp"}
+             ]
+
+      assert record["nonce"] == %{"source" => "timestamp_ms", "format" => "iso8601"}
+    end
+
+    test "coinbaseexchange.private — key/timestamp/passphrase triad" do
+      record = recipe("coinbaseexchange", "private")
+
+      assert record["auth_headers"] == [
+               %{"name" => "CB-ACCESS-KEY", "source" => "api_key"},
+               %{"name" => "CB-ACCESS-TIMESTAMP", "source" => "timestamp"},
+               %{"name" => "CB-ACCESS-PASSPHRASE", "source" => "passphrase"}
+             ]
+
+      assert record["nonce"] == %{"source" => "timestamp_ms", "format" => "string"}
+    end
+
+    test "gate.private — terminal-binding chain resolves to timestamp_sec / string" do
+      # Gate's sign() chain:
+      #   const nonce = this.nonce();
+      #   const timestamp = this.parseToInt(nonce / 1000);
+      #   const timestampString = timestamp.toString();
+      #   headers = { 'KEY': this.apiKey, 'Timestamp': timestampString, ... };
+      # The terminal-binding filter picks `timestampString` (the wire
+      # value); identifier-chain resolution walks it through the two
+      # intermediate bindings down to this.nonce().
+      record = recipe("gate", "private")
+
+      assert record["auth_headers"] == [
+               %{"name" => "KEY", "source" => "api_key"},
+               %{"name" => "Timestamp", "source" => "timestamp"}
+             ]
+
+      assert record["nonce"] == %{"source" => "timestamp_sec", "format" => "string"}
+    end
+
+    test "kraken.private — single API-Key header; nonce rides in body" do
+      record = recipe("kraken", "private")
+
+      assert record["auth_headers"] == [%{"name" => "API-Key", "source" => "api_key"}]
+      assert record["nonce"] == %{"source" => "timestamp_ms", "format" => "string"}
+    end
+
+    test "bitfinex.private — bfx-apikey + bfx-nonce (timestamp)" do
+      record = recipe("bitfinex", "private")
+
+      # Order reflects walker emission order (depth-first over the sign()
+      # body); consumers look up by name so this isn't contractual.
+      assert Enum.sort_by(record["auth_headers"], & &1["name"]) == [
+               %{"name" => "bfx-apikey", "source" => "api_key"},
+               %{"name" => "bfx-nonce", "source" => "timestamp"}
+             ]
+
+      assert record["nonce"] == %{"source" => "timestamp_ms", "format" => "string"}
+    end
+
+    test "deribit.private — empty list (signature IS the Authorization header)" do
+      record = recipe("deribit", "private")
+
+      # The only header assigned in sign() is Authorization, whose value
+      # is a compound string containing the HMAC signature. Signature-
+      # referencing headers are excluded → list ends up empty.
+      assert record["auth_headers"] == []
+      assert record["nonce"] == %{"source" => "timestamp_ms", "format" => "string"}
+    end
+
+    test "htx.private — empty list (all auth material in query string)" do
+      record = recipe("htx", "private")
+
+      assert record["auth_headers"] == []
+      assert record["nonce"] == %{"source" => "timestamp_ms", "format" => "iso8601"}
+    end
+
+    test "hyperliquid.private — null (terminal custom_signing_family)" do
+      record = recipe("hyperliquid", "private")
+
+      assert record["auth_headers"] == nil
+      assert record["nonce"] == nil
+    end
+
+    test "binance.private — null under ambiguous_ast (RSA/EdDSA/HMAC)" do
+      record = recipe("binance", "private")
+
+      assert record["auth_headers"] == nil
+      assert record["nonce"] == nil
+    end
+
+    test "bybit.private — null under ambiguous_ast (RSA/HMAC)" do
+      record = recipe("bybit", "private")
+
+      assert record["auth_headers"] == nil
+      assert record["nonce"] == nil
+    end
+
+    # TODO(Task 67+N): kucoin.private has a `this.extend({...}, headers)`
+    # header init shape + a conditional `if (this.options['partner'])`
+    # block with unclassified HMAC-passphrase + partner-signature
+    # references. The `this.extend(ObjectExpression, _)` shape isn't yet
+    # supported by AuthHeaders (the classifier looks for
+    # `headers = ObjectExpression` directly), so the list aborts to
+    # null. Nonce populates cleanly because kucoin's
+    # `const timestamp = this.nonce().toString()` binding is
+    # unambiguous. Revisit when a priority consumer needs kucoin
+    # auth_headers populated — likely via an override, not classifier
+    # extension.
+    test "kucoin.private — auth_headers null (this.extend shape unsupported) but nonce populated" do
+      record = recipe("kucoin", "private")
+
+      assert record["auth_headers"] == nil
+      assert record["nonce"] == %{"source" => "timestamp_ms", "format" => "string"}
+    end
+  end
+
   describe "shape invariants across all exchanges" do
     test "every recipe record has the required eight keys" do
       required =

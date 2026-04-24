@@ -89,6 +89,8 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
       entirely. Unlocks Task 66f.
   """
 
+  alias CcxtExtract.SignRecipe.ASTHelpers
+
   @type verb_key :: String.t()
   @type component :: %{required(String.t()) => term()}
   @type canonical_record :: %{required(String.t()) => term()}
@@ -96,8 +98,9 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
   @verb_keys ~w(GET POST PUT DELETE PATCH)
 
   # Reasons that short-circuit derivation — the recipe as a whole is already
-  # tagged terminal at Task 65, so no canonical_string is possible.
-  @terminal_reasons ~w(ambiguous_ast custom_signing_family no_sign_method)
+  # tagged terminal at Task 65, so no canonical_string is possible. Single
+  # source of truth lives in `CcxtExtract.SignRecipe.terminal_reasons/0`.
+  @terminal_reasons CcxtExtract.SignRecipe.terminal_reasons()
 
   @doc """
   Derive the per-verb `canonical_string` map from a sign() method body
@@ -161,7 +164,7 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
   @spec bindings_map([map()], [String.t()], [String.t()]) :: map()
   defp bindings_map(body_stmts, signature_names, reassigned) do
     body_stmts
-    |> collect_bindings()
+    |> ASTHelpers.collect_bindings()
     |> Enum.reject(fn {name, _init} ->
       name in signature_names or name in reassigned
     end)
@@ -213,7 +216,7 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
   # if it's a this.hmac(...) call.
   defp find_primary_hmac(body_stmts, signature_names) do
     body_stmts
-    |> collect_bindings()
+    |> ASTHelpers.collect_bindings()
     |> Enum.find_value(fn {name, init} ->
       if name in signature_names and hmac_call?(init), do: init
     end)
@@ -260,7 +263,7 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
 
   # Direct inline `+`-chain — emit single "*" entry.
   defp resolve_expr(expr, _body_stmts) do
-    [{"*", flatten_plus_chain(expr)}]
+    [{"*", ASTHelpers.flatten_plus_chain(expr)}]
   end
 
   # Trace `let NAME = ...` + all `NAME += ...` assignments. Returns list of
@@ -269,7 +272,7 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
   defp trace_variable(name, body_stmts) do
     with %{} = init <- find_initial_init(body_stmts, name),
          false <- any_direct_reassign_after_init?(body_stmts, name) do
-      init_pieces = flatten_plus_chain(init)
+      init_pieces = ASTHelpers.flatten_plus_chain(init)
       updates = collect_compound_assigns(body_stmts, name)
       build_verb_entries(init_pieces, updates)
     else
@@ -358,7 +361,7 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
          verb_ctx,
          acc
        ) do
-    acc = [{verb_ctx, flatten_plus_chain(rhs)} | acc]
+    acc = [{verb_ctx, ASTHelpers.flatten_plus_chain(rhs)} | acc]
     recurse_children(node, name, verb_ctx, acc)
   end
 
@@ -539,7 +542,7 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
 
         init ->
           init
-          |> flatten_plus_chain()
+          |> ASTHelpers.flatten_plus_chain()
           |> Enum.flat_map(&expand_piece(&1, bindings, depth + 1))
       end
     end
@@ -652,45 +655,4 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
     do: {:ok, %{"source" => "literal", "value" => v}}
 
   defp classify_piece(_, _reassigned), do: :skip
-
-  # --- Generic AST helpers (local to 66a; Derive has parallel versions
-  # we intentionally don't import to keep modules decoupled) ---
-
-  # Walk the tree collecting `{name, init_expr}` pairs from every
-  # `VariableDeclarator` with non-nil init. Duplicate names keep the first
-  # (innermost-first traversal is fine — we only use it for signature-binding
-  # lookup and initial-init lookup, both of which want the canonical binding).
-  defp collect_bindings(node) when is_map(node) do
-    own =
-      case node do
-        %{"type" => "VariableDeclaration", "declarations" => decls} when is_list(decls) ->
-          Enum.flat_map(decls, fn
-            %{
-              "type" => "VariableDeclarator",
-              "id" => %{"type" => "Identifier", "name" => name},
-              "init" => init
-            }
-            when not is_nil(init) ->
-              [{name, init}]
-
-            _ ->
-              []
-          end)
-
-        _ ->
-          []
-      end
-
-    children = node |> Map.values() |> Enum.flat_map(&collect_bindings/1)
-    own ++ children
-  end
-
-  defp collect_bindings(nodes) when is_list(nodes), do: Enum.flat_map(nodes, &collect_bindings/1)
-  defp collect_bindings(_), do: []
-
-  defp flatten_plus_chain(%{"type" => "BinaryExpression", "operator" => "+", "left" => l, "right" => r}) do
-    flatten_plus_chain(l) ++ flatten_plus_chain(r)
-  end
-
-  defp flatten_plus_chain(node), do: [node]
 end

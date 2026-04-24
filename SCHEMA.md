@@ -545,8 +545,12 @@ Task 60 ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON 
           "location": "header",
           "key": "OK-ACCESS-SIGN"
         },
-        "auth_headers": null,                       // Task 67
-        "nonce": null,                              // Task 67
+        "auth_headers": [                           // Task 67
+          {"name": "OK-ACCESS-KEY", "source": "api_key"},
+          {"name": "OK-ACCESS-PASSPHRASE", "source": "passphrase"},
+          {"name": "OK-ACCESS-TIMESTAMP", "source": "timestamp"}
+        ],
+        "nonce": {"source": "timestamp_ms", "format": "iso8601"},  // Task 67
         "pre_sign_transforms": null,                // Task 68
         "unresolved_reason": "not_yet_derived",
         "patch_count": 0
@@ -599,7 +603,7 @@ Phase 10 bundles populate fields in this order (see ROADMAP.md § Phase 10):
 | 65 | `crypto_op`, `signature_placement` | ✅ Shipped 2026-04-18 |
 | 66a | `canonical_string` (HMAC-simple entries; per-verb map) | ✅ Shipped 2026-04-19 |
 | 66b | `canonical_string` (HMAC-with-body entries; per-verb map) | ✅ Shipped 2026-04-21 (no schema bump — 2.3.0 slot fill) |
-| 67 | `auth_headers`, `nonce` | ⬜ |
+| 67 | `auth_headers`, `nonce` | ✅ Shipped 2026-04-24 (no schema bump — 2.2.0 slot fill) |
 | 68 | `pre_sign_transforms` | ⬜ |
 | 69 | Round-trip validation; flip `unresolved_reason` to `null` once all fields non-null | ⬜ |
 

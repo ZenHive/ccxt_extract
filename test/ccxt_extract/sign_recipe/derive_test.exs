@@ -470,7 +470,16 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
       end
     end
 
-    test "populated recipe leaves unpopulated fields null" do
+    test "populated recipe leaves Task 68 field null" do
+      # Tasks 65 / 66a / 66b / 67 combined populate crypto_op,
+      # signature_placement, canonical_string, auth_headers, nonce.
+      # The minimal body below has only the signature header assignment
+      # — so auth_headers comes out as `[]` (signature is excluded; no
+      # other auth headers) rather than nil, and the canonical string is
+      # nil (CanonicalString needs an hmac + encoded chain to classify).
+      # Nonce is nil because there is no timestamp binding.
+      # pre_sign_transforms is the only field that remains wholly null
+      # until Task 68.
       ast =
         method_ast([
           var("signature", hmac_call("sha256")),
@@ -479,10 +488,125 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
 
       %{"private" => record} = Derive.derive(ast, ["private"])
 
+      assert record["auth_headers"] == []
       assert record["canonical_string"] == nil
-      assert record["auth_headers"] == nil
       assert record["nonce"] == nil
       assert record["pre_sign_transforms"] == nil
+    end
+
+    test "auth_headers and nonce populate end-to-end for a Bybit-shaped body" do
+      # Full shape: timestamp binding + headers ObjectExpression with
+      # api_key, timestamp, recv_window, literal sign-type, and the
+      # signature entry that must be excluded.
+      rw = %{
+        "type" => "CallExpression",
+        "callee" => %{
+          "type" => "MemberExpression",
+          "object" => %{
+            "type" => "MemberExpression",
+            "computed" => true,
+            "object" => %{
+              "type" => "MemberExpression",
+              "object" => this_expression(),
+              "property" => identifier("options")
+            },
+            "property" => literal("recvWindow")
+          },
+          "property" => identifier("toString")
+        },
+        "arguments" => [],
+        "start" => System.unique_integer([:positive, :monotonic]),
+        "end" => System.unique_integer([:positive, :monotonic]) + 1_000_000
+      }
+
+      ast =
+        method_ast([
+          var("timestamp", this_call("nonce", [])),
+          var("signature", hmac_call("sha256")),
+          %{
+            "type" => "ExpressionStatement",
+            "expression" => %{
+              "type" => "AssignmentExpression",
+              "operator" => "=",
+              "left" => identifier("headers"),
+              "right" => %{
+                "type" => "ObjectExpression",
+                "properties" => [
+                  %{
+                    "type" => "Property",
+                    "key" => literal("Content-Type"),
+                    "value" => literal("application/json")
+                  },
+                  %{
+                    "type" => "Property",
+                    "key" => literal("X-BAPI-API-KEY"),
+                    "value" => %{
+                      "type" => "MemberExpression",
+                      "object" => this_expression(),
+                      "property" => identifier("apiKey")
+                    }
+                  },
+                  %{
+                    "type" => "Property",
+                    "key" => literal("X-BAPI-TIMESTAMP"),
+                    "value" => identifier("timestamp")
+                  },
+                  %{
+                    "type" => "Property",
+                    "key" => literal("X-BAPI-SIGN"),
+                    "value" => identifier("signature")
+                  },
+                  %{
+                    "type" => "Property",
+                    "key" => literal("X-BAPI-SIGN-TYPE"),
+                    "value" => literal("2")
+                  },
+                  %{
+                    "type" => "Property",
+                    "key" => literal("X-BAPI-RECV-WINDOW"),
+                    "value" => rw
+                  }
+                ]
+              }
+            }
+          }
+        ])
+
+      %{"private" => record} = Derive.derive(ast, ["private"])
+
+      assert record["auth_headers"] == [
+               %{"name" => "X-BAPI-API-KEY", "source" => "api_key"},
+               %{"name" => "X-BAPI-TIMESTAMP", "source" => "timestamp"},
+               %{"name" => "X-BAPI-SIGN-TYPE", "source" => "literal", "value" => "2"},
+               %{"name" => "X-BAPI-RECV-WINDOW", "source" => "recv_window"}
+             ]
+
+      assert record["nonce"] == %{"source" => "timestamp_ms", "format" => "integer"}
+    end
+
+    test "terminal unresolved_reason leaves auth_headers and nonce null" do
+      # Hyperliquid-shape: no crypto call in sign(), so Task 65 tags
+      # unresolved_reason as custom_signing_family. Task 67 must respect
+      # that tag and emit null for auth_headers and nonce — anything else
+      # would break the Honesty Rule.
+      ast =
+        method_ast([
+          %{
+            "type" => "ExpressionStatement",
+            "expression" => %{
+              "type" => "AssignmentExpression",
+              "operator" => "=",
+              "left" => identifier("url"),
+              "right" => literal("https://api.example.com")
+            }
+          }
+        ])
+
+      %{"private" => record} = Derive.derive(ast, ["private"])
+
+      assert record["unresolved_reason"] == "custom_signing_family"
+      assert record["auth_headers"] == nil
+      assert record["nonce"] == nil
     end
 
     test "patch_count starts at 0" do

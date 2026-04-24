@@ -59,6 +59,12 @@ defmodule CcxtExtract.SignRecipe do
   @required_keys ~w(crypto_op canonical_string signature_placement auth_headers nonce pre_sign_transforms unresolved_reason patch_count)
   @unresolved_reasons ~w(not_yet_derived custom_signing_family ambiguous_ast no_sign_method)
 
+  # Subset of `@unresolved_reasons` that short-circuits every derivation
+  # module (CanonicalString, AuthHeaders, Nonce) to `nil`. `"not_yet_derived"`
+  # is intentionally NOT terminal — it's the scaffold default, meaning
+  # later derivation tasks will flip individual fields.
+  @terminal_reasons ~w(ambiguous_ast custom_signing_family no_sign_method)
+
   @doc """
   The eight required keys on every `structure.sign_recipe` record.
   Authoritative for contract-test shape validation — keep in sync with
@@ -75,6 +81,28 @@ defmodule CcxtExtract.SignRecipe do
   """
   @spec unresolved_reasons() :: [String.t()]
   def unresolved_reasons, do: @unresolved_reasons
+
+  @doc """
+  Subset of `unresolved_reasons/0` that short-circuits every derivation
+  module (CanonicalString, AuthHeaders, Nonce) to `nil`. `"not_yet_derived"`
+  is NOT terminal — it's the scaffold default that later tasks flip.
+
+  Callers typically use this as a compile-time module-attribute source:
+
+      @terminal_reasons CcxtExtract.SignRecipe.terminal_reasons()
+      def derive(..., reason) when reason in @terminal_reasons, do: nil
+  """
+  @spec terminal_reasons() :: [String.t()]
+  def terminal_reasons, do: @terminal_reasons
+
+  @doc """
+  Return `true` if `reason` is a terminal short-circuit for derivation
+  modules. Non-guard variant for `cond`/`case` sites; guard sites should
+  use the module-attribute idiom documented on `terminal_reasons/0`.
+  """
+  @spec terminal_reason?(term()) :: boolean()
+  def terminal_reason?(reason) when is_binary(reason), do: reason in @terminal_reasons
+  def terminal_reason?(_), do: false
 
   @doc """
   Return the all-null scaffold for a single recipe record. Used as the

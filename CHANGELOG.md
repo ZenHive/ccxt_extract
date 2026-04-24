@@ -68,6 +68,103 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
   with sink target = inspected path) that the current broad
   sanitizer would hide.
 
+### Task 67: Auth header set + nonce source derivation
+
+🎁 **10-finish** · Second-to-last Phase 10 critical-path task. Populates
+`auth_headers` and `nonce` on every `structure.sign_recipe.<section>`
+where derivation is possible; terminal-reason exchanges continue emitting
+`null` for both. No schema bump — the shape shipped in 2.2.0 (Task 64).
+
+**What shipped:**
+
+- `CcxtExtract.SignRecipe.AuthHeaders` — scans the `sign()` body for
+  four header-assignment shapes (`headers['K'] = RHS`, `headers.K = RHS`,
+  `headers = { K: RHS, ... }`, `const headers = { K: RHS, ... }`) and
+  classifies each RHS in order: signature exclusion → `this.apiKey` →
+  `this.password` → timestamp identifier → `this.options['recvWindow']`
+  + wrappers → string Literal. Unclassified RHS aborts the whole list
+  (honest `nil` over a partial set).
+- `CcxtExtract.SignRecipe.Nonce` — classifies the canonical timestamp
+  binding as `{source, format}` over the `SignRecipeNonce` closed
+  vocabulary. Handles `this.nonce()`, `this.milliseconds()`,
+  `this.seconds()`, `this.microseconds()`, `this.nanoseconds()`, and
+  wrappers `.toString()`, `this.iso8601(...)`, `this.ymdhms(...)`,
+  `this.parseToInt(x / 1000)`, `this.seconds() + offset`.
+- `CcxtExtract.SignRecipe.ASTHelpers` — small shared module lifting
+  `collect_bindings/1`, `flatten_plus_chain/1`, and `object_prop_key/1`
+  out of `Derive` and `CanonicalString`. Those two modules previously
+  kept private duplicates "to stay decoupled" (see the retired comment
+  at `canonical_string.ex:656`); 4 consumers (Derive, CanonicalString,
+  AuthHeaders, Nonce) made extraction the cheaper option.
+
+**Key design decisions:**
+
+- **Terminal-binding filter in `Nonce.derive/2`** — Gate's sign() chain
+  is `const nonce = this.nonce(); const timestamp = this.parseToInt(nonce / 1000);
+  const timestampString = timestamp.toString();` then
+  `headers = { 'Timestamp': timestampString, ... }`. All three names
+  are in Nonce's timestamp-name whitelist, but only `timestampString`
+  is the wire value — the other two are referenced by downstream
+  bindings. `Nonce` filters out non-terminal bindings (those whose
+  name appears in another whitelisted binding's init) before
+  classifying, so gate's nonce resolves to `{timestamp_sec, string}`
+  via the `timestampString → timestamp → parseToInt → nonce → this.nonce()`
+  chain rather than picking the "first classifying binding" and
+  silently lying about the wire shape.
+- **Identifier-chain resolution (capped at depth 4)** — `classify_init/3`
+  resolves Identifier references through the body's binding map. The
+  depth guard gates ONLY the Identifier clause (not the leaf
+  classifiers like `this.nonce()`), so legitimate deep chains that
+  terminate at a concrete leaf still classify.
+- **Content-Type / Accept / User-Agent filtered at collection time** —
+  Bybit, binance, gate, and coinbaseexchange all colocate
+  `'Content-Type': 'application/json'` inside the same header
+  ObjectExpression as their auth headers. Those are transport-level
+  concerns, not auth, so `AuthHeaders` strips them before
+  classification.
+- **`if (this.options[X])` blocks skipped** — Kucoin's `KC-API-PARTNER-*`
+  headers live in an optional broker-integration block; those
+  conditional headers aren't part of the baseline auth set. The
+  walker explicitly does not descend into IfStatement bodies whose
+  test matches `this.options[...]`. Other IfStatement shapes (e.g.
+  `api === 'private'` wrappers) still descend normally.
+
+**Corpus coverage (tier1 + tier2 + dex, 23 exchanges):**
+
+- **`auth_headers` populated (non-empty):** okx, coinbaseexchange,
+  gate, kraken, bitfinex, aster.
+- **`auth_headers` = `[]` (signature-only shapes, truthful empty):**
+  deribit (Authorization is the compound signature header), htx + 4
+  sections (all auth material rides in the query string).
+- **`auth_headers` / `nonce` = `null` (terminal):** binance, bybit
+  (`ambiguous_ast` from the RSA/EdDSA/HMAC conditional), hyperliquid
+  (`custom_signing_family` — signing lives outside `sign()`).
+- **`nonce` populated:** okx, coinbaseexchange, gate, kraken,
+  bitfinex, deribit, htx × 4, kucoin × 4 — 17 sections total across
+  the priority corpus.
+
+**Known MVP gaps (tracked as TODO markers, not blockers):**
+
+- Kucoin `auth_headers` stays null. The sign() uses
+  `headers = this.extend({...}, headers)` rather than a direct
+  ObjectExpression assignment; the classifier doesn't peel
+  `this.extend` today. The inner partner block also references
+  intermediate HMAC bindings for `KC-API-PASSPHRASE` /
+  `KC-API-PARTNER-SIGN` that don't fit the source vocabulary without
+  a two-step identifier trace. Nonce populates cleanly, so the
+  recipe still carries `{timestamp_ms, string}`. Revisit via an
+  override when a priority consumer surfaces a concrete need, rather
+  than growing the classifier surface further.
+- Coinbase (JWT branch) stays unclassified; this.createAuthToken
+  doesn't match any declared source. Any future `jwt_bearer` source
+  would require a schema extension.
+
+**Downstream:** `../ccxt_client/ROADMAP.md` Task 54 (retire
+`Signing.Classifier`) gains signal for its final two blockers — only
+Task 68 (`pre_sign_transforms`) and Task 69 (round-trip validation +
+`unresolved_reason` flip) now stand between the recipe contract and
+full Classifier retirement.
+
 ### Task 66b: HMAC-with-body canonical_string family (POST populates)
 
 🎁 **10-HMAC** · Second half of the per-verb `canonical_string` map —

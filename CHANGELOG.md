@@ -8,6 +8,61 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ### Added
 
+- **Task 68 — Pre-sign transforms derivation.** Closes 🎁 **10-finish**
+  and Phase 10 itself — `structure.sign_recipe.<section>.pre_sign_transforms`
+  is now derived field-by-field across every priority exchange whose
+  sign() has a classifiable HMAC call. Emits the ordered list of
+  encoding / normalization operations applied to the signature, body,
+  or canonical_string, with the closed vocabulary already declared in
+  `priv/schema/exchange_v3.json#/$defs/SignRecipePreSignTransform`
+  (no schema bump — the 2.2.0 slot fills). Three detector passes in
+  the new `lib/ccxt_extract/sign_recipe/pre_sign_transforms.ex`:
+  (1) **Digest** — inspects the 4th arg of signature-producing
+  `this.hmac(…)` calls, defaulting to `"hex_encode"` when absent
+  (CCXT's `defaultHmacBase`); honest skip-of-entry on disagreement
+  across multiple sig-producing calls, matching `Nonce`'s policy;
+  (2) **Body encoding** — emits `{json_encode, body}` when
+  `body = this.json(…)` / `JSON.stringify(…)` is both declared AND
+  subsequently referenced by a crypto call (Phase 11 request
+  preparation stays out of scope);
+  (3) **Post-signature** — walks for `this.urlencode({K: sig})`,
+  `this.encodeURIComponent(sig)`, and `sig.toLowerCase()` wrappers
+  (deduplicated), reusing `SigRef.has?/2`. Module follows the
+  arity-4 `AuthHeaders` template (takes `sig_names` + `crypto_fps`);
+  no new infrastructure. Corpus effect after regeneration
+  (`mix ccxt_extract.update --tier1 --tier2 --dex`): **okx.private is
+  the first recipe in the project's history to auto-flip
+  `unresolved_reason` to `null`** via Task 69's biconditional — all
+  six derivation fields populate. Sign_recipe entries across nine
+  priority exchanges (aster/bitfinex/bitmex/coinbaseexchange/deribit/
+  gate/htx/kraken/kucoin) now carry a populated
+  `pre_sign_transforms`. **htx emits a composite two-transform stack**
+  `[base64_encode/signature, url_encode/signature]` end-to-end —
+  proving the post-signature detector handles the
+  `this.urlencode({ Signature: sig })` wrapping htx uses for URL
+  query placement. Terminal exchanges (binance/bybit `ambiguous_ast`,
+  hyperliquid/derive/lighter `custom_signing_family`) correctly emit
+  `null`. Schema round-trip passes for every regenerated exchange.
+  `sign_recipe_honesty_valid` contract invariant: zero findings.
+  Test coverage: new unit tests in
+  `test/ccxt_extract/sign_recipe/pre_sign_transforms_test.exs`
+  covering terminal short-circuits, digest hex/base64/default/
+  disagreement, inline phemex-style placement, non-literal digest
+  honest-skip, json_encode body detection with and without crypto
+  consumption, post-sig url/lowercase variants, and htx + kucoin
+  composite recipes; three assertions updated in
+  `test/ccxt_extract/sign_recipe/derive_test.exs` (stale
+  "leaves Task 68 field null" assumption replaced by positive
+  hex_encode populate assertion; biconditional partial-derivation
+  case now pins canonical_string as the null field holding the flip
+  back); new assertions in
+  `test/integration/cached/sign_recipe_cached_test.exs` covering
+  corpus-level expected outputs including okx's null-tag flip.
+  Cross-repo: unblocks `ccxt_client` tasks 54 (retire classifier)
+  and 56 (spec-driven pattern modules) — consumers can now read the
+  hex/base64 signal directly from the JSON without an Elixir-side
+  classifier pass.
+
 - **Task 69 — Signing recipe biconditional contract.** Closes Phase
   10's honesty contract: `sign_recipe.<section>.unresolved_reason` is
   now `null` **if and only if** every one of the six derivation fields

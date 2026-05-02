@@ -27,12 +27,15 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
   end
 
   describe "priority-exchange crypto_op + placement" do
-    test "okx.private — HMAC-SHA256 header OK-ACCESS-SIGN" do
+    test "okx.private — HMAC-SHA256 header OK-ACCESS-SIGN (fully resolved after Task 68)" do
       record = recipe("okx", "private")
 
       assert record["crypto_op"] == %{"algo" => "hmac_sha256"}
       assert record["signature_placement"] == %{"location" => "header", "key" => "OK-ACCESS-SIGN"}
-      assert record["unresolved_reason"] == "not_yet_derived"
+      # Task 68 closed the last derivation field; Task 69's biconditional
+      # then auto-flipped unresolved_reason to nil — okx is the first
+      # (and today, the only) priority recipe to fully resolve.
+      assert record["unresolved_reason"] == nil
     end
 
     test "kucoin.private — HMAC-SHA256 header KC-API-SIGN (via ternary)" do
@@ -285,6 +288,115 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
 
       assert record["auth_headers"] == nil
       assert record["nonce"] == %{"source" => "timestamp_ms", "format" => "string"}
+    end
+  end
+
+  describe "pre_sign_transforms (Task 68)" do
+    test "okx.private — base64 digest + json_encode body (1-hop alias trace)" do
+      # okx's sign() shape:
+      #   body = this.json(query); auth += body;
+      #   signature = this.hmac(this.encode(auth), …, 'base64');
+      # The crypto call references `auth`, not `body`. The 1-hop tracer in
+      # PreSignTransforms.body_reached_by_crypto?/2 follows auth's `+=`
+      # reassignment back to body, surfacing json_encode/body.
+      record = recipe("okx", "private")
+
+      assert record["pre_sign_transforms"] == [
+               %{"op" => "base64_encode", "target" => "signature"},
+               %{"op" => "json_encode", "target" => "body"}
+             ]
+    end
+
+    test "kucoin.private — base64 digest (shared across all four private sections)" do
+      # kucoin uses identical sign() for private/broker/earn/futuresPrivate.
+      for section <- ~w(private broker earn futuresPrivate) do
+        record = recipe("kucoin", section)
+
+        assert record["pre_sign_transforms"] == [%{"op" => "base64_encode", "target" => "signature"}],
+               "kucoin.#{section} unexpected pre_sign_transforms"
+      end
+    end
+
+    test "deribit.private — default-hex digest (no 4th arg on this.hmac)" do
+      record = recipe("deribit", "private")
+
+      assert record["pre_sign_transforms"] == [
+               %{"op" => "hex_encode", "target" => "signature"}
+             ]
+    end
+
+    test "bitfinex.private — default-hex digest + json_encode body (1-hop alias trace)" do
+      # bitfinex shape mirrors okx but with a `const auth = … + body` concat
+      # inside the declarator (instead of `auth += body`):
+      #   body = this.json(query);
+      #   const auth = '/api/' + request + nonce + body;
+      #   signature = this.hmac(this.encode(auth), this.encode(secret), sha384);
+      # 1-hop tracer follows auth's declarator RHS to body.
+      record = recipe("bitfinex", "private")
+
+      assert record["pre_sign_transforms"] == [
+               %{"op" => "hex_encode", "target" => "signature"},
+               %{"op" => "json_encode", "target" => "body"}
+             ]
+    end
+
+    test "gate.private — default-hex digest under SHA-512" do
+      record = recipe("gate", "private")
+
+      assert record["pre_sign_transforms"] == [
+               %{"op" => "hex_encode", "target" => "signature"}
+             ]
+    end
+
+    test "kraken.private — base64 digest on the outer hmac (SHA-512)" do
+      # Kraken's signing is a 4-step chain (binary hash → binaryConcat →
+      # base64-decode secret → hmac sha512 base64). Only the outer
+      # hmac's digest lands in pre_sign_transforms — the intermediate
+      # binary concat belongs to canonical_string construction (and
+      # stays null there until Task 66e lands the binary chain).
+      record = recipe("kraken", "private")
+
+      assert record["pre_sign_transforms"] == [
+               %{"op" => "base64_encode", "target" => "signature"}
+             ]
+    end
+
+    test "coinbaseexchange.private — base64 digest on signature" do
+      record = recipe("coinbaseexchange", "private")
+
+      assert record["pre_sign_transforms"] == [
+               %{"op" => "base64_encode", "target" => "signature"}
+             ]
+    end
+
+    test "htx.private — two-stage: base64 digest + url_encode wrapping" do
+      # htx places the base64 signature into the URL query via
+      # this.urlencode({ Signature: signature }). The detector catches
+      # both the hmac digest AND the post-hmac url_encode wrap.
+      record = recipe("htx", "private")
+
+      assert record["pre_sign_transforms"] == [
+               %{"op" => "base64_encode", "target" => "signature"},
+               %{"op" => "url_encode", "target" => "signature"}
+             ]
+    end
+
+    test "hyperliquid.private — null (terminal custom_signing_family)" do
+      record = recipe("hyperliquid", "private")
+
+      assert record["pre_sign_transforms"] == nil
+    end
+
+    test "binance.private — null under ambiguous_ast (RSA/EdDSA/HMAC)" do
+      record = recipe("binance", "private")
+
+      assert record["pre_sign_transforms"] == nil
+    end
+
+    test "bybit.private — null under ambiguous_ast (RSA/HMAC)" do
+      record = recipe("bybit", "private")
+
+      assert record["pre_sign_transforms"] == nil
     end
   end
 

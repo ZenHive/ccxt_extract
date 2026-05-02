@@ -1,7 +1,7 @@
 defmodule CcxtExtract.SignRecipe.Derive do
   @moduledoc """
   Orchestrator for `structure.sign_recipe` derivation. Populates every
-  field except `pre_sign_transforms` (Task 68 territory).
+  derivation field via per-field helper modules.
 
   # Patch count: 0/3. First patch migrates to priv/overrides/.
   # See ROADMAP.md § Phase 10 "Three-Strikes Rule".
@@ -17,10 +17,13 @@ defmodule CcxtExtract.SignRecipe.Derive do
       consumer attaches. (Task 67, delegated to `AuthHeaders.derive/4`)
     * `nonce` — timestamp / nonce `{source, format}` classification.
       (Task 67, delegated to `Nonce.derive/2`)
+    * `pre_sign_transforms` — ordered list of encoding / normalization
+      operations applied to the signature, body, or canonical_string.
+      (Task 68, delegated to `PreSignTransforms.derive/4`)
 
-  `pre_sign_transforms` stays `null` — Task 68 populates it.
   `unresolved_reason` stays `"not_yet_derived"` while any derivation
-  field remains null; Task 69 flips it to `nil` when everything is filled.
+  field remains null; Task 69's biconditional flips it to `nil` (via
+  `resolve_unresolved_reason/1`) as soon as all six fields populate.
 
   ## Strategy
 
@@ -73,6 +76,7 @@ defmodule CcxtExtract.SignRecipe.Derive do
   alias CcxtExtract.SignRecipe.AuthHeaders
   alias CcxtExtract.SignRecipe.CanonicalString
   alias CcxtExtract.SignRecipe.Nonce
+  alias CcxtExtract.SignRecipe.PreSignTransforms
   alias CcxtExtract.SignRecipe.SigRef
 
   @type derive_note :: nil | String.t()
@@ -107,6 +111,7 @@ defmodule CcxtExtract.SignRecipe.Derive do
     canonical_string = CanonicalString.derive(body_stmts, crypto_calls, sig_names, unresolved)
     auth_headers = AuthHeaders.derive(body_stmts, sig_names, crypto_fps, unresolved)
     nonce = Nonce.derive(body_stmts, unresolved)
+    pre_sign_transforms = PreSignTransforms.derive(body_stmts, sig_names, crypto_fps, unresolved)
 
     record =
       SignRecipe.null_recipe()
@@ -115,6 +120,7 @@ defmodule CcxtExtract.SignRecipe.Derive do
       |> Map.put("canonical_string", canonical_string)
       |> Map.put("auth_headers", auth_headers)
       |> Map.put("nonce", nonce)
+      |> Map.put("pre_sign_transforms", pre_sign_transforms)
       |> Map.put("unresolved_reason", unresolved)
       |> resolve_unresolved_reason()
 

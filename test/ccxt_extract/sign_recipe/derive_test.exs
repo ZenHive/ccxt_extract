@@ -470,16 +470,16 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
       end
     end
 
-    test "populated recipe leaves Task 68 field null" do
-      # Tasks 65 / 66a / 66b / 67 combined populate crypto_op,
-      # signature_placement, canonical_string, auth_headers, nonce.
-      # The minimal body below has only the signature header assignment
-      # — so auth_headers comes out as `[]` (signature is excluded; no
-      # other auth headers) rather than nil, and the canonical string is
-      # nil (CanonicalString needs an hmac + encoded chain to classify).
-      # Nonce is nil because there is no timestamp binding.
-      # pre_sign_transforms is the only field that remains wholly null
-      # until Task 68.
+    test "Task 68 populates pre_sign_transforms on a minimal hmac body" do
+      # Tasks 65 / 66a / 66b / 67 / 68 combined populate crypto_op,
+      # signature_placement, canonical_string, auth_headers, nonce,
+      # pre_sign_transforms. The minimal body below has only the
+      # signature binding + header assignment — so auth_headers comes
+      # out as `[]` (signature is excluded; no other auth headers), the
+      # canonical string is nil (CanonicalString needs an hmac-encoded
+      # chain to classify), and nonce is nil (no timestamp binding).
+      # pre_sign_transforms populates with the default-hex digest
+      # because a 3-arg this.hmac(_, _, sha256) defaults to hex output.
       ast =
         method_ast([
           var("signature", hmac_call("sha256")),
@@ -491,7 +491,7 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
       assert record["auth_headers"] == []
       assert record["canonical_string"] == nil
       assert record["nonce"] == nil
-      assert record["pre_sign_transforms"] == nil
+      assert record["pre_sign_transforms"] == [%{"op" => "hex_encode", "target" => "signature"}]
     end
 
     test "auth_headers and nonce populate end-to-end for a Bybit-shaped body" do
@@ -620,12 +620,13 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
       assert record["patch_count"] == 0
     end
 
-    test "unresolved_reason stays 'not_yet_derived' when crypto_op+placement populated" do
-      # Task 65 only fills 2 of 6 derivation fields. The other four are
-      # still null, so unresolved_reason must remain 'not_yet_derived'
-      # until Task 69's write-side flips it — and that flip only fires
-      # when all six fields are non-null (including pre_sign_transforms,
-      # populated by Task 68).
+    test "unresolved_reason stays 'not_yet_derived' when canonical_string+nonce still null" do
+      # Tasks 65 + 68 populate crypto_op, signature_placement, and
+      # pre_sign_transforms on this minimal body. But canonical_string
+      # and nonce stay null (no encoded chain; no timestamp binding),
+      # so unresolved_reason must remain 'not_yet_derived' — the
+      # biconditional RHS (all-six-populated) fails, so Task 69's
+      # write-side flip cannot fire.
       ast =
         method_ast([
           var("signature", hmac_call("sha256")),
@@ -634,10 +635,11 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
 
       %{"private" => record} = Derive.derive(ast, ["private"])
       assert record["unresolved_reason"] == "not_yet_derived"
-      # Sanity check: at least pre_sign_transforms is still null (Task 68
-      # hasn't landed), proving the honesty biconditional's RHS fails and
-      # thus the tag stays populated.
-      assert record["pre_sign_transforms"] == nil
+      # Sanity check: canonical_string is the field that holds the flip
+      # back here. Proves the biconditional's RHS fails even though
+      # Task 68 has populated pre_sign_transforms.
+      assert record["canonical_string"] == nil
+      assert record["pre_sign_transforms"] == [%{"op" => "hex_encode", "target" => "signature"}]
     end
   end
 
@@ -649,13 +651,15 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
     # that ARE reachable from today's AST derivation, and validate the
     # flip mechanically by asserting the predicate-controlled behavior.
 
-    test "Derive never produces unresolved_reason: nil today (Task 68 unshipped)" do
-      # Until Task 68 populates pre_sign_transforms, no AST path through
-      # Derive can produce an all-six-non-nil record — so the write-side
-      # flip is a no-op on every emission today. This test pins that
-      # status so a regression (e.g. Derive accidentally flipping early)
-      # trips the suite.
-      # TODO(Task 68): add positive flip assertion here once pre_sign_transforms is populated.
+    test "flip NOT fired on a body that still has canonical_string/nonce null" do
+      # Minimal hmac body: crypto_op + signature_placement +
+      # pre_sign_transforms populate, auth_headers is `[]` (also
+      # populated), but canonical_string and nonce remain null (no
+      # encoded chain; no timestamp binding). The biconditional RHS
+      # (all-six-non-nil) fails, so the flip must NOT fire and the tag
+      # must remain "not_yet_derived". This test pins the "partial
+      # derivation" case — a regression that accidentally flipped early
+      # (for example, treating null as populated) would trip here.
       ast =
         method_ast([
           var("signature", hmac_call("sha256")),

@@ -551,8 +551,10 @@ Task 60 ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON 
           {"name": "OK-ACCESS-TIMESTAMP", "source": "timestamp"}
         ],
         "nonce": {"source": "timestamp_ms", "format": "iso8601"},  // Task 67
-        "pre_sign_transforms": null,                // Task 68
-        "unresolved_reason": "not_yet_derived",
+        "pre_sign_transforms": [                    // Task 68
+          {"op": "base64_encode", "target": "signature"}
+        ],
+        "unresolved_reason": null,                  // auto-flipped by Task 69 biconditional
         "patch_count": 0
       },
       "sapi": { /* … same shape … */ }
@@ -605,7 +607,7 @@ Phase 10 bundles populate fields in this order (see ROADMAP.md § Phase 10):
 | 66a | `canonical_string` (HMAC-simple entries; per-verb map) | ✅ Shipped 2026-04-19 |
 | 66b | `canonical_string` (HMAC-with-body entries; per-verb map) | ✅ Shipped 2026-04-21 (no schema bump — 2.3.0 slot fill) |
 | 67 | `auth_headers`, `nonce` | ✅ Shipped 2026-04-24 (no schema bump — 2.2.0 slot fill) |
-| 68 | `pre_sign_transforms` | ⬜ |
+| 68 | `pre_sign_transforms` | ✅ Shipped 2026-04-24 |
 | 69 | Biconditional contract: auto-flip `unresolved_reason` to `null` once all fields non-null (write-side) + `sign_recipe_honesty_valid` invariant (read-side) | ✅ Shipped 2026-04-24 |
 
 JWT / RSA / Ed25519 and outlier signing families (Tasks 66c / 66d) are deferred — no Tier 1/2/DEX exchange in `priv/priority_tiers.json` needs them as of 2026-04-18.

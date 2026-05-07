@@ -39,15 +39,23 @@ defmodule CcxtExtract.Integration.Cached.DescribeCachedTest do
     # Load exchanges.json for alias checking
     exchanges_data = @exchanges_path |> File.read!() |> Jason.decode!()
 
-    %{results: results, all_exchanges: exchanges_data["exchanges"]}
+    %{manifest: manifest, results: results, all_exchanges: exchanges_data["exchanges"]}
   end
 
   describe "structure" do
-    test "contains expected exchange count (aliases skipped)", %{results: results} do
-      min = min_count(length(results), 90)
-
-      assert length(results) >= min,
-             "Expected #{min}+ non-alias exchanges, got #{length(results)}"
+    test "contains expected exchange count (aliases skipped)", %{
+      manifest: manifest,
+      results: results
+    } do
+      if full_universe?(manifest) do
+        assert length(results) >= 90,
+               "Full-universe run expected 90+ non-alias exchanges, got #{length(results)}"
+      else
+        # Scoped run: the manifest's exchange list IS the authority — assert
+        # the on-disk fixtures match it 1:1, no count threshold.
+        assert length(results) == length(manifest["exchanges"]),
+               "Manifest lists #{length(manifest["exchanges"])} exchanges, found #{length(results)} on disk"
+      end
     end
 
     test "each result has id and describe fields", %{results: results} do

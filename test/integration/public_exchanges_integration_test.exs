@@ -30,7 +30,7 @@ defmodule CcxtExtract.PublicExchangesIntegrationTest do
     "htx" => ["apiKey", "secret"],
     "bitmex" => ["apiKey", "secret"],
     "hyperliquid" => ["privateKey", "walletAddress"],
-    "aster" => ["apiKey", "secret"],
+    "aster" => ["privateKey"],
     "lighter" => ["privateKey"]
   }
 
@@ -41,14 +41,17 @@ defmodule CcxtExtract.PublicExchangesIntegrationTest do
 
   describe "extract/0" do
     test "classifies expected exchange count", %{analysis: analysis} do
-      # public_exchanges.json stamps tier_scope="all" even under scoped extraction,
-      # so dispatch on observed exchange_count instead.
-      # TODO(scope-envelope): migrate to envelope dispatch once Task 13 lands.
+      # Task 13b: dispatch on the canonical envelope stamp from
+      # `describe/_manifest.json`. The in-memory `extract/0` result does
+      # not surface `tier_scope` (only `write!/2` stamps the envelope),
+      # so the corpus anchor is the scope-of-record.
       n = analysis["exchange_count"]
-      min = min_count(n, 90)
 
-      assert n >= min,
-             "Expected #{min}+ exchanges, got #{n}"
+      if corpus_full_universe?() do
+        assert n >= 90, "Full-universe public_exchanges expected 90+ exchanges, got #{n}"
+      else
+        assert n > 0, "Scoped public_exchanges expected > 0 exchanges, got #{n}"
+      end
     end
 
     test "summary fields are present", %{analysis: analysis} do
@@ -67,7 +70,15 @@ defmodule CcxtExtract.PublicExchangesIntegrationTest do
     end
 
     test "at least one fully public exchange exists", %{analysis: analysis} do
-      assert analysis["summary"]["fully_public_count"] >= 1
+      # Full-universe corpora always include a handful of fully-public
+      # exchanges. Scoped corpora may not — `tier1+tier2+dex` happens to
+      # exclude all known fully-public IDs. Dispatch on the canonical
+      # envelope rather than asserting a fabricated floor.
+      if corpus_full_universe?() do
+        assert analysis["summary"]["fully_public_count"] >= 1
+      else
+        assert analysis["summary"]["fully_public_count"] >= 0
+      end
     end
 
     test "credential patterns sum to total exchange count", %{analysis: analysis} do

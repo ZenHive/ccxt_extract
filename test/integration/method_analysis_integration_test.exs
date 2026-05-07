@@ -45,14 +45,23 @@ defmodule CcxtExtract.MethodAnalysisIntegrationTest do
   describe "REST analysis" do
     test "has reasonable exchange and method counts", %{analysis: analysis} do
       rest = analysis["rest"]
-      n = rest["exchange_count"]
 
-      # method_analysis.json stamps tier_scope="all" even under scoped extraction,
-      # so dispatch on observed exchange_count instead.
-      # TODO(scope-envelope): migrate to envelope dispatch once Task 13 lands.
-      assert rest["exchange_count"] >= min_count(n, 100)
-      assert rest["total_methods"] >= min_total(n, 100, 4000, 1000)
-      assert rest["unique_method_names"] >= min_total(n, 100, 100, 50)
+      # Task 13b: dispatch on the canonical envelope stamp from
+      # `describe/_manifest.json` rather than observed counts. Post-Task-13a,
+      # `MethodAnalysis.write!/2` stamps `tier_scope` correctly, but the
+      # in-memory return of `extract/0` does not surface it; the corpus
+      # anchor is the scope-of-record for cross-extractor analyses.
+      if corpus_full_universe?() do
+        assert rest["exchange_count"] >= 100
+        assert rest["total_methods"] >= 4000
+        assert rest["unique_method_names"] >= 100
+      else
+        # Scoped run: assert internal consistency only. Absolute floors are
+        # not meaningful when the corpus is a tier subset.
+        assert rest["exchange_count"] > 0
+        assert rest["total_methods"] > 0
+        assert rest["unique_method_names"] > 0
+      end
     end
 
     test "families contain expected prefix groups", %{analysis: analysis} do
@@ -172,11 +181,16 @@ defmodule CcxtExtract.MethodAnalysisIntegrationTest do
   describe "WS analysis" do
     test "has reasonable exchange and method counts", %{analysis: analysis} do
       ws = analysis["ws"]
-      n = ws["exchange_count"]
 
-      assert ws["exchange_count"] >= min_count(n, 60)
-      assert ws["total_methods"] >= min_total(n, 60, 1000, 300)
-      assert ws["unique_method_names"] >= min_total(n, 60, 30, 20)
+      if corpus_full_universe?() do
+        assert ws["exchange_count"] >= 60
+        assert ws["total_methods"] >= 1000
+        assert ws["unique_method_names"] >= 30
+      else
+        assert ws["exchange_count"] > 0
+        assert ws["total_methods"] > 0
+        assert ws["unique_method_names"] > 0
+      end
     end
 
     test "families contain expected prefix groups", %{analysis: analysis} do

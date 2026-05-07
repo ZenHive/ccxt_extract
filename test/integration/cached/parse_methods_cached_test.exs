@@ -48,15 +48,32 @@ defmodule CcxtExtract.Integration.Cached.ParseMethodsCachedTest do
     end
 
     test "at least expected exchanges extracted", %{data: data} do
-      assert data["count"] >= min_count(data["count"], 100)
+      if full_universe?(data) do
+        assert data["count"] >= 100,
+               "Full-universe parse_methods.json expected 100+ exchanges, got #{data["count"]}"
+      else
+        assert data["count"] == length(data["exchanges"])
+        assert data["count"] > 0
+      end
     end
 
     test "vast majority of exchanges have parse methods", %{data: data} do
-      assert data["with_parse_methods"] >= proportional(data["count"], 0.75)
+      if full_universe?(data) do
+        assert data["with_parse_methods"] >= proportional(data["count"], 0.75)
+      else
+        assert data["with_parse_methods"] >= 1
+      end
     end
 
     test "substantial total parse methods", %{data: data} do
-      assert data["total_methods"] >= min_total(data["count"], 100, 1400, 400)
+      if full_universe?(data) do
+        assert data["total_methods"] >= 1400,
+               "Full-universe parse_methods.json expected 1400+ total methods, got #{data["total_methods"]}"
+      else
+        actual_total = Enum.sum(Enum.map(data["exchanges"], & &1["parse_method_count"]))
+        assert data["total_methods"] == actual_total
+        assert data["total_methods"] > 0
+      end
     end
   end
 

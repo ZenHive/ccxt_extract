@@ -45,15 +45,34 @@ defmodule CcxtExtract.Integration.Cached.WsMethodsCachedTest do
     end
 
     test "at least expected exchanges extracted", %{data: data} do
-      assert data["count"] >= min_count(data["count"], 70)
+      if full_universe?(data) do
+        assert data["count"] >= 70,
+               "Full-universe ws_methods.json expected 70+ exchanges, got #{data["count"]}"
+      else
+        assert data["count"] == length(data["exchanges"])
+        assert data["count"] > 0
+      end
     end
 
     test "majority of exchanges have WS methods", %{data: data} do
-      assert data["with_ws_methods"] >= proportional(data["count"], 0.75)
+      if full_universe?(data) do
+        assert data["with_ws_methods"] >= proportional(data["count"], 0.75)
+      else
+        assert data["with_ws_methods"] >= 1
+      end
     end
 
     test "substantial total WS methods", %{data: data} do
-      assert data["total_methods"] >= min_total(data["count"], 70, 1400, 400)
+      if full_universe?(data) do
+        assert data["total_methods"] >= 1400,
+               "Full-universe ws_methods.json expected 1400+ total methods, got #{data["total_methods"]}"
+      else
+        # Scoped run: assert internal consistency (envelope total matches the
+        # per-exchange sum) rather than a fabricated absolute floor.
+        actual_total = Enum.sum(Enum.map(data["exchanges"], & &1["ws_method_count"]))
+        assert data["total_methods"] == actual_total
+        assert data["total_methods"] > 0
+      end
     end
   end
 

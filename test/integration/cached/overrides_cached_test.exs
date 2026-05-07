@@ -47,7 +47,13 @@ defmodule CcxtExtract.Integration.Cached.OverridesCachedTest do
     end
 
     test "at least expected derived exchanges", %{data: data} do
-      assert data["count"] >= min_count(data["count"], 80)
+      if full_universe?(data) do
+        assert data["count"] >= 80,
+               "Full-universe overrides.json expected 80+ derived exchanges, got #{data["count"]}"
+      else
+        assert data["count"] == length(data["exchanges"])
+        assert data["count"] > 0
+      end
     end
 
     test "all derived exchanges have overrides", %{data: data} do

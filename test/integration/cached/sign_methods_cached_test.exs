@@ -43,11 +43,24 @@ defmodule CcxtExtract.Integration.Cached.SignMethodsCachedTest do
     end
 
     test "at least expected exchanges extracted", %{data: data} do
-      assert data["count"] >= min_count(data["count"], 100)
+      if full_universe?(data) do
+        assert data["count"] >= 100,
+               "Full-universe sign_methods.json expected 100+ exchanges, got #{data["count"]}"
+      else
+        assert data["count"] == length(data["exchanges"])
+        assert data["count"] > 0
+      end
     end
 
     test "vast majority of exchanges have sign()", %{data: data} do
-      assert data["with_sign"] >= proportional(data["count"], 0.75)
+      if full_universe?(data) do
+        assert data["with_sign"] >= proportional(data["count"], 0.75)
+      else
+        # Scoped run: assert only that the structural invariant is non-trivial.
+        # The 75% claim relies on full-universe averaging — small scopes
+        # over-represent edge cases (DEX, alias variants).
+        assert data["with_sign"] >= 1
+      end
     end
   end
 

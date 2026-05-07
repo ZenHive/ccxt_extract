@@ -118,15 +118,19 @@ defmodule CcxtExtract.AggregateWriter do
 
     stats = stats_fn.(merged)
 
+    # `tier_scope` is stamped LAST so neither `:extra` nor the `:stats_fn`
+    # output can shadow it. Task 13b made envelope dispatch the contract for
+    # cached integration tests — the stamp MUST reflect the caller-supplied
+    # scope, not whatever an extractor's stats happen to produce.
     envelope =
       %{
         "extracted_at" => extracted_at,
         "count" => length(merged),
-        "tier_scope" => tier_scope,
         entry_key => merged
       }
       |> Map.merge(extra)
       |> Map.merge(stats)
+      |> Map.put("tier_scope", tier_scope)
 
     output = if normalize?, do: AstNormalize.normalize(envelope), else: envelope
 

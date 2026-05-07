@@ -36,6 +36,10 @@ package.json
 # Generated caches
 /.hex-docs/
 
+# Dialyzer PLTs (relocated from _build/dialyzer/ to survive `mix clean`).
+# 50–100MB binary artifacts — never commit.
+/priv/plts/
+
 
 # Claude Code plugin-managed worktrees (staged as submodule gitlinks otherwise)
 /.claude/worktrees/

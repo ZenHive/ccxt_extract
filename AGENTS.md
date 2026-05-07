@@ -9,7 +9,7 @@
 
 ### Prerequisites
 
-Elixir ~> 1.18 on Erlang/OTP 27 and Node.js (for npm/CCXT) must be available. Elixir is installed at `/usr/local/elixir/bin` (ensure it is on `PATH`). The update script handles `mix deps.get` and CCXT sparse-clone/setup automatically.
+Elixir ~> 1.18 on Erlang/OTP 27 and Node.js (for npm/CCXT) must be available. Versions are managed via [mise](https://mise.jdx.dev/) — `erlang 27.3.4.11` and `elixir 1.18.4-otp-27` are configured globally in `~/.config/mise/config.toml`. Ensure mise is activated in your shell (`eval "$(mise activate bash)"`). The update script handles `mix deps.get` and CCXT sparse-clone/setup automatically.
 
 ### Running services
 

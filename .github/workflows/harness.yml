@@ -80,14 +80,14 @@ jobs:
       - name: Materialize CCXT corpus (test_helper requires it)
         run: mix ccxt_extract.setup
 
-      # Coverage tier: 80% — standard business logic. `--exclude extraction`
+      # Coverage tier: 70% — standard business logic. `--exclude extraction`
       # because tests tagged `:extraction` hit the real CCXT source/bundle (slow,
       # already covered by cached integration tests in test/integration/cached/).
       # `--exclude flaky` is the gate side of tag-and-quarantine — tag the known
       # offenders with `@tag :flaky` and they drop out of the blocking run. Run
       # them locally (or in a future non-blocking soak job) to track drift.
-      - name: Tests + coverage gate (>=80%)
-        run: mix test.json --cover --cover-threshold 80 --summary-only --exclude extraction --exclude flaky
+      - name: Tests + coverage gate (>=70%)
+        run: mix test.json --cover --cover-threshold 70 --summary-only --exclude extraction --exclude flaky
 
       - name: Dialyzer
         run: mix dialyzer

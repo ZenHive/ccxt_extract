@@ -76,8 +76,8 @@ for internal Phase 12 / Phase 15 derivation consumers.
 - **`structure.ws_methods` is gone.** Same — `priv/discoveries/ws_methods.json`
   retained internally, not emitted in per-exchange output.
 - **JSON Schema file renamed** `exchange_v2.json` → `exchange_v3.json`.
-  `priv/schema/exchange_v2.json` is retained for one release so maintainers
-  can diff; the next schema release will delete it.
+  The retained-for-diff `priv/schema/exchange_v2.json` was deleted
+  2026-05-07 (Task 118) once the one-release grace window expired.
 - **Consumer major-version pin** moves from `2` → `3`. Update your version
   check (see Migration Notes below).
 - **Provenance map** loses `/runtime/markets`, `/structure/parse_methods`,
@@ -167,7 +167,7 @@ line and are preserved here for historical reference.
 
 **Status:** Superseded by 3.0.0 (released 2026-04-20, Task 117)
 
-**JSON Schema:** `exchange_v2.json` (retained one release after rename)
+**JSON Schema:** `exchange_v2.json` (deleted 2026-05-07 — Task 118; see [Version History](#version-history))
 
 **Latest change:** Adds `runtime.testnet_urls` — a required, structured
 testnet / sandbox URL catalog derived from `describe.urls.test` and
@@ -368,7 +368,7 @@ All keys are always materialized (never absent). Consumers check for `null`, nev
 
 ### Key Type Definitions
 
-For complete type definitions (all fields, nesting, and constraints), see `exchange_v2.json` — the JSON Schema shipped in every output directory. The summary below covers the most-referenced types:
+For complete type definitions (all fields, nesting, and constraints), see `exchange_v3.json` — the JSON Schema shipped in every output directory. The summary below covers the most-referenced types:
 
 - **MethodAST** — `{ async, params, return_type, statements, body }` where `body` is a complete ESTree BlockStatement
 - **InterfaceSignature** — `{ name, params, return_type }` (no body — these are type declarations, not implementations)
@@ -420,7 +420,7 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 3.0.0 | 2026-04-20 | **Breaking.** Replace `runtime.markets` with compact derived `runtime.symbols_index` (map of symbol → `{spot: bool, swap: bool}`); drop `structure.parse_methods` and `structure.ws_methods` from emitted output (extractors retained; discovery files still written to `priv/discoveries/` for internal Phase 12 / Phase 15 consumers). Rename JSON Schema file `exchange_v2.json` → `exchange_v3.json`. `priv/schema/exchange_v2.json` retained one release for diff reference. Provenance map drops three raw pointers and gains `/runtime/symbols_index` (derived). Consumer major-version pin bumps `2` → `3`. Clears the ccxt_client Hex 128 MB publish cap (binance pretty-JSON 56.2 MB → compact-JSON + pruned 25.6 MB → ~2 MB). See [Version 3.0.0 — Current](#version-300--current) for migration notes. |
+| 3.0.0 | 2026-04-20 | **Breaking.** Replace `runtime.markets` with compact derived `runtime.symbols_index` (map of symbol → `{spot: bool, swap: bool}`); drop `structure.parse_methods` and `structure.ws_methods` from emitted output (extractors retained; discovery files still written to `priv/discoveries/` for internal Phase 12 / Phase 15 consumers). Rename JSON Schema file `exchange_v2.json` → `exchange_v3.json`. `priv/schema/exchange_v2.json` retained one release for diff reference, deleted 2026-05-07 (Task 118). Provenance map drops three raw pointers and gains `/runtime/symbols_index` (derived). Consumer major-version pin bumps `2` → `3`. Clears the ccxt_client Hex 128 MB publish cap (binance pretty-JSON 56.2 MB → compact-JSON + pruned 25.6 MB → ~2 MB). See [Version 3.0.0 — Current](#version-300--current) for migration notes. |
 | 2.4.0 | 2026-04-19 | Add nullable-by-pattern `runtime.testnet_urls` and promote it into `RuntimeData.required` — structured testnet / sandbox URL catalog with `pattern` enum (`separate_host` / `sandbox_flag` / `none`), `{hostname}` pre-resolution, and independent `sandbox_flag_field` that tracks `options.sandboxMode` presence. Replaces consumer-side reach-into `runtime.describe.urls.test` (opaque passthrough). New `testnet_urls_shape_valid` contract invariant. `_provenance["/runtime/testnet_urls"] = "derived"`. **Minor bump** because the key is now in `RuntimeData.required` — strict validators reject 2.3.0 output lacking it; permissive readers are unaffected. See [Testnet URL Catalog (2.4.0+)](#testnet-url-catalog-240). |
 | 2.3.0 | 2026-04-19 | Reshape `sign_recipe.<section>.canonical_string` from a **single record** to a **per-verb map** keyed on HTTP verb (`GET`/`POST`/`PUT`/`DELETE`/`PATCH`) or the sentinel `*` (uniform across all verbs). A single section can now carry multiple families (e.g. OKX.private: `GET` = hmac_simple for query-signed GETs; a future `POST` entry will be hmac_with_body for body-signed POSTs). Task 66a populates hmac_simple entries; Task 66b will populate hmac_with_body entries in parallel. Practically additive — no consumer previously parsed a populated `canonical_string` (every record landed null at 2.2.0). **Minor bump** because the populated shape is new. First-run coverage: OKX.private.GET populated; all other priority exchanges remain null with truthful `unresolved_reason` tags pending Tasks 66b/66e/66f. |
 | 2.2.0 | 2026-04-18 | Add `structure.sign_recipe` as per-section declarative signing recipe — scaffold only. Keys mirror `authenticated_sections`; values are `SignRecipeRecord` with every derivation field (`crypto_op`, `canonical_string`, `signature_placement`, `auth_headers`, `nonce`, `pre_sign_transforms`) `null` and `unresolved_reason: "not_yet_derived"`. Populated incrementally by Phase 10 tasks 65–69. Standalone JSON Schema at `priv/schema/sign_recipe_v1.json` kept in lockstep with `exchange_v2.json#/$defs/SignRecipeRecord`. Two new contract-test invariants: `sign_recipe_keys_match_auth_sections` and `sign_recipe_shape_valid`. Provenance: `/structure/sign_recipe` tagged `"derived"`. **Minor bump** because the key is now in `StructureData.required` — strict validators reject 2.1.0 output lacking it; permissive readers are unaffected. See [Signing Recipe (2.2.0+)](#signing-recipe-220). |
@@ -508,7 +508,7 @@ Task 60 ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON 
 
 `structure.sign_recipe` is a declarative per-section signing recipe shipped at schema 2.2.0. A consumer reading the recipe for an authenticated section can construct an authenticated HTTP request without walking the raw `sign()` AST.
 
-**JSON Schema:** `priv/schema/sign_recipe_v1.json` — standalone, reusable for external consumers. Kept in lockstep with `exchange_v2.json#/$defs/SignRecipeRecord` (parity checked by `test/ccxt_extract/sign_recipe_test.exs`).
+**JSON Schema:** `priv/schema/sign_recipe_v1.json` — standalone, reusable for external consumers. Kept in lockstep with `exchange_v3.json#/$defs/SignRecipeRecord` (parity checked by `test/ccxt_extract/sign_recipe_test.exs`).
 
 ### Shape
 
@@ -594,7 +594,7 @@ Consumers that encounter a null derivation field must either read the raw `struc
 ### Contract invariants
 
 - `sign_recipe_keys_match_auth_sections` — per-exchange. Fails on any key in `authenticated_sections` without a recipe entry, or any recipe entry not in `authenticated_sections`.
-- `sign_recipe_shape_valid` — per-exchange. Belt-and-suspenders over each recipe record: required keys present, `patch_count` is a non-negative integer, `unresolved_reason` is null or in the closed vocabulary. Deeper shape/enum validation lives in `Validation.validate_schema/2` against `exchange_v2.json#/$defs/SignRecipeRecord`.
+- `sign_recipe_shape_valid` — per-exchange. Belt-and-suspenders over each recipe record: required keys present, `patch_count` is a non-negative integer, `unresolved_reason` is null or in the closed vocabulary. Deeper shape/enum validation lives in `Validation.validate_schema/2` against `exchange_v3.json#/$defs/SignRecipeRecord`.
 - `sign_recipe_honesty_valid` — per-exchange. Enforces the biconditional: `unresolved_reason == null` iff every one of the six derivation fields is non-null. Fails loudly if a record carries `unresolved_reason: null` with any null derivation field (left→right violation — upstream Derive bug), or carries a non-null tag with all six fields populated (right→left violation — stale tag that should have been auto-flipped). Shipped Task 69, 2026-04-24.
 
 ### Populate order
@@ -632,7 +632,7 @@ replaces reaching into the opaque `runtime.describe.urls.test` /
 }
 ```
 
-See `$defs/TestnetUrls` in `priv/schema/exchange_v2.json` for the
+See `$defs/TestnetUrls` in `priv/schema/exchange_v3.json` for the
 canonical definition.
 
 ### Pattern classification

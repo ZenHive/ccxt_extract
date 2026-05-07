@@ -5,7 +5,7 @@
 #
 # No untrusted-input interpolation — only matrix, runner, beam outputs, hashFiles.
 #
-# Project-specific: `mix ccxt_extract.setup` runs before tests because
+# Project-specific: `mix ccxt_extract.update` runs before tests because
 # `test/test_helper.exs` raises on missing corpus sentinels (priv/discoveries/*,
 # priv/output/binance.json) — the corpus is gitignored derived state, materialized
 # from the CCXT JS source on each fresh clone.
@@ -74,15 +74,24 @@ jobs:
         run: mix sobelow
 
       # Project-specific: corpus materialization before tests. test_helper.exs
-      # raises on missing priv/discoveries/* and priv/output/binance.json. The
-      # `setup` alias does sparse clone of CCXT + bundle copy + regenerates the
-      # corpus via `mix ccxt_extract.update`.
+      # raises on missing priv/discoveries/* and priv/output/binance.json.
+      # `mix ccxt_extract.update` orchestrates the full pipeline:
+      #   1. ccxt_extract.setup  — sparse-clone CCXT TS + copy bundle (internal call)
+      #   2. ccxt_extract.exchanges + per-extractor tasks → priv/discoveries/*
+      #   3. ccxt_extract.pipeline → priv/output/<id>.json
+      # priv/output/ and priv/discoveries/* (except class_hierarchy.json) are
+      # gitignored derived state — regenerated per CCXT release here in CI.
       - name: Materialize CCXT corpus (test_helper requires it)
-        run: mix ccxt_extract.setup
+        run: mix ccxt_extract.update
 
-      # Coverage tier: 70% — standard business logic. `--exclude extraction`
-      # because tests tagged `:extraction` hit the real CCXT source/bundle (slow,
-      # already covered by cached integration tests in test/integration/cached/).
+      # Coverage tier: 70% — matches the *structural offline floor*, not a
+      # temporary accommodation. `--exclude extraction` drops the modules that
+      # need the real CCXT source/bundle to run (Describe, OXCExtractor,
+      # SigningFixtures, the extractor mix tasks); they then report 0% in the
+      # offline run regardless of how well they're tested by `:extraction`-tagged
+      # cases. Aggregate offline coverage settles at ~73.76% even with logic-tier
+      # code well-covered, so 70% is the floor that gates real regressions
+      # without forcing extraction-stub tests that don't exercise behavior.
       # `--exclude flaky` is the gate side of tag-and-quarantine — tag the known
       # offenders with `@tag :flaky` and they drop out of the blocking run. Run
       # them locally (or in a future non-blocking soak job) to track drift.

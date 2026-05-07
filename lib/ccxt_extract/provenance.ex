@@ -84,6 +84,7 @@ defmodule CcxtExtract.Provenance do
     /runtime/testnet_urls
     /structure/authenticated_sections
     /structure/sign_recipe
+    /structure/request_shape
     /structure/handle_errors/error_code_fields
     /structure/handle_errors/throw_dispatches
     /structure/unified_endpoints

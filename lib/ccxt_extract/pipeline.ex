@@ -22,6 +22,7 @@ defmodule CcxtExtract.Pipeline do
   alias CcxtExtract.OverrideRegistry
   alias CcxtExtract.Paths
   alias CcxtExtract.Provenance
+  alias CcxtExtract.RequestShape
   alias CcxtExtract.Schema
   alias CcxtExtract.ScopeCleanup
   alias CcxtExtract.SignRecipe
@@ -163,7 +164,7 @@ defmodule CcxtExtract.Pipeline do
 
     case OverrideRegistry.load(id) do
       :none ->
-        sync_sign_recipe(exchange)
+        exchange |> sync_sign_recipe() |> sync_request_shape()
 
       overrides when is_list(overrides) ->
         {updated, applied_paths} =
@@ -173,6 +174,7 @@ defmodule CcxtExtract.Pipeline do
 
         updated
         |> sync_sign_recipe()
+        |> sync_request_shape()
         |> stamp_override_provenance(applied_paths)
     end
   rescue
@@ -219,6 +221,33 @@ defmodule CcxtExtract.Pipeline do
 
     Map.new(auth_sections, fn section ->
       {section, Map.get(existing, section) || Map.get(new_recipes, section) || SignRecipe.null_recipe()}
+    end)
+  end
+
+  # Mirror of `sync_sign_recipe/1` for `structure.request_shape`.
+  # Keeps recipe keys aligned with `structure.authenticated_sections`
+  # after overrides may have mutated either, and re-runs derivation
+  # for any sections newly introduced by an override on
+  # authenticated_sections (so they get a real verb/path triple
+  # rather than a permanent null_record).
+  defp sync_request_shape(exchange) do
+    auth_sections = get_in(exchange, ["structure", "authenticated_sections"])
+    existing = get_in(exchange, ["structure", "request_shape"]) || %{}
+    sign_method = get_in(exchange, ["structure", "sign_method"])
+    describe_api = get_in(exchange, ["runtime", "describe", "api"])
+    synced = synced_request_shape_map(auth_sections, existing, sign_method, describe_api)
+    put_in(exchange, ["structure", "request_shape"], synced)
+  end
+
+  defp synced_request_shape_map(nil, _existing, _sign_method, _describe_api), do: %{}
+  defp synced_request_shape_map([], _existing, _sign_method, _describe_api), do: %{}
+
+  defp synced_request_shape_map(auth_sections, existing, sign_method, describe_api) when is_list(auth_sections) do
+    new_sections = Enum.reject(auth_sections, &Map.has_key?(existing, &1))
+    new_records = RequestShape.Derive.derive(sign_method, new_sections, describe_api)
+
+    Map.new(auth_sections, fn section ->
+      {section, Map.get(existing, section) || Map.get(new_records, section) || RequestShape.null_record()}
     end)
   end
 
@@ -300,6 +329,7 @@ defmodule CcxtExtract.Pipeline do
       "methods" => get_methods(id, data),
       "sign_method" => sign_method,
       "authenticated_sections" => authenticated_sections,
+      "describe_api" => describe_api,
       "handle_errors" => get_handle_errors(id, data),
       "interface_signatures" => get_interface_signatures(id, data),
       "pagination" => get_pagination(id, data),

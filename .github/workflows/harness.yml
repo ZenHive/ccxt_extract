@@ -96,7 +96,7 @@ jobs:
       # offenders with `@tag :flaky` and they drop out of the blocking run. Run
       # them locally (or in a future non-blocking soak job) to track drift.
       - name: Tests + coverage gate (>=70%)
-        run: mix test.json --cover --cover-threshold 70 --summary-only --exclude extraction --exclude flaky
+        run: mix test.json --cover --cover-threshold 70 --exclude extraction --exclude flaky
 
       - name: Dialyzer
         run: mix dialyzer

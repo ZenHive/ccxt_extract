@@ -392,23 +392,59 @@ defmodule CcxtExtract.Pipeline do
     # applied-pointer paths into the _provenance map.
     authenticated_sections = CcxtExtract.AuthenticatedSections.derive(effective_sign, describe_api)
 
+    handle_errors = get_handle_errors(id, data)
+
     structure_data = %{
       "class_info" => get_class_info(id, data),
       "methods" => get_methods(id, data),
       "sign_method" => sign_method,
       "authenticated_sections" => authenticated_sections,
       "describe_api" => describe_api,
-      "handle_errors" => get_handle_errors(id, data),
+      "handle_errors" => handle_errors,
       "interface_signatures" => get_interface_signatures(id, data),
       "pagination" => get_pagination(id, data),
       "unified_endpoints" => get_unified_endpoints(id, data),
       "request_defaults" => get_request_defaults(id, data),
-      "overrides" => get_overrides(id, data)
+      "overrides" => get_overrides(id, data),
+      "error_dispatch" => get_error_dispatch(handle_errors),
+      "sign_dispatch" => get_sign_dispatch(effective_sign),
+      "parse_dispatch" => get_parse_dispatch(id, data)
     }
 
     case Keyword.get(opts, :schema_target, 3) do
       3 -> Schema.build_exchange(meta, runtime_data, structure_data, opts)
       4 -> Schema.build_exchange_v4(meta, runtime_data, structure_data, opts)
+    end
+  end
+
+  # Derive error dispatch from the assembled handle_errors map. Consumes
+  # the `method` MethodAST so alias exchanges that fall through to a
+  # parent's handleErrors() (via get_handle_errors/2) inherit the dispatch
+  # too. Returns nil when no method body is available.
+  defp get_error_dispatch(%{"method" => method}) when is_map(method), do: CcxtExtract.ErrorDispatch.derive(method)
+
+  defp get_error_dispatch(_), do: nil
+
+  # Derive sign dispatch from the effective sign_method (own or inherited
+  # via get_parent_sign_method/2). Returns nil when no sign() is reachable.
+  defp get_sign_dispatch(nil), do: nil
+  defp get_sign_dispatch(method), do: CcxtExtract.SignDispatch.derive(method)
+
+  # Read parse_dispatch from the parse_methods discovery entry. Falls back
+  # to the parent exchange when an alias has no own entry — same shape as
+  # other AST-derived sections.
+  defp get_parse_dispatch(id, data) do
+    case Map.get(data.parse_methods, id) do
+      nil -> get_parent_parse_dispatch(id, data)
+      %{"parse_dispatch" => dispatch} when is_map(dispatch) -> dispatch
+      _ -> get_parent_parse_dispatch(id, data)
+    end
+  end
+
+  defp get_parent_parse_dispatch(id, data) do
+    case find_parent_exchange_id(id, data) do
+      nil -> nil
+      parent_id -> get_parse_dispatch(parent_id, data)
     end
   end
 

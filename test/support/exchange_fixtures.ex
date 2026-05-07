@@ -89,7 +89,10 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "pagination" => nil,
         "overrides" => nil,
         "unified_endpoints" => unified_endpoints,
-        "request_defaults" => request_defaults
+        "request_defaults" => request_defaults,
+        "error_dispatch" => nil,
+        "sign_dispatch" => nil,
+        "parse_dispatch" => nil
       },
       "_provenance" => Provenance.build_default()
     }

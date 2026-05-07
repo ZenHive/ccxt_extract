@@ -29,19 +29,23 @@ defmodule CcxtExtract.ParseMethods do
       class_name = if class.id, do: class.id.name
       id = class_name || Path.rootname(filename)
 
-      methods = find_parse_methods(class.body.body)
+      class_body = class.body.body
+      methods = find_parse_methods(class_body)
 
       parse_methods_map =
         Map.new(methods, fn method ->
           {method.key.name, CcxtExtract.MethodAST.extract(method)}
         end)
 
+      parse_dispatch = CcxtExtract.ParseDispatch.derive(class_body) || %{}
+
       %{
         "id" => id,
         "class_name" => class_name,
         "file" => filename,
         "parse_method_count" => map_size(parse_methods_map),
-        "parse_methods" => parse_methods_map
+        "parse_methods" => parse_methods_map,
+        "parse_dispatch" => parse_dispatch
       }
     end
   end

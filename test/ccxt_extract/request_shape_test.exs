@@ -101,14 +101,28 @@ defmodule CcxtExtract.RequestShapeTest do
              "no body → no Content-Type is honest-empty, not unresolved"
     end
 
-    test "content_type=nil with body_encoding != \"none\" is NOT populated" do
+    test "content_type=nil paired with body_encoding=\"query_string\" is honest-empty" do
       record =
         RequestShape.null_record()
         |> Map.put("endpoints", [])
-        |> Map.put("body_encoding", "json")
+        |> Map.put("body_encoding", "query_string")
         |> Map.put("content_type", nil)
 
-      refute RequestShape.all_derivation_fields_populated?(record)
+      assert RequestShape.all_derivation_fields_populated?(record),
+             "query_string → no Content-Type is honest-empty (matches content_type_for/1 returning nil)"
+    end
+
+    test ~s(content_type=nil with body_encoding ∉ {"none", "query_string"} is NOT populated) do
+      for enc <- ~w(json form_urlencoded) do
+        record =
+          RequestShape.null_record()
+          |> Map.put("endpoints", [])
+          |> Map.put("body_encoding", enc)
+          |> Map.put("content_type", nil)
+
+        refute RequestShape.all_derivation_fields_populated?(record),
+               "expected body_encoding=#{enc} + content_type=nil to be unresolved"
+      end
     end
 
     test "missing key returns false (malformed record safety)" do

@@ -237,6 +237,7 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
     end
   end
 
+  @spec raise_missing_ts_source!() :: no_return()
   defp raise_missing_ts_source! do
     Mix.raise("""
     CCXT TypeScript source not found at priv/ccxt/ts/src/.
@@ -246,7 +247,7 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
 
     Or clone via sparse checkout (include package.json for version verification):
         git clone --depth 1 --sparse #{@ccxt_repo_url} priv/ccxt
-        cd priv/ccxt && git sparse-checkout set #{Enum.join(@ccxt_sparse_paths, " ")}
+        cd priv/ccxt && git sparse-checkout set --no-cone #{Enum.join(@ccxt_sparse_paths, " ")}
     """)
   end
 

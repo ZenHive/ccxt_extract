@@ -151,9 +151,19 @@ defmodule CcxtExtract.RequestShape do
   def unresolved_reasons, do: @unresolved_reasons
 
   @doc """
-  Subset of `unresolved_reasons/0` that short-circuits derivation —
-  the `Derive` orchestrator emits `nil` for every derivation field
-  when the recipe is already terminally tagged at this reason.
+  Subset of `unresolved_reasons/0` that short-circuits derivation
+  for ALL three derivation fields — the `Derive` orchestrator emits
+  `nil` for `endpoints`, `body_encoding`, and `content_type` when
+  the recipe is already terminally tagged at this reason.
+
+  Note `"no_sign_method"` is intentionally NOT in this list. It is
+  a partial-null tag: `Derive.pick_field_values/3` nulls only the
+  sign-derived `body_encoding` / `content_type` axis but leaves
+  `endpoints` populated from `describe_api`, since enumeration is
+  independent of sign(). The biconditional in
+  `all_derivation_fields_populated?/1` then keeps the
+  `unresolved_reason` non-nil because `body_encoding`/`content_type`
+  fail the populated predicate.
   """
   @spec terminal_reasons() :: [String.t()]
   def terminal_reasons, do: @terminal_reasons
@@ -179,9 +189,10 @@ defmodule CcxtExtract.RequestShape do
   @doc """
   Return `true` if every key in `derivation_fields/0` is present on
   the record AND populated. "Populated" means non-nil OR — for the
-  one `content_type`/`body_encoding` exception — `content_type: nil`
-  paired with `body_encoding: "none"` (no body → no Content-Type is
-  honest-empty, not unresolved).
+  `content_type`/`body_encoding` exception — `content_type: nil`
+  paired with `body_encoding ∈ {"none", "query_string"}` (encodings
+  whose canonical mapping in `content_type_for/1` is `nil`, so a
+  null Content-Type is honest-empty rather than unresolved).
 
   Used by `CcxtExtract.RequestShape.Derive` (write-side flip) and
   `CcxtExtract.ContractTest` (read-side invariant) — shared
@@ -196,9 +207,12 @@ defmodule CcxtExtract.RequestShape do
 
   defp field_populated?(record, "content_type") do
     case {Map.fetch(record, "content_type"), Map.fetch(record, "body_encoding")} do
-      # `content_type: nil` paired with `body_encoding: "none"` is the
-      # honest-empty case — no body to send, so no Content-Type.
-      {{:ok, nil}, {:ok, "none"}} -> true
+      # `content_type: nil` paired with an encoding whose canonical
+      # mapping in `@content_type_for_encoding` is `nil` is the
+      # honest-empty case — no body OR pure query string, so no
+      # Content-Type to set. Keep this guard list aligned with the
+      # `nil` rows of `@content_type_for_encoding`.
+      {{:ok, nil}, {:ok, enc}} when enc in ["none", "query_string"] -> true
       {{:ok, nil}, _} -> false
       {{:ok, _value}, _} -> true
       {:error, _} -> false

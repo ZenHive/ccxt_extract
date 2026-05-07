@@ -171,6 +171,88 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
   with sink target = inspected path) that the current broad
   sanitizer would hide.
 
+### Task 73b: Per-exchange user-agent + default headers (schema 3.1.0)
+
+🎁 **11+14** · First Phase 11 task. Per-exchange `userAgent` and default
+`headers` from CCXT's resolved `describe()` runtime data, surfaced as
+`runtime.request_headers` on every emitted JSON.
+
+**What shipped:**
+
+- New `CcxtExtract.RequestHeaders` extractor — boots a QuickBEAM runtime,
+  instantiates each non-alias exchange (`new ccxt[id]()`) so the base-class
+  `deepExtend(super.describe(), {...})` merge runs in the constructor,
+  reads the resolved `ex.userAgent` (string | undefined | false) and
+  `ex.headers` (`Dictionary<string>`) instance fields. The `typeof === 'string'`
+  guard normalizes false / undefined / object forms to `null`, surfacing
+  unknown shapes as missing rather than silently passing them through.
+- New `mix ccxt_extract.request_headers` mix task (scoped-flags aware,
+  delegates to `CcxtExtract.AggregateWriter` so partial runs merge with
+  any existing aggregate).
+- New `runtime.request_headers` field on every per-exchange output, populated
+  by `Pipeline.get_request_headers/2` with alias-parent fallback (mirrors
+  `get_url_templates/2`). Wrapper is **always-emit** —
+  `%{"user_agent" => string|null, "default_headers" => map}` — so consumers
+  iterate without nil-checks. Empty wrapper for exchanges with no override.
+- Schema bumped `3.0.0` → `3.1.0`. New `$defs/RequestHeaders` (`{user_agent:
+  string|null, default_headers: object<string, string>}`); `request_headers`
+  promoted into `RuntimeData.required`. Permissive readers ignoring unknown
+  keys continue to work; strict validators will reject pre-3.1.0 output
+  lacking the key.
+- Provenance: `/runtime/request_headers` added to
+  `CcxtExtract.Provenance.@raw_pointers` (sibling to `url_templates` —
+  passthrough, not derivation).
+- Wired into `mix ccxt_extract.update` orchestrator between `url_templates`
+  and `signing_fixtures`.
+
+**Corpus coverage (full universe, 107 non-alias exchanges):**
+
+- **`user_agent` populated (8):** `bitstamp`, `bittrade`, `coinbase`,
+  `coinbaseexchange`, `coinbaseinternational`, `delta`, `hibachi`, `htx`.
+- **`default_headers` populated (4):** `alpaca` (`APCA-PARTNER-ID: ccxt`),
+  `coinbase` (`CB-VERSION: 2018-05-30`), `coinbaseinternational`
+  (`CB-VERSION: 2018-05-30`), `gate` (`X-Gate-Channel-Id: ccxt`).
+- All other 99/107 produce the empty wrapper — honest absence, not a guess.
+
+**Key decisions:**
+
+- D1 always-emit wrapper over nullable. The runtime cost of one always-present
+  object key per exchange is trivial; the consumer-side simplification (no
+  `case data["request_headers"]` ladder, no nil-handling for `default_headers`
+  iteration) is worth it.
+- D2 schema bumped to **minor** (3.1.0) rather than patch. Same reasoning as
+  Task 73c: the value shape is additive but `request_headers` is promoted
+  into `RuntimeData.required`, which is a strict-validator-visible shape
+  change that patch bumps should not carry.
+- D3 raw, not derived. `userAgent` and `headers` are passthroughs from
+  CCXT's resolved `describe()` after constructor merge — QuickBEAM does no
+  transformation. `/runtime/request_headers` belongs in `@raw_pointers`
+  alongside `/runtime/url_templates`.
+- D4 instantiate via `new ccxt[id]()` (empty options object). Passing
+  `undefined` risks tripping exchanges that read `options` in their
+  constructor; explicit empty object matches the shape CCXT's own test
+  harness uses.
+- D5 type discipline as the contract — `:extraction`-tagged tests assert
+  `user_agent ∈ {string, nil}`, `default_headers` is always a map, and every
+  header key/value is a string (CCXT's `Dictionary<string>` contract). At
+  least one exchange has each kind of override (sanity floor against
+  silent regressions).
+
+**Out of scope (filed as Task 73e):**
+
+- `bigone.ts` constructs its `User-Agent` inside `sign()` as
+  `'ccxt/' + this.id + '-' + this.version`. Never appears in
+  `describe()`, so QuickBEAM can't see it.
+- `okx.ts` mutates `this.headers` at runtime via `setSandboxMode(true)` to
+  inject `x-simulated-trading: 1`. Not in `describe()`.
+- Both blind spots need an OXC-side pass over sign-method bodies.
+  `TODO(Task 73e):` marker in `lib/ccxt_extract/request_headers.ex`
+  moduledoc points at the follow-up.
+
+**Downstream:** `../ccxt_client/ROADMAP.md` consumers can now replace any
+hardcoded UA / version-header tables with reads from
+`runtime.request_headers.{user_agent, default_headers}`.
+
 ### Task 67: Auth header set + nonce source derivation
 
 🎁 **10-finish** · Second-to-last Phase 10 critical-path task. Populates

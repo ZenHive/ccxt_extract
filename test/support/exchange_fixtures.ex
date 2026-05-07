@@ -67,7 +67,8 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "symbols_index" => nil,
         "symbol_patterns" => %{},
         "url_templates" => nil,
-        "testnet_urls" => CcxtExtract.TestnetUrls.none_record()
+        "testnet_urls" => CcxtExtract.TestnetUrls.none_record(),
+        "request_headers" => CcxtExtract.RequestHeaders.empty_record()
       },
       "structure" => %{
         "class_info" => nil,

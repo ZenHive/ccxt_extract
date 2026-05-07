@@ -282,7 +282,8 @@ defmodule CcxtExtract.Pipeline do
       "symbols_index" => CcxtExtract.SymbolsIndex.derive(markets),
       "symbol_patterns" => CcxtExtract.SymbolPatterns.derive(markets, describe),
       "url_templates" => get_url_templates(id, data),
-      "testnet_urls" => CcxtExtract.TestnetUrls.derive(describe)
+      "testnet_urls" => CcxtExtract.TestnetUrls.derive(describe),
+      "request_headers" => get_request_headers(id, data)
     }
 
     sign_method = get_sign_method(id, data)
@@ -444,6 +445,32 @@ defmodule CcxtExtract.Pipeline do
     case find_parent_exchange_id(id, data) do
       nil -> nil
       parent_id -> get_url_templates(parent_id, data)
+    end
+  end
+
+  # Request headers: extract the request_headers wrapper map
+  # (%{"user_agent" => ..., "default_headers" => ...}) from the discovery
+  # lookup. Alias exchanges that didn't produce their own entry fall back
+  # to the parent's value via class hierarchy. Returns nil only when the
+  # entire chain has no entry — `Schema.build_runtime_section/1` substitutes
+  # `RequestHeaders.empty_record()` so the schema-level always-emit
+  # invariant survives.
+  #
+  # No deep-merge with parent: describe() inheritance already happened in
+  # QuickBEAM (the alias's resolved values match the parent's at construction
+  # time). Lookup-with-fallback is sufficient.
+  defp get_request_headers(id, data) do
+    case Map.get(data.request_headers, id) do
+      nil -> get_parent_request_headers(id, data)
+      %{"request_headers" => headers} when is_map(headers) -> headers
+      _ -> nil
+    end
+  end
+
+  defp get_parent_request_headers(id, data) do
+    case find_parent_exchange_id(id, data) do
+      nil -> nil
+      parent_id -> get_request_headers(parent_id, data)
     end
   end
 

@@ -58557,46 +58557,82 @@
     }
   ],
   "count": 189,
-  "extracted_at": "2026-04-24T12:11:20.229322Z",
-  "tier_scope": [
-    "tier1",
-    "tier2",
-    "dex"
-  ],
+  "extracted_at": "2026-05-07T09:03:47.293946Z",
+  "tier_scope": "all",
   "tree": {
-    "rest:toobit": [
-      "ws:toobit"
-    ],
-    "rest:bydfi": [
-      "ws:bydfi"
-    ],
-    "rest:lighter": [
-      "ws:lighter"
-    ],
-    "rest:bitstamp": [
-      "ws:bitstamp"
-    ],
-    "rest:deribit": [
-      "ws:deribit"
-    ],
     "rest:grvt": [
       "ws:grvt"
+    ],
+    "rest:xt": [
+      "ws:xt"
+    ],
+    "rest:ascendex": [
+      "ws:ascendex"
+    ],
+    "rest:upbit": [
+      "ws:upbit"
     ],
     "rest:hollaex": [
       "ws:hollaex"
     ],
-    "rest:htx": [
-      "rest:huobi",
-      "ws:htx"
+    "rest:bitrue": [
+      "ws:bitrue"
     ],
-    "rest:lbank": [
-      "ws:lbank"
+    "rest:bitmart": [
+      "ws:bitmart"
+    ],
+    "rest:woo": [
+      "ws:woo"
+    ],
+    "rest:coinbase": [
+      "rest:coinbaseadvanced",
+      "ws:coinbase"
+    ],
+    "rest:apex": [
+      "ws:apex"
+    ],
+    "rest:coinbaseexchange": [
+      "ws:coinbaseexchange"
+    ],
+    "rest:bydfi": [
+      "ws:bydfi"
+    ],
+    "rest:okx": [
+      "rest:myokx",
+      "rest:okxus",
+      "ws:okx"
+    ],
+    "rest:pacifica": [
+      "ws:pacifica"
     ],
     "rest:bitvavo": [
       "ws:bitvavo"
     ],
-    "rest:dydx": [
-      "ws:dydx"
+    "rest:bullish": [
+      "ws:bullish"
+    ],
+    "ws:kucoin": [
+      "ws:kucoinfutures"
+    ],
+    "rest:binance": [
+      "rest:binancecoinm",
+      "rest:binanceus",
+      "rest:binanceusdm",
+      "ws:binance"
+    ],
+    "rest:bithumb": [
+      "ws:bithumb"
+    ],
+    "rest:poloniex": [
+      "ws:poloniex"
+    ],
+    "ws:binance": [
+      "ws:binancecoinm",
+      "ws:binanceus",
+      "ws:binanceusdm"
+    ],
+    "rest:independentreserve": [
+      "ws:independentreserve"
     ],
     "Exchange": [
       "rest:aftermath",
@@ -58699,29 +58735,165 @@
       "rest:zebpay",
       "rest:zonda"
     ],
-    "rest:mexc": [
-      "ws:mexc"
+    "rest:backpack": [
+      "ws:backpack"
     ],
-    "rest:blofin": [
-      "ws:blofin"
+    "rest:woofipro": [
+      "ws:woofipro"
     ],
-    "rest:apex": [
-      "ws:apex"
-    ],
-    "rest:p2b": [
-      "ws:p2b"
+    "rest:cryptocom": [
+      "ws:cryptocom"
     ],
     "rest:coincheck": [
       "ws:coincheck"
     ],
+    "rest:dydx": [
+      "ws:dydx"
+    ],
+    "rest:arkham": [
+      "ws:arkham"
+    ],
+    "rest:onetrading": [
+      "ws:onetrading"
+    ],
+    "rest:bittrade": [
+      "ws:bittrade"
+    ],
+    "rest:coinone": [
+      "ws:coinone"
+    ],
+    "rest:p2b": [
+      "ws:p2b"
+    ],
+    "ws:coinbase": [
+      "ws:coinbaseadvanced"
+    ],
+    "rest:kraken": [
+      "ws:kraken"
+    ],
+    "rest:toobit": [
+      "ws:toobit"
+    ],
     "rest:luno": [
       "ws:luno"
+    ],
+    "ws:gate": [
+      "ws:gateio"
+    ],
+    "rest:aftermath": [
+      "ws:aftermath"
+    ],
+    "rest:blofin": [
+      "ws:blofin"
+    ],
+    "rest:htx": [
+      "rest:huobi",
+      "ws:htx"
+    ],
+    "ws:okx": [
+      "ws:myokx",
+      "ws:okxus"
+    ],
+    "rest:phemex": [
+      "ws:phemex"
+    ],
+    "rest:mexc": [
+      "ws:mexc"
+    ],
+    "rest:coinex": [
+      "ws:coinex"
+    ],
+    "rest:bitmex": [
+      "ws:bitmex"
+    ],
+    "ws:htx": [
+      "ws:huobi"
+    ],
+    "rest:bingx": [
+      "ws:bingx"
+    ],
+    "rest:modetrade": [
+      "ws:modetrade"
+    ],
+    "rest:bitopro": [
+      "ws:bitopro"
+    ],
+    "rest:whitebit": [
+      "ws:whitebit"
+    ],
+    "rest:aster": [
+      "ws:aster"
+    ],
+    "rest:bitstamp": [
+      "ws:bitstamp"
+    ],
+    "rest:exmo": [
+      "ws:exmo"
     ],
     "rest:hyperliquid": [
       "ws:hyperliquid"
     ],
+    "rest:paradex": [
+      "ws:paradex"
+    ],
+    "rest:hashkey": [
+      "ws:hashkey"
+    ],
+    "rest:bybit": [
+      "ws:bybit"
+    ],
+    "rest:alpaca": [
+      "ws:alpaca"
+    ],
+    "rest:deepcoin": [
+      "ws:deepcoin"
+    ],
     "rest:blockchaincom": [
       "ws:blockchaincom"
+    ],
+    "rest:lbank": [
+      "ws:lbank"
+    ],
+    "rest:oxfun": [
+      "ws:oxfun"
+    ],
+    "rest:gemini": [
+      "ws:gemini"
+    ],
+    "rest:derive": [
+      "ws:derive"
+    ],
+    "rest:cex": [
+      "ws:cex"
+    ],
+    "rest:bitget": [
+      "ws:bitget"
+    ],
+    "rest:kucoin": [
+      "rest:kucoinfutures",
+      "ws:kucoin"
+    ],
+    "rest:deribit": [
+      "ws:deribit"
+    ],
+    "rest:coinbaseinternational": [
+      "ws:coinbaseinternational"
+    ],
+    "ws:hitbtc": [
+      "ws:bequant"
+    ],
+    "rest:lighter": [
+      "ws:lighter"
+    ],
+    "rest:krakenfutures": [
+      "ws:krakenfutures"
+    ],
+    "rest:gate": [
+      "rest:gateio",
+      "ws:gate"
+    ],
+    "rest:ndax": [
+      "ws:ndax"
     ],
     "rest:bitfinex": [
       "ws:bitfinex"
@@ -58730,182 +58902,6 @@
       "rest:bequant",
       "rest:fmfwio",
       "ws:hitbtc"
-    ],
-    "rest:krakenfutures": [
-      "ws:krakenfutures"
-    ],
-    "rest:bingx": [
-      "ws:bingx"
-    ],
-    "rest:gate": [
-      "rest:gateio",
-      "ws:gate"
-    ],
-    "rest:bitmex": [
-      "ws:bitmex"
-    ],
-    "rest:arkham": [
-      "ws:arkham"
-    ],
-    "rest:deepcoin": [
-      "ws:deepcoin"
-    ],
-    "ws:coinbase": [
-      "ws:coinbaseadvanced"
-    ],
-    "rest:bitopro": [
-      "ws:bitopro"
-    ],
-    "rest:bithumb": [
-      "ws:bithumb"
-    ],
-    "rest:bitmart": [
-      "ws:bitmart"
-    ],
-    "rest:hashkey": [
-      "ws:hashkey"
-    ],
-    "rest:upbit": [
-      "ws:upbit"
-    ],
-    "rest:bittrade": [
-      "ws:bittrade"
-    ],
-    "rest:xt": [
-      "ws:xt"
-    ],
-    "rest:coinex": [
-      "ws:coinex"
-    ],
-    "rest:independentreserve": [
-      "ws:independentreserve"
-    ],
-    "rest:coinone": [
-      "ws:coinone"
-    ],
-    "rest:bybit": [
-      "ws:bybit"
-    ],
-    "rest:woo": [
-      "ws:woo"
-    ],
-    "rest:derive": [
-      "ws:derive"
-    ],
-    "ws:hitbtc": [
-      "ws:bequant"
-    ],
-    "rest:kraken": [
-      "ws:kraken"
-    ],
-    "rest:onetrading": [
-      "ws:onetrading"
-    ],
-    "rest:woofipro": [
-      "ws:woofipro"
-    ],
-    "rest:okx": [
-      "rest:myokx",
-      "rest:okxus",
-      "ws:okx"
-    ],
-    "rest:aster": [
-      "ws:aster"
-    ],
-    "rest:bitrue": [
-      "ws:bitrue"
-    ],
-    "rest:paradex": [
-      "ws:paradex"
-    ],
-    "ws:htx": [
-      "ws:huobi"
-    ],
-    "rest:exmo": [
-      "ws:exmo"
-    ],
-    "rest:binance": [
-      "rest:binancecoinm",
-      "rest:binanceus",
-      "rest:binanceusdm",
-      "ws:binance"
-    ],
-    "ws:kucoin": [
-      "ws:kucoinfutures"
-    ],
-    "ws:gate": [
-      "ws:gateio"
-    ],
-    "ws:binance": [
-      "ws:binancecoinm",
-      "ws:binanceus",
-      "ws:binanceusdm"
-    ],
-    "rest:poloniex": [
-      "ws:poloniex"
-    ],
-    "rest:pacifica": [
-      "ws:pacifica"
-    ],
-    "rest:bitget": [
-      "ws:bitget"
-    ],
-    "ws:okx": [
-      "ws:myokx",
-      "ws:okxus"
-    ],
-    "rest:backpack": [
-      "ws:backpack"
-    ],
-    "rest:modetrade": [
-      "ws:modetrade"
-    ],
-    "rest:oxfun": [
-      "ws:oxfun"
-    ],
-    "rest:coinbaseinternational": [
-      "ws:coinbaseinternational"
-    ],
-    "rest:whitebit": [
-      "ws:whitebit"
-    ],
-    "rest:coinbase": [
-      "rest:coinbaseadvanced",
-      "ws:coinbase"
-    ],
-    "rest:cryptocom": [
-      "ws:cryptocom"
-    ],
-    "rest:ascendex": [
-      "ws:ascendex"
-    ],
-    "rest:gemini": [
-      "ws:gemini"
-    ],
-    "rest:coinbaseexchange": [
-      "ws:coinbaseexchange"
-    ],
-    "rest:alpaca": [
-      "ws:alpaca"
-    ],
-    "rest:bullish": [
-      "ws:bullish"
-    ],
-    "rest:ndax": [
-      "ws:ndax"
-    ],
-    "rest:aftermath": [
-      "ws:aftermath"
-    ],
-    "rest:kucoin": [
-      "rest:kucoinfutures",
-      "ws:kucoin"
-    ],
-    "rest:cex": [
-      "ws:cex"
-    ],
-    "rest:phemex": [
-      "ws:phemex"
     ]
   },
   "ws_counterparts": [

@@ -53,12 +53,12 @@ defmodule CcxtExtract.Schema do
 
   alias CcxtExtract.SignRecipe
 
-  @schema_version "3.0.0"
+  @schema_version "3.1.0"
   @schema_filename "exchange_v3.json"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
-  @required_runtime_keys ~w(describe symbols_index symbol_patterns url_templates testnet_urls)
+  @required_runtime_keys ~w(describe symbols_index symbol_patterns url_templates testnet_urls request_headers)
   @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe handle_errors interface_signatures pagination overrides unified_endpoints request_defaults)
 
   # --- Public API ---
@@ -79,7 +79,8 @@ defmodule CcxtExtract.Schema do
     * `exchange_meta` — exchange identity map with keys: id, name, certified,
       pro, version, country, alias, referral
     * `runtime_data` — map with keys: describe, symbols_index, symbol_patterns,
-      url_templates, testnet_urls (each a map or nil)
+      url_templates, testnet_urls, request_headers (each a map or nil; request_headers
+      is always-present and always a wrapper map per Task 73b)
     * `structure_data` — map with keys: class_info, methods, sign_method,
       authenticated_sections, handle_errors, interface_signatures, pagination,
       overrides, unified_endpoints, request_defaults (each a map or nil)
@@ -185,7 +186,8 @@ defmodule CcxtExtract.Schema do
       "symbols_index" => data["symbols_index"],
       "symbol_patterns" => data["symbol_patterns"],
       "url_templates" => data["url_templates"],
-      "testnet_urls" => data["testnet_urls"] || CcxtExtract.TestnetUrls.none_record()
+      "testnet_urls" => data["testnet_urls"] || CcxtExtract.TestnetUrls.none_record(),
+      "request_headers" => data["request_headers"] || CcxtExtract.RequestHeaders.empty_record()
     }
   end
 

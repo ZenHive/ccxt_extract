@@ -2,13 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "exchange_v3.json",
   "title": "CCXT Exchange Extraction Output",
-  "description": "Per-exchange extraction output from ccxt_extract. Contains everything CCXT knows about a single exchange, organized into two layers: runtime values (QuickBEAM) and structural AST (OXC). Schema 3.0.0 (Task 117, breaking) replaces runtime.markets with the compact runtime.symbols_index derivation and drops structure.parse_methods + structure.ws_methods (extractors retained; discovery files still written for internal Phase 12 / Phase 15 consumers). See SCHEMA.md migration notes.",
+  "description": "Per-exchange extraction output from ccxt_extract. Contains everything CCXT knows about a single exchange, organized into two layers: runtime values (QuickBEAM) and structural AST (OXC). Schema 3.1.0 (Task 73b) adds the runtime.request_headers field carrying per-exchange user-agent + default HTTP header overrides resolved from describe(). Schema 3.0.0 (Task 117, breaking) replaces runtime.markets with the compact runtime.symbols_index derivation and drops structure.parse_methods + structure.ws_methods (extractors retained; discovery files still written for internal Phase 12 / Phase 15 consumers). See SCHEMA.md migration notes.",
   "type": "object",
   "required": ["schema_version", "extracted_at", "ccxt_version", "exchange", "runtime", "structure", "_provenance"],
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "3.0.0",
+      "const": "3.1.0",
       "description": "Schema version. Consumers should check this before parsing."
     },
     "extracted_at": {
@@ -111,7 +111,7 @@
     "RuntimeData": {
       "type": "object",
       "description": "Runtime values extracted via QuickBEAM JavaScript execution. Layer 1: what an exchange IS (configuration, capabilities, markets).",
-      "required": ["describe", "symbols_index", "symbol_patterns", "url_templates", "testnet_urls"],
+      "required": ["describe", "symbols_index", "symbol_patterns", "url_templates", "testnet_urls", "request_headers"],
       "additionalProperties": false,
       "properties": {
         "describe": {
@@ -145,6 +145,28 @@
         "testnet_urls": {
           "$ref": "#/$defs/TestnetUrls",
           "description": "Derived testnet / sandbox URL catalog with {hostname} placeholders pre-resolved. See $defs/TestnetUrls for pattern classification."
+        },
+        "request_headers": {
+          "$ref": "#/$defs/RequestHeaders",
+          "description": "Per-exchange user-agent string and default HTTP headers, resolved from describe() at construction time after class inheritance. Always present (always-emit wrapper) — `user_agent` is null and `default_headers` is `{}` for the ~90% of exchanges that don't override. Introduced at schema 3.1.0 (Task 73b)."
+        }
+      }
+    },
+
+    "RequestHeaders": {
+      "type": "object",
+      "description": "Per-exchange HTTP request defaults, resolved from describe(). Always-emit wrapper (no null at this level) — consumers read `user_agent` and `default_headers` without nil-checks on the wrapper. The base CCXT `Exchange` class declares `userAgent` as undefined and `headers` as `{}` by default; values here reflect describe()-level overrides after deepExtend with the parent class's describe(). Out of scope: User-Agent constructed at sign() time (e.g. bigone.ts builds `'ccxt/' + this.id + '-' + this.version` inside sign), and runtime header mutations like okx.ts setSandboxMode() injecting `x-simulated-trading: 1`. Both bypass describe() and are not captured here — see ROADMAP Task 73e for the proposed OXC-side follow-up.",
+      "required": ["user_agent", "default_headers"],
+      "additionalProperties": false,
+      "properties": {
+        "user_agent": {
+          "type": ["string", "null"],
+          "description": "Resolved User-Agent string from describe().userAgent. Null when the exchange did not override (base default is undefined) or when the override resolved to a non-string value (e.g. `false` per the type union `{User-Agent: string} | false`). Coverage is sparse — roughly 10% of CCXT exchanges override (e.g. coinbase, htx, bybit, deribit set chrome-style UAs from `this.userAgents['chrome']`)."
+        },
+        "default_headers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Flat string-to-string map of default HTTP headers from describe().headers. Always an object — `{}` for the ~96% of exchanges that don't override. Consumers merge these into every outbound request before per-method overrides apply. Examples: coinbase ships `{CB-VERSION: 2018-05-30}`, gate ships `{X-Gate-Channel-Id: ccxt}`, alpaca ships `{APCA-PARTNER-ID: ccxt}`."
         }
       }
     },

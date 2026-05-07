@@ -45,7 +45,7 @@ Turning a unified method call into an HTTP request, excluding signing.
 | Timestamp source + format (when sent as header/param) | ⬜ | Phase 11 — Task 72 |
 | Per-method rate-limit cost + weight axis | ⬜ | Phase 11 — Task 73 / Phase 14 |
 | Pagination strategy per method | ✅ | `structure.pagination` (Task 32) |
-| User-agent / default headers | ⬜ | Phase 11 — Task 73b |
+| User-agent / default headers | ✅ | `runtime.request_headers` (Task 73b, schema 3.1.0) |
 
 ---
 

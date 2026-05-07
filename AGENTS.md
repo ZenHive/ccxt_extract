@@ -13,7 +13,9 @@ Elixir ~> 1.18 on Erlang/OTP 27 and Node.js (for npm/CCXT) must be available. Ve
 
 ### Running services
 
-This is a pure CLI/library project — no long-running servers, databases, or Docker required. The optional Tidewave MCP server (`mix tidewave`) listens on port 4002 but is not needed for extraction or tests.
+This is a pure CLI/library project — no long-running servers, databases, or Docker required.
+
+**Tidewave MCP server** (optional but useful): Start with `mix tidewave` — it listens on `http://localhost:4002/tidewave/mcp` (Streamable HTTP transport). Provides `project_eval`, `get_docs`, `get_source_location`, `get_logs`, and `search_package_docs` tools. Configuration is in `.cursor/mcp.json`. The server must be running before the agent session starts for the built-in MCP client to connect; if it shows `serverStatus: "error"`, start it in a tmux session and the next agent session will pick it up.
 
 ### Key commands
 

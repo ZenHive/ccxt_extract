@@ -55,15 +55,17 @@ defmodule CcxtExtract.RequestShape.VerbPath do
        enumerate the method's children and emit one endpoint record
        per `(method, path)` pair.
 
-  Returns `nil` (with a closed-vocabulary reason on the parent
-  record) when:
+  Returns `{:error, reason}` (the orchestrator nulls the parent
+  record's `endpoints` slot and surfaces the reason on
+  `unresolved_reason`) when:
 
-    * `describe_api` is not a map → `"no_describe_api"`.
-    * The section subtree can't be resolved → `"section_not_in_api"`.
+    * `describe_api` is not a map → `{:error, "no_describe_api"}`.
+    * The section subtree can't be resolved →
+      `{:error, "section_not_in_api"}`.
 
-  An empty list `[]` (honest-empty) is emitted when the section
-  resolves but contains no HTTP-method leaves — rare but legitimate
-  for sections like `kucoin.uta` whose entries are runtime-defined.
+  An honest-empty `{:ok, []}` is emitted when the section resolves
+  but contains no HTTP-method leaves — rare but legitimate for
+  sections like `kucoin.uta` whose entries are runtime-defined.
   """
 
   @http_methods ~w(get post put delete patch)

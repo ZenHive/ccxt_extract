@@ -84,8 +84,8 @@ defmodule CcxtExtract.RequestShape do
   The record shape is enforced by
   `priv/schema/exchange_v3.json#/$defs/RequestShapeRecord`. Two
   contract-test invariants (`request_shape_keys_match_auth_sections`
-  and `request_shape_shape_valid`) re-assert the shape from a
-  different angle.
+  and `request_shape_valid`) re-assert the shape from a different
+  angle.
 
   ## Honesty Rule
 

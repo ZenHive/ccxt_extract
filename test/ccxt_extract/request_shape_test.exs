@@ -440,6 +440,62 @@ defmodule CcxtExtract.RequestShapeTest do
       stmts = [body_assignment(json_call()), headers_assign]
       assert BodyEncoding.derive(stmts).content_type == "application/json"
     end
+
+    # Regression: pick_content_type used to return the literal value
+    # even when body_encoding == "none", contradicting the moduledoc
+    # contract ("no body → no Content-Type"). The priority-tier corpus
+    # has no triggering exchange today; this synthetic case locks the
+    # invariant so a regression surfaces at unit-test time instead of
+    # waiting for an exchange to introduce the pattern.
+    test "Content-Type literal with NO body assignment → encoding=none, content_type=nil" do
+      headers_assign = %{
+        "type" => "ExpressionStatement",
+        "expression" => %{
+          "type" => "AssignmentExpression",
+          "operator" => "=",
+          "left" => %{"type" => "Identifier", "name" => "headers"},
+          "right" => %{
+            "type" => "ObjectExpression",
+            "properties" => [
+              %{
+                "type" => "Property",
+                "key" => %{"type" => "Literal", "value" => "Content-Type"},
+                "value" => %{"type" => "Literal", "value" => "application/json"}
+              }
+            ]
+          }
+        }
+      }
+
+      assert BodyEncoding.derive([headers_assign]) == %{
+               body_encoding: "none",
+               content_type: nil,
+               reason: nil
+             }
+    end
+
+    # `headers.ContentType = '...'` shorthand — JS identifiers can't
+    # contain hyphens, so the Identifier branch matches the
+    # camelCase form, not the wire spelling.
+    test "shorthand headers.ContentType identifier captures literal value" do
+      headers_assign = %{
+        "type" => "ExpressionStatement",
+        "expression" => %{
+          "type" => "AssignmentExpression",
+          "operator" => "=",
+          "left" => %{
+            "type" => "MemberExpression",
+            "computed" => false,
+            "object" => %{"type" => "Identifier", "name" => "headers"},
+            "property" => %{"type" => "Identifier", "name" => "ContentType"}
+          },
+          "right" => %{"type" => "Literal", "value" => "application/x-bespoke"}
+        }
+      }
+
+      stmts = [body_assignment(json_call()), headers_assign]
+      assert BodyEncoding.derive(stmts).content_type == "application/x-bespoke"
+    end
   end
 
   describe "Derive.derive/3 — orchestrator + biconditional" do
@@ -483,6 +539,8 @@ defmodule CcxtExtract.RequestShapeTest do
 
       assert record["unresolved_reason"] == "no_describe_api"
       assert record["endpoints"] == nil
+      assert record["body_encoding"] == nil
+      assert record["content_type"] == nil
     end
 
     test "ambiguous_body keeps endpoints but nulls body fields" do

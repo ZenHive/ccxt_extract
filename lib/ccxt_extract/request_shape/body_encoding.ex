@@ -12,12 +12,14 @@ defmodule CcxtExtract.RequestShape.BodyEncoding do
 
       %{
         body_encoding: "json" | "form_urlencoded" | "query_string" | "none" | nil,
-        content_type: String.t() | nil
+        content_type: String.t() | nil,
+        reason: String.t() | nil
       }
 
-  Always returned as a tuple `{body_encoding, content_type}` from
-  `derive/2`; the caller (the Derive orchestrator) merges into the
-  record.
+  Returned as a map by `derive/1`; the caller (the Derive
+  orchestrator) merges the body fields into the per-section record
+  and surfaces `reason` (when non-nil) on the parent
+  `unresolved_reason` slot.
 
   ## Body-assignment AST shapes recognized
 
@@ -79,14 +81,14 @@ defmodule CcxtExtract.RequestShape.BodyEncoding do
   @urlencode_methods ~w(urlencode urlencodeNested urlencodeWithArrayRepeat rawencode)
 
   @doc """
-  Derive `{body_encoding, content_type, reason}` from a sign() body
-  AST.
+  Derive a `%{body_encoding, content_type, reason}` map from a
+  sign() body AST.
 
   `body_stmts` is the list under `sign_method["body"]["body"]`, or
   `nil` when there's no sign(). The reason is a closed-vocabulary
-  tag (`"ambiguous_body"`) or `nil` when derivation succeeded; the
-  orchestrator decides whether to surface the reason on the parent
-  record.
+  tag (`"ambiguous_body"`, `"no_sign_method"`) or `nil` when
+  derivation succeeded; the orchestrator decides whether to surface
+  the reason on the parent record's `unresolved_reason` slot.
   """
   @spec derive([map()] | nil) :: result()
   def derive(nil), do: %{body_encoding: nil, content_type: nil, reason: "no_sign_method"}
@@ -212,6 +214,14 @@ defmodule CcxtExtract.RequestShape.BodyEncoding do
   # assignments and collect their string-literal values. If every
   # observation agrees on a single literal, return it; otherwise
   # fall back to the canonical Content-Type for the encoding.
+  #
+  # Hard short-circuit for `"none"`: when there is no body to send,
+  # there is no Content-Type to declare. Honors the moduledoc
+  # contract on line 67 even if sign() initializes a header literal
+  # (e.g. as a default for a sibling code path) but never actually
+  # assigns `body = ...`.
+  defp pick_content_type(_body_stmts, "none"), do: nil
+
   defp pick_content_type(body_stmts, encoding) do
     case unique_content_type_literal(body_stmts) do
       {:ok, value} -> value
@@ -298,8 +308,13 @@ defmodule CcxtExtract.RequestShape.BodyEncoding do
     String.downcase(value) == "content-type"
   end
 
+  # JS identifiers can't contain hyphens, so an `Identifier` node
+  # with name `"Content-Type"` is impossible. The shorthand object-
+  # literal property `{ ContentType: "..." }` is the realistic case;
+  # match on the hyphen-stripped form (mirrors the
+  # `headers.ContentType` member-access path above).
   defp content_type_key?(%{"type" => "Identifier", "name" => name}) when is_binary(name) do
-    String.downcase(name) == "content-type"
+    String.downcase(name) == "contenttype"
   end
 
   defp content_type_key?(_), do: false

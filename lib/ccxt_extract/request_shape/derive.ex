@@ -38,11 +38,20 @@ defmodule CcxtExtract.RequestShape.Derive do
   When every derivation field is populated (per
   `RequestShape.all_derivation_fields_populated?/1`) AND the
   intermediate `unresolved_reason` is the scaffold `"not_yet_derived"`,
-  the orchestrator flips `unresolved_reason` to `nil`. Terminal
-  reasons (`"no_sign_method"`, `"no_describe_api"`,
-  `"section_not_in_api"`, `"ambiguous_body"`) pass through unchanged
-  — by construction those records have at least one null derivation
-  field, so the biconditional holds trivially.
+  the orchestrator flips `unresolved_reason` to `nil`.
+
+  ### Reason categories
+
+    * Terminal reasons (`"no_sign_method"`, `"no_describe_api"`,
+      `"section_not_in_api"`) null entire derivation slots and pass
+      through to `unresolved_reason` unchanged.
+
+    * Non-terminal reason (`"ambiguous_body"`) only nulls the body
+      fields and surfaces on the parent record; endpoints stay
+      populated.
+
+  By construction every reason-bearing record has at least one null
+  derivation field, so the biconditional holds trivially.
   """
 
   alias CcxtExtract.RequestShape

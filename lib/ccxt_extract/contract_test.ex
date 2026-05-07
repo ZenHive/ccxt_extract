@@ -30,6 +30,7 @@ defmodule CcxtExtract.ContractTest do
   """
 
   alias CcxtExtract.JsonIO
+  alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.TestnetUrls
 
@@ -55,6 +56,9 @@ defmodule CcxtExtract.ContractTest do
     {"sign_recipe_keys_match_auth_sections", :check_sign_recipe_keys_match_auth_sections},
     {"sign_recipe_shape_valid", :check_sign_recipe_shape_valid},
     {"sign_recipe_honesty_valid", :check_sign_recipe_honesty_valid},
+    {"request_shape_keys_match_auth_sections", :check_request_shape_keys_match_auth_sections},
+    {"request_shape_valid", :check_request_shape_valid},
+    {"request_shape_honesty_valid", :check_request_shape_honesty_valid},
     {"testnet_urls_shape_valid", :check_testnet_urls_shape_valid}
   ]
 
@@ -518,6 +522,323 @@ defmodule CcxtExtract.ContractTest do
       exchange: id,
       invariant: "sign_recipe_honesty_valid",
       path: "structure.sign_recipe.#{section}",
+      message: message
+    }
+  end
+
+  @doc """
+  Flag drift between `structure.request_shape` keys and
+  `structure.authenticated_sections`. Mirror of the sign_recipe
+  variant — the two key sets must agree exactly.
+  """
+  @spec check_request_shape_keys_match_auth_sections(map(), map()) :: [finding()]
+  def check_request_shape_keys_match_auth_sections(exchange, _observed) do
+    id = exchange_id(exchange)
+    record_map = get_in(exchange, ["structure", "request_shape"]) || %{}
+    sections = get_in(exchange, ["structure", "authenticated_sections"]) || []
+
+    record_keys = record_map |> Map.keys() |> MapSet.new()
+    section_keys = MapSet.new(sections)
+
+    missing =
+      section_keys
+      |> MapSet.difference(record_keys)
+      |> Enum.sort()
+      |> Enum.map(fn name ->
+        %{
+          exchange: id,
+          invariant: "request_shape_keys_match_auth_sections",
+          path: "structure.request_shape.#{name}",
+          message: "authenticated section #{inspect(name)} has no request_shape entry"
+        }
+      end)
+
+    extra =
+      record_keys
+      |> MapSet.difference(section_keys)
+      |> Enum.sort()
+      |> Enum.map(fn name ->
+        %{
+          exchange: id,
+          invariant: "request_shape_keys_match_auth_sections",
+          path: "structure.request_shape.#{name}",
+          message: "request_shape has entry #{inspect(name)} but it is not in authenticated_sections"
+        }
+      end)
+
+    missing ++ extra
+  end
+
+  @doc """
+  Structural belt-and-suspenders check over each
+  `structure.request_shape` record — the five required keys are
+  present, `patch_count` is a non-negative integer,
+  `unresolved_reason` is null or in the closed vocabulary,
+  `body_encoding` is null or in the closed vocabulary, and every
+  endpoint record has the required HTTP-verb / path-template /
+  path-params triple.
+
+  Deeper enum / shape validation is done by JSV against
+  `exchange_v3.json#/$defs/RequestShapeRecord` —
+  this invariant catches the narrow case where JSV validation was
+  skipped or the schema drifted.
+  """
+  @spec check_request_shape_valid(map(), map()) :: [finding()]
+  def check_request_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    record_map = get_in(exchange, ["structure", "request_shape"]) || %{}
+
+    record_map
+    |> Enum.sort_by(fn {section, _} -> section end)
+    |> Enum.flat_map(fn {section, record} -> request_shape_record_findings(id, section, record) end)
+  end
+
+  defp request_shape_record_findings(id, section, record) when is_map(record) do
+    missing = RequestShape.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- RequestShape.required_keys()
+
+    missing_findings =
+      Enum.map(missing, fn key ->
+        request_shape_finding(id, section, "missing required key #{inspect(key)}")
+      end)
+
+    extra_findings =
+      Enum.map(extra, fn key ->
+        request_shape_finding(id, section, "unexpected key #{inspect(key)}")
+      end)
+
+    value_findings =
+      Enum.reject(
+        [
+          request_shape_patch_count_finding(id, section, Map.get(record, "patch_count")),
+          request_shape_unresolved_reason_finding(id, section, Map.get(record, "unresolved_reason")),
+          request_shape_body_encoding_finding(id, section, Map.get(record, "body_encoding"))
+        ],
+        &is_nil/1
+      )
+
+    endpoint_findings = request_shape_endpoint_findings(id, section, Map.get(record, "endpoints"))
+
+    missing_findings ++ extra_findings ++ value_findings ++ endpoint_findings
+  end
+
+  defp request_shape_record_findings(id, section, _record) do
+    [request_shape_finding(id, section, "request_shape record must be a map")]
+  end
+
+  defp request_shape_finding(id, section, message) do
+    %{
+      exchange: id,
+      invariant: "request_shape_valid",
+      path: "structure.request_shape.#{section}",
+      message: message
+    }
+  end
+
+  defp request_shape_patch_count_finding(_id, _section, v) when is_integer(v) and v >= 0, do: nil
+
+  defp request_shape_patch_count_finding(id, section, v) do
+    request_shape_finding(id, section, "patch_count must be a non-negative integer, got #{inspect(v)}")
+  end
+
+  defp request_shape_unresolved_reason_finding(_id, _section, nil), do: nil
+
+  defp request_shape_unresolved_reason_finding(id, section, v) do
+    if v in RequestShape.unresolved_reasons() do
+      nil
+    else
+      request_shape_finding(
+        id,
+        section,
+        "unresolved_reason must be null or one of #{inspect(RequestShape.unresolved_reasons())}, got #{inspect(v)}"
+      )
+    end
+  end
+
+  defp request_shape_body_encoding_finding(_id, _section, nil), do: nil
+
+  defp request_shape_body_encoding_finding(id, section, v) do
+    if v in RequestShape.body_encodings() do
+      nil
+    else
+      request_shape_finding(
+        id,
+        section,
+        "body_encoding must be null or one of #{inspect(RequestShape.body_encodings())}, got #{inspect(v)}"
+      )
+    end
+  end
+
+  @request_shape_endpoint_keys ~w(http_verb path_template path_params)
+  @request_shape_verbs ~w(GET POST PUT DELETE PATCH)
+
+  defp request_shape_endpoint_findings(_id, _section, nil), do: []
+
+  defp request_shape_endpoint_findings(id, section, endpoints) when is_list(endpoints) do
+    endpoints
+    |> Enum.with_index()
+    |> Enum.flat_map(fn {entry, i} -> request_shape_endpoint_entry_findings(id, section, entry, i) end)
+  end
+
+  defp request_shape_endpoint_findings(id, section, _other) do
+    [request_shape_finding(id, section, "endpoints must be null or a list")]
+  end
+
+  defp request_shape_endpoint_entry_findings(id, section, entry, index) when is_map(entry) do
+    missing = @request_shape_endpoint_keys -- Map.keys(entry)
+
+    missing_findings =
+      Enum.map(missing, fn key ->
+        request_shape_finding(id, section, "endpoints[#{index}] missing required key #{inspect(key)}")
+      end)
+
+    verb_finding =
+      case Map.get(entry, "http_verb") do
+        v when v in @request_shape_verbs ->
+          nil
+
+        other ->
+          request_shape_finding(
+            id,
+            section,
+            "endpoints[#{index}].http_verb must be one of #{inspect(@request_shape_verbs)}, got #{inspect(other)}"
+          )
+      end
+
+    path_finding =
+      case Map.get(entry, "path_template") do
+        v when is_binary(v) ->
+          nil
+
+        other ->
+          request_shape_finding(id, section, "endpoints[#{index}].path_template must be a string, got #{inspect(other)}")
+      end
+
+    params_findings =
+      case Map.get(entry, "path_params") do
+        nil ->
+          [request_shape_finding(id, section, "endpoints[#{index}].path_params must be a list, got nil")]
+
+        list when is_list(list) ->
+          request_shape_path_params_findings(id, section, list, index)
+
+        other ->
+          [request_shape_finding(id, section, "endpoints[#{index}].path_params must be a list, got #{inspect(other)}")]
+      end
+
+    Enum.reject([verb_finding, path_finding | missing_findings ++ params_findings], &is_nil/1)
+  end
+
+  defp request_shape_endpoint_entry_findings(id, section, _other, index) do
+    [request_shape_finding(id, section, "endpoints[#{index}] must be a map")]
+  end
+
+  defp request_shape_path_params_findings(id, section, params, index) do
+    params
+    |> Enum.with_index()
+    |> Enum.flat_map(fn {param, j} ->
+      cond do
+        not is_map(param) ->
+          [request_shape_finding(id, section, "endpoints[#{index}].path_params[#{j}] must be a map")]
+
+        not is_binary(Map.get(param, "name")) ->
+          [request_shape_finding(id, section, "endpoints[#{index}].path_params[#{j}].name must be a string")]
+
+        Map.get(param, "source") != "params" ->
+          [
+            request_shape_finding(
+              id,
+              section,
+              "endpoints[#{index}].path_params[#{j}].source must be \"params\", got #{inspect(Map.get(param, "source"))}"
+            )
+          ]
+
+        true ->
+          []
+      end
+    end)
+  end
+
+  @doc """
+  Validate the `structure.request_shape` honesty biconditional —
+  mirror of the sign_recipe variant (Task 69 pattern):
+
+      unresolved_reason == nil  ⇔  every derivation field populated
+
+  where "populated" is defined by
+  `RequestShape.all_derivation_fields_populated?/1`. Records that
+  escape with a null tag but a null derivation field, OR with a
+  populated tag but every derivation field set, are flagged.
+
+  Terminal tags (`"no_sign_method"`, `"no_describe_api"`,
+  `"section_not_in_api"`) coexist with at least one null derivation
+  field by construction — those records are honestly partial and
+  pass cleanly. The `"not_yet_derived"` tag is the scaffold default;
+  records carrying it with all three derivation fields populated are
+  the bug this invariant catches when Derive is bypassed (e.g.
+  through an override chain).
+  """
+  @spec check_request_shape_honesty_valid(map(), map()) :: [finding()]
+  def check_request_shape_honesty_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    record_map = get_in(exchange, ["structure", "request_shape"]) || %{}
+
+    record_map
+    |> Enum.sort_by(fn {section, _} -> section end)
+    |> Enum.flat_map(fn {section, record} -> request_shape_honesty_record_findings(id, section, record) end)
+  end
+
+  defp request_shape_honesty_record_findings(id, section, record) when is_map(record) do
+    tag = Map.get(record, "unresolved_reason")
+    all_populated? = RequestShape.all_derivation_fields_populated?(record)
+
+    cond do
+      is_nil(tag) and not all_populated? ->
+        missing = null_request_shape_fields(record)
+
+        [
+          request_shape_honesty_finding(
+            id,
+            section,
+            "unresolved_reason is null but derivation field(s) #{inspect(missing)} are null"
+          )
+        ]
+
+      not is_nil(tag) and all_populated? ->
+        [
+          request_shape_honesty_finding(
+            id,
+            section,
+            "unresolved_reason is #{inspect(tag)} but all derivation fields are populated " <>
+              "(tag should be null)"
+          )
+        ]
+
+      true ->
+        []
+    end
+  end
+
+  defp request_shape_honesty_record_findings(_id, _section, _record), do: []
+
+  defp null_request_shape_fields(record) do
+    Enum.filter(RequestShape.derivation_fields(), fn key ->
+      case Map.fetch(record, key) do
+        # `content_type: nil` paired with `body_encoding: "none"` is honest-
+        # empty per the predicate; only flag truly-null fields.
+        {:ok, nil} when key == "content_type" -> Map.get(record, "body_encoding") != "none"
+        {:ok, nil} -> true
+        :error -> true
+        _ -> false
+      end
+    end)
+  end
+
+  defp request_shape_honesty_finding(id, section, message) do
+    %{
+      exchange: id,
+      invariant: "request_shape_honesty_valid",
+      path: "structure.request_shape.#{section}",
       message: message
     }
   end

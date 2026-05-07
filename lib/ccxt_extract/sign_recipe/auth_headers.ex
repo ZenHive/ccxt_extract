@@ -230,7 +230,8 @@ defmodule CcxtExtract.SignRecipe.AuthHeaders do
            "property" => %{"type" => "Identifier", "name" => "options"}
          },
          "property" => %{"type" => "Literal"}
-       }), do: true
+       }),
+       do: true
 
   # `this.options.X`
   defp options_predicate?(%{
@@ -242,7 +243,8 @@ defmodule CcxtExtract.SignRecipe.AuthHeaders do
            "property" => %{"type" => "Identifier", "name" => "options"}
          },
          "property" => %{"type" => "Identifier"}
-       }), do: true
+       }),
+       do: true
 
   defp options_predicate?(_), do: false
 
@@ -297,7 +299,8 @@ defmodule CcxtExtract.SignRecipe.AuthHeaders do
          "type" => "MemberExpression",
          "object" => %{"type" => "ThisExpression"},
          "property" => %{"type" => "Identifier", "name" => "apiKey"}
-       }), do: true
+       }),
+       do: true
 
   defp api_key?(_), do: false
 
@@ -305,7 +308,8 @@ defmodule CcxtExtract.SignRecipe.AuthHeaders do
          "type" => "MemberExpression",
          "object" => %{"type" => "ThisExpression"},
          "property" => %{"type" => "Identifier", "name" => "password"}
-       }), do: true
+       }),
+       do: true
 
   defp passphrase?(_), do: false
 
@@ -324,7 +328,8 @@ defmodule CcxtExtract.SignRecipe.AuthHeaders do
            "arguments" => []
          },
          timestamp_names
-       ), do: timestamp_ident?(inner, timestamp_names)
+       ),
+       do: timestamp_ident?(inner, timestamp_names)
 
   defp timestamp_ident?(_, _), do: false
 
@@ -344,7 +349,8 @@ defmodule CcxtExtract.SignRecipe.AuthHeaders do
            },
            %{"type" => "Literal", "value" => "recvWindow"} | _
          ]
-       }), do: true
+       }),
+       do: true
 
   # this.options['recvWindow']
   defp recv_window?(%{
@@ -356,7 +362,8 @@ defmodule CcxtExtract.SignRecipe.AuthHeaders do
            "property" => %{"type" => "Identifier", "name" => "options"}
          },
          "property" => %{"type" => "Literal", "value" => "recvWindow"}
-       }), do: true
+       }),
+       do: true
 
   # this.options.recvWindow
   defp recv_window?(%{
@@ -368,7 +375,8 @@ defmodule CcxtExtract.SignRecipe.AuthHeaders do
            "property" => %{"type" => "Identifier", "name" => "options"}
          },
          "property" => %{"type" => "Identifier", "name" => "recvWindow"}
-       }), do: true
+       }),
+       do: true
 
   # Bybit wraps recvWindow lookup: `this.options['recvWindow'].toString()`.
   # Peel one `.toString()` level and re-classify.
@@ -380,7 +388,8 @@ defmodule CcxtExtract.SignRecipe.AuthHeaders do
            "property" => %{"type" => "Identifier", "name" => "toString"}
          },
          "arguments" => []
-       }), do: recv_window?(inner)
+       }),
+       do: recv_window?(inner)
 
   defp recv_window?(_), do: false
 end

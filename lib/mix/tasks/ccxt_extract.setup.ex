@@ -184,7 +184,8 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
         tag = "v#{version}"
         Mix.shell().info("Updating TS source to #{tag}...")
 
-        with {_, 0} <- System.cmd("git", ["fetch", "origin", "tag", tag, "--depth", "1"], cd: dir, stderr_to_stdout: true),
+        with {_, 0} <-
+               System.cmd("git", ["fetch", "origin", "tag", tag, "--depth", "1"], cd: dir, stderr_to_stdout: true),
              {_, 0} <- System.cmd("git", ["checkout", tag], cd: dir, stderr_to_stdout: true) do
           Mix.shell().info("TS source checked out at #{tag}.")
         else

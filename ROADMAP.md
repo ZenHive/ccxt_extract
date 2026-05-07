@@ -208,8 +208,8 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 70 | ⬜ | 🎁 **11-shape** · HTTP verb + path template + path-param rules per method [D:4/B:8/U:8 → Eff:2.0] 🚀 |
-| Task 71 | ⬜ | 🎁 **11-shape** · Body encoding + content-type per section [D:3/B:7/U:8 → Eff:2.5] 🎯 |
+| Task 70 `[CSR]` | 🔄 in-review | 🎁 **11-shape** · HTTP verb + path template + path-param rules per method (INE-55) [D:4/B:8/U:8 → Eff:2.0] 🚀 |
+| Task 71 `[CSR]` | 🔄 in-review | 🎁 **11-shape** · Body encoding + content-type per section (INE-55) [D:3/B:7/U:8 → Eff:2.5] 🎯 |
 | Task 72 | ⬜ | 🎁 **11+14** · Timestamp source + format per section [D:3/B:6/U:7 → Eff:2.17] 🚀 |
 | Task 73 | ⬜ | 🎁 **11+14** · Per-method rate-limit cost + weight axis [D:3/B:7/U:7 → Eff:2.33] 🚀 |
 | Task 73b | ⬜ | 🎁 **11+14** · User-agent + default headers per exchange [D:2/B:5/U:5 → Eff:2.5] 🎯 |

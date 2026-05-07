@@ -271,7 +271,8 @@ defmodule CcxtExtract.AuthenticatedSections do
            "object" => %{"type" => "ThisExpression"},
            "property" => %{"type" => "Identifier", "name" => "checkRequiredCredentials"}
          }
-       }), do: true
+       }),
+       do: true
 
   defp check_call?(_), do: false
 
@@ -282,7 +283,8 @@ defmodule CcxtExtract.AuthenticatedSections do
            "object" => %{"type" => "ThisExpression"},
            "property" => %{"type" => "Identifier", "name" => "checkRequiredCredentials"}
          }
-       }), do: true
+       }),
+       do: true
 
   defp has_check_required_credentials?(node) when is_map(node) do
     Enum.any?(Map.values(node), &has_check_required_credentials?/1)

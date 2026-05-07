@@ -189,7 +189,8 @@ defmodule CcxtExtract.SignRecipe.Nonce do
          },
          _bindings,
          _depth
-       ), do: %{"source" => "timestamp_ms", "format" => "integer"}
+       ),
+       do: %{"source" => "timestamp_ms", "format" => "integer"}
 
   # this.milliseconds()
   defp classify_init(
@@ -204,7 +205,8 @@ defmodule CcxtExtract.SignRecipe.Nonce do
          },
          _bindings,
          _depth
-       ), do: %{"source" => "timestamp_ms", "format" => "integer"}
+       ),
+       do: %{"source" => "timestamp_ms", "format" => "integer"}
 
   # this.seconds()
   defp classify_init(
@@ -219,7 +221,8 @@ defmodule CcxtExtract.SignRecipe.Nonce do
          },
          _bindings,
          _depth
-       ), do: %{"source" => "timestamp_sec", "format" => "integer"}
+       ),
+       do: %{"source" => "timestamp_sec", "format" => "integer"}
 
   # this.microseconds()
   defp classify_init(
@@ -234,7 +237,8 @@ defmodule CcxtExtract.SignRecipe.Nonce do
          },
          _bindings,
          _depth
-       ), do: %{"source" => "timestamp_us", "format" => "integer"}
+       ),
+       do: %{"source" => "timestamp_us", "format" => "integer"}
 
   # this.nanoseconds()
   defp classify_init(
@@ -249,7 +253,8 @@ defmodule CcxtExtract.SignRecipe.Nonce do
          },
          _bindings,
          _depth
-       ), do: %{"source" => "timestamp_ns", "format" => "integer"}
+       ),
+       do: %{"source" => "timestamp_ns", "format" => "integer"}
 
   # Date.now() — raw JS global, returns milliseconds. Priority exchanges use
   # `this.nonce()` via CCXT's base, but exchanges with custom sign() overrides
@@ -266,7 +271,8 @@ defmodule CcxtExtract.SignRecipe.Nonce do
          },
          _bindings,
          _depth
-       ), do: %{"source" => "timestamp_ms", "format" => "integer"}
+       ),
+       do: %{"source" => "timestamp_ms", "format" => "integer"}
 
   # x.toString() — flip an integer-format classification to string.
   # Preserves the source; drops the classification if inner doesn't match.

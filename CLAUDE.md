@@ -26,6 +26,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 @~/.claude/includes/reach.md
 ---
 
+## Linear Workspace
+
+This repo's Linear delegation queue is in team **`INE`** (Inetpeople), project **`ccxt_extract`**.
+
+| Concept | Value |
+|---|---|
+| Team key | `INE` |
+| Team ID | `f07d4ffb-be65-441d-bf97-8f973e37867a` |
+| Project name | `ccxt_extract` |
+| Project ID | `8a6cf35f-a9a0-4980-a9aa-62d1782aaef4` |
+| Project URL | https://linear.app/inetpeople/project/ccxt-extract-3186358c8dc9 |
+| Repo selector label | `ZenHive/ccxt_extract` |
+| Repo selector label ID | `e725da16-473e-4103-a559-480f128d1743` |
+| Default delegate | `Cursor` (`[CSR]`) — `[CX]` suspended for Elixir per `task-prioritization.md` |
+| Required labels per delegated issue | `["cursor-eligible", "ZenHive/ccxt_extract"]` |
+| GitHub remote | `git@github.com:ZenHive/ccxt_extract.git` |
+
+CI gate: `.github/workflows/harness.yml` (deterministic harness — format, compile, credo, doctor, sobelow, test+cover, dialyzer). `--exclude flaky` is the gate side of tag-and-quarantine; tag offenders with `@tag :flaky` to drop them out of the blocking run.
+
+See `~/.claude/includes/linear-workflow.md` for the full delegation flow.
+
+---
+
 ## Architecture (big picture)
 
 ### Two extraction tools, one pipeline

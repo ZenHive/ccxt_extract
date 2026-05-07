@@ -270,10 +270,12 @@ defmodule CcxtExtract.RequestDefaults do
   end
 
   defp any_assignment_to?(%{type: :assignment_expression, left: %{type: :identifier, name: name}}, var_name)
-       when name == var_name, do: true
+       when name == var_name,
+       do: true
 
   defp any_assignment_to?(%{type: :update_expression, argument: %{type: :identifier, name: name}}, var_name)
-       when name == var_name, do: true
+       when name == var_name,
+       do: true
 
   defp any_assignment_to?(node, var_name) when is_map(node) do
     node |> Map.values() |> Enum.any?(&any_assignment_to?(&1, var_name))
@@ -319,7 +321,8 @@ defmodule CcxtExtract.RequestDefaults do
   defp interface_method_call?(
          %{callee: %{type: :member_expression, computed: false, property: %{type: :identifier, name: name}}},
          _stmts
-       ), do: verb_match?(name)
+       ),
+       do: verb_match?(name)
 
   # Computed: this[x](...) — trace x through the same sole-declarator mechanism
   # as tier 3, but for a string-literal init rather than an object_expression.

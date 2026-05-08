@@ -5,6 +5,8 @@ defmodule CcxtExtract.Integration.Cached.CoverageReportCachedTest do
   """
   use ExUnit.Case, async: true
 
+  import CcxtExtract.Test.ScopeThresholds
+
   @moduletag :integration
   @moduletag timeout: 30_000
 
@@ -79,26 +81,28 @@ defmodule CcxtExtract.Integration.Cached.CoverageReportCachedTest do
     test "per_layer present counts are reasonable", %{report: report} do
       per_layer = report["summary"]["per_layer"]
 
-      # Scale thresholds against a scoped-aware reference. `report["exchange_count"]`
-      # comes from exchanges.json (always full-universe ~110), but per-layer present
-      # counts come from scoped fixtures. Use the describe layer's present count as
-      # the scope signal — describe reflects the actual extraction scope.
-      scoped_n = per_layer["describe"]["present"]
+      # Dispatch on the canonical scope envelope — `describe/_manifest.json`'s
+      # `tier_scope` stamp records what produced the underlying fixtures.
+      # Full-universe corpora get strict absolute floors; scoped corpora get
+      # proportional floors against the describe layer's present count
+      # (the actual extraction scope signal).
+      if corpus_full_universe?() do
+        assert per_layer["describe"]["present"] >= 100
+        assert per_layer["class_hierarchy"]["present"] >= 100
+        assert per_layer["methods_rest"]["present"] >= 100
+        assert per_layer["sign_method"]["present"] >= 90
+        assert per_layer["handle_errors"]["present"] >= 50
+        assert per_layer["parse_methods"]["present"] >= 100
+      else
+        scoped_n = per_layer["describe"]["present"]
 
-      # Cutoff aligned with the highest strict floor (100) — gap-free by
-      # construction. Below full-universe regime, floors are proportional to
-      # scoped_n. See test/support/scope_thresholds.ex for the shared pattern.
-      {describe_floor, heavy_floor, sign_floor, he_floor} =
-        if scoped_n >= 100,
-          do: {100, 100, 90, 50},
-          else: {round(scoped_n * 0.9), round(scoped_n * 0.75), round(scoped_n * 0.7), round(scoped_n * 0.4)}
-
-      assert per_layer["describe"]["present"] >= describe_floor
-      assert per_layer["class_hierarchy"]["present"] >= heavy_floor
-      assert per_layer["methods_rest"]["present"] >= heavy_floor
-      assert per_layer["sign_method"]["present"] >= sign_floor
-      assert per_layer["handle_errors"]["present"] >= he_floor
-      assert per_layer["parse_methods"]["present"] >= heavy_floor
+        assert per_layer["describe"]["present"] >= proportional(scoped_n, 0.9)
+        assert per_layer["class_hierarchy"]["present"] >= proportional(scoped_n, 0.75)
+        assert per_layer["methods_rest"]["present"] >= proportional(scoped_n, 0.75)
+        assert per_layer["sign_method"]["present"] >= proportional(scoped_n, 0.7)
+        assert per_layer["handle_errors"]["present"] >= proportional(scoped_n, 0.4)
+        assert per_layer["parse_methods"]["present"] >= proportional(scoped_n, 0.75)
+      end
     end
   end
 

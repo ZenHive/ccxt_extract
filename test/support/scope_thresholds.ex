@@ -1,99 +1,106 @@
 defmodule CcxtExtract.Test.ScopeThresholds do
   @moduledoc """
-  Scope-aware count thresholds for integration tests that read cached
-  discovery fixtures.
+  Envelope-dispatch helpers for cached integration tests.
 
-  Committed fixtures under `priv/discoveries/` may be generated under a
-  scoped extraction (~34 exchanges) or a full-universe extraction (~110).
-  Many cached-integration assertions need to dispatch on which regime
-  produced the fixture, but most fixtures do not stamp `tier_scope` at
-  all, and `method_analysis.json` / `public_exchanges.json` stamp
-  `"all"` regardless of actual scope — so the stamp cannot be trusted.
-  This helper dispatches on the **observed count** instead.
-
-  ## Gap-free dispatch
-
-  The cutoff is `observed >= full_universe_floor` (not a separate
-  smaller cutoff). A mismatched cutoff/floor pair (e.g. `cutoff=90,
-  floor=100`) creates a dead zone where mid-range observations enter
-  the strict branch but fail the assertion. Aligning cutoff with floor
-  closes that class of bug by construction.
-
-  ## TODO(scope-envelope)
-
-  Followup: `SCOPED-EXTRACTION-TASKS.md` Task 13 tracks stamping
-  `tier_scope` into every aggregate envelope via `AggregateWriter`.
-  Once landed, tests should dispatch on the envelope (stable, explicit)
-  rather than observed count (brittle, requires proportional floors).
-  This module becomes thinner or unnecessary at that point.
+  After Task 13b, cached integration tests dispatch on the `tier_scope`
+  envelope stamp (stable, explicit) rather than observed exchange counts
+  (brittle, requires proportional floors). Every aggregate emitter now
+  stamps `tier_scope` consistently — `CcxtExtract.AggregateWriter` and
+  `CcxtExtract.DiscoveryWriter` are the two write sites; both default to
+  `"all"` and accept the `:tier_scope` option from
+  `CcxtExtract.TaskScope.parse_and_resolve!/3`.
 
   ## Usage
 
       import CcxtExtract.Test.ScopeThresholds
 
       test "at least expected exchanges", %{data: data} do
-        assert data["count"] >= min_count(data["count"], 100)
+        if full_universe?(data) do
+          assert data["count"] >= 100
+        else
+          assert data["count"] == length(data["exchanges"])
+          assert data["count"] > 0
+        end
       end
+
+  For analysis modules whose in-memory result lacks a `tier_scope` field
+  (e.g. `MethodAnalysis.extract/0`, `PublicExchanges.extract/0`,
+  `CoverageReport.extract/0`), call `corpus_full_universe?/0` instead —
+  it reads the canonical scope signal from
+  `priv/discoveries/describe/_manifest.json`.
   """
 
-  @default_scoped_fraction 0.3
+  @canonical_scope_anchor Path.join(["discoveries", "describe", "_manifest.json"])
 
   @doc """
-  Returns a minimum-count floor given the observed count.
+  Returns `true` when the envelope's `tier_scope` stamp equals `"all"`.
 
-  When `observed >= full_universe_floor`, returns the full-universe
-  floor unchanged (strict assertion). Otherwise returns a proportional
-  floor — `round(full_universe_floor * scoped_fraction)` (default 0.3).
-
-  Cutoff equals floor, so there is no dead zone between the two
-  branches.
+  Treats the legacy `nil` (unstamped) case as full-universe to keep older
+  fixtures usable. Post-Task-13a, every aggregate stamps `tier_scope`, so
+  `nil` should not appear in fresh corpora.
 
   ## Examples
 
-      iex> CcxtExtract.Test.ScopeThresholds.min_count(110, 100)
-      100
+      iex> CcxtExtract.Test.ScopeThresholds.full_universe?(%{"tier_scope" => "all"})
+      true
 
-      iex> CcxtExtract.Test.ScopeThresholds.min_count(34, 100)
-      30
+      iex> CcxtExtract.Test.ScopeThresholds.full_universe?(%{"tier_scope" => ["tier1"]})
+      false
 
-      iex> CcxtExtract.Test.ScopeThresholds.min_count(34, 90, 0.5)
-      45
+      iex> CcxtExtract.Test.ScopeThresholds.full_universe?(%{})
+      true
   """
-  @spec min_count(non_neg_integer(), non_neg_integer(), float()) :: non_neg_integer()
-  def min_count(observed, full_universe_floor, scoped_fraction \\ @default_scoped_fraction) do
-    if observed >= full_universe_floor do
-      full_universe_floor
-    else
-      round(full_universe_floor * scoped_fraction)
+  @spec full_universe?(map()) :: boolean()
+  def full_universe?(envelope) when is_map(envelope) do
+    case Map.get(envelope, "tier_scope") do
+      "all" -> true
+      nil -> true
+      _ -> false
     end
   end
 
   @doc """
-  Returns a minimum-total floor dispatched on a separate count signal.
+  Returns `true` when the cached fixture corpus was produced by a
+  full-universe run.
 
-  Use for aggregate totals (e.g. `total_methods`) where the full-universe
-  total and the scoped-mode total don't follow the default proportional
-  ratio, or where scaling differs per layer.
-
-  Cutoff equals `full_universe_count_floor`, gap-free by construction.
+  Reads `tier_scope` from the canonical scope anchor —
+  `priv/discoveries/describe/_manifest.json` — which is stamped by every
+  scoped or full-universe `mix ccxt_extract.update` run. Use for analysis
+  tests whose own in-memory result does not surface `tier_scope`
+  (`MethodAnalysis.extract/0`, `PublicExchanges.extract/0`,
+  `CoverageReport.extract/0`, etc.).
   """
-  @spec min_total(
-          non_neg_integer(),
-          non_neg_integer(),
-          non_neg_integer(),
-          non_neg_integer()
-        ) :: non_neg_integer()
-  def min_total(observed_count, full_universe_count_floor, full_total, scoped_total) do
-    if observed_count >= full_universe_count_floor, do: full_total, else: scoped_total
+  @spec corpus_full_universe?() :: boolean()
+  def corpus_full_universe? do
+    path = CcxtExtract.Paths.priv(@canonical_scope_anchor)
+
+    case File.read(path) do
+      {:ok, body} ->
+        body |> Jason.decode!() |> full_universe?()
+
+      {:error, _} ->
+        # Anchor missing — treat as full-universe to avoid masking failures
+        # on a fresh clone before extraction has run.
+        true
+    end
   end
 
   @doc """
-  Returns a proportional floor — `round(observed * fraction)`.
+  Returns `round(observed * fraction)` — for ratio-style assertions
+  (e.g. "majority have parse methods"). Independent of scope; survives
+  the envelope migration as the only count-derived helper that doesn't
+  hardcode a full-universe threshold.
 
-  Use for ratio-style assertions (e.g. "majority have parse methods").
+  ## Examples
+
+      iex> CcxtExtract.Test.ScopeThresholds.proportional(100, 0.75)
+      75
+
+      iex> CcxtExtract.Test.ScopeThresholds.proportional(34, 0.5)
+      17
   """
   @spec proportional(non_neg_integer(), float()) :: non_neg_integer()
-  def proportional(observed, fraction) do
+  def proportional(observed, fraction) when is_integer(observed) and observed >= 0 do
     round(observed * fraction)
   end
 end

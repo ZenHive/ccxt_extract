@@ -40,11 +40,27 @@ defmodule CcxtExtract.Integration.Cached.HandleErrorsCachedTest do
     end
 
     test "at least expected exchanges extracted", %{data: data} do
-      assert data["count"] >= min_count(data["count"], 100)
+      if full_universe?(data) do
+        assert data["count"] >= 100,
+               "Full-universe handle_errors.json expected 100+ exchanges, got #{data["count"]}"
+      else
+        # Scoped run: the envelope's count is the authority; assert internal
+        # consistency rather than a fabricated floor.
+        assert data["count"] == length(data["exchanges"])
+        assert data["count"] > 0
+      end
     end
 
     test "majority have handleErrors()", %{data: data} do
-      assert data["with_handle_errors"] >= proportional(data["count"], 0.75)
+      # Full-universe corpora preserve the "vast majority" claim (DEX
+      # outliers diluted across ~110 exchanges). Scoped corpora — especially
+      # tier1+tier2+dex where DEX is over-represented — only need the
+      # weaker "at least one exchange has handleErrors()" invariant.
+      if full_universe?(data) do
+        assert data["with_handle_errors"] >= proportional(data["count"], 0.75)
+      else
+        assert data["with_handle_errors"] >= 1
+      end
     end
   end
 

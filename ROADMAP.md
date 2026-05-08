@@ -244,7 +244,7 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 |------|--------|-------|
 | Task 70 `[CSR]` | ✅ | 🎁 **11-shape** · Shipped 2026-05-08 (PR #2, INE-55). HTTP verb + path template + path-param rules per method via new `CcxtExtract.RequestShape.VerbPath`. See [CHANGELOG.md](CHANGELOG.md#tasks-70--71--request-shape-verb--path-template--body-encoding-pr-2-ine-55). |
 | Task 71 `[CSR]` | ✅ | 🎁 **11-shape** · Shipped 2026-05-08 (PR #2, INE-55). Body encoding + content-type per section via new `CcxtExtract.RequestShape.BodyEncoding`. See [CHANGELOG.md](CHANGELOG.md#tasks-70--71--request-shape-verb--path-template--body-encoding-pr-2-ine-55). |
-| Task 72 | 🔄 in-review | 🎁 **11+14** · Timestamp source + format per section [D:3/B:6/U:7 → Eff:2.17] 🚀 — PR #12 (INE-62) |
+| Task 72 | ✅ | 🎁 **11+14** · Shipped 2026-05-08 (PR #12, INE-62). Timestamp source + format per section via `auth.sign_recipe.<section>.timestamp` (v4 canonical path; v3 retains `nonce` for the grace window). See [CHANGELOG.md](CHANGELOG.md#task-72--timestamp-sourceformat-extraction-authsign_recipetimestamp-pr-12-ine-62). |
 | Task 73 | ✅ | 🎁 **11+14** · Shipped 2026-05-08 (PR #8, INE-63). See [CHANGELOG.md](CHANGELOG.md#task-73--per-method-rate-limit-cost--weight-axis-pr-8-ine-63). |
 | Task 73b | ✅ | 🎁 **11+14** · Shipped 2026-05-07 at schema 3.1.0. See [CHANGELOG.md](CHANGELOG.md#task-73b-per-exchange-user-agent--default-headers-schema-310). |
 | Task 73c | ✅ | 🎁 **11-request** · Shipped 2026-04-17 at schema 2.1.0. See [CHANGELOG.md](CHANGELOG.md#task-73c-per-method-default-request-body-extractor-schema-210). |

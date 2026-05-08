@@ -5,7 +5,7 @@
 #
 # No untrusted-input interpolation — only matrix, runner, beam outputs, hashFiles.
 #
-# Project-specific: `mix ccxt_extract.setup` runs before tests because
+# Project-specific: `mix ccxt_extract.update` runs before tests because
 # `test/test_helper.exs` raises on missing corpus sentinels (priv/discoveries/*,
 # priv/output/binance.json) — the corpus is gitignored derived state, materialized
 # from the CCXT JS source on each fresh clone.

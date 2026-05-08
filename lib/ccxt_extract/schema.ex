@@ -51,6 +51,7 @@ defmodule CcxtExtract.Schema do
 
   """
 
+  alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
 
   @schema_version "3.1.0"
@@ -59,7 +60,7 @@ defmodule CcxtExtract.Schema do
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe symbols_index symbol_patterns url_templates testnet_urls request_headers)
-  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe handle_errors interface_signatures pagination overrides unified_endpoints request_defaults)
+  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe request_shape handle_errors interface_signatures pagination overrides unified_endpoints request_defaults)
 
   # --- Public API ---
 
@@ -82,8 +83,10 @@ defmodule CcxtExtract.Schema do
       url_templates, testnet_urls, request_headers (each a map or nil; request_headers
       is always-present and always a wrapper map per Task 73b)
     * `structure_data` — map with keys: class_info, methods, sign_method,
-      authenticated_sections, handle_errors, interface_signatures, pagination,
-      overrides, unified_endpoints, request_defaults (each a map or nil)
+      authenticated_sections, describe_api, handle_errors, interface_signatures,
+      pagination, overrides, unified_endpoints, request_defaults (each a map
+      or nil). `describe_api` is consumed by `RequestShape.Derive.derive/3`
+      to enumerate per-section endpoints; it is NOT a required output key.
 
   ## Options
 
@@ -194,6 +197,7 @@ defmodule CcxtExtract.Schema do
   defp build_structure_section(data) do
     auth_sections = data["authenticated_sections"]
     sign_method = data["sign_method"]
+    describe_api = data["describe_api"]
 
     %{
       "class_info" => data["class_info"],
@@ -201,6 +205,7 @@ defmodule CcxtExtract.Schema do
       "sign_method" => sign_method,
       "authenticated_sections" => auth_sections,
       "sign_recipe" => SignRecipe.Derive.derive(sign_method, auth_sections),
+      "request_shape" => RequestShape.Derive.derive(sign_method, auth_sections, describe_api),
       "handle_errors" => data["handle_errors"],
       "interface_signatures" => data["interface_signatures"],
       "pagination" => data["pagination"],

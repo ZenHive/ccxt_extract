@@ -16,6 +16,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
   """
 
   alias CcxtExtract.Provenance
+  alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
 
   @doc """
@@ -76,6 +77,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "sign_method" => nil,
         "authenticated_sections" => auth_sections,
         "sign_recipe" => SignRecipe.build_default(auth_sections),
+        "request_shape" => RequestShape.build_default(auth_sections),
         "handle_errors" => %{
           "method" => nil,
           "exceptions" => nil,

@@ -339,7 +339,7 @@
     "StructureData": {
       "type": "object",
       "description": "Structural data extracted via OXC TypeScript AST parsing. Layer 2: what an exchange DOES (code structure, method bodies).",
-      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "sign_recipe", "handle_errors", "interface_signatures", "pagination", "overrides", "unified_endpoints", "request_defaults"],
+      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "sign_recipe", "request_shape", "handle_errors", "interface_signatures", "pagination", "overrides", "unified_endpoints", "request_defaults"],
       "additionalProperties": false,
       "properties": {
         "class_info": {
@@ -374,6 +374,11 @@
           "type": "object",
           "additionalProperties": { "$ref": "#/$defs/SignRecipeRecord" },
           "description": "Map of section name -> SignRecipeRecord. Keys mirror structure.authenticated_sections (contract-test invariant sign_recipe_keys_match_auth_sections enforces parity). Empty map when sign_method is null or no authenticated sections were detected. Scaffolded in schema 2.2.0; Task 64 emits all-null records with unresolved_reason = \"not_yet_derived\". Tasks 65–69 populate derivation fields incrementally. Standalone copy at priv/schema/sign_recipe_v1.json (must stay in sync)."
+        },
+        "request_shape": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/RequestShapeRecord" },
+          "description": "Map of section name -> RequestShapeRecord. Keys mirror structure.authenticated_sections (contract-test invariant request_shape_keys_match_auth_sections enforces parity). Empty map when sign_method is null or no authenticated sections were detected. Introduced at schema 3.1.0 (Tasks 70 + 71). Pins per-section HTTP request envelope (verb, path template, body encoding) so consumers can construct the wire request without walking sign() AST."
         },
         "handle_errors": {
           "oneOf": [
@@ -534,6 +539,93 @@
           "type": "integer",
           "minimum": 0,
           "description": "Three-Strikes counter (see CLAUDE.md). At 3, migrate the recipe to priv/overrides/<id>.json rather than continuing to stretch derivation."
+        }
+      }
+    },
+
+    "RequestShapeRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["endpoints", "body_encoding", "content_type", "unresolved_reason", "patch_count"],
+      "description": "Declarative per-section HTTP request envelope (Phase 11, Tasks 70 + 71). Introduced at schema 3.1.0. Companion to SignRecipeRecord — where SignRecipe pins how a request is signed, RequestShape pins what the request envelope looks like before signing: HTTP verb(s), path template(s), path-param substitution rules, body wire encoding, and Content-Type. See CcxtExtract.RequestShape moduledoc.",
+      "properties": {
+        "endpoints": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "array", "items": { "$ref": "#/$defs/RequestShapeEndpoint" } }
+          ],
+          "description": "Ordered list of endpoint records for this section, walked from runtime.describe.api[<section>]. Empty list is honest-empty (section resolves but contains no HTTP-method leaves); null when describe.api is absent or the section subtree is missing. Populated by Task 70."
+        },
+        "body_encoding": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string", "enum": ["json", "form_urlencoded", "query_string", "none"] }
+          ],
+          "description": "Wire encoding of the request body. 'json' (this.json), 'form_urlencoded' (this.urlencode/urlencodeNested/rawencode), 'query_string' (reserved — not yet observed on priority-tier exchanges), 'none' (sign() never assigns body). Null when sign() is absent or the body assignment is ambiguous. Populated by Task 71."
+        },
+        "content_type": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string", "minLength": 1 }
+          ],
+          "description": "HTTP Content-Type header value. Derived from Content-Type literals in sign() AST when present, else falls back to the canonical value for body_encoding. Null when body_encoding == 'none' (no body to send → no Content-Type) or when body_encoding is null. Populated by Task 71."
+        },
+        "unresolved_reason": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "string",
+              "enum": ["not_yet_derived", "no_sign_method", "no_describe_api", "section_not_in_api", "ambiguous_body"]
+            }
+          ],
+          "description": "Closed-vocabulary reason when derivation fields are null. 'not_yet_derived' is the scaffold default. Must be null only when every derivation field above is populated (enforced by the request_shape_honesty_valid contract invariant)."
+        },
+        "patch_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Three-Strikes counter (see CLAUDE.md). At 3, migrate the request_shape to priv/overrides/<id>.json rather than continuing to stretch derivation."
+        }
+      }
+    },
+
+    "RequestShapeEndpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["http_verb", "path_template", "path_params"],
+      "description": "Single endpoint within a request_shape.endpoints list. (verb, path_template, path_params) triple covers what a consumer needs to dispatch one specific request inside the section.",
+      "properties": {
+        "http_verb": {
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "DELETE", "PATCH"],
+          "description": "HTTP verb derived from the leaf method key in describe.api. Uppercased to match RFC 7231."
+        },
+        "path_template": {
+          "type": "string",
+          "description": "URL path verbatim from CCXT's describe.api. {param} placeholders preserved as written. No leading slash injection, no {hostname} substitution, no URL-prefix injection (URL prefixes belong in runtime.url_templates)."
+        },
+        "path_params": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/RequestShapePathParam" },
+          "description": "Ordered list of {name}-style placeholders extracted from path_template. Empty when the path has no placeholders."
+        }
+      }
+    },
+
+    "RequestShapePathParam": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "source"],
+      "description": "One path-template placeholder + its substitution rule. CCXT's this.implodeParams(path, params) always binds placeholders to call-args params, so source = 'params' today. Structured as a record (rather than bare string) to leave room for future binding modes without a schema break.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Placeholder name as written between {} in the path_template (e.g. 'order_id' for '{order_id}')."
+        },
+        "source": {
+          "type": "string",
+          "enum": ["params"],
+          "description": "Which call-arg surface binds this placeholder. Today always 'params' (this.implodeParams)."
         }
       }
     },

@@ -7,9 +7,9 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
   1. Installs CCXT via `mix npm.install ccxt` (browser bundle for QuickBEAM)
   2. Copies the browser bundle to `priv/ccxt_bundle.js`
   3. Ensures TypeScript source exists at `priv/ccxt/ts/src/` (for OXC parsing).
-     Auto-sparse-clones `https://github.com/ccxt/ccxt.git` (with `ts/src` +
-     `package.json`) into `priv/ccxt` when missing — fresh clones and CI alike
-     get a working corpus without manual setup. Skip the auto-clone with
+     Auto-sparse-clones `https://github.com/ccxt/ccxt.git` (narrowed to
+     `ts/src`) into `priv/ccxt` when missing — fresh clones and CI alike get
+     a working corpus without manual setup. Skip the auto-clone with
      `--no-clone` or `CCXT_EXTRACT_SKIP_CLONE=1`.
   4. Verifies QuickBEAM can load the browser bundle and count exchanges
   5. Verifies OXC can parse a TypeScript exchange file
@@ -21,8 +21,8 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
     * `--latest` — Force reinstall of the latest version, even if a bundle
       already exists. Useful in CI to ensure up-to-date extractions.
     * `--no-clone` — Opt out of auto-cloning `priv/ccxt` when missing. Setup
-      will fail with the legacy "missing source" error instead. The env var
-      `CCXT_EXTRACT_SKIP_CLONE=1` has the same effect.
+      will fail with the legacy "missing source" message instead. The env
+      var `CCXT_EXTRACT_SKIP_CLONE=1` has the same effect.
 
   ## Examples
 
@@ -38,12 +38,11 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
   @npm_package_json "node_modules/ccxt/package.json"
   @ts_check_file_rel "ccxt/ts/src/binance.ts"
   @ts_package_json_rel "ccxt/package.json"
-  @ccxt_repo_url "https://github.com/ccxt/ccxt.git"
-  @ccxt_sparse_paths ~w(ts/src package.json)
+  @default_ccxt_repo_url "https://github.com/ccxt/ccxt.git"
 
   # --latest forces reinstall even when bundle exists (ensures actual latest).
   # --ccxt-version pins a specific version and verifies after install.
-  # --no-clone opts out of auto-cloning priv/ccxt when missing.
+  # --no-clone opts out of auto-cloning a missing priv/ccxt.
   @switches [ccxt_version: :string, latest: :boolean, no_clone: :boolean]
   @aliases [v: :ccxt_version]
 
@@ -140,12 +139,30 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
     end
   end
 
-  # Verify priv/ccxt/ts/src/ is present. When missing, sparse-clone
-  # the upstream CCXT repo (matching what harness.yml's leading
-  # comment promised the `setup` alias would do). Honor the explicit
-  # opt-out via --no-clone or CCXT_EXTRACT_SKIP_CLONE=1, in which
-  # case we fall back to the legacy "missing source" raise.
-  defp check_ts_source(opts) do
+  @doc """
+  Verifies `priv/ccxt/ts/src/` is present, auto-cloning a sparse checkout of
+  the CCXT GitHub repo when it is not.
+
+  The pinned version comes from `priv/ccxt_version.json` (`source_version`,
+  falling back to `npm_version`). A `--ccxt-version X.Y.Z` opt overrides it.
+  When `--latest` is supplied, the version pin is intentionally skipped so
+  the clone targets the default branch (subsequent `update_ts_source/2` does
+  the `git pull --ff-only`).
+
+  ## Opt-out
+
+  When the user explicitly opts out, this falls through to the legacy
+  "missing source" error instead of cloning:
+
+    * `--no-clone` flag (parsed by `run/1`).
+    * `CCXT_EXTRACT_SKIP_CLONE=1` env var.
+
+  Exposed as a public function (rather than `defp`) so the test suite can
+  drive the auto-clone helper without standing up the full setup pipeline
+  (npm install + QuickBEAM + OXC).
+  """
+  @spec check_ts_source(keyword()) :: :ok
+  def check_ts_source(opts \\ []) do
     ts_check_file = CcxtExtract.Paths.priv(@ts_check_file_rel)
 
     cond do
@@ -156,12 +173,25 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
         raise_missing_ts_source!()
 
       true ->
-        auto_clone_ts_source!()
+        # --latest needs a tracking branch for the subsequent `git pull --ff-only`,
+        # so skip the version pin entirely; otherwise we'd clone with `--branch
+        # v<recorded>` and leave a detached HEAD that `update_ts_source(nil, true)`
+        # cannot fast-forward.
+        pinned_version =
+          cond do
+            Keyword.get(opts, :latest, false) -> nil
+            v = Keyword.get(opts, :ccxt_version) -> v
+            true -> read_pinned_version()
+          end
+
+        auto_clone_ts_source!(pinned_version)
 
         if File.exists?(ts_check_file) do
           announce_existing_source(ts_check_file)
         else
-          raise_missing_ts_source!()
+          Mix.raise(
+            "Auto-clone completed but #{ts_check_file} is still missing — sparse-checkout may have excluded ts/src."
+          )
         end
     end
   end
@@ -176,65 +206,16 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
     end
   end
 
-  defp opt_out_auto_clone?(opts) do
-    Keyword.get(opts, :no_clone, false) or System.get_env("CCXT_EXTRACT_SKIP_CLONE") == "1"
-  end
+  @doc """
+  Returns `true` when the user opted out of auto-cloning.
 
-  # Sparse clone of github.com/ccxt/ccxt → priv/ccxt with only the
-  # paths extraction needs. Mirrors the manual instructions in the
-  # legacy raise message but as live behavior so fresh clones and CI
-  # both work without an extra setup step.
-  defp auto_clone_ts_source! do
-    # Resolve via `Paths.out/1` (write helper) rather than `priv/1`.
-    # The two paths agree in normal runs but the write helper honors
-    # `:priv_write_override`, which integration tests use to redirect
-    # writes into a tmp dir while reads still hit the committed corpus.
-    # The `paths_rw_split` contract-test invariant flags the read-side
-    # helper bleeding into a write call site.
-    ccxt_dir = CcxtExtract.Paths.out("ccxt")
-
-    if File.exists?(ccxt_dir) do
-      Mix.raise("""
-      priv/ccxt exists but TypeScript source is not present at #{@ts_check_file_rel}.
-      Inspect the directory manually — auto-clone refuses to overwrite an
-      existing path. Fix or remove it, then re-run `mix ccxt_extract.setup`.
-      """)
-    end
-
-    File.mkdir_p!(Path.dirname(ccxt_dir))
-
-    Mix.shell().info("Sparse-cloning CCXT TypeScript source into #{ccxt_dir}...")
-
-    clone_args =
-      ["clone", "--depth", "1", "--filter=blob:none", "--sparse", @ccxt_repo_url, ccxt_dir]
-
-    case System.cmd("git", clone_args, stderr_to_stdout: true) do
-      {output, 0} ->
-        Mix.shell().info(String.trim(output))
-
-      {output, _} ->
-        Mix.raise("""
-        git clone failed. Re-run with `--no-clone` and bootstrap manually if
-        network access is unavailable.
-
-        #{String.trim(output)}
-        """)
-    end
-
-    # `--no-cone` lets us mix files (`package.json`) and directories
-    # (`ts/src`) in the pattern set. Newer git rejects file paths in
-    # cone mode without `--skip-checks`; no-cone is the future-proof
-    # form (cone mode itself is the post-2.27 default; we explicitly
-    # opt out for this one repo).
-    sparse_args = ["sparse-checkout", "set", "--no-cone" | @ccxt_sparse_paths]
-
-    case System.cmd("git", sparse_args, cd: ccxt_dir, stderr_to_stdout: true) do
-      {_, 0} ->
-        Mix.shell().info("CCXT TypeScript source cloned (sparse: #{Enum.join(@ccxt_sparse_paths, " ")}).")
-
-      {output, _} ->
-        Mix.raise("git sparse-checkout failed: #{String.trim(output)}")
-    end
+  Honors the `--no-clone` flag (parsed into `opts` as `no_clone: true`) or
+  `CCXT_EXTRACT_SKIP_CLONE` set to `"1"` / `"true"`.
+  """
+  @spec opt_out_auto_clone?(keyword()) :: boolean()
+  def opt_out_auto_clone?(opts) do
+    Keyword.get(opts, :no_clone, false) or
+      System.get_env("CCXT_EXTRACT_SKIP_CLONE") in ["1", "true"]
   end
 
   @spec raise_missing_ts_source!() :: no_return()
@@ -242,13 +223,125 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
     Mix.raise("""
     CCXT TypeScript source not found at priv/ccxt/ts/src/.
 
+    Auto-clone is disabled (--no-clone or CCXT_EXTRACT_SKIP_CLONE=1).
+
     Either symlink an existing checkout:
         ln -s /path/to/ccxt priv/ccxt
 
-    Or clone via sparse checkout (include package.json for version verification):
-        git clone --depth 1 --sparse #{@ccxt_repo_url} priv/ccxt
-        cd priv/ccxt && git sparse-checkout set --no-cone #{Enum.join(@ccxt_sparse_paths, " ")}
+    Or clone via sparse checkout:
+        git clone --depth 1 --sparse https://github.com/ccxt/ccxt.git priv/ccxt
+        cd priv/ccxt && git sparse-checkout set ts/src
     """)
+  end
+
+  @doc """
+  Sparse-clones the CCXT GitHub repo into `priv/ccxt`, narrowed to `ts/src`.
+
+  When `pinned_version` is supplied, clones with `--branch v<version>` so a
+  fresh-clone setup matches the version recorded in
+  `priv/ccxt_version.json` instead of drifting to whatever `main` currently
+  is. With `nil`, falls back to the default branch.
+
+  Raises `Mix.Error` if either the clone or the sparse-checkout narrowing
+  step fails.
+  """
+  @spec auto_clone_ts_source!(String.t() | nil) :: :ok
+  def auto_clone_ts_source!(pinned_version \\ nil) do
+    ccxt_dir = CcxtExtract.Paths.priv("ccxt")
+    url = ccxt_repo_url()
+
+    File.mkdir_p!(Path.dirname(ccxt_dir))
+
+    # The cond in check_ts_source/1 already routed to announce_existing_source/1
+    # when ts_check_file existed, so any surviving ccxt_dir here is a stale
+    # half-populated checkout (failed sparse-checkout, mid-flight network drop,
+    # etc.). Letting `git clone` abort on "destination exists" surfaces a
+    # cryptic error; remove cleanly so the retry succeeds.
+    if File.exists?(ccxt_dir) do
+      File.rm_rf!(ccxt_dir)
+    end
+
+    Mix.shell().info(
+      "CCXT TypeScript source missing — auto-cloning #{describe_clone_target(url, pinned_version)} into #{ccxt_dir}..."
+    )
+
+    clone_args = build_clone_args(url, ccxt_dir, pinned_version)
+
+    case System.cmd("git", clone_args, stderr_to_stdout: true) do
+      {_output, 0} ->
+        :ok
+
+      {output, _exit} ->
+        Mix.raise("""
+        Failed to auto-clone CCXT into #{ccxt_dir}:
+        #{String.trim(output)}
+
+        Resolve manually (see README), or skip the auto-clone with
+        --no-clone / CCXT_EXTRACT_SKIP_CLONE=1.
+        """)
+    end
+
+    case System.cmd("git", ["sparse-checkout", "set", "ts/src"],
+           cd: ccxt_dir,
+           stderr_to_stdout: true
+         ) do
+      {_output, 0} ->
+        :ok
+
+      {output, _exit} ->
+        Mix.raise("""
+        git sparse-checkout failed in #{ccxt_dir}:
+        #{String.trim(output)}
+        """)
+    end
+
+    Mix.shell().info("CCXT TypeScript source cloned (sparse: ts/src).")
+    :ok
+  end
+
+  defp describe_clone_target(url, nil), do: "#{url} (default branch)"
+  defp describe_clone_target(url, version), do: "#{url} at v#{version}"
+
+  @doc """
+  Builds the `git clone` argv list used by `auto_clone_ts_source!/1`.
+
+  With `version: nil` produces a `--depth 1 --sparse` clone of the default
+  branch. With a binary version produces `--depth 1 --branch v<version>
+  --sparse`. Pure — no IO, kept testable to pin the exact argv shape.
+  """
+  @spec build_clone_args(String.t(), String.t(), String.t() | nil) :: [String.t()]
+  def build_clone_args(url, dir, nil) do
+    ["clone", "--depth", "1", "--sparse", url, dir]
+  end
+
+  def build_clone_args(url, dir, version) when is_binary(version) do
+    ["clone", "--depth", "1", "--branch", "v#{version}", "--sparse", url, dir]
+  end
+
+  @doc """
+  Reads the CCXT source-version pin from `priv/ccxt_version.json`.
+
+  Returns the `source_version` when populated, falling back to `npm_version`.
+  Returns `nil` when the file is absent or unreadable — on a truly fresh
+  clone where the file hasn't been committed yet, the auto-clone path falls
+  back to the default branch.
+  """
+  @spec read_pinned_version(String.t() | nil) :: String.t() | nil
+  def read_pinned_version(version_file \\ nil) do
+    path = version_file || CcxtExtract.Paths.version_file()
+
+    with true <- File.exists?(path),
+         {:ok, body} <- File.read(path),
+         {:ok, %{} = data} <- Jason.decode(body) do
+      Map.get(data, "source_version") || Map.get(data, "npm_version")
+    else
+      _ -> nil
+    end
+  end
+
+  # Configurable for tests — production calls hit GitHub.
+  defp ccxt_repo_url do
+    Application.get_env(:ccxt_extract, :ccxt_repo_url, @default_ccxt_repo_url)
   end
 
   # Updates the TS source git repo to match the requested version.

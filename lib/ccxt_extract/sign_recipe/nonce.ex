@@ -1,6 +1,7 @@
 defmodule CcxtExtract.SignRecipe.Nonce do
   @moduledoc """
-  Task 67 — populate `nonce` on every `structure.sign_recipe` record.
+  Task 67 + Task 72 — populate the `nonce` and `timestamp` fields on every
+  `structure.sign_recipe` (v3) / `auth.sign_recipe` (v4) record.
 
   Detects the canonical timestamp / nonce binding in the `sign()` body and
   classifies it as `{source, format}` where:
@@ -12,6 +13,19 @@ defmodule CcxtExtract.SignRecipe.Nonce do
   The `SignRecipeNonce` schema (`priv/schema/exchange_v3.json#/$defs`)
   defines the closed vocabulary. This module only emits classifications
   that land inside that vocabulary.
+
+  ## `nonce` vs `timestamp`
+
+  Today the same AST classifier produces both fields — most CCXT exchanges
+  derive their wire-level nonce directly from a millisecond / second /
+  microsecond / nanosecond timestamp (e.g. `this.nonce()`,
+  `this.milliseconds()`, `Date.now()`), so the two collapse onto identical
+  `{source, format}` records. Surfacing them as distinct schema fields lets
+  v4 consumers read the canonical `auth.sign_recipe.<section>.timestamp`
+  path while v3 keeps `nonce` available for the grace window. If a future
+  exchange ever ships a nonce that genuinely diverges from the timestamp
+  (counter-based, opaque token), the two derivations split here — until
+  then, `timestamp/2` is a thin alias over `derive/2`.
 
   ## Strategy
 
@@ -98,6 +112,27 @@ defmodule CcxtExtract.SignRecipe.Nonce do
   end
 
   def derive(_, _), do: nil
+
+  @doc """
+  Task 72 — derive the `%{"source" => _, "format" => _}` classification
+  for the recipe's `timestamp` field.
+
+  Currently a thin alias over `derive/2`: the same AST classifier produces
+  both the wire-level nonce and the timestamp the signature is bound
+  against, since CCXT's priority exchanges all derive their nonce
+  directly from a millisecond / second / microsecond / nanosecond
+  timestamp. The two are exposed as distinct schema fields so v4
+  consumers can read the canonical `auth.sign_recipe.<section>.timestamp`
+  path while v3 keeps `nonce` for the grace window.
+
+  Splits from `derive/2` only when a future exchange surfaces a nonce
+  that is structurally distinct from the timestamp (counter-based, opaque
+  token) — at which point this clause grows independent classification
+  logic. Until then the data is identical and the two fields stay in
+  lockstep on every emitted recipe.
+  """
+  @spec timestamp([map()] | term(), String.t() | nil) :: classification() | nil
+  def timestamp(body_stmts, reason), do: derive(body_stmts, reason)
 
   @doc """
   Return the identifier names in `body_stmts` whose binding init

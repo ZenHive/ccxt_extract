@@ -30,6 +30,7 @@ defmodule CcxtExtract.ContractTest do
   """
 
   alias CcxtExtract.JsonIO
+  alias CcxtExtract.Normalization
   alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.TestnetUrls
@@ -59,7 +60,11 @@ defmodule CcxtExtract.ContractTest do
     {"request_shape_keys_match_auth_sections", :check_request_shape_keys_match_auth_sections},
     {"request_shape_valid", :check_request_shape_valid},
     {"request_shape_honesty_valid", :check_request_shape_honesty_valid},
-    {"testnet_urls_shape_valid", :check_testnet_urls_shape_valid}
+    {"testnet_urls_shape_valid", :check_testnet_urls_shape_valid},
+    {"error_class_hierarchy_shape_valid", :check_error_class_hierarchy_shape_valid},
+    {"error_classes_covered_by_hierarchy", :check_error_classes_covered_by_hierarchy},
+    {"normalization_shape_valid", :check_normalization_shape_valid},
+    {"parse_methods_digest_covers_inventory", :check_parse_methods_digest_covers_inventory}
   ]
 
   # Corpus-level invariants run once per run_all/1 (not per-exchange). Used
@@ -152,7 +157,13 @@ defmodule CcxtExtract.ContractTest do
     output_dir = opts[:output_dir] || CcxtExtract.Paths.out("output")
     baseline_roots = opts[:baseline_roots] || load_baseline_roots(opts)
     exchanges = load_exchanges(output_dir, opts[:exchanges])
-    baseline = %{error_code_fields_roots: baseline_roots}
+    parse_methods_inventory = opts[:parse_methods_inventory] || load_parse_methods_inventory(opts)
+
+    baseline = %{
+      error_code_fields_roots: baseline_roots,
+      parse_methods_inventory: parse_methods_inventory
+    }
+
     tier_scope = Keyword.get(opts, :tier_scope, "all")
 
     per_exchange_findings = Enum.flat_map(exchanges, &run_invariants(&1, baseline))
@@ -461,7 +472,7 @@ defmodule CcxtExtract.ContractTest do
   `"no_sign_method"`) coexist with any null derivation field by
   construction — those records are honestly partial and pass cleanly.
   The `"not_yet_derived"` tag is the scaffold default; records
-  carrying it with all six fields populated are the bug this invariant
+  carrying it with all seven fields populated are the bug this invariant
   catches when Derive is bypassed (e.g. through an override chain).
   """
   @spec check_sign_recipe_honesty_valid(map(), map()) :: [finding()]
@@ -495,7 +506,7 @@ defmodule CcxtExtract.ContractTest do
           sign_recipe_honesty_finding(
             id,
             section,
-            "unresolved_reason is #{inspect(tag)} but all six derivation fields are populated " <>
+            "unresolved_reason is #{inspect(tag)} but all seven derivation fields are populated " <>
               "(tag should be null)"
           )
         ]
@@ -996,6 +1007,475 @@ defmodule CcxtExtract.ContractTest do
   end
 
   @doc """
+  Flag `structure.error_class_hierarchy` records that don't satisfy the
+  intrinsic shape contract:
+
+    * required keys `tree`, `flat_parents`, `ancestors` all present and of
+      the correct shape (object/object/object);
+    * `flat_parents` and `ancestors` cover exactly the same set of classes;
+    * exactly one root (a class whose `flat_parents` value is `nil`) named
+      `"BaseError"`;
+    * every `ancestors[c]` chain starts with `flat_parents[c]` and is
+      derivable by walking the parent chain (so the two projections agree).
+
+  Null records skip — the field is documented as null only when the
+  discovery file is missing (caught upstream by Pipeline integrity stats).
+  """
+  @spec check_error_class_hierarchy_shape_valid(map(), map()) :: [finding()]
+  def check_error_class_hierarchy_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    record = get_in(exchange, ["structure", "error_class_hierarchy"])
+
+    error_class_hierarchy_record_findings(id, record)
+  end
+
+  defp error_class_hierarchy_record_findings(_id, nil), do: []
+
+  defp error_class_hierarchy_record_findings(id, record) when is_map(record) do
+    required = ~w(tree flat_parents ancestors)
+    missing = required -- Map.keys(record)
+
+    case missing do
+      [] -> error_class_hierarchy_full_check(id, record)
+      _ -> [error_class_hierarchy_finding(id, "missing required keys #{inspect(missing)}")]
+    end
+  end
+
+  defp error_class_hierarchy_record_findings(id, _record) do
+    [error_class_hierarchy_finding(id, "structure.error_class_hierarchy must be a map or null")]
+  end
+
+  defp error_class_hierarchy_full_check(id, record) do
+    tree = record["tree"]
+    flat_parents = record["flat_parents"]
+    ancestors = record["ancestors"]
+
+    cond do
+      not is_map(tree) ->
+        [error_class_hierarchy_finding(id, "tree must be a map, got #{inspect(tree)}")]
+
+      not is_map(flat_parents) ->
+        [error_class_hierarchy_finding(id, "flat_parents must be a map, got #{inspect(flat_parents)}")]
+
+      not is_map(ancestors) ->
+        [error_class_hierarchy_finding(id, "ancestors must be a map, got #{inspect(ancestors)}")]
+
+      true ->
+        coverage_findings(id, flat_parents, ancestors) ++
+          root_findings(id, flat_parents) ++
+          ancestor_chain_findings(id, flat_parents, ancestors)
+    end
+  end
+
+  defp coverage_findings(id, flat_parents, ancestors) do
+    fp_keys = MapSet.new(Map.keys(flat_parents))
+    anc_keys = MapSet.new(Map.keys(ancestors))
+
+    fp_only = MapSet.difference(fp_keys, anc_keys)
+    anc_only = MapSet.difference(anc_keys, fp_keys)
+
+    Enum.reject(
+      [
+        if(MapSet.size(fp_only) == 0,
+          do: nil,
+          else:
+            error_class_hierarchy_finding(
+              id,
+              "flat_parents has #{MapSet.size(fp_only)} class(es) missing from ancestors: #{inspect(Enum.sort(MapSet.to_list(fp_only)))}"
+            )
+        ),
+        if(MapSet.size(anc_only) == 0,
+          do: nil,
+          else:
+            error_class_hierarchy_finding(
+              id,
+              "ancestors has #{MapSet.size(anc_only)} class(es) missing from flat_parents: #{inspect(Enum.sort(MapSet.to_list(anc_only)))}"
+            )
+        )
+      ],
+      &is_nil/1
+    )
+  end
+
+  defp root_findings(id, flat_parents) do
+    roots = for {class, nil} <- flat_parents, do: class
+
+    case Enum.sort(roots) do
+      ["BaseError"] ->
+        []
+
+      [] ->
+        [
+          error_class_hierarchy_finding(
+            id,
+            "no root class found (every flat_parents entry has a non-nil parent — cycle?)"
+          )
+        ]
+
+      [single] ->
+        [error_class_hierarchy_finding(id, "single root #{inspect(single)} expected \"BaseError\"")]
+
+      multiple ->
+        [error_class_hierarchy_finding(id, "expected exactly one root \"BaseError\", got #{inspect(multiple)}")]
+    end
+  end
+
+  defp ancestor_chain_findings(id, flat_parents, ancestors) do
+    Enum.flat_map(ancestors, fn {class, chain} ->
+      ancestor_chain_entry_findings(id, flat_parents, class, chain)
+    end)
+  end
+
+  defp ancestor_chain_entry_findings(id, _flat_parents, class, chain) when not is_list(chain) do
+    [error_class_hierarchy_finding(id, "ancestors[#{inspect(class)}] must be a list, got #{inspect(chain)}")]
+  end
+
+  defp ancestor_chain_entry_findings(id, flat_parents, class, chain) do
+    expected = walk_parent_chain(class, flat_parents, [])
+
+    if expected == chain do
+      []
+    else
+      [
+        error_class_hierarchy_finding(
+          id,
+          "ancestors[#{inspect(class)}] = #{inspect(chain)} disagrees with flat_parents walk #{inspect(expected)}"
+        )
+      ]
+    end
+  end
+
+  defp walk_parent_chain(class, flat_parents, acc) do
+    walk_parent_chain(class, flat_parents, acc, MapSet.new([class]))
+  end
+
+  defp walk_parent_chain(class, flat_parents, acc, visited) do
+    case Map.get(flat_parents, class) do
+      nil ->
+        Enum.reverse(acc)
+
+      parent ->
+        if MapSet.member?(visited, parent) do
+          Enum.reverse(acc)
+        else
+          walk_parent_chain(parent, flat_parents, [parent | acc], MapSet.put(visited, parent))
+        end
+    end
+  end
+
+  defp error_class_hierarchy_finding(id, message) do
+    %{
+      exchange: id,
+      invariant: "error_class_hierarchy_shape_valid",
+      path: "structure.error_class_hierarchy",
+      message: message
+    }
+  end
+
+  @doc """
+  Flag class names referenced by `handle_errors` that do NOT appear as a
+  key of `structure.error_class_hierarchy.flat_parents`. Two surfaces:
+
+    * `handle_errors.exceptions[group][message]` — values are class names.
+    * `handle_errors.http_exceptions[status]` — values are class names.
+
+  Skips when either side is null (no handle_errors data, or no hierarchy
+  data — the shape invariant catches the latter). Catches drift between
+  CCXT's `errorHierarchy.ts` and `BaseError.ts` (a class added to
+  exception maps but missing from the taxonomy export).
+  """
+  @spec check_error_classes_covered_by_hierarchy(map(), map()) :: [finding()]
+  def check_error_classes_covered_by_hierarchy(exchange, _observed) do
+    id = exchange_id(exchange)
+    handle_errors = get_in(exchange, ["structure", "handle_errors"])
+    flat_parents = get_in(exchange, ["structure", "error_class_hierarchy", "flat_parents"])
+
+    if is_map(handle_errors) and is_map(flat_parents) do
+      known = MapSet.new(Map.keys(flat_parents))
+
+      exceptions_findings(id, handle_errors["exceptions"], known) ++
+        http_exceptions_findings(id, handle_errors["http_exceptions"], known)
+    else
+      []
+    end
+  end
+
+  defp exceptions_findings(id, exceptions, known) when is_map(exceptions) do
+    Enum.flat_map(exceptions, fn
+      {group, mapping} when is_map(mapping) ->
+        for {message, class} <- mapping,
+            is_binary(class),
+            not MapSet.member?(known, class) do
+          coverage_finding(
+            id,
+            "handle_errors.exceptions[#{inspect(group)}][#{inspect(message)}]",
+            "class #{inspect(class)} not in error_class_hierarchy.flat_parents"
+          )
+        end
+
+      _ ->
+        []
+    end)
+  end
+
+  defp exceptions_findings(_id, _exceptions, _known), do: []
+
+  defp http_exceptions_findings(id, http_exceptions, known) when is_map(http_exceptions) do
+    for {status, class} <- http_exceptions,
+        is_binary(class),
+        not MapSet.member?(known, class) do
+      coverage_finding(
+        id,
+        "handle_errors.http_exceptions[#{inspect(status)}]",
+        "class #{inspect(class)} not in error_class_hierarchy.flat_parents"
+      )
+    end
+  end
+
+  defp http_exceptions_findings(_id, _http_exceptions, _known), do: []
+
+  defp coverage_finding(id, path, message) do
+    %{
+      exchange: id,
+      invariant: "error_classes_covered_by_hierarchy",
+      path: path,
+      message: message
+    }
+  end
+
+  @doc """
+  Validate the `normalization` block scaffold (Task 129):
+
+    * `parse_methods_digest`, `field_maps`, `response_envelopes` are all
+      present and shaped as maps.
+    * Every digest record carries the four required keys
+      (`params`/`return_type`/`async`/`statement_count`) with the
+      expected types.
+    * `field_maps` and `response_envelopes` carry one entry per parser
+      type plus `_unresolved_reason` (and only those keys), with values
+      either `null` (Task 129 scaffold) or a map (Phase 12 populated).
+
+  Skipped on v3-shaped output (no `normalization` top-level key) — the
+  invariant only fires under `--schema-target=4`.
+  """
+  @spec check_normalization_shape_valid(map(), map()) :: [finding()]
+  def check_normalization_shape_valid(exchange, _observed) do
+    case Map.fetch(exchange, "normalization") do
+      :error -> []
+      {:ok, record} -> normalization_record_findings(exchange_id(exchange), record)
+    end
+  end
+
+  defp normalization_record_findings(id, record) when is_map(record) do
+    missing = Normalization.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- Normalization.required_keys()
+
+    missing_findings =
+      Enum.map(missing, fn key -> normalization_finding(id, "normalization", "missing required key #{inspect(key)}") end)
+
+    extra_findings =
+      Enum.map(extra, fn key -> normalization_finding(id, "normalization", "unexpected key #{inspect(key)}") end)
+
+    digest_findings =
+      digest_findings(id, Map.get(record, "parse_methods_digest"))
+
+    field_maps_findings =
+      stub_record_findings(id, "normalization.field_maps", Map.get(record, "field_maps"))
+
+    response_envelopes_findings =
+      stub_record_findings(id, "normalization.response_envelopes", Map.get(record, "response_envelopes"))
+
+    missing_findings ++
+      extra_findings ++
+      digest_findings ++
+      field_maps_findings ++
+      response_envelopes_findings
+  end
+
+  defp normalization_record_findings(id, _record) do
+    [normalization_finding(id, "normalization", "normalization must be a map")]
+  end
+
+  defp digest_findings(id, digest) when is_map(digest) do
+    digest
+    |> Enum.sort_by(fn {name, _} -> name end)
+    |> Enum.flat_map(fn {name, record} -> digest_record_findings(id, name, record) end)
+  end
+
+  defp digest_findings(id, _other) do
+    [normalization_finding(id, "normalization.parse_methods_digest", "must be a map")]
+  end
+
+  defp digest_record_findings(id, name, record) when is_map(record) do
+    path = "normalization.parse_methods_digest.#{name}"
+    missing = Normalization.digest_record_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- Normalization.digest_record_keys()
+
+    List.flatten([
+      Enum.map(missing, fn key -> normalization_finding(id, path, "missing required key #{inspect(key)}") end),
+      Enum.map(extra, fn key -> normalization_finding(id, path, "unexpected key #{inspect(key)}") end),
+      digest_field_findings(id, path, record)
+    ])
+  end
+
+  defp digest_record_findings(id, name, _record) do
+    [normalization_finding(id, "normalization.parse_methods_digest.#{name}", "digest record must be a map")]
+  end
+
+  defp digest_field_findings(id, path, record) do
+    Enum.reject(
+      [
+        digest_params_finding(id, path, Map.get(record, "params")),
+        digest_return_type_finding(id, path, Map.get(record, "return_type")),
+        digest_async_finding(id, path, Map.get(record, "async")),
+        digest_statement_count_finding(id, path, Map.get(record, "statement_count"))
+      ],
+      &is_nil/1
+    )
+  end
+
+  defp digest_params_finding(_id, _path, list) when is_list(list), do: nil
+
+  defp digest_params_finding(id, path, other) do
+    normalization_finding(id, path, "params must be a list, got #{inspect(other)}")
+  end
+
+  defp digest_return_type_finding(_id, _path, nil), do: nil
+  defp digest_return_type_finding(_id, _path, v) when is_binary(v), do: nil
+
+  defp digest_return_type_finding(id, path, other) do
+    normalization_finding(id, path, "return_type must be a string or null, got #{inspect(other)}")
+  end
+
+  defp digest_async_finding(_id, _path, v) when is_boolean(v), do: nil
+
+  defp digest_async_finding(id, path, other) do
+    normalization_finding(id, path, "async must be a boolean, got #{inspect(other)}")
+  end
+
+  defp digest_statement_count_finding(_id, _path, n) when is_integer(n) and n >= 0, do: nil
+
+  defp digest_statement_count_finding(id, path, other) do
+    normalization_finding(id, path, "statement_count must be a non-negative integer, got #{inspect(other)}")
+  end
+
+  defp stub_record_findings(id, path, record) when is_map(record) do
+    missing = Normalization.stub_record_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- Normalization.stub_record_keys()
+
+    List.flatten([
+      Enum.map(missing, fn key -> normalization_finding(id, path, "missing required key #{inspect(key)}") end),
+      Enum.map(extra, fn key -> normalization_finding(id, path, "unexpected key #{inspect(key)}") end),
+      stub_value_findings(id, path, record)
+    ])
+  end
+
+  defp stub_record_findings(id, path, _other) do
+    [normalization_finding(id, path, "must be a map")]
+  end
+
+  defp stub_value_findings(id, path, record) do
+    parser_findings =
+      Enum.flat_map(Normalization.parser_types(), fn key ->
+        case Map.fetch(record, key) do
+          {:ok, nil} ->
+            []
+
+          {:ok, v} when is_map(v) ->
+            []
+
+          {:ok, other} ->
+            [normalization_finding(id, "#{path}.#{key}", "must be null or a map, got #{inspect(other)}")]
+
+          :error ->
+            []
+        end
+      end)
+
+    parser_findings ++ unresolved_reason_findings(id, path, record)
+  end
+
+  @spec unresolved_reason_findings(String.t(), String.t(), map()) :: [finding()]
+  defp unresolved_reason_findings(id, path, record) do
+    case Map.fetch(record, "_unresolved_reason") do
+      :error ->
+        []
+
+      {:ok, nil} ->
+        []
+
+      {:ok, "not_yet_derived"} ->
+        []
+
+      {:ok, other} ->
+        [
+          normalization_finding(
+            id,
+            "#{path}._unresolved_reason",
+            "must be null or the sentinel string \"not_yet_derived\", got #{inspect(other)}"
+          )
+        ]
+    end
+  end
+
+  defp normalization_finding(id, path, message) do
+    %{
+      exchange: id,
+      invariant: "normalization_shape_valid",
+      path: path,
+      message: message
+    }
+  end
+
+  @doc """
+  Flag drift between `priv/discoveries/parse_methods.json` per-exchange
+  inventory and the emitted `normalization.parse_methods_digest`.
+  Every method named in the discovery entry must surface in the digest;
+  otherwise the compact projection is lossy and consumers reading the
+  digest miss methods that the inventory says exist.
+
+  Skipped on v3-shaped output (no `normalization` top-level key). Also
+  skipped when the inventory loader produced no entry for the exchange
+  (e.g. alias exchange that inherits its parent's parse methods, or a
+  scoped run that didn't extract this exchange).
+  """
+  @spec check_parse_methods_digest_covers_inventory(map(), map()) :: [finding()]
+  def check_parse_methods_digest_covers_inventory(exchange, observed) do
+    id = exchange_id(exchange)
+
+    if Map.has_key?(exchange, "normalization") do
+      digest = get_in(exchange, ["normalization", "parse_methods_digest"]) || %{}
+      inventory = Map.get(observed[:parse_methods_inventory] || %{}, id)
+
+      digest_inventory_findings(id, digest, inventory)
+    else
+      []
+    end
+  end
+
+  defp digest_inventory_findings(_id, _digest, nil), do: []
+  defp digest_inventory_findings(_id, digest, _inventory) when not is_map(digest), do: []
+
+  defp digest_inventory_findings(id, digest, inventory) when is_list(inventory) do
+    digest_keys = digest |> Map.keys() |> MapSet.new()
+
+    inventory
+    |> Enum.reject(&MapSet.member?(digest_keys, &1))
+    |> Enum.sort()
+    |> Enum.map(fn name ->
+      %{
+        exchange: id,
+        invariant: "parse_methods_digest_covers_inventory",
+        path: "normalization.parse_methods_digest.#{name}",
+        message:
+          "method #{inspect(name)} is in priv/discoveries/parse_methods.json#id=#{inspect(id)} but missing from the emitted digest"
+      }
+    end)
+  end
+
+  defp digest_inventory_findings(_id, _digest, _other), do: []
+
+  @doc """
   Flag `error_code_fields` entries whose root (first of `object_path`, or
   `object`) is not in the committed baseline set.
   """
@@ -1319,6 +1799,52 @@ defmodule CcxtExtract.ContractTest do
     # which dialyzer can't track opaquely from `any()` input.
     allowed = Map.new(scope, &{&1, true})
     Enum.filter(paths, fn path -> Map.has_key?(allowed, Path.basename(path, ".json")) end)
+  end
+
+  # Load `priv/discoveries/parse_methods.json` and project to
+  # `%{exchange_id => [method_name, ...]}`. Returns `%{}` when the
+  # discovery file is absent so v3-only test runs (which never need the
+  # inventory) don't fail. Callers can override the path via
+  # `:parse_methods_inventory_path` or pass an inline map via
+  # `:parse_methods_inventory` (see `run_all/1`).
+  defp load_parse_methods_inventory(opts) do
+    path =
+      opts[:parse_methods_inventory_path] ||
+        CcxtExtract.Paths.priv("discoveries/parse_methods.json")
+
+    case JsonIO.read_json(path) do
+      {:ok, %{"exchanges" => entries}} when is_list(entries) ->
+        Map.new(entries, fn entry ->
+          methods = Map.get(entry, "parse_methods") || %{}
+          {entry["id"], Map.keys(methods)}
+        end)
+
+      {:ok, malformed} ->
+        raise """
+        parse_methods.json at #{path} has an unexpected top-level shape.
+
+        Expected: %{"exchanges" => [_ | _]}
+        Got:      #{inspect(malformed, limit: 5)}
+
+        Regenerate via `mix ccxt_extract.parse_methods` (or the full
+        `mix ccxt_extract.update`). Silently falling back to %{} would
+        disable parse_methods_digest_covers_inventory and let lossy
+        digests through.
+        """
+
+      {:error, {:missing_input, _}} ->
+        %{}
+
+      {:error, {:invalid_json, detail}} ->
+        raise """
+        parse_methods.json at #{path} is not valid JSON: #{detail}
+
+        Regenerate via `mix ccxt_extract.parse_methods` (or the full
+        `mix ccxt_extract.update`). Silently falling back to %{} would
+        disable parse_methods_digest_covers_inventory and let lossy
+        digests through.
+        """
+    end
   end
 
   defp load_baseline_roots(opts) do

@@ -7,11 +7,11 @@ defmodule CcxtExtract.SignRecipeTest do
   @recipe_schema_path "schema/sign_recipe_v1.json"
 
   describe "null_recipe/0" do
-    test "has the eight required keys" do
+    test "has the nine required keys" do
       recipe = SignRecipe.null_recipe()
 
       required =
-        ~w(crypto_op canonical_string signature_placement auth_headers nonce pre_sign_transforms unresolved_reason patch_count)
+        ~w(crypto_op canonical_string signature_placement auth_headers nonce timestamp pre_sign_transforms unresolved_reason patch_count)
 
       assert recipe |> Map.keys() |> Enum.sort() == Enum.sort(required)
     end
@@ -19,7 +19,7 @@ defmodule CcxtExtract.SignRecipeTest do
     test "nulls every derivation field and tags unresolved_reason = not_yet_derived" do
       recipe = SignRecipe.null_recipe()
 
-      for field <- ~w(crypto_op canonical_string signature_placement auth_headers nonce pre_sign_transforms) do
+      for field <- ~w(crypto_op canonical_string signature_placement auth_headers nonce timestamp pre_sign_transforms) do
         assert Map.fetch!(recipe, field) == nil,
                "expected #{field} to start nil in the scaffold"
       end
@@ -68,13 +68,14 @@ defmodule CcxtExtract.SignRecipeTest do
   end
 
   describe "derivation_fields/0 and all_derivation_fields_populated?/1 (Task 69)" do
-    test "derivation_fields/0 returns the six populated-by-Phase-10 keys" do
+    test "derivation_fields/0 returns the seven populated-by-Phase-10/Task-72 keys" do
       assert SignRecipe.derivation_fields() == [
                "crypto_op",
                "canonical_string",
                "signature_placement",
                "auth_headers",
                "nonce",
+               "timestamp",
                "pre_sign_transforms"
              ]
     end
@@ -90,7 +91,7 @@ defmodule CcxtExtract.SignRecipeTest do
       refute SignRecipe.all_derivation_fields_populated?(SignRecipe.null_recipe())
     end
 
-    test "all six fields populated returns true (honest-empty [] counts as populated)" do
+    test "all seven fields populated returns true (honest-empty [] counts as populated)" do
       # Empty list for auth_headers / pre_sign_transforms is non-nil,
       # which means "we proved there are zero" — honest-empty, NOT
       # unresolved. Exercising both list fields with [] here covers
@@ -102,6 +103,7 @@ defmodule CcxtExtract.SignRecipeTest do
         |> Map.put("signature_placement", %{"location" => "header", "key" => "X"})
         |> Map.put("auth_headers", [])
         |> Map.put("nonce", %{"source" => "timestamp_ms", "format" => "integer"})
+        |> Map.put("timestamp", %{"source" => "timestamp_ms", "format" => "integer"})
         |> Map.put("pre_sign_transforms", [])
 
       assert SignRecipe.all_derivation_fields_populated?(populated)
@@ -116,6 +118,7 @@ defmodule CcxtExtract.SignRecipeTest do
           |> Map.put("signature_placement", %{"location" => "header", "key" => "X"})
           |> Map.put("auth_headers", [])
           |> Map.put("nonce", %{"source" => "timestamp_ms", "format" => "integer"})
+          |> Map.put("timestamp", %{"source" => "timestamp_ms", "format" => "integer"})
           |> Map.put("pre_sign_transforms", [])
           |> Map.put(null_key, nil)
 
@@ -133,6 +136,41 @@ defmodule CcxtExtract.SignRecipeTest do
       refute SignRecipe.all_derivation_fields_populated?(nil)
       refute SignRecipe.all_derivation_fields_populated?([])
       refute SignRecipe.all_derivation_fields_populated?("oops")
+    end
+  end
+
+  describe "terminal_reasons/0 and terminal_reason?/1" do
+    test "terminal_reasons/0 returns the three short-circuit tags (excludes not_yet_derived)" do
+      assert Enum.sort(SignRecipe.terminal_reasons()) ==
+               ~w(ambiguous_ast custom_signing_family no_sign_method)
+
+      # Defensive: not_yet_derived is the SCAFFOLD default and must never
+      # be treated as terminal — derivation modules need to keep filling
+      # fields when they encounter it.
+      refute "not_yet_derived" in SignRecipe.terminal_reasons()
+    end
+
+    test "terminal_reason?/1 returns true for every terminal tag" do
+      for reason <- SignRecipe.terminal_reasons() do
+        assert SignRecipe.terminal_reason?(reason),
+               "expected terminal_reason?(#{inspect(reason)}) to be true"
+      end
+    end
+
+    test "terminal_reason?/1 returns false for not_yet_derived (scaffold default)" do
+      refute SignRecipe.terminal_reason?("not_yet_derived")
+    end
+
+    test "terminal_reason?/1 returns false for nil and non-binary input" do
+      refute SignRecipe.terminal_reason?(nil)
+      refute SignRecipe.terminal_reason?(:atom_reason)
+      refute SignRecipe.terminal_reason?(42)
+      refute SignRecipe.terminal_reason?(%{"reason" => "x"})
+    end
+
+    test "terminal_reason?/1 returns false for unknown binary tags" do
+      refute SignRecipe.terminal_reason?("totally_made_up_tag")
+      refute SignRecipe.terminal_reason?("")
     end
   end
 

@@ -272,6 +272,169 @@ defmodule CcxtExtract.SignRecipe.NonceTest do
     end
   end
 
+  # --- Branch coverage: depth exhaustion + unrecognized inits ---
+
+  describe "identifier resolution depth + fallthrough" do
+    test "identifier referencing an unbound name returns nil (no chain)" do
+      # `const timestamp = mysteryName;` — no binding for mysteryName, so
+      # the identifier classify clause reaches Map.get/2 → nil.
+      body = [var_decl("timestamp", identifier("mysteryName"))]
+      assert is_nil(Nonce.derive(body, "not_yet_derived"))
+    end
+
+    test "deep alias chain resolves via identifier substitution" do
+      # `const a = this.milliseconds(); const b = a; const c = b;
+      #  const timestamp = c;` — exercises the recursive identifier-init
+      # resolution branch (classify_init on Identifier → look up binding
+      # → classify_init on the resolved init).
+      body = [
+        var_decl("a", this_call("milliseconds", [])),
+        var_decl("b", identifier("a")),
+        var_decl("c", identifier("b")),
+        var_decl("timestamp", identifier("c"))
+      ]
+
+      assert Nonce.derive(body, "not_yet_derived") ==
+               %{"source" => "timestamp_ms", "format" => "integer"}
+    end
+
+    test "self-referential cycle bottoms out at depth limit instead of looping" do
+      # `const a = b; const b = a; const timestamp = a;` — the chain
+      # would loop forever without the depth guard. Verify the guard
+      # returns nil rather than blowing the stack.
+      body = [
+        var_decl("a", identifier("b")),
+        var_decl("b", identifier("a")),
+        var_decl("timestamp", identifier("a"))
+      ]
+
+      assert is_nil(Nonce.derive(body, "not_yet_derived"))
+    end
+
+    test "this.iso8601 with completely unrecognized inner returns nil" do
+      # iso8601(<unknown identifier>) — the inner doesn't classify, the
+      # iso8601 wrapper exits via the nil branch.
+      wrapped = this_call("iso8601", [identifier("unboundName")])
+      body = [var_decl("timestamp", wrapped)]
+
+      assert is_nil(Nonce.derive(body, "not_yet_derived"))
+    end
+
+    test "completely opaque init (e.g. literal value) returns nil via fallthrough" do
+      # A binding initialized to a bare literal isn't recognized by any
+      # classifier clause, so it falls through to the catch-all
+      # `classify_init(_, _, _)` returning nil.
+      body = [var_decl("timestamp", literal(12_345))]
+      assert is_nil(Nonce.derive(body, "not_yet_derived"))
+    end
+  end
+
+  # --- Task 72: timestamp/2 alias + per-exchange shape coverage ---
+
+  describe "timestamp/2 (Task 72 alias)" do
+    test "mirrors derive/2 on every recognized shape" do
+      # Spot-check a handful of inputs and confirm timestamp/2 returns the
+      # same classification as derive/2. The aliasing contract is what
+      # Derive.derive/2 relies on to populate `timestamp` in lockstep
+      # with `nonce`.
+      bodies = [
+        [var_decl("timestamp", this_call("nonce", []))],
+        [var_decl("timestamp", this_call("milliseconds", []))],
+        [var_decl("timestamp", this_call("seconds", []))],
+        [var_decl("timestamp", this_call("nanoseconds", []))],
+        [var_decl("timestamp", method_call(this_call("nonce", []), "toString", []))],
+        [var_decl("timestamp", this_call("iso8601", [this_call("milliseconds", [])]))]
+      ]
+
+      for body <- bodies do
+        assert Nonce.timestamp(body, "not_yet_derived") ==
+                 Nonce.derive(body, "not_yet_derived"),
+               "timestamp/2 must mirror derive/2 on shape #{inspect(body)}"
+      end
+    end
+
+    test "honors terminal short-circuit reasons" do
+      body = [var_decl("timestamp", this_call("milliseconds", []))]
+      assert is_nil(Nonce.timestamp(body, "ambiguous_ast"))
+      assert is_nil(Nonce.timestamp(body, "custom_signing_family"))
+      assert is_nil(Nonce.timestamp(body, "no_sign_method"))
+    end
+
+    test "returns nil on empty / non-list input" do
+      assert is_nil(Nonce.timestamp([], "not_yet_derived"))
+      assert is_nil(Nonce.timestamp(nil, "not_yet_derived"))
+      assert is_nil(Nonce.timestamp(%{"x" => 1}, "not_yet_derived"))
+    end
+  end
+
+  # Per-exchange shape coverage. These are synthetic AST fixtures whose
+  # shape mirrors the canonical sign() / nonce() flow each named exchange
+  # ships in CCXT. The corpus-level cached test
+  # (test/integration/cached/sign_recipe_cached_test.exs) re-asserts the
+  # same outcomes against the real committed priv/output/<id>.json.
+  describe "per-exchange timestamp source classification" do
+    test "binance — timestamp_ms / integer (this.milliseconds())" do
+      # Binance's sign() reaches for `this.milliseconds()` directly; the
+      # canonical CCXT base also resolves `this.nonce() === milliseconds()`,
+      # so either pattern lands the same `{timestamp_ms, integer}` record.
+      body = [var_decl("timestamp", this_call("milliseconds", []))]
+      assert Nonce.timestamp(body, "not_yet_derived") == %{"source" => "timestamp_ms", "format" => "integer"}
+    end
+
+    test "deribit — timestamp_ms / string (this.nonce().toString())" do
+      # Deribit binds `const timestamp = this.nonce().toString()` (and a
+      # parallel `nonce` binding to the same expression) — both classify
+      # as ms / string. Multi-binding agreement collapses to a single
+      # emission.
+      wrapped = method_call(this_call("nonce", []), "toString", [])
+      body = [var_decl("timestamp", wrapped), var_decl("nonce", wrapped)]
+
+      assert Nonce.timestamp(body, "not_yet_derived") == %{"source" => "timestamp_ms", "format" => "string"}
+    end
+
+    test "bitmex — timestamp_ms / string (Date.now() global)" do
+      # Bitmex-style: an exchange that overrides sign() and reaches for
+      # the raw `Date.now()` JS global rather than CCXT's `this.nonce()`.
+      # Date.now() returns ms, then `.toString()` flips to wire format.
+      date_now = %{
+        "type" => "CallExpression",
+        "callee" => %{
+          "type" => "MemberExpression",
+          "object" => identifier("Date"),
+          "property" => identifier("now")
+        },
+        "arguments" => []
+      }
+
+      wrapped = method_call(date_now, "toString", [])
+      body = [var_decl("timestamp", wrapped)]
+
+      assert Nonce.timestamp(body, "not_yet_derived") == %{"source" => "timestamp_ms", "format" => "string"}
+    end
+
+    test "kraken — timestamp_ns / string (nanoseconds + .toString())" do
+      # Kraken-style nanosecond nonce. The committed priv/output/kraken.json
+      # currently shows `{timestamp_ms, string}` (CCXT's kraken.ts uses
+      # `this.nonce()`, which is base = milliseconds), but if a future
+      # variant ships a `this.nanoseconds().toString()` binding, this
+      # test pins the expected ns / string classification.
+      wrapped = method_call(this_call("nanoseconds", []), "toString", [])
+      body = [var_decl("nonce", wrapped)]
+
+      assert Nonce.timestamp(body, "not_yet_derived") == %{"source" => "timestamp_ns", "format" => "string"}
+    end
+
+    test "okx — timestamp_ms / iso8601 (this.iso8601(this.milliseconds()))" do
+      # OKX wraps the ms timestamp in this.iso8601(...) before stamping
+      # it on OK-ACCESS-TIMESTAMP, so the wire format is the iso8601
+      # rendering even though the source is still milliseconds.
+      wrapped = this_call("iso8601", [this_call("milliseconds", [])])
+      body = [var_decl("timestamp", wrapped)]
+
+      assert Nonce.timestamp(body, "not_yet_derived") == %{"source" => "timestamp_ms", "format" => "iso8601"}
+    end
+  end
+
   # --- timestamp_binding_names/1 (AuthHeaders consumer contract) ---
 
   describe "timestamp_binding_names/1" do

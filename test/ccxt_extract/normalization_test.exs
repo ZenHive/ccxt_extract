@@ -1,0 +1,213 @@
+defmodule CcxtExtract.NormalizationTest do
+  use ExUnit.Case, async: true
+
+  alias CcxtExtract.Normalization
+
+  @sample_method_ast %{
+    "async" => false,
+    "params" => [
+      %{"name" => "trade", "type" => "Dict"},
+      %{"name" => "market", "type" => "Market"}
+    ],
+    "return_type" => "Trade",
+    "statements" => 19,
+    "body" => %{
+      "type" => "BlockStatement",
+      "start" => 100,
+      "end" => 500,
+      "body" => [%{"type" => "ReturnStatement", "argument" => nil}]
+    }
+  }
+
+  @sample_entry %{
+    "id" => "binance",
+    "class_name" => "binance",
+    "file" => "ts/src/binance.ts",
+    "parse_method_count" => 2,
+    "parse_methods" => %{
+      "parseTrade" => @sample_method_ast,
+      "parseTicker" => %{
+        "async" => true,
+        "params" => [%{"name" => "ticker", "type" => "Dict"}],
+        "return_type" => nil,
+        "statements" => 5,
+        "body" => %{"type" => "BlockStatement", "body" => []}
+      }
+    }
+  }
+
+  describe "build/2 — parse_methods_digest" do
+    test "projects every parse_method into a compact digest record" do
+      result = Normalization.build(@sample_entry)
+
+      digest = result["parse_methods_digest"]
+      assert digest |> Map.keys() |> Enum.sort() == ["parseTicker", "parseTrade"]
+
+      trade = digest["parseTrade"]
+
+      assert trade["params"] == [
+               %{"name" => "trade", "type" => "Dict"},
+               %{"name" => "market", "type" => "Market"}
+             ]
+
+      assert trade["return_type"] == "Trade"
+      assert trade["async"] == false
+      assert trade["statement_count"] == 19
+      refute Map.has_key?(trade, "body"), "digest must NOT include AST body (Hex 128MB cap)"
+
+      ticker = digest["parseTicker"]
+      assert ticker["async"] == true
+      assert ticker["return_type"] == nil
+      assert ticker["statement_count"] == 5
+    end
+
+    test "empty digest when entry is nil (alias exchange / no own parse_methods)" do
+      assert Normalization.build(nil)["parse_methods_digest"] == %{}
+    end
+
+    test "empty digest when entry has empty parse_methods" do
+      entry = %{"id" => "x", "parse_methods" => %{}}
+      assert Normalization.build(entry)["parse_methods_digest"] == %{}
+    end
+
+    test "empty digest when parse_methods key missing" do
+      entry = %{"id" => "x"}
+      assert Normalization.build(entry)["parse_methods_digest"] == %{}
+    end
+
+    test "missing fields default to safe values" do
+      entry = %{
+        "id" => "skinny",
+        "parse_methods" => %{
+          "parseFoo" => %{"body" => %{"type" => "BlockStatement", "body" => []}}
+        }
+      }
+
+      foo = Normalization.build(entry)["parse_methods_digest"]["parseFoo"]
+      assert foo["params"] == []
+      assert foo["return_type"] == nil
+      assert foo["async"] == false
+      assert foo["statement_count"] == 0
+    end
+
+    test "non-map entry returns empty digest" do
+      assert Normalization.build("not a map")["parse_methods_digest"] == %{}
+      assert Normalization.build(42)["parse_methods_digest"] == %{}
+    end
+  end
+
+  describe "build/2 — field_maps and response_envelopes scaffolds" do
+    test "field_maps carries every parser type plus _unresolved_reason" do
+      result = Normalization.build(nil)
+      field_maps = result["field_maps"]
+
+      for type <- Normalization.parser_types() do
+        assert Map.fetch!(field_maps, type) == nil,
+               "field_maps.#{type} should be null in the Task 129 scaffold"
+      end
+
+      assert field_maps["_unresolved_reason"] == "not_yet_derived"
+    end
+
+    test "response_envelopes carries the same shape as field_maps" do
+      result = Normalization.build(nil)
+
+      assert result["response_envelopes"] |> Map.keys() |> Enum.sort() ==
+               result["field_maps"] |> Map.keys() |> Enum.sort()
+
+      for type <- Normalization.parser_types() do
+        assert result["response_envelopes"][type] == nil
+      end
+
+      assert result["response_envelopes"]["_unresolved_reason"] == "not_yet_derived"
+    end
+
+    test "stub_record/0 returns the canonical scaffold shape" do
+      stub = Normalization.stub_record()
+
+      expected_keys = Enum.sort(Normalization.parser_types() ++ ["_unresolved_reason"])
+      assert stub |> Map.keys() |> Enum.sort() == expected_keys
+      assert stub["_unresolved_reason"] == "not_yet_derived"
+    end
+  end
+
+  describe "build/2 — round-trip + shape" do
+    test "every output has the three required top-level keys" do
+      for entry <- [nil, %{}, @sample_entry, %{"parse_methods" => %{}}] do
+        result = Normalization.build(entry)
+
+        assert result |> Map.keys() |> Enum.sort() == Enum.sort(Normalization.required_keys())
+      end
+    end
+
+    test "every digest record has the four required fields, in valid types" do
+      result = Normalization.build(@sample_entry)
+
+      for {_name, record} <- result["parse_methods_digest"] do
+        assert record |> Map.keys() |> Enum.sort() == Enum.sort(Normalization.digest_record_keys())
+        assert is_list(record["params"])
+        assert record["return_type"] == nil or is_binary(record["return_type"])
+        assert is_boolean(record["async"])
+        assert is_integer(record["statement_count"]) and record["statement_count"] >= 0
+      end
+    end
+
+    test "round-trip: digest preserves method-name set from the inventory" do
+      inventory = @sample_entry["parse_methods"] |> Map.keys() |> Enum.sort()
+      digest_keys = Normalization.build(@sample_entry)["parse_methods_digest"] |> Map.keys() |> Enum.sort()
+
+      assert inventory == digest_keys
+    end
+
+    test "stub_record_keys/0 includes every parser_type and _unresolved_reason" do
+      assert Enum.sort(Normalization.stub_record_keys()) ==
+               Enum.sort(Normalization.parser_types() ++ ["_unresolved_reason"])
+    end
+  end
+
+  describe "non-conforming param shapes (defensive)" do
+    test "missing param name defaults to empty string with nil type" do
+      entry = %{
+        "parse_methods" => %{
+          "parseFoo" => %{"params" => [%{"type" => "Dict"}], "statements" => 1}
+        }
+      }
+
+      foo = Normalization.build(entry)["parse_methods_digest"]["parseFoo"]
+      assert foo["params"] == [%{"name" => "", "type" => nil}]
+    end
+
+    test "non-list params resolves to []" do
+      entry = %{
+        "parse_methods" => %{
+          "parseFoo" => %{"params" => "weird", "statements" => 1}
+        }
+      }
+
+      assert Normalization.build(entry)["parse_methods_digest"]["parseFoo"]["params"] == []
+    end
+
+    test "negative or non-integer statements coerced to 0" do
+      entry = %{
+        "parse_methods" => %{
+          "parseA" => %{"statements" => -1},
+          "parseB" => %{"statements" => "twelve"}
+        }
+      }
+
+      digest = Normalization.build(entry)["parse_methods_digest"]
+      assert digest["parseA"]["statement_count"] == 0
+      assert digest["parseB"]["statement_count"] == 0
+    end
+
+    test "non-map MethodAST falls back to a safe-defaults record" do
+      # Defensive: if a discovery file has a non-map under a parse_method
+      # key (corrupt fixture), the digest still emits one record per key
+      # rather than blowing up the whole pipeline.
+      entry = %{"parse_methods" => %{"parseFoo" => "garbage"}}
+
+      assert Normalization.build(entry)["parse_methods_digest"]["parseFoo"] ==
+               %{"params" => [], "return_type" => nil, "async" => false, "statement_count" => 0}
+    end
+  end
+end

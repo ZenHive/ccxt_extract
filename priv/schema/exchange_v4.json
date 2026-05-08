@@ -70,6 +70,7 @@
       "description": "Consumer-shaped endpoint surface. Initial v4 carries v3 fields under reorganized paths; future tasks add request.shape (already present from v3.1.0), endpoints.descriptors (Task 121), endpoints.raw (implicit from describe.api), and rate_limits.per_endpoint_cost (Task 90).",
       "required": [
         "unified",
+        "transaction_classification",
         "interfaces",
         "pagination",
         "request"
@@ -92,6 +93,20 @@
             }
           ],
           "description": "Was structure.unified_endpoints in v3."
+        },
+        "transaction_classification": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/TransactionClassificationEntry"
+              }
+            }
+          ],
+          "description": "Map of unified method name -> per-endpoint write-side classification flags (`transactional`, `on_chain`). Keys mirror `endpoints.unified`. Was structure.transaction_classification in v3 (added at v3 schema 3.3.0, Task 73d)."
         },
         "interfaces": {
           "oneOf": [
@@ -213,9 +228,10 @@
     },
     "Errors": {
       "type": "object",
-      "description": "Consumer-shaped error-handling surface. Initial v4 carries handle_errors only; future tasks add status_map (Task 85), retry_classification (Task 86), class_hierarchy (Task 87), dispatch (Tasks 88a/b/c).",
+      "description": "Consumer-shaped error-handling surface. Carries handle_errors and the corpus-global class_hierarchy (Task 87). Future tasks add status_map (Task 85), retry_classification (Task 86), dispatch (Tasks 88a/b/c).",
       "required": [
-        "handle_errors"
+        "handle_errors",
+        "class_hierarchy"
       ],
       "additionalProperties": false,
       "properties": {
@@ -229,17 +245,35 @@
             }
           ],
           "description": "Was structure.handle_errors in v3."
+        },
+        "class_hierarchy": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ErrorClassHierarchy"
+            }
+          ],
+          "description": "CCXT exception class inheritance tree (corpus-global — same record on every per-exchange JSON). Was structure.error_class_hierarchy in v3, peer to handle_errors here so consumers find taxonomy and dispatch under one group."
         }
       }
     },
     "RateLimits": {
       "type": "object",
-      "description": "Rate-limit surface. `buckets` ships per-exchange bucket configuration (Task 89); `per_endpoint_cost` is reserved for Task 90 and remains permissive until then. Stays `additionalProperties: true` so the joint schema bump (A-5 / Task 90) can fold in additional keys without a schema break.",
+      "description": "Rate-limit surface. `buckets` (Task 89) ships per-exchange bucket configuration; `per_endpoint_cost` (Task 73 / Task 90 layering) ships per-endpoint cost weights. Both fields land additively. Permissive (additionalProperties: true) so future tasks can populate without a schema break.",
       "additionalProperties": true,
       "properties": {
         "buckets": {
           "$ref": "#/$defs/RateLimitBuckets",
           "description": "Per-exchange rate-limit bucket configuration. Always-emit wrapper (no null at this level). Schema definition lives at `$defs/RateLimitBuckets` and mirrors the v3 entry under `structure.rate_limit_buckets`."
+        },
+        "per_endpoint_cost": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/RateLimitCosts" }
+          ],
+          "description": "Per-endpoint rate-limit cost weights derived from describe().api. Same shape as v3's structure.rate_limit_costs (see #/$defs/RateLimitCosts)."
         }
       }
     },
@@ -314,11 +348,164 @@
         }
       }
     },
+
+    "RateLimitCosts": {
+      "type": "object",
+      "description": "Per-endpoint rate-limit cost weights derived from each exchange's resolved describe().api map. Keys are dot-joined endpoint identifiers `<section_path>.<http_verb>.<endpoint_path>` — `<section_path>` joins nested api groups with dots (e.g. `public`, `private`, `sapi`, `public.spot`, `private.delivery`); `<http_verb>` is the lowercase HTTP method (`get` / `post` / `put` / `delete` / `head` / `patch`); `<endpoint_path>` is the endpoint string verbatim from describe (e.g. `system/status`, `market/tickers`). The same dot-join convention is used by `raw.url_templates`. Each entry normalizes CCXT's two endpoint shapes (number, or object with `cost` + axes) into a uniform `{cost, axes}` record. Bare-array endpoints (paths without per-endpoint config — see `priv/ccxt/ts/src/base/Exchange.ts:739-743`) get cost = 1, axes = {} (the CCXT runtime default per `safeValue(options, 'cost', 1)`). Cost weights multiply against the base `raw.describe.rateLimit` (milliseconds) — bucket configuration (Task 89) is a separate concern. Introduced as additive in v4 (Task 73 / 90).",
+      "additionalProperties": { "$ref": "#/$defs/RateLimitCostEntry" }
+    },
+
+    "RateLimitCostEntry": {
+      "type": "object",
+      "description": "Per-endpoint cost record. `cost` is the base weight (a number) when CCXT declared one statically; null when the endpoint config was unresolvable (e.g. a function literal that requires runtime evaluation). `axes` carries CCXT's weight-axis variants (`noCoin`, `noSymbol`, `byLimit`, …) preserved verbatim — values can be numbers, arrays, or other shapes depending on the exchange. Empty axes object when the endpoint has no variants.",
+      "required": ["cost", "axes"],
+      "additionalProperties": false,
+      "properties": {
+        "cost": {
+          "type": ["number", "null"],
+          "description": "Base cost weight. Null when CCXT's describe() value cannot be resolved to a number (e.g. computed cost lambdas)."
+        },
+        "axes": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Weight-axis variants from CCXT's object-style endpoint config (the `cost` key itself is excluded — it is hoisted to the sibling `cost` field above). Keys mirror CCXT's axis names verbatim; values mirror CCXT's literal value verbatim. Empty object when the endpoint has no axis variants."
+        }
+      }
+    },
     "Normalization": {
       "type": "object",
-      "description": "Response-normalization surface. Empty placeholder until Task 129 ships parse_methods_digest (compact, no AST body), Phase 12 ships field_maps, and Task 83 ships response_envelopes. Permissive (additionalProperties: true) so future tasks can populate without a schema break.",
-      "additionalProperties": true,
-      "properties": {}
+      "description": "Response-normalization surface. Task 129 ships parse_methods_digest (compact, no AST body — re-emitting bodies regresses the 91.6% Hex-cap reduction Task 117 shipped), and stub field_maps + response_envelopes scaffolds. Phase 12 sub-bundles (Tasks 74–83) populate the field maps and envelope paths on top of this scaffold.",
+      "required": [
+        "parse_methods_digest",
+        "field_maps",
+        "response_envelopes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "parse_methods_digest": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/NormalizationDigestRecord"
+          },
+          "description": "Compact per-method digest projected from priv/discoveries/parse_methods.json. Keys are parse* method names defined on the class; values are AST-free signature records. Exchanges with no own parse_methods entry emit {} (alias exchanges that inherit from a parent class)."
+        },
+        "field_maps": {
+          "$ref": "#/$defs/NormalizationStubRecord",
+          "description": "Per-parser-type field-map scaffold. Each value is null in the scaffold; Phase 12 sub-bundles (Tasks 74–82) populate them with derived exchange-native → CCXT-unified field name mappings + type coercion + enum tables. Top-level _unresolved_reason tag follows the SignRecipe Honesty Rule convention."
+        },
+        "response_envelopes": {
+          "$ref": "#/$defs/NormalizationStubRecord",
+          "description": "Per-parser-type response-envelope scaffold. Each value is null in the scaffold; Task 83 (Phase 12, 12-envelope) populates them with the JSON path through which each method group's response wraps its body. Same shape as field_maps."
+        }
+      }
+    },
+    "NormalizationDigestRecord": {
+      "type": "object",
+      "description": "Compact, AST-free signature digest for one parse* method. Mirrors MethodSignature minus the body — preserves the four fields a consumer needs to dispatch / type-check without paying the 128 MB Hex publish cost of full ESTree bodies.",
+      "required": [
+        "params",
+        "return_type",
+        "async",
+        "statement_count"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "params": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MethodParam"
+          },
+          "description": "Parameter list with names and TypeScript type annotations."
+        },
+        "return_type": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "TypeScript return type annotation, if present."
+        },
+        "async": {
+          "type": "boolean",
+          "description": "Whether the method is declared async."
+        },
+        "statement_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Top-level statement count in the method body. Coarse complexity proxy without re-emitting the AST."
+        }
+      }
+    },
+    "NormalizationStubRecord": {
+      "type": "object",
+      "description": "Stub record for field_maps / response_envelopes — one entry per parser type plus a top-level _unresolved_reason tag. Values are null in the Task 129 scaffold; Phase 12 sub-bundles flip them to populated maps. Permissive value shape (oneOf null / object) lets later tasks populate without a schema break.",
+      "required": [
+        "ticker",
+        "trade",
+        "ohlcv",
+        "order",
+        "position",
+        "balance",
+        "market",
+        "transaction",
+        "deposit_address",
+        "_unresolved_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ticker": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "trade": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "ohlcv": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "order": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "position": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "balance": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "market": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "transaction": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "deposit_address": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "_unresolved_reason": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "enum": [
+                "not_yet_derived"
+              ]
+            }
+          ],
+          "description": "Closed-vocabulary scaffold tag. \"not_yet_derived\" is the Task 129 default. Phase 12 sub-bundles flip it to null when every parser-type entry is populated."
+        }
+      }
+    },
+    "NormalizationStubValue": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
+      ],
+      "description": "Per-parser-type entry — null in the Task 129 scaffold, populated map in Phase 12 sub-bundles."
     },
     "Markets": {
       "type": "object",
@@ -870,6 +1057,7 @@
         "signature_placement",
         "auth_headers",
         "nonce",
+        "timestamp",
         "pre_sign_transforms",
         "unresolved_reason",
         "patch_count"
@@ -939,7 +1127,18 @@
               "$ref": "#/$defs/SignRecipeNonce"
             }
           ],
-          "description": "Timestamp / nonce source and wire format. Populated by Task 67."
+          "description": "Timestamp / nonce source and wire format. Populated by Task 67. Retained additively alongside `timestamp` (Task 72) for the v3 → v4 grace window — v4 consumers should read `timestamp` instead."
+        },
+        "timestamp": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/SignRecipeNonce"
+            }
+          ],
+          "description": "Timestamp source and wire format used by sign(). Canonical v4 location is `auth.sign_recipe.<section>.timestamp`. Same `{source, format}` shape as `nonce` and currently produced by the same AST classifier (most CCXT exchanges derive their nonce directly from a timestamp). Populated by Task 72; splits from `nonce` only if a future exchange surfaces a structurally distinct nonce (counter-based, opaque token)."
         },
         "pre_sign_transforms": {
           "oneOf": [
@@ -1603,6 +1802,53 @@
         }
       }
     },
+    "ErrorClassHierarchyTree": {
+      "type": "object",
+      "description": "Recursive nested-object tree mirroring the CCXT exception class taxonomy. Each key is an exception class name; each value is the same shape, holding direct subclasses. Leaves are empty objects. JSV resolves the self-reference lazily — no expansion at validation time.",
+      "additionalProperties": {
+        "$ref": "#/$defs/ErrorClassHierarchyTree"
+      }
+    },
+    "ErrorClassHierarchy": {
+      "type": "object",
+      "description": "CCXT exception class inheritance tree extracted from priv/ccxt/ts/src/base/errorHierarchy.ts. Carries three projections of the same taxonomy: the literal nested-object tree (raw mirror), a flat parent map for O(1) parent lookup, and pre-computed ancestor chains for O(1) is-subclass checks. Same record on every per-exchange JSON.",
+      "required": [
+        "tree",
+        "flat_parents",
+        "ancestors"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tree": {
+          "$ref": "#/$defs/ErrorClassHierarchyTree",
+          "description": "Literal nested-object mirror of CCXT's errorHierarchy.ts. Keys are exception class names; values are sub-objects of subclasses."
+        },
+        "flat_parents": {
+          "type": "object",
+          "description": "Map from class name -> direct parent class name. Roots map to null. Every class in the tree appears as a key.",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "ancestors": {
+          "type": "object",
+          "description": "Map from class name -> ordered ancestor chain (direct parent first, root last). Roots map to []. Pre-computed at extraction time so consumers don't walk flat_parents repeatedly.",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "HandleErrorsData": {
       "type": "object",
       "description": "handleErrors() method AST plus exception mappings from describe().",
@@ -1990,6 +2236,25 @@
             }
           ],
           "description": "Literal values compared against this field via === or !== operators, sorted by value. Each entry includes the operator for polarity detection. Null when the field has no status_sentinel role."
+        }
+      }
+    },
+    "TransactionClassificationEntry": {
+      "type": "object",
+      "description": "Per-unified-endpoint write-side classification flags. `transactional` is true when the endpoint mutates exchange-side state. `on_chain` is the strictly narrower flag for endpoints that initiate a blockchain transaction the exchange broadcasts on the user's behalf — it implies `transactional` but not the inverse. Both flags are derived from CCXT's unified-method naming convention (see `CcxtExtract.TransactionClassification`).",
+      "required": [
+        "transactional",
+        "on_chain"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "transactional": {
+          "type": "boolean",
+          "description": "True when the endpoint mutates exchange-side state."
+        },
+        "on_chain": {
+          "type": "boolean",
+          "description": "True iff the endpoint initiates a blockchain transaction (the `withdraw*` family). Implies `transactional`."
         }
       }
     },

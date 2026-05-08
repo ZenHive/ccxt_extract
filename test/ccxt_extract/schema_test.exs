@@ -127,6 +127,11 @@ defmodule CcxtExtract.SchemaTest do
           }
         ]
       },
+      "error_class_hierarchy" => %{
+        "tree" => %{"BaseError" => %{"ExchangeError" => %{}}},
+        "flat_parents" => %{"BaseError" => nil, "ExchangeError" => "BaseError"},
+        "ancestors" => %{"BaseError" => [], "ExchangeError" => ["BaseError"]}
+      },
       "interface_signatures" => %{
         "publicGetTicker" => %{
           "name" => "publicGetTicker",
@@ -168,6 +173,7 @@ defmodule CcxtExtract.SchemaTest do
       "sign_method" => nil,
       "authenticated_sections" => nil,
       "handle_errors" => nil,
+      "error_class_hierarchy" => nil,
       "interface_signatures" => nil,
       "pagination" => nil,
       "overrides" => nil,
@@ -312,6 +318,7 @@ defmodule CcxtExtract.SchemaTest do
         "sign_method" => nil,
         "authenticated_sections" => nil,
         "handle_errors" => nil,
+        "error_class_hierarchy" => nil,
         "interface_signatures" => nil,
         "pagination" => nil,
         "overrides" => nil,

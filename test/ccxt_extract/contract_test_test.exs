@@ -431,6 +431,7 @@ defmodule CcxtExtract.ContractTestTest do
       |> Map.put("signature_placement", %{"location" => "header", "key" => "X-SIGN"})
       |> Map.put("auth_headers", [])
       |> Map.put("nonce", %{"source" => "timestamp_ms", "format" => "integer"})
+      |> Map.put("timestamp", %{"source" => "timestamp_ms", "format" => "integer"})
       |> Map.put("pre_sign_transforms", [])
     end
 
@@ -440,7 +441,7 @@ defmodule CcxtExtract.ContractTestTest do
     end
 
     test "scaffold null_recipe (all-null + not_yet_derived tag) emits no findings" do
-      # Biconditional holds: tag is populated (non-nil), and all six fields
+      # Biconditional holds: tag is populated (non-nil), and all seven fields
       # are null, so the "iff" clause is satisfied on both sides.
       recipe = %{"private" => SignRecipe.null_recipe()}
       exchange = exchange_with_recipe("scaffold", recipe)
@@ -465,7 +466,7 @@ defmodule CcxtExtract.ContractTestTest do
       assert finding.invariant == "sign_recipe_honesty_valid"
       assert finding.path == "structure.sign_recipe.private"
       assert finding.message =~ "not_yet_derived"
-      assert finding.message =~ "all six derivation fields are populated"
+      assert finding.message =~ "all seven derivation fields are populated"
     end
 
     test "partial record with unresolved_reason: nil emits a left→right violation finding" do
@@ -551,6 +552,402 @@ defmodule CcxtExtract.ContractTestTest do
       # Alphabetical order means aprivate comes before zprivate.
       assert Enum.at(findings, 0).path == "structure.sign_recipe.aprivate"
       assert Enum.at(findings, 1).path == "structure.sign_recipe.zprivate"
+    end
+  end
+
+  describe "check_error_class_hierarchy_shape_valid/2" do
+    defp exchange_with_hierarchy(id, hierarchy) do
+      %{
+        "exchange" => %{"id" => id},
+        "structure" => %{"error_class_hierarchy" => hierarchy}
+      }
+    end
+
+    defp valid_hierarchy do
+      %{
+        "tree" => %{"BaseError" => %{"ExchangeError" => %{"AuthenticationError" => %{}}}},
+        "flat_parents" => %{
+          "BaseError" => nil,
+          "ExchangeError" => "BaseError",
+          "AuthenticationError" => "ExchangeError"
+        },
+        "ancestors" => %{
+          "BaseError" => [],
+          "ExchangeError" => ["BaseError"],
+          "AuthenticationError" => ["ExchangeError", "BaseError"]
+        }
+      }
+    end
+
+    test "no findings on a valid hierarchy" do
+      exchange = exchange_with_hierarchy("good", valid_hierarchy())
+      assert ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "no findings when error_class_hierarchy is null (missing-data signal upstream)" do
+      exchange = exchange_with_hierarchy("nullex", nil)
+      assert ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "flags missing required keys" do
+      exchange = exchange_with_hierarchy("bad", %{"tree" => %{}})
+      assert [finding] = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+      assert finding.invariant == "error_class_hierarchy_shape_valid"
+      assert finding.message =~ "missing required keys"
+      assert finding.message =~ "flat_parents"
+      assert finding.message =~ "ancestors"
+    end
+
+    test "flags non-map tree" do
+      bad = %{valid_hierarchy() | "tree" => "not a map"}
+      exchange = exchange_with_hierarchy("bad", bad)
+      assert [finding] = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+      assert finding.message =~ "tree must be a map"
+    end
+
+    test "flags missing root (cycle / no class with nil parent)" do
+      cyclic = %{
+        "tree" => %{},
+        "flat_parents" => %{"A" => "B", "B" => "A"},
+        "ancestors" => %{"A" => ["B", "A"], "B" => ["A", "B"]}
+      }
+
+      exchange = exchange_with_hierarchy("bad", cyclic)
+      findings = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &String.contains?(&1.message, "no root class found"))
+    end
+
+    test "flags wrong root name" do
+      bad =
+        Map.merge(valid_hierarchy(), %{
+          "flat_parents" => %{"OtherRoot" => nil, "Child" => "OtherRoot"},
+          "ancestors" => %{"OtherRoot" => [], "Child" => ["OtherRoot"]}
+        })
+
+      exchange = exchange_with_hierarchy("bad", bad)
+      findings = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &String.contains?(&1.message, "expected \"BaseError\""))
+    end
+
+    test "flags multiple roots" do
+      bad =
+        Map.merge(valid_hierarchy(), %{
+          "flat_parents" => %{"BaseError" => nil, "OtherRoot" => nil, "Child" => "BaseError"},
+          "ancestors" => %{"BaseError" => [], "OtherRoot" => [], "Child" => ["BaseError"]}
+        })
+
+      exchange = exchange_with_hierarchy("bad", bad)
+      findings = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &String.contains?(&1.message, "expected exactly one root"))
+    end
+
+    test "flags ancestors that disagree with flat_parents walk" do
+      bad =
+        Map.put(valid_hierarchy(), "ancestors", %{
+          "BaseError" => [],
+          "ExchangeError" => ["BaseError"],
+          "AuthenticationError" => ["BaseError"]
+        })
+
+      exchange = exchange_with_hierarchy("bad", bad)
+      findings = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &String.contains?(&1.message, "disagrees with flat_parents walk"))
+    end
+
+    test "flags coverage gap (flat_parents has key absent from ancestors)" do
+      bad =
+        Map.put(valid_hierarchy(), "ancestors", %{"BaseError" => [], "ExchangeError" => ["BaseError"]})
+
+      exchange = exchange_with_hierarchy("bad", bad)
+      findings = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &String.contains?(&1.message, "missing from ancestors"))
+    end
+  end
+
+  describe "check_error_classes_covered_by_hierarchy/2" do
+    defp exchange_with_handle_errors_and_hierarchy(id, handle_errors, hierarchy) do
+      %{
+        "exchange" => %{"id" => id},
+        "structure" => %{
+          "handle_errors" => handle_errors,
+          "error_class_hierarchy" => hierarchy
+        }
+      }
+    end
+
+    test "no findings when every referenced class is in flat_parents" do
+      hierarchy = %{
+        "tree" => %{},
+        "flat_parents" => %{
+          "BaseError" => nil,
+          "ExchangeError" => "BaseError",
+          "RateLimitExceeded" => "BaseError"
+        },
+        "ancestors" => %{
+          "BaseError" => [],
+          "ExchangeError" => ["BaseError"],
+          "RateLimitExceeded" => ["BaseError"]
+        }
+      }
+
+      handle_errors = %{
+        "exceptions" => %{"exact" => %{"too_many" => "RateLimitExceeded"}},
+        "http_exceptions" => %{"429" => "RateLimitExceeded", "500" => "ExchangeError"}
+      }
+
+      exchange =
+        exchange_with_handle_errors_and_hierarchy("clean", handle_errors, hierarchy)
+
+      assert ContractTest.check_error_classes_covered_by_hierarchy(exchange, @base_observed) == []
+    end
+
+    test "flags class names referenced in exceptions but not in flat_parents" do
+      hierarchy = %{
+        "tree" => %{},
+        "flat_parents" => %{"BaseError" => nil},
+        "ancestors" => %{"BaseError" => []}
+      }
+
+      handle_errors = %{
+        "exceptions" => %{"broad" => %{"missing" => "GhostError"}},
+        "http_exceptions" => %{}
+      }
+
+      exchange = exchange_with_handle_errors_and_hierarchy("bad", handle_errors, hierarchy)
+
+      assert [finding] =
+               ContractTest.check_error_classes_covered_by_hierarchy(exchange, @base_observed)
+
+      assert finding.invariant == "error_classes_covered_by_hierarchy"
+      assert finding.message =~ "GhostError"
+      assert finding.path =~ "exceptions[\"broad\"]"
+    end
+
+    test "flags class names referenced in http_exceptions but not in flat_parents" do
+      hierarchy = %{
+        "tree" => %{},
+        "flat_parents" => %{"BaseError" => nil},
+        "ancestors" => %{"BaseError" => []}
+      }
+
+      handle_errors = %{
+        "exceptions" => nil,
+        "http_exceptions" => %{"418" => "TeapotError"}
+      }
+
+      exchange = exchange_with_handle_errors_and_hierarchy("bad", handle_errors, hierarchy)
+      findings = ContractTest.check_error_classes_covered_by_hierarchy(exchange, @base_observed)
+
+      assert Enum.any?(findings, fn f ->
+               f.path =~ "http_exceptions[\"418\"]" and f.message =~ "TeapotError"
+             end)
+    end
+
+    test "no findings when handle_errors is null" do
+      hierarchy = %{
+        "tree" => %{},
+        "flat_parents" => %{"BaseError" => nil},
+        "ancestors" => %{"BaseError" => []}
+      }
+
+      exchange = exchange_with_handle_errors_and_hierarchy("emptyex", nil, hierarchy)
+      assert ContractTest.check_error_classes_covered_by_hierarchy(exchange, @base_observed) == []
+    end
+
+    test "no findings when error_class_hierarchy is null (shape invariant catches that)" do
+      handle_errors = %{
+        "exceptions" => %{"exact" => %{"x" => "Anything"}},
+        "http_exceptions" => %{}
+      }
+
+      exchange = exchange_with_handle_errors_and_hierarchy("nohier", handle_errors, nil)
+      assert ContractTest.check_error_classes_covered_by_hierarchy(exchange, @base_observed) == []
+    end
+  end
+
+  describe "check_normalization_shape_valid/2" do
+    test "skipped on v3-shaped output (no normalization key)" do
+      v3_exchange = clean_exchange()
+      assert ContractTest.check_normalization_shape_valid(v3_exchange, @base_observed) == []
+    end
+
+    test "passes a freshly-built v4 normalization block" do
+      exchange = %{
+        "exchange" => %{"id" => "good"},
+        "normalization" => CcxtExtract.Normalization.build(nil)
+      }
+
+      assert ContractTest.check_normalization_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "flags missing required keys" do
+      exchange = %{
+        "exchange" => %{"id" => "bad"},
+        "normalization" => %{"parse_methods_digest" => %{}}
+      }
+
+      findings = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "field_maps"))
+      assert Enum.any?(findings, &(&1.message =~ "response_envelopes"))
+    end
+
+    test "flags unexpected top-level keys" do
+      exchange = %{
+        "exchange" => %{"id" => "bad"},
+        "normalization" => Map.put(CcxtExtract.Normalization.build(nil), "rogue", true)
+      }
+
+      findings = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+      assert Enum.any?(findings, &(&1.message =~ "rogue"))
+    end
+
+    test "flags malformed digest record (missing required key)" do
+      block =
+        nil
+        |> CcxtExtract.Normalization.build()
+        |> put_in(["parse_methods_digest", "parseTrade"], %{
+          "params" => [],
+          "return_type" => nil,
+          "async" => false
+          # statement_count missing
+        })
+
+      exchange = %{"exchange" => %{"id" => "bad"}, "normalization" => block}
+      findings = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, fn f ->
+               f.path == "normalization.parse_methods_digest.parseTrade" and
+                 f.message =~ "statement_count"
+             end)
+    end
+
+    test "flags wrong types in digest record" do
+      block =
+        nil
+        |> CcxtExtract.Normalization.build()
+        |> put_in(["parse_methods_digest", "parseTrade"], %{
+          "params" => "not a list",
+          "return_type" => 42,
+          "async" => "yes",
+          "statement_count" => -1
+        })
+
+      exchange = %{"exchange" => %{"id" => "bad"}, "normalization" => block}
+      findings = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "params must be a list"))
+      assert Enum.any?(findings, &(&1.message =~ "return_type must be a string or null"))
+      assert Enum.any?(findings, &(&1.message =~ "async must be a boolean"))
+      assert Enum.any?(findings, &(&1.message =~ "statement_count"))
+    end
+
+    test "flags malformed field_maps stub (extra parser type or wrong value type)" do
+      block =
+        nil
+        |> CcxtExtract.Normalization.build()
+        |> put_in(["field_maps", "ticker"], "not a map")
+        |> put_in(["field_maps", "rogue_type"], nil)
+
+      exchange = %{"exchange" => %{"id" => "bad"}, "normalization" => block}
+      findings = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, fn f ->
+               f.path == "normalization.field_maps.ticker" and
+                 f.message =~ "must be null or a map"
+             end)
+
+      assert Enum.any?(findings, &(&1.message =~ "rogue_type"))
+    end
+
+    test "non-map normalization is flagged" do
+      exchange = %{"exchange" => %{"id" => "bad"}, "normalization" => "garbage"}
+      [finding] = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+      assert finding.message =~ "must be a map"
+    end
+  end
+
+  describe "check_parse_methods_digest_covers_inventory/2" do
+    test "skipped on v3-shaped output (no normalization key)" do
+      v3_exchange = clean_exchange()
+      observed = Map.put(@base_observed, :parse_methods_inventory, %{"good" => ["parseTrade"]})
+      assert ContractTest.check_parse_methods_digest_covers_inventory(v3_exchange, observed) == []
+    end
+
+    test "no findings when digest covers inventory exactly" do
+      block =
+        CcxtExtract.Normalization.build(%{
+          "parse_methods" => %{
+            "parseTrade" => %{"statements" => 1, "params" => [], "async" => false},
+            "parseTicker" => %{"statements" => 1, "params" => [], "async" => false}
+          }
+        })
+
+      exchange = %{"exchange" => %{"id" => "good"}, "normalization" => block}
+      observed = Map.put(@base_observed, :parse_methods_inventory, %{"good" => ["parseTrade", "parseTicker"]})
+
+      assert ContractTest.check_parse_methods_digest_covers_inventory(exchange, observed) == []
+    end
+
+    test "flags missing inventory methods (lossy projection)" do
+      block =
+        CcxtExtract.Normalization.build(%{
+          "parse_methods" => %{
+            "parseTrade" => %{"statements" => 1, "params" => [], "async" => false}
+          }
+        })
+
+      exchange = %{"exchange" => %{"id" => "drift"}, "normalization" => block}
+
+      observed =
+        Map.put(@base_observed, :parse_methods_inventory, %{
+          "drift" => ["parseTrade", "parseTicker"]
+        })
+
+      [finding] = ContractTest.check_parse_methods_digest_covers_inventory(exchange, observed)
+      assert finding.exchange == "drift"
+      assert finding.invariant == "parse_methods_digest_covers_inventory"
+      assert finding.path == "normalization.parse_methods_digest.parseTicker"
+      assert finding.message =~ "parseTicker"
+    end
+
+    test "skipped when inventory has no entry for the exchange" do
+      block = CcxtExtract.Normalization.build(nil)
+      exchange = %{"exchange" => %{"id" => "ghost"}, "normalization" => block}
+      observed = Map.put(@base_observed, :parse_methods_inventory, %{})
+
+      assert ContractTest.check_parse_methods_digest_covers_inventory(exchange, observed) == []
+    end
+
+    test "skipped when observed has no inventory key at all" do
+      block = CcxtExtract.Normalization.build(nil)
+      exchange = %{"exchange" => %{"id" => "x"}, "normalization" => block}
+      assert ContractTest.check_parse_methods_digest_covers_inventory(exchange, @base_observed) == []
+    end
+
+    test "findings sorted by method name" do
+      block = CcxtExtract.Normalization.build(nil)
+
+      exchange = %{"exchange" => %{"id" => "z"}, "normalization" => block}
+
+      observed =
+        Map.put(@base_observed, :parse_methods_inventory, %{
+          "z" => ["parseTicker", "parseAccount", "parseTrade"]
+        })
+
+      findings = ContractTest.check_parse_methods_digest_covers_inventory(exchange, observed)
+      method_names = Enum.map(findings, & &1.path)
+
+      assert method_names == [
+               "normalization.parse_methods_digest.parseAccount",
+               "normalization.parse_methods_digest.parseTicker",
+               "normalization.parse_methods_digest.parseTrade"
+             ]
     end
   end
 

@@ -491,6 +491,7 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
       assert record["auth_headers"] == []
       assert record["canonical_string"] == nil
       assert record["nonce"] == nil
+      assert record["timestamp"] == nil
       assert record["pre_sign_transforms"] == [%{"op" => "hex_encode", "target" => "signature"}]
     end
 
@@ -582,6 +583,8 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
              ]
 
       assert record["nonce"] == %{"source" => "timestamp_ms", "format" => "integer"}
+      # Task 72: timestamp mirrors nonce (same AST classifier).
+      assert record["timestamp"] == record["nonce"]
     end
 
     test "terminal unresolved_reason leaves auth_headers and nonce null" do
@@ -607,6 +610,7 @@ defmodule CcxtExtract.SignRecipe.DeriveTest do
       assert record["unresolved_reason"] == "custom_signing_family"
       assert record["auth_headers"] == nil
       assert record["nonce"] == nil
+      assert record["timestamp"] == nil
     end
 
     test "patch_count starts at 0" do

@@ -87,8 +87,11 @@ defmodule CcxtExtract.Provenance do
     /structure/request_shape
     /structure/handle_errors/error_code_fields
     /structure/handle_errors/throw_dispatches
+    /structure/error_class_hierarchy
     /structure/unified_endpoints
+    /structure/transaction_classification
     /structure/request_defaults
+    /structure/rate_limit_costs
     /structure/error_dispatch
     /structure/sign_dispatch
     /structure/parse_dispatch
@@ -131,9 +134,15 @@ defmodule CcxtExtract.Provenance do
     /endpoints/request/shape
     /errors/handle_errors/error_code_fields
     /errors/handle_errors/throw_dispatches
+    /errors/class_hierarchy
     /endpoints/unified
+    /endpoints/transaction_classification
     /endpoints/request/defaults
     /rate_limits/buckets
+    /rate_limits/per_endpoint_cost
+    /normalization/parse_methods_digest
+    /normalization/field_maps
+    /normalization/response_envelopes
   )
 
   @doc """

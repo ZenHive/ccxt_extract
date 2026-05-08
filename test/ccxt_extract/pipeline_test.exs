@@ -244,6 +244,11 @@ defmodule CcxtExtract.PipelineTest do
         }
       },
       overrides: %{},
+      error_class_hierarchy: %{
+        "tree" => %{"BaseError" => %{"ExchangeError" => %{}}},
+        "flat_parents" => %{"BaseError" => nil, "ExchangeError" => "BaseError"},
+        "ancestors" => %{"BaseError" => [], "ExchangeError" => ["BaseError"]}
+      },
       missing_files: []
     }
   end
@@ -294,6 +299,7 @@ defmodule CcxtExtract.PipelineTest do
       url_templates: %{},
       request_headers: %{},
       overrides: %{},
+      error_class_hierarchy: nil,
       missing_files: []
     }
   end
@@ -1137,6 +1143,12 @@ defmodule CcxtExtract.PipelineTest do
 
     write_json(Path.join(dir, "class_hierarchy.json"), %{"classes" => []})
 
+    write_json(Path.join(dir, "error_class_hierarchy.json"), %{
+      "tree" => %{"BaseError" => %{}},
+      "flat_parents" => %{"BaseError" => nil},
+      "ancestors" => %{"BaseError" => []}
+    })
+
     empty_global = %{"exchanges" => []}
     write_json(Path.join(dir, "methods_rest.json"), empty_global)
     write_json(Path.join(dir, "methods_ws.json"), empty_global)
@@ -1244,14 +1256,22 @@ defmodule CcxtExtract.PipelineTest do
       assert get_in(result, ["endpoints", "interfaces", "publicGetTicker", "name"]) == "publicGetTicker"
       assert get_in(result, ["auth", "headers", "user_agent"]) == "Mozilla/5.0 (TestEx)"
 
-      # rate_limits.buckets carries the rate-limit bucket wrapper (Task 89);
-      # the per_endpoint_cost slot remains empty until A-5 (Task 90).
-      # normalization stays an empty placeholder until Task 129 ships
-      # parse_methods_digest.
+      # rate_limits.buckets carries the rate-limit bucket wrapper (Task 89).
+      # per_endpoint_cost remains absent until Task 90 layers it onto the
+      # rate_limits group additively.
       assert result["rate_limits"]["buckets"] ==
                CcxtExtract.RateLimitBuckets.empty_record()
 
-      assert result["normalization"] == %{}
+      # normalization is the Task 129 carrier — compact digest plus
+      # field_maps / response_envelopes scaffolds.
+      normalization = result["normalization"]
+
+      assert normalization |> Map.keys() |> Enum.sort() ==
+               Enum.sort(CcxtExtract.Normalization.required_keys())
+
+      assert is_map(normalization["parse_methods_digest"])
+      assert normalization["field_maps"]["_unresolved_reason"] == "not_yet_derived"
+      assert normalization["response_envelopes"]["_unresolved_reason"] == "not_yet_derived"
     end
 
     test "v4 emit validates against exchange_v4.json (synthetic full)", %{v4_root: root} do
@@ -1280,6 +1300,36 @@ defmodule CcxtExtract.PipelineTest do
       assert Enum.any?(reasons, &String.contains?(&1, "endpoints"))
     end
 
+    test "v4 emit projects parse_methods.json into normalization.parse_methods_digest" do
+      opts = Keyword.put(@schema_opts, :schema_target, 4)
+      result = Pipeline.build_exchange_data(full_meta(), full_data(), opts)
+
+      digest = get_in(result, ["normalization", "parse_methods_digest"])
+      assert is_map(digest)
+      # full_data() seeds parse_methods.testex with one entry: parseTicker.
+      assert Map.keys(digest) == ["parseTicker"]
+
+      ticker = digest["parseTicker"]
+      assert ticker["return_type"] == @sample_method_ast["return_type"]
+      assert ticker["async"] == @sample_method_ast["async"]
+      assert ticker["statement_count"] == @sample_method_ast["statements"]
+      # Compact digest — no AST body (the 91.6% Hex-cap reduction).
+      refute Map.has_key?(ticker, "body")
+    end
+
+    test "v3 emit (default) does NOT add a normalization key" do
+      result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
+      refute Map.has_key?(result, "normalization")
+    end
+
+    test "v4 emit normalization scaffold uses Normalization.stub_record/0 shape" do
+      opts = Keyword.put(@schema_opts, :schema_target, 4)
+      result = Pipeline.build_exchange_data(full_meta(), full_data(), opts)
+
+      assert result["normalization"]["field_maps"] == CcxtExtract.Normalization.stub_record()
+      assert result["normalization"]["response_envelopes"] == CcxtExtract.Normalization.stub_record()
+    end
+
     test "v4 provenance pointers reorganize under v4 paths" do
       opts = Keyword.put(@schema_opts, :schema_target, 4)
       result = Pipeline.build_exchange_data(full_meta(), full_data(), opts)
@@ -1290,6 +1340,10 @@ defmodule CcxtExtract.PipelineTest do
       assert provenance["/raw/describe"] == "raw"
       assert provenance["/auth/sign_method"] == "raw"
       assert provenance["/auth/sign_recipe"] == "derived"
+      # Task 129 carrier — normalization paths are derived:
+      assert provenance["/normalization/parse_methods_digest"] == "derived"
+      assert provenance["/normalization/field_maps"] == "derived"
+      assert provenance["/normalization/response_envelopes"] == "derived"
       # No v3 paths leak into the v4 provenance:
       refute Map.has_key?(provenance, "/runtime/describe")
       refute Map.has_key?(provenance, "/structure/sign_method")

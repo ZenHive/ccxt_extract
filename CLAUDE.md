@@ -9,7 +9,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 @~/.claude/includes/across-instances.md
 @~/.claude/includes/critical-rules.md
 
-@~/.claude/includes/delegation.md
 @~/.claude/includes/task-prioritization.md
 @~/.claude/includes/task-writing.md
 @~/.claude/includes/workflow-philosophy.md
@@ -24,28 +23,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 @~/.claude/includes/oxc.md
 @~/.claude/includes/quickbeam.md
 @~/.claude/includes/reach.md
+
 ---
 
-## Linear Workspace
+## Worktree workflow
 
-This repo's Linear delegation queue is in team **`INE`** (Inetpeople), project **`ccxt_extract`**.
+Branch-worthy work lives in a git worktree at `~/_DATA/worktrees/ccxt_extract/<id>/`, not on a branch in the main checkout (`~/_DATA/code/ccxt_extract/`). The worktree IS the scope authorization for `git commit` / `git push` / `gh pr create` on that branch — full rules in `~/.claude/includes/worktree-workflow.md`.
 
-| Concept | Value |
-|---|---|
-| Team key | `INE` |
-| Team ID | `f07d4ffb-be65-441d-bf97-8f973e37867a` |
-| Project name | `ccxt_extract` |
-| Project ID | `8a6cf35f-a9a0-4980-a9aa-62d1782aaef4` |
-| Project URL | https://linear.app/inetpeople/project/ccxt-extract-3186358c8dc9 |
-| Repo selector label | `ZenHive/ccxt_extract` |
-| Repo selector label ID | `e725da16-473e-4103-a559-480f128d1743` |
-| Default delegate | `Cursor` (`[CSR]`) — `[CX]` suspended for Elixir per `task-prioritization.md` |
-| Required labels per delegated issue | `["cursor-eligible", "ZenHive/ccxt_extract"]` |
-| GitHub remote | `git@github.com:ZenHive/ccxt_extract.git` |
+**This repo's tracking-ID convention:** `<id>` is the ROADMAP task number when the work tracks a roadmap entry (e.g. `task-105`, `task-119`), or a short feature name for unscheduled work (e.g. `fix-aggregate-merge`). With cloud-agent delegation retired (see ROADMAP.md § Notes), Linear issue IDs are no longer in scope as worktree IDs.
 
-CI gate: `.github/workflows/harness.yml` (deterministic harness — format, compile, credo, doctor, sobelow, test+cover, dialyzer). `--exclude flaky` is the gate side of tag-and-quarantine; tag offenders with `@tag :flaky` to drop them out of the blocking run.
+**Cleanup:** after PR merge or branch deletion, run `git worktree remove ~/_DATA/worktrees/ccxt_extract/<id>` and `git worktree prune` in the same session — completion of a task includes worktree teardown.
 
-See `~/.claude/includes/linear-workflow.md` for the full delegation flow.
+**`[P]` parallel marker in ROADMAP.md** — independent tasks tagged `[P]` are explicitly safe to dispatch into separate worktrees concurrently. They predate cloud delegation and are unaffected by the `[CSR]` retirement.
 
 ---
 
@@ -57,7 +46,7 @@ Every output field is produced by exactly one of two complementary passes. Under
 
 | Tool | Input | Output scope | Speed | Used in |
 |------|-------|--------------|-------|---------|
-| **OXC** (Rust NIF) | CCXT TS source at `priv/ccxt/ts/src/` | **Structural** — method ASTs, class hierarchy, type annotations, section membership, sign-method bodies | ~43ms per file | `oxc_extractor`, `oxc_batch`, `method_ast`, `parse_methods` (discovery files only — not emitted to per-exchange JSON since schema 3.0.0 / Task 117; Phase 12 consumes from `priv/discoveries/parse_methods.json`), `sign_method`, `sign_recipe` (scaffold, Task 64 — populated by Tasks 65–69), `handle_errors`, `throw_dispatches`, `interface_signatures`, `request_defaults`, `ws_methods` (discovery files only — same Phase 15 treatment) |
+| **OXC** (Rust NIF) | CCXT TS source at `priv/ccxt/ts/src/` | **Structural** — method ASTs, class hierarchy, type annotations, section membership, sign-method bodies | ~43ms per file | `oxc_extractor`, `oxc_batch`, `method_ast`, `parse_methods` (discovery files only — not emitted to per-exchange JSON since schema 3.0.0 / Task 117; Phase 12 consumes from `priv/discoveries/parse_methods.json`), `sign_method`, `sign_recipe` (scaffold, Task 64 — populated by Tasks 65–69), `handle_errors`, `throw_dispatches`, `error_class_hierarchy` (Task 87 — corpus-global tree from `errorHierarchy.ts`, copied into every per-exchange JSON), `interface_signatures`, `request_defaults`, `ws_methods` (discovery files only — same Phase 15 treatment) |
 | **QuickBEAM** (Zig NIF) | `priv/ccxt_bundle.js` (the browser bundle copied during `ccxt_extract.setup`) | **Resolved runtime** — full `describe()` after inheritance, URL templates, rate limits, nonce defaults, request headers | ~13s for all exchanges | `quickbeam_runtime`, `describe`, `load_markets`, `url_templates`, `signing_fixtures`, `request_headers` |
 
 Neither tool alone is sufficient. `contract_test` cross-validates the two (e.g., every method named in resolved `describe().api` must exist in the parsed class AST or an ancestor). Divergence means a silent regression — fix the extractor, not the test.

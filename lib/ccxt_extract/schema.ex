@@ -54,8 +54,9 @@ defmodule CcxtExtract.Schema do
   alias CcxtExtract.Provenance
   alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
+  alias CcxtExtract.TransactionClassification
 
-  @schema_version "3.1.0"
+  @schema_version "3.3.0"
   @schema_filename "exchange_v3.json"
 
   # v4 (gated, opt-in via --schema-target=4). DO NOT flip the v3 defaults
@@ -68,15 +69,16 @@ defmodule CcxtExtract.Schema do
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe symbols_index symbol_patterns url_templates testnet_urls request_headers)
-  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe request_shape handle_errors interface_signatures pagination overrides unified_endpoints request_defaults error_dispatch sign_dispatch parse_dispatch)
+  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe request_shape handle_errors error_class_hierarchy interface_signatures pagination overrides unified_endpoints transaction_classification request_defaults error_dispatch sign_dispatch parse_dispatch)
 
   @required_top_keys_v4 ~w(schema_version extracted_at ccxt_version exchange endpoints auth errors rate_limits normalization markets testnet raw _provenance)
-  @required_endpoints_keys_v4 ~w(unified interfaces pagination request)
+  @required_endpoints_keys_v4 ~w(unified interfaces pagination request transaction_classification)
   @required_endpoints_request_keys_v4 ~w(defaults shape)
   @required_auth_keys_v4 ~w(sign_recipe sign_method authenticated_sections headers)
-  @required_errors_keys_v4 ~w(handle_errors)
+  @required_errors_keys_v4 ~w(handle_errors class_hierarchy)
   @required_markets_keys_v4 ~w(symbols_index patterns)
   @required_raw_keys_v4 ~w(describe url_templates class_info method_inventory overrides_meta)
+  @required_normalization_keys_v4 ~w(parse_methods_digest field_maps response_envelopes)
 
   # --- Public API ---
 
@@ -176,13 +178,20 @@ defmodule CcxtExtract.Schema do
   `CcxtExtract.RateLimitBuckets`. The carrier is the same wrapper
   emitted under `structure.rate_limit_buckets` in v3, just relocated.
 
+  `normalization` is the Task 129 carrier — `parse_methods_digest`
+  (compact, AST-free signature digest projected from
+  `priv/discoveries/parse_methods.json`), plus `field_maps` and
+  `response_envelopes` scaffolds populated by Phase 12 sub-bundles.
+
   ## Out of scope (Task 130)
 
-  `normalization` is still emitted as an empty object. Future freeze-list
-  tasks (Task 129 normalization carrier, Task 90 per-method cost
-  weighting layered onto `rate_limits`, Phase 12 sub-bundles) populate
-  the remaining empties. DO NOT pre-populate them here — keep the v4
-  shape as a structural reorganization of v3 only.
+  `rate_limits.per_endpoint_cost` is reserved for Task 90 per-method
+  cost weighting layered onto buckets — emitted as absent today (the
+  `rate_limits` group is `additionalProperties: true` so it can land
+  additively). Phase 12 sub-bundles flip the `field_maps` /
+  `response_envelopes` stubs from null to populated. DO NOT
+  pre-populate either here — keep the v4 shape as a structural
+  reorganization of v3 only.
   """
   @spec build_exchange_v4(map(), map(), map(), keyword()) :: map()
   def build_exchange_v4(exchange_meta, runtime_data, structure_data, opts \\ []) do
@@ -196,6 +205,7 @@ defmodule CcxtExtract.Schema do
     auth_sections = structure_data["authenticated_sections"]
     sign_method = structure_data["sign_method"]
     describe_api = structure_data["describe_api"]
+    normalization = Keyword.get(opts, :normalization) || CcxtExtract.Normalization.build(nil)
 
     %{
       "schema_version" => @schema_v4_version,
@@ -204,6 +214,7 @@ defmodule CcxtExtract.Schema do
       "exchange" => build_exchange_section(exchange_meta),
       "endpoints" => %{
         "unified" => structure_data["unified_endpoints"],
+        "transaction_classification" => TransactionClassification.derive(structure_data["unified_endpoints"]),
         "interfaces" => structure_data["interface_signatures"],
         "pagination" => structure_data["pagination"],
         "request" => %{
@@ -218,12 +229,13 @@ defmodule CcxtExtract.Schema do
         "headers" => runtime_data["request_headers"] || CcxtExtract.RequestHeaders.empty_record()
       },
       "errors" => %{
-        "handle_errors" => structure_data["handle_errors"]
+        "handle_errors" => structure_data["handle_errors"],
+        "class_hierarchy" => structure_data["error_class_hierarchy"]
       },
       "rate_limits" => %{
         "buckets" => structure_data["rate_limit_buckets"] || CcxtExtract.RateLimitBuckets.empty_record()
       },
-      "normalization" => %{},
+      "normalization" => normalization,
       "markets" => %{
         "symbols_index" => runtime_data["symbols_index"],
         "patterns" => runtime_data["symbol_patterns"]
@@ -320,6 +332,7 @@ defmodule CcxtExtract.Schema do
       |> check_required_keys(data["errors"], @required_errors_keys_v4, "errors")
       |> check_required_keys(data["markets"], @required_markets_keys_v4, "markets")
       |> check_required_keys(data["raw"], @required_raw_keys_v4, "raw")
+      |> check_required_keys(data["normalization"], @required_normalization_keys_v4, "normalization")
 
     case errors do
       [] -> :ok
@@ -369,10 +382,12 @@ defmodule CcxtExtract.Schema do
       "sign_recipe" => SignRecipe.Derive.derive(sign_method, auth_sections),
       "request_shape" => RequestShape.Derive.derive(sign_method, auth_sections, describe_api),
       "handle_errors" => data["handle_errors"],
+      "error_class_hierarchy" => data["error_class_hierarchy"],
       "interface_signatures" => data["interface_signatures"],
       "pagination" => data["pagination"],
       "overrides" => data["overrides"],
       "unified_endpoints" => data["unified_endpoints"],
+      "transaction_classification" => TransactionClassification.derive(data["unified_endpoints"]),
       "request_defaults" => data["request_defaults"],
       "error_dispatch" => data["error_dispatch"],
       "sign_dispatch" => data["sign_dispatch"],

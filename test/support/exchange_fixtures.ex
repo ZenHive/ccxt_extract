@@ -95,6 +95,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "overrides" => nil,
         "unified_endpoints" => unified_endpoints,
         "request_defaults" => request_defaults,
+        "rate_limit_costs" => nil,
         "error_dispatch" => nil,
         "sign_dispatch" => nil,
         "parse_dispatch" => nil

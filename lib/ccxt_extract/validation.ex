@@ -57,7 +57,25 @@ defmodule CcxtExtract.Validation do
     schema_only = Keyword.get(opts, :schema_only, false)
     ref_exchanges = Keyword.get(opts, :reference_exchanges, @reference_exchanges)
     tier_scope = Keyword.get(opts, :tier_scope, "all")
-    schema_target = Keyword.get(opts, :schema_target, 3)
+
+    schema_target =
+      CcxtExtract.Pipeline.normalize_schema_target!(Keyword.get(opts, :schema_target, 3))
+
+    # Round-trip checks still key on v3 paths. Under --schema-target=4
+    # the gated v4 emit reorganizes the output into consumer-shaped
+    # top-level groups, so the round-trip path lookups would produce
+    # false-positive errors. Implicitly disable round-trip when v4 is
+    # the target unless the caller explicitly opted into schema_only:
+    # the reorganization will be addressed when the path-translation
+    # refactor lands alongside the eventual v4 cut.
+    effective_schema_only = schema_only or schema_target == 4
+
+    if schema_target == 4 and not schema_only do
+      Logger.info(
+        "Skipping round-trip validation under --schema-target=4 (Task 130 gated path; round-trip" <>
+          " checks still key on v3 paths). Re-run with --schema-only to silence this notice."
+      )
+    end
 
     # Load exchanges from emitted JSON files on disk
     {exchanges, file_stats} = load_output_files(output_dir, schema_target)
@@ -67,7 +85,7 @@ defmodule CcxtExtract.Validation do
 
     # Load source data for round-trip (reuse pipeline's loader)
     source_data =
-      if schema_only do
+      if effective_schema_only do
         nil
       else
         dir = Keyword.get(opts, :discoveries_dir, Paths.priv("discoveries"))
@@ -84,7 +102,7 @@ defmodule CcxtExtract.Validation do
 
         # Round-trip comparison (reference exchanges only)
         roundtrip_findings =
-          if !schema_only && id in ref_exchanges && source_data do
+          if !effective_schema_only && id in ref_exchanges && source_data do
             validate_roundtrip(exchange, source_data, id)
           else
             []
@@ -98,7 +116,7 @@ defmodule CcxtExtract.Validation do
         }
       end)
 
-    report = build_report(exchange_results, ref_exchanges, schema_only, file_stats, tier_scope, schema_target)
+    report = build_report(exchange_results, ref_exchanges, effective_schema_only, file_stats, tier_scope, schema_target)
     {:ok, report}
   end
 

@@ -6,6 +6,18 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 115 — Self-healing `mix ccxt_extract.setup` auto-clones `priv/ccxt` (PR #4, INE-59)
+
+- **Shipped 2026-05-08** via PR #4 (Cursor-delegated, squash-merged commit `56bec2a`). Closes Phase 11.5 / Task 115.
+- **`lib/mix/tasks/ccxt_extract.setup.ex` extended** — `check_ts_source/1` now detects when `priv/ccxt/ts/src/` is missing and sparse-clones the CCXT GitHub repo automatically (`git clone --depth 1 --sparse`, then `git sparse-checkout set ts/src`). Cone-mode default brings root files (including `package.json`) along.
+- **Version pinning** — defaults to `v<source_version>` read from `priv/ccxt_version.json`. `--ccxt-version X.Y.Z` overrides; `--latest` opts into the default branch (yielding a tracking ref the existing `update_ts_source/2` flow can fast-forward); when no pin is recorded, falls back to the default branch.
+- **Opt-out controls** — `--no-clone` flag or `CCXT_EXTRACT_SKIP_CLONE=1` env var preserve the legacy missing-source error (for users who symlink their own CCXT checkout).
+- **Repo URL configurable** via `:ccxt_extract, :ccxt_repo_url` Application env so tests inject a local `file://` remote built with `git init` + `tag` (no network in the test suite).
+- **Stale-checkout cleanup** — when `priv/ccxt` survives from a prior failed clone (network drop, aborted sparse-checkout), the dir is unconditionally `File.rm_rf!`'d before the retry; the upstream `cond` already routes healthy checkouts to `announce_existing_source/1`, so anything reaching the cleanup site is provably stale.
+- **Public test surface** — `check_ts_source/1`, `build_clone_args/3`, `read_pinned_version/0,1`, `auto_clone_ts_source!/1`, `opt_out_auto_clone?/1` exposed as documented helpers so `test/mix/tasks/setup_task_test.exs` (17 tests, new) can drive the auto-clone path without exercising the full Setup pipeline (npm install + QuickBEAM + OXC).
+- **README simplification** — Setup section collapses from "two steps (manual sparse-clone + `mix setup`)" to a single `mix setup` invocation. Manual sparse-clone instructions and the Task 115 follow-up note removed.
+- **Cross-repo:** none — internal bootstrap improvement.
+
 ### Task 118 — Delete `priv/schema/exchange_v2.json` after grace window (PR #3, INE-57)
 
 - **Shipped 2026-05-08** via PR #3 (Cursor-delegated, squash-merged). Closes 🎁 **spec-size · cleanup**.

@@ -7,29 +7,10 @@ Extract CCXT exchange knowledge into language-agnostic JSON using:
 
 ## Setup
 
-Fresh clones need two steps — a one-time sparse checkout of CCXT's
-TypeScript source (OXC's input), then the Mix bootstrap that installs
-deps, verifies the toolchain, and regenerates the derived JSON corpus.
-
-**Step 1 — Sparse-clone CCXT TypeScript source** (required: `mix ccxt_extract.setup` hard-fails without it):
-
-```bash
-git clone --depth 1 --sparse https://github.com/ccxt/ccxt.git priv/ccxt
-cd priv/ccxt && git sparse-checkout set ts/src && cd -
-```
-
-Optionally include `package.json` so setup can verify the TS source
-version against the npm bundle:
-
-```bash
-cd priv/ccxt && git sparse-checkout add package.json && cd -
-```
-
-> Follow-up planned: make `mix ccxt_extract.setup` self-heal by doing
-> this sparse clone itself when `priv/ccxt` is absent. Tracked in
-> ROADMAP (Task 115). Until then, Step 1 is manual.
-
-**Step 2 — Mix bootstrap:**
+Fresh clones bootstrap with a single Mix command — `mix ccxt_extract.setup`
+auto-detects when `priv/ccxt/ts/src/` is missing and sparse-clones the
+CCXT TypeScript source itself (depth 1, `ts/src` only), pinned to the
+version recorded in `priv/ccxt_version.json` by default.
 
 ```bash
 mix setup

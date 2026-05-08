@@ -89,6 +89,7 @@ defmodule CcxtExtract.Provenance do
     /structure/handle_errors/throw_dispatches
     /structure/unified_endpoints
     /structure/request_defaults
+    /structure/rate_limit_costs
     /structure/error_dispatch
     /structure/sign_dispatch
     /structure/parse_dispatch
@@ -132,6 +133,7 @@ defmodule CcxtExtract.Provenance do
     /errors/handle_errors/throw_dispatches
     /endpoints/unified
     /endpoints/request/defaults
+    /rate_limits/per_endpoint_cost
   )
 
   @doc """

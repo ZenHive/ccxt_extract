@@ -234,9 +234,41 @@
     },
     "RateLimits": {
       "type": "object",
-      "description": "Rate-limit surface. Empty placeholder until freeze tasks ship buckets (Task 89) and per_endpoint_cost (Task 90). Permissive (additionalProperties: true) so future tasks can populate without a schema break.",
+      "description": "Rate-limit surface. `per_endpoint_cost` ships per-endpoint cost weights (Task 73 — additive); `buckets` (Task 89) ships bucket configuration; both fields land additively. Permissive (additionalProperties: true) so future tasks can populate without a schema break.",
       "additionalProperties": true,
-      "properties": {}
+      "properties": {
+        "per_endpoint_cost": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/RateLimitCosts" }
+          ],
+          "description": "Per-endpoint rate-limit cost weights derived from describe().api. Same shape as v3's structure.rate_limit_costs (see #/$defs/RateLimitCosts)."
+        }
+      }
+    },
+
+    "RateLimitCosts": {
+      "type": "object",
+      "description": "Per-endpoint rate-limit cost weights derived from each exchange's resolved describe().api map. Keys are dot-joined endpoint identifiers `<section_path>.<http_verb>.<endpoint_path>` — `<section_path>` joins nested api groups with dots (e.g. `public`, `private`, `sapi`, `public.spot`, `private.delivery`); `<http_verb>` is the lowercase HTTP method (`get` / `post` / `put` / `delete` / `head` / `patch`); `<endpoint_path>` is the endpoint string verbatim from describe (e.g. `system/status`, `market/tickers`). The same dot-join convention is used by `raw.url_templates`. Each entry normalizes CCXT's two endpoint shapes (number, or object with `cost` + axes) into a uniform `{cost, axes}` record. Bare-array endpoints (paths without per-endpoint config — see `priv/ccxt/ts/src/base/Exchange.ts:739-743`) get cost = 1, axes = {} (the CCXT runtime default per `safeValue(options, 'cost', 1)`). Cost weights multiply against the base `raw.describe.rateLimit` (milliseconds) — bucket configuration (Task 89) is a separate concern. Introduced as additive in v4 (Task 73 / 90).",
+      "additionalProperties": { "$ref": "#/$defs/RateLimitCostEntry" }
+    },
+
+    "RateLimitCostEntry": {
+      "type": "object",
+      "description": "Per-endpoint cost record. `cost` is the base weight (a number) when CCXT declared one statically; null when the endpoint config was unresolvable (e.g. a function literal that requires runtime evaluation). `axes` carries CCXT's weight-axis variants (`noCoin`, `noSymbol`, `byLimit`, …) preserved verbatim — values can be numbers, arrays, or other shapes depending on the exchange. Empty axes object when the endpoint has no variants.",
+      "required": ["cost", "axes"],
+      "additionalProperties": false,
+      "properties": {
+        "cost": {
+          "type": ["number", "null"],
+          "description": "Base cost weight. Null when CCXT's describe() value cannot be resolved to a number (e.g. computed cost lambdas)."
+        },
+        "axes": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Weight-axis variants from CCXT's object-style endpoint config (the `cost` key itself is excluded — it is hoisted to the sibling `cost` field above). Keys mirror CCXT's axis names verbatim; values mirror CCXT's literal value verbatim. Empty object when the endpoint has no axis variants."
+        }
+      }
     },
     "Normalization": {
       "type": "object",

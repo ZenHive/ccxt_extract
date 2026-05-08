@@ -241,8 +241,8 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 70 `[CSR]` | 🔄 in-review | 🎁 **11-shape** · HTTP verb + path template + path-param rules per method (INE-55) [D:4/B:8/U:8 → Eff:2.0] 🚀 |
-| Task 71 `[CSR]` | 🔄 in-review | 🎁 **11-shape** · Body encoding + content-type per section (INE-55) [D:3/B:7/U:8 → Eff:2.5] 🎯 |
+| Task 70 `[CSR]` | ✅ | 🎁 **11-shape** · Shipped 2026-05-08 (PR #2, INE-55). HTTP verb + path template + path-param rules per method via new `CcxtExtract.RequestShape.VerbPath`. See [CHANGELOG.md](CHANGELOG.md#tasks-70--71--request-shape-verb--path-template--body-encoding-pr-2-ine-55). |
+| Task 71 `[CSR]` | ✅ | 🎁 **11-shape** · Shipped 2026-05-08 (PR #2, INE-55). Body encoding + content-type per section via new `CcxtExtract.RequestShape.BodyEncoding`. See [CHANGELOG.md](CHANGELOG.md#tasks-70--71--request-shape-verb--path-template--body-encoding-pr-2-ine-55). |
 | Task 72 | ⬜ | 🎁 **11+14** · Timestamp source + format per section [D:3/B:6/U:7 → Eff:2.17] 🚀 |
 | Task 73 | ⬜ | 🎁 **11+14** · Per-method rate-limit cost + weight axis [D:3/B:7/U:7 → Eff:2.33] 🚀 |
 | Task 73b | ✅ | 🎁 **11+14** · Shipped 2026-05-07 at schema 3.1.0. See [CHANGELOG.md](CHANGELOG.md#task-73b-per-exchange-user-agent--default-headers-schema-310). |

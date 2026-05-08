@@ -51,7 +51,7 @@ Phases reordered by criticality for consumers calling *any* endpoint (unified or
 
 **Freeze list (~22 tasks):**
 
-- **Endpoint-invocation (11 tasks):** Tasks 70, 71 (✅ shipped PR #2), 72 (🔄 PR #12), 73 (🔄 PR #8), 73d (🔄 PR #9) (Phase 11) · Tasks 85 (🔄 PR #13), 86 (🔄 PR #13), 87 (✅), 88a, 88b, 88c (✅ PR #6; v4-emission in PR #13) (Phase 13) · Tasks 89 (🔄 PR #11), 90 (Phase 14)
+- **Endpoint-invocation (11 tasks):** Tasks 70, 71 (✅ shipped PR #2), 72 (🔄 PR #12), 73 (✅), 73d (🔄 PR #9) (Phase 11) · Tasks 85 (🔄 PR #13), 86 (🔄 PR #13), 87 (✅), 88a, 88b, 88c (✅ PR #6; v4-emission in PR #13) (Phase 13) · Tasks 89 (🔄 PR #11), 90 (Phase 14)
 - **Normalization (11 tasks):** Task 129 (🔄 PR #10) · Tasks 74–83 (Phase 12)
 
 **v4 Bundle Extras** (in v4 if shipped by cut, not strictly freeze-gating): Tasks 121 (descriptors), 122 (descriptor schema invariant), 126 (OpenAPI sibling).
@@ -245,7 +245,7 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 | Task 70 `[CSR]` | ✅ | 🎁 **11-shape** · Shipped 2026-05-08 (PR #2, INE-55). HTTP verb + path template + path-param rules per method via new `CcxtExtract.RequestShape.VerbPath`. See [CHANGELOG.md](CHANGELOG.md#tasks-70--71--request-shape-verb--path-template--body-encoding-pr-2-ine-55). |
 | Task 71 `[CSR]` | ✅ | 🎁 **11-shape** · Shipped 2026-05-08 (PR #2, INE-55). Body encoding + content-type per section via new `CcxtExtract.RequestShape.BodyEncoding`. See [CHANGELOG.md](CHANGELOG.md#tasks-70--71--request-shape-verb--path-template--body-encoding-pr-2-ine-55). |
 | Task 72 | 🔄 in-review | 🎁 **11+14** · Timestamp source + format per section [D:3/B:6/U:7 → Eff:2.17] 🚀 — PR #12 (INE-62) |
-| Task 73 | 🔄 in-review | 🎁 **11+14** · Per-method rate-limit cost + weight axis [D:3/B:7/U:7 → Eff:2.33] 🚀 — PR #8 |
+| Task 73 | ✅ | 🎁 **11+14** · Shipped 2026-05-08 (PR #8, INE-63). See [CHANGELOG.md](CHANGELOG.md#task-73--per-method-rate-limit-cost--weight-axis-pr-8-ine-63). |
 | Task 73b | ✅ | 🎁 **11+14** · Shipped 2026-05-07 at schema 3.1.0. See [CHANGELOG.md](CHANGELOG.md#task-73b-per-exchange-user-agent--default-headers-schema-310). |
 | Task 73c | ✅ | 🎁 **11-request** · Shipped 2026-04-17 at schema 2.1.0. See [CHANGELOG.md](CHANGELOG.md#task-73c-per-method-default-request-body-extractor-schema-210). |
 | Task 73d `[CSR]` | ✅ | 🎁 **11-shape** · Shipped 2026-05-08 at schema 3.3.0 (PR #14, replaces closed #9; INE-64). Per-unified-endpoint `transactional` / `on_chain` flag derived from CCXT's unified-method naming convention (`fetch*` → read-only; `withdraw*` → on_chain). Name-only scope; non-unified raw broadcast endpoints (DEX `signL1Action` / `signEIP712`, `public_post_sendtx`) explicitly out of scope — see Task 73f. See [CHANGELOG.md](CHANGELOG.md#task-73d-transaction_classification-flag-schema-330-pr-9-ine-64). |

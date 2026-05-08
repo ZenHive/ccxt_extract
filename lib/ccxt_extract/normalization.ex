@@ -114,16 +114,19 @@ defmodule CcxtExtract.Normalization do
 
   # --- Helpers ---
 
+  @spec digest_from_entry(map() | nil) :: %{optional(String.t()) => map()}
   defp digest_from_entry(nil), do: %{}
   defp digest_from_entry(%{"parse_methods" => methods}) when is_map(methods), do: digest_from_methods(methods)
   defp digest_from_entry(_), do: %{}
 
+  @spec digest_from_methods(map()) :: %{optional(String.t()) => map()}
   defp digest_from_methods(methods) do
     Map.new(methods, fn {name, ast} ->
       {name, digest_record(ast)}
     end)
   end
 
+  @spec digest_record(term()) :: map()
   defp digest_record(ast) when is_map(ast) do
     %{
       "params" => normalize_params(Map.get(ast, "params")),
@@ -142,6 +145,7 @@ defmodule CcxtExtract.Normalization do
     }
   end
 
+  @spec normalize_params(term()) :: list()
   defp normalize_params(nil), do: []
 
   defp normalize_params(list) when is_list(list) do
@@ -150,12 +154,14 @@ defmodule CcxtExtract.Normalization do
 
   defp normalize_params(_), do: []
 
+  @spec normalize_param(term()) :: %{required(String.t()) => term()}
   defp normalize_param(%{"name" => name} = param) when is_binary(name) do
     %{"name" => name, "type" => Map.get(param, "type")}
   end
 
   defp normalize_param(_), do: %{"name" => "", "type" => nil}
 
+  @spec normalize_statement_count(term()) :: non_neg_integer()
   defp normalize_statement_count(n) when is_integer(n) and n >= 0, do: n
   defp normalize_statement_count(_), do: 0
 end

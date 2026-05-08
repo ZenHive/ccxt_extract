@@ -78,6 +78,7 @@ defmodule CcxtExtract.Schema do
   @required_errors_keys_v4 ~w(handle_errors class_hierarchy)
   @required_markets_keys_v4 ~w(symbols_index patterns)
   @required_raw_keys_v4 ~w(describe url_templates class_info method_inventory overrides_meta)
+  @required_normalization_keys_v4 ~w(parse_methods_digest field_maps response_envelopes)
 
   # --- Public API ---
 
@@ -315,6 +316,7 @@ defmodule CcxtExtract.Schema do
       |> check_required_keys(data["errors"], @required_errors_keys_v4, "errors")
       |> check_required_keys(data["markets"], @required_markets_keys_v4, "markets")
       |> check_required_keys(data["raw"], @required_raw_keys_v4, "raw")
+      |> check_required_keys(data["normalization"], @required_normalization_keys_v4, "normalization")
 
     case errors do
       [] -> :ok

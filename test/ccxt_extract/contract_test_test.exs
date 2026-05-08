@@ -431,6 +431,7 @@ defmodule CcxtExtract.ContractTestTest do
       |> Map.put("signature_placement", %{"location" => "header", "key" => "X-SIGN"})
       |> Map.put("auth_headers", [])
       |> Map.put("nonce", %{"source" => "timestamp_ms", "format" => "integer"})
+      |> Map.put("timestamp", %{"source" => "timestamp_ms", "format" => "integer"})
       |> Map.put("pre_sign_transforms", [])
     end
 
@@ -440,7 +441,7 @@ defmodule CcxtExtract.ContractTestTest do
     end
 
     test "scaffold null_recipe (all-null + not_yet_derived tag) emits no findings" do
-      # Biconditional holds: tag is populated (non-nil), and all six fields
+      # Biconditional holds: tag is populated (non-nil), and all seven fields
       # are null, so the "iff" clause is satisfied on both sides.
       recipe = %{"private" => SignRecipe.null_recipe()}
       exchange = exchange_with_recipe("scaffold", recipe)
@@ -465,7 +466,7 @@ defmodule CcxtExtract.ContractTestTest do
       assert finding.invariant == "sign_recipe_honesty_valid"
       assert finding.path == "structure.sign_recipe.private"
       assert finding.message =~ "not_yet_derived"
-      assert finding.message =~ "all six derivation fields are populated"
+      assert finding.message =~ "all seven derivation fields are populated"
     end
 
     test "partial record with unresolved_reason: nil emits a left→right violation finding" do

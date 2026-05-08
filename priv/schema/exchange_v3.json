@@ -659,7 +659,7 @@
     "SignRecipeRecord": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["crypto_op", "canonical_string", "signature_placement", "auth_headers", "nonce", "pre_sign_transforms", "unresolved_reason", "patch_count"],
+      "required": ["crypto_op", "canonical_string", "signature_placement", "auth_headers", "nonce", "timestamp", "pre_sign_transforms", "unresolved_reason", "patch_count"],
       "description": "Declarative per-section signing recipe. Authoritative copy of priv/schema/sign_recipe_v1.json (kept in lockstep). See CcxtExtract.SignRecipe moduledoc and SCHEMA.md § Signing Recipe. All derivation fields are nullable: Task 64 ships every record with null derivation fields + unresolved_reason = \"not_yet_derived\". Tasks 65–69 populate fields incrementally.",
       "properties": {
         "crypto_op": {
@@ -693,7 +693,11 @@
         },
         "nonce": {
           "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/SignRecipeNonce" }],
-          "description": "Timestamp / nonce source and wire format. Populated by Task 67."
+          "description": "Timestamp / nonce source and wire format. Populated by Task 67. Retained additively alongside `timestamp` (Task 72) for the v3 grace window — v4 consumers should read `timestamp` instead."
+        },
+        "timestamp": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/SignRecipeNonce" }],
+          "description": "Timestamp source and wire format used by sign(). Same `{source, format}` shape as `nonce` and currently produced by the same AST classifier (most CCXT exchanges derive their nonce directly from a timestamp). Surfaced as a distinct field so v4 consumers read the canonical `auth.sign_recipe.<section>.timestamp` path while v3 keeps `nonce` for the grace window. Populated by Task 72; splits from `nonce` only if a future exchange surfaces a structurally distinct nonce (counter-based, opaque token)."
         },
         "pre_sign_transforms": {
           "oneOf": [

@@ -401,10 +401,10 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
   end
 
   describe "shape invariants across all exchanges" do
-    test "every recipe record has the required eight keys" do
+    test "every recipe record has the required nine keys" do
       required =
         Enum.sort(
-          ~w(crypto_op canonical_string signature_placement auth_headers nonce pre_sign_transforms unresolved_reason patch_count)
+          ~w(crypto_op canonical_string signature_placement auth_headers nonce timestamp pre_sign_transforms unresolved_reason patch_count)
         )
 
       Enum.each(all_exchange_files(), fn file ->

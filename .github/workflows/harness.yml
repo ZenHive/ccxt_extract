@@ -73,21 +73,37 @@ jobs:
       - name: Sobelow (honors .sobelow-conf, exit=Low)
         run: mix sobelow
 
-      # Project-specific: corpus materialization before tests. test_helper.exs
-      # raises on missing priv/discoveries/* and priv/output/binance.json. The
-      # `setup` alias does sparse clone of CCXT + bundle copy + regenerates the
-      # corpus via `mix ccxt_extract.update`.
-      - name: Materialize CCXT corpus (test_helper requires it)
-        run: mix ccxt_extract.setup
-
-      # Coverage tier: 80% — standard business logic. `--exclude extraction`
-      # because tests tagged `:extraction` hit the real CCXT source/bundle (slow,
-      # already covered by cached integration tests in test/integration/cached/).
-      # `--exclude flaky` is the gate side of tag-and-quarantine — tag the known
-      # offenders with `@tag :flaky` and they drop out of the blocking run. Run
-      # them locally (or in a future non-blocking soak job) to track drift.
-      - name: Tests + coverage gate (>=80%)
-        run: mix test.json --cover --cover-threshold 80 --summary-only --exclude extraction --exclude flaky
+      # CI runs only the offline / pure-logic test surface. Corpus-dependent
+      # integration tests (test/integration/cached/*) assert against the
+      # freshly regenerated priv/output/ corpus, but corpus regen depends on
+      # CCXT's loadMarkets() succeeding from a GitHub Actions runner IP —
+      # Binance, Alpaca, and ~8 others geo-block the AWS ranges, which would
+      # condition the gate on CCXT-runtime reliability rather than PR
+      # correctness. Integration tests run locally (corpus materialized once
+      # via `mix setup`) and on Cursor's cloud (working CCXT runtime access)
+      # before the agent opens a PR. A future non-blocking soak job could
+      # regen + run them on a schedule.
+      #
+      # Tag exclusions:
+      #   :extraction  — drops modules that need the real CCXT source/bundle
+      #                  (Describe, OXCExtractor, SigningFixtures, extractor
+      #                  mix tasks); they report 0% offline regardless.
+      #   :integration — drops cached-corpus tests (priv/output/ readers).
+      #   :flaky       — gate side of tag-and-quarantine; tag offenders with
+      #                  `@tag :flaky` and they drop out of the blocking run.
+      #
+      # CCXT_EXTRACT_SKIP_CORPUS_CHECK=1 tells test/test_helper.exs to skip
+      # its sentinel-files halt — required because the corpus is no longer
+      # materialized in this job. Local `mix test` keeps the fail-fast.
+      #
+      # Coverage tier: 70% — structural offline floor with `:extraction` and
+      # `:integration` excluded. No `--summary-only`: the v0.3.0+ default
+      # already prints failures-only, and on a red run the per-test detail
+      # is what reviewers need (CI corollary in ex-unit-json.md).
+      - name: Tests + coverage gate (>=70%) — offline surface only
+        env:
+          CCXT_EXTRACT_SKIP_CORPUS_CHECK: "1"
+        run: mix test.json --cover --cover-threshold 70 --exclude extraction --exclude flaky --exclude integration
 
       - name: Dialyzer
         run: mix dialyzer

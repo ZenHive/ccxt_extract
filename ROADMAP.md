@@ -307,7 +307,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 89 | 🔄 in-review | 🎁 **11+14** · Bucket config — axes (IP/UID/order-weight), refill, size [D:4/B:7/U:7 → Eff:1.75] 🚀 — PR #11 (INE-65) |
+| Task 89 | ✅ | 🎁 **11+14** · Bucket config — axes (IP/UID/order-weight), refill, size [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #11 (INE-65) |
 | Task 90 | ⬜ | 🎁 **11+14** · Per-endpoint cost weights against bucket axis [D:4/B:7/U:8 → Eff:1.88] 🚀 |
 
 ---

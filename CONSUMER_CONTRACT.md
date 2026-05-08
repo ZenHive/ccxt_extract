@@ -93,8 +93,8 @@ For every `parse*` method, a consumer needs a declarative field map.
 | Item | Status | Source |
 |------|--------|--------|
 | Global rate limit (ms between requests) | ✅ | `runtime.describe.rateLimit` |
-| Bucket axes (IP vs UID vs order-weight) | ⬜ | Phase 14 — Task 89 |
-| Bucket refill rates + sizes | ⬜ | Phase 14 — Task 89 |
+| Bucket axes (IP vs UID vs order-weight) | ✅ | `rate_limits.buckets[].axes` (Task 89) |
+| Bucket refill rates + sizes | ✅ | `rate_limits.buckets[].refill_per_sec` + `.max_size` (Task 89) |
 | Per-endpoint cost weights against correct axis | ⬜ | Phase 14 — Task 90 |
 
 ---

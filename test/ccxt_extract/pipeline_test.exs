@@ -234,6 +234,15 @@ defmodule CcxtExtract.PipelineTest do
           }
         }
       },
+      request_headers: %{
+        "testex" => %{
+          "id" => "testex",
+          "request_headers" => %{
+            "user_agent" => "Mozilla/5.0 (TestEx)",
+            "default_headers" => %{"X-Test-Header" => "ccxt"}
+          }
+        }
+      },
       overrides: %{},
       missing_files: []
     }
@@ -283,6 +292,7 @@ defmodule CcxtExtract.PipelineTest do
       unified_endpoints: %{},
       request_defaults: %{},
       url_templates: %{},
+      request_headers: %{},
       overrides: %{},
       missing_files: []
     }
@@ -1139,6 +1149,7 @@ defmodule CcxtExtract.PipelineTest do
     write_json(Path.join(dir, "unified_endpoints.json"), empty_global)
     write_json(Path.join(dir, "request_defaults.json"), empty_global)
     write_json(Path.join(dir, "url_templates.json"), empty_global)
+    write_json(Path.join(dir, "request_headers.json"), empty_global)
     write_json(Path.join(dir, "overrides.json"), empty_global)
 
     # Manifests for per-exchange loaders

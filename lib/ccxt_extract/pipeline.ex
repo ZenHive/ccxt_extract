@@ -22,6 +22,7 @@ defmodule CcxtExtract.Pipeline do
   alias CcxtExtract.OverrideRegistry
   alias CcxtExtract.Paths
   alias CcxtExtract.Provenance
+  alias CcxtExtract.RequestShape
   alias CcxtExtract.Schema
   alias CcxtExtract.ScopeCleanup
   alias CcxtExtract.SignRecipe
@@ -163,7 +164,7 @@ defmodule CcxtExtract.Pipeline do
 
     case OverrideRegistry.load(id) do
       :none ->
-        sync_sign_recipe(exchange)
+        exchange |> sync_sign_recipe() |> sync_request_shape()
 
       overrides when is_list(overrides) ->
         {updated, applied_paths} =
@@ -173,6 +174,7 @@ defmodule CcxtExtract.Pipeline do
 
         updated
         |> sync_sign_recipe()
+        |> sync_request_shape()
         |> stamp_override_provenance(applied_paths)
     end
   rescue
@@ -219,6 +221,33 @@ defmodule CcxtExtract.Pipeline do
 
     Map.new(auth_sections, fn section ->
       {section, Map.get(existing, section) || Map.get(new_recipes, section) || SignRecipe.null_recipe()}
+    end)
+  end
+
+  # Mirror of `sync_sign_recipe/1` for `structure.request_shape`.
+  # Keeps recipe keys aligned with `structure.authenticated_sections`
+  # after overrides may have mutated either, and re-runs derivation
+  # for any sections newly introduced by an override on
+  # authenticated_sections (so they get a real verb/path triple
+  # rather than a permanent null_record).
+  defp sync_request_shape(exchange) do
+    auth_sections = get_in(exchange, ["structure", "authenticated_sections"])
+    existing = get_in(exchange, ["structure", "request_shape"]) || %{}
+    sign_method = get_in(exchange, ["structure", "sign_method"])
+    describe_api = get_in(exchange, ["runtime", "describe", "api"])
+    synced = synced_request_shape_map(auth_sections, existing, sign_method, describe_api)
+    put_in(exchange, ["structure", "request_shape"], synced)
+  end
+
+  defp synced_request_shape_map(nil, _existing, _sign_method, _describe_api), do: %{}
+  defp synced_request_shape_map([], _existing, _sign_method, _describe_api), do: %{}
+
+  defp synced_request_shape_map(auth_sections, existing, sign_method, describe_api) when is_list(auth_sections) do
+    new_sections = Enum.reject(auth_sections, &Map.has_key?(existing, &1))
+    new_records = RequestShape.Derive.derive(sign_method, new_sections, describe_api)
+
+    Map.new(auth_sections, fn section ->
+      {section, Map.get(existing, section) || Map.get(new_records, section) || RequestShape.null_record()}
     end)
   end
 
@@ -282,7 +311,8 @@ defmodule CcxtExtract.Pipeline do
       "symbols_index" => CcxtExtract.SymbolsIndex.derive(markets),
       "symbol_patterns" => CcxtExtract.SymbolPatterns.derive(markets, describe),
       "url_templates" => get_url_templates(id, data),
-      "testnet_urls" => CcxtExtract.TestnetUrls.derive(describe)
+      "testnet_urls" => CcxtExtract.TestnetUrls.derive(describe),
+      "request_headers" => get_request_headers(id, data)
     }
 
     sign_method = get_sign_method(id, data)
@@ -299,6 +329,7 @@ defmodule CcxtExtract.Pipeline do
       "methods" => get_methods(id, data),
       "sign_method" => sign_method,
       "authenticated_sections" => authenticated_sections,
+      "describe_api" => describe_api,
       "handle_errors" => get_handle_errors(id, data),
       "interface_signatures" => get_interface_signatures(id, data),
       "pagination" => get_pagination(id, data),
@@ -444,6 +475,32 @@ defmodule CcxtExtract.Pipeline do
     case find_parent_exchange_id(id, data) do
       nil -> nil
       parent_id -> get_url_templates(parent_id, data)
+    end
+  end
+
+  # Request headers: extract the request_headers wrapper map
+  # (%{"user_agent" => ..., "default_headers" => ...}) from the discovery
+  # lookup. Alias exchanges that didn't produce their own entry fall back
+  # to the parent's value via class hierarchy. Returns nil only when the
+  # entire chain has no entry — `Schema.build_runtime_section/1` substitutes
+  # `RequestHeaders.empty_record()` so the schema-level always-emit
+  # invariant survives.
+  #
+  # No deep-merge with parent: describe() inheritance already happened in
+  # QuickBEAM (the alias's resolved values match the parent's at construction
+  # time). Lookup-with-fallback is sufficient.
+  defp get_request_headers(id, data) do
+    case Map.get(data.request_headers, id) do
+      nil -> get_parent_request_headers(id, data)
+      %{"request_headers" => headers} when is_map(headers) -> headers
+      _ -> nil
+    end
+  end
+
+  defp get_parent_request_headers(id, data) do
+    case find_parent_exchange_id(id, data) do
+      nil -> nil
+      parent_id -> get_request_headers(parent_id, data)
     end
   end
 

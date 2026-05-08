@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "command": ".cursor/hooks/prefer-mix-test-json.sh",
+        "matcher": "Shell",
+        "timeout": 30
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": ".cursor/hooks/post-edit-adapt.sh",
+        "matcher": "Write|TabWrite",
+        "timeout": 300
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/stop-on-fail.sh",
+        "timeout": 300,
+        "loop_limit": 3
+      }
+    ]
+  }
+}

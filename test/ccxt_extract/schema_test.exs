@@ -81,7 +81,11 @@ defmodule CcxtExtract.SchemaTest do
           "url_prefix" => "https://api.testex.com/api/v1/"
         }
       },
-      "testnet_urls" => CcxtExtract.TestnetUrls.none_record()
+      "testnet_urls" => CcxtExtract.TestnetUrls.none_record(),
+      "request_headers" => %{
+        "user_agent" => "Mozilla/5.0 (TestEx) AppleWebKit/537.36",
+        "default_headers" => %{"X-Test-Header" => "ccxt"}
+      }
     }
   end
 
@@ -151,7 +155,8 @@ defmodule CcxtExtract.SchemaTest do
       "symbols_index" => nil,
       "symbol_patterns" => nil,
       "url_templates" => nil,
-      "testnet_urls" => CcxtExtract.TestnetUrls.none_record()
+      "testnet_urls" => CcxtExtract.TestnetUrls.none_record(),
+      "request_headers" => CcxtExtract.RequestHeaders.empty_record()
     }
   end
 

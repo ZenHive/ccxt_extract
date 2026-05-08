@@ -16,6 +16,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
   """
 
   alias CcxtExtract.Provenance
+  alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
 
   @doc """
@@ -67,7 +68,8 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "symbols_index" => nil,
         "symbol_patterns" => %{},
         "url_templates" => nil,
-        "testnet_urls" => CcxtExtract.TestnetUrls.none_record()
+        "testnet_urls" => CcxtExtract.TestnetUrls.none_record(),
+        "request_headers" => CcxtExtract.RequestHeaders.empty_record()
       },
       "structure" => %{
         "class_info" => nil,
@@ -75,6 +77,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "sign_method" => nil,
         "authenticated_sections" => auth_sections,
         "sign_recipe" => SignRecipe.build_default(auth_sections),
+        "request_shape" => RequestShape.build_default(auth_sections),
         "handle_errors" => %{
           "method" => nil,
           "exceptions" => nil,

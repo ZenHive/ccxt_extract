@@ -46,11 +46,110 @@ end
 
 **Pin to a major version.** Your consumer code targets a major schema version (currently 3). Within that major version, all changes are backward-compatible (minor bumps use aliases to preserve old access paths).
 
+**v4 emit gate (in progress).** A v4 reshape is being prepared (top-level reorganization from `runtime`/`structure` to consumer-shaped sections — see [Version 4.0.0 — In Progress (gated)](#version-400--in-progress-gated)). v4 emission is **opt-in** via `--schema-target=4` on `mix ccxt_extract.pipeline` and `mix ccxt_extract.update`; v3 stays the default published contract until the v4 freeze list is empty. Consumers pinned to major version `3` are unaffected during the freeze. When the v4 cut lands, the default flips atomically and the major-version pin moves `3` → `4` in one event — not piecemeal.
+
 ---
 
-## Version 3.0.0 — Current
+## Version 3.1.0 — Current
 
-**Status:** Active (released 2026-04-20, Task 117)
+**Status:** Active (released 2026-05-07, Task 73b)
+
+**JSON Schema:** `exchange_v3.json` (included in every output directory)
+
+**Latest change:** Adds required `runtime.request_headers` — per-exchange
+`userAgent` and default `headers` from CCXT's resolved `describe()` runtime
+data, surfaced as an always-emit wrapper `{user_agent: string|null,
+default_headers: object<string, string>}`. Sourced via QuickBEAM constructor
+instantiation (where the `deepExtend(super.describe(), {...})` merge runs).
+`_provenance["/runtime/request_headers"] = "raw"`.
+
+**Minor bump** because the key is now in `RuntimeData.required` — strict
+validators will reject 3.0.0 output lacking it; permissive readers that
+ignore unknown keys are unaffected. See the new `RequestHeaders` `$def` in
+`exchange_v3.json` for the full schema.
+
+**Coverage:** 8/107 non-alias exchanges override `userAgent` (`bitstamp`,
+`bittrade`, `coinbase` + 2 variants, `delta`, `hibachi`, `htx`); 4/107
+override `default_headers` (`alpaca`, `coinbase`, `coinbaseinternational`,
+`gate`). All others emit the empty wrapper — honest absence, not a guess.
+
+**Out of scope (filed as Task 73e):** `bigone.ts` constructs its
+`User-Agent` inside `sign()`; `okx.ts` mutates `this.headers` at runtime
+via `setSandboxMode()`. Both blind spots need an OXC-side pass over
+sign-method bodies — not visible to QuickBEAM's resolved-describe()
+extraction path.
+
+The previous `## Version 3.0.0` baseline documentation follows; the 3.1.0
+addition is additive — consumers pinned to major version `3` continue to
+read without change aside from the new required-field shape.
+
+---
+
+## Version 4.0.0 — In Progress (gated)
+
+**Status:** In progress (target ship: post-freeze). v4 emission is opt-in via `--schema-target=4`; v3 stays the default published contract until the v4 freeze list is empty AND Task 114 (extraction determinism audit) is green AND `ccxt_client` has its v4 migration ready. v3 readers are unaffected during the freeze.
+
+**JSON Schema:** `exchange_v4.json` (initially the same field set as v3.1.0 with the reorganized top-level shape; Phase 12/13/14 freeze-list tasks populate the new sections as they ship). Coexists with `exchange_v3.json` during the freeze.
+
+**Why a major bump (vs additive v3.x):** the v4 cut reorganizes top-level sections from producer-shaped (`runtime` / `structure`) to consumer-shaped (`endpoints` / `auth` / `errors` / `rate_limits` / `normalization` / `markets` / `testnet` / `raw`). Additive v3.x can grow new keys but cannot reorganize without breaking; one migration cost in exchange for a coherent stable contract. **No further v3.x bumps reach consumers between v3.1.0 and the v4 flip** — that's the atomicity guarantee.
+
+### Top-level reshape
+
+| v3 path | v4 path | Notes |
+|---|---|---|
+| `runtime.symbols_index` | `markets.symbols_index` | Markets group |
+| `runtime.symbol_patterns` | `markets.patterns` | Markets group (renamed for brevity) |
+| `runtime.request_headers` | `auth.headers` | Headers belong to the auth surface |
+| `runtime.url_templates` | `raw.url_templates` | Raw fallback (not consumer-facing primary) |
+| `runtime.describe` | `raw.describe` | Raw CCXT describe — kept under `raw` for AST-level needs |
+| `runtime.testnet_urls` | `testnet` (top-level) | Promoted out of `runtime`; small, distinct concern |
+| `structure.sign_recipe` | `auth.sign_recipe` | Auth group |
+| `structure.sign_method` | `auth.sign_method` | Auth group (raw AST fallback) |
+| `structure.authenticated_sections` | `auth.authenticated_sections` | Auth group |
+| `structure.handle_errors` | `errors.handle_errors` | Errors group |
+| `structure.unified_endpoints` | `endpoints.unified` | Endpoints group |
+| `structure.interface_signatures` | `endpoints.interfaces` | Endpoints group |
+| `structure.request_defaults` | `endpoints.request.defaults` | Endpoints group, nested under `request` |
+| `structure.pagination` | `endpoints.pagination` | Endpoints group |
+| `structure.class_info` | `raw.class_info` | Raw fallback |
+| `structure.methods` | `raw.method_inventory` | Raw fallback (renamed for clarity) |
+| `structure.overrides` | `raw.overrides_meta` | Raw fallback (override analysis metadata) |
+| (new) | `endpoints.raw` | Implicit endpoints surfaced from `describe.api` directly |
+| (new) | `endpoints.descriptors` | Task 121 — TS sig + JSDoc per unified method |
+| (new) | `endpoints.request.shape` | Tasks 70/71/72 — verb + path template + body encoding |
+| (new) | `errors.status_map` | Task 85 — HTTP status → error class |
+| (new) | `errors.retry_classification` | Task 86 |
+| (new) | `errors.class_hierarchy` | Task 87 |
+| (new) | `errors.dispatch` | Tasks 88a/b/c — handler routing tables |
+| (new) | `rate_limits.buckets` | Task 89 |
+| (new) | `rate_limits.per_endpoint_cost` | Task 90 |
+| (new) | `normalization.parse_methods_digest` | Task 129 — compact signature digest, **no AST body** |
+| (new) | `normalization.field_maps` | Phase 12 Tasks 74–82 — derived per-parser-type field maps |
+| (new) | `normalization.response_envelopes` | Task 83 |
+| (new) | `markets.currencies` | Task 97 (if shipped by cut) |
+| (new) | `markets.precision_mode` | Task 98 (if shipped by cut) |
+
+### Why `normalization.parse_methods_digest` is compact, not raw
+
+`structure.parse_methods` was dropped at v3.0.0 (Task 117) precisely because the raw ESTree bodies blew the Hex 128 MB publish cap that ccxt_client downstream needed cleared. The v4 carrier (Task 129) re-introduces the surface as a **compact digest** — method name → `{params, return_type, async, statement_count}` — preserving the discoverability without re-blowing the cap. The full AST bodies remain in `priv/discoveries/parse_methods.json` for internal Phase 12 derivation; consumers that need them call the extractor's discovery file directly rather than reading them per-exchange.
+
+### What changed from 3.1.0 (breaking)
+
+[FILL IN AS FREEZE TASKS SHIP — populated incrementally as Phases 11/12/13/14 land. The "Top-level reshape" table above is the path-migration specification; "What changed" elaborates with concrete field-by-field diffs and consumer-facing semantic notes.]
+
+### Migration Notes
+
+[FILL IN AS FREEZE TASKS SHIP — major-version-pin from `3` → `4`, code samples in Python/Rust/Elixir following the v3.0.0 migration-notes precedent (see [Version 3.0.0 — Superseded](#version-300--superseded) below). Three-line summary every consumer needs: (1) update version-pin major from `3` → `4`; (2) update top-level key reads using the path-migration table above; (3) point any JSON-Schema integration at `exchange_v4.json` instead of `exchange_v3.json`.]
+
+### v4 emit gate
+
+v4 emission is opt-in during the freeze period via the `--schema-target=4` CLI flag on `mix ccxt_extract.pipeline` and `mix ccxt_extract.update`. Default emission stays at v3 (`--schema-target=3`) until the freeze list is empty. When the freeze closes, the default flips in one atomic commit (`@schema_version` and `@schema_filename` in `lib/ccxt_extract/schema.ex`); v3 remains available via `--schema-target=3` for one release post-flip per the established Task 61c → Task 107 → Task 117 precedent.
+
+---
+
+## Version 3.0.0 — Superseded
+
+**Status:** Superseded by 3.1.0 (released 2026-04-20, Task 117)
 
 **JSON Schema:** `exchange_v3.json` (included in every output directory)
 
@@ -292,6 +391,7 @@ derived and therefore carry per-subkey tags.
     "/runtime/symbol_patterns": "derived",
     "/runtime/testnet_urls": "derived",
     "/runtime/url_templates": "raw",
+    "/runtime/request_headers": "raw",
     "/structure/class_info": "raw",
     "/structure/methods": "raw",
     "/structure/sign_method": "raw",
@@ -347,6 +447,7 @@ All keys are always materialized (never absent). Consumers check for `null`, nev
 | `describe` | object or null | Full `describe()` output — api endpoints, `has` capabilities, fees, limits, urls, exceptions, features, timeframes, requiredCredentials |
 | `markets` | MarketsData or null | `loadMarkets()` result — symbol formats, precision, limits, fee structures |
 | `symbol_patterns` | SymbolPatterns or null | Derived symbol formatting patterns per market type — separator, case, ID structure, suffix, anomalies. Consumers use for unified ↔ exchange-native symbol conversion |
+| `request_headers` | RequestHeaders | Always-emit wrapper `{user_agent: string\|null, default_headers: object<string, string>}`. `user_agent` is the resolved per-exchange UA string (or null when CCXT didn't override the base default). `default_headers` is a flat string-to-string map (empty `{}` when no override). Sourced via QuickBEAM constructor instantiation. Coverage is sparse (~8% UA, ~4% headers in the full corpus); most exchanges emit the empty wrapper. **Schema 3.1.0+.** Note: two known QuickBEAM blind spots — `bigone.ts` (sign-time UA construction) and `okx.ts` (`setSandboxMode()` runtime mutation) — are NOT captured here; tracked as Task 73e. |
 
 ### Structure Layer (`structure`)
 
@@ -420,7 +521,9 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 3.0.0 | 2026-04-20 | **Breaking.** Replace `runtime.markets` with compact derived `runtime.symbols_index` (map of symbol → `{spot: bool, swap: bool}`); drop `structure.parse_methods` and `structure.ws_methods` from emitted output (extractors retained; discovery files still written to `priv/discoveries/` for internal Phase 12 / Phase 15 consumers). Rename JSON Schema file `exchange_v2.json` → `exchange_v3.json`. `priv/schema/exchange_v2.json` retained one release for diff reference, deleted 2026-05-07 (Task 118). Provenance map drops three raw pointers and gains `/runtime/symbols_index` (derived). Consumer major-version pin bumps `2` → `3`. Clears the ccxt_client Hex 128 MB publish cap (binance pretty-JSON 56.2 MB → compact-JSON + pruned 25.6 MB → ~2 MB). See [Version 3.0.0 — Current](#version-300--current) for migration notes. |
+| 4.0.0 | TBD (post-freeze) | **Breaking, gated.** Top-level reshape from producer-shaped (`runtime`/`structure`) to consumer-shaped sections (`endpoints`/`auth`/`errors`/`rate_limits`/`normalization`/`markets`/`testnet`/`raw`). Re-introduces the normalization surface dropped at 3.0.0 (compact `normalization.parse_methods_digest` + Phase 12 derived field maps — **NOT** raw AST bodies, preserving the 3.0.0 Hex-cap reduction). Emission opt-in via `--schema-target=4` until the v4 freeze list is empty AND Task 114 (extraction determinism audit) is green AND `ccxt_client` has its v4 migration ready. Consumer major-version pin bumps `3` → `4` atomically. See [Version 4.0.0 — In Progress (gated)](#version-400--in-progress-gated) for the full path-migration table and the v4 emit-gate mechanism. |
+| 3.1.0 | 2026-05-07 | Add required `runtime.request_headers` — always-emit `{user_agent: string\|null, default_headers: object<string, string>}` wrapper sourced from CCXT's resolved `describe()` runtime (per-exchange `userAgent` override + default `headers` map). Populated via QuickBEAM constructor instantiation in `CcxtExtract.RequestHeaders`; consumers replace any hardcoded UA / version-header tables with reads from this field. `_provenance["/runtime/request_headers"] = "raw"`. **Minor bump** because the key is now in `RuntimeData.required` — strict validators reject 3.0.0 output lacking it; permissive readers are unaffected. Two known blind spots (sign-time UA construction in `bigone.ts`, runtime `setSandboxMode()` header mutation in `okx.ts`) tracked as Task 73e. See [Version 3.1.0 — Current](#version-310--current). |
+| 3.0.0 | 2026-04-20 | **Breaking.** Replace `runtime.markets` with compact derived `runtime.symbols_index` (map of symbol → `{spot: bool, swap: bool}`); drop `structure.parse_methods` and `structure.ws_methods` from emitted output (extractors retained; discovery files still written to `priv/discoveries/` for internal Phase 12 / Phase 15 consumers). Rename JSON Schema file `exchange_v2.json` → `exchange_v3.json`. `priv/schema/exchange_v2.json` retained one release for diff reference. Provenance map drops three raw pointers and gains `/runtime/symbols_index` (derived). Consumer major-version pin bumps `2` → `3`. Clears the ccxt_client Hex 128 MB publish cap (binance pretty-JSON 56.2 MB → compact-JSON + pruned 25.6 MB → ~2 MB). See [Version 3.0.0 — Current](#version-300--current) for migration notes. |
 | 2.4.0 | 2026-04-19 | Add nullable-by-pattern `runtime.testnet_urls` and promote it into `RuntimeData.required` — structured testnet / sandbox URL catalog with `pattern` enum (`separate_host` / `sandbox_flag` / `none`), `{hostname}` pre-resolution, and independent `sandbox_flag_field` that tracks `options.sandboxMode` presence. Replaces consumer-side reach-into `runtime.describe.urls.test` (opaque passthrough). New `testnet_urls_shape_valid` contract invariant. `_provenance["/runtime/testnet_urls"] = "derived"`. **Minor bump** because the key is now in `RuntimeData.required` — strict validators reject 2.3.0 output lacking it; permissive readers are unaffected. See [Testnet URL Catalog (2.4.0+)](#testnet-url-catalog-240). |
 | 2.3.0 | 2026-04-19 | Reshape `sign_recipe.<section>.canonical_string` from a **single record** to a **per-verb map** keyed on HTTP verb (`GET`/`POST`/`PUT`/`DELETE`/`PATCH`) or the sentinel `*` (uniform across all verbs). A single section can now carry multiple families (e.g. OKX.private: `GET` = hmac_simple for query-signed GETs; a future `POST` entry will be hmac_with_body for body-signed POSTs). Task 66a populates hmac_simple entries; Task 66b will populate hmac_with_body entries in parallel. Practically additive — no consumer previously parsed a populated `canonical_string` (every record landed null at 2.2.0). **Minor bump** because the populated shape is new. First-run coverage: OKX.private.GET populated; all other priority exchanges remain null with truthful `unresolved_reason` tags pending Tasks 66b/66e/66f. |
 | 2.2.0 | 2026-04-18 | Add `structure.sign_recipe` as per-section declarative signing recipe — scaffold only. Keys mirror `authenticated_sections`; values are `SignRecipeRecord` with every derivation field (`crypto_op`, `canonical_string`, `signature_placement`, `auth_headers`, `nonce`, `pre_sign_transforms`) `null` and `unresolved_reason: "not_yet_derived"`. Populated incrementally by Phase 10 tasks 65–69. Standalone JSON Schema at `priv/schema/sign_recipe_v1.json` kept in lockstep with `exchange_v2.json#/$defs/SignRecipeRecord`. Two new contract-test invariants: `sign_recipe_keys_match_auth_sections` and `sign_recipe_shape_valid`. Provenance: `/structure/sign_recipe` tagged `"derived"`. **Minor bump** because the key is now in `StructureData.required` — strict validators reject 2.1.0 output lacking it; permissive readers are unaffected. See [Signing Recipe (2.2.0+)](#signing-recipe-220). |

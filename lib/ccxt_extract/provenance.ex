@@ -65,6 +65,7 @@ defmodule CcxtExtract.Provenance do
     /exchange/referral
     /runtime/describe
     /runtime/url_templates
+    /runtime/request_headers
     /structure/class_info
     /structure/methods
     /structure/sign_method
@@ -83,6 +84,7 @@ defmodule CcxtExtract.Provenance do
     /runtime/testnet_urls
     /structure/authenticated_sections
     /structure/sign_recipe
+    /structure/request_shape
     /structure/handle_errors/error_code_fields
     /structure/handle_errors/throw_dispatches
     /structure/unified_endpoints

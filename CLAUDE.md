@@ -58,7 +58,7 @@ Every output field is produced by exactly one of two complementary passes. Under
 | Tool | Input | Output scope | Speed | Used in |
 |------|-------|--------------|-------|---------|
 | **OXC** (Rust NIF) | CCXT TS source at `priv/ccxt/ts/src/` | **Structural** — method ASTs, class hierarchy, type annotations, section membership, sign-method bodies | ~43ms per file | `oxc_extractor`, `oxc_batch`, `method_ast`, `parse_methods` (discovery files only — not emitted to per-exchange JSON since schema 3.0.0 / Task 117; Phase 12 consumes from `priv/discoveries/parse_methods.json`), `sign_method`, `sign_recipe` (scaffold, Task 64 — populated by Tasks 65–69), `handle_errors`, `throw_dispatches`, `interface_signatures`, `request_defaults`, `ws_methods` (discovery files only — same Phase 15 treatment) |
-| **QuickBEAM** (Zig NIF) | `priv/ccxt_bundle.js` (the browser bundle copied during `ccxt_extract.setup`) | **Resolved runtime** — full `describe()` after inheritance, URL templates, rate limits, nonce defaults | ~13s for all exchanges | `quickbeam_runtime`, `describe`, `load_markets`, `url_templates`, `signing_fixtures` |
+| **QuickBEAM** (Zig NIF) | `priv/ccxt_bundle.js` (the browser bundle copied during `ccxt_extract.setup`) | **Resolved runtime** — full `describe()` after inheritance, URL templates, rate limits, nonce defaults, request headers | ~13s for all exchanges | `quickbeam_runtime`, `describe`, `load_markets`, `url_templates`, `signing_fixtures`, `request_headers` |
 
 Neither tool alone is sufficient. `contract_test` cross-validates the two (e.g., every method named in resolved `describe().api` must exist in the parsed class AST or an ancestor). Divergence means a silent regression — fix the extractor, not the test.
 

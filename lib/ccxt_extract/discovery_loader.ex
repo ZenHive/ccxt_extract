@@ -52,6 +52,7 @@ defmodule CcxtExtract.DiscoveryLoader do
     {unified_endpoints, stats} = load_exchange_lookup(dir, "unified_endpoints.json", expected_ids, stats)
     {request_defaults, stats} = load_exchange_lookup(dir, "request_defaults.json", expected_ids, stats)
     {url_templates, stats} = load_exchange_lookup(dir, "url_templates.json", expected_ids, stats)
+    {request_headers, stats} = load_exchange_lookup(dir, "request_headers.json", expected_ids, stats)
     {overrides, stats} = load_overrides(dir, expected_ids, stats)
 
     %{
@@ -70,6 +71,7 @@ defmodule CcxtExtract.DiscoveryLoader do
       unified_endpoints: unified_endpoints,
       request_defaults: request_defaults,
       url_templates: url_templates,
+      request_headers: request_headers,
       overrides: overrides,
       canonical_has_keys: compute_canonical_has_keys(describe),
       missing_files: Enum.reverse(stats.missing_files),
@@ -503,6 +505,19 @@ defmodule CcxtExtract.DiscoveryLoader do
 
   defp validate_exchange_lookup_entry("url_templates.json", entry) do
     {:corrupt, "url_templates.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
+  end
+
+  defp validate_exchange_lookup_entry("request_headers.json", %{"id" => id} = entry) when is_binary(id) do
+    with {:ok, headers} <-
+           fetch_required_key(entry, "request_headers", id, "request_headers.json"),
+         :ok <-
+           validate_required_map_field("request_headers.json", id, "request_headers", headers) do
+      {:ok, id, entry}
+    end
+  end
+
+  defp validate_exchange_lookup_entry("request_headers.json", entry) do
+    {:corrupt, "request_headers.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
   end
 
   defp validate_exchange_lookup_entry(_filename, %{"id" => id} = entry) when is_binary(id), do: {:ok, id, entry}

@@ -6,6 +6,33 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Tasks 70 + 71 — request shape: verb + path template + body encoding (PR #2, INE-55)
+
+- **Shipped 2026-05-08** via PR #2 (Cursor-delegated, squash-merged commit `c66fde3`). Closes the first two slots of 🎁 **11-shape** (Tasks 72/73/73d still ⬜).
+- **New `CcxtExtract.RequestShape` module** (`lib/ccxt_extract/request_shape.ex`) plus three sub-modules:
+  - `RequestShape.VerbPath` — extracts HTTP verb + path template + path-param substitution rules per method (Task 70).
+  - `RequestShape.BodyEncoding` — extracts body-encoding strategy + content-type per section (Task 71).
+  - `RequestShape.Derive` — orchestrator that merges verb/path and body-encoding outputs into the per-exchange request_shape map.
+- **Pipeline wiring** (`lib/ccxt_extract/pipeline.ex`) — request_shape is now populated alongside the existing structure-section data.
+- **Schema** — `priv/schema/exchange_v3.json` extended with the request_shape definitions; `lib/ccxt_extract/schema.ex` integrates the section into the assembled per-exchange JSON.
+- **Provenance** (`lib/ccxt_extract/provenance.ex`) — request_shape pointer registered as `derived`.
+- **New top-level `lib/ccxt_extract/contract_test.ex` module** — extracted invariants from previous inline contract checks; PR #2 adds invariants covering the new request_shape surface.
+- **Test coverage** — `test/ccxt_extract/request_shape_test.exs` (unit) and `test/integration/cached/request_shape_cached_test.exs` (cached integration) cover verb/path classification, body-encoding detection, and per-exchange derivation against priority families.
+- **Setup task hardening** — `lib/mix/tasks/ccxt_extract.setup.ex` picked up incremental robustness during the round-trip (e.g. `--no-cone` fallback diagnostic in the local-corpus install path).
+- **CI test step disabled (2026-05-08)** — `.github/workflows/harness.yml` test+coverage block commented out: the offline test surface kept tripping on compile-time corpus dependencies that are awkward to guard one-by-one. CI now runs format / compile / credo / doctor / sobelow / dialyzer only. Local `mix test` (with materialized corpus) and Cursor's cloud (working CCXT runtime access) remain the test gates. Re-enable once the test surface is fully decoupled from corpus state, or once a soak job materializes the corpus before tests run.
+- **Cross-repo:** ccxt_client unblock for the request-shape side of the consumer contract — the `runtime.url_templates` + per-method verb/body data downstream consumers need is now populated for Tier 1 / Tier 2 / DEX families.
+
+### Roadmap restructure: v4 schema-freeze plan (2026-05-08)
+
+- **Phase 12 promoted** from "deprioritized — unified-only" to schema-freeze gate. Downstream libraries that depend on `ccxt_client` need the unified-method normalization surface populated for the v4 schema cut to be useful, so Phase 12 ships in parallel with the endpoint-invocation critical path (Phases 11/13/14), not after.
+- **v4 reshape adopted** as the schema-versioning path (over additive v3.x). Top-level sections reorganize from producer-shaped (`runtime`/`structure`) to consumer-shaped (`endpoints`/`auth`/`errors`/`rate_limits`/`normalization`/`markets`/`testnet`/`raw`). One migration cost in exchange for a coherent stable contract; **no further v3.x bumps reach consumers between v3.1.0 and the v4 flip** — that's the atomicity guarantee.
+- **v4 emit gate** added as Task 130 (`--schema-target` CLI plumbing, mirrors `--pretty` precedent). v3 stays default until the freeze list is empty AND Task 114 (extraction determinism audit) is green AND `ccxt_client` has its v4 migration ready. `lib/ccxt_extract/schema.ex:57-58` (`@schema_version`, `@schema_filename`) flip in one atomic commit when the gate closes.
+- **Task 129 added** — `normalization` block carrier (compact `parse_methods_digest` — signatures + statement-count, **no AST body** to preserve the 3.0.0 Hex-cap reduction — plus scaffolded `field_maps` keyed by parser type for Phase 12 to populate). Lands after Task 130, before Tasks 74–83.
+- **Freeze list (~22 tasks):** Tasks 70, 71 (in-review), 72, 73, 73d (Phase 11) · Tasks 85, 86, 87, 88a, 88b, 88c (Phase 13) · Tasks 89, 90 (Phase 14) · Tasks 74–83 (Phase 12) · Task 129 (NEW carrier). Plus Task 130 (emit gate) before any of them; soft gate Task 114 before flipping the default.
+- **v4 Bundle Extras** (in v4 if shipped by cut, not freeze-gating per se): Tasks 121 (descriptors), 122 (descriptor schema invariant), 126 (OpenAPI sibling).
+- **Cross-repo:** `../ccxt_client/ROADMAP.md` carries a single `Task v4-adopt` row (🔶 Blocked) tracking the one v4 migration. No piecemeal v3.x bumps reach `ccxt_client` between now and the v4 flip.
+- **Documentation invariants honored:** ROADMAP.md (Current Focus, Endpoint-Invocation Priority Order, Bundle Index, Phase 12 header, NEW Tasks 129 + 130, cross-repo coordination) · SCHEMA.md (NEW Version 4.0.0 section with full path-migration table, Consumer Guidance addendum, Version History row) · CHANGELOG.md (this entry).
+
 ### Added
 
 - **Task 68 — Pre-sign transforms derivation.** Closes 🎁 **10-finish**
@@ -170,6 +197,88 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
   theoretical false negative (`if File.exists?(p), do: File.write!(p, data)`
   with sink target = inspected path) that the current broad
   sanitizer would hide.
+
+### Task 73b: Per-exchange user-agent + default headers (schema 3.1.0)
+
+🎁 **11+14** · First Phase 11 task. Per-exchange `userAgent` and default
+`headers` from CCXT's resolved `describe()` runtime data, surfaced as
+`runtime.request_headers` on every emitted JSON.
+
+**What shipped:**
+
+- New `CcxtExtract.RequestHeaders` extractor — boots a QuickBEAM runtime,
+  instantiates each non-alias exchange (`new ccxt[id]()`) so the base-class
+  `deepExtend(super.describe(), {...})` merge runs in the constructor,
+  reads the resolved `ex.userAgent` (string | undefined | false) and
+  `ex.headers` (`Dictionary<string>`) instance fields. The `typeof === 'string'`
+  guard normalizes false / undefined / object forms to `null`, surfacing
+  unknown shapes as missing rather than silently passing them through.
+- New `mix ccxt_extract.request_headers` mix task (scoped-flags aware,
+  delegates to `CcxtExtract.AggregateWriter` so partial runs merge with
+  any existing aggregate).
+- New `runtime.request_headers` field on every per-exchange output, populated
+  by `Pipeline.get_request_headers/2` with alias-parent fallback (mirrors
+  `get_url_templates/2`). Wrapper is **always-emit** —
+  `%{"user_agent" => string|null, "default_headers" => map}` — so consumers
+  iterate without nil-checks. Empty wrapper for exchanges with no override.
+- Schema bumped `3.0.0` → `3.1.0`. New `$defs/RequestHeaders` (`{user_agent:
+  string|null, default_headers: object<string, string>}`); `request_headers`
+  promoted into `RuntimeData.required`. Permissive readers ignoring unknown
+  keys continue to work; strict validators will reject pre-3.1.0 output
+  lacking the key.
+- Provenance: `/runtime/request_headers` added to
+  `CcxtExtract.Provenance.@raw_pointers` (sibling to `url_templates` —
+  passthrough, not derivation).
+- Wired into `mix ccxt_extract.update` orchestrator between `url_templates`
+  and `signing_fixtures`.
+
+**Corpus coverage (full universe, 107 non-alias exchanges):**
+
+- **`user_agent` populated (8):** `bitstamp`, `bittrade`, `coinbase`,
+  `coinbaseexchange`, `coinbaseinternational`, `delta`, `hibachi`, `htx`.
+- **`default_headers` populated (4):** `alpaca` (`APCA-PARTNER-ID: ccxt`),
+  `coinbase` (`CB-VERSION: 2018-05-30`), `coinbaseinternational`
+  (`CB-VERSION: 2018-05-30`), `gate` (`X-Gate-Channel-Id: ccxt`).
+- All other 99/107 produce the empty wrapper — honest absence, not a guess.
+
+**Key decisions:**
+
+- D1 always-emit wrapper over nullable. The runtime cost of one always-present
+  object key per exchange is trivial; the consumer-side simplification (no
+  `case data["request_headers"]` ladder, no nil-handling for `default_headers`
+  iteration) is worth it.
+- D2 schema bumped to **minor** (3.1.0) rather than patch. Same reasoning as
+  Task 73c: the value shape is additive but `request_headers` is promoted
+  into `RuntimeData.required`, which is a strict-validator-visible shape
+  change that patch bumps should not carry.
+- D3 raw, not derived. `userAgent` and `headers` are passthroughs from
+  CCXT's resolved `describe()` after constructor merge — QuickBEAM does no
+  transformation. `/runtime/request_headers` belongs in `@raw_pointers`
+  alongside `/runtime/url_templates`.
+- D4 instantiate via `new ccxt[id]()` (empty options object). Passing
+  `undefined` risks tripping exchanges that read `options` in their
+  constructor; explicit empty object matches the shape CCXT's own test
+  harness uses.
+- D5 type discipline as the contract — `:extraction`-tagged tests assert
+  `user_agent ∈ {string, nil}`, `default_headers` is always a map, and every
+  header key/value is a string (CCXT's `Dictionary<string>` contract). At
+  least one exchange has each kind of override (sanity floor against
+  silent regressions).
+
+**Out of scope (filed as Task 73e):**
+
+- `bigone.ts` constructs its `User-Agent` inside `sign()` as
+  `'ccxt/' + this.id + '-' + this.version`. Never appears in
+  `describe()`, so QuickBEAM can't see it.
+- `okx.ts` mutates `this.headers` at runtime via `setSandboxMode(true)` to
+  inject `x-simulated-trading: 1`. Not in `describe()`.
+- Both blind spots need an OXC-side pass over sign-method bodies.
+  `TODO(Task 73e):` marker in `lib/ccxt_extract/request_headers.ex`
+  moduledoc points at the follow-up.
+
+**Downstream:** `../ccxt_client/ROADMAP.md` consumers can now replace any
+hardcoded UA / version-header tables with reads from
+`runtime.request_headers.{user_agent, default_headers}`.
 
 ### Task 67: Auth header set + nonce source derivation
 

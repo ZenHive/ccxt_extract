@@ -26,6 +26,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
+## Worktree workflow
+
+Branch-worthy work lives in a git worktree at `~/_DATA/worktrees/ccxt_extract/<id>/`, not on a branch in the main checkout (`~/_DATA/code/ccxt_extract/`). The worktree IS the scope authorization for `git commit` / `git push` / `gh pr create` on that branch — full rules in `~/.claude/includes/worktree-workflow.md`.
+
+**This repo's tracking-ID convention:** `<id>` is the ROADMAP task number when the work tracks a roadmap entry (e.g. `task-105`, `task-119`), or a short feature name for unscheduled work (e.g. `fix-aggregate-merge`). With cloud-agent delegation retired (see ROADMAP.md § Notes), Linear issue IDs are no longer in scope as worktree IDs.
+
+**Cleanup:** after PR merge or branch deletion, run `git worktree remove ~/_DATA/worktrees/ccxt_extract/<id>` and `git worktree prune` in the same session — completion of a task includes worktree teardown.
+
+**`[P]` parallel marker in ROADMAP.md** — independent tasks tagged `[P]` are explicitly safe to dispatch into separate worktrees concurrently. They predate cloud delegation and are unaffected by the `[CSR]` retirement.
+
+---
+
 ## Architecture (big picture)
 
 ### Two extraction tools, one pipeline

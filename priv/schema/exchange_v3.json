@@ -474,6 +474,93 @@
             }
           ],
           "description": "Derived from full class body AST: per-method routing table mapping caller method name -> sorted unique list of `this.parse<X>(...)` helper names invoked from that method's body. Complements `unified_endpoints` (which interface methods a unified method calls) by surfacing the response-handling step. Methods that call no parse helper are omitted. Null for alias exchanges whose own class body wasn't extracted; empty map when the class body has zero parse-call sites."
+        },
+        "rate_limit_buckets": {
+          "$ref": "#/$defs/RateLimitBuckets",
+          "description": "Per-exchange rate-limit bucket configuration derived from describe().rateLimit / rollingWindowSize / rateLimiterAlgorithm / tokenBucket. Always-emit wrapper (no null at this level) — exchanges with no usable bucket data ship an empty `buckets` list plus an `unresolved_reason` tag. Introduced by Task 89; the joint schema bump that promotes this field to a `required` key lives with the A-5 coordinator (Task 90)."
+        }
+      }
+    },
+
+    "RateLimitBuckets": {
+      "type": "object",
+      "description": "Rate-limit bucket configuration. Each entry in `buckets` is an independent throttle dimension; today every exchange resolves to exactly one bucket (the canonical request-rate throttle). The wrapper is shipped as a list to leave room for multi-bucket exchanges (binance UID/IP, okx per-account) without a schema break. `axes` lists the call-shape attributes counted against the bucket — always `[\"request\"]` today; `[\"weight\"]` is reserved for A-2 method-cost weighting. `source` records where the bucket data came from. `unresolved_reason` tags an honest-empty record when the extractor could not produce a usable bucket.",
+      "required": ["buckets", "source", "unresolved_reason"],
+      "additionalProperties": false,
+      "properties": {
+        "buckets": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/RateLimitBucketEntry" },
+          "description": "Ordered list of resolved bucket entries. Empty when the extractor produced no usable bucket — see `unresolved_reason` for the reason."
+        },
+        "source": {
+          "type": "string",
+          "enum": ["describe", "tokenBucket", "method_body"],
+          "description": "Where the bucket data was sourced from. `describe` covers the canonical case (resolved instance fields after deepExtend with parent describe + initRestRateLimiter merge). `tokenBucket` is reserved for exchanges that only ship a tokenBucket override. `method_body` is reserved for future method-AST-derived bucket axes (e.g. binance's per-window weights inferred from sign())."
+        },
+        "unresolved_reason": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "string",
+              "enum": ["instantiation_failed", "rate_limit_unset", "no_discovery_entry"]
+            }
+          ],
+          "description": "Closed-vocabulary reason when `buckets` is empty. `instantiation_failed` — the CCXT class threw during construction (rare; surfaces broken describe overrides). `rate_limit_unset` — the resolved `rateLimit` was missing or non-positive (CCXT's base throws when this happens at runtime, but a corrupt override could still emit the empty record). `no_discovery_entry` — pipeline-side fallback when no discovery entry exists for this exchange (e.g. alias chains with no parent entry)."
+        }
+      }
+    },
+
+    "RateLimitBucketEntry": {
+      "type": "object",
+      "description": "Single rate-limit bucket entry. Today every exchange resolves to exactly one of these; future tasks may surface multiple per-exchange (binance UID vs IP, okx per-account). All numeric fields are floats — CCXT models rateLimit as ms (typically integer-valued) but tokenBucket fields like `refillRate` are computed as 1 / rateLimit and are floating-point.",
+      "required": [
+        "axes",
+        "rate_limit_ms",
+        "refill_per_sec",
+        "max_size",
+        "cost_default",
+        "algorithm",
+        "rolling_window_ms"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "axes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Call-shape attributes counted against this bucket. Always `[\"request\"]` today (CCXT throttles per request). `[\"weight\"]` is reserved for A-2 method-cost weighting; future multi-axis exchanges may extend the vocabulary (`[\"uid\"]`, `[\"ip\"]`, etc.)."
+        },
+        "rate_limit_ms": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Milliseconds between requests at the bucket's drain rate. Pulled verbatim from `describe().rateLimit`. Always positive — `rate_limit_unset` records collapse to an empty `buckets` list rather than emitting a null here."
+        },
+        "refill_per_sec": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Token refill rate in requests/second. Derived as `1000 / rate_limit_ms` so consumers don't recompute it."
+        },
+        "max_size": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Bucket capacity (max queued tokens). Pulled from `tokenBucket.capacity` (CCXT default 1)."
+        },
+        "cost_default": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Default per-request token cost. Pulled from `tokenBucket.cost` (CCXT default 1). Per-method cost overrides live in `describe.api[*]` and are A-2's territory (Task 88)."
+        },
+        "algorithm": {
+          "type": "string",
+          "enum": ["leakyBucket", "rollingWindow"],
+          "description": "Throttle algorithm. CCXT defaults to `leakyBucket`; switches to `rollingWindow` only when `describe.rateLimiterAlgorithm` is explicitly set to that value. Note that exchanges like binance that ship `rollingWindowSize > 0` still resolve to `leakyBucket` here — the rolling-window dimension is captured separately via `rolling_window_ms`."
+        },
+        "rolling_window_ms": {
+          "oneOf": [
+            { "type": "number", "exclusiveMinimum": 0 },
+            { "type": "null" }
+          ],
+          "description": "Rolling-window size in milliseconds when `describe.rollingWindowSize > 0`. Binance ships `60000` (60s weight window). Null when not set."
         }
       }
     },

@@ -27,7 +27,7 @@ defmodule CcxtExtract.SignRecipe.Derive do
 
   `unresolved_reason` stays `"not_yet_derived"` while any derivation
   field remains null; Task 69's biconditional flips it to `nil` (via
-  `resolve_unresolved_reason/1`) as soon as all six fields populate.
+  `resolve_unresolved_reason/1`) as soon as all seven fields populate.
 
   ## Strategy
 

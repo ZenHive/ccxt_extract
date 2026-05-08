@@ -392,7 +392,7 @@ defmodule CcxtExtract.SignRecipe.NonceTest do
       assert Nonce.timestamp(body, "not_yet_derived") == %{"source" => "timestamp_ms", "format" => "string"}
     end
 
-    test "bitmex — timestamp_ms / string (Date.now() global) " do
+    test "bitmex — timestamp_ms / string (Date.now() global)" do
       # Bitmex-style: an exchange that overrides sign() and reaches for
       # the raw `Date.now()` JS global rather than CCXT's `this.nonce()`.
       # Date.now() returns ms, then `.toString()` flips to wire format.

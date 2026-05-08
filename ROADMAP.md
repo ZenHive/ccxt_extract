@@ -51,7 +51,7 @@ Phases reordered by criticality for consumers calling *any* endpoint (unified or
 
 **Freeze list (~22 tasks):**
 
-- **Endpoint-invocation (11 tasks):** Tasks 70, 71 (✅ PR #2), 72 (✅ PR #12), 73 (✅ PR #8), 73d (✅ PR #14, replaces #9) (Phase 11) · Tasks 85 (🔄 PR #13), 86 (🔄 PR #13), 87 (✅), 88a (🔄 PR #13 v4-emit), 88b (🔄 PR #13 v4-emit), 88c (✅ PR #6; v4-emission in PR #13) (Phase 13) · Tasks 89 (✅ PR #11), 90 (Phase 14)
+- **Endpoint-invocation (11 tasks):** Tasks 70, 71 (✅ PR #2), 72 (✅ PR #12), 73 (✅ PR #8), 73d (✅ PR #14, replaces #9) (Phase 11) · Tasks 85 (✅ PR #13), 86 (✅ PR #13), 87 (✅), 88a (✅ PR #6; v4-emit in PR #13), 88b (✅ PR #6; v4-emit in PR #13), 88c (✅ PR #6; v4-emission in PR #13) (Phase 13) · Tasks 89 (✅ PR #11), 90 (Phase 14)
 - **Normalization (11 tasks):** Task 129 (✅ PR #10, hardened in PR #15) · Tasks 74–83 (Phase 12)
 
 **v4 Bundle Extras** (in v4 if shipped by cut, not strictly freeze-gating): Tasks 121 (descriptors), 122 (descriptor schema invariant), 126 (OpenAPI sibling).
@@ -292,12 +292,15 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 85 | 🔄 in-review | 🎁 **13-classify** · HTTP status → error class map per exchange [D:3/B:7/U:7 → Eff:2.33] 🚀 — PR #13 (Phase 13 v4 unified) |
-| Task 86 | 🔄 in-review | 🎁 **13-classify** · Retryable classification (rate-limit/network/server-busy/auth) [D:4/B:7/U:7 → Eff:1.75] 🚀 — PR #13 (Phase 13 v4 unified) |
-| Task 87 | ✅ | 🎁 **13-classify** · Error class hierarchy export [D:3/B:7/U:8 → Eff:2.5] 🎯 · v4-emission follow-on in PR #13 |
-| Task 88a `[P]` `[CSR]` | ✅ | 🎁 **13-dispatch** · Handler routing — error dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #6 (INE-56) · v4-emission follow-on in PR #13 |
-| Task 88b `[P]` `[CSR]` | ✅ | 🎁 **13-dispatch** · Handler routing — signing dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #6 (INE-56) · v4-emission follow-on in PR #13 |
-| Task 88c `[P]` `[CSR]` | ✅ | 🎁 **13-dispatch** · Handler routing — parse dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #6 (INE-56) · v4-emission follow-on in PR #13 |
+| Task 85 | ✅ | 🎁 **13-classify** · HTTP status → error class map per exchange [D:3/B:7/U:7 → Eff:2.33] 🚀 — shipped 2026-05-08 in PR #13 (INE-66) |
+| Task 86 | ✅ | 🎁 **13-classify** · Retryable classification (rate-limit/network/server-busy/auth) [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #13 (INE-66) |
+| Task 87 | ✅ | 🎁 **13-classify** · Error class hierarchy export [D:3/B:7/U:8 → Eff:2.5] 🎯 · v4-emission shipped in PR #13 |
+| Task 88a `[P]` `[CSR]` | ✅ | 🎁 **13-dispatch** · Handler routing — error dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #6 (INE-56) · v4-emission shipped in PR #13 |
+| Task 88b `[P]` `[CSR]` | ✅ | 🎁 **13-dispatch** · Handler routing — signing dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #6 (INE-56) · v4-emission shipped in PR #13 |
+| Task 88c `[P]` `[CSR]` | ✅ | 🎁 **13-dispatch** · Handler routing — parse dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #6 (INE-56) · v4-emission shipped in PR #13 |
+| Task 132 | ⬜ | 🐛 **13-classify-fix** · Split `predicate_kind: "http_status_in"` into `eq` vs `range` [D:3/B:5/U:5 → Eff:1.67] 🚀 — surfaced during PR #13 review; current single-bucket lumping loses information for retry/backoff heuristics |
+| Task 133 | ⬜ | 🛡️ **13-classify-safety** · Explicit `error_class_hierarchy` content-equality invariant in `contract_test` [D:2/B:4/U:3 → Eff:1.75] 🚀 — surfaced during PR #13 review; today only outer shape is enforced (drift would only be caught by JSV on cosmetic changes) |
+| Task 134 | ⬜ | ⚡ **13-perf** · Thread precomputed `error_dispatch` through `http_status_map/1` and `retryable_buckets/1` [D:3/B:3/U:2 → Eff:0.83] ⚠️ — surfaced during PR #13 review; both helpers re-walk handle_errors AST when caller already has the predicate-classified dispatch list |
 
 ---
 

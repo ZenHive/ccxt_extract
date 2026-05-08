@@ -72,6 +72,7 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
     end
   end
 
+  @spec resolve_schema_target!(keyword()) :: 3 | 4
   defp resolve_schema_target!(opts) do
     case Keyword.get(opts, :schema_target, 3) do
       3 -> 3
@@ -80,6 +81,7 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
     end
   end
 
+  @spec target_suffix(3 | 4) :: String.t()
   defp target_suffix(3), do: ""
   defp target_suffix(4), do: " (schema target: v4 — gated)"
 

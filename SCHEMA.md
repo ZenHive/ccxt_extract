@@ -50,9 +50,77 @@ end
 
 ---
 
-## Version 3.2.0 — Current
+## Version 3.3.0 — Current
 
-**Status:** Active (released 2026-05-08, Task 87)
+**Status:** Active (released 2026-05-08, Task 73d, PR #9 / INE-64)
+
+**JSON Schema:** `exchange_v3.json` (included in every output directory)
+
+**Latest change:** Adds required `structure.transaction_classification` —
+per-unified-endpoint write-side classification flags derived from CCXT's
+unified-method naming convention. Map `unified_name → {transactional,
+on_chain}` where:
+
+  - `transactional` is `true` when the endpoint mutates exchange-side
+    state (places, edits, or cancels orders, withdraws, transfers, sets
+    leverage / margin mode, opens / closes positions, borrows / repays).
+    `false` for `fetch*` reads.
+  - `on_chain` is the strictly narrower flag — `true` only for endpoints
+    that initiate a blockchain transaction the exchange broadcasts on the
+    user's behalf (the `withdraw*` family). Internal exchange-to-exchange
+    `transfer` stays off-chain. Every on-chain endpoint is transactional;
+    the inverse is not true.
+
+`null` permitted when no unified endpoint mappings were available to
+classify (matches `unified_endpoints` null semantics). New
+`TransactionClassificationEntry` `$def` in `exchange_v3.json` with
+`additionalProperties: false`. `_provenance["/structure/transaction_classification"] = "derived"`.
+
+v4's `endpoints.transaction_classification` slot is populated alongside
+`endpoints.unified` — peer field, not nested, so consumers can read the
+classification independently of the endpoint→interface mapping.
+
+**Minor bump** because the key is now in `Structure.required` — strict
+validators reject 3.2.0 output lacking it; permissive readers that
+ignore unknown keys are unaffected. See the `TransactionClassificationEntry`
+`$def` in `exchange_v3.json` for the full schema.
+
+**Why this lands now:** consumers (ccxt_client, others) need a uniform
+write-side gate before exposing endpoints in client APIs:
+
+  - **`transactional` true** → prompt for confirmation, require API
+    credentials, surface in audit logs.
+  - **`on_chain` true** → enforce stronger gating (KMS / two-factor),
+    treat as a blockchain-broadcast operation.
+
+The flag was previously implicit in CCXT's naming convention; consumers
+re-derived it (often inconsistently) per project. Crystallizing it once
+into the spec eliminates that drift.
+
+**Security gap — out of scope.** The classifier covers CCXT's **unified**
+method namespace only. Non-unified raw broadcast endpoints — DEX flows
+that expose blockchain transactions through helpers like `signL1Action` /
+`signEIP712`, or implicit-API paths like `public_post_sendtx` /
+`sendTxBatch` — do NOT appear in `transaction_classification`.
+**Consumers MUST NOT treat `on_chain == false` (or absence) as a
+sufficient safety gate for blockchain-broadcast operations.** Tracked
+as **Task 73f** in [ROADMAP.md](ROADMAP.md) (OXC body-inspection
+extension).
+
+**Override-registry note.** The v3→v4 JSON-Pointer translation table
+(`OverrideRegistry.@v3_to_v4_pointer_prefixes`) gained two new entries
+in this release: `/structure/transaction_classification` →
+`/endpoints/transaction_classification` (this task) and
+`/structure/error_class_hierarchy` → `/errors/class_hierarchy`
+(retroactive — Task 87 added the field but missed the translation
+entry). Override files targeting either path now translate cleanly
+under `--schema-target=4`.
+
+---
+
+## Version 3.2.0 — Superseded
+
+**Released 2026-05-08, Task 87.**
 
 **JSON Schema:** `exchange_v3.json` (included in every output directory)
 
@@ -561,7 +629,8 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 | Version | Date | Changes |
 |---------|------|---------|
 | 4.0.0 | TBD (post-freeze) | **Breaking, gated.** Top-level reshape from producer-shaped (`runtime`/`structure`) to consumer-shaped sections (`endpoints`/`auth`/`errors`/`rate_limits`/`normalization`/`markets`/`testnet`/`raw`). Re-introduces the normalization surface dropped at 3.0.0 (compact `normalization.parse_methods_digest` + Phase 12 derived field maps — **NOT** raw AST bodies, preserving the 3.0.0 Hex-cap reduction). Emission opt-in via `--schema-target=4` until the v4 freeze list is empty AND Task 114 (extraction determinism audit) is green AND `ccxt_client` has its v4 migration ready. Consumer major-version pin bumps `3` → `4` atomically. See [Version 4.0.0 — In Progress (gated)](#version-400--in-progress-gated) for the full path-migration table and the v4 emit-gate mechanism. |
-| 3.2.0 | 2026-05-08 | Add required `structure.error_class_hierarchy` — CCXT's exception class taxonomy (`BaseError → ExchangeError → ... → AccountNotEnabled`) extracted from `priv/ccxt/ts/src/base/errorHierarchy.ts` via OXC. Three projections per record: `tree` (recursive map mirroring source literal), `flat_parents` (`class → parent`, root → `null`, O(1) parent lookup), `ancestors` (`class → [parent, ..., BaseError]`, O(1) ancestor chain). Corpus-global data — every per-exchange JSON carries the same record, matching `error_code_fields` / `throw_dispatches` colocation under `structure`. `_provenance["/structure/error_class_hierarchy"] = "derived"` (`flat_parents` and `ancestors` are pre-computed projections). Two new contract invariants: `error_class_hierarchy_shape_valid` (intrinsic shape + single root + walk agreement, cycle-safe) and `error_classes_covered_by_hierarchy` (every class in `handle_errors.exceptions` / `http_exceptions` exists in `flat_parents`). v4's `errors.class_hierarchy` slot populated alongside `errors.handle_errors`. **Minor bump** because the key is now in `Structure.required` — strict validators reject 3.1.0 output lacking it; permissive readers are unaffected. See [Version 3.2.0 — Current](#version-320--current). |
+| 3.3.0 | 2026-05-08 | Add required `structure.transaction_classification` — per-unified-endpoint `{transactional, on_chain}` boolean flags derived from CCXT's unified-method naming convention (`fetch*` → read-only; `withdraw*` → on_chain; `transfer` stays off-chain because it's exchange-internal). Mirrored at `endpoints.transaction_classification` in v4 — peer to `endpoints.unified`, not nested. New `TransactionClassificationEntry` `$def`. `_provenance["/structure/transaction_classification"] = "derived"`. **Minor bump** because the key is now in `Structure.required` — strict validators reject 3.2.0 output lacking it. **Security gap** (out of scope, tracked as Task 73f): non-unified raw broadcast endpoints (`signL1Action` / `signEIP712`, `public_post_sendtx`) do not appear in this map; consumers must not treat `on_chain == false` (or absence) as a safety gate. Same release retroactively closes a Task 87 gap in `OverrideRegistry.@v3_to_v4_pointer_prefixes` (added `/structure/error_class_hierarchy` → `/errors/class_hierarchy` translation entry alongside the new `/structure/transaction_classification` → `/endpoints/transaction_classification` mapping). See [Version 3.3.0 — Current](#version-330--current). |
+| 3.2.0 | 2026-05-08 | Add required `structure.error_class_hierarchy` — CCXT's exception class taxonomy (`BaseError → ExchangeError → ... → AccountNotEnabled`) extracted from `priv/ccxt/ts/src/base/errorHierarchy.ts` via OXC. Three projections per record: `tree` (recursive map mirroring source literal), `flat_parents` (`class → parent`, root → `null`, O(1) parent lookup), `ancestors` (`class → [parent, ..., BaseError]`, O(1) ancestor chain). Corpus-global data — every per-exchange JSON carries the same record, matching `error_code_fields` / `throw_dispatches` colocation under `structure`. `_provenance["/structure/error_class_hierarchy"] = "derived"` (`flat_parents` and `ancestors` are pre-computed projections). Two new contract invariants: `error_class_hierarchy_shape_valid` (intrinsic shape + single root + walk agreement, cycle-safe) and `error_classes_covered_by_hierarchy` (every class in `handle_errors.exceptions` / `http_exceptions` exists in `flat_parents`). v4's `errors.class_hierarchy` slot populated alongside `errors.handle_errors`. **Minor bump** because the key is now in `Structure.required` — strict validators reject 3.1.0 output lacking it; permissive readers are unaffected. See [Version 3.2.0 — Superseded](#version-320--superseded). |
 | 3.1.0 | 2026-05-07 | Add required `runtime.request_headers` — always-emit `{user_agent: string\|null, default_headers: object<string, string>}` wrapper sourced from CCXT's resolved `describe()` runtime (per-exchange `userAgent` override + default `headers` map). Populated via QuickBEAM constructor instantiation in `CcxtExtract.RequestHeaders`; consumers replace any hardcoded UA / version-header tables with reads from this field. `_provenance["/runtime/request_headers"] = "raw"`. **Minor bump** because the key is now in `RuntimeData.required` — strict validators reject 3.0.0 output lacking it; permissive readers are unaffected. Two known blind spots (sign-time UA construction in `bigone.ts`, runtime `setSandboxMode()` header mutation in `okx.ts`) tracked as Task 73e. See [Version 3.1.0 — Current](#version-310--current). |
 | 3.0.0 | 2026-04-20 | **Breaking.** Replace `runtime.markets` with compact derived `runtime.symbols_index` (map of symbol → `{spot: bool, swap: bool}`); drop `structure.parse_methods` and `structure.ws_methods` from emitted output (extractors retained; discovery files still written to `priv/discoveries/` for internal Phase 12 / Phase 15 consumers). Rename JSON Schema file `exchange_v2.json` → `exchange_v3.json`. `priv/schema/exchange_v2.json` retained one release for diff reference. Provenance map drops three raw pointers and gains `/runtime/symbols_index` (derived). Consumer major-version pin bumps `2` → `3`. Clears the ccxt_client Hex 128 MB publish cap (binance pretty-JSON 56.2 MB → compact-JSON + pruned 25.6 MB → ~2 MB). See [Version 3.0.0 — Current](#version-300--current) for migration notes. |
 | 2.4.0 | 2026-04-19 | Add nullable-by-pattern `runtime.testnet_urls` and promote it into `RuntimeData.required` — structured testnet / sandbox URL catalog with `pattern` enum (`separate_host` / `sandbox_flag` / `none`), `{hostname}` pre-resolution, and independent `sandbox_flag_field` that tracks `options.sandboxMode` presence. Replaces consumer-side reach-into `runtime.describe.urls.test` (opaque passthrough). New `testnet_urls_shape_valid` contract invariant. `_provenance["/runtime/testnet_urls"] = "derived"`. **Minor bump** because the key is now in `RuntimeData.required` — strict validators reject 2.3.0 output lacking it; permissive readers are unaffected. See [Testnet URL Catalog (2.4.0+)](#testnet-url-catalog-240). |

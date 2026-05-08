@@ -27,7 +27,6 @@ defmodule CcxtExtract.Validation do
 
   require Logger
 
-  @schema_path "schema/" <> Schema.schema_filename()
   @output_file "output/_validation_report.json"
 
   @reference_exchanges ~w(binance bybit okx deribit coinbaseexchange kraken kucoin gate htx bitmex hyperliquid)
@@ -48,6 +47,9 @@ defmodule CcxtExtract.Validation do
     * `:reference_exchanges` — override which exchanges get round-trip checks
     * `:tier_scope` — `CcxtExtract.Scope.to_manifest_value/1` output; stamped on
       the report envelope. Defaults to `"all"`.
+    * `:schema_target` — `3` (default) validates against `exchange_v3.json`;
+      `4` validates against `exchange_v4.json`. Used for the gated v4 emit
+      path (Task 130).
   """
   @spec validate_all(keyword()) :: {:ok, map()}
   def validate_all(opts \\ []) do
@@ -55,12 +57,13 @@ defmodule CcxtExtract.Validation do
     schema_only = Keyword.get(opts, :schema_only, false)
     ref_exchanges = Keyword.get(opts, :reference_exchanges, @reference_exchanges)
     tier_scope = Keyword.get(opts, :tier_scope, "all")
+    schema_target = Keyword.get(opts, :schema_target, 3)
 
     # Load exchanges from emitted JSON files on disk
-    {exchanges, file_stats} = load_output_files(output_dir)
+    {exchanges, file_stats} = load_output_files(output_dir, schema_target)
 
     # Build JSON Schema root once
-    root = build_schema_root()
+    root = build_schema_root(schema_target)
 
     # Load source data for round-trip (reuse pipeline's loader)
     source_data =
@@ -95,7 +98,7 @@ defmodule CcxtExtract.Validation do
         }
       end)
 
-    report = build_report(exchange_results, ref_exchanges, schema_only, file_stats, tier_scope)
+    report = build_report(exchange_results, ref_exchanges, schema_only, file_stats, tier_scope, schema_target)
     {:ok, report}
   end
 
@@ -145,13 +148,14 @@ defmodule CcxtExtract.Validation do
   end
 
   @doc """
-  Build the compiled JSON Schema root from `exchange_v3.json`.
+  Build the compiled JSON Schema root for the given target (default `3`).
 
   Exposed for reuse — callers validating many exchanges should build once.
+  Pass `4` to validate against the gated `exchange_v4.json`.
   """
-  @spec build_schema_root() :: JSV.Root.t()
-  def build_schema_root do
-    schema_path = Paths.priv(@schema_path)
+  @spec build_schema_root(3 | 4) :: JSV.Root.t()
+  def build_schema_root(schema_target \\ 3) do
+    schema_path = Paths.priv("schema/" <> Schema.schema_filename_for(schema_target))
     raw_schema = JsonIO.read_json!(schema_path)
     JSV.build!(raw_schema)
   end
@@ -168,7 +172,7 @@ defmodule CcxtExtract.Validation do
 
   # Reads _manifest.json + per-exchange JSON files from output_dir.
   # Returns {exchanges, file_stats} where file_stats tracks integrity.
-  defp load_output_files(output_dir) do
+  defp load_output_files(output_dir, schema_target) do
     manifest_path = Path.join(output_dir, "_manifest.json")
 
     manifest =
@@ -182,12 +186,12 @@ defmodule CcxtExtract.Validation do
       stats = Map.put(empty_file_stats(), "manifest_error", "missing or corrupt _manifest.json")
       {[], stats}
     else
-      load_exchanges_from_manifest(output_dir, manifest)
+      load_exchanges_from_manifest(output_dir, manifest, schema_target)
     end
   end
 
   # Load each exchange JSON listed in the manifest, tracking file-level integrity
-  defp load_exchanges_from_manifest(output_dir, manifest) do
+  defp load_exchanges_from_manifest(output_dir, manifest, schema_target) do
     manifest_ids = manifest["exchanges"] || []
 
     # Load each exchange file listed in manifest
@@ -201,7 +205,8 @@ defmodule CcxtExtract.Validation do
 
     manifest_set = MapSet.new(manifest_ids)
     # Exclude metadata files (_manifest.json, _validation_report.json) and schema copy
-    known_files = MapSet.new(["exchange_v3"])
+    schema_basename = schema_target |> Schema.schema_filename_for() |> String.trim_trailing(".json")
+    known_files = MapSet.new([schema_basename])
 
     orphans =
       output_dir
@@ -1106,7 +1111,7 @@ defmodule CcxtExtract.Validation do
 
   # --- Report Building ---
 
-  defp build_report(exchange_results, ref_exchanges, schema_only, file_stats, tier_scope) do
+  defp build_report(exchange_results, ref_exchanges, schema_only, file_stats, tier_scope, schema_target) do
     all_findings =
       Enum.flat_map(exchange_results, fn r ->
         schema_findings =
@@ -1135,7 +1140,7 @@ defmodule CcxtExtract.Validation do
     %{
       "validated_at" => DateTime.to_iso8601(DateTime.utc_now()),
       "exchange_count" => length(exchange_results),
-      "schema_version" => Schema.schema_version(),
+      "schema_version" => Schema.schema_version_for(schema_target),
       "tier_scope" => tier_scope,
       "summary" => %{
         "schema_pass" => schema_pass,

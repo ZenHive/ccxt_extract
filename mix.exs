@@ -15,7 +15,7 @@ defmodule CcxtExtract.MixProject do
         # plug, finch, mint, gun, hpax, cowlib, websock, mime — none in lib/'s
         # call graph. Default :app_tree bloats the PLT to ~800 modules.
         plt_add_deps: :apps_direct,
-        plt_add_apps: [:mix],
+        plt_add_apps: [:mix, :ex_unit],
         plt_local_path: "priv/plts",
         plt_core_path: "priv/plts",
         ignore_warnings: ".dialyzer_ignore.exs"

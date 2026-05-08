@@ -408,7 +408,8 @@ defmodule CcxtExtract.Pipeline do
       "overrides" => get_overrides(id, data),
       "error_dispatch" => get_error_dispatch(handle_errors),
       "sign_dispatch" => get_sign_dispatch(effective_sign),
-      "parse_dispatch" => get_parse_dispatch(id, data)
+      "parse_dispatch" => get_parse_dispatch(id, data),
+      "rate_limit_buckets" => get_rate_limit_buckets(id, data)
     }
 
     case Keyword.get(opts, :schema_target, 3) do
@@ -613,6 +614,34 @@ defmodule CcxtExtract.Pipeline do
     case find_parent_exchange_id(id, data) do
       nil -> nil
       parent_id -> get_request_headers(parent_id, data)
+    end
+  end
+
+  # Rate-limit buckets: extract the rate_limit_buckets wrapper map. Always
+  # returns a map (no nil). Alias exchanges fall back to parent — describe()
+  # inheritance has already happened in QuickBEAM, but the per-exchange
+  # discovery file is keyed by the alias's own id only when the alias
+  # itself was instantiated, so a parent fallback handles families whose
+  # alias didn't run through extract/1 (e.g. a scoped run that hit only the
+  # root). Returns the always-emit `RateLimitBuckets.empty_record/0` shape
+  # at the chain bottom so the schema-level always-emit invariant survives.
+  defp get_rate_limit_buckets(id, data) do
+    case data |> Map.get(:rate_limit_buckets, %{}) |> Map.get(id) do
+      nil ->
+        get_parent_rate_limit_buckets(id, data)
+
+      %{"rate_limit_buckets" => buckets} when is_map(buckets) ->
+        buckets
+
+      _ ->
+        get_parent_rate_limit_buckets(id, data)
+    end
+  end
+
+  defp get_parent_rate_limit_buckets(id, data) do
+    case find_parent_exchange_id(id, data) do
+      nil -> CcxtExtract.RateLimitBuckets.empty_record()
+      parent_id -> get_rate_limit_buckets(parent_id, data)
     end
   end
 

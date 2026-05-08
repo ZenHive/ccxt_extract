@@ -213,7 +213,9 @@ defmodule CcxtExtract.Schema do
       "errors" => %{
         "handle_errors" => structure_data["handle_errors"]
       },
-      "rate_limits" => %{},
+      "rate_limits" => %{
+        "buckets" => structure_data["rate_limit_buckets"] || CcxtExtract.RateLimitBuckets.empty_record()
+      },
       "normalization" => %{},
       "markets" => %{
         "symbols_index" => runtime_data["symbols_index"],
@@ -367,7 +369,8 @@ defmodule CcxtExtract.Schema do
       "request_defaults" => data["request_defaults"],
       "error_dispatch" => data["error_dispatch"],
       "sign_dispatch" => data["sign_dispatch"],
-      "parse_dispatch" => data["parse_dispatch"]
+      "parse_dispatch" => data["parse_dispatch"],
+      "rate_limit_buckets" => data["rate_limit_buckets"] || CcxtExtract.RateLimitBuckets.empty_record()
     }
   end
 

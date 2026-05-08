@@ -92,6 +92,7 @@ defmodule CcxtExtract.Provenance do
     /structure/error_dispatch
     /structure/sign_dispatch
     /structure/parse_dispatch
+    /structure/rate_limit_buckets
   )
 
   # v4 pointer paths — same content as v3 under reorganized top-level
@@ -132,6 +133,7 @@ defmodule CcxtExtract.Provenance do
     /errors/handle_errors/throw_dispatches
     /endpoints/unified
     /endpoints/request/defaults
+    /rate_limits/buckets
   )
 
   @doc """

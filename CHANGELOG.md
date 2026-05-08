@@ -6,6 +6,17 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Roadmap restructure: v4 schema-freeze plan (2026-05-08)
+
+- **Phase 12 promoted** from "deprioritized — unified-only" to schema-freeze gate. Downstream libraries that depend on `ccxt_client` need the unified-method normalization surface populated for the v4 schema cut to be useful, so Phase 12 ships in parallel with the endpoint-invocation critical path (Phases 11/13/14), not after.
+- **v4 reshape adopted** as the schema-versioning path (over additive v3.x). Top-level sections reorganize from producer-shaped (`runtime`/`structure`) to consumer-shaped (`endpoints`/`auth`/`errors`/`rate_limits`/`normalization`/`markets`/`testnet`/`raw`). One migration cost in exchange for a coherent stable contract; **no further v3.x bumps reach consumers between v3.1.0 and the v4 flip** — that's the atomicity guarantee.
+- **v4 emit gate** added as Task 130 (`--schema-target` CLI plumbing, mirrors `--pretty` precedent). v3 stays default until the freeze list is empty AND Task 114 (extraction determinism audit) is green AND `ccxt_client` has its v4 migration ready. `lib/ccxt_extract/schema.ex:57-58` (`@schema_version`, `@schema_filename`) flip in one atomic commit when the gate closes.
+- **Task 129 added** — `normalization` block carrier (compact `parse_methods_digest` — signatures + statement-count, **no AST body** to preserve the 3.0.0 Hex-cap reduction — plus scaffolded `field_maps` keyed by parser type for Phase 12 to populate). Lands after Task 130, before Tasks 74–83.
+- **Freeze list (~22 tasks):** Tasks 70, 71 (in-review), 72, 73, 73d (Phase 11) · Tasks 85, 86, 87, 88a, 88b, 88c (Phase 13) · Tasks 89, 90 (Phase 14) · Tasks 74–83 (Phase 12) · Task 129 (NEW carrier). Plus Task 130 (emit gate) before any of them; soft gate Task 114 before flipping the default.
+- **v4 Bundle Extras** (in v4 if shipped by cut, not freeze-gating per se): Tasks 121 (descriptors), 122 (descriptor schema invariant), 126 (OpenAPI sibling).
+- **Cross-repo:** `../ccxt_client/ROADMAP.md` carries a single `Task v4-adopt` row (🔶 Blocked) tracking the one v4 migration. No piecemeal v3.x bumps reach `ccxt_client` between now and the v4 flip.
+- **Documentation invariants honored:** ROADMAP.md (Current Focus, Endpoint-Invocation Priority Order, Bundle Index, Phase 12 header, NEW Tasks 129 + 130, cross-repo coordination) · SCHEMA.md (NEW Version 4.0.0 section with full path-migration table, Consumer Guidance addendum, Version History row) · CHANGELOG.md (this entry).
+
 ### Added
 
 - **Task 68 — Pre-sign transforms derivation.** Closes 🎁 **10-finish**

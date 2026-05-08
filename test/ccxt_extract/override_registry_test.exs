@@ -251,6 +251,53 @@ defmodule CcxtExtract.OverrideRegistryTest do
     end
   end
 
+  describe "translate_pointer/2" do
+    test "schema_target == 3 returns the pointer unchanged" do
+      assert OverrideRegistry.translate_pointer("/structure/sign_method", 3) ==
+               "/structure/sign_method"
+
+      assert OverrideRegistry.translate_pointer("/structure/transaction_classification", 3) ==
+               "/structure/transaction_classification"
+
+      assert OverrideRegistry.translate_pointer("/structure/error_class_hierarchy", 3) ==
+               "/structure/error_class_hierarchy"
+    end
+
+    test "schema_target == 4 rewrites known v3 prefixes to their v4 destinations" do
+      assert OverrideRegistry.translate_pointer("/structure/authenticated_sections", 4) ==
+               "/auth/authenticated_sections"
+
+      assert OverrideRegistry.translate_pointer("/structure/sign_recipe", 4) ==
+               "/auth/sign_recipe"
+
+      assert OverrideRegistry.translate_pointer("/runtime/request_headers", 4) ==
+               "/auth/headers"
+    end
+
+    test "schema_target == 4 translates the transaction_classification prefix (Task 73d)" do
+      assert OverrideRegistry.translate_pointer("/structure/transaction_classification", 4) ==
+               "/endpoints/transaction_classification"
+    end
+
+    test "schema_target == 4 translates the error_class_hierarchy prefix (Task 87)" do
+      assert OverrideRegistry.translate_pointer("/structure/error_class_hierarchy", 4) ==
+               "/errors/class_hierarchy"
+    end
+
+    test "schema_target == 4 preserves sub-paths under a translated prefix" do
+      assert OverrideRegistry.translate_pointer("/structure/sign_method/params", 4) ==
+               "/auth/sign_method/params"
+
+      assert OverrideRegistry.translate_pointer("/structure/transaction_classification/withdraw", 4) ==
+               "/endpoints/transaction_classification/withdraw"
+    end
+
+    test "schema_target == 4 leaves pointers without a known prefix unchanged" do
+      assert OverrideRegistry.translate_pointer("/exchange/id", 4) == "/exchange/id"
+      assert OverrideRegistry.translate_pointer("/_provenance/foo", 4) == "/_provenance/foo"
+    end
+  end
+
   # --- helpers ---
 
   # Writes a JSON body to a tmp file (cleaned up with the tmp_dir), returns the path.

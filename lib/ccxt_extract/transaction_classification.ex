@@ -34,9 +34,26 @@ defmodule CcxtExtract.TransactionClassification do
   is transactional. The blockchain-touching subset is identified by the
   `withdraw` prefix.
 
-  Some exchange-specific methods bypass the convention. For now this
-  module derives strictly from the name; downstream method-body inspection
-  (Phase 9 / overrides) can promote individual endpoints if needed.
+  Some exchange-specific methods bypass the convention.
+  TODO: This module currently derives strictly from the name; downstream
+  method-body inspection (Phase 9 / overrides) can promote individual
+  endpoints if needed.
+
+  ## Security gap — non-unified raw broadcast endpoints
+
+  The name-only classifier covers CCXT's **unified** method namespace.
+  It does NOT see non-unified raw broadcast endpoints — DEX flows that
+  expose blockchain transactions through helpers like `signL1Action` /
+  `signEIP712`, or implicit-API paths like `public_post_sendtx` /
+  `sendTxBatch`. Those endpoints are not unified-method keys, so they
+  will not appear in `transaction_classification` at all.
+
+  **Consumers MUST NOT treat `on_chain == false` (or absence from the
+  map) as a sufficient safety gate for blockchain-broadcast operations.**
+  Layer additional checks for raw / implicit-API endpoints, or wait for
+  Phase 9 method-body inspection / overrides to extend coverage.
+
+  Tracked as a follow-up roadmap item — see ROADMAP.md.
 
   ## Usage
 

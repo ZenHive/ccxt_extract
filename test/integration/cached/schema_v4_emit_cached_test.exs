@@ -83,6 +83,23 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
               #{paths}
             """)
         end
+
+        # Task 129: normalization carrier is populated under v4 emit. The
+        # digest must include every parse* method in the per-exchange
+        # parse_methods.json entry; field_maps + response_envelopes are
+        # scaffolds (Phase 12 populates them later).
+        normalization = exchange["normalization"]
+        assert is_map(normalization), "v4 emit must carry a normalization block for #{id}"
+
+        for key <- ~w(parse_methods_digest field_maps response_envelopes) do
+          assert Map.has_key?(normalization, key), "missing normalization.#{key} for #{id}"
+        end
+
+        assert normalization["field_maps"]["_unresolved_reason"] == "not_yet_derived",
+               "Task 129 scaffold should mark field_maps unresolved for #{id}"
+
+        assert normalization["response_envelopes"]["_unresolved_reason"] == "not_yet_derived",
+               "Task 129 scaffold should mark response_envelopes unresolved for #{id}"
       end
     end
 

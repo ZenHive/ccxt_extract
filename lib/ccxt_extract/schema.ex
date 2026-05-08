@@ -190,6 +190,7 @@ defmodule CcxtExtract.Schema do
     auth_sections = structure_data["authenticated_sections"]
     sign_method = structure_data["sign_method"]
     describe_api = structure_data["describe_api"]
+    normalization = Keyword.get(opts, :normalization) || CcxtExtract.Normalization.build(nil)
 
     %{
       "schema_version" => @schema_v4_version,
@@ -217,7 +218,7 @@ defmodule CcxtExtract.Schema do
         "class_hierarchy" => structure_data["error_class_hierarchy"]
       },
       "rate_limits" => %{},
-      "normalization" => %{},
+      "normalization" => normalization,
       "markets" => %{
         "symbols_index" => runtime_data["symbols_index"],
         "patterns" => runtime_data["symbol_patterns"]

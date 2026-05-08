@@ -769,6 +769,187 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_normalization_shape_valid/2" do
+    test "skipped on v3-shaped output (no normalization key)" do
+      v3_exchange = clean_exchange()
+      assert ContractTest.check_normalization_shape_valid(v3_exchange, @base_observed) == []
+    end
+
+    test "passes a freshly-built v4 normalization block" do
+      exchange = %{
+        "exchange" => %{"id" => "good"},
+        "normalization" => CcxtExtract.Normalization.build(nil)
+      }
+
+      assert ContractTest.check_normalization_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "flags missing required keys" do
+      exchange = %{
+        "exchange" => %{"id" => "bad"},
+        "normalization" => %{"parse_methods_digest" => %{}}
+      }
+
+      findings = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "field_maps"))
+      assert Enum.any?(findings, &(&1.message =~ "response_envelopes"))
+    end
+
+    test "flags unexpected top-level keys" do
+      exchange = %{
+        "exchange" => %{"id" => "bad"},
+        "normalization" => Map.put(CcxtExtract.Normalization.build(nil), "rogue", true)
+      }
+
+      findings = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+      assert Enum.any?(findings, &(&1.message =~ "rogue"))
+    end
+
+    test "flags malformed digest record (missing required key)" do
+      block =
+        nil
+        |> CcxtExtract.Normalization.build()
+        |> put_in(["parse_methods_digest", "parseTrade"], %{
+          "params" => [],
+          "return_type" => nil,
+          "async" => false
+          # statement_count missing
+        })
+
+      exchange = %{"exchange" => %{"id" => "bad"}, "normalization" => block}
+      findings = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, fn f ->
+               f.path == "normalization.parse_methods_digest.parseTrade" and
+                 f.message =~ "statement_count"
+             end)
+    end
+
+    test "flags wrong types in digest record" do
+      block =
+        nil
+        |> CcxtExtract.Normalization.build()
+        |> put_in(["parse_methods_digest", "parseTrade"], %{
+          "params" => "not a list",
+          "return_type" => 42,
+          "async" => "yes",
+          "statement_count" => -1
+        })
+
+      exchange = %{"exchange" => %{"id" => "bad"}, "normalization" => block}
+      findings = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "params must be a list"))
+      assert Enum.any?(findings, &(&1.message =~ "return_type must be a string or null"))
+      assert Enum.any?(findings, &(&1.message =~ "async must be a boolean"))
+      assert Enum.any?(findings, &(&1.message =~ "statement_count"))
+    end
+
+    test "flags malformed field_maps stub (extra parser type or wrong value type)" do
+      block =
+        nil
+        |> CcxtExtract.Normalization.build()
+        |> put_in(["field_maps", "ticker"], "not a map")
+        |> put_in(["field_maps", "rogue_type"], nil)
+
+      exchange = %{"exchange" => %{"id" => "bad"}, "normalization" => block}
+      findings = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, fn f ->
+               f.path == "normalization.field_maps.ticker" and
+                 f.message =~ "must be null or a map"
+             end)
+
+      assert Enum.any?(findings, &(&1.message =~ "rogue_type"))
+    end
+
+    test "non-map normalization is flagged" do
+      exchange = %{"exchange" => %{"id" => "bad"}, "normalization" => "garbage"}
+      [finding] = ContractTest.check_normalization_shape_valid(exchange, @base_observed)
+      assert finding.message =~ "must be a map"
+    end
+  end
+
+  describe "check_parse_methods_digest_covers_inventory/2" do
+    test "skipped on v3-shaped output (no normalization key)" do
+      v3_exchange = clean_exchange()
+      observed = Map.put(@base_observed, :parse_methods_inventory, %{"good" => ["parseTrade"]})
+      assert ContractTest.check_parse_methods_digest_covers_inventory(v3_exchange, observed) == []
+    end
+
+    test "no findings when digest covers inventory exactly" do
+      block =
+        CcxtExtract.Normalization.build(%{
+          "parse_methods" => %{
+            "parseTrade" => %{"statements" => 1, "params" => [], "async" => false},
+            "parseTicker" => %{"statements" => 1, "params" => [], "async" => false}
+          }
+        })
+
+      exchange = %{"exchange" => %{"id" => "good"}, "normalization" => block}
+      observed = Map.put(@base_observed, :parse_methods_inventory, %{"good" => ["parseTrade", "parseTicker"]})
+
+      assert ContractTest.check_parse_methods_digest_covers_inventory(exchange, observed) == []
+    end
+
+    test "flags missing inventory methods (lossy projection)" do
+      block =
+        CcxtExtract.Normalization.build(%{
+          "parse_methods" => %{
+            "parseTrade" => %{"statements" => 1, "params" => [], "async" => false}
+          }
+        })
+
+      exchange = %{"exchange" => %{"id" => "drift"}, "normalization" => block}
+
+      observed =
+        Map.put(@base_observed, :parse_methods_inventory, %{
+          "drift" => ["parseTrade", "parseTicker"]
+        })
+
+      [finding] = ContractTest.check_parse_methods_digest_covers_inventory(exchange, observed)
+      assert finding.exchange == "drift"
+      assert finding.invariant == "parse_methods_digest_covers_inventory"
+      assert finding.path == "normalization.parse_methods_digest.parseTicker"
+      assert finding.message =~ "parseTicker"
+    end
+
+    test "skipped when inventory has no entry for the exchange" do
+      block = CcxtExtract.Normalization.build(nil)
+      exchange = %{"exchange" => %{"id" => "ghost"}, "normalization" => block}
+      observed = Map.put(@base_observed, :parse_methods_inventory, %{})
+
+      assert ContractTest.check_parse_methods_digest_covers_inventory(exchange, observed) == []
+    end
+
+    test "skipped when observed has no inventory key at all" do
+      block = CcxtExtract.Normalization.build(nil)
+      exchange = %{"exchange" => %{"id" => "x"}, "normalization" => block}
+      assert ContractTest.check_parse_methods_digest_covers_inventory(exchange, @base_observed) == []
+    end
+
+    test "findings sorted by method name" do
+      block = CcxtExtract.Normalization.build(nil)
+
+      exchange = %{"exchange" => %{"id" => "z"}, "normalization" => block}
+
+      observed =
+        Map.put(@base_observed, :parse_methods_inventory, %{
+          "z" => ["parseTicker", "parseAccount", "parseTrade"]
+        })
+
+      findings = ContractTest.check_parse_methods_digest_covers_inventory(exchange, observed)
+      method_names = Enum.map(findings, & &1.path)
+
+      assert method_names == [
+               "normalization.parse_methods_digest.parseAccount",
+               "normalization.parse_methods_digest.parseTicker",
+               "normalization.parse_methods_digest.parseTrade"
+             ]
+    end
+  end
+
   describe "run_all/1" do
     setup do
       tmp = Path.join(System.tmp_dir!(), "ccxt_contract_test_#{System.unique_integer([:positive])}")

@@ -138,6 +138,9 @@ defmodule CcxtExtract.Provenance do
     /endpoints/transaction_classification
     /endpoints/request/defaults
     /rate_limits/per_endpoint_cost
+    /normalization/parse_methods_digest
+    /normalization/field_maps
+    /normalization/response_envelopes
   )
 
   @doc """

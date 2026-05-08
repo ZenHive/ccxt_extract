@@ -299,9 +299,136 @@
     },
     "Normalization": {
       "type": "object",
-      "description": "Response-normalization surface. Empty placeholder until Task 129 ships parse_methods_digest (compact, no AST body), Phase 12 ships field_maps, and Task 83 ships response_envelopes. Permissive (additionalProperties: true) so future tasks can populate without a schema break.",
-      "additionalProperties": true,
-      "properties": {}
+      "description": "Response-normalization surface. Task 129 ships parse_methods_digest (compact, no AST body — re-emitting bodies regresses the 91.6% Hex-cap reduction Task 117 shipped), and stub field_maps + response_envelopes scaffolds. Phase 12 sub-bundles (Tasks 74–83) populate the field maps and envelope paths on top of this scaffold.",
+      "required": [
+        "parse_methods_digest",
+        "field_maps",
+        "response_envelopes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "parse_methods_digest": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/NormalizationDigestRecord"
+          },
+          "description": "Compact per-method digest projected from priv/discoveries/parse_methods.json. Keys are parse* method names defined on the class; values are AST-free signature records. Exchanges with no own parse_methods entry emit {} (alias exchanges that inherit from a parent class)."
+        },
+        "field_maps": {
+          "$ref": "#/$defs/NormalizationStubRecord",
+          "description": "Per-parser-type field-map scaffold. Each value is null in the scaffold; Phase 12 sub-bundles (Tasks 74–82) populate them with derived exchange-native → CCXT-unified field name mappings + type coercion + enum tables. Top-level _unresolved_reason tag follows the SignRecipe Honesty Rule convention."
+        },
+        "response_envelopes": {
+          "$ref": "#/$defs/NormalizationStubRecord",
+          "description": "Per-parser-type response-envelope scaffold. Each value is null in the scaffold; Task 83 (Phase 12, 12-envelope) populates them with the JSON path through which each method group's response wraps its body. Same shape as field_maps."
+        }
+      }
+    },
+    "NormalizationDigestRecord": {
+      "type": "object",
+      "description": "Compact, AST-free signature digest for one parse* method. Mirrors MethodSignature minus the body — preserves the four fields a consumer needs to dispatch / type-check without paying the 128 MB Hex publish cost of full ESTree bodies.",
+      "required": [
+        "params",
+        "return_type",
+        "async",
+        "statement_count"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "params": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MethodParam"
+          },
+          "description": "Parameter list with names and TypeScript type annotations."
+        },
+        "return_type": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "TypeScript return type annotation, if present."
+        },
+        "async": {
+          "type": "boolean",
+          "description": "Whether the method is declared async."
+        },
+        "statement_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Top-level statement count in the method body. Coarse complexity proxy without re-emitting the AST."
+        }
+      }
+    },
+    "NormalizationStubRecord": {
+      "type": "object",
+      "description": "Stub record for field_maps / response_envelopes — one entry per parser type plus a top-level _unresolved_reason tag. Values are null in the Task 129 scaffold; Phase 12 sub-bundles flip them to populated maps. Permissive value shape (oneOf null / object) lets later tasks populate without a schema break.",
+      "required": [
+        "ticker",
+        "trade",
+        "ohlcv",
+        "order",
+        "position",
+        "balance",
+        "market",
+        "transaction",
+        "deposit_address",
+        "_unresolved_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ticker": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "trade": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "ohlcv": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "order": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "position": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "balance": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "market": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "transaction": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "deposit_address": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "_unresolved_reason": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ],
+          "description": "Closed-vocabulary scaffold tag. \"not_yet_derived\" is the Task 129 default. Phase 12 sub-bundles flip it to null when every parser-type entry is populated."
+        }
+      }
+    },
+    "NormalizationStubValue": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
+      ],
+      "description": "Per-parser-type entry — null in the Task 129 scaffold, populated map in Phase 12 sub-bundles."
     },
     "Markets": {
       "type": "object",

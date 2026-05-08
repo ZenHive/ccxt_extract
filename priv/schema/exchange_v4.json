@@ -261,15 +261,90 @@
     },
     "RateLimits": {
       "type": "object",
-      "description": "Rate-limit surface. `per_endpoint_cost` ships per-endpoint cost weights (Task 73 — additive); `buckets` (Task 89) ships bucket configuration; both fields land additively. Permissive (additionalProperties: true) so future tasks can populate without a schema break.",
+      "description": "Rate-limit surface. `buckets` (Task 89) ships per-exchange bucket configuration; `per_endpoint_cost` (Task 73 / Task 90 layering) ships per-endpoint cost weights. Both fields land additively. Permissive (additionalProperties: true) so future tasks can populate without a schema break.",
       "additionalProperties": true,
       "properties": {
+        "buckets": {
+          "$ref": "#/$defs/RateLimitBuckets",
+          "description": "Per-exchange rate-limit bucket configuration. Always-emit wrapper (no null at this level). Schema definition lives at `$defs/RateLimitBuckets` and mirrors the v3 entry under `structure.rate_limit_buckets`."
+        },
         "per_endpoint_cost": {
           "oneOf": [
             { "type": "null" },
             { "$ref": "#/$defs/RateLimitCosts" }
           ],
           "description": "Per-endpoint rate-limit cost weights derived from describe().api. Same shape as v3's structure.rate_limit_costs (see #/$defs/RateLimitCosts)."
+        }
+      }
+    },
+    "RateLimitBuckets": {
+      "type": "object",
+      "description": "Rate-limit bucket configuration. Each entry in `buckets` is an independent throttle dimension; today every exchange resolves to exactly one bucket. The wrapper is shipped as a list to leave room for multi-bucket exchanges (binance UID/IP, okx per-account) without a schema break. `axes` lists the call-shape attributes counted against the bucket — always `[\"request\"]` today; `[\"weight\"]` is reserved for A-2 method-cost weighting. `source` records where the bucket data came from. `unresolved_reason` tags an honest-empty record when the extractor could not produce a usable bucket.",
+      "required": ["buckets", "source", "unresolved_reason"],
+      "additionalProperties": false,
+      "properties": {
+        "buckets": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/RateLimitBucketEntry" }
+        },
+        "source": {
+          "type": "string",
+          "enum": ["describe", "tokenBucket", "method_body"]
+        },
+        "unresolved_reason": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "string",
+              "enum": ["instantiation_failed", "rate_limit_unset", "no_discovery_entry"]
+            }
+          ]
+        }
+      }
+    },
+    "RateLimitBucketEntry": {
+      "type": "object",
+      "description": "Single rate-limit bucket entry. See v3 schema for full field-level documentation.",
+      "required": [
+        "axes",
+        "rate_limit_ms",
+        "refill_per_sec",
+        "max_size",
+        "cost_default",
+        "algorithm",
+        "rolling_window_ms"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "axes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "rate_limit_ms": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "refill_per_sec": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "max_size": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "cost_default": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "algorithm": {
+          "type": "string",
+          "enum": ["leakyBucket", "rollingWindow"]
+        },
+        "rolling_window_ms": {
+          "oneOf": [
+            { "type": "number", "exclusiveMinimum": 0 },
+            { "type": "null" }
+          ]
         }
       }
     },

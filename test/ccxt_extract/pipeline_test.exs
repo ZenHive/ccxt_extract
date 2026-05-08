@@ -1162,6 +1162,7 @@ defmodule CcxtExtract.PipelineTest do
     write_json(Path.join(dir, "request_defaults.json"), empty_global)
     write_json(Path.join(dir, "url_templates.json"), empty_global)
     write_json(Path.join(dir, "request_headers.json"), empty_global)
+    write_json(Path.join(dir, "rate_limit_buckets.json"), empty_global)
     write_json(Path.join(dir, "overrides.json"), empty_global)
 
     # Manifests for per-exchange loaders
@@ -1255,8 +1256,11 @@ defmodule CcxtExtract.PipelineTest do
       assert get_in(result, ["endpoints", "interfaces", "publicGetTicker", "name"]) == "publicGetTicker"
       assert get_in(result, ["auth", "headers", "user_agent"]) == "Mozilla/5.0 (TestEx)"
 
-      # rate_limits is empty placeholder (Task 130 caveat).
-      assert result["rate_limits"] == %{}
+      # rate_limits.buckets carries the rate-limit bucket wrapper (Task 89).
+      # per_endpoint_cost remains absent until Task 90 layers it onto the
+      # rate_limits group additively.
+      assert result["rate_limits"]["buckets"] ==
+               CcxtExtract.RateLimitBuckets.empty_record()
 
       # normalization is the Task 129 carrier — compact digest plus
       # field_maps / response_envelopes scaffolds.

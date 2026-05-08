@@ -672,12 +672,16 @@ Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipe
 Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/pipeline.ex:856,6CCCFD7
 Traversal.FileModule: Directory Traversal in `File.rm`,lib/ccxt_extract/pipeline.ex:869,710E448
 Traversal.FileModule: Directory Traversal in `File.cp!`,lib/ccxt_extract/pipeline.ex:867,75C3E2F
+
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:155,15416C7
 Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/error_class_hierarchy.ex:131,18B25C3
-Traversal.FileModule: Directory Traversal in `File.cp!`,lib/ccxt_extract/pipeline.ex:868,197BBF6
-Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/contract_test.ex:174,26DAFEF
-Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/pipeline.ex:857,33E5512
-Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/contract_test.ex:173,44F82D5
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:150,32E9C4E
+Traversal.FileModule: Directory Traversal in `File.cp!`,lib/ccxt_extract/pipeline.ex:907,399F5F1
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:896,449E893
 Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/error_class_hierarchy.ex:132,4DD90A9
+Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/pipeline.ex:896,55361BC
 Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/error_class_hierarchy.ex:146,5D26681
-Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:857,7963785
-Traversal.FileModule: Directory Traversal in `File.rm`,lib/ccxt_extract/pipeline.ex:870,A2BD66
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/contract_test.ex:183,7A3C2A7
+Traversal.FileModule: Directory Traversal in `File.rm`,lib/ccxt_extract/pipeline.ex:909,7AC81F0
+Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/pipeline.ex:140,7BAF1AF
+Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/contract_test.ex:182,7D5624A

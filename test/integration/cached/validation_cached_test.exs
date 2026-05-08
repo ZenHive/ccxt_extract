@@ -27,13 +27,23 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
   @audit_roots ~w(binance bybit okx)
   @audit_derived ~w(bequant binanceusdm okxus)
   @audit_dex ~w(hyperliquid apex aftermath)
-  # Derived from manifest — exchanges that failed loadMarkets() change with each extraction
-  @audit_load_markets_failures @fixtures_dir
-                               |> Path.join("load_markets/_manifest.json")
-                               |> File.read!()
-                               |> Jason.decode!()
-                               |> Map.get("failed", [])
-                               |> Enum.map(& &1["id"])
+  # Derived from manifest — exchanges that failed loadMarkets() change with each extraction.
+  # Guarded by File.exists?/1 so this module compiles when the corpus isn't materialized
+  # (CI offline-only path): empty list → the `for` loop below generates zero parameterized
+  # tests, and the :integration tag exclusion drops the rest of the module at runtime.
+  @audit_load_markets_failures (
+                                 manifest_path = Path.join(@fixtures_dir, "load_markets/_manifest.json")
+
+                                 if File.exists?(manifest_path) do
+                                   manifest_path
+                                   |> File.read!()
+                                   |> Jason.decode!()
+                                   |> Map.get("failed", [])
+                                   |> Enum.map(& &1["id"])
+                                 else
+                                   []
+                                 end
+                               )
   @audit_matrix @audit_aliases ++ @audit_roots ++ @audit_derived ++ @audit_dex ++ @audit_load_markets_failures
 
   # Write pipeline output to a temp dir, then validate the emitted files.

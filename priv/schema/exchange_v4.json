@@ -411,7 +411,9 @@
             },
             {
               "type": "string",
-              "minLength": 1
+              "enum": [
+                "not_yet_derived"
+              ]
             }
           ],
           "description": "Closed-vocabulary scaffold tag. \"not_yet_derived\" is the Task 129 default. Phase 12 sub-bundles flip it to null when every parser-type entry is populated."

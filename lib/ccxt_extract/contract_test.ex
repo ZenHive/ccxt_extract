@@ -1296,8 +1296,6 @@ defmodule CcxtExtract.ContractTest do
     [normalization_finding(id, "normalization", "normalization must be a map")]
   end
 
-  defp digest_findings(_id, nil), do: []
-
   defp digest_findings(id, digest) when is_map(digest) do
     digest
     |> Enum.sort_by(fn {name, _} -> name end)
@@ -1361,8 +1359,6 @@ defmodule CcxtExtract.ContractTest do
     normalization_finding(id, path, "statement_count must be a non-negative integer, got #{inspect(other)}")
   end
 
-  defp stub_record_findings(_id, _path, nil), do: []
-
   defp stub_record_findings(id, path, record) when is_map(record) do
     missing = Normalization.stub_record_keys() -- Map.keys(record)
     extra = Map.keys(record) -- Normalization.stub_record_keys()
@@ -1379,21 +1375,47 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp stub_value_findings(id, path, record) do
-    Enum.flat_map(Normalization.parser_types(), fn key ->
-      case Map.fetch(record, key) do
-        {:ok, nil} ->
-          []
+    parser_findings =
+      Enum.flat_map(Normalization.parser_types(), fn key ->
+        case Map.fetch(record, key) do
+          {:ok, nil} ->
+            []
 
-        {:ok, v} when is_map(v) ->
-          []
+          {:ok, v} when is_map(v) ->
+            []
 
-        {:ok, other} ->
-          [normalization_finding(id, "#{path}.#{key}", "must be null or a map, got #{inspect(other)}")]
+          {:ok, other} ->
+            [normalization_finding(id, "#{path}.#{key}", "must be null or a map, got #{inspect(other)}")]
 
-        :error ->
-          []
-      end
-    end)
+          :error ->
+            []
+        end
+      end)
+
+    parser_findings ++ unresolved_reason_findings(id, path, record)
+  end
+
+  @spec unresolved_reason_findings(String.t(), String.t(), map()) :: [finding()]
+  defp unresolved_reason_findings(id, path, record) do
+    case Map.fetch(record, "_unresolved_reason") do
+      :error ->
+        []
+
+      {:ok, nil} ->
+        []
+
+      {:ok, "not_yet_derived"} ->
+        []
+
+      {:ok, other} ->
+        [
+          normalization_finding(
+            id,
+            "#{path}._unresolved_reason",
+            "must be null or the sentinel string \"not_yet_derived\", got #{inspect(other)}"
+          )
+        ]
+    end
   end
 
   defp normalization_finding(id, path, message) do
@@ -1432,6 +1454,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp digest_inventory_findings(_id, _digest, nil), do: []
+  defp digest_inventory_findings(_id, digest, _inventory) when not is_map(digest), do: []
 
   defp digest_inventory_findings(id, digest, inventory) when is_list(inventory) do
     digest_keys = digest |> Map.keys() |> MapSet.new()
@@ -1796,11 +1819,31 @@ defmodule CcxtExtract.ContractTest do
           {entry["id"], Map.keys(methods)}
         end)
 
-      {:ok, _malformed} ->
+      {:ok, malformed} ->
+        raise """
+        parse_methods.json at #{path} has an unexpected top-level shape.
+
+        Expected: %{"exchanges" => [_ | _]}
+        Got:      #{inspect(malformed, limit: 5)}
+
+        Regenerate via `mix ccxt_extract.parse_methods` (or the full
+        `mix ccxt_extract.update`). Silently falling back to %{} would
+        disable parse_methods_digest_covers_inventory and let lossy
+        digests through.
+        """
+
+      {:error, {:missing_input, _}} ->
         %{}
 
-      {:error, _reason} ->
-        %{}
+      {:error, {:invalid_json, detail}} ->
+        raise """
+        parse_methods.json at #{path} is not valid JSON: #{detail}
+
+        Regenerate via `mix ccxt_extract.parse_methods` (or the full
+        `mix ccxt_extract.update`). Silently falling back to %{} would
+        disable parse_methods_digest_covers_inventory and let lossy
+        digests through.
+        """
     end
   end
 

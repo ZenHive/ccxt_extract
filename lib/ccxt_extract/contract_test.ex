@@ -461,7 +461,7 @@ defmodule CcxtExtract.ContractTest do
   `"no_sign_method"`) coexist with any null derivation field by
   construction — those records are honestly partial and pass cleanly.
   The `"not_yet_derived"` tag is the scaffold default; records
-  carrying it with all six fields populated are the bug this invariant
+  carrying it with all seven fields populated are the bug this invariant
   catches when Derive is bypassed (e.g. through an override chain).
   """
   @spec check_sign_recipe_honesty_valid(map(), map()) :: [finding()]
@@ -495,7 +495,7 @@ defmodule CcxtExtract.ContractTest do
           sign_recipe_honesty_finding(
             id,
             section,
-            "unresolved_reason is #{inspect(tag)} but all six derivation fields are populated " <>
+            "unresolved_reason is #{inspect(tag)} but all seven derivation fields are populated " <>
               "(tag should be null)"
           )
         ]

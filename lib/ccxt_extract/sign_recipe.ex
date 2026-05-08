@@ -10,13 +10,18 @@ defmodule CcxtExtract.SignRecipe do
 
   ## Three-tier contract
 
-  Each record has six derivation fields plus two metadata fields:
+  Each record has seven derivation fields plus two metadata fields:
 
     * `crypto_op`          — populated by Task 65
     * `signature_placement` — populated by Task 65
     * `canonical_string`   — populated by Tasks 66a / 66b (HMAC families)
     * `auth_headers`       — populated by Task 67
     * `nonce`              — populated by Task 67
+    * `timestamp`          — populated by Task 72 (timestamp `{source, format}`,
+      currently mirrors `nonce` since the same AST classifier produces both;
+      surfaced as a distinct field so v4 consumers read the canonical
+      `auth.sign_recipe.<section>.timestamp` path. Kept additive to v3 for
+      the grace window.)
     * `pre_sign_transforms` — populated by Task 68
     * `unresolved_reason`  — closed-vocabulary tag; `"not_yet_derived"` in the scaffold
     * `patch_count`        — Three-Strikes Rule counter (see CLAUDE.md)
@@ -56,8 +61,8 @@ defmodule CcxtExtract.SignRecipe do
 
   @initial_unresolved_reason "not_yet_derived"
 
-  @required_keys ~w(crypto_op canonical_string signature_placement auth_headers nonce pre_sign_transforms unresolved_reason patch_count)
-  @derivation_fields ~w(crypto_op canonical_string signature_placement auth_headers nonce pre_sign_transforms)
+  @required_keys ~w(crypto_op canonical_string signature_placement auth_headers nonce timestamp pre_sign_transforms unresolved_reason patch_count)
+  @derivation_fields ~w(crypto_op canonical_string signature_placement auth_headers nonce timestamp pre_sign_transforms)
   @unresolved_reasons ~w(not_yet_derived custom_signing_family ambiguous_ast no_sign_method)
 
   # Subset of `@unresolved_reasons` that short-circuits every derivation
@@ -67,7 +72,7 @@ defmodule CcxtExtract.SignRecipe do
   @terminal_reasons ~w(ambiguous_ast custom_signing_family no_sign_method)
 
   @doc """
-  The eight required keys on every `structure.sign_recipe` record.
+  The nine required keys on every `structure.sign_recipe` record.
   Authoritative for contract-test shape validation — keep in sync with
   `priv/schema/sign_recipe_v1.json#/required` and
   `priv/schema/exchange_v3.json#/$defs/SignRecipeRecord/required`.
@@ -76,7 +81,7 @@ defmodule CcxtExtract.SignRecipe do
   def required_keys, do: @required_keys
 
   @doc """
-  The six derivation fields on every `structure.sign_recipe` record —
+  The seven derivation fields on every `structure.sign_recipe` record —
   the strict subset of `required_keys/0` that Phase 10 tasks populate
   field-by-field (Tasks 65–68). The biconditional enforced by Task 69
   says `unresolved_reason` is `nil` iff every field in this list is
@@ -155,6 +160,7 @@ defmodule CcxtExtract.SignRecipe do
       "signature_placement" => nil,
       "auth_headers" => nil,
       "nonce" => nil,
+      "timestamp" => nil,
       "pre_sign_transforms" => nil,
       "unresolved_reason" => @initial_unresolved_reason,
       "patch_count" => 0

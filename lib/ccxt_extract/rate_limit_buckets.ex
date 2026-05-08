@@ -50,11 +50,14 @@ defmodule CcxtExtract.RateLimitBuckets do
   `source` records where the bucket data came from (always `"describe"`
   today — `tokenBucket` and `method_body` are reserved for future-proofing).
 
-  `unresolved_reason` is non-null when the extractor could not produce a
-  usable bucket — `"instantiation_failed"` (constructor threw, e.g.
-  describe lookup mid-construction blew up) or `"rate_limit_unset"`
-  (rateLimit is missing/-1 — base CCXT requires it but a misconfigured
-  override could still emit the field).
+  `unresolved_reason` is non-null when no usable bucket is available —
+  `"instantiation_failed"` (constructor threw, e.g. describe lookup
+  mid-construction blew up), `"rate_limit_unset"` (rateLimit is
+  missing/-1 — base CCXT requires it but a misconfigured override could
+  still emit the field), or `"no_discovery_entry"` (no per-exchange row
+  in `priv/discoveries/rate_limit_buckets.json` — emitted by the
+  pipeline-side fallback in `empty_record/0`, never by the JS
+  extractor).
 
   ## Out of scope
 
@@ -154,7 +157,10 @@ defmodule CcxtExtract.RateLimitBuckets do
 
   @doc """
   Always-present wrapper used by the pipeline when an exchange has no
-  discovery entry. Mirrors the JS extractor's empty shape.
+  discovery entry. Mirrors the JS extractor's wrapper *shape* (`buckets`
+  / `source` / `unresolved_reason` keys), but tags
+  `unresolved_reason: "no_discovery_entry"` — a value the JS extractor
+  itself never emits (its only failure mode is `"instantiation_failed"`).
   """
   @spec empty_record() :: %{String.t() => term()}
   def empty_record do

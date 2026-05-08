@@ -32,6 +32,7 @@ defmodule Mix.Tasks.CcxtExtract.RateLimitBuckets do
   alias CcxtExtract.TaskScope
 
   @impl true
+  @spec run([String.t()]) :: :ok
   def run(args) do
     {scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
 

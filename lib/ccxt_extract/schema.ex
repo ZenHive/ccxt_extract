@@ -170,12 +170,19 @@ defmodule CcxtExtract.Schema do
   `Pipeline.build_exchange_data/3` — no per-section extraction differences.
   Only the assembly shape differs.
 
+  ## Populated subsections
+
+  `rate_limits.buckets` is populated as of Task 89 — see
+  `CcxtExtract.RateLimitBuckets`. The carrier is the same wrapper
+  emitted under `structure.rate_limit_buckets` in v3, just relocated.
+
   ## Out of scope (Task 130)
 
-  `rate_limits` and `normalization` are emitted as empty objects. Future
-  freeze-list tasks (Task 129 normalization carrier, Task 89/90
-  rate_limits, Phase 12 sub-bundles) populate them. DO NOT pre-populate
-  them here — keep the v4 shape as a structural reorganization of v3 only.
+  `normalization` is still emitted as an empty object. Future freeze-list
+  tasks (Task 129 normalization carrier, Task 90 per-method cost
+  weighting layered onto `rate_limits`, Phase 12 sub-bundles) populate
+  the remaining empties. DO NOT pre-populate them here — keep the v4
+  shape as a structural reorganization of v3 only.
   """
   @spec build_exchange_v4(map(), map(), map(), keyword()) :: map()
   def build_exchange_v4(exchange_meta, runtime_data, structure_data, opts \\ []) do

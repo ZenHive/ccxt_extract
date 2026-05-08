@@ -2,7 +2,7 @@ defmodule CcxtExtract.DiscoveryLoader do
   @moduledoc """
   Load and validate discovery artifacts produced by extractors.
 
-  Reads the 14 discovery files (global + per-exchange) from the
+  Reads the 15 discovery files (global + per-exchange) from the
   discoveries directory, validates each entry against its expected
   shape, accumulates integrity stats (missing/corrupt/orphan/id-mismatch
   entries), and returns the data map that `CcxtExtract.Pipeline`

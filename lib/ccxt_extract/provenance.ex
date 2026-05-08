@@ -91,6 +91,46 @@ defmodule CcxtExtract.Provenance do
     /structure/request_defaults
   )
 
+  # v4 pointer paths — same content as v3 under reorganized top-level
+  # groups. Used by `build_default_v4/0` when emission targets v4 via
+  # `--schema-target=4`. Pointers track `SCHEMA.md` § "Top-level reshape".
+  @raw_pointers_v4 ~w(
+    /exchange/id
+    /exchange/name
+    /exchange/certified
+    /exchange/pro
+    /exchange/version
+    /exchange/country
+    /exchange/alias
+    /exchange/referral
+    /raw/describe
+    /raw/url_templates
+    /raw/class_info
+    /raw/method_inventory
+    /raw/overrides_meta
+    /auth/sign_method
+    /auth/headers
+    /errors/handle_errors/method
+    /errors/handle_errors/exceptions
+    /errors/handle_errors/http_exceptions
+    /endpoints/interfaces
+    /endpoints/pagination
+  )
+
+  @derived_pointers_v4 ~w(
+    /exchange/tier
+    /markets/symbols_index
+    /markets/patterns
+    /testnet
+    /auth/authenticated_sections
+    /auth/sign_recipe
+    /endpoints/request/shape
+    /errors/handle_errors/error_code_fields
+    /errors/handle_errors/throw_dispatches
+    /endpoints/unified
+    /endpoints/request/defaults
+  )
+
   @doc """
   Returns the constant default provenance map for a freshly-assembled
   exchange (before any overrides have been applied).
@@ -101,6 +141,26 @@ defmodule CcxtExtract.Provenance do
     derived = Map.new(@derived_pointers, &{&1, "derived"})
     Map.merge(raw, derived)
   end
+
+  @doc """
+  Returns the constant default provenance map for a v4-shaped exchange.
+  Same content as `build_default/0` mapped onto v4 pointer paths
+  (Task 130 — gated, opt-in via `--schema-target=4`).
+  """
+  @spec build_default_v4() :: %{String.t() => String.t()}
+  def build_default_v4 do
+    raw = Map.new(@raw_pointers_v4, &{&1, "raw"})
+    derived = Map.new(@derived_pointers_v4, &{&1, "derived"})
+    Map.merge(raw, derived)
+  end
+
+  @doc "v4 raw pointers. Exposed for tests and future contract invariants."
+  @spec raw_pointers_v4() :: [String.t()]
+  def raw_pointers_v4, do: @raw_pointers_v4
+
+  @doc "v4 derived pointers. Exposed for tests and future contract invariants."
+  @spec derived_pointers_v4() :: [String.t()]
+  def derived_pointers_v4, do: @derived_pointers_v4
 
   @doc """
   Overwrite provenance entries at each given JSON Pointer path with

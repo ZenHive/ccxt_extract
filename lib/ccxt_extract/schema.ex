@@ -51,26 +51,65 @@ defmodule CcxtExtract.Schema do
 
   """
 
+  alias CcxtExtract.Provenance
   alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
 
   @schema_version "3.1.0"
   @schema_filename "exchange_v3.json"
 
+  # v4 (gated, opt-in via --schema-target=4). DO NOT flip the v3 defaults
+  # above — the atomic cut is a separate reviewer-owned commit after the
+  # freeze list empties (Task 130 reviewer note). v3 stays the default
+  # published contract until then.
+  @schema_v4_version "4.0.0-pre"
+  @schema_v4_filename "exchange_v4.json"
+
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe symbols_index symbol_patterns url_templates testnet_urls request_headers)
   @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe request_shape handle_errors interface_signatures pagination overrides unified_endpoints request_defaults)
 
+  @required_top_keys_v4 ~w(schema_version extracted_at ccxt_version exchange endpoints auth errors rate_limits normalization markets testnet raw _provenance)
+  @required_endpoints_keys_v4 ~w(unified interfaces pagination request)
+  @required_endpoints_request_keys_v4 ~w(defaults shape)
+  @required_auth_keys_v4 ~w(sign_recipe sign_method authenticated_sections headers)
+  @required_errors_keys_v4 ~w(handle_errors)
+  @required_markets_keys_v4 ~w(symbols_index patterns)
+  @required_raw_keys_v4 ~w(describe url_templates class_info method_inventory overrides_meta)
+
   # --- Public API ---
 
-  @doc "Returns the current schema version string."
+  @doc "Returns the current (v3) schema version string."
   @spec schema_version() :: String.t()
   def schema_version, do: @schema_version
 
-  @doc "Returns the current schema filename (JSON Schema file + output-dir copy)."
+  @doc "Returns the current (v3) schema filename (JSON Schema file + output-dir copy)."
   @spec schema_filename() :: String.t()
   def schema_filename, do: @schema_filename
+
+  @doc "Returns the v4 schema version string (gated, in-progress)."
+  @spec schema_version_v4() :: String.t()
+  def schema_version_v4, do: @schema_v4_version
+
+  @doc "Returns the v4 schema filename. Coexists with the v3 file under priv/schema/."
+  @spec schema_filename_v4() :: String.t()
+  def schema_filename_v4, do: @schema_v4_filename
+
+  @doc """
+  Returns the schema version string for the given target (`3` or `4`).
+  Used by mix tasks plumbing the `--schema-target` flag.
+  """
+  @spec schema_version_for(3 | 4) :: String.t()
+  def schema_version_for(3), do: @schema_version
+  def schema_version_for(4), do: @schema_v4_version
+
+  @doc """
+  Returns the schema filename for the given target (`3` or `4`).
+  """
+  @spec schema_filename_for(3 | 4) :: String.t()
+  def schema_filename_for(3), do: @schema_filename
+  def schema_filename_for(4), do: @schema_v4_filename
 
   @doc """
   Build a per-exchange output map conforming to `exchange_v3.json`.
@@ -109,7 +148,84 @@ defmodule CcxtExtract.Schema do
       "exchange" => build_exchange_section(exchange_meta),
       "runtime" => build_runtime_section(runtime_data),
       "structure" => build_structure_section(structure_data),
-      "_provenance" => CcxtExtract.Provenance.build_default()
+      "_provenance" => Provenance.build_default()
+    }
+  end
+
+  @doc """
+  Build a per-exchange output map conforming to `exchange_v4.json` (gated).
+
+  v4 is the same field set as v3.1.0 reorganized into consumer-shaped
+  top-level groups (`endpoints`, `auth`, `errors`, `rate_limits`,
+  `normalization`, `markets`, `testnet`, `raw`). v4 emission is opt-in via
+  `mix ccxt_extract.pipeline --schema-target=4`; v3 stays the default
+  published contract until the freeze list empties and the atomic cut
+  lands.
+
+  ## Parameters
+
+  Same shape as `build_exchange/4`. Inputs come straight from
+  `Pipeline.build_exchange_data/3` — no per-section extraction differences.
+  Only the assembly shape differs.
+
+  ## Out of scope (Task 130)
+
+  `rate_limits` and `normalization` are emitted as empty objects. Future
+  freeze-list tasks (Task 129 normalization carrier, Task 89/90
+  rate_limits, Phase 12 sub-bundles) populate them. DO NOT pre-populate
+  them here — keep the v4 shape as a structural reorganization of v3 only.
+  """
+  @spec build_exchange_v4(map(), map(), map(), keyword()) :: map()
+  def build_exchange_v4(exchange_meta, runtime_data, structure_data, opts \\ []) do
+    ccxt_version = Keyword.fetch!(opts, :ccxt_version)
+
+    extracted_at =
+      Keyword.get_lazy(opts, :extracted_at, fn ->
+        DateTime.to_iso8601(DateTime.utc_now())
+      end)
+
+    auth_sections = structure_data["authenticated_sections"]
+    sign_method = structure_data["sign_method"]
+    describe_api = structure_data["describe_api"]
+
+    %{
+      "schema_version" => @schema_v4_version,
+      "extracted_at" => extracted_at,
+      "ccxt_version" => ccxt_version,
+      "exchange" => build_exchange_section(exchange_meta),
+      "endpoints" => %{
+        "unified" => structure_data["unified_endpoints"],
+        "interfaces" => structure_data["interface_signatures"],
+        "pagination" => structure_data["pagination"],
+        "request" => %{
+          "defaults" => structure_data["request_defaults"],
+          "shape" => RequestShape.Derive.derive(sign_method, auth_sections, describe_api)
+        }
+      },
+      "auth" => %{
+        "sign_recipe" => SignRecipe.Derive.derive(sign_method, auth_sections),
+        "sign_method" => sign_method,
+        "authenticated_sections" => auth_sections,
+        "headers" => runtime_data["request_headers"] || CcxtExtract.RequestHeaders.empty_record()
+      },
+      "errors" => %{
+        "handle_errors" => structure_data["handle_errors"]
+      },
+      "rate_limits" => %{},
+      "normalization" => %{},
+      "markets" => %{
+        "symbols_index" => runtime_data["symbols_index"],
+        "patterns" => runtime_data["symbol_patterns"]
+      },
+      "testnet" => runtime_data["testnet_urls"] || CcxtExtract.TestnetUrls.none_record(),
+      "raw" => %{
+        "describe" => runtime_data["describe"],
+        "url_templates" => runtime_data["url_templates"],
+        "class_info" => structure_data["class_info"],
+        "method_inventory" => structure_data["methods"],
+        "overrides_meta" => structure_data["overrides"]
+      },
+      "_provenance" => Provenance.build_default_v4()
     }
   end
 
@@ -166,6 +282,41 @@ defmodule CcxtExtract.Schema do
       {:error, reasons} -> raise "Schema validation failed: #{Enum.join(reasons, "; ")}"
     end
   end
+
+  @doc """
+  Lightweight pre-flight validation for v4 outputs.
+
+  Mirrors `validate/1` for v3 — checks the top-level groups and their
+  required keys, plus the schema version. Full draft-2020-12 enforcement
+  against `priv/schema/exchange_v4.json` happens in
+  `CcxtExtract.Validation.validate_schema/2` when run with
+  `--schema-target=4`.
+  """
+  @spec validate_v4(map()) :: :ok | {:error, [String.t()]}
+  def validate_v4(data) when is_map(data) do
+    errors =
+      []
+      |> check_required_keys(data, @required_top_keys_v4, "top-level")
+      |> check_schema_version_v4(data)
+      |> check_required_keys(data["exchange"], @required_exchange_keys, "exchange")
+      |> check_required_keys(data["endpoints"], @required_endpoints_keys_v4, "endpoints")
+      |> check_required_keys(
+        get_in(data, ["endpoints", "request"]),
+        @required_endpoints_request_keys_v4,
+        "endpoints.request"
+      )
+      |> check_required_keys(data["auth"], @required_auth_keys_v4, "auth")
+      |> check_required_keys(data["errors"], @required_errors_keys_v4, "errors")
+      |> check_required_keys(data["markets"], @required_markets_keys_v4, "markets")
+      |> check_required_keys(data["raw"], @required_raw_keys_v4, "raw")
+
+    case errors do
+      [] -> :ok
+      errors -> {:error, Enum.reverse(errors)}
+    end
+  end
+
+  def validate_v4(_), do: {:error, ["expected a map"]}
 
   # --- Section Builders ---
 
@@ -240,6 +391,13 @@ defmodule CcxtExtract.Schema do
     do: ["schema_version: expected #{@schema_version}, got #{inspect(v)}" | errors]
 
   defp check_schema_version(errors, _), do: errors
+
+  defp check_schema_version_v4(errors, %{"schema_version" => @schema_v4_version}), do: errors
+
+  defp check_schema_version_v4(errors, %{"schema_version" => v}),
+    do: ["schema_version: expected #{@schema_v4_version}, got #{inspect(v)}" | errors]
+
+  defp check_schema_version_v4(errors, _), do: errors
 
   @doc false
   @spec type_name(term()) :: String.t()

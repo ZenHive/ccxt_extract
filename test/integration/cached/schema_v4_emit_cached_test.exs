@@ -46,8 +46,11 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
           schema_target: 4
         )
 
-      assert length(exchanges) == 3,
-             "expected 3 priority exchanges, got #{length(exchanges)} (have all of binance/deribit/okx been extracted?)"
+      assert MapSet.new(Enum.map(exchanges, &get_in(&1, ["exchange", "id"]))) ==
+               @priority_scope,
+             "expected exactly the priority scope #{inspect(MapSet.to_list(@priority_scope))}, " <>
+               "got #{inspect(Enum.map(exchanges, &get_in(&1, ["exchange", "id"])))} " <>
+               "(have all of binance/deribit/okx been extracted?)"
 
       v4_root = Validation.build_schema_root(4)
 
@@ -81,6 +84,36 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
             """)
         end
       end
+    end
+
+    test "v3-shaped override pointer applies cleanly under --schema-target=4 (hyperliquid)",
+         %{discoveries_dir: discoveries_dir} do
+      # Regression: priv/overrides/hyperliquid.json carries the v3-shape
+      # path /structure/authenticated_sections. Under --schema-target=4
+      # the OverrideRegistry pointer translator rewrites it to
+      # /auth/authenticated_sections so put_in/3 lands on the v4 tree
+      # instead of synthesizing a rogue top-level `structure` key (which
+      # would violate exchange_v4.json's additionalProperties: false).
+      {:ok, [hyperliquid], _} =
+        Pipeline.extract(
+          discoveries_dir: discoveries_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-05-08T00:00:00Z",
+          scope: MapSet.new(["hyperliquid"]),
+          schema_target: 4
+        )
+
+      refute Map.has_key?(hyperliquid, "structure"),
+             "v4 emit must not synthesize /structure when overrides apply"
+
+      assert get_in(hyperliquid, ["auth", "authenticated_sections"]) == ["private"],
+             "hyperliquid override must land on /auth/authenticated_sections under v4"
+
+      assert hyperliquid["_provenance"]["/auth/authenticated_sections"] == "override",
+             "override provenance must stamp the translated v4 pointer"
+
+      v4_root = Validation.build_schema_root(4)
+      assert Validation.validate_schema(hyperliquid, v4_root) == :ok
     end
 
     test "v3 emit (default) is byte-identical with or without explicit --schema-target=3 for binance",

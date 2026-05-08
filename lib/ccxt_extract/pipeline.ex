@@ -101,7 +101,7 @@ defmodule CcxtExtract.Pipeline do
       final_exchanges =
         exchanges
         |> Enum.reverse()
-        |> Enum.map(&apply_exchange_overrides/1)
+        |> Enum.map(&apply_exchange_overrides(&1, schema_target))
 
       {:ok, final_exchanges, stats}
     end
@@ -197,7 +197,7 @@ defmodule CcxtExtract.Pipeline do
   # TODO(Task 62): `mix ccxt_extract.validate_overrides` will offer a strict
   # mode that propagates these errors — that task is where fail-hard
   # semantics belong.
-  defp apply_exchange_overrides(exchange) do
+  defp apply_exchange_overrides(exchange, schema_target) do
     id = exchange["exchange"]["id"]
     paths = recipe_path_map(exchange)
 
@@ -208,7 +208,7 @@ defmodule CcxtExtract.Pipeline do
       overrides when is_list(overrides) ->
         {updated, applied_paths} =
           Enum.reduce(overrides, {exchange, []}, fn entry, {acc, paths_acc} ->
-            apply_override_entry(entry, acc, paths_acc, id)
+            apply_override_entry(entry, acc, paths_acc, id, schema_target)
           end)
 
         updated
@@ -321,9 +321,10 @@ defmodule CcxtExtract.Pipeline do
   # never replaced.
   # TODO(Task 62): strict-mode validate_overrides will propagate these
   # instead of logging; see apply_exchange_overrides/1 header for rationale.
-  defp apply_override_entry(entry, acc, paths, id) do
-    keys = OverrideRegistry.pointer_to_keys(entry["path"])
-    {put_in(acc, keys, entry["value"]), [entry["path"] | paths]}
+  defp apply_override_entry(entry, acc, paths, id, schema_target) do
+    translated = OverrideRegistry.translate_pointer(entry["path"], schema_target)
+    keys = OverrideRegistry.pointer_to_keys(translated)
+    {put_in(acc, keys, entry["value"]), [translated | paths]}
   rescue
     e in [RuntimeError, KeyError, ArgumentError, FunctionClauseError] ->
       Logger.warning(

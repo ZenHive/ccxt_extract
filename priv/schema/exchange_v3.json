@@ -452,7 +452,7 @@
               "items": { "$ref": "#/$defs/ErrorDispatchEntry" }
             }
           ],
-          "description": "Derived from handleErrors() AST: ordered list of literal `throw new <ExceptionClass>(...)` sites and the `IfStatement.test` chain that gates each one. Complements `handle_errors.exceptions` / `handle_errors.http_exceptions` (static describe maps) and `handle_errors.throw_dispatches` (helper-call dispatches) by surfacing the AST-derived literal throws those static maps don't name. Null when handleErrors() is absent or has no literal throw sites; empty list when handleErrors() exists but no literal throws were found."
+          "description": "Derived from handleErrors() AST: ordered list of literal `throw new <ExceptionClass>(...)` sites and the `IfStatement.test` chain that gates each one. Complements `handle_errors.exceptions` / `handle_errors.http_exceptions` (static describe maps) and `handle_errors.throw_dispatches` (helper-call dispatches) by surfacing the AST-derived literal throws those static maps don't name. Null when no handleErrors() AST is reachable for this exchange (no own method and no parent fallback). Empty list when handleErrors() exists and was walked but contained zero literal `throw new` sites."
         },
         "sign_dispatch": {
           "oneOf": [
@@ -498,7 +498,7 @@
         "predicate_kind": {
           "type": "string",
           "enum": ["http_status_in", "body_contains", "identifier_check", "other"],
-          "description": "Coarse classifier of the innermost condition shape. 'http_status_in' covers `code === N` and `||`-chains thereof. 'body_contains' covers `body.indexOf(<literal>) >= 0` and `||`-chains thereof. 'identifier_check' covers other `<id> === <literal>` shapes. 'other' is the anti-rot fallback."
+          "description": "Coarse classifier of the innermost condition shape. 'http_status_in' covers `code <op> N` for `<op>` in `===`, `==`, `!==`, `!=`, `>=`, `>`, `<=`, `<`, plus `||`-disjunctions thereof. 'body_contains' covers `body.indexOf(<literal>) >= 0` and `body.indexOf(<literal>) > -1` (also accepted on `message` / `url` / `reason`), plus `||`-disjunctions thereof. 'identifier_check' covers bare-identifier truthy checks (`if (code) ...`) and `<id> === <literal>` / `<literal> === <id>` shapes. 'other' is the anti-rot fallback."
         },
         "predicate_values": {
           "oneOf": [

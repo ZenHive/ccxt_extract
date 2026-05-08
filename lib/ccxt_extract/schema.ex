@@ -123,9 +123,11 @@ defmodule CcxtExtract.Schema do
       is always-present and always a wrapper map per Task 73b)
     * `structure_data` — map with keys: class_info, methods, sign_method,
       authenticated_sections, describe_api, handle_errors, interface_signatures,
-      pagination, overrides, unified_endpoints, request_defaults (each a map
-      or nil). `describe_api` is consumed by `RequestShape.Derive.derive/3`
-      to enumerate per-section endpoints; it is NOT a required output key.
+      pagination, overrides, unified_endpoints, request_defaults,
+      error_dispatch, sign_dispatch, parse_dispatch (each a map or nil; the
+      three dispatch tables are derived in Phase 13). `describe_api` is
+      consumed by `RequestShape.Derive.derive/3` to enumerate per-section
+      endpoints; it is NOT a required output key.
 
   ## Options
 

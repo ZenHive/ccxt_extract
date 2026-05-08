@@ -12,11 +12,14 @@ defmodule CcxtExtract.ErrorDispatch do
     that gates this throw, or `null` for unconditional throws (top-level body
     statements)
   * `predicate_kind` — coarse classifier of the **innermost** condition shape:
-    * `"http_status_in"` — comparisons of the form `code === N` /
-      `code >= N`, or disjunctions thereof
-    * `"body_contains"` — `body.indexOf(<literal>) >= 0` or
-      `body.indexOf(<literal>) > -1`
-    * `"identifier_check"` — `<id>` truthy / `<id> === <literal>`
+    * `"http_status_in"` — comparisons of the form `code <op> N` where
+      `<op>` is one of `===`, `==`, `!==`, `!=`, `>=`, `>`, `<=`, `<`,
+      or `||`-disjunctions thereof
+    * `"body_contains"` — `body.indexOf(<literal>) >= 0`,
+      `body.indexOf(<literal>) > -1`, or `||`-disjunctions thereof
+      (also accepted on `message` / `url` / `reason`)
+    * `"identifier_check"` — `<id>` truthy, `<id> === <literal>`, or
+      `<literal> === <id>`
     * `"other"` — anything else / unconditional
   * `predicate_values` — array of literal values pulled out when
     `predicate_kind` is `"http_status_in"` or `"body_contains"`; `null`
@@ -55,10 +58,12 @@ defmodule CcxtExtract.ErrorDispatch do
   # Walk an AST node, threading the list of enclosing `IfStatement.test`
   # nodes that gate the current branch. `consequent` adds the test as-is;
   # `alternate` would need negation semantics that are too lossy to
-  # represent as raw text here, so we record the test unchanged and rely on
-  # consumers reading `predicate_raw` to disambiguate. Negated branches are
-  # rare in handleErrors() — most throws are in the `consequent` of a
-  # straight `if` chain.
+  # represent as raw text here, so we DROP the test from the chain when
+  # descending into the `else` branch. Throws nested in `else` (or `else if`)
+  # branches will have a shorter `predicate_raw` than the source position
+  # suggests — an acknowledged limitation. Negated branches are rare in
+  # handleErrors() in practice; most throws live in the `consequent` of a
+  # straight `if` / `else if` chain whose tests are recorded faithfully.
   defp collect_throws(node, predicates) when is_map(node) do
     case node do
       %{"type" => "ThrowStatement", "argument" => %{"type" => "NewExpression"} = arg} ->
@@ -140,6 +145,9 @@ defmodule CcxtExtract.ErrorDispatch do
 
   defp classify_predicate(%{"type" => "ParenthesizedExpression", "expression" => inner}), do: classify_predicate(inner)
 
+  # Bare-identifier truthy check: `if (code) { ... }`
+  defp classify_predicate(%{"type" => "Identifier"}), do: {"identifier_check", nil}
+
   defp classify_predicate(_), do: {"other", nil}
 
   # `code === 418`
@@ -151,6 +159,16 @@ defmodule CcxtExtract.ErrorDispatch do
 
   # `body.indexOf('LOT_SIZE') >= 0`
   defp classify_status_compare(%{"type" => "CallExpression"} = call, %{"type" => "Literal", "value" => 0}) do
+    if body_indexof_call?(call), do: :body_contains, else: :other
+  end
+
+  # `body.indexOf('LOT_SIZE') > -1` / `!== -1` — JS AST has no negative literals,
+  # so `-1` is `UnaryExpression(-, Literal(1))`.
+  defp classify_status_compare(%{"type" => "CallExpression"} = call, %{
+         "type" => "UnaryExpression",
+         "operator" => "-",
+         "argument" => %{"type" => "Literal", "value" => 1}
+       }) do
     if body_indexof_call?(call), do: :body_contains, else: :other
   end
 

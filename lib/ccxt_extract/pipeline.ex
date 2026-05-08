@@ -435,9 +435,14 @@ defmodule CcxtExtract.Pipeline do
   # other AST-derived sections.
   defp get_parse_dispatch(id, data) do
     case Map.get(data.parse_methods, id) do
-      nil -> get_parent_parse_dispatch(id, data)
-      %{"parse_dispatch" => dispatch} when is_map(dispatch) -> dispatch
-      _ -> get_parent_parse_dispatch(id, data)
+      nil ->
+        get_parent_parse_dispatch(id, data)
+
+      %{"parse_dispatch" => dispatch} when is_map(dispatch) and map_size(dispatch) > 0 ->
+        dispatch
+
+      _ ->
+        get_parent_parse_dispatch(id, data)
     end
   end
 

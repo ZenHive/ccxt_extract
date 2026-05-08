@@ -40,11 +40,15 @@ defmodule CcxtExtract.RateLimitCosts do
   top-level group name. Mirrors the dot-join convention used by
   `CcxtExtract.UrlTemplates`.
 
-  Each entry's `cost` is a number (never `null` in practice — endpoints
-  with no declared cost get the CCXT default of `1`). `axes` is an
-  object mapping axis name (e.g. `"noCoin"`, `"noSymbol"`, `"byLimit"`)
-  to its variant cost. Axis values can be numbers, arrays, or other
-  shapes — preserved verbatim from CCXT.
+  Each entry's `cost` is normally a number — bare paths and object
+  configs without an explicit `cost` key default to `1` (CCXT's
+  `safeValue(options, 'cost', 1)` at `Exchange.ts:1399`). The value is
+  `null` only when the config is **unresolvable from `describe()`** —
+  e.g., a function-literal lambda such as paradex's `cost: () => …`,
+  which can't be evaluated by the static walk. See "Out of scope"
+  below. `axes` is an object mapping axis name (e.g. `"noCoin"`,
+  `"noSymbol"`, `"byLimit"`) to its variant cost. Axis values can be
+  numbers, arrays, or other shapes — preserved verbatim from CCXT.
 
   ## Out of scope
 
@@ -95,9 +99,12 @@ defmodule CcxtExtract.RateLimitCosts do
   #   - bare array of strings → cost = 1, axes = {} (CCXT default per
   #     safeValue(options, 'cost', 1) in Exchange.ts:1399)
   #
-  # We use the JSON sentinel "__undefined" for non-resolvable values
-  # (functions, undefined). Consumers reading the discovery JSON treat
-  # any non-numeric `cost` as the "computed cost" sentinel.
+  # We surface `null` for non-resolvable values (function literals,
+  # malformed configs, unsupported shapes). Per the Honesty Rule,
+  # consumers reading the discovery JSON should treat `cost: null` as
+  # "unresolvable from describe()" rather than fabricating a default.
+  # Object configs missing the `cost` key — distinct from non-numeric
+  # cost — default to 1 per CCXT's safeValue(options, 'cost', 1).
   #
   # Security note: This JS code runs inside QuickBEAM (sandboxed Zig NIF
   # runtime) against the CCXT vendor bundle — no user input is involved.
@@ -121,7 +128,15 @@ defmodule CcxtExtract.RateLimitCosts do
         return { cost: config, axes: {} };
       }
       if (config && typeof config === 'object' && !Array.isArray(config)) {
-        const cost = (typeof config.cost === 'number') ? config.cost : null;
+        let cost = null;
+        if (!Object.prototype.hasOwnProperty.call(config, 'cost')) {
+          // Object config with no `cost` key — CCXT's
+          // safeValue(options, 'cost', 1) at Exchange.ts:1399 defaults
+          // to 1.
+          cost = 1;
+        } else if (typeof config.cost === 'number') {
+          cost = config.cost;
+        }
         const axes = {};
         for (const k of Object.keys(config)) {
           if (k === 'cost') continue;
@@ -137,14 +152,33 @@ defmodule CcxtExtract.RateLimitCosts do
 
     function recordEndpoints(sectionPath, verb, endpoints) {
       if (Array.isArray(endpoints)) {
-        // Bare array of paths — CCXT's defineRestApi calls
-        // defineRestApiEndpoint without a config, so the throttle uses
-        // the default cost = 1 (Exchange.ts:1399).
+        // Array of endpoints — two shapes occur in CCXT:
+        //   ['path/a', 'path/b']                             — bare strings
+        //   [{path: 'path/a', cost: 0.5, byLimit: [...]}, …] — object form
+        // Bare-string elements default to cost = 1 per CCXT's
+        // safeValue(options, 'cost', 1) at Exchange.ts:1399. Object
+        // elements run through normalizeConfig with `path` stripped.
         for (let i = 0; i < endpoints.length; i++) {
-          const path = endpoints[i];
-          if (typeof path !== 'string') continue;
+          const ep = endpoints[i];
+          let path;
+          let cfg = null;
+          if (typeof ep === 'string') {
+            path = ep;
+          } else if (ep && typeof ep === 'object' && !Array.isArray(ep) && typeof ep.path === 'string') {
+            path = ep.path;
+            cfg = {};
+            for (const k of Object.keys(ep)) {
+              if (k === 'path') continue;
+              cfg[k] = ep[k];
+            }
+          } else {
+            // Fallback: coerce to string. Preserves a key in the output
+            // rather than silently dropping unknown shapes; consumers
+            // can filter by inspecting the path value.
+            path = String(ep);
+          }
           const key = sectionPath + '.' + verb + '.' + path;
-          result[key] = { cost: 1, axes: {} };
+          result[key] = cfg ? normalizeConfig(cfg) : { cost: 1, axes: {} };
         }
         return;
       }

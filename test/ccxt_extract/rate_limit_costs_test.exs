@@ -40,6 +40,21 @@ defmodule CcxtExtract.RateLimitCostsTest do
         "public.get.market/tickers" => %{"cost" => 1, "axes" => %{}},
         "public.get.market/books" => %{"cost" => 0.5, "axes" => %{}}
       }
+    },
+    %{
+      # Synthetic fixture covering the unresolvable-cost path. Mirrors what
+      # the JS extractor emits when an exchange's endpoint config is a
+      # function literal or otherwise non-numeric (e.g., paradex's
+      # `cost: () => …` lambda) — surfaced as `cost: nil` per the Honesty
+      # Rule rather than fabricating a default.
+      "id" => "synthetic_lambda",
+      "rate_limit_costs" => %{
+        "public.get.computed" => %{"cost" => nil, "axes" => %{}},
+        "public.get.computed_with_axis" => %{
+          "cost" => nil,
+          "axes" => %{"byLimit" => [[100, 1], [500, 5]]}
+        }
+      }
     }
   ]
 
@@ -58,9 +73,9 @@ defmodule CcxtExtract.RateLimitCostsTest do
       data = output_path |> File.read!() |> Jason.decode!()
 
       assert is_binary(data["extracted_at"])
-      assert data["count"] == 3
+      assert data["count"] == 4
       assert is_list(data["exchanges"])
-      assert length(data["exchanges"]) == 3
+      assert length(data["exchanges"]) == 4
     end
 
     @tag :tmp_dir
@@ -70,9 +85,26 @@ defmodule CcxtExtract.RateLimitCostsTest do
 
       data = output_path |> File.read!() |> Jason.decode!()
 
-      # binance has 3, deribit has 3, okx has 2 — total 8
-      assert data["total_endpoints"] == 8
-      assert data["with_rate_limit_costs"] == 3
+      # binance has 3, deribit has 3, okx has 2, synthetic_lambda has 2 — total 10
+      assert data["total_endpoints"] == 10
+      assert data["with_rate_limit_costs"] == 4
+    end
+
+    @tag :tmp_dir
+    test "preserves null cost verbatim through writer", %{tmp_dir: tmp_dir} do
+      output_path = Path.join(tmp_dir, "rate_limit_costs.json")
+      RateLimitCosts.write!(@sample_results, output_path: output_path)
+
+      data = output_path |> File.read!() |> Jason.decode!()
+      synthetic = Enum.find(data["exchanges"], &(&1["id"] == "synthetic_lambda"))
+
+      computed = synthetic["rate_limit_costs"]["public.get.computed"]
+      assert is_nil(computed["cost"])
+      assert computed["axes"] == %{}
+
+      with_axis = synthetic["rate_limit_costs"]["public.get.computed_with_axis"]
+      assert is_nil(with_axis["cost"])
+      assert with_axis["axes"]["byLimit"] == [[100, 1], [500, 5]]
     end
 
     @tag :tmp_dir
@@ -167,12 +199,13 @@ defmodule CcxtExtract.RateLimitCostsTest do
       assert "binance" in ids
       assert "deribit" in ids
       assert "okx" in ids
+      assert "synthetic_lambda" in ids
 
       binance = Enum.find(data["exchanges"], &(&1["id"] == "binance"))
       assert binance["rate_limit_costs"]["sapi.get.system/status"]["cost"] == 0.5
 
-      # total_endpoints recomputed: binance=1, deribit=3, okx=2
-      assert data["total_endpoints"] == 6
+      # total_endpoints recomputed: binance=1, deribit=3, okx=2, synthetic_lambda=2
+      assert data["total_endpoints"] == 8
     end
 
     @tag :tmp_dir

@@ -55,6 +55,32 @@ defmodule CcxtExtract.OverrideRegistry do
   @required_entry_keys ~w(path value reason)
   @allowed_entry_keys ~w(path value reason verified_against unverified)
 
+  # v3→v4 JSON-Pointer prefix table. Mirrors the section reorganization
+  # encoded by `Schema.build_exchange_v4/4` and the `Pipeline.recipe_path_map/1`
+  # split. Used by `translate_pointer/2` to rewrite the RFC-6901 paths in
+  # committed override files (all currently v3-shaped) when the pipeline is
+  # emitting v4 under `--schema-target=4` (Task 130).
+  @v3_to_v4_pointer_prefixes %{
+    "/structure/authenticated_sections" => "/auth/authenticated_sections",
+    "/structure/sign_method" => "/auth/sign_method",
+    "/structure/sign_recipe" => "/auth/sign_recipe",
+    "/structure/request_shape" => "/endpoints/request/shape",
+    "/structure/handle_errors" => "/errors/handle_errors",
+    "/structure/class_info" => "/raw/class_info",
+    "/structure/methods" => "/raw/method_inventory",
+    "/structure/interface_signatures" => "/endpoints/interfaces",
+    "/structure/pagination" => "/endpoints/pagination",
+    "/structure/unified_endpoints" => "/endpoints/unified",
+    "/structure/request_defaults" => "/endpoints/request/defaults",
+    "/structure/overrides" => "/raw/overrides_meta",
+    "/runtime/describe" => "/raw/describe",
+    "/runtime/symbols_index" => "/markets/symbols_index",
+    "/runtime/symbol_patterns" => "/markets/patterns",
+    "/runtime/url_templates" => "/raw/url_templates",
+    "/runtime/testnet_urls" => "/testnet",
+    "/runtime/request_headers" => "/auth/headers"
+  }
+
   @doc """
   Read `priv/overrides/<id>.json` and validate its shape.
 
@@ -146,6 +172,35 @@ defmodule CcxtExtract.OverrideRegistry do
     Enum.reduce(overrides, exchange_map, fn entry, acc ->
       keys = pointer_to_keys(entry["path"])
       put_in(acc, keys, entry["value"])
+    end)
+  end
+
+  @doc """
+  Translate an RFC 6901 JSON Pointer from the v3 schema shape to the v4
+  shape (Task 130). Returns the original pointer untouched when
+  `schema_target == 3`, or when the pointer doesn't match any v3 prefix
+  in the translation table — leaves room for v4-native override files
+  to ship later without re-translation.
+
+  Matching is prefix-based so deep pointers like
+  `/structure/handle_errors/exceptions/exact` rewrite correctly to
+  `/errors/handle_errors/exceptions/exact`.
+  """
+  @spec translate_pointer(String.t(), 3 | 4) :: String.t()
+  def translate_pointer(pointer, 3) when is_binary(pointer), do: pointer
+
+  def translate_pointer(pointer, 4) when is_binary(pointer) do
+    Enum.find_value(@v3_to_v4_pointer_prefixes, pointer, fn {v3_prefix, v4_prefix} ->
+      cond do
+        pointer == v3_prefix ->
+          v4_prefix
+
+        String.starts_with?(pointer, v3_prefix <> "/") ->
+          v4_prefix <> String.replace_prefix(pointer, v3_prefix, "")
+
+        true ->
+          nil
+      end
     end)
   end
 

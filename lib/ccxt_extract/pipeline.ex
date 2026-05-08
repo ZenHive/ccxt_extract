@@ -45,6 +45,11 @@ defmodule CcxtExtract.Pipeline do
       `MapSet` of exchange IDs to restrict assembly to. Integrity stats
       (`missing_entries`, `orphan_entries`, etc.) still reflect the full
       universe so we never hide real discovery drift.
+    * `:schema_target` — `3` (default) emits the v3 shape via
+      `Schema.build_exchange/4`; `4` emits the v4 shape via
+      `Schema.build_exchange_v4/4` (gated, opt-in until the freeze list
+      empties). v3 stays the published default — this option only
+      flips when callers explicitly request `--schema-target=4`.
   """
   @spec extract(keyword()) :: {:ok, [map()], map()} | {:error, CcxtExtract.JsonIO.read_error()}
   def extract(opts \\ []) do
@@ -66,7 +71,15 @@ defmodule CcxtExtract.Pipeline do
           DateTime.to_iso8601(DateTime.utc_now())
         end)
 
-      schema_opts = [ccxt_version: ccxt_version, extracted_at: extracted_at, version_info: version_info]
+      schema_target = normalize_schema_target!(Keyword.get(opts, :schema_target, 3))
+
+      schema_opts = [
+        ccxt_version: ccxt_version,
+        extracted_at: extracted_at,
+        version_info: version_info,
+        schema_target: schema_target
+      ]
+
       scope = Keyword.get(opts, :scope, :all)
 
       {exchanges, errors} =
@@ -88,7 +101,7 @@ defmodule CcxtExtract.Pipeline do
       final_exchanges =
         exchanges
         |> Enum.reverse()
-        |> Enum.map(&apply_exchange_overrides/1)
+        |> Enum.map(&apply_exchange_overrides(&1, schema_target))
 
       {:ok, final_exchanges, stats}
     end
@@ -111,15 +124,22 @@ defmodule CcxtExtract.Pipeline do
     * `:pretty` — boolean. When true, emit per-exchange JSON with
       indentation (~2× size). Default `false`. Manifests, fixtures, and
       reports remain pretty-printed regardless of this flag.
+    * `:schema_target` — `3` (default) copies `exchange_v3.json` and
+      stamps the v3 schema version into `_manifest.json`; `4` copies
+      `exchange_v4.json` and stamps the v4 version. Pruning preserves
+      whichever schema file matches the active target. Used for the
+      gated v4 emit path (Task 130).
   """
   @spec write!([map()], String.t(), keyword()) :: :ok
   def write!(exchanges, output_dir \\ Paths.out(@output_dir), opts \\ []) do
     discoveries_dir = Keyword.get(opts, :discoveries_dir, Paths.priv("discoveries"))
+    schema_target = normalize_schema_target!(Keyword.get(opts, :schema_target, 3))
+    schema_file = Schema.schema_filename_for(schema_target)
 
     File.mkdir_p!(output_dir)
 
     in_scope = MapSet.new(exchanges, & &1["exchange"]["id"])
-    {:ok, _removed} = ScopeCleanup.prune_out_of_scope(output_dir, in_scope, preserve: [Schema.schema_filename()])
+    {:ok, _removed} = ScopeCleanup.prune_out_of_scope(output_dir, in_scope, preserve: [schema_file])
 
     pretty? = Keyword.get(opts, :pretty, false)
 
@@ -129,13 +149,31 @@ defmodule CcxtExtract.Pipeline do
       File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.normalize(exchange), pretty: pretty?))
     end
 
-    manifest = build_manifest(exchanges, opts)
+    manifest = build_manifest(exchanges, Keyword.put(opts, :schema_target, schema_target))
     manifest_path = Path.join(output_dir, "_manifest.json")
     File.write!(manifest_path, Jason.encode!(manifest, pretty: true))
-    copy_schema!(output_dir)
+    copy_schema!(output_dir, schema_target)
     copy_base_methods!(output_dir, discoveries_dir)
 
     :ok
+  end
+
+  @doc """
+  Coerce a `:schema_target` opt to its integer canonical form.
+
+  Accepts the integer (`3` / `4`) or its string equivalent (`"3"` / `"4"`)
+  so callers wired up via `OptionParser` (mix tasks) and direct in-process
+  callers (tests) hit the same normalization. Raises `ArgumentError` on
+  any other input.
+  """
+  @spec normalize_schema_target!(term()) :: 3 | 4
+  def normalize_schema_target!(3), do: 3
+  def normalize_schema_target!(4), do: 4
+  def normalize_schema_target!("3"), do: 3
+  def normalize_schema_target!("4"), do: 4
+
+  def normalize_schema_target!(other) do
+    raise ArgumentError, "Invalid schema_target #{inspect(other)}; expected 3 or 4"
   end
 
   defp filter_scope(exchanges, :all), do: exchanges
@@ -159,22 +197,23 @@ defmodule CcxtExtract.Pipeline do
   # TODO(Task 62): `mix ccxt_extract.validate_overrides` will offer a strict
   # mode that propagates these errors — that task is where fail-hard
   # semantics belong.
-  defp apply_exchange_overrides(exchange) do
+  defp apply_exchange_overrides(exchange, schema_target) do
     id = exchange["exchange"]["id"]
+    paths = recipe_path_map(exchange)
 
     case OverrideRegistry.load(id) do
       :none ->
-        exchange |> sync_sign_recipe() |> sync_request_shape()
+        exchange |> sync_sign_recipe(paths) |> sync_request_shape(paths)
 
       overrides when is_list(overrides) ->
         {updated, applied_paths} =
-          Enum.reduce(overrides, {exchange, []}, fn entry, {acc, paths} ->
-            apply_override_entry(entry, acc, paths, id)
+          Enum.reduce(overrides, {exchange, []}, fn entry, {acc, paths_acc} ->
+            apply_override_entry(entry, acc, paths_acc, id, schema_target)
           end)
 
         updated
-        |> sync_sign_recipe()
-        |> sync_request_shape()
+        |> sync_sign_recipe(paths)
+        |> sync_request_shape(paths)
         |> stamp_override_provenance(applied_paths)
     end
   rescue
@@ -188,24 +227,48 @@ defmodule CcxtExtract.Pipeline do
       exchange
   end
 
-  # Keep `structure.sign_recipe` keys in lockstep with
-  # `structure.authenticated_sections` after overrides may have mutated
-  # either. An override that flips authenticated_sections (e.g. hyperliquid
-  # adding "private") without touching sign_recipe would otherwise leave
-  # the recipe missing a section, violating the
-  # sign_recipe_keys_match_auth_sections contract invariant.
+  # Returns the per-schema path map used by `sync_sign_recipe/2` and
+  # `sync_request_shape/2`. Detects v4 by the presence of the top-level
+  # `auth` key (mutually exclusive with v3's `structure`); falls back to
+  # v3 paths.
+  defp recipe_path_map(%{"auth" => _}) do
+    %{
+      auth_sections: ["auth", "authenticated_sections"],
+      sign_method: ["auth", "sign_method"],
+      sign_recipe: ["auth", "sign_recipe"],
+      request_shape: ["endpoints", "request", "shape"],
+      describe_api: ["raw", "describe", "api"]
+    }
+  end
+
+  defp recipe_path_map(_v3) do
+    %{
+      auth_sections: ["structure", "authenticated_sections"],
+      sign_method: ["structure", "sign_method"],
+      sign_recipe: ["structure", "sign_recipe"],
+      request_shape: ["structure", "request_shape"],
+      describe_api: ["runtime", "describe", "api"]
+    }
+  end
+
+  # Keep `<sign_recipe>` keys in lockstep with `<authenticated_sections>`
+  # after overrides may have mutated either. An override that flips
+  # authenticated_sections (e.g. hyperliquid adding "private") without
+  # touching sign_recipe would otherwise leave the recipe missing a
+  # section, violating the sign_recipe_keys_match_auth_sections contract
+  # invariant.
   #
   # This runs AFTER override application so that any override targeting
-  # recipe sub-paths (e.g. /structure/sign_recipe/private/crypto_op) still
-  # survives the sync: keys that appear in both the new auth_sections and
-  # the existing recipe are preserved untouched. Keys added by auth_sections
-  # that have no recipe entry get a fresh `null_recipe`.
-  defp sync_sign_recipe(exchange) do
-    auth_sections = get_in(exchange, ["structure", "authenticated_sections"])
-    existing = get_in(exchange, ["structure", "sign_recipe"]) || %{}
-    sign_method = get_in(exchange, ["structure", "sign_method"])
+  # recipe sub-paths still survives the sync: keys that appear in both
+  # the new auth_sections and the existing recipe are preserved
+  # untouched. Keys added by auth_sections that have no recipe entry get
+  # a fresh `null_recipe`. Path map varies by schema target (Task 130).
+  defp sync_sign_recipe(exchange, paths) do
+    auth_sections = get_in(exchange, paths.auth_sections)
+    existing = get_in(exchange, paths.sign_recipe) || %{}
+    sign_method = get_in(exchange, paths.sign_method)
     synced = synced_recipe_map(auth_sections, existing, sign_method)
-    put_in(exchange, ["structure", "sign_recipe"], synced)
+    put_in(exchange, paths.sign_recipe, synced)
   end
 
   defp synced_recipe_map(nil, _existing, _sign_method), do: %{}
@@ -224,19 +287,19 @@ defmodule CcxtExtract.Pipeline do
     end)
   end
 
-  # Mirror of `sync_sign_recipe/1` for `structure.request_shape`.
-  # Keeps recipe keys aligned with `structure.authenticated_sections`
-  # after overrides may have mutated either, and re-runs derivation
-  # for any sections newly introduced by an override on
-  # authenticated_sections (so they get a real verb/path triple
-  # rather than a permanent null_record).
-  defp sync_request_shape(exchange) do
-    auth_sections = get_in(exchange, ["structure", "authenticated_sections"])
-    existing = get_in(exchange, ["structure", "request_shape"]) || %{}
-    sign_method = get_in(exchange, ["structure", "sign_method"])
-    describe_api = get_in(exchange, ["runtime", "describe", "api"])
+  # Mirror of `sync_sign_recipe/2` for the request_shape map. Keeps
+  # recipe keys aligned with authenticated_sections after overrides may
+  # have mutated either, and re-runs derivation for any sections newly
+  # introduced by an override (so they get a real verb/path triple
+  # rather than a permanent null_record). Path map varies by schema
+  # target (Task 130).
+  defp sync_request_shape(exchange, paths) do
+    auth_sections = get_in(exchange, paths.auth_sections)
+    existing = get_in(exchange, paths.request_shape) || %{}
+    sign_method = get_in(exchange, paths.sign_method)
+    describe_api = get_in(exchange, paths.describe_api)
     synced = synced_request_shape_map(auth_sections, existing, sign_method, describe_api)
-    put_in(exchange, ["structure", "request_shape"], synced)
+    put_in(exchange, paths.request_shape, synced)
   end
 
   defp synced_request_shape_map(nil, _existing, _sign_method, _describe_api), do: %{}
@@ -258,9 +321,10 @@ defmodule CcxtExtract.Pipeline do
   # never replaced.
   # TODO(Task 62): strict-mode validate_overrides will propagate these
   # instead of logging; see apply_exchange_overrides/1 header for rationale.
-  defp apply_override_entry(entry, acc, paths, id) do
-    keys = OverrideRegistry.pointer_to_keys(entry["path"])
-    {put_in(acc, keys, entry["value"]), [entry["path"] | paths]}
+  defp apply_override_entry(entry, acc, paths, id, schema_target) do
+    translated = OverrideRegistry.translate_pointer(entry["path"], schema_target)
+    keys = OverrideRegistry.pointer_to_keys(translated)
+    {put_in(acc, keys, entry["value"]), [translated | paths]}
   rescue
     e in [RuntimeError, KeyError, ArgumentError, FunctionClauseError] ->
       Logger.warning(
@@ -285,8 +349,9 @@ defmodule CcxtExtract.Pipeline do
   # Reduce callback: build one exchange and validate it
   defp assemble_and_validate(meta, data, schema_opts, {acc, errs}) do
     exchange = build_exchange_data(meta, data, schema_opts)
+    schema_target = Keyword.get(schema_opts, :schema_target, 3)
 
-    case Schema.validate(exchange) do
+    case validate_for_target(exchange, schema_target) do
       :ok ->
         {[exchange | acc], errs}
 
@@ -295,6 +360,9 @@ defmodule CcxtExtract.Pipeline do
         {[exchange | acc], [{meta["id"], reasons} | errs]}
     end
   end
+
+  defp validate_for_target(exchange, 3), do: Schema.validate(exchange)
+  defp validate_for_target(exchange, 4), do: Schema.validate_v4(exchange)
 
   # --- Assembly ---
 
@@ -338,7 +406,10 @@ defmodule CcxtExtract.Pipeline do
       "overrides" => get_overrides(id, data)
     }
 
-    Schema.build_exchange(meta, runtime_data, structure_data, opts)
+    case Keyword.get(opts, :schema_target, 3) do
+      3 -> Schema.build_exchange(meta, runtime_data, structure_data, opts)
+      4 -> Schema.build_exchange_v4(meta, runtime_data, structure_data, opts)
+    end
   end
 
   # --- Data Mapping (pure functions) ---
@@ -730,9 +801,10 @@ defmodule CcxtExtract.Pipeline do
     end
   end
 
-  defp copy_schema!(output_dir) do
-    schema_source = Paths.priv("schema/" <> Schema.schema_filename())
-    schema_target = Path.join(output_dir, Schema.schema_filename())
+  defp copy_schema!(output_dir, schema_target_version) do
+    filename = Schema.schema_filename_for(schema_target_version)
+    schema_source = Paths.priv("schema/" <> filename)
+    schema_target = Path.join(output_dir, filename)
     # TODO(Task 127): explicit read+write (not `File.cp!/2`) so the
     # `paths_rw_split` contract invariant sees a sanitized flow:
     # `Paths.priv → File.read! → File.write!`. `File.cp!` is a writer that
@@ -761,10 +833,11 @@ defmodule CcxtExtract.Pipeline do
   # not from version_info on disk. version_info is only used for source_git_sha.
   defp build_manifest(exchanges, opts) do
     version_info = Keyword.get_lazy(opts, :version_info, fn -> read_ccxt_version_info() end)
+    schema_target = Keyword.get(opts, :schema_target, 3)
     first = List.first(exchanges) || %{}
 
     %{
-      "schema_version" => Schema.schema_version(),
+      "schema_version" => Schema.schema_version_for(schema_target),
       "ccxt_version" => first["ccxt_version"] || "unknown",
       "source_git_sha" => version_info["source_git_sha"],
       "extracted_at" => first["extracted_at"] || DateTime.to_iso8601(DateTime.utc_now()),

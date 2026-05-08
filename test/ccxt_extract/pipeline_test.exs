@@ -1180,6 +1180,16 @@ defmodule CcxtExtract.PipelineTest do
       assert :ok = Schema.validate(result)
     end
 
+    test "default schema_target is v3 (byte-identical to omitted opt)" do
+      with_target = Pipeline.build_exchange_data(full_meta(), full_data(), Keyword.put(@schema_opts, :schema_target, 3))
+      without_target = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
+      assert with_target == without_target
+      assert with_target["schema_version"] == Schema.schema_version()
+      assert Map.has_key?(with_target, "runtime")
+      assert Map.has_key?(with_target, "structure")
+      refute Map.has_key?(with_target, "endpoints")
+    end
+
     test "exchange with overrides passes validation" do
       override_entry = %{
         "id" => "testex",
@@ -1193,6 +1203,130 @@ defmodule CcxtExtract.PipelineTest do
       data = %{full_data() | overrides: %{"testex" => [override_entry]}}
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
       assert :ok = Schema.validate(result)
+    end
+  end
+
+  describe "schema_target v4 (gated, Task 130)" do
+    setup do
+      # Build the JSV root once per describe block — calls into JSV are
+      # the slow part, so reuse across tests.
+      v4_root = CcxtExtract.Validation.build_schema_root(4)
+      v3_root = CcxtExtract.Validation.build_schema_root(3)
+      {:ok, v4_root: v4_root, v3_root: v3_root}
+    end
+
+    test "v3 emit (default) validates against exchange_v3.json (synthetic full)", %{v3_root: root} do
+      result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
+      assert :ok = CcxtExtract.Validation.validate_schema(result, root)
+    end
+
+    test "v4 emit produces top-level groups (endpoints/auth/errors/markets/raw/testnet)" do
+      opts = Keyword.put(@schema_opts, :schema_target, 4)
+      result = Pipeline.build_exchange_data(full_meta(), full_data(), opts)
+
+      assert result["schema_version"] == Schema.schema_version_v4()
+      # Producer-shaped sections are gone:
+      refute Map.has_key?(result, "runtime")
+      refute Map.has_key?(result, "structure")
+
+      # Consumer-shaped groups are present:
+      for key <- ~w(endpoints auth errors rate_limits normalization markets testnet raw _provenance) do
+        assert Map.has_key?(result, key), "missing top-level v4 key: #{key}"
+      end
+
+      # Reorganization preserves v3 content under new paths:
+      assert get_in(result, ["markets", "symbols_index"]) ==
+               get_in(Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts), ["runtime", "symbols_index"])
+
+      assert get_in(result, ["raw", "describe"])["has"]["fetchTicker"] == true
+      assert get_in(result, ["raw", "method_inventory", "rest"]) == [@method_sig]
+      assert get_in(result, ["endpoints", "interfaces", "publicGetTicker", "name"]) == "publicGetTicker"
+      assert get_in(result, ["auth", "headers", "user_agent"]) == "Mozilla/5.0 (TestEx)"
+
+      # rate_limits and normalization are empty placeholders (Task 130 caveat):
+      assert result["rate_limits"] == %{}
+      assert result["normalization"] == %{}
+    end
+
+    test "v4 emit validates against exchange_v4.json (synthetic full)", %{v4_root: root} do
+      opts = Keyword.put(@schema_opts, :schema_target, 4)
+      result = Pipeline.build_exchange_data(full_meta(), full_data(), opts)
+      assert :ok = CcxtExtract.Validation.validate_schema(result, root)
+    end
+
+    test "v4 emit validates for alias exchange with empty data", %{v4_root: root} do
+      opts = Keyword.put(@schema_opts, :schema_target, 4)
+      result = Pipeline.build_exchange_data(alias_meta(), empty_data(), opts)
+      assert :ok = CcxtExtract.Validation.validate_schema(result, root)
+      # Wrappers stay populated even when content is null:
+      assert result["auth"]["headers"] == %{"user_agent" => nil, "default_headers" => %{}}
+      assert is_map(result["testnet"])
+      assert result["testnet"]["pattern"] == "none"
+    end
+
+    test "Schema.validate_v4/1 enforces required top-level groups" do
+      opts = Keyword.put(@schema_opts, :schema_target, 4)
+      result = Pipeline.build_exchange_data(full_meta(), full_data(), opts)
+      assert :ok = Schema.validate_v4(result)
+
+      # Missing a required v4 group surfaces in the error list:
+      assert {:error, reasons} = Schema.validate_v4(Map.delete(result, "endpoints"))
+      assert Enum.any?(reasons, &String.contains?(&1, "endpoints"))
+    end
+
+    test "v4 provenance pointers reorganize under v4 paths" do
+      opts = Keyword.put(@schema_opts, :schema_target, 4)
+      result = Pipeline.build_exchange_data(full_meta(), full_data(), opts)
+
+      provenance = result["_provenance"]
+      assert is_map(provenance)
+      assert provenance["/markets/symbols_index"] == "derived"
+      assert provenance["/raw/describe"] == "raw"
+      assert provenance["/auth/sign_method"] == "raw"
+      assert provenance["/auth/sign_recipe"] == "derived"
+      # No v3 paths leak into the v4 provenance:
+      refute Map.has_key?(provenance, "/runtime/describe")
+      refute Map.has_key?(provenance, "/structure/sign_method")
+    end
+
+    @tag :tmp_dir
+    test "Pipeline.write!/3 with schema_target: 4 copies exchange_v4.json", %{tmp_dir: tmp_dir} do
+      opts = Keyword.put(@schema_opts, :schema_target, 4)
+      exchange = Pipeline.build_exchange_data(full_meta(), full_data(), opts)
+
+      Pipeline.write!([exchange], tmp_dir, schema_target: 4)
+
+      v4_path = Path.join(tmp_dir, "exchange_v4.json")
+      v3_path = Path.join(tmp_dir, "exchange_v3.json")
+      assert File.exists?(v4_path)
+      refute File.exists?(v3_path)
+      assert v4_path |> File.read!() |> Jason.decode!() |> get_in(["$id"]) == "exchange_v4.json"
+
+      manifest = tmp_dir |> Path.join("_manifest.json") |> File.read!() |> Jason.decode!()
+      assert manifest["schema_version"] == Schema.schema_version_v4()
+    end
+
+    @tag :tmp_dir
+    test "Pipeline.write!/3 default (no schema_target) copies exchange_v3.json", %{tmp_dir: tmp_dir} do
+      exchange = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
+      Pipeline.write!([exchange], tmp_dir)
+
+      assert File.exists?(Path.join(tmp_dir, "exchange_v3.json"))
+      refute File.exists?(Path.join(tmp_dir, "exchange_v4.json"))
+
+      manifest = tmp_dir |> Path.join("_manifest.json") |> File.read!() |> Jason.decode!()
+      assert manifest["schema_version"] == Schema.schema_version()
+    end
+
+    test "normalize_schema_target! accepts integer or string forms" do
+      assert Pipeline.normalize_schema_target!(3) == 3
+      assert Pipeline.normalize_schema_target!(4) == 4
+      assert Pipeline.normalize_schema_target!("3") == 3
+      assert Pipeline.normalize_schema_target!("4") == 4
+
+      assert_raise ArgumentError, ~r/Invalid schema_target/, fn ->
+        Pipeline.normalize_schema_target!(2)
+      end
     end
   end
 

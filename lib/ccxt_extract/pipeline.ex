@@ -411,7 +411,9 @@ defmodule CcxtExtract.Pipeline do
       "error_dispatch" => get_error_dispatch(handle_errors),
       "sign_dispatch" => get_sign_dispatch(effective_sign),
       "parse_dispatch" => get_parse_dispatch(id, data),
-      "rate_limit_buckets" => get_rate_limit_buckets(id, data)
+      "rate_limit_buckets" => get_rate_limit_buckets(id, data),
+      "error_status_map" => CcxtExtract.HandleErrors.http_status_map(handle_errors),
+      "error_retryable" => CcxtExtract.HandleErrors.retryable_buckets(handle_errors)
     }
 
     case Keyword.get(opts, :schema_target, 3) do

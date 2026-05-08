@@ -29,6 +29,7 @@ defmodule CcxtExtract.ContractTest do
   New invariants append to `@invariants`; the runner is registry-driven.
   """
 
+  alias CcxtExtract.ErrorHierarchy
   alias CcxtExtract.JsonIO
   alias CcxtExtract.Normalization
   alias CcxtExtract.RequestShape
@@ -64,7 +65,9 @@ defmodule CcxtExtract.ContractTest do
     {"error_class_hierarchy_shape_valid", :check_error_class_hierarchy_shape_valid},
     {"error_classes_covered_by_hierarchy", :check_error_classes_covered_by_hierarchy},
     {"normalization_shape_valid", :check_normalization_shape_valid},
-    {"parse_methods_digest_covers_inventory", :check_parse_methods_digest_covers_inventory}
+    {"parse_methods_digest_covers_inventory", :check_parse_methods_digest_covers_inventory},
+    {"handle_errors_retryable_shape_valid", :check_handle_errors_retryable_shape_valid},
+    {"handler_dispatch_v4_shape_valid", :check_handler_dispatch_v4_shape_valid}
   ]
 
   # Corpus-level invariants run once per run_all/1 (not per-exchange). Used
@@ -1474,6 +1477,287 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp digest_inventory_findings(_id, _digest, _other), do: []
+
+  @doc """
+  Validate `structure.error_status_map` and `structure.error_retryable`
+  structural invariants that JSON Schema can't easily express:
+
+    * `error_status_map` keys are numeric strings (HTTP status codes)
+    * Each entry has `class: <string>` and `source` ∈ {`http_exceptions`,
+      `throw_dispatch_predicate`}
+    * `error_retryable` carries the constant five-bucket key set
+      (`rate_limit`, `auth`, `server_busy`, `network`, `non_retryable`).
+      No extras, no missing.
+    * Each bucket value is a sorted unique list of strings.
+    * Cross-section consistency: every class in `error_retryable[bucket]`
+      is in the bucket the `ErrorHierarchy.bucket_for/1` classifier
+      assigns it (catches drift between the classifier and the emitter).
+
+  Both fields are nullable per schema — null values short-circuit (no
+  finding). `error_class_hierarchy` shape is enforced by JSON Schema
+  alone — its content is the constant `ErrorHierarchy.hierarchy/0` map
+  and any drift surfaces as a JSV failure, not here.
+  """
+  @spec check_handle_errors_retryable_shape_valid(map(), map()) :: [finding()]
+  def check_handle_errors_retryable_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+
+    status_findings = error_status_map_findings(id, get_in(exchange, ["structure", "error_status_map"]))
+    retryable_findings = error_retryable_findings(id, get_in(exchange, ["structure", "error_retryable"]))
+
+    status_findings ++ retryable_findings
+  end
+
+  defp error_status_map_findings(_id, nil), do: []
+
+  defp error_status_map_findings(id, record) when is_map(record) do
+    Enum.flat_map(record, fn {status, entries} -> error_status_entry_findings(id, status, entries) end)
+  end
+
+  defp error_status_map_findings(id, other) do
+    [error_finding(id, "error_status_map", "must be a map or null, got #{inspect(other)}")]
+  end
+
+  defp error_status_entry_findings(id, status, entries) do
+    key_findings =
+      if numeric_string?(status) do
+        []
+      else
+        [error_finding(id, "error_status_map", "key #{inspect(status)} is not a numeric HTTP status string")]
+      end
+
+    list_findings =
+      if is_list(entries) do
+        Enum.flat_map(entries, &error_status_entry_shape_findings(id, status, &1))
+      else
+        [error_finding(id, "error_status_map.#{status}", "value must be a list, got #{inspect(entries)}")]
+      end
+
+    key_findings ++ list_findings
+  end
+
+  defp error_status_entry_shape_findings(id, status, %{"class" => class, "source" => source}) do
+    class_findings =
+      if is_binary(class) and class != "" do
+        []
+      else
+        [error_finding(id, "error_status_map.#{status}", "entry class must be a non-empty string, got #{inspect(class)}")]
+      end
+
+    source_findings =
+      if source in ~w(http_exceptions throw_dispatch_predicate) do
+        []
+      else
+        [error_finding(id, "error_status_map.#{status}", "entry source #{inspect(source)} not in vocabulary")]
+      end
+
+    class_findings ++ source_findings
+  end
+
+  defp error_status_entry_shape_findings(id, status, other) do
+    [
+      error_finding(
+        id,
+        "error_status_map.#{status}",
+        "entry must be a map with class+source keys, got #{inspect(other)}"
+      )
+    ]
+  end
+
+  defp error_retryable_findings(_id, nil), do: []
+
+  defp error_retryable_findings(id, record) when is_map(record) do
+    expected = ErrorHierarchy.buckets()
+    actual = Map.keys(record)
+    missing = expected -- actual
+    extra = actual -- expected
+
+    missing_findings =
+      Enum.map(missing, fn key -> error_finding(id, "error_retryable", "missing required bucket #{inspect(key)}") end)
+
+    extra_findings =
+      Enum.map(extra, fn key -> error_finding(id, "error_retryable", "unexpected bucket #{inspect(key)}") end)
+
+    bucket_findings =
+      Enum.flat_map(record, fn {bucket, classes} -> error_retryable_bucket_findings(id, bucket, classes) end)
+
+    missing_findings ++ extra_findings ++ bucket_findings
+  end
+
+  defp error_retryable_findings(id, other) do
+    [error_finding(id, "error_retryable", "must be a map or null, got #{inspect(other)}")]
+  end
+
+  defp error_retryable_bucket_findings(id, bucket, classes) when is_list(classes) do
+    if Enum.all?(classes, &is_binary/1) do
+      bucket_mismatch_findings(id, bucket, classes) ++ bucket_sort_findings(id, bucket, classes)
+    else
+      [error_finding(id, "error_retryable.#{bucket}", "all entries must be strings, got #{inspect(classes)}")]
+    end
+  end
+
+  defp error_retryable_bucket_findings(id, bucket, other) do
+    [error_finding(id, "error_retryable.#{bucket}", "value must be a list, got #{inspect(other)}")]
+  end
+
+  defp bucket_mismatch_findings(id, bucket, classes) do
+    if bucket in ErrorHierarchy.buckets() do
+      Enum.flat_map(classes, &class_mismatch_finding(id, bucket, &1))
+    else
+      []
+    end
+  end
+
+  defp class_mismatch_finding(id, bucket, class) do
+    actual_bucket = ErrorHierarchy.bucket_for(class)
+
+    if actual_bucket == bucket do
+      []
+    else
+      [
+        error_finding(
+          id,
+          "error_retryable.#{bucket}",
+          "class #{inspect(class)} classified as #{inspect(actual_bucket)} by ErrorHierarchy, " <>
+            "but emitted under bucket #{inspect(bucket)}"
+        )
+      ]
+    end
+  end
+
+  defp bucket_sort_findings(id, bucket, classes) do
+    if classes == Enum.sort(Enum.uniq(classes)) do
+      []
+    else
+      [error_finding(id, "error_retryable.#{bucket}", "class list must be sorted and unique")]
+    end
+  end
+
+  defp numeric_string?(s) when is_binary(s), do: s != "" and String.match?(s, ~r/^[0-9]+$/)
+  defp numeric_string?(_), do: false
+
+  defp error_finding(id, section, message) do
+    %{
+      exchange: id,
+      invariant: "handle_errors_retryable_shape_valid",
+      path: "structure.#{section}",
+      message: message
+    }
+  end
+
+  @doc """
+  Validate the v4 `endpoints.handlers` reshape (Tasks 88a/88b/88c).
+
+  At v3 emission, the dispatch tables live at
+  `structure.error_dispatch` / `sign_dispatch` / `parse_dispatch`. At
+  v4 emission, the same tables route into
+  `endpoints.handlers.{error,signing,parse}`. This invariant fires only
+  when an exchange is v4-shaped (top-level `endpoints` group present
+  and no `structure` section); on v3-shaped emission it short-circuits
+  to no findings. Within a v4 exchange it asserts:
+
+    * `endpoints.handlers` exists and is a map.
+    * The three keys (`error`, `signing`, `parse`) are present.
+    * No extra keys.
+    * Each value content matches its v3 counterpart's nullable-shape
+      (the JSON Schema enforces deeper structural shape — this
+      invariant catches presence drift, not entry shape).
+
+  Mirrors `testnet_urls_shape_valid`'s structure: per-key audit with a
+  finding per drift type. JSON Schema catches the array-of-records and
+  object-of-arrays leaf shapes; this invariant catches the
+  reorganization integrity.
+  """
+  @spec check_handler_dispatch_v4_shape_valid(map(), map()) :: [finding()]
+  def check_handler_dispatch_v4_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+
+    if v4_shape?(exchange) do
+      handlers = get_in(exchange, ["endpoints", "handlers"])
+      handler_dispatch_findings(id, handlers)
+    else
+      []
+    end
+  end
+
+  defp v4_shape?(exchange) when is_map(exchange) do
+    Map.has_key?(exchange, "endpoints") and not Map.has_key?(exchange, "structure")
+  end
+
+  defp v4_shape?(_), do: false
+
+  @handler_keys ~w(error signing parse)
+
+  defp handler_dispatch_findings(id, nil) do
+    [handler_finding(id, "endpoints.handlers", "missing — v4 emission requires endpoints.handlers map")]
+  end
+
+  defp handler_dispatch_findings(id, handlers) when is_map(handlers) do
+    expected = @handler_keys
+    actual = Map.keys(handlers)
+    missing = expected -- actual
+    extra = actual -- expected
+
+    missing_findings =
+      Enum.map(missing, fn k -> handler_finding(id, "endpoints.handlers", "missing required key #{inspect(k)}") end)
+
+    extra_findings =
+      Enum.map(extra, fn k -> handler_finding(id, "endpoints.handlers", "unexpected key #{inspect(k)}") end)
+
+    leaf_findings = handler_leaf_findings(id, handlers)
+
+    missing_findings ++ extra_findings ++ leaf_findings
+  end
+
+  defp handler_dispatch_findings(id, other) do
+    [handler_finding(id, "endpoints.handlers", "must be a map, got #{inspect(other)}")]
+  end
+
+  # `error` -> nullable list, `signing` -> nullable map with sections+branches,
+  # `parse` -> nullable map of method->[parse helpers]. JSON Schema validates
+  # the deeper shape; this catches the wrong-Elixir-type case.
+  defp handler_leaf_findings(id, handlers) do
+    Enum.flat_map(handlers, fn
+      {"error", nil} ->
+        []
+
+      {"error", value} when is_list(value) ->
+        []
+
+      {"error", other} ->
+        [handler_finding(id, "endpoints.handlers.error", "must be list or null, got #{inspect(other)}")]
+
+      {"signing", nil} ->
+        []
+
+      {"signing", value} when is_map(value) ->
+        []
+
+      {"signing", other} ->
+        [handler_finding(id, "endpoints.handlers.signing", "must be map or null, got #{inspect(other)}")]
+
+      {"parse", nil} ->
+        []
+
+      {"parse", value} when is_map(value) ->
+        []
+
+      {"parse", other} ->
+        [handler_finding(id, "endpoints.handlers.parse", "must be map or null, got #{inspect(other)}")]
+
+      _ ->
+        []
+    end)
+  end
+
+  defp handler_finding(id, path, message) do
+    %{
+      exchange: id,
+      invariant: "handler_dispatch_v4_shape_valid",
+      path: path,
+      message: message
+    }
+  end
 
   @doc """
   Flag `error_code_fields` entries whose root (first of `object_path`, or

@@ -47,6 +47,13 @@ defmodule CcxtExtract.Provenance do
   it replaces the `runtime.markets.markets` full snapshot with a compact
   `{symbol => {spot: bool, swap: bool}}` index.
 
+  Schema 3.2.0 (Tasks 85+86+87) adds three derived pointers under
+  `/structure`: `/structure/error_status_map`,
+  `/structure/error_retryable`, and `/structure/error_class_hierarchy`.
+  v4 mirrors them under `/errors/{status_map, retry_classification,
+  class_hierarchy}` plus the handler-routing v4 reshape under
+  `/endpoints/handlers/{error, signing, parse}` (Tasks 88a/b/c).
+
   ## Usage
 
       provenance =
@@ -96,6 +103,8 @@ defmodule CcxtExtract.Provenance do
     /structure/sign_dispatch
     /structure/parse_dispatch
     /structure/rate_limit_buckets
+    /structure/error_status_map
+    /structure/error_retryable
   )
 
   # v4 pointer paths — same content as v3 under reorganized top-level
@@ -143,6 +152,11 @@ defmodule CcxtExtract.Provenance do
     /normalization/parse_methods_digest
     /normalization/field_maps
     /normalization/response_envelopes
+    /endpoints/handlers/error
+    /endpoints/handlers/signing
+    /endpoints/handlers/parse
+    /errors/status_map
+    /errors/retry_classification
   )
 
   @doc """

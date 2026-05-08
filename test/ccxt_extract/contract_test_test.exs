@@ -951,6 +951,198 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_handle_errors_retryable_shape_valid/2" do
+    test "no findings on schema-conformant fixture (all three fields nil)" do
+      assert ContractTest.check_handle_errors_retryable_shape_valid(clean_exchange(), @base_observed) == []
+    end
+
+    test "no findings when error_status_map and error_retryable are well-formed" do
+      exchange =
+        clean_exchange()
+        |> put_in(
+          ["structure", "error_status_map"],
+          %{
+            "418" => [%{"class" => "DDoSProtection", "source" => "http_exceptions"}],
+            "429" => [%{"class" => "RateLimitExceeded", "source" => "throw_dispatch_predicate"}]
+          }
+        )
+        |> put_in(
+          ["structure", "error_retryable"],
+          %{
+            "rate_limit" => ["DDoSProtection", "RateLimitExceeded"],
+            "auth" => [],
+            "server_busy" => [],
+            "network" => [],
+            "non_retryable" => []
+          }
+        )
+
+      assert ContractTest.check_handle_errors_retryable_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "non-numeric status key produces a finding" do
+      exchange =
+        put_in(clean_exchange(), ["structure", "error_status_map"], %{
+          "abc" => [%{"class" => "DDoSProtection", "source" => "http_exceptions"}]
+        })
+
+      assert [finding] = ContractTest.check_handle_errors_retryable_shape_valid(exchange, @base_observed)
+      assert finding.invariant == "handle_errors_retryable_shape_valid"
+      assert finding.path == "structure.error_status_map"
+      assert finding.message =~ "not a numeric HTTP status string"
+    end
+
+    test "out-of-vocabulary source produces a finding" do
+      exchange =
+        put_in(clean_exchange(), ["structure", "error_status_map"], %{
+          "418" => [%{"class" => "DDoSProtection", "source" => "fabricated"}]
+        })
+
+      assert [finding] = ContractTest.check_handle_errors_retryable_shape_valid(exchange, @base_observed)
+      assert finding.message =~ "source"
+      assert finding.message =~ "vocabulary"
+    end
+
+    test "missing required bucket produces a finding" do
+      exchange =
+        put_in(clean_exchange(), ["structure", "error_retryable"], %{
+          "rate_limit" => [],
+          "auth" => [],
+          "server_busy" => [],
+          "network" => []
+          # non_retryable missing
+        })
+
+      findings = ContractTest.check_handle_errors_retryable_shape_valid(exchange, @base_observed)
+      assert Enum.any?(findings, fn f -> f.message =~ "missing required bucket" and f.message =~ "non_retryable" end)
+    end
+
+    test "extra bucket produces a finding" do
+      exchange =
+        put_in(clean_exchange(), ["structure", "error_retryable"], %{
+          "rate_limit" => [],
+          "auth" => [],
+          "server_busy" => [],
+          "network" => [],
+          "non_retryable" => [],
+          "made_up" => ["foo"]
+        })
+
+      findings = ContractTest.check_handle_errors_retryable_shape_valid(exchange, @base_observed)
+      assert Enum.any?(findings, fn f -> f.message =~ "unexpected bucket" and f.message =~ "made_up" end)
+    end
+
+    test "class in wrong bucket produces a finding" do
+      exchange =
+        put_in(clean_exchange(), ["structure", "error_retryable"], %{
+          "rate_limit" => ["InvalidOrder"],
+          "auth" => [],
+          "server_busy" => [],
+          "network" => [],
+          "non_retryable" => []
+        })
+
+      findings = ContractTest.check_handle_errors_retryable_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, fn f ->
+               f.message =~ "InvalidOrder" and f.message =~ "non_retryable" and f.message =~ "rate_limit"
+             end)
+    end
+
+    test "unsorted bucket list produces a finding" do
+      exchange =
+        put_in(clean_exchange(), ["structure", "error_retryable"], %{
+          "rate_limit" => ["RateLimitExceeded", "DDoSProtection"],
+          "auth" => [],
+          "server_busy" => [],
+          "network" => [],
+          "non_retryable" => []
+        })
+
+      findings = ContractTest.check_handle_errors_retryable_shape_valid(exchange, @base_observed)
+      assert Enum.any?(findings, fn f -> f.message =~ "sorted and unique" end)
+    end
+  end
+
+  describe "check_handler_dispatch_v4_shape_valid/2" do
+    test "no findings on v3-shaped exchange (short-circuit)" do
+      # clean_exchange returns a v3-shaped fixture (has 'structure', no 'endpoints')
+      assert ContractTest.check_handler_dispatch_v4_shape_valid(clean_exchange(), @base_observed) == []
+    end
+
+    test "no findings on well-formed v4 endpoints.handlers" do
+      v4_exchange = %{
+        "id" => "v4ex",
+        "exchange" => %{"id" => "v4ex"},
+        "endpoints" => %{
+          "handlers" => %{
+            "error" => [],
+            "signing" => %{"sections" => [], "branches" => []},
+            "parse" => %{}
+          }
+        }
+      }
+
+      assert ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed) == []
+    end
+
+    test "all-null v4 handlers are valid (alias exchange shape)" do
+      v4_exchange = %{
+        "id" => "aliasex",
+        "exchange" => %{"id" => "aliasex"},
+        "endpoints" => %{"handlers" => %{"error" => nil, "signing" => nil, "parse" => nil}}
+      }
+
+      assert ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed) == []
+    end
+
+    test "missing required handler key produces a finding" do
+      v4_exchange = %{
+        "id" => "v4ex",
+        "exchange" => %{"id" => "v4ex"},
+        "endpoints" => %{"handlers" => %{"error" => [], "signing" => nil}}
+      }
+
+      findings = ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed)
+      assert Enum.any?(findings, fn f -> f.message =~ "missing required key" and f.message =~ "parse" end)
+    end
+
+    test "extra handler key produces a finding" do
+      v4_exchange = %{
+        "id" => "v4ex",
+        "exchange" => %{"id" => "v4ex"},
+        "endpoints" => %{
+          "handlers" => %{"error" => [], "signing" => nil, "parse" => %{}, "extras" => "oops"}
+        }
+      }
+
+      findings = ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed)
+      assert Enum.any?(findings, fn f -> f.message =~ "unexpected key" and f.message =~ "extras" end)
+    end
+
+    test "wrong leaf type produces a finding" do
+      v4_exchange = %{
+        "id" => "v4ex",
+        "exchange" => %{"id" => "v4ex"},
+        "endpoints" => %{"handlers" => %{"error" => "not a list", "signing" => nil, "parse" => nil}}
+      }
+
+      findings = ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed)
+      assert Enum.any?(findings, fn f -> f.path == "endpoints.handlers.error" and f.message =~ "list" end)
+    end
+
+    test "missing endpoints.handlers in v4 exchange produces a finding" do
+      v4_exchange = %{
+        "id" => "v4ex",
+        "exchange" => %{"id" => "v4ex"},
+        "endpoints" => %{}
+      }
+
+      findings = ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed)
+      assert Enum.any?(findings, fn f -> f.path == "endpoints.handlers" and f.message =~ "missing" end)
+    end
+  end
+
   describe "run_all/1" do
     setup do
       tmp = Path.join(System.tmp_dir!(), "ccxt_contract_test_#{System.unique_integer([:positive])}")

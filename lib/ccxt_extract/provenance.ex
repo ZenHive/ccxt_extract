@@ -89,6 +89,7 @@ defmodule CcxtExtract.Provenance do
     /structure/handle_errors/throw_dispatches
     /structure/error_class_hierarchy
     /structure/unified_endpoints
+    /structure/transaction_classification
     /structure/request_defaults
     /structure/error_dispatch
     /structure/sign_dispatch
@@ -133,6 +134,7 @@ defmodule CcxtExtract.Provenance do
     /errors/handle_errors/throw_dispatches
     /errors/class_hierarchy
     /endpoints/unified
+    /endpoints/transaction_classification
     /endpoints/request/defaults
   )
 

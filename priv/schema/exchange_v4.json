@@ -70,6 +70,7 @@
       "description": "Consumer-shaped endpoint surface. Initial v4 carries v3 fields under reorganized paths; future tasks add request.shape (already present from v3.1.0), endpoints.descriptors (Task 121), endpoints.raw (implicit from describe.api), and rate_limits.per_endpoint_cost (Task 90).",
       "required": [
         "unified",
+        "transaction_classification",
         "interfaces",
         "pagination",
         "request"
@@ -92,6 +93,20 @@
             }
           ],
           "description": "Was structure.unified_endpoints in v3."
+        },
+        "transaction_classification": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/TransactionClassificationEntry"
+              }
+            }
+          ],
+          "description": "Map of unified method name -> per-endpoint write-side classification flags (`transactional`, `on_chain`). Keys mirror `endpoints.unified`. Was structure.transaction_classification in v3 (added at v3 schema 3.3.0, Task 73d)."
         },
         "interfaces": {
           "oneOf": [
@@ -1973,6 +1988,25 @@
             }
           ],
           "description": "Literal values compared against this field via === or !== operators, sorted by value. Each entry includes the operator for polarity detection. Null when the field has no status_sentinel role."
+        }
+      }
+    },
+    "TransactionClassificationEntry": {
+      "type": "object",
+      "description": "Per-unified-endpoint write-side classification flags. `transactional` is true when the endpoint mutates exchange-side state. `on_chain` is the strictly narrower flag for endpoints that initiate a blockchain transaction the exchange broadcasts on the user's behalf — it implies `transactional` but not the inverse. Both flags are derived from CCXT's unified-method naming convention (see `CcxtExtract.TransactionClassification`).",
+      "required": [
+        "transactional",
+        "on_chain"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "transactional": {
+          "type": "boolean",
+          "description": "True when the endpoint mutates exchange-side state."
+        },
+        "on_chain": {
+          "type": "boolean",
+          "description": "True iff the endpoint initiates a blockchain transaction (the `withdraw*` family). Implies `transactional`."
         }
       }
     },

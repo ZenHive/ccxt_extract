@@ -247,7 +247,7 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
   """
   @spec auto_clone_ts_source!(String.t() | nil) :: :ok
   def auto_clone_ts_source!(pinned_version \\ nil) do
-    ccxt_dir = CcxtExtract.Paths.priv("ccxt")
+    ccxt_dir = CcxtExtract.Paths.out("ccxt")
     url = ccxt_repo_url()
 
     File.mkdir_p!(Path.dirname(ccxt_dir))

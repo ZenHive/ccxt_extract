@@ -103,7 +103,9 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "error_dispatch" => nil,
         "sign_dispatch" => nil,
         "parse_dispatch" => nil,
-        "rate_limit_buckets" => CcxtExtract.RateLimitBuckets.empty_record()
+        "rate_limit_buckets" => CcxtExtract.RateLimitBuckets.empty_record(),
+        "error_status_map" => nil,
+        "error_retryable" => nil
       },
       "_provenance" => Provenance.build_default()
     }

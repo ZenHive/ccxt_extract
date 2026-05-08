@@ -19,6 +19,8 @@ defmodule CcxtExtract.HandleErrors do
 
   use CcxtExtract.OXCExtractor, output_file: "handle_errors.json"
 
+  alias CcxtExtract.ErrorDispatch
+  alias CcxtExtract.ErrorHierarchy
   alias CcxtExtract.JsonIO
 
   @impl true
@@ -92,4 +94,244 @@ defmodule CcxtExtract.HandleErrors do
   # Normalize non-map values (e.g. "__undefined" sentinel from QuickBEAM) to nil
   defp normalize_map(value) when is_map(value), do: value
   defp normalize_map(_), do: nil
+
+  # --- Derived: HTTP status map (Task 85) ---
+
+  @doc """
+  Derive a per-exchange HTTP-status → exception-class map from the
+  assembled `handle_errors` data.
+
+  Two source channels are consulted; both are honest projections of
+  already-extracted data (no new AST work):
+
+    1. `http_exceptions` — the static `describe().httpExceptions` map
+       lifted into `handle_errors.http_exceptions` by Pipeline. Each
+       entry surfaces as `source: "http_exceptions"`.
+    2. `error_dispatch` predicates classified `predicate_kind:
+       "http_status_in"` — e.g. `if (code === 418) throw new
+       DDoSProtection(...)` produces an entry under status `"418"`
+       with `source: "throw_dispatch_predicate"`.
+
+  Both sources may produce the same status code mapped to the same OR a
+  different exception class — the shape preserves both so downstream
+  consumers can detect drift. Output is a sorted map keyed by status
+  string with sorted unique entries:
+
+      %{
+        "418" => [
+          %{"class" => "DDoSProtection", "source" => "throw_dispatch_predicate"}
+        ],
+        "429" => [
+          %{"class" => "RateLimitExceeded", "source" => "http_exceptions"}
+        ]
+      }
+
+  Returns `nil` when the input is `nil` or when both channels are empty
+  AND `http_exceptions` is `nil` (no data to project). Returns an
+  empty map (`%{}`) when channels exist but contain no status entries
+  — an honest "we looked, found nothing" signal.
+  """
+  @spec http_status_map(map() | nil) :: %{String.t() => [map()]} | nil
+  def http_status_map(nil), do: nil
+
+  def http_status_map(%{} = handle_errors) do
+    method = handle_errors["method"]
+    http_exceptions = handle_errors["http_exceptions"]
+
+    if is_nil(method) and not is_map(http_exceptions) do
+      nil
+    else
+      from_http = http_exceptions_entries(http_exceptions)
+      from_dispatch = predicate_status_entries(method)
+
+      from_http
+      |> Kernel.++(from_dispatch)
+      |> Enum.group_by(& &1["status"])
+      |> Map.new(fn {status, list} ->
+        {status, list |> Enum.map(&Map.delete(&1, "status")) |> Enum.uniq() |> Enum.sort()}
+      end)
+    end
+  end
+
+  def http_status_map(_), do: nil
+
+  @spec http_exceptions_entries(term()) :: [%{String.t() => String.t()}]
+  defp http_exceptions_entries(http_exceptions) when is_map(http_exceptions) do
+    Enum.flat_map(http_exceptions, fn
+      {status, class} when is_binary(class) ->
+        case normalize_class_name(class) do
+          nil -> []
+          normalized -> [%{"status" => to_string(status), "class" => normalized, "source" => "http_exceptions"}]
+        end
+
+      _ ->
+        []
+    end)
+  end
+
+  defp http_exceptions_entries(_), do: []
+
+  # QuickBEAM serializes JS class references in describe() maps as the
+  # sentinel string `"__function:ClassName"` (the value is a function
+  # reference at runtime, not a string literal). Strip the prefix so the
+  # downstream classifier sees the bare class name. Pure string literals
+  # (rare — e.g. an exchange that ships `"BadRequest"` as text) pass
+  # through unchanged.
+  @function_sentinel "__function:"
+  defp normalize_class_name(class) when is_binary(class) do
+    case class do
+      @function_sentinel <> name when name != "" -> name
+      "" -> nil
+      other -> other
+    end
+  end
+
+  defp normalize_class_name(_), do: nil
+
+  @spec predicate_status_entries(term()) :: [%{String.t() => String.t()}]
+  defp predicate_status_entries(method) when is_map(method) do
+    case ErrorDispatch.derive(method) do
+      nil ->
+        []
+
+      entries when is_list(entries) ->
+        Enum.flat_map(entries, &dispatch_status_entry/1)
+    end
+  end
+
+  defp predicate_status_entries(_), do: []
+
+  defp dispatch_status_entry(%{
+         "exception_class" => class,
+         "predicate_kind" => "http_status_in",
+         "predicate_values" => values
+       })
+       when is_binary(class) and is_list(values) do
+    # `error_dispatch` classifies any `code === <literal>` as
+    # `http_status_in`, but `code` is overloaded in some exchanges
+    # (e.g. bitstamp checks `code === 'API0005'` against an extracted
+    # error-code field that happens to be named `code`). Filter to
+    # numeric-string values so `error_status_map` stays HTTP-status-
+    # shaped — non-numeric codes are honest exchange-specific lookups
+    # better surfaced via `error_dispatch[].predicate_raw`.
+    values
+    |> Enum.map(&to_string/1)
+    |> Enum.filter(&numeric_string?/1)
+    |> Enum.map(fn status ->
+      %{"status" => status, "class" => class, "source" => "throw_dispatch_predicate"}
+    end)
+  end
+
+  defp dispatch_status_entry(_), do: []
+
+  @spec numeric_string?(String.t()) :: boolean()
+  defp numeric_string?(s) when is_binary(s), do: s != "" and String.match?(s, ~r/^[0-9]+$/)
+  defp numeric_string?(_), do: false
+
+  # --- Derived: retryable buckets (Task 86) ---
+
+  @doc """
+  Derive a per-exchange retry-classification map from the exception
+  classes referenced in `handle_errors`.
+
+  Walks every class name surfaced by the four channels Pipeline has
+  already populated:
+
+    * `http_exceptions` values (e.g. `"RateLimitExceeded"`)
+    * `exceptions` values (broad/exact tables, plus market-type-
+      specific keys like `spot`/`linear`)
+    * `error_dispatch[].exception_class` (literal `throw new <X>` sites)
+    * `throw_dispatches` exception classes are NOT included — those
+      entries dispatch via lookup tables already covered by
+      `exceptions` (the helper's first arg)
+
+  Each class is bucketed via `ErrorHierarchy.bucket_for/1`:
+  `rate_limit` / `auth` / `server_busy` / `network` / `non_retryable`.
+  Output is a map of bucket name → sorted unique class list:
+
+      %{
+        "rate_limit" => ["DDoSProtection", "RateLimitExceeded"],
+        "auth" => ["AuthenticationError"],
+        "server_busy" => [],
+        "network" => ["RequestTimeout"],
+        "non_retryable" => ["BadRequest", "ExchangeError", "InvalidOrder"]
+      }
+
+  Buckets with zero referenced classes still appear with an empty list
+  — the shape is constant so consumers don't need nil-checks. The
+  classifier is honest about unrecognized classes: any class name not
+  in the CCXT base hierarchy falls into `non_retryable`. The list
+  preserves the unrecognized class names so consumers can audit.
+
+  Returns `nil` when `handle_errors` is `nil`. Returns the constant
+  empty-buckets shape (`%{"rate_limit" => [], ...}`) when handle_errors
+  is non-nil but no exception class names are present.
+  """
+  @spec retryable_buckets(map() | nil) :: %{String.t() => [String.t()]} | nil
+  def retryable_buckets(nil), do: nil
+
+  def retryable_buckets(%{} = handle_errors) do
+    classes = collect_referenced_classes(handle_errors)
+
+    empty = Map.new(ErrorHierarchy.buckets(), &{&1, []})
+
+    classes
+    |> Enum.reduce(empty, fn class, acc ->
+      bucket = ErrorHierarchy.bucket_for(class)
+      Map.update!(acc, bucket, &[class | &1])
+    end)
+    |> Map.new(fn {bucket, list} -> {bucket, list |> Enum.uniq() |> Enum.sort()} end)
+  end
+
+  def retryable_buckets(_), do: nil
+
+  @spec collect_referenced_classes(map()) :: [String.t()]
+  defp collect_referenced_classes(handle_errors) do
+    from_http_exceptions(handle_errors["http_exceptions"]) ++
+      from_exceptions(handle_errors["exceptions"]) ++
+      from_dispatch(handle_errors["method"])
+  end
+
+  @spec from_http_exceptions(term()) :: [String.t()]
+  defp from_http_exceptions(map) when is_map(map) do
+    map
+    |> Map.values()
+    |> Enum.filter(&is_binary/1)
+    |> Enum.flat_map(&normalized_class_list/1)
+  end
+
+  defp from_http_exceptions(_), do: []
+
+  @spec from_exceptions(term()) :: [String.t()]
+  defp from_exceptions(map) when is_map(map) do
+    Enum.flat_map(map, fn
+      {_key, inner} when is_map(inner) ->
+        inner
+        |> Map.values()
+        |> Enum.filter(&is_binary/1)
+        |> Enum.flat_map(&normalized_class_list/1)
+
+      _ ->
+        []
+    end)
+  end
+
+  defp from_exceptions(_), do: []
+
+  defp normalized_class_list(value) do
+    case normalize_class_name(value) do
+      nil -> []
+      name -> [name]
+    end
+  end
+
+  @spec from_dispatch(term()) :: [String.t()]
+  defp from_dispatch(method) when is_map(method) do
+    case ErrorDispatch.derive(method) do
+      nil -> []
+      entries -> entries |> Enum.map(& &1["exception_class"]) |> Enum.filter(&is_binary/1)
+    end
+  end
+
+  defp from_dispatch(_), do: []
 end

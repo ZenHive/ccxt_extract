@@ -216,6 +216,223 @@ defmodule CcxtExtract.HandleErrorsTest do
     end
   end
 
+  describe "http_status_map/1" do
+    test "returns nil for nil input" do
+      assert HandleErrors.http_status_map(nil) == nil
+    end
+
+    test "returns nil when both channels empty AND http_exceptions is nil" do
+      handle_errors = %{"method" => nil, "http_exceptions" => nil, "exceptions" => nil}
+      assert HandleErrors.http_status_map(handle_errors) == nil
+    end
+
+    test "projects describe.httpExceptions with normalized class names" do
+      handle_errors = %{
+        "method" => nil,
+        "http_exceptions" => %{"429" => "__function:RateLimitExceeded", "404" => "BadRequest"},
+        "exceptions" => nil
+      }
+
+      result = HandleErrors.http_status_map(handle_errors)
+
+      assert result == %{
+               "429" => [%{"class" => "RateLimitExceeded", "source" => "http_exceptions"}],
+               "404" => [%{"class" => "BadRequest", "source" => "http_exceptions"}]
+             }
+    end
+
+    test "honest empty map when http_exceptions is an empty map and method has no throws" do
+      handle_errors = %{"method" => %{"body" => %{"body" => []}}, "http_exceptions" => %{}, "exceptions" => nil}
+      assert HandleErrors.http_status_map(handle_errors) == %{}
+    end
+
+    test "merges throw_dispatch_predicate entries from error_dispatch http_status_in" do
+      # ESTree fragment: if (code === 418) throw new DDoSProtection('msg')
+      method = %{
+        "body" => %{
+          "body" => [
+            %{
+              "type" => "IfStatement",
+              "test" => %{
+                "type" => "BinaryExpression",
+                "operator" => "===",
+                "left" => %{"type" => "Identifier", "name" => "code"},
+                "right" => %{"type" => "Literal", "value" => 418}
+              },
+              "consequent" => %{
+                "type" => "BlockStatement",
+                "body" => [
+                  %{
+                    "type" => "ThrowStatement",
+                    "argument" => %{
+                      "type" => "NewExpression",
+                      "callee" => %{"type" => "Identifier", "name" => "DDoSProtection"},
+                      "arguments" => []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+
+      handle_errors = %{"method" => method, "http_exceptions" => %{"418" => "DDoSProtection"}, "exceptions" => nil}
+      result = HandleErrors.http_status_map(handle_errors)
+
+      entries = result["418"]
+      assert is_list(entries)
+      assert %{"class" => "DDoSProtection", "source" => "http_exceptions"} in entries
+      assert %{"class" => "DDoSProtection", "source" => "throw_dispatch_predicate"} in entries
+      assert length(entries) == 2
+    end
+
+    test "deduplicates identical {class, source} entries within a status" do
+      method = %{
+        "body" => %{
+          "body" => [
+            %{
+              "type" => "IfStatement",
+              "test" => %{
+                "type" => "LogicalExpression",
+                "operator" => "||",
+                "left" => %{
+                  "type" => "BinaryExpression",
+                  "operator" => "===",
+                  "left" => %{"type" => "Identifier", "name" => "code"},
+                  "right" => %{"type" => "Literal", "value" => 429}
+                },
+                "right" => %{
+                  "type" => "BinaryExpression",
+                  "operator" => "===",
+                  "left" => %{"type" => "Identifier", "name" => "code"},
+                  "right" => %{"type" => "Literal", "value" => 429}
+                }
+              },
+              "consequent" => %{
+                "type" => "BlockStatement",
+                "body" => [
+                  %{
+                    "type" => "ThrowStatement",
+                    "argument" => %{
+                      "type" => "NewExpression",
+                      "callee" => %{"type" => "Identifier", "name" => "RateLimitExceeded"},
+                      "arguments" => []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+
+      handle_errors = %{"method" => method, "http_exceptions" => nil, "exceptions" => nil}
+
+      assert HandleErrors.http_status_map(handle_errors) == %{
+               "429" => [%{"class" => "RateLimitExceeded", "source" => "throw_dispatch_predicate"}]
+             }
+    end
+  end
+
+  describe "retryable_buckets/1" do
+    test "returns nil for nil input" do
+      assert HandleErrors.retryable_buckets(nil) == nil
+    end
+
+    test "constant five-bucket shape even when no classes are referenced" do
+      handle_errors = %{"method" => nil, "http_exceptions" => nil, "exceptions" => nil}
+
+      result = HandleErrors.retryable_buckets(handle_errors)
+
+      assert result == %{
+               "rate_limit" => [],
+               "auth" => [],
+               "server_busy" => [],
+               "network" => [],
+               "non_retryable" => []
+             }
+    end
+
+    test "buckets classes from http_exceptions" do
+      handle_errors = %{
+        "method" => nil,
+        "http_exceptions" => %{
+          "429" => "RateLimitExceeded",
+          "401" => "AuthenticationError",
+          "503" => "ExchangeNotAvailable"
+        },
+        "exceptions" => nil
+      }
+
+      result = HandleErrors.retryable_buckets(handle_errors)
+
+      assert result["rate_limit"] == ["RateLimitExceeded"]
+      assert result["auth"] == ["AuthenticationError"]
+      assert result["server_busy"] == ["ExchangeNotAvailable"]
+      assert result["non_retryable"] == []
+    end
+
+    test "buckets classes from exceptions broad/exact tables" do
+      handle_errors = %{
+        "method" => nil,
+        "http_exceptions" => nil,
+        "exceptions" => %{
+          "exact" => %{"INVALID_ORDER" => "InvalidOrder", "BAD_KEY" => "AuthenticationError"},
+          "broad" => %{"DDoS" => "DDoSProtection"}
+        }
+      }
+
+      result = HandleErrors.retryable_buckets(handle_errors)
+
+      assert "InvalidOrder" in result["non_retryable"]
+      assert "AuthenticationError" in result["auth"]
+      assert "DDoSProtection" in result["rate_limit"]
+    end
+
+    test "strips QuickBEAM `__function:` sentinel prefix" do
+      handle_errors = %{
+        "method" => nil,
+        "http_exceptions" => %{"429" => "__function:RateLimitExceeded"},
+        "exceptions" => %{"exact" => %{"X" => "__function:InvalidOrder"}}
+      }
+
+      result = HandleErrors.retryable_buckets(handle_errors)
+
+      assert "RateLimitExceeded" in result["rate_limit"]
+      assert "InvalidOrder" in result["non_retryable"]
+      refute Enum.any?(result["non_retryable"], &String.starts_with?(&1, "__function:"))
+    end
+
+    test "unknown classes fall into non_retryable" do
+      handle_errors = %{
+        "method" => nil,
+        "http_exceptions" => %{"418" => "BinanceCustomError"},
+        "exceptions" => nil
+      }
+
+      result = HandleErrors.retryable_buckets(handle_errors)
+
+      assert "BinanceCustomError" in result["non_retryable"]
+    end
+
+    test "lists are sorted and unique within each bucket" do
+      handle_errors = %{
+        "method" => nil,
+        "http_exceptions" => %{
+          "429" => "RateLimitExceeded",
+          "418" => "DDoSProtection",
+          "529" => "RateLimitExceeded"
+        },
+        "exceptions" => %{"exact" => %{"X" => "DDoSProtection"}}
+      }
+
+      result = HandleErrors.retryable_buckets(handle_errors)
+
+      assert result["rate_limit"] == ["DDoSProtection", "RateLimitExceeded"]
+    end
+  end
+
   describe "Mix.Tasks.CcxtExtract.HandleErrors.run/1 CLI validation" do
     test "rejects unknown switches" do
       assert_raise Mix.Error, ~r/Unknown option/, fn ->

@@ -2,13 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "exchange_v3.json",
   "title": "CCXT Exchange Extraction Output",
-  "description": "Per-exchange extraction output from ccxt_extract. Contains everything CCXT knows about a single exchange, organized into two layers: runtime values (QuickBEAM) and structural AST (OXC). Schema 3.3.0 (Task 73d) adds the additive structure.transaction_classification field — per-unified-endpoint `transactional` / `on_chain` boolean flags derived from CCXT's unified-method naming convention. Schema 3.2.0 (Task 87) added the structure.error_class_hierarchy field carrying CCXT's exception class inheritance tree (BaseError → ExchangeError → ... → AccountNotEnabled). Schema 3.1.0 (Task 73b) added the runtime.request_headers field carrying per-exchange user-agent + default HTTP header overrides resolved from describe(). Schema 3.0.0 (Task 117, breaking) replaces runtime.markets with the compact runtime.symbols_index derivation and drops structure.parse_methods + structure.ws_methods (extractors retained; discovery files still written for internal Phase 12 / Phase 15 consumers). See SCHEMA.md migration notes.",
+  "description": "Per-exchange extraction output from ccxt_extract. Contains everything CCXT knows about a single exchange, organized into two layers: runtime values (QuickBEAM) and structural AST (OXC). Schema 3.4.0 (Tasks 85+86) adds two additive error-classification sections under structure: error_status_map (HTTP status -> exception class) and error_retryable (retry-classification buckets). Schema 3.3.0 (Task 73d) adds the additive structure.transaction_classification field — per-unified-endpoint `transactional` / `on_chain` boolean flags derived from CCXT's unified-method naming convention. Schema 3.2.0 (Task 87) added the structure.error_class_hierarchy field carrying CCXT's exception class inheritance tree (BaseError → ExchangeError → ... → AccountNotEnabled). Schema 3.1.0 (Task 73b) added the runtime.request_headers field carrying per-exchange user-agent + default HTTP header overrides resolved from describe(). Schema 3.0.0 (Task 117, breaking) replaces runtime.markets with the compact runtime.symbols_index derivation and drops structure.parse_methods + structure.ws_methods (extractors retained; discovery files still written for internal Phase 12 / Phase 15 consumers). See SCHEMA.md migration notes.",
   "type": "object",
   "required": ["schema_version", "extracted_at", "ccxt_version", "exchange", "runtime", "structure", "_provenance"],
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "3.3.0",
+      "const": "3.4.0",
       "description": "Schema version. Consumers should check this before parsing."
     },
     "extracted_at": {
@@ -339,7 +339,7 @@
     "StructureData": {
       "type": "object",
       "description": "Structural data extracted via OXC TypeScript AST parsing. Layer 2: what an exchange DOES (code structure, method bodies).",
-      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "sign_recipe", "request_shape", "handle_errors", "error_class_hierarchy", "interface_signatures", "pagination", "overrides", "unified_endpoints", "transaction_classification", "request_defaults", "error_dispatch", "sign_dispatch", "parse_dispatch"],
+      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "sign_recipe", "request_shape", "handle_errors", "error_class_hierarchy", "interface_signatures", "pagination", "overrides", "unified_endpoints", "transaction_classification", "request_defaults", "error_dispatch", "sign_dispatch", "parse_dispatch", "error_status_map", "error_retryable"],
       "additionalProperties": false,
       "properties": {
         "class_info": {
@@ -502,6 +502,20 @@
         "rate_limit_buckets": {
           "$ref": "#/$defs/RateLimitBuckets",
           "description": "Per-exchange rate-limit bucket configuration derived from describe().rateLimit / rollingWindowSize / rateLimiterAlgorithm / tokenBucket. Always-emit wrapper (no null at this level) — exchanges with no usable bucket data ship an empty `buckets` list plus an `unresolved_reason` tag. Introduced by Task 89; the joint schema bump that promotes this field to a `required` key lives with the A-5 coordinator (Task 90)."
+        },
+        "error_status_map": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/ErrorStatusMap" }
+          ],
+          "description": "Derived from `handle_errors` (Task 85): map of HTTP status code (string) -> sorted unique list of {class, source} entries. Two source channels: 'http_exceptions' (lifted from `describe().httpExceptions`) and 'throw_dispatch_predicate' (literal `throw new <X>` sites whose IfStatement predicate matched `code === N` / `code <op> N` / `||`-disjunctions thereof, surfaced via `error_dispatch[predicate_kind == 'http_status_in']`). Both channels can map the same status to the same OR a different class — the shape preserves both for drift detection. Null when handle_errors is null or both channels are empty AND http_exceptions is null. Empty map (`{}`) is honest-empty (handle_errors exists but neither channel produced status entries)."
+        },
+        "error_retryable": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/ErrorRetryable" }
+          ],
+          "description": "Derived from `handle_errors` (Task 86): map of retry-classification bucket -> sorted unique list of exception class names referenced by this exchange. Buckets: 'rate_limit' (DDoSProtection / RateLimitExceeded subtree), 'auth' (AuthenticationError subtree), 'server_busy' (ExchangeNotAvailable / OnMaintenance / BadResponse / NullResponse subtree), 'network' (NetworkError subtree minus rate_limit), 'non_retryable' (everything else, including unknown exchange-specific classes). Class names are collected from `http_exceptions` values, `exceptions` (broad/exact + market-type-specific) values, and `error_dispatch[].exception_class` (literal throws). Each class is bucketed via the CCXT base hierarchy walk in `CcxtExtract.ErrorHierarchy.bucket_for/1`. Buckets with zero referenced classes still appear with an empty list — the shape is constant. Null when handle_errors is null."
         }
       }
     },
@@ -585,6 +599,73 @@
             { "type": "null" }
           ],
           "description": "Rolling-window size in milliseconds when `describe.rollingWindowSize > 0`. Binance ships `60000` (60s weight window). Null when not set."
+        }
+      }
+    },
+
+    "ErrorStatusMap": {
+      "type": "object",
+      "description": "Map keyed by HTTP status code (string) -> sorted unique list of class+source entries. Preserves multiple class candidates per status for drift detection between describe().httpExceptions and AST-derived throw predicates.",
+      "propertyNames": { "type": "string", "pattern": "^[0-9]+$" },
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/ErrorStatusMapEntry" },
+        "uniqueItems": true
+      }
+    },
+
+    "ErrorStatusMapEntry": {
+      "type": "object",
+      "required": ["class", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "class": {
+          "type": "string",
+          "description": "CCXT exception class name (e.g., 'RateLimitExceeded'). May be a class outside the CCXT base hierarchy if an exchange ships a custom exception."
+        },
+        "source": {
+          "type": "string",
+          "enum": ["http_exceptions", "throw_dispatch_predicate"],
+          "description": "Which channel produced this entry. 'http_exceptions' = lifted from `describe().httpExceptions` (static lookup). 'throw_dispatch_predicate' = AST-derived from `error_dispatch` entries with `predicate_kind == 'http_status_in'` (gating predicate matched a literal status comparison)."
+        }
+      }
+    },
+
+    "ErrorRetryable": {
+      "type": "object",
+      "description": "Per-exchange retry-classification map keyed by bucket name. Buckets are constant — every map carries all five keys, even when a bucket's class list is empty. Honest about unknown classes — they fall into `non_retryable`.",
+      "required": ["rate_limit", "auth", "server_busy", "network", "non_retryable"],
+      "additionalProperties": false,
+      "properties": {
+        "rate_limit": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "Classes under DDoSProtection / RateLimitExceeded. Consumer applies rate-limit-style retry (backoff with jitter)."
+        },
+        "auth": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "Classes under AuthenticationError (incl. PermissionDenied, AccountSuspended, AccountNotEnabled). Consumer typically does NOT retry — credentials need attention."
+        },
+        "server_busy": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "ExchangeNotAvailable / OnMaintenance / BadResponse / NullResponse subtrees. Consumer applies backoff with longer delays."
+        },
+        "network": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "NetworkError subtree (RequestTimeout, InvalidNonce, ChecksumError) MINUS the rate_limit subset. Consumer applies short backoff."
+        },
+        "non_retryable": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "Everything else under ExchangeError / OperationFailed / BaseError (BadRequest, InvalidOrder, InsufficientFunds, NotSupported, ...) plus unknown exchange-specific classes. Consumer does NOT retry — the request is logically broken."
         }
       }
     },

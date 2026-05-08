@@ -67,13 +67,14 @@
   "$defs": {
     "Endpoints": {
       "type": "object",
-      "description": "Consumer-shaped endpoint surface. Initial v4 carries v3 fields under reorganized paths; future tasks add request.shape (already present from v3.1.0), endpoints.descriptors (Task 121), endpoints.raw (implicit from describe.api), and rate_limits.per_endpoint_cost (Task 90).",
+      "description": "Consumer-shaped endpoint surface. Carries v3 fields under reorganized paths; future tasks add endpoints.descriptors (Task 121), endpoints.raw (implicit from describe.api), and rate_limits.per_endpoint_cost (Task 90). Tasks 88a/88b/88c (handler routing tables) land under `handlers`: error / signing / parse dispatch tables that route requests and responses through the right per-section handler.",
       "required": [
         "unified",
         "transaction_classification",
         "interfaces",
         "pagination",
-        "request"
+        "request",
+        "handlers"
       ],
       "additionalProperties": false,
       "properties": {
@@ -174,6 +175,61 @@
               "description": "Was structure.request_shape in v3."
             }
           }
+        },
+        "handlers": {
+          "type": "object",
+          "description": "Handler routing tables (Tasks 88a/88b/88c). v4 reshape of v3 structure.error_dispatch / sign_dispatch / parse_dispatch. error -> handleErrors() literal-throw routing. signing -> sign() top-level if/else-if chain enumerated as ordered branches. parse -> per-method routing of `this.parse<X>(...)` calls.",
+          "required": [
+            "error",
+            "signing",
+            "parse"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "error": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/ErrorDispatchEntry"
+                  }
+                }
+              ],
+              "description": "Was structure.error_dispatch in v3."
+            },
+            "signing": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/$defs/SignDispatchData"
+                }
+              ],
+              "description": "Was structure.sign_dispatch in v3."
+            },
+            "parse": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                }
+              ],
+              "description": "Was structure.parse_dispatch in v3."
+            }
+          }
         }
       }
     },
@@ -228,10 +284,12 @@
     },
     "Errors": {
       "type": "object",
-      "description": "Consumer-shaped error-handling surface. Carries handle_errors and the corpus-global class_hierarchy (Task 87). Future tasks add status_map (Task 85), retry_classification (Task 86), dispatch (Tasks 88a/b/c).",
+      "description": "Consumer-shaped error-handling surface. Carries handle_errors plus three derivations from Tasks 85/86/87: status_map (HTTP status -> exception class), retry_classification (per-bucket retryability), class_hierarchy (CCXT base error class graph, corpus-global — same record on every per-exchange JSON). Handler routing dispatch lives at endpoints.handlers (Tasks 88a/b/c).",
       "required": [
         "handle_errors",
-        "class_hierarchy"
+        "class_hierarchy",
+        "status_map",
+        "retry_classification"
       ],
       "additionalProperties": false,
       "properties": {
@@ -255,10 +313,100 @@
               "$ref": "#/$defs/ErrorClassHierarchy"
             }
           ],
-          "description": "CCXT exception class inheritance tree (corpus-global — same record on every per-exchange JSON). Was structure.error_class_hierarchy in v3, peer to handle_errors here so consumers find taxonomy and dispatch under one group."
+          "description": "CCXT exception class inheritance tree (corpus-global — same record on every per-exchange JSON). Was structure.error_class_hierarchy in v3 (Task 87), peer to handle_errors here so consumers find taxonomy and dispatch under one group."
+        },
+        "status_map": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ErrorStatusMap"
+            }
+          ],
+          "description": "Was structure.error_status_map in v3 (Task 85). Map of HTTP status -> [{class, source}] derived from describe().httpExceptions and error_dispatch http_status_in predicates."
+        },
+        "retry_classification": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ErrorRetryable"
+            }
+          ],
+          "description": "Was structure.error_retryable in v3 (Task 86). Per-bucket map (rate_limit / auth / server_busy / network / non_retryable) -> sorted unique exception class names."
         }
       }
     },
+
+    "ErrorStatusMap": {
+      "type": "object",
+      "description": "Map keyed by HTTP status code (string) -> sorted unique list of class+source entries. Preserves multiple class candidates per status for drift detection between describe().httpExceptions and AST-derived throw predicates.",
+      "propertyNames": { "type": "string", "pattern": "^[0-9]+$" },
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/ErrorStatusMapEntry" },
+        "uniqueItems": true
+      }
+    },
+
+    "ErrorStatusMapEntry": {
+      "type": "object",
+      "required": ["class", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "class": {
+          "type": "string",
+          "description": "CCXT exception class name (e.g., 'RateLimitExceeded'). May be a class outside the CCXT base hierarchy if an exchange ships a custom exception."
+        },
+        "source": {
+          "type": "string",
+          "enum": ["http_exceptions", "throw_dispatch_predicate"],
+          "description": "Which channel produced this entry. 'http_exceptions' = lifted from `describe().httpExceptions` (static lookup). 'throw_dispatch_predicate' = AST-derived from error_dispatch entries with `predicate_kind == 'http_status_in'`."
+        }
+      }
+    },
+
+    "ErrorRetryable": {
+      "type": "object",
+      "description": "Per-exchange retry-classification map keyed by bucket name. Buckets are constant — every map carries all five keys, even when a bucket's class list is empty. Honest about unknown classes — they fall into `non_retryable`.",
+      "required": ["rate_limit", "auth", "server_busy", "network", "non_retryable"],
+      "additionalProperties": false,
+      "properties": {
+        "rate_limit": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "Classes under DDoSProtection / RateLimitExceeded."
+        },
+        "auth": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "Classes under AuthenticationError."
+        },
+        "server_busy": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "ExchangeNotAvailable / OnMaintenance / BadResponse / NullResponse subtrees."
+        },
+        "network": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "NetworkError subtree minus the rate_limit subset."
+        },
+        "non_retryable": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true,
+          "description": "Everything else plus unknown exchange-specific classes."
+        }
+      }
+    },
+
     "RateLimits": {
       "type": "object",
       "description": "Rate-limit surface. `buckets` (Task 89) ships per-exchange bucket configuration; `per_endpoint_cost` (Task 73 / Task 90 layering) ships per-endpoint cost weights. Both fields land additively. Permissive (additionalProperties: true) so future tasks can populate without a schema break.",
@@ -1906,6 +2054,98 @@
           "items": {
             "$ref": "#/$defs/ThrowDispatchEntry"
           }
+        }
+      }
+    },
+    "ErrorDispatchEntry": {
+      "type": "object",
+      "description": "A single AST literal `throw new <ExceptionClass>(...)` site in handleErrors(). Records the exception class, the raw rendering of the conjoined `IfStatement.test` chain that gates the throw, and a coarse classifier of the innermost predicate (http_status_in / body_contains / identifier_check / other) plus extracted literal values when classification succeeds.",
+      "required": ["exception_class", "predicate_raw", "predicate_kind", "predicate_values"],
+      "additionalProperties": false,
+      "properties": {
+        "exception_class": {
+          "type": "string",
+          "description": "Identifier name from the NewExpression callee (e.g., 'DDoSProtection', 'InvalidOrder', 'AuthenticationError')."
+        },
+        "predicate_raw": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ],
+          "description": "Compact source rendering of the conjoined `IfStatement.test` chain that gates this throw. Null for unconditional throws (top-level body statements not nested under an `if`)."
+        },
+        "predicate_kind": {
+          "type": "string",
+          "enum": ["http_status_in", "body_contains", "identifier_check", "other"],
+          "description": "Coarse classifier of the innermost condition shape. 'http_status_in' covers `code <op> N` for `<op>` in `===`, `==`, `!==`, `!=`, `>=`, `>`, `<=`, `<`, plus `||`-disjunctions thereof. 'body_contains' covers `body.indexOf(<literal>) >= 0` and `body.indexOf(<literal>) > -1` (also accepted on `message` / `url` / `reason`), plus `||`-disjunctions thereof. 'identifier_check' covers bare-identifier truthy checks (`if (code) ...`) and `<id> === <literal>` / `<literal> === <id>` shapes. 'other' is the anti-rot fallback."
+        },
+        "predicate_values": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "array", "items": { "type": "string" } }
+          ],
+          "description": "Literal values pulled from the predicate when `predicate_kind` is 'http_status_in' or 'body_contains'. Null for 'identifier_check' and 'other' (consumers fall back to `predicate_raw`)."
+        }
+      }
+    },
+    "SignDispatchData": {
+      "type": "object",
+      "description": "Sign-method dispatch view: the top-level `if/else if/else` chain enumerated as ordered branch entries. `sections` is the sorted unique union of `api` literal values matched across all branches.",
+      "required": ["sections", "branches"],
+      "additionalProperties": false,
+      "properties": {
+        "sections": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Sorted, unique list of `api` literal values reached by analyzed branches. Subset of auth.authenticated_sections augmented with public branches that don't require credentials."
+        },
+        "branches": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SignDispatchBranch" },
+          "description": "Ordered list of branch entries (preserves the `if/else if` order — first match wins in CCXT's runtime). Includes a trailing `is_else: true` entry when sign() ends with an `else`."
+        }
+      }
+    },
+    "SignDispatchBranch": {
+      "type": "object",
+      "description": "A single top-level branch in sign(). The body's source span identifies the inline 'handler' (CCXT's per-section logic is inline, not delegated to other methods).",
+      "required": ["predicate_raw", "matches", "is_else", "source_span"],
+      "additionalProperties": false,
+      "properties": {
+        "predicate_raw": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ],
+          "description": "Compact source rendering of the `IfStatement.test`. Null when `is_else` is true (final `else` carries no test)."
+        },
+        "matches": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "description": "Map of identifier name (typically 'api' or 'path') to sorted unique list of string literal values matched via `<id> === '<literal>'` inside the predicate. Empty for shapes that don't fit the simple-equality form."
+        },
+        "is_else": {
+          "type": "boolean",
+          "description": "True iff this is the trailing `else` of the chain (no predicate)."
+        },
+        "source_span": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["start", "end"],
+              "additionalProperties": false,
+              "properties": {
+                "start": { "type": "integer" },
+                "end": { "type": "integer" }
+              }
+            }
+          ],
+          "description": "Byte-offset span of the branch body in the source TypeScript file. The 'handler identifier' in CCXT's inline shape — consumers can grep the source by these offsets for verification."
         }
       }
     },

@@ -2,13 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "exchange_v3.json",
   "title": "CCXT Exchange Extraction Output",
-  "description": "Per-exchange extraction output from ccxt_extract. Contains everything CCXT knows about a single exchange, organized into two layers: runtime values (QuickBEAM) and structural AST (OXC). Schema 3.1.0 (Task 73b) adds the runtime.request_headers field carrying per-exchange user-agent + default HTTP header overrides resolved from describe(). Schema 3.0.0 (Task 117, breaking) replaces runtime.markets with the compact runtime.symbols_index derivation and drops structure.parse_methods + structure.ws_methods (extractors retained; discovery files still written for internal Phase 12 / Phase 15 consumers). See SCHEMA.md migration notes.",
+  "description": "Per-exchange extraction output from ccxt_extract. Contains everything CCXT knows about a single exchange, organized into two layers: runtime values (QuickBEAM) and structural AST (OXC). Schema 3.2.0 (Task 73d) adds the additive structure.transaction_classification field — per-unified-endpoint `transactional` / `on_chain` boolean flags derived from CCXT's unified-method naming convention. Schema 3.1.0 (Task 73b) added the runtime.request_headers field carrying per-exchange user-agent + default HTTP header overrides resolved from describe(). Schema 3.0.0 (Task 117, breaking) replaces runtime.markets with the compact runtime.symbols_index derivation and drops structure.parse_methods + structure.ws_methods (extractors retained; discovery files still written for internal Phase 12 / Phase 15 consumers). See SCHEMA.md migration notes.",
   "type": "object",
   "required": ["schema_version", "extracted_at", "ccxt_version", "exchange", "runtime", "structure", "_provenance"],
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "3.1.0",
+      "const": "3.2.0",
       "description": "Schema version. Consumers should check this before parsing."
     },
     "extracted_at": {
@@ -339,7 +339,7 @@
     "StructureData": {
       "type": "object",
       "description": "Structural data extracted via OXC TypeScript AST parsing. Layer 2: what an exchange DOES (code structure, method bodies).",
-      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "sign_recipe", "request_shape", "handle_errors", "interface_signatures", "pagination", "overrides", "unified_endpoints", "request_defaults", "error_dispatch", "sign_dispatch", "parse_dispatch"],
+      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "sign_recipe", "request_shape", "handle_errors", "interface_signatures", "pagination", "overrides", "unified_endpoints", "transaction_classification", "request_defaults", "error_dispatch", "sign_dispatch", "parse_dispatch"],
       "additionalProperties": false,
       "properties": {
         "class_info": {
@@ -436,6 +436,16 @@
             }
           ],
           "description": "Map of unified method name -> list of interface method names called within that method body (e.g., 'fetchTicker' -> ['publicGetV5MarketTickers']). Multiple entries when the method branches by market type or API version. Alias/derived exchanges inherit parent mappings when they have no own unified endpoints. Null when no unified endpoint mappings were found (own or inherited)."
+        },
+        "transaction_classification": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": { "$ref": "#/$defs/TransactionClassificationEntry" }
+            }
+          ],
+          "description": "Map of unified method name -> per-endpoint write-side classification flags. Keys mirror `structure.unified_endpoints`. `transactional` is true when the endpoint mutates exchange-side state (everything that places, edits, or cancels orders, withdraws, transfers, sets leverage / margin mode, opens / closes positions, borrows / repays — i.e. NOT a `fetch*` read). `on_chain` is the strictly narrower flag for endpoints that initiate a blockchain transaction the exchange broadcasts on the user's behalf (the `withdraw*` family); internal exchange-to-exchange transfers stay off-chain. Every on-chain endpoint is transactional; the inverse is not true. Null when no unified endpoint mappings were available to classify (matches `unified_endpoints` null semantics). Introduced at schema 3.2.0 (Task 73d)."
         },
         "request_defaults": {
           "oneOf": [
@@ -1271,6 +1281,23 @@
             }
           ],
           "description": "Literal values compared against this field via === or !== operators, sorted by value. Each entry includes the operator for polarity detection. Null when the field has no status_sentinel role."
+        }
+      }
+    },
+
+    "TransactionClassificationEntry": {
+      "type": "object",
+      "description": "Per-unified-endpoint write-side classification flags. `transactional` is true when the endpoint mutates exchange-side state. `on_chain` is the strictly narrower flag for endpoints that initiate a blockchain transaction the exchange broadcasts on the user's behalf — it implies `transactional` but not the inverse. Both flags are derived from CCXT's unified-method naming convention (see `CcxtExtract.TransactionClassification`).",
+      "required": ["transactional", "on_chain"],
+      "additionalProperties": false,
+      "properties": {
+        "transactional": {
+          "type": "boolean",
+          "description": "True when the endpoint mutates exchange-side state (everything that places, edits, or cancels orders, withdraws, transfers, sets leverage / margin mode, opens / closes positions, borrows / repays). False for `fetch*` reads."
+        },
+        "on_chain": {
+          "type": "boolean",
+          "description": "True iff the endpoint initiates a blockchain transaction the exchange broadcasts on the user's behalf (the `withdraw*` family). Internal exchange-to-exchange transfers stay off-chain. Implies `transactional`."
         }
       }
     },

@@ -54,8 +54,9 @@ defmodule CcxtExtract.Schema do
   alias CcxtExtract.Provenance
   alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
+  alias CcxtExtract.TransactionClassification
 
-  @schema_version "3.1.0"
+  @schema_version "3.2.0"
   @schema_filename "exchange_v3.json"
 
   # v4 (gated, opt-in via --schema-target=4). DO NOT flip the v3 defaults
@@ -68,10 +69,10 @@ defmodule CcxtExtract.Schema do
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe symbols_index symbol_patterns url_templates testnet_urls request_headers)
-  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe request_shape handle_errors interface_signatures pagination overrides unified_endpoints request_defaults error_dispatch sign_dispatch parse_dispatch)
+  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe request_shape handle_errors interface_signatures pagination overrides unified_endpoints transaction_classification request_defaults error_dispatch sign_dispatch parse_dispatch)
 
   @required_top_keys_v4 ~w(schema_version extracted_at ccxt_version exchange endpoints auth errors rate_limits normalization markets testnet raw _provenance)
-  @required_endpoints_keys_v4 ~w(unified interfaces pagination request)
+  @required_endpoints_keys_v4 ~w(unified interfaces pagination request transaction_classification)
   @required_endpoints_request_keys_v4 ~w(defaults shape)
   @required_auth_keys_v4 ~w(sign_recipe sign_method authenticated_sections headers)
   @required_errors_keys_v4 ~w(handle_errors)
@@ -197,6 +198,7 @@ defmodule CcxtExtract.Schema do
       "exchange" => build_exchange_section(exchange_meta),
       "endpoints" => %{
         "unified" => structure_data["unified_endpoints"],
+        "transaction_classification" => TransactionClassification.derive(structure_data["unified_endpoints"]),
         "interfaces" => structure_data["interface_signatures"],
         "pagination" => structure_data["pagination"],
         "request" => %{
@@ -364,6 +366,7 @@ defmodule CcxtExtract.Schema do
       "pagination" => data["pagination"],
       "overrides" => data["overrides"],
       "unified_endpoints" => data["unified_endpoints"],
+      "transaction_classification" => TransactionClassification.derive(data["unified_endpoints"]),
       "request_defaults" => data["request_defaults"],
       "error_dispatch" => data["error_dispatch"],
       "sign_dispatch" => data["sign_dispatch"],

@@ -139,7 +139,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
         )
 
       assert explicit == implicit
-      assert explicit["schema_version"] == "3.1.0"
+      assert explicit["schema_version"] == "3.2.0"
       assert Map.has_key?(explicit, "runtime")
       assert Map.has_key?(explicit, "structure")
     end

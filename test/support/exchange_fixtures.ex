@@ -18,6 +18,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
   alias CcxtExtract.Provenance
   alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
+  alias CcxtExtract.TransactionClassification
 
   @doc """
   Returns a schema-conformant exchange map with top-level `"id" => id`
@@ -29,7 +30,9 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
 
     * `:describe` — value for `runtime.describe` (default: `%{}`)
     * `:unified_endpoints` — value for `structure.unified_endpoints`
-      (default: `%{}`)
+      (default: `%{}`). When provided, `structure.transaction_classification`
+      is auto-derived from the keys via `TransactionClassification.derive/1`
+      so the two stay in lockstep by construction.
     * `:request_defaults` — value for `structure.request_defaults`
       (default: `%{}`)
     * `:authenticated_sections` — list of section names (default: `[]`).
@@ -89,6 +92,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "pagination" => nil,
         "overrides" => nil,
         "unified_endpoints" => unified_endpoints,
+        "transaction_classification" => TransactionClassification.derive(unified_endpoints),
         "request_defaults" => request_defaults,
         "error_dispatch" => nil,
         "sign_dispatch" => nil,

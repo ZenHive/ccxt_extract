@@ -2,13 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "exchange_v3.json",
   "title": "CCXT Exchange Extraction Output",
-  "description": "Per-exchange extraction output from ccxt_extract. Contains everything CCXT knows about a single exchange, organized into two layers: runtime values (QuickBEAM) and structural AST (OXC). Schema 3.1.0 (Task 73b) adds the runtime.request_headers field carrying per-exchange user-agent + default HTTP header overrides resolved from describe(). Schema 3.0.0 (Task 117, breaking) replaces runtime.markets with the compact runtime.symbols_index derivation and drops structure.parse_methods + structure.ws_methods (extractors retained; discovery files still written for internal Phase 12 / Phase 15 consumers). See SCHEMA.md migration notes.",
+  "description": "Per-exchange extraction output from ccxt_extract. Contains everything CCXT knows about a single exchange, organized into two layers: runtime values (QuickBEAM) and structural AST (OXC). Schema 3.2.0 (Task 87) adds the structure.error_class_hierarchy field carrying CCXT's exception class inheritance tree (BaseError → ExchangeError → ... → AccountNotEnabled). Schema 3.1.0 (Task 73b) adds the runtime.request_headers field carrying per-exchange user-agent + default HTTP header overrides resolved from describe(). Schema 3.0.0 (Task 117, breaking) replaces runtime.markets with the compact runtime.symbols_index derivation and drops structure.parse_methods + structure.ws_methods (extractors retained; discovery files still written for internal Phase 12 / Phase 15 consumers). See SCHEMA.md migration notes.",
   "type": "object",
   "required": ["schema_version", "extracted_at", "ccxt_version", "exchange", "runtime", "structure", "_provenance"],
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "3.1.0",
+      "const": "3.2.0",
       "description": "Schema version. Consumers should check this before parsing."
     },
     "extracted_at": {
@@ -339,7 +339,7 @@
     "StructureData": {
       "type": "object",
       "description": "Structural data extracted via OXC TypeScript AST parsing. Layer 2: what an exchange DOES (code structure, method bodies).",
-      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "sign_recipe", "request_shape", "handle_errors", "interface_signatures", "pagination", "overrides", "unified_endpoints", "request_defaults", "error_dispatch", "sign_dispatch", "parse_dispatch"],
+      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "sign_recipe", "request_shape", "handle_errors", "error_class_hierarchy", "interface_signatures", "pagination", "overrides", "unified_endpoints", "request_defaults", "error_dispatch", "sign_dispatch", "parse_dispatch"],
       "additionalProperties": false,
       "properties": {
         "class_info": {
@@ -386,6 +386,13 @@
             { "$ref": "#/$defs/HandleErrorsData" }
           ],
           "description": "The handleErrors() method AST plus exception mappings. Null if the exchange has no handleErrors(), is an alias, or no usable handleErrors data was assembled; check pipeline integrity stats to distinguish source gaps from expected nulls."
+        },
+        "error_class_hierarchy": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/ErrorClassHierarchy" }
+          ],
+          "description": "CCXT exception class inheritance tree (corpus-global — same record on every per-exchange JSON). Sourced from priv/ccxt/ts/src/base/errorHierarchy.ts. Carries the literal nested-object tree plus pre-computed flat parent map and ancestor chains for O(1) consumer lookup. Null only when the discovery file is missing (pipeline integrity warning)."
         },
         "interface_signatures": {
           "oneOf": [
@@ -1085,6 +1092,43 @@
         "end": {
           "type": "integer",
           "description": "End byte offset in source file."
+        }
+      }
+    },
+
+    "ErrorClassHierarchyTree": {
+      "type": "object",
+      "description": "Recursive nested-object tree mirroring the CCXT exception class taxonomy. Each key is an exception class name; each value is the same shape, holding direct subclasses. Leaves are empty objects. JSV resolves the self-reference lazily — no expansion at validation time.",
+      "additionalProperties": { "$ref": "#/$defs/ErrorClassHierarchyTree" }
+    },
+
+    "ErrorClassHierarchy": {
+      "type": "object",
+      "description": "CCXT exception class inheritance tree extracted from priv/ccxt/ts/src/base/errorHierarchy.ts. Carries three projections of the same taxonomy: the literal nested-object tree (raw mirror), a flat parent map for O(1) parent lookup, and pre-computed ancestor chains for O(1) is-subclass checks. Same record on every per-exchange JSON.",
+      "required": ["tree", "flat_parents", "ancestors"],
+      "additionalProperties": false,
+      "properties": {
+        "tree": {
+          "$ref": "#/$defs/ErrorClassHierarchyTree",
+          "description": "Literal nested-object mirror of CCXT's errorHierarchy.ts. Keys are exception class names; values are sub-objects of subclasses."
+        },
+        "flat_parents": {
+          "type": "object",
+          "description": "Map from class name -> direct parent class name. Roots map to null. Every class in the tree appears as a key.",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "null" },
+              { "type": "string" }
+            ]
+          }
+        },
+        "ancestors": {
+          "type": "object",
+          "description": "Map from class name -> ordered ancestor chain (direct parent first, root last). Roots map to []. Pre-computed at extraction time so consumers don't walk flat_parents repeatedly.",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
         }
       }
     },

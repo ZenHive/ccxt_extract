@@ -213,9 +213,10 @@
     },
     "Errors": {
       "type": "object",
-      "description": "Consumer-shaped error-handling surface. Initial v4 carries handle_errors only; future tasks add status_map (Task 85), retry_classification (Task 86), class_hierarchy (Task 87), dispatch (Tasks 88a/b/c).",
+      "description": "Consumer-shaped error-handling surface. Carries handle_errors and the corpus-global class_hierarchy (Task 87). Future tasks add status_map (Task 85), retry_classification (Task 86), dispatch (Tasks 88a/b/c).",
       "required": [
-        "handle_errors"
+        "handle_errors",
+        "class_hierarchy"
       ],
       "additionalProperties": false,
       "properties": {
@@ -229,6 +230,17 @@
             }
           ],
           "description": "Was structure.handle_errors in v3."
+        },
+        "class_hierarchy": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/ErrorClassHierarchy"
+            }
+          ],
+          "description": "CCXT exception class inheritance tree (corpus-global — same record on every per-exchange JSON). Was structure.error_class_hierarchy in v3, peer to handle_errors here so consumers find taxonomy and dispatch under one group."
         }
       }
     },
@@ -1524,6 +1536,53 @@
         "end": {
           "type": "integer",
           "description": "End byte offset in source file."
+        }
+      }
+    },
+    "ErrorClassHierarchyTree": {
+      "type": "object",
+      "description": "Recursive nested-object tree mirroring the CCXT exception class taxonomy. Each key is an exception class name; each value is the same shape, holding direct subclasses. Leaves are empty objects. JSV resolves the self-reference lazily — no expansion at validation time.",
+      "additionalProperties": {
+        "$ref": "#/$defs/ErrorClassHierarchyTree"
+      }
+    },
+    "ErrorClassHierarchy": {
+      "type": "object",
+      "description": "CCXT exception class inheritance tree extracted from priv/ccxt/ts/src/base/errorHierarchy.ts. Carries three projections of the same taxonomy: the literal nested-object tree (raw mirror), a flat parent map for O(1) parent lookup, and pre-computed ancestor chains for O(1) is-subclass checks. Same record on every per-exchange JSON.",
+      "required": [
+        "tree",
+        "flat_parents",
+        "ancestors"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tree": {
+          "$ref": "#/$defs/ErrorClassHierarchyTree",
+          "description": "Literal nested-object mirror of CCXT's errorHierarchy.ts. Keys are exception class names; values are sub-objects of subclasses."
+        },
+        "flat_parents": {
+          "type": "object",
+          "description": "Map from class name -> direct parent class name. Roots map to null. Every class in the tree appears as a key.",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "ancestors": {
+          "type": "object",
+          "description": "Map from class name -> ordered ancestor chain (direct parent first, root last). Roots map to []. Pre-computed at extraction time so consumers don't walk flat_parents repeatedly.",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         }
       }
     },

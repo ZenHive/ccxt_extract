@@ -401,6 +401,7 @@ defmodule CcxtExtract.Pipeline do
       "authenticated_sections" => authenticated_sections,
       "describe_api" => describe_api,
       "handle_errors" => handle_errors,
+      "error_class_hierarchy" => data.error_class_hierarchy,
       "interface_signatures" => get_interface_signatures(id, data),
       "pagination" => get_pagination(id, data),
       "unified_endpoints" => get_unified_endpoints(id, data),

@@ -41,6 +41,7 @@ defmodule CcxtExtract.DiscoveryLoader do
     {describe, stats} = load_describe_files(dir, stats)
     {load_markets, stats} = load_markets_files(dir, stats)
     {classes, stats} = load_classes(dir, expected_ids, stats)
+    {error_class_hierarchy, stats} = load_error_class_hierarchy(dir, stats)
     {methods_rest, stats} = load_exchange_field(dir, "methods_rest.json", "methods", expected_ids, stats)
     {methods_ws, stats} = load_exchange_field(dir, "methods_ws.json", "methods", expected_ids, stats)
     {sign_methods, stats} = load_sign_methods(dir, expected_ids, stats)
@@ -60,6 +61,7 @@ defmodule CcxtExtract.DiscoveryLoader do
       describe: describe,
       load_markets: load_markets,
       classes: classes,
+      error_class_hierarchy: error_class_hierarchy,
       methods_rest: methods_rest,
       methods_ws: methods_ws,
       sign_methods: sign_methods,
@@ -220,6 +222,32 @@ defmodule CcxtExtract.DiscoveryLoader do
 
     if non_strings != [] do
       raise "Corrupt discovery artifact: #{manifest_path} contains non-string IDs: #{inspect(non_strings)}"
+    end
+  end
+
+  # Load the singleton error class hierarchy. Strips the envelope keys
+  # (extracted_at / tier_scope / class_count) and returns just the
+  # tree / flat_parents / ancestors record the pipeline injects into
+  # every per-exchange JSON. Returns nil when the file is missing —
+  # `Pipeline.build_exchange_data/3` then leaves
+  # `/structure/error_class_hierarchy` as nil for that run, matching
+  # the established two-state optionality contract.
+  defp load_error_class_hierarchy(dir, stats) do
+    path = Path.join(dir, "error_class_hierarchy.json")
+
+    case JsonIO.read_json(path) do
+      {:ok, data} when is_map(data) ->
+        record = Map.take(data, ["tree", "flat_parents", "ancestors"])
+        {record, stats}
+
+      {:ok, _malformed} ->
+        raise "Corrupt discovery artifact: #{path} is not a map"
+
+      {:error, {:missing_input, _}} ->
+        {nil, add_stat_entry(stats, :missing_files, "error_class_hierarchy.json")}
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Corrupt discovery artifact: #{detail}"
     end
   end
 

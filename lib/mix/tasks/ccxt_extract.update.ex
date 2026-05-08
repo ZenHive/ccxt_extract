@@ -336,7 +336,8 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     {"ccxt_extract.unified_endpoints", :scoped},
     {"ccxt_extract.request_defaults", :scoped},
     {"ccxt_extract.overrides", :scoped},
-    {"ccxt_extract.base_methods", :unscoped}
+    {"ccxt_extract.base_methods", :unscoped},
+    {"ccxt_extract.error_class_hierarchy", :unscoped}
   ]
 
   defp run_oxc_extractors(opts) do

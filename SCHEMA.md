@@ -50,22 +50,61 @@ end
 
 ---
 
-## Version 3.1.0 — Current
+## Version 3.2.0 — Current
 
-**Status:** Active (released 2026-05-07, Task 73b)
+**Status:** Active (released 2026-05-08, Task 87)
 
 **JSON Schema:** `exchange_v3.json` (included in every output directory)
 
-**Latest change:** Adds required `runtime.request_headers` — per-exchange
-`userAgent` and default `headers` from CCXT's resolved `describe()` runtime
-data, surfaced as an always-emit wrapper `{user_agent: string|null,
-default_headers: object<string, string>}`. Sourced via QuickBEAM constructor
-instantiation (where the `deepExtend(super.describe(), {...})` merge runs).
-`_provenance["/runtime/request_headers"] = "raw"`.
+**Latest change:** Adds required `structure.error_class_hierarchy` — CCXT's
+exception class taxonomy (`BaseError → ExchangeError → ... →
+AccountNotEnabled`) sourced from `priv/ccxt/ts/src/base/errorHierarchy.ts`
+via OXC. Three-shape record:
+
+  - `tree` — recursive map mirroring the source literal.
+  - `flat_parents` — `class_name → parent_name` (root → `null`). O(1) parent.
+  - `ancestors` — `class_name → [parent, ..., BaseError]`. O(1) ancestor chain.
+
+Corpus-global data — every per-exchange JSON carries the same record
+(matches `error_code_fields` / `throw_dispatches` colocation under
+`structure`). `_provenance["/structure/error_class_hierarchy"] =
+"derived"` — `flat_parents` and `ancestors` are pre-computed projections,
+not literally in the source.
+
+**Minor bump** because the key is now required in `Structure.required` —
+strict validators will reject 3.1.0 output lacking it; permissive readers
+that ignore unknown keys are unaffected. See the `ErrorClassHierarchy` and
+self-recursive `ErrorClassHierarchyTree` `$defs` in `exchange_v3.json` for
+the full schema.
+
+**Why this lands now:** error-handling consumers (retry classifiers,
+status-code mappers, "is this exception transient?" predicates) need the
+full ancestor chain of every CCXT exception class — not just the leaf
+class name. Extracting the tree once into a structured artifact lets every
+consumer answer "is `RateLimitExceeded` a descendant of `NetworkError`?"
+without reparsing CCXT source. Phase 13's `error_class_hierarchy`
+companion (`13-classify` bundle) sits alongside the existing
+`structure.handle_errors` (which pins which classes are raised by HTTP
+status / body content / error-code branches). Two new contract invariants
+gate the contract: `error_class_hierarchy_shape_valid` (intrinsic shape +
+single root + walk agreement, cycle-safe) and
+`error_classes_covered_by_hierarchy` (every class named in
+`handle_errors.exceptions` / `http_exceptions` exists in `flat_parents`).
+
+---
+
+## Version 3.1.0 — Superseded
+
+**Released 2026-05-07, Task 73b.** Adds required `runtime.request_headers` —
+per-exchange `userAgent` and default `headers` from CCXT's resolved
+`describe()` runtime data, surfaced as an always-emit wrapper `{user_agent:
+string|null, default_headers: object<string, string>}`. Sourced via
+QuickBEAM constructor instantiation (where the `deepExtend(super.describe(),
+{...})` merge runs). `_provenance["/runtime/request_headers"] = "raw"`.
 
 **Minor bump** because the key is now in `RuntimeData.required` — strict
 validators will reject 3.0.0 output lacking it; permissive readers that
-ignore unknown keys are unaffected. See the new `RequestHeaders` `$def` in
+ignore unknown keys are unaffected. See the `RequestHeaders` `$def` in
 `exchange_v3.json` for the full schema.
 
 **Coverage:** 8/107 non-alias exchanges override `userAgent` (`bitstamp`,
@@ -91,7 +130,7 @@ read without change aside from the new required-field shape.
 
 **JSON Schema:** `exchange_v4.json` (initially the same field set as v3.1.0 with the reorganized top-level shape; Phase 12/13/14 freeze-list tasks populate the new sections as they ship). Coexists with `exchange_v3.json` during the freeze.
 
-**Why a major bump (vs additive v3.x):** the v4 cut reorganizes top-level sections from producer-shaped (`runtime` / `structure`) to consumer-shaped (`endpoints` / `auth` / `errors` / `rate_limits` / `normalization` / `markets` / `testnet` / `raw`). Additive v3.x can grow new keys but cannot reorganize without breaking; one migration cost in exchange for a coherent stable contract. **No further v3.x bumps reach consumers between v3.1.0 and the v4 flip** — that's the atomicity guarantee.
+**Why a major bump (vs additive v3.x):** the v4 cut reorganizes top-level sections from producer-shaped (`runtime` / `structure`) to consumer-shaped (`endpoints` / `auth` / `errors` / `rate_limits` / `normalization` / `markets` / `testnet` / `raw`). Additive v3.x can grow new keys but cannot reorganize without breaking; one migration cost in exchange for a coherent stable contract. Additive v3.x bumps that surface new corpus-global derived fields (e.g., 3.2.0's `error_class_hierarchy`) ship as needed; the breaking change deferred to v4 is the top-level reshape, not the freeze of every minor.
 
 ### Top-level reshape
 
@@ -522,6 +561,7 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 | Version | Date | Changes |
 |---------|------|---------|
 | 4.0.0 | TBD (post-freeze) | **Breaking, gated.** Top-level reshape from producer-shaped (`runtime`/`structure`) to consumer-shaped sections (`endpoints`/`auth`/`errors`/`rate_limits`/`normalization`/`markets`/`testnet`/`raw`). Re-introduces the normalization surface dropped at 3.0.0 (compact `normalization.parse_methods_digest` + Phase 12 derived field maps — **NOT** raw AST bodies, preserving the 3.0.0 Hex-cap reduction). Emission opt-in via `--schema-target=4` until the v4 freeze list is empty AND Task 114 (extraction determinism audit) is green AND `ccxt_client` has its v4 migration ready. Consumer major-version pin bumps `3` → `4` atomically. See [Version 4.0.0 — In Progress (gated)](#version-400--in-progress-gated) for the full path-migration table and the v4 emit-gate mechanism. |
+| 3.2.0 | 2026-05-08 | Add required `structure.error_class_hierarchy` — CCXT's exception class taxonomy (`BaseError → ExchangeError → ... → AccountNotEnabled`) extracted from `priv/ccxt/ts/src/base/errorHierarchy.ts` via OXC. Three projections per record: `tree` (recursive map mirroring source literal), `flat_parents` (`class → parent`, root → `null`, O(1) parent lookup), `ancestors` (`class → [parent, ..., BaseError]`, O(1) ancestor chain). Corpus-global data — every per-exchange JSON carries the same record, matching `error_code_fields` / `throw_dispatches` colocation under `structure`. `_provenance["/structure/error_class_hierarchy"] = "derived"` (`flat_parents` and `ancestors` are pre-computed projections). Two new contract invariants: `error_class_hierarchy_shape_valid` (intrinsic shape + single root + walk agreement, cycle-safe) and `error_classes_covered_by_hierarchy` (every class in `handle_errors.exceptions` / `http_exceptions` exists in `flat_parents`). v4's `errors.class_hierarchy` slot populated alongside `errors.handle_errors`. **Minor bump** because the key is now in `Structure.required` — strict validators reject 3.1.0 output lacking it; permissive readers are unaffected. See [Version 3.2.0 — Current](#version-320--current). |
 | 3.1.0 | 2026-05-07 | Add required `runtime.request_headers` — always-emit `{user_agent: string\|null, default_headers: object<string, string>}` wrapper sourced from CCXT's resolved `describe()` runtime (per-exchange `userAgent` override + default `headers` map). Populated via QuickBEAM constructor instantiation in `CcxtExtract.RequestHeaders`; consumers replace any hardcoded UA / version-header tables with reads from this field. `_provenance["/runtime/request_headers"] = "raw"`. **Minor bump** because the key is now in `RuntimeData.required` — strict validators reject 3.0.0 output lacking it; permissive readers are unaffected. Two known blind spots (sign-time UA construction in `bigone.ts`, runtime `setSandboxMode()` header mutation in `okx.ts`) tracked as Task 73e. See [Version 3.1.0 — Current](#version-310--current). |
 | 3.0.0 | 2026-04-20 | **Breaking.** Replace `runtime.markets` with compact derived `runtime.symbols_index` (map of symbol → `{spot: bool, swap: bool}`); drop `structure.parse_methods` and `structure.ws_methods` from emitted output (extractors retained; discovery files still written to `priv/discoveries/` for internal Phase 12 / Phase 15 consumers). Rename JSON Schema file `exchange_v2.json` → `exchange_v3.json`. `priv/schema/exchange_v2.json` retained one release for diff reference. Provenance map drops three raw pointers and gains `/runtime/symbols_index` (derived). Consumer major-version pin bumps `2` → `3`. Clears the ccxt_client Hex 128 MB publish cap (binance pretty-JSON 56.2 MB → compact-JSON + pruned 25.6 MB → ~2 MB). See [Version 3.0.0 — Current](#version-300--current) for migration notes. |
 | 2.4.0 | 2026-04-19 | Add nullable-by-pattern `runtime.testnet_urls` and promote it into `RuntimeData.required` — structured testnet / sandbox URL catalog with `pattern` enum (`separate_host` / `sandbox_flag` / `none`), `{hostname}` pre-resolution, and independent `sandbox_flag_field` that tracks `options.sandboxMode` presence. Replaces consumer-side reach-into `runtime.describe.urls.test` (opaque passthrough). New `testnet_urls_shape_valid` contract invariant. `_provenance["/runtime/testnet_urls"] = "derived"`. **Minor bump** because the key is now in `RuntimeData.required` — strict validators reject 2.3.0 output lacking it; permissive readers are unaffected. See [Testnet URL Catalog (2.4.0+)](#testnet-url-catalog-240). |

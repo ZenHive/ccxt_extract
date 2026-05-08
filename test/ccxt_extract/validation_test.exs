@@ -114,6 +114,11 @@ defmodule CcxtExtract.ValidationTest do
         "error_code_fields" => [],
         "throw_dispatches" => []
       },
+      "error_class_hierarchy" => %{
+        "tree" => %{"BaseError" => %{"ExchangeError" => %{}}},
+        "flat_parents" => %{"BaseError" => nil, "ExchangeError" => "BaseError", "RateLimitExceeded" => "BaseError"},
+        "ancestors" => %{"BaseError" => [], "ExchangeError" => ["BaseError"], "RateLimitExceeded" => ["BaseError"]}
+      },
       "interface_signatures" => %{"publicGetTicker" => @sample_interface_sig},
       "pagination" => %{
         "fetchTrades" => [
@@ -139,6 +144,7 @@ defmodule CcxtExtract.ValidationTest do
       "sign_method" => nil,
       "authenticated_sections" => nil,
       "handle_errors" => nil,
+      "error_class_hierarchy" => nil,
       "interface_signatures" => nil,
       "pagination" => nil,
       "overrides" => nil,

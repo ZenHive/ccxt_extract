@@ -55,7 +55,7 @@ defmodule CcxtExtract.Schema do
   alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
 
-  @schema_version "3.1.0"
+  @schema_version "3.2.0"
   @schema_filename "exchange_v3.json"
 
   # v4 (gated, opt-in via --schema-target=4). DO NOT flip the v3 defaults
@@ -68,13 +68,13 @@ defmodule CcxtExtract.Schema do
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe symbols_index symbol_patterns url_templates testnet_urls request_headers)
-  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe request_shape handle_errors interface_signatures pagination overrides unified_endpoints request_defaults error_dispatch sign_dispatch parse_dispatch)
+  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe request_shape handle_errors error_class_hierarchy interface_signatures pagination overrides unified_endpoints request_defaults error_dispatch sign_dispatch parse_dispatch)
 
   @required_top_keys_v4 ~w(schema_version extracted_at ccxt_version exchange endpoints auth errors rate_limits normalization markets testnet raw _provenance)
   @required_endpoints_keys_v4 ~w(unified interfaces pagination request)
   @required_endpoints_request_keys_v4 ~w(defaults shape)
   @required_auth_keys_v4 ~w(sign_recipe sign_method authenticated_sections headers)
-  @required_errors_keys_v4 ~w(handle_errors)
+  @required_errors_keys_v4 ~w(handle_errors class_hierarchy)
   @required_markets_keys_v4 ~w(symbols_index patterns)
   @required_raw_keys_v4 ~w(describe url_templates class_info method_inventory overrides_meta)
 
@@ -211,7 +211,8 @@ defmodule CcxtExtract.Schema do
         "headers" => runtime_data["request_headers"] || CcxtExtract.RequestHeaders.empty_record()
       },
       "errors" => %{
-        "handle_errors" => structure_data["handle_errors"]
+        "handle_errors" => structure_data["handle_errors"],
+        "class_hierarchy" => structure_data["error_class_hierarchy"]
       },
       "rate_limits" => %{},
       "normalization" => %{},
@@ -360,6 +361,7 @@ defmodule CcxtExtract.Schema do
       "sign_recipe" => SignRecipe.Derive.derive(sign_method, auth_sections),
       "request_shape" => RequestShape.Derive.derive(sign_method, auth_sections, describe_api),
       "handle_errors" => data["handle_errors"],
+      "error_class_hierarchy" => data["error_class_hierarchy"],
       "interface_signatures" => data["interface_signatures"],
       "pagination" => data["pagination"],
       "overrides" => data["overrides"],

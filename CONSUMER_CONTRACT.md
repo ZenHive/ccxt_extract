@@ -80,7 +80,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 | Throw-dispatch entries (code field ↔ message field pairing) | ✅ | `structure.handle_errors.throw_dispatches` (Task 55) |
 | HTTP status → error class map per exchange | ⬜ | Phase 13 — Task 85 |
 | Retryable classification (rate-limit/network/server-busy/auth) | ⬜ | Phase 13 — Task 86 |
-| Error class hierarchy export (language-agnostic tree) | ⬜ | Phase 13 — Task 87 |
+| Error class hierarchy export (language-agnostic tree) | ✅ | `structure.error_class_hierarchy` (Task 87, schema 3.2.0). Three projections: `tree` (recursive), `flat_parents` (O(1) parent), `ancestors` (O(1) ancestor chain). |
 | Handler routing tables (method → error handler) | ⬜ | Phase 13 — Task 88a |
 | Handler routing tables (method → signing dispatch) | ⬜ | Phase 13 — Task 88b |
 | Handler routing tables (method → parse handler) | ⬜ | Phase 13 — Task 88c |

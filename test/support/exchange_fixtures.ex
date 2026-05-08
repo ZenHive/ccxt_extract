@@ -85,6 +85,11 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
           "error_code_fields" => [],
           "throw_dispatches" => []
         },
+        "error_class_hierarchy" => %{
+          "tree" => %{"BaseError" => %{}},
+          "flat_parents" => %{"BaseError" => nil},
+          "ancestors" => %{"BaseError" => []}
+        },
         "interface_signatures" => nil,
         "pagination" => nil,
         "overrides" => nil,

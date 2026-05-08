@@ -554,6 +554,221 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_error_class_hierarchy_shape_valid/2" do
+    defp exchange_with_hierarchy(id, hierarchy) do
+      %{
+        "exchange" => %{"id" => id},
+        "structure" => %{"error_class_hierarchy" => hierarchy}
+      }
+    end
+
+    defp valid_hierarchy do
+      %{
+        "tree" => %{"BaseError" => %{"ExchangeError" => %{"AuthenticationError" => %{}}}},
+        "flat_parents" => %{
+          "BaseError" => nil,
+          "ExchangeError" => "BaseError",
+          "AuthenticationError" => "ExchangeError"
+        },
+        "ancestors" => %{
+          "BaseError" => [],
+          "ExchangeError" => ["BaseError"],
+          "AuthenticationError" => ["ExchangeError", "BaseError"]
+        }
+      }
+    end
+
+    test "no findings on a valid hierarchy" do
+      exchange = exchange_with_hierarchy("good", valid_hierarchy())
+      assert ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "no findings when error_class_hierarchy is null (missing-data signal upstream)" do
+      exchange = exchange_with_hierarchy("nullex", nil)
+      assert ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "flags missing required keys" do
+      exchange = exchange_with_hierarchy("bad", %{"tree" => %{}})
+      assert [finding] = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+      assert finding.invariant == "error_class_hierarchy_shape_valid"
+      assert finding.message =~ "missing required keys"
+      assert finding.message =~ "flat_parents"
+      assert finding.message =~ "ancestors"
+    end
+
+    test "flags non-map tree" do
+      bad = %{valid_hierarchy() | "tree" => "not a map"}
+      exchange = exchange_with_hierarchy("bad", bad)
+      assert [finding] = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+      assert finding.message =~ "tree must be a map"
+    end
+
+    test "flags missing root (cycle / no class with nil parent)" do
+      cyclic = %{
+        "tree" => %{},
+        "flat_parents" => %{"A" => "B", "B" => "A"},
+        "ancestors" => %{"A" => ["B", "A"], "B" => ["A", "B"]}
+      }
+
+      exchange = exchange_with_hierarchy("bad", cyclic)
+      findings = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &String.contains?(&1.message, "no root class found"))
+    end
+
+    test "flags wrong root name" do
+      bad =
+        Map.merge(valid_hierarchy(), %{
+          "flat_parents" => %{"OtherRoot" => nil, "Child" => "OtherRoot"},
+          "ancestors" => %{"OtherRoot" => [], "Child" => ["OtherRoot"]}
+        })
+
+      exchange = exchange_with_hierarchy("bad", bad)
+      findings = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &String.contains?(&1.message, "expected \"BaseError\""))
+    end
+
+    test "flags multiple roots" do
+      bad =
+        Map.merge(valid_hierarchy(), %{
+          "flat_parents" => %{"BaseError" => nil, "OtherRoot" => nil, "Child" => "BaseError"},
+          "ancestors" => %{"BaseError" => [], "OtherRoot" => [], "Child" => ["BaseError"]}
+        })
+
+      exchange = exchange_with_hierarchy("bad", bad)
+      findings = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &String.contains?(&1.message, "expected exactly one root"))
+    end
+
+    test "flags ancestors that disagree with flat_parents walk" do
+      bad =
+        Map.put(valid_hierarchy(), "ancestors", %{
+          "BaseError" => [],
+          "ExchangeError" => ["BaseError"],
+          "AuthenticationError" => ["BaseError"]
+        })
+
+      exchange = exchange_with_hierarchy("bad", bad)
+      findings = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &String.contains?(&1.message, "disagrees with flat_parents walk"))
+    end
+
+    test "flags coverage gap (flat_parents has key absent from ancestors)" do
+      bad =
+        Map.put(valid_hierarchy(), "ancestors", %{"BaseError" => [], "ExchangeError" => ["BaseError"]})
+
+      exchange = exchange_with_hierarchy("bad", bad)
+      findings = ContractTest.check_error_class_hierarchy_shape_valid(exchange, @base_observed)
+
+      assert Enum.any?(findings, &String.contains?(&1.message, "missing from ancestors"))
+    end
+  end
+
+  describe "check_error_classes_covered_by_hierarchy/2" do
+    defp exchange_with_handle_errors_and_hierarchy(id, handle_errors, hierarchy) do
+      %{
+        "exchange" => %{"id" => id},
+        "structure" => %{
+          "handle_errors" => handle_errors,
+          "error_class_hierarchy" => hierarchy
+        }
+      }
+    end
+
+    test "no findings when every referenced class is in flat_parents" do
+      hierarchy = %{
+        "tree" => %{},
+        "flat_parents" => %{
+          "BaseError" => nil,
+          "ExchangeError" => "BaseError",
+          "RateLimitExceeded" => "BaseError"
+        },
+        "ancestors" => %{
+          "BaseError" => [],
+          "ExchangeError" => ["BaseError"],
+          "RateLimitExceeded" => ["BaseError"]
+        }
+      }
+
+      handle_errors = %{
+        "exceptions" => %{"exact" => %{"too_many" => "RateLimitExceeded"}},
+        "http_exceptions" => %{"429" => "RateLimitExceeded", "500" => "ExchangeError"}
+      }
+
+      exchange =
+        exchange_with_handle_errors_and_hierarchy("clean", handle_errors, hierarchy)
+
+      assert ContractTest.check_error_classes_covered_by_hierarchy(exchange, @base_observed) == []
+    end
+
+    test "flags class names referenced in exceptions but not in flat_parents" do
+      hierarchy = %{
+        "tree" => %{},
+        "flat_parents" => %{"BaseError" => nil},
+        "ancestors" => %{"BaseError" => []}
+      }
+
+      handle_errors = %{
+        "exceptions" => %{"broad" => %{"missing" => "GhostError"}},
+        "http_exceptions" => %{}
+      }
+
+      exchange = exchange_with_handle_errors_and_hierarchy("bad", handle_errors, hierarchy)
+
+      assert [finding] =
+               ContractTest.check_error_classes_covered_by_hierarchy(exchange, @base_observed)
+
+      assert finding.invariant == "error_classes_covered_by_hierarchy"
+      assert finding.message =~ "GhostError"
+      assert finding.path =~ "exceptions[\"broad\"]"
+    end
+
+    test "flags class names referenced in http_exceptions but not in flat_parents" do
+      hierarchy = %{
+        "tree" => %{},
+        "flat_parents" => %{"BaseError" => nil},
+        "ancestors" => %{"BaseError" => []}
+      }
+
+      handle_errors = %{
+        "exceptions" => nil,
+        "http_exceptions" => %{"418" => "TeapotError"}
+      }
+
+      exchange = exchange_with_handle_errors_and_hierarchy("bad", handle_errors, hierarchy)
+      findings = ContractTest.check_error_classes_covered_by_hierarchy(exchange, @base_observed)
+
+      assert Enum.any?(findings, fn f ->
+               f.path =~ "http_exceptions[\"418\"]" and f.message =~ "TeapotError"
+             end)
+    end
+
+    test "no findings when handle_errors is null" do
+      hierarchy = %{
+        "tree" => %{},
+        "flat_parents" => %{"BaseError" => nil},
+        "ancestors" => %{"BaseError" => []}
+      }
+
+      exchange = exchange_with_handle_errors_and_hierarchy("emptyex", nil, hierarchy)
+      assert ContractTest.check_error_classes_covered_by_hierarchy(exchange, @base_observed) == []
+    end
+
+    test "no findings when error_class_hierarchy is null (shape invariant catches that)" do
+      handle_errors = %{
+        "exceptions" => %{"exact" => %{"x" => "Anything"}},
+        "http_exceptions" => %{}
+      }
+
+      exchange = exchange_with_handle_errors_and_hierarchy("nohier", handle_errors, nil)
+      assert ContractTest.check_error_classes_covered_by_hierarchy(exchange, @base_observed) == []
+    end
+  end
+
   describe "run_all/1" do
     setup do
       tmp = Path.join(System.tmp_dir!(), "ccxt_contract_test_#{System.unique_integer([:positive])}")

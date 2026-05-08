@@ -244,6 +244,11 @@ defmodule CcxtExtract.PipelineTest do
         }
       },
       overrides: %{},
+      error_class_hierarchy: %{
+        "tree" => %{"BaseError" => %{"ExchangeError" => %{}}},
+        "flat_parents" => %{"BaseError" => nil, "ExchangeError" => "BaseError"},
+        "ancestors" => %{"BaseError" => [], "ExchangeError" => ["BaseError"]}
+      },
       missing_files: []
     }
   end
@@ -294,6 +299,7 @@ defmodule CcxtExtract.PipelineTest do
       url_templates: %{},
       request_headers: %{},
       overrides: %{},
+      error_class_hierarchy: nil,
       missing_files: []
     }
   end
@@ -1136,6 +1142,12 @@ defmodule CcxtExtract.PipelineTest do
     write_json(Path.join(dir, "exchanges.json"), %{"exchanges" => all_exchanges})
 
     write_json(Path.join(dir, "class_hierarchy.json"), %{"classes" => []})
+
+    write_json(Path.join(dir, "error_class_hierarchy.json"), %{
+      "tree" => %{"BaseError" => %{}},
+      "flat_parents" => %{"BaseError" => nil},
+      "ancestors" => %{"BaseError" => []}
+    })
 
     empty_global = %{"exchanges" => []}
     write_json(Path.join(dir, "methods_rest.json"), empty_global)

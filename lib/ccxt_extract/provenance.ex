@@ -87,6 +87,7 @@ defmodule CcxtExtract.Provenance do
     /structure/request_shape
     /structure/handle_errors/error_code_fields
     /structure/handle_errors/throw_dispatches
+    /structure/error_class_hierarchy
     /structure/unified_endpoints
     /structure/request_defaults
     /structure/error_dispatch
@@ -130,6 +131,7 @@ defmodule CcxtExtract.Provenance do
     /endpoints/request/shape
     /errors/handle_errors/error_code_fields
     /errors/handle_errors/throw_dispatches
+    /errors/class_hierarchy
     /endpoints/unified
     /endpoints/request/defaults
   )

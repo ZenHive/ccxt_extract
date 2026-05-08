@@ -293,7 +293,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 |------|--------|-------|
 | Task 85 | ⬜ | 🎁 **13-classify** · HTTP status → error class map per exchange [D:3/B:7/U:7 → Eff:2.33] 🚀 |
 | Task 86 | ⬜ | 🎁 **13-classify** · Retryable classification (rate-limit/network/server-busy/auth) [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 87 | ⬜ | 🎁 **13-classify** · Error class hierarchy export [D:3/B:7/U:8 → Eff:2.5] 🎯 |
+| Task 87 | ✅ | 🎁 **13-classify** · Error class hierarchy export [D:3/B:7/U:8 → Eff:2.5] 🎯 |
 | Task 88a `[P]` `[CSR]` | ✅ | 🎁 **13-dispatch** · Handler routing — error dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #6 (INE-56) |
 | Task 88b `[P]` `[CSR]` | ✅ | 🎁 **13-dispatch** · Handler routing — signing dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #6 (INE-56) |
 | Task 88c `[P]` `[CSR]` | ✅ | 🎁 **13-dispatch** · Handler routing — parse dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #6 (INE-56) |

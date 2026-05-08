@@ -175,8 +175,8 @@ for internal Phase 12 / Phase 15 derivation consumers.
 - **`structure.ws_methods` is gone.** Same — `priv/discoveries/ws_methods.json`
   retained internally, not emitted in per-exchange output.
 - **JSON Schema file renamed** `exchange_v2.json` → `exchange_v3.json`.
-  `priv/schema/exchange_v2.json` is retained for one release so maintainers
-  can diff; the next schema release will delete it.
+  The retained-for-diff `priv/schema/exchange_v2.json` was deleted
+  2026-05-07 (Task 118) once the one-release grace window expired.
 - **Consumer major-version pin** moves from `2` → `3`. Update your version
   check (see Migration Notes below).
 - **Provenance map** loses `/runtime/markets`, `/structure/parse_methods`,
@@ -266,7 +266,7 @@ line and are preserved here for historical reference.
 
 **Status:** Superseded by 3.0.0 (released 2026-04-20, Task 117)
 
-**JSON Schema:** `exchange_v2.json` (retained one release after rename)
+**JSON Schema:** `exchange_v2.json` (deleted 2026-05-07 — Task 118; see [Version History](#version-history))
 
 **Latest change:** Adds `runtime.testnet_urls` — a required, structured
 testnet / sandbox URL catalog derived from `describe.urls.test` and
@@ -469,7 +469,7 @@ All keys are always materialized (never absent). Consumers check for `null`, nev
 
 ### Key Type Definitions
 
-For complete type definitions (all fields, nesting, and constraints), see `exchange_v2.json` — the JSON Schema shipped in every output directory. The summary below covers the most-referenced types:
+For complete type definitions (all fields, nesting, and constraints), see `exchange_v3.json` — the JSON Schema shipped in every output directory. The summary below covers the most-referenced types:
 
 - **MethodAST** — `{ async, params, return_type, statements, body }` where `body` is a complete ESTree BlockStatement
 - **InterfaceSignature** — `{ name, params, return_type }` (no body — these are type declarations, not implementations)
@@ -611,7 +611,7 @@ Task 60 ships the contract, the `CcxtExtract.OverrideRegistry` loader, the JSON 
 
 `structure.sign_recipe` is a declarative per-section signing recipe shipped at schema 2.2.0. A consumer reading the recipe for an authenticated section can construct an authenticated HTTP request without walking the raw `sign()` AST.
 
-**JSON Schema:** `priv/schema/sign_recipe_v1.json` — standalone, reusable for external consumers. Kept in lockstep with `exchange_v2.json#/$defs/SignRecipeRecord` (parity checked by `test/ccxt_extract/sign_recipe_test.exs`).
+**JSON Schema:** `priv/schema/sign_recipe_v1.json` — standalone, reusable for external consumers. Kept in lockstep with `exchange_v3.json#/$defs/SignRecipeRecord` (parity checked by `test/ccxt_extract/sign_recipe_test.exs`).
 
 ### Shape
 
@@ -697,7 +697,7 @@ Consumers that encounter a null derivation field must either read the raw `struc
 ### Contract invariants
 
 - `sign_recipe_keys_match_auth_sections` — per-exchange. Fails on any key in `authenticated_sections` without a recipe entry, or any recipe entry not in `authenticated_sections`.
-- `sign_recipe_shape_valid` — per-exchange. Belt-and-suspenders over each recipe record: required keys present, `patch_count` is a non-negative integer, `unresolved_reason` is null or in the closed vocabulary. Deeper shape/enum validation lives in `Validation.validate_schema/2` against `exchange_v2.json#/$defs/SignRecipeRecord`.
+- `sign_recipe_shape_valid` — per-exchange. Belt-and-suspenders over each recipe record: required keys present, `patch_count` is a non-negative integer, `unresolved_reason` is null or in the closed vocabulary. Deeper shape/enum validation lives in `Validation.validate_schema/2` against `exchange_v3.json#/$defs/SignRecipeRecord`.
 - `sign_recipe_honesty_valid` — per-exchange. Enforces the biconditional: `unresolved_reason == null` iff every one of the six derivation fields is non-null. Fails loudly if a record carries `unresolved_reason: null` with any null derivation field (left→right violation — upstream Derive bug), or carries a non-null tag with all six fields populated (right→left violation — stale tag that should have been auto-flipped). Shipped Task 69, 2026-04-24.
 
 ### Populate order
@@ -735,7 +735,7 @@ replaces reaching into the opaque `runtime.describe.urls.test` /
 }
 ```
 
-See `$defs/TestnetUrls` in `priv/schema/exchange_v2.json` for the
+See `$defs/TestnetUrls` in `priv/schema/exchange_v3.json` for the
 canonical definition.
 
 ### Pattern classification

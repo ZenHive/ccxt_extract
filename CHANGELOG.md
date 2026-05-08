@@ -6,6 +6,13 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 118 — Delete `priv/schema/exchange_v2.json` after grace window (PR #3, INE-57)
+
+- **Shipped 2026-05-08** via PR #3 (Cursor-delegated, squash-merged). Closes 🎁 **spec-size · cleanup**.
+- **Removed** `priv/schema/exchange_v2.json` (1152 lines). The one-release grace window kept alongside `exchange_v3.json` since Task 117 (2026-04-20) has expired.
+- **SCHEMA.md historical callouts updated** — the Version 3.0.0 section, Version 2.4.0 superseded callout, and Version History 3.0.0 row note "deleted 2026-05-07 (Task 118)" instead of the prior "retained for one release" wording. Current-doc references (Key Type Definitions, sign_recipe lockstep note, contract invariants, TestnetUrls `$defs`) already point at `exchange_v3.json` — no further edits needed.
+- **No code path affected.** `Schema.schema_filename/0` (Task 108) centralizes the reference at `exchange_v3.json`; the deleted file was a diff-reference artifact only, never copied into output directories at v3.
+
 ### Tasks 70 + 71 — request shape: verb + path template + body encoding (PR #2, INE-55)
 
 - **Shipped 2026-05-08** via PR #2 (Cursor-delegated, squash-merged commit `c66fde3`). Closes the first two slots of 🎁 **11-shape** (Tasks 72/73/73d still ⬜).

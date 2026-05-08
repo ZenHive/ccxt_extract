@@ -36,6 +36,9 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     * `--pretty` — emit per-exchange JSON with indentation (~2× size; default
       compact). Forwarded to the pipeline stage. Manifests, fixtures, and
       reports remain pretty-printed regardless of this flag.
+    * `--schema-target N` — forwarded to the pipeline + validate stages.
+      `3` (default) emits the v3 published shape; `4` emits the gated
+      v4 reshape (Task 130).
 
   ## Stages
 
@@ -75,7 +78,8 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     all: :boolean,
     exchange: :keep,
     force: :boolean,
-    pretty: :boolean
+    pretty: :boolean,
+    schema_target: :integer
   ]
 
   @aliases [v: :ccxt_version]
@@ -189,11 +193,21 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     args = if opts[:strict], do: ["--strict" | args], else: args
     args = if opts[:force], do: ["--force" | args], else: args
     args = if opts[:pretty], do: ["--pretty" | args], else: args
+    args = schema_target_args(opts) ++ args
     args ++ scope_args(opts)
   end
 
   defp build_validate_args(opts) do
-    if opts[:strict], do: ["--strict"], else: []
+    base = if opts[:strict], do: ["--strict"], else: []
+    schema_target_args(opts) ++ base
+  end
+
+  defp schema_target_args(opts) do
+    case opts[:schema_target] do
+      nil -> []
+      n when n in [3, 4] -> ["--schema-target", Integer.to_string(n)]
+      other -> Mix.raise("Invalid --schema-target #{inspect(other)}; expected 3 or 4")
+    end
   end
 
   # `--strict` is omitted by design: contract_test prints findings and keeps

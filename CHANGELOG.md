@@ -6,6 +6,16 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 129 — v4 normalization block carrier (PR #10 + #15, INE-61)
+
+- **Shipped 2026-05-08.** Phase 12 prerequisite. Scaffolds the v4 `normalization` block under `--schema-target=4` only — v3 emission stays byte-identical (verified MD5 on binance/deribit/okx). The carrier is the load-bearing prerequisite for Phase 12 sub-bundles (Tasks 74–83); ccxt_client's `Task v4-adopt` does not unblock on this PR alone — it picks up the populated `field_maps` once Phase 12 closes.
+- **`CcxtExtract.Normalization`** — new module (`lib/ccxt_extract/normalization.ex`). `build/2` projects each per-exchange `priv/discoveries/parse_methods.json` entry into a compact, AST-free digest (`{params, return_type, async, statement_count}`) and scaffolds `field_maps` + `response_envelopes` keyed by parser type (`ticker`/`trade`/`ohlcv`/`order`/`position`/`balance`/`market`/`transaction`/`deposit_address`). **No AST body** — re-emitting full ESTree bodies would regress the 91.6% Hex-cap reduction Task 117 shipped (binance v4 spec is only ~5 KB larger than v3).
+- **Pipeline wiring** — `Pipeline.build_exchange_data/3` calls `Normalization.build/2` only on the v4 path; `Schema.build_exchange_v4/4` now reads `:normalization` from opts and emits the block (the previous empty placeholder `%{}` is gone).
+- **Schema** — `priv/schema/exchange_v4.json` gains `Normalization`, `NormalizationDigestRecord`, `NormalizationStubRecord`, `NormalizationStubValue` `$defs`. Strict on top-level keys; permissive on stub values (`oneOf [null, object]`) so Phase 12 sub-bundles can populate without a schema break. PR #15 tightened `_unresolved_reason` to a closed enum `["not_yet_derived"]`.
+- **Provenance** — three new derived pointers in v4: `/normalization/parse_methods_digest`, `/normalization/field_maps`, `/normalization/response_envelopes`.
+- **Two new contract invariants** — `normalization_shape_valid` (top-level + per-record shape gate, mirrors `testnet_urls_shape_valid`; skipped on v3-shaped output) and `parse_methods_digest_covers_inventory` (every method in the per-exchange `parse_methods.json` entry surfaces in the emitted digest, modulo override). Both 0 findings on tier1+tier2.
+- **PR #15 hardening** — 7 actionable bot-review findings addressed before this CHANGELOG entry: `digest_inventory_findings/3` guards non-map digests; `stub_value_findings/3` validates `_unresolved_reason`; `digest_findings/2` and `stub_record_findings/3` no longer silently pass on explicit `nil` keys; `load_parse_methods_inventory/1` distinguishes `:missing_input` from `:invalid_json`; six private helpers gained `@spec` per the every-function-gets-a-spec mandate; `Schema.validate_v4/1` descends into `/normalization`.
+
 ### Task 89 — Rate-limit bucket config (axes / refill / size) (PR #11, INE-65)
 
 - **Shipped 2026-05-08.** Phase 14 first slot lands. Per-exchange rate-limit bucket configuration is now spec-readable from the resolved CCXT runtime — `rate_limits.buckets` (v4) / `structure.rate_limit_buckets` (v3). Sibling of Task 73 (per-endpoint cost): `cost × rateLimit_ms / refill_per_sec` is the throttle equation a consumer needs; this task ships the bucket-config side.

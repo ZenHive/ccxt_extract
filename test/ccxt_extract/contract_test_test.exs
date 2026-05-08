@@ -1,5 +1,13 @@
 defmodule CcxtExtract.ContractTestTest do
-  use ExUnit.Case, async: true
+  # async: false because `check_paths_rw_split/1` and `run_all/1` call
+  # `Reach.Project.from_glob/1`, which delegates to `Task.async_stream` with
+  # Elixir's hardcoded 5s default timeout (Reach 2.2 doesn't thread a
+  # `:timeout` option through `parse_files`/`build_module_sdgs`). Under the
+  # async test pool's CPU contention, even small fixture globs trip that 5s
+  # ceiling — see Task 131 (originally hypothesized as suite-order pollution
+  # but actually pool-contention-vs-timeout). Until upstream Reach exposes
+  # a timeout knob, serializing this file's 45 tests costs ~2s vs flaky CI.
+  use ExUnit.Case, async: false
 
   import CcxtExtract.Test.ExchangeFixtures, only: [schema_conformant: 1, schema_conformant: 2]
 

@@ -22,11 +22,23 @@ defmodule Mix.Tasks.CcxtExtract.SetupTest do
 
   setup do
     prior_priv_dir = Application.get_env(:ccxt_extract, :priv_dir_override)
+    prior_priv_write = Application.get_env(:ccxt_extract, :priv_write_override)
     prior_repo_url = Application.get_env(:ccxt_extract, :ccxt_repo_url)
     prior_env = System.get_env(@env_var)
+    prior_shell = Mix.shell()
+
+    # `Mix.shell/0` is VM-global. Other test files (update_test, contract_test_task_test,
+    # task_helpers' with_captured_shell) swap it to Mix.Shell.Process for message
+    # collection — when those leak under specific suite orderings, this file's
+    # `capture_io` returns "" because Mix.Shell.Process routes via messages, not
+    # :stdio. Pin to Mix.Shell.IO defensively. (Task 131.)
+    Mix.shell(Mix.Shell.IO)
+    Application.delete_env(:ccxt_extract, :priv_write_override)
 
     on_exit(fn ->
+      Mix.shell(prior_shell)
       restore_app_env(:priv_dir_override, prior_priv_dir)
+      restore_app_env(:priv_write_override, prior_priv_write)
       restore_app_env(:ccxt_repo_url, prior_repo_url)
 
       case prior_env do

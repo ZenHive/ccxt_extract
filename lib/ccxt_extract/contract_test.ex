@@ -30,6 +30,7 @@ defmodule CcxtExtract.ContractTest do
   """
 
   alias CcxtExtract.JsonIO
+  alias CcxtExtract.Normalization
   alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.TestnetUrls
@@ -61,7 +62,9 @@ defmodule CcxtExtract.ContractTest do
     {"request_shape_honesty_valid", :check_request_shape_honesty_valid},
     {"testnet_urls_shape_valid", :check_testnet_urls_shape_valid},
     {"error_class_hierarchy_shape_valid", :check_error_class_hierarchy_shape_valid},
-    {"error_classes_covered_by_hierarchy", :check_error_classes_covered_by_hierarchy}
+    {"error_classes_covered_by_hierarchy", :check_error_classes_covered_by_hierarchy},
+    {"normalization_shape_valid", :check_normalization_shape_valid},
+    {"parse_methods_digest_covers_inventory", :check_parse_methods_digest_covers_inventory}
   ]
 
   # Corpus-level invariants run once per run_all/1 (not per-exchange). Used
@@ -154,7 +157,13 @@ defmodule CcxtExtract.ContractTest do
     output_dir = opts[:output_dir] || CcxtExtract.Paths.out("output")
     baseline_roots = opts[:baseline_roots] || load_baseline_roots(opts)
     exchanges = load_exchanges(output_dir, opts[:exchanges])
-    baseline = %{error_code_fields_roots: baseline_roots}
+    parse_methods_inventory = opts[:parse_methods_inventory] || load_parse_methods_inventory(opts)
+
+    baseline = %{
+      error_code_fields_roots: baseline_roots,
+      parse_methods_inventory: parse_methods_inventory
+    }
+
     tier_scope = Keyword.get(opts, :tier_scope, "all")
 
     per_exchange_findings = Enum.flat_map(exchanges, &run_invariants(&1, baseline))
@@ -1235,6 +1244,215 @@ defmodule CcxtExtract.ContractTest do
   end
 
   @doc """
+  Validate the `normalization` block scaffold (Task 129):
+
+    * `parse_methods_digest`, `field_maps`, `response_envelopes` are all
+      present and shaped as maps.
+    * Every digest record carries the four required keys
+      (`params`/`return_type`/`async`/`statement_count`) with the
+      expected types.
+    * `field_maps` and `response_envelopes` carry one entry per parser
+      type plus `_unresolved_reason` (and only those keys), with values
+      either `null` (Task 129 scaffold) or a map (Phase 12 populated).
+
+  Skipped on v3-shaped output (no `normalization` top-level key) — the
+  invariant only fires under `--schema-target=4`.
+  """
+  @spec check_normalization_shape_valid(map(), map()) :: [finding()]
+  def check_normalization_shape_valid(exchange, _observed) do
+    case Map.fetch(exchange, "normalization") do
+      :error -> []
+      {:ok, record} -> normalization_record_findings(exchange_id(exchange), record)
+    end
+  end
+
+  defp normalization_record_findings(id, record) when is_map(record) do
+    missing = Normalization.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- Normalization.required_keys()
+
+    missing_findings =
+      Enum.map(missing, fn key -> normalization_finding(id, "normalization", "missing required key #{inspect(key)}") end)
+
+    extra_findings =
+      Enum.map(extra, fn key -> normalization_finding(id, "normalization", "unexpected key #{inspect(key)}") end)
+
+    digest_findings =
+      digest_findings(id, Map.get(record, "parse_methods_digest"))
+
+    field_maps_findings =
+      stub_record_findings(id, "normalization.field_maps", Map.get(record, "field_maps"))
+
+    response_envelopes_findings =
+      stub_record_findings(id, "normalization.response_envelopes", Map.get(record, "response_envelopes"))
+
+    missing_findings ++
+      extra_findings ++
+      digest_findings ++
+      field_maps_findings ++
+      response_envelopes_findings
+  end
+
+  defp normalization_record_findings(id, _record) do
+    [normalization_finding(id, "normalization", "normalization must be a map")]
+  end
+
+  defp digest_findings(_id, nil), do: []
+
+  defp digest_findings(id, digest) when is_map(digest) do
+    digest
+    |> Enum.sort_by(fn {name, _} -> name end)
+    |> Enum.flat_map(fn {name, record} -> digest_record_findings(id, name, record) end)
+  end
+
+  defp digest_findings(id, _other) do
+    [normalization_finding(id, "normalization.parse_methods_digest", "must be a map")]
+  end
+
+  defp digest_record_findings(id, name, record) when is_map(record) do
+    path = "normalization.parse_methods_digest.#{name}"
+    missing = Normalization.digest_record_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- Normalization.digest_record_keys()
+
+    List.flatten([
+      Enum.map(missing, fn key -> normalization_finding(id, path, "missing required key #{inspect(key)}") end),
+      Enum.map(extra, fn key -> normalization_finding(id, path, "unexpected key #{inspect(key)}") end),
+      digest_field_findings(id, path, record)
+    ])
+  end
+
+  defp digest_record_findings(id, name, _record) do
+    [normalization_finding(id, "normalization.parse_methods_digest.#{name}", "digest record must be a map")]
+  end
+
+  defp digest_field_findings(id, path, record) do
+    Enum.reject(
+      [
+        digest_params_finding(id, path, Map.get(record, "params")),
+        digest_return_type_finding(id, path, Map.get(record, "return_type")),
+        digest_async_finding(id, path, Map.get(record, "async")),
+        digest_statement_count_finding(id, path, Map.get(record, "statement_count"))
+      ],
+      &is_nil/1
+    )
+  end
+
+  defp digest_params_finding(_id, _path, list) when is_list(list), do: nil
+
+  defp digest_params_finding(id, path, other) do
+    normalization_finding(id, path, "params must be a list, got #{inspect(other)}")
+  end
+
+  defp digest_return_type_finding(_id, _path, nil), do: nil
+  defp digest_return_type_finding(_id, _path, v) when is_binary(v), do: nil
+
+  defp digest_return_type_finding(id, path, other) do
+    normalization_finding(id, path, "return_type must be a string or null, got #{inspect(other)}")
+  end
+
+  defp digest_async_finding(_id, _path, v) when is_boolean(v), do: nil
+
+  defp digest_async_finding(id, path, other) do
+    normalization_finding(id, path, "async must be a boolean, got #{inspect(other)}")
+  end
+
+  defp digest_statement_count_finding(_id, _path, n) when is_integer(n) and n >= 0, do: nil
+
+  defp digest_statement_count_finding(id, path, other) do
+    normalization_finding(id, path, "statement_count must be a non-negative integer, got #{inspect(other)}")
+  end
+
+  defp stub_record_findings(_id, _path, nil), do: []
+
+  defp stub_record_findings(id, path, record) when is_map(record) do
+    missing = Normalization.stub_record_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- Normalization.stub_record_keys()
+
+    List.flatten([
+      Enum.map(missing, fn key -> normalization_finding(id, path, "missing required key #{inspect(key)}") end),
+      Enum.map(extra, fn key -> normalization_finding(id, path, "unexpected key #{inspect(key)}") end),
+      stub_value_findings(id, path, record)
+    ])
+  end
+
+  defp stub_record_findings(id, path, _other) do
+    [normalization_finding(id, path, "must be a map")]
+  end
+
+  defp stub_value_findings(id, path, record) do
+    Enum.flat_map(Normalization.parser_types(), fn key ->
+      case Map.fetch(record, key) do
+        {:ok, nil} ->
+          []
+
+        {:ok, v} when is_map(v) ->
+          []
+
+        {:ok, other} ->
+          [normalization_finding(id, "#{path}.#{key}", "must be null or a map, got #{inspect(other)}")]
+
+        :error ->
+          []
+      end
+    end)
+  end
+
+  defp normalization_finding(id, path, message) do
+    %{
+      exchange: id,
+      invariant: "normalization_shape_valid",
+      path: path,
+      message: message
+    }
+  end
+
+  @doc """
+  Flag drift between `priv/discoveries/parse_methods.json` per-exchange
+  inventory and the emitted `normalization.parse_methods_digest`.
+  Every method named in the discovery entry must surface in the digest;
+  otherwise the compact projection is lossy and consumers reading the
+  digest miss methods that the inventory says exist.
+
+  Skipped on v3-shaped output (no `normalization` top-level key). Also
+  skipped when the inventory loader produced no entry for the exchange
+  (e.g. alias exchange that inherits its parent's parse methods, or a
+  scoped run that didn't extract this exchange).
+  """
+  @spec check_parse_methods_digest_covers_inventory(map(), map()) :: [finding()]
+  def check_parse_methods_digest_covers_inventory(exchange, observed) do
+    id = exchange_id(exchange)
+
+    if Map.has_key?(exchange, "normalization") do
+      digest = get_in(exchange, ["normalization", "parse_methods_digest"]) || %{}
+      inventory = Map.get(observed[:parse_methods_inventory] || %{}, id)
+
+      digest_inventory_findings(id, digest, inventory)
+    else
+      []
+    end
+  end
+
+  defp digest_inventory_findings(_id, _digest, nil), do: []
+
+  defp digest_inventory_findings(id, digest, inventory) when is_list(inventory) do
+    digest_keys = digest |> Map.keys() |> MapSet.new()
+
+    inventory
+    |> Enum.reject(&MapSet.member?(digest_keys, &1))
+    |> Enum.sort()
+    |> Enum.map(fn name ->
+      %{
+        exchange: id,
+        invariant: "parse_methods_digest_covers_inventory",
+        path: "normalization.parse_methods_digest.#{name}",
+        message:
+          "method #{inspect(name)} is in priv/discoveries/parse_methods.json#id=#{inspect(id)} but missing from the emitted digest"
+      }
+    end)
+  end
+
+  defp digest_inventory_findings(_id, _digest, _other), do: []
+
+  @doc """
   Flag `error_code_fields` entries whose root (first of `object_path`, or
   `object`) is not in the committed baseline set.
   """
@@ -1558,6 +1776,32 @@ defmodule CcxtExtract.ContractTest do
     # which dialyzer can't track opaquely from `any()` input.
     allowed = Map.new(scope, &{&1, true})
     Enum.filter(paths, fn path -> Map.has_key?(allowed, Path.basename(path, ".json")) end)
+  end
+
+  # Load `priv/discoveries/parse_methods.json` and project to
+  # `%{exchange_id => [method_name, ...]}`. Returns `%{}` when the
+  # discovery file is absent so v3-only test runs (which never need the
+  # inventory) don't fail. Callers can override the path via
+  # `:parse_methods_inventory_path` or pass an inline map via
+  # `:parse_methods_inventory` (see `run_all/1`).
+  defp load_parse_methods_inventory(opts) do
+    path =
+      opts[:parse_methods_inventory_path] ||
+        CcxtExtract.Paths.priv("discoveries/parse_methods.json")
+
+    case JsonIO.read_json(path) do
+      {:ok, %{"exchanges" => entries}} when is_list(entries) ->
+        Map.new(entries, fn entry ->
+          methods = Map.get(entry, "parse_methods") || %{}
+          {entry["id"], Map.keys(methods)}
+        end)
+
+      {:ok, _malformed} ->
+        %{}
+
+      {:error, _reason} ->
+        %{}
+    end
   end
 
   defp load_baseline_roots(opts) do

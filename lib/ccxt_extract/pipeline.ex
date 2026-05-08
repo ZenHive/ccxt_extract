@@ -19,6 +19,7 @@ defmodule CcxtExtract.Pipeline do
   """
 
   alias CcxtExtract.DiscoveryLoader
+  alias CcxtExtract.Normalization
   alias CcxtExtract.OverrideRegistry
   alias CcxtExtract.Paths
   alias CcxtExtract.Provenance
@@ -413,8 +414,17 @@ defmodule CcxtExtract.Pipeline do
     }
 
     case Keyword.get(opts, :schema_target, 3) do
-      3 -> Schema.build_exchange(meta, runtime_data, structure_data, opts)
-      4 -> Schema.build_exchange_v4(meta, runtime_data, structure_data, opts)
+      3 ->
+        Schema.build_exchange(meta, runtime_data, structure_data, opts)
+
+      4 ->
+        # v4-only: Task 129 normalization carrier. v3 emission stays
+        # byte-identical — Normalization.build/2 is never reached on
+        # the v3 path, preserving the schema 3.0.0 (Task 117) Hex-cap
+        # win.
+        normalization = Normalization.build(Map.get(data.parse_methods, id))
+        v4_opts = Keyword.put(opts, :normalization, normalization)
+        Schema.build_exchange_v4(meta, runtime_data, structure_data, v4_opts)
     end
   end
 

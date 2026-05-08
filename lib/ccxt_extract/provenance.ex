@@ -89,6 +89,9 @@ defmodule CcxtExtract.Provenance do
     /structure/handle_errors/throw_dispatches
     /structure/unified_endpoints
     /structure/request_defaults
+    /structure/error_dispatch
+    /structure/sign_dispatch
+    /structure/parse_dispatch
   )
 
   # v4 pointer paths — same content as v3 under reorganized top-level

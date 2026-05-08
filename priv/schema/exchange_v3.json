@@ -339,7 +339,7 @@
     "StructureData": {
       "type": "object",
       "description": "Structural data extracted via OXC TypeScript AST parsing. Layer 2: what an exchange DOES (code structure, method bodies).",
-      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "sign_recipe", "request_shape", "handle_errors", "interface_signatures", "pagination", "overrides", "unified_endpoints", "request_defaults"],
+      "required": ["class_info", "methods", "sign_method", "authenticated_sections", "sign_recipe", "request_shape", "handle_errors", "interface_signatures", "pagination", "overrides", "unified_endpoints", "request_defaults", "error_dispatch", "sign_dispatch", "parse_dispatch"],
       "additionalProperties": false,
       "properties": {
         "class_info": {
@@ -443,6 +443,132 @@
             { "$ref": "#/$defs/RequestDefaults" }
           ],
           "description": "Map of method name -> per-key default request body entries extracted from literal ObjectExpressions that flow into this.<httpVerb>() calls. Per the Honesty Rule: resolvable primitives emit kind='literal' with value set; non-literal expressions emit kind='unresolved' with a closed-vocabulary reason tag (the value is null). Methods with no HTTP call, pure delegation, empty literal body, or divergent multiple-call-site bodies are silently absent. Null when no methods produced extractable defaults."
+        },
+        "error_dispatch": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/$defs/ErrorDispatchEntry" }
+            }
+          ],
+          "description": "Derived from handleErrors() AST: ordered list of literal `throw new <ExceptionClass>(...)` sites and the `IfStatement.test` chain that gates each one. Complements `handle_errors.exceptions` / `handle_errors.http_exceptions` (static describe maps) and `handle_errors.throw_dispatches` (helper-call dispatches) by surfacing the AST-derived literal throws those static maps don't name. Null when handleErrors() is absent or has no literal throw sites; empty list when handleErrors() exists but no literal throws were found."
+        },
+        "sign_dispatch": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/SignDispatchData" }
+          ],
+          "description": "Derived from sign() AST: the top-level `if/else if/else` chain enumerated as ordered branch entries. Each branch records its predicate (raw text + normalized api/path literal matches) and the source span of its body — the inline 'handler identifier' in CCXT's pattern. Complements `authenticated_sections` (which sections require auth) and `sign_recipe` (per-section signing recipe) by surfacing branch order and combined predicates. Null when sign() is absent."
+        },
+        "parse_dispatch": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": { "type": "string" },
+                "uniqueItems": true
+              }
+            }
+          ],
+          "description": "Derived from full class body AST: per-method routing table mapping caller method name -> sorted unique list of `this.parse<X>(...)` helper names invoked from that method's body. Complements `unified_endpoints` (which interface methods a unified method calls) by surfacing the response-handling step. Methods that call no parse helper are omitted. Null for alias exchanges whose own class body wasn't extracted; empty map when the class body has zero parse-call sites."
+        }
+      }
+    },
+
+    "ErrorDispatchEntry": {
+      "type": "object",
+      "description": "A single AST literal `throw new <ExceptionClass>(...)` site in handleErrors(). Records the exception class, the raw rendering of the conjoined `IfStatement.test` chain that gates the throw, and a coarse classifier of the innermost predicate (http_status_in / body_contains / identifier_check / other) plus extracted literal values when classification succeeds.",
+      "required": ["exception_class", "predicate_raw", "predicate_kind", "predicate_values"],
+      "additionalProperties": false,
+      "properties": {
+        "exception_class": {
+          "type": "string",
+          "description": "Identifier name from the NewExpression callee (e.g., 'DDoSProtection', 'InvalidOrder', 'AuthenticationError')."
+        },
+        "predicate_raw": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ],
+          "description": "Compact source rendering of the conjoined `IfStatement.test` chain that gates this throw. Null for unconditional throws (top-level body statements not nested under an `if`)."
+        },
+        "predicate_kind": {
+          "type": "string",
+          "enum": ["http_status_in", "body_contains", "identifier_check", "other"],
+          "description": "Coarse classifier of the innermost condition shape. 'http_status_in' covers `code === N` and `||`-chains thereof. 'body_contains' covers `body.indexOf(<literal>) >= 0` and `||`-chains thereof. 'identifier_check' covers other `<id> === <literal>` shapes. 'other' is the anti-rot fallback."
+        },
+        "predicate_values": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "array", "items": { "type": "string" } }
+          ],
+          "description": "Literal values pulled from the predicate when `predicate_kind` is 'http_status_in' or 'body_contains'. Null for 'identifier_check' and 'other' (consumers fall back to `predicate_raw`)."
+        }
+      }
+    },
+
+    "SignDispatchData": {
+      "type": "object",
+      "description": "Sign-method dispatch view: the top-level `if/else if/else` chain enumerated as ordered branch entries. `sections` is the sorted unique union of `api` literal values matched across all branches.",
+      "required": ["sections", "branches"],
+      "additionalProperties": false,
+      "properties": {
+        "sections": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Sorted, unique list of `api` literal values reached by analyzed branches. Subset of structure.authenticated_sections augmented with public branches that don't require credentials."
+        },
+        "branches": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SignDispatchBranch" },
+          "description": "Ordered list of branch entries (preserves the `if/else if` order — first match wins in CCXT's runtime). Includes a trailing `is_else: true` entry when sign() ends with an `else`."
+        }
+      }
+    },
+
+    "SignDispatchBranch": {
+      "type": "object",
+      "description": "A single top-level branch in sign(). The body's source span identifies the inline 'handler' (CCXT's per-section logic is inline, not delegated to other methods).",
+      "required": ["predicate_raw", "matches", "is_else", "source_span"],
+      "additionalProperties": false,
+      "properties": {
+        "predicate_raw": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ],
+          "description": "Compact source rendering of the `IfStatement.test`. Null when `is_else` is true (final `else` carries no test)."
+        },
+        "matches": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+          },
+          "description": "Map of identifier name (typically 'api' or 'path') to sorted unique list of string literal values matched via `<id> === '<literal>'` inside the predicate. Empty for shapes that don't fit the simple-equality form."
+        },
+        "is_else": {
+          "type": "boolean",
+          "description": "True iff this is the trailing `else` of the chain (no predicate)."
+        },
+        "source_span": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["start", "end"],
+              "additionalProperties": false,
+              "properties": {
+                "start": { "type": "integer" },
+                "end": { "type": "integer" }
+              }
+            }
+          ],
+          "description": "Byte-offset span of the branch body in the source TypeScript file. The 'handler identifier' in CCXT's inline shape — consumers can grep the source by these offsets for verification."
         }
       }
     },

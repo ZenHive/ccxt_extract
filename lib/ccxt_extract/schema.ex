@@ -68,7 +68,7 @@ defmodule CcxtExtract.Schema do
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
   @required_runtime_keys ~w(describe symbols_index symbol_patterns url_templates testnet_urls request_headers)
-  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe request_shape handle_errors interface_signatures pagination overrides unified_endpoints request_defaults)
+  @required_structure_keys ~w(class_info methods sign_method authenticated_sections sign_recipe request_shape handle_errors interface_signatures pagination overrides unified_endpoints request_defaults error_dispatch sign_dispatch parse_dispatch)
 
   @required_top_keys_v4 ~w(schema_version extracted_at ccxt_version exchange endpoints auth errors rate_limits normalization markets testnet raw _provenance)
   @required_endpoints_keys_v4 ~w(unified interfaces pagination request)
@@ -362,7 +362,10 @@ defmodule CcxtExtract.Schema do
       "pagination" => data["pagination"],
       "overrides" => data["overrides"],
       "unified_endpoints" => data["unified_endpoints"],
-      "request_defaults" => data["request_defaults"]
+      "request_defaults" => data["request_defaults"],
+      "error_dispatch" => data["error_dispatch"],
+      "sign_dispatch" => data["sign_dispatch"],
+      "parse_dispatch" => data["parse_dispatch"]
     }
   end
 

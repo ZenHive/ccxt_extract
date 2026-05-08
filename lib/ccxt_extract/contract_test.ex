@@ -1494,9 +1494,14 @@ defmodule CcxtExtract.ContractTest do
       assigns it (catches drift between the classifier and the emitter).
 
   Both fields are nullable per schema — null values short-circuit (no
-  finding). `error_class_hierarchy` shape is enforced by JSON Schema
-  alone — its content is the constant `ErrorHierarchy.hierarchy/0` map
-  and any drift surfaces as a JSV failure, not here.
+  finding). `error_class_hierarchy` content is NOT validated here —
+  JSON Schema only enforces the outer shape (`{string => string}`) via
+  `additionalProperties`, not equality with the canonical
+  `ErrorHierarchy.hierarchy/0` map. Content equality is guaranteed by
+  construction at emission time (Schema stamps the constant directly);
+  a drift would only surface if the emitter mutates the map, which
+  this invariant does not catch. Adding an explicit content check is
+  tracked as a follow-up.
   """
   @spec check_handle_errors_retryable_shape_valid(map(), map()) :: [finding()]
   def check_handle_errors_retryable_shape_valid(exchange, _observed) do

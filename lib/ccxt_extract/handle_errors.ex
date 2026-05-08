@@ -157,19 +157,28 @@ defmodule CcxtExtract.HandleErrors do
 
   @spec http_exceptions_entries(term()) :: [%{String.t() => String.t()}]
   defp http_exceptions_entries(http_exceptions) when is_map(http_exceptions) do
-    Enum.flat_map(http_exceptions, fn
-      {status, class} when is_binary(class) ->
-        case normalize_class_name(class) do
-          nil -> []
-          normalized -> [%{"status" => to_string(status), "class" => normalized, "source" => "http_exceptions"}]
-        end
-
-      _ ->
-        []
-    end)
+    Enum.flat_map(http_exceptions, &http_exception_entry/1)
   end
 
   defp http_exceptions_entries(_), do: []
+
+  # Mirror `dispatch_status_entry/1`'s numeric filter — `httpExceptions`
+  # keys are HTTP status codes in practice, but a malformed describe()
+  # could ship a non-numeric key. Skip those so `error_status_map`
+  # honors its `^[0-9]+$` schema constraint without runtime failures.
+  @spec http_exception_entry({term(), term()}) :: [%{String.t() => String.t()}]
+  defp http_exception_entry({status, class}) when is_binary(class) do
+    status_str = to_string(status)
+
+    with true <- numeric_string?(status_str),
+         normalized when not is_nil(normalized) <- normalize_class_name(class) do
+      [%{"status" => status_str, "class" => normalized, "source" => "http_exceptions"}]
+    else
+      _ -> []
+    end
+  end
+
+  defp http_exception_entry(_), do: []
 
   # QuickBEAM serializes JS class references in describe() maps as the
   # sentinel string `"__function:ClassName"` (the value is a function
@@ -201,6 +210,7 @@ defmodule CcxtExtract.HandleErrors do
 
   defp predicate_status_entries(_), do: []
 
+  @spec dispatch_status_entry(term()) :: [%{String.t() => String.t()}]
   defp dispatch_status_entry(%{
          "exception_class" => class,
          "predicate_kind" => "http_status_in",
@@ -302,22 +312,31 @@ defmodule CcxtExtract.HandleErrors do
 
   defp from_http_exceptions(_), do: []
 
+  # `exceptions` shape varies across exchanges:
+  #
+  #   * Standard 2-level: `%{"exact" => %{<code> => <class>}, "broad" => %{...}}`
+  #   * Market-type-keyed 3-level: `%{"linear" => %{"exact" => %{...}}, "spot" => ...}`
+  #     (binance USDM/COINM, bybit linear/inverse, okx variants)
+  #   * Some exchanges go deeper still.
+  #
+  # Walk the value tree and collect every string leaf — non-string values
+  # are skipped, sub-maps are walked through their own values. Non-binary
+  # leaves (numbers, booleans, nil) are honest-empty.
   @spec from_exceptions(term()) :: [String.t()]
-  defp from_exceptions(map) when is_map(map) do
-    Enum.flat_map(map, fn
-      {_key, inner} when is_map(inner) ->
-        inner
-        |> Map.values()
-        |> Enum.filter(&is_binary/1)
-        |> Enum.flat_map(&normalized_class_list/1)
-
-      _ ->
-        []
-    end)
-  end
-
+  defp from_exceptions(map) when is_map(map), do: collect_class_strings(map)
   defp from_exceptions(_), do: []
 
+  @spec collect_class_strings(term()) :: [String.t()]
+  defp collect_class_strings(map) when is_map(map) do
+    map
+    |> Map.values()
+    |> Enum.flat_map(&collect_class_strings/1)
+  end
+
+  defp collect_class_strings(value) when is_binary(value), do: normalized_class_list(value)
+  defp collect_class_strings(_), do: []
+
+  @spec normalized_class_list(term()) :: [String.t()]
   defp normalized_class_list(value) do
     case normalize_class_name(value) do
       nil -> []

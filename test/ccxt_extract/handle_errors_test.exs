@@ -431,6 +431,89 @@ defmodule CcxtExtract.HandleErrorsTest do
 
       assert result["rate_limit"] == ["DDoSProtection", "RateLimitExceeded"]
     end
+
+    test "recurses into market-type-nested exceptions (binance / bybit / okx variants)" do
+      # Three-level shape used by binance USDM, bybit linear/inverse, and okx variants:
+      # %{"<market-type>" => %{"exact" | "broad" => %{<code> => <class>}}}
+      # The flat 2-level walk would miss every class here.
+      handle_errors = %{
+        "method" => nil,
+        "http_exceptions" => nil,
+        "exceptions" => %{
+          "linear" => %{
+            "exact" => %{"110001" => "InvalidOrder"},
+            "broad" => %{"timeout" => "RequestTimeout"}
+          },
+          "spot" => %{
+            "exact" => %{"AUTH-1001" => "AuthenticationError"}
+          }
+        }
+      }
+
+      result = HandleErrors.retryable_buckets(handle_errors)
+
+      assert "InvalidOrder" in result["non_retryable"]
+      assert "RequestTimeout" in result["network"]
+      assert "AuthenticationError" in result["auth"]
+    end
+
+    test "recurses through arbitrarily-deep nested maps" do
+      handle_errors = %{
+        "method" => nil,
+        "http_exceptions" => nil,
+        "exceptions" => %{
+          "a" => %{"b" => %{"c" => %{"d" => "DDoSProtection"}}}
+        }
+      }
+
+      result = HandleErrors.retryable_buckets(handle_errors)
+
+      assert "DDoSProtection" in result["rate_limit"]
+    end
+
+    test "non-string leaves are skipped (numbers, booleans, nil)" do
+      handle_errors = %{
+        "method" => nil,
+        "http_exceptions" => nil,
+        "exceptions" => %{
+          "exact" => %{
+            "code1" => "InvalidOrder",
+            "code2" => 42,
+            "code3" => true,
+            "code4" => nil
+          }
+        }
+      }
+
+      result = HandleErrors.retryable_buckets(handle_errors)
+
+      assert "InvalidOrder" in result["non_retryable"]
+      # No surprise classes from non-string leaves
+      total_classes = result |> Map.values() |> List.flatten() |> length()
+      assert total_classes == 1
+    end
+  end
+
+  describe "http_status_map/1 — non-numeric httpExceptions keys" do
+    test "filters out non-numeric httpExceptions keys (schema constraint ^[0-9]+$)" do
+      # If describe().httpExceptions ships a non-numeric key, it must NOT
+      # leak into error_status_map (would violate the v3/v4 schema's
+      # ^[0-9]+$ propertyNames constraint).
+      handle_errors = %{
+        "method" => nil,
+        "http_exceptions" => %{
+          "429" => "RateLimitExceeded",
+          "API0005" => "ExchangeError",
+          "non-numeric" => "BadRequest"
+        }
+      }
+
+      result = HandleErrors.http_status_map(handle_errors)
+
+      assert Map.has_key?(result, "429")
+      refute Map.has_key?(result, "API0005")
+      refute Map.has_key?(result, "non-numeric")
+    end
   end
 
   describe "Mix.Tasks.CcxtExtract.HandleErrors.run/1 CLI validation" do

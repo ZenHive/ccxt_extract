@@ -3,7 +3,7 @@ defmodule CcxtExtract.Test.ScopeThresholdsTest do
 
   alias CcxtExtract.Test.ScopeThresholds
 
-  doctest CcxtExtract.Test.ScopeThresholds
+  doctest ScopeThresholds
 
   describe "full_universe?/1" do
     test "true when tier_scope == \"all\"" do

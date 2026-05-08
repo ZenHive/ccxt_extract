@@ -6,6 +6,20 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 13b — Cached integration tests migrate to envelope dispatch (PR #5, INE-58)
+
+- **Shipped 2026-05-08** via PR #5 (Cursor-delegated, squash-merged with admin override). Closes 🎁 **scope-hygiene** for the test-migration half of Task 13. Bookkeeping commit on `development` bundles four reviewer-applied revisions (see "Bundled revisions" below) per the `linear-workflow.md` § "Bundled Code-Revisions in Bookkeeping Commit" variant.
+- **9 cached integration tests migrated** — `describe`, `handle_errors`, `sign_methods`, `ws_methods`, `overrides`, `parse_methods`, `coverage_report`, plus the two analysis-style integration tests (`method_analysis_integration_test.exs`, `public_exchanges_integration_test.exs`). Each now branches on the `tier_scope` envelope (or, for analyses whose in-memory result lacks it, on `corpus_full_universe?/0` reading `priv/discoveries/describe/_manifest.json`).
+- **`CcxtExtract.Test.ScopeThresholds` collapses to three helpers** — `full_universe?/1` (envelope predicate), `corpus_full_universe?/0` (reads the canonical scope anchor), and `proportional/2` (scope-independent ratio helper). The observed-count `min_count/3` and `min_total/4` ladders are gone. New `test/support/scope_thresholds_test.exs` covers `full_universe?/1` and `proportional/2`.
+- **`AggregateWriter` stamps `tier_scope` last** in the envelope build so neither `:extra` nor `stats_fn` output can shadow the canonical scope value. Audit confirmed every aggregate under `priv/discoveries/` (including `method_analysis.json` and `public_exchanges.json`) carries an accurate stamp; the original Task 13b description's claim that those two stamp `"all"` regardless of scope was already obsolete after Task 13a.
+- **Bundled revisions** (applied in this commit, not in PR #5):
+  - `test/support/scope_thresholds_test.exs:6` — `doctest CcxtExtract.Test.ScopeThresholds` → `doctest ScopeThresholds` (Styler alias enforcement; CI's `mix format --check-formatted` step caught it, blocking merge).
+  - `test/integration/cached/coverage_report_cached_test.exs:99` — replaced tautological `assert per_layer["describe"]["present"] >= proportional(scoped_n, 0.9)` (where `scoped_n` IS that value) with an explicit `assert scoped_n > 0` floor so the cross-layer proportional assertions can't be trivialized by an empty corpus. Copilot finding.
+  - `test/integration/public_exchanges_integration_test.exs:80` — replaced the redundant scoped-branch `>= 0` (already implied by `is_integer/1` upstream) with a real cross-scope bound `fully_public_count <= exchange_count`, retaining the explicit full-universe `>= 1` floor. Copilot finding.
+  - `test/integration/public_exchanges_integration_test.exs:33` — `aster` expected credential pattern corrected from `["privateKey"]` to `["apiKey", "secret"]` to match current `priv/ccxt/ts/src/aster.ts` (`requiredCredentials: { apiKey: true, secret: true }`). The PR's value reflected stale CCXT data on Cursor's VM at the regeneration moment.
+- **Known gap (deferred):** `corpus_full_universe?/0` lacks a dedicated unit test — adding one requires either parameterizing the anchor path or making the test module `async: false` to override `:priv_dir_override`. The function is exercised transitively by every cached integration test, so a regression would surface in CI immediately. Track if test-isolation needs grow.
+- **Cross-repo:** none — internal test-hygiene improvement.
+
 ### Task 115 — Self-healing `mix ccxt_extract.setup` auto-clones `priv/ccxt` (PR #4, INE-59)
 
 - **Shipped 2026-05-08** via PR #4 (Cursor-delegated, squash-merged commit `56bec2a`). Closes Phase 11.5 / Task 115.

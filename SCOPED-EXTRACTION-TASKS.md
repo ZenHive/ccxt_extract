@@ -518,9 +518,9 @@ through opts (`method_analysis.json`, `public_exchanges.json`). Their
 apparent leak is stale committed fixtures, not code drift. Fresh runs
 already produce accurate stamps.
 
-### Task 13b: Test migration — envelope dispatch in cached tests ⬜
+### Task 13b: Test migration — envelope dispatch in cached tests ✅
 
-**Status:** Not started — depends on Task 13a.
+**Status:** Complete — shipped 2026-05-08 via PR #5 (Cursor-delegated, INE-58). See [CHANGELOG.md](CHANGELOG.md).
 **Score:** [D:2/B:3/U:3 → Eff:1.5] 🚀
 
 Followup to the scope-refactor (Tasks 1–12) and the post-refactor
@@ -551,15 +551,13 @@ the shared helper becomes thinner or unnecessary.
   `test/support/scope_thresholds.ex`.
 
 **Success criteria:**
-- [ ] Every aggregate `.json` under `priv/discoveries/` has an accurate
+- [x] Every aggregate `.json` under `priv/discoveries/` has an accurate
       `tier_scope` field matching the run that produced it.
-- [ ] Cached tests use envelope dispatch; scope thresholds helper
-      shrinks to just `proportional/2` (or is removed entirely).
-- [ ] Grep for hardcoded `"tier_scope" => "all"` in `lib/` returns no
-      live hits.
-
-**Grep-verify `# TODO(scope-envelope):` markers** in the test tree to
-find all dispatch sites to migrate.
+- [x] Cached tests use envelope dispatch; scope thresholds helper
+      retains only `full_universe?/1`, `corpus_full_universe?/0`, and
+      the scope-independent `proportional/2`.
+- [x] `aggregate_writer.ex` stamps `tier_scope` last so neither `:extra`
+      nor `stats_fn` output can shadow it.
 
 ---
 

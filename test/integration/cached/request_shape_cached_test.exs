@@ -11,7 +11,6 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
 
   alias CcxtExtract.Paths
   alias CcxtExtract.RequestShape
-  alias CcxtExtract.Test.ScopeThresholds
 
   @moduletag :integration
 
@@ -136,10 +135,9 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
       assert r["content_type"] == "application/json"
       assert r["unresolved_reason"] == nil
       assert is_list(r["endpoints"])
-      # okx.private has hundreds of endpoints in describe.api; assert
-      # at least a credible floor without pinning the exact count.
-      assert length(r["endpoints"]) >=
-               ScopeThresholds.min_count(length(r["endpoints"]), 200)
+      # okx.private has hundreds of endpoints in describe.api — credible
+      # per-exchange floor, scope-independent (okx is tier 1, always present).
+      assert length(r["endpoints"]) >= 200
     end
 
     test "gate.private — fully resolved JSON body (nested describe.api walk)" do
@@ -151,9 +149,8 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
       assert r["content_type"] == "application/json"
       assert r["unresolved_reason"] == nil
       assert is_list(r["endpoints"])
-
-      assert length(r["endpoints"]) >=
-               ScopeThresholds.min_count(length(r["endpoints"]), 100)
+      # gate.private is tier 2, always present; per-exchange floor.
+      assert length(r["endpoints"]) >= 100
     end
 
     test "kucoin.private — fully resolved JSON body" do

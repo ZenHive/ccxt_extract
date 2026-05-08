@@ -96,7 +96,9 @@ defmodule CcxtExtract.Integration.Cached.CoverageReportCachedTest do
       else
         scoped_n = per_layer["describe"]["present"]
 
-        assert per_layer["describe"]["present"] >= proportional(scoped_n, 0.9)
+        assert scoped_n > 0,
+               "Scoped corpus has no describe entries — proportional floors below would be trivially true"
+
         assert per_layer["class_hierarchy"]["present"] >= proportional(scoped_n, 0.75)
         assert per_layer["methods_rest"]["present"] >= proportional(scoped_n, 0.75)
         assert per_layer["sign_method"]["present"] >= proportional(scoped_n, 0.7)

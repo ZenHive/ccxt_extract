@@ -30,7 +30,7 @@ defmodule CcxtExtract.PublicExchangesIntegrationTest do
     "htx" => ["apiKey", "secret"],
     "bitmex" => ["apiKey", "secret"],
     "hyperliquid" => ["privateKey", "walletAddress"],
-    "aster" => ["privateKey"],
+    "aster" => ["apiKey", "secret"],
     "lighter" => ["privateKey"]
   }
 
@@ -72,12 +72,16 @@ defmodule CcxtExtract.PublicExchangesIntegrationTest do
     test "at least one fully public exchange exists", %{analysis: analysis} do
       # Full-universe corpora always include a handful of fully-public
       # exchanges. Scoped corpora may not — `tier1+tier2+dex` happens to
-      # exclude all known fully-public IDs. Dispatch on the canonical
-      # envelope rather than asserting a fabricated floor.
+      # exclude all known fully-public IDs. Cross-scope bound: count
+      # cannot exceed total. Full-universe gets the explicit floor.
+      fully_public = analysis["summary"]["fully_public_count"]
+
+      assert fully_public <= analysis["exchange_count"],
+             "fully_public_count #{fully_public} cannot exceed exchange_count #{analysis["exchange_count"]}"
+
       if corpus_full_universe?() do
-        assert analysis["summary"]["fully_public_count"] >= 1
-      else
-        assert analysis["summary"]["fully_public_count"] >= 0
+        assert fully_public >= 1,
+               "Full-universe corpus expected at least one fully-public exchange"
       end
     end
 

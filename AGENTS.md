@@ -684,7 +684,7 @@ For batches of 2+ open cloud-agent PRs, § "Merge-Train Mode (`flow-review`)" ap
 
 ### Cloud Agent Environments
 
-For agent envs (hex.pm, mix tasks, Tidewave, external HTTP availability per agent), see `cloud-agent-environments.md`. Eligibility recap: `[CX]` is code-mutation suspended; `[CSR]` covers hex.pm verification, mix-task validation, third-party API correctness — Tidewave / live-runtime tasks stay local.
+For agent envs (hex.pm, mix tasks, Tidewave, external HTTP availability per agent), see `cloud-agent-environments.md`. Eligibility recap: `[CX]` is code-mutation suspended; `[CSR]` covers hex.pm verification, mix-task validation, third-party API correctness, AND Tidewave / live-runtime tasks (Tidewave reachable on Cursor via `curl localhost:<port>/tidewave/mcp` — verified 2026-05-07; native `CallMcpTool` requires pre-session start).
 
 #### Push-Back-vs-Fix-Locally Matrix by Agent
 
@@ -696,12 +696,12 @@ For agent envs (hex.pm, mix tasks, Tidewave, external HTTP availability per agen
 | Hex-package API correctness (third-party signatures) | **Fix locally** — Codex has no hex.pm | **Push back** — Cursor has hex.pm |
 | Test failure / coverage gap on new code | Push back (best Codex can do without `mix test`) | **Push back** — Cursor runs `mix test` |
 | Coverage gap on legacy code surfaced by the PR | **Fix locally** — pre-existing debt | **Fix locally** — same |
-| Live-data / runtime-state — verification only | **Push back with Tidewave evidence** | **Push back with Tidewave evidence** |
-| Live-data / runtime-state — fix needs verifier's runtime | **Fix locally** (paste-as-comment if viable) | **Fix locally** (paste-as-comment if viable) |
+| Live-data / runtime-state — verification only | **Push back with Tidewave evidence** (Codex has no Tidewave) | **Push back** — Cursor can run Tidewave via `curl` (or `CallMcpTool` if pre-started) |
+| Live-data / runtime-state — fix needs verifier's runtime | **Fix locally** (paste-as-comment if viable) | **Push back** if Cursor can verify in its own VM; **fix locally** only if local-only state (your IEx, your DB) is required |
 | External spec / RFC / EIP correctness | **Fix locally** — Codex has no external HTTP | Push back (Cursor likely has HTTP) |
 | Acceptance criteria not met | Push back | Push back |
 
-**Tidewave is verification, not necessarily fix.** Local Claude has `mcp__tidewave__project_eval` and live runtime/database access; cloud agents don't. Open IEx in the host project (NOT a PR worktree — Tidewave runs against host's currently-loaded code), run `project_eval` against the suspected case, paste the result into the push-back comment as evidence. The asymmetry is a **push-back strengthener**, not a fix-locally trigger — fix-locally only when the code fix is too large to paste verbatim or needs generated artifacts.
+**Tidewave is verification, not necessarily fix.** Local Claude has `mcp__tidewave__project_eval` and live runtime/database access. Cursor can also reach Tidewave from its VM (curl-to-MCP always; `CallMcpTool` if pre-started — see `cloud-agent-environments.md` § "Tidewave on Cursor — Reach details"); Codex cannot. Open IEx in the host project (NOT a PR worktree — Tidewave runs against host's currently-loaded code), run `project_eval` against the suspected case, paste the result into the push-back comment as evidence. The asymmetry is a **push-back strengthener**, not a fix-locally trigger — fix-locally only when the code fix is too large to paste verbatim or needs generated artifacts.
 
 > ```
 > @cursor verified failure case via Tidewave:
@@ -953,7 +953,7 @@ The canonical Step 14–16 sequence expects the post-merge follow-up commit on `
 
 - PR is mostly-good but ships some dead/unwanted code that should NOT block merge.
 - Reviewer's diff to remove the dead code is small (≤ a few small edits, no logic change, no behavior shift).
-- Pushing back would cost more than it saves — typically because the verification the agent needs is one **its own harness can't run** (e.g. `mix dialyzer` OOMs in Cursor's cloud VM, no hex.pm in Codex Cloud, no Tidewave anywhere).
+- Pushing back would cost more than it saves — typically because the verification the agent needs is one **its own harness can't run** (e.g. `mix dialyzer` OOMs in Cursor's cloud VM, no hex.pm in Codex Cloud, no Tidewave on Codex; Cursor reaches Tidewave so this exception is narrower than it used to be).
 - The PR contains something **worth keeping** that rejecting would drop. If net-negative, close-without-merging instead.
 
 **Shape.**
@@ -985,7 +985,7 @@ Cloud agents do NOT carry context across sessions. Each pickup is a fresh sessio
 
 ## Env constraints
 - Codex Cloud: no hex.pm, no Tidewave, no internet. Use stdlib + already-installed deps.
-- Cursor Cloud: hex.pm + internet OK; mix tasks OK. Tidewave NOT reachable.
+- Cursor Cloud: hex.pm + internet OK; mix tasks OK. Tidewave reachable via `curl localhost:<port>/tidewave/mcp` (always); native `CallMcpTool` only if Tidewave was running before session start (see `cloud-agent-environments.md` § "Tidewave on Cursor").
 
 ## Success criteria
 - `mix test.json --quiet --failed` returns 0 failures on touched files
@@ -1176,6 +1176,25 @@ Cursor cloud has internet + can run mix tasks (verified in round-trip testing):
 - **hex.pm reachable** — third-party hex-package API signatures can be verified directly. The `assert_received` vs `assert_receive` class of bug should not recur on Cursor PRs.
 - **Mix tasks runnable** — `mix deps.get`, `mix compile`, `mix test` (and `mix test.json` if `ex_unit_json` is in deps), `mix credo --strict`, `mix format --check-formatted`, `mix dialyzer` (provided the PLT cache builds — first-run cost on a fresh env).
 - **General HTTP likely available** — not yet stress-tested against arbitrary external APIs / RFCs / EIPs. Treat as broadly available pending counter-evidence.
+- **Tidewave reachable (with setup)** — verified 2026-05-07. The Cursor Background Agent VM can run Tidewave on `localhost:<port>/tidewave/mcp`; agents reach it two ways:
+  - **Always works:** raw `curl` to the MCP endpoint with a `tools/call` JSON body. No session-start dependency — usable mid-session even if Tidewave wasn't running at startup.
+  - **Native via `CallMcpTool`:** requires Tidewave to be **running before the agent session begins**. Cursor's MCP client caches the initial connection result, so a server started mid-session won't be picked up natively — the agent has to fall back to `curl` for that session. `.cursor/mcp.json` configures the client to point at the MCP URL.
+
+  **Pre-start options** (so `CallMcpTool` works natively): leave `mix tidewave` running in a tmux session from a prior agent run (persists across sessions in the same VM), or bake startup into a VM snapshot. The Cursor environment-setup script can't itself launch Tidewave reliably enough to satisfy "running at session start," because the MCP client probes too early.
+
+#### Tidewave on Cursor — Reach details
+
+```bash
+# Direct MCP call (always works once Tidewave is running):
+curl -s -X POST http://localhost:4002/tidewave/mcp \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call",
+       "params":{"name":"project_eval","arguments":{"code":"1 + 1"}}}'
+```
+
+Tools available on Cursor identical to local: `project_eval`, `get_docs`, `get_source_location`, `get_logs`, `search_package_docs`. Port comes from the project's Tidewave registry entry (`~/.claude/tidewave-ports.md`); the `.cursor/mcp.json` URL must match.
+
+**Implication for delegation:** live-data / runtime-state tasks are NOT a Cursor-eligibility blocker the way they used to be. Push-back-vs-fix matrix updates accordingly — see `linear-workflow.md` § "Push-Back-vs-Fix-Locally Matrix by Agent".
 
 #### Self-validation expectation
 
@@ -1215,7 +1234,7 @@ The shift this enables:
 
 - **Reviewer reads `gh pr checks <n>`** instead of running the full local harness (was 15+ min per PR via local mix; CI runs in parallel with the agent's work and is done by the time the reviewer looks)
 - **Push-back becomes the default for harness drift.** When CI flags a format / credo / dialyzer / coverage issue, the reviewer's job is to point the agent at the failing check — not to fix it locally. The cloud agent (Cursor especially, since it has hex.pm + can run mix) iterates against the same CI signal the reviewer sees
-- **Local fix shrinks to the env-constraint exception cases.** Per `linear-workflow.md` § "Push-Back-vs-Fix-Locally Matrix by Agent", local-fix is reserved for items the agent fundamentally can't verify — hex.pm for Codex, Tidewave for both, external specs for Codex. CI handles everything else
+- **Local fix shrinks to the env-constraint exception cases.** Per `linear-workflow.md` § "Push-Back-vs-Fix-Locally Matrix by Agent", local-fix is reserved for items the agent fundamentally can't verify — hex.pm for Codex, Tidewave for Codex (Cursor reaches it via curl), external specs for Codex. CI handles everything else
 
 `staged-review:commit-review` defers to CI status when present (Step 6 reads `gh pr checks` and treats green as the harness-gate signal). When CI is absent, it falls back to running the local harness inline and surfaces a `TODO(setup-ci)` finding pointing at this skill so the next iteration of the PR has CI.
 
@@ -3454,6 +3473,45 @@ See `~/.claude/includes/linear-workflow.md` for the full delegation flow.
 
 ---
 
+## Cursor Cloud specific instructions
+
+Project-specific setup for cloud agents working on this repo (Cursor Cloud primarily — `[CX]` is suspended for Elixir per `task-prioritization.md`). Generic cloud-agent env reference (hex.pm reach, runtime paths, Tidewave caveats) is in `~/.claude/includes/cloud-agent-environments.md`, imported via `delegation.md` above.
+
+### Prerequisites
+
+Elixir `~> 1.18` on Erlang/OTP 27 and Node.js (for npm / CCXT) must be available. Versions are pinned in `.tool-versions` and managed via [mise](https://mise.jdx.dev/) — `erlang 27.3.4.11` and `elixir 1.18.4-otp-27` are configured globally in `~/.config/mise/config.toml`. Ensure mise is activated in your shell (`eval "$(mise activate bash)"`). CI reads `.tool-versions` via `setup-beam` in `harness.yml`, so local and CI never drift on `mix format` output. The update script handles `mix deps.get` and the CCXT sparse-clone/setup automatically.
+
+### Running services
+
+This is a pure CLI/library project — no long-running servers, databases, or Docker required.
+
+**Tidewave MCP server** (optional but useful): Start with `mix tidewave` — it listens on `http://localhost:4002/tidewave/mcp` (Streamable HTTP transport). Provides `project_eval`, `get_docs`, `get_source_location`, `get_logs`, and `search_package_docs` tools. Configuration is in `.cursor/mcp.json`. The server must be running **before the agent session starts** for the built-in MCP client to connect natively (Cursor's MCP client caches the initial connection result — see `cloud-agent-environments.md` § "Tidewave on Cursor"); if it shows `serverStatus: "error"`, start it in a tmux session and the next agent session will pick it up. Mid-session, fall back to `curl`-to-MCP.
+
+### Key commands
+
+All standard commands are documented above in § "Common commands" and in `README.md` (§ Setup). Cloud-agent quick reference:
+
+- **Compile**: `mix compile --warnings-as-errors`
+- **Fast tests** (cached corpus, excludes `:extraction`): `mix test.json --exclude extraction`
+- **Full tests** (includes slow extraction tests): `mix test.json`
+- **Lint**: `mix credo --strict --format json`
+- **Security**: `mix sobelow --mark-skip-all`
+- **Dialyzer**: `mix dialyzer.json --quiet`
+- **Schema validation**: `mix ccxt_extract.validate`
+- **Contract tests**: `mix ccxt_extract.contract_test`
+- **Scoped extraction**: `mix ccxt_extract.update --exchange binance --force`
+
+### Gotchas
+
+- The `priv/ccxt/` directory (CCXT sparse clone) is gitignored and must exist before `mix ccxt_extract.setup` runs. The update script handles this.
+- `priv/output/` and `priv/discoveries/*` (except `class_hierarchy.json`) are gitignored derived state. They are regenerated by `mix ccxt_extract.update`.
+- Tests require the generated corpus to exist. If `priv/discoveries/exchanges.json`, `priv/discoveries/class_hierarchy.json`, or `priv/output/binance.json` are missing, `test_helper.exs` halts with setup instructions.
+- The full extraction pipeline (`mix ccxt_extract.update`) takes ~7–8 minutes. Use `--exchange <id>` for faster scoped runs.
+- `mix ccxt_extract.update` (without `--force`) aborts if `priv/output/` has uncommitted changes. Since these paths are gitignored, `--force` is generally not needed — but pass it if you encounter the rail.
+- The `loadMarkets` extractor makes real HTTP calls to exchange APIs, so failures on individual exchanges are expected in network-constrained environments.
+
+---
+
 ## Architecture (big picture)
 
 ### Two extraction tools, one pipeline
@@ -3595,7 +3653,9 @@ mix sobelow --mark-skip-all        # re-mark skips after a scan
 
 ## Test conventions
 
-- **`:extraction` tag is excluded by default** (`test/test_helper.exs` sets `ExUnit.start(exclude: [:extraction])`). Tests tagged `:extraction` hit the real CCXT source + bundle and are slow. Run them explicitly with `mix test.json --include extraction` when touching extractor internals.
+- **`:extraction` tag is excluded by default** (`test/test_helper.exs` sets `ExUnit.start(exclude: [:extraction, :tier3_corpus, :flaky])`). Tests tagged `:extraction` hit the real CCXT source + bundle and are slow. Run them explicitly with `mix test.json --include extraction` when touching extractor internals. The `:flaky` exclude is permanent infra (no tests carry the tag in the green state) — Task 131 added it so `--exclude flaky` in `harness.yml:89` is operational the day a regression needs quarantine.
+- **`Mix.shell()` is VM-global.** Tests that capture Mix output via `Mix.shell(Mix.Shell.Process)` MUST save `prior_shell = Mix.shell()` and restore in `try/after` or `on_exit`. Files that exercise code calling `Mix.shell().info(...)` and assert on `capture_io` should defensively pin `Mix.shell(Mix.Shell.IO)` in their parent `setup` — `setup_task_test.exs` is the reference pattern (Task 131). Without the pin, leaked `Mix.Shell.Process` from another file routes output via `:erlang.send` and `capture_io` returns `""`.
+- **`Reach.Project.from_glob/1` carries a 5s `Task.async_stream` default.** Reach 2.2 doesn't thread a `:timeout` opt through `parse_files`/`build_module_sdgs`, so under async test pool contention even small fixture globs trip the timeout. Test files calling `ContractTest.check_paths_rw_split/1` (or `Reach.Project.from_glob/1` directly) should declare `async: false` until upstream Reach exposes a timeout knob. `contract_test_test.exs` is the reference (Task 131).
 - **`test/integration/cached/*_cached_test.exs`** — assert against the already-committed `priv/discoveries/` corpus. Fast; they don't re-run extraction. **These dispatch on observed counts, not envelope stamps**, because committed fixtures may come from a scoped run (~34 exchanges) or a full run (~110). Use `CcxtExtract.Test.ScopeThresholds` (`test/support/scope_thresholds.ex`) — `min_count/3`, `min_total/4`, `proportional/2` — not ad-hoc `if count >= N` ladders. Cutoff must equal floor: `>= 90` branch returning `>= 100` creates a dead zone for counts in `[90, 99]`.
 - **`test/integration/*_integration_test.exs`** (non-cached) — actually run extractors against `priv/ccxt`. Always tagged `:extraction`. Use `CcxtExtract.PrivWriteCase` to isolate writes, not ad-hoc rename/restore tricks.
 - **`test/support/*.ex`** — only compiled when `MIX_ENV=test` (see `elixirc_paths(:test)` in `mix.exs`). Put test helpers here, not in `lib/`.

@@ -158,6 +158,14 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       :ok = File.ln_s(src, dst)
     end
 
+    exchanges_path = Path.join(tmp, "exchanges.json")
+
+    ids =
+      case CcxtExtract.JsonIO.read_json(exchanges_path) do
+        {:ok, %{"exchanges" => entries}} -> Enum.map(entries, & &1["id"])
+        _ -> []
+      end
+
     request_headers_path = Path.join(tmp, "request_headers.json")
 
     if !File.exists?(request_headers_path) do
@@ -166,14 +174,6 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       # schema's empty record so build_runtime_section/1 has something
       # to read; pipeline behavior is identical to the corpus-fresh case
       # for the priority scope we care about.
-      exchanges_path = Path.join(tmp, "exchanges.json")
-
-      ids =
-        case CcxtExtract.JsonIO.read_json(exchanges_path) do
-          {:ok, %{"exchanges" => entries}} -> Enum.map(entries, & &1["id"])
-          _ -> []
-        end
-
       synthetic = %{
         "exchanges" =>
           Enum.map(ids, fn id ->
@@ -182,6 +182,23 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       }
 
       File.write!(request_headers_path, Jason.encode!(synthetic, pretty: true))
+    end
+
+    rate_limit_buckets_path = Path.join(tmp, "rate_limit_buckets.json")
+
+    if !File.exists?(rate_limit_buckets_path) do
+      # Same synthesis pattern as request_headers above (Task 89). Each
+      # entry carries the empty bucket wrapper so the pipeline has a
+      # legitimate `rate_limit_buckets` key to thread into the structure
+      # section without forcing a real QuickBEAM probe.
+      synthetic = %{
+        "exchanges" =>
+          Enum.map(ids, fn id ->
+            %{"id" => id, "rate_limit_buckets" => CcxtExtract.RateLimitBuckets.empty_record()}
+          end)
+      }
+
+      File.write!(rate_limit_buckets_path, Jason.encode!(synthetic, pretty: true))
     end
 
     tmp

@@ -14,7 +14,12 @@ defmodule CcxtExtract.Normalization.OHLCV do
       %{
         "branches" => [
           %{
-            "guard" => %{"kind" => "always", "input_shape" => "array" | "object"},
+            "guard" => %{
+              "kind" => "always",
+              # "input_shape" is optional — omitted on mixed-locator and
+              # no-pure-slots paths (see "guard.input_shape" prose below).
+              "input_shape" => "array" | "object"
+            },
             "shape" => "array",
             "field_map" => %{
               "timestamp" => slot(),

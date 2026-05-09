@@ -170,8 +170,21 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       for exchange <- exchanges do
         id = get_in(exchange, ["exchange", "id"])
 
-        assert Validation.validate_schema(exchange, v4_root) == :ok,
-               "v4 schema validation must remain green for #{id} after object-input + parse8601"
+        case Validation.validate_schema(exchange, v4_root) do
+          :ok ->
+            :ok
+
+          {:error, findings} ->
+            paths =
+              findings
+              |> Enum.take(5)
+              |> Enum.map_join("\n  ", fn f -> "#{f["path"]}: #{f["message"]}" end)
+
+            flunk("""
+            v4 schema validation failed for #{id} after object-input + parse8601 (#{length(findings)} findings, first 5):
+              #{paths}
+            """)
+        end
 
         ohlcv = get_in(exchange, ["normalization", "field_maps", "ohlcv"])
         assert is_map(ohlcv), "#{id} parseOHLCV must populate field_maps.ohlcv"

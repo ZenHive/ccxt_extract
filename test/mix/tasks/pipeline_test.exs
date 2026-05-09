@@ -9,6 +9,7 @@ defmodule Mix.Tasks.CcxtExtract.PipelineTest do
   """
   use ExUnit.Case, async: false
 
+  alias CcxtExtract.Paths
   alias Mix.Tasks.CcxtExtract.Pipeline, as: PipelineTask
 
   describe "argument parsing" do
@@ -43,6 +44,14 @@ defmodule Mix.Tasks.CcxtExtract.PipelineTest do
   end
 
   describe "git-status safety rail" do
+    # Pipeline.extract requires `rate_limit_costs.json` (Task 90). These tests call the
+    # real Mix task without a tmp discoveries_dir — stub the file only when absent so
+    # clones without a generated corpus still pass (matches `write_minimal_fixtures/2`).
+    setup do
+      ensure_rate_limit_costs_discovery_stub!()
+      :ok
+    end
+
     test "narrowed scope aborts when a safety path has uncommitted changes" do
       sandbox = make_git_sandbox()
       File.write!(Path.join(sandbox, "dirty.json"), "{}")
@@ -148,5 +157,23 @@ defmodule Mix.Tasks.CcxtExtract.PipelineTest do
     {_out, 0} = System.cmd("git", ["commit", "-q", "-m", "init"], cd: path, stderr_to_stdout: true)
 
     path
+  end
+
+  @spec ensure_rate_limit_costs_discovery_stub!() :: :ok
+  defp ensure_rate_limit_costs_discovery_stub! do
+    path = Paths.priv("discoveries/rate_limit_costs.json")
+
+    if File.exists?(path) do
+      :ok
+    else
+      File.mkdir_p!(Path.dirname(path))
+      File.write!(path, Jason.encode!(%{"exchanges" => []}))
+
+      on_exit(fn ->
+        File.rm(path)
+      end)
+
+      :ok
+    end
   end
 end

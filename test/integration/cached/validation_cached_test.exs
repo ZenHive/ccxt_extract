@@ -7,14 +7,14 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
   use ExUnit.Case, async: true
 
   alias CcxtExtract.Pipeline
+  alias CcxtExtract.Test.StagedDiscoveries
   alias CcxtExtract.Validation
 
   @moduletag :integration
   @moduletag timeout: 120_000
 
   @fixtures_dir CcxtExtract.Paths.discoveries()
-  @pipeline_opts [
-    discoveries_dir: @fixtures_dir,
+  @pipeline_opts_base [
     ccxt_version: "4.5.45",
     extracted_at: "2026-03-30T12:00:00Z"
   ]
@@ -51,11 +51,15 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
   # This proves validation reads actual JSON from disk, not in-memory data.
   setup_all do
     output_dir = Path.join(System.tmp_dir!(), "ccxt_validate_cached_#{:rand.uniform(100_000)}")
+    fixtures_dir = StagedDiscoveries.stage!(@fixtures_dir)
+    on_exit(fn -> File.rm_rf!(fixtures_dir) end)
 
-    {:ok, exchanges, _stats} = Pipeline.extract(@pipeline_opts)
-    Pipeline.write!(exchanges, output_dir, discoveries_dir: @fixtures_dir)
+    pipeline_opts = Keyword.put(@pipeline_opts_base, :discoveries_dir, fixtures_dir)
 
-    validation_opts = [output_dir: output_dir, discoveries_dir: @fixtures_dir]
+    {:ok, exchanges, _stats} = Pipeline.extract(pipeline_opts)
+    Pipeline.write!(exchanges, output_dir, discoveries_dir: fixtures_dir)
+
+    validation_opts = [output_dir: output_dir, discoveries_dir: fixtures_dir]
 
     {:ok, report} = Validation.validate_all(validation_opts)
     lookup = Map.new(report["exchanges"], &{&1["id"], &1})

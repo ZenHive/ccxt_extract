@@ -67,6 +67,11 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
           assert Map.has_key?(exchange, key), "missing top-level v4 key #{key} for #{id}"
         end
 
+        # Task 90: rate_limits mirrors structure carriers — keys must exist even when null.
+        rl = exchange["rate_limits"]
+        assert Map.has_key?(rl, "per_endpoint_cost"), "missing rate_limits.per_endpoint_cost for #{id}"
+        assert Map.has_key?(rl, "endpoint_cost_binding"), "missing rate_limits.endpoint_cost_binding for #{id}"
+
         # JSV strict validation against the v4 schema file.
         case Validation.validate_schema(exchange, v4_root) do
           :ok ->
@@ -252,6 +257,19 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       }
 
       File.write!(rate_limit_buckets_path, Jason.encode!(synthetic, pretty: true))
+    end
+
+    rate_limit_costs_path = Path.join(tmp, "rate_limit_costs.json")
+
+    if !File.exists?(rate_limit_costs_path) do
+      synthetic = %{
+        "exchanges" =>
+          Enum.map(ids, fn id ->
+            %{"id" => id, "rate_limit_costs" => %{}}
+          end)
+      }
+
+      File.write!(rate_limit_costs_path, Jason.encode!(synthetic, pretty: true))
     end
 
     tmp

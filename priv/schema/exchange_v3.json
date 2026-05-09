@@ -468,6 +468,13 @@
           ],
           "description": "Per-endpoint rate-limit cost weights keyed by `<section>.<verb>.<endpoint>` (e.g. `sapi.get.system/status`, `public.get.market/tickers`). Each entry records the base `cost` weight and any weight-axis variants (e.g. `noCoin`, `noSymbol`, `byLimit`) preserved verbatim from CCXT. Cost weights are multipliers against the base `runtime.describe.rateLimit` (milliseconds). Bucket configuration (refill rate, axes — Task 89) is a separate concern. Introduced as additive in schema 3.x (Task 73). Null when the exchange has no resolvable api map; empty object when api is present but has no enumerable HTTP-verb endpoints."
         },
+        "endpoint_cost_binding": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/EndpointCostBinding" }
+          ],
+          "description": "Binding of per-endpoint costs to a rate-limit bucket index and weight axes (Task 90). Null when the pipeline cannot derive a binding."
+        },
         "error_dispatch": {
           "oneOf": [
             { "type": "null" },
@@ -796,6 +803,25 @@
             }
           ],
           "description": "Null when kind='literal'. Otherwise a closed-vocabulary tag: 'conditional_value' (ternary / logical expression), 'identifier_reference' (variable or member access), 'dynamic_construction' (call, binary, template literal, partially-literal object/array), 'computed_key' (key was a computed expression), 'spread_elaboration' (reserved for future spread tracking)."
+        }
+      }
+    },
+
+    "EndpointCostBinding": {
+      "type": "object",
+      "description": "Maps derived per-endpoint rate-limit costs to a bucket row and counted axes (Task 90).",
+      "required": ["bucket_index", "axes"],
+      "additionalProperties": false,
+      "properties": {
+        "bucket_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into structure.rate_limit_buckets.buckets."
+        },
+        "axes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Weight-axis attribute names for this binding."
         }
       }
     },

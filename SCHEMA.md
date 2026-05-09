@@ -230,6 +230,7 @@ read without change aside from the new required-field shape.
 | (new) | `errors.dispatch` | Tasks 88a/b/c — handler routing tables |
 | (new) | `rate_limits.buckets` | Task 89 |
 | (new) | `rate_limits.per_endpoint_cost` | Task 90 |
+| (new) | `rate_limits.endpoint_cost_binding` | Task 90 — `{bucket_index, axes}` ties per-endpoint costs to `rate_limits.buckets[bucket_index]` |
 | (new) | `normalization.parse_methods_digest` | Task 129 — compact signature digest, **no AST body** |
 | (new) | `normalization.field_maps` | Phase 12 Tasks 74–82 — derived per-parser-type field maps |
 | (new) | `normalization.response_envelopes` | Task 83 |

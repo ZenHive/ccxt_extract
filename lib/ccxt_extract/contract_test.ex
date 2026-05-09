@@ -26,12 +26,18 @@ defmodule CcxtExtract.ContractTest do
       being validated would make the invariant tautological. When a new
       root legitimately appears, update the baseline file intentionally.
 
+    * `rate_limits_endpoint_cost_binding_coherent` — v4 emit only;
+      `rate_limits.endpoint_cost_binding` equals
+      `RateLimitCostBinding.derive(rate_limits.buckets)` (null when the wrapper
+      is unresolved or has no buckets).
+
   New invariants append to `@invariants`; the runner is registry-driven.
   """
 
   alias CcxtExtract.ErrorHierarchy
   alias CcxtExtract.JsonIO
   alias CcxtExtract.Normalization
+  alias CcxtExtract.RateLimitCostBinding
   alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.TestnetUrls
@@ -67,7 +73,8 @@ defmodule CcxtExtract.ContractTest do
     {"normalization_shape_valid", :check_normalization_shape_valid},
     {"parse_methods_digest_covers_inventory", :check_parse_methods_digest_covers_inventory},
     {"handle_errors_retryable_shape_valid", :check_handle_errors_retryable_shape_valid},
-    {"handler_dispatch_v4_shape_valid", :check_handler_dispatch_v4_shape_valid}
+    {"handler_dispatch_v4_shape_valid", :check_handler_dispatch_v4_shape_valid},
+    {"rate_limits_endpoint_cost_binding_coherent", :check_rate_limits_endpoint_cost_binding_coherent}
   ]
 
   # Corpus-level invariants run once per run_all/1 (not per-exchange). Used
@@ -1762,6 +1769,45 @@ defmodule CcxtExtract.ContractTest do
       path: path,
       message: message
     }
+  end
+
+  @doc """
+  v4-only: `rate_limits.endpoint_cost_binding` must match
+  `CcxtExtract.RateLimitCostBinding.derive/1` applied to the bucket wrapper at
+  `rate_limits.buckets` — non-null only when the wrapper has a resolved,
+  non-empty `buckets` list; otherwise null. Short-circuits on v3-shaped output.
+  """
+  @spec check_rate_limits_endpoint_cost_binding_coherent(map(), map()) :: [finding()]
+  def check_rate_limits_endpoint_cost_binding_coherent(exchange, _observed) do
+    if v4_shape?(exchange) do
+      id = exchange_id(exchange)
+
+      case Map.get(exchange, "rate_limits") do
+        %{} = rl ->
+          wrapper = Map.get(rl, "buckets")
+          binding = Map.get(rl, "endpoint_cost_binding")
+          expected = RateLimitCostBinding.derive(wrapper)
+
+          if binding == expected do
+            []
+          else
+            [
+              %{
+                exchange: id,
+                invariant: "rate_limits_endpoint_cost_binding_coherent",
+                path: "rate_limits.endpoint_cost_binding",
+                message:
+                  "endpoint_cost_binding must equal RateLimitCostBinding.derive(rate_limits.buckets); expected #{inspect(expected)}, got #{inspect(binding)}"
+              }
+            ]
+          end
+
+        _ ->
+          []
+      end
+    else
+      []
+    end
   end
 
   @doc """

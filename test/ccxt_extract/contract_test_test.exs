@@ -1143,6 +1143,69 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_rate_limits_endpoint_cost_binding_coherent/2" do
+    test "no-op on v3-shaped exchange (short-circuit)" do
+      assert ContractTest.check_rate_limits_endpoint_cost_binding_coherent(clean_exchange(), @base_observed) == []
+    end
+
+    test "no findings when endpoint_cost_binding matches derive(rate_limits.buckets)" do
+      buckets = %{
+        "buckets" => [
+          %{
+            "axes" => ["request"],
+            "rate_limit_ms" => 50.0,
+            "refill_per_sec" => 20.0,
+            "max_size" => 1.0,
+            "cost_default" => 1.0,
+            "algorithm" => "leakyBucket",
+            "rolling_window_ms" => 0.0
+          }
+        ],
+        "source" => "describe",
+        "unresolved_reason" => nil
+      }
+
+      binding = CcxtExtract.RateLimitCostBinding.derive(buckets)
+
+      v4_exchange = %{
+        "id" => "v4ex",
+        "exchange" => %{"id" => "v4ex"},
+        "endpoints" => %{},
+        "rate_limits" => %{
+          "buckets" => buckets,
+          "per_endpoint_cost" => nil,
+          "endpoint_cost_binding" => binding
+        }
+      }
+
+      assert ContractTest.check_rate_limits_endpoint_cost_binding_coherent(v4_exchange, @base_observed) == []
+    end
+
+    test "finding when endpoint_cost_binding contradicts bucket wrapper" do
+      buckets = %{
+        "buckets" => [],
+        "source" => "describe",
+        "unresolved_reason" => nil
+      }
+
+      v4_exchange = %{
+        "id" => "driftex",
+        "exchange" => %{"id" => "driftex"},
+        "endpoints" => %{},
+        "rate_limits" => %{
+          "buckets" => buckets,
+          "per_endpoint_cost" => nil,
+          "endpoint_cost_binding" => %{"bucket_index" => 0, "axes" => ["request"]}
+        }
+      }
+
+      findings = ContractTest.check_rate_limits_endpoint_cost_binding_coherent(v4_exchange, @base_observed)
+      assert length(findings) == 1
+      assert hd(findings).invariant == "rate_limits_endpoint_cost_binding_coherent"
+      assert hd(findings).exchange == "driftex"
+    end
+  end
+
   describe "run_all/1" do
     setup do
       tmp = Path.join(System.tmp_dir!(), "ccxt_contract_test_#{System.unique_integer([:positive])}")

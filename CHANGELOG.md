@@ -6,6 +6,16 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 90 — Per-endpoint rate-limit costs + bucket-axis binding (Phase 14)
+
+- **`priv/discoveries/rate_limit_costs.json` load-bearing.** `DiscoveryLoader` now loads the aggregate (same envelope pattern as other QuickBEAM lookups). `mix ccxt_extract.update` runs `ccxt_extract.rate_limit_buckets` and **`ccxt_extract.rate_limit_costs`** back-to-back so the file exists before `mix ccxt_extract.pipeline` — pipeline aborts on any missing discovery file.
+- **`CcxtExtract.RateLimitCostBinding`** — `derive/1` projects a single binding record from the Task 89 bucket wrapper: consumers join `structure.rate_limit_costs` / `rate_limits.per_endpoint_cost` to `buckets[bucket_index]` via `%{"bucket_index" => 0, "axes" => …}` when the wrapper is usable; `null` when `unresolved_reason` is set or `buckets` is empty (today index `0` matches CCXT’s single resolved token bucket).
+- **Pipeline** — `get_rate_limit_costs/2` + parent-class fallback (same idea as request headers); emits `structure.rate_limit_costs`, `structure.endpoint_cost_binding`; v4 mirrors under `rate_limits.per_endpoint_cost`, `rate_limits.endpoint_cost_binding`.
+- **Schema** — additive optional `endpoint_cost_binding` (`EndpointCostBinding` `$def`) on v3 `structure` and v4 `rate_limits`; `per_endpoint_cost` populated from discovery (same shape as Task 73 extractor — keys are `<section>.<verb>.<endpoint>` → `{cost, axes}`).
+- **Provenance** — `/structure/endpoint_cost_binding`, `/rate_limits/endpoint_cost_binding` derived.
+- **Contract test** — `rate_limits_endpoint_cost_binding_coherent` (v4): binding must agree with `RateLimitCostBinding.derive(rate_limits["buckets"])`.
+- **Cross-repo** — `../ccxt_client/ROADMAP.md` Task 59 can treat upstream Task 90 as shipped for axis-aware cost accounting against `rate_limits.buckets`.
+
 ### Task 78 — `parseOHLCV` field map (pure-array scope)
 
 - **Phase 12 freeze-list slot.** First derived `field_maps` slot populated for the v4 `normalization` block carrier shipped under Task 129. Until all nine parser-type slots populate, the carrier's top-level `_unresolved_reason` stays `"not_yet_derived"` (biconditional flip pattern, mirrors `SignRecipe.Derive.resolve_unresolved_reason/1`).

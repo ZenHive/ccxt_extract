@@ -3,7 +3,8 @@ defmodule CcxtExtract.PipelineTest do
   Unit tests for Pipeline pure functions.
   Uses synthetic data — no file I/O, no QuickBEAM/OXC.
   """
-  use ExUnit.Case, async: true
+  # async: false — many `@tag :tmp_dir` cases; parallel pool races rm_rf!/nested dirs (:eexist).
+  use ExUnit.Case, async: false
 
   alias CcxtExtract.Pipeline
   alias CcxtExtract.Schema
@@ -1163,6 +1164,7 @@ defmodule CcxtExtract.PipelineTest do
     write_json(Path.join(dir, "url_templates.json"), empty_global)
     write_json(Path.join(dir, "request_headers.json"), empty_global)
     write_json(Path.join(dir, "rate_limit_buckets.json"), empty_global)
+    write_json(Path.join(dir, "rate_limit_costs.json"), empty_global)
     write_json(Path.join(dir, "overrides.json"), empty_global)
 
     # Manifests for per-exchange loaders
@@ -1257,10 +1259,14 @@ defmodule CcxtExtract.PipelineTest do
       assert get_in(result, ["auth", "headers", "user_agent"]) == "Mozilla/5.0 (TestEx)"
 
       # rate_limits.buckets carries the rate-limit bucket wrapper (Task 89).
-      # per_endpoint_cost remains absent until Task 90 layers it onto the
-      # rate_limits group additively.
+      # per_endpoint_cost + endpoint_cost_binding mirror structure (Task 90 slice B).
       assert result["rate_limits"]["buckets"] ==
                CcxtExtract.RateLimitBuckets.empty_record()
+
+      assert Map.has_key?(result["rate_limits"], "per_endpoint_cost")
+      assert Map.has_key?(result["rate_limits"], "endpoint_cost_binding")
+      assert result["rate_limits"]["per_endpoint_cost"] == nil
+      assert result["rate_limits"]["endpoint_cost_binding"] == nil
 
       # normalization is the Task 129 carrier — compact digest plus
       # field_maps / response_envelopes scaffolds.

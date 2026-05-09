@@ -40,6 +40,8 @@ defmodule CcxtExtract.Normalization do
   pipeline assembly under the v4 schema-target path only.
   """
 
+  alias CcxtExtract.Normalization.OHLCV
+
   @parser_types ~w(ticker trade ohlcv order position balance market transaction deposit_address)
   @initial_unresolved_reason "not_yet_derived"
 
@@ -65,9 +67,14 @@ defmodule CcxtExtract.Normalization do
   def build(parse_methods_entry, _opts \\ []) do
     %{
       "parse_methods_digest" => digest_from_entry(parse_methods_entry),
-      "field_maps" => stub_record(),
+      "field_maps" => field_maps_record(parse_methods_entry),
       "response_envelopes" => stub_record()
     }
+  end
+
+  @spec field_maps_record(map() | nil) :: stub_record()
+  defp field_maps_record(parse_methods_entry) do
+    Map.put(stub_record(), "ohlcv", OHLCV.derive(parse_methods_entry))
   end
 
   @doc """

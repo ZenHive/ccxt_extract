@@ -96,10 +96,46 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
         end
 
         assert normalization["field_maps"]["_unresolved_reason"] == "not_yet_derived",
-               "Task 129 scaffold should mark field_maps unresolved for #{id}"
+               "Task 129 scaffold should mark field_maps unresolved until all parser types populate"
 
         assert normalization["response_envelopes"]["_unresolved_reason"] == "not_yet_derived",
                "Task 129 scaffold should mark response_envelopes unresolved for #{id}"
+
+        # Task 78: parseOHLCV field-map shape for the priority exchanges in
+        # this test's scope. Indices are not asserted (they drift with
+        # upstream CCXT bodies); coercion identity, guard kind, and
+        # discriminator are stable.
+        ohlcv = normalization["field_maps"]["ohlcv"]
+
+        case id do
+          "binance" ->
+            assert is_map(ohlcv), "binance has a parseOHLCV override → field_maps.ohlcv populated"
+            assert [branch] = ohlcv["branches"]
+            assert branch["guard"]["kind"] == "always"
+            assert branch["shape"] == "array"
+            assert branch["_unresolved_reason"] == nil
+            assert branch["field_map"]["timestamp"]["coercion"] == "safeInteger2"
+            assert branch["field_map"]["timestamp"]["format"] == "ms"
+            assert branch["field_map"]["volume"]["kind"] == "discriminated"
+            assert branch["field_map"]["volume"]["discriminator"] == "market.inverse"
+
+          "okx" ->
+            # okx's volumeIndex is gated on `(type === 'spot') ? 5 : 6`,
+            # not market.inverse — per the closed-vocab honesty rule, the
+            # volume slot emits null with a branch-level reason. The
+            # other 5 slots (timestamp + OHLC) populate normally.
+            assert is_map(ohlcv)
+            assert [branch] = ohlcv["branches"]
+            assert branch["field_map"]["volume"] == nil
+            assert branch["_unresolved_reason"] =~ "non_inverse_discriminator"
+            assert branch["field_map"]["timestamp"]["coercion"] in ~w(safeInteger safeInteger2)
+
+          "deribit" ->
+            # deribit inherits parseOHLCV from a base class, so its own
+            # parse_methods has no override — honest signal is null at
+            # the carrier slot, not a fabricated shape.
+            assert ohlcv == nil
+        end
       end
     end
 

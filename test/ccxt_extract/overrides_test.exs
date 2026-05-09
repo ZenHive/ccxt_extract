@@ -1,5 +1,6 @@
 defmodule CcxtExtract.OverridesTest do
-  use ExUnit.Case, async: true
+  # async: false — scope-aware write tests share tmp/overrides.json (race under parallel pool).
+  use ExUnit.Case, async: false
 
   alias CcxtExtract.Overrides
   alias Mix.Tasks.CcxtExtract.Overrides, as: OverridesTask

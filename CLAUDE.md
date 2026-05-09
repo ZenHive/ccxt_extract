@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 @~/.claude/includes/across-instances.md
 @~/.claude/includes/critical-rules.md
 @~/.claude/includes/worktree-workflow.md
+@~/.claude/includes/linear-workflow.md
 
 @~/.claude/includes/task-prioritization.md
 @~/.claude/includes/task-writing.md
@@ -32,6 +33,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Branch-worthy work lives in a git worktree at `~/_DATA/worktrees/ccxt_extract/<id>/`, not on a branch in the main checkout (`~/_DATA/code/ccxt_extract/`). The worktree IS the scope authorization for `git commit` / `git push` / `gh pr create` on that branch — full rules in `~/.claude/includes/worktree-workflow.md`.
 
 **This repo's tracking-ID convention:** `<id>` is the ROADMAP task number when the work tracks a roadmap entry (e.g. `task-105`, `task-119`), or a short feature name for unscheduled work (e.g. `fix-aggregate-merge`). With cloud-agent delegation retired (see ROADMAP.md § Notes), Linear issue IDs are no longer in scope as worktree IDs.
+
+**Linear cadence still applies** per `~/.claude/includes/linear-workflow.md` § "Self-Authored Worktree Flow" — the 6-phase pattern (issue creation at plan approval, status comments at worktree pickup / PR open / verdict / merge / audit) is independent of the worktree-naming convention above. The above bullet retires Linear IDs as **directory names**, not Linear as a tracking surface.
 
 **Cleanup:** after PR merge or branch deletion, run `git worktree remove ~/_DATA/worktrees/ccxt_extract/<id>` and `git worktree prune` in the same session — completion of a task includes worktree teardown.
 

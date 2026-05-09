@@ -1,5 +1,6 @@
 defmodule CcxtExtract.AggregateWriterTest do
-  use ExUnit.Case, async: true
+  # async: false — fixed tmp dir + shared filenames; parallel runs race on disk.
+  use ExUnit.Case, async: false
 
   alias CcxtExtract.AggregateWriter
 

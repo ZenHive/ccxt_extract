@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 @~/.claude/includes/across-instances.md
 @~/.claude/includes/critical-rules.md
+@~/.claude/includes/worktree-workflow.md
 
 @~/.claude/includes/task-prioritization.md
 @~/.claude/includes/task-writing.md

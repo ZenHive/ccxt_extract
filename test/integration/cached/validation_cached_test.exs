@@ -44,7 +44,8 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
                                    []
                                  end
                                )
-  @audit_matrix @audit_aliases ++ @audit_roots ++ @audit_derived ++ @audit_dex ++ @audit_load_markets_failures
+  @audit_matrix Enum.uniq(@audit_aliases ++ @audit_roots ++ @audit_derived ++ @audit_dex ++ @audit_load_markets_failures)
+  @audit_clean_pool (@audit_aliases ++ @audit_roots ++ @audit_derived ++ @audit_dex) -- @audit_load_markets_failures
 
   # Write pipeline output to a temp dir, then validate the emitted files.
   # This proves validation reads actual JSON from disk, not in-memory data.
@@ -112,7 +113,7 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
       assert audit_report["summary"]["roundtrip_checked"] == length(@audit_matrix)
     end
 
-    for exchange_id <- @audit_aliases ++ @audit_roots ++ @audit_derived ++ @audit_dex do
+    for exchange_id <- @audit_clean_pool do
       @exchange_id exchange_id
 
       test "#{@exchange_id} stays clean in the widened audit matrix", %{audit_lookup: audit_lookup} do

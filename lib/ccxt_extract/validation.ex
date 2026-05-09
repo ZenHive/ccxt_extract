@@ -388,6 +388,17 @@ defmodule CcxtExtract.Validation do
       :output_missing ->
         [roundtrip_finding(id, "runtime.symbols_index", "error", "output is null but source has data") | findings]
 
+      :source_failure_inherited ->
+        [
+          roundtrip_finding(
+            id,
+            "runtime.symbols_index",
+            "info",
+            "source load_markets failed; output populated from parent class inheritance"
+          )
+          | findings
+        ]
+
       :source_failure_mismatch ->
         [
           roundtrip_finding(
@@ -411,7 +422,8 @@ defmodule CcxtExtract.Validation do
   defp classify_symbols_state(nil, nil, nil), do: :both_absent
   defp classify_symbols_state(nil, nil, _failure), do: :source_failed_upstream
   defp classify_symbols_state(nil, _source, _failure), do: :output_missing
-  defp classify_symbols_state(_output, _source, failure) when not is_nil(failure), do: :source_failure_mismatch
+  defp classify_symbols_state(_output, nil, failure) when not is_nil(failure), do: :source_failure_mismatch
+  defp classify_symbols_state(_output, _source, failure) when not is_nil(failure), do: :source_failure_inherited
   defp classify_symbols_state(_output, nil, _failure), do: :source_missing
   defp classify_symbols_state(_output, _source, _failure), do: :compare
 

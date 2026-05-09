@@ -281,6 +281,46 @@ Populated for exchanges whose `parseOHLCV` body is a single `ReturnStatement` wi
 
 **Honesty contract:** every populated slot is provable from AST. Inheriting exchanges (no `parseOHLCV` override) emit `field_maps["ohlcv"] = null`. Override exists but body shape isn't recognized → populated record with non-nil `_unresolved_reason`. Slot-level unresolvability emits `nil` for that slot plus a per-branch reason; other slots in the same branch populate normally.
 
+### `normalization.field_maps.ohlcv` — object-input shape (Tasks 78b + 78e)
+
+Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer index) emit `input_shape: "object"` on the branch guard, and each slot has `"index": null` with a non-null `"key"`. The branch's existing top-level `"shape": "array"` is unchanged — `shape` describes the parser's *return* value (always an array of `[ts, o, h, l, c, v]`), `input_shape` describes the parser's *raw input* shape; the two are independent. The `coercion` vocabulary gains `"parse8601"` (Task 78e) for exchanges that wrap the timestamp in `parse8601(safeString(ohlcv, key))`.
+
+**Object-input example (hyperliquid / lighter — fully resolved):**
+
+```json
+{
+  "branches": [
+    {
+      "guard": { "kind": "always", "input_shape": "object" },
+      "shape": "array",
+      "field_map": {
+        "timestamp": { "index": null, "key": "t", "coercion": "safeInteger",  "format": "ms"   },
+        "open":      { "index": null, "key": "o", "coercion": "safeNumber",   "format": null   },
+        "high":      { "index": null, "key": "h", "coercion": "safeNumber",   "format": null   },
+        "low":       { "index": null, "key": "l", "coercion": "safeNumber",   "format": null   },
+        "close":     { "index": null, "key": "c", "coercion": "safeNumber",   "format": null   },
+        "volume":    { "index": null, "key": "v", "coercion": "safeNumber",   "format": null   }
+      },
+      "_unresolved_reason": null
+    }
+  ],
+  "extras": [],
+  "_unresolved_reason": null
+}
+```
+
+**parse8601 timestamp example (bitmex — timestamp slot only):**
+
+```json
+{
+  "timestamp": { "index": null, "key": "timestamp", "coercion": "parse8601", "format": "iso8601" }
+}
+```
+
+`"coercion": "parse8601"` means the raw value is an ISO-8601 string that must be parsed to a millisecond epoch integer. Consumers should apply their own `parse8601` / `DateTime.from_iso8601` equivalent. `"format": "iso8601"` is the companion annotation that communicates the wire format of the *raw* value before coercion, paralleling `"format": "ms"` on integer-millisecond columns.
+
+**Closed `coercion` vocabulary (extended by Tasks 78b + 78e):** `["safeInteger", "safeInteger2", "safeNumber", "safeNumber2", "parse8601"]`. The addition of `"parse8601"` is signalled by Task 78e; consumers must add an exhaustive match arm for it before consuming bitmex's timestamp slot.
+
 ### What changed from 3.1.0 (breaking)
 
 [FILL IN AS FREEZE TASKS SHIP — populated incrementally as Phases 11/12/13/14 land. The "Top-level reshape" table above is the path-migration specification; "What changed" elaborates with concrete field-by-field diffs and consumer-facing semantic notes.]

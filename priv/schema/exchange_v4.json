@@ -410,6 +410,7 @@
     "RateLimits": {
       "type": "object",
       "description": "Rate-limit surface. `buckets` (Task 89) ships per-exchange bucket configuration; `per_endpoint_cost` (Task 73 / Task 90 layering) ships per-endpoint cost weights. Both fields land additively. Permissive (additionalProperties: true) so future tasks can populate without a schema break.",
+      "required": ["buckets", "per_endpoint_cost", "endpoint_cost_binding"],
       "additionalProperties": true,
       "properties": {
         "buckets": {

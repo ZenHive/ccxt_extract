@@ -60,5 +60,35 @@ defmodule CcxtExtract.RateLimitCostBindingTest do
     test "nil for non-map input" do
       assert RateLimitCostBinding.derive(:not_a_map) == nil
     end
+
+    test "nil when buckets value is not a list" do
+      wrapper = %{
+        "buckets" => "invalid",
+        "source" => "describe",
+        "unresolved_reason" => nil
+      }
+
+      assert RateLimitCostBinding.derive(wrapper) == nil
+    end
+
+    test "nil when first bucket lacks :axes key" do
+      wrapper = %{
+        "buckets" => [%{"rate_limit_ms" => 50.0}],
+        "source" => "describe",
+        "unresolved_reason" => nil
+      }
+
+      assert RateLimitCostBinding.derive(wrapper) == nil
+    end
+
+    test "nil when first bucket :axes is not a list" do
+      wrapper = %{
+        "buckets" => [%{"axes" => "request"}],
+        "source" => "describe",
+        "unresolved_reason" => nil
+      }
+
+      assert RateLimitCostBinding.derive(wrapper) == nil
+    end
   end
 end

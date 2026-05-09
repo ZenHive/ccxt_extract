@@ -3485,7 +3485,7 @@ mix ccxt_extract.contract_test
 mix ccxt_extract.signing_fixtures
 
 # Tidewave MCP server (for runtime exploration via `mcp__tidewave__*`)
-mix tidewave   # listens on http://localhost:4001
+mix tidewave   # listens on http://localhost:4002
 
 # tests (see test section below for flags)
 time mix compile --warnings-as-errors

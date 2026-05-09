@@ -14,6 +14,7 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - **Schema** — additive optional `endpoint_cost_binding` (`EndpointCostBinding` `$def`) on v3 `structure` and v4 `rate_limits`; `per_endpoint_cost` populated from discovery (same shape as Task 73 extractor — keys are `<section>.<verb>.<endpoint>` → `{cost, axes}`).
 - **Provenance** — `/structure/endpoint_cost_binding`, `/rate_limits/endpoint_cost_binding` derived.
 - **Contract test** — `rate_limits_endpoint_cost_binding_coherent` (v4): binding must agree with `RateLimitCostBinding.derive(rate_limits["buckets"])`.
+- **PR review follow-up.** `Pipeline.extract/1` runs full JSV (`Validation.validate_schema/2`) on each post-override exchange (schema target matches `--schema-target`) and merges failures into `stats.validation_errors` alongside preflight checks — each JSV row uses `JSV <path>: <message>` strings so stats match preflight `Schema.validate*` shape. `Schema.validate_v4/1` now asserts `rate_limits` carries `buckets`, `per_endpoint_cost`, `endpoint_cost_binding`. Discovery-loader shape test lists every top-level key from `load_all!/2`. Aggregate/overrides writer tests use `async: false` to avoid tmp-dir races under parallel ExUnit. `RateLimitCostBinding.derive/1` carries a public `@doc`.
 - **Cross-repo** — `../ccxt_client/ROADMAP.md` Task 59 can treat upstream Task 90 as shipped for axis-aware cost accounting against `rate_limits.buckets`.
 
 ### Tasks 78b + 78e — `parseOHLCV` object-input shape + parse8601 timestamp wrapper

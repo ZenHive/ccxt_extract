@@ -122,7 +122,7 @@ defmodule CcxtExtract.Pipeline do
 
             {:error, findings} ->
               Logger.warning("JSV validation failed for #{id}: #{inspect(findings)}")
-              [{id, ["JSV validation failed"]}]
+              [{id, format_jsv_findings(findings)}]
           end
         end)
 
@@ -368,6 +368,16 @@ defmodule CcxtExtract.Pipeline do
   defp stamp_override_provenance(exchange, paths) do
     Map.update(exchange, "_provenance", Provenance.build_default(), fn provenance ->
       Provenance.stamp_overrides(provenance, paths)
+    end)
+  end
+
+  # Same string-list shape as `Schema.validate/1` — Mix task counts rows only.
+  @spec format_jsv_findings([map()] | []) :: [String.t()]
+  defp format_jsv_findings(findings) when is_list(findings) do
+    Enum.map(findings, fn
+      %{"path" => path, "message" => msg} -> "JSV #{path}: #{msg}"
+      map when is_map(map) -> "JSV #{inspect(map)}"
+      other -> "JSV #{inspect(other)}"
     end)
   end
 

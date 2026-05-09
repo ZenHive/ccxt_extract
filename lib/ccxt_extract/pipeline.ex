@@ -4,7 +4,11 @@ defmodule CcxtExtract.Pipeline do
 
   Reads discovery data produced by individual extractors (QuickBEAM runtime
   values + OXC AST data) and combines them into validated per-exchange JSON
-  files conforming to `exchange_v3.json` schema.
+  files conforming to `exchange_v3.json` / `exchange_v4.json`. After scoped
+  overrides and sign-recipe / request-shape sync, each exchange is checked
+  with `CcxtExtract.Validation.validate_schema/2` (JSV) — failures are logged
+  and recorded in `stats.validation_errors` without dropping the exchange (same
+  policy as preflight `Schema.validate*`).
 
   ## Usage
 
@@ -28,6 +32,7 @@ defmodule CcxtExtract.Pipeline do
   alias CcxtExtract.Schema
   alias CcxtExtract.ScopeCleanup
   alias CcxtExtract.SignRecipe
+  alias CcxtExtract.Validation
 
   require Logger
 
@@ -82,6 +87,8 @@ defmodule CcxtExtract.Pipeline do
         schema_target: schema_target
       ]
 
+      schema_root = Validation.build_schema_root(schema_target)
+
       scope = Keyword.get(opts, :scope, :all)
 
       {exchanges, errors} =
@@ -104,6 +111,22 @@ defmodule CcxtExtract.Pipeline do
         exchanges
         |> Enum.reverse()
         |> Enum.map(&apply_exchange_overrides(&1, schema_target))
+
+      jsv_errors =
+        Enum.flat_map(final_exchanges, fn exchange ->
+          id = exchange["exchange"]["id"]
+
+          case Validation.validate_schema(exchange, schema_root) do
+            :ok ->
+              []
+
+            {:error, findings} ->
+              Logger.warning("JSV validation failed for #{id}: #{inspect(findings)}")
+              [{id, ["JSV validation failed"]}]
+          end
+        end)
+
+      stats = Map.update!(stats, :validation_errors, &(&1 ++ jsv_errors))
 
       {:ok, final_exchanges, stats}
     end

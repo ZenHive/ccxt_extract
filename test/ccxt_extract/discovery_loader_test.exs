@@ -22,10 +22,11 @@ defmodule CcxtExtract.DiscoveryLoaderTest do
       exchanges_json = %{"exchanges" => [%{"id" => "fakex"}]}
       data = DiscoveryLoader.load_all!(tmp_dir, exchanges_json)
 
-      expected_keys = ~w(exchanges describe load_markets classes methods_rest
+      expected_keys = ~w(exchanges describe load_markets classes error_class_hierarchy methods_rest
                         methods_ws sign_methods handle_errors parse_methods
                         ws_methods interface_signatures pagination
-                        unified_endpoints url_templates overrides rate_limit_costs
+                        unified_endpoints request_defaults url_templates request_headers
+                        rate_limit_buckets rate_limit_costs overrides
                         canonical_has_keys missing_files missing_entries
                         corrupt_entries orphan_entries id_mismatch_entries)a
 

@@ -6,6 +6,13 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### `mix ccxt_extract.{link,unlink}_corpus` — corpus access in fresh worktrees
+
+- Two new mix tasks: `link_corpus` symlinks the gitignored extraction corpus (`priv/output`, `priv/ccxt`, `priv/ccxt_bundle.js`, gitignored entries under `priv/discoveries/`) from a source checkout into the current worktree; `unlink_corpus` removes the symlinks. Default source is `~/_DATA/code/ccxt_extract`; override with `--from PATH`.
+- **Why:** git worktrees share `.git` but each has an isolated working tree, so gitignored derived state only exists in whichever working tree last regenerated it. Fresh worktrees previously had two options — wait ~minutes for `mix ccxt_extract.update` to regenerate ~550MB of corpus, or hand-roll a symlink dance. This task codifies the symlink dance, runs in <100ms, and preserves the committed `priv/discoveries/class_hierarchy.json` (the one tracked file under `priv/discoveries/`).
+- **Writeback hazard:** directory symlinks are write-transparent. Any task that regenerates corpus in the worktree (`mix ccxt_extract.update`, `mix ccxt_extract.pipeline`, per-extractor tasks) writes through into the source checkout. `unlink_corpus` is the safety mechanism — run it before regeneration in-worktree to materialize a worktree-local corpus.
+- **Source==target detection** uses inode + device equality (`File.stat`), not string-path equality — necessary because macOS routes `/tmp` through a `/private` symlink chain that breaks naive `Path.expand/1` comparison.
+
 ### Tasks 85+86 — Phase 13 v4 unified — error classification + handler-routing v4 emission (PR #13, INE-66)
 
 - **Shipped 2026-05-08.** Phase 13's classify tier closes (Tasks 85, 86 ✅; Task 87 already ✅ on development before this PR; Tasks 88a/b/c shipped in PR #6 with v4-emission follow-on bundled here). The `errors` block on the v4 schema now carries the full classify+dispatch surface, and v3 gains additive `structure.error_status_map` + `structure.error_retryable` siblings. `error_class_hierarchy` is the corpus-global rich form (`{tree, flat_parents, ancestors}`) — the rebase against development resolved a double-implementation collision in favor of dev's rich form, dropping PR #13's flat `{class => parent}` form. PR #13 was rebased onto `a607780` to absorb Task 87's already-landed content; squash-merged after CI green.

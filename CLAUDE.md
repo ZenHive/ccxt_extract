@@ -34,6 +34,8 @@ Branch-worthy work lives in a git worktree at `~/_DATA/worktrees/ccxt_extract/<i
 
 **Cleanup:** after PR merge or branch deletion, run `git worktree remove ~/_DATA/worktrees/ccxt_extract/<id>` and `git worktree prune` in the same session — completion of a task includes worktree teardown.
 
+**Corpus in fresh worktrees:** the gitignored extraction corpus (`priv/output/`, `priv/discoveries/<not class_hierarchy.json>`, `priv/ccxt/`, `priv/ccxt_bundle.js`) is filesystem-isolated per worktree — git only materializes tracked content when adding a worktree. Run `mix ccxt_extract.link_corpus` to symlink the existing corpus from the main checkout instead of regenerating via `mix ccxt_extract.update`. Run `mix ccxt_extract.unlink_corpus` before regenerating in-worktree — directory symlinks are write-transparent, so corpus regeneration without unlinking writes back into the main checkout.
+
 **`[P]` parallel marker in ROADMAP.md** — independent tasks tagged `[P]` are explicitly safe to dispatch into separate worktrees concurrently. They predate cloud delegation and are unaffected by the `[CSR]` retirement.
 
 ---

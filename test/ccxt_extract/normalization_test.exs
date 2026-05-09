@@ -129,6 +129,64 @@ defmodule CcxtExtract.NormalizationTest do
       assert stub |> Map.keys() |> Enum.sort() == expected_keys
       assert stub["_unresolved_reason"] == "not_yet_derived"
     end
+
+    test "Task 78: ohlcv slot populates when a parseOHLCV entry is supplied" do
+      # Synthetic minimal parseOHLCV: timestamp + 5 OHLC slots, no volume —
+      # exercises the wiring without depending on the real corpus. Validates
+      # that build/2 routes the entry into OHLCV.derive while leaving the
+      # other 8 parser-type slots null and the carrier reason unchanged.
+      ohlcv_ast = %{
+        "async" => false,
+        "params" => [],
+        "return_type" => nil,
+        "statements" => 1,
+        "body" => %{
+          "type" => "BlockStatement",
+          "body" => [
+            %{
+              "type" => "ReturnStatement",
+              "argument" => %{
+                "type" => "ArrayExpression",
+                "elements" =>
+                  Enum.map(0..4, fn idx ->
+                    method = if idx == 0, do: "safeInteger", else: "safeNumber"
+
+                    %{
+                      "type" => "CallExpression",
+                      "callee" => %{
+                        "type" => "MemberExpression",
+                        "object" => %{"type" => "ThisExpression"},
+                        "property" => %{"type" => "Identifier", "name" => method}
+                      },
+                      "arguments" => [
+                        %{"type" => "Identifier", "name" => "ohlcv"},
+                        %{"type" => "Literal", "value" => idx}
+                      ]
+                    }
+                  end)
+              }
+            }
+          ]
+        }
+      }
+
+      entry = %{"parse_methods" => %{"parseOHLCV" => ohlcv_ast}}
+      result = Normalization.build(entry)
+      field_maps = result["field_maps"]
+
+      assert is_map(field_maps["ohlcv"]), "Task 78: ohlcv slot populates"
+      assert [branch] = field_maps["ohlcv"]["branches"]
+      assert branch["guard"]["kind"] == "always"
+      assert branch["field_map"]["timestamp"]["coercion"] == "safeInteger"
+
+      # Other 8 parser-type slots stay nil
+      for type <- Normalization.parser_types() -- ["ohlcv"] do
+        assert field_maps[type] == nil, "non-ohlcv slot #{type} should still be nil"
+      end
+
+      # Carrier-level reason stays "not_yet_derived" until all 9 types populate
+      assert field_maps["_unresolved_reason"] == "not_yet_derived"
+    end
   end
 
   describe "build/2 — round-trip + shape" do

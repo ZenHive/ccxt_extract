@@ -273,7 +273,12 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 | Task 75 `[P]` | ⬜ | 🎁 **12-orders** · `parseOrder` field map + status/side/type enums [D:5/B:9/U:9 → Eff:1.8] 🚀 |
 | Task 76 `[P]` | ⬜ | 🎁 **12-simple** · `parseTrade` field map [D:4/B:8/U:8 → Eff:2.0] 🚀 |
 | Task 77 `[P]` | ⬜ | 🎁 **12-accounts** · `parseBalance` field map [D:4/B:8/U:8 → Eff:2.0] 🚀 |
-| Task 78 `[P]` | ⬜ | 🎁 **12-simple** · `parseOHLCV` field map + timestamp format [D:3/B:7/U:7 → Eff:2.33] 🚀 |
+| Task 78 `[P]` | ✅ | 🎁 **12-simple** · `parseOHLCV` field map (pure-array scope, 6 priority exchanges) — see [CHANGELOG.md](CHANGELOG.md#task-78--parseohlcv-field-map-pure-array-scope) |
+| Task 78b `[P]` | ⬜ | 🎁 **12-simple** · `parseOHLCV` object-shape exchanges (`htx`, `bitmex`, `hyperliquid`, `lighter`) [D:4/B:5/U:5 → Eff:1.25] 📋. Add `guard.shape: "object"` + `key`-not-`index` slots; `bitmex` volume → `null + non_safe_coercion:convertFromRawQuantity`. |
+| Task 78c `[P]` | ⬜ | 🎁 **12-simple** · `parseOHLCV` hybrid `Array.isArray` exchanges (`gate`, possible `binance` options-fallback) [D:5/B:4/U:4 → Eff:0.8] ⚠️. Adds `array_input`/`object_input` guard kinds + IfStatement-discriminated branches. |
+| Task 78d `[P]` | ⬜ | 🎁 **12-simple** · `parseOHLCV` scrambled-coercion + heuristic exchanges (`coinbaseexchange` `safeTimestamp` s→ms, `kraken` VWAP-extras, `kucoin` timestamp-length IfStatement heuristic) [D:5/B:4/U:4 → Eff:0.8] ⚠️. Adds `format: "s"`, populates `extras` list, emits kucoin timestamp-slot null with reason. |
+| Task 78e `[P]` | ⬜ | 🎁 **12-simple** · `parseOHLCV` `parse8601` ISO8601 timestamps if 78b reaches `bitmex` first [D:2/B:3/U:3 → Eff:1.5] 📋. |
+| Task 78f `[P]` | ⬜ | 🎁 **12-simple** · `parseOHLCV` discriminator vocabulary beyond `market.inverse` (okx `type === 'spot'` and similar multi-market-type gating) [D:3/B:4/U:4 → Eff:1.33] 📋. Discovered during Task 78 implementation — okx's `volumeIndex` test is `(type === 'spot') ? 5 : 6`, currently emits `volume = null` honestly. Generalize the closed `discriminator` vocab; ship okx volume populated when fixed. |
 | Task 79 `[P]` | ⬜ | 🎁 **12-accounts** · `parseMarket` field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 80 `[P]` | ⬜ | 🎁 **12-orders** · `parsePosition` field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 81 `[P]` | ⬜ | 🎁 **12-txn** · `parseTransaction` (deposit/withdrawal) field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |

@@ -240,6 +240,47 @@ read without change aside from the new required-field shape.
 
 `structure.parse_methods` was dropped at v3.0.0 (Task 117) precisely because the raw ESTree bodies blew the Hex 128 MB publish cap that ccxt_client downstream needed cleared. The v4 carrier (Task 129) re-introduces the surface as a **compact digest** — method name → `{params, return_type, async, statement_count}` — preserving the discoverability without re-blowing the cap. The full AST bodies remain in `priv/discoveries/parse_methods.json` for internal Phase 12 derivation; consumers that need them call the extractor's discovery file directly rather than reading them per-exchange.
 
+### `normalization.field_maps.ohlcv` — shape (Task 78, pure-array scope)
+
+Populated for exchanges whose `parseOHLCV` body is a single `ReturnStatement` with an `ArrayExpression` of safe-call elements. `null` for exchanges that inherit `parseOHLCV` from a base class (no override); a populated record with `branches: []` and a non-nil `_unresolved_reason` for exchanges whose override exists but doesn't match a recognized shape (e.g. multiple distinct return arrays).
+
+```json
+{
+  "branches": [
+    {
+      "guard":  { "kind": "always" },
+      "shape":  "array",
+      "field_map": {
+        "timestamp": { "index": 0, "key": null, "coercion": "safeInteger2", "format": "ms" },
+        "open":      { "index": 1, "key": null, "coercion": "safeNumber2",  "format": null },
+        "high":      { "index": 2, "key": null, "coercion": "safeNumber2",  "format": null },
+        "low":       { "index": 3, "key": null, "coercion": "safeNumber2",  "format": null },
+        "close":     { "index": 4, "key": null, "coercion": "safeNumber2",  "format": null },
+        "volume":    {
+          "kind": "discriminated",
+          "discriminator": "market.inverse",
+          "true":  { "index": 7, "coercion": "safeNumber2" },
+          "false": { "index": 5, "coercion": "safeNumber2" }
+        }
+      },
+      "_unresolved_reason": null
+    }
+  ],
+  "extras": [],
+  "_unresolved_reason": null
+}
+```
+
+**`coercion` and `discriminator` are closed-vocabulary exceptions to the file-wide open-enum rule (top of this doc).** Unlike `has` capabilities or AST `type` values, these two enums are exhaustive within their scope: consumers MUST hard-error on unrecognized values rather than fall through to a permissive default. The producer never emits an out-of-vocab value; encountering one is a contract violation, not a forward-compat bump. Vocabulary expansion is signalled by a schema major-version bump (e.g. Task 78d/78e/78f), at which point consumers update their match exhaustiveness in lockstep.
+
+**Closed `coercion` vocabulary (this scope):** `["safeInteger", "safeInteger2", "safeNumber", "safeNumber2"]`. A `safeXxx` family member outside this set in any slot emits that slot as `null` with a per-branch `_unresolved_reason: "<field>:non_safe_coercion:<method>"`. Tasks 78d (`safeTimestamp`) and 78e (`parse8601`) extend the vocab; the contract is that consumers should error on unrecognized coercion identifiers rather than silently coercing the wrong way.
+
+**Closed `discriminator` vocabulary (this scope):** `["market.inverse"]`. Recognized AST shapes for the `volumeIndex` test: `market['inverse']` MemberExpression, `(market['inverse'])` ParenthesizedExpression, `this.safeBool(market, 'inverse')` CallExpression, or an `Identifier` bound transitively to one of the above (e.g. binance/bitget's chained `const inverse = this.safeBool(market, 'inverse'); const volumeIndex = inverse ? 7 : 5;`). Anything else — e.g. okx's `(type === 'spot') ? 5 : 6` — emits `volume = null` with branch reason `"volume:non_inverse_discriminator"`. Task 78f generalizes the discriminator vocabulary.
+
+**Slot vs discriminated_slot:** pure slots (`%{"index", "key", "coercion", "format"}`) are scalar columns. Discriminated slots (`%{"kind", "discriminator", "true", "false"}`) emit when the column's index is not a literal — consumers branch on the discriminator (e.g. `if market.inverse`, read `slot["true"]`, else `slot["false"]`). The `extras` list is populated by Task 78d for exchanges that emit non-OHLCV columns (e.g. kraken VWAP at index 5 alongside the standard six fields).
+
+**Honesty contract:** every populated slot is provable from AST. Inheriting exchanges (no `parseOHLCV` override) emit `field_maps["ohlcv"] = null`. Override exists but body shape isn't recognized → populated record with non-nil `_unresolved_reason`. Slot-level unresolvability emits `nil` for that slot plus a per-branch reason; other slots in the same branch populate normally.
+
 ### What changed from 3.1.0 (breaking)
 
 [FILL IN AS FREEZE TASKS SHIP — populated incrementally as Phases 11/12/13/14 land. The "Top-level reshape" table above is the path-migration specification; "What changed" elaborates with concrete field-by-field diffs and consumer-facing semantic notes.]

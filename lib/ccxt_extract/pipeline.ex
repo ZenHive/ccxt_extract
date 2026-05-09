@@ -112,19 +112,7 @@ defmodule CcxtExtract.Pipeline do
         |> Enum.reverse()
         |> Enum.map(&apply_exchange_overrides(&1, schema_target))
 
-      jsv_errors =
-        Enum.flat_map(final_exchanges, fn exchange ->
-          id = exchange["exchange"]["id"]
-
-          case Validation.validate_schema(exchange, schema_root) do
-            :ok ->
-              []
-
-            {:error, findings} ->
-              Logger.warning("JSV validation failed for #{id}: #{inspect(findings)}")
-              [{id, format_jsv_findings(findings)}]
-          end
-        end)
+      jsv_errors = Enum.flat_map(final_exchanges, &validate_one(&1, schema_root))
 
       stats = Map.update!(stats, :validation_errors, &(&1 ++ jsv_errors))
 
@@ -379,6 +367,20 @@ defmodule CcxtExtract.Pipeline do
       map when is_map(map) -> "JSV #{inspect(map)}"
       other -> "JSV #{inspect(other)}"
     end)
+  end
+
+  @spec validate_one(map(), term()) :: [{String.t(), [String.t()]}]
+  defp validate_one(exchange, schema_root) do
+    id = exchange["exchange"]["id"]
+
+    case Validation.validate_schema(exchange, schema_root) do
+      :ok ->
+        []
+
+      {:error, findings} ->
+        Logger.warning("JSV validation failed for #{id}: #{inspect(findings)}")
+        [{id, format_jsv_findings(findings)}]
+    end
   end
 
   # Reduce callback: build one exchange and validate it

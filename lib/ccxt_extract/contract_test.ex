@@ -1780,33 +1780,38 @@ defmodule CcxtExtract.ContractTest do
   @spec check_rate_limits_endpoint_cost_binding_coherent(map(), map()) :: [finding()]
   def check_rate_limits_endpoint_cost_binding_coherent(exchange, _observed) do
     if v4_shape?(exchange) do
-      id = exchange_id(exchange)
-
-      case Map.get(exchange, "rate_limits") do
-        %{} = rl ->
-          wrapper = Map.get(rl, "buckets")
-          binding = Map.get(rl, "endpoint_cost_binding")
-          expected = RateLimitCostBinding.derive(wrapper)
-
-          if binding == expected do
-            []
-          else
-            [
-              %{
-                exchange: id,
-                invariant: "rate_limits_endpoint_cost_binding_coherent",
-                path: "rate_limits.endpoint_cost_binding",
-                message:
-                  "endpoint_cost_binding must equal RateLimitCostBinding.derive(rate_limits.buckets); expected #{inspect(expected)}, got #{inspect(binding)}"
-              }
-            ]
-          end
-
-        _ ->
-          []
-      end
+      endpoint_cost_binding_findings(exchange)
     else
       []
+    end
+  end
+
+  defp endpoint_cost_binding_findings(exchange) do
+    id = exchange_id(exchange)
+
+    case Map.get(exchange, "rate_limits") do
+      %{} = rl -> binding_finding(id, rl)
+      _ -> []
+    end
+  end
+
+  defp binding_finding(id, rl) do
+    wrapper = Map.get(rl, "buckets")
+    binding = Map.get(rl, "endpoint_cost_binding")
+    expected = RateLimitCostBinding.derive(wrapper)
+
+    if binding == expected do
+      []
+    else
+      [
+        %{
+          exchange: id,
+          invariant: "rate_limits_endpoint_cost_binding_coherent",
+          path: "rate_limits.endpoint_cost_binding",
+          message:
+            "endpoint_cost_binding must equal RateLimitCostBinding.derive(rate_limits.buckets); expected #{inspect(expected)}, got #{inspect(binding)}"
+        }
+      ]
     end
   end
 

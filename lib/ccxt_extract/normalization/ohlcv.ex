@@ -82,37 +82,43 @@ defmodule CcxtExtract.Normalization.OHLCV do
     case walk_return_array(body_stmts) do
       {:array, elements} -> build_branch(elements, bindings)
       :ambiguous -> unresolved("ambiguous_return_shape")
+      :non_array -> unresolved("non_array_return")
       :not_found -> unresolved("no_return_array")
     end
   end
 
-  @spec walk_return_array([map()]) :: {:array, [map()]} | :ambiguous | :not_found
+  @spec walk_return_array([map()]) :: {:array, [map()]} | :ambiguous | :non_array | :not_found
   defp walk_return_array(stmts) do
-    case collect_return_arrays(stmts) do
-      [single] -> {:array, single}
+    case collect_returns(stmts) do
+      [%{"type" => "ArrayExpression", "elements" => els}] when is_list(els) -> {:array, els}
+      [_single] -> :non_array
       [] -> :not_found
       _multiple -> :ambiguous
     end
   end
 
-  @spec collect_return_arrays(term()) :: [[map()]]
-  defp collect_return_arrays(%{
-         "type" => "ReturnStatement",
-         "argument" => %{"type" => "ArrayExpression", "elements" => els}
-       })
-       when is_list(els) do
-    [els]
+  # Collects every `ReturnStatement.argument` reachable in the method's own
+  # control flow. Stops at function-body boundaries — a callback or arrow fn
+  # nested inside `parseOHLCV` belongs to a different scope, and its returns
+  # must not be confused with the parser's. Hybrid bodies (one `return [...]`
+  # plus another `return {...}`) surface as a multi-element list, classify as
+  # `:ambiguous`, and emit null + reason rather than a fabricated always-array.
+  @spec collect_returns(term()) :: [term()]
+  defp collect_returns(%{"type" => "ReturnStatement", "argument" => arg}), do: [arg]
+
+  defp collect_returns(%{"type" => type})
+       when type in ["FunctionDeclaration", "FunctionExpression", "ArrowFunctionExpression"],
+       do: []
+
+  defp collect_returns(node) when is_map(node) do
+    node |> Map.values() |> Enum.flat_map(&collect_returns/1)
   end
 
-  defp collect_return_arrays(node) when is_map(node) do
-    node |> Map.values() |> Enum.flat_map(&collect_return_arrays/1)
+  defp collect_returns(nodes) when is_list(nodes) do
+    Enum.flat_map(nodes, &collect_returns/1)
   end
 
-  defp collect_return_arrays(nodes) when is_list(nodes) do
-    Enum.flat_map(nodes, &collect_return_arrays/1)
-  end
-
-  defp collect_return_arrays(_), do: []
+  defp collect_returns(_), do: []
 
   @spec build_branch([map()], [{String.t(), map()}]) :: map()
   defp build_branch(elements, bindings) do
@@ -133,14 +139,19 @@ defmodule CcxtExtract.Normalization.OHLCV do
   end
 
   @spec build_field_map([map()], [{String.t(), map()}]) :: {map(), String.t() | nil}
+  defp build_field_map(elements, _bindings) when length(elements) > 6 do
+    # Honesty rule: a 7+-column return (e.g. kraken's
+    # `[ts, o, h, l, c, vwap, vol]`) cannot be slot-mapped without
+    # disambiguating which column is volume vs. an extra. Bail out instead
+    # of silently misassigning the 6th element. Task 78d introduces an
+    # `extras` list for the >6 case; until then, fail closed.
+    empty = Map.new(@field_order, &{&1, nil})
+    {empty, "extras_not_supported:#{length(elements)}_elements"}
+  end
+
   defp build_field_map(elements, bindings) do
     padded = elements ++ List.duplicate(:missing, max(0, 6 - length(elements)))
 
-    # TODO(Task 78d): elements at array indices >= 6 are dropped by the
-    # `Enum.take(padded, 6)` below. Kraken's parseOHLCV (VWAP at idx 5
-    # alongside the standard six fields) and any future seven-column
-    # exchange need these surfaced via the carrier-level `extras` list —
-    # currently always `[]`.
     {pairs, reasons} =
       @field_order
       |> Enum.zip(Enum.take(padded, 6))
@@ -173,6 +184,9 @@ defmodule CcxtExtract.Normalization.OHLCV do
       {:ok, %{method: m}} when m in @safe_num ->
         {:error, "timestamp_uses_number_coercion:#{m}"}
 
+      {:ok, %{method: m}} when m in @safe_int ->
+        {:error, "non_literal_index:#{m}"}
+
       {:ok, %{method: m}} ->
         {:error, "non_safe_coercion:#{m}"}
 
@@ -194,6 +208,9 @@ defmodule CcxtExtract.Normalization.OHLCV do
       {:ok, %{method: m}} when m in @safe_int ->
         {:error, "ohlc_uses_integer_coercion:#{m}"}
 
+      {:ok, %{method: m}} when m in @safe_num ->
+        {:error, "non_literal_index:#{m}"}
+
       {:ok, %{method: m}} ->
         {:error, "non_safe_coercion:#{m}"}
 
@@ -211,28 +228,37 @@ defmodule CcxtExtract.Normalization.OHLCV do
 
       {:ok, %{method: m, idx_arg: %{"type" => "Identifier", "name" => name}}}
       when m in @safe_num ->
-        case resolve_volume_index(name, bindings) do
-          {:ok, %{cons: cons, alt: alt}} ->
-            {:ok,
-             %{
-               "kind" => "discriminated",
-               "discriminator" => "market.inverse",
-               "true" => %{"index" => cons, "coercion" => m},
-               "false" => %{"index" => alt, "coercion" => m}
-             }}
-
-          {:error, reason} ->
-            {:error, reason}
-        end
+        build_discriminated_volume(name, m, bindings)
 
       {:ok, %{method: m}} when m in @safe_int ->
         {:error, "volume_uses_integer_coercion:#{m}"}
+
+      {:ok, %{method: m}} when m in @safe_num ->
+        {:error, "non_literal_index:#{m}"}
 
       {:ok, %{method: m}} ->
         {:error, "non_safe_coercion:#{m}"}
 
       :error ->
         {:error, "non_call_element"}
+    end
+  end
+
+  @spec build_discriminated_volume(String.t(), String.t(), [{String.t(), map()}]) ::
+          {:ok, map()} | {:error, String.t()}
+  defp build_discriminated_volume(name, method, bindings) do
+    case resolve_volume_index(name, bindings) do
+      {:ok, %{cons: cons, alt: alt}} ->
+        {:ok,
+         %{
+           "kind" => "discriminated",
+           "discriminator" => "market.inverse",
+           "true" => %{"index" => cons, "coercion" => method},
+           "false" => %{"index" => alt, "coercion" => method}
+         }}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 

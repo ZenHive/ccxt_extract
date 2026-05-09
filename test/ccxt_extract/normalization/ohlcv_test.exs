@@ -517,4 +517,162 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
     assert branch["field_map"]["volume"] == nil
     assert branch["_unresolved_reason"] =~ "non_inverse_discriminator"
   end
+
+  # --- 23. hybrid return: one array + one non-array → ambiguous, not silent always-array ---
+
+  test "hybrid `if (Array.isArray()) return [...]; return {...}` → ambiguous_return_shape" do
+    # Codex P2 finding: the deferred Task 78b/c hybrid shape must NOT emit a
+    # fabricated always-array map just because exactly one return happens to
+    # be an ArrayExpression. The walker counts ALL ReturnStatements, so an
+    # array-plus-object body classifies as ambiguous and emits null + reason.
+    array_elements =
+      Enum.map(0..5, fn idx ->
+        method = if idx == 0, do: "safeInteger", else: "safeNumber"
+        safe_call(method, [identifier("ohlcv"), literal(idx)])
+      end)
+
+    object_return =
+      return_stmt(%{
+        "type" => "ObjectExpression",
+        "properties" => [
+          %{
+            "type" => "Property",
+            "key" => %{"type" => "Identifier", "name" => "timestamp"},
+            "value" => safe_call("safeInteger", [identifier("ohlcv"), literal("t")])
+          }
+        ]
+      })
+
+    if_stmt = %{
+      "type" => "IfStatement",
+      "test" => this_call("safeBool", [identifier("ohlcv"), literal("isArray")]),
+      "consequent" => %{"type" => "BlockStatement", "body" => [return_stmt(array_expr(array_elements))]},
+      "alternate" => nil
+    }
+
+    entry = wrap_entry([if_stmt, object_return])
+    result = OHLCV.derive(entry)
+
+    assert result["branches"] == []
+    assert result["_unresolved_reason"] == "ambiguous_return_shape"
+  end
+
+  # --- 24. nested function/arrow with its own array return must not pollute ---
+
+  test "nested ArrowFunctionExpression with array return is not counted as parseOHLCV's return" do
+    # CodeRabbit major finding: if collect_returns descended into nested
+    # function bodies, an inline callback like `arr.map((x) => [x, x])` would
+    # add bogus array returns and flip a clean single-return body to
+    # ambiguous. The collector stops at function-body boundaries.
+    pure_elements =
+      Enum.map(0..5, fn idx ->
+        method = if idx == 0, do: "safeInteger", else: "safeNumber"
+        safe_call(method, [identifier("ohlcv"), literal(idx)])
+      end)
+
+    nested_arrow = %{
+      "type" => "ArrowFunctionExpression",
+      "params" => [identifier("x")],
+      "body" => %{
+        "type" => "BlockStatement",
+        "body" => [return_stmt(array_expr([identifier("x"), identifier("x")]))]
+      },
+      "async" => false
+    }
+
+    # `const _noise = [].map((x) => [x, x]);` lives in the body, but its
+    # array-returning arrow body must be invisible to walk_return_array.
+    noise_decl =
+      var_decl(
+        "_noise",
+        this_call("map", [%{"type" => "ArrayExpression", "elements" => []}, nested_arrow])
+      )
+
+    entry = wrap_entry([noise_decl, return_stmt(array_expr(pure_elements))])
+
+    %{"branches" => [branch]} = OHLCV.derive(entry)
+
+    # Single legitimate return survives the nested-fn noise → fully populated.
+    assert branch["field_map"]["timestamp"]["coercion"] == "safeInteger"
+    assert branch["field_map"]["volume"]["index"] == 5
+    assert branch["_unresolved_reason"] == nil
+  end
+
+  # --- 25. > 6-element return → fail-closed instead of misassigning ---
+
+  test "seven-element return array fails closed with extras_not_supported reason" do
+    # CodeRabbit major finding: kraken's `[ts, o, h, l, c, vwap, volume]`
+    # would silently land VWAP in the volume slot under the old Enum.take(6)
+    # code. Honesty rule: bail out, leave every slot null, surface the cause.
+    elements =
+      [safe_call("safeInteger", [identifier("ohlcv"), literal(0)])] ++
+        Enum.map(1..6, fn idx ->
+          safe_call("safeNumber", [identifier("ohlcv"), literal(idx)])
+        end)
+
+    entry = wrap_entry([return_stmt(array_expr(elements))])
+
+    %{"branches" => [branch]} = OHLCV.derive(entry)
+
+    for field <- ~w(timestamp open high low close volume) do
+      assert branch["field_map"][field] == nil, "#{field} must be nil under fail-closed"
+    end
+
+    assert branch["_unresolved_reason"] == "extras_not_supported:7_elements"
+  end
+
+  # --- 26. single non-array return → distinct reason from "no return at all" ---
+
+  test "single ReturnStatement that's not an ArrayExpression → non_array_return" do
+    # Surfaces the new :non_array branch in walk_return_array. Distinct from
+    # `no_return_array` (no returns) because the parser DID return something —
+    # we just can't slot-map an object/literal/identifier shape under this scope.
+    object_return =
+      return_stmt(%{
+        "type" => "ObjectExpression",
+        "properties" => []
+      })
+
+    entry = wrap_entry([object_return])
+    result = OHLCV.derive(entry)
+
+    assert result["branches"] == []
+    assert result["_unresolved_reason"] == "non_array_return"
+  end
+
+  # --- 27. in-vocab method with non-literal index → non_literal_index, not non_safe_coercion ---
+
+  test "OHLC slot using safeNumber with a non-literal index emits non_literal_index reason" do
+    # Copilot finding: `non_safe_coercion:<m>` was misleading when `<m>` IS
+    # in vocab but the index is e.g. a binary expression. Distinct reason
+    # `non_literal_index:<m>` lets consumers dispatch correctly.
+    timestamp_call = safe_call("safeInteger", [identifier("ohlcv"), literal(0)])
+
+    # close (idx 4) uses safeNumber but index is `i + 1` — a BinaryExpression.
+    weird_index = %{
+      "type" => "BinaryExpression",
+      "operator" => "+",
+      "left" => identifier("i"),
+      "right" => literal(1)
+    }
+
+    close_call = safe_call("safeNumber", [identifier("ohlcv"), weird_index])
+
+    other_calls =
+      Enum.map([1, 2, 3], fn idx ->
+        safe_call("safeNumber", [identifier("ohlcv"), literal(idx)])
+      end)
+
+    volume_call = safe_call("safeNumber", [identifier("ohlcv"), literal(5)])
+
+    elements = [timestamp_call] ++ other_calls ++ [close_call, volume_call]
+
+    entry = wrap_entry([return_stmt(array_expr(elements))])
+
+    %{"branches" => [branch]} = OHLCV.derive(entry)
+
+    assert branch["field_map"]["close"] == nil
+    assert branch["_unresolved_reason"] =~ "close:non_literal_index:safeNumber"
+    refute branch["_unresolved_reason"] =~ "non_safe_coercion"
+  end
 end

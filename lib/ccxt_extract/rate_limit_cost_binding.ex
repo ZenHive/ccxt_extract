@@ -4,6 +4,10 @@ defmodule CcxtExtract.RateLimitCostBinding do
   from the resolved rate-limit bucket wrapper returned by `get_rate_limit_buckets/2` (Task 90).
   """
 
+  @doc """
+  Returns `%{"bucket_index" => 0, "axes" => …}` from the first resolved bucket when the
+  wrapper is usable; otherwise `nil` (unresolved, empty buckets, or missing axes).
+  """
   @spec derive(term()) :: map() | nil
   def derive(wrapper) when is_map(wrapper) do
     reason = Map.get(wrapper, "unresolved_reason")

@@ -14,13 +14,6 @@
         "matcher": "Write|TabWrite",
         "timeout": 300
       }
-    ],
-    "stop": [
-      {
-        "command": ".cursor/hooks/stop-on-fail.sh",
-        "timeout": 300,
-        "loop_limit": 3
-      }
     ]
   }
 }

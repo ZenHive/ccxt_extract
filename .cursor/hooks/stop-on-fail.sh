@@ -17,6 +17,13 @@
 
 set -uo pipefail
 
+# DISABLED 2026-05-09: parallel-spawn pile-up overheated machine.
+# Cursor cached the old hooks.json so disabling there alone wasn't enough.
+# Re-enable by removing this short-circuit AND restoring the `stop` block
+# in .cursor/hooks.json. Add a flock + lower timeout before re-enabling.
+echo '{}'
+exit 0
+
 RAW=$(cat)
 
 STATUS=$(echo "$RAW" | jq -r '.status // "unknown"' 2>/dev/null || echo unknown)

@@ -274,13 +274,53 @@ Populated for exchanges whose `parseOHLCV` body is a single `ReturnStatement` wi
 
 **`coercion` and `discriminator` are closed-vocabulary exceptions to the file-wide open-enum rule (top of this doc).** Unlike `has` capabilities or AST `type` values, these two enums are exhaustive within their scope: consumers MUST hard-error on unrecognized values rather than fall through to a permissive default. The producer never emits an out-of-vocab value; encountering one is a contract violation, not a forward-compat bump. Vocabulary expansion is signalled by a schema major-version bump (e.g. Task 78d/78e/78f), at which point consumers update their match exhaustiveness in lockstep.
 
-**Closed `coercion` vocabulary (this scope):** `["safeInteger", "safeInteger2", "safeNumber", "safeNumber2"]`. A `safeXxx` family member outside this set in any slot emits that slot as `null` with a per-branch `_unresolved_reason: "<field>:non_safe_coercion:<method>"`. Tasks 78d (`safeTimestamp`) and 78e (`parse8601`) extend the vocab; the contract is that consumers should error on unrecognized coercion identifiers rather than silently coercing the wrong way.
+**Closed `coercion` vocabulary (initial Task 78 scope):** `["safeInteger", "safeInteger2", "safeNumber", "safeNumber2"]`. A `safeXxx` family member outside this set in any slot emits that slot as `null` with a per-branch `_unresolved_reason: "<field>:non_safe_coercion:<method>"`. Task 78e (`parse8601`) extended this vocab — see the post-78b/78e vocabulary further below in "object-input shape (Tasks 78b + 78e)". Task 78d (`safeTimestamp`) is the next planned extension. The contract is that consumers should error on unrecognized coercion identifiers rather than silently coercing the wrong way.
 
 **Closed `discriminator` vocabulary (this scope):** `["market.inverse"]`. Recognized AST shapes for the `volumeIndex` test: `market['inverse']` MemberExpression, `(market['inverse'])` ParenthesizedExpression, `this.safeBool(market, 'inverse')` CallExpression, or an `Identifier` bound transitively to one of the above (e.g. binance/bitget's chained `const inverse = this.safeBool(market, 'inverse'); const volumeIndex = inverse ? 7 : 5;`). Anything else — e.g. okx's `(type === 'spot') ? 5 : 6` — emits `volume = null` with branch reason `"volume:non_inverse_discriminator"`. Task 78f generalizes the discriminator vocabulary.
 
 **Slot vs discriminated_slot:** pure slots (`%{"index", "key", "coercion", "format"}`) are scalar columns. Discriminated slots (`%{"kind", "discriminator", "true", "false"}`) emit when the column's index is not a literal — consumers branch on the discriminator (e.g. `if market.inverse`, read `slot["true"]`, else `slot["false"]`). The `extras` list is populated by Task 78d for exchanges that emit non-OHLCV columns (e.g. kraken VWAP at index 5 alongside the standard six fields).
 
 **Honesty contract:** every populated slot is provable from AST. Inheriting exchanges (no `parseOHLCV` override) emit `field_maps["ohlcv"] = null`. Override exists but body shape isn't recognized → populated record with non-nil `_unresolved_reason`. Slot-level unresolvability emits `nil` for that slot plus a per-branch reason; other slots in the same branch populate normally.
+
+### `normalization.field_maps.ohlcv` — object-input shape (Tasks 78b + 78e)
+
+Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer index) emit `input_shape: "object"` on the branch guard, and each slot has `"index": null` with a non-null `"key"`. The branch's existing top-level `"shape": "array"` is unchanged — `shape` describes the parser's *return* value (always an array of `[ts, o, h, l, c, v]`), `input_shape` describes the parser's *raw input* shape; the two are independent. The `coercion` vocabulary gains `"parse8601"` (Task 78e) for exchanges that wrap the timestamp in `parse8601(safeString(ohlcv, key))`.
+
+**Object-input example (hyperliquid / lighter — fully resolved):**
+
+```json
+{
+  "branches": [
+    {
+      "guard": { "kind": "always", "input_shape": "object" },
+      "shape": "array",
+      "field_map": {
+        "timestamp": { "index": null, "key": "t", "coercion": "safeInteger",  "format": "ms"   },
+        "open":      { "index": null, "key": "o", "coercion": "safeNumber",   "format": null   },
+        "high":      { "index": null, "key": "h", "coercion": "safeNumber",   "format": null   },
+        "low":       { "index": null, "key": "l", "coercion": "safeNumber",   "format": null   },
+        "close":     { "index": null, "key": "c", "coercion": "safeNumber",   "format": null   },
+        "volume":    { "index": null, "key": "v", "coercion": "safeNumber",   "format": null   }
+      },
+      "_unresolved_reason": null
+    }
+  ],
+  "extras": [],
+  "_unresolved_reason": null
+}
+```
+
+**parse8601 timestamp example (bitmex — timestamp slot only):**
+
+```json
+{
+  "timestamp": { "index": null, "key": "timestamp", "coercion": "parse8601", "format": "iso8601" }
+}
+```
+
+`"coercion": "parse8601"` means the raw value is an ISO-8601 string that must be parsed to a millisecond epoch integer. Consumers should apply their own `parse8601` / `DateTime.from_iso8601` equivalent. `"format": "iso8601"` is the companion annotation that communicates the wire format of the *raw* value before coercion, paralleling `"format": "ms"` on integer-millisecond columns.
+
+**Closed `coercion` vocabulary (extended by Tasks 78b + 78e):** `["safeInteger", "safeInteger2", "safeNumber", "safeNumber2", "parse8601"]`. The addition of `"parse8601"` is signalled by Task 78e; consumers must add an exhaustive match arm for it before consuming bitmex's timestamp slot.
 
 ### What changed from 3.1.0 (breaking)
 

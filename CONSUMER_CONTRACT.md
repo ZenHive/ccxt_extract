@@ -60,7 +60,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 | `parseOrder` field map + status/side/type enums | ⬜ | Phase 12 — Task 75 |
 | `parseTrade` field map + coercion | ⬜ | Phase 12 — Task 76 |
 | `parseBalance` field map + coercion | ⬜ | Phase 12 — Task 77 |
-| `parseOHLCV` field map + timestamp format | ⬜ | Phase 12 — Task 78 |
+| `parseOHLCV` field map + timestamp format | 🚧 | Phase 12 — Tasks 78/78b/78e ✅ (array-input + object-input + parse8601); 78c/78d/78f pending (hybrid Array.isArray, safeTimestamp, extended discriminator) |
 | `parseMarket` field map | ⬜ | Phase 12 — Task 79 |
 | `parsePosition` field map | ⬜ | Phase 12 — Task 80 |
 | `parseTransaction` (deposit/withdrawal) field map | ⬜ | Phase 12 — Task 81 |

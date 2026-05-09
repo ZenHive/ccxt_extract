@@ -99,6 +99,7 @@ defmodule CcxtExtract.Provenance do
     /structure/transaction_classification
     /structure/request_defaults
     /structure/rate_limit_costs
+    /structure/endpoint_cost_binding
     /structure/error_dispatch
     /structure/sign_dispatch
     /structure/parse_dispatch
@@ -149,6 +150,7 @@ defmodule CcxtExtract.Provenance do
     /endpoints/request/defaults
     /rate_limits/buckets
     /rate_limits/per_endpoint_cost
+    /rate_limits/endpoint_cost_binding
     /normalization/parse_methods_digest
     /normalization/field_maps
     /normalization/response_envelopes

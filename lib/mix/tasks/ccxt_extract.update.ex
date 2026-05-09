@@ -223,6 +223,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     ccxt_extract.url_templates
     ccxt_extract.request_headers
     ccxt_extract.rate_limit_buckets
+    ccxt_extract.rate_limit_costs
     ccxt_extract.signing_fixtures
   )
 

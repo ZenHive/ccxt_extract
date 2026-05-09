@@ -23,6 +23,7 @@ defmodule CcxtExtract.Pipeline do
   alias CcxtExtract.OverrideRegistry
   alias CcxtExtract.Paths
   alias CcxtExtract.Provenance
+  alias CcxtExtract.RateLimitCostBinding
   alias CcxtExtract.RequestShape
   alias CcxtExtract.Schema
   alias CcxtExtract.ScopeCleanup
@@ -395,6 +396,10 @@ defmodule CcxtExtract.Pipeline do
 
     handle_errors = get_handle_errors(id, data)
 
+    rl_buckets = get_rate_limit_buckets(id, data)
+    rl_costs = get_rate_limit_costs(id, data)
+    cost_binding = RateLimitCostBinding.derive(rl_buckets)
+
     structure_data = %{
       "class_info" => get_class_info(id, data),
       "methods" => get_methods(id, data),
@@ -411,7 +416,9 @@ defmodule CcxtExtract.Pipeline do
       "error_dispatch" => get_error_dispatch(handle_errors),
       "sign_dispatch" => get_sign_dispatch(effective_sign),
       "parse_dispatch" => get_parse_dispatch(id, data),
-      "rate_limit_buckets" => get_rate_limit_buckets(id, data),
+      "rate_limit_buckets" => rl_buckets,
+      "rate_limit_costs" => rl_costs,
+      "endpoint_cost_binding" => cost_binding,
       "error_status_map" => CcxtExtract.HandleErrors.http_status_map(handle_errors),
       "error_retryable" => CcxtExtract.HandleErrors.retryable_buckets(handle_errors)
     }
@@ -655,6 +662,28 @@ defmodule CcxtExtract.Pipeline do
     case find_parent_exchange_id(id, data) do
       nil -> CcxtExtract.RateLimitBuckets.empty_record()
       parent_id -> get_rate_limit_buckets(parent_id, data)
+    end
+  end
+
+  # Per-endpoint cost weights from discovery (describe().api). Alias exchanges
+  # inherit the parent's map via class hierarchy; nil when no row exists.
+  defp get_rate_limit_costs(id, data) do
+    case data |> Map.get(:rate_limit_costs, %{}) |> Map.get(id) do
+      nil ->
+        get_parent_rate_limit_costs(id, data)
+
+      %{"rate_limit_costs" => costs} when is_map(costs) ->
+        costs
+
+      _ ->
+        get_parent_rate_limit_costs(id, data)
+    end
+  end
+
+  defp get_parent_rate_limit_costs(id, data) do
+    case find_parent_exchange_id(id, data) do
+      nil -> nil
+      parent_id -> get_rate_limit_costs(parent_id, data)
     end
   end
 

@@ -422,6 +422,13 @@
             { "$ref": "#/$defs/RateLimitCosts" }
           ],
           "description": "Per-endpoint rate-limit cost weights derived from describe().api. Same shape as v3's structure.rate_limit_costs (see #/$defs/RateLimitCosts)."
+        },
+        "endpoint_cost_binding": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/EndpointCostBinding" }
+          ],
+          "description": "Same object as v3's structure.endpoint_cost_binding — bucket index and axes (Task 90), or null when binding cannot be derived."
         }
       }
     },
@@ -493,6 +500,25 @@
             { "type": "number", "exclusiveMinimum": 0 },
             { "type": "null" }
           ]
+        }
+      }
+    },
+
+    "EndpointCostBinding": {
+      "type": "object",
+      "description": "Maps derived per-endpoint rate-limit costs to a bucket row and counted axes (Task 90). Same definition as v3 #/$defs/EndpointCostBinding.",
+      "required": ["bucket_index", "axes"],
+      "additionalProperties": false,
+      "properties": {
+        "bucket_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index into rate_limits.buckets.buckets."
+        },
+        "axes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Weight-axis attribute names for this binding."
         }
       }
     },

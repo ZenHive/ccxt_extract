@@ -25,7 +25,7 @@ defmodule CcxtExtract.DiscoveryLoaderTest do
       expected_keys = ~w(exchanges describe load_markets classes methods_rest
                         methods_ws sign_methods handle_errors parse_methods
                         ws_methods interface_signatures pagination
-                        unified_endpoints url_templates overrides
+                        unified_endpoints url_templates overrides rate_limit_costs
                         canonical_has_keys missing_files missing_entries
                         corrupt_entries orphan_entries id_mismatch_entries)a
 
@@ -151,6 +151,7 @@ defmodule CcxtExtract.DiscoveryLoaderTest do
     write_json(Path.join(dir, "pagination.json"), empty_global)
     write_json(Path.join(dir, "unified_endpoints.json"), empty_global)
     write_json(Path.join(dir, "url_templates.json"), empty_global)
+    write_json(Path.join(dir, "rate_limit_costs.json"), empty_global)
     write_json(Path.join(dir, "overrides.json"), empty_global)
 
     write_json(Path.join(dir, "describe/_manifest.json"), %{"exchanges" => describe_exchanges})

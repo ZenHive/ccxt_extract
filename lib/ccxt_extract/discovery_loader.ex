@@ -55,6 +55,7 @@ defmodule CcxtExtract.DiscoveryLoader do
     {url_templates, stats} = load_exchange_lookup(dir, "url_templates.json", expected_ids, stats)
     {request_headers, stats} = load_exchange_lookup(dir, "request_headers.json", expected_ids, stats)
     {rate_limit_buckets, stats} = load_exchange_lookup(dir, "rate_limit_buckets.json", expected_ids, stats)
+    {rate_limit_costs, stats} = load_exchange_lookup(dir, "rate_limit_costs.json", expected_ids, stats)
     {overrides, stats} = load_overrides(dir, expected_ids, stats)
 
     %{
@@ -76,6 +77,7 @@ defmodule CcxtExtract.DiscoveryLoader do
       url_templates: url_templates,
       request_headers: request_headers,
       rate_limit_buckets: rate_limit_buckets,
+      rate_limit_costs: rate_limit_costs,
       overrides: overrides,
       canonical_has_keys: compute_canonical_has_keys(describe),
       missing_files: Enum.reverse(stats.missing_files),
@@ -566,6 +568,19 @@ defmodule CcxtExtract.DiscoveryLoader do
 
   defp validate_exchange_lookup_entry("rate_limit_buckets.json", entry) do
     {:corrupt, "rate_limit_buckets.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
+  end
+
+  defp validate_exchange_lookup_entry("rate_limit_costs.json", %{"id" => id} = entry) when is_binary(id) do
+    with {:ok, costs} <-
+           fetch_required_key(entry, "rate_limit_costs", id, "rate_limit_costs.json"),
+         :ok <-
+           validate_required_map_field("rate_limit_costs.json", id, "rate_limit_costs", costs) do
+      {:ok, id, entry}
+    end
+  end
+
+  defp validate_exchange_lookup_entry("rate_limit_costs.json", entry) do
+    {:corrupt, "rate_limit_costs.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
   end
 
   defp validate_exchange_lookup_entry(_filename, %{"id" => id} = entry) when is_binary(id), do: {:ok, id, entry}

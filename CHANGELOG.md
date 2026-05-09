@@ -6,6 +6,16 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 90 — Per-endpoint rate-limit costs + bucket-axis binding (Phase 14)
+
+- **`priv/discoveries/rate_limit_costs.json` load-bearing.** `DiscoveryLoader` now loads the aggregate (same envelope pattern as other QuickBEAM lookups). `mix ccxt_extract.update` runs `ccxt_extract.rate_limit_buckets` and **`ccxt_extract.rate_limit_costs`** back-to-back so the file exists before `mix ccxt_extract.pipeline` — pipeline aborts on any missing discovery file.
+- **`CcxtExtract.RateLimitCostBinding`** — `derive/1` projects a single binding record from the Task 89 bucket wrapper: consumers join `structure.rate_limit_costs` / `rate_limits.per_endpoint_cost` to `buckets[bucket_index]` via `%{"bucket_index" => 0, "axes" => …}` when the wrapper is usable; `null` when `unresolved_reason` is set or `buckets` is empty (today index `0` matches CCXT’s single resolved token bucket).
+- **Pipeline** — `get_rate_limit_costs/2` + parent-class fallback (same idea as request headers); emits `structure.rate_limit_costs`, `structure.endpoint_cost_binding`; v4 mirrors under `rate_limits.per_endpoint_cost`, `rate_limits.endpoint_cost_binding`.
+- **Schema** — additive optional `endpoint_cost_binding` (`EndpointCostBinding` `$def`) on v3 `structure` and v4 `rate_limits`; `per_endpoint_cost` populated from discovery (same shape as Task 73 extractor — keys are `<section>.<verb>.<endpoint>` → `{cost, axes}`).
+- **Provenance** — `/structure/endpoint_cost_binding`, `/rate_limits/endpoint_cost_binding` derived.
+- **Contract test** — `rate_limits_endpoint_cost_binding_coherent` (v4): binding must agree with `RateLimitCostBinding.derive(rate_limits["buckets"])`.
+- **Cross-repo** — `../ccxt_client/ROADMAP.md` Task 59 can treat upstream Task 90 as shipped for axis-aware cost accounting against `rate_limits.buckets`.
+
 ### Tasks 78b + 78e — `parseOHLCV` object-input shape + parse8601 timestamp wrapper
 
 - **Object-input shape.** Extends `CcxtExtract.Normalization.OHLCV` (introduced in Task 78) to handle exchanges whose raw `ohlcv` argument is an object rather than an array. String-key lookups (`safeInteger(ohlcv, 't')`) are now recognized alongside integer-index lookups. Each pure slot carries both an `"index"` field and a `"key"` field — exactly one is non-nil depending on how the source locates the column. The branch's `guard` map gains `"input_shape": "array"` or `"input_shape": "object"` to distinguish the two families; a single branch with mixed locators (some pure slots indexed, others keyed within the same branch — defensive: no real exchange does this) appends `mixed_input_locators` to the branch reason and omits `input_shape`.
@@ -14,7 +24,6 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - **Per-exchange outcomes.** `hyperliquid` and `lighter` — fully resolved, all six slots populated, single-letter object keys (`t/o/h/l/c/v`), `input_shape: "object"`. `bitmex` — object-input, timestamp via parse8601/iso8601, four OHLC slots populated with string keys, volume honest-null (`convertFromRawQuantity`). `htx` — object-input, five of six slots populated (timestamp null, reason `timestamp:non_safe_coercion:safeTimestamp` — Task 78d will extend the coercion vocab for `safeTimestamp` s→ms; `htx` timestamp ships partial until then). `input_shape: "object"` is set for all four.
 - **No schema bump.** `NormalizationStubValue` in `priv/schema/exchange_v4.json` is structurally unconstrained (`oneOf [null, object additionalProperties: true]`). The new keys (`key`, `format: "iso8601"`, `input_shape`) land freely without a `$defs` change or version increment. Schema version stays at `"4.0.0-pre"`.
 - **Cross-repo.** No edit to `../ccxt_client/ROADMAP.md` — audit confirmed no task there blocks on these four exchanges' parseOHLCV field_map being populated.
-
 ### Task 78 — `parseOHLCV` field map (pure-array scope)
 
 - **Phase 12 freeze-list slot.** First derived `field_maps` slot populated for the v4 `normalization` block carrier shipped under Task 129. Until all nine parser-type slots populate, the carrier's top-level `_unresolved_reason` stays `"not_yet_derived"` (biconditional flip pattern, mirrors `SignRecipe.Derive.resolve_unresolved_reason/1`).

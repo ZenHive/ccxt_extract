@@ -109,7 +109,9 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
     result = OHLCV.derive(entry)
 
     assert %{"branches" => [branch], "extras" => [], "_unresolved_reason" => nil} = result
-    assert branch["guard"] == %{"kind" => "always"}
+    # Task 78b: guard now carries `input_shape` reflecting the locator family
+    # of the populated pure slots. Integer-keyed slots → `"array"`.
+    assert branch["guard"] == %{"kind" => "always", "input_shape" => "array"}
     assert branch["shape"] == "array"
     assert branch["_unresolved_reason"] == nil
 
@@ -674,5 +676,240 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
     assert branch["field_map"]["close"] == nil
     assert branch["_unresolved_reason"] =~ "close:non_literal_index:safeNumber"
     refute branch["_unresolved_reason"] =~ "non_safe_coercion"
+  end
+
+  # --- 28. Task 78b: object-input vanilla (hyperliquid/lighter shape) ---
+
+  test "object-input safeInteger/safeNumber with string-literal keys → input_shape: object, every slot has key" do
+    elements = [
+      safe_call("safeInteger", [identifier("ohlcv"), literal("t")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("o")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("h")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("l")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("c")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("v")])
+    ]
+
+    entry = wrap_entry([return_stmt(array_expr(elements))])
+    %{"branches" => [branch]} = OHLCV.derive(entry)
+
+    assert branch["guard"] == %{"kind" => "always", "input_shape" => "object"}
+    assert branch["_unresolved_reason"] == nil
+
+    assert branch["field_map"]["timestamp"] == %{
+             "index" => nil,
+             "key" => "t",
+             "coercion" => "safeInteger",
+             "format" => "ms"
+           }
+
+    for {field, key} <- Enum.zip(~w(open high low close volume), ~w(o h l c v)) do
+      assert branch["field_map"][field] == %{
+               "index" => nil,
+               "key" => key,
+               "coercion" => "safeNumber",
+               "format" => nil
+             }
+    end
+  end
+
+  # --- 29. Task 78b: object-input safeInteger2/safeNumber2 ---
+
+  test "object-input safeInteger2/safeNumber2 with string-literal keys are recognized" do
+    # Mirrors test 4 (binance-family integer-key safeInteger2/safeNumber2) but
+    # with string keys — exercises the `is_binary(value)` arm of
+    # build_locator_slot/3 for the *2 vocab.
+    elements = [
+      safe_call("safeInteger2", [identifier("ohlcv"), literal("ts"), literal("timestamp")]),
+      safe_call("safeNumber2", [identifier("ohlcv"), literal("o"), literal("open")]),
+      safe_call("safeNumber2", [identifier("ohlcv"), literal("h"), literal("high")]),
+      safe_call("safeNumber2", [identifier("ohlcv"), literal("l"), literal("low")]),
+      safe_call("safeNumber2", [identifier("ohlcv"), literal("c"), literal("close")]),
+      safe_call("safeNumber2", [identifier("ohlcv"), literal("v"), literal("volume")])
+    ]
+
+    entry = wrap_entry([return_stmt(array_expr(elements))])
+    %{"branches" => [branch]} = OHLCV.derive(entry)
+
+    assert branch["guard"] == %{"kind" => "always", "input_shape" => "object"}
+    assert branch["field_map"]["timestamp"]["coercion"] == "safeInteger2"
+    assert branch["field_map"]["timestamp"]["key"] == "ts"
+    assert branch["field_map"]["timestamp"]["index"] == nil
+    assert branch["field_map"]["volume"]["coercion"] == "safeNumber2"
+    assert branch["field_map"]["volume"]["key"] == "v"
+  end
+
+  # --- 30. Task 78b: bitmex bare-Identifier volume bound to convertFromRawQuantity ---
+
+  test "bare-Identifier volume bound to this.convertFromRawQuantity → null + non_safe_coercion reason" do
+    # bitmex shape: top-level `const volume = this.convertFromRawQuantity(...)`
+    # then `volume` appears bare at index 5 of the return array. The init's
+    # callee is outside the closed safe-call vocab → honest-null with the
+    # callee surfaced. The other 5 slots populate (string-keyed).
+    volume_decl =
+      var_decl(
+        "volume",
+        this_call("convertFromRawQuantity", [
+          member(identifier("market"), literal("symbol")),
+          safe_call("safeString", [identifier("ohlcv"), literal("volume")])
+        ])
+      )
+
+    elements = [
+      this_call("parse8601", [safe_call("safeString", [identifier("ohlcv"), literal("timestamp")])]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("open")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("high")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("low")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("close")]),
+      identifier("volume")
+    ]
+
+    entry = wrap_entry([volume_decl, return_stmt(array_expr(elements))])
+    %{"branches" => [branch]} = OHLCV.derive(entry)
+
+    assert branch["field_map"]["volume"] == nil
+    assert branch["_unresolved_reason"] =~ "volume:non_safe_coercion:convertFromRawQuantity"
+
+    # Other 5 slots populate, all string-keyed → input_shape inferred from
+    # the populated pure slots. timestamp is parse8601 (Task 78e); OHLC are
+    # safeNumber.
+    assert branch["field_map"]["timestamp"]["key"] == "timestamp"
+    assert branch["field_map"]["timestamp"]["coercion"] == "parse8601"
+    assert branch["field_map"]["timestamp"]["format"] == "iso8601"
+    assert branch["field_map"]["open"]["key"] == "open"
+    assert branch["field_map"]["close"]["key"] == "close"
+    assert branch["guard"]["input_shape"] == "object"
+  end
+
+  # --- 31. Task 78b: bare-Identifier volume bound to a non-CallExpression init ---
+
+  test "bare-Identifier volume bound to a non-call init → non_call_init reason" do
+    # `const x = ohlcv['v']` — init is a MemberExpression, not a CallExpression.
+    # classify_volume_identifier/2 falls through to the catch-all `_other` arm
+    # and emits non_call_init.
+    x_decl = var_decl("x", member(identifier("ohlcv"), literal("v")))
+
+    elements =
+      Enum.map(0..4, fn idx ->
+        method = if idx == 0, do: "safeInteger", else: "safeNumber"
+        safe_call(method, [identifier("ohlcv"), literal(idx)])
+      end) ++ [identifier("x")]
+
+    entry = wrap_entry([x_decl, return_stmt(array_expr(elements))])
+    %{"branches" => [branch]} = OHLCV.derive(entry)
+
+    assert branch["field_map"]["volume"] == nil
+    assert branch["_unresolved_reason"] =~ "volume:non_call_init"
+  end
+
+  # --- 32. Task 78b: bare-Identifier volume with no binding ---
+
+  test "bare-Identifier volume with no binding → volume_index_unbound" do
+    # No top-level `const phantomVolume = ...` declaration in the body.
+    # classify_volume_identifier/2's `nil` arm reuses the existing
+    # volume_index_unbound:NAME reason (same string as the Identifier-as-idx_arg
+    # path in test 17 — caller can't disambiguate the two unbound shapes
+    # without re-walking the AST, which is fine: both are honestly null).
+    elements =
+      Enum.map(0..4, fn idx ->
+        method = if idx == 0, do: "safeInteger", else: "safeNumber"
+        safe_call(method, [identifier("ohlcv"), literal(idx)])
+      end) ++ [identifier("phantomVolume")]
+
+    entry = wrap_entry([return_stmt(array_expr(elements))])
+    %{"branches" => [branch]} = OHLCV.derive(entry)
+
+    assert branch["field_map"]["volume"] == nil
+    assert branch["_unresolved_reason"] =~ "volume:volume_index_unbound:phantomVolume"
+  end
+
+  # --- 33. Task 78e: parse8601(safeString(...)) wrapper on timestamp slot ---
+
+  test "parse8601(safeString(ohlcv, key)) on timestamp → coercion: parse8601, format: iso8601" do
+    # bitmex shape — the only known target for parse8601 wrapper recognition.
+    # Outer call is `this.parse8601(...)`, inner call is `this.safeString(ohlcv, 'timestamp')`.
+    # classify_parse8601_wrapper/1 lifts the inner key arg out so
+    # build_locator_slot/3 emits an object-locator slot with format iso8601.
+    ts_call =
+      this_call("parse8601", [
+        safe_call("safeString", [identifier("ohlcv"), literal("timestamp")])
+      ])
+
+    elements = [
+      ts_call,
+      safe_call("safeNumber", [identifier("ohlcv"), literal("o")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("h")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("l")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("c")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("v")])
+    ]
+
+    entry = wrap_entry([return_stmt(array_expr(elements))])
+    %{"branches" => [branch]} = OHLCV.derive(entry)
+
+    assert branch["_unresolved_reason"] == nil
+
+    assert branch["field_map"]["timestamp"] == %{
+             "index" => nil,
+             "key" => "timestamp",
+             "coercion" => "parse8601",
+             "format" => "iso8601"
+           }
+
+    assert branch["guard"] == %{"kind" => "always", "input_shape" => "object"}
+  end
+
+  # --- 34. Task 78e: parse8601 outside the timestamp slot is rejected ---
+
+  test "parse8601 wrapper on non-timestamp slot → null + non_call_element reason" do
+    # parse8601 is timestamp-only. The wrapper `this.parse8601(this.safeString(...))`
+    # has exactly ONE argument (the inner safeString call), so it does NOT match
+    # `classify_safe_call`'s `[_obj, idx_arg | rest]` shape (≥2 args). The OHLC
+    # arm therefore falls through to `non_call_element` — honest closed-vocab
+    # rejection, just with a more generic reason than `non_safe_coercion:parse8601`.
+    # The dead @parse_iso clause in the OHLC arm catches the hypothetical
+    # direct 2+-arg form `this.parse8601(x, y)` if CCXT ever introduces it.
+    elements = [
+      safe_call("safeInteger", [identifier("ohlcv"), literal("t")]),
+      this_call("parse8601", [safe_call("safeString", [identifier("ohlcv"), literal("o")])]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("h")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("l")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("c")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("v")])
+    ]
+
+    entry = wrap_entry([return_stmt(array_expr(elements))])
+    %{"branches" => [branch]} = OHLCV.derive(entry)
+
+    assert branch["field_map"]["open"] == nil
+    assert branch["_unresolved_reason"] =~ "open:non_call_element"
+  end
+
+  # --- 35. Task 78b: defensive — mixed integer+string locators in the same branch ---
+
+  test "mixed integer-locator and string-locator slots → guard omits input_shape, branch reason mixed_input_locators" do
+    # Defensive case: no real exchange does this, but if extraction ever
+    # encountered an array-input timestamp paired with object-input OHLC,
+    # we want derive_input_shape/1 to surface the mismatch instead of
+    # silently committing to one shape.
+    elements = [
+      safe_call("safeInteger", [identifier("ohlcv"), literal(0)]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("o")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("h")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("l")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("c")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("v")])
+    ]
+
+    entry = wrap_entry([return_stmt(array_expr(elements))])
+    %{"branches" => [branch]} = OHLCV.derive(entry)
+
+    # Each slot is individually well-formed → all 6 populate
+    assert branch["field_map"]["timestamp"]
+    assert branch["field_map"]["volume"]
+
+    # But the guard omits input_shape because the locators don't agree
+    assert branch["guard"] == %{"kind" => "always"}
+    assert branch["_unresolved_reason"] == "mixed_input_locators"
   end
 end

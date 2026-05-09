@@ -28,6 +28,11 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
 
   @priority_scope MapSet.new(["binance", "deribit", "okx"])
 
+  # Task 78b/78e — object-input parseOHLCV exchanges + bitmex parse8601 wrapper.
+  # Separate scope so the binance/deribit/okx test (which asserts integer-locator
+  # behavior) doesn't have to dispatch on a wider exchange set.
+  @ohlcv_object_scope MapSet.new(["htx", "bitmex", "hyperliquid", "lighter"])
+
   setup do
     discoveries_dir = stage_discoveries!(Paths.priv("discoveries"))
     on_exit(fn -> File.rm_rf!(discoveries_dir) end)
@@ -135,6 +140,105 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
             # parse_methods has no override — honest signal is null at
             # the carrier slot, not a fabricated shape.
             assert ohlcv == nil
+        end
+      end
+    end
+
+    test "Tasks 78b/78e — object-input parseOHLCV + parse8601 wrapper for htx/bitmex/hyperliquid/lighter",
+         %{discoveries_dir: discoveries_dir} do
+      # Tasks 78b/78e expand parseOHLCV extraction to object-input bodies
+      # (string-keyed coercion calls) and bitmex's `parse8601(safeString(...))`
+      # timestamp wrapper. Indices/keys are asserted from the closed-vocab
+      # contract; the integer-index drift caveat from the binance/deribit/okx
+      # test doesn't apply here because object-input keys are stable across
+      # CCXT releases (they map to exchange wire-format field names).
+      {:ok, exchanges, _stats} =
+        Pipeline.extract(
+          discoveries_dir: discoveries_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-05-08T00:00:00Z",
+          scope: @ohlcv_object_scope,
+          schema_target: 4
+        )
+
+      assert MapSet.new(Enum.map(exchanges, &get_in(&1, ["exchange", "id"]))) ==
+               @ohlcv_object_scope,
+             "expected exactly the 78b/78e scope #{inspect(MapSet.to_list(@ohlcv_object_scope))}"
+
+      v4_root = Validation.build_schema_root(4)
+
+      for exchange <- exchanges do
+        id = get_in(exchange, ["exchange", "id"])
+
+        assert Validation.validate_schema(exchange, v4_root) == :ok,
+               "v4 schema validation must remain green for #{id} after object-input + parse8601"
+
+        ohlcv = get_in(exchange, ["normalization", "field_maps", "ohlcv"])
+        assert is_map(ohlcv), "#{id} parseOHLCV must populate field_maps.ohlcv"
+        assert [branch] = ohlcv["branches"]
+
+        assert branch["guard"]["input_shape"] == "object",
+               "#{id} parseOHLCV body reads its input by string key → input_shape: object"
+
+        case id do
+          "hyperliquid" ->
+            # hyperliquid: single-letter object keys (t/o/h/l/c/v), fully resolved.
+            assert branch["_unresolved_reason"] == nil
+            assert branch["field_map"]["timestamp"]["coercion"] == "safeInteger"
+            assert branch["field_map"]["timestamp"]["format"] == "ms"
+            assert branch["field_map"]["timestamp"]["key"] == "t"
+            assert branch["field_map"]["timestamp"]["index"] == nil
+
+            for {field, key} <- Enum.zip(~w(open high low close volume), ~w(o h l c v)) do
+              assert branch["field_map"][field]["key"] == key
+              assert branch["field_map"][field]["coercion"] == "safeNumber"
+              assert branch["field_map"][field]["index"] == nil
+            end
+
+          "lighter" ->
+            # lighter: byte-identical to hyperliquid for parseOHLCV — same single-letter
+            # object keys, same coercions. Asserted separately to detect upstream drift.
+            assert branch["_unresolved_reason"] == nil
+            assert branch["field_map"]["timestamp"]["key"] == "t"
+            assert branch["field_map"]["timestamp"]["coercion"] == "safeInteger"
+            assert branch["field_map"]["volume"]["key"] == "v"
+            assert branch["field_map"]["volume"]["coercion"] == "safeNumber"
+
+          "htx" ->
+            # htx: object-input, but timestamp uses `safeTimestamp` (s→ms vocab,
+            # deferred to Task 78d). 5/6 slots resolve cleanly; timestamp is
+            # honest-null with the closed-vocab rejection.
+            assert branch["field_map"]["timestamp"] == nil
+            assert branch["_unresolved_reason"] =~ "timestamp:non_safe_coercion:safeTimestamp"
+
+            for field <- ~w(open high low close) do
+              assert branch["field_map"][field]["coercion"] in ~w(safeNumber safeNumber2),
+                     "htx OHLC slots use safeNumber-family"
+
+              assert is_binary(branch["field_map"][field]["key"]),
+                     "htx OHLC slots are object-keyed (string key)"
+
+              assert branch["field_map"][field]["index"] == nil
+            end
+
+            # htx's volume key is "amount" — matches CCXT's wire-format mapping.
+            assert branch["field_map"]["volume"]["key"] == "amount"
+
+          "bitmex" ->
+            # bitmex: parse8601 timestamp wrapper (Task 78e) + bare-Identifier
+            # volume bound to `convertFromRawQuantity` (Task 78b Identifier-trace).
+            assert branch["field_map"]["timestamp"]["coercion"] == "parse8601"
+            assert branch["field_map"]["timestamp"]["format"] == "iso8601"
+            assert branch["field_map"]["timestamp"]["key"] == "timestamp"
+            assert branch["field_map"]["timestamp"]["index"] == nil
+
+            assert branch["field_map"]["volume"] == nil
+            assert branch["_unresolved_reason"] =~ "volume:non_safe_coercion:convertFromRawQuantity"
+
+            for field <- ~w(open high low close) do
+              assert branch["field_map"][field]["coercion"] == "safeNumber"
+              assert is_binary(branch["field_map"][field]["key"])
+            end
         end
       end
     end

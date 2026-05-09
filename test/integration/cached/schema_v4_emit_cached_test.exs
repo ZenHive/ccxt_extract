@@ -11,17 +11,17 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
   ## Corpus state — request_headers.json
 
   `request_headers.json` is a relatively recent (Task 73b, schema 3.1.0)
-  discovery file. Older corpus snapshots may not have it. Pipeline.extract
-  raises when it's missing. To keep this test robust against that single
-  pre-existing corpus gap, the setup builds a tmp_dir that mirrors
-  `priv/discoveries/` via symlinks AND synthesizes a minimal
-  `request_headers.json` (one entry per known exchange, all empty
-  records) when the canonical corpus lacks one.
+  discovery file. Older corpus snapshots may not have it. Task 90 added
+  `rate_limit_costs.json`. Pipeline.extract raises when a required file is
+  missing. The setup symlinks `priv/discoveries/` into a tmp dir and
+  synthesizes minimal per-exchange JSON for any global `_.json` that is
+  absent, unreadable, or a **broken symlink** (worktrees / partial corpus).
   """
   use ExUnit.Case, async: true
 
   alias CcxtExtract.Paths
   alias CcxtExtract.Pipeline
+  alias CcxtExtract.Test.StagedDiscoveries
   alias CcxtExtract.Validation
 
   @moduletag :integration
@@ -34,7 +34,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
   @ohlcv_object_scope MapSet.new(["htx", "bitmex", "hyperliquid", "lighter"])
 
   setup do
-    discoveries_dir = stage_discoveries!(Paths.priv("discoveries"))
+    discoveries_dir = StagedDiscoveries.stage!(Paths.priv("discoveries"))
     on_exit(fn -> File.rm_rf!(discoveries_dir) end)
     {:ok, discoveries_dir: discoveries_dir}
   end
@@ -71,6 +71,11 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
         for key <- ~w(endpoints auth errors rate_limits normalization markets testnet raw _provenance) do
           assert Map.has_key?(exchange, key), "missing top-level v4 key #{key} for #{id}"
         end
+
+        # Task 90: rate_limits mirrors structure carriers — keys must exist even when null.
+        rl = exchange["rate_limits"]
+        assert Map.has_key?(rl, "per_endpoint_cost"), "missing rate_limits.per_endpoint_cost for #{id}"
+        assert Map.has_key?(rl, "endpoint_cost_binding"), "missing rate_limits.endpoint_cost_binding for #{id}"
 
         # JSV strict validation against the v4 schema file.
         case Validation.validate_schema(exchange, v4_root) do
@@ -313,64 +318,5 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       assert Map.has_key?(explicit, "runtime")
       assert Map.has_key?(explicit, "structure")
     end
-  end
-
-  # Mirror priv/discoveries/ into a tmp dir using symlinks so we don't
-  # copy the multi-MB corpus, then synthesize request_headers.json if the
-  # canonical corpus lacks it (older snapshots predate Task 73b).
-  defp stage_discoveries!(source_dir) do
-    tmp = Path.join(System.tmp_dir!(), "ccxt_extract_v4_test_#{:erlang.unique_integer([:positive])}")
-    File.mkdir_p!(tmp)
-
-    for entry <- File.ls!(source_dir) do
-      src = Path.join(source_dir, entry)
-      dst = Path.join(tmp, entry)
-      :ok = File.ln_s(src, dst)
-    end
-
-    exchanges_path = Path.join(tmp, "exchanges.json")
-
-    ids =
-      case CcxtExtract.JsonIO.read_json(exchanges_path) do
-        {:ok, %{"exchanges" => entries}} -> Enum.map(entries, & &1["id"])
-        _ -> []
-      end
-
-    request_headers_path = Path.join(tmp, "request_headers.json")
-
-    if !File.exists?(request_headers_path) do
-      # Synthesize a minimal request_headers.json indexed by every
-      # exchange in the corpus's exchanges.json. Each entry carries the
-      # schema's empty record so build_runtime_section/1 has something
-      # to read; pipeline behavior is identical to the corpus-fresh case
-      # for the priority scope we care about.
-      synthetic = %{
-        "exchanges" =>
-          Enum.map(ids, fn id ->
-            %{"id" => id, "request_headers" => CcxtExtract.RequestHeaders.empty_record()}
-          end)
-      }
-
-      File.write!(request_headers_path, Jason.encode!(synthetic, pretty: true))
-    end
-
-    rate_limit_buckets_path = Path.join(tmp, "rate_limit_buckets.json")
-
-    if !File.exists?(rate_limit_buckets_path) do
-      # Same synthesis pattern as request_headers above (Task 89). Each
-      # entry carries the empty bucket wrapper so the pipeline has a
-      # legitimate `rate_limit_buckets` key to thread into the structure
-      # section without forcing a real QuickBEAM probe.
-      synthetic = %{
-        "exchanges" =>
-          Enum.map(ids, fn id ->
-            %{"id" => id, "rate_limit_buckets" => CcxtExtract.RateLimitBuckets.empty_record()}
-          end)
-      }
-
-      File.write!(rate_limit_buckets_path, Jason.encode!(synthetic, pretty: true))
-    end
-
-    tmp
   end
 end

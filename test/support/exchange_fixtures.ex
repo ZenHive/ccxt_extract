@@ -100,6 +100,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "transaction_classification" => TransactionClassification.derive(unified_endpoints),
         "request_defaults" => request_defaults,
         "rate_limit_costs" => nil,
+        "endpoint_cost_binding" => nil,
         "error_dispatch" => nil,
         "sign_dispatch" => nil,
         "parse_dispatch" => nil,

@@ -77,6 +77,7 @@ defmodule CcxtExtract.Schema do
   @required_endpoints_handlers_keys_v4 ~w(error signing parse)
   @required_auth_keys_v4 ~w(sign_recipe sign_method authenticated_sections headers)
   @required_errors_keys_v4 ~w(handle_errors class_hierarchy status_map retry_classification)
+  @required_rate_limits_keys_v4 ~w(buckets per_endpoint_cost endpoint_cost_binding)
   @required_markets_keys_v4 ~w(symbols_index patterns)
   @required_raw_keys_v4 ~w(describe url_templates class_info method_inventory overrides_meta)
   @required_normalization_keys_v4 ~w(parse_methods_digest field_maps response_envelopes)
@@ -179,6 +180,10 @@ defmodule CcxtExtract.Schema do
   `CcxtExtract.RateLimitBuckets`. The carrier is the same wrapper
   emitted under `structure.rate_limit_buckets` in v3, just relocated.
 
+  `rate_limits.per_endpoint_cost` mirrors `structure.rate_limit_costs`
+  (Task 90 slice B — same map or JSON null). `rate_limits.endpoint_cost_binding`
+  mirrors `structure.endpoint_cost_binding` (bucket index + axes, or null).
+
   `normalization` is the Task 129 carrier — `parse_methods_digest`
   (compact, AST-free signature digest projected from
   `priv/discoveries/parse_methods.json`), plus `field_maps` and
@@ -186,13 +191,10 @@ defmodule CcxtExtract.Schema do
 
   ## Out of scope (Task 130)
 
-  `rate_limits.per_endpoint_cost` is reserved for Task 90 per-method
-  cost weighting layered onto buckets — emitted as absent today (the
-  `rate_limits` group is `additionalProperties: true` so it can land
-  additively). Phase 12 sub-bundles flip the `field_maps` /
+  Phase 12 sub-bundles flip the `field_maps` /
   `response_envelopes` stubs from null to populated. DO NOT
-  pre-populate either here — keep the v4 shape as a structural
-  reorganization of v3 only.
+  pre-populate either here beyond the Task 129 scaffold — keep the v4
+  normalization carrier additive.
   """
   @spec build_exchange_v4(map(), map(), map(), keyword()) :: map()
   def build_exchange_v4(exchange_meta, runtime_data, structure_data, opts \\ []) do
@@ -241,7 +243,9 @@ defmodule CcxtExtract.Schema do
         "retry_classification" => structure_data["error_retryable"]
       },
       "rate_limits" => %{
-        "buckets" => structure_data["rate_limit_buckets"] || CcxtExtract.RateLimitBuckets.empty_record()
+        "buckets" => structure_data["rate_limit_buckets"] || CcxtExtract.RateLimitBuckets.empty_record(),
+        "per_endpoint_cost" => structure_data["rate_limit_costs"],
+        "endpoint_cost_binding" => structure_data["endpoint_cost_binding"]
       },
       "normalization" => normalization,
       "markets" => %{
@@ -343,6 +347,7 @@ defmodule CcxtExtract.Schema do
       )
       |> check_required_keys(data["auth"], @required_auth_keys_v4, "auth")
       |> check_required_keys(data["errors"], @required_errors_keys_v4, "errors")
+      |> check_required_keys(data["rate_limits"], @required_rate_limits_keys_v4, "rate_limits")
       |> check_required_keys(data["markets"], @required_markets_keys_v4, "markets")
       |> check_required_keys(data["raw"], @required_raw_keys_v4, "raw")
       |> check_required_keys(data["normalization"], @required_normalization_keys_v4, "normalization")
@@ -406,6 +411,8 @@ defmodule CcxtExtract.Schema do
       "sign_dispatch" => data["sign_dispatch"],
       "parse_dispatch" => data["parse_dispatch"],
       "rate_limit_buckets" => data["rate_limit_buckets"] || CcxtExtract.RateLimitBuckets.empty_record(),
+      "rate_limit_costs" => data["rate_limit_costs"],
+      "endpoint_cost_binding" => data["endpoint_cost_binding"],
       "error_status_map" => data["error_status_map"],
       "error_retryable" => data["error_retryable"]
     }

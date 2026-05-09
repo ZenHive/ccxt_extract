@@ -53,6 +53,21 @@ if [[ -z "$(git status --porcelain -- '*.ex' '*.exs' 2>/dev/null)" ]]; then
   exit 0
 fi
 
+# Mutex: only one stop-hook may run mix test.json at a time. macOS has no
+# flock; mkdir is atomic on POSIX. Without this, multiple Cursor turn-ends
+# (or the loop_limit=3 followup-message re-fire) could spawn concurrent
+# BEAMs that overheat the machine. Stale locks (>10 min, double the 300s
+# script timeout) are reclaimed so a SIGKILLed prior run doesn't wedge us.
+LOCK_DIR="/tmp/cursor-stop-on-fail.lock"
+if [[ -d "$LOCK_DIR" ]] && [[ -n "$(find "$LOCK_DIR" -maxdepth 0 -mmin +10 2>/dev/null)" ]]; then
+  rmdir "$LOCK_DIR" 2>/dev/null || true
+fi
+if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+  echo '{}'
+  exit 0
+fi
+trap 'rmdir "$LOCK_DIR" 2>/dev/null || true' EXIT INT TERM
+
 OUT_FILE="/tmp/cursor-stop-on-fail-$$.json"
 mix test.json --quiet --output "$OUT_FILE" >/dev/null 2>&1 || true
 

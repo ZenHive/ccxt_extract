@@ -51,7 +51,7 @@ Phases reordered by criticality for consumers calling *any* endpoint (unified or
 
 **Freeze list (~22 tasks):**
 
-- **Endpoint-invocation (11 tasks):** Tasks 70, 71 (✅ PR #2), 72 (✅ PR #12), 73 (✅ PR #8), 73d (✅ PR #14, replaces #9) (Phase 11) · Tasks 85 (✅ PR #13), 86 (✅ PR #13), 87 (✅), 88a (✅ PR #6; v4-emit in PR #13), 88b (✅ PR #6; v4-emit in PR #13), 88c (✅ PR #6; v4-emission in PR #13) (Phase 13) · Tasks 89 (✅ PR #11), 90 (Phase 14)
+- **Endpoint-invocation (11 tasks):** Tasks 70, 71 (✅ PR #2), 72 (✅ PR #12), 73 (✅ PR #8), 73d (✅ PR #14, replaces #9) (Phase 11) · Tasks 85 (✅ PR #13), 86 (✅ PR #13), 87 (✅), 88a (✅ PR #6; v4-emit in PR #13), 88b (✅ PR #6; v4-emit in PR #13), 88c (✅ PR #6; v4-emission in PR #13) (Phase 13) · Tasks 89 (✅ PR #11), 90 (✅)
 - **Normalization (11 tasks):** Task 129 (✅ PR #10, hardened in PR #15) · Tasks 74–83 (Phase 12)
 
 **v4 Bundle Extras** (in v4 if shipped by cut, not strictly freeze-gating): Tasks 121 (descriptors), 122 (descriptor schema invariant), 126 (OpenAPI sibling).
@@ -65,7 +65,7 @@ Phases reordered by criticality for consumers calling *any* endpoint (unified or
 - `endpoints` — `unified`, `interfaces`, `raw` (implicit), `request: {defaults, shape}`, `pagination`, `descriptors`
 - `auth` — `sign_recipe`, `sign_method`, `authenticated_sections`, `headers: {user_agent, default}`
 - `errors` — `handle_errors`, `status_map`, `retry_classification`, `class_hierarchy`, `dispatch`
-- `rate_limits` — `buckets`, `per_endpoint_cost`
+- `rate_limits` — `buckets`, `per_endpoint_cost`, `endpoint_cost_binding`
 - `normalization` — `parse_methods_digest` (compact, NO AST body), `field_maps`, `response_envelopes`
 - `markets` — `symbols_index`, `patterns`, `currencies`, `precision_mode`
 - `testnet` — `pattern`, `urls`, `sandbox_flag_field`, `unresolved_reason` (promoted from `runtime.testnet_urls` to top-level)
@@ -316,7 +316,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 89 | ✅ | 🎁 **11+14** · Bucket config — axes (IP/UID/order-weight), refill, size [D:4/B:7/U:7 → Eff:1.75] 🚀 — shipped 2026-05-08 in PR #11 (INE-65) |
-| Task 90 | ⬜ | 🎁 **11+14** · Per-endpoint cost weights against bucket axis [D:4/B:7/U:8 → Eff:1.88] 🚀 |
+| Task 90 | ✅ | 🎁 **11+14** · Per-endpoint cost weights against bucket axis — shipped 2026-05-09. See [CHANGELOG.md](CHANGELOG.md). |
 
 ---
 

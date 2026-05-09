@@ -8,13 +8,12 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
 
   alias CcxtExtract.Pipeline
   alias CcxtExtract.Schema
+  alias CcxtExtract.Test.StagedDiscoveries
 
   @moduletag :integration
   @moduletag timeout: 60_000
 
-  @fixtures_dir CcxtExtract.Paths.discoveries()
-  @pipeline_opts [
-    discoveries_dir: @fixtures_dir,
+  @pipeline_opts_base [
     ccxt_version: "4.5.45",
     extracted_at: "2026-03-30T12:00:00Z"
   ]
@@ -28,17 +27,21 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
     path |> File.read!() |> Jason.decode!()
   end
 
-  defp load_exchange_entries(filename) do
-    load_json(Path.join(@fixtures_dir, filename))["exchanges"]
+  defp load_exchange_entries(fixtures_dir, filename) do
+    load_json(Path.join(fixtures_dir, filename))["exchanges"]
   end
 
   defp find_by_id(entries, id), do: Enum.find(entries, &(&1["id"] == id))
 
   # Run pipeline once for all tests in this module
   setup_all do
-    {:ok, exchanges, stats} = Pipeline.extract(@pipeline_opts)
+    fixtures_dir = StagedDiscoveries.stage!(CcxtExtract.Paths.discoveries())
+    on_exit(fn -> File.rm_rf!(fixtures_dir) end)
+
+    opts = Keyword.put(@pipeline_opts_base, :discoveries_dir, fixtures_dir)
+    {:ok, exchanges, stats} = Pipeline.extract(opts)
     lookup = Map.new(exchanges, &{&1["exchange"]["id"], &1})
-    %{exchanges: exchanges, stats: stats, lookup: lookup}
+    %{exchanges: exchanges, stats: stats, lookup: lookup, fixtures_dir: fixtures_dir}
   end
 
   describe "pipeline assembly" do
@@ -159,8 +162,8 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
   end
 
   describe "nullability semantics" do
-    test "bequant inherits handle_errors from parent hitbtc", %{lookup: lookup} do
-      entries = load_exchange_entries("handle_errors.json")
+    test "bequant inherits handle_errors from parent hitbtc", %{lookup: lookup, fixtures_dir: fixtures_dir} do
+      entries = load_exchange_entries(fixtures_dir, "handle_errors.json")
       bequant_source = find_by_id(entries, "bequant")
       hitbtc_source = find_by_id(entries, "hitbtc")
 
@@ -177,8 +180,8 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
       end
     end
 
-    test "bequant converts empty parse_methods source to null", %{lookup: lookup} do
-      source = "parse_methods.json" |> load_exchange_entries() |> find_by_id("bequant")
+    test "bequant converts empty parse_methods source to null", %{lookup: lookup, fixtures_dir: fixtures_dir} do
+      source = fixtures_dir |> load_exchange_entries("parse_methods.json") |> find_by_id("bequant")
 
       # Scope-gated: only assert when bequant is present in the scoped
       # parse_methods fixture.
@@ -234,8 +237,12 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
 
   describe "write and read round-trip" do
     @tag :tmp_dir
-    test "writes per-exchange files, schema, and manifest", %{exchanges: exchanges, tmp_dir: tmp_dir} do
-      Pipeline.write!(exchanges, tmp_dir)
+    test "writes per-exchange files, schema, and manifest", %{
+      exchanges: exchanges,
+      tmp_dir: tmp_dir,
+      fixtures_dir: fixtures_dir
+    } do
+      Pipeline.write!(exchanges, tmp_dir, discoveries_dir: fixtures_dir)
 
       # Manifest exists
       manifest_path = Path.join(tmp_dir, "_manifest.json")

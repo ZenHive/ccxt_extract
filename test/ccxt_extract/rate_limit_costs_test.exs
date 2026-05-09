@@ -6,8 +6,11 @@ defmodule CcxtExtract.RateLimitCostsTest do
   The `:extraction`-tagged `extract/1` test (excluded by default per
   `test/test_helper.exs`) starts a real QuickBEAM runtime and asserts
   the binance / okx / deribit cost extraction shape end-to-end.
+
+  `async: false` — `@tag :tmp_dir` + fixed filename `rate_limit_costs.json`
+  races under parallel ExUnit (scoped-merge vs `:all` overwrite).
   """
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   alias CcxtExtract.RateLimitCosts
 

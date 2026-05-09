@@ -3,7 +3,8 @@ defmodule CcxtExtract.PipelineTest do
   Unit tests for Pipeline pure functions.
   Uses synthetic data — no file I/O, no QuickBEAM/OXC.
   """
-  use ExUnit.Case, async: true
+  # async: false — many `@tag :tmp_dir` cases; parallel pool races rm_rf!/nested dirs (:eexist).
+  use ExUnit.Case, async: false
 
   alias CcxtExtract.Pipeline
   alias CcxtExtract.Schema

@@ -6,8 +6,11 @@ defmodule CcxtExtract.RequestHeadersTest do
   The `:extraction`-tagged band reads `priv/discoveries/request_headers.json`
   and asserts type discipline + sanity overrides (coinbase / htx / bybit have
   non-nil UA; coinbase / gate / alpaca have non-empty default_headers).
+
+  `async: false` — `@tag :tmp_dir` + `File.rm_rf!/1` in setup races under
+  parallel ExUnit (EEXIST on nested paths / teardown).
   """
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   alias CcxtExtract.RequestHeaders
 

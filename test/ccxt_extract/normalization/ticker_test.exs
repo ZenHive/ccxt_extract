@@ -273,6 +273,24 @@ defmodule CcxtExtract.Normalization.TickerTest do
 
       assert result["extras"] == []
     end
+
+    test "computed property key is skipped from both field_map and extras" do
+      # {[dynamicKey]: this.safeString(ticker, "k")} — computed: true means the key
+      # is a runtime expression; key_from_property/1 must return nil, not the identifier name.
+      computed_prop = %{
+        "computed" => true,
+        "key" => %{"type" => "Identifier", "name" => "dynamicKey"},
+        "value" => this_call("safeString", [identifier("ticker"), literal("someKey")])
+      }
+
+      result = Ticker.derive(wrap_entry([safe_ticker_return([computed_prop])]))
+
+      assert result["extras"] == [], "computed prop must not appear in extras"
+      assert map_size(result["field_map"]) == 22
+
+      assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1),
+             "dynamicKey must not bleed into any unified field slot"
+    end
   end
 
   # ---------------------------------------------------------------------------

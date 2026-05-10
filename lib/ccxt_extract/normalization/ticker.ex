@@ -169,6 +169,8 @@ defmodule CcxtExtract.Normalization.Ticker do
   end
 
   @spec key_from_property(map()) :: String.t() | nil
+  # Computed properties ({[expr]: value}) have a runtime-determined key — not statically slottable.
+  defp key_from_property(%{"computed" => true}), do: nil
   defp key_from_property(%{"key" => %{"name" => name}}), do: name
   defp key_from_property(%{"key" => %{"value" => value}}) when is_binary(value), do: value
   defp key_from_property(_), do: nil

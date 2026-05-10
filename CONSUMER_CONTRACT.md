@@ -56,7 +56,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 | Item | Status | Source |
 |------|--------|--------|
 | Success envelope paths per method group | ⬜ | Phase 12 — Task 83 |
-| `parseTicker` field map + coercion + enums | ⬜ | Phase 12 — Task 74 |
+| `parseTicker` field map + coercion + enums | ✅ | Phase 12 — Task 74 |
 | `parseOrder` field map + status/side/type enums | ⬜ | Phase 12 — Task 75 |
 | `parseTrade` field map + coercion | ⬜ | Phase 12 — Task 76 |
 | `parseBalance` field map + coercion | ⬜ | Phase 12 — Task 77 |

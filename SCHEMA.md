@@ -367,7 +367,7 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 **`_unresolved_reason`:** `null` when the `safeTicker` return pattern was found (even if many individual slots are `null`); a non-null string when the return structure isn't the slottable pattern — e.g. kucoin: `"non_safe_ticker_return:parseContractTicker"`. Inheriting exchanges (no `parseTicker` override) emit `field_maps["ticker"] = null`.
 
-**Honesty contract:** every populated slot is provable from AST. No field is synthesized or inferred from exchange documentation. The same open-closed distinction as OHLCV: `_unresolved_reason` is a closed enum (producer never emits an unrecognized value), `coercion` is closed (hard-error on unrecognized), `format` is closed (hard-error on unrecognized), `key` is open (any wire-format string from the exchange).
+**Honesty contract:** every populated slot is provable from AST. No field is synthesized or inferred from exchange documentation. The same open-closed distinction as OHLCV: `_unresolved_reason` follows one of two patterns — the fixed string `"no_return_statement"`, or the prefix `"non_safe_ticker_return:"` followed by the callee identifier name from the source (open suffix — consumers must match on the prefix, not the full string); `coercion` is closed (hard-error on unrecognized), `format` is closed (hard-error on unrecognized), `key` is open (any wire-format string from the exchange).
 
 ### What changed from 3.1.0 (breaking)
 

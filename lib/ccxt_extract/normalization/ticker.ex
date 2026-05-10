@@ -131,7 +131,14 @@ defmodule CcxtExtract.Normalization.Ticker do
     unified_set = MapSet.new(@unified_fields)
 
     prop_map =
-      Map.new(properties, fn p -> {key_from_property(p), p["value"]} end)
+      properties
+      |> Enum.flat_map(fn p ->
+        case key_from_property(p) do
+          nil -> []
+          k -> [{k, p["value"]}]
+        end
+      end)
+      |> Map.new()
 
     field_map =
       Map.new(@unified_fields, fn field ->
@@ -140,7 +147,10 @@ defmodule CcxtExtract.Normalization.Ticker do
 
     extras =
       properties
-      |> Enum.reject(fn p -> MapSet.member?(unified_set, key_from_property(p)) end)
+      |> Enum.reject(fn p ->
+        key = key_from_property(p)
+        is_nil(key) or MapSet.member?(unified_set, key)
+      end)
       |> Enum.flat_map(fn p ->
         key = key_from_property(p)
         value_node = p["value"]
@@ -158,10 +168,10 @@ defmodule CcxtExtract.Normalization.Ticker do
     %{"field_map" => field_map, "extras" => extras, "_unresolved_reason" => nil}
   end
 
-  @spec key_from_property(map()) :: String.t()
+  @spec key_from_property(map()) :: String.t() | nil
   defp key_from_property(%{"key" => %{"name" => name}}), do: name
   defp key_from_property(%{"key" => %{"value" => value}}) when is_binary(value), do: value
-  defp key_from_property(_), do: ""
+  defp key_from_property(_), do: nil
 
   @spec classify_unified_field(String.t(), map() | nil, [{String.t(), map()}]) :: map() | nil
   defp classify_unified_field(_field, nil, _bindings), do: nil

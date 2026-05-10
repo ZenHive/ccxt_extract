@@ -291,6 +291,41 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       assert Validation.validate_schema(hyperliquid, v4_root) == :ok
     end
 
+    test "Task 74 — parseTicker field map for priority exchanges and kucoin unresolved",
+         %{discoveries_dir: discoveries_dir} do
+      # binance/okx/deribit all have a parseTicker override returning safeTicker —
+      # field_maps.ticker must be populated with nil _unresolved_reason.
+      # kucoin returns parseContractTicker — honest non-nil _unresolved_reason.
+      ticker_scope = MapSet.new(["binance", "okx", "deribit", "kucoin"])
+
+      {:ok, exchanges, _stats} =
+        Pipeline.extract(
+          discoveries_dir: discoveries_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-05-08T00:00:00Z",
+          scope: ticker_scope,
+          schema_target: 4
+        )
+
+      exchange_map = Map.new(exchanges, &{get_in(&1, ["exchange", "id"]), &1})
+
+      for id <- ["binance", "okx", "deribit"] do
+        ticker = get_in(exchange_map[id], ["normalization", "field_maps", "ticker"])
+        assert is_map(ticker), "#{id} has parseTicker override → field_maps.ticker populated"
+        assert ticker["_unresolved_reason"] == nil, "#{id} safeTicker return should parse cleanly"
+        assert map_size(ticker["field_map"]) == 22, "#{id} ticker field_map must have all 22 unified fields"
+        ts = ticker["field_map"]["timestamp"]
+        assert is_map(ts), "#{id} timestamp slot must be populated"
+        assert ts["format"] == "ms", "#{id} timestamp format must be ms"
+        assert ts["coercion"] in ~w(safeInteger safeInteger2), "#{id} timestamp uses safeInteger family"
+      end
+
+      kucoin_ticker = get_in(exchange_map["kucoin"], ["normalization", "field_maps", "ticker"])
+      assert is_map(kucoin_ticker), "kucoin ticker must be a map (unresolved, not nil)"
+      assert is_binary(kucoin_ticker["_unresolved_reason"]), "kucoin must have non-nil _unresolved_reason"
+      assert kucoin_ticker["_unresolved_reason"] =~ "non_safe_ticker_return"
+    end
+
     test "v3 emit (default) is byte-identical with or without explicit --schema-target=3 for binance",
          %{discoveries_dir: discoveries_dir} do
       # Equivalence guard: the only thing that changes between

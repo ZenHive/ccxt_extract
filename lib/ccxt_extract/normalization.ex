@@ -41,6 +41,7 @@ defmodule CcxtExtract.Normalization do
   """
 
   alias CcxtExtract.Normalization.OHLCV
+  alias CcxtExtract.Normalization.Ticker
 
   @parser_types ~w(ticker trade ohlcv order position balance market transaction deposit_address)
   @initial_unresolved_reason "not_yet_derived"
@@ -74,7 +75,9 @@ defmodule CcxtExtract.Normalization do
 
   @spec field_maps_record(map() | nil) :: stub_record()
   defp field_maps_record(parse_methods_entry) do
-    Map.put(stub_record(), "ohlcv", OHLCV.derive(parse_methods_entry))
+    stub_record()
+    |> Map.put("ohlcv", OHLCV.derive(parse_methods_entry))
+    |> Map.put("ticker", Ticker.derive(parse_methods_entry))
   end
 
   @doc """

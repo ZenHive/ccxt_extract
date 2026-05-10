@@ -322,6 +322,53 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 **Closed `coercion` vocabulary (extended by Tasks 78b + 78e):** `["safeInteger", "safeInteger2", "safeNumber", "safeNumber2", "parse8601"]`. The addition of `"parse8601"` is signalled by Task 78e; consumers must add an exhaustive match arm for it before consuming bitmex's timestamp slot.
 
+### `normalization.field_maps.ticker` — shape (Task 74)
+
+`field_maps["ticker"]` carries the per-exchange `parseTicker` field map. Unlike OHLCV, parseTicker always reads its input by string key — no integer-index variant exists in the 110-exchange corpus — so the shape is **flat** (no `branches` wrapper).
+
+**Output shape:**
+
+```json
+{
+  "field_map": {
+    "timestamp":     { "key": "closeTime",  "coercion": "safeInteger2", "format": "ms"  },
+    "high":          { "key": "highPrice",  "coercion": "safeString2",  "format": null  },
+    "symbol":        null,
+    "datetime":      null,
+    "info":          null,
+    "bid":           { "key": "bidPrice",   "coercion": "safeNumber",   "format": null  },
+    "..."
+  },
+  "extras": [
+    { "unified_key": "openInterest", "key": "oi", "coercion": "safeString" }
+  ],
+  "_unresolved_reason": null
+}
+```
+
+**Slot shape:** `%{"key" => string, "coercion" => method, "format" => "ms" | "s" | null}`. No `"index"` field — tickers are always key-based.
+
+**22 unified ticker fields in `field_map`** (always present as keys, value `null` when absent or outside closed vocab):
+`symbol`, `timestamp`, `datetime`, `high`, `low`, `bid`, `bidVolume`, `ask`, `askVolume`, `vwap`, `open`, `close`, `last`, `previousClose`, `change`, `percentage`, `average`, `baseVolume`, `quoteVolume`, `markPrice`, `indexPrice`, `info`
+
+**Three structurally-null fields by design (always `null`):**
+- `symbol` — uses `safeSymbol(ticker, key, market)`, a three-arg call where the second arg is a fallback, not a raw wire key; outside the closed coercion vocabulary
+- `datetime` — derived from `timestamp` via `this.iso8601(timestamp)`, not from raw; the `iso8601` call doesn't match the `this.method(obj, key)` pattern and emits `null`
+- `info` — the raw ticker object pass-through (bare `ticker` identifier, no safe-call wrapping); emits `null`
+
+**Closed `coercion` vocabulary:** `["safeString", "safeString2", "safeStringN", "safeNumber", "safeNumber2", "safeInteger", "safeInteger2", "safeTimestamp"]`. Any coercion outside this set emits `null` for that slot (honest null).
+
+**Closed `format` vocabulary:** `["ms", "s", null]`. Only meaningful for the `timestamp` field:
+- `"ms"` — raw value is a millisecond epoch integer (`safeInteger` / `safeInteger2`)
+- `"s"` — raw value is a second epoch integer; multiply by 1000 before storing (`safeTimestamp`)
+- `null` — no time-unit annotation (all non-timestamp fields always emit `null`)
+
+**`extras` list:** properties in the `safeTicker(objectExpr, market)` call that are not among the 22 unified fields. Each entry is `%{"unified_key" => key, "key" => wire_key, "coercion" => method}`. An extras slot only appears when its coercion is in the closed vocabulary; non-vocab coercions are silently excluded (same honesty rule as unified slots).
+
+**`_unresolved_reason`:** `null` when the `safeTicker` return pattern was found (even if many individual slots are `null`); a non-null string when the return structure isn't the slottable pattern — e.g. kucoin: `"non_safe_ticker_return:parseContractTicker"`. Inheriting exchanges (no `parseTicker` override) emit `field_maps["ticker"] = null`.
+
+**Honesty contract:** every populated slot is provable from AST. No field is synthesized or inferred from exchange documentation. The same open-closed distinction as OHLCV: `_unresolved_reason` follows one of two patterns — the fixed string `"no_return_statement"`, or the prefix `"non_safe_ticker_return:"` followed by the callee identifier name from the source (open suffix — consumers must match on the prefix, not the full string); `coercion` is closed (hard-error on unrecognized), `format` is closed (hard-error on unrecognized), `key` is open (any wire-format string from the exchange).
+
 ### What changed from 3.1.0 (breaking)
 
 [FILL IN AS FREEZE TASKS SHIP — populated incrementally as Phases 11/12/13/14 land. The "Top-level reshape" table above is the path-migration specification; "What changed" elaborates with concrete field-by-field diffs and consumer-facing semantic notes.]

@@ -1332,8 +1332,26 @@ defmodule CcxtExtract.PipelineTest do
       opts = Keyword.put(@schema_opts, :schema_target, 4)
       result = Pipeline.build_exchange_data(full_meta(), full_data(), opts)
 
-      assert result["normalization"]["field_maps"] == CcxtExtract.Normalization.stub_record()
+      field_maps = result["normalization"]["field_maps"]
+
+      # response_envelopes is still all-nil (no Task 83 derivation yet)
       assert result["normalization"]["response_envelopes"] == CcxtExtract.Normalization.stub_record()
+
+      # field_maps has all required keys and the correct _unresolved_reason
+      assert field_maps["_unresolved_reason"] == "not_yet_derived"
+
+      assert field_maps |> Map.keys() |> Enum.sort() ==
+               CcxtExtract.Normalization.stub_record() |> Map.keys() |> Enum.sort()
+
+      # Non-ticker parser-type slots remain nil (Tasks 75-82 not yet shipped)
+      for type <- CcxtExtract.Normalization.parser_types() -- ["ticker"] do
+        assert field_maps[type] == nil, "#{type} slot should still be nil"
+      end
+
+      # ticker is populated (Task 74 wired): full_data()'s parseTicker fixture is @sample_method_ast
+      # which has no safeTicker return → honest unresolved, not nil
+      assert is_map(field_maps["ticker"]), "ticker slot must be a map when parseTicker is present"
+      assert field_maps["ticker"]["_unresolved_reason"]
     end
 
     test "v4 provenance pointers reorganize under v4 paths" do

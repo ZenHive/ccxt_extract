@@ -6,6 +6,19 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 74 — `parseTicker` field map (Phase 12)
+
+- **`CcxtExtract.Normalization.Ticker`** — new module (`lib/ccxt_extract/normalization/ticker.ex`). `derive/1` projects a per-exchange `parse_methods.json` entry into `field_maps["ticker"]`. Unlike OHLCV's `branches` wrapper, ticker always reads its input by string key — flat `field_map` with no branch nesting.
+- **Binding resolution** — parseTicker bodies declare `const timestamp = this.safeInteger2(ticker, 'closeTime'); return this.safeTicker({ timestamp, ... })`. The derivation resolves Identifier references by collecting pre-bound `const` declarations (`ASTHelpers.collect_bindings/1`) before classifying each ObjectExpression property. Inline CallExpression values are classified directly; Identifiers look up the binding first.
+- **22 unified fields** — all present as keys in `field_map`, value `null` when absent or outside the closed coercion vocabulary. Three are structurally-null by design: `symbol` (three-arg `safeSymbol` outside the closed vocab), `datetime` (derived from `timestamp` via `iso8601`, not raw), `info` (bare pass-through, not a `this.safe*` call).
+- **Format-aware timestamp** — `safeInteger`/`safeInteger2` → `format: "ms"`; `safeTimestamp` → `format: "s"`; all other fields → `format: null`.
+- **`extras` list** — ObjectExpression properties beyond the 22 unified fields that resolve to a literal wire key in the closed vocab. Seen in corpus: `poloniex`/`zebpay` (`id`), `lighter` (`openInterest`).
+- **`_unresolved_reason`** — `null` when `safeTicker` return pattern found; non-null string (e.g. `"non_safe_ticker_return:parseContractTicker"`) when the return structure isn't slottable. Inheriting exchanges (no `parseTicker` override) emit `field_maps["ticker"] = null` (honest null, not unresolved).
+- **Wired through `Normalization.build/2`** — `field_maps_record/1` now calls `Ticker.derive(parse_methods_entry)` alongside the existing `OHLCV.derive/1` call.
+- **Corpus coverage** — 93 of 94 override exchanges resolve cleanly (safeTicker pattern); 1 exchange (kucoin → `parseContractTicker`) emits non-nil reason. 16 inheriting exchanges emit `null`. Priority exchanges verified: binance (`safeInteger2`/ms), okx (`safeInteger`/ms), deribit (`safeInteger2`/ms).
+- **SCHEMA.md** — new `normalization.field_maps.ticker` section documents: flat shape, slot shape (key/coercion/format, no index), 22 unified fields, three structurally-null fields, closed coercion/format vocabularies, extras list, honesty contract.
+- **Cross-repo** — `../ccxt_client/ROADMAP.md` Task 55 status updated to reflect ticker field_map shipped upstream.
+
 ### Task 90 — Per-endpoint rate-limit costs + bucket-axis binding (Phase 14)
 
 - **`priv/discoveries/rate_limit_costs.json` load-bearing.** `DiscoveryLoader` now loads the aggregate (same envelope pattern as other QuickBEAM lookups). `mix ccxt_extract.update` runs `ccxt_extract.rate_limit_buckets` and **`ccxt_extract.rate_limit_costs`** back-to-back so the file exists before `mix ccxt_extract.pipeline` — pipeline aborts on any missing discovery file.

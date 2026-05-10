@@ -187,6 +187,80 @@ defmodule CcxtExtract.NormalizationTest do
       # Carrier-level reason stays "not_yet_derived" until all 9 types populate
       assert field_maps["_unresolved_reason"] == "not_yet_derived"
     end
+
+    test "Task 74: ticker slot populates when a parseTicker entry is supplied" do
+      # Synthetic minimal parseTicker: timestamp from a binding + one inline
+      # price field. Validates wiring into field_maps_record/1 without
+      # depending on the real corpus.
+      identifier = fn name -> %{"type" => "Identifier", "name" => name} end
+      literal = fn v -> %{"type" => "Literal", "value" => v} end
+
+      this_call = fn method, args ->
+        %{
+          "type" => "CallExpression",
+          "callee" => %{
+            "type" => "MemberExpression",
+            "object" => %{"type" => "ThisExpression"},
+            "property" => %{"type" => "Identifier", "name" => method}
+          },
+          "arguments" => args
+        }
+      end
+
+      var_decl = fn name, init ->
+        %{
+          "type" => "VariableDeclaration",
+          "kind" => "const",
+          "declarations" => [
+            %{"type" => "VariableDeclarator", "id" => identifier.(name), "init" => init}
+          ]
+        }
+      end
+
+      timestamp_binding =
+        var_decl.("timestamp", this_call.("safeInteger", [identifier.("ticker"), literal.("time")]))
+
+      safe_ticker_ret = %{
+        "type" => "ReturnStatement",
+        "argument" =>
+          this_call.("safeTicker", [
+            %{
+              "type" => "ObjectExpression",
+              "properties" => [
+                %{"key" => identifier.("timestamp"), "value" => identifier.("timestamp")},
+                %{
+                  "key" => identifier.("high"),
+                  "value" => this_call.("safeString", [identifier.("ticker"), literal.("highPrice")])
+                }
+              ]
+            },
+            identifier.("market")
+          ])
+      }
+
+      entry = %{
+        "parse_methods" => %{
+          "parseTicker" => %{
+            "body" => %{"type" => "BlockStatement", "body" => [timestamp_binding, safe_ticker_ret]}
+          }
+        }
+      }
+
+      result = Normalization.build(entry)
+      field_maps = result["field_maps"]
+
+      assert is_map(field_maps["ticker"]), "ticker slot must populate"
+      assert field_maps["ticker"]["field_map"]["timestamp"]["coercion"] == "safeInteger"
+      assert field_maps["ticker"]["field_map"]["timestamp"]["format"] == "ms"
+      assert field_maps["ticker"]["field_map"]["high"]["key"] == "highPrice"
+
+      # Other parser-type slots (excluding ohlcv which stays nil with no parseOHLCV) stay nil
+      for type <- Normalization.parser_types() -- ["ticker", "ohlcv"] do
+        assert field_maps[type] == nil, "non-ticker slot #{type} should still be nil"
+      end
+
+      assert field_maps["_unresolved_reason"] == "not_yet_derived"
+    end
   end
 
   describe "build/2 — round-trip + shape" do

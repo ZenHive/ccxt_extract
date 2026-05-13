@@ -40,18 +40,25 @@ defmodule CcxtExtract.Normalization.Market do
   - `symbol` — computed from base/quote/settle, not a direct safe-call
   - `info` — raw market object pass-through
   - `precision` — nested `ObjectExpression` with sub-fields (amount, price,
-    cost, base, quote); emitted as nil with `_unresolved_reason: "nested_shape"`
-    deferred to a future patch
+    cost, base, quote); emitted as structurally null (`nil` in `field_map`).
+    Nested-shape extraction is deferred to a future patch.
   - `limits` — deeply-nested `ObjectExpression` (amount.min/max, price.min/max,
-    cost.min/max, leverage.min/max); emitted as nil with `nested_shape` reason
+    cost.min/max, leverage.min/max); emitted as structurally null (`nil` in
+    `field_map`). Deferred to a future patch.
   - `expiryDatetime` — derived from `expiry` via `iso8601`, not a safe-call
   - `created` fields using `parse8601` are outside the slot vocab (deferred)
 
+  Note: `_unresolved_reason` is set at the **exchange level** (was the return
+  shape slottable at all?), not per-field. Structurally-null fields like
+  `precision` and `limits` appear as `null` in `field_map` for every resolved
+  exchange — they do NOT set `_unresolved_reason`.
+
   ## `_unresolved_reason` vocabulary
 
-  - `nil` — ObjectExpression return pattern found
+  - `nil` — ObjectExpression return pattern found; per-field slots may still be nil
   - `"non_safe_market_return:<callee>"` — return is a non-slottable call
   - `"no_return_statement"` — body has no `ReturnStatement`
+  - `"identifier_return"` — return is a bare Identifier (pre-built variable)
 
   ## Three-Strikes Patch counter
 
@@ -170,6 +177,10 @@ defmodule CcxtExtract.Normalization.Market do
         }
       } ->
         {:error, "non_safe_market_return:#{callee_name}"}
+
+      # `return someIdentifier;` — a pre-built variable, not an inline ObjectExpression.
+      %{"argument" => %{"type" => "Identifier"}} ->
+        {:error, "identifier_return"}
 
       _ ->
         {:error, "no_return_statement"}

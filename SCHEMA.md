@@ -454,7 +454,7 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 `field_maps["market"]` carries the per-exchange `parseMarket` field map. Two slottable return forms: `this.safeMarketStructure({...})` (22 corpus exchanges) and direct `{...}` ObjectExpression (21 corpus exchanges). Non-ObjectExpression returns (e.g. `extend(...)`, bare Identifier) are marked unresolved.
 
-**29 unified Market fields in `field_map`:**
+**32 unified Market fields in `field_map`:**
 `id`, `symbol`, `base`, `quote`, `settle`, `baseId`, `quoteId`, `settleId`, `type`, `subType`, `spot`, `margin`, `swap`, `future`, `option`, `active`, `contract`, `linear`, `inverse`, `tierBased`, `percentage`, `contractSize`, `expiry`, `expiryDatetime`, `strike`, `optionType`, `taker`, `maker`, `precision`, `limits`, `info`, `created`
 
 **Structurally-null fields by design (always `null`):**
@@ -466,9 +466,9 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 **Closed `coercion` vocabulary:** adds `safeBool` to the standard set for boolean market-type flags (`spot`, `swap`, `future`, `linear`, `inverse`, `option`, `contract`, `active`, `margin`, `tierBased`, `percentage`).
 
-**`extras` list:** ObjectExpression properties beyond the 29 unified fields that resolve to a literal wire key in the closed vocab.
+**`extras` list:** ObjectExpression properties beyond the 32 unified fields that resolve to a literal wire key in the closed vocab.
 
-**`_unresolved_reason`:** `null` when ObjectExpression pattern found; `"non_safe_market_return:<callee>"` for non-ObjectExpression calls; `"no_return_statement"` when none found. Inheriting exchanges emit `field_maps["market"] = null`.
+**`_unresolved_reason`:** `null` when ObjectExpression pattern found; `"non_safe_market_return:<callee>"` for non-ObjectExpression calls; `"no_return_statement"` when none found; `"identifier_return"` when the return is a bare Identifier (pre-built variable). Inheriting exchanges emit `field_maps["market"] = null`.
 
 ### What changed from 3.1.0 (breaking)
 

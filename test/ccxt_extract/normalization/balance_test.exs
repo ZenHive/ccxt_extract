@@ -237,6 +237,37 @@ defmodule CcxtExtract.Normalization.BalanceTest do
       assert result["field_map"]["debt"] == nil
     end
 
+    test "balance['free'] = X (non-account object) is NOT classified as a balance slot" do
+      # LHS object is `balance`, not `account` — must not be collected.
+      non_account_assign = %{
+        "type" => "ExpressionStatement",
+        "expression" => %{
+          "type" => "AssignmentExpression",
+          "operator" => "=",
+          "left" => %{
+            "type" => "MemberExpression",
+            "computed" => true,
+            "object" => identifier("balance"),
+            "property" => literal("free")
+          },
+          "right" => this_call("safeString", [identifier("balance"), literal("cash")])
+        }
+      }
+
+      result = Balance.derive(wrap_entry([non_account_assign, safe_balance_return()]))
+      assert result["field_map"]["free"] == nil
+    end
+
+    test "account['free'] = X (correct account object) IS classified as a balance slot" do
+      stmts = [
+        account_assign("free", this_call("safeString", [identifier("balance"), literal("cash")])),
+        safe_balance_return()
+      ]
+
+      result = Balance.derive(wrap_entry(stmts))
+      assert result["field_map"]["free"]["key"] == "cash"
+    end
+
     test "out-of-vocab coercion on a field emits nil for that slot" do
       # stringAdd is outside the closed vocab
       stmts = [

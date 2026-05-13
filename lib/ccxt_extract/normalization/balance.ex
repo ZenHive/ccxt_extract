@@ -216,13 +216,16 @@ defmodule CcxtExtract.Normalization.Balance do
 
   defp extract_assignments_from_stmt(_), do: []
 
-  # Extract a balance-field assignment: `<obj>['free'] = this.safe*(balance, 'key')`
+  # Extract a balance-field assignment: `account['free'] = this.safe*(balance, 'key')`
+  # Requires the LHS object to be the `account` Identifier — otherwise unrelated
+  # MemberExpressions like `balance['free'] = X` would be mis-classified.
   @spec extract_balance_assignment(map()) :: [{String.t(), map()}]
   defp extract_balance_assignment(%{
          "type" => "AssignmentExpression",
          "left" => %{
            "type" => "MemberExpression",
            "computed" => true,
+           "object" => %{"type" => "Identifier", "name" => "account"},
            "property" => %{"type" => "Literal", "value" => field_name}
          },
          "right" => right

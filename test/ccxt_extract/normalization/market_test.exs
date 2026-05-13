@@ -114,6 +114,15 @@ defmodule CcxtExtract.Normalization.MarketTest do
       assert result["_unresolved_reason"] =~ "non_safe_market_return:extend"
       assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
     end
+
+    test "bare Identifier return emits _unresolved_reason: identifier_return" do
+      ret = %{"type" => "ReturnStatement", "argument" => identifier("market")}
+
+      result = Market.derive(wrap_entry([ret]))
+      assert result["_unresolved_reason"] == "identifier_return"
+      assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
+      assert result["extras"] == []
+    end
   end
 
   # ---------------------------------------------------------------------------

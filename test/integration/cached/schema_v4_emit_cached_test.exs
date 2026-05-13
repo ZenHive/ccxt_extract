@@ -399,6 +399,95 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       end
     end
 
+    test "Task 81 — parseTransaction field map for exchanges with a direct-return body",
+         %{discoveries_dir: discoveries_dir} do
+      # binance has a parseTransaction returning a TSAsExpression-wrapped
+      # ObjectExpression — field_maps.transaction must be populated with nil
+      # _unresolved_reason. deribit also has a parseTransaction override.
+      # okx is included to confirm it also resolves cleanly.
+      tx_scope = MapSet.new(["binance", "deribit", "okx"])
+
+      {:ok, exchanges, _stats} =
+        Pipeline.extract(
+          discoveries_dir: discoveries_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-05-08T00:00:00Z",
+          scope: tx_scope,
+          schema_target: 4
+        )
+
+      exchange_map = Map.new(exchanges, &{get_in(&1, ["exchange", "id"]), &1})
+
+      v4_root = Validation.build_schema_root(4)
+
+      for {id, exchange} <- exchange_map do
+        case Validation.validate_schema(exchange, v4_root) do
+          :ok ->
+            :ok
+
+          {:error, findings} ->
+            paths =
+              findings
+              |> Enum.take(5)
+              |> Enum.map_join("\n  ", fn f -> "#{f["path"]}: #{f["message"]}" end)
+
+            flunk("v4 schema validation failed for #{id} after Task 81 transaction derivation:\n  #{paths}")
+        end
+      end
+
+      for id <- ["binance", "deribit", "okx"] do
+        tx = get_in(exchange_map[id], ["normalization", "field_maps", "transaction"])
+        # All three have a parseTransaction override — must be populated.
+        assert is_map(tx), "#{id} has parseTransaction override → field_maps.transaction populated"
+        assert map_size(tx["field_map"]) == 18, "#{id} transaction field_map must have all 18 unified fields"
+      end
+    end
+
+    test "Task 82 — parseDepositAddress field map for exchanges with a direct-return body",
+         %{discoveries_dir: discoveries_dir} do
+      # okx/binance have a parseDepositAddress override returning an ObjectExpression
+      # — field_maps.depositAddress must be populated.
+      # deribit has no parseDepositAddress override — honest nil.
+      da_scope = MapSet.new(["binance", "okx", "deribit"])
+
+      {:ok, exchanges, _stats} =
+        Pipeline.extract(
+          discoveries_dir: discoveries_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-05-08T00:00:00Z",
+          scope: da_scope,
+          schema_target: 4
+        )
+
+      exchange_map = Map.new(exchanges, &{get_in(&1, ["exchange", "id"]), &1})
+
+      v4_root = Validation.build_schema_root(4)
+
+      for {id, exchange} <- exchange_map do
+        case Validation.validate_schema(exchange, v4_root) do
+          :ok ->
+            :ok
+
+          {:error, findings} ->
+            paths =
+              findings
+              |> Enum.take(5)
+              |> Enum.map_join("\n  ", fn f -> "#{f["path"]}: #{f["message"]}" end)
+
+            flunk("v4 schema validation failed for #{id} after Task 82 depositAddress derivation:\n  #{paths}")
+        end
+      end
+
+      for id <- ["binance", "okx"] do
+        da = get_in(exchange_map[id], ["normalization", "field_maps", "deposit_address"])
+        assert is_map(da), "#{id} has parseDepositAddress override → field_maps.deposit_address populated"
+        assert map_size(da["field_map"]) == 5, "#{id} depositAddress field_map must have all 5 unified fields"
+      end
+
+      deribit_da = get_in(exchange_map["deribit"], ["normalization", "field_maps", "deposit_address"])
+      assert deribit_da == nil, "deribit has no parseDepositAddress override → honest nil"
+    end
+
     test "v3 emit (default) is byte-identical with or without explicit --schema-target=3 for binance",
          %{discoveries_dir: discoveries_dir} do
       # Equivalence guard: the only thing that changes between

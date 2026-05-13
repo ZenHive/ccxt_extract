@@ -42,7 +42,12 @@ defmodule CcxtExtract.Normalization.Trade do
   - `"non_safe_trade_return:<callee>"` — return calls a different method
     (e.g. `parseSpotTrade`, `safeTrade2`). Suffix `<callee>` is the callee
     identifier from the source (open — any future CCXT method name).
-  - `"no_return_statement"` — body has no `ReturnStatement`.
+  - `"no_return_statement"` — body has no `ReturnStatement` at all.
+  - `"unrecognized_return_shape"` — body has a top-level `ReturnStatement`,
+    but its argument is neither a `this.safeTrade*` CallExpression (which
+    would be the canonical pattern) nor a `this.<otherMethod>` CallExpression
+    (which would be `non_safe_trade_return:<callee>`). Covers raw literals,
+    non-`this` callees, and other unhandled shapes.
 
   ## Per-field `unresolved_reason` vocabulary (enum/fee slots only)
 
@@ -221,7 +226,7 @@ defmodule CcxtExtract.Normalization.Trade do
         {:error, "non_safe_trade_return:#{callee_name}"}
 
       _ ->
-        {:error, "no_return_statement"}
+        {:error, "unrecognized_return_shape"}
     end
   end
 
@@ -346,6 +351,7 @@ defmodule CcxtExtract.Normalization.Trade do
   end
 
   # `this.safeString(x, 'k').toLowerCase()` — canonicalize to safeStringLower.
+  @spec to_lower_chain?(term()) :: boolean()
   defp to_lower_chain?(%{
          "type" => "CallExpression",
          "callee" => %{
@@ -359,6 +365,7 @@ defmodule CcxtExtract.Normalization.Trade do
 
   defp to_lower_chain?(_), do: false
 
+  @spec safe_call?(term()) :: boolean()
   defp safe_call?(%{
          "type" => "CallExpression",
          "callee" => %{
@@ -372,6 +379,7 @@ defmodule CcxtExtract.Normalization.Trade do
 
   defp safe_call?(_), do: false
 
+  @spec build_enum_from_lowercase_chain(map()) :: map() | nil
   defp build_enum_from_lowercase_chain(%{"callee" => %{"object" => inner}}) do
     case classify_safe_call(inner) do
       {:ok, %{idx_arg: idx_arg}} ->
@@ -385,6 +393,7 @@ defmodule CcxtExtract.Normalization.Trade do
     end
   end
 
+  @spec build_enum_from_call(map()) :: map() | nil
   defp build_enum_from_call(call) do
     case classify_safe_call(call) do
       {:ok, %{method: method, idx_arg: idx_arg}} when method in @enum_call_vocab ->
@@ -398,6 +407,7 @@ defmodule CcxtExtract.Normalization.Trade do
     end
   end
 
+  @spec build_enum_from_ternary(map(), [{String.t(), map()}]) :: map() | nil
   defp build_enum_from_ternary(ternary, bindings) do
     case classify_ternary(ternary, bindings) do
       {:enum_map, %{method: method, idx_arg: idx_arg, enum_map: map}} when method in @safe_str ->
@@ -463,6 +473,8 @@ defmodule CcxtExtract.Normalization.Trade do
 
   defp classify_ternary_test(_, _), do: :unknown
 
+  @spec classify_eq_test(map(), map(), [{String.t(), map()}]) ::
+          {:enum_lhs, map(), String.t()} | :bool_flag | :numeric_code | :char_code | :unknown
   defp classify_eq_test(left, right, bindings) do
     cond do
       # Numeric-code comparison: RHS is a numeric Literal.
@@ -485,6 +497,7 @@ defmodule CcxtExtract.Normalization.Trade do
     end
   end
 
+  @spec array_index?(term()) :: boolean()
   defp array_index?(%{
          "type" => "MemberExpression",
          "computed" => true,
@@ -495,6 +508,8 @@ defmodule CcxtExtract.Normalization.Trade do
 
   defp array_index?(_), do: false
 
+  @spec classify_string_enum_test(map(), map(), [{String.t(), map()}]) ::
+          {:enum_lhs, map(), String.t()} | :unknown
   defp classify_string_enum_test(left, right, bindings) do
     with %{"type" => "Literal", "value" => rhs} when is_binary(rhs) <- right,
          safe_call when not is_nil(safe_call) <- resolve_to_safe_call(left, bindings) do
@@ -510,6 +525,7 @@ defmodule CcxtExtract.Normalization.Trade do
     end
   end
 
+  @spec resolve_to_safe_call(term(), [{String.t(), map()}]) :: map() | nil
   defp resolve_to_safe_call(%{"type" => "CallExpression"} = node, _bindings) do
     if safe_call?(node), do: node
   end
@@ -525,6 +541,8 @@ defmodule CcxtExtract.Normalization.Trade do
 
   # Walk a nested-ternary chain `safe === 'X' ? 'a' : (safe === 'Y' ? 'b' : default)`,
   # accumulating the literal-to-arm-literal map.
+  @spec accumulate_enum_map(map(), map(), [{String.t(), map()}], %{String.t() => String.t()}, term()) ::
+          {:enum_map, %{method: String.t(), idx_arg: map(), enum_map: %{String.t() => String.t()}}} | :error
   defp accumulate_enum_map(_node, safe_call, _bindings, enum_map, %{"type" => "Literal"}) do
     finalize_enum_map(safe_call, enum_map)
   end
@@ -545,6 +563,8 @@ defmodule CcxtExtract.Normalization.Trade do
 
   defp accumulate_enum_map(_node, safe_call, _bindings, enum_map, _alternate), do: finalize_enum_map(safe_call, enum_map)
 
+  @spec descend_or_finalize(map(), map(), map(), [{String.t(), map()}], %{String.t() => String.t()}, String.t()) ::
+          {:enum_map, %{method: String.t(), idx_arg: map(), enum_map: %{String.t() => String.t()}}} | :error
   defp descend_or_finalize(nested, safe_call, nested_call, bindings, enum_map, rhs_value) do
     if same_safe_call?(safe_call, nested_call) do
       consequent_value = literal_value(nested["consequent"])
@@ -560,6 +580,8 @@ defmodule CcxtExtract.Normalization.Trade do
     end
   end
 
+  @spec finalize_enum_map(map(), %{String.t() => String.t()}) ::
+          {:enum_map, %{method: String.t(), idx_arg: map(), enum_map: %{String.t() => String.t()}}} | :error
   defp finalize_enum_map(safe_call, enum_map) do
     case classify_safe_call(safe_call) do
       {:ok, %{method: method, idx_arg: idx_arg}} when method in @safe_str ->
@@ -570,9 +592,11 @@ defmodule CcxtExtract.Normalization.Trade do
     end
   end
 
+  @spec literal_value(term()) :: term() | nil
   defp literal_value(%{"type" => "Literal", "value" => v}), do: v
   defp literal_value(_), do: nil
 
+  @spec same_safe_call?(term(), term()) :: boolean()
   defp same_safe_call?(a, b) do
     with {:ok, %{method: ma, idx_arg: ka}} <- classify_safe_call(a),
          {:ok, %{method: mb, idx_arg: kb}} <- classify_safe_call(b),
@@ -600,6 +624,7 @@ defmodule CcxtExtract.Normalization.Trade do
     end
   end
 
+  @spec build_fee_sub_map([map()], [{String.t(), map()}]) :: %{String.t() => map() | nil}
   defp build_fee_sub_map(properties, bindings) do
     by_key =
       properties
@@ -618,6 +643,7 @@ defmodule CcxtExtract.Normalization.Trade do
     %{"cost" => cost, "currency" => currency, "rate" => rate}
   end
 
+  @spec classify_fee_subfield(map() | nil, [{String.t(), map()}]) :: map() | nil
   defp classify_fee_subfield(nil, _bindings), do: nil
 
   defp classify_fee_subfield(value_node, bindings) do
@@ -638,6 +664,7 @@ defmodule CcxtExtract.Normalization.Trade do
   # or a nested CallExpression (`safeCurrencyCode(this.safeString(trade, 'feeCcy'))`).
   # Trace back through the binding chain / call nesting to extract the wire key
   # when provable; emit key: nil otherwise.
+  @spec currency_slot(map(), [{String.t(), map()}]) :: map()
   defp currency_slot(arg, bindings) do
     wire_key = trace_currency_wire_key(arg, bindings, MapSet.new())
     %{"key" => wire_key, "coercion" => "safeCurrencyCode", "format" => nil}

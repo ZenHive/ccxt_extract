@@ -431,7 +431,7 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 `_unresolved_reason: "multi_payload_branching:<N>"` where N is the count of distinct shape-discriminator IfStatements. Open suffix — consumers match on the `multi_payload_branching:` prefix, not the full string. `null` when a single canonical `safeTrade` return is found. Inheriting exchanges (no `parseTrade` override) emit `field_maps["trade"] = null`.
 
-**Honesty contract:** every populated slot is provable from AST. No field is synthesized. Same open-closed distinction as ticker: `_unresolved_reason` is open-suffix (`multi_payload_branching:<N>`, `non_safe_trade_return:<callee>`); `coercion` is closed; `format` is closed; `key` and `enum_map` arm values are open (from source).
+**Honesty contract:** every populated slot is provable from AST. No field is synthesized. Same open-closed distinction as ticker: `_unresolved_reason` is open-suffix (`multi_payload_branching:<N>`, `non_safe_trade_return:<callee>`) or one of the closed-set strings (`no_return_statement` — body has no `ReturnStatement` at all; `unrecognized_return_shape` — body has a return whose argument is neither a `this.safeTrade*` call nor a `this.<other>` call); `coercion` is closed; `format` is closed; `key` and `enum_map` arm values are open (from source).
 
 ### What changed from 3.1.0 (breaking)
 

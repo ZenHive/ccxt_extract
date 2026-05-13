@@ -51,7 +51,12 @@ defmodule CcxtExtract.Normalization.Balance do
 
   - `nil` — `safeBalance(Identifier)` pattern found; per-field slots may still be nil
   - `"non_safe_balance_return:<callee>"` — return calls a different method
-  - `"no_return_statement"` — body has no `ReturnStatement`
+  - `"no_return_statement"` — body has no `ReturnStatement` at all
+  - `"identifier_return"` — return is a bare Identifier (pre-built variable,
+    not a `safeBalance(...)` wrapper call; e.g. lbank's `return result`)
+  - `"unrecognized_return_shape"` — body has a `ReturnStatement` whose
+    argument is none of the shapes above (e.g. `return foo() + bar()`,
+    `return {...}`, etc.)
 
   ## Three-Strikes Patch counter
 
@@ -145,8 +150,13 @@ defmodule CcxtExtract.Normalization.Balance do
       } ->
         {:error, "non_safe_balance_return:#{callee_name}"}
 
+      # `return someIdentifier;` — a pre-built balance map returned bare,
+      # not wrapped in a `safeBalance(...)` call. Seen on lbank.
+      %{"argument" => %{"type" => "Identifier"}} ->
+        {:error, "identifier_return"}
+
       _ ->
-        {:error, "no_return_statement"}
+        {:error, "unrecognized_return_shape"}
     end
   end
 

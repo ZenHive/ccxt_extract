@@ -41,6 +41,10 @@ defmodule CcxtExtract.Normalization.Transaction do
   - `"no_return_statement"` — body has no `ReturnStatement`
   - `"non_object_return:<type>"` — last return yields something other than
     an ObjectExpression (after unwrapping any TSAsExpression wrapper)
+  - `"non_object_return:unknown"` — special case of the above where the
+    unwrapped argument has no `"type"` field at all (e.g. a bare `return;`
+    with no value); rare edge case but emitted distinctly so the cause is
+    inspectable rather than masquerading as a typed shape
 
   ## Enum tables
 

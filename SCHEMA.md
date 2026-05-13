@@ -492,7 +492,7 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 **Closed `coercion` vocabulary:** `["safeString", "safeString2", "safeStringN", "safeNumber", "safeNumber2", "safeInteger", "safeInteger2", "safeTimestamp"]`.
 
-**`_unresolved_reason`:** `null` when `safeBalance(Identifier)` pattern found; `"non_safe_balance_return:<callee>"` otherwise; `"no_return_statement"` when no `ReturnStatement` found. Inheriting exchanges (no `parseBalance` override) emit `field_maps["balance"] = null`.
+**`_unresolved_reason`:** `null` when `safeBalance(Identifier)` pattern found; `"non_safe_balance_return:<callee>"` when the return is a different `this.<callee>(...)` call; `"no_return_statement"` when no `ReturnStatement` is found; `"identifier_return"` when the return is a bare Identifier (pre-built balance map, e.g. lbank's `return result`); `"unrecognized_return_shape"` when the return argument matches none of the above (e.g. `return foo() + bar()`). Inheriting exchanges (no `parseBalance` override) emit `field_maps["balance"] = null`.
 
 ### `normalization.field_maps.market` — shape (Task 79)
 
@@ -512,7 +512,7 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 **`extras` list:** ObjectExpression properties beyond the 32 unified fields that resolve to a literal wire key in the closed vocab.
 
-**`_unresolved_reason`:** `null` when ObjectExpression pattern found; `"non_safe_market_return:<callee>"` for non-ObjectExpression calls; `"no_return_statement"` when none found; `"identifier_return"` when the return is a bare Identifier (pre-built variable). Inheriting exchanges emit `field_maps["market"] = null`.
+**`_unresolved_reason`:** `null` when ObjectExpression pattern found; `"non_safe_market_return:<callee>"` for non-ObjectExpression `this.<callee>(...)` returns; `"no_return_statement"` when none found; `"identifier_return"` when the return is a bare Identifier (pre-built variable); `"unrecognized_return_shape"` when the return argument matches none of the above (e.g. `return foo() + bar()`). `TSAsExpression` wrappers (`return {...} as Market`) are unwrapped before classification, so a TS-cast around an otherwise-slottable ObjectExpression resolves cleanly (e.g. grvt). Inheriting exchanges emit `field_maps["market"] = null`.
 
 ### What changed from 3.1.0 (breaking)
 

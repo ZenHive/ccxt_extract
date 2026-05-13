@@ -123,6 +123,22 @@ defmodule CcxtExtract.Normalization.MarketTest do
       assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
       assert result["extras"] == []
     end
+
+    test "unrecognized return shape emits _unresolved_reason: unrecognized_return_shape" do
+      ret = %{
+        "type" => "ReturnStatement",
+        "argument" => %{
+          "type" => "BinaryExpression",
+          "operator" => "+",
+          "left" => identifier("a"),
+          "right" => identifier("b")
+        }
+      }
+
+      result = Market.derive(wrap_entry([ret]))
+      assert result["_unresolved_reason"] == "unrecognized_return_shape"
+      assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
+    end
   end
 
   # ---------------------------------------------------------------------------
@@ -261,6 +277,25 @@ defmodule CcxtExtract.Normalization.MarketTest do
       slot = result["field_map"]["maker"]
       assert slot["key"] == "maker_fee_rate"
       assert slot["coercion"] == "safeNumber"
+    end
+
+    test "TSAsExpression-wrapped ObjectExpression resolves cleanly" do
+      # `return { id: this.safeString(market, 'symbol') } as Market;`
+      # The TSAsExpression is a TS-level cast that wraps an otherwise-
+      # slottable ObjectExpression — corpus exchange `grvt` uses this shape.
+      props = [
+        prop("id", this_call("safeString", [identifier("market"), literal("symbol")]))
+      ]
+
+      object = %{"type" => "ObjectExpression", "properties" => props}
+      ts_as = %{"type" => "TSAsExpression", "expression" => object}
+      ret = %{"type" => "ReturnStatement", "argument" => ts_as}
+
+      result = Market.derive(wrap_entry([ret]))
+      assert result["_unresolved_reason"] == nil
+      slot = result["field_map"]["id"]
+      assert slot["key"] == "symbol"
+      assert slot["coercion"] == "safeString"
     end
   end
 

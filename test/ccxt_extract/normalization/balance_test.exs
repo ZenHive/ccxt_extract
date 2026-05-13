@@ -123,6 +123,31 @@ defmodule CcxtExtract.Normalization.BalanceTest do
       assert result["_unresolved_reason"] =~ "non_safe_balance_return:parseAccountBalance"
       assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
     end
+
+    test "bare Identifier return emits _unresolved_reason: identifier_return" do
+      ret = %{"type" => "ReturnStatement", "argument" => identifier("result")}
+
+      result = Balance.derive(wrap_entry([ret]))
+      assert result["_unresolved_reason"] == "identifier_return"
+      assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
+      assert result["extras"] == []
+    end
+
+    test "unrecognized return shape emits _unresolved_reason: unrecognized_return_shape" do
+      ret = %{
+        "type" => "ReturnStatement",
+        "argument" => %{
+          "type" => "BinaryExpression",
+          "operator" => "+",
+          "left" => identifier("a"),
+          "right" => identifier("b")
+        }
+      }
+
+      result = Balance.derive(wrap_entry([ret]))
+      assert result["_unresolved_reason"] == "unrecognized_return_shape"
+      assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
+    end
   end
 
   # ---------------------------------------------------------------------------

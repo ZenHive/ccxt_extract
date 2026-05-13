@@ -57,8 +57,14 @@ defmodule CcxtExtract.Normalization.Market do
 
   - `nil` — ObjectExpression return pattern found; per-field slots may still be nil
   - `"non_safe_market_return:<callee>"` — return is a non-slottable call
-  - `"no_return_statement"` — body has no `ReturnStatement`
+  - `"no_return_statement"` — body has no `ReturnStatement` at all
   - `"identifier_return"` — return is a bare Identifier (pre-built variable)
+  - `"unrecognized_return_shape"` — body has a `ReturnStatement` whose
+    argument is not an ObjectExpression, `safeMarketStructure(...)` call,
+    `this.<other>(...)` call, or bare Identifier (e.g. `return foo() + bar()`)
+
+  TSAsExpression-wrapped returns (`return {...} as Market`) are unwrapped
+  before the classification clauses above run.
 
   ## Three-Strikes Patch counter
 
@@ -133,9 +139,11 @@ defmodule CcxtExtract.Normalization.Market do
     end
   end
 
-  # Find the last ReturnStatement returning either:
-  # - `this.safeMarketStructure({...})`
-  # - `{...}` directly (ObjectExpression)
+  # Find the last ReturnStatement and classify its argument. Unwraps any
+  # `TSAsExpression` wrapper (`return {...} as Market`) before pattern
+  # matching — the as-cast is a TS-level annotation, not part of the
+  # runtime shape, and at least one corpus exchange (grvt) wraps an
+  # otherwise-slottable ObjectExpression in it.
   @spec find_market_object([map()]) :: {:ok, [map()]} | {:error, String.t()}
   defp find_market_object(body_stmts) do
     last_return =
@@ -144,48 +152,47 @@ defmodule CcxtExtract.Normalization.Market do
       |> List.last()
 
     case last_return do
-      nil ->
-        {:error, "no_return_statement"}
-
-      # `return this.safeMarketStructure({...})`
-      %{
-        "argument" => %{
-          "type" => "CallExpression",
-          "callee" => %{
-            "type" => "MemberExpression",
-            "object" => %{"type" => "ThisExpression"},
-            "property" => %{"type" => "Identifier", "name" => "safeMarketStructure"}
-          },
-          "arguments" => [%{"type" => "ObjectExpression", "properties" => properties} | _]
-        }
-      } ->
-        {:ok, properties}
-
-      # `return {...}` (direct ObjectExpression)
-      %{"argument" => %{"type" => "ObjectExpression", "properties" => properties}} ->
-        {:ok, properties}
-
-      # Some other call — extract callee name for the unresolved reason.
-      %{
-        "argument" => %{
-          "type" => "CallExpression",
-          "callee" => %{
-            "type" => "MemberExpression",
-            "object" => %{"type" => "ThisExpression"},
-            "property" => %{"type" => "Identifier", "name" => callee_name}
-          }
-        }
-      } ->
-        {:error, "non_safe_market_return:#{callee_name}"}
-
-      # `return someIdentifier;` — a pre-built variable, not an inline ObjectExpression.
-      %{"argument" => %{"type" => "Identifier"}} ->
-        {:error, "identifier_return"}
-
-      _ ->
-        {:error, "no_return_statement"}
+      nil -> {:error, "no_return_statement"}
+      %{"argument" => argument} -> classify_return_argument(unwrap_ts_as(argument))
     end
   end
+
+  @spec unwrap_ts_as(map() | nil) :: map() | nil
+  defp unwrap_ts_as(%{"type" => "TSAsExpression", "expression" => inner}), do: unwrap_ts_as(inner)
+
+  defp unwrap_ts_as(node), do: node
+
+  # `return this.safeMarketStructure({...})`
+  @spec classify_return_argument(map() | nil) :: {:ok, [map()]} | {:error, String.t()}
+  defp classify_return_argument(%{
+         "type" => "CallExpression",
+         "callee" => %{
+           "type" => "MemberExpression",
+           "object" => %{"type" => "ThisExpression"},
+           "property" => %{"type" => "Identifier", "name" => "safeMarketStructure"}
+         },
+         "arguments" => [%{"type" => "ObjectExpression", "properties" => properties} | _]
+       }),
+       do: {:ok, properties}
+
+  # `return {...}` (direct ObjectExpression)
+  defp classify_return_argument(%{"type" => "ObjectExpression", "properties" => properties}), do: {:ok, properties}
+
+  # Some other `this.<callee>(...)` — surface the callee name as evidence.
+  defp classify_return_argument(%{
+         "type" => "CallExpression",
+         "callee" => %{
+           "type" => "MemberExpression",
+           "object" => %{"type" => "ThisExpression"},
+           "property" => %{"type" => "Identifier", "name" => callee_name}
+         }
+       }),
+       do: {:error, "non_safe_market_return:#{callee_name}"}
+
+  # `return someIdentifier;` — a pre-built variable, not an inline ObjectExpression.
+  defp classify_return_argument(%{"type" => "Identifier"}), do: {:error, "identifier_return"}
+
+  defp classify_return_argument(_), do: {:error, "unrecognized_return_shape"}
 
   # ---------------------------------------------------------------------------
   # Result assembly

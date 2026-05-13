@@ -13,7 +13,7 @@ defmodule CcxtExtract.Normalization.Position do
         "field_map" => %{
           "id"           => slot() | nil,
           "timestamp"    => slot() | nil,
-          ...  # all 25 unified fields; nil when absent or outside closed vocab
+          ...  # all 28 unified fields; nil when absent or outside closed vocab
         },
         "extras" => [%{"unified_key" => key, "key" => wire_key, "coercion" => method}],
         "_unresolved_reason" => nil | String.t()
@@ -376,7 +376,7 @@ defmodule CcxtExtract.Normalization.Position do
          %{"type" => "BinaryExpression", "operator" => op, "left" => left, "right" => right},
          bindings
        )
-       when op in ["===", "!==", "==", "!="] do
+       when op in ["===", "=="] do
     classify_eq_test(left, right, bindings)
   end
 

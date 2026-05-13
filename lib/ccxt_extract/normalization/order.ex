@@ -58,7 +58,7 @@ defmodule CcxtExtract.Normalization.Order do
   @unified_fields ~w(id clientOrderId timestamp datetime lastTradeTimestamp lastUpdateTimestamp
                      symbol type timeInForce postOnly reduceOnly side price triggerPrice
                      stopLossPrice takeProfitPrice average cost amount filled remaining
-                     status fee trades info)
+                     status fee fees trades info)
 
   # Plain-scalar coercion vocab (inherits parseTicker/parseTrade set).
   @safe_str ~w(safeString safeString2 safeStringN)
@@ -443,7 +443,7 @@ defmodule CcxtExtract.Normalization.Order do
          %{"type" => "BinaryExpression", "operator" => op, "left" => left, "right" => right},
          bindings
        )
-       when op in ["===", "!==", "==", "!="] do
+       when op in ["===", "=="] do
     classify_eq_test(left, right, bindings)
   end
 

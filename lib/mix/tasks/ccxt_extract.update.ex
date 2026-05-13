@@ -332,6 +332,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     {"ccxt_extract.sign_methods", :scoped},
     {"ccxt_extract.handle_errors", :scoped},
     {"ccxt_extract.parse_methods", :scoped},
+    {"ccxt_extract.fetch_methods", :scoped},
     {"ccxt_extract.ws_methods", :scoped},
     {"ccxt_extract.interface_signatures", :scoped},
     {"ccxt_extract.pagination", :scoped},

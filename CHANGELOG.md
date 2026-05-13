@@ -6,6 +6,14 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 83a — Fetcher-method extractor
+
+- **`CcxtExtract.FetchMethods`** (`lib/ccxt_extract/fetch_methods.ex`) — new OXC extractor. `extract_from_ast/2` mirrors `ParseMethods` with the name-prefix predicate swapped from `"parse"` to `"fetch"`. Emits `priv/discoveries/fetch_methods.json` with per-exchange entries: `id`, `class_name`, `file`, `fetch_method_count`, and `fetch_methods` map (method name → full `MethodAST` record including `params`, `return_type`, `async`, `statements`, `body`). The `body` slot carries the full ESTree `BlockStatement` so Task 83b can walk `safeValue`/`safeList` response-unwrap calls.
+- **`Mix.Tasks.CcxtExtract.FetchMethods`** (`lib/mix/tasks/ccxt_extract.fetch_methods.ex`) — new mix task with standard `CcxtExtract.Scope` flag surface (`--tier1/2/3/dex/all/--exchange`). Scoped runs merge into the existing aggregate via `AggregateWriter`. Verified: `mix ccxt_extract.fetch_methods --exchange binance` produces 71 fetcher entries, all with `body.type == "BlockStatement"`.
+- **Wired** — `mix ccxt_extract.update` Stage 3 (OXC Extractors) now includes `{"ccxt_extract.fetch_methods", :scoped}` after `parse_methods`.
+- **`priv/discoveries/fetch_methods.json`** — gitignored corpus file; CI-regenerated. Envelope keys: `exchanges`, `total`, `with_fetch_methods`, `total_methods`, `tier_scope`, `extracted_at`.
+- **Unblocks Task 83b** — response-envelopes derivation (`CcxtExtract.Normalization.ResponseEnvelopes`) depends on this slice.
+
 ### Task 77+79 — `parseBalance` + `parseMarket` field map + coercion
 
 - **`CcxtExtract.Normalization.Balance`** (`lib/ccxt_extract/normalization/balance.ex`). `derive/1` walks all top-level and loop-nested `ExpressionStatement` assignment nodes to collect `account['free'|'used'|'total'|'debt'] = this.safe*(balance, 'key')` patterns. Returns `field_maps["balance"]` with 7 unified fields (`info`, `timestamp`, `datetime`, `free`, `used`, `total`, `debt`). `info` and `datetime` are structurally null; `timestamp` is resolved from a top-level `const timestamp = this.safe*(...)` binding. Scope: every corpus exchange whose `parseBalance` returns `this.safeBalance(Identifier)` — covers all 80 override exchanges.

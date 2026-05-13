@@ -13,6 +13,25 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - **Wired** — `Normalization.field_maps_record/1` now calls `Balance.derive/1` and `Market.derive/1` alongside the existing ticker/trade/ohlcv derivations.
 - **Corpus coverage** — 80 exchanges have `parseBalance` overrides; 48 have `parseMarket` overrides. Priority verified: deribit/bybit (balance), aftermath/hyperliquid (market), binance (market unresolved — returns Identifier).
 
+### Tasks 81 + 82 — `parseTransaction` + `parseDepositAddress` field map + coercion + enums (Phase 12, bundle 12-txn)
+
+- **`CcxtExtract.Normalization.Transaction`** — new module. `derive/1` projects a per-exchange `parse_methods.json` entry into `field_maps["transaction"]`. 18 unified fields; structurally-null by design: `info`, `datetime`, `currency`, `network`, `fee`. Enum fields: `type` (deposit/withdrawal) and `status` (ok/pending/canceled/failed) carry `enum_values` when the wire key resolves. TSAsExpression-wrapped returns unwrapped before classification.
+- **`CcxtExtract.Normalization.DepositAddress`** — new module. `derive/1` projects into `field_maps["deposit_address"]`. 5 unified fields: `currency`, `address`, `tag`, `network`, `info`. `info` structurally null; `network` is nil for resolver-call patterns (`getNetworkCodeByNetworkUrl`) outside the closed `safe*` vocab, populated when `safeString` is used directly.
+- **Wired through `Normalization.build/2`** — `field_maps_record/1` now calls both `Transaction.derive/1` and `DepositAddress.derive/1`.
+- **Corpus coverage** — 81 exchanges with `parseTransaction`, 40 with `parseDepositAddress`. binance/deribit/okx verified for transaction; binance/okx verified for depositAddress; deribit (no `parseDepositAddress` override) correctly emits `null`.
+- **No schema bump** — `NormalizationStubValue` is `additionalProperties: true`; existing v4 schema validates cleanly.
+
+### Tasks 75 + 80 — `parseOrder` + `parsePosition` field maps (Phase 12)
+
+- **`CcxtExtract.Normalization.Order`** — new module (`lib/ccxt_extract/normalization/order.ex`). `derive/1` projects a per-exchange `parse_methods.json` entry into `field_maps["order"]`. Follows the Phase 12 pattern from Tasks 74/76 (flat field_map, closed coercion vocab, honest `_unresolved_reason` tags) with Order-specific extensions.
+- **26 unified fields** — `id`, `clientOrderId`, `timestamp`, `datetime`, `lastTradeTimestamp`, `lastUpdateTimestamp`, `symbol`, `type`, `timeInForce`, `postOnly`, `reduceOnly`, `side`, `price`, `triggerPrice`, `stopLossPrice`, `takeProfitPrice`, `average`, `cost`, `amount`, `filled`, `remaining`, `status`, `fee`, `fees`, `trades`, `info`. Six are structurally-null by design: `info`, `datetime`, `symbol`, `trades`, `fee`, `fees`.
+- **Enum fields** — `status`, `side`, and `type` carry `enum_map` slots. Populated from `safeStringLower` (canonicalizing extraction → `enum_map: nil`), explicit `.toLowerCase()` chains (canonicalized to `safeStringLower`), and ConditionalExpression chains over a shared safe-call. Boolean/numeric/char-code ternaries emit slot with `enum_map: nil` and per-slot `unresolved_reason` (`bool_flag_inferred`, `numeric_code_inferred`, `char_code_inferred`).
+- **Extended coercion vocab** — adds `safeBool`, `safeIntegerN`, `safeStringLower2` on top of the existing base set.
+- **Multi-payload detection** — bodies dispatching on shape (`Array.isArray`, `'key' in var`, `typeof var === 'string'`) at the top-level IfStatement emit `_unresolved_reason: "multi_payload_branching:<N>"`.
+- **`CcxtExtract.Normalization.Position`** — new module (`lib/ccxt_extract/normalization/position.ex`). `derive/1` projects `field_maps["position"]`. 28 unified fields matching the CCXT `Position` interface: `id`, `symbol`, `timestamp`, `datetime`, `lastUpdateTimestamp`, `initialMargin`, `initialMarginPercentage`, `maintenanceMargin`, `maintenanceMarginPercentage`, `entryPrice`, `notional`, `leverage`, `unrealizedPnl`, `realizedPnl`, `contracts`, `contractSize`, `marginRatio`, `liquidationPrice`, `markPrice`, `lastPrice`, `collateral`, `marginMode`, `side`, `percentage`, `stopLossPrice`, `takeProfitPrice`, `hedged`, `info`. Three structurally-null: `info`, `datetime`, `symbol`. Enum fields: `side`, `marginMode`.
+- **Wired through `Normalization.build/2`** — `field_maps_record/1` calls `Order.derive/1` and `Position.derive/1` in alphabetical Map.put order (ohlcv → order → position → ticker → trade).
+- **Corpus coverage** — okx/deribit resolve cleanly for both order and position; kucoin/htx emit multi-payload branching for parseOrder; binance (no parsePosition override) emits `null`.
+
 ### Task 76 — `parseTrade` field map + coercion + enums (Phase 12)
 
 - **`CcxtExtract.Normalization.Trade`** — new module (`lib/ccxt_extract/normalization/trade.ex`). `derive/1` projects a per-exchange `parse_methods.json` entry into `field_maps["trade"]`. Mirrors the Task 74 ticker template (flat `field_map`, no branches; closed coercion vocab; honest `_unresolved_reason` tags) with three Trade-specific extensions.

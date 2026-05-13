@@ -41,10 +41,14 @@ defmodule CcxtExtract.Normalization do
   """
 
   alias CcxtExtract.Normalization.Balance
+  alias CcxtExtract.Normalization.DepositAddress
   alias CcxtExtract.Normalization.Market
   alias CcxtExtract.Normalization.OHLCV
+  alias CcxtExtract.Normalization.Order
+  alias CcxtExtract.Normalization.Position
   alias CcxtExtract.Normalization.Ticker
   alias CcxtExtract.Normalization.Trade
+  alias CcxtExtract.Normalization.Transaction
 
   @parser_types ~w(ticker trade ohlcv order position balance market transaction deposit_address)
   @initial_unresolved_reason "not_yet_derived"
@@ -80,10 +84,14 @@ defmodule CcxtExtract.Normalization do
   defp field_maps_record(parse_methods_entry) do
     stub_record()
     |> Map.put("balance", Balance.derive(parse_methods_entry))
+    |> Map.put("deposit_address", DepositAddress.derive(parse_methods_entry))
     |> Map.put("market", Market.derive(parse_methods_entry))
     |> Map.put("ohlcv", OHLCV.derive(parse_methods_entry))
+    |> Map.put("order", Order.derive(parse_methods_entry))
+    |> Map.put("position", Position.derive(parse_methods_entry))
     |> Map.put("ticker", Ticker.derive(parse_methods_entry))
     |> Map.put("trade", Trade.derive(parse_methods_entry))
+    |> Map.put("transaction", Transaction.derive(parse_methods_entry))
   end
 
   @doc """

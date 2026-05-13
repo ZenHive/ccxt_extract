@@ -174,6 +174,26 @@ defmodule CcxtExtract.Normalization.TradeTest do
       assert result["_unresolved_reason"] == "no_return_statement"
       assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
     end
+
+    test "non-this CallExpression return emits unrecognized_return_shape" do
+      # `return Trade.from(x)` — top-level CallExpression but callee isn't `this.<method>`.
+      ret = %{
+        "type" => "ReturnStatement",
+        "argument" => %{
+          "type" => "CallExpression",
+          "callee" => %{
+            "type" => "MemberExpression",
+            "object" => identifier("Trade"),
+            "property" => identifier("from")
+          },
+          "arguments" => [identifier("x")]
+        }
+      }
+
+      result = Trade.derive(wrap_entry([ret]))
+      assert result["_unresolved_reason"] == "unrecognized_return_shape"
+      assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
+    end
   end
 
   # ---------------------------------------------------------------------------
@@ -445,6 +465,35 @@ defmodule CcxtExtract.Normalization.TradeTest do
       # The "T" branch is non-Literal — dropped. The "M" → "maker" branch resolves.
       assert slot["enum_map"] == %{"M" => "maker"}
       refute Map.has_key?(slot["enum_map"], "T")
+    end
+
+    test "enum ternary where discriminator is an Identifier bound to a safe-call resolves" do
+      # const side = this.safeString(trade, 'side');
+      # return { side: side === 'BUY' ? 'buy' : (side === 'SELL' ? 'sell' : undefined) }
+      # Exercises resolve_to_safe_call/2 Identifier-binding clause.
+      binding = var_decl("side", this_call("safeString", [identifier("trade"), literal("side")]))
+
+      inner_ternary =
+        ternary(
+          binexp(identifier("side"), "===", literal("SELL")),
+          literal("sell"),
+          identifier("undefined")
+        )
+
+      outer_ternary =
+        ternary(
+          binexp(identifier("side"), "===", literal("BUY")),
+          literal("buy"),
+          inner_ternary
+        )
+
+      props = [prop("side", outer_ternary)]
+      result = Trade.derive(wrap_entry([binding, safe_trade_return(props)]))
+
+      slot = result["field_map"]["side"]
+      assert slot["coercion"] == "safeString"
+      assert slot["key"] == "side"
+      assert slot["enum_map"] == %{"BUY" => "buy", "SELL" => "sell"}
     end
 
     test "plain safeString on enum field emits enum slot with enum_map: nil" do

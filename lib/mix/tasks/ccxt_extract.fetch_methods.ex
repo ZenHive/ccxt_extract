@@ -35,6 +35,7 @@ defmodule Mix.Tasks.CcxtExtract.FetchMethods do
   @switches TaskScope.scope_switches()
 
   @impl true
+  @spec run([String.t()]) :: :ok
   def run(args) do
     {opts, leftover, invalid} = OptionParser.parse(args, strict: @switches)
 

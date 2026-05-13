@@ -4,6 +4,13 @@ defmodule CcxtExtract.FetchMethodsTest do
   alias CcxtExtract.FetchMethods
   alias Mix.Tasks.CcxtExtract.FetchMethods, as: FetchMethodsTask
 
+  setup do
+    prior_shell = Mix.shell()
+    Mix.shell(Mix.Shell.IO)
+    on_exit(fn -> Mix.shell(prior_shell) end)
+    :ok
+  end
+
   # Mock fetch methods with different signatures and return types
   @fetch_trades %{
     type: :method_definition,

@@ -21,9 +21,11 @@ defmodule CcxtExtract.FetchMethods do
   use CcxtExtract.OXCExtractor, output_file: "fetch_methods.json"
 
   @impl true
+  @spec source_dir() :: Path.t()
   def source_dir, do: CcxtExtract.Paths.ts_src()
 
   @impl true
+  @spec extract_from_ast(map(), Path.t()) :: map() | nil
   def extract_from_ast(ast, filename) do
     export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
 
@@ -36,8 +38,8 @@ defmodule CcxtExtract.FetchMethods do
       methods = find_fetch_methods(class_body)
 
       fetch_methods_map =
-        Map.new(methods, fn method ->
-          {method.key.name, CcxtExtract.MethodAST.extract(method)}
+        Map.new(methods, fn %{key: %{name: name}} = method ->
+          {name, CcxtExtract.MethodAST.extract(method)}
         end)
 
       %{
@@ -51,6 +53,7 @@ defmodule CcxtExtract.FetchMethods do
   end
 
   @impl true
+  @spec write_stats([map()]) :: map()
   def write_stats(exchanges) do
     %{
       "with_fetch_methods" => Enum.count(exchanges, fn e -> e["fetch_method_count"] > 0 end),
@@ -65,8 +68,12 @@ defmodule CcxtExtract.FetchMethods do
   """
   @spec find_fetch_methods([map()]) :: [map()]
   def find_fetch_methods(class_body) do
-    Enum.filter(class_body, fn member ->
-      member.type == :method_definition && String.starts_with?(member.key.name, "fetch")
+    Enum.filter(class_body, fn
+      %{type: :method_definition, key: %{name: name}} when is_binary(name) ->
+        String.starts_with?(name, "fetch")
+
+      _ ->
+        false
     end)
   end
 end

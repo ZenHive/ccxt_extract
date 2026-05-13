@@ -326,6 +326,79 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       assert kucoin_ticker["_unresolved_reason"] =~ "non_safe_ticker_return"
     end
 
+    test "Task 76 — parseTrade field map for priority exchanges and multi-payload detection",
+         %{discoveries_dir: discoveries_dir} do
+      # okx/deribit have a clean parseTrade returning safeTrade — field_maps.trade
+      # populated with nil _unresolved_reason. binance/kraken have shape-discriminator
+      # multi-payload bodies — honest `multi_payload_branching:<N>` _unresolved_reason.
+      trade_scope = MapSet.new(["okx", "deribit", "binance", "kraken"])
+
+      {:ok, exchanges, _stats} =
+        Pipeline.extract(
+          discoveries_dir: discoveries_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-05-08T00:00:00Z",
+          scope: trade_scope,
+          schema_target: 4
+        )
+
+      exchange_map = Map.new(exchanges, &{get_in(&1, ["exchange", "id"]), &1})
+
+      # Schema validation guard — Task 76's new field_map shape (enum_map /
+      # sub_field_map / unresolved_reason keys) must not regress v4 strict
+      # validation. NormalizationStubValue is permissive (additionalProperties:
+      # true), so this is a safety net, not a load-bearing assertion.
+      v4_root = Validation.build_schema_root(4)
+
+      for {id, exchange} <- exchange_map do
+        case Validation.validate_schema(exchange, v4_root) do
+          :ok ->
+            :ok
+
+          {:error, findings} ->
+            paths =
+              findings
+              |> Enum.take(5)
+              |> Enum.map_join("\n  ", fn f -> "#{f["path"]}: #{f["message"]}" end)
+
+            flunk("v4 schema validation failed for #{id} after Task 76 trade derivation:\n  #{paths}")
+        end
+      end
+
+      # okx: canonical safeTrade return — extraction-populated fields only (CCXT
+      # derives cost/datetime/info/symbol downstream, so they're correctly null).
+      okx_trade = get_in(exchange_map["okx"], ["normalization", "field_maps", "trade"])
+      assert is_map(okx_trade), "okx parseTrade must populate field_maps.trade"
+      assert okx_trade["_unresolved_reason"] == nil, "okx safeTrade return should parse cleanly"
+
+      okx_populated =
+        Enum.count(okx_trade["field_map"], fn {_k, v} -> is_map(v) and v["key"] != nil end)
+
+      assert okx_populated >= 7,
+             "okx trade field_map must populate ≥7 of 13 unified fields (got #{okx_populated})"
+
+      # Spot-check key wire-key resolutions (proves coercion+key extraction works).
+      assert okx_trade["field_map"]["timestamp"]["key"] == "ts"
+      assert okx_trade["field_map"]["timestamp"]["format"] == "ms"
+      assert okx_trade["field_map"]["id"]["key"] == "tradeId"
+      assert okx_trade["field_map"]["price"]["key"] == "fillPx"
+
+      # deribit: also a canonical safeTrade return
+      deribit_trade = get_in(exchange_map["deribit"], ["normalization", "field_maps", "trade"])
+      assert is_map(deribit_trade), "deribit parseTrade must populate field_maps.trade"
+      assert deribit_trade["_unresolved_reason"] == nil, "deribit safeTrade return should parse cleanly"
+
+      # binance and kraken: multi-payload bodies — honest unresolved tag
+      for id <- ["binance", "kraken"] do
+        trade = get_in(exchange_map[id], ["normalization", "field_maps", "trade"])
+        assert is_map(trade), "#{id} trade must be a map (unresolved, not nil)"
+        assert is_binary(trade["_unresolved_reason"]), "#{id} must have non-nil _unresolved_reason"
+
+        assert trade["_unresolved_reason"] =~ "multi_payload_branching:",
+               "#{id} must report multi_payload_branching:<N>, got #{inspect(trade["_unresolved_reason"])}"
+      end
+    end
+
     test "v3 emit (default) is byte-identical with or without explicit --schema-target=3 for binance",
          %{discoveries_dir: discoveries_dir} do
       # Equivalence guard: the only thing that changes between

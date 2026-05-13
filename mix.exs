@@ -39,16 +39,16 @@ defmodule CcxtExtract.MixProject do
   defp deps do
     [
       # Core extraction tools
-      {:oxc, "~> 0.10"},
-      {:quickbeam, "~> 0.10"},
-      {:npm, "~> 0.5"},
+      {:oxc, "~> 0.12.1"},
+      {:quickbeam, "~> 0.10.11"},
+      {:npm, "~> 0.7.1"},
 
       # JSON
       {:jason, "~> 1.4"},
 
       # Validation — runtime: false because the OTP app doesn't need JSV at runtime,
       # only mix tasks (ccxt_extract.validate) and tests use it
-      {:jsv, "~> 0.16", runtime: false},
+      {:jsv, "~> 0.19.0", runtime: false},
 
       # Dev/test tooling
       {:ex_unit_json, "~> 0.4", only: [:dev, :test], runtime: false},
@@ -57,14 +57,14 @@ defmodule CcxtExtract.MixProject do
       {:credo, "~> 1.7.18", only: [:dev, :test], runtime: false, override: true},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.40", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.40.2", only: :dev, runtime: false},
       {:doctor, "~> 0.22", only: [:dev, :test], runtime: false},
 
       # Code analysis tools
       {:ex_dna, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:ex_ast, "~> 0.5", only: [:dev, :test], runtime: false},
+      {:ex_ast, "~> 0.11.2", only: [:dev, :test], runtime: false},
       {:ex_slop, "~> 0.3.0", only: [:dev, :test], runtime: false},
-      {:reach, "~> 2.2", only: [:dev, :test], runtime: false},
+      {:reach, "~> 2.3", only: [:dev, :test], runtime: false},
       {:tidewave, "~> 0.5", only: :dev},
       {:bandit, "~> 1.10", only: :dev}
     ]

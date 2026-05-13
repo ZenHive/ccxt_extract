@@ -1,7 +1,7 @@
 defmodule CcxtExtract.Normalization.DepositAddressTest do
   @moduledoc """
   Unit tests for `CcxtExtract.Normalization.DepositAddress` — the Task 82 derivation
-  that populates `field_maps["depositAddress"]` from a per-exchange `parse_methods.json`
+  that populates `field_maps["deposit_address"]` from a per-exchange `parse_methods.json`
   entry.
 
   Synthetic AST fixtures only — no file I/O. Corpus-level shape assertions

@@ -446,7 +446,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
     test "Task 82 — parseDepositAddress field map for exchanges with a direct-return body",
          %{discoveries_dir: discoveries_dir} do
       # okx/binance have a parseDepositAddress override returning an ObjectExpression
-      # — field_maps.depositAddress must be populated.
+      # — field_maps.deposit_address must be populated.
       # deribit has no parseDepositAddress override — honest nil.
       da_scope = MapSet.new(["binance", "okx", "deribit"])
 

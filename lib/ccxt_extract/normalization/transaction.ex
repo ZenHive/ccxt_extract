@@ -104,7 +104,7 @@ defmodule CcxtExtract.Normalization.Transaction do
 
   def derive(_), do: nil
 
-  @doc "Returns the list of 17 unified transaction field names."
+  @doc "Returns the list of 18 unified transaction field names."
   @spec unified_fields() :: [String.t()]
   def unified_fields, do: @unified_fields
 

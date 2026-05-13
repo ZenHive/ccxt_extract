@@ -1,6 +1,6 @@
 defmodule CcxtExtract.Normalization.DepositAddress do
   @moduledoc """
-  Derive `field_maps["depositAddress"]` from a per-exchange `parse_methods.json`
+  Derive `field_maps["deposit_address"]` from a per-exchange `parse_methods.json`
   entry.
 
   Scope (Task 82): handles exchanges whose `parseDepositAddress` body returns an
@@ -84,7 +84,7 @@ defmodule CcxtExtract.Normalization.DepositAddress do
 
   def derive(_), do: nil
 
-  @doc "Returns the list of 5 unified depositAddress field names."
+  @doc "Returns the list of 5 unified deposit_address field names."
   @spec unified_fields() :: [String.t()]
   def unified_fields, do: @unified_fields
 

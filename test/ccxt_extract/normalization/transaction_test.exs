@@ -323,7 +323,7 @@ defmodule CcxtExtract.Normalization.TransactionTest do
   # ---------------------------------------------------------------------------
 
   describe "derive/1 — output shape contract" do
-    test "all 17 unified fields appear as keys in field_map" do
+    test "all 18 unified fields appear as keys in field_map" do
       result = Transaction.derive(wrap_entry([object_return([])]))
 
       assert result["field_map"] |> Map.keys() |> Enum.sort() ==

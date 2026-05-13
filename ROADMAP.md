@@ -292,7 +292,8 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 | Task 80 `[P]` | ✅ | 🎁 **12-orders** · `parsePosition` field map — see [CHANGELOG.md](CHANGELOG.md#tasks-75--80--parseorder--parseposition-field-maps-phase-12) |
 | Task 81 `[P]` | ✅ | 🎁 **12-txn** · `parseTransaction` (deposit/withdrawal) field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 82 `[P]` | ✅ | 🎁 **12-txn** · `parseDepositAddress` field map [D:3/B:6/U:6 → Eff:2.0] 🚀 |
-| Task 83 | ⬜ | 🎁 **12-envelope** · Response envelope paths per method group [D:4/B:8/U:8 → Eff:2.0] 🚀 |
+| Task 83a | ✅ | 🎁 **12-envelope** · Fetcher-method extractor — `CcxtExtract.FetchMethods` + `mix ccxt_extract.fetch_methods` + `priv/discoveries/fetch_methods.json` [D:2/B:5/U:7 → Eff:3.0] 🎯 — see [CHANGELOG.md](CHANGELOG.md#task-83a--fetcher-method-extractor) |
+| Task 83b | ⬜ | 🎁 **12-envelope** · Response envelope derivation — `CcxtExtract.Normalization.ResponseEnvelopes` consuming 83a slice; replaces `stub_record()` in carrier [D:4/B:8/U:8 → Eff:2.0] 🚀 — depends on Task 83a |
 | Task 135 | ⬜ | 🎁 **12-simple** · `ticker.ex` normalization-vocab alignment [D:2/B:4/U:5 → Eff:2.25] 🎯 — `lib/ccxt_extract/normalization/ticker.ex:125` still emits `"no_return_statement"` from a wildcard fall-through (misnomer; mirrors the bug fixed in `balance.ex`/`market.ex`/`trade.ex` via audits `80cb242` and `1fc712f`), AND `ticker.ex` lacks the `unwrap_ts_as/1` helper that `transaction.ex`/`deposit_address.ex`/`market.ex` ship. Apply the same split-find-from-classify refactor: add `unwrap_ts_as/1`, rename the misnomer to `"unrecognized_return_shape"`, add an `identifier_return` clause for bare-Identifier returns, expand moduledoc vocab + SCHEMA.md ticker section. Surfaced by Codex during `1fc712f` follow-up audit. |
 
 Type-coercion tables fold into each per-type task (not standalone) — one task covers its type's field map + coercion + enums together so it fits in a session.

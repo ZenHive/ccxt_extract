@@ -279,7 +279,7 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 |------|--------|-------|
 | Task 129 | ✅ | 🎁 **v4-freeze** · `normalization` block carrier — shipped 2026-05-08 via PR #10 (INE-61), hardened in PR #15. New `CcxtExtract.Normalization` module emits a compact `parse_methods_digest` (signatures + statement counts; **no AST body** — preserves the 91.6% Hex-cap reduction from Task 117) plus scaffolded `field_maps` + `response_envelopes` keyed by parser type, gated to `--schema-target=4` only (v3 byte-identical). Two new contract invariants: `normalization_shape_valid` and `parse_methods_digest_covers_inventory`. See [CHANGELOG.md](CHANGELOG.md#task-129--v4-normalization-block-carrier-pr-10--15-ine-61). |
 | Task 74 `[P]` | ✅ | 🎁 **12-simple** · `parseTicker` field map + coercion + enums [D:4/B:8/U:8 → Eff:2.0] 🚀 |
-| Task 75 `[P]` | ⬜ | 🎁 **12-orders** · `parseOrder` field map + status/side/type enums [D:5/B:9/U:9 → Eff:1.8] 🚀 |
+| Task 75 `[P]` | ✅ | 🎁 **12-orders** · `parseOrder` field map + status/side/type enums — see [CHANGELOG.md](CHANGELOG.md#tasks-75--80--parseorder--parseposition-field-maps-phase-12) |
 | Task 76 `[P]` | ✅ | 🎁 **12-simple** · `parseTrade` field map + coercion + enums — see [CHANGELOG.md](CHANGELOG.md#task-76--parsetrade-field-map--coercion--enums) |
 | Task 77 `[P]` | ⬜ | 🎁 **12-accounts** · `parseBalance` field map [D:4/B:8/U:8 → Eff:2.0] 🚀 |
 | Task 78 `[P]` | ✅ | 🎁 **12-simple** · `parseOHLCV` field map (pure-array scope, 6 priority exchanges) — see [CHANGELOG.md](CHANGELOG.md#task-78--parseohlcv-field-map-pure-array-scope) |
@@ -289,7 +289,7 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 | Task 78e `[P]` | ✅ | 🎁 **12-simple** · `parseOHLCV` `parse8601` ISO8601 timestamps (bitmex) — bundled with 78b, see CHANGELOG |
 | Task 78f `[P]` | ⬜ | 🎁 **12-simple** · `parseOHLCV` discriminator vocabulary beyond `market.inverse` (okx `type === 'spot'` and similar multi-market-type gating) [D:3/B:4/U:4 → Eff:1.33] 📋. Discovered during Task 78 implementation — okx's `volumeIndex` test is `(type === 'spot') ? 5 : 6`, currently emits `volume = null` honestly. Generalize the closed `discriminator` vocab; ship okx volume populated when fixed. |
 | Task 79 `[P]` | ⬜ | 🎁 **12-accounts** · `parseMarket` field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 80 `[P]` | ⬜ | 🎁 **12-orders** · `parsePosition` field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 80 `[P]` | ✅ | 🎁 **12-orders** · `parsePosition` field map — see [CHANGELOG.md](CHANGELOG.md#tasks-75--80--parseorder--parseposition-field-maps-phase-12) |
 | Task 81 `[P]` | ⬜ | 🎁 **12-txn** · `parseTransaction` (deposit/withdrawal) field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 82 `[P]` | ⬜ | 🎁 **12-txn** · `parseDepositAddress` field map [D:3/B:6/U:6 → Eff:2.0] 🚀 |
 | Task 83 | ⬜ | 🎁 **12-envelope** · Response envelope paths per method group [D:4/B:8/U:8 → Eff:2.0] 🚀 |

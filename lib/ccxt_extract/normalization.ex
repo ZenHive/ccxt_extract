@@ -41,6 +41,8 @@ defmodule CcxtExtract.Normalization do
   """
 
   alias CcxtExtract.Normalization.OHLCV
+  alias CcxtExtract.Normalization.Order
+  alias CcxtExtract.Normalization.Position
   alias CcxtExtract.Normalization.Ticker
   alias CcxtExtract.Normalization.Trade
 
@@ -78,6 +80,8 @@ defmodule CcxtExtract.Normalization do
   defp field_maps_record(parse_methods_entry) do
     stub_record()
     |> Map.put("ohlcv", OHLCV.derive(parse_methods_entry))
+    |> Map.put("order", Order.derive(parse_methods_entry))
+    |> Map.put("position", Position.derive(parse_methods_entry))
     |> Map.put("ticker", Ticker.derive(parse_methods_entry))
     |> Map.put("trade", Trade.derive(parse_methods_entry))
   end

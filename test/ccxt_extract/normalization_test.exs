@@ -368,6 +368,140 @@ defmodule CcxtExtract.NormalizationTest do
 
       assert field_maps["_unresolved_reason"] == "not_yet_derived"
     end
+
+    test "Task 75: order slot populates when a parseOrder entry is supplied" do
+      identifier = fn name -> %{"type" => "Identifier", "name" => name} end
+      literal = fn v -> %{"type" => "Literal", "value" => v} end
+
+      this_call = fn method, args ->
+        %{
+          "type" => "CallExpression",
+          "callee" => %{
+            "type" => "MemberExpression",
+            "object" => %{"type" => "ThisExpression"},
+            "property" => %{"type" => "Identifier", "name" => method}
+          },
+          "arguments" => args
+        }
+      end
+
+      safe_order_ret = %{
+        "type" => "ReturnStatement",
+        "argument" =>
+          this_call.("safeOrder", [
+            %{
+              "type" => "ObjectExpression",
+              "properties" => [
+                %{
+                  "key" => identifier.("id"),
+                  "value" => this_call.("safeString", [identifier.("order"), literal.("orderId")])
+                },
+                %{
+                  "key" => identifier.("timestamp"),
+                  "value" => this_call.("safeInteger", [identifier.("order"), literal.("ts")])
+                },
+                %{
+                  "key" => identifier.("side"),
+                  "value" => this_call.("safeStringLower", [identifier.("order"), literal.("side")])
+                }
+              ]
+            },
+            identifier.("market")
+          ])
+      }
+
+      entry = %{
+        "parse_methods" => %{
+          "parseOrder" => %{
+            "body" => %{"type" => "BlockStatement", "body" => [safe_order_ret]}
+          }
+        }
+      }
+
+      result = Normalization.build(entry)
+      field_maps = result["field_maps"]
+
+      assert is_map(field_maps["order"]), "order slot must populate"
+      assert field_maps["order"]["_unresolved_reason"] == nil
+      assert field_maps["order"]["field_map"]["id"]["key"] == "orderId"
+      assert field_maps["order"]["field_map"]["timestamp"]["coercion"] == "safeInteger"
+      assert field_maps["order"]["field_map"]["timestamp"]["format"] == "ms"
+      assert field_maps["order"]["field_map"]["side"]["coercion"] == "safeStringLower"
+
+      # Other parser-type slots stay nil
+      for type <- Normalization.parser_types() -- ["order", "ohlcv"] do
+        assert field_maps[type] == nil, "non-order slot #{type} should still be nil"
+      end
+
+      assert field_maps["_unresolved_reason"] == "not_yet_derived"
+    end
+
+    test "Task 80: position slot populates when a parsePosition entry is supplied" do
+      identifier = fn name -> %{"type" => "Identifier", "name" => name} end
+      literal = fn v -> %{"type" => "Literal", "value" => v} end
+
+      this_call = fn method, args ->
+        %{
+          "type" => "CallExpression",
+          "callee" => %{
+            "type" => "MemberExpression",
+            "object" => %{"type" => "ThisExpression"},
+            "property" => %{"type" => "Identifier", "name" => method}
+          },
+          "arguments" => args
+        }
+      end
+
+      safe_position_ret = %{
+        "type" => "ReturnStatement",
+        "argument" =>
+          this_call.("safePosition", [
+            %{
+              "type" => "ObjectExpression",
+              "properties" => [
+                %{
+                  "key" => identifier.("id"),
+                  "value" => this_call.("safeString", [identifier.("pos"), literal.("posId")])
+                },
+                %{
+                  "key" => identifier.("entryPrice"),
+                  "value" => this_call.("safeNumber", [identifier.("pos"), literal.("entryPrice")])
+                },
+                %{
+                  "key" => identifier.("side"),
+                  "value" => this_call.("safeString", [identifier.("pos"), literal.("side")])
+                }
+              ]
+            },
+            identifier.("market")
+          ])
+      }
+
+      entry = %{
+        "parse_methods" => %{
+          "parsePosition" => %{
+            "body" => %{"type" => "BlockStatement", "body" => [safe_position_ret]}
+          }
+        }
+      }
+
+      result = Normalization.build(entry)
+      field_maps = result["field_maps"]
+
+      assert is_map(field_maps["position"]), "position slot must populate"
+      assert field_maps["position"]["_unresolved_reason"] == nil
+      assert field_maps["position"]["field_map"]["id"]["key"] == "posId"
+      assert field_maps["position"]["field_map"]["entryPrice"]["key"] == "entryPrice"
+      assert field_maps["position"]["field_map"]["side"]["coercion"] == "safeString"
+      assert field_maps["position"]["field_map"]["side"]["enum_map"] == nil
+
+      # Other parser-type slots stay nil
+      for type <- Normalization.parser_types() -- ["position", "ohlcv"] do
+        assert field_maps[type] == nil, "non-position slot #{type} should still be nil"
+      end
+
+      assert field_maps["_unresolved_reason"] == "not_yet_derived"
+    end
   end
 
   describe "build/2 — round-trip + shape" do

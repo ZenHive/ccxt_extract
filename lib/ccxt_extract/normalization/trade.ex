@@ -28,15 +28,20 @@ defmodule CcxtExtract.Normalization.Trade do
   `symbol` (resolved via `safeSymbol` / `market['symbol']`, not a direct
   key lookup).
 
-  ## `_unresolved_reason` vocabulary (closed)
+  ## `_unresolved_reason` vocabulary (closed prefixes, open suffixes)
+
+  Two prefixes carry an open suffix — consumers MUST match on the prefix
+  (`String.starts_with?/2`), not on the full string. See SCHEMA.md for the
+  schema-level statement of the same contract.
 
   - `nil` — canonical `safeTrade` return resolved cleanly. Per-field
     slots may still be nil or carry their own `unresolved_reason`.
   - `"multi_payload_branching:<N>"` — body has N top-level shape-discriminator
     IfStatements (Array.isArray / `'<lit>' in <var>` / typeof). First-cut
-    skips per-branch extraction.
+    skips per-branch extraction. Suffix `<N>` is an integer count (open).
   - `"non_safe_trade_return:<callee>"` — return calls a different method
-    (e.g. `parseSpotTrade`, `safeTrade2`).
+    (e.g. `parseSpotTrade`, `safeTrade2`). Suffix `<callee>` is the callee
+    identifier from the source (open — any future CCXT method name).
   - `"no_return_statement"` — body has no `ReturnStatement`.
 
   ## Per-field `unresolved_reason` vocabulary (enum/fee slots only)
@@ -418,7 +423,14 @@ defmodule CcxtExtract.Normalization.Trade do
   defp classify_ternary(%{"type" => "ConditionalExpression", "test" => test} = node, bindings) do
     case classify_ternary_test(test, bindings) do
       {:enum_lhs, safe_call, rhs_value} when is_binary(rhs_value) ->
-        accumulate_enum_map(node, safe_call, bindings, %{rhs_value => node["consequent"]["value"]}, node["alternate"])
+        consequent_value = literal_value(node["consequent"])
+
+        seed =
+          if is_binary(consequent_value),
+            do: %{rhs_value => consequent_value},
+            else: %{}
+
+        accumulate_enum_map(node, safe_call, bindings, seed, node["alternate"])
 
       :bool_flag ->
         {:unresolved, "bool_flag_inferred"}
@@ -621,30 +633,38 @@ defmodule CcxtExtract.Normalization.Trade do
     end
   end
 
-  # safeCurrencyCode takes a currency-id Identifier (often bound earlier to a
-  # safeString call) — there's no inline wire key. Trace back through the
-  # binding chain to extract the wire key when possible; emit key: nil otherwise.
-  defp currency_slot(%{"type" => "Literal", "value" => v}, _bindings) when is_binary(v) do
-    %{"key" => v, "coercion" => "safeCurrencyCode", "format" => nil}
-  end
-
-  defp currency_slot(%{"type" => "Identifier", "name" => name}, bindings) do
-    wire_key =
-      case lookup_binding(name, bindings) do
-        %{"type" => "CallExpression"} = init ->
-          case classify_safe_call(init) do
-            {:ok, %{idx_arg: %{"type" => "Literal", "value" => k}}} when is_binary(k) -> k
-            _ -> nil
-          end
-
-        _ ->
-          nil
-      end
-
+  # safeCurrencyCode takes a currency-id arg which can be: a Literal wire key,
+  # an Identifier bound to a safe-call (or chained Identifier→Identifier→safe-call),
+  # or a nested CallExpression (`safeCurrencyCode(this.safeString(trade, 'feeCcy'))`).
+  # Trace back through the binding chain / call nesting to extract the wire key
+  # when provable; emit key: nil otherwise.
+  defp currency_slot(arg, bindings) do
+    wire_key = trace_currency_wire_key(arg, bindings, MapSet.new())
     %{"key" => wire_key, "coercion" => "safeCurrencyCode", "format" => nil}
   end
 
-  defp currency_slot(_, _), do: %{"key" => nil, "coercion" => "safeCurrencyCode", "format" => nil}
+  @spec trace_currency_wire_key(term(), [{String.t(), map()}], MapSet.t()) :: String.t() | nil
+  defp trace_currency_wire_key(%{"type" => "Literal", "value" => v}, _bindings, _seen) when is_binary(v), do: v
+
+  defp trace_currency_wire_key(%{"type" => "Identifier", "name" => name}, bindings, seen) do
+    if MapSet.member?(seen, name) do
+      nil
+    else
+      case lookup_binding(name, bindings) do
+        nil -> nil
+        bound -> trace_currency_wire_key(bound, bindings, MapSet.put(seen, name))
+      end
+    end
+  end
+
+  defp trace_currency_wire_key(%{"type" => "CallExpression"} = node, _bindings, _seen) do
+    case classify_safe_call(node) do
+      {:ok, %{idx_arg: %{"type" => "Literal", "value" => k}}} when is_binary(k) -> k
+      _ -> nil
+    end
+  end
+
+  defp trace_currency_wire_key(_, _bindings, _seen), do: nil
 
   # --- Identifier resolution & safe-call classification ---
 

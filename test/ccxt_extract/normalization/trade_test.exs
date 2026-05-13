@@ -418,6 +418,35 @@ defmodule CcxtExtract.Normalization.TradeTest do
       assert slot["coercion"] == nil
     end
 
+    test "ternary with non-Literal seed consequent omits seed entry from enum_map" do
+      # `safeString(trade,'execType') === 'T' ? someVar : (... === 'M' ? 'maker' : undefined)`
+      # Seed consequent is an Identifier (not a string Literal); previously seeded enum_map
+      # with `nil`. Fix: skip the seed entry, keep only the resolvable nested branch.
+      safe = this_call("safeString", [identifier("trade"), literal("execType")])
+
+      inner_ternary =
+        ternary(
+          binexp(safe, "===", literal("M")),
+          literal("maker"),
+          identifier("undefined")
+        )
+
+      outer_ternary =
+        ternary(
+          binexp(safe, "===", literal("T")),
+          identifier("someVar"),
+          inner_ternary
+        )
+
+      props = [prop("takerOrMaker", outer_ternary)]
+      result = Trade.derive(wrap_entry([safe_trade_return(props)]))
+
+      slot = result["field_map"]["takerOrMaker"]
+      # The "T" branch is non-Literal — dropped. The "M" → "maker" branch resolves.
+      assert slot["enum_map"] == %{"M" => "maker"}
+      refute Map.has_key?(slot["enum_map"], "T")
+    end
+
     test "plain safeString on enum field emits enum slot with enum_map: nil" do
       props = [prop("type", this_call("safeString", [identifier("trade"), literal("ordType")]))]
       result = Trade.derive(wrap_entry([safe_trade_return(props)]))
@@ -508,6 +537,66 @@ defmodule CcxtExtract.Normalization.TradeTest do
       fee = result["field_map"]["fee"]
       assert fee["sub_field_map"] == nil
       assert fee["unresolved_reason"] == "fee_not_object_literal"
+    end
+
+    test "safeCurrencyCode with nested CallExpression arg resolves wire key" do
+      # `safeCurrencyCode(this.safeString(trade, 'feeCcy'))` — binance/bitget/kraken shape
+      nested_safe = this_call("safeString", [identifier("trade"), literal("feeCcy")])
+
+      fee_obj = %{
+        "type" => "ObjectExpression",
+        "properties" => [
+          prop("cost", this_call("safeString", [identifier("trade"), literal("fee")])),
+          prop("currency", this_call("safeCurrencyCode", [nested_safe]))
+        ]
+      }
+
+      props = [prop("fee", fee_obj)]
+      result = Trade.derive(wrap_entry([safe_trade_return(props)]))
+
+      currency = result["field_map"]["fee"]["sub_field_map"]["currency"]
+      assert currency["coercion"] == "safeCurrencyCode"
+      assert currency["key"] == "feeCcy"
+    end
+
+    test "safeCurrencyCode with Identifier → Identifier → safe-call chain resolves wire key" do
+      # Two-hop binding: const a = const b = this.safeString(trade, 'commissionAsset')
+      inner_binding = var_decl("b", this_call("safeString", [identifier("trade"), literal("commissionAsset")]))
+      outer_binding = var_decl("a", identifier("b"))
+
+      fee_obj = %{
+        "type" => "ObjectExpression",
+        "properties" => [
+          prop("cost", this_call("safeString", [identifier("trade"), literal("commission")])),
+          prop("currency", this_call("safeCurrencyCode", [identifier("a")]))
+        ]
+      }
+
+      props = [prop("fee", fee_obj)]
+      result = Trade.derive(wrap_entry([inner_binding, outer_binding, safe_trade_return(props)]))
+
+      currency = result["field_map"]["fee"]["sub_field_map"]["currency"]
+      assert currency["key"] == "commissionAsset"
+    end
+
+    test "safeCurrencyCode with cyclic Identifier binding does not loop" do
+      # `const a = b; const b = a;` — cycle. Should emit key: nil, not hang.
+      a_binding = var_decl("a", identifier("b"))
+      b_binding = var_decl("b", identifier("a"))
+
+      fee_obj = %{
+        "type" => "ObjectExpression",
+        "properties" => [
+          prop("currency", this_call("safeCurrencyCode", [identifier("a")]))
+        ]
+      }
+
+      props = [prop("fee", fee_obj)]
+      result = Trade.derive(wrap_entry([a_binding, b_binding, safe_trade_return(props)]))
+
+      currency = result["field_map"]["fee"]["sub_field_map"]["currency"]
+      assert currency["coercion"] == "safeCurrencyCode"
+      assert currency["key"] == nil
     end
 
     test "fee sub-property with non-vocab coercion emits nil for that sub-slot" do

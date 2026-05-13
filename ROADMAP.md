@@ -106,7 +106,7 @@ Tasks grouped into session-sized bundles that share AST passes, schema design, o
 |--------|-------|-----------|
 | 🎁 **12-simple** `[P]` | 74, 76, 78 | parseTicker/Trade/OHLCV — simpler field maps |
 | 🎁 **12-orders** `[P]` | 75, 80 | parseOrder + parsePosition — shared enum tables |
-| 🎁 **12-accounts** `[P]` | 77, 79 | parseBalance + parseMarket |
+| 🎁 **12-accounts** `[P]` | 77, 79 | parseBalance + parseMarket ✅ |
 | 🎁 **12-txn** `[P]` | 81, 82 | parseTransaction + parseDepositAddress |
 | 🎁 **12-envelope** | 83 | Response envelope paths per method group |
 | 🎁 **15-msg** | 91, 92, 93 | WS subscribe + auth + heartbeat |
@@ -281,14 +281,14 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 | Task 74 `[P]` | ✅ | 🎁 **12-simple** · `parseTicker` field map + coercion + enums [D:4/B:8/U:8 → Eff:2.0] 🚀 |
 | Task 75 `[P]` | ⬜ | 🎁 **12-orders** · `parseOrder` field map + status/side/type enums [D:5/B:9/U:9 → Eff:1.8] 🚀 |
 | Task 76 `[P]` | ✅ | 🎁 **12-simple** · `parseTrade` field map + coercion + enums — see [CHANGELOG.md](CHANGELOG.md#task-76--parsetrade-field-map--coercion--enums) |
-| Task 77 `[P]` | ⬜ | 🎁 **12-accounts** · `parseBalance` field map [D:4/B:8/U:8 → Eff:2.0] 🚀 |
+| Task 77 `[P]` | ✅ | 🎁 **12-accounts** · `parseBalance` field map [D:4/B:8/U:8 → Eff:2.0] 🚀 — see [CHANGELOG.md](CHANGELOG.md#task-7779--parsebalance--parsemarket-field-map--coercion) |
 | Task 78 `[P]` | ✅ | 🎁 **12-simple** · `parseOHLCV` field map (pure-array scope, 6 priority exchanges) — see [CHANGELOG.md](CHANGELOG.md#task-78--parseohlcv-field-map-pure-array-scope) |
 | Task 78b `[P]` | ✅ | 🎁 **12-simple** · `parseOHLCV` object-shape exchanges (`htx`, `bitmex`, `hyperliquid`, `lighter`) — see [CHANGELOG.md](CHANGELOG.md#tasks-78b--78e--parseohlcv-object-input-shape--parse8601-timestamp-wrapper) |
 | Task 78c `[P]` | ⬜ | 🎁 **12-simple** · `parseOHLCV` hybrid `Array.isArray` exchanges (`gate`, possible `binance` options-fallback) [D:5/B:4/U:4 → Eff:0.8] ⚠️. Adds `array_input`/`object_input` guard kinds + IfStatement-discriminated branches. |
 | Task 78d `[P]` | ⬜ | 🎁 **12-simple** · `parseOHLCV` scrambled-coercion + heuristic exchanges (`coinbaseexchange` `safeTimestamp` s→ms, `kraken` VWAP-extras, `kucoin` timestamp-length IfStatement heuristic) [D:5/B:4/U:4 → Eff:0.8] ⚠️. Adds `format: "s"`, populates `extras` list, emits kucoin timestamp-slot null with reason. |
 | Task 78e `[P]` | ✅ | 🎁 **12-simple** · `parseOHLCV` `parse8601` ISO8601 timestamps (bitmex) — bundled with 78b, see CHANGELOG |
 | Task 78f `[P]` | ⬜ | 🎁 **12-simple** · `parseOHLCV` discriminator vocabulary beyond `market.inverse` (okx `type === 'spot'` and similar multi-market-type gating) [D:3/B:4/U:4 → Eff:1.33] 📋. Discovered during Task 78 implementation — okx's `volumeIndex` test is `(type === 'spot') ? 5 : 6`, currently emits `volume = null` honestly. Generalize the closed `discriminator` vocab; ship okx volume populated when fixed. |
-| Task 79 `[P]` | ⬜ | 🎁 **12-accounts** · `parseMarket` field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 79 `[P]` | ✅ | 🎁 **12-accounts** · `parseMarket` field map [D:4/B:7/U:7 → Eff:1.75] 🚀 — see [CHANGELOG.md](CHANGELOG.md#task-7779--parsebalance--parsemarket-field-map--coercion) |
 | Task 80 `[P]` | ⬜ | 🎁 **12-orders** · `parsePosition` field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 81 `[P]` | ⬜ | 🎁 **12-txn** · `parseTransaction` (deposit/withdrawal) field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 82 `[P]` | ⬜ | 🎁 **12-txn** · `parseDepositAddress` field map [D:3/B:6/U:6 → Eff:2.0] 🚀 |

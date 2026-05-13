@@ -433,6 +433,43 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 **Honesty contract:** every populated slot is provable from AST. No field is synthesized. Same open-closed distinction as ticker: `_unresolved_reason` is open-suffix (`multi_payload_branching:<N>`, `non_safe_trade_return:<callee>`); `coercion` is closed; `format` is closed; `key` and `enum_map` arm values are open (from source).
 
+### `normalization.field_maps.balance` — shape (Task 77)
+
+`field_maps["balance"]` carries the per-exchange `parseBalance` field map. Imperative pattern: balance bodies assign to `account['free'|'used'|'total'|'debt']` inside loop bodies rather than returning an ObjectExpression, so derivation scans statement-level assignments instead of ObjectExpression properties.
+
+**7 unified Balance fields in `field_map`** (always present as keys, value `null` when absent or outside closed vocab):
+`info`, `timestamp`, `datetime`, `free`, `used`, `total`, `debt`
+
+**Structurally-null fields by design (always `null`):**
+- `info` — raw balance object pass-through
+- `datetime` — derived from `timestamp` via `iso8601`, not raw
+
+**Slot shape:** same as ticker — `%{"key", "coercion", "format"}`. `debt` is rarely populated. `extras` is always `[]` (imperative assignment bodies have no ObjectExpression to scan for extras).
+
+**Closed `coercion` vocabulary:** `["safeString", "safeString2", "safeStringN", "safeNumber", "safeNumber2", "safeInteger", "safeInteger2", "safeTimestamp"]`.
+
+**`_unresolved_reason`:** `null` when `safeBalance(Identifier)` pattern found; `"non_safe_balance_return:<callee>"` otherwise; `"no_return_statement"` when no `ReturnStatement` found. Inheriting exchanges (no `parseBalance` override) emit `field_maps["balance"] = null`.
+
+### `normalization.field_maps.market` — shape (Task 79)
+
+`field_maps["market"]` carries the per-exchange `parseMarket` field map. Two slottable return forms: `this.safeMarketStructure({...})` (22 corpus exchanges) and direct `{...}` ObjectExpression (21 corpus exchanges). Non-ObjectExpression returns (e.g. `extend(...)`, bare Identifier) are marked unresolved.
+
+**29 unified Market fields in `field_map`:**
+`id`, `symbol`, `base`, `quote`, `settle`, `baseId`, `quoteId`, `settleId`, `type`, `subType`, `spot`, `margin`, `swap`, `future`, `option`, `active`, `contract`, `linear`, `inverse`, `tierBased`, `percentage`, `contractSize`, `expiry`, `expiryDatetime`, `strike`, `optionType`, `taker`, `maker`, `precision`, `limits`, `info`, `created`
+
+**Structurally-null fields by design (always `null`):**
+- `symbol` — computed from base/quote/settle, not a direct safe-call
+- `info` — raw market object pass-through
+- `precision` — nested ObjectExpression (deferred)
+- `limits` — deeply-nested ObjectExpression (deferred)
+- `expiryDatetime` — derived from `expiry` via `iso8601`
+
+**Closed `coercion` vocabulary:** adds `safeBool` to the standard set for boolean market-type flags (`spot`, `swap`, `future`, `linear`, `inverse`, `option`, `contract`, `active`, `margin`, `tierBased`, `percentage`).
+
+**`extras` list:** ObjectExpression properties beyond the 29 unified fields that resolve to a literal wire key in the closed vocab.
+
+**`_unresolved_reason`:** `null` when ObjectExpression pattern found; `"non_safe_market_return:<callee>"` for non-ObjectExpression calls; `"no_return_statement"` when none found. Inheriting exchanges emit `field_maps["market"] = null`.
+
 ### What changed from 3.1.0 (breaking)
 
 [FILL IN AS FREEZE TASKS SHIP — populated incrementally as Phases 11/12/13/14 land. The "Top-level reshape" table above is the path-migration specification; "What changed" elaborates with concrete field-by-field diffs and consumer-facing semantic notes.]

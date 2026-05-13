@@ -19,6 +19,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
   """
   use ExUnit.Case, async: true
 
+  alias CcxtExtract.Normalization.Market
   alias CcxtExtract.Paths
   alias CcxtExtract.Pipeline
   alias CcxtExtract.Test.StagedDiscoveries
@@ -397,6 +398,100 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
         assert trade["_unresolved_reason"] =~ "multi_payload_branching:",
                "#{id} must report multi_payload_branching:<N>, got #{inspect(trade["_unresolved_reason"])}"
       end
+    end
+
+    test "Task 77 — parseBalance field map for exchanges with safeBalance return",
+         %{discoveries_dir: discoveries_dir} do
+      # aftermath and alpaca have parseBalance returning safeBalance(Identifier)
+      # with direct account field assignments — field_maps.balance must be
+      # populated with nil _unresolved_reason.
+      # deribit/bybit/kraken also have safeBalance returns but their assignments
+      # are nested deeper (loop bodies) — they still resolve to nil _unresolved_reason.
+      balance_scope = MapSet.new(["aftermath", "deribit", "bybit"])
+
+      {:ok, exchanges, _stats} =
+        Pipeline.extract(
+          discoveries_dir: discoveries_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-05-08T00:00:00Z",
+          scope: balance_scope,
+          schema_target: 4
+        )
+
+      exchange_map = Map.new(exchanges, &{get_in(&1, ["exchange", "id"]), &1})
+
+      for id <- ["aftermath", "deribit", "bybit"] do
+        balance = get_in(exchange_map[id], ["normalization", "field_maps", "balance"])
+        assert is_map(balance), "#{id} has parseBalance override → field_maps.balance populated"
+        assert balance["_unresolved_reason"] == nil, "#{id} safeBalance return should parse cleanly"
+        assert map_size(balance["field_map"]) == 7, "#{id} balance field_map must have all 7 unified fields"
+      end
+
+      # aftermath has direct account field assignments — spot-check specific slots
+      aftermath_balance = get_in(exchange_map["aftermath"], ["normalization", "field_maps", "balance"])
+      assert is_map(aftermath_balance["field_map"]["free"]), "aftermath free slot populated"
+      assert aftermath_balance["field_map"]["free"]["key"] == "free"
+      assert aftermath_balance["field_map"]["free"]["coercion"] in ~w(safeString safeString2 safeNumber safeNumber2)
+
+      # structurally-null fields are always nil
+      for id <- ["aftermath", "deribit", "bybit"] do
+        balance = get_in(exchange_map[id], ["normalization", "field_maps", "balance"])
+        assert balance["field_map"]["info"] == nil, "#{id} balance info must be nil (pass-through)"
+        assert balance["field_map"]["datetime"] == nil, "#{id} balance datetime must be nil (iso8601 derived)"
+      end
+    end
+
+    test "Task 79 — parseMarket field map for exchanges with ObjectExpression return",
+         %{discoveries_dir: discoveries_dir} do
+      # aftermath returns safeMarketStructure({...}) with many direct safe calls.
+      # hyperliquid returns safeMarketStructure({...}) but uses Identifiers for most
+      # fields — slots resolve via binding lookup or emit nil.
+      # binance returns an Identifier directly — unresolved.
+      market_scope = MapSet.new(["aftermath", "hyperliquid", "binance"])
+
+      {:ok, exchanges, _stats} =
+        Pipeline.extract(
+          discoveries_dir: discoveries_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-05-08T00:00:00Z",
+          scope: market_scope,
+          schema_target: 4
+        )
+
+      exchange_map = Map.new(exchanges, &{get_in(&1, ["exchange", "id"]), &1})
+
+      # aftermath: safeMarketStructure + ObjectExpression with direct safe calls
+      aftermath_market = get_in(exchange_map["aftermath"], ["normalization", "field_maps", "market"])
+      assert is_map(aftermath_market), "aftermath has parseMarket → field_maps.market populated"
+      assert aftermath_market["_unresolved_reason"] == nil, "aftermath should parse cleanly"
+
+      assert map_size(aftermath_market["field_map"]) == length(Market.unified_fields()),
+             "aftermath market field_map must have all unified fields"
+
+      # spot-check a few resolved slots
+      assert is_map(aftermath_market["field_map"]["id"]), "aftermath id slot populated"
+      assert aftermath_market["field_map"]["id"]["key"] == "id"
+      assert aftermath_market["field_map"]["id"]["coercion"] == "safeString"
+
+      # structurally-null fields must be nil regardless of what's in the object
+      assert aftermath_market["field_map"]["symbol"] == nil,
+             "aftermath market symbol must be nil (structurally null)"
+
+      assert aftermath_market["field_map"]["info"] == nil,
+             "aftermath market info must be nil (structurally null)"
+
+      # hyperliquid: safeMarketStructure return — resolves cleanly even if most slots are nil
+      hyper_market = get_in(exchange_map["hyperliquid"], ["normalization", "field_maps", "market"])
+      assert is_map(hyper_market), "hyperliquid has parseMarket → field_maps.market populated"
+      assert hyper_market["_unresolved_reason"] == nil, "hyperliquid should parse cleanly"
+      assert map_size(hyper_market["field_map"]) == length(Market.unified_fields())
+
+      # binance parseMarket returns an Identifier (not an ObjectExpression) — unresolved
+      binance_market = get_in(exchange_map["binance"], ["normalization", "field_maps", "market"])
+      assert is_map(binance_market), "binance parseMarket must be a map (unresolved, not nil)"
+
+      assert is_binary(binance_market["_unresolved_reason"]),
+             "binance parseMarket must have non-nil _unresolved_reason"
     end
 
     test "v3 emit (default) is byte-identical with or without explicit --schema-target=3 for binance",

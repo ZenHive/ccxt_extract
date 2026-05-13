@@ -6,6 +6,13 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 77+79 — `parseBalance` + `parseMarket` field map + coercion
+
+- **`CcxtExtract.Normalization.Balance`** (`lib/ccxt_extract/normalization/balance.ex`). `derive/1` walks all top-level and loop-nested `ExpressionStatement` assignment nodes to collect `account['free'|'used'|'total'|'debt'] = this.safe*(balance, 'key')` patterns. Returns `field_maps["balance"]` with 7 unified fields (`info`, `timestamp`, `datetime`, `free`, `used`, `total`, `debt`). `info` and `datetime` are structurally null; `timestamp` is resolved from a top-level `const timestamp = this.safe*(...)` binding. Scope: every corpus exchange whose `parseBalance` returns `this.safeBalance(Identifier)` — covers all 80 override exchanges.
+- **`CcxtExtract.Normalization.Market`** (`lib/ccxt_extract/normalization/market.ex`). `derive/1` extracts `field_maps["market"]` from `parseMarket` bodies returning either `this.safeMarketStructure({...})` or a direct `{...}` ObjectExpression. Supports direct inline `this.safe*(market, 'key')` calls and Identifier binding resolution. `safeBool` added to closed vocab for boolean market-type flags. Five fields are structurally null: `symbol`, `info`, `precision`, `limits`, `expiryDatetime`. Non-ObjectExpression returns (e.g. `extend(...)`, bare Identifier) emit honest `_unresolved_reason` tags.
+- **Wired** — `Normalization.field_maps_record/1` now calls `Balance.derive/1` and `Market.derive/1` alongside the existing ticker/trade/ohlcv derivations.
+- **Corpus coverage** — 80 exchanges have `parseBalance` overrides; 48 have `parseMarket` overrides. Priority verified: deribit/bybit (balance), aftermath/hyperliquid (market), binance (market unresolved — returns Identifier).
+
 ### Task 76 — `parseTrade` field map + coercion + enums (Phase 12)
 
 - **`CcxtExtract.Normalization.Trade`** — new module (`lib/ccxt_extract/normalization/trade.ex`). `derive/1` projects a per-exchange `parse_methods.json` entry into `field_maps["trade"]`. Mirrors the Task 74 ticker template (flat `field_map`, no branches; closed coercion vocab; honest `_unresolved_reason` tags) with three Trade-specific extensions.

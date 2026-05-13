@@ -369,6 +369,70 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 **Honesty contract:** every populated slot is provable from AST. No field is synthesized or inferred from exchange documentation. The same open-closed distinction as OHLCV: `_unresolved_reason` follows one of two patterns — the fixed string `"no_return_statement"`, or the prefix `"non_safe_ticker_return:"` followed by the callee identifier name from the source (open suffix — consumers must match on the prefix, not the full string); `coercion` is closed (hard-error on unrecognized), `format` is closed (hard-error on unrecognized), `key` is open (any wire-format string from the exchange).
 
+### `normalization.field_maps.trade` — shape (Task 76)
+
+`field_maps["trade"]` carries the per-exchange `parseTrade` field map. Same flat shape as ticker (no `branches` wrapper), with three Trade-specific extensions: `enum_map` slot for enum fields, `sub_field_map` slot for nested `fee`, and shape-discriminator detection for multi-payload bodies.
+
+**Output shape:**
+
+```json
+{
+  "field_map": {
+    "id":            { "key": "tradeId", "coercion": "safeString",       "format": null },
+    "timestamp":     { "key": "ts",      "coercion": "safeInteger",      "format": "ms" },
+    "datetime":      null,
+    "symbol":        null,
+    "order":         { "key": "ordId",   "coercion": "safeString",       "format": null },
+    "type":          null,
+    "side":          { "key": "side",    "coercion": "safeStringLower",  "format": null, "enum_map": null },
+    "takerOrMaker":  { "key": "execType","coercion": "safeString",       "format": null, "enum_map": {"T": "taker", "M": "maker"} },
+    "price":         { "key": "fillPx",  "coercion": "safeString2",      "format": null },
+    "amount":        { "key": "fillSz",  "coercion": "safeString2",      "format": null },
+    "cost":          null,
+    "fee":           { "sub_field_map": { "cost": {...}, "currency": {...} } },
+    "info":          null
+  },
+  "extras": [],
+  "_unresolved_reason": null
+}
+```
+
+**Slot shape:** scalar fields use `%{"key", "coercion", "format"}` (same as ticker). Enum fields (`type`, `side`, `takerOrMaker`) extend with `"enum_map"`. The nested `fee` field uses `%{"sub_field_map" => %{"cost" => slot, "currency" => slot, "rate" => slot}}` instead of scalar key/coercion (`rate` may be nil when the fee object literal omits it). Per-slot unresolved cases (boolean ternary on side, non-ObjectExpression fee, etc.) add `"unresolved_reason"`.
+
+**13 unified Trade fields in `field_map`** (always present as keys, value `null` when absent or outside closed vocab):
+`id`, `timestamp`, `datetime`, `symbol`, `order`, `type`, `side`, `takerOrMaker`, `price`, `amount`, `cost`, `fee`, `info`
+
+**Three structurally-null fields by design (always `null`):**
+- `symbol` — derived from the `market` argument, not the raw trade object
+- `datetime` — derived from `timestamp` via `this.iso8601(timestamp)`, not raw
+- `info` — raw trade object pass-through
+
+`cost` is a scalar field but typically null in the current corpus because CCXT computes `price × amount` downstream when the parseTrade body omits it. When an exchange supplies an explicit `cost: this.safeNumber(...)` property, the slot populates.
+
+**Enum fields (`type`, `side`, `takerOrMaker`) — `enum_map` slot:**
+- `safeStringLower` extraction → `enum_map: null` (passthrough — CCXT canonicalizes inside the safe call)
+- Explicit `safeString().toLowerCase()` chain → `enum_map: null` (canonicalized via chain)
+- ConditionalExpression chain over a shared safe-call (`safeString === 'T' ? 'taker' : (safeString === 'M' ? 'maker' : undefined)`) → `enum_map: %{"T" => "taker", "M" => "maker"}` mapping literal wire values to canonical-form arms
+- Boolean/numeric/char-code ternary (`x > 0 ? 'buy' : 'sell'`) → slot populated with `enum_map: null` + per-slot `unresolved_reason` describing the test shape
+
+**Nested `fee` field — `sub_field_map` slot:** resolves ObjectExpression literals returned at the `fee` property:
+- Inline `{ cost: this.safeNumber(t, 'feeAmt'), currency: this.safeCurrencyCode(this.safeString(t, 'feeCcy')), rate: this.safeNumber(t, 'feeRate') }` → `sub_field_map: %{"cost" => scalar_slot, "currency" => currency_slot, "rate" => scalar_slot}`. `rate` is optional and may be nil when the fee literal omits it.
+- `safeCurrencyCode` is a 1-arg vocab member; when bound to an Identifier (`const feeCurrencyId = this.safeString(trade, 'feeCcy')`), `currency` slot traces the binding chain to the underlying safe call's wire key
+- Non-ObjectExpression fees (variable reference, externally-built object) → `%{"sub_field_map" => null, "unresolved_reason" => "fee_not_object_literal"}`
+
+**Closed `coercion` vocabulary:** `["safeString", "safeString2", "safeStringN", "safeStringLower", "safeNumber", "safeNumber2", "safeInteger", "safeInteger2", "safeTimestamp", "safeCurrencyCode"]`. Extends the ticker vocab with `safeStringLower` (enum canonicalizer) and `safeCurrencyCode` (1-arg currency resolver, fee-only).
+
+**Closed `format` vocabulary:** `["ms", "s", null]` (same as ticker — only timestamp uses it).
+
+**`_unresolved_reason` — multi-payload detection:** parseTrade bodies that dispatch on shape at the top-level IfStatement emit a single honest unresolved tag instead of committing to one shape. Discriminator tests detected:
+- `Array.isArray(trade)` — array-vs-object payload split
+- `'<lit>' in trade` — presence-of-key dispatch (binance's `parseDustTrade` delegation)
+- `typeof trade === 'string'` — string-vs-object payload split
+
+`_unresolved_reason: "multi_payload_branching:<N>"` where N is the count of distinct shape-discriminator IfStatements. Open suffix — consumers match on the `multi_payload_branching:` prefix, not the full string. `null` when a single canonical `safeTrade` return is found. Inheriting exchanges (no `parseTrade` override) emit `field_maps["trade"] = null`.
+
+**Honesty contract:** every populated slot is provable from AST. No field is synthesized. Same open-closed distinction as ticker: `_unresolved_reason` is open-suffix (`multi_payload_branching:<N>`, `non_safe_trade_return:<callee>`); `coercion` is closed; `format` is closed; `key` and `enum_map` arm values are open (from source).
+
 ### What changed from 3.1.0 (breaking)
 
 [FILL IN AS FREEZE TASKS SHIP — populated incrementally as Phases 11/12/13/14 land. The "Top-level reshape" table above is the path-migration specification; "What changed" elaborates with concrete field-by-field diffs and consumer-facing semantic notes.]

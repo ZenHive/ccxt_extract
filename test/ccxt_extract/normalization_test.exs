@@ -261,6 +261,113 @@ defmodule CcxtExtract.NormalizationTest do
 
       assert field_maps["_unresolved_reason"] == "not_yet_derived"
     end
+
+    test "Task 76: trade slot populates when a parseTrade entry is supplied" do
+      # Synthetic minimal parseTrade: identifier-binding-resolved scalar + inline
+      # safeString-on-id, exercising the full Trade.derive wiring path through
+      # field_maps_record/1.
+      identifier = fn name -> %{"type" => "Identifier", "name" => name} end
+      literal = fn v -> %{"type" => "Literal", "value" => v} end
+
+      this_call = fn method, args ->
+        %{
+          "type" => "CallExpression",
+          "callee" => %{
+            "type" => "MemberExpression",
+            "object" => %{"type" => "ThisExpression"},
+            "property" => %{"type" => "Identifier", "name" => method}
+          },
+          "arguments" => args
+        }
+      end
+
+      var_decl = fn name, init ->
+        %{
+          "type" => "VariableDeclaration",
+          "kind" => "const",
+          "declarations" => [
+            %{"type" => "VariableDeclarator", "id" => identifier.(name), "init" => init}
+          ]
+        }
+      end
+
+      timestamp_binding =
+        var_decl.("timestamp", this_call.("safeInteger", [identifier.("trade"), literal.("ts")]))
+
+      safe_trade_ret = %{
+        "type" => "ReturnStatement",
+        "argument" =>
+          this_call.("safeTrade", [
+            %{
+              "type" => "ObjectExpression",
+              "properties" => [
+                %{"key" => identifier.("timestamp"), "value" => identifier.("timestamp")},
+                %{
+                  "key" => identifier.("id"),
+                  "value" => this_call.("safeString", [identifier.("trade"), literal.("tradeId")])
+                },
+                %{
+                  "key" => identifier.("side"),
+                  "value" => this_call.("safeStringLower", [identifier.("trade"), literal.("side")])
+                }
+              ]
+            },
+            identifier.("market")
+          ])
+      }
+
+      # Pair the parseTrade entry with a stub parseTicker so the wiring test
+      # also confirms the two slots populate INDEPENDENTLY (Task 76 doesn't
+      # regress Task 74's ticker derivation).
+      ticker_ret = %{
+        "type" => "ReturnStatement",
+        "argument" =>
+          this_call.("safeTicker", [
+            %{
+              "type" => "ObjectExpression",
+              "properties" => [
+                %{
+                  "key" => identifier.("high"),
+                  "value" => this_call.("safeString", [identifier.("ticker"), literal.("highPrice")])
+                }
+              ]
+            },
+            identifier.("market")
+          ])
+      }
+
+      entry = %{
+        "parse_methods" => %{
+          "parseTrade" => %{
+            "body" => %{"type" => "BlockStatement", "body" => [timestamp_binding, safe_trade_ret]}
+          },
+          "parseTicker" => %{
+            "body" => %{"type" => "BlockStatement", "body" => [ticker_ret]}
+          }
+        }
+      }
+
+      result = Normalization.build(entry)
+      field_maps = result["field_maps"]
+
+      assert is_map(field_maps["trade"]), "trade slot must populate"
+      assert field_maps["trade"]["_unresolved_reason"] == nil
+      assert field_maps["trade"]["field_map"]["timestamp"]["coercion"] == "safeInteger"
+      assert field_maps["trade"]["field_map"]["timestamp"]["format"] == "ms"
+      assert field_maps["trade"]["field_map"]["id"]["key"] == "tradeId"
+      assert field_maps["trade"]["field_map"]["side"]["coercion"] == "safeStringLower"
+
+      # ticker independently populates (Task 74 wiring unbroken)
+      assert is_map(field_maps["ticker"]), "ticker slot must also populate independently"
+      assert field_maps["ticker"]["field_map"]["high"]["key"] == "highPrice"
+
+      # Other parser-type slots stay nil
+      for type <- Normalization.parser_types() -- ["trade", "ticker", "ohlcv"] do
+        assert field_maps[type] == nil, "non-trade/ticker slot #{type} should still be nil"
+      end
+
+      assert field_maps["_unresolved_reason"] == "not_yet_derived"
+    end
   end
 
   describe "build/2 — round-trip + shape" do

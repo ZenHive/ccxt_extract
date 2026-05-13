@@ -280,7 +280,7 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 | Task 129 | ✅ | 🎁 **v4-freeze** · `normalization` block carrier — shipped 2026-05-08 via PR #10 (INE-61), hardened in PR #15. New `CcxtExtract.Normalization` module emits a compact `parse_methods_digest` (signatures + statement counts; **no AST body** — preserves the 91.6% Hex-cap reduction from Task 117) plus scaffolded `field_maps` + `response_envelopes` keyed by parser type, gated to `--schema-target=4` only (v3 byte-identical). Two new contract invariants: `normalization_shape_valid` and `parse_methods_digest_covers_inventory`. See [CHANGELOG.md](CHANGELOG.md#task-129--v4-normalization-block-carrier-pr-10--15-ine-61). |
 | Task 74 `[P]` | ✅ | 🎁 **12-simple** · `parseTicker` field map + coercion + enums [D:4/B:8/U:8 → Eff:2.0] 🚀 |
 | Task 75 `[P]` | ⬜ | 🎁 **12-orders** · `parseOrder` field map + status/side/type enums [D:5/B:9/U:9 → Eff:1.8] 🚀 |
-| Task 76 `[P]` | ⬜ | 🎁 **12-simple** · `parseTrade` field map [D:4/B:8/U:8 → Eff:2.0] 🚀 |
+| Task 76 `[P]` | ✅ | 🎁 **12-simple** · `parseTrade` field map + coercion + enums — see [CHANGELOG.md](CHANGELOG.md#task-76--parsetrade-field-map--coercion--enums) |
 | Task 77 `[P]` | ⬜ | 🎁 **12-accounts** · `parseBalance` field map [D:4/B:8/U:8 → Eff:2.0] 🚀 |
 | Task 78 `[P]` | ✅ | 🎁 **12-simple** · `parseOHLCV` field map (pure-array scope, 6 priority exchanges) — see [CHANGELOG.md](CHANGELOG.md#task-78--parseohlcv-field-map-pure-array-scope) |
 | Task 78b `[P]` | ✅ | 🎁 **12-simple** · `parseOHLCV` object-shape exchanges (`htx`, `bitmex`, `hyperliquid`, `lighter`) — see [CHANGELOG.md](CHANGELOG.md#tasks-78b--78e--parseohlcv-object-input-shape--parse8601-timestamp-wrapper) |

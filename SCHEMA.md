@@ -433,6 +433,50 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 **Honesty contract:** every populated slot is provable from AST. No field is synthesized. Same open-closed distinction as ticker: `_unresolved_reason` is open-suffix (`multi_payload_branching:<N>`, `non_safe_trade_return:<callee>`) or one of the closed-set strings (`no_return_statement` — body has no `ReturnStatement` at all; `unrecognized_return_shape` — body has a return whose argument is neither a `this.safeTrade*` call nor a `this.<other>` call); `coercion` is closed; `format` is closed; `key` and `enum_map` arm values are open (from source).
 
+### `normalization.field_maps.transaction` — shape (Task 81)
+
+`field_maps["transaction"]` carries the per-exchange `parseTransaction` field map. Same flat shape as ticker (no `branches` wrapper). TSAsExpression-wrapped returns are unwrapped before classification.
+
+**18 unified Transaction fields in `field_map`** (always present as keys, value `null` when absent or outside closed vocab):
+`id`, `timestamp`, `datetime`, `txid`, `type`, `status`, `amount`, `currency`, `address`, `addressFrom`, `addressTo`, `tag`, `tagFrom`, `tagTo`, `network`, `updated`, `fee`, `info`
+
+**Five structurally-null fields by design (always `null`):**
+- `info` — raw pass-through identifier, not a safe-call
+- `datetime` — derived from `timestamp` via `iso8601`, not raw
+- `currency` — resolved via `safeCurrencyCode` 1-arg form, not the 2-arg dict-lookup the classifier recognizes
+- `network` — typically resolved via resolver calls (`networkIdToCode`, `getNetworkCodeByNetworkUrl`) outside the closed vocab
+- `fee` — built as an inline sub-object `{cost, currency, rate}`, not a flat safe-call on the top-level transaction dict
+
+**Enum fields (`type`, `status`) — `enum_values` slot:**
+- `type` → `["deposit", "withdrawal"]`
+- `status` → `["ok", "pending", "canceled", "failed"]`
+
+`enum_values` is added to the slot map when the wire key resolves to a safe-call in the closed vocab. Missing or unresolvable wire keys emit `null` for the entire slot.
+
+**Slot shape:** `%{"key" => string, "coercion" => method, "format" => "ms" | "s" | null}`. Timestamp-family fields (`timestamp`, `updated`) carry format: `safeInteger`/`safeInteger2` → `"ms"`, `safeTimestamp` → `"s"`. Enum-family fields extend with `"enum_values" => [string]`.
+
+**`_unresolved_reason`:** `null` when an ObjectExpression return was found (per-field slots may still be `null`). `"no_return_statement"` when no `ReturnStatement` is present. `"non_object_return:<type>"` when the last return yields something other than an ObjectExpression.
+
+**Honesty contract:** same as ticker/trade. Inheriting exchanges (no `parseTransaction` override) emit `field_maps["transaction"] = null`.
+
+### `normalization.field_maps.deposit_address` — shape (Task 82)
+
+`field_maps["deposit_address"]` carries the per-exchange `parseDepositAddress` field map. Flat shape, same classification pipeline as transaction.
+
+**5 unified DepositAddress fields in `field_map`** (always present as keys, value `null` when absent or outside closed vocab):
+`currency`, `address`, `tag`, `network`, `info`
+
+**One structurally-null field by design:**
+- `info` — raw pass-through, not a safe-call
+
+`network` is nil when the exchange uses a resolver call outside the closed `safe*` vocab (e.g. `getNetworkCodeByNetworkUrl`); populates when `safeString` is used directly.
+
+**Slot shape:** `%{"key" => string, "coercion" => method, "format" => null}` — no timestamp fields, so `format` is always `null`.
+
+**`_unresolved_reason`:** same vocabulary as transaction.
+
+**Honesty contract:** same as ticker/trade/transaction. Inheriting exchanges (no `parseDepositAddress` override) emit `field_maps["deposit_address"] = null`.
+
 ### What changed from 3.1.0 (breaking)
 
 [FILL IN AS FREEZE TASKS SHIP — populated incrementally as Phases 11/12/13/14 land. The "Top-level reshape" table above is the path-migration specification; "What changed" elaborates with concrete field-by-field diffs and consumer-facing semantic notes.]

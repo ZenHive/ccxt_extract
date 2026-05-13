@@ -290,8 +290,8 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 | Task 78f `[P]` | ⬜ | 🎁 **12-simple** · `parseOHLCV` discriminator vocabulary beyond `market.inverse` (okx `type === 'spot'` and similar multi-market-type gating) [D:3/B:4/U:4 → Eff:1.33] 📋. Discovered during Task 78 implementation — okx's `volumeIndex` test is `(type === 'spot') ? 5 : 6`, currently emits `volume = null` honestly. Generalize the closed `discriminator` vocab; ship okx volume populated when fixed. |
 | Task 79 `[P]` | ⬜ | 🎁 **12-accounts** · `parseMarket` field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 80 `[P]` | ✅ | 🎁 **12-orders** · `parsePosition` field map — see [CHANGELOG.md](CHANGELOG.md#tasks-75--80--parseorder--parseposition-field-maps-phase-12) |
-| Task 81 `[P]` | ⬜ | 🎁 **12-txn** · `parseTransaction` (deposit/withdrawal) field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 82 `[P]` | ⬜ | 🎁 **12-txn** · `parseDepositAddress` field map [D:3/B:6/U:6 → Eff:2.0] 🚀 |
+| Task 81 `[P]` | ✅ | 🎁 **12-txn** · `parseTransaction` (deposit/withdrawal) field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 82 `[P]` | ✅ | 🎁 **12-txn** · `parseDepositAddress` field map [D:3/B:6/U:6 → Eff:2.0] 🚀 |
 | Task 83 | ⬜ | 🎁 **12-envelope** · Response envelope paths per method group [D:4/B:8/U:8 → Eff:2.0] 🚀 |
 
 Type-coercion tables fold into each per-type task (not standalone) — one task covers its type's field map + coercion + enums together so it fits in a session.

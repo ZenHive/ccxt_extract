@@ -6,6 +6,14 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Tasks 81 + 82 — `parseTransaction` + `parseDepositAddress` field map + coercion + enums (Phase 12, bundle 12-txn)
+
+- **`CcxtExtract.Normalization.Transaction`** — new module. `derive/1` projects a per-exchange `parse_methods.json` entry into `field_maps["transaction"]`. 18 unified fields; structurally-null by design: `info`, `datetime`, `currency`, `network`, `fee`. Enum fields: `type` (deposit/withdrawal) and `status` (ok/pending/canceled/failed) carry `enum_values` when the wire key resolves. TSAsExpression-wrapped returns unwrapped before classification.
+- **`CcxtExtract.Normalization.DepositAddress`** — new module. `derive/1` projects into `field_maps["deposit_address"]`. 5 unified fields: `currency`, `address`, `tag`, `network`, `info`. `info` structurally null; `network` is nil for resolver-call patterns (`getNetworkCodeByNetworkUrl`) outside the closed `safe*` vocab, populated when `safeString` is used directly.
+- **Wired through `Normalization.build/2`** — `field_maps_record/1` now calls both `Transaction.derive/1` and `DepositAddress.derive/1`.
+- **Corpus coverage** — 81 exchanges with `parseTransaction`, 40 with `parseDepositAddress`. binance/deribit/okx verified for transaction; binance/okx verified for depositAddress; deribit (no `parseDepositAddress` override) correctly emits `null`.
+- **No schema bump** — `NormalizationStubValue` is `additionalProperties: true`; existing v4 schema validates cleanly.
+
 ### Tasks 75 + 80 — `parseOrder` + `parsePosition` field maps (Phase 12)
 
 - **`CcxtExtract.Normalization.Order`** — new module (`lib/ccxt_extract/normalization/order.ex`). `derive/1` projects a per-exchange `parse_methods.json` entry into `field_maps["order"]`. Follows the Phase 12 pattern from Tasks 74/76 (flat field_map, closed coercion vocab, honest `_unresolved_reason` tags) with Order-specific extensions.

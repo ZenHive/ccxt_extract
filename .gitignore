@@ -43,3 +43,8 @@ package.json
 
 # Claude Code plugin-managed worktrees (staged as submodule gitlinks otherwise)
 /.claude/worktrees/
+
+# audit-review skill resume-state planning files. Final reports
+# (`.audit/<sha>.md`) ARE tracked; only the transient `_in_progress_*`
+# scratch files used to survive a /compact mid-audit are ignored.
+/.audit/_in_progress_*.md

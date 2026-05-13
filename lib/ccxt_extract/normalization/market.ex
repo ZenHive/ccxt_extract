@@ -7,9 +7,11 @@ defmodule CcxtExtract.Normalization.Market do
   - `this.safeMarketStructure(%ObjectExpression{})` — 22 corpus exchanges
   - `%ObjectExpression{}` directly — 21 corpus exchanges
 
-  Both forms have the same per-field classification logic. Exchanges using
-  `extend`, `Identifier`, or `TSAsExpression` return shapes are marked
-  unresolved.
+  Both forms have the same per-field classification logic. `TSAsExpression`
+  wrappers (`return {...} as Market`) are unwrapped before classification, so
+  TS-cast returns resolve identically to bare ObjectExpression returns.
+  Exchanges using `extend` or bare `Identifier` return shapes are marked
+  unresolved (see vocabulary below).
 
   ## Output
 

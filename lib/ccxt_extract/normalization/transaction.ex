@@ -156,8 +156,10 @@ defmodule CcxtExtract.Normalization.Transaction do
   end
 
   # TSAsExpression wraps `expr as Type` TypeScript casts; unwrap to the inner expr.
+  # Recursive so chained casts (`x as Foo as Bar`) unwrap fully — keeps template
+  # parity with `market.ex` even though the corpus shows no chained cases today.
   @spec unwrap_ts_as(map()) :: map()
-  defp unwrap_ts_as(%{"type" => "TSAsExpression", "expression" => inner}), do: inner
+  defp unwrap_ts_as(%{"type" => "TSAsExpression", "expression" => inner}), do: unwrap_ts_as(inner)
   defp unwrap_ts_as(node), do: node
 
   # --- result assembly ---

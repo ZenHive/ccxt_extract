@@ -107,7 +107,7 @@ Tasks grouped into session-sized bundles that share AST passes, schema design, o
 | 🎁 **12-simple** `[P]` | 74, 76, 78 | parseTicker/Trade/OHLCV — simpler field maps |
 | 🎁 **12-orders** `[P]` | 75, 80 | parseOrder + parsePosition — shared enum tables |
 | 🎁 **12-accounts** `[P]` | 77, 79 | parseBalance + parseMarket ✅ |
-| 🎁 **12-txn** `[P]` | 81, 82 | parseTransaction + parseDepositAddress |
+| 🎁 **12-txn** `[P]` | 81, 82 | parseTransaction + parseDepositAddress ✅ |
 | 🎁 **12-envelope** | 83 | Response envelope paths per method group |
 | 🎁 **15-msg** | 91, 92, 93 | WS subscribe + auth + heartbeat |
 | 🎁 **15-dispatch** | 94 | Channel → parse handler |
@@ -293,6 +293,7 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 | Task 81 `[P]` | ✅ | 🎁 **12-txn** · `parseTransaction` (deposit/withdrawal) field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 82 `[P]` | ✅ | 🎁 **12-txn** · `parseDepositAddress` field map [D:3/B:6/U:6 → Eff:2.0] 🚀 |
 | Task 83 | ⬜ | 🎁 **12-envelope** · Response envelope paths per method group [D:4/B:8/U:8 → Eff:2.0] 🚀 |
+| Task 135 | ⬜ | 🎁 **12-simple** · `ticker.ex` normalization-vocab alignment [D:2/B:4/U:5 → Eff:2.25] 🎯 — `lib/ccxt_extract/normalization/ticker.ex:125` still emits `"no_return_statement"` from a wildcard fall-through (misnomer; mirrors the bug fixed in `balance.ex`/`market.ex`/`trade.ex` via audits `80cb242` and `1fc712f`), AND `ticker.ex` lacks the `unwrap_ts_as/1` helper that `transaction.ex`/`deposit_address.ex`/`market.ex` ship. Apply the same split-find-from-classify refactor: add `unwrap_ts_as/1`, rename the misnomer to `"unrecognized_return_shape"`, add an `identifier_return` clause for bare-Identifier returns, expand moduledoc vocab + SCHEMA.md ticker section. Surfaced by Codex during `1fc712f` follow-up audit. |
 
 Type-coercion tables fold into each per-type task (not standalone) — one task covers its type's field map + coercion + enums together so it fits in a session.
 

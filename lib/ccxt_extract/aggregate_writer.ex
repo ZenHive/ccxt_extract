@@ -5,9 +5,13 @@ defmodule CcxtExtract.AggregateWriter do
   Every extractor that writes an aggregate under `priv/discoveries/` routes
   through this module so two invariants always hold:
 
-    1. **Scoped merges preserve out-of-scope entries.** A `--tier1` run
-       replaces only tier1 entries in the aggregate and keeps everything
-       else intact. A `:all` scope replaces the entries list wholesale.
+    1. **Scoped merges preserve out-of-scope entries and accumulate
+       `tier_scope`.** A `--tier1` run replaces only tier1 entries in the
+       aggregate, keeps everything else intact, and unions its
+       `tier_scope` stamp with the file's existing one. A `:all` scope
+       replaces the entries list wholesale and stamps its own scope. This
+       makes a `--tier1` then `--tier2` sequence byte-identical to a
+       single `--tier1 --tier2` run (Task 114).
     2. **Envelope totals are recomputed from the final merged entries on
        every write.** `stats_fn` runs against the sorted, post-merge list,
        so it is impossible for `count`/`with_*`/`total_*` to drift from
@@ -36,15 +40,21 @@ defmodule CcxtExtract.AggregateWriter do
       `%{"with_parse_methods" => 99, "total_methods" => 1541}`). Must be
       pure and deterministic over its input.
     * `:tier_scope` — output of `CcxtExtract.Scope.to_manifest_value/1`.
-      Stamped as `"tier_scope"`. Defaults to `"all"`.
+      Stamped as `"tier_scope"`. Defaults to `"all"`. On a scoped
+      (MapSet) merge it is unioned with the existing file's stamp via
+      `CcxtExtract.Scope.merge_manifest_values/2`, so the stamp always
+      reflects every tier/exchange the merged file holds.
     * `:extracted_at` — ISO8601 timestamp. Defaults to `DateTime.utc_now/0`.
     * `:extra` — additional static envelope fields (e.g.
       `%{"type" => "rest"}` for `methods_{rest,ws}.json`). Applied after
       the base envelope but before `stats_fn` output, so `stats_fn` wins
       on key conflict.
-    * `:normalize` — when `true`, runs
-      `CcxtExtract.AstNormalize.normalize/1` over the encoded map (maps
-      OXC atom `:type` values to PascalCase strings). Defaults to `true`.
+
+  Every write routes through `CcxtExtract.AstNormalize.to_encodable/1`,
+  which rewrites OXC atom `:type` values to PascalCase strings and
+  recursively sorts map keys so the on-disk JSON is byte-deterministic
+  (Task 114). There is no opt-out — deterministic emit is a contract,
+  not a tunable.
 
   ## Example
 
@@ -66,6 +76,7 @@ defmodule CcxtExtract.AggregateWriter do
 
   alias CcxtExtract.AstNormalize
   alias CcxtExtract.JsonIO
+  alias CcxtExtract.Scope
 
   @type scope :: :all | MapSet.t(String.t())
   @type stats_fn :: ([map()] -> map())
@@ -78,7 +89,6 @@ defmodule CcxtExtract.AggregateWriter do
           | {:tier_scope, String.t() | [String.t()]}
           | {:extracted_at, String.t()}
           | {:extra, map()}
-          | {:normalize, boolean()}
 
   @type write_opts :: [write_opt]
 
@@ -100,15 +110,14 @@ defmodule CcxtExtract.AggregateWriter do
     tier_scope = Keyword.get(opts, :tier_scope, "all")
     extracted_at = Keyword.get(opts, :extracted_at, DateTime.to_iso8601(DateTime.utc_now()))
     extra = Keyword.get(opts, :extra, %{})
-    normalize? = Keyword.get(opts, :normalize, true)
 
     # :all replaces the file wholesale, so a corrupt existing aggregate
     # must not block the overwrite. Only read when a MapSet scope requires
     # preserving out-of-scope entries.
-    existing =
+    {existing, existing_tier_scope} =
       case scope do
-        :all -> []
-        %MapSet{} -> read_existing_entries(path, entry_key)
+        :all -> {[], nil}
+        %MapSet{} -> read_existing(path, entry_key)
       end
 
     merged =
@@ -118,10 +127,20 @@ defmodule CcxtExtract.AggregateWriter do
 
     stats = stats_fn.(merged)
 
+    # On a scoped (MapSet) merge the file accumulates entries across runs,
+    # so `tier_scope` must reflect every tier/exchange the merged file holds
+    # — not just the latest caller's scope. Union the on-disk stamp with the
+    # caller's. A `:all` scope replaces wholesale, so its caller-supplied
+    # stamp stands alone (`existing_tier_scope` is nil). (Task 114.)
+    tier_scope =
+      case existing_tier_scope do
+        nil -> tier_scope
+        prev -> Scope.merge_manifest_values(prev, tier_scope)
+      end
+
     # `tier_scope` is stamped LAST so neither `:extra` nor the `:stats_fn`
-    # output can shadow it. Task 13b made envelope dispatch the contract for
-    # cached integration tests — the stamp MUST reflect the caller-supplied
-    # scope, not whatever an extractor's stats happen to produce.
+    # output can shadow it — the stamp is the contract, not an extractor's
+    # incidental stats.
     envelope =
       %{
         "extracted_at" => extracted_at,
@@ -132,23 +151,26 @@ defmodule CcxtExtract.AggregateWriter do
       |> Map.merge(stats)
       |> Map.put("tier_scope", tier_scope)
 
-    output = if normalize?, do: AstNormalize.normalize(envelope), else: envelope
-
     File.mkdir_p!(Path.dirname(path))
-    File.write!(path, Jason.encode!(output, pretty: true))
+    File.write!(path, Jason.encode!(AstNormalize.to_encodable(envelope), pretty: true))
     :ok
   end
 
-  defp read_existing_entries(path, entry_key) do
+  # Reads the on-disk aggregate, returning `{entries, tier_scope}`. A
+  # missing file yields `{[], nil}`; a malformed file raises. The
+  # `tier_scope` is surfaced so `write!/3` can union it with the caller's
+  # on a scoped merge (Task 114).
+  @spec read_existing(String.t(), String.t()) :: {[map()], Scope.manifest_value() | nil}
+  defp read_existing(path, entry_key) do
     case JsonIO.read_json(path) do
       {:ok, data} when is_map(data) ->
-        extract_entries_or_raise(data, entry_key, path)
+        {extract_entries_or_raise(data, entry_key, path), Map.get(data, "tier_scope")}
 
       {:ok, other} ->
         raise "Corrupt #{path}: expected a JSON object, got #{inspect(other)}"
 
       {:error, {:missing_input, _}} ->
-        []
+        {[], nil}
 
       {:error, {:invalid_json, detail}} ->
         raise "Malformed JSON in #{path}: #{detail}"

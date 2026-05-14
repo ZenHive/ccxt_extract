@@ -361,7 +361,7 @@ defmodule CcxtExtract.OverridesTest do
           [override_entry("binance", 7), override_entry("bybit", 4)],
           output_path: path,
           scope: scope,
-          tier_scope: "TIER 1 (2)"
+          tier_scope: ["tier1"]
         )
 
       data = Jason.decode!(File.read!(path))
@@ -374,7 +374,10 @@ defmodule CcxtExtract.OverridesTest do
       okx = Enum.find(data["exchanges"], &(&1["id"] == "okx"))
       assert okx["override_count"] == 2
 
-      assert data["tier_scope"] == "TIER 1 (2)"
+      # The seed write was scope=:all (full universe), so the file still
+      # holds every entry after the scoped merge — its tier_scope stays
+      # "all", absorbing the scoped run's ["tier1"] (Task 114 union).
+      assert data["tier_scope"] == "all"
     end
 
     test "legacy positional-string path call returns atom-keyed summary" do

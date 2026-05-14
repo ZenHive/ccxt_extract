@@ -90,8 +90,7 @@ defmodule CcxtExtract.Methods do
       scope: Keyword.get(opts, :scope, :all),
       stats_fn: fn _ -> %{} end,
       tier_scope: Keyword.get(opts, :tier_scope, "all"),
-      extra: %{"type" => to_string(type)},
-      normalize: false
+      extra: %{"type" => to_string(type)}
     ]
 
     writer_opts =

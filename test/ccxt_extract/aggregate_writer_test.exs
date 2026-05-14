@@ -135,7 +135,39 @@ defmodule CcxtExtract.AggregateWriterTest do
       assert by_id["kraken"]["parse_method_count"] == 7
 
       assert data["count"] == 4
-      assert data["tier_scope"] == ["tier1"]
+      # The file still holds the full universe (merge preserves
+      # out-of-scope entries), so its `tier_scope` stays "all" — the
+      # scoped caller's ["tier1"] is unioned into, not overwritten.
+      assert data["tier_scope"] == "all"
+    end
+
+    test "tier_scope accumulates across a scoped merge sequence" do
+      file = path("parse_methods.json")
+
+      # First scoped run: --tier1.
+      AggregateWriter.write!(file, [ex("binance", 10)],
+        entry_key: "exchanges",
+        id_key: "id",
+        scope: MapSet.new(~w(binance)),
+        stats_fn: parse_stats_fn(),
+        tier_scope: ["tier1"]
+      )
+
+      # Second scoped run: --tier2 merges in. The file now holds both
+      # tiers, so its stamp must too — this is the Task 114 invariant
+      # that makes a --tier1 then --tier2 sequence byte-identical to a
+      # single --tier1 --tier2 run.
+      AggregateWriter.write!(file, [ex("bybit", 5)],
+        entry_key: "exchanges",
+        id_key: "id",
+        scope: MapSet.new(~w(bybit)),
+        stats_fn: parse_stats_fn(),
+        tier_scope: ["tier2"]
+      )
+
+      data = read_json(file)
+      assert Enum.map(data["exchanges"], & &1["id"]) == ~w(binance bybit)
+      assert data["tier_scope"] == ["tier1", "tier2"]
     end
 
     test "scoped run on empty file behaves as fresh write" do

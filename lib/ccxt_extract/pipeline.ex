@@ -57,9 +57,16 @@ defmodule CcxtExtract.Pipeline do
       `Schema.build_exchange_v4/4` (gated, opt-in until the freeze list
       empties). v3 stays the published default — this option only
       flips when callers explicitly request `--schema-target=4`.
+    * `:allow_version_drift` — `true` bypasses the CCXT version-drift
+      guard. Defaults to `false`.
+
+  Raises if `check_version_drift!/1` detects that `priv/ccxt` or
+  `priv/ccxt_bundle.js` no longer matches the baseline recorded in
+  `priv/ccxt_version.json` (unless `:allow_version_drift` is set).
   """
   @spec extract(keyword()) :: {:ok, [map()], map()} | {:error, CcxtExtract.JsonIO.read_error()}
   def extract(opts \\ []) do
+    check_version_drift!(opts)
     dir = Keyword.get(opts, :discoveries_dir, Paths.priv("discoveries"))
     exchanges_path = Path.join(dir, "exchanges.json")
 
@@ -164,12 +171,12 @@ defmodule CcxtExtract.Pipeline do
     for exchange <- exchanges do
       id = exchange["exchange"]["id"]
       path = Path.join(output_dir, "#{id}.json")
-      File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.normalize(exchange), pretty: pretty?))
+      File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(exchange), pretty: pretty?))
     end
 
     manifest = build_manifest(exchanges, Keyword.put(opts, :schema_target, schema_target))
     manifest_path = Path.join(output_dir, "_manifest.json")
-    File.write!(manifest_path, Jason.encode!(manifest, pretty: true))
+    File.write!(manifest_path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(manifest), pretty: true))
     copy_schema!(output_dir, schema_target)
     copy_base_methods!(output_dir, discoveries_dir)
 
@@ -192,6 +199,62 @@ defmodule CcxtExtract.Pipeline do
 
   def normalize_schema_target!(other) do
     raise ArgumentError, "Invalid schema_target #{inspect(other)}; expected 3 or 4"
+  end
+
+  @doc """
+  Guard against silent CCXT version drift. Raises on confirmed drift.
+
+  Compares the on-disk CCXT corpus against the baseline that
+  `mix ccxt_extract.setup` recorded in `priv/ccxt_version.json`:
+
+    * **git SHA** — when `priv/ccxt/.git` is present, the current
+      `priv/ccxt` HEAD must equal the recorded `source_git_sha`.
+    * **bundle hash** — when the version file carries `bundle_sha256`,
+      the sha256 of `priv/ccxt_bundle.js` must match it.
+
+  A *missing* version file is a skip, not a failure — there is no
+  recorded baseline to drift from (a fresh checkout before `setup`
+  ran). A *malformed* version file is a hard failure: that is breakage,
+  not absence. Any confirmed drift raises with a resync hint.
+
+  Pass `allow_version_drift: true` (the `--allow-version-drift` CLI
+  flag) to bypass the guard entirely — for advanced users running a
+  custom bundle or a deliberately-pinned source tree.
+
+  Runs at the top of `extract/1`; exposed publicly so it can be
+  exercised in isolation.
+  """
+  @spec check_version_drift!(keyword()) :: :ok
+  def check_version_drift!(opts) do
+    if Keyword.get(opts, :allow_version_drift, false) do
+      :ok
+    else
+      case read_version_file_strict() do
+        :missing ->
+          Logger.info(
+            "No priv/ccxt_version.json — version-drift guard inactive. " <>
+              "Run `mix ccxt_extract.setup` to record a baseline."
+          )
+
+        {:ok, version_info} ->
+          check_git_sha_drift!(version_info)
+          check_bundle_drift!(version_info)
+      end
+    end
+  end
+
+  @doc """
+  Compute the lowercase-hex sha256 digest of a file's contents.
+
+  Shared by `mix ccxt_extract.setup` (records `bundle_sha256` into
+  `priv/ccxt_version.json`) and `check_version_drift!/1` (verifies it),
+  so both sides hash identically.
+  """
+  @spec bundle_sha256(Path.t()) :: String.t()
+  def bundle_sha256(path) do
+    :sha256
+    |> :crypto.hash(File.read!(path))
+    |> Base.encode16(case: :lower)
   end
 
   defp filter_scope(exchanges, :all), do: exchanges
@@ -960,6 +1023,126 @@ defmodule CcxtExtract.Pipeline do
     case CcxtExtract.JsonIO.read_json(Paths.version_file()) do
       {:ok, data} -> data
       {:error, _} -> %{}
+    end
+  end
+
+  # Strict read for the drift guard: distinguishes a genuinely-absent
+  # version file (`:missing` — skip the guard, no baseline to drift
+  # from) from a malformed one (raise — that is breakage, not absence).
+  # `read_ccxt_version_info/0` above stays lenient because manifest
+  # stamping degrades gracefully; the guard cannot.
+  @spec read_version_file_strict() :: :missing | {:ok, map()}
+  defp read_version_file_strict do
+    path = Paths.version_file()
+
+    case CcxtExtract.JsonIO.read_json(path) do
+      {:ok, data} when is_map(data) ->
+        {:ok, data}
+
+      {:ok, other} ->
+        raise "Malformed #{path}: expected a JSON object, got #{inspect(other)}"
+
+      {:error, {:missing_input, _}} ->
+        :missing
+
+      {:error, {:invalid_json, detail}} ->
+        raise "Malformed priv/ccxt_version.json: #{detail}\n" <>
+                "Run `mix ccxt_extract.setup --latest` to regenerate."
+    end
+  end
+
+  # Compare the current `priv/ccxt` HEAD against the recorded
+  # `source_git_sha`. Skips when there is no sha to compare against
+  # (setup recorded "unknown") or no git metadata under `priv/ccxt`
+  # (symlinked corpus, sparse checkout without `.git`) — neither is
+  # drift, just an un-checkable state.
+  @spec check_git_sha_drift!(map()) :: :ok
+  defp check_git_sha_drift!(version_info) do
+    recorded = version_info["source_git_sha"]
+    ccxt_dir = Paths.priv("ccxt")
+
+    cond do
+      recorded in [nil, "", "unknown"] ->
+        :ok
+
+      not File.exists?(Path.join(ccxt_dir, ".git")) ->
+        :ok
+
+      true ->
+        case current_ccxt_head(ccxt_dir) do
+          {:ok, ^recorded} ->
+            :ok
+
+          {:ok, actual} ->
+            raise """
+            CCXT source drift detected.
+
+              recorded source_git_sha: #{recorded}
+              priv/ccxt current HEAD:  #{actual}
+
+            Discovery data on disk was extracted from a different CCXT
+            revision than the one recorded. Run `mix ccxt_extract.setup
+            --latest` (or `--ccxt-version <v>`) to resync, or pass
+            --allow-version-drift to proceed anyway.
+            """
+
+          :error ->
+            Logger.warning(
+              "Could not read `priv/ccxt` HEAD — skipping the git-SHA " <>
+                "drift guard for this run."
+            )
+        end
+    end
+  end
+
+  # Reads `priv/ccxt` HEAD via `git rev-parse`. `:error` on any non-zero
+  # exit or a missing `git` binary — the caller treats that as
+  # un-checkable (warn + continue), not as drift.
+  @spec current_ccxt_head(String.t()) :: {:ok, String.t()} | :error
+  defp current_ccxt_head(ccxt_dir) do
+    case System.cmd("git", ["-C", ccxt_dir, "rev-parse", "HEAD"], stderr_to_stdout: true) do
+      {sha, 0} -> {:ok, String.trim(sha)}
+      {_output, _code} -> :error
+    end
+  rescue
+    ErlangError -> :error
+  end
+
+  # Compare the sha256 of `priv/ccxt_bundle.js` against the recorded
+  # `bundle_sha256`. Absent field → skip: the version file predates the
+  # Phase 5 field, and the next `mix ccxt_extract.setup` populates it
+  # (the git-SHA check above still applies meanwhile). Field present but
+  # bundle missing → raise: the recorded baseline cannot be honored.
+  @spec check_bundle_drift!(map()) :: :ok
+  defp check_bundle_drift!(version_info) do
+    recorded = version_info["bundle_sha256"]
+    bundle_path = Paths.bundle()
+
+    cond do
+      is_nil(recorded) ->
+        :ok
+
+      not File.exists?(bundle_path) ->
+        raise """
+        priv/ccxt_version.json records a bundle_sha256 but
+        priv/ccxt_bundle.js is missing. Run `mix ccxt_extract.setup`
+        to restore the bundle.
+        """
+
+      bundle_sha256(bundle_path) == recorded ->
+        :ok
+
+      true ->
+        raise """
+        CCXT bundle drift detected.
+
+          recorded bundle_sha256: #{recorded}
+          priv/ccxt_bundle.js:    #{bundle_sha256(bundle_path)}
+
+        The browser bundle on disk differs from the one setup recorded.
+        Run `mix ccxt_extract.setup --latest` to resync, or pass
+        --allow-version-drift to proceed anyway.
+        """
     end
   end
 

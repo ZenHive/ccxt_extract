@@ -157,4 +157,45 @@ defmodule CcxtExtract.Scope do
       true -> Enum.map(active_tiers, &Atom.to_string/1) ++ Enum.map(Enum.sort(explicit), &"exchange:#{&1}")
     end
   end
+
+  @doc """
+  Unions two manifest values into one canonical manifest value.
+
+  `CcxtExtract.AggregateWriter` calls this when a scoped run merges into
+  an existing aggregate: the on-disk `tier_scope` and the new run's
+  `tier_scope` are combined so the stamp reflects every tier/exchange
+  the merged file actually contains — not just the latest caller's scope.
+
+  `"all"` on either side wins: a file that ever held the full universe
+  still does after a scoped merge (merge preserves out-of-scope entries).
+  Two lists are unioned with tiers kept in canonical `tier1/tier2/tier3/dex`
+  order and `exchange:` entries deduplicated and sorted — the exact shape
+  `to_manifest_value/1` produces, so a merged stamp is indistinguishable
+  from a single-shot one.
+
+      iex> CcxtExtract.Scope.merge_manifest_values(["tier1"], ["tier2"])
+      ["tier1", "tier2"]
+      iex> CcxtExtract.Scope.merge_manifest_values(["tier2"], ["tier1"])
+      ["tier1", "tier2"]
+      iex> CcxtExtract.Scope.merge_manifest_values("all", ["tier1"])
+      "all"
+      iex> CcxtExtract.Scope.merge_manifest_values(["exchange:bybit"], ["tier1", "exchange:aave"])
+      ["tier1", "exchange:aave", "exchange:bybit"]
+  """
+  @spec merge_manifest_values(manifest_value, manifest_value) :: manifest_value
+  def merge_manifest_values("all", _other), do: "all"
+  def merge_manifest_values(_other, "all"), do: "all"
+
+  def merge_manifest_values(a, b) when is_list(a) and is_list(b) do
+    combined = a ++ b
+    tiers = @tier_keys |> Enum.map(&Atom.to_string/1) |> Enum.filter(&(&1 in combined))
+
+    exchanges =
+      combined
+      |> Enum.filter(&String.starts_with?(&1, "exchange:"))
+      |> Enum.uniq()
+      |> Enum.sort()
+
+    tiers ++ exchanges
+  end
 end

@@ -212,4 +212,47 @@ defmodule CcxtExtract.ScopeTest do
       assert Scope.to_manifest_value(exchange: "binance, deribit ") == ["exchange:binance", "exchange:deribit"]
     end
   end
+
+  describe "merge_manifest_values/2" do
+    test "unions two tier lists in canonical tier order regardless of arg order" do
+      assert Scope.merge_manifest_values(["tier1"], ["tier2"]) == ["tier1", "tier2"]
+      assert Scope.merge_manifest_values(["tier2"], ["tier1"]) == ["tier1", "tier2"]
+      assert Scope.merge_manifest_values(["dex"], ["tier1"]) == ["tier1", "dex"]
+    end
+
+    test "deduplicates overlapping tiers" do
+      assert Scope.merge_manifest_values(["tier1"], ["tier1"]) == ["tier1"]
+      assert Scope.merge_manifest_values(["tier1", "tier2"], ["tier2"]) == ["tier1", "tier2"]
+    end
+
+    test ~s("all" on either side absorbs the other) do
+      assert Scope.merge_manifest_values("all", ["tier1"]) == "all"
+      assert Scope.merge_manifest_values(["tier1"], "all") == "all"
+      assert Scope.merge_manifest_values("all", "all") == "all"
+    end
+
+    test "exchange entries are deduplicated and sorted after tiers" do
+      assert Scope.merge_manifest_values(["exchange:bybit"], ["tier1", "exchange:aave"]) ==
+               ["tier1", "exchange:aave", "exchange:bybit"]
+
+      assert Scope.merge_manifest_values(["exchange:kraken"], ["exchange:kraken"]) ==
+               ["exchange:kraken"]
+    end
+
+    test "an empty list is the identity element" do
+      assert Scope.merge_manifest_values([], ["tier1", "exchange:binance"]) ==
+               ["tier1", "exchange:binance"]
+
+      assert Scope.merge_manifest_values(["tier2"], []) == ["tier2"]
+      assert Scope.merge_manifest_values([], []) == []
+    end
+
+    test "a merged result is byte-shape-identical to a single-shot to_manifest_value/1" do
+      # The Task 114 invariant: a --tier1 then --tier2 sequence must
+      # produce the same tier_scope as one --tier1 --tier2 invocation.
+      sequenced = Scope.merge_manifest_values(["tier1"], ["tier2"])
+      single_shot = Scope.to_manifest_value(tier1: true, tier2: true)
+      assert sequenced == single_shot
+    end
+  end
 end

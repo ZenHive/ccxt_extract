@@ -37,6 +37,10 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
       Typos fail loudly with fuzzy suggestions.
     * `--all` — explicit full-universe run; conflicts with any narrowing flag.
     * `--force` — bypass the git-status safety rail (see below).
+    * `--allow-version-drift` — bypass the CCXT version-drift guard
+      (`Pipeline.check_version_drift!/1`). Without it, the pipeline
+      aborts when `priv/ccxt` HEAD or `priv/ccxt_bundle.js` no longer
+      matches the baseline recorded in `priv/ccxt_version.json`.
 
   When no scope flag is given, all known exchanges are assembled (same as
   `--all`). The active scope is stamped into `_manifest.json` as `tier_scope`.
@@ -63,24 +67,15 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
                 strict: :boolean,
                 force: :boolean,
                 pretty: :boolean,
-                schema_target: :integer
+                schema_target: :integer,
+                allow_version_drift: :boolean
               ],
               TaskScope.scope_switches()
             )
 
   @impl true
   def run(args) do
-    {opts, leftover, invalid} = OptionParser.parse(args, strict: @switches)
-
-    if invalid != [] do
-      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
-      Mix.raise("Unknown option(s): #{switches}")
-    end
-
-    if leftover != [] do
-      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
-    end
-
+    opts = parse_opts!(args)
     universe = TaskScope.load_universe()
     scope = TaskScope.resolve_scope!(opts, universe)
     enforce_git_safety_rail!(opts, scope)
@@ -93,7 +88,13 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
     start = System.monotonic_time(:millisecond)
 
-    case CcxtExtract.Pipeline.extract(scope: scope, schema_target: schema_target) do
+    extract_opts = [
+      scope: scope,
+      schema_target: schema_target,
+      allow_version_drift: opts[:allow_version_drift] || false
+    ]
+
+    case CcxtExtract.Pipeline.extract(extract_opts) do
       {:ok, exchanges, stats} ->
         report_progress(exchanges)
         output_dir = opts[:output] || CcxtExtract.Paths.out("output")
@@ -115,6 +116,25 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
       {:error, {:missing_input, path}} ->
         Mix.raise("Missing required input: #{path}")
     end
+  end
+
+  # Parse argv against @switches, raising on unknown switches or
+  # leftover positional args. Extracted from run/1 to keep it under the
+  # Credo cyclomatic-complexity ceiling.
+  @spec parse_opts!([String.t()]) :: keyword()
+  defp parse_opts!(args) do
+    {opts, leftover, invalid} = OptionParser.parse(args, strict: @switches)
+
+    if invalid != [] do
+      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
+      Mix.raise("Unknown option(s): #{switches}")
+    end
+
+    if leftover != [] do
+      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
+    end
+
+    opts
   end
 
   @spec resolve_schema_target!(keyword()) :: 3 | 4

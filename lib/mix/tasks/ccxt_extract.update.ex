@@ -39,6 +39,11 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     * `--schema-target N` — forwarded to the pipeline + validate stages.
       `3` (default) emits the v3 published shape; `4` emits the gated
       v4 reshape (Task 130).
+    * `--allow-version-drift` — forwarded to the pipeline stage. Bypasses
+      the CCXT version-drift guard so the pipeline runs even when
+      `priv/ccxt` or `priv/ccxt_bundle.js` no longer matches the
+      baseline in `priv/ccxt_version.json`. Mainly useful with
+      `--skip-setup`; a full run re-records the baseline at Stage 1.
 
   ## Stages
 
@@ -79,7 +84,8 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     exchange: :keep,
     force: :boolean,
     pretty: :boolean,
-    schema_target: :integer
+    schema_target: :integer,
+    allow_version_drift: :boolean
   ]
 
   @aliases [v: :ccxt_version]
@@ -193,6 +199,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     args = if opts[:strict], do: ["--strict" | args], else: args
     args = if opts[:force], do: ["--force" | args], else: args
     args = if opts[:pretty], do: ["--pretty" | args], else: args
+    args = if opts[:allow_version_drift], do: ["--allow-version-drift" | args], else: args
     args = schema_target_args(opts) ++ args
     args ++ scope_args(opts)
   end

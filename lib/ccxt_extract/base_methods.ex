@@ -84,7 +84,7 @@ defmodule CcxtExtract.BaseMethods do
       |> Map.put("extracted_at", DateTime.to_iso8601(DateTime.utc_now()))
       |> Map.put("tier_scope", tier_scope)
 
-    json = Jason.encode!(CcxtExtract.AstNormalize.normalize(output), pretty: true)
+    json = Jason.encode!(CcxtExtract.AstNormalize.to_encodable(output), pretty: true)
     File.write!(output_path, json)
     :ok
   end

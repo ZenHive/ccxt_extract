@@ -109,8 +109,52 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
         assert normalization["field_maps"]["_unresolved_reason"] == "not_yet_derived",
                "Task 129 scaffold should mark field_maps unresolved until all parser types populate"
 
-        assert normalization["response_envelopes"]["_unresolved_reason"] == "not_yet_derived",
-               "Task 129 scaffold should mark response_envelopes unresolved for #{id}"
+        # Task 83b: response_envelopes is derived per-fetcher when parse_dispatch
+        # + fetch_methods.json bodies are present. Priority exchanges in this
+        # scope have parse_dispatch → _unresolved_reason flips to nil and the
+        # populated parser-type slots carry per-fetcher maps with the
+        # {key, fallback_keys, default} contract. Exchanges with no
+        # parse_dispatch stay on the stub ("not_yet_derived").
+        response_envelopes = normalization["response_envelopes"]
+        re_reason = response_envelopes["_unresolved_reason"]
+
+        assert re_reason in [nil, "not_yet_derived"],
+               "response_envelopes._unresolved_reason must be nil or not_yet_derived for #{id}, got #{inspect(re_reason)}"
+
+        if id == "binance" do
+          # binance's parseTrades is reached from multiple fetchers — the
+          # N:1 case that motivated the per-fetcher map shape. Each entry
+          # must carry either the {key, fallback_keys, default} triple or
+          # an honest _unresolved_reason string.
+          trade = response_envelopes["trade"]
+
+          assert is_map(trade),
+                 "binance has parse_dispatch for parseTrades → response_envelopes.trade must be a map, got #{inspect(trade)}"
+
+          assert map_size(trade) >= 2,
+                 "binance dispatches parseTrades from multiple fetchers — expected ≥2 keys, got #{inspect(Map.keys(trade))}"
+
+          for {fetcher, entry} <- trade do
+            assert String.starts_with?(fetcher, "fetch"),
+                   "response_envelopes.trade key #{inspect(fetcher)} must be a fetch* name"
+
+            assert is_map(entry),
+                   "response_envelopes.trade[#{inspect(fetcher)}] must be a map"
+
+            if Map.has_key?(entry, "_unresolved_reason") do
+              assert is_binary(entry["_unresolved_reason"]),
+                     "unresolved envelope entry must carry a string reason"
+            else
+              for key <- ~w(key fallback_keys default) do
+                assert Map.has_key?(entry, key),
+                       "populated envelope entry missing #{key} for binance.#{fetcher}"
+              end
+
+              assert is_list(entry["fallback_keys"]),
+                     "fallback_keys must be a list for binance.#{fetcher}"
+            end
+          end
+        end
 
         # Task 78: parseOHLCV field-map shape for the priority exchanges in
         # this test's scope. Indices are not asserted (they drift with

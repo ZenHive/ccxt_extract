@@ -66,8 +66,13 @@ defmodule CcxtExtract.Pipeline do
     with {:ok, exchanges_json} <- CcxtExtract.JsonIO.read_json(exchanges_path) do
       data = DiscoveryLoader.load_all!(dir, exchanges_json)
 
-      if data.missing_files != [] do
-        raise "Pipeline cannot run — missing required discovery files: #{Enum.join(data.missing_files, ", ")}"
+      # fetch_methods.json (Task 83a) is optional — its absence just
+      # leaves per-fetcher entries flagged `"no_fetcher_method_body"`;
+      # ResponseEnvelopes.derive/2 still runs whenever parse_dispatch is present.
+      missing_required = data.missing_files -- ["fetch_methods.json"]
+
+      if missing_required != [] do
+        raise "Pipeline cannot run — missing required discovery files: #{Enum.join(missing_required, ", ")}"
       end
 
       version_info = Keyword.get_lazy(opts, :version_info, fn -> read_ccxt_version_info() end)
@@ -467,7 +472,17 @@ defmodule CcxtExtract.Pipeline do
         # byte-identical — Normalization.build/2 is never reached on
         # the v3 path, preserving the schema 3.0.0 (Task 117) Hex-cap
         # win.
-        normalization = Normalization.build(Map.get(data.parse_methods, id))
+        # Map.get/3 on :fetch_methods because test fixtures may
+        # construct `data` without the key (fetch_methods.json is
+        # optional — see missing_required filter above).
+        fetch_methods_lookup = Map.get(data, :fetch_methods, %{})
+
+        normalization =
+          Normalization.build(
+            Map.get(data.parse_methods, id),
+            Map.get(fetch_methods_lookup, id)
+          )
+
         v4_opts = Keyword.put(opts, :normalization, normalization)
         Schema.build_exchange_v4(meta, runtime_data, structure_data, v4_opts)
     end

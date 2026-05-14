@@ -208,7 +208,7 @@ defmodule CcxtExtract.Schema do
     auth_sections = structure_data["authenticated_sections"]
     sign_method = structure_data["sign_method"]
     describe_api = structure_data["describe_api"]
-    normalization = Keyword.get(opts, :normalization) || CcxtExtract.Normalization.build(nil)
+    normalization = Keyword.get(opts, :normalization) || CcxtExtract.Normalization.build(nil, nil)
 
     %{
       "schema_version" => @schema_v4_version,

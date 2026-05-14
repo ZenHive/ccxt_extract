@@ -514,6 +514,60 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 **`_unresolved_reason`:** `null` when ObjectExpression pattern found; `"non_safe_market_return:<callee>"` for non-ObjectExpression `this.<callee>(...)` returns; `"no_return_statement"` when none found; `"identifier_return"` when the return is a bare Identifier (pre-built variable); `"unrecognized_return_shape"` when the return argument matches none of the above (e.g. `return foo() + bar()`). `TSAsExpression` wrappers (`return {...} as Market`) are unwrapped before classification, so a TS-cast around an otherwise-slottable ObjectExpression resolves cleanly (e.g. grvt). Inheriting exchanges emit `field_maps["market"] = null`.
 
+### `normalization.response_envelopes` — shape (Task 83b)
+
+`response_envelopes` carries per-parser-type, per-fetcher maps describing the outer wrapping a vendor REST endpoint returns before the matching `parse*` is dispatched. Recognizes the load-bearing N:1 fetcher→parser pattern: the same parser is reached from multiple fetchers, each with a different envelope (e.g. binance's `parseTrades` is reached from `fetchTrades`, `fetchMyTrades`, `fetchMyDustTrades`).
+
+**Top-level shape** (one key per parser type, plus the closed-vocab `_unresolved_reason` slot):
+
+```json
+"response_envelopes": {
+  "_unresolved_reason": null,
+  "trade": {
+    "fetchTrades":       { "key": null,                 "fallback_keys": [], "default": null },
+    "fetchMyTrades":     { "key": null,                 "fallback_keys": [], "default": null },
+    "fetchMyDustTrades": { "key": "userAssetDribblets", "fallback_keys": [], "default": []   }
+  },
+  "ticker":          { "fetchTicker": { "key": null, "fallback_keys": [], "default": null }, ... },
+  "ohlcv":           { ... },
+  "order":           { ... },
+  "position":        { ... },
+  "balance":         { ... },
+  "market":          { ... },
+  "transaction":     { ... },
+  "deposit_address": { ... }
+}
+```
+
+**Per-fetcher entry shape (populated):**
+
+| Key | Type | Meaning |
+|-----|------|---------|
+| `key` | `string \| null` | First arg literal to `this.safeValue(response, "<KEY>", default)` / `this.safeList(response, ...)`. `null` when the response IS the list/object (no unwrap). |
+| `fallback_keys` | `string[]` | Additional literal keys from `safeValue2(response, "K1", "K2", default)` / `safeValueN(response, ["K1", "K2"], default)`. Always present as a list (may be empty). |
+| `default` | `term \| null` | Literal third arg (number, string, list literal, object literal, or `null` when omitted). |
+
+**Per-fetcher entry shape (unresolved):**
+
+```json
+{ "_unresolved_reason": "<closed-vocab-string>" }
+```
+
+Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, default}` triple. Consumers should branch on `Map.has_key?(entry, "_unresolved_reason")`.
+
+**Per-fetcher `_unresolved_reason` vocabulary** (closed):
+
+- `"no_fetcher_method_body"` — `fetch_methods.json` has no body entry for this fetcher
+- `"no_safe_value_call"` — fetcher body has no `safeValue` / `safeList` / `safeValueN` / `safeListN` call against `response`
+- `"non_literal_key"` — first key arg is a variable rather than a string literal (cannot statically derive)
+- `"nested_response_unwrap"` — first arg is a sub-property access (e.g. `response["foo"]["bar"]`); recorded at fetcher level for now
+
+**Top-level `_unresolved_reason`:** `null` when at least one parser-type slot resolved to a populated per-fetcher map; carries `"not_yet_derived"` when the carrier returned the stub (no `parse_dispatch` data, no fetch_methods entry, or the exchange has no override).
+
+**Fetcher scope filter.** Only names beginning with `fetch` are considered — mutators like `createOrder` / `cancelOrder` / `editSpotOrder` are excluded even when they share a parser callee. The per-parser-type fetcher list is the intersection of `parse_dispatch` callers and the parser-type's `parse_fn` set, restricted to `fetch*` names.
+
+**Inheriting exchanges** (no `parse_dispatch` entry, no fetcher bodies) emit `response_envelopes` with every parser-type slot `null` plus `_unresolved_reason: "not_yet_derived"`.
+
 ### What changed from 3.1.0 (breaking)
 
 [FILL IN AS FREEZE TASKS SHIP — populated incrementally as Phases 11/12/13/14 land. The "Top-level reshape" table above is the path-migration specification; "What changed" elaborates with concrete field-by-field diffs and consumer-facing semantic notes.]

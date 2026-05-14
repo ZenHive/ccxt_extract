@@ -36,9 +36,9 @@ defmodule CcxtExtract.NormalizationTest do
     }
   }
 
-  describe "build/2 — parse_methods_digest" do
+  describe "build/3 — parse_methods_digest" do
     test "projects every parse_method into a compact digest record" do
-      result = Normalization.build(@sample_entry)
+      result = Normalization.build(@sample_entry, nil)
 
       digest = result["parse_methods_digest"]
       assert digest |> Map.keys() |> Enum.sort() == ["parseTicker", "parseTrade"]
@@ -62,17 +62,17 @@ defmodule CcxtExtract.NormalizationTest do
     end
 
     test "empty digest when entry is nil (alias exchange / no own parse_methods)" do
-      assert Normalization.build(nil)["parse_methods_digest"] == %{}
+      assert Normalization.build(nil, nil)["parse_methods_digest"] == %{}
     end
 
     test "empty digest when entry has empty parse_methods" do
       entry = %{"id" => "x", "parse_methods" => %{}}
-      assert Normalization.build(entry)["parse_methods_digest"] == %{}
+      assert Normalization.build(entry, nil)["parse_methods_digest"] == %{}
     end
 
     test "empty digest when parse_methods key missing" do
       entry = %{"id" => "x"}
-      assert Normalization.build(entry)["parse_methods_digest"] == %{}
+      assert Normalization.build(entry, nil)["parse_methods_digest"] == %{}
     end
 
     test "missing fields default to safe values" do
@@ -83,7 +83,7 @@ defmodule CcxtExtract.NormalizationTest do
         }
       }
 
-      foo = Normalization.build(entry)["parse_methods_digest"]["parseFoo"]
+      foo = Normalization.build(entry, nil)["parse_methods_digest"]["parseFoo"]
       assert foo["params"] == []
       assert foo["return_type"] == nil
       assert foo["async"] == false
@@ -91,14 +91,14 @@ defmodule CcxtExtract.NormalizationTest do
     end
 
     test "non-map entry returns empty digest" do
-      assert Normalization.build("not a map")["parse_methods_digest"] == %{}
-      assert Normalization.build(42)["parse_methods_digest"] == %{}
+      assert Normalization.build("not a map", nil)["parse_methods_digest"] == %{}
+      assert Normalization.build(42, nil)["parse_methods_digest"] == %{}
     end
   end
 
   describe "build/2 — field_maps and response_envelopes scaffolds" do
     test "field_maps carries every parser type plus _unresolved_reason" do
-      result = Normalization.build(nil)
+      result = Normalization.build(nil, nil)
       field_maps = result["field_maps"]
 
       for type <- Normalization.parser_types() do
@@ -110,7 +110,7 @@ defmodule CcxtExtract.NormalizationTest do
     end
 
     test "response_envelopes carries the same shape as field_maps" do
-      result = Normalization.build(nil)
+      result = Normalization.build(nil, nil)
 
       assert result["response_envelopes"] |> Map.keys() |> Enum.sort() ==
                result["field_maps"] |> Map.keys() |> Enum.sort()
@@ -171,7 +171,7 @@ defmodule CcxtExtract.NormalizationTest do
       }
 
       entry = %{"parse_methods" => %{"parseOHLCV" => ohlcv_ast}}
-      result = Normalization.build(entry)
+      result = Normalization.build(entry, nil)
       field_maps = result["field_maps"]
 
       assert is_map(field_maps["ohlcv"]), "Task 78: ohlcv slot populates"
@@ -246,7 +246,7 @@ defmodule CcxtExtract.NormalizationTest do
         }
       }
 
-      result = Normalization.build(entry)
+      result = Normalization.build(entry, nil)
       field_maps = result["field_maps"]
 
       assert is_map(field_maps["ticker"]), "ticker slot must populate"
@@ -347,7 +347,7 @@ defmodule CcxtExtract.NormalizationTest do
         }
       }
 
-      result = Normalization.build(entry)
+      result = Normalization.build(entry, nil)
       field_maps = result["field_maps"]
 
       assert is_map(field_maps["trade"]), "trade slot must populate"
@@ -418,7 +418,7 @@ defmodule CcxtExtract.NormalizationTest do
         }
       }
 
-      result = Normalization.build(entry)
+      result = Normalization.build(entry, nil)
       field_maps = result["field_maps"]
 
       assert is_map(field_maps["order"]), "order slot must populate"
@@ -485,7 +485,7 @@ defmodule CcxtExtract.NormalizationTest do
         }
       }
 
-      result = Normalization.build(entry)
+      result = Normalization.build(entry, nil)
       field_maps = result["field_maps"]
 
       assert is_map(field_maps["position"]), "position slot must populate"
@@ -507,14 +507,14 @@ defmodule CcxtExtract.NormalizationTest do
   describe "build/2 — round-trip + shape" do
     test "every output has the three required top-level keys" do
       for entry <- [nil, %{}, @sample_entry, %{"parse_methods" => %{}}] do
-        result = Normalization.build(entry)
+        result = Normalization.build(entry, nil)
 
         assert result |> Map.keys() |> Enum.sort() == Enum.sort(Normalization.required_keys())
       end
     end
 
     test "every digest record has the four required fields, in valid types" do
-      result = Normalization.build(@sample_entry)
+      result = Normalization.build(@sample_entry, nil)
 
       for {_name, record} <- result["parse_methods_digest"] do
         assert record |> Map.keys() |> Enum.sort() == Enum.sort(Normalization.digest_record_keys())
@@ -527,7 +527,7 @@ defmodule CcxtExtract.NormalizationTest do
 
     test "round-trip: digest preserves method-name set from the inventory" do
       inventory = @sample_entry["parse_methods"] |> Map.keys() |> Enum.sort()
-      digest_keys = Normalization.build(@sample_entry)["parse_methods_digest"] |> Map.keys() |> Enum.sort()
+      digest_keys = Normalization.build(@sample_entry, nil)["parse_methods_digest"] |> Map.keys() |> Enum.sort()
 
       assert inventory == digest_keys
     end
@@ -546,7 +546,7 @@ defmodule CcxtExtract.NormalizationTest do
         }
       }
 
-      foo = Normalization.build(entry)["parse_methods_digest"]["parseFoo"]
+      foo = Normalization.build(entry, nil)["parse_methods_digest"]["parseFoo"]
       assert foo["params"] == [%{"name" => "", "type" => nil}]
     end
 
@@ -557,7 +557,7 @@ defmodule CcxtExtract.NormalizationTest do
         }
       }
 
-      assert Normalization.build(entry)["parse_methods_digest"]["parseFoo"]["params"] == []
+      assert Normalization.build(entry, nil)["parse_methods_digest"]["parseFoo"]["params"] == []
     end
 
     test "negative or non-integer statements coerced to 0" do
@@ -568,7 +568,7 @@ defmodule CcxtExtract.NormalizationTest do
         }
       }
 
-      digest = Normalization.build(entry)["parse_methods_digest"]
+      digest = Normalization.build(entry, nil)["parse_methods_digest"]
       assert digest["parseA"]["statement_count"] == 0
       assert digest["parseB"]["statement_count"] == 0
     end
@@ -579,7 +579,7 @@ defmodule CcxtExtract.NormalizationTest do
       # rather than blowing up the whole pipeline.
       entry = %{"parse_methods" => %{"parseFoo" => "garbage"}}
 
-      assert Normalization.build(entry)["parse_methods_digest"]["parseFoo"] ==
+      assert Normalization.build(entry, nil)["parse_methods_digest"]["parseFoo"] ==
                %{"params" => [], "return_type" => nil, "async" => false, "statement_count" => 0}
     end
   end

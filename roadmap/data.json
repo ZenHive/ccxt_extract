@@ -1,0 +1,1233 @@
+{
+  "schema_version": 1,
+  "project": "ccxt_extract",
+  "default_branch": "development",
+  "vision": "Extract everything CCXT knows about 111+ exchanges into language-agnostic JSON so any consumer — in any language — can operate an exchange without walking AST.",
+  "focus": {
+    "phase": 11
+  },
+  "phases": {
+    "0": {
+      "name": "Maintenance Backlog",
+      "order": 0,
+      "status": "in_progress"
+    },
+    "11": {
+      "name": "Request building contract",
+      "order": 11,
+      "status": "in_progress"
+    },
+    "12": {
+      "name": "Response parsing contract",
+      "order": 12,
+      "status": "in_progress"
+    },
+    "13": {
+      "name": "Error contract",
+      "order": 13,
+      "status": "in_progress"
+    },
+    "15": {
+      "name": "WS contract",
+      "order": 15,
+      "status": "pending"
+    },
+    "16": {
+      "name": "Market & currency semantics",
+      "order": 16,
+      "status": "pending"
+    },
+    "8": {
+      "name": "Client harness + contract tests",
+      "order": 8,
+      "status": "in_progress"
+    },
+    "9": {
+      "name": "Override infrastructure + provenance",
+      "order": 9,
+      "status": "in_progress"
+    }
+  },
+  "bundles": {
+    "10-exotic": {
+      "phase": 0,
+      "order": 8,
+      "description": "Exotic signing families (JWT/RSA/Ed25519, custom/outlier) — deferred: no priority exchange uses these."
+    },
+    "10-sign-extend": {
+      "phase": 0,
+      "order": 1,
+      "description": "Sign-recipe derivation patches — shared AST walker (CcxtExtract.SignRecipe.*). Deferred: no priority consumer (scope-creep audit 2026-05-14)."
+    },
+    "11+14": {
+      "phase": 11,
+      "order": 2,
+      "description": "Timestamps, headers, rate-limit buckets + per-endpoint cost — all from rateLimit/cost annotations."
+    },
+    "11-shape": {
+      "phase": 11,
+      "order": 1,
+      "description": "Request-shape extraction — verb/path/body-encoding + transaction classification."
+    },
+    "12-simple": {
+      "phase": 12,
+      "order": 1,
+      "description": "parseOHLCV edge-case shapes + ticker.ex normalization-vocab alignment — non-gating Phase 12 remainder."
+    },
+    "13-classify-fix": {
+      "phase": 13,
+      "order": 1,
+      "description": "Error-classification refinement surfaced in PR #13 review."
+    },
+    "13-classify-safety": {
+      "phase": 13,
+      "order": 2,
+      "description": "Error-classification safety invariant surfaced in PR #13 review."
+    },
+    "13-perf": {
+      "phase": 13,
+      "order": 3,
+      "description": "Error-dispatch performance — thread precomputed dispatch through helpers."
+    },
+    "15-dispatch": {
+      "phase": 15,
+      "order": 2,
+      "description": "WS channel → parse handler dispatch tables."
+    },
+    "15-msg": {
+      "phase": 15,
+      "order": 1,
+      "description": "WS subscribe + auth + heartbeat message shapes."
+    },
+    "15-reconnect": {
+      "phase": 15,
+      "order": 4,
+      "description": "WS reconnect triggers + backoff — deferred until a priority exchange proves the need."
+    },
+    "15-semantics": {
+      "phase": 15,
+      "order": 3,
+      "description": "WS snapshot/delta semantics for orderbook/trades/OHLCV."
+    },
+    "16-currency": {
+      "phase": 16,
+      "order": 1,
+      "description": "Currency aliases (commonCurrencies) + precision mode."
+    },
+    "16-fees": {
+      "phase": 16,
+      "order": 2,
+      "description": "Tiered + funding/withdrawal fee catalogs — deferred: not required by priority consumers."
+    },
+    "9-audit": {
+      "phase": 9,
+      "order": 1,
+      "description": "Override auditing tooling — validate_overrides + drift_audit."
+    },
+    "9-pipeline": {
+      "phase": 9,
+      "order": 2,
+      "description": "Override-pipeline plumbing — array-index JSON Pointers in OverrideRegistry."
+    },
+    "9-pipeline-follow-up": {
+      "phase": 8,
+      "order": 1,
+      "description": "Phase 8 holdover — unified_endpoints/has drift triage, unblocked by the provenance tier (Task 61a)."
+    },
+    "det-contract": {
+      "phase": 0,
+      "order": 7,
+      "description": "Determinism-emit contract — centralize JSON write sites behind a helper + a contract-test invariant guarding byte-determinism."
+    },
+    "docs-drift": {
+      "phase": 0,
+      "order": 5,
+      "description": "Reconcile generated AGENTS.md with the retired cloud-agent delegation strategy."
+    },
+    "maintenance": {
+      "phase": 0,
+      "order": 9,
+      "description": "Open technical-debt items outside the phased work — bundleless backlog catch-all."
+    },
+    "method-descriptors": {
+      "phase": 0,
+      "order": 4,
+      "description": "Extract unified-method descriptors (TS signature + JSDoc overlay) from CCXT TS + schema invariant."
+    },
+    "scope-hygiene": {
+      "phase": 0,
+      "order": 3,
+      "description": "Tier-scope drift cleanup: prune task + scope-aware test skips."
+    },
+    "sibling-emit": {
+      "phase": 0,
+      "order": 2,
+      "description": "OpenAPI + OpenRPC secondary emitters — shared emitter infrastructure. Deferred: serves hypothetical external any-language consumers; ccxt_client reads native JSON."
+    },
+    "superseded": {
+      "phase": 0,
+      "order": 10,
+      "description": "Deferred items kept for revisit-if-priority-expands; not promoted to an active phase."
+    },
+    "test-coverage": {
+      "phase": 0,
+      "order": 6,
+      "description": "Pipeline-level integration test coverage gaps surfaced by audit passes."
+    }
+  },
+  "task": [
+    {
+      "id": 105,
+      "phase": 0,
+      "bundle": "maintenance",
+      "status": "pending",
+      "title": "Port super.*() delegation coverage off coincatch",
+      "scores": {
+        "d": 2,
+        "b": 3,
+        "u": 2
+      },
+      "eff": 1.25,
+      "markers": [],
+      "depends_on": [],
+      "files_to_modify": [
+        "test/ccxt_extract/unified_endpoints_test.exs"
+      ],
+      "body": "coincatch was removed upstream; the test that validated `parse_file/1` walking a super-delegation chain was deleted in Task 101. Find another currently-shipping exchange with a non-trivial `super.*()` chain and reinstate targeted coverage, otherwise `parse_file` regressions on that code path escape. TODO marker at `test/ccxt_extract/unified_endpoints_test.exs`.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 106,
+      "phase": 0,
+      "bundle": "maintenance",
+      "status": "pending",
+      "title": "Drifted-override fixture for override_paths_present_in_output",
+      "scores": {
+        "d": 2,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 1.5,
+      "markers": [],
+      "depends_on": [],
+      "body": "The contract-test invariant today only exercises the 0-finding case (see `test/ccxt_extract/contract_test_test.exs`). Add a fixture that injects a drifted override (pointer value absent from output) once `ContractTest.run_all/1` threads overrides through `observed`. Discovered during Task 61c.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 109,
+      "phase": 0,
+      "bundle": "maintenance",
+      "status": "pending",
+      "title": "Promote finding() map type to a %Finding{} struct",
+      "scores": {
+        "d": 2,
+        "b": 2,
+        "u": 2
+      },
+      "eff": 1.0,
+      "markers": [],
+      "depends_on": [],
+      "body": "`CcxtExtract.ContractTest.@type finding` is constructed in five builder sites with identical `{exchange, invariant, path, message}` key sets. Replacing with a `defstruct` + `@enforce_keys` gains compile-time key validation and silences the recurring `struct-hint` post-edit hook. Must `@derive Jason.Encoder` so `priv/output/_contract_test_report.json` stays free of `__struct__` keys, and re-verify `Enum.sort/1` over findings produces the same ordering for downstream consumers. Discovered during Task 61d code review.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 110,
+      "phase": 0,
+      "bundle": "maintenance",
+      "status": "pending",
+      "title": "Triage 32 request_defaults_resolvable_reachable_from_unified findings",
+      "scores": {
+        "d": 4,
+        "b": 4,
+        "u": 4
+      },
+      "eff": 1.0,
+      "markers": [],
+      "depends_on": [],
+      "body": "Baseline full-corpus run surfaces 32 helper-method findings (e.g. `bybit.fetchSpotMarkets`, `coinbase.fetchAccountsV2`). These helpers get request-body literals extracted and ARE called transitively from a unified method, but `unified_endpoints` values store interface method names (`publicGetX`), so the reachability check can't see the call chain. Either (a) add transitive-call analysis that walks unified method bodies for `this.<helper>()` calls, or (b) maintain a committed baseline allowlist like `priv/contract_test/error_code_fields_roots.json`. Discovered during Task 73c.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 124,
+      "phase": 0,
+      "bundle": "maintenance",
+      "status": "pending",
+      "title": "Prune Bybit discontinued spot/v3/private/* endpoints from extracted spec",
+      "scores": {
+        "d": 4,
+        "b": 4,
+        "u": 4
+      },
+      "eff": 1.0,
+      "markers": [],
+      "depends_on": [],
+      "body": "Bybit discontinued its V3 Spot Open API as of 2024-08-31; upstream CCXT TS still lists these endpoints in `bybit.ts`'s `api.spot.v3.private`, so extraction emits them into `implicit_endpoints` / `unified_endpoints` and ccxt_client's probe generator produces tests for them. Three options in rough preference order: (a) push a PR upstream to ccxt removing the dead endpoints; (b) add a JSON-Pointer deletion override under `priv/overrides/bybit/` once delete-pointer semantics are nailed down; (c) a derivation-time deprecated-path filter (risk: hardcodes a Bybit policy into generic logic). Discovered 2026-04-21 from a ccxt_client full-tag run (22 INCONCLUSIVE warnings).\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": [
+        {
+          "repo": "ccxt_client",
+          "task_id": "111b",
+          "linear_id": null,
+          "relation": "blocks"
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "phase": 0,
+      "bundle": "maintenance",
+      "status": "pending",
+      "title": "Position-aware paths_rw_split sinks + variable-level sanitization",
+      "scores": {
+        "d": 4,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 0.75,
+      "markers": [],
+      "depends_on": [],
+      "files_to_modify": [
+        "lib/ccxt_extract/contract_test.ex",
+        "lib/ccxt_extract/pipeline.ex"
+      ],
+      "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nTask 112's `paths_rw_split` invariant lists `File.cp!`/`cp_r!`/`cp`/`cp_r`/`rename` in `@file_writer_fns` position-unaware, so `File.cp!(Paths.priv(...), target)` trips it even though the writer target is unrelated. Two band-aids were applied (rewriting `File.cp!` as write+read in `pipeline.ex`, broadening `@file_reader_fns`); both mask-bleed into a theoretical false negative. Proper fix: (a) position-aware sinks distinguishing write-position args from read-position args, likely via a registry keyed on `{function, arity, write_arg_indices}`; (b) variable-level sanitization so Reach sanitizes the specific variable passing through a reader, not every node on the chop — likely needs a Reach-side change. Once either lands: narrow `@file_reader_fns` back to content readers, restore `File.cp!` in `pipeline.ex`, delete both TODO blocks. Discovered 2026-04-24 during staged-review of the paths_rw_split sanitizer-broadening change.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 136,
+      "phase": 0,
+      "bundle": "maintenance",
+      "status": "pending",
+      "title": "Re-track priv/output/ now that extraction is byte-deterministic",
+      "scores": {
+        "d": 3,
+        "b": 4,
+        "u": 5
+      },
+      "eff": 1.5,
+      "markers": [],
+      "depends_on": [],
+      "body": "The Task 114 follow-up it explicitly named. Untracking (2026-04-18) was the size band-aid; Task 114 (2026-05-14) eliminated the churn root cause, so a re-tracked `priv/output/` would now produce meaningful, infrequent diffs. Scope: decide whether to re-track `priv/output/` (and possibly per-exchange `priv/discoveries/` subdirs), measure resulting `.git` growth against a representative CCXT-version-bump diff, update `.gitignore` + CLAUDE.md, confirm the git-status safety rail re-arms once paths are back in the index. Don't re-track until a real version-bump diff is measured. Follow-up to Task 114 (done — dependency satisfied, no edge). Discovered 2026-05-14 during Task 114.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 137,
+      "phase": 0,
+      "bundle": "maintenance",
+      "status": "pending",
+      "title": "Retrofit Pattern B timestamp writers to accept an :extracted_at opt",
+      "scores": {
+        "d": 4,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 0.75,
+      "markers": [],
+      "depends_on": [],
+      "body": "`mix ccxt_extract.determinism_check` currently strips volatile timestamp keys before comparison because Pattern B writers stamp `DateTime.utc_now()` at write time. The strip-keys list is a workaround — the gate can't catch a regression landing inside a stamped-timestamp envelope. Scope: thread an optional `:extracted_at` (and siblings) through the Pattern B aggregate writers — `AggregateWriter` and per-extractor envelope builders — so the determinism harness (or a `--frozen-clock` flag) can pass a fixed timestamp; default stays wall-clock. Then `determinism_check` passes a frozen clock instead of stripping keys. Discovered 2026-05-14 during Task 114 (Phase 3b).\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 113,
+      "phase": 0,
+      "bundle": "10-sign-extend",
+      "status": "blocked",
+      "title": "Track indirect signature placement via request-like object construction",
+      "scores": {
+        "d": 4,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 0.75,
+      "markers": [],
+      "depends_on": [],
+      "body": "htx (and likely others) build `const request = {..., Signature: signature}` then `url += '?' + this.urlencode(request)`. The placement is genuinely `query` with key `Signature`, but Task 65 derivation only tracks direct `query = ...` / `headers['K'] = ...` / `body = this.json({...})` assignments. Add an object-level propagation step: when an ObjectExpression with a sig-referencing property is bound to a variable, follow the variable into subsequent `url += '?' + this.urlencode(<var>)` / `body = this.urlencode(<var>)` statements and attribute the placement. Discovered during Task 65 (htx.private ships `signature_placement: null` until this lands). Distinct from the retired LFS Task 113 (corpus untracking) — same number in legacy ROADMAP, resolved separately.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands.",
+      "cross_repo": []
+    },
+    {
+      "id": "66e",
+      "phase": 0,
+      "bundle": "10-sign-extend",
+      "status": "blocked",
+      "title": "Expand canonical_string component vocabulary",
+      "scores": {
+        "d": 4,
+        "b": 7,
+        "u": 7
+      },
+      "eff": 1.75,
+      "markers": [],
+      "depends_on": [],
+      "body": "Add `source: \"nonce\"` (Deribit uses both a wall-clock timestamp AND a per-request nonce), `source: \"hostname\"` (HTX v1 signs method+hostname+path+query), `source: \"expiry\"` (Phemex signs an expiryString field), and an `encoding: \"delimited\"` mode with explicit separator handling (Gate/HTX/Deribit use `.join`). Also consider a nested-op component source for Kraken's `binaryConcat(encode(url), hash(encode(nonce + body)))` and Gate's SHA512(body) slot. Discovered 2026-04-19 during Task 66a — those priority exchanges currently emit null `canonical_string` with `unresolved_reason: \"not_yet_derived\"`.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands.",
+      "cross_repo": []
+    },
+    {
+      "id": "66f",
+      "phase": 0,
+      "bundle": "10-sign-extend",
+      "status": "blocked",
+      "title": "Key-format disambiguation for Binance/Bybit HMAC branches",
+      "scores": {
+        "d": 5,
+        "b": 6,
+        "u": 6
+      },
+      "eff": 1.2,
+      "markers": [],
+      "depends_on": [],
+      "body": "Both exchanges route `if (secret.indexOf('PRIVATE KEY') > -1) { rsa/eddsa } else { this.hmac }`. Task 65 correctly emits `crypto_op: null` with `unresolved_reason: \"ambiguous_ast\"` because no single crypto_op is truthful. A future pass could disambiguate by credential format: two alternative recipes, or a per-key-format discriminator. Likely overrides territory under the Three-Strikes Rule rather than a derivation extension. Discovered 2026-04-19 during Task 66a; not urgent because priority consumers use HMAC keys exclusively.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands.",
+      "cross_repo": []
+    },
+    {
+      "id": "66g",
+      "phase": 0,
+      "bundle": "10-sign-extend",
+      "status": "blocked",
+      "title": "Sub-verb expansion (POST vs PUT vs DELETE vs PATCH) in canonical_string",
+      "scores": {
+        "d": 3,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 1.0,
+      "markers": [],
+      "depends_on": [],
+      "files_to_modify": [
+        "lib/ccxt_extract/sign_recipe/canonical_string.ex"
+      ],
+      "body": "`CanonicalString.flip_verb/1` currently maps the else-of-GET branch to `\"POST\"` for every non-GET verb. Consumers applying the POST recipe to PUT/DELETE/PATCH get the right canonical today because no priority exchange distinguishes those verbs inside sign(). Expand only when a sign() method actually tests `method === 'PUT'` / `'DELETE'` / `'PATCH'` distinctly. Discovered 2026-04-21 during Task 66b. TODO marker above the `flip_verb/1` clauses.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands.",
+      "cross_repo": []
+    },
+    {
+      "id": "66h",
+      "phase": 0,
+      "bundle": "10-sign-extend",
+      "status": "blocked",
+      "title": "Trace conditionally-reassigned body alias variables (kucoin endpart, coinbase payload)",
+      "scores": {
+        "d": 5,
+        "b": 4,
+        "u": 4
+      },
+      "eff": 0.8,
+      "markers": [],
+      "depends_on": [],
+      "body": "kucoin's `let endpart = ''; if (method !== 'GET') endpart = body; auth += endpart` and coinbaseexchange's `let payload = ''; if (method !== 'GET') payload = this.json(body); auth += payload`. Both emit `canonical_string: null` at recipe level — Task 66b's `@body_names` exemption is deliberately narrow (identifier `body`/`bodyPayload` by name only). A future pass would walk conditionally-reassigned identifiers whose RHS in each branch is a recognized body-shaped expression, propagating the source tag per-verb. Risk: over-permissive tracing could mistag an unrelated identifier. Safer to ship overrides under the Three-Strikes Rule if a priority consumer needs kucoin/coinbase POST canonicals first. Discovered 2026-04-21 during Task 66b.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands.",
+      "cross_repo": []
+    },
+    {
+      "id": 128,
+      "phase": 0,
+      "bundle": "10-sign-extend",
+      "status": "blocked",
+      "title": "Multi-hop body alias resolution in pre_sign_transforms body-encoding detector",
+      "scores": {
+        "d": 4,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 0.75,
+      "markers": [],
+      "depends_on": [],
+      "files_to_modify": [
+        "lib/ccxt_extract/sign_recipe/pre_sign_transforms.ex"
+      ],
+      "body": "Task 68's `PreSignTransforms.body_reached_by_crypto?/2` resolves a single alias hop (catches okx `auth += body`, bitfinex `const auth = ... + body`). It does NOT catch multi-hop chains like `payload = body; auth += payload; this.hmac(auth, ...)` or fixed-point fan-in. Scope: extend the tracer to a bounded fixed-point — visit each crypto-arg identifier, expand its 1-hop set, recurse, with a max-depth guard (3–4) and a visited-set for cycles. Honest non-convergence leaves the field empty. Don't conflate with Task 66h (canonical_string concat-chain resolution) — they share the alias-hop primitive but target different consumer fields. Discovered 2026-04-26 during Task 68 staged-review. TODO reference at `lib/ccxt_extract/sign_recipe/pre_sign_transforms.ex` (comment block on `body_reached_by_crypto?/2`).\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands.",
+      "cross_repo": []
+    },
+    {
+      "id": 126,
+      "phase": 0,
+      "bundle": "sibling-emit",
+      "status": "blocked",
+      "title": "Secondary OpenAPI 3.1 emitter for REST exchanges",
+      "scores": {
+        "d": 6,
+        "b": 7,
+        "u": 5
+      },
+      "eff": 1.0,
+      "markers": [],
+      "depends_on": [
+        121
+      ],
+      "body": "Emit a sibling `priv/output/<id>.openapi.json` (OpenAPI 3.1) alongside the core `<id>.json` for every REST exchange. A new emitter (conceptually `CcxtExtract.OpenApi`) projects already-extracted data — `url_templates` → servers + paths, `describe.api` verb families → operations, Task 121 descriptors → parameters/requestBody/responses, `@throws` → response error codes, `handle_errors` → `x-ccxt-error-routes`. Exchange-specific concerns land in namespaced extensions (`x-ccxt-sign` as a reference, `x-ccxt-rate-limit`, `x-ccxt-sandbox-servers`, `x-ccxt-nonce`). Non-goals: don't replace the core schema, don't duplicate payloads (emit references), don't fabricate response schemas. Verify via `openapi-generator validate` + Swagger Editor round-trip; the Mix task fails the emit on invalid output. This is the primary companion-artifact emitter; shared emitter infrastructure lands here first. Discovered 2026-04-23 during a scope conversation.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands.",
+      "cross_repo": []
+    },
+    {
+      "id": 125,
+      "phase": 0,
+      "bundle": "sibling-emit",
+      "status": "blocked",
+      "title": "Secondary OpenRPC emitter for JSON-RPC exchanges (Deribit first)",
+      "scores": {
+        "d": 3,
+        "b": 3,
+        "u": 2
+      },
+      "eff": 0.83,
+      "markers": [],
+      "depends_on": [
+        126
+      ],
+      "body": "Emit an OpenRPC 1.3 document alongside `priv/output/<id>.json` only for exchanges whose transport is JSON-RPC 2.0 (Deribit is canonical; likely ≤3 exchanges). Reuse Task 126's shared emitter scaffolding: unified method names → `methods[]`, Task 121 TS-signature params → `params[].schema`, `@throws` → `errors[]`, parse-method shape → `result.schema`. Gate on an `openrpc_eligible` classifier from `runtime.describe` evidence, not a hardcoded allowlist. Non-goals: don't shoehorn REST exchanges into OpenRPC, don't replace the core schema. U:2 reflects structural reach, not a demand claim — the JSON-RPC transport constraint makes this inapplicable to the REST majority regardless of consumer interest. Discovered 2026-04-23 during a scope conversation.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands.",
+      "cross_repo": []
+    },
+    {
+      "id": 119,
+      "phase": 0,
+      "bundle": "scope-hygiene",
+      "status": "pending",
+      "title": "mix ccxt_extract.prune — evict out-of-scope local state",
+      "scores": {
+        "d": 4,
+        "b": 5,
+        "u": 4
+      },
+      "eff": 1.13,
+      "markers": [],
+      "depends_on": [],
+      "body": "`AggregateWriter.merge/2` is intentionally additive so scoped runs accumulate — which means `priv/discoveries/` per-exchange subdirs and envelope aggregates drift out of sync with the declared scope (e.g. `priv/output/` held 23 priority files while `describe/` held 107). Everything except `class_hierarchy.json` is gitignored, so the safety rail never fires. Scope: a new mix task accepting the same `--tier*/--all/--exchange ID` / `Paths.out(...)` plumbing, computing the in-scope ID set via `Tiers.members_for_tier/1` + class_hierarchy, deleting out-of-scope per-exchange files in all `priv/discoveries/<subdir>/` (plus matching `priv/output/<id>.json`), then re-aggregating every envelope file from only the surviving in-scope files — never touch `class_hierarchy.json`. Honor `:priv_write_override`. `--dry-run` by default, `--force` to actually delete. Success: post-run ID sets in `priv/discoveries/describe/`, `priv/output/`, and envelope `by_exchange_id` stamps all match. Discovered 2026-04-20 from a scope-drift report.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 120,
+      "phase": 0,
+      "bundle": "scope-hygiene",
+      "status": "pending",
+      "title": "Tier-scope-aware skip for authenticated_sections + sign_recipe cached tests",
+      "scores": {
+        "d": 3,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 1.0,
+      "markers": [],
+      "depends_on": [],
+      "body": "Two tests paper over scope drift with blunt skips: (a) `authenticated_sections_integration_test.exs` returns `[]` unconditionally for any override whose `priv/output/<id>.json` is absent, losing regression detection on full-universe runs; (b) `sign_recipe_cached_test.exs` uses `@tag :tier3_corpus` + default-exclude to bypass bitget. Replace both with a scope-aware helper that reads `_manifest.json`'s `tier_scope`, resolves it via `Tiers.members_for_tier/1` + `class_hierarchy.json`, and only skips when the target exchange is honestly out of scope. Drop the `:tier3_corpus` exclusion and `@tag` once the helper lands. Discovered 2026-04-20 during Task 117 code review.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 121,
+      "phase": 0,
+      "bundle": "method-descriptors",
+      "status": "pending",
+      "title": "Extract unified-method descriptors from CCXT TS — TS signature + JSDoc overlay",
+      "scores": {
+        "d": 6,
+        "b": 7,
+        "u": 8
+      },
+      "eff": 1.25,
+      "markers": [],
+      "depends_on": [],
+      "body": "CCXT's unified methods carry two complementary axes: (a) the TS method signature — ordered `.value.params` with name, TS type, optional flag, default value, plus return type — the structural source of truth; (b) a leading JSDoc block adding per-param prose, `@throws {ErrorClass}` entries, `@returns` shape — the semantic overlay. Both halves matter; don't ship JSDoc alone. Extract both via an OXC pass over method definitions and emit a unified-method descriptor per method so each downstream client maps it to its own arg-shape convention — do NOT encode any single consumer's arg-shape in the descriptor. The TS-signature half is mechanical; the JSDoc half is the unknown — verify whether OXC surfaces JSDoc through `leadingComments`, a program-level comments array, or needs a second pass; QuickBEAM over the TS source is the fallback. Also emit `descriptor.source` — the byte-for-byte method body slice via OXC `.start`/`.end` offsets (provenance `raw`, just the method body, no normalization) so the descriptor becomes self-verifying. Provenance: both halves `raw`. Partial descriptors are honest (missing JSDoc → `description: null`, `errors: null` + `unresolved_reason`). Emission shape left to the implementer. Discovered 2026-04-21 during a descripex surface audit. ([Opus] model-hint marker from the legacy ROADMAP dropped — retired-era convention.)\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": [
+        {
+          "repo": "ccxt_client",
+          "task_id": 109,
+          "linear_id": null,
+          "relation": "blocks"
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "phase": 0,
+      "bundle": "method-descriptors",
+      "status": "pending",
+      "title": "Schema block + unified_method_descriptors_shape_valid contract-test invariant",
+      "scores": {
+        "d": 3,
+        "b": 4,
+        "u": 5
+      },
+      "eff": 1.5,
+      "markers": [],
+      "depends_on": [
+        121
+      ],
+      "body": "Depends on 121. Add the chosen emission shape to the JSON Schema file (additive minor-version bump, not breaking, unless the implementer intentionally promotes to required), add a shape invariant mirroring `testnet_urls_shape_valid`'s structure, and extend `CcxtExtract.Provenance.section_pointers/0` so `provenance_covers_schema` stays at zero findings. Update SCHEMA.md with a field reference and the descriptor value space (what `params` looks like, how `errors` is scoped, when fields are null + reason).\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 139,
+      "phase": 0,
+      "bundle": "docs-drift",
+      "status": "pending",
+      "title": "Reconcile AGENTS.md cloud-agent guidance with retired [CSR]/[CX] strategy",
+      "scores": {
+        "d": 2,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 1.5,
+      "markers": [],
+      "depends_on": [],
+      "body": "Renumbered from legacy ROADMAP Task 132 (audit-surfaced copy) at migration to resolve the duplicate-ID collision with the Phase 13 Task 132. `AGENTS.md` (generated from `~/.claude/includes/*.md` per the bundled-include workflow) ships ~15 references to cloud-agent flows (`[CSR]`, `[CX]`, \"Cursor Delegation Flow\", \"Push-Back-vs-Fix-Locally Matrix\") that contradict ROADMAP § Notes (\"cloud-agent delegation retired\"). Generator-side fix: either (a) drop the `linear-workflow.md` + `delegation-rules.md` includes from this repo's bundle, (b) regenerate from a slimmer include set, or (c) add a top-of-file callout that cloud-agent sections are reference-only here. Discovered 2026-05-09 by staged-review:audit-review on commit 28166a2 (Codex C3).\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 140,
+      "phase": 0,
+      "bundle": "test-coverage",
+      "status": "pending",
+      "title": "Add pipeline-level integration tests for endpoint_cost_binding propagation",
+      "scores": {
+        "d": 3,
+        "b": 4,
+        "u": 4
+      },
+      "eff": 1.33,
+      "markers": [],
+      "depends_on": [],
+      "body": "Renumbered from legacy ROADMAP Task 133 (audit-surfaced copy) at migration to resolve the duplicate-ID collision with the Phase 13 Task 133. Task 90 shipped unit-level coverage on `RateLimitCostBinding.derive/1`. Pipeline-level gap: end-to-end propagation through `Pipeline.build_exchange_data/3` → `Schema.build_exchange_v3/v4` → `priv/output/<id>.json` is only validated implicitly via `cached_test` suites. Add 3 focused tests against synthetic `rate_limit_buckets` fixtures: (a) wrapper with valid first bucket → both v3 and v4 `endpoint_cost_binding` populated identically; (b) wrapper with `unresolved_reason != nil` → both paths emit null; (c) wrapper missing entirely → parent fallback emits null without raising. Lives in `test/ccxt_extract/pipeline_test.exs`. Discovered 2026-05-09 by staged-review:audit-review on commit 28166a2 (Codex C5).\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 138,
+      "phase": 0,
+      "bundle": "det-contract",
+      "status": "pending",
+      "title": "Extract JsonIO.write_json!/2,3 + a deterministic_write contract invariant",
+      "scores": {
+        "d": 4,
+        "b": 4,
+        "u": 3
+      },
+      "eff": 0.88,
+      "markers": [],
+      "depends_on": [],
+      "files_to_modify": [
+        "lib/ccxt_extract/json_io.ex",
+        "lib/ccxt_extract/contract_test.ex"
+      ],
+      "body": "Commit f3ea824 (Task 114) spread the deterministic-emit pattern `File.write!(path, Jason.encode!(AstNormalize.to_encodable(x), pretty: true))` across 15 executable write sites in `lib/` (`exchanges`, `aggregate_writer`, `describe` ×2, `signing_fixtures` ×2, `discovery_writer`, `load_markets` ×2, `base_methods`, `public_exchanges`, `pipeline` ×2, `error_class_hierarchy`, `mix/tasks/ccxt_extract.setup`). `CcxtExtract.JsonIO` already owns the read side (`read_json/1,!`). Scope: add `JsonIO.write_json!/2,3` wrapping `to_encodable` + `Jason.encode!` + `File.write!`, migrate the 15 sites, and add a `deterministic_write` corpus-level invariant to `mix ccxt_extract.contract_test` (mirroring `paths_rw_split`'s `Reach.Project.taint_analysis/2` shape) that fails when a `lib/` write site emits JSON without routing through the helper — so the determinism-emit contract has a single enforcement point and a new write site can't silently break byte-determinism. Discovered 2026-05-14 by staged-review:audit-review on commit f3ea824 — Claude + Codex convergent: both independently resolved \"file as ROADMAP follow-up\" (good abstraction, but corpus-invariant-scale work, not an audit-commit splat). See `.audit/f3ea824-task-114-determinism-audit.md`.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": "66c",
+      "phase": 0,
+      "bundle": "10-exotic",
+      "status": "blocked",
+      "title": "Canonical string recipe — JWT / RSA / Ed25519 family",
+      "scores": {
+        "d": 5,
+        "b": 4,
+        "u": 3
+      },
+      "eff": 0.7,
+      "markers": [],
+      "depends_on": [],
+      "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nCanonical-string recipe derivation for the JWT / RSA / Ed25519 signing family. No Tier 1/2/DEX exchange uses these signing schemes today.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "No Tier 1/2/DEX exchange uses JWT/RSA/Ed25519 signing schemes; revisit if the priority list expands.",
+      "cross_repo": []
+    },
+    {
+      "id": "66d",
+      "phase": 0,
+      "bundle": "10-exotic",
+      "status": "blocked",
+      "title": "Canonical string recipe — custom / outlier family",
+      "scores": {
+        "d": 5,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 0.6,
+      "markers": [],
+      "depends_on": [],
+      "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nCanonical-string recipe derivation for the custom / outlier signing family. Tail-only — per the Three-Strikes Rule this belongs in overrides once a priority exchange surfaces a concrete need.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "Tail-only; per the Three-Strikes Rule, migrate to overrides when a priority exchange needs custom signing.",
+      "cross_repo": []
+    },
+    {
+      "id": 24,
+      "phase": 0,
+      "bundle": "superseded",
+      "status": "blocked",
+      "title": "Parity.Compare for richer diffs",
+      "scores": {
+        "d": 3,
+        "b": 3,
+        "u": 2
+      },
+      "eff": 0.83,
+      "markers": [],
+      "depends_on": [],
+      "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nParity.Compare for richer extraction diffs. Deferred: adds a sibling-project path dependency. Improve diffs inline if a concrete need surfaces.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "Adds a sibling-project path dependency; improve diffs inline if needed.",
+      "cross_repo": []
+    },
+    {
+      "id": 36,
+      "phase": 0,
+      "bundle": "superseded",
+      "status": "blocked",
+      "title": "Schema migration framework",
+      "scores": {
+        "d": 6,
+        "b": 4,
+        "u": 3
+      },
+      "eff": 0.58,
+      "markers": [],
+      "depends_on": [],
+      "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nA general schema migration framework. Still premature — the Schema 2.0.0 bump from Task 61c was a one-time event, not ongoing migration tooling. Build when a real v3.0 need emerges with concrete requirements.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "Still premature; build when a real v3.0 need emerges with concrete requirements. (Schema 2.0.0 from Task 61c is a one-time bump, not ongoing migration tooling.)",
+      "cross_repo": []
+    },
+    {
+      "id": "rate-limit-headers",
+      "phase": 0,
+      "bundle": "superseded",
+      "status": "blocked",
+      "title": "Rate-limit header extraction",
+      "scores": {
+        "d": 7,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 0.43,
+      "markers": [],
+      "depends_on": [],
+      "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nExtract per-exchange rate-limit response headers. Confirmed not observable from static analysis or resolved `describe()` — these are response behaviors scattered across handler code. The unnumbered legacy ROADMAP entry is given the string id `rate-limit-headers` at migration (rmap requires an id).\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "Confirmed not observable from static analysis or describe() — headers are response behavior scattered across handler code. Consumer-side heuristics stay (ccxt_client Task 50). Revisit only if a simpler observation method surfaces.",
+      "cross_repo": []
+    },
+    {
+      "id": "57c",
+      "phase": 8,
+      "bundle": "9-pipeline-follow-up",
+      "status": "pending",
+      "title": "unified_endpoints/has drift triage — Pattern C honest fix",
+      "scores": {
+        "d": 3,
+        "b": 5,
+        "u": 5
+      },
+      "eff": 1.67,
+      "markers": [],
+      "depends_on": [],
+      "body": "Pattern A/B fixed (341 → 53 findings). Provenance now lands (Task 61a, 2026-04-17) so the honest Pattern C fix is unblocked — tag `has`-confirmed entries as `\"derived\"` at the provenance tier rather than silently filtering. Still deferred until a Tier 1/2/DEX exchange surfaces a Pattern C failure. The legacy ROADMAP listed this task twice (Phase 8 row + a \"Next Up\" preview row) — the preview was a view; rmap's FOCUS block replaces it, so this is a single row.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 62,
+      "phase": 9,
+      "bundle": "9-audit",
+      "status": "pending",
+      "title": "mix ccxt_extract.validate_overrides",
+      "scores": {
+        "d": 4,
+        "b": 7,
+        "u": 7
+      },
+      "eff": 1.75,
+      "markers": [],
+      "depends_on": [],
+      "body": "Cross-check each override against runtime behavior where a probe exists (URL override vs runtime `url_templates`; signing override vs live sign() probe). Emit a per-exchange report: verified vs unverified-with-reason.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 63,
+      "phase": 9,
+      "bundle": "9-audit",
+      "status": "pending",
+      "title": "mix ccxt_extract.drift_audit",
+      "scores": {
+        "d": 5,
+        "b": 7,
+        "u": 6
+      },
+      "eff": 1.3,
+      "markers": [],
+      "depends_on": [],
+      "body": "Compare current derivation + overrides against the last-released output. Flags: (a) overrides whose underlying raw data changed (stale override), (b) derived fields that flipped value or disappeared, (c) new raw fields not yet derived. Report only; humans decide.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 104,
+      "phase": 9,
+      "bundle": "9-pipeline",
+      "status": "pending",
+      "title": "Array-index JSON Pointers in OverrideRegistry",
+      "scores": {
+        "d": 2,
+        "b": 3,
+        "u": 2
+      },
+      "eff": 1.25,
+      "markers": [],
+      "depends_on": [],
+      "body": "Extend `pointer_to_keys/1` to emit `Access.at/1` for numeric segments so paths like `/structure/sign_method/params/0/name` resolve to deep list elements. Currently raises loudly with a TODO marker — fine while every shipped override file uses shallow string-key pointers. Unblock when a real override file needs `/path/0/...`.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": "73f",
+      "phase": 11,
+      "bundle": "11-shape",
+      "status": "pending",
+      "title": "Extend transaction_classification to non-unified raw broadcast endpoints",
+      "scores": {
+        "d": 5,
+        "b": 7,
+        "u": 7
+      },
+      "eff": 1.4,
+      "markers": [],
+      "depends_on": [],
+      "body": "Task 73d shipped a name-only classifier over CCXT's unified-method namespace; consumers correctly cannot trust `on_chain == false` (or absence) as a safety gate because non-unified raw paths bypass the convention. Coverage gap: DEX flows exposing blockchain transactions via helpers like `signL1Action` / `signEIP712`, implicit-API paths like `public_post_sendtx` / `sendTxBatch`, and sign-method bodies that construct a signed-payload-then-broadcast shape. Approach: an OXC pass over sign-method and exchange-method bodies looking for (a) known signed-payload helpers, (b) web3 / EIP-712 typed-data builders, (c) `sendTx` / `sendTxBatch` patterns, (d) DEX-specific signing imports (`@noble/curves`, `ethers`, `starknet`). Promote endpoints into `transaction_classification` with `on_chain: true` + `transactional: true`. Closes the security-gating gap from Task 73d. Filed 2026-05-08 from PR #9 review (INE-64).\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": [
+        {
+          "repo": "ccxt_client",
+          "task_id": 117,
+          "linear_id": null,
+          "relation": "blocks"
+        }
+      ]
+    },
+    {
+      "id": "73e",
+      "phase": 11,
+      "bundle": "11+14",
+      "status": "pending",
+      "title": "OXC-side extractor for sign-method-constructed User-Agent and runtime header mutations",
+      "scores": {
+        "d": 5,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 0.6,
+      "markers": [],
+      "depends_on": [],
+      "body": "Captures two QuickBEAM blind spots Task 73b can't reach because the values aren't in resolved `describe()`: (1) `bigone.ts` constructs `User-Agent` inside sign() as `'ccxt/' + this.id + '-' + this.version`; (2) `okx.ts` mutates `this.headers` at runtime via `setSandboxMode(true)` to inject `x-simulated-trading: 1`. Both need an OXC pass over sign-method bodies to detect (a) string-concat assignments to a `headers['User-Agent']` LHS, (b) `setSandboxMode`-equivalent runtime mutations on `this.headers`. Output would extend `runtime.request_headers` (or a sibling) with sign-time / sandbox-time variants. Score is low — affects 2 known exchanges, low consumer impact, high OXC complexity. File but defer until a priority consumer surfaces a concrete need. Discovered 2026-05-07 during Task 73b.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": "78c",
+      "phase": 12,
+      "bundle": "12-simple",
+      "status": "pending",
+      "title": "parseOHLCV hybrid Array.isArray exchanges (gate, possible binance options-fallback)",
+      "scores": {
+        "d": 5,
+        "b": 4,
+        "u": 4
+      },
+      "eff": 0.8,
+      "markers": [
+        "parallel"
+      ],
+      "depends_on": [],
+      "body": "Non-gating Phase 12 edge case. Adds `array_input`/`object_input` guard kinds + IfStatement-discriminated branches to the parseOHLCV field map for exchanges that branch on `Array.isArray` (gate, possible binance options-fallback). May ship post-v4-cut.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": "78d",
+      "phase": 12,
+      "bundle": "12-simple",
+      "status": "pending",
+      "title": "parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin)",
+      "scores": {
+        "d": 5,
+        "b": 4,
+        "u": 4
+      },
+      "eff": 0.8,
+      "markers": [
+        "parallel"
+      ],
+      "depends_on": [],
+      "body": "Non-gating Phase 12 edge case. Adds `format: \"s\"` (coinbaseexchange `safeTimestamp` s→ms), populates an `extras` list (kraken VWAP-extras), and emits the kucoin timestamp-slot null with a reason (timestamp-length IfStatement heuristic). May ship post-v4-cut.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": "78f",
+      "phase": 12,
+      "bundle": "12-simple",
+      "status": "pending",
+      "title": "parseOHLCV discriminator vocabulary beyond market.inverse",
+      "scores": {
+        "d": 3,
+        "b": 4,
+        "u": 4
+      },
+      "eff": 1.33,
+      "markers": [
+        "parallel"
+      ],
+      "depends_on": [],
+      "body": "Non-gating Phase 12 edge case. Generalize the closed `discriminator` vocab beyond `market.inverse` to cover okx `type === 'spot'` and similar multi-market-type gating — okx's `volumeIndex` test is `(type === 'spot') ? 5 : 6`, currently emits `volume = null` honestly. Ship okx volume populated when fixed. Discovered during Task 78 implementation.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 135,
+      "phase": 12,
+      "bundle": "12-simple",
+      "status": "pending",
+      "title": "ticker.ex normalization-vocab alignment",
+      "scores": {
+        "d": 2,
+        "b": 4,
+        "u": 5
+      },
+      "eff": 2.25,
+      "markers": [],
+      "depends_on": [],
+      "body": "`lib/ccxt_extract/normalization/ticker.ex` still emits `\"no_return_statement\"` from a wildcard fall-through (a misnomer mirroring the bug fixed in `balance.ex`/`market.ex`/`trade.ex` via audits 80cb242 and 1fc712f), AND lacks the `unwrap_ts_as/1` helper that `transaction.ex`/`deposit_address.ex`/`market.ex` ship. Apply the same split-find-from-classify refactor: add `unwrap_ts_as/1`, rename the misnomer to `\"unrecognized_return_shape\"`, add an `identifier_return` clause for bare-Identifier returns, expand the moduledoc vocab + the SCHEMA.md ticker section. Surfaced by Codex during the 1fc712f follow-up audit.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 132,
+      "phase": 13,
+      "bundle": "13-classify-fix",
+      "status": "pending",
+      "title": "Split predicate_kind http_status_in into eq vs range",
+      "scores": {
+        "d": 3,
+        "b": 5,
+        "u": 5
+      },
+      "eff": 1.67,
+      "markers": [],
+      "depends_on": [],
+      "body": "Surfaced during PR #13 review. The current single-bucket lumping of `predicate_kind: \"http_status_in\"` loses information for retry/backoff heuristics — split it into `eq` vs `range`. (Phase 13 Task 132 — keeps its original id; the audit-surfaced legacy Task 132 was renumbered to 139 at migration.)\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 133,
+      "phase": 13,
+      "bundle": "13-classify-safety",
+      "status": "pending",
+      "title": "Explicit error_class_hierarchy content-equality invariant in contract_test",
+      "scores": {
+        "d": 2,
+        "b": 4,
+        "u": 3
+      },
+      "eff": 1.75,
+      "markers": [],
+      "depends_on": [],
+      "body": "Surfaced during PR #13 review. Today only the outer shape of `error_class_hierarchy` is enforced — drift would only be caught by JSV on cosmetic changes. Add an explicit content-equality invariant in `contract_test`. (Phase 13 Task 133 — keeps its original id; the audit-surfaced legacy Task 133 was renumbered to 140 at migration.)\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 134,
+      "phase": 13,
+      "bundle": "13-perf",
+      "status": "pending",
+      "title": "Thread precomputed error_dispatch through http_status_map/1 and retryable_buckets/1",
+      "scores": {
+        "d": 3,
+        "b": 3,
+        "u": 2
+      },
+      "eff": 0.83,
+      "markers": [],
+      "depends_on": [],
+      "body": "Surfaced during PR #13 review. Both helpers re-walk the handle_errors AST when the caller already has the predicate-classified dispatch list — thread the precomputed `error_dispatch` through `http_status_map/1` and `retryable_buckets/1` instead.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 91,
+      "phase": 15,
+      "bundle": "15-msg",
+      "status": "pending",
+      "title": "WS subscribe / unsubscribe message shape per channel",
+      "scores": {
+        "d": 5,
+        "b": 8,
+        "u": 8
+      },
+      "eff": 1.6,
+      "markers": [],
+      "depends_on": [],
+      "body": "Ship both the frame envelope shape AND per-method channel-name templates (e.g. `\"tickers.{symbol}\"`, `\"book.{symbol}.raw\"`). ccxt_client T94 already ports envelope patterns from bak; T97 is blocked on the channel templates specifically.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": [
+        {
+          "repo": "ccxt_client",
+          "task_id": 94,
+          "linear_id": null,
+          "relation": "blocks"
+        },
+        {
+          "repo": "ccxt_client",
+          "task_id": 97,
+          "linear_id": null,
+          "relation": "blocks"
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "phase": 15,
+      "bundle": "15-msg",
+      "status": "pending",
+      "title": "WS auth flow (sign-in msg / header / query param)",
+      "scores": {
+        "d": 4,
+        "b": 7,
+        "u": 8
+      },
+      "eff": 1.88,
+      "markers": [],
+      "depends_on": [],
+      "body": "WS authentication flow per exchange — sign-in message, header, or query param. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 93,
+      "phase": 15,
+      "bundle": "15-msg",
+      "status": "pending",
+      "title": "Heartbeat / ping-pong pattern per exchange",
+      "scores": {
+        "d": 3,
+        "b": 6,
+        "u": 7
+      },
+      "eff": 2.17,
+      "markers": [],
+      "depends_on": [],
+      "body": "Heartbeat / ping-pong pattern per exchange. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 94,
+      "phase": 15,
+      "bundle": "15-dispatch",
+      "status": "pending",
+      "title": "Channel → parse handler dispatch tables",
+      "scores": {
+        "d": 4,
+        "b": 7,
+        "u": 7
+      },
+      "eff": 1.75,
+      "markers": [],
+      "depends_on": [],
+      "body": "WS channel → parse handler dispatch tables. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": "95a",
+      "phase": 15,
+      "bundle": "15-semantics",
+      "status": "pending",
+      "title": "Snapshot/delta semantics — orderbook",
+      "scores": {
+        "d": 5,
+        "b": 8,
+        "u": 8
+      },
+      "eff": 1.6,
+      "markers": [
+        "parallel"
+      ],
+      "depends_on": [],
+      "body": "WS snapshot/delta semantics for the orderbook channel. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": "95b",
+      "phase": 15,
+      "bundle": "15-semantics",
+      "status": "pending",
+      "title": "Snapshot/delta semantics — trades",
+      "scores": {
+        "d": 4,
+        "b": 7,
+        "u": 7
+      },
+      "eff": 1.75,
+      "markers": [
+        "parallel"
+      ],
+      "depends_on": [],
+      "body": "WS snapshot/delta semantics for the trades channel. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": "95c",
+      "phase": 15,
+      "bundle": "15-semantics",
+      "status": "pending",
+      "title": "Snapshot/delta semantics — OHLCV",
+      "scores": {
+        "d": 4,
+        "b": 7,
+        "u": 7
+      },
+      "eff": 1.75,
+      "markers": [
+        "parallel"
+      ],
+      "depends_on": [],
+      "body": "WS snapshot/delta semantics for the OHLCV channel. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": []
+    },
+    {
+      "id": 96,
+      "phase": 15,
+      "bundle": "15-reconnect",
+      "status": "blocked",
+      "title": "Reconnect triggers + backoff policy hints",
+      "scores": {
+        "d": 3,
+        "b": 6,
+        "u": 6
+      },
+      "eff": 2.0,
+      "markers": [],
+      "depends_on": [],
+      "body": "WS reconnect triggers + backoff policy hints. Deferred — priority exchanges already handle reconnect behavior in the consumer; no derived recipe needed until a concrete need is proven.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "Priority exchanges already handle reconnect behavior in the consumer; no derived recipe needed until proven.",
+      "cross_repo": []
+    },
+    {
+      "id": 97,
+      "phase": 16,
+      "bundle": "16-currency",
+      "status": "pending",
+      "title": "Currency aliases (commonCurrencies) + network info",
+      "scores": {
+        "d": 3,
+        "b": 7,
+        "u": 8
+      },
+      "eff": 2.5,
+      "markers": [],
+      "depends_on": [],
+      "body": "Currency aliases (`commonCurrencies`) + network info per exchange.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": [
+        {
+          "repo": "ccxt_client",
+          "task_id": 60,
+          "linear_id": null,
+          "relation": "blocks"
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "phase": 16,
+      "bundle": "16-currency",
+      "status": "pending",
+      "title": "Precision mode + tick/step derivation semantics",
+      "scores": {
+        "d": 3,
+        "b": 6,
+        "u": 7
+      },
+      "eff": 2.17,
+      "markers": [],
+      "depends_on": [],
+      "body": "Precision mode + tick/step derivation semantics per exchange.\n",
+      "scored_at": "2026-05-14",
+      "cross_repo": [
+        {
+          "repo": "ccxt_client",
+          "task_id": 60,
+          "linear_id": null,
+          "relation": "blocks"
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "phase": 16,
+      "bundle": "16-fees",
+      "status": "blocked",
+      "title": "Tiered fee schedules + VIP level mapping",
+      "scores": {
+        "d": 4,
+        "b": 4,
+        "u": 3
+      },
+      "eff": 0.88,
+      "markers": [],
+      "depends_on": [],
+      "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nTiered fee schedules + VIP level mapping per exchange. Deferred — not required by priority consumers.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "Tiered fee schedules not required by priority consumers.",
+      "cross_repo": []
+    },
+    {
+      "id": "99b",
+      "phase": 16,
+      "bundle": "16-fees",
+      "status": "blocked",
+      "title": "Funding / withdrawal / deposit fee catalog",
+      "scores": {
+        "d": 4,
+        "b": 4,
+        "u": 3
+      },
+      "eff": 0.88,
+      "markers": [],
+      "depends_on": [],
+      "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nFunding / withdrawal / deposit fee catalog per exchange. Deferred — not required by priority consumers.\n",
+      "scored_at": "2026-05-14",
+      "blocked_reason": "Withdrawal/deposit fees not required by priority consumers.",
+      "cross_repo": []
+    }
+  ]
+}

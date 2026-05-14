@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-`ccxt_extract` is an Elixir library that serializes everything the CCXT JS library knows about 110+ cryptocurrency exchanges into language-agnostic JSON, so consumers in any language (Elixir, Rust, Go, Python) can call exchanges without walking AST. See [README.md](README.md) for user-facing setup and [ROADMAP.md](ROADMAP.md) for the active work plan.
+`ccxt_extract` is an Elixir library that serializes everything the CCXT JS library knows about 110+ cryptocurrency exchanges into language-agnostic JSON, so consumers in any language (Elixir, Rust, Go, Python) can call exchanges without walking AST. See [README.md](README.md) for user-facing setup and [ROADMAP.md](ROADMAP.md) for the active work plan — `ROADMAP.md` is **generated** by `rmap` (the roadmap CLI) from `roadmap/tasks.toml`; edit the TOML, not the Markdown (see § Documentation invariants).
 
 ## Standard imports
 
@@ -206,7 +206,7 @@ mix sobelow --mark-skip-all        # re-mark skips after a scan
 
 Every task must update docs in lockstep with code — a task is incomplete until:
 
-1. **[ROADMAP.md](ROADMAP.md)** — task status flipped (`⬜` → `✅`), phase summary and "Current Focus" refreshed.
+1. **[roadmap/tasks.toml](roadmap/tasks.toml)** — the typed source of truth for the roadmap. Flip task status with `rmap status <id> <state>` (or hand-edit the TOML), then `rmap render` regenerates `ROADMAP.md` + `roadmap/data.json`. **Do not hand-edit `ROADMAP.md`** — it is a generated view; `rmap` recomputes the focus block and Eff glyphs, so there is no separate "phase summary / Current Focus" sync step. `rmap validate --check-render` gates drift.
 2. **[CHANGELOG.md](CHANGELOG.md)** — `## [Unreleased]` entry with what shipped and key decisions.
 3. **[CLAUDE.md](CLAUDE.md)** — if architecture, conventions, or invariants moved.
 4. **[SCHEMA.md](SCHEMA.md)** — if the emitted JSON shape changed (bump the schema version on breaking changes).

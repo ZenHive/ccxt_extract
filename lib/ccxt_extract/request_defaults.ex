@@ -56,9 +56,10 @@ defmodule CcxtExtract.RequestDefaults do
       shipped body when a later reassignment invisibly replaces it
       (ndax.signIn is the canonical case).
 
-  The Three-Strikes escalation note at ROADMAP.md:218 anticipates that if
-  the derivation is patched three times for richer shapes, we migrate to a
-  bounded mechanics-AST subtree rather than stretching the walker further.
+  The "Three-Strikes escalation for Task 73c" note in ROADMAP.md (Phase 11
+  section) anticipates that if the derivation is patched three times for
+  richer shapes, we migrate to a bounded mechanics-AST subtree rather than
+  stretching the walker further.
 
   ## Usage
 

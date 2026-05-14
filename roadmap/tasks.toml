@@ -289,6 +289,20 @@ body = """
 `mix ccxt_extract.determinism_check` currently strips volatile timestamp keys before comparison because Pattern B writers stamp `DateTime.utc_now()` at write time. The strip-keys list is a workaround — the gate can't catch a regression landing inside a stamped-timestamp envelope. Scope: thread an optional `:extracted_at` (and siblings) through the Pattern B aggregate writers — `AggregateWriter` and per-extractor envelope builders — so the determinism harness (or a `--frozen-clock` flag) can pass a fixed timestamp; default stays wall-clock. Then `determinism_check` passes a frozen clock instead of stripping keys. Discovered 2026-05-14 during Task 114 (Phase 3b).
 """
 
+[[task]]
+id = 141
+phase = 0
+bundle = "maintenance"
+status = "pending"
+title = "Backfill acceptance_criteria + decide on rmap doctor as a roadmap-health gate"
+scores = { d = 3, b = 3, u = 3 }
+scored_at = "2026-05-14"
+body = """
+PROPOSED SCORES — audit-surfaced follow-up; the audit can't speculate on user-side cost/value. Confirm or adjust.
+
+`rmap doctor` (advisory, not the documented `rmap validate --check-render` gate) flags 10 roadmap-health warnings against `roadmap/tasks.toml`: nine D≥5/B≥8 tasks (127, 121, 63, 73f, 73e, 78c, 78d, 91, 95a) lack an `acceptance_criteria` field, and bundle `12-simple` is "degenerate" (covers all 4 open Phase 12 tasks). Both predate the rmap migration — the source `ROADMAP.md` had no structured acceptance criteria, and `12-simple` is deliberately described as "the non-gating Phase 12 remainder". Scope: (a) decide whether to adopt `rmap doctor` as a roadmap-health gate alongside `rmap validate --check-render`; (b) if so, author `acceptance_criteria` for the 9 flagged tasks; (c) decide whether `12-simple` stays as-is (degenerate-by-construction is acceptable for a phase remainder) or gets reconsidered. Filed by audit-review on 2026-05-14 against commit 2f2b342; Claude + Codex convergent — both independently resolved "file a single follow-up, don't auto-author in the audit commit" (rmap doctor is advisory; authoring criteria is new editorial work, not audit hygiene). See `.audit/2f2b342-roadmap-migrate-to-rmap.md`.
+"""
+
 # ── Phase 0 · bundle 10-sign-extend (all blocked — scope-creep audit) ──────
 
 [[task]]

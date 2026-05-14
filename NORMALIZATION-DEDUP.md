@@ -19,8 +19,11 @@ classifier — and if so, scope the refactor.
    `deposit_address.ex`, `transaction.ex`) appear in the same ExDNA clusters but
    were not read line-by-line — read them during the refactor itself.
 
-`ohlcv.ex` and `response_envelopes.ex` are **not** in the clone clusters — treat
-them as outside this family.
+`response_envelopes.ex` is **not** in the clone clusters — treat it as outside
+this family. `ohlcv.ex` appears in exactly one family-wide clone (a mass-32 block
+common to all 9 `normalization/` modules) but in none of the pairwise
+order/trade/position clusters — its family membership is marginal; confirm during
+the refactor whether it joins the shared engine or stays standalone.
 
 ## Reach results
 
@@ -55,7 +58,7 @@ are byte-identical across `order` / `trade` / `position`
 `lookup_binding/2`, `unresolved/1`, …). But the divergence is **not** purely
 vocab. Three buckets:
 
-### Bucket A — legitimate parameterization axes (3)
+### Bucket A — legitimate parameterization axes (4)
 
 These are real per-type data, and the shared engine must take them as parameters:
 
@@ -101,7 +104,7 @@ each to be either justified-and-kept or recognized-as-a-bug-and-fixed:
 
 ## Recommended refactor shape
 
-A `use`-macro engine, **not** a `@behaviour** (no public contract to formalize):
+A `use`-macro engine, **not** a `@behaviour` (no public contract to formalize):
 
 ```
 CcxtExtract.Normalization.Classifier   # the shared engine

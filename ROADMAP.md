@@ -124,6 +124,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task 127 | ⬜ | 🎁 **maintenance** · Position-aware paths_rw_split sinks + variable-level sanitization [D:5/B:3/U:3 → Eff:0.6] ⚠️ |
 | Task 136 | ⬜ | 🎁 **maintenance** · Re-track priv/output/ now that extraction is byte-deterministic [D:3/B:4/U:5 → Eff:1.5] 🚀 |
 | Task 137 | ⬜ | 🎁 **maintenance** · Retrofit Pattern B timestamp writers to accept an :extracted_at opt [D:4/B:3/U:3 → Eff:0.75] ⚠️ |
+| Task 141 | ⬜ | 🎁 **maintenance** · Backfill acceptance_criteria + decide on rmap doctor as a roadmap-health gate [D:3/B:3/U:3 → Eff:1.0] 📋 |
 | Task 113 | 🔶 | 🎁 **10-sign-extend** · Track indirect signature placement via request-like object construction [D:4/B:3/U:3 → Eff:0.75] ⚠️ |
 | Task 66e | 🔶 | 🎁 **10-sign-extend** · Expand canonical_string component vocabulary [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 66f | 🔶 | 🎁 **10-sign-extend** · Key-format disambiguation for Binance/Bybit HMAC branches [D:5/B:6/U:6 → Eff:1.2] 📋 |

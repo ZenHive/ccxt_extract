@@ -46,6 +46,7 @@ defmodule CcxtExtract.Normalization do
   alias CcxtExtract.Normalization.OHLCV
   alias CcxtExtract.Normalization.Order
   alias CcxtExtract.Normalization.Position
+  alias CcxtExtract.Normalization.ResponseEnvelopes
   alias CcxtExtract.Normalization.Ticker
   alias CcxtExtract.Normalization.Trade
   alias CcxtExtract.Normalization.Transaction
@@ -64,20 +65,40 @@ defmodule CcxtExtract.Normalization do
         }
 
   @doc """
-  Build the full `normalization` block from a `parse_methods.json`
-  per-exchange entry (or `nil` for exchanges without one).
+  Build the full `normalization` block from per-exchange discovery entries.
+
+  `parse_methods_entry` is the per-exchange entry from `parse_methods.json`
+  (carries `parse_dispatch` and `parse_methods`). `fetch_methods_entry` is
+  the per-exchange entry from `fetch_methods.json` (carries `fetch_methods`
+  body ASTs). Either may be `nil` when the exchange has no override.
 
   Returns a map with three required keys: `parse_methods_digest`
   (compact, AST-free), `field_maps` (stub keyed by parser type),
-  `response_envelopes` (same stub shape).
+  `response_envelopes` (real per-fetcher map, or stub when no parse_dispatch).
   """
-  @spec build(map() | nil, keyword()) :: map()
-  def build(parse_methods_entry, _opts \\ []) do
+  @spec build(map() | nil, map() | nil, keyword()) :: map()
+  def build(parse_methods_entry, fetch_methods_entry, _opts \\ []) do
     %{
       "parse_methods_digest" => digest_from_entry(parse_methods_entry),
       "field_maps" => field_maps_record(parse_methods_entry),
-      "response_envelopes" => stub_record()
+      "response_envelopes" => response_envelopes_record(parse_methods_entry, fetch_methods_entry)
     }
+  end
+
+  @doc """
+  Single-arg shim for callers (mostly tests + the v4 fallback in
+  `Schema.build_exchange_v4/4`) that don't carry a `fetch_methods_entry`.
+  Response envelopes degrade to the `not_yet_derived` stub on this path.
+  """
+  @spec build(map() | nil) :: map()
+  def build(parse_methods_entry), do: build(parse_methods_entry, nil)
+
+  @spec response_envelopes_record(map() | nil, map() | nil) :: stub_record()
+  defp response_envelopes_record(parse_methods_entry, fetch_methods_entry) do
+    case ResponseEnvelopes.derive(parse_methods_entry, fetch_methods_entry) do
+      nil -> stub_record()
+      result -> Map.merge(stub_record(), result)
+    end
   end
 
   @spec field_maps_record(map() | nil) :: stub_record()

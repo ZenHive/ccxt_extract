@@ -265,8 +265,10 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 
 ---
 
-## Phase 12: Response parsing contract ⬜ (v4 schema-freeze gate)
+## Phase 12: Response parsing contract 🔶 (v4 schema-freeze gate ✅ cleared 2026-05-14)
 
+> **Freeze-gate cleared 2026-05-14.** Every normalization-bundle task on the v4 freeze list ships: Task 129 carrier (PR #10/#15), Tasks 74–82 field maps (Phase 12 wave), Task 83a fetcher extractor, Task 83b envelopes. v4 emission is fully populated for the normalization section. The four remaining `⬜` rows below (Tasks 78c, 78d, 78f, 135) are **non-gating edge cases** — parseOHLCV hybrid shapes, scrambled-coercion outliers, multi-market discriminator vocab, and ticker.ex vocab alignment — and may ship post-v4-cut.
+>
 > **Priority note (updated 2026-05-08):** Phase 12 is **promoted** from the prior "deprioritized — unified-only" stance. While only unified-method consumers read normalized response shapes directly, downstream libraries that depend on `ccxt_client` need the normalization surface populated for the v4 schema cut to be useful. Phase 12 ships **in parallel with** the endpoint-invocation critical path (Phases 11/13/14), not after.
 >
 > **NEW prerequisite: Task 129** (`normalization` block carrier) — scaffolds the v4 `normalization` section with `parse_methods_digest` (compact, **NO AST body** — full bodies blow the 128 MB Hex publish cap that Tasks 116/117 cleared) and stub `field_maps` keyed by parser type. Phase 12 Tasks 74–83 populate the field maps on top of this scaffold. Task 129 lands first.
@@ -293,7 +295,7 @@ Per-task scope is a single declarative field (or family) across all exchanges. E
 | Task 81 `[P]` | ✅ | 🎁 **12-txn** · `parseTransaction` (deposit/withdrawal) field map [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 82 `[P]` | ✅ | 🎁 **12-txn** · `parseDepositAddress` field map [D:3/B:6/U:6 → Eff:2.0] 🚀 |
 | Task 83a | ✅ | 🎁 **12-envelope** · Fetcher-method extractor — `CcxtExtract.FetchMethods` + `mix ccxt_extract.fetch_methods` + `priv/discoveries/fetch_methods.json` [D:2/B:5/U:7 → Eff:3.0] 🎯 — see [CHANGELOG.md](CHANGELOG.md#task-83a--fetcher-method-extractor) |
-| Task 83b | ⬜ | 🎁 **12-envelope** · Response envelope derivation — `CcxtExtract.Normalization.ResponseEnvelopes` consuming 83a slice; replaces `stub_record()` in carrier [D:4/B:8/U:8 → Eff:2.0] 🚀 — depends on Task 83a |
+| Task 83b | ✅ | 🎁 **12-envelope** · Response envelope derivation — `CcxtExtract.Normalization.ResponseEnvelopes` consuming 83a slice; replaces `stub_record()` in carrier [D:4/B:8/U:8 → Eff:2.0] 🚀 — see [CHANGELOG.md](CHANGELOG.md#task-83b--response-envelopes-derivation-phase-12-freeze-gate-cleared) |
 | Task 135 | ⬜ | 🎁 **12-simple** · `ticker.ex` normalization-vocab alignment [D:2/B:4/U:5 → Eff:2.25] 🎯 — `lib/ccxt_extract/normalization/ticker.ex:125` still emits `"no_return_statement"` from a wildcard fall-through (misnomer; mirrors the bug fixed in `balance.ex`/`market.ex`/`trade.ex` via audits `80cb242` and `1fc712f`), AND `ticker.ex` lacks the `unwrap_ts_as/1` helper that `transaction.ex`/`deposit_address.ex`/`market.ex` ship. Apply the same split-find-from-classify refactor: add `unwrap_ts_as/1`, rename the misnomer to `"unrecognized_return_shape"`, add an `identifier_return` clause for bare-Identifier returns, expand moduledoc vocab + SCHEMA.md ticker section. Surfaced by Codex during `1fc712f` follow-up audit. |
 
 Type-coercion tables fold into each per-type task (not standalone) — one task covers its type's field map + coercion + enums together so it fits in a session.

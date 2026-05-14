@@ -118,8 +118,11 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
         response_envelopes = normalization["response_envelopes"]
         re_reason = response_envelopes["_unresolved_reason"]
 
-        assert re_reason in [nil, "not_yet_derived"],
-               "response_envelopes._unresolved_reason must be nil or not_yet_derived for #{id}, got #{inspect(re_reason)}"
+        # Task 83b audit F5: closed-vocab includes "no_fetcher_dispatch" for
+        # exchanges whose parse_dispatch contains only non-fetcher entries
+        # (mutators / describe / transfer); the derivation ran and found nothing.
+        assert re_reason in [nil, "not_yet_derived", "no_fetcher_dispatch"],
+               "response_envelopes._unresolved_reason must be one of [nil, not_yet_derived, no_fetcher_dispatch] for #{id}, got #{inspect(re_reason)}"
 
         if id == "binance" do
           # binance's parseTrades is reached from multiple fetchers — the

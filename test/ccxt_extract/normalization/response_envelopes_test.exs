@@ -464,4 +464,239 @@ defmodule CcxtExtract.Normalization.ResponseEnvelopesTest do
       assert result["trade"]["fetchTrades"]["_unresolved_reason"] == "no_safe_value_call"
     end
   end
+
+  # ---------------------------------------------------------------------------
+  # Audit follow-up coverage (F1, F2, F3, F4, F5)
+  # ---------------------------------------------------------------------------
+
+  describe "audit F1 — plural parser names route to their parser-type slot" do
+    test "parseTickers (binance/okx shape) routes to ticker" do
+      stmts = [parse_return("parseTickers", "response")]
+      parse = parse_entry(%{"fetchTickers" => ["parseTickers"]})
+      fetch = fetch_entry("fetchTickers", stmts)
+
+      result = ResponseEnvelopes.derive(parse, fetch)
+
+      assert result["ticker"]["fetchTickers"]["key"] == nil
+    end
+
+    test "parseOHLCVs routes to ohlcv" do
+      stmts = [parse_return("parseOHLCVs", "response")]
+      parse = parse_entry(%{"fetchOHLCV" => ["parseOHLCVs"]})
+      fetch = fetch_entry("fetchOHLCV", stmts)
+
+      result = ResponseEnvelopes.derive(parse, fetch)
+
+      assert result["ohlcv"]["fetchOHLCV"]["key"] == nil
+    end
+
+    test "parseDepositAddresses routes to deposit_address" do
+      stmts = [parse_return("parseDepositAddresses", "response")]
+      parse = parse_entry(%{"fetchDepositAddresses" => ["parseDepositAddresses"]})
+      fetch = fetch_entry("fetchDepositAddresses", stmts)
+
+      result = ResponseEnvelopes.derive(parse, fetch)
+
+      assert result["deposit_address"]["fetchDepositAddresses"]["key"] == nil
+    end
+  end
+
+  describe "audit F2 — inline this.safe*(response, …) as parser arg" do
+    # whitebit#fetchDepositsWithdrawals shape:
+    #   return this.parseTransactions(this.safeList(response, "records", []), ...)
+    test "extracts envelope key from inline safeList in parser arg" do
+      inline_safe_call =
+        this_call("safeList", [
+          identifier("response"),
+          literal("records"),
+          %{"type" => "ArrayExpression", "elements" => []}
+        ])
+
+      return_arg =
+        this_call("parseTransactions", [
+          inline_safe_call,
+          identifier("currency"),
+          identifier("since"),
+          identifier("limit")
+        ])
+
+      stmts = [return_stmt(return_arg)]
+      parse = parse_entry(%{"fetchDepositsWithdrawals" => ["parseTransactions"]})
+      fetch = fetch_entry("fetchDepositsWithdrawals", stmts)
+
+      result = ResponseEnvelopes.derive(parse, fetch)
+
+      entry = result["transaction"]["fetchDepositsWithdrawals"]
+      assert entry["key"] == "records"
+      assert entry["fallback_keys"] == []
+    end
+
+    test "extracts envelope key from inline safeValue in parser arg" do
+      inline_safe_call =
+        this_call("safeValue", [
+          identifier("response"),
+          literal("orderList"),
+          %{"type" => "ArrayExpression", "elements" => []}
+        ])
+
+      return_arg = this_call("parseOrders", [inline_safe_call, identifier("market")])
+      stmts = [return_stmt(return_arg)]
+      parse = parse_entry(%{"fetchOrders" => ["parseOrders"]})
+      fetch = fetch_entry("fetchOrders", stmts)
+
+      result = ResponseEnvelopes.derive(parse, fetch)
+
+      assert result["order"]["fetchOrders"]["key"] == "orderList"
+    end
+  end
+
+  describe "audit F3 — response['k'] / response.k as parser arg" do
+    # bitso#fetchTrades shape: return this.parseTrades(response['payload'], market, …)
+    test "extracts envelope key from response['k'] member access" do
+      member =
+        %{
+          "type" => "MemberExpression",
+          "object" => identifier("response"),
+          "property" => literal("payload"),
+          "computed" => true
+        }
+
+      return_arg =
+        this_call("parseTrades", [member, identifier("market"), identifier("since"), identifier("limit")])
+
+      stmts = [return_stmt(return_arg)]
+      parse = parse_entry(%{"fetchTrades" => ["parseTrades"]})
+      fetch = fetch_entry("fetchTrades", stmts)
+
+      result = ResponseEnvelopes.derive(parse, fetch)
+
+      entry = result["trade"]["fetchTrades"]
+      assert entry["key"] == "payload"
+      assert entry["fallback_keys"] == []
+      assert entry["default"] == nil
+    end
+
+    test "extracts envelope key from response.k (dot-access) member access" do
+      member =
+        %{
+          "type" => "MemberExpression",
+          "object" => identifier("response"),
+          "property" => identifier("data"),
+          "computed" => false
+        }
+
+      return_arg = this_call("parseOrders", [member, identifier("market")])
+      stmts = [return_stmt(return_arg)]
+      parse = parse_entry(%{"fetchOrders" => ["parseOrders"]})
+      fetch = fetch_entry("fetchOrders", stmts)
+
+      result = ResponseEnvelopes.derive(parse, fetch)
+
+      assert result["order"]["fetchOrders"]["key"] == "data"
+    end
+  end
+
+  describe "audit F4 — safeValue2 / safeList2 arity" do
+    # zonda shape: this.safeValue2(response, "ticker", "stats") — 3 args, no default.
+    # Old behavior: "stats" treated as default, fallback_keys = []. Wrong.
+    test "safeValue2 with no default — k2 is fallback, not default" do
+      stmts = [
+        var_decl(
+          "stats",
+          this_call("safeValue2", [
+            identifier("response"),
+            literal("ticker"),
+            literal("stats")
+          ])
+        ),
+        parse_return("parseTicker", "stats")
+      ]
+
+      parse = parse_entry(%{"fetchTicker" => ["parseTicker"]})
+      fetch = fetch_entry("fetchTicker", stmts)
+      result = ResponseEnvelopes.derive(parse, fetch)
+
+      entry = result["ticker"]["fetchTicker"]
+      assert entry["key"] == "ticker"
+      assert entry["fallback_keys"] == ["stats"]
+      assert entry["default"] == nil
+    end
+
+    test "safeList2 with no default — k2 is fallback, not default" do
+      stmts = [
+        var_decl(
+          "rows",
+          this_call("safeList2", [identifier("response"), literal("data"), literal("rows")])
+        ),
+        parse_return("parseTrades", "rows")
+      ]
+
+      parse = parse_entry(%{"fetchTrades" => ["parseTrades"]})
+      fetch = fetch_entry("fetchTrades", stmts)
+      result = ResponseEnvelopes.derive(parse, fetch)
+
+      entry = result["trade"]["fetchTrades"]
+      assert entry["key"] == "data"
+      assert entry["fallback_keys"] == ["rows"]
+      assert entry["default"] == nil
+    end
+
+    test "safeValue2 WITH default — both fallback and default extracted" do
+      # safeValue2(response, "k1", "k2", []) — 4 args, default supplied.
+      stmts = [
+        var_decl(
+          "data",
+          this_call("safeValue2", [
+            identifier("response"),
+            literal("k1"),
+            literal("k2"),
+            %{"type" => "ArrayExpression", "elements" => []}
+          ])
+        ),
+        parse_return("parseOrders", "data")
+      ]
+
+      parse = parse_entry(%{"fetchOrders" => ["parseOrders"]})
+      fetch = fetch_entry("fetchOrders", stmts)
+      result = ResponseEnvelopes.derive(parse, fetch)
+
+      entry = result["order"]["fetchOrders"]
+      assert entry["key"] == "k1"
+      assert entry["fallback_keys"] == ["k2"]
+      assert entry["default"] == []
+    end
+  end
+
+  describe "audit F5 — top-level _unresolved_reason when no fetcher dispatchers" do
+    test "no_fetcher_dispatch when parse_dispatch has only mutators / non-fetchers" do
+      parse =
+        parse_entry(%{
+          "createOrder" => ["parseOrder"],
+          "transfer" => ["parseTransfer"],
+          "describe" => []
+        })
+
+      result = ResponseEnvelopes.derive(parse, nil)
+
+      assert result["_unresolved_reason"] == "no_fetcher_dispatch"
+      # All parser-type slots are nil.
+      for type <- ~w(ticker trade ohlcv order position balance market transaction deposit_address) do
+        assert result[type] == nil, "expected #{type} to be nil"
+      end
+    end
+
+    test "top-level reason stays nil when at least one fetcher dispatches" do
+      parse =
+        parse_entry(%{
+          "createOrder" => ["parseOrder"],
+          "fetchTrades" => ["parseTrades"]
+        })
+
+      fetch = fetch_entry("fetchTrades", [parse_return("parseTrades", "response")])
+      result = ResponseEnvelopes.derive(parse, fetch)
+
+      assert result["_unresolved_reason"] == nil
+      assert is_map(result["trade"])
+    end
+  end
 end

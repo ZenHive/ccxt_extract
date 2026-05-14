@@ -49,8 +49,17 @@ defmodule CcxtExtract.Normalization.ResponseEnvelopes do
     call against `response`.
   - `"non_literal_key"` — first arg to `safeValue`/`safeList` is a variable
     (not a string literal); key is not statically derivable.
-  - `"nested_response_unwrap"` — first arg is a sub-property of `response`
-    (multi-level unwrap); key is recorded but not fully resolved at this tier.
+  - `"nested_response_unwrap"` — first arg to a binding's `safeValue`/`safeList`
+    is a sub-property of `response` (e.g. `safeList(response.payload, "rows", …)`);
+    multi-level unwrap is not statically resolved at this tier. Direct
+    member-access returns (`return this.parseTrades(response.payload, …)`)
+    DO resolve the property as the envelope key — see Task 83b audit F3.
+
+  Top-level `_unresolved_reason` carries the same closed vocab plus:
+
+  - `"no_fetcher_dispatch"` — `parse_dispatch` has entries but none are
+    fetcher names (only mutators like `createOrder` / `transfer` / `describe`),
+    so every parser-type slot is `nil`. The derivation ran and found nothing.
   """
 
   # The CCXT methods we recognise as response-unwrap calls.
@@ -59,16 +68,20 @@ defmodule CcxtExtract.Normalization.ResponseEnvelopes do
   @safe_response_methods @safe_list_methods ++ @safe_value_methods
 
   # Parser-type → canonical parse* function names (N:1 fetcher→parser).
+  # Audit F1 (Task 83b follow-up): plural forms (parseTickers, parseOHLCVs,
+  # parseDepositAddresses) DO exist in the corpus — binance/okx alone have
+  # 55+ parseTickers callsites — and must be grouped with their singular
+  # counterparts so the fetcher dispatch routes through.
   @parser_type_to_parse_fns %{
-    "ticker" => ~w(parseTicker),
+    "ticker" => ~w(parseTicker parseTickers),
     "trade" => ~w(parseTrade parseTrades),
-    "ohlcv" => ~w(parseOHLCV),
+    "ohlcv" => ~w(parseOHLCV parseOHLCVs),
     "order" => ~w(parseOrder parseOrders),
     "position" => ~w(parsePosition parsePositions),
     "balance" => ~w(parseBalance),
     "market" => ~w(parseMarket parseMarkets),
     "transaction" => ~w(parseTransaction parseTransactions),
-    "deposit_address" => ~w(parseDepositAddress)
+    "deposit_address" => ~w(parseDepositAddress parseDepositAddresses)
   }
 
   @doc """
@@ -110,13 +123,23 @@ defmodule CcxtExtract.Normalization.ResponseEnvelopes do
 
   @spec build_result(map(), map()) :: map()
   defp build_result(parse_dispatch, fetch_methods) do
-    result =
+    parser_slots =
       Map.new(@parser_type_to_parse_fns, fn {parser_type, parse_fns} ->
         fetchers = fetchers_for_type(parse_dispatch, parse_fns)
         {parser_type, derive_for_type(fetchers, fetch_methods)}
       end)
 
-    Map.put(result, "_unresolved_reason", nil)
+    # Audit F5 (Task 83b follow-up): when `parse_dispatch` has entries but
+    # none are fetcher names (only mutators / non-fetcher dispatchers like
+    # `describe`, `transfer`, `createOrder`), every parser-type slot is `nil`.
+    # Reporting `_unresolved_reason: nil` here would falsely signal "derived
+    # cleanly." Surface a distinct top-level reason instead.
+    top_reason =
+      if Enum.all?(parser_slots, fn {_k, v} -> is_nil(v) end) do
+        "no_fetcher_dispatch"
+      end
+
+    Map.put(parser_slots, "_unresolved_reason", top_reason)
   end
 
   # Collect all `fetch*` method names whose parse_dispatch list includes any
@@ -179,6 +202,14 @@ defmodule CcxtExtract.Normalization.ResponseEnvelopes do
         # Fall back to the first safeList/safeValue binding against response.
         derive_from_first_binding(response_bindings)
 
+      {:inline_binding, binding} ->
+        # Audit F2/F3 (Task 83b follow-up): the parser arg is an inline
+        # `this.safeList(response, "k", default)` call, or a direct
+        # `response["k"]` / `response.k` member access. Whitebit/kraken/bitget
+        # use the first shape; bitso/coinex/coinmate/bittrade/zaif use the
+        # second.
+        binding
+
       "response" ->
         # Passes response directly — no envelope unwrap.
         %{"key" => nil, "fallback_keys" => [], "default" => nil}
@@ -196,9 +227,13 @@ defmodule CcxtExtract.Normalization.ResponseEnvelopes do
     end
   end
 
-  # Find the first `return this.parseX(arg0, ...)` statement and return arg0's identifier name.
-  # Returns nil if no such pattern is found.
-  @spec find_return_first_arg([map()]) :: String.t() | nil
+  # Find the first `return this.parseX(arg0, ...)` statement and report what
+  # arg0 supplies to the parser. Three shapes:
+  #   - `Identifier("response")` / other Identifier → return its name (string)
+  #   - inline `this.safe{List,Value}(response, "k", default)` → `{:inline_binding, binding}`
+  #   - `response["k"]` / `response.k` (one-level) → `{:inline_binding, key_binding}`
+  # Returns nil when the return doesn't match the `return this.parse*(...)` shape.
+  @spec find_return_first_arg([map()]) :: nil | String.t() | {:inline_binding, map()}
   defp find_return_first_arg(stmts) do
     Enum.find_value(stmts, fn stmt ->
       case stmt do
@@ -215,13 +250,54 @@ defmodule CcxtExtract.Normalization.ResponseEnvelopes do
           }
         }
         when is_binary(callee_name) ->
-          extract_identifier_name(first_arg)
+          classify_return_first_arg(first_arg)
 
         _ ->
           nil
       end
     end)
   end
+
+  # Classify the first-arg AST passed to a `return this.parse*(arg0, ...)` call.
+  @spec classify_return_first_arg(map()) :: nil | String.t() | {:inline_binding, map()}
+  defp classify_return_first_arg(arg) do
+    case extract_identifier_name(arg) do
+      nil -> classify_non_identifier_return_arg(arg)
+      name -> name
+    end
+  end
+
+  @spec classify_non_identifier_return_arg(map()) :: {:inline_binding, map()} | nil
+  defp classify_non_identifier_return_arg(arg) do
+    cond do
+      binding = extract_response_safe_call(arg) ->
+        {:inline_binding, binding}
+
+      key = extract_response_member_key(arg) ->
+        {:inline_binding, %{"key" => key, "fallback_keys" => [], "default" => nil}}
+
+      true ->
+        nil
+    end
+  end
+
+  # Match `response.foo` or `response['foo']` — one-level member access on `response`.
+  # Used for the F3 case where a fetcher returns `this.parseTrades(response['payload'], …)`.
+  @spec extract_response_member_key(map()) :: String.t() | nil
+  defp extract_response_member_key(%{
+         "type" => "MemberExpression",
+         "object" => %{"type" => "Identifier", "name" => "response"},
+         "property" => prop
+       }) do
+    extract_property_name(prop)
+  end
+
+  defp extract_response_member_key(_), do: nil
+
+  @spec extract_property_name(map() | nil) :: String.t() | nil
+  defp extract_property_name(%{"type" => "Identifier", "name" => name}) when is_binary(name), do: name
+  defp extract_property_name(%{"type" => "Literal", "value" => v}) when is_binary(v), do: v
+  defp extract_property_name(_), do: nil
 
   # Collect all `const x = this.safeList(response, "key", default)` bindings.
   # Only records bindings whose first argument is the identifier `response`.
@@ -270,15 +346,14 @@ defmodule CcxtExtract.Normalization.ResponseEnvelopes do
   defp build_binding(method, first_arg, rest_args) do
     case first_arg do
       %{"type" => "Identifier", "name" => "response"} ->
-        # Direct response binding — extract key.
-        extract_key_binding(rest_args)
+        # Direct response binding — extract key per the method's CCXT signature.
+        extract_key_binding(method, rest_args)
 
       %{
         "type" => "MemberExpression",
         "object" => %{"type" => "Identifier", "name" => "response"}
       } ->
         # Nested sub-property access: response["userAssetDribblets"] etc.
-        _ = method
         unresolved("nested_response_unwrap")
 
       %{"type" => "Identifier"} ->
@@ -290,20 +365,24 @@ defmodule CcxtExtract.Normalization.ResponseEnvelopes do
     end
   end
 
-  @spec extract_key_binding([map()]) :: map()
-  defp extract_key_binding([]) do
+  @spec extract_key_binding(String.t(), [map()]) :: map()
+  defp extract_key_binding(_method, []) do
     %{"key" => nil, "fallback_keys" => [], "default" => nil}
   end
 
-  defp extract_key_binding([key_arg | rest]) do
+  defp extract_key_binding(method, [key_arg | rest]) do
     case key_arg do
       %{"type" => "Literal", "value" => key} when is_binary(key) ->
-        fallback_keys = collect_fallback_keys(rest)
-        default_val = extract_default_literal(List.last(rest))
+        # Audit F4 (Task 83b follow-up): safeValue2 / safeList2 carry exactly
+        # one fallback key. With no default supplied (3 args total), the
+        # old code mistreated the fallback key as the default. Parse args
+        # using the method's actual CCXT signature.
+        {fallback_keys, default_val} = parse_remaining_args(method, rest)
         %{"key" => key, "fallback_keys" => fallback_keys, "default" => default_val}
 
       %{"type" => "ArrayExpression", "elements" => elements} ->
-        # safeListN / safeValueN — keys are an array literal.
+        # safeListN / safeValueN — keys are an array literal; rest_args is
+        # [default?].
         keys = elements |> Enum.map(&extract_literal_value/1) |> Enum.reject(&is_nil/1)
 
         case keys do
@@ -325,16 +404,40 @@ defmodule CcxtExtract.Normalization.ResponseEnvelopes do
     end
   end
 
-  # Extract fallback keys from a safeValue2 / safeList2 call.
-  # safeValue2(obj, key1, key2, default) — rest_args = [key2_node, default_node].
-  @spec collect_fallback_keys([map()]) :: [String.t()]
-  defp collect_fallback_keys([]), do: []
+  # Split rest_args (everything after key1) into {fallback_keys, default}
+  # using the CCXT signature for each safe* method family.
+  #
+  #   safeValue(obj, key, default?)     → rest = [] | [default]
+  #   safeList(obj, key, default?)      → rest = [] | [default]
+  #   safeValue2(obj, k1, k2, default?) → rest = [k2] | [k2, default]
+  #   safeList2(obj, k1, k2, default?)  → rest = [k2] | [k2, default]
+  #
+  # `safe{Value,List}N` callers hit the ArrayExpression clause above and
+  # don't reach this function.
+  @spec parse_remaining_args(String.t(), [map()]) :: {[String.t()], term()}
+  defp parse_remaining_args(method, rest) when method in ~w(safeValue2 safeList2) do
+    case rest do
+      [] ->
+        {[], nil}
 
-  defp collect_fallback_keys(args) do
-    # All args except the last are candidate fallback keys (last is default).
-    candidate_args = Enum.drop(args, -1)
+      [k2] ->
+        {literal_string_list([k2]), nil}
 
-    candidate_args
+      [k2, default | _] ->
+        {literal_string_list([k2]), extract_default_literal(default)}
+    end
+  end
+
+  defp parse_remaining_args(_method, rest) do
+    case rest do
+      [] -> {[], nil}
+      [default | _] -> {[], extract_default_literal(default)}
+    end
+  end
+
+  @spec literal_string_list([map()]) :: [String.t()]
+  defp literal_string_list(nodes) do
+    nodes
     |> Enum.map(&extract_literal_string/1)
     |> Enum.reject(&is_nil/1)
   end

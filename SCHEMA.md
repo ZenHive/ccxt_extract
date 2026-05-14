@@ -562,7 +562,7 @@ Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, defaul
 - `"non_literal_key"` — first key arg is a variable rather than a string literal (cannot statically derive)
 - `"nested_response_unwrap"` — first arg is a sub-property access (e.g. `response["foo"]["bar"]`); recorded at fetcher level for now
 
-**Top-level `_unresolved_reason`:** `null` when at least one parser-type slot resolved to a populated per-fetcher map; carries `"not_yet_derived"` when the carrier returned the stub (no `parse_dispatch` data, no fetch_methods entry, or the exchange has no override).
+**Top-level `_unresolved_reason`:** `null` when at least one parser-type slot resolved to a populated per-fetcher map; carries `"not_yet_derived"` when the carrier returned the stub (no `parse_dispatch` data, no fetch_methods entry, or the exchange has no override); carries `"no_fetcher_dispatch"` when `parse_dispatch` has entries but none are fetcher names (only mutators like `createOrder` / `transfer` / `describe`), so every parser-type slot is `null`.
 
 **Fetcher scope filter.** Only names beginning with `fetch` are considered — mutators like `createOrder` / `cancelOrder` / `editSpotOrder` are excluded even when they share a parser callee. The per-parser-type fetcher list is the intersection of `parse_dispatch` callers and the parser-type's `parse_fn` set, restricted to `fetch*` names.
 

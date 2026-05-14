@@ -174,6 +174,9 @@ mix ccxt_extract.validate
 # cross-extractor invariants (QuickBEAM vs OXC)
 mix ccxt_extract.contract_test
 
+# verify extraction is byte-deterministic across consecutive runs
+mix ccxt_extract.determinism_check
+
 # regenerate port-contract signing vectors
 mix ccxt_extract.signing_fixtures
 

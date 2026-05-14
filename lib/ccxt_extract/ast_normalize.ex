@@ -55,8 +55,8 @@ defmodule CcxtExtract.AstNormalize do
   with sorted keys — the canonical form used at every write boundary
   for byte-stable JSON.
 
-  Combines `normalize/1`'s `:type` atom rewrite with the
-  `Jason.OrderedObject` wrap, so callers only need a single pass:
+  Applies the same `:type` atom rewrite as `normalize/1` together with
+  the `Jason.OrderedObject` wrap, so callers only need a single pass:
 
       File.write!(path, Jason.encode!(AstNormalize.to_encodable(payload)))
 
@@ -67,7 +67,7 @@ defmodule CcxtExtract.AstNormalize do
   def to_encodable(%Jason.OrderedObject{values: pairs}), do: wrap_sorted(pairs)
 
   def to_encodable(%_{} = struct), do: struct
-  def to_encodable(%{} = map), do: map |> Enum.map(&normalize_entry/1) |> wrap_sorted()
+  def to_encodable(%{} = map), do: map |> Enum.map(&encodable_entry/1) |> wrap_sorted()
   def to_encodable(list) when is_list(list), do: Enum.map(list, &to_encodable/1)
   def to_encodable(other), do: other
 
@@ -77,6 +77,15 @@ defmodule CcxtExtract.AstNormalize do
     |> Enum.sort_by(&sort_key/1)
     |> Jason.OrderedObject.new()
   end
+
+  # Current-level `:type` atom rewrite only. `wrap_sorted/1` recurses via
+  # `to_encodable/1`, so this must NOT deep-walk — using `normalize_entry/1`
+  # here re-runs `normalize/1` over every descendant once per ancestor level.
+  defp encodable_entry({k, v}) when k in [:type, "type"] and is_atom(v) and v not in [nil, true, false] do
+    {k, atom_to_pascal(v)}
+  end
+
+  defp encodable_entry({k, v}), do: {k, v}
 
   # String form is the comparison ground for mixed atom/string keys.
   defp sort_key({k, _v}) when is_atom(k), do: Atom.to_string(k)

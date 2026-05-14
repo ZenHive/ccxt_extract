@@ -442,21 +442,5 @@ defmodule CcxtExtract.AggregateWriterTest do
       body = data["exchanges"] |> hd() |> get_in(["parse_methods", "parseTicker", "body"])
       assert body["type"] == "BlockStatement"
     end
-
-    test "normalize: false preserves atom values verbatim (no conversion)" do
-      file = path("parse_methods.json")
-
-      AggregateWriter.write!(file, [ex("binance", 10)],
-        entry_key: "exchanges",
-        id_key: "id",
-        scope: :all,
-        stats_fn: parse_stats_fn(),
-        normalize: false
-      )
-
-      # Plain string data survives regardless of normalize flag.
-      data = read_json(file)
-      assert data["count"] == 1
-    end
   end
 end

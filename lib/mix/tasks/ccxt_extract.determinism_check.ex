@@ -40,7 +40,8 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
       the default set.
     * `--diff-dirs path1,path2,...` — relative-to-`priv/` directories
       to walk when collecting `.json` files. Defaults to
-      `output,discoveries`. Files outside these roots are ignored.
+      `output,discoveries,fixtures/signing`. Files outside these roots
+      are ignored.
     * `--context-bytes N` — width of the divergence preview printed
       per diverged file (default 80). Bytes are surfaced raw so
       embedded newlines / escapes are visible.
@@ -50,7 +51,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
   | code | meaning |
   |------|---------|
   | 0    | all `.json` files are byte-identical (post strip + canonical encode) |
-  | 1    | at least one file diverges, OR read/decode error in either run |
+  | 1    | at least one file diverges, OR read/decode error in either run, OR zero files were compared (task / `--diff-dirs` mismatch) |
   """
 
   use Mix.Task
@@ -66,7 +67,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
   ]
 
   @default_tasks ["ccxt_extract.pipeline"]
-  @default_diff_dirs ["output", "discoveries"]
+  @default_diff_dirs ["output", "discoveries", "fixtures/signing"]
 
   @typep parsed :: %{
            tasks: [String.t()],
@@ -144,8 +145,23 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     files_a = collect_json(tmp_a, parsed.diff_dirs)
     files_b = collect_json(tmp_b, parsed.diff_dirs)
 
-    report = diff_all(files_a, files_b, tmp_a, tmp_b, strip_keys: parsed.strip_keys)
+    report =
+      diff_all(files_a, files_b, tmp_a, tmp_b,
+        strip_keys: parsed.strip_keys,
+        context_bytes: parsed.context_bytes
+      )
+
     print_report(report, parsed.context_bytes)
+
+    # A run that compared zero files is a misconfiguration, not a pass:
+    # the task wrote nothing under `--diff-dirs`. Fail loudly rather than
+    # report a vacuous "0/0 equal".
+    if report.total == 0 do
+      Mix.raise(
+        "Determinism check FAILED: 0 files compared — no `.json` files were " <>
+          "produced under #{Enum.join(parsed.diff_dirs, ", ")}. Check --task and --diff-dirs."
+      )
+    end
 
     if report.diverged > 0 or report.errors > 0 or report.missing > 0 do
       Mix.raise("Determinism check FAILED: #{summary_line(report)}")
@@ -161,6 +177,11 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     String.split(s, ~r/\s+/, trim: true)
   end
 
+  # TODO(Task 137): strip-keys is a workaround, not the fix. Pattern B
+  # writers still stamp wall-clock time, so volatile keys must be dropped
+  # before comparison. When Task 137 threads an `:extracted_at` opt through
+  # those writers, this harness passes a frozen clock instead and the strip
+  # set shrinks to genuinely-uncontrollable fields.
   @spec parse_strip_keys(String.t() | nil) :: [String.t()]
   defp parse_strip_keys(nil), do: JsonDiff.default_volatile_keys()
 

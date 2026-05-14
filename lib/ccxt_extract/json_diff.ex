@@ -19,6 +19,10 @@ defmodule CcxtExtract.JsonDiff do
   a stable encoder, then `==` the resulting bytes.
   """
 
+  # Default width of the per-side context window in a `{:diff, _}` result.
+  # Overridable via `opts[:context_bytes]` on `diff_files/3` / `diff_terms/3`.
+  @default_context_bytes 80
+
   @doc """
   Default keys stripped before comparison.
 
@@ -65,8 +69,9 @@ defmodule CcxtExtract.JsonDiff do
   re-encoding through a stable, key-sorted encoder.
 
   Returns `:equal` when the canonical bytes match, or
-  `{:diff, %{byte: pos, a_context: ..., b_context: ...}}` with an 80-char
-  window around the first divergent byte.
+  `{:diff, %{byte: pos, a_context: ..., b_context: ...}}` with a context
+  window around the first divergent byte. The window width is
+  `opts[:context_bytes]` (default #{@default_context_bytes}).
 
   The re-encode pass closes a footgun: two files that decode to equal
   Elixir terms but were written with different map-iteration orders are
@@ -82,10 +87,11 @@ defmodule CcxtExtract.JsonDiff do
           | {:error, {:read, Path.t(), term()} | {:decode, Path.t(), term()}}
   def diff_files(path_a, path_b, opts \\ []) do
     keys = Keyword.get(opts, :strip_keys, default_volatile_keys())
+    ctx_bytes = Keyword.get(opts, :context_bytes, @default_context_bytes)
 
     with {:ok, a} <- canonical_bytes(path_a, keys),
          {:ok, b} <- canonical_bytes(path_b, keys) do
-      if a == b, do: :equal, else: {:diff, byte_diff_context(a, b)}
+      if a == b, do: :equal, else: {:diff, byte_diff_context(a, b, ctx_bytes)}
     end
   end
 
@@ -97,9 +103,10 @@ defmodule CcxtExtract.JsonDiff do
   @spec diff_terms(term(), term(), keyword()) :: :equal | {:diff, map()}
   def diff_terms(a, b, opts \\ []) do
     keys = Keyword.get(opts, :strip_keys, default_volatile_keys())
+    ctx_bytes = Keyword.get(opts, :context_bytes, @default_context_bytes)
     a_bytes = a |> strip_volatile(keys) |> canonical_encode()
     b_bytes = b |> strip_volatile(keys) |> canonical_encode()
-    if a_bytes == b_bytes, do: :equal, else: {:diff, byte_diff_context(a_bytes, b_bytes)}
+    if a_bytes == b_bytes, do: :equal, else: {:diff, byte_diff_context(a_bytes, b_bytes, ctx_bytes)}
   end
 
   @doc """
@@ -142,13 +149,14 @@ defmodule CcxtExtract.JsonDiff do
     end
   end
 
-  # First-divergent-byte locator with 80-char context windows on each side
-  # for human-readable reporting. Returns position in bytes (0-indexed).
-  @spec byte_diff_context(binary(), binary()) ::
+  # First-divergent-byte locator with `ctx_bytes`-wide context windows on
+  # each side for human-readable reporting. Returns position in bytes
+  # (0-indexed).
+  @spec byte_diff_context(binary(), binary(), pos_integer()) ::
           %{byte: non_neg_integer(), a_context: String.t(), b_context: String.t()}
-  defp byte_diff_context(a, b) do
+  defp byte_diff_context(a, b, ctx_bytes) do
     pos = first_diff_position(a, b, 0)
-    %{byte: pos, a_context: context(a, pos), b_context: context(b, pos)}
+    %{byte: pos, a_context: context(a, pos, ctx_bytes), b_context: context(b, pos, ctx_bytes)}
   end
 
   @spec first_diff_position(binary(), binary(), non_neg_integer()) :: non_neg_integer()
@@ -164,10 +172,10 @@ defmodule CcxtExtract.JsonDiff do
     end
   end
 
-  @spec context(binary(), non_neg_integer()) :: String.t()
-  defp context(bytes, pos) do
-    start = max(0, pos - 40)
-    len = min(80, byte_size(bytes) - start)
+  @spec context(binary(), non_neg_integer(), pos_integer()) :: String.t()
+  defp context(bytes, pos, width) do
+    start = max(0, pos - div(width, 2))
+    len = min(width, byte_size(bytes) - start)
     binary_part(bytes, start, len)
   end
 end

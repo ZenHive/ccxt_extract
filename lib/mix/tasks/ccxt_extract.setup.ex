@@ -131,7 +131,14 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
   defp copy_bundle_to_priv do
     dest = CcxtExtract.Paths.out_bundle()
 
-    if File.exists?(dest) && File.stat!(@npm_bundle).size == File.stat!(dest).size do
+    # Skip the copy only when the dest bundle is byte-identical to the npm
+    # one. The prior same-*size* heuristic let a same-size bundle from a
+    # different CCXT version slip through stale — and since `record_versions/1`
+    # hashes this file as the drift baseline, a stale bundle would poison
+    # `Pipeline.check_version_drift!/1` (Task 114).
+    if File.exists?(dest) &&
+         CcxtExtract.Pipeline.bundle_sha256(@npm_bundle) ==
+           CcxtExtract.Pipeline.bundle_sha256(dest) do
       Mix.shell().info("Bundle already in priv/, skipping copy.")
     else
       File.cp!(@npm_bundle, dest)

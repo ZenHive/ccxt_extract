@@ -30,7 +30,7 @@ defmodule CcxtExtract.PublicExchangesIntegrationTest do
     "htx" => ["apiKey", "secret"],
     "bitmex" => ["apiKey", "secret"],
     "hyperliquid" => ["privateKey", "walletAddress"],
-    "aster" => ["apiKey", "secret"],
+    "aster" => ["privateKey"],
     "lighter" => ["privateKey"]
   }
 

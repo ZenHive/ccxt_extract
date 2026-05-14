@@ -439,6 +439,7 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
 
   # version_sensitive? is true when --latest or --ccxt-version was used,
   # meaning the user explicitly requested version sync. Mismatches are fatal.
+  @spec record_versions(boolean()) :: map()
   defp record_versions(version_sensitive?) do
     npm_version = @npm_package_json |> File.read!() |> Jason.decode!() |> Map.get("version")
 

@@ -20,7 +20,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
 
       mix ccxt_extract.determinism_check
       mix ccxt_extract.determinism_check --task ccxt_extract.exchanges
-      mix ccxt_extract.determinism_check --task ccxt_extract.pipeline --scope-args "--tier1 --tier2"
+      mix ccxt_extract.determinism_check --task ccxt_extract.pipeline --scope-args="--tier1 --tier2"
       mix ccxt_extract.determinism_check --strip-keys extracted_at,generated_at,my_custom_key
 
   ## Options
@@ -31,9 +31,10 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
       `ccxt_extract.pipeline` when omitted — the cheapest invocation
       that exercises the per-exchange writer + manifest envelope.
     * `--scope-args STRING` — extra args appended verbatim to each
-      task invocation (e.g. `"--tier1 --tier2"`). Lets the same
-      harness exercise scoped runs without baking flags into the task
-      switches.
+      task invocation. Must use `=` form (`--scope-args="--tier1 --tier2"`)
+      since the value starts with `--` and `OptionParser` would otherwise
+      treat it as a separate flag. Lets the same harness exercise scoped
+      runs without baking flags into the task switches.
     * `--strip-keys k1,k2,...` — comma-separated volatile keys to
       drop at every depth before comparison. Replaces (not extends)
       the default set.
@@ -67,7 +68,29 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
   @default_tasks ["ccxt_extract.pipeline"]
   @default_diff_dirs ["output", "discoveries"]
 
+  @typep parsed :: %{
+           tasks: [String.t()],
+           scope_args: [String.t()],
+           strip_keys: [String.t()],
+           diff_dirs: [String.t()],
+           context_bytes: integer()
+         }
+
+  @typep report :: %{
+           total: non_neg_integer(),
+           equal: non_neg_integer(),
+           diverged: non_neg_integer(),
+           errors: non_neg_integer(),
+           missing: non_neg_integer(),
+           details: [
+             {:diff, String.t(), map()}
+             | {:missing, String.t(), boolean()}
+             | {:error, String.t(), term()}
+           ]
+         }
+
   @impl true
+  @spec run([String.t()]) :: :ok
   def run(args) do
     parsed = parse_args!(args)
     Mix.shell().info("Running #{length(parsed.tasks)} task(s) twice into tmp dirs...")
@@ -83,6 +106,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     end
   end
 
+  @spec parse_args!([String.t()]) :: parsed()
   defp parse_args!(args) do
     {opts, leftover, invalid} = OptionParser.parse(args, strict: @switches)
 
@@ -104,6 +128,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     }
   end
 
+  @spec tasks_from(keyword()) :: [String.t()]
   defp tasks_from(opts) do
     case Keyword.get_values(opts, :task) do
       [] -> @default_tasks
@@ -111,6 +136,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     end
   end
 
+  @spec execute_check(parsed(), Path.t(), Path.t()) :: :ok
   defp execute_check(parsed, tmp_a, tmp_b) do
     run_into!(tmp_a, parsed.tasks, parsed.scope_args)
     run_into!(tmp_b, parsed.tasks, parsed.scope_args)
@@ -128,24 +154,28 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     Mix.shell().info("Determinism check OK: #{summary_line(report)}")
   end
 
+  @spec parse_scope_args(String.t() | nil) :: [String.t()]
   defp parse_scope_args(nil), do: []
 
   defp parse_scope_args(s) do
     String.split(s, ~r/\s+/, trim: true)
   end
 
+  @spec parse_strip_keys(String.t() | nil) :: [String.t()]
   defp parse_strip_keys(nil), do: JsonDiff.default_volatile_keys()
 
   defp parse_strip_keys(s) do
     s |> String.split(",", trim: true) |> Enum.map(&String.trim/1)
   end
 
+  @spec parse_diff_dirs(String.t() | nil) :: [String.t()]
   defp parse_diff_dirs(nil), do: @default_diff_dirs
 
   defp parse_diff_dirs(s) do
     s |> String.split(",", trim: true) |> Enum.map(&String.trim/1)
   end
 
+  @spec make_tmp_dir!(String.t()) :: Path.t()
   defp make_tmp_dir!(suffix) do
     path =
       Path.join(
@@ -160,6 +190,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
   # Sets :priv_write_override to `dir`, runs each task with `extra_args`
   # via `Mix.Task.rerun/2` (re-runs even after a prior invocation), then
   # restores the prior env.
+  @spec run_into!(Path.t(), [String.t()], [String.t()]) :: :ok
   defp run_into!(dir, tasks, extra_args) do
     prior = Application.get_env(:ccxt_extract, :priv_write_override)
     Application.put_env(:ccxt_extract, :priv_write_override, dir)
@@ -177,6 +208,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     end
   end
 
+  @spec collect_json(Path.t(), [String.t()]) :: MapSet.t(String.t())
   defp collect_json(root, diff_dirs) do
     diff_dirs
     |> Enum.flat_map(fn rel ->
@@ -195,6 +227,8 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     |> MapSet.new()
   end
 
+  @spec diff_all(MapSet.t(String.t()), MapSet.t(String.t()), Path.t(), Path.t(), keyword()) ::
+          report()
   defp diff_all(files_a, files_b, root_a, root_b, opts) do
     all = files_a |> MapSet.union(files_b) |> MapSet.to_list() |> Enum.sort()
 
@@ -218,6 +252,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     |> finalize_details()
   end
 
+  @spec classify_pair(Path.t(), Path.t(), String.t(), keyword(), report()) :: report()
   defp classify_pair(path_a, path_b, rel, opts, acc) do
     case JsonDiff.diff_files(path_a, path_b, opts) do
       :equal ->
@@ -241,12 +276,15 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     end
   end
 
+  @spec finalize_details(report()) :: report()
   defp finalize_details(report), do: %{report | details: Enum.reverse(report.details)}
 
+  @spec summary_line(report()) :: String.t()
   defp summary_line(report) do
     "#{report.equal}/#{report.total} equal, #{report.diverged} diverged, #{report.missing} side-only, #{report.errors} errors"
   end
 
+  @spec print_report(report(), integer()) :: :ok
   defp print_report(report, context_bytes) do
     Enum.each(report.details, fn
       {:diff, rel, %{byte: pos} = ctx} ->
@@ -263,6 +301,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     end)
   end
 
+  @spec format_context(binary(), integer()) :: String.t()
   defp format_context(bytes, max_width) do
     bytes
     |> binary_slice(0, max_width)

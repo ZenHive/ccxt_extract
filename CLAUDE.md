@@ -76,7 +76,7 @@ Extraction is **byte-deterministic** for a fixed CCXT version + bundle + scope: 
 - **`mix ccxt_extract.determinism_check`** runs an extraction task twice into isolated tmp dirs and byte-diffs every `.json` file. It strips volatile timestamp keys and re-encodes both sides through sorted-key canonical JSON, so map-iteration order and wall-clock stamps can't masquerade as drift. Exit non-zero on any divergence. Run it after touching any extractor or the pipeline.
 - **`Pipeline.check_version_drift!/1`** runs at the top of `Pipeline.extract/1` and aborts loudly when `priv/ccxt` HEAD or `priv/ccxt_bundle.js` no longer matches the baseline in `priv/ccxt_version.json` — silent upstream drift can't regenerate the corpus against a different CCXT without a signal. Bypass with `--allow-version-drift` when the drift is intentional (a deliberate CCXT bump).
 
-`AstNormalize.normalize/1` deep-sorts object keys before encoding — the load-bearing fix that made determinism achievable at the source. The two remaining workarounds (timestamp-key stripping in the checker; no frozen-clock path through Pattern B writers) are tracked as Task 137.
+`AstNormalize.to_encodable/1` deep-sorts object keys before encoding — the load-bearing fix that made determinism achievable at the source. The two remaining workarounds (timestamp-key stripping in the checker; no frozen-clock path through Pattern B writers) are tracked as Task 137.
 
 ### Scope is orthogonal to the stages
 

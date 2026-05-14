@@ -114,6 +114,7 @@ defmodule CcxtExtract.JsonDiff do
     term |> sort_keys() |> Jason.encode!()
   end
 
+  @spec sort_keys(term()) :: term()
   defp sort_keys(map) when is_map(map) and not is_struct(map) do
     pairs =
       map
@@ -126,6 +127,8 @@ defmodule CcxtExtract.JsonDiff do
   defp sort_keys(list) when is_list(list), do: Enum.map(list, &sort_keys/1)
   defp sort_keys(other), do: other
 
+  @spec canonical_bytes(Path.t(), [String.t()]) ::
+          {:ok, binary()} | {:error, {:decode | :read, Path.t(), term()}}
   defp canonical_bytes(path, keys) do
     case File.read(path) do
       {:ok, raw} ->
@@ -141,11 +144,14 @@ defmodule CcxtExtract.JsonDiff do
 
   # First-divergent-byte locator with 80-char context windows on each side
   # for human-readable reporting. Returns position in bytes (0-indexed).
+  @spec byte_diff_context(binary(), binary()) ::
+          %{byte: non_neg_integer(), a_context: String.t(), b_context: String.t()}
   defp byte_diff_context(a, b) do
     pos = first_diff_position(a, b, 0)
     %{byte: pos, a_context: context(a, pos), b_context: context(b, pos)}
   end
 
+  @spec first_diff_position(binary(), binary(), non_neg_integer()) :: non_neg_integer()
   defp first_diff_position(a, b, i) when byte_size(a) == i and byte_size(b) == i, do: i
 
   defp first_diff_position(a, b, i) do
@@ -158,6 +164,7 @@ defmodule CcxtExtract.JsonDiff do
     end
   end
 
+  @spec context(binary(), non_neg_integer()) :: String.t()
   defp context(bytes, pos) do
     start = max(0, pos - 40)
     len = min(80, byte_size(bytes) - start)

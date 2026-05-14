@@ -12,6 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 @~/.claude/includes/task-prioritization.md
 @~/.claude/includes/task-writing.md
+@~/.claude/includes/rmap.md
 @~/.claude/includes/workflow-philosophy.md
 @~/.claude/includes/web-command.md
 @~/.claude/includes/elixir-setup.md
@@ -23,6 +24,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 @~/.claude/includes/elixir-volt.md
 @~/.claude/includes/oxc.md
 @~/.claude/includes/quickbeam.md
+@~/.claude/includes/npm-ci-verify.md
 @~/.claude/includes/reach.md
 
 ---

@@ -565,7 +565,7 @@ Parity.Compare for richer extraction diffs. Deferred: adds a sibling-project pat
 id = 36
 phase = 0
 bundle = "superseded"
-status = "blocked"
+status = "superseded"
 title = "Schema migration framework"
 scores = { d = 6, b = 4, u = 3 }
 scored_at = "2026-05-14"
@@ -940,3 +940,79 @@ PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confir
 
 Funding / withdrawal / deposit fee catalog per exchange. Deferred — not required by priority consumers.
 """
+
+[[task]]
+id = 142
+phase = 0
+bundle = "maintenance"
+status = "pending"
+title = "v4 cut — flip default emission and validation to v4"
+scores = { d = 4, b = 9, u = 9 }
+acceptance_criteria = ["mix ccxt_extract.pipeline with no flag emits v4-shaped JSON; schema_version is 4.0.0", "mix ccxt_extract.validate with no flag validates against exchange_v4.json", "validation.ex round-trip checks run on default runs and key on v4 paths — no silent skip", "time mix compile --warnings-as-errors clean; mix test.json --exclude extraction green", "mix ccxt_extract.determinism_check passes", "../ccxt_client/ROADMAP.md Task v4-adopt row flipped to unblocked"]
+body = """
+Make v4 the default published schema. Flip every `schema_target` default from 3 to 4
+across pipeline / validate / update mix tasks, and swap `@schema_version` /
+`@schema_filename` in `schema.ex` to the v4 values (drop the `-pre` suffix: `4.0.0-pre`
+-> `4.0.0`).
+
+The load-bearing change is `validation.ex`. The `check_*_roundtrip` functions key on v3
+output paths (`runtime.describe`, `structure.class_info`, `structure.sign_method`, ...)
+and are currently silently disabled under v4 by the
+`effective_schema_only = schema_only or schema_target == 4` bypass. Rewrite each
+round-trip function to its v4 path (`raw.describe`, `raw.class_info`, `auth.sign_method`,
+... — the reshape table is in SCHEMA.md) and remove the bypass so round-trip coverage
+runs on every default run. `Schema.build_exchange_v4/4` is the authoritative source for
+each v4 path.
+
+Do NOT delete v3 in this task — `build_exchange/4`, `exchange_v3.json`, and the
+`--schema-target` flag stay reachable so the tree stays green and each commit is
+reviewable. Deletion is Task 143.
+
+Docs: update SCHEMA.md (consumer-guidance examples 3->4, current-version heading, remove
+freeze-gate / retention language), CLAUDE.md (the two `exchange_v3.json` factual refs in
+the Architecture and Common-commands sections), CONSUMER_CONTRACT.md (Source-column
+paths -> v4). Flip the `Task v4-adopt` row in `../ccxt_client/ROADMAP.md` to unblocked
+per the cross-repo documentation invariant.
+
+~10 test files assert v3-default behaviour (default `schema_target`, `exchange_v3.json`
+filename literals, `runtime`/`structure` key shape) and need updating.
+"""
+created_at = "2026-05-14"
+scored_at = "2026-05-15"
+cross_repo = [{ repo = "ccxt_client", task_id = "v4-adopt", relation = "blocks" }]
+files_to_modify = ["lib/ccxt_extract/schema.ex", "lib/ccxt_extract/pipeline.ex", "lib/ccxt_extract/validation.ex", "lib/mix/tasks/ccxt_extract.pipeline.ex", "lib/mix/tasks/ccxt_extract.validate.ex", "lib/mix/tasks/ccxt_extract.update.ex", "SCHEMA.md", "CLAUDE.md", "CONSUMER_CONTRACT.md"]
+out_of_scope = ["Deleting v3 — exchange_v3.json, build_exchange/4, validate/1, schema_target plumbing — that is Task 143"]
+
+[[task]]
+id = 143
+phase = 0
+bundle = "maintenance"
+status = "pending"
+title = "v3 teardown — delete v3 and all schema_target plumbing"
+scores = { d = 3, b = 7, u = 6 }
+depends_on = [142]
+acceptance_criteria = ["priv/schema/exchange_v3.json deleted", "grep -rn schema_target lib/ returns nothing — all 3|4 dispatch collapsed", "time mix compile --warnings-as-errors clean; mix test.json green", "mix dialyzer.json --quiet clean; mix credo --strict --format json clean", "mix ccxt_extract.contract_test passes"]
+body = """
+Delete v3 entirely. With v4 as the default (Task 142), v3 is dead weight — remove it per
+the repo's greenfield / no-backward-compat stance. This task is pure subtraction: no
+behaviour changes, just complexity removal.
+
+Delete: `priv/schema/exchange_v3.json`; the v3 builder `Schema.build_exchange/4`; the v3
+validator `validate/1` + `validate!/1`; the v3 `@required_*` module attributes. Collapse
+every `3 | 4` dispatch to a single v4 path — `normalize_schema_target!/1`,
+`validate_for_target/2`, `recipe_path_map/1`'s v3 clause, `schema_version_for/1` /
+`schema_filename_for/1`, `OverrideRegistry.translate_pointer/2` and its
+`@v3_to_v4_pointer_prefixes` table, and the `--schema-target` flag plus
+`resolve_schema_target!` / `target_suffix` / `schema_target_args` across the three mix
+tasks. In `provenance.ex`, promote the `_v4` pointer attributes/functions to canonical
+and drop the v3 ones. Remove v3-only tests and the v3 round-trip functions; fold the
+`schema_v4_emit` cached-test coverage into the baseline pipeline/schema tests.
+
+Coordination: `ccxt_client` must have completed its v4 migration before this lands —
+once `exchange_v3.json` is gone there is no v3 fallback. Confirm `../ccxt_client/`
+Task v4-adopt is done first.
+"""
+created_at = "2026-05-14"
+scored_at = "2026-05-15"
+files_to_modify = ["lib/ccxt_extract/schema.ex", "lib/ccxt_extract/pipeline.ex", "lib/ccxt_extract/validation.ex", "lib/ccxt_extract/provenance.ex", "lib/ccxt_extract/override_registry.ex", "lib/mix/tasks/ccxt_extract.pipeline.ex", "lib/mix/tasks/ccxt_extract.validate.ex", "lib/mix/tasks/ccxt_extract.update.ex", "priv/schema/exchange_v3.json"]
+out_of_scope = ["ccxt_client-side migration — tracked in ../ccxt_client/ROADMAP.md Task v4-adopt"]

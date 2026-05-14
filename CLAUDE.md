@@ -4,6 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `ccxt_extract` is an Elixir library that serializes everything the CCXT JS library knows about 110+ cryptocurrency exchanges into language-agnostic JSON, so consumers in any language (Elixir, Rust, Go, Python) can call exchanges without walking AST. See [README.md](README.md) for user-facing setup and [ROADMAP.md](ROADMAP.md) for the active work plan — `ROADMAP.md` is **generated** by `rmap` (the roadmap CLI) from `roadmap/tasks.toml`; edit the TOML, not the Markdown (see § Documentation invariants).
 
+## Project stance — greenfield
+
+This repo is in **greenfield mode until further notice. No backward compatibility.**
+Removing complexity is the priority. When in doubt: delete the old path, don't wrap it.
+
+- Old schema versions are deleted, not retained alongside the new one.
+- Do not add compatibility shims, migration aliases, dual-version dispatch, or
+  "one release" retention windows without explicit user direction.
+- Breaking changes do not require a deprecation period — the sole consumer
+  (`../ccxt_client/`) takes one coordinated migration.
+
 ## Standard imports
 
 @~/.claude/includes/across-instances.md
@@ -58,7 +69,7 @@ Neither tool alone is sufficient. `contract_test` cross-validates the two (e.g.,
 
 ### Per-exchange JSON pipeline
 
-Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v3.json`. Provenance is becoming explicit (see Phase 9 / Task 61a in ROADMAP) — fields will carry `raw`/`derived`/`override` tags plus the reason for any override.
+Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v3.json`. Provenance is explicit — every field carries a `raw`/`derived`/`override` tag plus the reason for any override.
 
 **Both paths are gitignored derived state.** `priv/output/` and `priv/discoveries/*` are not tracked in git — they're regenerated per CCXT release and would otherwise bloat the repo (~1GB of JSON per full-universe run, already accumulated 827MB in `.git`). The one exception is `priv/discoveries/class_hierarchy.json`, which `lib/ccxt_extract/tiers.ex` reads at compile time via `@external_resource` and must remain committed. Fresh clones materialize the rest via `mix setup`; external consumers via `mix ccxt_extract.update --output DIR`.
 
@@ -211,7 +222,7 @@ Every task must update docs in lockstep with code — a task is incomplete until
 1. **[roadmap/tasks.toml](roadmap/tasks.toml)** — the typed source of truth for the roadmap. Flip task status with `rmap status <id> <state>` (or hand-edit the TOML), then `rmap render` regenerates `ROADMAP.md` + `roadmap/data.json`. **Do not hand-edit `ROADMAP.md`** — it is a generated view; `rmap` recomputes the focus block and Eff glyphs, so there is no separate "phase summary / Current Focus" sync step. `rmap validate --check-render` gates drift.
 2. **[CHANGELOG.md](CHANGELOG.md)** — `## [Unreleased]` entry with what shipped and key decisions.
 3. **[CLAUDE.md](CLAUDE.md)** — if architecture, conventions, or invariants moved.
-4. **[SCHEMA.md](SCHEMA.md)** — if the emitted JSON shape changed (bump the schema version on breaking changes).
+4. **[SCHEMA.md](SCHEMA.md)** — if the emitted JSON shape changed.
 5. **[CONSUMER_CONTRACT.md](CONSUMER_CONTRACT.md)** — if a checklist item moved between `⬜` / `🚧` / `✅`.
 6. **[../ccxt_client/ROADMAP.md](../ccxt_client/ROADMAP.md)** (cross-repo rule) — flip or unblock any dependent consumer task. A ccxt_extract task is not complete until its downstream ccxt_client impact is reflected.
 

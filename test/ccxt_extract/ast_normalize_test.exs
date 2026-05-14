@@ -133,6 +133,63 @@ defmodule CcxtExtract.AstNormalizeTest do
     end
   end
 
+  describe "to_encodable/1 — sorted-key emit" do
+    test "emits map keys in ascending order regardless of insertion order" do
+      a = AstNormalize.to_encodable(%{"c" => 1, "a" => 2, "b" => 3})
+      b = AstNormalize.to_encodable(%{"a" => 2, "b" => 3, "c" => 1})
+      assert Jason.encode!(a) == Jason.encode!(b)
+      assert Jason.encode!(a) == ~s({"a":2,"b":3,"c":1})
+    end
+
+    test "sorts keys recursively at every depth" do
+      input = %{"z" => %{"y" => 1, "x" => 2}, "a" => %{"d" => 3, "c" => 4}}
+      encoded = input |> AstNormalize.to_encodable() |> Jason.encode!()
+      assert encoded == ~s({"a":{"c":4,"d":3},"z":{"x":2,"y":1}})
+    end
+
+    test "still rewrites :type atoms to PascalCase" do
+      input = %{type: :block_statement, body: []}
+      encoded = input |> AstNormalize.to_encodable() |> Jason.encode!()
+      assert Jason.decode!(encoded) == %{"body" => [], "type" => "BlockStatement"}
+    end
+
+    test "coerces atom keys to strings before sorting" do
+      encoded = %{b: 1, a: 2} |> AstNormalize.to_encodable() |> Jason.encode!()
+      assert encoded == ~s({"a":2,"b":1})
+    end
+
+    test "preserves list element order" do
+      encoded = [3, 1, 2] |> AstNormalize.to_encodable() |> Jason.encode!()
+      assert encoded == "[3,1,2]"
+    end
+
+    test "walks lists nested inside maps" do
+      input = %{"items" => [%{"b" => 1, "a" => 2}, %{"d" => 3, "c" => 4}]}
+      encoded = input |> AstNormalize.to_encodable() |> Jason.encode!()
+      assert encoded == ~s({"items":[{"a":2,"b":1},{"c":4,"d":3}]})
+    end
+
+    test "is idempotent — re-wrapping an OrderedObject re-sorts" do
+      once = AstNormalize.to_encodable(%{"c" => 1, "a" => 2})
+      twice = AstNormalize.to_encodable(once)
+      assert Jason.encode!(once) == Jason.encode!(twice)
+    end
+
+    test "passes non-OrderedObject structs through unchanged" do
+      dt = ~U[2026-04-15 00:00:00Z]
+      assert AstNormalize.to_encodable(dt) == dt
+
+      assert %{type: :program, at: dt} |> AstNormalize.to_encodable() |> Jason.encode!() ==
+               ~s({"at":"2026-04-15T00:00:00Z","type":"Program"})
+    end
+
+    test "returns primitives unchanged" do
+      assert AstNormalize.to_encodable(nil) == nil
+      assert AstNormalize.to_encodable(42) == 42
+      assert AstNormalize.to_encodable("hello") == "hello"
+    end
+  end
+
   describe "atom_to_pascal/1" do
     test "single-token atoms capitalize first letter" do
       assert AstNormalize.atom_to_pascal(:super) == "Super"

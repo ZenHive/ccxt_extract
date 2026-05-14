@@ -177,7 +177,7 @@ defmodule CcxtExtract.LoadMarkets do
         "markets" => result["markets"]
       }
 
-      File.write!(path, Jason.encode!(output, pretty: true))
+      File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(output), pretty: true))
     end
 
     if scope == :all do
@@ -208,7 +208,7 @@ defmodule CcxtExtract.LoadMarkets do
       "failed" => merged_failed
     }
 
-    File.write!(manifest_path, Jason.encode!(manifest, pretty: true))
+    File.write!(manifest_path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(manifest), pretty: true))
     :ok
   end
 

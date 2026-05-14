@@ -23,7 +23,7 @@ defmodule CcxtExtract.DiscoveryWriter do
     stamped = Map.put(data, "tier_scope", tier_scope)
 
     output_path |> Path.dirname() |> File.mkdir_p!()
-    File.write!(output_path, Jason.encode!(stamped, pretty: true))
+    File.write!(output_path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(stamped), pretty: true))
     :ok
   end
 end

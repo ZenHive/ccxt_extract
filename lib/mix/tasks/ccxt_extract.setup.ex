@@ -467,15 +467,21 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
       Mix.shell().info("\nWARNING: Version mismatch! npm bundle: #{npm_version}, TS source: #{ts_version}")
     end
 
+    # Hash the browser bundle `copy_bundle_to_priv/0` just wrote.
+    # `Pipeline.check_version_drift!/1` verifies this at pipeline entry,
+    # turning a swapped/stale bundle into a loud failure (Task 114).
+    bundle_sha256 = CcxtExtract.Pipeline.bundle_sha256(CcxtExtract.Paths.out_bundle())
+
     versions = %{
       "npm_version" => npm_version,
       "source_version" => ts_version,
       "source_git_sha" => source_git_sha,
+      "bundle_sha256" => bundle_sha256,
       "recorded_at" => DateTime.to_iso8601(DateTime.utc_now())
     }
 
     version_file = CcxtExtract.Paths.out_version_file()
-    File.write!(version_file, Jason.encode!(versions, pretty: true))
+    File.write!(version_file, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(versions), pretty: true))
     Mix.shell().info("\nVersions recorded to #{version_file}")
     versions
   end

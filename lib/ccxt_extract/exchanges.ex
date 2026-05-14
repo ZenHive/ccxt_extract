@@ -87,7 +87,7 @@ defmodule CcxtExtract.Exchanges do
       "exchanges" => exchanges
     }
 
-    json = Jason.encode!(output, pretty: true)
+    json = Jason.encode!(CcxtExtract.AstNormalize.to_encodable(output), pretty: true)
     File.write!(output_path, json)
     :ok
   end

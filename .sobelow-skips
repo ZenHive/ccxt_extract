@@ -705,6 +705,7 @@ Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/pi
 Traversal.FileModule: Directory Traversal in `File.rm`,lib/ccxt_extract/pipeline.ex:989,3BA0CF6
 Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:976,3C156
 Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:166,5FFDD05
+<<<<<<< HEAD
 Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/pipeline.ex:976,6EA442E
 Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:172,272E16A
 Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:167,27481D1
@@ -713,3 +714,28 @@ Traversal.FileModule: Directory Traversal in `File.cp!`,lib/ccxt_extract/pipelin
 Traversal.FileModule: Directory Traversal in `File.rm`,lib/ccxt_extract/pipeline.ex:990,77C3DFD
 Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/pipeline.ex:977,77E5D8E
 Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/pipeline.ex:157,99C3ED
+||||||| parent of f4119a8 (Task 114: audit extraction determinism (corpus re-committable))
+Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/pipeline.ex:976,6EA442E
+=======
+Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/pipeline.ex:976,6EA442E
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/public_exchanges.ex:95,1301AE9
+Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/pipeline.ex:1160,24684D1
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/discovery_writer.ex:26,2EE88FD
+Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/pipeline.ex:256,3699E57
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/aggregate_writer.ex:155,36CF14A
+Traversal.FileModule: Directory Traversal in `File.cp!`,lib/ccxt_extract/pipeline.ex:1171,3733884
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:1160,38CF469
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/signing_fixtures.ex:486,3AFB1B5
+Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/aggregate_writer.ex:154,480BEC1
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/load_markets.ex:180,4CF43E4
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/load_markets.ex:211,4EC95F5
+Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/json_diff.ex:130,525C005
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/describe.ex:132,5587BA8
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/signing_fixtures.ex:461,5C63DA1
+Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/pipeline.ex:164,5E2CB86
+Traversal.FileModule: Directory Traversal in `File.rm`,lib/ccxt_extract/pipeline.ex:1173,6D2A191
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/describe.ex:114,6D9FF9C
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/error_class_hierarchy.ex:132,7D56143
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:174,7DEF738
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:179,F9A35F
+>>>>>>> f4119a8 (Task 114: audit extraction determinism (corpus re-committable))

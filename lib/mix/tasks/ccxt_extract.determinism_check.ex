@@ -1,0 +1,272 @@
+defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
+  @shortdoc "Verify extraction is byte-deterministic across consecutive runs"
+
+  @moduledoc """
+  Runs a list of extraction Mix tasks twice into two separate tmp
+  directories (via `:priv_write_override`), then byte-diffs every
+  `.json` file produced. Reports any divergence and exits non-zero
+  when at least one file differs.
+
+  Volatile timestamp keys (`extracted_at`, `generated_at`,
+  `checked_at`, `validated_at`, `recorded_at`) are stripped before
+  comparison so the gate passes while Pattern B writers still stamp
+  wall-clock time (deferred Task 137). The harness re-encodes both
+  sides through `Jason.OrderedObject` with sorted keys so map-iteration
+  order can't masquerade as drift either — the resulting "byte equal"
+  claim means the canonical-form bytes match, which is the strongest
+  determinism statement we can make today.
+
+  ## Usage
+
+      mix ccxt_extract.determinism_check
+      mix ccxt_extract.determinism_check --task ccxt_extract.exchanges
+      mix ccxt_extract.determinism_check --task ccxt_extract.pipeline --scope-args "--tier1 --tier2"
+      mix ccxt_extract.determinism_check --strip-keys extracted_at,generated_at,my_custom_key
+
+  ## Options
+
+    * `--task NAME` — Mix task to invoke (no `mix` prefix; e.g.
+      `ccxt_extract.pipeline`). Repeatable; tasks run in the given
+      order, fresh tmp dirs per pair. Defaults to
+      `ccxt_extract.pipeline` when omitted — the cheapest invocation
+      that exercises the per-exchange writer + manifest envelope.
+    * `--scope-args STRING` — extra args appended verbatim to each
+      task invocation (e.g. `"--tier1 --tier2"`). Lets the same
+      harness exercise scoped runs without baking flags into the task
+      switches.
+    * `--strip-keys k1,k2,...` — comma-separated volatile keys to
+      drop at every depth before comparison. Replaces (not extends)
+      the default set.
+    * `--diff-dirs path1,path2,...` — relative-to-`priv/` directories
+      to walk when collecting `.json` files. Defaults to
+      `output,discoveries`. Files outside these roots are ignored.
+    * `--context-bytes N` — width of the divergence preview printed
+      per diverged file (default 80). Bytes are surfaced raw so
+      embedded newlines / escapes are visible.
+
+  ## Exit codes
+
+  | code | meaning |
+  |------|---------|
+  | 0    | all `.json` files are byte-identical (post strip + canonical encode) |
+  | 1    | at least one file diverges, OR read/decode error in either run |
+  """
+
+  use Mix.Task
+
+  alias CcxtExtract.JsonDiff
+
+  @switches [
+    task: :keep,
+    scope_args: :string,
+    strip_keys: :string,
+    diff_dirs: :string,
+    context_bytes: :integer
+  ]
+
+  @default_tasks ["ccxt_extract.pipeline"]
+  @default_diff_dirs ["output", "discoveries"]
+
+  @impl true
+  def run(args) do
+    parsed = parse_args!(args)
+    Mix.shell().info("Running #{length(parsed.tasks)} task(s) twice into tmp dirs...")
+
+    tmp_a = make_tmp_dir!("run_a")
+    tmp_b = make_tmp_dir!("run_b")
+
+    try do
+      execute_check(parsed, tmp_a, tmp_b)
+    after
+      File.rm_rf!(tmp_a)
+      File.rm_rf!(tmp_b)
+    end
+  end
+
+  defp parse_args!(args) do
+    {opts, leftover, invalid} = OptionParser.parse(args, strict: @switches)
+
+    if invalid != [] do
+      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
+      Mix.raise("Unknown option(s): #{switches}")
+    end
+
+    if leftover != [] do
+      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
+    end
+
+    %{
+      tasks: tasks_from(opts),
+      scope_args: parse_scope_args(opts[:scope_args]),
+      strip_keys: parse_strip_keys(opts[:strip_keys]),
+      diff_dirs: parse_diff_dirs(opts[:diff_dirs]),
+      context_bytes: opts[:context_bytes] || 80
+    }
+  end
+
+  defp tasks_from(opts) do
+    case Keyword.get_values(opts, :task) do
+      [] -> @default_tasks
+      list -> list
+    end
+  end
+
+  defp execute_check(parsed, tmp_a, tmp_b) do
+    run_into!(tmp_a, parsed.tasks, parsed.scope_args)
+    run_into!(tmp_b, parsed.tasks, parsed.scope_args)
+
+    files_a = collect_json(tmp_a, parsed.diff_dirs)
+    files_b = collect_json(tmp_b, parsed.diff_dirs)
+
+    report = diff_all(files_a, files_b, tmp_a, tmp_b, strip_keys: parsed.strip_keys)
+    print_report(report, parsed.context_bytes)
+
+    if report.diverged > 0 or report.errors > 0 or report.missing > 0 do
+      Mix.raise("Determinism check FAILED: #{summary_line(report)}")
+    end
+
+    Mix.shell().info("Determinism check OK: #{summary_line(report)}")
+  end
+
+  defp parse_scope_args(nil), do: []
+
+  defp parse_scope_args(s) do
+    String.split(s, ~r/\s+/, trim: true)
+  end
+
+  defp parse_strip_keys(nil), do: JsonDiff.default_volatile_keys()
+
+  defp parse_strip_keys(s) do
+    s |> String.split(",", trim: true) |> Enum.map(&String.trim/1)
+  end
+
+  defp parse_diff_dirs(nil), do: @default_diff_dirs
+
+  defp parse_diff_dirs(s) do
+    s |> String.split(",", trim: true) |> Enum.map(&String.trim/1)
+  end
+
+  defp make_tmp_dir!(suffix) do
+    path =
+      Path.join(
+        System.tmp_dir!(),
+        "ccxt_determinism_#{suffix}_#{System.unique_integer([:positive])}"
+      )
+
+    File.mkdir_p!(path)
+    path
+  end
+
+  # Sets :priv_write_override to `dir`, runs each task with `extra_args`
+  # via `Mix.Task.rerun/2` (re-runs even after a prior invocation), then
+  # restores the prior env.
+  defp run_into!(dir, tasks, extra_args) do
+    prior = Application.get_env(:ccxt_extract, :priv_write_override)
+    Application.put_env(:ccxt_extract, :priv_write_override, dir)
+
+    try do
+      Enum.each(tasks, fn task ->
+        Mix.shell().info("  [#{Path.basename(dir)}] mix #{task} #{Enum.join(extra_args, " ")}")
+        Mix.Task.rerun(task, extra_args)
+      end)
+    after
+      case prior do
+        nil -> Application.delete_env(:ccxt_extract, :priv_write_override)
+        val -> Application.put_env(:ccxt_extract, :priv_write_override, val)
+      end
+    end
+  end
+
+  defp collect_json(root, diff_dirs) do
+    diff_dirs
+    |> Enum.flat_map(fn rel ->
+      base = Path.join(root, rel)
+
+      if File.dir?(base) do
+        base
+        |> Path.join("**/*.json")
+        |> Path.wildcard()
+        |> Enum.map(&Path.relative_to(&1, root))
+      else
+        []
+      end
+    end)
+    |> Enum.sort()
+    |> MapSet.new()
+  end
+
+  defp diff_all(files_a, files_b, root_a, root_b, opts) do
+    all = files_a |> MapSet.union(files_b) |> MapSet.to_list() |> Enum.sort()
+
+    all
+    |> Enum.reduce(%{total: 0, equal: 0, diverged: 0, errors: 0, missing: 0, details: []}, fn
+      rel, acc ->
+        in_a = MapSet.member?(files_a, rel)
+        in_b = MapSet.member?(files_b, rel)
+
+        if in_a and in_b do
+          classify_pair(Path.join(root_a, rel), Path.join(root_b, rel), rel, opts, acc)
+        else
+          %{
+            acc
+            | total: acc.total + 1,
+              missing: acc.missing + 1,
+              details: [{:missing, rel, in_a} | acc.details]
+          }
+        end
+    end)
+    |> finalize_details()
+  end
+
+  defp classify_pair(path_a, path_b, rel, opts, acc) do
+    case JsonDiff.diff_files(path_a, path_b, opts) do
+      :equal ->
+        %{acc | total: acc.total + 1, equal: acc.equal + 1}
+
+      {:diff, context} ->
+        %{
+          acc
+          | total: acc.total + 1,
+            diverged: acc.diverged + 1,
+            details: [{:diff, rel, context} | acc.details]
+        }
+
+      {:error, reason} ->
+        %{
+          acc
+          | total: acc.total + 1,
+            errors: acc.errors + 1,
+            details: [{:error, rel, reason} | acc.details]
+        }
+    end
+  end
+
+  defp finalize_details(report), do: %{report | details: Enum.reverse(report.details)}
+
+  defp summary_line(report) do
+    "#{report.equal}/#{report.total} equal, #{report.diverged} diverged, #{report.missing} side-only, #{report.errors} errors"
+  end
+
+  defp print_report(report, context_bytes) do
+    Enum.each(report.details, fn
+      {:diff, rel, %{byte: pos} = ctx} ->
+        Mix.shell().error("  DIFF #{rel} @ byte #{pos}")
+        Mix.shell().error("    a: #{format_context(ctx.a_context, context_bytes)}")
+        Mix.shell().error("    b: #{format_context(ctx.b_context, context_bytes)}")
+
+      {:missing, rel, in_a} ->
+        side = if in_a, do: "only in run_a", else: "only in run_b"
+        Mix.shell().error("  MISSING #{rel} (#{side})")
+
+      {:error, rel, reason} ->
+        Mix.shell().error("  ERROR #{rel}: #{inspect(reason)}")
+    end)
+  end
+
+  defp format_context(bytes, max_width) do
+    bytes
+    |> binary_slice(0, max_width)
+    |> String.replace("\n", "\\n")
+    |> String.replace("\t", "\\t")
+  end
+end

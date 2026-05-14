@@ -98,8 +98,7 @@ defmodule CcxtExtract.Classes do
           "ws_counterparts" => find_ws_counterparts(entries)
         }
       end,
-      tier_scope: Keyword.get(opts, :tier_scope, "all"),
-      normalize: false
+      tier_scope: Keyword.get(opts, :tier_scope, "all")
     ]
 
     writer_opts =

@@ -67,7 +67,8 @@ defmodule CcxtExtract.Pipeline do
       data = DiscoveryLoader.load_all!(dir, exchanges_json)
 
       # fetch_methods.json (Task 83a) is optional — its absence just
-      # degrades response_envelopes to the `not_yet_derived` stub.
+      # leaves per-fetcher entries flagged `"no_fetcher_method_body"`;
+      # ResponseEnvelopes.derive/2 still runs whenever parse_dispatch is present.
       missing_required = data.missing_files -- ["fetch_methods.json"]
 
       if missing_required != [] do

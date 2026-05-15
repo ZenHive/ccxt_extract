@@ -1268,9 +1268,9 @@ defmodule CcxtExtract.ContractTestTest do
       assert report["baseline"]["error_code_fields_roots"] == ["response"]
     end
 
-    test "skips exchange_v3.json (schema copy) alongside per-exchange JSON", %{tmp: tmp} do
+    test "skips exchange_v4.json (schema copy) alongside per-exchange JSON", %{tmp: tmp} do
       File.write!(Path.join(tmp, "real.json"), Jason.encode!(%{"id" => "real"}))
-      File.write!(Path.join(tmp, "exchange_v3.json"), Jason.encode!(%{"$schema" => "x"}))
+      File.write!(Path.join(tmp, "exchange_v4.json"), Jason.encode!(%{"$schema" => "x"}))
       File.write!(Path.join(tmp, "_manifest.json"), "{}")
 
       {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: [])

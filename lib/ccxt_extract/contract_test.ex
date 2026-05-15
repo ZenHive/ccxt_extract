@@ -395,7 +395,7 @@ defmodule CcxtExtract.ContractTest do
     * `unresolved_reason` is either `null` or in the closed vocabulary.
 
   Deeper per-field enum/shape validation is done by
-  `CcxtExtract.Validation.validate_schema/2` against `exchange_v3.json#/$defs/SignRecipeRecord`.
+  `CcxtExtract.Validation.validate_schema/2` against `exchange_v4.json#/$defs/SignRecipeRecord`.
   This invariant catches the narrow case where JSV validation was skipped
   or the schema drifted.
   """
@@ -600,7 +600,7 @@ defmodule CcxtExtract.ContractTest do
   path-params triple.
 
   Deeper enum / shape validation is done by JSV against
-  `exchange_v3.json#/$defs/RequestShapeRecord` —
+  `exchange_v4.json#/$defs/RequestShapeRecord` —
   this invariant catches the narrow case where JSV validation was
   skipped or the schema drifted.
   """
@@ -2115,7 +2115,7 @@ defmodule CcxtExtract.ContractTest do
   defp exchange_id(_), do: "<unknown>"
 
   # Schema copies and metadata files live alongside per-exchange JSON but
-  # are not exchanges. `exchange_v3.json` is the JSON Schema copy; files
+  # are not exchanges. `exchange_v4.json` is the JSON Schema copy; files
   # starting with `_` are manifests/reports. Mirrors validation.ex:207.
   @non_exchange_files [CcxtExtract.Schema.schema_filename()]
 

@@ -38,7 +38,7 @@ defmodule CcxtExtract.Provenance do
 
   Introduced additively in `schema_version: "1.8.1"` (nullable). Promoted
   to required, non-null at `schema_version: "2.0.0"` by Task 61c —
-  `exchange_v3.json` enforces the object shape at JSV time and
+  `exchange_v4.json` enforces the object shape at JSV time and
   `Schema.validate/1` enforces presence via `@required_top_keys`.
 
   Schema 3.0.0 (Task 117) pruned `/runtime/markets`,

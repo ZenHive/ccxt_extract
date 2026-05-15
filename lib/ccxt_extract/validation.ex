@@ -4,7 +4,7 @@ defmodule CcxtExtract.Validation do
 
   Two validation layers:
 
-  - **JSON Schema** — validate output against `exchange_v3.json` (draft 2020-12)
+  - **JSON Schema** — validate output against `exchange_v4.json` (draft 2020-12)
     using JSV. Catches type errors, extra properties, missing required fields.
   - **Round-trip** — compare pipeline output sections against source discovery
     data. Catches data loss or incorrect transformation in the pipeline.
@@ -47,9 +47,8 @@ defmodule CcxtExtract.Validation do
     * `:reference_exchanges` — override which exchanges get round-trip checks
     * `:tier_scope` — `CcxtExtract.Scope.to_manifest_value/1` output; stamped on
       the report envelope. Defaults to `"all"`.
-    * `:schema_target` — `3` (default) validates against `exchange_v3.json`;
-      `4` validates against `exchange_v4.json`. Used for the gated v4 emit
-      path (Task 130).
+    * `:schema_target` — `4` (default) validates against `exchange_v4.json`;
+      `3` validates against the legacy `exchange_v3.json`.
   """
   @spec validate_all(keyword()) :: {:ok, map()}
   def validate_all(opts \\ []) do
@@ -59,23 +58,7 @@ defmodule CcxtExtract.Validation do
     tier_scope = Keyword.get(opts, :tier_scope, "all")
 
     schema_target =
-      CcxtExtract.Pipeline.normalize_schema_target!(Keyword.get(opts, :schema_target, 3))
-
-    # Round-trip checks still key on v3 paths. Under --schema-target=4
-    # the gated v4 emit reorganizes the output into consumer-shaped
-    # top-level groups, so the round-trip path lookups would produce
-    # false-positive errors. Implicitly disable round-trip when v4 is
-    # the target unless the caller explicitly opted into schema_only:
-    # the reorganization will be addressed when the path-translation
-    # refactor lands alongside the eventual v4 cut.
-    effective_schema_only = schema_only or schema_target == 4
-
-    if schema_target == 4 and not schema_only do
-      Logger.info(
-        "Skipping round-trip validation under --schema-target=4 (Task 130 gated path; round-trip" <>
-          " checks still key on v3 paths). Re-run with --schema-only to silence this notice."
-      )
-    end
+      CcxtExtract.Pipeline.normalize_schema_target!(Keyword.get(opts, :schema_target, 4))
 
     # Load exchanges from emitted JSON files on disk
     {exchanges, file_stats} = load_output_files(output_dir, schema_target)
@@ -85,7 +68,7 @@ defmodule CcxtExtract.Validation do
 
     # Load source data for round-trip (reuse pipeline's loader)
     source_data =
-      if effective_schema_only do
+      if schema_only do
         nil
       else
         dir = Keyword.get(opts, :discoveries_dir, Paths.priv("discoveries"))
@@ -102,7 +85,7 @@ defmodule CcxtExtract.Validation do
 
         # Round-trip comparison (reference exchanges only)
         roundtrip_findings =
-          if !effective_schema_only && id in ref_exchanges && source_data do
+          if !schema_only && id in ref_exchanges && source_data do
             validate_roundtrip(exchange, source_data, id)
           else
             []
@@ -116,12 +99,12 @@ defmodule CcxtExtract.Validation do
         }
       end)
 
-    report = build_report(exchange_results, ref_exchanges, effective_schema_only, file_stats, tier_scope, schema_target)
+    report = build_report(exchange_results, ref_exchanges, schema_only, file_stats, tier_scope, schema_target)
     {:ok, report}
   end
 
   @doc """
-  Validate a single exchange map against `exchange_v3.json` using JSV.
+  Validate a single exchange map against `exchange_v4.json` using JSV.
 
   Returns `:ok` or `{:error, findings}` where findings is a list of
   JSON-serializable maps.
@@ -166,13 +149,13 @@ defmodule CcxtExtract.Validation do
   end
 
   @doc """
-  Build the compiled JSON Schema root for the given target (default `3`).
+  Build the compiled JSON Schema root for the given target (default `4`).
 
   Exposed for reuse — callers validating many exchanges should build once.
-  Pass `4` to validate against the gated `exchange_v4.json`.
+  Pass `3` for the legacy `exchange_v3.json`.
   """
   @spec build_schema_root(3 | 4) :: JSV.Root.t()
-  def build_schema_root(schema_target \\ 3) do
+  def build_schema_root(schema_target \\ 4) do
     schema_path = Paths.priv("schema/" <> Schema.schema_filename_for(schema_target))
     raw_schema = JsonIO.read_json!(schema_path)
     JSV.build!(raw_schema)
@@ -219,7 +202,7 @@ defmodule CcxtExtract.Validation do
       end)
 
     # Detect orphan files (JSON files in output_dir not listed in manifest)
-    # Also skip exchange_v3.json (schema copy) and _base_methods.json
+    # Also skip exchange_v4.json (schema copy) and _base_methods.json
 
     manifest_set = MapSet.new(manifest_ids)
     # Exclude metadata files (_manifest.json, _validation_report.json) and schema copy
@@ -328,14 +311,14 @@ defmodule CcxtExtract.Validation do
 
   # --- Round-Trip Comparison ---
 
-  # Compare runtime.describe against source describe fixture.
+  # Compare raw.describe against source describe fixture.
   # Alias exchanges have no own source — compare against parent's source instead.
   defp check_describe_roundtrip(findings, output, source, id) do
-    output_describe = get_in(output, ["runtime", "describe"])
+    output_describe = get_in(output, ["raw", "describe"])
     source_describe = Map.get(source.describe, id) || resolve_parent_source(source, id, :describe)
 
     findings
-    |> check_presence_match(output_describe, source_describe, id, "runtime.describe")
+    |> check_presence_match(output_describe, source_describe, id, "raw.describe")
     |> maybe_check_describe_keys(output_describe, source_describe, id)
   end
 
@@ -346,8 +329,8 @@ defmodule CcxtExtract.Validation do
     source_keys = source_describe |> Map.keys() |> MapSet.new()
 
     findings
-    |> check_key_diff(source_keys, output_keys, id, "runtime.describe", "error", "missing keys from source")
-    |> check_key_diff(output_keys, source_keys, id, "runtime.describe", "warning", "extra keys not in source")
+    |> check_key_diff(source_keys, output_keys, id, "raw.describe", "error", "missing keys from source")
+    |> check_key_diff(output_keys, source_keys, id, "raw.describe", "warning", "extra keys not in source")
   end
 
   # Report if set_a has elements not in set_b
@@ -361,12 +344,12 @@ defmodule CcxtExtract.Validation do
     end
   end
 
-  # Compare runtime.symbols_index against source markets — symbol set only.
+  # Compare markets.symbols_index against source markets — symbol set only.
   # Per-market fields (price/precision/fees/limits/baseId/quoteId) are not
   # emitted since schema 3.0.0 (Task 117), so there's nothing to compare there.
   # Alias exchanges have no own source — resolve parent's source instead.
   defp check_symbols_index_roundtrip(findings, output, source, id) do
-    output_index = get_in(output, ["runtime", "symbols_index"])
+    output_index = get_in(output, ["markets", "symbols_index"])
     source_markets = Map.get(source.load_markets, id) || resolve_parent_source(source, id, :load_markets)
     source_failure = Map.get(source.load_markets_failed, id)
 
@@ -378,7 +361,7 @@ defmodule CcxtExtract.Validation do
         [
           roundtrip_finding(
             id,
-            "runtime.symbols_index",
+            "markets.symbols_index",
             "info",
             "source load_markets failed upstream; round-trip skipped"
           )
@@ -386,13 +369,13 @@ defmodule CcxtExtract.Validation do
         ]
 
       :output_missing ->
-        [roundtrip_finding(id, "runtime.symbols_index", "error", "output is null but source has data") | findings]
+        [roundtrip_finding(id, "markets.symbols_index", "error", "output is null but source has data") | findings]
 
       :source_failure_inherited ->
         [
           roundtrip_finding(
             id,
-            "runtime.symbols_index",
+            "markets.symbols_index",
             "info",
             "source load_markets failed; output populated from parent class inheritance"
           )
@@ -403,7 +386,7 @@ defmodule CcxtExtract.Validation do
         [
           roundtrip_finding(
             id,
-            "runtime.symbols_index",
+            "markets.symbols_index",
             "error",
             "output has data but source load_markets manifest recorded failure"
           )
@@ -411,7 +394,7 @@ defmodule CcxtExtract.Validation do
         ]
 
       :source_missing ->
-        [roundtrip_finding(id, "runtime.symbols_index", "warning", "output has data but no source artifact") | findings]
+        [roundtrip_finding(id, "markets.symbols_index", "warning", "output has data but no source artifact") | findings]
 
       :compare ->
         check_symbols_index_keys(findings, output_index, source_markets, id)
@@ -441,8 +424,8 @@ defmodule CcxtExtract.Validation do
     extra = MapSet.difference(output_syms, source_syms)
 
     findings
-    |> maybe_add_finding(missing, id, "runtime.symbols_index", "error", "missing symbols from source")
-    |> maybe_add_finding(extra, id, "runtime.symbols_index", "warning", "extra symbols not in source")
+    |> maybe_add_finding(missing, id, "markets.symbols_index", "error", "missing symbols from source")
+    |> maybe_add_finding(extra, id, "markets.symbols_index", "warning", "extra symbols not in source")
   end
 
   defp maybe_add_finding(findings, set, id, path, severity, label) do
@@ -453,9 +436,9 @@ defmodule CcxtExtract.Validation do
     end
   end
 
-  # Compare structure.class_info
+  # Compare raw.class_info
   defp check_class_info_roundtrip(findings, output, source, id) do
-    output_info = get_in(output, ["structure", "class_info"])
+    output_info = get_in(output, ["raw", "class_info"])
     source_entries = Map.get(source.classes, id)
 
     cond do
@@ -463,7 +446,7 @@ defmodule CcxtExtract.Validation do
         findings
 
       is_nil(output_info) && !is_nil(source_entries) ->
-        [roundtrip_finding(id, "structure.class_info", "error", "output is null but source has class data") | findings]
+        [roundtrip_finding(id, "raw.class_info", "error", "output is null but source has class data") | findings]
 
       true ->
         findings
@@ -477,7 +460,7 @@ defmodule CcxtExtract.Validation do
 
     if source_entry do
       [
-        roundtrip_finding(id, "structure.class_info.#{type}", "error", "output is null but source has #{type} class data")
+        roundtrip_finding(id, "raw.class_info.#{type}", "error", "output is null but source has #{type} class data")
         | findings
       ]
     else
@@ -498,7 +481,7 @@ defmodule CcxtExtract.Validation do
         [
           roundtrip_finding(
             id,
-            "structure.class_info.#{type}",
+            "raw.class_info.#{type}",
             "error",
             "method_count mismatch: output=#{output_mc} source=#{source_mc}"
           )
@@ -510,9 +493,9 @@ defmodule CcxtExtract.Validation do
     end
   end
 
-  # Compare structure.methods (method name sets — REST and WS)
+  # Compare raw.method_inventory (method name sets — REST and WS)
   defp check_methods_roundtrip(findings, output, source, id) do
-    output_methods = get_in(output, ["structure", "methods"])
+    output_methods = get_in(output, ["raw", "method_inventory"])
     source_rest = Map.get(source.methods_rest, id)
     source_ws = Map.get(source.methods_ws, id)
 
@@ -521,12 +504,12 @@ defmodule CcxtExtract.Validation do
         findings
 
       is_nil(output_methods) && (!is_nil(source_rest) || !is_nil(source_ws)) ->
-        [roundtrip_finding(id, "structure.methods", "error", "output is null but source has method data") | findings]
+        [roundtrip_finding(id, "raw.method_inventory", "error", "output is null but source has method data") | findings]
 
       true ->
         findings
-        |> check_method_name_set(output_methods["rest"], source_rest, id, "structure.methods.rest")
-        |> check_method_name_set(output_methods["ws"], source_ws, id, "structure.methods.ws")
+        |> check_method_name_set(output_methods["rest"], source_rest, id, "raw.method_inventory.rest")
+        |> check_method_name_set(output_methods["ws"], source_ws, id, "raw.method_inventory.ws")
     end
   end
 
@@ -565,19 +548,19 @@ defmodule CcxtExtract.Validation do
     [roundtrip_finding(id, "#{path}.#{name}", "error", "signature mismatch for method #{name}") | findings]
   end
 
-  # Compare structure.sign_method — presence + full MethodAST equality
+  # Compare auth.sign_method — presence + full MethodAST equality
   defp check_sign_method_roundtrip(findings, output, source, id) do
-    output_sign = get_in(output, ["structure", "sign_method"])
+    output_sign = get_in(output, ["auth", "sign_method"])
     source_sign = Map.get(source.sign_methods, id)
 
     findings
-    |> check_presence_match(output_sign, source_sign, id, "structure.sign_method")
-    |> check_data_equality(output_sign, source_sign, id, "structure.sign_method")
+    |> check_presence_match(output_sign, source_sign, id, "auth.sign_method")
+    |> check_data_equality(output_sign, source_sign, id, "auth.sign_method")
   end
 
-  # Compare structure.handle_errors — presence + method AST, exceptions, http_exceptions
+  # Compare errors.handle_errors — presence + method AST, exceptions, http_exceptions
   defp check_handle_errors_roundtrip(findings, output, source, id) do
-    output_he = get_in(output, ["structure", "handle_errors"])
+    output_he = get_in(output, ["errors", "handle_errors"])
     raw_entry = Map.get(source.handle_errors, id)
     # Fall back to parent if this exchange has no handleErrors data
     source_entry =
@@ -588,7 +571,7 @@ defmodule CcxtExtract.Validation do
     source_method = source_has_handle_errors?(source_entry)
 
     findings
-    |> check_presence_match(output_he, source_method, id, "structure.handle_errors")
+    |> check_presence_match(output_he, source_method, id, "errors.handle_errors")
     |> check_handle_errors_content(output_he, source_entry, id)
   end
 
@@ -606,25 +589,25 @@ defmodule CcxtExtract.Validation do
     expected_td = CcxtExtract.ThrowDispatches.derive(source_method)
 
     findings
-    |> check_data_equality(output_he["method"], source_method, id, "structure.handle_errors.method")
-    |> check_data_equality(output_he["exceptions"], source_entry["exceptions"], id, "structure.handle_errors.exceptions")
+    |> check_data_equality(output_he["method"], source_method, id, "errors.handle_errors.method")
+    |> check_data_equality(output_he["exceptions"], source_entry["exceptions"], id, "errors.handle_errors.exceptions")
     |> check_data_equality(
       output_he["http_exceptions"],
       source_entry["http_exceptions"],
       id,
-      "structure.handle_errors.http_exceptions"
+      "errors.handle_errors.http_exceptions"
     )
     |> check_data_equality(
       output_he["error_code_fields"],
       expected_ecf,
       id,
-      "structure.handle_errors.error_code_fields"
+      "errors.handle_errors.error_code_fields"
     )
     |> check_data_equality(
       output_he["throw_dispatches"],
       expected_td,
       id,
-      "structure.handle_errors.throw_dispatches"
+      "errors.handle_errors.throw_dispatches"
     )
   end
 
@@ -635,23 +618,23 @@ defmodule CcxtExtract.Validation do
   # No roundtrip check exists here because there is no output column to
   # compare against.
 
-  # Compare structure.interface_signatures (signature name → signature map)
+  # Compare endpoints.interfaces (signature name → signature map)
   defp check_interface_signatures_roundtrip(findings, output, source, id) do
-    output_is = get_in(output, ["structure", "interface_signatures"])
+    output_is = get_in(output, ["endpoints", "interfaces"])
     source_entry = Map.get(source.interface_signatures, id)
     source_is = source_entry && source_entry["interface_signatures"]
-    check_method_map(findings, output_is, source_is, id, "structure.interface_signatures")
+    check_method_map(findings, output_is, source_is, id, "endpoints.interfaces")
   end
 
-  # Compare structure.pagination — mirrors Pipeline.build_pagination_output/1 transformation
+  # Compare endpoints.pagination — mirrors Pipeline.build_pagination_output/1 transformation
   defp check_pagination_roundtrip(findings, output, source, id) do
-    output_pag = get_in(output, ["structure", "pagination"])
+    output_pag = get_in(output, ["endpoints", "pagination"])
     source_entry = Map.get(source.pagination, id)
     source_pag = build_source_pagination(source_entry)
 
     findings
-    |> check_presence_match(output_pag, source_pag, id, "structure.pagination")
-    |> check_data_equality(output_pag, source_pag, id, "structure.pagination")
+    |> check_presence_match(output_pag, source_pag, id, "endpoints.pagination")
+    |> check_data_equality(output_pag, source_pag, id, "endpoints.pagination")
   end
 
   # Reconstruct what Pipeline.build_pagination_output/1 produces from raw discovery data
@@ -668,12 +651,12 @@ defmodule CcxtExtract.Validation do
     end
   end
 
-  # Compare structure.unified_endpoints — mirrors Pipeline.get_unified_endpoints/2
+  # Compare endpoints.unified — mirrors Pipeline.get_unified_endpoints/2
   # Derived exchanges inherit parent endpoints via Pipeline.merge_parent_endpoints/3,
   # so output legitimately has MORE data than the source (inherited from parent).
   # We verify: (1) source data not lost, (2) source's own endpoints are a subset of output.
   defp check_unified_endpoints_roundtrip(findings, output, source, id) do
-    output_ue = get_in(output, ["structure", "unified_endpoints"])
+    output_ue = get_in(output, ["endpoints", "unified"])
     source_entry = Map.get(source.unified_endpoints, id)
     source_ue = build_source_unified_endpoints(source_entry)
 
@@ -688,7 +671,7 @@ defmodule CcxtExtract.Validation do
 
       # Source has data but output lost it — flag as error
       {nil, _source} ->
-        check_presence_match(findings, nil, source_ue, id, "structure.unified_endpoints")
+        check_presence_match(findings, nil, source_ue, id, "endpoints.unified")
 
       # Both present — verify source's own endpoints are all in output
       _ ->
@@ -721,7 +704,7 @@ defmodule CcxtExtract.Validation do
       findings
     else
       msg = "output has entries not in source: #{inspect(extra_in_output)}"
-      [roundtrip_finding(id, "structure.unified_endpoints.#{method}", "error", msg) | findings]
+      [roundtrip_finding(id, "endpoints.unified.#{method}", "error", msg) | findings]
     end
   end
 
@@ -732,9 +715,9 @@ defmodule CcxtExtract.Validation do
     if map_size(endpoints) > 0, do: endpoints
   end
 
-  # Compare structure.overrides (REST and WS sides)
+  # Compare raw.overrides_meta (REST and WS sides)
   defp check_overrides_roundtrip(findings, output, source, id) do
-    output_ov = get_in(output, ["structure", "overrides"])
+    output_ov = get_in(output, ["raw", "overrides_meta"])
     source_entries = Map.get(source.overrides, id)
 
     source_rest = overrides_entry_by_type(source_entries, "rest:")
@@ -746,10 +729,10 @@ defmodule CcxtExtract.Validation do
     source_primary = source_rest || source_ws
 
     findings
-    |> check_presence_match(output_ov, source_any, id, "structure.overrides")
+    |> check_presence_match(output_ov, source_any, id, "raw.overrides_meta")
     |> maybe_check_overrides_extends(output_ov, source_primary, id)
-    |> maybe_check_override_entry(output_ov && output_ov["rest"], source_rest, id, "structure.overrides.rest")
-    |> maybe_check_override_entry(output_ov && output_ov["ws"], source_ws, id, "structure.overrides.ws")
+    |> maybe_check_override_entry(output_ov && output_ov["rest"], source_rest, id, "raw.overrides_meta.rest")
+    |> maybe_check_override_entry(output_ov && output_ov["ws"], source_ws, id, "raw.overrides_meta.ws")
   end
 
   # Find a source override entry by parent_key prefix ("rest:" or "ws:")
@@ -769,7 +752,7 @@ defmodule CcxtExtract.Validation do
       [
         roundtrip_finding(
           id,
-          "structure.overrides",
+          "raw.overrides_meta",
           "error",
           "extends mismatch: output=#{output_ov["extends"]} source=#{primary["extends"]}"
         )
@@ -803,14 +786,14 @@ defmodule CcxtExtract.Validation do
     end
   end
 
-  # symbol_patterns is derived from markets, not independently discovered.
-  # Check presence consistency: if source has markets, symbol_patterns should
-  # be emitted; if source lacks markets, symbol_patterns must be nil. Since
+  # markets.patterns is derived from markets, not independently discovered.
+  # Check presence consistency: if source has markets, patterns should
+  # be emitted; if source lacks markets, patterns must be nil. Since
   # schema 3.0.0 (Task 117) output no longer carries the raw markets map, we
   # check against the source discovery data instead.
   defp check_symbol_patterns_roundtrip(findings, output, source, id) do
     source_markets = Map.get(source.load_markets, id) || resolve_parent_source(source, id, :load_markets)
-    patterns = get_in(output, ["runtime", "symbol_patterns"])
+    patterns = get_in(output, ["markets", "patterns"])
 
     findings
     |> check_symbol_patterns_presence(source_markets, patterns, id)
@@ -821,14 +804,12 @@ defmodule CcxtExtract.Validation do
 
   defp check_symbol_patterns_presence(findings, nil, _patterns, id),
     do: [
-      roundtrip_finding(id, "runtime.symbol_patterns", "error", "symbol_patterns present but source markets is null")
-      | findings
+      roundtrip_finding(id, "markets.patterns", "error", "symbol_patterns present but source markets is null") | findings
     ]
 
   defp check_symbol_patterns_presence(findings, _markets, nil, id),
     do: [
-      roundtrip_finding(id, "runtime.symbol_patterns", "error", "source markets present but symbol_patterns is null")
-      | findings
+      roundtrip_finding(id, "markets.patterns", "error", "source markets present but symbol_patterns is null") | findings
     ]
 
   defp check_symbol_patterns_presence(findings, _markets, _patterns, _id), do: findings
@@ -839,15 +820,15 @@ defmodule CcxtExtract.Validation do
     if Map.has_key?(patterns, "currency_aliases") do
       findings
     else
-      [roundtrip_finding(id, "runtime.symbol_patterns", "error", "missing currency_aliases key") | findings]
+      [roundtrip_finding(id, "markets.patterns", "error", "missing currency_aliases key") | findings]
     end
   end
 
-  # Compare runtime.url_templates — mirrors Pipeline.get_url_templates/2
+  # Compare raw.url_templates — mirrors Pipeline.get_url_templates/2
   # Alias exchanges inherit parent url_templates via class hierarchy,
   # so output legitimately has data when source doesn't (same as unified_endpoints).
   defp check_url_templates_roundtrip(findings, output, source, id) do
-    output_ut = get_in(output, ["runtime", "url_templates"])
+    output_ut = get_in(output, ["raw", "url_templates"])
     source_entry = Map.get(source.url_templates, id)
     source_ut = build_source_url_templates(source_entry)
 
@@ -861,11 +842,11 @@ defmodule CcxtExtract.Validation do
 
       # Source has data but output lost it — flag as error
       {nil, _source} ->
-        check_presence_match(findings, nil, source_ut, id, "runtime.url_templates")
+        check_presence_match(findings, nil, source_ut, id, "raw.url_templates")
 
       # Both present — verify source data preserved in output
       _ ->
-        check_data_equality(findings, output_ut, source_ut, id, "runtime.url_templates")
+        check_data_equality(findings, output_ut, source_ut, id, "raw.url_templates")
     end
   end
 

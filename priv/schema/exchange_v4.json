@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "exchange_v4.json",
-  "title": "CCXT Exchange Extraction Output (v4 — gated, in-progress)",
-  "description": "Per-exchange extraction output (schema 4.0.0-pre, GATED). v4 reorganizes v3.1.0's producer-shaped sections (runtime/structure) into consumer-shaped groups (endpoints/auth/errors/rate_limits/normalization/markets/testnet/raw). Initial v4 ships the structural reshape ONLY — same field set as v3.1.0, no new content. Future freeze-list tasks (Task 129 normalization carrier, Phase 12 sub-bundles, Tasks 85-90 errors/rate_limits) will populate the empty section bodies. v4 emission is opt-in via `mix ccxt_extract.pipeline --schema-target=4`; v3 stays the default published contract until the freeze list empties and Task 114 (determinism audit) is green. See SCHEMA.md § 'Version 4.0.0 — In Progress (gated)' for the path-migration table and migration notes.",
+  "title": "CCXT Exchange Extraction Output (v4)",
+  "description": "Per-exchange extraction output (schema 4.0.0). v4 reorganizes v3.1.0's producer-shaped sections (runtime/structure) into consumer-shaped groups (endpoints/auth/errors/rate_limits/normalization/markets/testnet/raw). v4 is the default published schema; the legacy v3 schema (exchange_v3.json) remains reachable via `mix ccxt_extract.pipeline --schema-target=3` until Task 143 removes it. See SCHEMA.md § 'Version 4.0.0' for the path-migration table and migration notes.",
   "type": "object",
   "required": [
     "schema_version",
@@ -22,8 +22,8 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "4.0.0-pre",
-      "description": "Schema version. Pre-release tag — v4 is gated until the freeze list empties and the atomic cut lands. Consumers reading v4 must check this exact const."
+      "const": "4.0.0",
+      "description": "Schema version. v4 is the default published schema. Consumers reading v4 must check this exact const."
     },
     "extracted_at": {
       "type": "string",
@@ -662,11 +662,12 @@
             {
               "type": "string",
               "enum": [
-                "not_yet_derived"
+                "not_yet_derived",
+                "no_fetcher_dispatch"
               ]
             }
           ],
-          "description": "Closed-vocabulary scaffold tag. \"not_yet_derived\" is the Task 129 default. Phase 12 sub-bundles flip it to null when every parser-type entry is populated."
+          "description": "Closed-vocabulary tag. \"not_yet_derived\" is the Task 129 scaffold default and the only value field_maps ever carries. response_envelopes is live-derived (Task 83b): it carries null when at least one parser type resolved, or \"no_fetcher_dispatch\" when parse_dispatch has entries but none route to fetcher-named methods (Audit F5)."
         }
       }
     },

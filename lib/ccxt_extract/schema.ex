@@ -1,10 +1,13 @@
 defmodule CcxtExtract.Schema do
   @moduledoc """
-  Build and validate per-exchange JSON output conforming to `exchange_v3.json`.
+  Build and validate per-exchange JSON output conforming to `exchange_v4.json`
+  (the default) or the legacy `exchange_v3.json` (`--schema-target=3`).
 
-  Assembles data from all extraction layers into a single per-exchange map
-  with three top-level sections: `exchange` (metadata), `runtime` (QuickBEAM
-  values), and `structure` (OXC AST data).
+  v4 assembles extraction-layer data into consumer-shaped top-level sections
+  (`endpoints`, `auth`, `errors`, `rate_limits`, `normalization`, `markets`,
+  `testnet`, `raw`). The legacy v3 builder emits the producer-shaped
+  `runtime` / `structure` split described under "Two-Layer Model" below;
+  Task 143 removes it.
 
   ## Schema Versioning
 
@@ -46,8 +49,8 @@ defmodule CcxtExtract.Schema do
 
   ## Usage
 
-      exchange = CcxtExtract.Schema.build_exchange(meta, runtime, structure, ccxt_version: "4.5.45")
-      :ok = CcxtExtract.Schema.validate(exchange)
+      exchange = CcxtExtract.Schema.build_exchange_v4(meta, runtime, structure, ccxt_version: "4.5.45")
+      :ok = CcxtExtract.Schema.validate_v4(exchange)
 
   """
 
@@ -56,15 +59,13 @@ defmodule CcxtExtract.Schema do
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.TransactionClassification
 
-  @schema_version "3.4.0"
-  @schema_filename "exchange_v3.json"
+  @schema_version "4.0.0"
+  @schema_filename "exchange_v4.json"
 
-  # v4 (gated, opt-in via --schema-target=4). DO NOT flip the v3 defaults
-  # above — the atomic cut is a separate reviewer-owned commit after the
-  # freeze list empties (Task 130 reviewer note). v3 stays the default
-  # published contract until then.
-  @schema_v4_version "4.0.0-pre"
-  @schema_v4_filename "exchange_v4.json"
+  # v3 (legacy). Reachable via `--schema-target=3` until Task 143 deletes
+  # the v3 builder, validator, and schema file outright.
+  @schema_v3_version "3.4.0"
+  @schema_v3_filename "exchange_v3.json"
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange runtime structure _provenance)
   @required_exchange_keys ~w(id name alias)
@@ -84,36 +85,36 @@ defmodule CcxtExtract.Schema do
 
   # --- Public API ---
 
-  @doc "Returns the current (v3) schema version string."
+  @doc "Returns the current (v4) schema version string."
   @spec schema_version() :: String.t()
   def schema_version, do: @schema_version
 
-  @doc "Returns the current (v3) schema filename (JSON Schema file + output-dir copy)."
+  @doc "Returns the current (v4) schema filename (JSON Schema file + output-dir copy)."
   @spec schema_filename() :: String.t()
   def schema_filename, do: @schema_filename
 
-  @doc "Returns the v4 schema version string (gated, in-progress)."
+  @doc "Returns the v4 schema version string. Alias for `schema_version/0` — v4 is the current default."
   @spec schema_version_v4() :: String.t()
-  def schema_version_v4, do: @schema_v4_version
+  def schema_version_v4, do: @schema_version
 
-  @doc "Returns the v4 schema filename. Coexists with the v3 file under priv/schema/."
+  @doc "Returns the v4 schema filename. Alias for `schema_filename/0` — v4 is the current default."
   @spec schema_filename_v4() :: String.t()
-  def schema_filename_v4, do: @schema_v4_filename
+  def schema_filename_v4, do: @schema_filename
 
   @doc """
   Returns the schema version string for the given target (`3` or `4`).
   Used by mix tasks plumbing the `--schema-target` flag.
   """
   @spec schema_version_for(3 | 4) :: String.t()
-  def schema_version_for(3), do: @schema_version
-  def schema_version_for(4), do: @schema_v4_version
+  def schema_version_for(3), do: @schema_v3_version
+  def schema_version_for(4), do: @schema_version
 
   @doc """
   Returns the schema filename for the given target (`3` or `4`).
   """
   @spec schema_filename_for(3 | 4) :: String.t()
-  def schema_filename_for(3), do: @schema_filename
-  def schema_filename_for(4), do: @schema_v4_filename
+  def schema_filename_for(3), do: @schema_v3_filename
+  def schema_filename_for(4), do: @schema_filename
 
   @doc """
   Build a per-exchange output map conforming to `exchange_v3.json`.
@@ -148,7 +149,7 @@ defmodule CcxtExtract.Schema do
       end)
 
     %{
-      "schema_version" => @schema_version,
+      "schema_version" => @schema_v3_version,
       "extracted_at" => extracted_at,
       "ccxt_version" => ccxt_version,
       "exchange" => build_exchange_section(exchange_meta),
@@ -159,14 +160,13 @@ defmodule CcxtExtract.Schema do
   end
 
   @doc """
-  Build a per-exchange output map conforming to `exchange_v4.json` (gated).
+  Build a per-exchange output map conforming to `exchange_v4.json`.
 
   v4 is the same field set as v3.1.0 reorganized into consumer-shaped
   top-level groups (`endpoints`, `auth`, `errors`, `rate_limits`,
-  `normalization`, `markets`, `testnet`, `raw`). v4 emission is opt-in via
-  `mix ccxt_extract.pipeline --schema-target=4`; v3 stays the default
-  published contract until the freeze list empties and the atomic cut
-  lands.
+  `normalization`, `markets`, `testnet`, `raw`). v4 is the default
+  published schema; the legacy v3 builder (`build_exchange/4`) stays
+  reachable via `--schema-target=3` until Task 143 removes it.
 
   ## Parameters
 
@@ -211,7 +211,7 @@ defmodule CcxtExtract.Schema do
     normalization = Keyword.get(opts, :normalization) || CcxtExtract.Normalization.build(nil, nil)
 
     %{
-      "schema_version" => @schema_v4_version,
+      "schema_version" => @schema_version,
       "extracted_at" => extracted_at,
       "ccxt_version" => ccxt_version,
       "exchange" => build_exchange_section(exchange_meta),
@@ -437,17 +437,17 @@ defmodule CcxtExtract.Schema do
     ["#{section}: expected a map" | errors]
   end
 
-  defp check_schema_version(errors, %{"schema_version" => @schema_version}), do: errors
+  defp check_schema_version(errors, %{"schema_version" => @schema_v3_version}), do: errors
 
   defp check_schema_version(errors, %{"schema_version" => v}),
-    do: ["schema_version: expected #{@schema_version}, got #{inspect(v)}" | errors]
+    do: ["schema_version: expected #{@schema_v3_version}, got #{inspect(v)}" | errors]
 
   defp check_schema_version(errors, _), do: errors
 
-  defp check_schema_version_v4(errors, %{"schema_version" => @schema_v4_version}), do: errors
+  defp check_schema_version_v4(errors, %{"schema_version" => @schema_version}), do: errors
 
   defp check_schema_version_v4(errors, %{"schema_version" => v}),
-    do: ["schema_version: expected #{@schema_v4_version}, got #{inspect(v)}" | errors]
+    do: ["schema_version: expected #{@schema_version}, got #{inspect(v)}" | errors]
 
   defp check_schema_version_v4(errors, _), do: errors
 

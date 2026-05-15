@@ -4,7 +4,8 @@ defmodule CcxtExtract.Pipeline do
 
   Reads discovery data produced by individual extractors (QuickBEAM runtime
   values + OXC AST data) and combines them into validated per-exchange JSON
-  files conforming to `exchange_v3.json` / `exchange_v4.json`. After scoped
+  files conforming to `exchange_v4.json` (or the legacy `exchange_v3.json`
+  via `--schema-target=3`). After scoped
   overrides and sign-recipe / request-shape sync, each exchange is checked
   with `CcxtExtract.Validation.validate_schema/2` (JSV) — failures are logged
   and recorded in `stats.validation_errors` without dropping the exchange (same
@@ -52,11 +53,9 @@ defmodule CcxtExtract.Pipeline do
       `MapSet` of exchange IDs to restrict assembly to. Integrity stats
       (`missing_entries`, `orphan_entries`, etc.) still reflect the full
       universe so we never hide real discovery drift.
-    * `:schema_target` — `3` (default) emits the v3 shape via
-      `Schema.build_exchange/4`; `4` emits the v4 shape via
-      `Schema.build_exchange_v4/4` (gated, opt-in until the freeze list
-      empties). v3 stays the published default — this option only
-      flips when callers explicitly request `--schema-target=4`.
+    * `:schema_target` — `4` (default) emits the v4 shape via
+      `Schema.build_exchange_v4/4`; `3` emits the legacy v3 shape via
+      `Schema.build_exchange/4`, reachable until Task 143 removes it.
     * `:allow_version_drift` — `true` bypasses the CCXT version-drift
       guard. Defaults to `false`.
 
@@ -90,7 +89,7 @@ defmodule CcxtExtract.Pipeline do
           DateTime.to_iso8601(DateTime.utc_now())
         end)
 
-      schema_target = normalize_schema_target!(Keyword.get(opts, :schema_target, 3))
+      schema_target = normalize_schema_target!(Keyword.get(opts, :schema_target, 4))
 
       schema_opts = [
         ccxt_version: ccxt_version,
@@ -149,16 +148,15 @@ defmodule CcxtExtract.Pipeline do
     * `:pretty` — boolean. When true, emit per-exchange JSON with
       indentation (~2× size). Default `false`. Manifests, fixtures, and
       reports remain pretty-printed regardless of this flag.
-    * `:schema_target` — `3` (default) copies `exchange_v3.json` and
-      stamps the v3 schema version into `_manifest.json`; `4` copies
-      `exchange_v4.json` and stamps the v4 version. Pruning preserves
-      whichever schema file matches the active target. Used for the
-      gated v4 emit path (Task 130).
+    * `:schema_target` — `4` (default) copies `exchange_v4.json` and
+      stamps the v4 schema version into `_manifest.json`; `3` copies
+      `exchange_v3.json` and stamps the v3 version. Pruning preserves
+      whichever schema file matches the active target.
   """
   @spec write!([map()], String.t(), keyword()) :: :ok
   def write!(exchanges, output_dir \\ Paths.out(@output_dir), opts \\ []) do
     discoveries_dir = Keyword.get(opts, :discoveries_dir, Paths.priv("discoveries"))
-    schema_target = normalize_schema_target!(Keyword.get(opts, :schema_target, 3))
+    schema_target = normalize_schema_target!(Keyword.get(opts, :schema_target, 4))
     schema_file = Schema.schema_filename_for(schema_target)
 
     File.mkdir_p!(output_dir)
@@ -454,7 +452,7 @@ defmodule CcxtExtract.Pipeline do
   # Reduce callback: build one exchange and validate it
   defp assemble_and_validate(meta, data, schema_opts, {acc, errs}) do
     exchange = build_exchange_data(meta, data, schema_opts)
-    schema_target = Keyword.get(schema_opts, :schema_target, 3)
+    schema_target = Keyword.get(schema_opts, :schema_target, 4)
 
     case validate_for_target(exchange, schema_target) do
       :ok ->
@@ -526,7 +524,7 @@ defmodule CcxtExtract.Pipeline do
       "error_retryable" => CcxtExtract.HandleErrors.retryable_buckets(handle_errors)
     }
 
-    case Keyword.get(opts, :schema_target, 3) do
+    case Keyword.get(opts, :schema_target, 4) do
       3 ->
         Schema.build_exchange(meta, runtime_data, structure_data, opts)
 
@@ -1178,7 +1176,7 @@ defmodule CcxtExtract.Pipeline do
   # not from version_info on disk. version_info is only used for source_git_sha.
   defp build_manifest(exchanges, opts) do
     version_info = Keyword.get_lazy(opts, :version_info, fn -> read_ccxt_version_info() end)
-    schema_target = Keyword.get(opts, :schema_target, 3)
+    schema_target = Keyword.get(opts, :schema_target, 4)
     first = List.first(exchanges) || %{}
 
     %{

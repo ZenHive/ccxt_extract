@@ -153,11 +153,11 @@ defmodule CcxtExtract.ValidationTest do
   end
 
   defp build_full_exchange do
-    Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
+    Schema.build_exchange_v4(@full_meta, full_runtime(), full_structure(), @base_opts)
   end
 
   defp build_alias_exchange do
-    Schema.build_exchange(@alias_meta, alias_runtime(), alias_structure(), @base_opts)
+    Schema.build_exchange_v4(@alias_meta, alias_runtime(), alias_structure(), @base_opts)
   end
 
   # --- validate_schema/2 ---
@@ -177,7 +177,7 @@ defmodule CcxtExtract.ValidationTest do
 
     test "catches type error — statements as string — with actionable path", %{root: root} do
       bad_ast = %{@sample_method_ast | "statements" => "twelve"}
-      exchange = put_in(build_full_exchange(), ["structure", "sign_method"], bad_ast)
+      exchange = put_in(build_full_exchange(), ["auth", "sign_method"], bad_ast)
 
       assert {:error, findings} = Validation.validate_schema(exchange, root)
       assert findings != []
@@ -310,7 +310,7 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.describe" && f["severity"] == "error" &&
+               f["path"] == "raw.describe" && f["severity"] == "error" &&
                  String.contains?(f["message"], "missing keys")
              end)
     end
@@ -332,14 +332,14 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.symbols_index" && f["severity"] == "error" &&
+               f["path"] == "markets.symbols_index" && f["severity"] == "error" &&
                  String.contains?(f["message"], "missing symbols")
              end)
     end
 
     test "warns on extra symbols not in source" do
       exchange =
-        put_in(build_full_exchange(), ["runtime", "symbols_index"], %{
+        put_in(build_full_exchange(), ["markets", "symbols_index"], %{
           "BTC/USDT" => %{"spot" => true, "swap" => false},
           "ETH/USDT" => %{"spot" => true, "swap" => false}
         })
@@ -347,13 +347,13 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.symbols_index" && f["severity"] == "warning" &&
+               f["path"] == "markets.symbols_index" && f["severity"] == "warning" &&
                  String.contains?(f["message"], "extra symbols")
              end)
     end
 
     test "reports load_markets manifest failures as info when output is null" do
-      exchange = put_in(build_full_exchange(), ["runtime", "symbols_index"], nil)
+      exchange = put_in(build_full_exchange(), ["markets", "symbols_index"], nil)
 
       source =
         matching_source_data()
@@ -363,7 +363,7 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.symbols_index" && f["severity"] == "info" &&
+               f["path"] == "markets.symbols_index" && f["severity"] == "info" &&
                  String.contains?(f["message"], "round-trip skipped")
              end)
     end
@@ -377,7 +377,7 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(build_full_exchange(), source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.symbols_index" && f["severity"] == "error" &&
+               f["path"] == "markets.symbols_index" && f["severity"] == "error" &&
                  String.contains?(f["message"], "manifest recorded failure")
              end)
     end
@@ -388,19 +388,19 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(build_full_exchange(), source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.symbols_index" && f["severity"] == "warning" &&
+               f["path"] == "markets.symbols_index" && f["severity"] == "warning" &&
                  String.contains?(f["message"], "no source artifact")
              end)
     end
 
     test "detects corrupted sign_method AST" do
       corrupted_ast = %{@sample_method_ast | "statements" => 999, "async" => true}
-      exchange = put_in(build_full_exchange(), ["structure", "sign_method"], corrupted_ast)
+      exchange = put_in(build_full_exchange(), ["auth", "sign_method"], corrupted_ast)
 
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.sign_method" && f["severity"] == "error" &&
+               f["path"] == "auth.sign_method" && f["severity"] == "error" &&
                  String.contains?(f["message"], "data mismatch")
              end)
     end
@@ -409,19 +409,19 @@ defmodule CcxtExtract.ValidationTest do
       corrupted_ast = %{@sample_method_ast | "statements" => 999}
 
       exchange =
-        put_in(build_full_exchange(), ["structure", "handle_errors", "method"], corrupted_ast)
+        put_in(build_full_exchange(), ["errors", "handle_errors", "method"], corrupted_ast)
 
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.handle_errors.method" && f["severity"] == "error" &&
+               f["path"] == "errors.handle_errors.method" && f["severity"] == "error" &&
                  String.contains?(f["message"], "data mismatch")
              end)
     end
 
     test "detects corrupted handle_errors exception mappings" do
       exchange =
-        put_in(build_full_exchange(), ["structure", "handle_errors", "exceptions"], %{
+        put_in(build_full_exchange(), ["errors", "handle_errors", "exceptions"], %{
           "broad" => %{"wrong_error" => "WrongClass"},
           "exact" => %{}
         })
@@ -429,19 +429,19 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.handle_errors.exceptions" && f["severity"] == "error" &&
+               f["path"] == "errors.handle_errors.exceptions" && f["severity"] == "error" &&
                  String.contains?(f["message"], "data mismatch")
              end)
     end
 
     test "detects corrupted method signature in REST inventory" do
       corrupted_sig = %{@sample_method_sig | "async" => false, "statements" => 999}
-      exchange = put_in(build_full_exchange(), ["structure", "methods", "rest"], [corrupted_sig])
+      exchange = put_in(build_full_exchange(), ["raw", "method_inventory", "rest"], [corrupted_sig])
 
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.methods.rest.fetchTicker" && f["severity"] == "error" &&
+               f["path"] == "raw.method_inventory.rest.fetchTicker" && f["severity"] == "error" &&
                  String.contains?(f["message"], "signature mismatch")
              end)
     end
@@ -453,12 +453,12 @@ defmodule CcxtExtract.ValidationTest do
 
     test "detects missing sign_method" do
       # Output has nil sign_method but source has data
-      exchange = put_in(build_full_exchange(), ["structure", "sign_method"], nil)
+      exchange = put_in(build_full_exchange(), ["auth", "sign_method"], nil)
 
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.sign_method" && f["severity"] == "error"
+               f["path"] == "auth.sign_method" && f["severity"] == "error"
              end)
     end
 
@@ -466,26 +466,26 @@ defmodule CcxtExtract.ValidationTest do
       corrupted_sig = %{@sample_interface_sig | "params" => [], "return_type" => nil}
 
       exchange =
-        put_in(build_full_exchange(), ["structure", "interface_signatures"], %{
+        put_in(build_full_exchange(), ["endpoints", "interfaces"], %{
           "publicGetTicker" => corrupted_sig
         })
 
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.interface_signatures.publicGetTicker" &&
+               f["path"] == "endpoints.interfaces.publicGetTicker" &&
                  f["severity"] == "error" &&
                  String.contains?(f["message"], "data mismatch")
              end)
     end
 
     test "detects missing interface signatures when source has data" do
-      exchange = put_in(build_full_exchange(), ["structure", "interface_signatures"], nil)
+      exchange = put_in(build_full_exchange(), ["endpoints", "interfaces"], nil)
 
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.interface_signatures" && f["severity"] == "error"
+               f["path"] == "endpoints.interfaces" && f["severity"] == "error"
              end)
     end
 
@@ -526,7 +526,7 @@ defmodule CcxtExtract.ValidationTest do
       parent_symbols_index = CcxtExtract.SymbolsIndex.derive(parent_markets)
 
       exchange =
-        Schema.build_exchange(
+        Schema.build_exchange_v4(
           @alias_meta,
           %{
             "describe" => parent_describe,
@@ -565,8 +565,8 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "aliasex")
 
       # No false "output has data but no source" warnings for describe or symbols_index
-      describe_warnings = Enum.filter(findings, &(&1["path"] == "runtime.describe" && &1["severity"] == "warning"))
-      symbols_warnings = Enum.filter(findings, &(&1["path"] == "runtime.symbols_index" && &1["severity"] == "warning"))
+      describe_warnings = Enum.filter(findings, &(&1["path"] == "raw.describe" && &1["severity"] == "warning"))
+      symbols_warnings = Enum.filter(findings, &(&1["path"] == "markets.symbols_index" && &1["severity"] == "warning"))
 
       assert describe_warnings == []
       assert symbols_warnings == []
@@ -583,7 +583,7 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.class_info.rest" && f["severity"] == "error" &&
+               f["path"] == "raw.class_info.rest" && f["severity"] == "error" &&
                  String.contains?(f["message"], "method_count")
              end)
     end
@@ -596,7 +596,7 @@ defmodule CcxtExtract.ValidationTest do
           "method_count" => 10
       }
 
-      exchange = put_in(build_full_exchange(), ["structure", "class_info", "ws"], ws_class)
+      exchange = put_in(build_full_exchange(), ["raw", "class_info", "ws"], ws_class)
 
       source =
         put_in(matching_source_data(), [:classes, "testex"], [
@@ -607,7 +607,7 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.class_info.ws" && f["severity"] == "error" &&
+               f["path"] == "raw.class_info.ws" && f["severity"] == "error" &&
                  String.contains?(f["message"], "method_count")
              end)
     end
@@ -615,7 +615,7 @@ defmodule CcxtExtract.ValidationTest do
     test "detects WS method inventory mismatch" do
       ws_sig = %{@sample_method_sig | "name" => "watchTicker"}
 
-      exchange = put_in(build_full_exchange(), ["structure", "methods", "ws"], [ws_sig])
+      exchange = put_in(build_full_exchange(), ["raw", "method_inventory", "ws"], [ws_sig])
 
       source =
         put_in(matching_source_data(), [:methods_ws, "testex"], [
@@ -626,7 +626,7 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.methods.ws" && f["severity"] == "error" &&
+               f["path"] == "raw.method_inventory.ws" && f["severity"] == "error" &&
                  String.contains?(f["message"], "missing")
              end)
     end
@@ -640,7 +640,7 @@ defmodule CcxtExtract.ValidationTest do
       }
 
       exchange =
-        put_in(build_full_exchange(), ["structure", "overrides"], %{
+        put_in(build_full_exchange(), ["raw", "overrides_meta"], %{
           "extends" => "binance",
           "rest" => nil,
           "ws" => ws_override
@@ -652,7 +652,7 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.overrides.ws" && f["severity"] == "error" &&
+               f["path"] == "raw.overrides_meta.ws" && f["severity"] == "error" &&
                  String.contains?(f["message"], "parent_key mismatch")
              end)
     end
@@ -661,7 +661,7 @@ defmodule CcxtExtract.ValidationTest do
       # Output has class_info.ws = nil, but source has a WS class entry
       exchange = build_full_exchange()
       # Confirm output WS is nil (from full_structure)
-      assert get_in(exchange, ["structure", "class_info", "ws"]) == nil
+      assert get_in(exchange, ["raw", "class_info", "ws"]) == nil
 
       ws_class = %{"type" => "ws", "class_name" => "testex", "method_count" => 10}
 
@@ -674,7 +674,7 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.class_info.ws" && f["severity"] == "error" &&
+               f["path"] == "raw.class_info.ws" && f["severity"] == "error" &&
                  String.contains?(f["message"], "output is null but source has ws class data")
              end)
     end
@@ -689,7 +689,7 @@ defmodule CcxtExtract.ValidationTest do
       }
 
       exchange =
-        put_in(build_full_exchange(), ["structure", "overrides"], %{
+        put_in(build_full_exchange(), ["raw", "overrides_meta"], %{
           "extends" => "exchange",
           "rest" => nil,
           "ws" => ws_override
@@ -704,7 +704,7 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.overrides" && f["severity"] == "error" &&
+               f["path"] == "raw.overrides_meta" && f["severity"] == "error" &&
                  String.contains?(f["message"], "extends mismatch")
              end)
     end
@@ -731,30 +731,30 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.pagination" && f["severity"] == "error" &&
+               f["path"] == "endpoints.pagination" && f["severity"] == "error" &&
                  String.contains?(f["message"], "data mismatch")
              end)
     end
 
     test "passes when output and source pagination are both nil" do
-      exchange = put_in(build_full_exchange(), ["structure", "pagination"], nil)
+      exchange = put_in(build_full_exchange(), ["endpoints", "pagination"], nil)
 
       source = put_in(matching_source_data(), [:pagination, "testex"], nil)
 
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       refute Enum.any?(findings, fn f ->
-               f["path"] == "structure.pagination"
+               f["path"] == "endpoints.pagination"
              end)
     end
 
     test "detects pagination present in source but missing from output" do
-      exchange = put_in(build_full_exchange(), ["structure", "pagination"], nil)
+      exchange = put_in(build_full_exchange(), ["endpoints", "pagination"], nil)
 
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "structure.pagination" && f["severity"] == "error" &&
+               f["path"] == "endpoints.pagination" && f["severity"] == "error" &&
                  String.contains?(f["message"], "output is null but source has data")
              end)
     end
@@ -768,7 +768,7 @@ defmodule CcxtExtract.ValidationTest do
       }
 
       exchange =
-        put_in(build_full_exchange(), ["structure", "pagination"], %{
+        put_in(build_full_exchange(), ["endpoints", "pagination"], %{
           "fetchTrades" => [
             %{
               "strategy" => "dynamic",
@@ -822,7 +822,7 @@ defmodule CcxtExtract.ValidationTest do
 
       # Should produce a finding about missing source, not crash
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.describe" && f["severity"] == "warning"
+               f["path"] == "raw.describe" && f["severity"] == "warning"
              end)
     end
 
@@ -835,18 +835,18 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(build_full_exchange(), source, "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.symbol_patterns" && f["severity"] == "error" &&
+               f["path"] == "markets.patterns" && f["severity"] == "error" &&
                  String.contains?(f["message"], "source markets is null")
              end)
     end
 
     test "detects symbol_patterns null when source markets are present" do
-      exchange = put_in(build_full_exchange(), ["runtime", "symbol_patterns"], nil)
+      exchange = put_in(build_full_exchange(), ["markets", "patterns"], nil)
 
       findings = Validation.validate_roundtrip(exchange, matching_source_data(), "testex")
 
       assert Enum.any?(findings, fn f ->
-               f["path"] == "runtime.symbol_patterns" && f["severity"] == "error" &&
+               f["path"] == "markets.patterns" && f["severity"] == "error" &&
                  String.contains?(f["message"], "symbol_patterns is null")
              end)
     end

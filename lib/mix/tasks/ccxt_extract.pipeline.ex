@@ -3,13 +3,12 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
   @moduledoc """
   Reads all discovery data and assembles validated per-exchange JSON files
-  conforming to the `exchange_v3.json` schema.
+  conforming to the `exchange_v4.json` schema.
 
-  Each output file combines runtime data (describe, symbols_index, url_templates,
-  testnet_urls) and structural data (class hierarchy, sign/handleErrors ASTs,
-  interface_signatures, overrides, unified_endpoints) into a single JSON
-  document. The output directory also includes `_manifest.json` and
-  `exchange_v3.json`.
+  Each output file combines extraction-layer data into consumer-shaped
+  top-level sections (`endpoints`, `auth`, `errors`, `rate_limits`,
+  `normalization`, `markets`, `testnet`, `raw`). The output directory also
+  includes `_manifest.json` and `exchange_v4.json`.
 
       mix ccxt_extract.pipeline
       mix ccxt_extract.pipeline --output /tmp/exchange_output
@@ -24,11 +23,9 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
     * `--pretty` — emit per-exchange JSON with indentation (~2× size; default
       compact). Useful for human inspection during debugging. Manifests,
       fixtures, and reports remain pretty-printed regardless of this flag.
-    * `--schema-target N` — `3` (default) emits per-exchange JSON conforming
-      to `exchange_v3.json`; `4` emits the gated v4 reshape conforming to
-      `exchange_v4.json`. v3 stays the published default until the v4
-      freeze list empties; consumers that pin major version `3` are
-      unaffected unless this flag is passed (Task 130).
+    * `--schema-target N` — `4` (default) emits per-exchange JSON conforming
+      to `exchange_v4.json`; `3` emits the legacy v3 shape conforming to
+      `exchange_v3.json`, reachable until Task 143 removes it.
     * `--tier1 --tier2 --tier3 --dex` — restrict assembly to the named priority
       tiers (combinable). Tier membership resolves via
       `priv/priority_tiers.json` with family inheritance.
@@ -139,7 +136,7 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
   @spec resolve_schema_target!(keyword()) :: 3 | 4
   defp resolve_schema_target!(opts) do
-    case Keyword.get(opts, :schema_target, 3) do
+    case Keyword.get(opts, :schema_target, 4) do
       3 -> 3
       4 -> 4
       other -> Mix.raise("Invalid --schema-target #{inspect(other)}; expected 3 or 4")
@@ -147,8 +144,8 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
   end
 
   @spec target_suffix(3 | 4) :: String.t()
-  defp target_suffix(3), do: ""
-  defp target_suffix(4), do: " (schema target: v4 — gated)"
+  defp target_suffix(4), do: ""
+  defp target_suffix(3), do: " (schema target: v3 — legacy)"
 
   # Full-universe runs overwrite without pruning, so the rail has nothing
   # to protect. Narrowed-scope runs prune out-of-scope files; gate them on

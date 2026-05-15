@@ -63,7 +63,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       for exchange <- exchanges do
         id = get_in(exchange, ["exchange", "id"])
 
-        assert exchange["schema_version"] == "4.0.0-pre"
+        assert exchange["schema_version"] == "4.0.0"
 
         # Top-level shape: producer-shaped sections gone, consumer-shaped present.
         refute Map.has_key?(exchange, "runtime"), "v4 emit must drop /runtime for #{id}"
@@ -742,18 +742,20 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
              "binance parseMarket must have non-nil _unresolved_reason"
     end
 
-    test "v3 emit (default) is byte-identical with or without explicit --schema-target=3 for binance",
+    test "v4 emit (default) is byte-identical with or without explicit --schema-target=4 for binance",
          %{discoveries_dir: discoveries_dir} do
       # Equivalence guard: the only thing that changes between
-      # `schema_target: 3` (explicit) and an omitted opt is one keyword.
-      # Output must be identical down to the byte.
+      # `schema_target: 4` (explicit) and an omitted opt is one keyword.
+      # Output must be identical down to the byte. Task 142 flipped the
+      # default 3 → 4; v3 is still reachable via explicit `schema_target: 3`
+      # until Task 143 deletes it.
       {:ok, [explicit], _} =
         Pipeline.extract(
           discoveries_dir: discoveries_dir,
           ccxt_version: "4.5.45",
           extracted_at: "2026-05-08T00:00:00Z",
           scope: MapSet.new(["binance"]),
-          schema_target: 3
+          schema_target: 4
         )
 
       {:ok, [implicit], _} =
@@ -766,8 +768,10 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
 
       assert explicit == implicit
       assert explicit["schema_version"] == CcxtExtract.Schema.schema_version()
-      assert Map.has_key?(explicit, "runtime")
-      assert Map.has_key?(explicit, "structure")
+      # v4 top-level reshape — these keys replace v3's `runtime` / `structure`.
+      assert Map.has_key?(explicit, "endpoints")
+      assert Map.has_key?(explicit, "auth")
+      assert Map.has_key?(explicit, "raw")
     end
   end
 end

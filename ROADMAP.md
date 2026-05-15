@@ -66,7 +66,7 @@ Phases reordered by criticality for consumers calling *any* endpoint (unified or
 
 **Soft gate:** Task 114 (extraction determinism audit) — ✅ **shipped 2026-05-14.** Extraction is now byte-deterministic for a fixed CCXT version + bundle + scope (`mix ccxt_extract.determinism_check` gates it), so freeze diffs are meaningful and the v4 emit default can flip without determinism noise drowning the signal.
 
-**v4 emit gate (Task 130):** opt-in `--schema-target=4` flag, mirrors the existing `--pretty` plumbing (CLI flag → opts → `Pipeline.write!/3` → `Schema.build_exchange_v4/4`). v3 stays default until freeze list is empty AND `ccxt_client` has its v4 migration ready (Task 114 — the determinism soft gate — is ✅ green as of 2026-05-14). Schema files: `priv/schema/exchange_v3.json` (current) and `priv/schema/exchange_v4.json` (new) coexist during the freeze; v3 retained for one release post-flip per the established Task 61c → Task 107 → Task 117 precedent.
+**v4 emit gate (Task 130):** opt-in `--schema-target=4` flag, mirrors the existing `--pretty` plumbing (CLI flag → opts → `Pipeline.write!/3` → `Schema.build_exchange_v4/4`). v3 stays default until freeze list is empty AND `ccxt_client` has its v4 migration ready (Task 114 — the determinism soft gate — is ✅ green as of 2026-05-14). Schema files: `priv/schema/exchange_v3.json` (current) and `priv/schema/exchange_v4.json` (new) coexist during the freeze; v3 is deleted once v4 is the default (Task 143, v3 teardown) — no retention window, per the greenfield stance in [CLAUDE.md](CLAUDE.md#project-stance--greenfield).
 
 **v4 reshape — top-level sections** (consumer-shaped, not producer-shaped — see [SCHEMA.md § Version 4.0.0](SCHEMA.md#version-400--in-progress-gated) for the full path-migration table):
 
@@ -283,7 +283,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 
 ## Superseded / Deferred
 
-> ⛔ truly-superseded items only. The 🔶-deferred tasks (66c, 66d, 99, 99b, 24, 36, rate-limit header extraction) now live in [`roadmap/tasks.toml`](roadmap/tasks.toml) as `status = "blocked"` with a `blocked_reason`, rendered in their phase tables above — run `rmap list --status blocked` to see them.
+> ⛔ truly-superseded items only. The 🔶-deferred tasks (66c, 66d, 99, 99b, 24, rate-limit header extraction) now live in [`roadmap/tasks.toml`](roadmap/tasks.toml) as `status = "blocked"` with a `blocked_reason`, rendered in their phase tables above — run `rmap list --status blocked` to see them. Task 36 was promoted to `status = "superseded"` (PR #30) and now renders ⛔ in its phase table above.
 
 | Task | Status | Reason |
 |------|--------|--------|

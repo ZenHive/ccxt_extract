@@ -69,7 +69,7 @@ Neither tool alone is sufficient. `contract_test` cross-validates the two (e.g.,
 
 ### Per-exchange JSON pipeline
 
-Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v3.json`. Provenance is explicit — every field carries a `raw`/`derived`/`override` tag plus the reason for any override.
+Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v3.json`. Provenance is explicit — every emitted JSON carries a flat top-level `_provenance` map keying each section (by RFC 6901 JSON Pointer) to `raw`/`derived`/`override`. Override *reasons* live in the `priv/overrides/<id>.json` entry, not inline in the emitted payload.
 
 **Both paths are gitignored derived state.** `priv/output/` and `priv/discoveries/*` are not tracked in git — they're regenerated per CCXT release and would otherwise bloat the repo (~1GB of JSON per full-universe run, already accumulated 827MB in `.git`). The one exception is `priv/discoveries/class_hierarchy.json`, which `lib/ccxt_extract/tiers.ex` reads at compile time via `@external_resource` and must remain committed. Fresh clones materialize the rest via `mix setup`; external consumers via `mix ccxt_extract.update --output DIR`.
 

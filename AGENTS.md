@@ -4,7 +4,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-`ccxt_extract` is an Elixir library that serializes everything the CCXT JS library knows about 110+ cryptocurrency exchanges into language-agnostic JSON, so consumers in any language (Elixir, Rust, Go, Python) can call exchanges without walking AST. See [README.md](README.md) for user-facing setup and [ROADMAP.md](ROADMAP.md) for the active work plan.
+`ccxt_extract` is an Elixir library that serializes everything the CCXT JS library knows about 110+ cryptocurrency exchanges into language-agnostic JSON, so consumers in any language (Elixir, Rust, Go, Python) can call exchanges without walking AST. See [README.md](README.md) for user-facing setup and [ROADMAP.md](ROADMAP.md) for the active work plan — `ROADMAP.md` is **generated** by `rmap` (the roadmap CLI) from `roadmap/tasks.toml`; edit the TOML, not the Markdown (see § Documentation invariants).
+
+## Project stance — greenfield
+
+This repo is in **greenfield mode until further notice. No backward compatibility.**
+Removing complexity is the priority. When in doubt: delete the old path, don't wrap it.
+
+- Old schema versions are deleted, not retained alongside the new one.
+- Do not add compatibility shims, migration aliases, dual-version dispatch, or
+  "one release" retention windows without explicit user direction.
+- Breaking changes do not require a deprecation period — the sole consumer
+  (`../ccxt_client/`) takes one coordinated migration.
 
 ## Standard imports
 
@@ -441,7 +452,7 @@ This rule complements **Integrity and Accuracy** above: that one says *don't fab
 
 Run multiple Claude Code sessions in parallel without files landing on the wrong branch. The mechanic: every new branch gets its own worktree under a centralized location, named after a tracking ID, cleaned up when the work merges.
 
-**Scope:** local laptop only — Claude Code on `~/_DATA/code/<repo>/`. Cloud-delegation worktrees (Codex `codex/...`, Cursor `cursor/...`) are governed separately by `delegation-rules.md` and `linear-workflow.md`.
+**Scope:** local laptop only — Claude Code on `~/_DATA/code/<repo>/`. Cloud-delegation worktrees (Codex `codex/...`, Cursor `cursor/...`) are governed separately by `delegation-rules.md`, `agent-dispatch.md`, and `agent-pr-review.md`.
 
 ## When to Create a Worktree
 
@@ -553,7 +564,7 @@ The act of creating a worktree under `~/_DATA/worktrees/<repo>/<id>/` is itself 
 
 ## What NOT to Do in a Worktree
 
-- **Don't open IEx / Tidewave from a worktree.** Use the host project (`~/_DATA/code/<repo>/`) for runtime exploration. IEx in the worktree creates a parallel `_build` and recompile churn that races with the host session. Mirrors the existing `linear-workflow.md` § "Tidewave-in-worktree" constraint.
+- **Don't open IEx / Tidewave from a worktree.** Use the host project (`~/_DATA/code/<repo>/`) for runtime exploration. IEx in the worktree creates a parallel `_build` and recompile churn that races with the host session. Mirrors the `agent-pr-review.md` § "Tidewave is verification, not necessarily fix" constraint.
 - **Don't create a worktree for read-only exploration.** Read files in-place from the main checkout. Worktrees are for branch-worthy work that will produce commits.
 - **Don't commit from a non-worktree path** (the main checkout) when the work belongs to a feature branch. If you find yourself about to `git checkout -b` from the main checkout, stop and create a worktree.
 
@@ -569,615 +580,17 @@ A project can opt out of the worktree workflow by pinning a memory file under `~
 - `~/.claude/includes/task-prioritization.md` § "Parallel Work (`[P]`)" — when ROADMAP-tracked work uses worktrees
 - `staged-review:audit-review` skill — the post-merge hygiene pass
 
-<!-- @-import: ~/.claude/includes/linear-workflow.md -->
-## Linear-as-Queue Workflow
-
-Cross-repo issue tracking via Linear MCP, primarily for **cloud-agent delegation** (Codex, Cursor, others as the lineup grows) and **multi-repo coordination**. The shape is generic — any repo can adopt it. Workspace specifics (team key, project IDs, repo↔project mapping) belong in a separate workspace include or per-repo CLAUDE.md, **not here**.
-
-### When to Adopt
-
-> **Scope note.** Linear's first-party `@Linear` agent (Settings → AI) is a separate system. This file covers third-party cloud agents (Cursor, Codex, similar) that appear as Linear users assignable via the `delegate` field on issues.
-
-Use Linear-as-queue when:
-
-- **Cloud-agent delegation is in active use.** `[CX]` / `[CSR]` tasks need a queue the agent can poll; ROADMAP.md alone isn't pollable.
-- **Work spans 2+ repos.** "Library release → downstream-app bump" deserves linked issues.
-- **Issue state must survive across Claude sessions and the IDE.** Linear's UI/Slack/email integrations beat ROADMAP.md for staying top-of-mind.
-
-Don't adopt when single-repo with a clean ROADMAP.md is doing the job, no cloud-agent delegation is in flight, or the work fits in a TodoWrite session.
-
-### MCP Registration
-
-Linear is one workspace per user — register at **user scope**:
-
-```bash
-claude mcp add --scope user --transport http linear-server https://mcp.linear.app/mcp
-```
-
-| Scope | Behavior |
-|---|---|
-| `user` (recommended) | Available in every session. Single registration. |
-| `local` (per-project) | Only that project sees it. |
-| `project` (`.mcp.json`) | Avoid — `.mcp.json` is checked-in and shared with collaborators who may not have Linear access. |
-
-**Tidewave parallel:** Tidewave is per-project (unique port → `.mcp.json`). Linear is one workspace serving all repos → user-scope is right; don't reflexively copy the Tidewave pattern.
-
-Verify with `claude mcp list`. Restart Claude Code after registration if tools don't appear.
-
-### Workspace Shape
-
-Hierarchy: **Workspace → Teams → Projects → Issues** (+ optional Cycles, Milestones, Initiatives).
-
-- **One team per workspace** for personal portfolios. Teams matter when multiple humans need separate workflows.
-- **One project per repo.** Clean `project: <repo>` filter on every `save_issue`. Cross-repo work uses `relatedTo` between issues.
-- **Workspace-wide labels** — queue selectors that `staged-review:commit-review` and the agents themselves filter on:
-  - `cx-eligible` — Codex-eligible
-  - `cursor-eligible` — Cursor-eligible (broader; hex.pm + mix tasks reachable)
-  - Generic: `Bug`, `Feature`, etc.
-- **Status flow** (default Linear team workflow): `Backlog` → `Todo` → `In Progress` → `In Review` → `Done` (plus `Canceled`, `Duplicate`).
-
-**Alternative** (one mega-project + repo-tagged labels): only when project-create permissions are restricted. Cross-repo `relatedTo` story is harder; project-level filtering breaks down. Escape hatch only.
-
-#### Repo selector for multi-repo workspaces
-
-When one Linear workspace serves multiple cloud-agent-targeted repos, Cursor needs an explicit signal which on-disk repo to clone. Cursor's documented selector priority (cursor.com/docs/integrations/linear):
-
-1. `[repo=owner/repository]` syntax in the issue body or any later comment
-2. Issue-scope labels matching `<org>/<repo>` against connected GitHub repos
-3. Project-scope labels matching the same pattern
-4. Cursor dashboard default repo
-
-**Recommended pattern:** workspace-wide label group `repo` with one child label per repo, attached at issue scope.
-
-- Create a workspace label group named `repo` once (Linear UI → Workspace settings → Labels → New group). Add one child label per connected GitHub repo, named `<org>/<repo>` exactly.
-- **Per-repo onboarding** (one-time, before the first delegated issue):
-  1. Verify: `mcp__linear-server__list_issue_labels(name: "<org>/<repo>")`.
-  2. If missing: `mcp__linear-server__create_issue_label(name: "<org>/<repo>", parent: "repo")`. Omit `teamId` for workspace scope.
-  3. Record the returned label id in the workspace-specific include's "Repo Selector Labels" table.
-- On every delegated issue, attach `cursor-eligible` (or `cx-eligible`) AND the matching `<org>/<repo>` label.
-
-**Silent-drop failure mode.** If `<org>/<repo>` doesn't exist, `save_issue` accepts the name and silently drops it from the response. Cursor then falls back to its dashboard-default repo (silent miscluster). Recovery: cancel-and-refile after running the onboarding step.
-
-**Known gap:** project-scope label attachment via MCP doesn't currently persist — route via issue-scope labels only; the body-syntax `[repo=owner/repository]` is the documented escape hatch.
-
-### Codex Delegation (`[CX]`)
-
-> **🚨 Suspended (Elixir projects, 2026-05-05).** Codex Cloud has no Elixir runtime; tier-2 review-only `[CX]` is also disabled (polling-race failure mode; bot ensemble already covers correctness). Do not create new `[CX]` issues of either flavor — route to `[CSR]` (Cursor). See `cloud-agent-environments.md` § "Codex Cloud → Code-mutation delegation SUSPENDED" for the path back. Criteria below describe what `[CX]` *would* mean if/when delegation resumes.
-
-**When restored:** flow mirrors the Cursor Delegation Flow below — `team` / `project` / `labels: ["cx-eligible", "<org>/<repo>"]` / `delegate: "Codex"` / status `Todo` / body-as-prompt. Local Claude invokes `staged-review:commit-review`; auto-merge fires when 5 preconditions hold, `audit-review` chains off the merge (see `delegation-rules.md` § "DON'T AUTO-MERGE PRS").
-
-**Marker semantics.** Mark ROADMAP tasks suitable for Codex delegation with `[CX]`. **Default: tasks meeting all criteria are `[CX]` unless there's a stated reason otherwise.** Claude's bias is to grab work; this default is a counterweight.
-
-**Criteria (all must be true):**
-
-- Self-contained — single module or feature, no orchestration with other in-flight work
-- No Tidewave / live-data exploration required (Codex has no internet)
-- No hex-docs lookup required for niche or version-pinned APIs (Codex has no hex.pm)
-- No dependency changes (`mix.exs`, lockfile)
-- No `.mcp.json`, hooks, or CI changes
-- Spec is fully captured in the Linear issue body — no live clarifications mid-flight
-
-ROADMAP row examples:
-
-```
-| Task 80 `[CX]` | ⬜              | Delegate to Codex                  |
-| Task 81 `[CX]` | 🔄 in-review   | Codex PR open, awaiting review     |
-```
-
-### Cursor Delegation Flow
-
-Same shape as the Codex flow with **broader eligibility** — Cursor's cloud env reaches hex.pm and runs `mix` tasks (see § "Cloud Agent Environments").
-
-1. **Create issue** with `team`, `project: <repo>`, `labels: ["cursor-eligible", "<org>/<repo>"]` (skip the second label in single-repo workspaces), `delegate: "Cursor"`, **body = the prompt** (Context / Task / Acceptance criteria / Out of scope / File paths / Scoring / Reviewer note), initial status `Todo`.
-
-   `assignee` and `delegate` are independent fields — an issue can have a human assignee AND a cloud-agent delegate simultaneously. Cursor and Codex watch `delegate`; pickup does not require the agent to also be assignee.
-
-2. **Cursor picks it up.** Background Agent transitions `Todo` → `In Progress`, opens a non-draft PR, transitions to `In Review`. *Observed:* status often stays at `In Progress` — partial-transition failure mode. Don't rely on `In Review` as the readiness signal; PR attachment is authoritative (§ "Polling for 'Ready for Review'"). **Canonical fix:** § "Status Transitions". **Required:** Cursor's `gh pr create` should NOT use `--draft` — the AI-Guidance "PR opened non-draft → In Review" rule (§ "Status Transitions") only fires for non-draft PRs. State this in the issue body's `## Reviewer note`.
-
-3. **Cursor self-validates** — `mix test.json --quiet`, `mix credo --strict`, `mix format --check-formatted`, targeted `mix test test/...`. PRs ship harness-green from Cursor's side. Local `commit-review`'s job is the 5-category audit + acceptance-criteria cross-reference, not "did the harness pass."
-
-4. **Push back via Linear comment with `@cursor` mention.** Cursor picks up `@cursor` mentions within ~5 min, amends the PR with a fresh commit, posts confirmation, reruns the harness. See § "Wake-Mention Discipline" for placement rules.
-
-5. **Auto-merge on ✅ + green CI** (preconditions in `delegation-rules.md` § "DON'T AUTO-MERGE PRS"). When all 5 preconditions hold (✅ verdict, green CI, feature branch — not the repo's default, no requested-changes, no `[BLOCK-MERGE]` label), `commit-review` runs `gh pr merge --squash --delete-branch` then chains `Skill(audit-review)` against the merge SHA. Verdict + audit run unattended. If any precondition fails, surface the verdict and stop — user merges manually.
-
-### Self-Authored Worktree Flow
-
-Local Claude implementing a Linear-tracked task in a worktree (no cloud-agent dispatch — see `worktree-workflow.md`). Same Linear cadence as the Cursor flow, driven by the implementer/reviewer instead of the cloud agent.
-
-| Phase | Trigger | Linear action | Comment shape |
-|---|---|---|---|
-| 1. Plan-mode → Linear issue | `task-driver` `ExitPlanMode` approval | `save_issue(team, project, status: Todo, title, body: <plan>)` — no `[CX]`/`[CSR]` marker | (initial issue body) |
-| 2. Pickup (worktree created) | Fresh implementer session creates worktree | `save_comment(issueId, "Picked up — worktree at ~/_DATA/worktrees/<repo>/<id>/")` + status → `In Progress` | One short line, includes the worktree path |
-| 3. PR open | `gh pr create` returns | `save_comment(issueId, "PR #<n> opened: <url>")` + status → `In Review` (or rely on Linear AI Guidance) | One line, includes the PR URL |
-| 4. Pre-merge verdict | `commit-review` reaches verdict | `save_comment(issueId, <verdict summary + decision>)` | Reuses commit-review's verdict-comment shape |
-| 5. Merge | Auto-merge or manual `gh pr merge` | `save_comment(issueId, "Merged at <sha>")` + status → `Done` (or rely on native GH workflow rule) | One line |
-| 6. Audit complete | `audit-review` writes `.audit/<sha>.md` | `save_comment(issueId, "Audit complete: <one-line summary>")` (optional — only post if findings, otherwise the audit commit + `.audit/<sha>.md` is the trail) | One line |
-
-**Posting permission:** all six rides on § "POST LINEAR / PR COMMENTS WITHOUT ASKING DURING DELEGATION FLOWS" — DEFAULT-DO during an active linear-workflow flow. No per-comment user gates.
-
-**Status transitions:** Phase 2 (`In Progress`) and Phase 3 (`In Review`) can be driven by either explicit `save_issue(stateId)` calls or Linear's native AI Guidance + GH integration if configured (§ "Status Transitions"). Phase 5 (`Done`) is owned by Linear's native GH workflow rule when configured; explicit `save_issue` only when the rule didn't fire.
-
-**ROADMAP-fallback equivalent.** When Linear is absent, the same six transitions land in the worktree session's commits/PR/audit artifacts: ROADMAP row marker `⬜` → `🔄 task-N` (worktree path in row) → ✅ in the post-merge `audit(<sha>): ...` commit. No `save_comment` calls; the audit commit + `.audit/<sha>.md` is the durable trail.
-
-### Wake-Mention Discipline
-
-`@cursor` (and `@codex`, future cloud-agent display names) is a **wake/summon signal, not a tag**. Within ~5 min of an `@cursor` mention on a Linear comment, Cursor's Background Agent picks it up as a fresh push-back and runs a session — including issues already in `Done`. Three hard rules:
-
-1. **Never use `@cursor` on a "stop," "FYI," or closing-out comment.** Posting `@cursor — task is complete; please don't spawn further sessions` literally summons the session you're trying to prevent. For closing-out / informational mentions, write `Cursor:` or `Cursor —` in plain prose. Reserve `@cursor` for **fix-this-now push-back**.
-
-2. **One wake mention per push-back round, not one per surface.** When pushing back across both surfaces (GitHub PR review for line-level, Linear comment for scope/intent), the wake mention goes on **exactly one**. Two `@cursor` mentions in the ~5min pickup window risks double-summons.
-
-3. **Decide BEFORE posting either surface.** If `@cursor` placement is genuinely ambiguous, ask the user before the first surface goes up. Posting one with `@cursor` and asking afterwards has already burned the wake signal. Same shape for `@codex`.
-
-**Where to place the one mention.** Linear `@cursor` is the verified wake channel — prefer it. The GitHub PR review is the **content**, not the wake signal — post line-level findings without `@cursor` if the Linear comment carries the mention. Cleanest single-surface shape: skip the GitHub review, put line-level findings + scope paragraph inline in **one** Linear `@cursor` comment with verbatim code blocks.
-
-**Recovery.** If you slip and post a wake-mention in a stop-intent comment, edit-update via `mcp__linear-server__save_comment` with the comment `id` to replace the body — fast edit beats most polls.
-
-### Review Tiering: When Full Tier 2 Earns Its Cost
-
-`staged-review:commit-review` is expensive. Running it uniformly on every cloud-agent PR over-applies the cost.
-
-**Bots cover the correctness layer.** CodeRabbit, Copilot, and Codex's GitHub bot (3-bot ensemble) catch substantive code-correctness defects at critical tier — wrong arg shapes, missing nil-handling, panic-table swaps. Codex's bot specifically does evidence-based fact-checking with permalinks.
-
-**Local Tier 2's unique value at critical tier is NOT second-line code review.** It's the orchestration layer above the bots:
-
-1. **Triage** — turn CodeRabbit "consider this" into a verbatim push-back patch with `@cursor`; defer out-of-scope bot findings instead of letting them dilute push-back.
-2. **Project-specific rule enforcement** — `.sobelow-skips` regen, `TODO(Task N):` markers, ROADMAP/CHANGELOG acceptance bullets, `harness.yml` conventions.
-3. **Procedural orchestration** — merge-conflict surfacing, duplicate-PR closure, CI-red triage, status transitions, push-back-vs-fix routing.
-4. **Deep diagnosis** — test-isolation failures, GenServer state pollution, runtime/compile-time interaction bugs that require reading beyond the diff.
-
-If you're re-finding what CodeRabbit already flagged, you're duplicating bot work — pivot to the four roles above.
-
-| Tier | What it covers | Action |
-|---|---|---|
-| **Critical** | signing, transaction encoding/decoding, ABI codec, RPC client, KMS, anything in the ≥95% coverage tier per `critical-rules.md` § "RAISE COVERAGE BEFORE MUTATING" | Full Tier 2 — role-shifted to triage + project rules + orchestration + diagnosis, not redundant correctness review |
-| **Standard** | type/spec fixes, doc updates, coverage pushes, generator changes, test additions, refactors outside the critical-tier list | `gh pr checks <n>`. If green AND bot reviews clean: merge. If any bot flagged something: 5-min skim. No full Tier 2. |
-| **Ceremony** | close-out PRs, AGENTS.md tweaks, README-only changes, ROADMAP/CHANGELOG-only updates | CI-green check. Merge. No skim. |
-
-**Touched-files semantic > LOC count.** A 50-LOC change in `lib/<app>/signer/` is critical; a 200-LOC docs change is ceremony.
-
-The push-back-vs-fix matrix below applies to Tier-2 reviews only. Standard/ceremony PRs don't engage the calculus — they merge or fail CI.
-
-For batches of 2+ open cloud-agent PRs, § "Merge-Train Mode (`flow-review`)" applies this tier matrix automatically.
-
-### Cloud Agent Environments
-
-For agent envs (hex.pm, mix tasks, Tidewave, external HTTP availability per agent), see `cloud-agent-environments.md`. Eligibility recap: `[CX]` is code-mutation suspended; `[CSR]` covers hex.pm verification, mix-task validation, third-party API correctness, AND Tidewave / live-runtime tasks (Tidewave reachable on Cursor via `curl localhost:<port>/tidewave/mcp` — verified 2026-05-07; native `CallMcpTool` requires pre-session start).
-
-#### Push-Back-vs-Fix-Locally Matrix by Agent
-
-**Default flow is review-only.** Read the diff via `gh pr view`, `gh pr diff`, `gh api repos/.../pulls/<n>/comments`. Don't spin up a worktree or `gh pr checkout` unless the finding lands in a fix-locally row OR CI is absent — branch checkout silently biases toward "I'll amend this." CI is the shared error gate: every push to a cloud-agent's branch triggers `harness.yml`, so push-back → agent re-pushes → CI runs → green = ready / red = next round. The matrix below is the exception list — local fix is reserved for env-constraint cases the agent fundamentally can't verify.
-
-| Bug class | Codex action | Cursor action |
-|---|---|---|
-| User-code logic / project-internal API misuse | Push back | Push back |
-| Hex-package API correctness (third-party signatures) | **Fix locally** — Codex has no hex.pm | **Push back** — Cursor has hex.pm |
-| Test failure / coverage gap on new code | Push back (best Codex can do without `mix test`) | **Push back** — Cursor runs `mix test` |
-| Coverage gap on legacy code surfaced by the PR | **Fix locally** — pre-existing debt | **Fix locally** — same |
-| Live-data / runtime-state — verification only | **Push back with Tidewave evidence** (Codex has no Tidewave) | **Push back** — Cursor can run Tidewave via `curl` (or `CallMcpTool` if pre-started) |
-| Live-data / runtime-state — fix needs verifier's runtime | **Fix locally** (paste-as-comment if viable) | **Push back** if Cursor can verify in its own VM; **fix locally** only if local-only state (your IEx, your DB) is required |
-| External spec / RFC / EIP correctness | **Fix locally** — Codex has no external HTTP | Push back (Cursor likely has HTTP) |
-| Acceptance criteria not met | Push back | Push back |
-
-**Tidewave is verification, not necessarily fix.** Local Claude has `mcp__tidewave__project_eval` and live runtime/database access. Cursor can also reach Tidewave from its VM (curl-to-MCP always; `CallMcpTool` if pre-started — see `cloud-agent-environments.md` § "Tidewave on Cursor — Reach details"); Codex cannot. Open IEx in the host project (NOT a PR worktree — Tidewave runs against host's currently-loaded code), run `project_eval` against the suspected case, paste the result into the push-back comment as evidence. The asymmetry is a **push-back strengthener**, not a fix-locally trigger — fix-locally only when the code fix is too large to paste verbatim or needs generated artifacts.
-
-> ```
-> @cursor verified failure case via Tidewave:
->
-> iex> Acme.Users.process(%{user_id: nil})
-> ** (FunctionClauseError) no function clause matching in Acme.Users.process/1
->
-> Please add a nil guard or update the spec to exclude nil. Re-pushing should green CI.
-> ```
-
-**Preferred channel for fix-locally-required findings: paste-as-`@cursor`-comment.**
-
-When a finding lands in a fix-locally row, paste the fix as a Linear `@cursor` (or `@codex`) comment with a verbatim code block:
-
-> ```
-> @cursor please apply verbatim and re-push:
->
-> ```elixir
-> # exact code block here, with file:line context above
-> ```
->
-> Verified against [link to hex docs / RFC / Tidewave query result].
-> ```
-
-The agent applies, re-pushes, CI verifies. Authorship preserved. Single error gate.
-
-**Fallback:** separate branch off the PR's base commit — only when the fix is too large to paste verbatim or needs generated artifacts.
-
-**Never amend the agent's branch.** See `delegation-rules.md` § "NEVER PUSH TO A CLOUD-AGENT'S BRANCH".
-
-**Hybrid is fine:** a PR may have both push-back and fix-locally blockers. Surface as two groups; user decides.
-
-### Fetch Existing Comments Before Auditing
-
-**Before any cloud-agent PR audit, fetch existing comments from BOTH the GitHub PR and the Linear issue.**
-
-GitHub PR — Copilot, CodeRabbit, Codex's GitHub bot, human reviewers:
-
-```bash
-gh pr view <number> --json reviews,comments        # PR-level + issue-style
-gh api repos/OWNER/REPO/pulls/<number>/comments    # line-level review comments
-```
-
-Linear issue — delegating user's clarifications, scope adjustments, prior-reviewer notes, agent's PR-open summary, prior `@codex` / `@cursor` push-back exchanges:
-
-```
-mcp__linear-server__list_comments   # filter by issueId
-mcp__linear-server__get_issue       # also returns the comment thread
-```
-
-Use both to **skip** issues already flagged, **cross-reference** with own findings, **defer to** existing reviewers when something is intentional, **detect scope drift** (Linear comment usually wins over original issue body), **track push-back round-trips**.
-
-Bot caveats: Copilot can fabricate verbatim diff citations (verify before acting); Codex's GitHub bot does evidence-based fact-checking with permalinks.
-
-### Status Transitions
-
-Three transitions in the delegated-PR lifecycle. Each has **one** owning mechanism — they're complementary, not overlapping.
-
-| Transition | Mechanism | Notes |
-|---|---|---|
-| `Todo → In Progress` (agent picks up) | Linear AI Guidance | No GH event to hook — only the agent can drive this |
-| `In Progress → In Review` (PR opened non-draft) | Linear AI Guidance | Drafts excluded — see undraft path below |
-| `In Review → Done` (PR merged to default) | Native Linear GH workflow rule | Hooked to the GitHub merge event |
-
-**Why two mechanisms.** Agent-driven (Linear AI Guidance) covers transitions that happen before a hookable GitHub event or depend on the agent's own state. GH-integration-driven workflow rules cover transitions hooked to definitive GitHub events (merge is the canonical case).
-
-**Linear AI Guidance setup** (Settings → AI → Guidance, workspace or team scope):
-
-> "When you pick up a Linear issue, transition its status to **In Progress**. When you open a non-draft pull request linked to a Linear issue, transition that issue's status to **In Review**. Do not flip status on PR close or merge — the GitHub integration handles the merge → Done transition."
-
-Cursor (and any other agent reading workspace guidance) picks this up. Codex's behavior here is less verified; treat as best-effort until observed.
-
-**Native GH workflow rule setup** (one-time, workspace admin):
-
-1. Linear → **Workspace settings → Integrations → GitHub** → confirm the org is connected.
-2. Linear → **Workspace settings → Workflow** (or Team-scoped) → enable: **PR merged to default branch** on a branch tied to an issue → status `Done`.
-3. Verify with a test PR on a branch named `INE-N-…`.
-
-**Drafts.** The "PR opened non-draft → In Review" guidance excludes drafts. If agents open PRs with `gh pr create --draft`, the transition doesn't fire until undrafted. Two complementary fixes:
-
-- Agents stop opening drafts (set in issue body's `## Reviewer note`; Cursor Delegation Flow Step 2).
-- `commit-review` Step 4 auto-undrafts via `gh pr ready` when CI is green AND the PR is still draft.
-
-**Polling as safety net.** Both mechanisms can fail to fire (agent didn't read guidance; GH event arrived during a Linear outage). § "Polling for 'Ready for Review'" treats the PR attachment as the authoritative signal — agnostic to status — and is the safety net for both.
-
-### Polling for "Ready for Review"
-
-**The PR attachment is the authoritative signal, not the issue status.** Linear's status field is a cached version of "agent opened a PR" — neither Codex nor Cursor write the cache reliably.
-
-```
-filter:
-  delegate ∈ { Codex, Cursor }
-  status ∈ { In Review, In Progress }
-then:
-  filter to issues with at least one open GitHub PR attachment
-  (via mcp__linear-server__get_issue → attachments[].url)
-```
-
-Group results into:
-
-- **`In Review` (canonical):** the agent's transition fired correctly
-- **`In Progress` with open PR (non-canonical):** agent opened the PR but didn't flip — surface explicitly so the reviewer/user can flip after review
-
-This is the polling shape `staged-review:commit-review` Step 2 uses. For batch processing of N≥2 PRs, see § "Merge-Train Mode (`flow-review`)".
-
-### Cross-Repo Coordination
-
-- Use `relatedTo` on `save_issue` to link issues across projects. Loose coupling — "these are about the same thing."
-- Use `blocks` / `blockedBy` for hard ordering — "library release blocks downstream-app bump."
-- **Don't** pile cross-repo work into one issue. Each repo owns its own PR; one issue per repo keeps PR review surface aligned with repo boundaries.
-
-If cross-repo coordination becomes regular (3+ linked issues per month), promote to a Linear **Initiative** as a grouping overlay.
-
-### Merge-Train Mode (`flow-review`)
-
-**Invocation.** Workflow-only — no CLI, no skill wrapper. Triggered by user request ("run flow-review") or in-session decision once 2+ cloud-agent PRs are open in the current repo. The bottleneck it solves: each merge advances the default branch and invalidates every other PR's base SHA, so per-PR rebase round-trips surface phantom conflicts in untouched files. With 3+ PRs queued, rebase tax exceeds review time.
-
-**What `flow-review` does.**
-
-1. **Polls** all open cloud-agent PRs in the current repo (filter from § "Polling for 'Ready for Review'", scoped to current repo + extended to include `mergeStateStatus`).
-2. **Classifies** each PR by tier (per § "Review Tiering") and mergeability (CI green | red | conflicting | bot-flagged).
-3. **Dependency-sorts** the queue from a directed graph built on file-overlap (parsed from `## Files to modify` of each PR's source issue) + Linear `blockedBy` / `relatedTo`. PRs touching only their own files merge first; coordination-file PRs last. Sort by PR age within each layer.
-4. **Surfaces** the ordered queue with per-PR action recommendations.
-5. **Executes** the rebase cascade between merges. User owns merges; reviewer owns rebases.
-
-**Tier-based action matrix:**
-
-| Tier | CI | Bots | Conflicts | Action |
-|---|---|---|---|---|
-| Ceremony | green | clean | none | Auto-merge if preconditions hold (cloud-agent PR), then chain `audit-review`; otherwise surface as "ready, awaiting `gh pr merge`" |
-| Standard | green | clean | none | Same as ceremony, plus 5-min skim if any bot finding |
-| Critical | green | clean | none | Hand off to `staged-review:commit-review` (single-PR Tier 2), back to queue |
-| Any | red | — | — | Surface for human triage; skip in current pass |
-| Any | — | — | conflicting/behind | Trigger rebase cascade (below) |
-| Any | — | flagged | — | Surface bot finding for triage (push-back vs. defer) |
-
-**Rebase cascade.** After the user runs `gh pr merge` on PR #N:
-
-```
-for each remaining PR in dependency order:
-  if PR.mergeStateStatus ∈ { BEHIND, DIRTY }:
-    git fetch && git checkout <agent-branch>
-    git rebase origin/<default-branch>
-    if conflicts:
-      attempt mechanical resolution (see invariants)
-      if mechanical resolution succeeds:
-        git push --force-with-lease
-      else:
-        git rebase --abort
-        post Linear @cursor / @codex comment with conflict context
-        skip this PR (agent picks up the rebase)
-    else:
-      git push --force-with-lease
-    wait for CI re-run; loop
-```
-
-**Rebase-only carve-out invariants.** Authorized by `delegation-rules.md` § "NEVER PUSH TO A CLOUD-AGENT'S BRANCH" → "Rebase-only carve-out (merge-train mode)". Strict; do not relax.
-
-- **Allowed:** `git rebase origin/<default>` + `git push --force-with-lease` to the cloud-agent branch.
-- **Mechanical-resolution test:** post-rebase diff vs. pre-rebase diff (against the new merge base) MUST be byte-identical except inside conflict regions. Verify with `git diff <pre-rebase-tip>..HEAD -- <files-not-in-conflict>` returning empty.
-- **Mechanical resolutions allowed:** alphabetical/sorted re-merge of registry append-only edits (`@descripex_modules`, plug-pipeline lists, supervisor children), test-file additions with no overlap, doc append-only blocks. Deterministic from source.
-- **Forbidden:** semantic conflict resolution, any logic edit, function-body changes during rebase, any push without `--force-with-lease`, any push to a non-cloud-agent branch under this carve-out.
-- **Abort path:** if mechanical resolution doesn't apply cleanly, `git rebase --abort` and post a Linear `@cursor` / `@codex` comment with conflict context. Agent picks up the rebase.
-
-**Auto-merge per PR (preconditions hold).** `delegation-rules.md` § "DON'T AUTO-MERGE PRS" loosens for cloud-agent PRs that meet all 5 preconditions — merge-train auto-merges each PR in dependency order, chains `audit-review` against each merge SHA, then rebases the next PR onto the new tip. PRs failing preconditions surface with the `gh pr merge` command for the user.
-
-**When to use:**
-
-| Situation | Use |
-|---|---|
-| 1 PR, critical tier | `staged-review:commit-review` |
-| 1 PR, standard or ceremony | Either; merge-train is overhead-equivalent at N=1 |
-| 2+ PRs, mixed tiers | **Merge-train.** Cascades, sorts, hands critical-tier off to `commit-review` inline |
-| 2+ PRs, all ceremony/standard | **Merge-train.** Maximum gain — no per-PR Tier 2 cost, just cascade + user-confirm |
-
-**Bookkeeping commits.** Post-merge ROADMAP/CHANGELOG/README updates land in the chained `audit-review` `audit(<sha>): ...` commit on the repo's default branch (`main` / `master` / `development`) per merge. Reviewer rebases each remaining PR onto the new default tip in parallel, force-with-leases, CI re-runs. The audit commit IS the bookkeeping; no separate `Update docs for PR #N` commit.
-
-### Issue Body = The Prompt
-
-Same rule as `task-writing.md`: the body is for the cloud agent (and local-review session) to read and execute. Recommended sections:
-
-```markdown
-## Context
-Why this exists, dependencies, what's already in place.
-
-## Task
-The thing to do, in prose. WHAT, not HOW.
-
-## Acceptance criteria
-- Bullet list a fresh QA session can verify.
-- Each item is a concrete observable, not "works correctly."
-
-## Out of scope
-What this issue explicitly does NOT do.
-
-## File paths
-Anchor file:line references — reviewer's starting points.
-
-## Scoring
-[D:X/B:Y/U:Z → Eff:W] (matches ROADMAP scoring)
-
-## Reviewer note
-Anything the local-review session needs — known gotchas, prior context, env caveats.
-```
-
-`Acceptance criteria` and `Reviewer note` are what make the issue reviewable. Without them, `staged-review:commit-review` can't form a verdict.
-
-### Code-Only PRs + Required Acceptance Criteria
-
-**Cloud-agent PRs touch code + tests only.** They do NOT modify `ROADMAP.md`, `CHANGELOG.md`, `README.md`, or `.sobelow-skips`. These files are owned by `staged-review:audit-review` (chained off `commit-review`'s auto-merge) and updated in a single post-merge `audit(...)` commit on the repo's default branch.
-
-**Why:** PRs that touch shared docs hit `mergeable: CONFLICTING DIRTY` against earlier merges of the same files — every PR adds a rebase round just to resolve doc conflicts. Centralizing doc updates in one reviewer-owned commit per PR eliminates the conflict class.
-
-**How to apply.** In the issue body's `## Out of scope`, list the files explicitly:
-
-> Out of scope: `ROADMAP.md`, `CHANGELOG.md`, `README.md`, `.sobelow-skips`. Reviewer (`staged-review:audit-review` post-merge chain) updates these on the repo's default branch after merge.
-
-**Required acceptance-criteria bullet** (every delegated issue's `## Acceptance criteria` MUST include this; do NOT add doc-update bullets):
-
-- **Full harness green at PR open** — `mix format --check-formatted`, `mix compile --warnings-as-errors`, `mix credo --strict` (TODO/FIXME exit-2 carve-out only), `mix sobelow --exit Low`, `mix doctor`, `mix test.json --quiet`, `mix test.json --cover --cover-threshold N` at the repo's coverage tier, `mix dialyzer` all clean. CI runs the same checks. A red harness on PR open is a blocking acceptance-criterion miss.
-
-**Audit-review owns the post-merge commit.** When `commit-review`'s auto-merge fires (preconditions in `delegation-rules.md` § "DON'T AUTO-MERGE PRS"), it chains `Skill(audit-review)` against the merge SHA. Audit-review runs the 5+1-category audit, dispatches mandatory Codex second-opinion, auto-applies hygiene fixes (ROADMAP row → ✅ preserving `[CX]` / `[CSR]` marker, CHANGELOG entry under `## [Unreleased]`, README/CLAUDE.md drift, in-code `@doc`/`@spec` fixes), and writes `.audit/<sha>.md`. Lands as one `audit(<sha>): N fixes — dual-reviewer pass` commit on the repo's default branch.
-
-**`.sobelow-skips` exception:** for repos with sobelow line-fingerprint drift, the harness fails-loud-with-diff if drift is detected; audit-review applies the regen at the post-merge audit pass in the same `audit(...)` commit. Agent never touches the file.
-
-### Workspace-Specific Layout
-
-Team key, project list, repo↔project mapping, project IDs, worked examples are **workspace-specific** — they belong in:
-
-- A separate `<workspace>-workspace.md` include (imported only by repos in that workspace's family), or
-- The project-level `CLAUDE.md` of the repo(s) that need it.
-
-**Not here.** This file documents the *shape* so any repo can adopt it. Workspace specifics rot fast.
-
-### Delegation Eligibility Filter Order
-
-Apply these filters **in order** when picking ROADMAP tasks to delegate. The first filter that excludes a task ends evaluation — don't argue past a hard constraint to backfill a queue (see § "Honest-Gap Discipline").
-
-1. **Codex code-mutation suspended (workspace-wide)** → `[CX]` candidates redirect to `[CSR]`. Marker stays in ROADMAP for traceability; actual delegation goes to Cursor. Single-pass — apply once per session.
-2. **Per-agent cloud-env constraints** — consult `cloud-agent-environments.md` (hex.pm, mix tasks, Tidewave, HTTP). Project-specific overrides may further exclude tools. Tasks needing unreachable tools stay LOCAL.
-3. **Sibling-repo 🔶 blockers** — tasks blocked on un-released changes in a sibling repo stay 🔶. Re-check on each delegation pass.
-4. **Survivors → batch candidates** — feed into § "Batch Sizing and Pacing".
-
-### Bundled Code-Revisions in Bookkeeping Commit (Variant)
-
-The canonical post-merge `audit-review` chain expects the `audit(...)` commit on the repo's default branch to be **hygiene-only** (doc updates, ROADMAP/CHANGELOG, in-code `@doc`/`@spec` drift). This variant uses the same skeleton with **code revisions bundled into the audit commit**, trading evaluator separation for round-trip-cost savings when push-back is high-cost / low-yield.
-
-**When this fires.** All four conditions hold:
-
-- PR is mostly-good but ships some dead/unwanted code that should NOT block merge.
-- Reviewer's diff to remove the dead code is small (≤ a few small edits, no logic change, no behavior shift).
-- Pushing back would cost more than it saves — typically because the verification the agent needs is one **its own harness can't run** (e.g. `mix dialyzer` OOMs in Cursor's cloud VM, no hex.pm in Codex Cloud, no Tidewave on Codex; Cursor reaches Tidewave so this exception is narrower than it used to be).
-- The PR contains something **worth keeping** that rejecting would drop. If net-negative, close-without-merging instead.
-
-**Shape.**
-
-1. **Merge the PR as-is** — `gh pr merge --squash --delete-branch` (auto-merge if preconditions hold, otherwise user-confirmed).
-2. **Pre-stage the code revisions BEFORE invoking `audit-review`.** On the repo's default branch, edit the offending files to drop the dead code, `git add` (do NOT commit). The audit pass then runs against the staged-but-uncommitted state, applies hygiene fixes, and folds everything into one `audit(<merge-sha>): N fixes — bundled-revisions` commit. **Recovery if interrupted:** if the session ends or audit-review aborts mid-run, you'll be left with staged-but-uncommitted edits on the default branch. Either resume in a new session by re-running `Skill(audit-review)` (the staged edits remain pre-staged), or `git stash` to set them aside, run a clean `audit-review`, then `git stash pop` and recommit. Don't leave the default branch dirty across sessions.
-3. **Linear close-out:** the closing comment **explicitly distinguishes what was merged from what was reverted, and why the agent couldn't have caught it** (env constraint — preserves no-blame framing). Flip status → `Done` manually if Linear's auto-transition didn't fire.
-
-**Trade-offs.** Reviewer DOES grade the merged work this time (the trade), but against hard ground truth (dialyzer / hex / live-data) which is harder to fake. INE traceability preserved (audit commit body names the PR). Touched-file scope rule applies. PR diff drift on GitHub: anyone reading `gh pr view N` sees the original diff (including dead code that no longer exists on the default branch); the closing Linear comment + `.audit/<sha>.md` document the divergence. Revert atomicity: `git revert <audit-sha>` reverts both hygiene updates AND code revisions.
-
-**When NOT to use.** Dead code large enough to be its own PR (push back). Agent CAN run the necessary verification (no env constraint → no excuse to skip push-back). PR is net-negative (close-without-merging). User explicitly said "always push back" in this session.
-
-### Plan-Shaped Linear Task Specs
-
-**Linear specs handed to cloud agents are plan-shaped, not roadmap-shaped.** Same prompt-vs-plan split as `task-writing.md`: ROADMAP rows are durable cross-instance prompts (vague enough to survive codebase changes); a Linear task delegated to a cloud agent is a single-shot consumer — same shape as a `/plan` file.
-
-Cloud agents do NOT carry context across sessions. Each pickup is a fresh session that reads the issue body once, implements once, and stops. Roadmap-shaped vagueness — "add X to the auth module" — burns round-trips; the agent has to rediscover paths, contracts, and conventions each round.
-
-**Template** (alongside `## Context` / `## Task` / `## Acceptance criteria`):
-
-```markdown
-## Files to modify
-- `lib/foo/bar.ex` — add function `do_thing/2` with spec `(integer(), Keyword.t()) :: {:ok, term()} | {:error, atom()}`
-- `test/foo/bar_test.exs` — assert success path + 2 error paths (`:invalid_input`, `:not_found`)
-
-## Files to NOT modify
-- `ROADMAP.md`, `CHANGELOG.md`, `README.md` (commit-review handles post-merge)
-- `.sobelow-skips` (auto-regenerated; commit-review applies regen at merge)
-
-## Env constraints
-- Codex Cloud: no hex.pm, no Tidewave, no internet. Use stdlib + already-installed deps.
-- Cursor Cloud: hex.pm + internet OK; mix tasks OK. Tidewave reachable via `curl localhost:<port>/tidewave/mcp` (always); native `CallMcpTool` only if Tidewave was running before session start (see `cloud-agent-environments.md` § "Tidewave on Cursor").
-
-## Success criteria
-- `mix test.json --quiet --failed` returns 0 failures on touched files
-- `mix credo --strict` shows 0 issues
-- `mix dialyzer` 0 warnings
-- Full harness green per § "Code-Only PRs + Required Acceptance Criteria"
-- PR title includes `(INE-N)`; PR opened non-draft (see § "Status Transitions")
-```
-
-The four sections (`Files to modify`, `Files to NOT modify`, `Env constraints`, `Success criteria`) are load-bearing. Skip any and the agent fills the gap with assumptions — usually wrong ones that cost a round-trip.
-
-Before submitting a batch of N≥2 plan-shaped issues, run § "Pre-Flight Conflict Detection" — the `## Files to modify` block IS the input.
-
-### Batch Sizing and Pacing
-
-How to shape a delegation batch upstream of pre-flight conflict detection. Pre-flight checks file-scope collision; this section answers what should be in the batch.
-
-**2+1+1 splits over single mega-batches.** When in doubt about whether 4-5 issues are too much, prefer two smaller batches. Smaller batches reduce review surface, reduce file-scope collision risk, let the user `/compact` between firings.
-
-**Bundle multiple ROADMAP tasks into one Linear issue ONLY when all three hold:** shared module (single PR diff is the natural unit), same critical-tier gate (≥80% standard or ≥95% critical — don't mix), same fix shape (e.g. "add nil-guard + flunk on unexpected" applied to two functions with the same signature). If structurally different, file standalone.
-
-**Pause for `/compact` between batches.** Each batch (2-5 issues) is the natural compact checkpoint. Surfacing the deployed batch list to the user IS the compact prompt — don't fire a second batch in the same context window.
-
-**Parallelism.** One Cursor agent per repo at a time is fine; 4+ in flight is also fine, **IFF** each issue carries its own branch and the file-scope matrix returns no overlaps. Constraint is file-scope, not agent count.
-
-**How to apply:**
-
-1. Pick candidate ROADMAP tasks (after § "Delegation Eligibility Filter Order").
-2. Group by shared-module + same-tier + same-fix-shape.
-3. Run pre-flight conflict detection on the proposed batch.
-4. If batch ≥ 4 issues, default to splitting. Surface the split shape (e.g. "2+1+1") before firing.
-5. After firing, pause for `/compact` before the next batch.
-
-### Pre-Flight Conflict Detection (Batch Delegation)
-
-**The bottleneck.** N parallel cloud-agent PRs touching a shared coordination file (top-level registry, mix.exs, router) make every merge invalidate the others' base SHAs — delegation cost (merge lag, rebase churn) easily exceeds per-task local effort.
-
-**The check.** Before any `mcp__linear-server__save_issue` that creates a delegated issue, scan the existing open queue + candidate set for file-overlap on coordination-tier files (consuming the `## Files to modify` block from § "Plan-Shaped Linear Task Specs"). Triggers: a batch of N≥2 candidate delegated issues being created this session, OR a single new delegated issue when ≥2 open delegated issues already exist in `Todo` / `Backlog`.
-
-**Mechanism:**
-
-```
-filter (existing queue):
-  project = <current>
-  status ∈ { Todo, Backlog }
-  delegate ∈ { Codex, Cursor }
-
-then:
-  parse `## Files to modify` from each issue body (existing + candidates)
-  build a touch matrix: file → [issues touching it]
-  classify each shared-file overlap:
-    coordination-tier  if file ∈ project's coordination set
-    ordinary           otherwise
-```
-
-**Coordination-tier signals** (project-overridable):
-
-- `lib/<app>.ex` — top-level public API / registry module
-- `mix.exs` — deps, version, aliases
-- `config/config.exs`, `config/runtime.exs` — config registry
-- `lib/<app>_web/router.ex` — Phoenix route registry
-- `lib/<app>/application.ex` — supervisor children list
-- Any file appearing in 3+ historical merged PRs (run `flow-stats.sh` — see § Tooling)
-
-**Decision tree on overlap (priority order):**
-
-1. **(a) Isomorphic tasks + shared coordination file** → recommend **bundle into 1 issue** ("annotate all N modules in one PR"). One PR, registry edited once, no fan-out.
-2. **(b) Real overlap, non-isomorphic, coordination cost <30% of total task effort** → **extract a serializer issue**. Peer issues touch only their own files; the serializer (final in chain) does the registry edit and is `blockedBy` all peers.
-3. **(c) Small per-task effort (<30 min) AND batch ≥4 AND any shared file** → **do locally**. Local sequential beats parallel-cloud-agent under these conditions.
-4. **(d) No conflict, OR overlap only on non-coordination files** → proceed with N parallel issues.
-
-**Worth-it heuristic.** Delegation pays when per-task effort ≥ 30 min OR batch local-effort ≥ 90 min AND tasks are independent or restructurable. Local Claude wins under any of: per-task < 30 min AND batch ≥ 4 AND any shared coordination file; OR total batch local-effort < 90 min regardless of overlap (Cursor startup + first-push round is ~10 min, so 60-min batches barely break even).
-
-Output is **always a recommendation + decision request** — workflow surfaces the touch matrix and recommended action; user chooses bundle / serializer / local / proceed-anyway.
-
-### ROADMAP-Fallback Flow (projects without Linear)
-
-**ROADMAP.md is source of truth in all delegation flows; Linear is a queue *view* on top.** Projects that don't use Linear — or temporarily can't reach the Linear MCP — still run the same delegation pattern via `[CX]` / `[CSR]` markers in ROADMAP.md rows directly.
-
-**Pickup signal without Linear:** cloud agents poll ROADMAP.md for rows with `[CX]` / `[CSR]` markers and `⬜` status (or matching their delegate field). Reviewer discovers PRs via `gh pr list --state open` filtered to cloud-agent branch prefixes (`codex/`, `cursor/`). Status updates land in the post-merge `audit(<sha>): ...` commit on the repo's default branch: `🔄` → `✅` plus marker preserved.
-
-**Changes vs Linear-backed:** no `mcp__linear-server__*` calls; skip the Linear close-out step (audit-review writes `.audit/<sha>.md` as the durable trail). No Linear `@cursor` / `@codex` push-back channel — push-back goes on the GitHub PR review (line-level findings + scope paragraph in one PR comment), wake-mention discipline adapted to PR-only. No issue body — the ROADMAP row's prompt + the project's CLAUDE.md is the agent's full context, which pushes more weight onto plan-shaped ROADMAP rows.
-
-**Identical:** code-only PRs, plan-shaped specs, post-merge `audit(...)` commit on the repo's default branch via audit-review chain, draft-PR handling, bot ensemble integration in commit-review.
-
-Use this fallback when the project hasn't onboarded Linear, when Linear is intentionally out-of-scope, or as a safety net during MCP outages. Linear is an upgrade-path, not a hard dependency.
-
-### Tooling
-
-**`~/.claude/scripts/flow-stats.sh`** — reconstruct cloud-agent PR delegation-flow stats from GitHub timeline events (round count via `head_ref_force_pushed`, draft time, time-to-first-review, merge lag, reviewer breakdown).
-
-```bash
-~/.claude/scripts/flow-stats.sh <PR#> [--repo OWNER/REPO] [--json]
-~/.claude/scripts/flow-stats.sh https://github.com/OWNER/REPO/pull/<PR#>
-```
-
-Auto-detects `--repo` from current git dir. Use after a cloud-agent PR merges to verify the workflow is reducing round-trips (target: 1-2 force-pushes, draft time → 0, merge lag low). Linear-side augmentation is intentionally not in the script — MCP isn't bash-callable; invoke from a Claude session and layer `mcp__linear-server__list_comments` + `get_issue` data when needed.
-
-### Honest-Gap Discipline (Queue Dry)
-
-**When § "Delegation Eligibility Filter Order" drains the queue to zero, surface the gap explicitly with these four paths and let the user pick. Never silently fabricate a batch from non-eligible tasks just to keep the queue full.**
-
-The four paths:
-
-1. **Wait** — keep the queue empty until ROADMAP gets new candidates or in-flight PRs land (often unblocks dependents).
-2. **Pivot LOCAL** — pull the next-highest-Eff ROADMAP task into the local session. Often correct when filter 2 (env constraint) drained the queue.
-3. **Cross-repo** — check sibling-repo ROADMAPs for delegatable tasks. The user's queue is broader than one repo.
-4. **Review-mode** — switch to `staged-review:commit-review` on any in-flight cloud-agent PRs instead of opening more.
-
-Same shape as `critical-rules.md` § "NO EVASION — SIT WITH THE HARD THING": when the easy path violates a constraint, sit with it, name it, ask. The failure mode this prevents: reaching past the eligibility filter to backfill the queue with tasks that violate filter 2 or 3 — e.g. delegating a dialyzer-required task to a cloud agent whose VM OOMs on dialyzer "because nothing else is available."
-
-**How to apply.** After the eligibility filter, if zero tasks survive, STOP. Don't loop back to relax filter 2. Surface the gap with the four paths in one short message (one line per path). Wait for the user's pick. Don't pre-execute one as a "safe default."
-
-### Cross-References
-
-- `task-writing.md` — body-as-prompt principle; plan-shape vs roadmap-shape distinction
-- `task-prioritization.md` § "Ceremony Floor" — review-time cost-benefit gate; § "Pre-Flight Conflict Detection" is the delegation-time analogue
-- `delegation-rules.md` § "DON'T AUTO-MERGE PRS" — auto-merge for cloud-agent PRs (5-precondition gate); audit-review chain off auto-merge
-- `staged-review:audit-review` skill — post-merge hygiene + bookkeeping, replaces the old commit-review Step 15 doc-only commit
-- `critical-rules.md` § "NEVER COMMIT WITHOUT EXPLICIT REQUEST" — local review verdict is informational, not merge authorization
-- `delegation-rules.md` § "NEVER PUSH TO A CLOUD-AGENT'S BRANCH" — push-back is the default; merge-train mode's "Rebase-only carve-out" is the only authorized exception
-- `workflow-philosophy.md` § "Implementer / Reviewer Handoff" — the handoff shape Linear+cloud-agent implements
-
 
 <!-- @-import: ~/.claude/includes/task-prioritization.md -->
 ## Task Prioritization Framework
 
 ### Scope
 
-D/B/U scoring, status markers, and `[P]` markers apply to **ROADMAP.md and multi-task planning docs** — cross-instance coordination. **Not for `/plan` files** (single-task session blueprints). See `task-writing.md`.
+D/B/U scoring, status, and the `parallel` marker apply to **`roadmap/tasks.toml`** — the typed roadmap source `rmap` renders into `ROADMAP.md`. They are **not for `/plan` files** (single-task session blueprints). See `rmap.md` for the tool surface and `task-writing.md` for how to write a task's prompt body.
 
 ### Scoring Format
 
-`[D:X/B:Y/U:Z → Eff:W]` where `Eff = (B + U) / (2 × D)`. Scales are 1–10.
+Each `[[task]]` in `roadmap/tasks.toml` carries `scores = { d, b, u }`. `rmap` computes `Eff = (B + U) / (2 × D)` at read time and renders `[D:X/B:Y/U:Z → Eff:W]` into `ROADMAP.md` — you set the three numbers, you never hand-format the bracket. Scales are 1–10.
 
 | Eff | Tier |
 |-----|------|
@@ -1185,6 +598,8 @@ D/B/U scoring, status markers, and `[P]` markers apply to **ROADMAP.md and multi
 | 1.5–2.0 | 🚀 High ROI — do soon |
 | 1.0–1.5 | 📋 Good ROI — plan carefully |
 | < 1.0 | ⚠️ Poor ROI — reconsider or defer |
+
+`rmap` applies these exact tier thresholds; a `scored_at` older than 30 days renders an `Eff:W?` decay suffix.
 
 ### Scale (D / B / U)
 
@@ -1201,14 +616,19 @@ D/B/U scoring, status markers, and `[P]` markers apply to **ROADMAP.md and multi
 
 ### Exclusions (don't score)
 
-🐛 bugs, 🔒 security, 📝 docs of completed work, ✅ in-progress tasks — always highest priority.
+🐛 bugs, 🔒 security, 📝 docs of completed work, ✅ in-progress tasks — always highest priority. In `tasks.toml`, bug and security work carry the `bug` / `security` markers.
 
-### Status Markers
+### Status
 
-- ⬜ Pending
-- 🔄 In progress — include branch name (`🔄 fix/auth`)
-- 🔶 Blocked/Paused
-- ✅ Complete
+rmap status vocabulary — transition via `rmap status <id> <state>`, never by hand-editing `ROADMAP.md`:
+
+- `pending` — not started
+- `in_progress` — being worked; record the `branch` in `tasks.toml`
+- `blocked` — paused; requires a `blocked_reason`
+- `done` — complete
+- `superseded` — obsoleted by another task or a design change
+
+`rmap render` turns these into glyphs in `ROADMAP.md` — the glyphs are output, not something you type.
 
 ### Pre-Implementation Gate
 
@@ -1219,21 +639,15 @@ Before starting a code-mutating task on an existing module, confirm the module's
 
 If below, raising coverage is **part of this task** — not a follow-up to defer. See `critical-rules.md` § "RAISE COVERAGE BEFORE MUTATING" for scope guards (trivial doc/format/rename mutations are exempt) and the `mix test.json --cover` workflow.
 
-### Parallel Work (`[P]`)
+### Parallel Work (`parallel` marker)
 
-Mark independent tasks with `[P]`. Before starting: update status to 🔄 with branch name, commit any pending work on the main checkout, then create a worktree at `~/_DATA/worktrees/<repo>/task-<N>/` (use the ROADMAP task number as the worktree ID). See `worktree-workflow.md` for the full convention.
-
-```
-| Task 79 `[P]` | ⬜ | Independent |
-| Task 80 `[P]` | ⬜ | Independent |
-| Task 81 | ⬜ | Depends on 79 |
-```
+Mark independent tasks with the `parallel` marker (`rmap mark <id> +parallel`, or `markers = ["parallel"]` in `tasks.toml`). `rmap next --marker parallel` surfaces them. Before starting one: `rmap status <id> in_progress`, commit any pending work on the main checkout, then create a worktree at `~/_DATA/worktrees/<repo>/task-<id>/` (use the task id as the worktree ID). See `worktree-workflow.md` for the full convention.
 
 ### Ceremony Floor — When NOT to Open a Task
 
-**Scope:** applies to **review-surface findings** (`staged-review:commit-review`, `staged-review:code-review`). Discoveries during `/research`, `/plan`, or implementation follow the promote-to-ROADMAP rules in § Roadmap Maintenance — not this floor.
+**Scope:** applies to **review-surface findings** (`staged-review:commit-review`, `staged-review:code-review`). Discoveries during `/research`, `/plan`, or implementation follow the discovery-capture rules (file via `rmap new`) — not this floor.
 
-Findings during code review or PR review have a ceremony floor below which they are NEVER tracked as ROADMAP entries. ROADMAP-as-queue earns its overhead only when work spans sessions; an inline `defp` extraction does not.
+Findings during code review or PR review have a ceremony floor below which they are NEVER tracked as `rmap` tasks. The roadmap-as-queue earns its overhead only when work spans sessions; an inline `defp` extraction does not.
 
 | Finding shape                                         | Action                                              |
 |-------------------------------------------------------|-----------------------------------------------------|
@@ -1241,81 +655,58 @@ Findings during code review or PR review have a ceremony floor below which they 
 | ≤ 5 LOC, **bug or correctness gap**                   | Push back inline — **never drop, never silently track** |
 | > 5 LOC, cosmetic / abstraction / nit                 | Push back if cheap, else drop                       |
 | > 5 LOC, **bug or correctness gap**                   | Push back inline                                    |
-| Cross-session coordination cost (any size)            | ROADMAP candidate (e.g. public-API rename, schema migration, deprecation downstream repos must track) |
+| Cross-session coordination cost (any size)            | rmap task candidate (`rmap new`) (e.g. public-API rename, schema migration, deprecation downstream repos must track) |
 | Scope-affecting / architectural / breaks acceptance criteria | Surface for judgment (`discuss`-tier)        |
 
 **Hard rules:**
 - Bugs and correctness gaps are NEVER silently dropped, regardless of size or score. They are always pushed back inline.
-- Cosmetic / abstraction findings ≤ 5 LOC are NEVER ROADMAP candidates unless they have cross-session coordination cost.
+- Cosmetic / abstraction findings ≤ 5 LOC are NEVER rmap task candidates unless they have cross-session coordination cost.
 - "Drop" is permitted ONLY when the diff is genuinely better-as-is AND pushback would generate noise without value (e.g., a stylistic preference the implementing agent's choice is also defensible). When in doubt between drop and push-back, push back.
-- Questions like "File a new ROADMAP task for X (single-line entry under Phase Y, scored [D:N/B:N/U:N])?" are forbidden for findings that fit the current PR — that prompt format implies the floor is broken.
+- Questions like "File a new rmap task for X (under Phase Y, scored [D:N/B:N/U:N])?" are forbidden for findings that fit the current PR — that prompt format implies the floor is broken.
 
 **Why "correctness × size" not "D/B/U × LOC":** D/B/U scores prioritize tracked work; they don't decide whether work should be tracked. A D:1 finding can still be a real bug (3-line missing nil-check) — dropping it because the score is low is exactly the failure mode "iterate fast but error-free" forbids. Correctness vs cosmetic is the load-bearing axis; LOC is just a tiebreaker for tracking-vs-inline.
 
-**Cross-references (delegation flows only — applies if `delegation.md` is imported):** push-back-vs-fix-locally calculus is in `linear-workflow.md` § "Push-Back-vs-Fix-Locally Matrix by Agent". Hard rule against pushing to cloud-agent branches is in `delegation-rules.md` § "NEVER PUSH TO A CLOUD-AGENT'S BRANCH".
+**Cross-references (delegation flows only — applies if `delegation.md` is imported):** push-back-vs-fix-locally calculus is in `agent-pr-review.md` § "Push-Back-vs-Fix-Locally Matrix by Agent". Hard rule against pushing to cloud-agent branches is in `delegation-rules.md` § "NEVER PUSH TO A CLOUD-AGENT'S BRANCH".
 
 ### Task Descriptions as Prompts
 
-Task descriptions should be prompts for Claude Code (WHAT to accomplish), not implementation specs (HOW). Let Claude research the codebase. Avoid code examples (they rot). Include success criteria. See `task-writing.md` for detail.
+A task's `body` field should be a prompt for Claude Code (WHAT to accomplish), not an implementation spec (HOW). Let Claude research the codebase. Avoid code examples (they rot). Capture success criteria as `acceptance_criteria`. See `task-writing.md` for detail.
 
 ### Example
 
-```
-- [ ] Add WebSocket reconnection [D:3/B:9/U:9 → Eff:3.0] 🎯
-      Implement automatic reconnection with exponential backoff. Include connection state tracking.
+A task in `roadmap/tasks.toml`:
 
-- [ ] Refactor parser modules [D:7/B:7/U:2 → Eff:0.64] ⚠️
-      Consolidate duplicate parsing logic into a shared behavior.
+```toml
+[[task]]
+phase = 2
+status = "pending"
+title = "Add WebSocket reconnection"
+scores = { d = 3, b = 9, u = 9 }   # rmap computes Eff 3.0 → 🎯
+markers = ["parallel"]
+body = "Implement automatic reconnection with exponential backoff. Include connection state tracking."
+acceptance_criteria = ["Reconnects after a transient drop", "Backoff caps at a configured ceiling"]
 ```
+
+`rmap render` turns that into the scored, tiered row in `ROADMAP.md`. You author the TOML (or `rmap new --from-stdin`) — you never hand-write `[D:3/B:9/U:9 → Eff:3.0] 🎯`.
 
 ### Roadmap Maintenance
 
-**When completing a task — update ALL affected docs:**
+`roadmap/tasks.toml` is the source of truth; `ROADMAP.md` is rendered by `rmap render`. **Never hand-edit task tables in `ROADMAP.md`** — edit `tasks.toml` or use `rmap status` / `rmap mark` / `rmap new`, then let rmap render.
 
-1. **ROADMAP.md** — Mark ⬜ → ✅, update phase summary, update Current Focus
-2. **CHANGELOG.md** — Add entry under `## [Unreleased]` with what + key decisions
-3. **CLAUDE.md** — If repo structure/architecture/conventions changed
-4. **README.md** — If user-facing features or setup changed
-5. **Project-specific tracking docs** — If the task affected tracked work
+**When completing a task:**
+
+1. `rmap status <id> done` — rmap re-renders `ROADMAP.md` + `data.json`. Record `shipped_in` (PR/commit) in `tasks.toml` if tracked.
+2. **CLAUDE.md** — if repo structure / architecture / conventions changed.
+3. **README.md** — if user-facing features or setup changed.
+4. **CHANGELOG.md** — *only* a curated human release-notes entry under `## [Unreleased]`, if the change is release-worthy.
 
 A task without updated docs is incomplete.
 
-**Archive completed tasks:** move full details to CHANGELOG.md, keep one-line reference in ROADMAP.md phase section, strike through in priority lists.
+**Done tasks stay in `tasks.toml`.** rmap keeps `done` / `superseded` tasks as the durable per-task record (`body`, `done_at`, `shipped_in` all persist); `rmap list --status done` and `rmap diff` are the queries. When a phase is fully complete, set `[phases.N].status = "done"` and rmap collapses its rendered table to a one-line summary — no manual archiving, no strikethrough, no copying detail into CHANGELOG.
 
-**ROADMAP structure:**
-```markdown
-# Project Roadmap
-**Vision:** One-sentence.
-**Completed work:** See [CHANGELOG.md](CHANGELOG.md).
+**CHANGELOG.md is release notes, not a task archive.** Version-grouped human-readable prose, written only when a change is release-worthy. No per-task entries, no D/B/U scores, no counts or stats — numbers rot and burn tokens, and `tasks.toml` already holds the per-task history. Describe *what* shipped and *why*.
 
-## 🎯 Current Focus
-**Phase 2b: API Integration** — Fixing endpoint issues.
-
-### 📋 Current Tasks
-| Task | Status | Notes |
-| Task 25 🔄 `fix/auth` | In progress | — |
-| Task 26 `[P]` | ⬜ Pending | Available for parallel |
-
-## Phase 1: Foundation ✅
-> 5 tasks. See [CHANGELOG.md](CHANGELOG.md#phase-1-foundation).
-
-## Phase 2: Core Features
-- [ ] Task 6: Add authentication [D:5/B:9/U:8 → Eff:1.7] 🚀
-```
-
-**CHANGELOG structure (anchors match phase headers):**
-```markdown
-## Phase 1: Foundation
-### Task 1: Project Setup
-**Completed** | [D:2/B:7/U:8 → Eff:3.75]
-**What was done:**
-- Summary of implementation
-- Key decisions
-```
-
-Anchor naming: kebab-case (`#phase-1-foundation`).
-
-**No counts or stats in entries:** no test counts, function counts, lines-changed tallies, or individual test names. Numbers rot and burn tokens. Describe *what* was built and *why*.
+The `ROADMAP.md` marker-pair contract (`<!-- TASKS:BEGIN -->` etc.) lives in `rmap.md`.
 
 <!-- @-import: ~/.claude/includes/task-writing.md -->
 ## Writing Task Descriptions as Prompts
@@ -1362,6 +753,99 @@ Claude finds where, matches existing patterns, survives codebase changes. Clear 
 - Security requirements needing precise implementation
 
 Separate the *requirement* from the *suggestion* even then.
+
+### Task Fields in `roadmap/tasks.toml`
+
+A task's prose lives in two `rmap` schema fields; the rest is structured metadata:
+
+- `title` — one-line imperative summary
+- `body` — the prompt: WHAT to accomplish, in prose (the "Task as Prompt" content above)
+- `acceptance_criteria` — bullet list a fresh QA session can verify
+- `out_of_scope` — what the task explicitly does NOT do
+- `files_to_modify` — anchor paths **only when specificity is warranted** (see above); omit for prompt-style tasks
+- `scores = { d, b, u }`, `markers`, `depends_on`, `phase`, `bundle` — structured metadata, not prose
+
+Author tasks with `rmap new --from-stdin` (TOML on stdin, atomic batch):
+
+```bash
+rmap new --from-stdin <<'TOML'
+[[task]]
+phase = 2
+title = "Add user authentication"
+scores = { d = 5, b = 9, u = 8 }
+body = "Add email/password auth with session tokens. Users register, log in, access protected routes. Hash passwords with bcrypt."
+acceptance_criteria = ["Registration creates a user", "Login success issues a token", "Login failure is rejected"]
+TOML
+```
+
+`rmap delegate <id> --to claude|codex|cursor` renders a task as a paste-ready cloud-agent prompt — the task-as-prompt principle with an executable consumer. See `rmap.md`.
+
+<!-- @-import: ~/.claude/includes/rmap.md -->
+## rmap — Roadmap Substrate
+
+`rmap` is a single-binary CLI that manages `roadmap/tasks.toml` as the typed source of truth for a project's roadmap, rendering `ROADMAP.md` (human view) and `roadmap/data.json` (agent view) from it. **Every project uses rmap** — `tasks.toml` is canonical, `ROADMAP.md` is generated. Hand-editing task tables in `ROADMAP.md` is legacy; migrate (see below).
+
+This file is the **decision layer** — *which* command, *when*. The authoritative command contract is `rmap --help` / `rmap schema` (the live `tasks.toml` field list, derived from the source) plus rmap's own CI-gated `SKILLS.md` in the rmap repo. Don't hand-maintain a parallel command reference here.
+
+### Project layout
+
+```
+<project_root>/
+├── ROADMAP.md         # rendered — hand-edited prose outside marker pairs is byte-preserved
+└── roadmap/
+    ├── tasks.toml     # canonical source — author this
+    └── data.json      # generated — agents read it for structured access
+```
+
+`rmap` walks ancestors of cwd to find `roadmap/tasks.toml`.
+
+### Command surface, by intent
+
+| Intent | Command |
+|---|---|
+| Read one task / many | `rmap show <id> [--json]` · `rmap list --status\|--phase\|--marker\|--bundle [--json]` |
+| Pick the next task | `rmap next [--marker M] [--bundle B] [--count N] [--json]` |
+| Pick a session-sized bundle | `rmap next-bundle [--json]` · `rmap bundles` to discover them |
+| Change status | `rmap status <id> <pending\|in_progress\|blocked\|done\|superseded>` (bulk `1,2,3` atomic) |
+| Toggle a marker | `rmap mark <id> +parallel -cx` |
+| Add a dependency | `rmap depend <id> on <id>` |
+| Create task(s) | `rmap new --from-stdin` (TOML on stdin, atomic batch) — see `task-writing.md` |
+| Format a task as a cloud-agent prompt | `rmap delegate <id> --to claude\|codex\|cursor` |
+| See what changed vs a git ref | `rmap diff [--verbose] [--json]` |
+| Health signals (soft, always exit 0) | `rmap doctor [--json]` |
+| Strict gates (pre-commit / CI) | `rmap validate` · `rmap validate --check-render` |
+| Render after editing tasks.toml directly | `rmap render` (or `rmap watch` for live re-render) |
+
+All mutators **validate-then-write**: an invalid mutation leaves `tasks.toml` byte-equal to its prior state. `--json` envelopes on the read commands are append-only stable surfaces.
+
+### D/B/U mapping
+
+rmap's scoring **is** the `task-prioritization.md` framework, executable:
+
+- `scores = { d, b, u }` on each `[[task]]` ⇒ the `[D:X/B:Y/U:Z]` you'd otherwise hand-write
+- `eff = (b + u) / (2 × d)`, computed at read time, never stored — same formula, same tiers (`≥2.0 🎯 / ≥1.5 🚀 / ≥1.0 📋 / else ⚠️`)
+- `scored_at` older than 30 days renders an `Eff:W?` decay suffix
+
+Set scores in `tasks.toml` (via `rmap new` or editing the file); never hand-format the bracket — `rmap render` produces it.
+
+### Status & marker vocabulary
+
+- **status:** `pending | in_progress | blocked | done | superseded` — transitions go through `rmap status`. `blocked` requires a `blocked_reason`.
+- **markers:** `parallel | cx | csr | bug | security | docs` — `parallel` is the old `[P]`; `cx` / `csr` are the Codex / Cursor delegation markers.
+
+### Migrating a hand-edited ROADMAP.md
+
+rmap has no `import` command yet — migration is a one-time manual pass:
+
+1. Author `roadmap/tasks.toml` from the existing markdown: `schema_version = 1`, `project`, `default_branch`, `[phases.N]` tables, `[bundles.<name>]` if used, one `[[task]]` per task with `scores`, `status`, `title`, and `body` / `acceptance_criteria` carried from the prose.
+2. Replace the hand-maintained task tables in `ROADMAP.md` with marker pairs — `<!-- TASKS:BEGIN phase=N -->` … `<!-- TASKS:END -->` per phase (optional `<!-- FOCUS:BEGIN/END -->` and `<!-- MERMAID:BEGIN/END -->` pairs). Prose, headings, and links outside the markers are byte-preserved across every render.
+3. `rmap validate` → `rmap render` → diff-check the rendered `ROADMAP.md` against intent.
+4. Commit `roadmap/tasks.toml` + the marker-fied `ROADMAP.md` together.
+
+### Cross-references
+
+- `task-prioritization.md` — the D/B/U framework, tiers, ceremony floor, exclusions that rmap executes
+- `task-writing.md` — how to write a task's `body` / `acceptance_criteria`; the `rmap new --from-stdin` shape
 
 <!-- @-import: ~/.claude/includes/workflow-philosophy.md -->
 ## Workflow Philosophy
@@ -1542,7 +1026,7 @@ defp deps do
     {:tidewave, "~> 0.5", only: :dev},
     {:bandit, "~> 1.10", only: :dev},      # non-Phoenix only
     {:ex_dna, "~> 1.3", only: [:dev, :test], runtime: false},
-    {:ex_ast, "~> 0.5", only: [:dev, :test], runtime: false},
+    {:ex_ast, "~> 0.11", only: [:dev, :test], runtime: false},
     {:descripex, "~> 0.6"},                # full dep — macros expand at compile time
     {:api_toolkit, "~> 0.1"}               # API services only
   ]
@@ -1646,13 +1130,13 @@ Config: `.ex_dna.exs` in project root. Suppress intentional dupes with `@no_clon
 
 ```bash
 mix ex_ast.search 'IO.inspect(_)'           # find debug leftovers
-mix ex_ast.search 'IO.inspect(...)'         # 0.4+ ellipsis — any arity
+mix ex_ast.search 'IO.inspect(...)'         # ellipsis — any arity
 mix ex_ast.replace 'dbg(expr)' 'expr'       # remove dbg, keep expression
 mix ex_ast.replace --dry-run old new        # preview
-mix ex_ast.diff lib/old.ex lib/new.ex       # 0.4+ syntax-aware diff
+mix ex_ast.diff lib/old.ex lib/new.ex       # syntax-aware diff
 ```
 
-Patterns: `_` = wildcard, named vars (`expr`) capture and carry to replacement. `...` = zero-or-more (args, list items, block body). Structs/maps match partially. See `development-commands.md` for the full surface (pipe awareness, `--inside`/`--not-inside`, multi-node, `~p` sigil, quoted patterns, AST/zipper input).
+Patterns: `_` = wildcard, named vars (`expr`) capture and carry to replacement. `...` = zero-or-more (args, list items, block body). Structs/maps match partially. `_` in function-name position of `def`/`defp` patterns matches the function name even when arguments are present (e.g. `defp _(_), do: _` matches `defp helper(x), do: x + 1`). The `piped()` selector predicate distinguishes form inside the `~p`/`where` DSL — `where(piped())` matches only `|>` calls, `where(not piped())` matches only direct calls. `ExAST.search_many/3` and `ExAST.Patcher.find_many/3` run multiple named patterns in a single traversal, returning matches tagged with `:pattern`. See `development-commands.md` for the full surface (pipe awareness, `--inside`/`--not-inside`, multi-node, `~p` sigil, quoted patterns, AST/zipper input).
 
 ### Quality Gates
 
@@ -1902,7 +1386,7 @@ Config: `.ex_dna.exs`. Suppress intentional dupes with `@no_clone true`.
 
 ### ExAST — AST Search & Replace
 
-**Prefer `ex_ast.search` over `grep` for Elixir patterns** — understands AST structure. Min version: `{:ex_ast, "~> 0.5"}`.
+**Prefer `ex_ast.search` over `grep` for Elixir patterns** — understands AST structure. Min version: `{:ex_ast, "~> 0.11"}`.
 
 ```bash
 mix ex_ast.search 'IO.inspect(_)'                              # find debug leftovers
@@ -1910,23 +1394,23 @@ mix ex_ast.search --count 'Logger.debug(_)'
 mix ex_ast.replace 'dbg(expr)' 'expr'                          # cleanup, preserve expression
 mix ex_ast.replace --dry-run 'use Mix.Config' 'import Config'  # preview migrations
 
-# 0.3.0: pipe awareness — matches both forms bidirectionally
+# Pipe awareness — matches both forms bidirectionally
 mix ex_ast.search 'Enum.map(_, _)'                             # matches `data |> Enum.map(f)` too
 mix ex_ast.search 'data |> Enum.map(f)'                        # matches `Enum.map(data, f)` too
 
-# 0.3.0: ancestor-context filters
+# Ancestor-context filters
 mix ex_ast.search 'Repo.get!(_, _)' --inside 'def _(_)'        # only inside function defs
 mix ex_ast.search 'IO.inspect(_)' --not-inside 'test _, do: _' # skip inside tests
 
-# 0.3.0: multi-node patterns (sequential statements)
+# Multi-node patterns (sequential statements)
 mix ex_ast.search 'a = Repo.get!(_, _); Repo.delete(a)'        # N+1-ish load-then-delete pairs
 
-# 0.4+: ellipsis `...` — matches zero or more nodes (args, list items, block body)
+# Ellipsis `...` — matches zero or more nodes (args, list items, block body)
 mix ex_ast.search 'IO.inspect(...)'                            # any arity
 mix ex_ast.search 'foo(first, ..., last)'                      # head + tail
 mix ex_ast.search 'def run(_) do ... end'                      # any body
 
-# 0.4+: syntax-aware diff (GumTree-inspired — matches fns by name/arity,
+# Syntax-aware diff (GumTree-inspired — matches fns by name/arity,
 # classifies edits :insert | :delete | :update | :move)
 mix ex_ast.diff lib/old.ex lib/new.ex
 mix ex_ast.diff --summary lib/old.ex lib/new.ex                # one-line per edit
@@ -1934,7 +1418,7 @@ mix ex_ast.diff --no-moves lib/old.ex lib/new.ex               # disable move de
 mix ex_ast.diff --json lib/old.ex lib/new.ex                   # structured output
 ```
 
-**0.4+ programmatic extras:**
+**Programmatic API — quoted patterns, sigil, AST/zipper input:**
 
 ```elixir
 # Quoted expressions or ~p sigil instead of strings
@@ -1950,6 +1434,41 @@ ExAST.Patcher.replace_all(ast, "dbg(expr)", "expr")   # returns AST (not string)
 %{edits: edits} = ExAST.diff(old_source, new_source)
 # edits are %ExAST.Diff.Edit{op:, kind:, summary:, old_range:, new_range:, meta:}
 ExAST.apply_diff(diff_result)                         # produces patched source
+```
+
+**Multi-pattern single traversal:**
+
+```elixir
+# search_many — multiple named patterns, matches tagged with :pattern
+ExAST.search_many(source, %{
+  debug_inspect: ~p"IO.inspect(...)",
+  dbg_call:      ~p"dbg(...)",
+  console_log:   ~p"Logger.debug(_)"
+}, limit: 50)
+# => [%{pattern: :debug_inspect, ...}, %{pattern: :dbg_call, ...}, ...]
+
+# ExAST.Patcher.find_many/3 — same idea, accepts source/AST/zipper
+ExAST.Patcher.find_many(ast, [debug: ~p"IO.inspect(...)", trace: ~p"dbg(...)"])
+```
+
+**Selector predicates, indexing, symbol queries:**
+
+```elixir
+# piped()/not piped() in where clauses — distinguish pipe form from direct form.
+# Useful when the piped subject is at a different argument slot than the direct form.
+from(~p"Regex.replace(_, _, _)") |> where(piped())     # only `text |> Regex.replace(re, "")`
+from(~p"Enum.map(_, _)")         |> where(not piped()) # only direct calls
+
+# Indexing API — build an external candidate index, keep ExAST as semantic verifier
+plan = ExAST.Index.plan(~p"IO.inspect(...)")
+ExAST.Index.terms(plan)                                # term signals for indexing
+ExAST.Selector.find_all(plan, files, source: true)     # source-aware planning
+
+# Symbol queries — syntactic def/ref extraction with stable qualified names
+ExAST.Symbols.definitions(source)                      # all def/defp/defmacro sites
+ExAST.Symbols.references(source)                       # all callsites
+ExAST.Symbols.qualified_name(node)                     # "MyApp.Foo.bar/2"
+ExAST.Symbols.mfa(node)                                # {MyApp.Foo, :bar, 2}
 ```
 
 Named captures (`expr`, `x`) in search carry to replacement. Structs/maps match partially. Run `mix format` after replacements.
@@ -2164,7 +1683,7 @@ For API details, usage, recipes, and pitfalls, see `oxc.md` and `quickbeam.md`.
 
 Rust NIF bindings for the [OXC](https://oxc.rs) toolchain. Parses, transforms, minifies, and bundles JS/TS on the BEAM — no Node.js.
 
-**Min version: `{:oxc, "~> 0.10"}`.** 0.10 adds AST codegen (`OXC.codegen/1`, `OXC.codegen!/1`), placeholder templating (`OXC.bind/2`, `OXC.splice/3`), and the `:external` bundle option. 0.9 adds `OXC.Format` (oxfmt as a Rust NIF — see Format section) and `OXC.Lint.run!/2,3` bang variants. 0.7.2 adds `OXC.transform_many/2` (parallel via rayon). 0.8 added `OXC.Lint` (oxlint's 650+ rules + custom Elixir rules via `OXC.Lint.Rule`). 0.7 broke vs 0.6: AST `:type`/`:kind` values are now snake_case atoms, error tuples are `{:error, [%{message: String.t()}]}`, bang functions raise `OXC.Error` (not `RuntimeError`). On 0.6 match strings (`"ImportDeclaration"`); on 0.7+ match atoms (`:import_declaration`).
+**Min version: `{:oxc, "~> 0.10"}`.** The atom-keyed AST contract: `:type`/`:kind` values are snake_case atoms (`:import_declaration`, not `"ImportDeclaration"`); error tuples are `{:error, [%{message: String.t()}]}`; bang functions raise `OXC.Error`. Surface includes `OXC.codegen/1,!`, `OXC.bind/2`/`splice/3` (placeholder templating), `OXC.transform_many/2` (parallel via rayon), `OXC.Format` (oxfmt as a separate Rust NIF), `OXC.Lint` (oxlint's 650+ rules plus custom Elixir rules via `OXC.Lint.Rule`), and the `:external` bundle option.
 
 **Does NOT cover:** runtime JS execution (→ QuickBEAM), installing npm packages (→ `mix npm.install`), frontend build + HMR (→ Volt).
 
@@ -2205,7 +1724,7 @@ AST uses **atom keys** AND **atom values** for `:type`/`:kind` (`:import_declara
 )
 ```
 
-### Codegen (0.10+)
+### Codegen
 
 `OXC.codegen/1` emits JavaScript source from an ESTree AST. Handles precedence, indentation, semicolon insertion. **Roundtripping TS through codegen emits JS** — TypeScript type annotations, interfaces, and `as`/satisfies expressions are stripped.
 
@@ -2218,7 +1737,7 @@ js = OXC.codegen!(ast)                             # bang variant
 
 Works on hand-built ASTs too — manually construct a `:program` with `.body` and codegen will emit it, as long as each node has its required ESTree fields.
 
-### Bind & Splice — Placeholder Templating (0.10+)
+### Bind & Splice — Placeholder Templating
 
 AST-level string templating. `$placeholder` identifiers in the source are replaced with Elixir values, structurally (not by string substitution), so you can't build syntactically invalid output.
 
@@ -2255,7 +1774,7 @@ OXC.splice(ast, :body, ["const x = 1;", "return x;"]) |> OXC.codegen!()
 {:ok, minified} = OXC.minify(source, "file.js", mangle: false)      # keep original names
 ```
 
-### Format (0.9+)
+### Format
 
 `OXC.Format` wraps oxfmt (the OXC formatter, separate Rust NIF `oxc_fmt_nif`). Prettier-compatible output defaults; no Node.js needed.
 
@@ -2268,7 +1787,7 @@ formatted = OXC.Format.run!(source, "t.ts")   # bang variant — raises OXC.Erro
 
 Options mirror Prettier-ish knobs (`print_width`, `tab_width`, `use_tabs`, `single_quote`, `trailing_comma`, `semi`). `oxc_fmt_nif` ships precompiled for aarch64/x86_64 glibc + darwin — **no musl builds**, so on Alpine you'll compile from source (Rust toolchain required).
 
-### Transform Many (0.7.2+)
+### Transform Many
 
 Parallel transform via a Rust (rayon) thread pool — significantly faster than `Task.async_stream` for many files since work is distributed across OS threads without BEAM scheduling overhead.
 
@@ -2298,14 +1817,14 @@ Each result is `{:ok, code}`, `{:ok, %{code:, sourcemap:}}` (with `sourcemap: tr
   entry: "target.ts"
 )
 
-# Full options (v0.7+)
+# Full options
 {:ok, js} = OXC.bundle(files,
   entry: "main.ts",          # REQUIRED — entry module filename from files
   format: :iife,             # :iife (default) | :esm | :cjs
   minify: true,
-  treeshake: true,           # NEW in 0.7: remove unused exports
-  preamble: "const { ref } = Vue;",  # NEW in 0.7: code injected at top of IIFE body
-  external: ["react", "scheduler"],  # NEW in 0.10: preserve as `import` in output (bare ESM
+  treeshake: true,           # remove unused exports
+  preamble: "const { ref } = Vue;",  # code injected at top of IIFE body
+  external: ["react", "scheduler"],  # preserve as `import` in output (bare ESM
                                      # specifiers auto-detect; this is for cases auto-detect misses)
   banner: "/* v1.0 */",
   footer: "/* end */",
@@ -2323,14 +1842,14 @@ Each result is `{:ok, code}`, `{:ok, %{code:, sourcemap:}}` (with `sourcemap: tr
 # Fast path — source strings only (type-only imports excluded)
 {:ok, ["vue", "axios"]} = OXC.imports(source, "file.ts")
 
-# 0.7+: collect_imports/2 — with type info + byte offsets
+# collect_imports/2 — with type info + byte offsets
 {:ok, imports} = OXC.collect_imports(source, "file.ts")
 # => [%{specifier: "vue", type: :static, kind: :import, start: 19, end: 24}, ...]
 # Fields: :specifier, :type (:static | :dynamic), :kind (:import | :export | :export_all),
 #          :start, :end (byte offsets, including quotes)
 ```
 
-### Rewrite Specifiers (0.7+)
+### Rewrite Specifiers
 
 ```elixir
 # Callback MUST return {:rewrite, new} | :keep — bare string raises CaseClauseError.
@@ -2377,30 +1896,30 @@ methods = Enum.filter(class.body.body, &(&1.type == :method_definition))
 # :declare, :typeParameters, :expression, :returnType
 ```
 
-#### Key ESTree Node Types (atoms 0.7+)
+#### Key ESTree Node Types
 
-String-to-atom mapping: `"FooBar"` → `:foo_bar` (PascalCase → snake_case).
+Atom names follow PascalCase → snake_case (`"FooBar"` in the ESTree spec is `:foo_bar` here).
 
-| Atom (0.7+) | String (0.6-) | Key Fields |
-|-------------|---------------|------------|
-| `:program` | `"Program"` | `.body` |
-| `:export_default_declaration` | `"ExportDefaultDeclaration"` | `.declaration` |
-| `:export_named_declaration` | `"ExportNamedDeclaration"` | `.declaration`, `.specifiers`, `.source` |
-| `:class_declaration` | `"ClassDeclaration"` | `.id.name`, `.superClass`, `.body.body` |
-| `:method_definition` | `"MethodDefinition"` | `.key.name`, `.value` (function_expression) |
-| `:function_expression` | `"FunctionExpression"` | `.async`, `.params`, `.body.body`, `.returnType` |
-| `:function_declaration` | `"FunctionDeclaration"` | `.id.name`, `.params`, `.body.body` |
-| `:arrow_function_expression` | `"ArrowFunctionExpression"` | `.async`, `.params`, `.body` |
-| `:object_expression` | `"ObjectExpression"` | `.properties` |
-| `:array_expression` | `"ArrayExpression"` | `.elements` |
-| `:literal` | `"Literal"` | `.value` (string/number/boolean/null) |
-| `:identifier` | `"Identifier"` | `.name` |
-| `:call_expression` | `"CallExpression"` | `.callee`, `.arguments` |
-| `:unary_expression` | `"UnaryExpression"` | `.operator`, `.argument` |
-| `:member_expression` | `"MemberExpression"` | `.object`, `.property` |
-| `:return_statement` | `"ReturnStatement"` | `.argument` |
-| `:import_declaration` | `"ImportDeclaration"` | `.source.value`, `.specifiers` |
-| `:variable_declaration` | `"VariableDeclaration"` | `.declarations`, `.kind` (`:var`/`:let`/`:const`) |
+| Atom | Key Fields |
+|------|------------|
+| `:program` | `.body` |
+| `:export_default_declaration` | `.declaration` |
+| `:export_named_declaration` | `.declaration`, `.specifiers`, `.source` |
+| `:class_declaration` | `.id.name`, `.superClass`, `.body.body` |
+| `:method_definition` | `.key.name`, `.value` (function_expression) |
+| `:function_expression` | `.async`, `.params`, `.body.body`, `.returnType` |
+| `:function_declaration` | `.id.name`, `.params`, `.body.body` |
+| `:arrow_function_expression` | `.async`, `.params`, `.body` |
+| `:object_expression` | `.properties` |
+| `:array_expression` | `.elements` |
+| `:literal` | `.value` (string/number/boolean/null) |
+| `:identifier` | `.name` |
+| `:call_expression` | `.callee`, `.arguments` |
+| `:unary_expression` | `.operator`, `.argument` |
+| `:member_expression` | `.object`, `.property` |
+| `:return_statement` | `.argument` |
+| `:import_declaration` | `.source.value`, `.specifiers` |
+| `:variable_declaration` | `.declarations`, `.kind` (`:var`/`:let`/`:const`) |
 
 Unknown atom for a type? Run `OXC.parse(source, "file.ts")` and inspect `ast.body |> hd() |> Map.get(:type)` — runtime is authoritative.
 
@@ -2443,7 +1962,7 @@ method_names = OXC.collect(ast, fn
 end)
 ```
 
-### Lint (0.8+)
+### Lint
 
 `OXC.Lint` wraps oxlint (650+ rules, Rust-speed) and lets you add Elixir-side custom rules that walk the same atom-keyed AST `OXC.parse/2` returns.
 
@@ -2454,7 +1973,7 @@ end)
   rules: %{"no-debugger" => :deny, "no-console" => :warn}
 )
 
-# 0.9+: bang variant — raises OXC.Error on parse failure, returns diags list directly
+# Bang variant — raises OXC.Error on parse failure, returns diags list directly
 diags = OXC.Lint.run!(source, "app.tsx", rules: %{"no-debugger" => :deny})
 
 # Diagnostic shape (rule is namespaced — "eslint(no-debugger)"):
@@ -2511,7 +2030,7 @@ Enum.find(object_node.properties, fn p ->
 end)
 ```
 
-### Error Handling (0.7+)
+### Error Handling
 
 ```elixir
 case OXC.parse(source, "file.ts") do
@@ -2523,33 +2042,20 @@ end
 try do
   OXC.parse!(source, "file.ts")
 rescue
-  e in OXC.Error -> Logger.error(Exception.message(e))   # was RuntimeError in 0.6
+  e in OXC.Error -> Logger.error(Exception.message(e))
 end
 ```
-
-### Migrating 0.6 → 0.7
-
-1. String `:type`/`:kind` → snake_case atoms: `"ClassDeclaration"` → `:class_declaration`
-2. `rescue RuntimeError` → `rescue OXC.Error`
-3. `{:error, msg}` → `{:error, [%{message: msg} | _]}`
-4. Consider `OXC.rewrite_specifiers/3` for import rewrites
-5. Consider `OXC.collect_imports/2` when you need type info or offsets
-
-### Migrating 0.8 → 0.10
-
-No breaking API changes — purely additive. If you were hand-rolling AST→string emission via `patch_string` + `postwalk`, switch to `OXC.codegen/1`. If you have import-rewriting macros that substitute identifier strings into source templates, switch to `OXC.bind/2` + `OXC.codegen/1` (structural instead of string-concat, so ill-typed substitutions fail visibly at bind time rather than producing syntactically invalid output). Custom `OXC.Lint.Rule` modules keep working unchanged.
 
 ### Common Pitfalls
 
 | Problem | Cause | Fix |
 |---|---|---|
-| `FunctionClauseError` after upgrade | Still matching string types | Swap to atoms |
 | `KeyError` on node | Optional fields missing | Match `.type` first, use `Map.get/3` for optionals |
 | `.superClass` is nil | No `extends` | Check `is_nil(class.superClass)` |
 | Property key access fails | Keys can be identifier or literal | `p.key.name \|\| p.key.value` |
 | Wrong file extension | Extension picks parser | `.ts`, `.tsx`, `.js`, `.jsx` |
 | Y-combinator forgotten | Anon fns can't self-recurse | Pass `fn` as arg |
-| `bundle/2` empty | Missing `:entry` | Required since 0.6 |
+| `bundle/2` empty | Missing `:entry` | `:entry` is required |
 | `transform_many`/`bundle` arg order reversed | `transform_many` is `{source, filename}`; `bundle` is `{filename, source}` | Remember: bundle files are virtual project *files* (filename first); transform inputs are *sources* being labeled |
 | `OXC.bind` `FunctionClauseError` | Passed a map `%{v: ...}` | Bindings must be a keyword list `[v: ...]` |
 | TS types vanish after `codegen` roundtrip | `codegen` emits JS, not TS | Expected — codegen is not an identity function on TS |
@@ -2573,14 +2079,16 @@ No breaking API changes — purely additive. If you were hand-rolling AST→stri
 | `imports` | 15ms |
 | `collect_imports` | 20ms |
 
-Rust NIF, CPU-bound. For batch transform, prefer `OXC.transform_many/2` (rayon thread pool, 0.7.2+) over `Task.async_stream` — distributes across OS threads without BEAM scheduling overhead.
+Rust NIF, CPU-bound. For batch transform, prefer `OXC.transform_many/2` (rayon thread pool) over `Task.async_stream` — distributes across OS threads without BEAM scheduling overhead.
 
 <!-- @-import: ~/.claude/includes/quickbeam.md -->
 ## QuickBEAM: JavaScript Runtime for the BEAM
 
 QuickJS-NG as a Zig NIF. Each runtime is a GenServer with a persistent JS context — run JS libraries, bridge Elixir↔JS bidirectionally. No Node.js.
 
-**Min version: `{:quickbeam, "~> 0.10.4"}`.** Requires `oxc ~> 0.10` (atom-keyed AST — see `oxc.md`). 0.10 adds `QuickBEAM.Cover` (JS line coverage via `mix test --cover`), `Beam.XML.parse` (xmerl), and bumps default `max_stack_size` 4→8MB. 0.10.2–0.10.4 are bug-fix releases worth the floor: segfault on nested empty BEAM map property enumeration (0.10.2), upstream QuickJS-NG GC fix for closures captured in long-lived handlers (0.10.3), and a use-after-free in coverage recording (0.10.4). If you're using `QuickBEAM.Cover` or holding runtimes in a supervision tree, do NOT pin below 0.10.4.
+**Min version: `{:quickbeam, "~> 0.10.11"}`.** Requires `oxc ~> 0.12` (atom-keyed AST — see `oxc.md`). Ships `QuickBEAM.Cover` (JS line coverage via `mix test --cover`), `Beam.XML.parse` (xmerl), and a default `max_stack_size` of 8MB. Vendored C symbols are hidden in the native library, so QuickBEAM can be loaded alongside other Zig/C NIFs without symbol collisions.
+
+**`npm_ex` is optional.** QuickBEAM does not pull `npm_ex` into your dep tree. The runtime / `eval` / `call` / `load_module` path works without it. Add `{:npm, "~> 0.7"}` to your own `mix.exs` only when you actually need `mix npm.install`, lockfile resolution, or browser-bundle hot-loading. The public `QuickBEAM.JS` surface (`parse`, `transform`, `minify`, `bundle`, `bundle_file`) does NOT depend on npm.
 
 **Does NOT cover:** static JS/TS analysis (→ OXC), installing npm packages (→ `mix npm.install`), frontend builds (→ Volt).
 
@@ -2598,7 +2106,7 @@ QuickJS-NG as a Zig NIF. Each runtime is a GenServer with a persistent JS contex
   handlers: %{},               # Elixir functions callable from JS
   define: %{},                 # compile-time globals (JSON-encoded)
   memory_limit: 256_000_000,   # 256MB default
-  max_stack_size: 8_000_000,   # 8MB default (was 4MB pre-0.10; ~55 recursive frames)
+  max_stack_size: 8_000_000,   # 8MB default — ~55 recursive frames
   max_convert_depth: 32,       # nested structure depth limit
   max_convert_nodes: 10_000    # total nodes in conversion
 )
@@ -2671,7 +2179,7 @@ QuickBEAM.set_global(rt, "items", [1, 2, 3])
 ### Module Loading
 
 ```elixir
-# Load ES module (v0.9.0+: propagates top-level evaluation errors as {:error, %JSError{}})
+# Load ES module — top-level evaluation errors propagate as {:error, %JSError{}}
 QuickBEAM.load_module(rt, "utils", "export function add(a, b) { return a + b; }")
 
 # Compile to bytecode (for reuse across runtimes)
@@ -2767,7 +2275,7 @@ With `:browser` APIs, native DOM is included:
 
 ### QuickBEAM.JS — TypeScript Toolchain
 
-Mirrors OXC's API but runs inside a runtime. Same atom-keyed contract as OXC 0.7+.
+Mirrors OXC's API but runs inside a runtime. Same atom-keyed AST contract as OXC.
 
 ```elixir
 {:ok, ast} = QuickBEAM.JS.parse(source, "file.ts")
@@ -2779,7 +2287,7 @@ Mirrors OXC's API but runs inside a runtime. Same atom-keyed contract as OXC 0.7
 
 Prefer OXC (Rust NIF) for performance. Use `QuickBEAM.JS` when you need `bundle_file` (disk resolution) or are already in a runtime.
 
-### QuickBEAM.Cover — JS Line Coverage (v0.10+)
+### QuickBEAM.Cover — JS Line Coverage
 
 Integrates with `mix test --cover`:
 
@@ -2835,7 +2343,7 @@ QuickBEAM.eval(rt, """
 """)
 ```
 
-### WebSocket (v0.9.0+)
+### WebSocket
 
 Mint-backed, full JS `WebSocket` API — `onopen`, `onmessage`, `onclose`, `onerror`, `send()`, `close()`, subprotocol negotiation:
 
@@ -2854,7 +2362,7 @@ Mint-backed, full JS `WebSocket` API — `onopen`, `onmessage`, `onclose`, `oner
 """, timeout: 15_000)
 ```
 
-### WebAssembly (v0.9.0+)
+### WebAssembly
 
 WAMR-backed, standard JS `WebAssembly` API — `Module`, `Instance`, `Memory`, `Table`, `Global`, `compile`, `instantiate`, `validate`, `CompileError`, `LinkError`, `RuntimeError`.
 
@@ -2897,30 +2405,86 @@ WAMR-backed, standard JS `WebAssembly` API — `Module`, `Instance`, `Memory`, `
 | Runtime memory | ~2MB | With JS heap |
 | Context memory | ~58-429KB | Depends on API surface |
 
+<!-- @-import: ~/.claude/includes/npm-ci-verify.md -->
+## npm_ex CI/CD & Installation Verification
+
+Reproducible builds. The tools form a pipeline — each checks a different layer.
+
+### Verification Stack
+
+| Symptom | Tool | Checks |
+|---|---|---|
+| "Install healthy?" | `mix npm.doctor` | Overall sanity |
+| "node_modules matches lockfile?" | `mix npm.verify` | File presence + version match |
+| "Lockfile matches package.json?" | `mix npm.check` | Lockfile freshness |
+| "Frozen install for CI" | `mix npm.ci` | Clean install from lockfile only |
+| "Lock versions for publishing" | `mix npm.shrinkwrap` | Freeze exact versions |
+
+### CI Pipeline
+
+```bash
+mix npm.check      # lockfile ↔ package.json
+mix npm.ci         # clean frozen install (fails on stale lockfile)
+mix npm.verify     # node_modules ↔ lockfile
+```
+
+`mix npm.install --frozen` combines check + ci in one command.
+
+### Programmatic API
+
+```elixir
+:ok = NPM.CI.preflight()        # lockfile + package.json exist?
+:ok = NPM.CI.validate()         # full CI validation
+true = NPM.CI.needs_clean?()    # needs rebuild?
+
+{:ok, lockfile} = NPM.Lockfile.read()
+[] = NPM.Verify.check("node_modules", lockfile)     # (path, lockfile) — path first
+true = NPM.Verify.clean?("node_modules", lockfile)
+
+# Convenience — path-based (reads lockfile internally)
+NPM.Lockfile.has_package?("ccxt")
+{:ok, names} = NPM.Lockfile.package_names()
+{:ok, entry} = NPM.Lockfile.get_package("ccxt")
+NPM.Lockfile.has_package?("ccxt", "path/to/npm.lock")
+```
+
+### Gotchas
+
+- `Lockfile.read/0` returns `{:ok, map}` — unwrap before passing downstream. #1 mistake.
+- `Verify.check/2` is `(path, lockfile)` — path first. `@spec check(String.t(), map())`.
+- `CI.needs_clean?/0` returning `true` means "reinstall needed," not "broken."
+- `npm.install --frozen` and `npm.ci` both fail on stale lockfiles. `npm.ci` additionally wipes `node_modules` first.
+
+### npm.lock vs npm-shrinkwrap.json
+
+- `npm.lock` — standard lockfile, checked into VCS. Used by `mix npm.install` and `mix npm.ci`.
+- `npm-shrinkwrap.json` — created by `mix npm.shrinkwrap`. For published packages where consumers should get your exact tree. Rare for applications.
+
+### Mix Compiler Integration
+
+```elixir
+# mix.exs
+def project, do: [compilers: [:npm | Mix.compilers()], ...]
+```
+
+Runs `NPM.install()` during compile — useful when npm packages are needed at compile time (e.g., loading a browser bundle).
+
 <!-- @-import: ~/.claude/includes/reach.md -->
 ## Reach: Program Dependence Graph for Elixir
 
 Builds PDG/SDG from Elixir, Erlang, Gleam, or compiled BEAM. Backward/forward slicing, taint analysis, independence checks, dead-code detection, OTP state-machine analysis, `mix reach` HTML viz.
 
-**Min version: `{:reach, "~> 2.2"}`** (pin floor `~> 2.0.1` — `2.0.0` is uninstallable from Hex due to `ex_ast` dep-scope bug fixed in 2.0.1; use `~> 2.2` for the latest smell surface).
+**Min version: `{:reach, "~> 2.3"}`.** Requires `ex_ast ~> 0.11.2` at the dep level. Optional `:boxart, "~> 0.3.3"` for terminal `--graph` rendering.
 
-**2.0 (breaking) — Canonical CLI.** Five commands replace the 16 legacy tasks: `mix reach.map`, `reach.inspect TARGET`, `reach.trace`, `reach.check`, `reach.otp`. Legacy task names fail fast with migration hints (no analysis runs). New `.reach.exs` architecture policy file (`layers`, `deps[:forbidden]`, `source[:forbidden_modules]`/`forbidden_files`, `calls[:forbidden]`, `effects[:allowed]`, `boundaries[:public]`/`internal`/`internal_callers`, `risk[:changed]`, `candidates`, `smells`, `tests`) drives `mix reach.check --arch`/`--changed`/`--candidates`. Advisory refactoring candidates: `introduce_boundary`, `isolate_effects`, `extract_pure_region`, `break_cycle` — each with `confidence`, `actionability`, `proof`, and (for cycles) `representative_calls`. Large new smell-check surface: collection/idiom (`Enum.reverse |> hd`, `Enum.reverse ++ tail`, chained `String.replace`, `Map.keys |> Enum.map`, `List.to_tuple |> elem`, redundant `Enum.join("")`, anon-fn `.()` in pipes, …); pipeline waste (`Enum.reverse |> Enum.reverse`, `filter |> count`, `map |> count`, `filter |> filter`, `sort |> take/reverse/at`, `drop |> take`, …); loop antipatterns (`++`/`<>` inside loop O(n²), manual reduce min/max/sum/frequency); idiom mismatch (guard equality where pattern-match suffices, `Map.update` then `Map.get` on same var); repeated map shape detection; behaviour candidates; compile-time vs runtime config (`Application.get_env`/`fetch_env` in module attrs, `compile_env` inside runtime fns); ExAST-backed pattern smell DSL (`use Reach.Smell.PatternCheck`, `smell ~p[...]`, guarded via `from(~p[...]) |> where(...)`). Umbrella source scanning includes `apps/*/lib/**/*.ex`. Optional `:boxart` bumped to `~> 0.3.3` for Unicode-safe syntax highlighting. Taint-tracing dropped from ~130s → ~3s on Plausible (per-source reachability instead of per-pair recomputation). The **programmatic API** (`Reach.file_to_graph!`, `string_to_graph`, `module_to_graph`, `ast_to_graph`, `backward_slice`, `forward_slice`, `chop`, `taint_analysis`, `dead_code`, `Reach.Plugin` behaviour, `Reach.Project`, `Reach.Frontend.JavaScript`, `Reach.Plugins.QuickBEAM`) is **unchanged in 2.x** — only the CLI surface broke.
+**Canonical CLI — five commands:** `mix reach.map` (project view), `reach.inspect TARGET` (target-local), `reach.trace` (taint + slicing), `reach.check` (CI gates), `reach.otp` (process / state-machine analysis). `TARGET` accepts `Module.function/arity` or `file:line`.
 
-**2.0.1 — critical hotfix.** `ex_ast` was declared `only: [:dev, :test]`, which made Reach uninstallable from Hex (pattern smell checks `import ExAST` at compile time). Pin `~> 2.0.0` literally fails. Pin must be `~> 2.0.1`+; recommend `~> 2.2`. Also tightened the smell surface: 63% fewer findings on a 19-package Hex sample, all remaining verified true positives.
+**`.reach.exs`** at project root drives `reach.check --arch`/`--changed`/`--candidates`. Keys: `layers`, `deps[:forbidden]`, `source[:forbidden_modules]`/`forbidden_files`, `calls[:forbidden]`, `effects[:allowed]`, `boundaries[:public]`/`internal`/`internal_callers`, `risk[:changed]`, `candidates`, `smells`, `tests`. See § `.reach.exs` Architecture Policy below.
 
-**2.1 — new smells.** `Enum.at`/`List.delete_at` inside loops (O(n²)); `Enum.count/1` (no predicate) → `length/1` (avoids protocol dispatch); `Map.put` with variable key + boolean value → `MapSet` (membership tracking); `Map.values |> Enum.all?/any?/find/filter/map` → iterate `{key, value}` pairs; `Enum.map → Enum.max/min/sum` (allocates intermediate list); `List.foldl/3` → `Enum.reduce/3`; `String.graphemes |> Enum.reverse |> Enum.join` → `String.reverse/1`; redundant negated guard (`when x != y` immediately after `when x == y`); destructure-then-reconstruct (`[a, b, c]` rebuilt as same list). Frontend crash fixes: `import Mod, only: :macros` (atom values), bare atoms in `with` clause lists, non-list `else`/handler clauses.
+**Advisory refactoring candidates** (`reach.check --candidates`, `reach.inspect TARGET --candidates`): `introduce_boundary`, `isolate_effects`, `extract_pure_region`, `break_cycle` — each carries `confidence`, `actionability`, `proof`, and (for cycles) `representative_calls`. Suggestions, not auto-edits.
 
-**2.2 — polish.** `length(list) == 0`/`0 == length(list)`/`length(list) > 0` → list pattern matching, `== []`, or `!= []`; identity `Enum.uniq_by(coll, fn x -> x end)` → `Enum.uniq/1`; identity `Enum.sort_by(coll, fn x -> x end)` → `Enum.sort/1`; small-literal `length/1` comparisons in guards. Regression coverage for bare literal `with` clauses (e.g. `true`).
+**Programmatic API** (stable, unchanged across 2.x): `Reach.file_to_graph!`, `string_to_graph`, `module_to_graph`, `ast_to_graph`, `compiled_to_graph`, `backward_slice`, `forward_slice`, `chop`, `context_sensitive_slice`, `taint_analysis`, `dead_code`, `independent?`, `Reach.Plugin` behaviour, `Reach.Project`, `Reach.Frontend.JavaScript`, `Reach.Plugins.QuickBEAM`. Umbrella source scanning includes `apps/*/lib/**/*.ex`.
 
-**1.8 — OTP-aware analyzer.** `mix reach.otp` (now `mix reach.otp` in 2.x — name unchanged) gained: gen_statem support (both `:state_functions` and `:handle_event_function` modes, with initial states, transition graph, event types per state); dead GenServer reply detection (`GenServer.call` where the reply is discarded — candidates for `cast`); cross-process coupling (flags `GenServer.call`/`cast` where caller and callee share ETS tables or process-dictionary keys, conflict type `callee_writes` or `callee_reads_caller_write`); supervision tree extraction (resolves `Supervisor.start_link(children, opts)` child references). ~1000× speedup on the OTP analysis. Smell-detection false-positive fixes (cons `|`, string-interp `to_string`, unrelated `Enum.map`/`List.first` pairs).
-
-**1.7 — JavaScript frontend + cross-language plugin.** `Reach.Frontend.JavaScript` parses JS/TS via QuickBEAM bytecode disasm into Reach IR. `Reach.Plugins.QuickBEAM` stitches Elixir ↔ JS through `QuickBEAM.eval`/`QuickBEAM.call` sites with edges `:js_eval`, `{:js_call, name}`, `:beam_call`. New `analyze_embedded/2` plugin callback. File I/O effects split (`File.read`/`stat`/`exists?` → `:read`; `File.write`/`cp`/`rm`/`mkdir` → `:write`). Dead-code false positives near-zero (fixed pre-existing `with do ... end` body translation bug).
-
-**1.6 — unified target format.** `reach.slice`/`impact`/`deps`/`graph` (now `reach.trace`/`reach.inspect --impact`/`--deps`/`--graph` in 2.x) all accept both `Module.function/arity` and `file:line`. 100–500× faster function resolution.
-
-**1.5 — codebase-scope analyses.** Seven project-level commands added (`coupling`, `hotspots`, `depth`, `effects`, `xref`, `boundaries`, `concurrency`) — all subcommands of `mix reach.map` in 2.x.
-
-**Caveat:** `dead_code` false positives are near-zero in 1.7+ but not zero — treat output as hint material, not a worklist.
+**Caveat:** `dead_code` false positives are near-zero but not zero — treat as hint material.
 
 **Does NOT cover:** runtime execution (static only), type inference (→ Dialyzer), dep security audit (→ Sobelow, npm_ex audit).
 
@@ -2930,10 +2494,10 @@ Both capture dynamic dispatch. Remaining differences:
 
 | | Source (`file_to_graph!`, `string_to_graph`) | BEAM (`module_to_graph`) |
 |---|---|---|
-| Dynamic dispatch (`fn_var.(args)`, `state.handler.(args)`) | Captured as `kind: :dynamic` (since 1.3) | Captured as `kind: :dynamic` |
+| Dynamic dispatch (`fn_var.(args)`, `state.handler.(args)`) | Captured as `kind: :dynamic` | Captured as `kind: :dynamic` |
 | Macro-expanded code | Invisible | Visible |
 | `use GenServer` generated callbacks | Invisible | Visible |
-| Source spans | Always available | Always available (normalized in 1.3) |
+| Source spans | Always available | Always available |
 | `Reach.Project` cross-module SDG | **Supported** | **Not supported** — `Reach.Project` is source-only |
 | Scope | Single file or project glob | Single module |
 
@@ -2953,7 +2517,7 @@ graph = Reach.file_to_graph!("lib/my_module.ex")
 project = Reach.Project.from_mix_project()
 project = Reach.Project.from_glob("lib/**/*.ex")
 
-# 1.7+: JavaScript — returns IR nodes (NOT a graph), consumed by Reach.Plugins.QuickBEAM
+# JavaScript — returns IR nodes (NOT a graph), consumed by Reach.Plugins.QuickBEAM
 {:ok, js_nodes} = Reach.Frontend.JavaScript.parse("function f(x) { return x + 1 }")
 {:ok, js_nodes} = Reach.Frontend.JavaScript.parse_file("priv/handler.js")
 ```
@@ -3024,11 +2588,11 @@ Reach.Effects.effectful?(node, kind)
 Reach.Effects.conflicting?(a, b)
 ```
 
-Built-in classification covers Enum, Map, String, Process, :ets, :code, Node, System, 30+ more. **1.5** reclassifies many stdlib calls correctly (`Enum.each` → `:io`, `Application.get_env` → `:read`, `:atomics`/`:counters`/`:persistent_term` → `:read`/`:write`), adds Access/Calendar/Date/Time as pure, and infers effects of local functions via fixed-point iteration. On Elixir 1.19+ it reads the `ExCk` BEAM chunk for compiler-inferred type signatures (gracefully disabled on older Elixir).
+Built-in classification covers Enum, Map, String, Process, :ets, :code, Node, System, Access, Calendar, Date, Time, `:atomics`/`:counters`/`:persistent_term`, and 30+ more. `Enum.each` → `:io`, `Application.get_env` → `:read`, term-store ops → `:read`/`:write`. Effects of local functions are inferred via fixed-point iteration. On Elixir 1.19+ the classifier reads the `ExCk` BEAM chunk for compiler-inferred type signatures (gracefully disabled on older Elixir).
 
-**Plugin `classify_effect/1` callback (1.5):** plugins teach the classifier about framework calls. All 8 built-ins implement it — Phoenix assigns/route helpers → `:pure`, Ecto queries → `:pure`, Repo reads → `:read`, writes → `:write`, Oban `insert` → `:write`, GenStage/Jido signal dispatch → `:send`, OpenTelemetry spans → `:io`, Jason → `:pure`.
+**Plugin `classify_effect/1` callback.** Plugins teach the classifier about framework calls. All built-ins implement it — Phoenix assigns/route helpers → `:pure`, Ecto queries → `:pure`, Repo reads → `:read`, writes → `:write`, Oban `insert` → `:write`, GenStage/Jido signal dispatch → `:send`, OpenTelemetry spans → `:io`, Jason → `:pure`.
 
-**Alias/import/field access (1.5):** `alias Plausible.Ingestion.Event; Event.build()` now resolves correctly (incl. `:as`, multi-alias `{}`). `import Ecto.Query` then bare `from(...)` resolves to `Ecto.Query.from` (honours `:only`/`:except`). `socket.assigns`, `conn.params`, `state.count` are tagged `kind: :field_access` (pure) instead of fake remote calls. Compile-time noise (`@doc`, `use`, `::`, `__aliases__`) is classified `:pure` instead of `:unknown`.
+**Alias/import/field access.** `alias Plausible.Ingestion.Event; Event.build()` resolves correctly (incl. `:as`, multi-alias `{}`). `import Ecto.Query` then bare `from(...)` resolves to `Ecto.Query.from` (honours `:only`/`:except`). `socket.assigns`, `conn.params`, `state.count` are tagged `kind: :field_access` (pure), not fake remote calls. Compile-time noise (`@doc`, `use`, `::`, `__aliases__`) is classified `:pure`.
 
 ### Dead Code
 
@@ -3038,9 +2602,9 @@ for node <- Reach.dead_code(graph) do
 end
 ```
 
-1.3 cut false positives ~91% on real codebases (Phoenix 628→58) via fixed-point alive expansion, branch-tail return tracing, guard exclusion, comprehension generator/filter exclusion, impure-module blocklist (Process, :code, :ets, Node, System, …), typespec exclusion, impure-call descendant marking. Still a hint source — verify before deleting.
+False positives are kept low via fixed-point alive expansion, branch-tail return tracing, guard exclusion, comprehension generator/filter exclusion, an impure-module blocklist (Process, :code, :ets, Node, System, …), typespec exclusion, and impure-call descendant marking. Still a hint source — verify before deleting.
 
-### Canonical CLI (`mix reach.*`, 2.0+)
+### Canonical CLI (`mix reach.*`)
 
 Five commands replace the 16 legacy tasks. `--format text` (default, colored), `json`, or `oneline`. ANSI auto-disables when piped. Analysis commands accept a positional path filter where applicable (e.g. `mix reach.map lib/my_app/`).
 
@@ -3113,29 +2677,7 @@ mix reach.otp --graph                                       # GenServer state di
 
 Without boxart, `--graph` exits cleanly with a message asking you to add it. 0.3.3 is required for Unicode-safe syntax highlighting.
 
-### Migration from 1.x
-
-Legacy tasks fail fast in 2.x with the migration hint — they don't run analysis.
-
-| 1.x                              | 2.x                                       |
-|----------------------------------|-------------------------------------------|
-| `mix reach.modules`              | `mix reach.map --modules`                 |
-| `mix reach.coupling`             | `mix reach.map --coupling`                |
-| `mix reach.hotspots`             | `mix reach.map --hotspots`                |
-| `mix reach.depth`                | `mix reach.map --depth`                   |
-| `mix reach.effects`              | `mix reach.map --effects`                 |
-| `mix reach.boundaries`           | `mix reach.map --boundaries`              |
-| `mix reach.xref`                 | `mix reach.map --data`                    |
-| `mix reach.deps TARGET`          | `mix reach.inspect TARGET --deps`         |
-| `mix reach.impact TARGET`        | `mix reach.inspect TARGET --impact`       |
-| `mix reach.slice TARGET`         | `mix reach.trace TARGET`                  |
-| `mix reach.flow ...`             | `mix reach.trace ...`                     |
-| `mix reach.dead_code`            | `mix reach.check --dead-code`             |
-| `mix reach.smell`                | `mix reach.check --smells`                |
-| `mix reach.graph TARGET`         | `mix reach.inspect TARGET --graph`        |
-| `mix reach.concurrency`          | `mix reach.otp --concurrency`             |
-
-### `.reach.exs` Architecture Policy (2.0+)
+### `.reach.exs` Architecture Policy
 
 Drives `mix reach.check --arch`/`--changed`/`--candidates`/`--smells`. The file evaluates to a keyword list. Patterns are module-name strings with `*` wildcards.
 
@@ -3189,23 +2731,28 @@ Drives `mix reach.check --arch`/`--changed`/`--candidates`/`--smells`. The file 
 
 Start from `examples/reach.exs` in the Reach repo. Reach itself ships a root `.reach.exs` and gates CI on `mix reach.check --arch`.
 
-### Smell Checks (cumulative through 2.2)
+### Smell Checks
 
 `mix reach.check --smells` covers (non-exhaustive):
 
-- **Loop antipatterns** — `Enum.at`/`List.delete_at` in loops (O(n²)); `++`/`<>` inside loops; manual `Enum.reduce` min/max/sum/frequency
-- **Pipeline waste** — `Enum.reverse |> Enum.reverse`, `filter |> count`, `map |> count`, `filter |> filter`, `sort |> take`/`reverse`/`at`, `drop |> take`, `take_while |> count`/`length`, `map |> Enum.join`
-- **Collection idioms** — `Enum.reverse |> hd`, `Enum.reverse ++ tail`, `inspect |> String.starts_with?`, chained `String.replace`, `Map.keys |> Enum.map`, `List.to_tuple |> elem`, redundant `Enum.join("")`, negative `Enum.take`, `String.graphemes |> length`, `String.length == 1`, `Integer.to_string |> String.to_charlist`, anon-fn `.()` in pipes
+- **Loop antipatterns** — `Enum.at`/`List.delete_at` in loops (O(n²)); `++`/`<>` inside loops; manual `Enum.reduce` min/max/sum/frequency; append in recursion (`++ [item]` in recursive tail call) → prepend + `Enum.reverse/1`; repeated traversal (same variable traversed by 2+ different `Enum` fns) → one `Enum.reduce/3`; nested enum (`Enum.member?` inside another `Enum` of the same var) → precompute `MapSet`; 3+ `Enum.at` calls on same var with literal indices → pattern match
+- **Pipeline waste** — `Enum.reverse |> Enum.reverse`, `filter |> count`, `map |> count`, `filter |> filter`, `sort |> take`/`reverse`/`at`, `drop |> take`, `take_while |> count`/`length`, `map |> Enum.join`, `List.foldr/3`, `Enum.min_by`/`max_by`/`dedup_by` w/ identity fn, `Enum.map |> Enum.flat_map`/`List.flatten`, `Enum.sort/2 |> Enum.reverse`, `Enum.with_index |> Enum.reduce`, redundant `Enum.map_join("")`; sort then negative take (`Enum.sort |> Enum.take(-n)`) → `Enum.sort(:desc) |> Enum.take(n)`; split then head (`String.split |> hd/List.first`) → `parts: 2`; filter then first (`Enum.filter |> List.first/hd`) → `Enum.find/2`
+- **Collection idioms** — `Enum.reverse |> hd`, `Enum.reverse ++ tail`, `inspect |> String.starts_with?`, chained `String.replace`, `Map.keys |> Enum.map`, `List.to_tuple |> elem`, redundant `Enum.join("")`, negative `Enum.take`, `String.graphemes |> length`, `String.length == 1`, `Integer.to_string |> String.to_charlist`, anon-fn `.()` in pipes; `Map.keys`/`Map.values` patterns (`|> Enum.join`, `|> Enum.uniq`, `|> Enum.count`/`length` → `map_size/1`, `Map.keys |> Enum.member?` → `Map.has_key?/2`, `Map.values |> Enum.sum`/`max`/`min`/`join`); `Integer.to_string |> String.graphemes` → `Integer.digits`; `length(String.split) - 1` (Python count idiom); `Enum.at(list, -1)` → `List.last/1`; `Map.new`/`MapSet.new` patterns (`Enum.map |> Enum.into(%{})`, `Enum.into(_, %{})`, `Enum.into(_, MapSet.new())`, `Enum.map |> Enum.concat`); piped `Regex.replace` where the pipe injects the string as regex arg → `String.replace/3` (via ExAST `piped()` predicate)
 - **Idiom mismatch** — `Enum.count/1` (no predicate) → `length/1`; `Map.values |> Enum.all?/any?/find/filter/map` → iterate `{k, v}`; `Enum.map → Enum.max/min/sum`; `List.foldl/3` → `Enum.reduce/3`; `String.graphemes |> Enum.reverse |> Enum.join` → `String.reverse/1`; guard equality where pattern match suffices; `Map.update` then `Map.get/fetch` on same var; `Map.put` w/ variable boolean key → `MapSet`
-- **Length comparisons (2.2)** — `length(list) == 0`/`0 == length(list)`/`length(list) > 0` → pattern match or `== []`/`!= []`; small-literal `length/1` comparisons in guards
-- **Identity callbacks (2.2)** — `Enum.uniq_by(coll, fn x -> x end)` → `Enum.uniq/1`; `Enum.sort_by(coll, fn x -> x end)` → `Enum.sort/1`
+- **Boolean / conditional idiom** — case-on-boolean (`case expr do true -> ...; false -> ... end` when subject is comparison/boolean op) → `if/else`; case→`match?/2` (`case _ do pat -> true; _ -> false end`); needless bool (`if cond, do: true, else: false` and inverse); manual max/min (`if a > b, do: a, else: b`) → `Kernel.max/2`/`Kernel.min/2`; cond two-clause (`cond do ... true -> ... end` w/ exactly two) → `if/else`; `unless/else` → `if` positive case first; redundant assignment (`result = expr; result`); redundant nil default (`Keyword.get`/`Map.get(_, _, nil)`); `@doc false` on `defp`
+- **Length comparisons** — `length(list) == 0`/`0 == length(list)`/`length(list) > 0` → pattern match or `== []`/`!= []`; small-literal `length/1` comparisons in guards
+- **Identity callbacks** — `Enum.uniq_by(coll, fn x -> x end)` → `Enum.uniq/1`; `Enum.sort_by(coll, fn x -> x end)` → `Enum.sort/1`
 - **Map contracts** — same-variable atom/string fallback (`metadata["id"] || metadata[:id]`); repeated atom-key map literals with same shape (struct/contract candidate); fixed-shape map detection
 - **Structural drift (clone-backed)** — return-contract drift, side-effect ordering drift, validation drift across similar code
 - **Other** — redundant negated guards (`when x != y` after `when x == y`); destructure-then-reconstruct (`[a, b, c]` rebuilt as same list); behaviour-candidate detection (modules exposing the same public callback set); compile-time vs runtime config (`Application.get_env`/`fetch_env` in module attrs, `compile_env` inside runtime fns)
 
-Custom pattern checks via the ExAST-backed DSL: `use Reach.Smell.PatternCheck`, `smell ~p[<source pattern>]`. Guarded patterns: `from(~p[...]) |> where(...)`. Pipes, operators, function calls, and module attributes all work with the `~p` sigil; pattern checks share a zipper cache across modules.
+**False-positive scope.** `++`-in-reduce checks verify an operand references the reduce accumulator before flagging. IR-based checks (repeated traversal, multiple `Enum.at`) scope per-clause to avoid multi-clause-function FPs. `Code.string_to_quoted` calls pass `emit_warnings: false` so reparsing dep source emits no tokenizer noise. Corpus-tested against the top 200 Hex packages: 0 crashes, 0 false positives.
 
-### Advisory Refactoring Candidates (2.0+)
+**Credo overlap.** The Reach README documents which smells overlap Credo and which don't — useful when deciding whether to run both or gate CI on `mix reach.check --smells` alone. Reach's own CI runs `mix reach.check --arch --smells`.
+
+Custom pattern checks via the ExAST-backed DSL: `use Reach.Smell.PatternCheck`, `smell ~p[<source pattern>]`. Guarded patterns: `from(~p[...]) |> where(...)`. Pipes, operators, function calls, and module attributes all work with the `~p` sigil; pattern checks share a zipper cache across modules. The `piped()` selector predicate distinguishes form — `where(piped())` matches only `|>` calls, `where(not piped())` matches only direct calls. Useful when a pattern means different things in pipe vs direct form (e.g. `Regex.replace` where the piped subject is the regex argument vs the source string).
+
+### Advisory Refactoring Candidates
 
 `mix reach.check --candidates` and `mix reach.inspect TARGET --candidates` surface graph-backed suggestions:
 
@@ -3264,11 +2811,11 @@ Reach.nodes(graph, type: :function_def) |> length()
 
 For many related queries in one IEx session, build once and persist via process dictionary or an Agent.
 
-### Plugins (1.4+)
+### Plugins
 
 `Reach.Plugin` adds domain-specific edges (framework dispatch, message routing, pipeline topology) not visible to language-level analysis.
 
-Built-ins auto-detect via `Code.ensure_loaded?/1`: `Reach.Plugins.Phoenix`, `Ecto`, `Oban`, `GenStage`, `Jido`, `OpenTelemetry`, and **`QuickBEAM`** (1.7+). They run when the host package is in the dep tree.
+Built-ins auto-detect via `Code.ensure_loaded?/1`: `Reach.Plugins.Phoenix`, `Ecto`, `Oban`, `GenStage`, `Jido`, `OpenTelemetry`, `QuickBEAM`. They run when the host package is in the dep tree.
 
 ```elixir
 Reach.string_to_graph!(source, plugins: [Reach.Plugins.Phoenix])
@@ -3285,20 +2832,20 @@ defmodule MyPlugin do
   @impl true
   def analyze_project(_modules_map, _all_nodes, _opts), do: []   # optional, cross-module
 
-  # 1.7+: for plugins that splice additional nodes (e.g. embedded JS) into the host graph.
+  # For plugins that splice additional nodes (e.g. embedded JS) into the host graph.
   # Return {new_nodes, new_edges} — nodes get merged into the IR before analysis queries.
   @impl true
   def analyze_embedded(_all_nodes, _opts), do: {[], []}
 
-  # 1.5+: teach the effect classifier about framework calls
+  # Teach the effect classifier about framework calls.
   @impl true
   def classify_effect(_node), do: nil                    # :pure | :read | :write | :io | :send | nil
 end
 ```
 
-### Reach.Plugins.QuickBEAM — Cross-Language Analysis (1.7+)
+### Reach.Plugins.QuickBEAM — Cross-Language Analysis
 
-Stitches Elixir and JavaScript into one graph. Scans for `QuickBEAM.eval/2,3` and `QuickBEAM.call/3,4` callsites where the JS source is a **string literal**, parses it via `Reach.Frontend.JavaScript`, and adds cross-language edges:
+Stitches Elixir and JavaScript into one graph. Scans for `QuickBEAM.eval/2,3` and `QuickBEAM.call/3,4` callsites where the JS source is a **string literal**, parses it via `Reach.Frontend.JavaScript`, and adds cross-language edges. Auto-enabled when QuickBEAM is in the dep tree.
 
 | Edge label | From | To | Meaning |
 |---|---|---|---|
@@ -3316,7 +2863,7 @@ Reach.nodes(graph) |> Enum.filter(&(&1.meta[:language] == :javascript))
 
 Limitation: cross-language edges only form when the JS source is a **literal** at the callsite. Runtime-computed JS (e.g. sourced from a variable or `File.read!/1`) won't be stitched, since the plugin works by peeking at the literal AST node.
 
-### Other 1.4 Public API
+### Other Public API
 
 - `Reach.compiled_to_graph/2` — graph from `:beam_lib` chunks (alt to `module_to_graph/2`)
 - `Reach.call_graph/1`, `function_graph/2` — derive subgraphs
@@ -3330,13 +2877,11 @@ Limitation: cross-language edges only form when the JS source is a **literal** a
 ### Dependencies
 
 ```elixir
-{:reach, "~> 2.2", only: [:dev, :test], runtime: false},
-{:boxart, "~> 0.3.3", only: [:dev, :test], runtime: false}   # terminal --graph (2.0+ requires 0.3.3 for Unicode-safe rendering)
+{:reach, "~> 2.3", only: [:dev, :test], runtime: false},
+{:boxart, "~> 0.3.3", only: [:dev, :test], runtime: false}   # terminal --graph rendering
 ```
 
-**Pin floor:** `~> 2.0.1`. Reach `2.0.0` is uninstallable from Hex (`ex_ast` was declared `only: [:dev, :test]` but pattern smell checks `import ExAST` at compile time — fixed in 2.0.1). Pin `~> 2.2` for the latest smell surface.
-
-Pulls in `libgraph`. Optional: `jason`, `makeup`, `makeup_elixir`, `makeup_js` (HTML viz), `boxart` (terminal). For the JS frontend + cross-language plugin (1.7+), add `{:quickbeam, "~> 0.10.4"}` — the plugin activates automatically when QuickBEAM is in the dep tree.
+Requires `ex_ast ~> 0.11.2` at the dep level. Pulls in `libgraph`. Optional companion deps: `jason`, `makeup`, `makeup_elixir`, `makeup_js` (HTML viz), `boxart` (terminal). For the JS frontend + cross-language plugin, add `{:quickbeam, "~> 0.10.11"}` — the plugin activates automatically when QuickBEAM is in the dep tree.
 
 
 ---
@@ -3346,8 +2891,6 @@ Pulls in `libgraph`. Optional: `jason`, `makeup`, `makeup_elixir`, `makeup_js` (
 Branch-worthy work lives in a git worktree at `~/_DATA/worktrees/ccxt_extract/<id>/`, not on a branch in the main checkout (`~/_DATA/code/ccxt_extract/`). The worktree IS the scope authorization for `git commit` / `git push` / `gh pr create` on that branch — full rules in `~/.claude/includes/worktree-workflow.md`.
 
 **This repo's tracking-ID convention:** `<id>` is the ROADMAP task number when the work tracks a roadmap entry (e.g. `task-105`, `task-119`), or a short feature name for unscheduled work (e.g. `fix-aggregate-merge`). With cloud-agent delegation retired (see ROADMAP.md § Notes), Linear issue IDs are no longer in scope as worktree IDs.
-
-**Linear cadence still applies** per `~/.claude/includes/linear-workflow.md` § "Self-Authored Worktree Flow" — the 6-phase pattern (issue creation at plan approval, status comments at worktree pickup / PR open / verdict / merge / audit) is independent of the worktree-naming convention above. The above bullet retires Linear IDs as **directory names**, not Linear as a tracking surface.
 
 **Cleanup:** after PR merge or branch deletion, run `git worktree remove ~/_DATA/worktrees/ccxt_extract/<id>` and `git worktree prune` in the same session — completion of a task includes worktree teardown.
 
@@ -3372,7 +2915,7 @@ Neither tool alone is sufficient. `contract_test` cross-validates the two (e.g.,
 
 ### Per-exchange JSON pipeline
 
-Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v3.json`. Provenance is becoming explicit (see Phase 9 / Task 61a in ROADMAP) — fields will carry `raw`/`derived`/`override` tags plus the reason for any override.
+Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v3.json`. Provenance is explicit — every emitted JSON carries a flat top-level `_provenance` map keying each section (by RFC 6901 JSON Pointer) to `raw`/`derived`/`override`. Override *reasons* live in the `priv/overrides/<id>.json` entry, not inline in the emitted payload.
 
 **Both paths are gitignored derived state.** `priv/output/` and `priv/discoveries/*` are not tracked in git — they're regenerated per CCXT release and would otherwise bloat the repo (~1GB of JSON per full-universe run, already accumulated 827MB in `.git`). The one exception is `priv/discoveries/class_hierarchy.json`, which `lib/ccxt_extract/tiers.ex` reads at compile time via `@external_resource` and must remain committed. Fresh clones materialize the rest via `mix setup`; external consumers via `mix ccxt_extract.update --output DIR`.
 
@@ -3384,6 +2927,15 @@ The stages are, in order:
 4. **`mix ccxt_extract.update`** — orchestrator: runs 1+2+3 as one scoped transaction.
 5. **`mix ccxt_extract.validate`** — JSV-validates every output against the schema.
 6. **`mix ccxt_extract.contract_test`** — runs cross-extractor invariants.
+
+### Determinism gate
+
+Extraction is **byte-deterministic** for a fixed CCXT version + bundle + scope: two consecutive runs of the same scope produce byte-identical output (Task 114). Two mechanisms enforce this:
+
+- **`mix ccxt_extract.determinism_check`** runs an extraction task twice into isolated tmp dirs and byte-diffs every `.json` file. It strips volatile timestamp keys and re-encodes both sides through sorted-key canonical JSON, so map-iteration order and wall-clock stamps can't masquerade as drift. Exit non-zero on any divergence. Run it after touching any extractor or the pipeline.
+- **`Pipeline.check_version_drift!/1`** runs at the top of `Pipeline.extract/1` and aborts loudly when `priv/ccxt` HEAD or `priv/ccxt_bundle.js` no longer matches the baseline in `priv/ccxt_version.json` — silent upstream drift can't regenerate the corpus against a different CCXT without a signal. Bypass with `--allow-version-drift` when the drift is intentional (a deliberate CCXT bump).
+
+`AstNormalize.to_encodable/1` deep-sorts object keys before encoding — the load-bearing fix that made determinism achievable at the source. The two remaining workarounds (timestamp-key stripping in the checker; no frozen-clock path through Pattern B writers) are tracked as Task 137.
 
 ### Scope is orthogonal to the stages
 
@@ -3481,6 +3033,9 @@ mix ccxt_extract.validate
 # cross-extractor invariants (QuickBEAM vs OXC)
 mix ccxt_extract.contract_test
 
+# verify extraction is byte-deterministic across consecutive runs
+mix ccxt_extract.determinism_check
+
 # regenerate port-contract signing vectors
 mix ccxt_extract.signing_fixtures
 
@@ -3510,10 +3065,10 @@ mix sobelow --mark-skip-all        # re-mark skips after a scan
 
 Every task must update docs in lockstep with code — a task is incomplete until:
 
-1. **[ROADMAP.md](ROADMAP.md)** — task status flipped (`⬜` → `✅`), phase summary and "Current Focus" refreshed.
+1. **[roadmap/tasks.toml](roadmap/tasks.toml)** — the typed source of truth for the roadmap. Flip task status with `rmap status <id> <state>` (or hand-edit the TOML), then `rmap render` regenerates `ROADMAP.md` + `roadmap/data.json`. **Do not hand-edit `ROADMAP.md`** — it is a generated view; `rmap` recomputes the focus block and Eff glyphs, so there is no separate "phase summary / Current Focus" sync step. `rmap validate --check-render` gates drift.
 2. **[CHANGELOG.md](CHANGELOG.md)** — `## [Unreleased]` entry with what shipped and key decisions.
 3. **[CLAUDE.md](CLAUDE.md)** — if architecture, conventions, or invariants moved.
-4. **[SCHEMA.md](SCHEMA.md)** — if the emitted JSON shape changed (bump the schema version on breaking changes).
+4. **[SCHEMA.md](SCHEMA.md)** — if the emitted JSON shape changed.
 5. **[CONSUMER_CONTRACT.md](CONSUMER_CONTRACT.md)** — if a checklist item moved between `⬜` / `🚧` / `✅`.
 6. **[../ccxt_client/ROADMAP.md](../ccxt_client/ROADMAP.md)** (cross-repo rule) — flip or unblock any dependent consumer task. A ccxt_extract task is not complete until its downstream ccxt_client impact is reflected.
 

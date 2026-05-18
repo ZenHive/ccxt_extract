@@ -953,6 +953,41 @@ defmodule CcxtExtract.ValidationTest do
     end
   end
 
+  describe "roundtrip_skipped_reason envelope" do
+    # The round-trip checks key on v4 output paths (raw.describe, auth.sign_method, ...).
+    # Under :schema_only OR :schema_target=3 the v4 paths are absent and every
+    # check would silently no-op — the report's `"roundtrip_skipped_reason"`
+    # field must surface that explicitly so callers don't read "0 findings"
+    # as "passed". This block locks the contract.
+    @tmp_dir Path.join(System.tmp_dir!(), "ccxt_extract_validation_skip_reason_test")
+
+    setup do
+      File.rm_rf!(@tmp_dir)
+      File.mkdir_p!(@tmp_dir)
+      File.write!(Path.join(@tmp_dir, "_manifest.json"), Jason.encode!(%{"exchanges" => []}))
+      on_exit(fn -> File.rm_rf!(@tmp_dir) end)
+      {:ok, tmp: @tmp_dir}
+    end
+
+    test "is nil under v4 default with round-trip enabled", %{tmp: tmp} do
+      {:ok, report} = Validation.validate_all(output_dir: tmp)
+      assert is_nil(report["roundtrip_skipped_reason"])
+    end
+
+    test "names schema_only when :schema_only is true", %{tmp: tmp} do
+      {:ok, report} = Validation.validate_all(output_dir: tmp, schema_only: true)
+      assert report["roundtrip_skipped_reason"] == "schema_only requested"
+      assert report["summary"]["roundtrip_checked"] == 0
+    end
+
+    test "names schema_target=3 when running against the legacy schema", %{tmp: tmp} do
+      {:ok, report} = Validation.validate_all(output_dir: tmp, schema_target: 3)
+
+      assert report["roundtrip_skipped_reason"] =~ "schema_target=3"
+      assert report["summary"]["roundtrip_checked"] == 0
+    end
+  end
+
   describe "tier_scope envelope" do
     @tmp_dir Path.join(System.tmp_dir!(), "ccxt_extract_validation_tier_scope_test")
 

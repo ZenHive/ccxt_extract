@@ -48,7 +48,13 @@ defmodule CcxtExtract.Validation do
     * `:tier_scope` — `CcxtExtract.Scope.to_manifest_value/1` output; stamped on
       the report envelope. Defaults to `"all"`.
     * `:schema_target` — `4` (default) validates against `exchange_v4.json`;
-      `3` validates against the legacy `exchange_v3.json`.
+      `3` validates against the legacy `exchange_v3.json`. Round-trip checks
+      key on v4 output paths (`raw.describe`, `auth.sign_method`, ...) and are
+      skipped under `schema_target: 3` — the report's
+      `"roundtrip_skipped_reason"` field names the cause so the no-op is
+      explicit, not silent. v3 is the legacy target and is removed in
+      Task 143; until then v3 callers should pass `:schema_only` to make the
+      omission self-documenting at the call site.
   """
   @spec validate_all(keyword()) :: {:ok, map()}
   def validate_all(opts \\ []) do
@@ -60,6 +66,16 @@ defmodule CcxtExtract.Validation do
     schema_target =
       CcxtExtract.Pipeline.normalize_schema_target!(Keyword.get(opts, :schema_target, 4))
 
+    # Round-trip checks key on v4 output paths. Under `schema_target: 3` the
+    # v4 paths are absent and every check would silently no-op — skip the
+    # whole pass instead and surface the reason in the report envelope.
+    {roundtrip_enabled?, roundtrip_skipped_reason} =
+      case {schema_only, schema_target} do
+        {true, _} -> {false, "schema_only requested"}
+        {false, 3} -> {false, "schema_target=3 — v3 round-trip not supported (deprecated; removed in Task 143)"}
+        {false, 4} -> {true, nil}
+      end
+
     # Load exchanges from emitted JSON files on disk
     {exchanges, file_stats} = load_output_files(output_dir, schema_target)
 
@@ -68,9 +84,7 @@ defmodule CcxtExtract.Validation do
 
     # Load source data for round-trip (reuse pipeline's loader)
     source_data =
-      if schema_only do
-        nil
-      else
+      if roundtrip_enabled? do
         dir = Keyword.get(opts, :discoveries_dir, Paths.priv("discoveries"))
         load_source_data(dir)
       end
@@ -85,7 +99,7 @@ defmodule CcxtExtract.Validation do
 
         # Round-trip comparison (reference exchanges only)
         roundtrip_findings =
-          if !schema_only && id in ref_exchanges && source_data do
+          if roundtrip_enabled? && id in ref_exchanges && source_data do
             validate_roundtrip(exchange, source_data, id)
           else
             []
@@ -99,7 +113,16 @@ defmodule CcxtExtract.Validation do
         }
       end)
 
-    report = build_report(exchange_results, ref_exchanges, schema_only, file_stats, tier_scope, schema_target)
+    report =
+      build_report(
+        exchange_results,
+        ref_exchanges,
+        file_stats,
+        tier_scope,
+        schema_target,
+        roundtrip_skipped_reason
+      )
+
     {:ok, report}
   end
 
@@ -1122,7 +1145,7 @@ defmodule CcxtExtract.Validation do
 
   # --- Report Building ---
 
-  defp build_report(exchange_results, ref_exchanges, schema_only, file_stats, tier_scope, schema_target) do
+  defp build_report(exchange_results, ref_exchanges, file_stats, tier_scope, schema_target, roundtrip_skipped_reason) do
     all_findings =
       Enum.flat_map(exchange_results, fn r ->
         schema_findings =
@@ -1136,10 +1159,13 @@ defmodule CcxtExtract.Validation do
     schema_pass = Enum.count(exchange_results, & &1["schema_valid"])
     schema_fail = Enum.count(exchange_results, &(!&1["schema_valid"]))
 
+    # Round-trip is skipped under :schema_only OR schema_target=3.
+    # `roundtrip_skipped_reason` is the load-bearing flag — when present,
+    # nothing ran and the counts collapse to 0.
     roundtrip_checked =
-      if schema_only,
-        do: 0,
-        else: Enum.count(exchange_results, fn r -> r["id"] in ref_exchanges end)
+      if is_nil(roundtrip_skipped_reason),
+        do: Enum.count(exchange_results, fn r -> r["id"] in ref_exchanges end),
+        else: 0
 
     roundtrip_with_findings =
       exchange_results
@@ -1153,6 +1179,7 @@ defmodule CcxtExtract.Validation do
       "exchange_count" => length(exchange_results),
       "schema_version" => Schema.schema_version_for(schema_target),
       "tier_scope" => tier_scope,
+      "roundtrip_skipped_reason" => roundtrip_skipped_reason,
       "summary" => %{
         "schema_pass" => schema_pass,
         "schema_fail" => schema_fail,

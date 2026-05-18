@@ -2144,9 +2144,16 @@ defmodule CcxtExtract.ContractTest do
   defp exchange_id(_), do: "<unknown>"
 
   # Schema copies and metadata files live alongside per-exchange JSON but
-  # are not exchanges. `exchange_v4.json` is the JSON Schema copy; files
-  # starting with `_` are manifests/reports. Mirrors validation.ex:207.
-  @non_exchange_files [CcxtExtract.Schema.schema_filename()]
+  # are not exchanges. `exchange_v4.json` is the JSON Schema copy under
+  # the default `--schema-target=4`; `exchange_v3.json` is the legacy
+  # copy still emitted under `--schema-target=3` (until Task 143 deletes
+  # v3 entirely). Both must be excluded so the wildcard loader doesn't
+  # try to validate a schema file as an exchange. Files starting with
+  # `_` are manifests/reports. Mirrors validation.ex:208.
+  @non_exchange_files [
+    CcxtExtract.Schema.schema_filename_for(3),
+    CcxtExtract.Schema.schema_filename_for(4)
+  ]
 
   defp load_exchanges(output_dir, scope) do
     output_dir

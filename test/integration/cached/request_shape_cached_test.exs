@@ -22,15 +22,37 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
     |> Jason.decode!()
   end
 
+  # Read sites use v4 path primary with v3 fallback during the v3→v4
+  # corpus-regen transition (Task 142). After `mix ccxt_extract.update`
+  # rebuilds priv/output to v4 shape, the v3 fallback is dead. Task 143
+  # removes the fallback when v3 emission is deleted.
   defp record(id, section) do
     exchange = load_exchange!(id)
-    record_map = get_in(exchange, ["structure", "request_shape"]) || %{}
-    Map.get(record_map, section, :missing)
+    Map.get(request_shape_map_for(exchange), section, :missing)
   end
 
   defp request_shape_map(id) do
-    exchange = load_exchange!(id)
-    get_in(exchange, ["structure", "request_shape"]) || %{}
+    id |> load_exchange!() |> request_shape_map_for()
+  end
+
+  defp request_shape_map_for(exchange) do
+    get_in(exchange, ["endpoints", "request", "shape"]) ||
+      get_in(exchange, ["structure", "request_shape"]) ||
+      %{}
+  end
+
+  defp authenticated_sections(exchange) do
+    get_in(exchange, ["auth", "authenticated_sections"]) ||
+      get_in(exchange, ["structure", "authenticated_sections"]) ||
+      []
+  end
+
+  defp v4_or_v3_pointer(provenance) do
+    if Map.has_key?(provenance, "/endpoints/request/shape") do
+      "/endpoints/request/shape"
+    else
+      "/structure/request_shape"
+    end
   end
 
   defp output_dir, do: Paths.priv("output")
@@ -40,7 +62,7 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
       {:ok, entries} ->
         entries
         |> Enum.filter(&String.ends_with?(&1, ".json"))
-        |> Enum.reject(&(String.starts_with?(&1, "_") or &1 == "exchange_v3.json"))
+        |> Enum.reject(&(String.starts_with?(&1, "_") or &1 in ["exchange_v3.json", "exchange_v4.json"]))
         |> Enum.map(&String.replace_suffix(&1, ".json", ""))
 
       {:error, _} ->
@@ -218,8 +240,8 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
     test "every authenticated_sections entry has a request_shape record" do
       for id <- committed_exchange_ids() do
         exchange = load_exchange!(id)
-        sections = get_in(exchange, ["structure", "authenticated_sections"]) || []
-        recipe_map = get_in(exchange, ["structure", "request_shape"]) || %{}
+        sections = authenticated_sections(exchange)
+        recipe_map = request_shape_map_for(exchange)
 
         recipe_keys = recipe_map |> Map.keys() |> MapSet.new()
         section_keys = MapSet.new(sections)
@@ -231,8 +253,8 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
 
     test "binance has a record per authenticated_sections entry (multi-section exchange)" do
       exchange = load_exchange!("binance")
-      sections = get_in(exchange, ["structure", "authenticated_sections"]) || []
-      recipe_map = get_in(exchange, ["structure", "request_shape"]) || %{}
+      sections = authenticated_sections(exchange)
+      recipe_map = request_shape_map_for(exchange)
 
       assert length(sections) >= 10, "binance is the canonical multi-section exchange"
       assert recipe_map |> Map.keys() |> Enum.sort() == Enum.sort(sections)
@@ -260,16 +282,20 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
              "expected one shared schema_version across #{length(versions)} exchanges, got #{inspect(distinct)}"
     end
 
-    test "_provenance tags /structure/request_shape as derived" do
+    test "_provenance tags request_shape as derived" do
       for id <- committed_exchange_ids() do
         exchange = load_exchange!(id)
         provenance = exchange["_provenance"] || %{}
 
-        # Either tagged "derived" by Provenance.build_default/0, or
+        # Either tagged "derived" by Provenance.build_default_v4/0, or
         # "override" if a curated override re-stamped it. Anything
-        # else is drift.
-        tag = Map.get(provenance, "/structure/request_shape")
-        assert tag in ["derived", "override"], "[#{id}] /structure/request_shape provenance tag = #{inspect(tag)}"
+        # else is drift. v4 path primary with v3 fallback during the
+        # corpus-regen transition (Task 142); Task 143 drops the v3 key.
+        pointer = v4_or_v3_pointer(provenance)
+        tag = Map.get(provenance, pointer)
+
+        assert tag in ["derived", "override"],
+               "[#{id}] #{pointer} provenance tag = #{inspect(tag)}"
       end
     end
   end

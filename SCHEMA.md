@@ -570,7 +570,7 @@ Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, defaul
 
 ### What changed from 3.x (breaking)
 
-The v4 cut reorganizes all top-level sections from producer-shaped (`runtime` / `structure`) to consumer-shaped groups (`endpoints` / `auth` / `errors` / `rate_limits` / `normalization` / `markets` / `testnet` / `raw`). The full path-migration table is above under "Top-level reshape." Every path that existed under `runtime.*` or `structure.*` has an exact v4 equivalent — no fields were dropped at the cut; the shape is reorganized, not reduced. New sections (`normalization.field_maps`, `endpoints.descriptors`, `errors.class_hierarchy`, `rate_limits.buckets`, etc.) are populated as Phase 12/13/14 tasks ship; their stubs are present and schema-valid from the cut date.
+The v4 cut reorganizes all top-level sections from producer-shaped (`runtime` / `structure`) to consumer-shaped groups (`endpoints` / `auth` / `errors` / `rate_limits` / `normalization` / `markets` / `testnet` / `raw`). The full path-migration table is above under "Top-level reshape." Every path that existed under `runtime.*` or `structure.*` has an exact v4 equivalent — no fields were dropped at the cut; the shape is reorganized, not reduced. Stubs for new sections that have already shipped a scaffold (`normalization.field_maps`, `normalization.response_envelopes`, `errors.class_hierarchy`, `rate_limits.buckets`) are present and schema-valid from the cut date; sections that have not yet shipped a scaffold (`endpoints.descriptors` — Task 121, `markets.currencies` — Task 97, `markets.precision_mode` — Task 98) are absent and will be added in their respective phase tasks.
 
 ### Migration Notes
 

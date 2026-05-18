@@ -17,8 +17,8 @@ A consumer must be able to sign an authenticated request per API section without
 | Per-section declarative signing recipe (schema scaffold) | 🚧 | `auth.sign_recipe` shipped at schema 2.2.0 (Task 64) — all derivation fields null, `unresolved_reason: "not_yet_derived"` until Tasks 65–69 populate. Keys mirror `auth.authenticated_sections`. |
 | Crypto op (HMAC-SHA256/512, RSA, Ed25519, etc.) per section | 🚧 | `auth.sign_recipe.<section>.crypto_op` — shipped for priority exchanges via Task 65 (2026-04-18); binance/bybit honestly emit `ambiguous_ast` for multi-algo conditional sign(); hyperliquid emits `custom_signing_family`. |
 | Signature placement (header name, query param name, body field) | 🚧 | `auth.sign_recipe.<section>.signature_placement` — shipped for 10 priority exchanges covering header / query / body placements via Task 65 (2026-04-18); htx-style indirect `request` object composition tracked as Task 113. |
-| Canonical string recipe — HMAC-simple family | 🚧 | `auth.sign_recipe.<section>.canonical_string` — shape shipped; values pending Task 66a |
-| Canonical string recipe — HMAC-with-body family | 🚧 | `auth.sign_recipe.<section>.canonical_string` — shape shipped; values pending Task 66b |
+| Canonical string recipe — HMAC-simple family | ✅ | `auth.sign_recipe.<section>.canonical_string` — shipped via Task 66a (2026-04-19); priority exchanges with multi-component or unusual sources (Deribit nonce/hostname, Phemex expiry, Gate/HTX delimited concat) honestly emit null with `unresolved_reason: "not_yet_derived"` — extension paths tracked in `roadmap/tasks.toml` follow-ups. |
+| Canonical string recipe — HMAC-with-body family | ✅ | `auth.sign_recipe.<section>.canonical_string` — shipped via Task 66b (2026-04-21); kucoin / coinbaseexchange conditional body assignment patterns honestly emit null at recipe level — handled via overrides per Three-Strikes when a priority consumer needs them. |
 | Canonical string recipe — JWT/RSA/Ed25519 family | 🔶 | Shape shipped at 2.2.0; Task 66c deferred — no priority exchange uses these |
 | Canonical string recipe — custom/outlier family | 🔶 | Shape shipped at 2.2.0; Task 66d deferred — migrate via overrides per Three-Strikes |
 | Auth header set (API key header, passphrase, signature, timestamp) | ✅ | `auth.sign_recipe.<section>.auth_headers` — populated by Task 67 (2026-04-24). Entries `{name, source}` where source ∈ `api_key \| passphrase \| timestamp \| recv_window \| literal`; signature headers are excluded (already captured in `signature_placement`). `[]` is a truthful "consumer has nothing extra to attach" for signature-only shapes like deribit / htx. `null` when the recipe is terminal (ambiguous_ast / custom_signing_family / no_sign_method). |
@@ -140,7 +140,8 @@ For every `parse*` method, a consumer needs a declarative field map.
 |------|--------|--------|
 | Exchange identity + aliases | ✅ | `exchange.*`, alias resolution (Task 44) |
 | Class hierarchy + parent fallback | ✅ | `raw.class_info`, `raw.overrides_meta` |
-| REST + WS method inventory | ✅ | `raw.method_inventory` (REST); WS inventory now in `priv/discoveries/methods_ws.json` since schema 3.0.0 / Task 117 |
+| REST method inventory | ✅ | `raw.method_inventory` — in every per-exchange JSON. |
+| WS method inventory | ➖ | Not in per-exchange JSON. Corpus-wide list lives in `priv/discoveries/methods_ws.json` since schema 3.0.0 / Task 117. Consumers needing WS dispatch read the discovery file directly. |
 | Interface signatures (typed method signatures) | ✅ | `endpoints.interfaces` (Task 30) |
 | Capability flags (`has.*`) | ✅ | `raw.describe.has` |
 | Base Exchange method catalog | ✅ | `_base_methods.json` (Task 31) |

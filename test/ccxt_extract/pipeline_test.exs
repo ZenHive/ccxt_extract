@@ -605,7 +605,7 @@ defmodule CcxtExtract.PipelineTest do
       assert result["normalization"]["parse_methods_digest"] == %{}
     end
 
-    test "ws_methods is nil when empty map" do
+    test "ws_methods is not emitted in v4 output (pruned since schema 3.0.0 / Task 117)" do
       data = %{
         full_data()
         | ws_methods: %{
@@ -613,9 +613,13 @@ defmodule CcxtExtract.PipelineTest do
           }
       }
 
-      # ws_methods are pruned from schema since 3.0.0 (Task 117); v4 has no ws_methods key
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      refute Map.has_key?(result, "structure")
+
+      # ws_methods are pruned from the emitted schema since 3.0.0
+      # (Task 117). v4 has no ws_methods key at top level, and `raw`
+      # carries method_inventory (REST only) — never ws_methods.
+      refute Map.has_key?(result, "ws_methods")
+      refute Map.has_key?(result["raw"] || %{}, "ws_methods")
     end
 
     test "unified_endpoints filters out method names not in interface_signatures" do
@@ -1252,9 +1256,19 @@ defmodule CcxtExtract.PipelineTest do
         assert Map.has_key?(result, key), "missing top-level v4 key: #{key}"
       end
 
-      # Reorganization preserves v3 content under new paths:
+      # Reorganization preserves v3 content under new paths.
+      # Cross-check against v3 explicitly — comparing v4 → v3 catches a
+      # path-mapping regression that comparing v4 → v4 default can't.
+      # (Removed in Task 143 alongside the v3 emit path.)
+      v3_result =
+        Pipeline.build_exchange_data(
+          full_meta(),
+          full_data(),
+          Keyword.put(@schema_opts, :schema_target, 3)
+        )
+
       assert get_in(result, ["markets", "symbols_index"]) ==
-               get_in(Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts), ["markets", "symbols_index"])
+               get_in(v3_result, ["runtime", "symbols_index"])
 
       assert get_in(result, ["raw", "describe"])["has"]["fetchTicker"] == true
       assert get_in(result, ["raw", "method_inventory", "rest"]) == [@method_sig]

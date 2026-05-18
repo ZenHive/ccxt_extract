@@ -2,41 +2,42 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
   @moduledoc """
   Schema-conformant exchange maps for contract-test unit tests.
 
-  `schema_conformant/2` returns a map that covers every pointer declared
-  by `CcxtExtract.Provenance` (`raw_pointers/0 ++ derived_pointers/0`)
-  at the granularity the `provenance_covers_schema` contract invariant
-  expects. Fixtures built from this helper don't produce noise findings
-  against that invariant — callers can layer per-test payloads on top
-  via `put_in/3` (e.g. to populate `runtime.describe.has` or flip a
-  `_provenance` tag).
+  `schema_conformant/2` returns a v4-shaped map that covers every pointer
+  declared by `CcxtExtract.Provenance.raw_pointers_v4/0` /
+  `derived_pointers_v4/0` at the granularity the `provenance_covers_schema`
+  contract invariant expects. Fixtures built from this helper don't
+  produce noise findings against that invariant — callers can layer
+  per-test payloads on top via `put_in/3` (e.g. to populate
+  `raw.describe.has` or flip a `_provenance` tag).
 
   Shared by `CcxtExtract.ContractTestTest` and
   `Mix.Tasks.CcxtExtract.ContractTestTaskTest`. Compiled only under
   `MIX_ENV=test` (see `mix.exs` `elixirc_paths(:test)`).
   """
 
+  alias CcxtExtract.Normalization
   alias CcxtExtract.Provenance
   alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.TransactionClassification
 
   @doc """
-  Returns a schema-conformant exchange map with top-level `"id" => id`
-  AND nested `"exchange" => %{"id" => id, ...}`. Both contract tests
-  and the `Mix.Tasks.CcxtExtract.ContractTest` task resolve exchange
-  identity from either location, so both are populated.
+  Returns a v4-shaped schema-conformant exchange map with top-level
+  `"id" => id` AND nested `"exchange" => %{"id" => id, ...}`. Both
+  contract tests and the `Mix.Tasks.CcxtExtract.ContractTest` task
+  resolve exchange identity from either location, so both are populated.
 
   Options:
 
-    * `:describe` — value for `runtime.describe` (default: `%{}`)
-    * `:unified_endpoints` — value for `structure.unified_endpoints`
-      (default: `%{}`). When provided, `structure.transaction_classification`
+    * `:describe` — value for `raw.describe` (default: `%{}`)
+    * `:unified_endpoints` — value for `endpoints.unified`
+      (default: `%{}`). When provided, `endpoints.transaction_classification`
       is auto-derived from the keys via `TransactionClassification.derive/1`
       so the two stay in lockstep by construction.
-    * `:request_defaults` — value for `structure.request_defaults`
+    * `:request_defaults` — value for `endpoints.request.defaults`
       (default: `%{}`)
     * `:authenticated_sections` — list of section names (default: `[]`).
-      `structure.sign_recipe` is derived from this list via
+      `auth.sign_recipe` is derived from this list via
       `SignRecipe.build_default/1`, so the two stay in lockstep by
       construction (matches the `sign_recipe_keys_match_auth_sections`
       contract invariant). Tests that want to drift the two intentionally
@@ -66,21 +67,28 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "referral" => nil,
         "tier" => "tier3"
       },
-      "runtime" => %{
-        "describe" => describe,
-        "symbols_index" => nil,
-        "symbol_patterns" => %{},
-        "url_templates" => nil,
-        "testnet_urls" => CcxtExtract.TestnetUrls.none_record(),
-        "request_headers" => CcxtExtract.RequestHeaders.empty_record()
+      "endpoints" => %{
+        "unified" => unified_endpoints,
+        "transaction_classification" => TransactionClassification.derive(unified_endpoints),
+        "interfaces" => nil,
+        "pagination" => nil,
+        "request" => %{
+          "defaults" => request_defaults,
+          "shape" => RequestShape.build_default(auth_sections)
+        },
+        "handlers" => %{
+          "error" => nil,
+          "signing" => nil,
+          "parse" => nil
+        }
       },
-      "structure" => %{
-        "class_info" => nil,
-        "methods" => nil,
+      "auth" => %{
+        "sign_recipe" => SignRecipe.build_default(auth_sections),
         "sign_method" => nil,
         "authenticated_sections" => auth_sections,
-        "sign_recipe" => SignRecipe.build_default(auth_sections),
-        "request_shape" => RequestShape.build_default(auth_sections),
+        "headers" => CcxtExtract.RequestHeaders.empty_record()
+      },
+      "errors" => %{
         "handle_errors" => %{
           "method" => nil,
           "exceptions" => nil,
@@ -88,27 +96,33 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
           "error_code_fields" => [],
           "throw_dispatches" => []
         },
-        "error_class_hierarchy" => %{
+        "class_hierarchy" => %{
           "tree" => %{"BaseError" => %{}},
           "flat_parents" => %{"BaseError" => nil},
           "ancestors" => %{"BaseError" => []}
         },
-        "interface_signatures" => nil,
-        "pagination" => nil,
-        "overrides" => nil,
-        "unified_endpoints" => unified_endpoints,
-        "transaction_classification" => TransactionClassification.derive(unified_endpoints),
-        "request_defaults" => request_defaults,
-        "rate_limit_costs" => nil,
-        "endpoint_cost_binding" => nil,
-        "error_dispatch" => nil,
-        "sign_dispatch" => nil,
-        "parse_dispatch" => nil,
-        "rate_limit_buckets" => CcxtExtract.RateLimitBuckets.empty_record(),
-        "error_status_map" => nil,
-        "error_retryable" => nil
+        "status_map" => nil,
+        "retry_classification" => nil
       },
-      "_provenance" => Provenance.build_default()
+      "rate_limits" => %{
+        "buckets" => CcxtExtract.RateLimitBuckets.empty_record(),
+        "per_endpoint_cost" => nil,
+        "endpoint_cost_binding" => nil
+      },
+      "normalization" => Normalization.build(nil, nil),
+      "markets" => %{
+        "symbols_index" => nil,
+        "patterns" => %{}
+      },
+      "testnet" => CcxtExtract.TestnetUrls.none_record(),
+      "raw" => %{
+        "describe" => describe,
+        "url_templates" => nil,
+        "class_info" => nil,
+        "method_inventory" => nil,
+        "overrides_meta" => nil
+      },
+      "_provenance" => Provenance.build_default_v4()
     }
   end
 end

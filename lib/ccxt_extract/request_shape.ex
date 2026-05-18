@@ -82,7 +82,7 @@ defmodule CcxtExtract.RequestShape do
   ## Authoritative schema
 
   The record shape is enforced by
-  `priv/schema/exchange_v3.json#/$defs/RequestShapeRecord`. Two
+  `priv/schema/exchange_v4.json#/$defs/RequestShapeRecord`. Two
   contract-test invariants (`request_shape_keys_match_auth_sections`
   and `request_shape_valid`) re-assert the shape from a different
   angle.
@@ -129,7 +129,7 @@ defmodule CcxtExtract.RequestShape do
   @doc """
   The five required keys on every `structure.request_shape` record.
   Authoritative for contract-test shape validation — keep in sync
-  with `priv/schema/exchange_v3.json#/$defs/RequestShapeRecord/required`.
+  with `priv/schema/exchange_v4.json#/$defs/RequestShapeRecord/required`.
   """
   @spec required_keys() :: [String.t()]
   def required_keys, do: @required_keys
@@ -144,7 +144,7 @@ defmodule CcxtExtract.RequestShape do
 
   @doc """
   Closed vocabulary for `unresolved_reason`. Must stay in sync with
-  the enum in `priv/schema/exchange_v3.json`'s `RequestShapeRecord`
+  the enum in `priv/schema/exchange_v4.json`'s `RequestShapeRecord`
   definition.
   """
   @spec unresolved_reasons() :: [String.t()]

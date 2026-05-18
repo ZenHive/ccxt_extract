@@ -138,7 +138,7 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
 
         infos =
           Enum.filter(result["roundtrip_findings"], fn finding ->
-            finding["severity"] == "info" && finding["path"] == "runtime.symbols_index"
+            finding["severity"] == "info" && finding["path"] == "markets.symbols_index"
           end)
 
         assert errors == [],

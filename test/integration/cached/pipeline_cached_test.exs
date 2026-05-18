@@ -66,7 +66,7 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
     test "all exchanges pass schema validation", %{exchanges: exchanges} do
       failures =
         exchanges
-        |> Enum.map(fn ex -> {ex["exchange"]["id"], Schema.validate(ex)} end)
+        |> Enum.map(fn ex -> {ex["exchange"]["id"], Schema.validate_v4(ex)} end)
         |> Enum.reject(fn {_id, result} -> result == :ok end)
 
       assert failures == [],
@@ -87,33 +87,33 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
     test "binance has all layers populated", %{lookup: lookup} do
       ex = lookup["binance"]
 
-      # Runtime
-      assert is_map(ex["runtime"]["describe"])
-      assert ex["runtime"]["describe"]["id"] == "binance"
+      # Raw (formerly runtime)
+      assert is_map(ex["raw"]["describe"])
+      assert ex["raw"]["describe"]["id"] == "binance"
 
-      # Structure
-      assert is_map(ex["structure"]["class_info"])
-      assert is_map(ex["structure"]["class_info"]["rest"])
-      assert is_map(ex["structure"]["class_info"]["ws"])
-      assert is_map(ex["structure"]["methods"])
-      assert is_list(ex["structure"]["methods"]["rest"])
-      assert is_map(ex["structure"]["sign_method"])
-      assert is_map(ex["structure"]["handle_errors"])
+      # Raw structure
+      assert is_map(ex["raw"]["class_info"])
+      assert is_map(ex["raw"]["class_info"]["rest"])
+      assert is_map(ex["raw"]["class_info"]["ws"])
+      assert is_map(ex["raw"]["method_inventory"])
+      assert is_list(ex["raw"]["method_inventory"]["rest"])
+      assert is_map(ex["auth"]["sign_method"])
+      assert is_map(ex["errors"]["handle_errors"])
 
       # parse_methods + ws_methods are no longer emitted (schema 3.0.0, Task 117).
       # Extractors still run and discovery files exist under priv/discoveries/,
       # but consumers of the emitted per-exchange JSON no longer see these fields.
-      refute Map.has_key?(ex["structure"], "parse_methods")
-      refute Map.has_key?(ex["structure"], "ws_methods")
+      refute Map.has_key?(ex["raw"], "parse_methods")
+      refute Map.has_key?(ex["raw"], "ws_methods")
 
       # Derived replacement for the pruned runtime.markets.markets snapshot.
-      assert is_map(ex["runtime"]["symbols_index"])
-      assert map_size(ex["runtime"]["symbols_index"]) > 0
+      assert is_map(ex["markets"]["symbols_index"])
+      assert map_size(ex["markets"]["symbols_index"]) > 0
     end
 
     test "binanceus has both REST and WS overrides", %{lookup: lookup} do
       ex = lookup["binanceus"]
-      ov = ex["structure"]["overrides"]
+      ov = ex["raw"]["overrides_meta"]
 
       assert is_map(ov)
       assert ov["extends"] == "binance"
@@ -133,7 +133,7 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
 
     test "deribit has overrides (WS extends REST)", %{lookup: lookup} do
       ex = lookup["deribit"]
-      ov = ex["structure"]["overrides"]
+      ov = ex["raw"]["overrides_meta"]
 
       # deribit's WS class extends its REST class, so overrides data should exist
       if is_map(ov) do
@@ -151,13 +151,13 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
       assert ex["exchange"]["alias"] == true
 
       # Runtime data resolved from parent (htx)
-      assert is_map(ex["runtime"]["describe"]), "alias should inherit parent describe"
+      assert is_map(ex["raw"]["describe"]), "alias should inherit parent describe"
 
-      assert is_map(ex["runtime"]["symbols_index"]),
+      assert is_map(ex["markets"]["symbols_index"]),
              "alias should inherit parent symbols_index (derived from parent's markets)"
 
       # Structural data stays nil — these are per-exchange AST extractions
-      assert ex["structure"]["sign_method"] == nil
+      assert ex["auth"]["sign_method"] == nil
     end
   end
 
@@ -175,8 +175,8 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
 
         ex = lookup["bequant"]
         assert ex["exchange"]["alias"] == false
-        assert is_map(ex["structure"]["handle_errors"])
-        assert is_map(ex["structure"]["handle_errors"]["method"])
+        assert is_map(ex["errors"]["handle_errors"])
+        assert is_map(ex["errors"]["handle_errors"]["method"])
       end
     end
 
@@ -189,23 +189,22 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
         assert source["parse_method_count"] == 0
         assert source["parse_methods"] == %{}
 
-        ex = lookup["bequant"]
-        assert ex["structure"]["parse_methods"] == nil
+        # parse_methods is not emitted in v4 schema (no raw.parse_methods field)
+        refute Map.has_key?(lookup["bequant"]["raw"], "parse_methods")
       end
     end
 
     test "bitbns uses ws nulls because it is a non-pro exchange", %{lookup: lookup} do
       ex = lookup["bitbns"]
       assert ex["exchange"]["pro"] == false
-      assert ex["structure"]["class_info"]["ws"] == nil
-      assert ex["structure"]["methods"]["ws"] == nil
-      assert ex["structure"]["ws_methods"] == nil
+      assert ex["raw"]["class_info"]["ws"] == nil
+      assert ex["raw"]["method_inventory"]["ws"] == nil
     end
 
     test "bitbns keeps overrides null because its REST class is a root exchange", %{lookup: lookup} do
       ex = lookup["bitbns"]
-      assert ex["structure"]["overrides"] == nil
-      assert ex["structure"]["class_info"]["rest"]["extends_resolved"] == "Exchange"
+      assert ex["raw"]["overrides_meta"] == nil
+      assert ex["raw"]["class_info"]["rest"]["extends_resolved"] == "Exchange"
     end
   end
 
@@ -256,9 +255,9 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
       assert File.exists?(binance_path)
       binance = binance_path |> File.read!() |> Jason.decode!()
       assert binance["exchange"]["id"] == "binance"
-      assert :ok = Schema.validate(binance)
+      assert :ok = Schema.validate_v4(binance)
 
-      schema_path = Path.join(tmp_dir, "exchange_v3.json")
+      schema_path = Path.join(tmp_dir, "exchange_v4.json")
       assert File.exists?(schema_path)
       assert schema_path |> File.read!() |> Jason.decode!() |> is_map()
     end

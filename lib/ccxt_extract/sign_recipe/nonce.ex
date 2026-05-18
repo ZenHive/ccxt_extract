@@ -10,7 +10,7 @@ defmodule CcxtExtract.SignRecipe.Nonce do
       `timestamp_ns` | `monotonic` | `exchange_supplied`
     * `format` ∈ `integer` | `iso8601` | `hex` | `string`
 
-  The `SignRecipeNonce` schema (`priv/schema/exchange_v3.json#/$defs`)
+  The `SignRecipeNonce` schema (`priv/schema/exchange_v4.json#/$defs`)
   defines the closed vocabulary. This module only emits classifications
   that land inside that vocabulary.
 

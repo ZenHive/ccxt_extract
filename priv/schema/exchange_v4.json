@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "exchange_v4.json",
-  "title": "CCXT Exchange Extraction Output (v4 — gated, in-progress)",
-  "description": "Per-exchange extraction output (schema 4.0.0-pre, GATED). v4 reorganizes v3.1.0's producer-shaped sections (runtime/structure) into consumer-shaped groups (endpoints/auth/errors/rate_limits/normalization/markets/testnet/raw). Initial v4 ships the structural reshape ONLY — same field set as v3.1.0, no new content. Future freeze-list tasks (Task 129 normalization carrier, Phase 12 sub-bundles, Tasks 85-90 errors/rate_limits) will populate the empty section bodies. v4 emission is opt-in via `mix ccxt_extract.pipeline --schema-target=4`; v3 stays the default published contract until the freeze list empties and Task 114 (determinism audit) is green. See SCHEMA.md § 'Version 4.0.0 — In Progress (gated)' for the path-migration table and migration notes.",
+  "title": "CCXT Exchange Extraction Output (v4)",
+  "description": "Per-exchange extraction output (schema 4.0.0). Top-level groups are consumer-shaped (endpoints/auth/errors/rate_limits/normalization/markets/testnet/raw). See SCHEMA.md § 'Version 4.0.0' for the consumer guidance, top-level reshape table from v3, and migration notes.",
   "type": "object",
   "required": [
     "schema_version",
@@ -22,8 +22,8 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "4.0.0-pre",
-      "description": "Schema version. Pre-release tag — v4 is gated until the freeze list empties and the atomic cut lands. Consumers reading v4 must check this exact const."
+      "const": "4.0.0",
+      "description": "Schema version. v4 is the default published schema. Consumers reading v4 must check this exact const."
     },
     "extracted_at": {
       "type": "string",
@@ -565,12 +565,12 @@
           "description": "Compact per-method digest projected from priv/discoveries/parse_methods.json. Keys are parse* method names defined on the class; values are AST-free signature records. Exchanges with no own parse_methods entry emit {} (alias exchanges that inherit from a parent class)."
         },
         "field_maps": {
-          "$ref": "#/$defs/NormalizationStubRecord",
+          "$ref": "#/$defs/NormalizationFieldMapsRecord",
           "description": "Per-parser-type field-map scaffold. Each value is null in the scaffold; Phase 12 sub-bundles (Tasks 74–82) populate them with derived exchange-native → CCXT-unified field name mappings + type coercion + enum tables. Top-level _unresolved_reason tag follows the SignRecipe Honesty Rule convention."
         },
         "response_envelopes": {
-          "$ref": "#/$defs/NormalizationStubRecord",
-          "description": "Per-parser-type response-envelope scaffold. Each value is null in the scaffold; Task 83 (Phase 12, 12-envelope) populates them with the JSON path through which each method group's response wraps its body. Same shape as field_maps."
+          "$ref": "#/$defs/NormalizationResponseEnvelopesRecord",
+          "description": "Per-parser-type response-envelope scaffold. Each value is null in the scaffold; Task 83 (Phase 12, 12-envelope) populates them with the JSON path through which each method group's response wraps its body. Same per-parser-type shape as field_maps; _unresolved_reason accepts the extra \"no_fetcher_dispatch\" value (live-derived per Task 83b)."
         }
       }
     },
@@ -610,9 +610,9 @@
         }
       }
     },
-    "NormalizationStubRecord": {
+    "NormalizationFieldMapsRecord": {
       "type": "object",
-      "description": "Stub record for field_maps / response_envelopes — one entry per parser type plus a top-level _unresolved_reason tag. Values are null in the Task 129 scaffold; Phase 12 sub-bundles flip them to populated maps. Permissive value shape (oneOf null / object) lets later tasks populate without a schema break.",
+      "description": "Stub record for field_maps — one entry per parser type plus a top-level _unresolved_reason tag. Values are null in the Task 129 scaffold; Phase 12 sub-bundles flip them to populated maps. _unresolved_reason is restricted to the field-maps closed vocabulary (no \"no_fetcher_dispatch\" — that vocabulary applies only to response_envelopes).",
       "required": [
         "ticker",
         "trade",
@@ -666,7 +666,68 @@
               ]
             }
           ],
-          "description": "Closed-vocabulary scaffold tag. \"not_yet_derived\" is the Task 129 default. Phase 12 sub-bundles flip it to null when every parser-type entry is populated."
+          "description": "Closed-vocabulary tag. \"not_yet_derived\" is the Task 129 scaffold default — the only non-null value field_maps ever carries until Phase 12 derivation populates the per-parser-type slots."
+        }
+      }
+    },
+    "NormalizationResponseEnvelopesRecord": {
+      "type": "object",
+      "description": "Stub record for response_envelopes — one entry per parser type plus a top-level _unresolved_reason tag. response_envelopes is live-derived (Task 83b): values resolve per fetcher when parse_dispatch routes to fetcher-named methods, and stay null otherwise. _unresolved_reason carries the extra \"no_fetcher_dispatch\" value to honestly signal the dispatch-but-no-fetcher case (Audit F5).",
+      "required": [
+        "ticker",
+        "trade",
+        "ohlcv",
+        "order",
+        "position",
+        "balance",
+        "market",
+        "transaction",
+        "deposit_address",
+        "_unresolved_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ticker": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "trade": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "ohlcv": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "order": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "position": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "balance": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "market": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "transaction": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "deposit_address": {
+          "$ref": "#/$defs/NormalizationStubValue"
+        },
+        "_unresolved_reason": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "enum": [
+                "not_yet_derived",
+                "no_fetcher_dispatch"
+              ]
+            }
+          ],
+          "description": "Closed-vocabulary tag. null when at least one parser type resolved to a populated per-fetcher map; \"not_yet_derived\" when the carrier returned the stub (no parse_dispatch data, no fetch_methods entry, or no override); \"no_fetcher_dispatch\" when parse_dispatch has entries but none route to fetcher-named methods (Audit F5)."
         }
       }
     },

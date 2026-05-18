@@ -958,7 +958,8 @@ id = 142
 phase = 0
 bundle = "maintenance"
 milestone = "v4"
-status = "pending"
+status = "done"
+implemented = "v4 default flip across pipeline/validate/update mix tasks; @schema_version → 4.0.0; validation.ex round-trip migrated to v4 paths (raw.describe, auth.sign_method, errors.handle_errors, etc.); SCHEMA.md/CLAUDE.md/CONSUMER_CONTRACT.md doc updates; ../ccxt_client/ROADMAP.md v4-adopt row unblocked. Follow-up bot findings (B1–B5 + F1–F6) addressed in PR #31's later commits — see commits ac266c6 (C1), 3170879 (C2), 21df1ee (C3)."
 title = "v4 cut — flip default emission and validation to v4"
 scores = { d = 4, b = 9, u = 9 }
 acceptance_criteria = ["mix ccxt_extract.pipeline with no flag emits v4-shaped JSON; schema_version is 4.0.0", "mix ccxt_extract.validate with no flag validates against exchange_v4.json", "validation.ex round-trip checks run on default runs and key on v4 paths — no silent skip", "time mix compile --warnings-as-errors clean; mix test.json --exclude extraction green", "mix ccxt_extract.determinism_check passes", "../ccxt_client/ROADMAP.md Task v4-adopt row flipped to unblocked"]

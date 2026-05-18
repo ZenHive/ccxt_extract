@@ -37,8 +37,8 @@ defmodule Mix.Tasks.CcxtExtract.Update do
       compact). Forwarded to the pipeline stage. Manifests, fixtures, and
       reports remain pretty-printed regardless of this flag.
     * `--schema-target N` — forwarded to the pipeline + validate stages.
-      `3` (default) emits the v3 published shape; `4` emits the gated
-      v4 reshape (Task 130).
+      `4` (default) emits the v4 published shape; `3` emits the legacy
+      v3 shape, reachable until Task 143 removes it.
     * `--allow-version-drift` — forwarded to the pipeline stage. Bypasses
       the CCXT version-drift guard so the pipeline runs even when
       `priv/ccxt` or `priv/ccxt_bundle.js` no longer matches the

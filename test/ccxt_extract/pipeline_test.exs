@@ -314,23 +314,23 @@ defmodule CcxtExtract.PipelineTest do
       assert result["exchange"]["id"] == "testex"
       assert result["exchange"]["pro"] == true
 
-      # Runtime
-      assert result["runtime"]["describe"]["has"]["fetchTicker"] == true
-      assert is_map(result["runtime"]["symbols_index"])
-      assert is_map(result["runtime"]["symbol_patterns"])
+      # v4 raw section (was runtime)
+      assert result["raw"]["describe"]["has"]["fetchTicker"] == true
+      assert is_map(result["markets"]["symbols_index"])
+      assert is_map(result["markets"]["patterns"])
 
-      # Structure — parse_methods/ws_methods pruned in schema 3.0.0 (Task 117)
-      assert result["structure"]["class_info"]["rest"]["node_key"] == "rest:testex"
-      assert result["structure"]["class_info"]["ws"]["node_key"] == "ws:testex"
-      assert result["structure"]["methods"]["rest"] == [@method_sig]
-      assert result["structure"]["methods"]["ws"] == [@method_sig]
-      assert result["structure"]["sign_method"]["statements"] == 12
-      refute Map.has_key?(result["structure"], "parse_methods")
-      refute Map.has_key?(result["structure"], "ws_methods")
-      assert result["structure"]["interface_signatures"]["publicGetTicker"]["name"] == "publicGetTicker"
+      # v4 raw/auth sections (was structure)
+      assert result["raw"]["class_info"]["rest"]["node_key"] == "rest:testex"
+      assert result["raw"]["class_info"]["ws"]["node_key"] == "ws:testex"
+      assert result["raw"]["method_inventory"]["rest"] == [@method_sig]
+      assert result["raw"]["method_inventory"]["ws"] == [@method_sig]
+      assert result["auth"]["sign_method"]["statements"] == 12
+      refute Map.has_key?(result, "structure")
+      refute Map.has_key?(result, "runtime")
+      assert result["endpoints"]["interfaces"]["publicGetTicker"]["name"] == "publicGetTicker"
 
-      # Pagination
-      assert result["structure"]["pagination"]["fetchTrades"] == [
+      # Pagination — now under endpoints
+      assert result["endpoints"]["pagination"]["fetchTrades"] == [
                %{
                  "strategy" => "dynamic",
                  "max_entries_per_request" => 1000,
@@ -344,18 +344,18 @@ defmodule CcxtExtract.PipelineTest do
       result = Pipeline.build_exchange_data(alias_meta(), empty_data(), @schema_opts)
 
       assert result["exchange"]["alias"] == true
-      assert result["runtime"]["describe"] == nil
-      assert result["runtime"]["symbols_index"] == nil
-      assert result["runtime"]["symbol_patterns"] == nil
-      assert result["structure"]["class_info"] == nil
-      assert result["structure"]["methods"] == nil
-      assert result["structure"]["sign_method"] == nil
-      assert result["structure"]["handle_errors"] == nil
-      refute Map.has_key?(result["structure"], "parse_methods")
-      refute Map.has_key?(result["structure"], "ws_methods")
-      assert result["structure"]["interface_signatures"] == nil
-      assert result["structure"]["pagination"] == nil
-      assert result["structure"]["overrides"] == nil
+      assert result["raw"]["describe"] == nil
+      assert result["markets"]["symbols_index"] == nil
+      assert result["markets"]["patterns"] == nil
+      assert result["raw"]["class_info"] == nil
+      assert result["raw"]["method_inventory"] == nil
+      assert result["auth"]["sign_method"] == nil
+      assert result["errors"]["handle_errors"] == nil
+      refute Map.has_key?(result, "runtime")
+      refute Map.has_key?(result, "structure")
+      assert result["endpoints"]["interfaces"] == nil
+      assert result["endpoints"]["pagination"] == nil
+      assert result["raw"]["overrides_meta"] == nil
     end
 
     test "resolves alias exchange runtime data from parent" do
@@ -384,10 +384,10 @@ defmodule CcxtExtract.PipelineTest do
 
       result = Pipeline.build_exchange_data(alias_meta(), data, @schema_opts)
 
-      assert result["runtime"]["describe"] == parent_describe
+      assert result["raw"]["describe"] == parent_describe
       # runtime.markets no longer emitted; symbols_index derived from the same source.
-      assert result["runtime"]["symbols_index"] == %{"BTC/USDT" => %{"spot" => false, "swap" => false}}
-      assert is_map(result["runtime"]["symbol_patterns"])
+      assert result["markets"]["symbols_index"] == %{"BTC/USDT" => %{"spot" => false, "swap" => false}}
+      assert is_map(result["markets"]["patterns"])
     end
 
     test "resolves authenticated_sections from parent's sign() when child doesn't override" do
@@ -460,13 +460,13 @@ defmodule CcxtExtract.PipelineTest do
 
       # Child has no own sign_method — it is resolved from parent only for
       # derivation purposes, not re-emitted as the child's own AST.
-      assert result["structure"]["sign_method"] == nil
-      assert result["structure"]["authenticated_sections"] == ["private"]
+      assert result["auth"]["sign_method"] == nil
+      assert result["auth"]["authenticated_sections"] == ["private"]
     end
 
     test "renames handle_errors fields correctly" do
       result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
-      he = result["structure"]["handle_errors"]
+      he = result["errors"]["handle_errors"]
 
       # "handle_errors" from extraction → "method" in schema
       assert he["method"]["statements"] == 4
@@ -505,7 +505,7 @@ defmodule CcxtExtract.PipelineTest do
       data = %{full_data() | handle_errors: %{"testex" => null_entry}}
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
 
-      assert result["structure"]["handle_errors"] == nil
+      assert result["errors"]["handle_errors"] == nil
     end
 
     test "renames overrides fields correctly" do
@@ -524,7 +524,7 @@ defmodule CcxtExtract.PipelineTest do
       # Overrides are grouped by id (list of entries per exchange)
       data = %{full_data() | overrides: %{"testex" => [override_entry]}}
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      ov = result["structure"]["overrides"]
+      ov = result["raw"]["overrides_meta"]
 
       assert ov["extends"] == "testex"
 
@@ -564,7 +564,7 @@ defmodule CcxtExtract.PipelineTest do
 
       data = %{full_data() | overrides: %{"testex" => [rest_entry, ws_entry]}}
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      ov = result["structure"]["overrides"]
+      ov = result["raw"]["overrides_meta"]
 
       assert ov["extends"] == "testex"
 
@@ -578,7 +578,7 @@ defmodule CcxtExtract.PipelineTest do
 
     test "splits class_info into rest and ws entries" do
       result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
-      ci = result["structure"]["class_info"]
+      ci = result["raw"]["class_info"]
 
       assert ci["rest"]["type"] == "rest"
       assert ci["ws"]["type"] == "ws"
@@ -588,8 +588,8 @@ defmodule CcxtExtract.PipelineTest do
       data = %{full_data() | classes: %{"testex" => [@rest_class]}}
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
 
-      assert result["structure"]["class_info"]["rest"]["type"] == "rest"
-      assert result["structure"]["class_info"]["ws"] == nil
+      assert result["raw"]["class_info"]["rest"]["type"] == "rest"
+      assert result["raw"]["class_info"]["ws"] == nil
     end
 
     test "parse_methods is nil when empty map" do
@@ -600,11 +600,12 @@ defmodule CcxtExtract.PipelineTest do
           }
       }
 
+      # In v4 parse_methods go into normalization.parse_methods_digest; nil digest means empty
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      assert result["structure"]["parse_methods"] == nil
+      assert result["normalization"]["parse_methods_digest"] == %{}
     end
 
-    test "ws_methods is nil when empty map" do
+    test "ws_methods is not emitted in v4 output (pruned since schema 3.0.0 / Task 117)" do
       data = %{
         full_data()
         | ws_methods: %{
@@ -613,7 +614,12 @@ defmodule CcxtExtract.PipelineTest do
       }
 
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      assert result["structure"]["ws_methods"] == nil
+
+      # ws_methods are pruned from the emitted schema since 3.0.0
+      # (Task 117). v4 has no ws_methods key at top level, and `raw`
+      # carries method_inventory (REST only) — never ws_methods.
+      refute Map.has_key?(result, "ws_methods")
+      refute Map.has_key?(result["raw"] || %{}, "ws_methods")
     end
 
     test "unified_endpoints filters out method names not in interface_signatures" do
@@ -634,7 +640,7 @@ defmodule CcxtExtract.PipelineTest do
       }
 
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      ue = result["structure"]["unified_endpoints"]
+      ue = result["endpoints"]["unified"]
 
       # publicGetTicker is in interface_signatures — kept
       assert ue["fetchTicker"] == ["publicGetTicker"]
@@ -662,7 +668,7 @@ defmodule CcxtExtract.PipelineTest do
       }
 
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      ue = result["structure"]["unified_endpoints"]
+      ue = result["endpoints"]["unified"]
 
       # No signatures to filter against — all endpoints preserved
       assert ue["fetchTicker"] == ["publicGetTicker", "someHelper"]
@@ -683,7 +689,7 @@ defmodule CcxtExtract.PipelineTest do
       }
 
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      assert result["structure"]["unified_endpoints"] == nil
+      assert result["endpoints"]["unified"] == nil
     end
 
     test "drop_disabled_endpoints removes methods the child sets has: false" do
@@ -726,7 +732,7 @@ defmodule CcxtExtract.PipelineTest do
       }
 
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      ue = result["structure"]["unified_endpoints"]
+      ue = result["endpoints"]["unified"]
 
       assert ue["fetchTicker"] == ["publicGetTicker"]
       refute Map.has_key?(ue, "fetchOrders")
@@ -766,7 +772,7 @@ defmodule CcxtExtract.PipelineTest do
         })
 
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      ue = result["structure"]["unified_endpoints"]
+      ue = result["endpoints"]["unified"]
 
       assert ue["fetchTicker"] == ["publicGetTicker"]
       refute Map.has_key?(ue, "fetchSpotMarkets")
@@ -1187,22 +1193,22 @@ defmodule CcxtExtract.PipelineTest do
   describe "validation" do
     test "full exchange passes schema validation" do
       result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
-      assert :ok = Schema.validate(result)
+      assert :ok = Schema.validate_v4(result)
     end
 
     test "alias exchange passes schema validation" do
       result = Pipeline.build_exchange_data(alias_meta(), empty_data(), @schema_opts)
-      assert :ok = Schema.validate(result)
+      assert :ok = Schema.validate_v4(result)
     end
 
-    test "default schema_target is v3 (byte-identical to omitted opt)" do
-      with_target = Pipeline.build_exchange_data(full_meta(), full_data(), Keyword.put(@schema_opts, :schema_target, 3))
+    test "default schema_target is v4 (byte-identical to omitted opt)" do
+      with_target = Pipeline.build_exchange_data(full_meta(), full_data(), Keyword.put(@schema_opts, :schema_target, 4))
       without_target = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
       assert with_target == without_target
       assert with_target["schema_version"] == Schema.schema_version()
-      assert Map.has_key?(with_target, "runtime")
-      assert Map.has_key?(with_target, "structure")
-      refute Map.has_key?(with_target, "endpoints")
+      refute Map.has_key?(with_target, "runtime")
+      refute Map.has_key?(with_target, "structure")
+      assert Map.has_key?(with_target, "endpoints")
     end
 
     test "exchange with overrides passes validation" do
@@ -1217,7 +1223,7 @@ defmodule CcxtExtract.PipelineTest do
 
       data = %{full_data() | overrides: %{"testex" => [override_entry]}}
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      assert :ok = Schema.validate(result)
+      assert :ok = Schema.validate_v4(result)
     end
   end
 
@@ -1230,12 +1236,13 @@ defmodule CcxtExtract.PipelineTest do
       {:ok, v4_root: v4_root, v3_root: v3_root}
     end
 
-    test "v3 emit (default) validates against exchange_v3.json (synthetic full)", %{v3_root: root} do
-      result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
+    test "v3 emit (explicit schema_target: 3) validates against exchange_v3.json (synthetic full)", %{v3_root: root} do
+      result = Pipeline.build_exchange_data(full_meta(), full_data(), Keyword.put(@schema_opts, :schema_target, 3))
       assert :ok = CcxtExtract.Validation.validate_schema(result, root)
     end
 
     test "v4 emit produces top-level groups (endpoints/auth/errors/markets/raw/testnet)" do
+      # Default is now v4; passing schema_target: 4 explicitly is equivalent
       opts = Keyword.put(@schema_opts, :schema_target, 4)
       result = Pipeline.build_exchange_data(full_meta(), full_data(), opts)
 
@@ -1249,9 +1256,19 @@ defmodule CcxtExtract.PipelineTest do
         assert Map.has_key?(result, key), "missing top-level v4 key: #{key}"
       end
 
-      # Reorganization preserves v3 content under new paths:
+      # Reorganization preserves v3 content under new paths.
+      # Cross-check against v3 explicitly — comparing v4 → v3 catches a
+      # path-mapping regression that comparing v4 → v4 default can't.
+      # (Removed in Task 143 alongside the v3 emit path.)
+      v3_result =
+        Pipeline.build_exchange_data(
+          full_meta(),
+          full_data(),
+          Keyword.put(@schema_opts, :schema_target, 3)
+        )
+
       assert get_in(result, ["markets", "symbols_index"]) ==
-               get_in(Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts), ["runtime", "symbols_index"])
+               get_in(v3_result, ["runtime", "symbols_index"])
 
       assert get_in(result, ["raw", "describe"])["has"]["fetchTicker"] == true
       assert get_in(result, ["raw", "method_inventory", "rest"]) == [@method_sig]
@@ -1323,8 +1340,8 @@ defmodule CcxtExtract.PipelineTest do
       refute Map.has_key?(ticker, "body")
     end
 
-    test "v3 emit (default) does NOT add a normalization key" do
-      result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
+    test "v3 emit (explicit schema_target: 3) does NOT add a normalization key" do
+      result = Pipeline.build_exchange_data(full_meta(), full_data(), Keyword.put(@schema_opts, :schema_target, 3))
       refute Map.has_key?(result, "normalization")
     end
 
@@ -1391,12 +1408,12 @@ defmodule CcxtExtract.PipelineTest do
     end
 
     @tag :tmp_dir
-    test "Pipeline.write!/3 default (no schema_target) copies exchange_v3.json", %{tmp_dir: tmp_dir} do
+    test "Pipeline.write!/3 default (no schema_target) copies exchange_v4.json", %{tmp_dir: tmp_dir} do
       exchange = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
       Pipeline.write!([exchange], tmp_dir)
 
-      assert File.exists?(Path.join(tmp_dir, "exchange_v3.json"))
-      refute File.exists?(Path.join(tmp_dir, "exchange_v4.json"))
+      assert File.exists?(Path.join(tmp_dir, "exchange_v4.json"))
+      refute File.exists?(Path.join(tmp_dir, "exchange_v3.json"))
 
       manifest = tmp_dir |> Path.join("_manifest.json") |> File.read!() |> Jason.decode!()
       assert manifest["schema_version"] == Schema.schema_version()
@@ -1607,20 +1624,20 @@ defmodule CcxtExtract.PipelineTest do
 
   describe "write!/2" do
     @tag :tmp_dir
-    test "copies exchange_v3.json into the output directory", %{tmp_dir: tmp_dir} do
+    test "copies exchange_v4.json into the output directory", %{tmp_dir: tmp_dir} do
       Pipeline.write!([full_exchange()], tmp_dir)
 
-      schema_path = Path.join(tmp_dir, "exchange_v3.json")
+      schema_path = Path.join(tmp_dir, "exchange_v4.json")
       assert File.exists?(schema_path)
       assert schema_path |> File.read!() |> Jason.decode!() |> is_map()
-      assert File.read!(schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v3.json"))
+      assert File.read!(schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v4.json"))
     end
 
     @tag :tmp_dir
     test "removes stale exchange files and refreshes schema and manifest", %{tmp_dir: tmp_dir} do
       stale_exchange_path = Path.join(tmp_dir, "staleex.json")
       stale_manifest_path = Path.join(tmp_dir, "_manifest.json")
-      stale_schema_path = Path.join(tmp_dir, "exchange_v3.json")
+      stale_schema_path = Path.join(tmp_dir, "exchange_v4.json")
 
       File.write!(stale_exchange_path, Jason.encode!(%{"exchange" => %{"id" => "staleex"}}))
       File.write!(stale_manifest_path, Jason.encode!(%{"exchange_count" => 0, "exchanges" => []}))
@@ -1635,7 +1652,7 @@ defmodule CcxtExtract.PipelineTest do
       assert manifest["exchange_count"] == 1
       assert manifest["exchanges"] == ["testex"]
 
-      assert File.read!(stale_schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v3.json"))
+      assert File.read!(stale_schema_path) == File.read!(CcxtExtract.Paths.priv("schema/exchange_v4.json"))
     end
   end
 
@@ -1805,14 +1822,41 @@ defmodule CcxtExtract.PipelineTest do
       File.mkdir_p!(discoveries_dir)
       write_json(Path.join(discoveries_dir, "_base_methods.json"), %{"count" => 0, "methods" => []})
 
-      exchange = %{
-        "schema_version" => "1.6.0",
-        "ccxt_version" => "4.5.45",
-        "extracted_at" => "2026-03-30T12:00:00Z",
-        "exchange" => %{"id" => "fakex", "name" => "Fake", "alias" => false},
-        "runtime" => %{"describe" => nil, "markets" => nil, "symbol_patterns" => nil, "url_templates" => nil},
-        "structure" => %{}
-      }
+      exchange =
+        Pipeline.build_exchange_data(
+          %{
+            "id" => "fakex",
+            "name" => "Fake",
+            "alias" => false,
+            "pro" => false,
+            "certified" => false,
+            "version" => nil,
+            "country" => [],
+            "referral" => nil
+          },
+          %{
+            describe: %{},
+            load_markets: %{},
+            classes: %{},
+            methods_rest: %{},
+            methods_ws: %{},
+            sign_methods: %{},
+            handle_errors: %{},
+            parse_methods: %{},
+            ws_methods: %{},
+            interface_signatures: %{},
+            pagination: %{},
+            unified_endpoints: %{},
+            request_defaults: %{},
+            url_templates: %{},
+            request_headers: %{},
+            overrides: %{},
+            error_class_hierarchy: nil,
+            missing_files: []
+          },
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-03-30T12:00:00Z"
+        )
 
       Pipeline.write!([exchange], output_dir,
         tier_scope: ["tier1", "exchange:fakex"],
@@ -1825,7 +1869,7 @@ defmodule CcxtExtract.PipelineTest do
 
       refute File.exists?(Path.join(output_dir, "stale.json"))
       assert File.exists?(Path.join(output_dir, "_kept.json"))
-      assert File.exists?(Path.join(output_dir, "exchange_v3.json"))
+      assert File.exists?(Path.join(output_dir, "exchange_v4.json"))
       assert File.exists?(Path.join(output_dir, "fakex.json"))
     end
 

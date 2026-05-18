@@ -195,7 +195,7 @@ defmodule CcxtExtract.SchemaTest do
     test "builds complete output for a full exchange" do
       result = Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
 
-      assert result["schema_version"] == Schema.schema_version()
+      assert result["schema_version"] == Schema.schema_version_for(3)
       assert result["extracted_at"] == "2026-03-30T12:00:00Z"
       assert result["ccxt_version"] == "4.5.45"
 

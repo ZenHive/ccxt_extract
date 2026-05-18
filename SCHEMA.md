@@ -24,35 +24,35 @@ Every per-exchange JSON file and `_manifest.json` includes a `schema_version` fi
 # Python
 data = json.load(f)
 major = int(data["schema_version"].split(".")[0])
-if major != 3:
+if major != 4:
     raise ValueError(f"Unsupported schema version: {data['schema_version']}")
 ```
 
 ```rust
 // Rust
 let major: u32 = data["schema_version"].split('.').next().unwrap().parse()?;
-assert_eq!(major, 3, "Unsupported schema version");
+assert_eq!(major, 4, "Unsupported schema version");
 ```
 
 ```elixir
 # Elixir
 case data do
-  %{"schema_version" => "3." <> _} -> :ok
+  %{"schema_version" => "4." <> _} -> :ok
   %{"schema_version" => v} -> raise "Unsupported schema version: #{v}"
 end
 ```
 
 **Handle unknown fields gracefully.** Patch versions may add new nullable keys. Consumers should ignore fields they don't recognize rather than failing on them.
 
-**Pin to a major version.** Your consumer code targets a major schema version (currently 3). Within that major version, all changes are backward-compatible (minor bumps use aliases to preserve old access paths).
+**Pin to a major version.** Your consumer code targets a major schema version (currently 4). Within that major version, all changes are backward-compatible (minor bumps use aliases to preserve old access paths).
 
-**v4 emit gate (in progress).** A v4 reshape is being prepared (top-level reorganization from `runtime`/`structure` to consumer-shaped sections — see [Version 4.0.0 — In Progress (gated)](#version-400--in-progress-gated)). v4 emission is **opt-in** via `--schema-target=4` on `mix ccxt_extract.pipeline` and `mix ccxt_extract.update`; v3 stays the default published contract until the v4 freeze list is empty. Consumers pinned to major version `3` are unaffected during the freeze. When the v4 cut lands, the default flips atomically and the major-version pin moves `3` → `4` in one event — not piecemeal.
+**v3 legacy fallback.** The v4 top-level reshape (`runtime`/`structure` → `endpoints`/`auth`/`errors`/`rate_limits`/`normalization`/`markets`/`testnet`/`raw`) is now the default published schema. v3 output remains reachable via `--schema-target=3` on `mix ccxt_extract.pipeline` and `mix ccxt_extract.update` as a legacy fallback; it is removed in Task 143. Consumers still on major version `3` should migrate — see [Version 4.0.0 — Current](#version-400--current).
 
 ---
 
-## Version 3.3.0 — Current
+## Version 3.3.0 — Superseded
 
-**Status:** Active (released 2026-05-08, Task 73d, PR #9 / INE-64)
+**Status:** Superseded by v4.0.0 (released 2026-05-08, Task 73d, PR #9 / INE-64)
 
 **JSON Schema:** `exchange_v3.json` (included in every output directory)
 
@@ -192,11 +192,11 @@ read without change aside from the new required-field shape.
 
 ---
 
-## Version 4.0.0 — In Progress (gated)
+## Version 4.0.0 — Current
 
-**Status:** In progress (target ship: post-freeze). v4 emission is opt-in via `--schema-target=4`; v3 stays the default published contract until the v4 freeze list is empty AND Task 114 (extraction determinism audit) is green AND `ccxt_client` has its v4 migration ready. v3 readers are unaffected during the freeze.
+**Status:** Default published schema as of 2026-05-15 (Task 142). v4 is emitted by `mix ccxt_extract.pipeline` and `mix ccxt_extract.update` without any flag. v3 is available as a legacy fallback via `--schema-target=3`; it is removed in Task 143.
 
-**JSON Schema:** `exchange_v4.json` (initially the same field set as v3.1.0 with the reorganized top-level shape; Phase 12/13/14 freeze-list tasks populate the new sections as they ship). Coexists with `exchange_v3.json` during the freeze.
+**JSON Schema:** `exchange_v4.json` (included in every output directory). `exchange_v3.json` remains available for the legacy fallback path.
 
 **Why a major bump (vs additive v3.x):** the v4 cut reorganizes top-level sections from producer-shaped (`runtime` / `structure`) to consumer-shaped (`endpoints` / `auth` / `errors` / `rate_limits` / `normalization` / `markets` / `testnet` / `raw`). Additive v3.x can grow new keys but cannot reorganize without breaking; one migration cost in exchange for a coherent stable contract. Additive v3.x bumps that surface new corpus-global derived fields (e.g., 3.2.0's `error_class_hierarchy`) ship as needed; the breaking change deferred to v4 is the top-level reshape, not the freeze of every minor.
 
@@ -568,17 +568,21 @@ Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, defaul
 
 **Inheriting exchanges** (no `parse_dispatch` entry, no fetcher bodies) emit `response_envelopes` with every parser-type slot `null` plus `_unresolved_reason: "not_yet_derived"`.
 
-### What changed from 3.1.0 (breaking)
+### What changed from 3.x (breaking)
 
-[FILL IN AS FREEZE TASKS SHIP — populated incrementally as Phases 11/12/13/14 land. The "Top-level reshape" table above is the path-migration specification; "What changed" elaborates with concrete field-by-field diffs and consumer-facing semantic notes.]
+The v4 cut reorganizes all top-level sections from producer-shaped (`runtime` / `structure`) to consumer-shaped groups (`endpoints` / `auth` / `errors` / `rate_limits` / `normalization` / `markets` / `testnet` / `raw`). The full path-migration table is above under "Top-level reshape." Every path that existed under `runtime.*` or `structure.*` has an exact v4 equivalent — no fields were dropped at the cut; the shape is reorganized, not reduced. Stubs for new sections that have already shipped a scaffold (`normalization.field_maps`, `normalization.response_envelopes`, `errors.class_hierarchy`, `rate_limits.buckets`) are present and schema-valid from the cut date; sections that have not yet shipped a scaffold (`endpoints.descriptors` — Task 121, `markets.currencies` — Task 97, `markets.precision_mode` — Task 98) are absent and will be added in their respective phase tasks.
 
 ### Migration Notes
 
-[FILL IN AS FREEZE TASKS SHIP — major-version-pin from `3` → `4`, code samples in Python/Rust/Elixir following the v3.0.0 migration-notes precedent (see [Version 3.0.0 — Superseded](#version-300--superseded) below). Three-line summary every consumer needs: (1) update version-pin major from `3` → `4`; (2) update top-level key reads using the path-migration table above; (3) point any JSON-Schema integration at `exchange_v4.json` instead of `exchange_v3.json`.]
+Three steps every consumer needs to migrate from v3 to v4:
 
-### v4 emit gate
+1. **Bump the major-version pin** — update any `schema_version` check from major `3` to major `4` (see Consumer Guidance code samples above).
+2. **Update top-level key reads** — use the "Top-level reshape" table above to map every `runtime.*` / `structure.*` path to its v4 equivalent (e.g., `runtime.symbols_index` → `markets.symbols_index`, `structure.sign_recipe` → `auth.sign_recipe`, `structure.handle_errors` → `errors.handle_errors`).
+3. **Point JSON-Schema integration at `exchange_v4.json`** — replace any reference to `exchange_v3.json` with `exchange_v4.json`.
 
-v4 emission is opt-in during the freeze period via the `--schema-target=4` CLI flag on `mix ccxt_extract.pipeline` and `mix ccxt_extract.update`. Default emission stays at v3 (`--schema-target=3`) until the freeze list is empty. When the freeze closes, the default flips in one atomic commit (`@schema_version` and `@schema_filename` in `lib/ccxt_extract/schema.ex`); v3 remains available via `--schema-target=3` for one release post-flip per the established Task 61c → Task 107 → Task 117 precedent.
+### Legacy v3 fallback
+
+v3 output is available via `--schema-target=3` on `mix ccxt_extract.pipeline` and `mix ccxt_extract.update`. It is removed in Task 143.
 
 ---
 
@@ -956,8 +960,8 @@ Base class method signatures from `Exchange.ts` — shared by all exchanges.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 4.0.0 | TBD (post-freeze) | **Breaking, gated.** Top-level reshape from producer-shaped (`runtime`/`structure`) to consumer-shaped sections (`endpoints`/`auth`/`errors`/`rate_limits`/`normalization`/`markets`/`testnet`/`raw`). Re-introduces the normalization surface dropped at 3.0.0 (compact `normalization.parse_methods_digest` + Phase 12 derived field maps — **NOT** raw AST bodies, preserving the 3.0.0 Hex-cap reduction). Emission opt-in via `--schema-target=4` until the v4 freeze list is empty AND Task 114 (extraction determinism audit) is green AND `ccxt_client` has its v4 migration ready. Consumer major-version pin bumps `3` → `4` atomically. See [Version 4.0.0 — In Progress (gated)](#version-400--in-progress-gated) for the full path-migration table and the v4 emit-gate mechanism. |
-| 3.3.0 | 2026-05-08 | Add required `structure.transaction_classification` — per-unified-endpoint `{transactional, on_chain}` boolean flags derived from CCXT's unified-method naming convention (`fetch*` → read-only; `withdraw*` → on_chain; `transfer` stays off-chain because it's exchange-internal). Mirrored at `endpoints.transaction_classification` in v4 — peer to `endpoints.unified`, not nested. New `TransactionClassificationEntry` `$def`. `_provenance["/structure/transaction_classification"] = "derived"`. **Minor bump** because the key is now in `Structure.required` — strict validators reject 3.2.0 output lacking it. **Security gap** (out of scope, tracked as Task 73f): non-unified raw broadcast endpoints (`signL1Action` / `signEIP712`, `public_post_sendtx`) do not appear in this map; consumers must not treat `on_chain == false` (or absence) as a safety gate. Same release retroactively closes a Task 87 gap in `OverrideRegistry.@v3_to_v4_pointer_prefixes` (added `/structure/error_class_hierarchy` → `/errors/class_hierarchy` translation entry alongside the new `/structure/transaction_classification` → `/endpoints/transaction_classification` mapping). See [Version 3.3.0 — Current](#version-330--current). |
+| 4.0.0 | 2026-05-15 | **Breaking.** Default emitted and validated schema (Task 142). Top-level reshape from producer-shaped (`runtime`/`structure`) to consumer-shaped sections (`endpoints`/`auth`/`errors`/`rate_limits`/`normalization`/`markets`/`testnet`/`raw`). Re-introduces the normalization surface dropped at 3.0.0 (compact `normalization.parse_methods_digest` + Phase 12 derived field maps — **NOT** raw AST bodies, preserving the 3.0.0 Hex-cap reduction). Consumer major-version pin bumps `3` → `4`. v3 remains reachable via `--schema-target=3` as a legacy fallback, removed in Task 143. See [Version 4.0.0 — Current](#version-400--current) for the full path-migration table and migration notes. |
+| 3.3.0 | 2026-05-08 | Add required `structure.transaction_classification` — per-unified-endpoint `{transactional, on_chain}` boolean flags derived from CCXT's unified-method naming convention (`fetch*` → read-only; `withdraw*` → on_chain; `transfer` stays off-chain because it's exchange-internal). Mirrored at `endpoints.transaction_classification` in v4 — peer to `endpoints.unified`, not nested. New `TransactionClassificationEntry` `$def`. `_provenance["/structure/transaction_classification"] = "derived"`. **Minor bump** because the key is now in `Structure.required` — strict validators reject 3.2.0 output lacking it. **Security gap** (out of scope, tracked as Task 73f): non-unified raw broadcast endpoints (`signL1Action` / `signEIP712`, `public_post_sendtx`) do not appear in this map; consumers must not treat `on_chain == false` (or absence) as a safety gate. Same release retroactively closes a Task 87 gap in `OverrideRegistry.@v3_to_v4_pointer_prefixes` (added `/structure/error_class_hierarchy` → `/errors/class_hierarchy` translation entry alongside the new `/structure/transaction_classification` → `/endpoints/transaction_classification` mapping). See [Version 3.3.0 — Superseded](#version-330--superseded). |
 | 3.2.0 | 2026-05-08 | Add required `structure.error_class_hierarchy` — CCXT's exception class taxonomy (`BaseError → ExchangeError → ... → AccountNotEnabled`) extracted from `priv/ccxt/ts/src/base/errorHierarchy.ts` via OXC. Three projections per record: `tree` (recursive map mirroring source literal), `flat_parents` (`class → parent`, root → `null`, O(1) parent lookup), `ancestors` (`class → [parent, ..., BaseError]`, O(1) ancestor chain). Corpus-global data — every per-exchange JSON carries the same record, matching `error_code_fields` / `throw_dispatches` colocation under `structure`. `_provenance["/structure/error_class_hierarchy"] = "derived"` (`flat_parents` and `ancestors` are pre-computed projections). Two new contract invariants: `error_class_hierarchy_shape_valid` (intrinsic shape + single root + walk agreement, cycle-safe) and `error_classes_covered_by_hierarchy` (every class in `handle_errors.exceptions` / `http_exceptions` exists in `flat_parents`). v4's `errors.class_hierarchy` slot populated alongside `errors.handle_errors`. **Minor bump** because the key is now in `Structure.required` — strict validators reject 3.1.0 output lacking it; permissive readers are unaffected. See [Version 3.2.0 — Superseded](#version-320--superseded). |
 | 3.1.0 | 2026-05-07 | Add required `runtime.request_headers` — always-emit `{user_agent: string\|null, default_headers: object<string, string>}` wrapper sourced from CCXT's resolved `describe()` runtime (per-exchange `userAgent` override + default `headers` map). Populated via QuickBEAM constructor instantiation in `CcxtExtract.RequestHeaders`; consumers replace any hardcoded UA / version-header tables with reads from this field. `_provenance["/runtime/request_headers"] = "raw"`. **Minor bump** because the key is now in `RuntimeData.required` — strict validators reject 3.0.0 output lacking it; permissive readers are unaffected. Two known blind spots (sign-time UA construction in `bigone.ts`, runtime `setSandboxMode()` header mutation in `okx.ts`) tracked as Task 73e. See [Version 3.1.0 — Current](#version-310--current). |
 | 3.0.0 | 2026-04-20 | **Breaking.** Replace `runtime.markets` with compact derived `runtime.symbols_index` (map of symbol → `{spot: bool, swap: bool}`); drop `structure.parse_methods` and `structure.ws_methods` from emitted output (extractors retained; discovery files still written to `priv/discoveries/` for internal Phase 12 / Phase 15 consumers). Rename JSON Schema file `exchange_v2.json` → `exchange_v3.json`. `priv/schema/exchange_v2.json` retained one release for diff reference. Provenance map drops three raw pointers and gains `/runtime/symbols_index` (derived). Consumer major-version pin bumps `2` → `3`. Clears the ccxt_client Hex 128 MB publish cap (binance pretty-JSON 56.2 MB → compact-JSON + pruned 25.6 MB → ~2 MB). See [Version 3.0.0 — Current](#version-300--current) for migration notes. |

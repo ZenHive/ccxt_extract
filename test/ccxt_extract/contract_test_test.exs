@@ -24,9 +24,9 @@ defmodule CcxtExtract.ContractTestTest do
     test "no finding when literal method is a direct unified_endpoints key" do
       exchange = %{
         "id" => "goodex",
-        "structure" => %{
-          "unified_endpoints" => %{"fetchTime" => ["publicPostInfo"]},
-          "request_defaults" => %{"fetchTime" => %{"type" => literal_entry("exchangeStatus")}}
+        "endpoints" => %{
+          "unified" => %{"fetchTime" => ["publicPostInfo"]},
+          "request" => %{"defaults" => %{"fetchTime" => %{"type" => literal_entry("exchangeStatus")}}}
         }
       }
 
@@ -47,10 +47,12 @@ defmodule CcxtExtract.ContractTestTest do
       # names. It does NOT represent a shape that occurs in today's output.
       exchange = %{
         "id" => "synthex",
-        "structure" => %{
-          "unified_endpoints" => %{"fetchTime" => ["publicPostInfo", "fetchTimeHelper"]},
-          "request_defaults" => %{
-            "fetchTimeHelper" => %{"type" => literal_entry("exchangeStatus")}
+        "endpoints" => %{
+          "unified" => %{"fetchTime" => ["publicPostInfo", "fetchTimeHelper"]},
+          "request" => %{
+            "defaults" => %{
+              "fetchTimeHelper" => %{"type" => literal_entry("exchangeStatus")}
+            }
           }
         }
       }
@@ -64,10 +66,12 @@ defmodule CcxtExtract.ContractTestTest do
     test "finding when a literal method is neither a key nor a value in unified_endpoints" do
       exchange = %{
         "id" => "deadex",
-        "structure" => %{
-          "unified_endpoints" => %{"fetchTicker" => ["publicGetTicker"]},
-          "request_defaults" => %{
-            "fetchOrphan" => %{"type" => literal_entry("x")}
+        "endpoints" => %{
+          "unified" => %{"fetchTicker" => ["publicGetTicker"]},
+          "request" => %{
+            "defaults" => %{
+              "fetchOrphan" => %{"type" => literal_entry("x")}
+            }
           }
         }
       }
@@ -80,17 +84,19 @@ defmodule CcxtExtract.ContractTestTest do
 
       assert finding.exchange == "deadex"
       assert finding.invariant == "request_defaults_resolvable_reachable_from_unified"
-      assert finding.path == "structure.request_defaults.fetchOrphan"
+      assert finding.path == "endpoints.request.defaults.fetchOrphan"
       assert finding.message =~ "fetchOrphan"
     end
 
     test "unresolved-only method is ignored even when unreachable" do
       exchange = %{
         "id" => "unresolvedex",
-        "structure" => %{
-          "unified_endpoints" => %{"fetchTicker" => ["publicGetTicker"]},
-          "request_defaults" => %{
-            "fetchOrphan" => %{"type" => unresolved_entry("identifier_reference")}
+        "endpoints" => %{
+          "unified" => %{"fetchTicker" => ["publicGetTicker"]},
+          "request" => %{
+            "defaults" => %{
+              "fetchOrphan" => %{"type" => unresolved_entry("identifier_reference")}
+            }
           }
         }
       }
@@ -102,7 +108,7 @@ defmodule CcxtExtract.ContractTestTest do
     end
 
     test "no finding when request_defaults is absent or empty" do
-      exchange = %{"id" => "emptyex", "structure" => %{"unified_endpoints" => %{}}}
+      exchange = %{"id" => "emptyex", "endpoints" => %{"unified" => %{}}}
 
       assert ContractTest.check_request_defaults_resolvable_reachable_from_unified(
                exchange,
@@ -115,8 +121,8 @@ defmodule CcxtExtract.ContractTestTest do
     test "no finding when every unified_endpoints key has matching has=true" do
       exchange = %{
         "id" => "goodex",
-        "runtime" => %{"describe" => %{"has" => %{"fetchOHLCV" => true, "fetchTicker" => true}}},
-        "structure" => %{"unified_endpoints" => %{"fetchOHLCV" => ["pubGetKlines"]}}
+        "raw" => %{"describe" => %{"has" => %{"fetchOHLCV" => true, "fetchTicker" => true}}},
+        "endpoints" => %{"unified" => %{"fetchOHLCV" => ["pubGetKlines"]}}
       }
 
       assert ContractTest.check_unified_endpoints_claimed_in_has(exchange, @base_observed) == []
@@ -125,14 +131,14 @@ defmodule CcxtExtract.ContractTestTest do
     test "finding when unified_endpoints declares a key that has does not claim true" do
       exchange = %{
         "id" => "badex",
-        "runtime" => %{"describe" => %{"has" => %{"fetchOHLCV" => "__undefined"}}},
-        "structure" => %{"unified_endpoints" => %{"fetchOHLCV" => ["pubGetKlines"]}}
+        "raw" => %{"describe" => %{"has" => %{"fetchOHLCV" => "__undefined"}}},
+        "endpoints" => %{"unified" => %{"fetchOHLCV" => ["pubGetKlines"]}}
       }
 
       [finding] = ContractTest.check_unified_endpoints_claimed_in_has(exchange, @base_observed)
       assert finding.exchange == "badex"
       assert finding.invariant == "unified_endpoints_claimed_in_has"
-      assert finding.path == "structure.unified_endpoints.fetchOHLCV"
+      assert finding.path == "endpoints.unified.fetchOHLCV"
       assert finding.message =~ "fetchOHLCV"
     end
 
@@ -146,8 +152,8 @@ defmodule CcxtExtract.ContractTestTest do
     test "no finding when every section is a top-level api key" do
       exchange = %{
         "id" => "flatex",
-        "runtime" => %{"describe" => %{"api" => %{"private" => %{}, "public" => %{}}}},
-        "structure" => %{"authenticated_sections" => ["private"]}
+        "raw" => %{"describe" => %{"api" => %{"private" => %{}, "public" => %{}}}},
+        "auth" => %{"authenticated_sections" => ["private"]}
       }
 
       assert ContractTest.check_authenticated_sections_reachable_in_api(exchange, @base_observed) ==
@@ -157,10 +163,10 @@ defmodule CcxtExtract.ContractTestTest do
     test "no finding when section is nested under another api grouping" do
       exchange = %{
         "id" => "nestedex",
-        "runtime" => %{
+        "raw" => %{
           "describe" => %{"api" => %{"v2" => %{"private" => %{}}, "v3" => %{"private" => %{}}}}
         },
-        "structure" => %{"authenticated_sections" => ["private"]}
+        "auth" => %{"authenticated_sections" => ["private"]}
       }
 
       assert ContractTest.check_authenticated_sections_reachable_in_api(exchange, @base_observed) ==
@@ -170,8 +176,8 @@ defmodule CcxtExtract.ContractTestTest do
     test "finding when section is nowhere in the api tree" do
       exchange = %{
         "id" => "missingex",
-        "runtime" => %{"describe" => %{"api" => %{"public" => %{}}}},
-        "structure" => %{"authenticated_sections" => ["wapi"]}
+        "raw" => %{"describe" => %{"api" => %{"public" => %{}}}},
+        "auth" => %{"authenticated_sections" => ["wapi"]}
       }
 
       [finding] =
@@ -179,7 +185,7 @@ defmodule CcxtExtract.ContractTestTest do
 
       assert finding.exchange == "missingex"
       assert finding.invariant == "authenticated_sections_reachable_in_api"
-      assert finding.path == "structure.authenticated_sections[0]"
+      assert finding.path == "auth.authenticated_sections[0]"
       assert finding.message =~ "wapi"
     end
 
@@ -195,7 +201,7 @@ defmodule CcxtExtract.ContractTestTest do
     test "no finding when every root is in the baseline set" do
       exchange = %{
         "id" => "ok",
-        "structure" => %{
+        "errors" => %{
           "handle_errors" => %{
             "error_code_fields" => [
               %{"object" => "response", "object_path" => nil, "field" => "msg"},
@@ -212,7 +218,7 @@ defmodule CcxtExtract.ContractTestTest do
     test "finding points at object when root comes from object fallback" do
       exchange = %{
         "id" => "drift",
-        "structure" => %{
+        "errors" => %{
           "handle_errors" => %{
             "error_code_fields" => [
               %{"object" => "unusualRoot", "object_path" => nil, "field" => "msg"}
@@ -225,14 +231,14 @@ defmodule CcxtExtract.ContractTestTest do
       [finding] = ContractTest.check_error_code_fields_root(exchange, observed)
       assert finding.exchange == "drift"
       assert finding.invariant == "error_code_fields_root_in_observed_set"
-      assert finding.path == "structure.handle_errors.error_code_fields[0].object"
+      assert finding.path == "errors.handle_errors.error_code_fields[0].object"
       assert finding.message =~ "unusualRoot"
     end
 
     test "finding points at object_path when root comes from object_path" do
       exchange = %{
         "id" => "pathdrift",
-        "structure" => %{
+        "errors" => %{
           "handle_errors" => %{
             "error_code_fields" => [
               %{"object" => "response", "object_path" => ["unexpected", "code"], "field" => "msg"}
@@ -244,7 +250,7 @@ defmodule CcxtExtract.ContractTestTest do
       observed = %{error_code_fields_roots: ["response"]}
       [finding] = ContractTest.check_error_code_fields_root(exchange, observed)
       assert finding.exchange == "pathdrift"
-      assert finding.path == "structure.handle_errors.error_code_fields[0].object_path"
+      assert finding.path == "errors.handle_errors.error_code_fields[0].object_path"
       assert finding.message =~ "unexpected"
     end
 
@@ -262,9 +268,10 @@ defmodule CcxtExtract.ContractTestTest do
       assert ContractTest.check_override_paths_present_in_output(exchange, @base_observed) == []
     end
 
-    test "no findings when every override value appears at its path in output" do
-      # Construct an exchange map via apply_all/2 using the real production
-      # override file — guarantees every entry's value is observable at its path.
+    test "no findings when every override value appears at its path in output (v3 shape)" do
+      # `apply_all/2` doesn't translate pointers; the seed is the legacy v3
+      # shape so override paths land at `/structure/...` in the merged map.
+      # When schema_target=3 is fully retired, this test goes with it.
       seed = %{"exchange" => %{"id" => "hyperliquid"}, "structure" => %{}}
       overrides = OverrideRegistry.load("hyperliquid")
       exchange = OverrideRegistry.apply_all(seed, overrides)
@@ -272,19 +279,31 @@ defmodule CcxtExtract.ContractTestTest do
       assert ContractTest.check_override_paths_present_in_output(exchange, @base_observed) == []
     end
 
-    test "finding when exchange output drifts from override value" do
-      # hyperliquid's authenticated_sections override — here the exchange map
-      # carries a drifted value that does not match the override.
-      exchange = %{
-        "exchange" => %{"id" => "hyperliquid"},
-        "structure" => %{"authenticated_sections" => ["drifted"]}
-      }
+    test "no findings when v4 output carries the override at its translated path" do
+      # v4-shaped exchange — the helper sees `endpoints` and translates the
+      # override pointer `/structure/authenticated_sections` to
+      # `/auth/authenticated_sections` before walking.
+      exchange =
+        clean_exchange()
+        |> put_in(["exchange", "id"], "hyperliquid")
+        |> put_in(["auth", "authenticated_sections"], ["private"])
+
+      assert ContractTest.check_override_paths_present_in_output(exchange, @base_observed) == []
+    end
+
+    test "finding when v4 exchange output drifts from override value" do
+      # hyperliquid's authenticated_sections override — v4-shaped exchange
+      # carries a drifted value. `finding.path` is the translated v4 pointer.
+      exchange =
+        clean_exchange()
+        |> put_in(["exchange", "id"], "hyperliquid")
+        |> put_in(["auth", "authenticated_sections"], ["drifted"])
 
       [finding] = ContractTest.check_override_paths_present_in_output(exchange, @base_observed)
 
       assert finding.exchange == "hyperliquid"
       assert finding.invariant == "override_paths_present_in_output"
-      assert finding.path == "/structure/authenticated_sections"
+      assert finding.path == "/auth/authenticated_sections"
       assert finding.message =~ "drifted"
     end
   end
@@ -295,30 +314,32 @@ defmodule CcxtExtract.ContractTestTest do
     end
 
     test "uncovered_section finding when pipeline emits a section Provenance does not declare" do
-      exchange = put_in(clean_exchange(), ["structure", "new_undeclared_section"], %{})
+      # Plant an undeclared top-level v4 section (must be under a declared
+      # provenance root from @provenance_section_roots to be walked).
+      exchange = put_in(clean_exchange(), ["raw", "new_undeclared_section"], %{})
 
       [finding] = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
       assert finding.invariant == "provenance_covers_schema"
-      assert finding.path == "/structure/new_undeclared_section"
+      assert finding.path == "/raw/new_undeclared_section"
       assert finding.message =~ "not declared in Provenance"
     end
 
     test "orphan_declaration finding when a declared pointer does not resolve in output" do
-      # Drop /structure/pagination entirely from the exchange
-      exchange = update_in(clean_exchange(), ["structure"], &Map.delete(&1, "pagination"))
+      # Drop /endpoints/pagination entirely from the exchange.
+      exchange = update_in(clean_exchange(), ["endpoints"], &Map.delete(&1, "pagination"))
 
       findings = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
       paths = Enum.map(findings, & &1.path)
-      assert "/structure/pagination" in paths
+      assert "/endpoints/pagination" in paths
       assert Enum.all?(findings, &(&1.invariant == "provenance_covers_schema"))
     end
 
     test "tag_mismatch finding when _provenance tag disagrees with predicted split" do
-      # /runtime/describe is declared raw; flip to "derived" in the map
-      exchange = put_in(clean_exchange(), ["_provenance", "/runtime/describe"], "derived")
+      # /raw/describe is declared raw; flip to "derived" in the map.
+      exchange = put_in(clean_exchange(), ["_provenance", "/raw/describe"], "derived")
 
       findings = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
-      mismatch = Enum.find(findings, &(&1.path == "/runtime/describe"))
+      mismatch = Enum.find(findings, &(&1.path == "/raw/describe"))
       assert mismatch
       assert mismatch.invariant == "provenance_covers_schema"
       assert mismatch.message =~ "expected \"raw\""
@@ -326,36 +347,36 @@ defmodule CcxtExtract.ContractTestTest do
     end
 
     test "override tag is always accepted regardless of predicted split" do
-      # Flip a raw pointer to "override" — should produce NO tag_mismatch
-      exchange = put_in(clean_exchange(), ["_provenance", "/runtime/describe"], "override")
+      # Flip a raw pointer to "override" — should produce NO tag_mismatch.
+      exchange = put_in(clean_exchange(), ["_provenance", "/raw/describe"], "override")
 
       findings = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
 
       refute Enum.any?(
                findings,
-               &(&1.path == "/runtime/describe" and &1.invariant == "provenance_covers_schema")
+               &(&1.path == "/raw/describe" and &1.invariant == "provenance_covers_schema")
              )
     end
 
     test "nil parent is vacuously resolved (Honesty Rule) — no orphan findings for its subkeys" do
-      # /structure/handle_errors = nil legitimately means "extractor produced
+      # /errors/handle_errors = nil legitimately means "extractor produced
       # nothing"; the declared subkeys should NOT be flagged as orphans.
-      exchange = put_in(clean_exchange(), ["structure", "handle_errors"], nil)
+      exchange = put_in(clean_exchange(), ["errors", "handle_errors"], nil)
 
       findings = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
 
-      refute Enum.any?(findings, &String.starts_with?(&1.path, "/structure/handle_errors"))
+      refute Enum.any?(findings, &String.starts_with?(&1.path, "/errors/handle_errors"))
     end
 
     test "override path tag suppresses uncovered_section even for undeclared pointers" do
-      # Undeclared section + an override tag at that path → no uncovered finding
+      # Undeclared section under a declared root + override tag → no uncovered finding.
       exchange =
         clean_exchange()
-        |> put_in(["structure", "custom_override"], %{})
-        |> put_in(["_provenance", "/structure/custom_override"], "override")
+        |> put_in(["raw", "custom_override"], %{})
+        |> put_in(["_provenance", "/raw/custom_override"], "override")
 
       findings = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
-      refute Enum.any?(findings, &(&1.path == "/structure/custom_override"))
+      refute Enum.any?(findings, &(&1.path == "/raw/custom_override"))
     end
   end
 
@@ -421,7 +442,7 @@ defmodule CcxtExtract.ContractTestTest do
     defp exchange_with_recipe(id, recipe_map) do
       clean_exchange()
       |> put_in(["exchange", "id"], id)
-      |> put_in(["structure", "sign_recipe"], recipe_map)
+      |> put_in(["auth", "sign_recipe"], recipe_map)
     end
 
     defp populated_recipe do
@@ -464,7 +485,7 @@ defmodule CcxtExtract.ContractTestTest do
 
       assert finding.exchange == "stale_tag"
       assert finding.invariant == "sign_recipe_honesty_valid"
-      assert finding.path == "structure.sign_recipe.private"
+      assert finding.path == "auth.sign_recipe.private"
       assert finding.message =~ "not_yet_derived"
       assert finding.message =~ "all seven derivation fields are populated"
     end
@@ -483,7 +504,7 @@ defmodule CcxtExtract.ContractTestTest do
 
       assert finding.exchange == "lying_tag"
       assert finding.invariant == "sign_recipe_honesty_valid"
-      assert finding.path == "structure.sign_recipe.private"
+      assert finding.path == "auth.sign_recipe.private"
       assert finding.message =~ "unresolved_reason is null"
       assert finding.message =~ ~s("pre_sign_transforms")
     end
@@ -550,8 +571,8 @@ defmodule CcxtExtract.ContractTestTest do
 
       assert length(findings) == 2
       # Alphabetical order means aprivate comes before zprivate.
-      assert Enum.at(findings, 0).path == "structure.sign_recipe.aprivate"
-      assert Enum.at(findings, 1).path == "structure.sign_recipe.zprivate"
+      assert Enum.at(findings, 0).path == "auth.sign_recipe.aprivate"
+      assert Enum.at(findings, 1).path == "auth.sign_recipe.zprivate"
     end
   end
 
@@ -559,7 +580,7 @@ defmodule CcxtExtract.ContractTestTest do
     defp exchange_with_hierarchy(id, hierarchy) do
       %{
         "exchange" => %{"id" => id},
-        "structure" => %{"error_class_hierarchy" => hierarchy}
+        "errors" => %{"class_hierarchy" => hierarchy}
       }
     end
 
@@ -673,9 +694,9 @@ defmodule CcxtExtract.ContractTestTest do
     defp exchange_with_handle_errors_and_hierarchy(id, handle_errors, hierarchy) do
       %{
         "exchange" => %{"id" => id},
-        "structure" => %{
+        "errors" => %{
           "handle_errors" => handle_errors,
-          "error_class_hierarchy" => hierarchy
+          "class_hierarchy" => hierarchy
         }
       }
     end
@@ -873,10 +894,12 @@ defmodule CcxtExtract.ContractTestTest do
   end
 
   describe "check_parse_methods_digest_covers_inventory/2" do
-    test "skipped on v3-shaped output (no normalization key)" do
-      v3_exchange = clean_exchange()
+    test "skipped when output is missing the normalization key entirely" do
+      # Pre-Task 117 / non-v4 shapes (and any future shape that doesn't carry
+      # `normalization`) hit the short-circuit and produce no findings.
+      bare = %{"exchange" => %{"id" => "good"}}
       observed = Map.put(@base_observed, :parse_methods_inventory, %{"good" => ["parseTrade"]})
-      assert ContractTest.check_parse_methods_digest_covers_inventory(v3_exchange, observed) == []
+      assert ContractTest.check_parse_methods_digest_covers_inventory(bare, observed) == []
     end
 
     test "no findings when digest covers inventory exactly" do
@@ -960,14 +983,14 @@ defmodule CcxtExtract.ContractTestTest do
       exchange =
         clean_exchange()
         |> put_in(
-          ["structure", "error_status_map"],
+          ["errors", "status_map"],
           %{
             "418" => [%{"class" => "DDoSProtection", "source" => "http_exceptions"}],
             "429" => [%{"class" => "RateLimitExceeded", "source" => "throw_dispatch_predicate"}]
           }
         )
         |> put_in(
-          ["structure", "error_retryable"],
+          ["errors", "retry_classification"],
           %{
             "rate_limit" => ["DDoSProtection", "RateLimitExceeded"],
             "auth" => [],
@@ -982,19 +1005,19 @@ defmodule CcxtExtract.ContractTestTest do
 
     test "non-numeric status key produces a finding" do
       exchange =
-        put_in(clean_exchange(), ["structure", "error_status_map"], %{
+        put_in(clean_exchange(), ["errors", "status_map"], %{
           "abc" => [%{"class" => "DDoSProtection", "source" => "http_exceptions"}]
         })
 
       assert [finding] = ContractTest.check_handle_errors_retryable_shape_valid(exchange, @base_observed)
       assert finding.invariant == "handle_errors_retryable_shape_valid"
-      assert finding.path == "structure.error_status_map"
+      assert finding.path == "errors.status_map"
       assert finding.message =~ "not a numeric HTTP status string"
     end
 
     test "out-of-vocabulary source produces a finding" do
       exchange =
-        put_in(clean_exchange(), ["structure", "error_status_map"], %{
+        put_in(clean_exchange(), ["errors", "status_map"], %{
           "418" => [%{"class" => "DDoSProtection", "source" => "fabricated"}]
         })
 
@@ -1005,7 +1028,7 @@ defmodule CcxtExtract.ContractTestTest do
 
     test "missing required bucket produces a finding" do
       exchange =
-        put_in(clean_exchange(), ["structure", "error_retryable"], %{
+        put_in(clean_exchange(), ["errors", "retry_classification"], %{
           "rate_limit" => [],
           "auth" => [],
           "server_busy" => [],
@@ -1019,7 +1042,7 @@ defmodule CcxtExtract.ContractTestTest do
 
     test "extra bucket produces a finding" do
       exchange =
-        put_in(clean_exchange(), ["structure", "error_retryable"], %{
+        put_in(clean_exchange(), ["errors", "retry_classification"], %{
           "rate_limit" => [],
           "auth" => [],
           "server_busy" => [],
@@ -1034,7 +1057,7 @@ defmodule CcxtExtract.ContractTestTest do
 
     test "class in wrong bucket produces a finding" do
       exchange =
-        put_in(clean_exchange(), ["structure", "error_retryable"], %{
+        put_in(clean_exchange(), ["errors", "retry_classification"], %{
           "rate_limit" => ["InvalidOrder"],
           "auth" => [],
           "server_busy" => [],
@@ -1051,7 +1074,7 @@ defmodule CcxtExtract.ContractTestTest do
 
     test "unsorted bucket list produces a finding" do
       exchange =
-        put_in(clean_exchange(), ["structure", "error_retryable"], %{
+        put_in(clean_exchange(), ["errors", "retry_classification"], %{
           "rate_limit" => ["RateLimitExceeded", "DDoSProtection"],
           "auth" => [],
           "server_busy" => [],
@@ -1226,7 +1249,7 @@ defmodule CcxtExtract.ContractTestTest do
           authenticated_sections: ["private"]
         )
         |> put_in(
-          ["structure", "handle_errors", "error_code_fields"],
+          ["errors", "handle_errors", "error_code_fields"],
           [%{"object" => "response", "object_path" => nil, "field" => "msg"}]
         )
 
@@ -1268,9 +1291,9 @@ defmodule CcxtExtract.ContractTestTest do
       assert report["baseline"]["error_code_fields_roots"] == ["response"]
     end
 
-    test "skips exchange_v3.json (schema copy) alongside per-exchange JSON", %{tmp: tmp} do
+    test "skips exchange_v4.json (schema copy) alongside per-exchange JSON", %{tmp: tmp} do
       File.write!(Path.join(tmp, "real.json"), Jason.encode!(%{"id" => "real"}))
-      File.write!(Path.join(tmp, "exchange_v3.json"), Jason.encode!(%{"$schema" => "x"}))
+      File.write!(Path.join(tmp, "exchange_v4.json"), Jason.encode!(%{"$schema" => "x"}))
       File.write!(Path.join(tmp, "_manifest.json"), "{}")
 
       {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: [])

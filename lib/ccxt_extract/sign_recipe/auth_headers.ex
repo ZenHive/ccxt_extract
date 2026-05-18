@@ -13,7 +13,7 @@ defmodule CcxtExtract.SignRecipe.AuthHeaders do
       `KC-API-KEY-VERSION: "2"`
 
   The `source` vocabulary is closed by
-  `priv/schema/exchange_v3.json#/$defs/SignRecipeAuthHeader`.
+  `priv/schema/exchange_v4.json#/$defs/SignRecipeAuthHeader`.
 
   ## Walk strategy
 

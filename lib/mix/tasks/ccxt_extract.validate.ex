@@ -17,9 +17,9 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
       The validation report (`_validation_report.json`) is also written here.
     * `--strict` — fail with non-zero exit if any errors found
     * `--schema-only` — skip round-trip comparison (faster)
-    * `--schema-target N` — `3` (default) validates against
-      `priv/schema/exchange_v3.json`; `4` validates against
-      `priv/schema/exchange_v4.json` (gated, Task 130).
+    * `--schema-target N` — `4` (default) validates against
+      `priv/schema/exchange_v4.json`; `3` validates against
+      `priv/schema/exchange_v3.json` (legacy, removed in Task 143).
   """
 
   use Mix.Task
@@ -74,7 +74,7 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
 
   @spec resolve_schema_target!(keyword()) :: 3 | 4
   defp resolve_schema_target!(opts) do
-    case Keyword.get(opts, :schema_target, 3) do
+    case Keyword.get(opts, :schema_target, 4) do
       3 -> 3
       4 -> 4
       other -> Mix.raise("Invalid --schema-target #{inspect(other)}; expected 3 or 4")
@@ -82,8 +82,8 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
   end
 
   @spec target_suffix(3 | 4) :: String.t()
-  defp target_suffix(3), do: ""
-  defp target_suffix(4), do: " (schema target: v4 — gated)"
+  defp target_suffix(4), do: ""
+  defp target_suffix(3), do: " (schema target: v3 — legacy)"
 
   # Returns true if there are errors
   defp report_results(report, elapsed) do

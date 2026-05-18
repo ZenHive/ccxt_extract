@@ -11,12 +11,12 @@ defmodule CcxtExtract.ContractTest do
   ## Seed invariants
 
     * `unified_endpoints_claimed_in_has` — every key of
-      `structure.unified_endpoints` must appear in `runtime.describe.has` with
+      `endpoints.unified` must appear in `raw.describe.has` with
       value `true` or `"emulated"`.
 
     * `authenticated_sections_reachable_in_api` — every entry in
-      `structure.authenticated_sections` must be reachable as a map key at
-      some depth within `runtime.describe.api`.
+      `auth.authenticated_sections` must be reachable as a map key at
+      some depth within `raw.describe.api`.
 
     * `error_code_fields_root_in_observed_set` — every
       `error_code_fields` entry's root (first element of `object_path`, or
@@ -206,16 +206,16 @@ defmodule CcxtExtract.ContractTest do
 
   @doc """
   Flag unified_endpoints entries that aren't claimed as supported in
-  `runtime.describe.has`. Public for registry-based dispatch and direct
+  `raw.describe.has`. Public for registry-based dispatch and direct
   test introspection.
   """
   # TODO(Task 57c): Baseline run surfaces ~341 legitimate drift findings —
-  # unified_endpoints over-declares vs runtime.describe.has. Triage in 57c.
+  # unified_endpoints over-declares vs raw.describe.has. Triage in 57c.
   @spec check_unified_endpoints_claimed_in_has(map(), map()) :: [finding()]
   def check_unified_endpoints_claimed_in_has(exchange, _observed) do
     id = exchange_id(exchange)
-    has = get_in(exchange, ["runtime", "describe", "has"]) || %{}
-    unified = get_in(exchange, ["structure", "unified_endpoints"]) || %{}
+    has = get_in(exchange, ["raw", "describe", "has"]) || %{}
+    unified = get_in(exchange, ["endpoints", "unified"]) || %{}
 
     unified
     |> Map.keys()
@@ -227,8 +227,8 @@ defmodule CcxtExtract.ContractTest do
       %{
         exchange: id,
         invariant: "unified_endpoints_claimed_in_has",
-        path: "structure.unified_endpoints.#{name}",
-        message: "unified_endpoints declares #{name} but runtime.describe.has.#{name} = #{inspect(actual)}"
+        path: "endpoints.unified.#{name}",
+        message: "endpoints.unified declares #{name} but raw.describe.has.#{name} = #{inspect(actual)}"
       }
     end)
   end
@@ -241,9 +241,9 @@ defmodule CcxtExtract.ContractTest do
 
   @doc """
   Flag `request_defaults` methods that contain at least one `kind: "literal"`
-  entry but aren't reachable from `structure.unified_endpoints` — where
-  "reachable" means: the method name is either a key of `unified_endpoints`
-  OR appears as a value in some `unified_endpoints[*]` list. Helper methods
+  entry but aren't reachable from `endpoints.unified` — where
+  "reachable" means: the method name is either a key of `endpoints.unified`
+  OR appears as a value in some `endpoints.unified[*]` list. Helper methods
   like hyperliquid.fetchSwapMarkets — not directly unified but called from
   a unified `fetchMarkets` entry — stay in bounds.
 
@@ -261,8 +261,8 @@ defmodule CcxtExtract.ContractTest do
   @spec check_request_defaults_resolvable_reachable_from_unified(map(), map()) :: [finding()]
   def check_request_defaults_resolvable_reachable_from_unified(exchange, _observed) do
     id = exchange_id(exchange)
-    defaults = get_in(exchange, ["structure", "request_defaults"]) || %{}
-    unified = get_in(exchange, ["structure", "unified_endpoints"]) || %{}
+    defaults = get_in(exchange, ["endpoints", "request", "defaults"]) || %{}
+    unified = get_in(exchange, ["endpoints", "unified"]) || %{}
     reachable = unified_reachable_names(unified)
 
     defaults
@@ -273,9 +273,9 @@ defmodule CcxtExtract.ContractTest do
       %{
         exchange: id,
         invariant: "request_defaults_resolvable_reachable_from_unified",
-        path: "structure.request_defaults.#{method}",
+        path: "endpoints.request.defaults.#{method}",
         message:
-          "request_defaults.#{method} has a resolvable literal entry but #{method} is not reachable from unified_endpoints (neither a key nor a value)"
+          "endpoints.request.defaults.#{method} has a resolvable literal entry but #{method} is not reachable from endpoints.unified (neither a key nor a value)"
       }
     end)
   end
@@ -305,15 +305,15 @@ defmodule CcxtExtract.ContractTest do
 
   @doc """
   Flag `authenticated_sections` entries that aren't reachable in
-  `runtime.describe.api` at any nesting depth.
+  `raw.describe.api` at any nesting depth.
   """
   # TODO(Task 57d): Tokocrypto findings show inherited sign() gates pointing
   # at parent-class api sections. Walk inheritance + intersect in 57d.
   @spec check_authenticated_sections_reachable_in_api(map(), map()) :: [finding()]
   def check_authenticated_sections_reachable_in_api(exchange, _observed) do
     id = exchange_id(exchange)
-    sections = get_in(exchange, ["structure", "authenticated_sections"]) || []
-    api = get_in(exchange, ["runtime", "describe", "api"]) || %{}
+    sections = get_in(exchange, ["auth", "authenticated_sections"]) || []
+    api = get_in(exchange, ["raw", "describe", "api"]) || %{}
     reachable = collect_map_keys(api)
 
     sections
@@ -323,8 +323,8 @@ defmodule CcxtExtract.ContractTest do
       %{
         exchange: id,
         invariant: "authenticated_sections_reachable_in_api",
-        path: "structure.authenticated_sections[#{i}]",
-        message: "authenticated section #{inspect(name)} not reachable in runtime.describe.api tree"
+        path: "auth.authenticated_sections[#{i}]",
+        message: "authenticated section #{inspect(name)} not reachable in raw.describe.api tree"
       }
     end)
   end
@@ -339,8 +339,8 @@ defmodule CcxtExtract.ContractTest do
   defp reachable_in_api?(_name, _api, _reachable), do: false
 
   @doc """
-  Flag drift between `structure.sign_recipe` keys and
-  `structure.authenticated_sections`. The two must agree as sets: every
+  Flag drift between `auth.sign_recipe` keys and
+  `auth.authenticated_sections`. The two must agree as sets: every
   authenticated section gets one recipe; no recipe exists for a
   non-authenticated section.
 
@@ -352,8 +352,8 @@ defmodule CcxtExtract.ContractTest do
   @spec check_sign_recipe_keys_match_auth_sections(map(), map()) :: [finding()]
   def check_sign_recipe_keys_match_auth_sections(exchange, _observed) do
     id = exchange_id(exchange)
-    recipe = get_in(exchange, ["structure", "sign_recipe"]) || %{}
-    sections = get_in(exchange, ["structure", "authenticated_sections"]) || []
+    recipe = get_in(exchange, ["auth", "sign_recipe"]) || %{}
+    sections = get_in(exchange, ["auth", "authenticated_sections"]) || []
 
     recipe_keys = recipe |> Map.keys() |> MapSet.new()
     section_keys = MapSet.new(sections)
@@ -366,7 +366,7 @@ defmodule CcxtExtract.ContractTest do
         %{
           exchange: id,
           invariant: "sign_recipe_keys_match_auth_sections",
-          path: "structure.sign_recipe.#{name}",
+          path: "auth.sign_recipe.#{name}",
           message: "authenticated section #{inspect(name)} has no sign_recipe entry"
         }
       end)
@@ -379,7 +379,7 @@ defmodule CcxtExtract.ContractTest do
         %{
           exchange: id,
           invariant: "sign_recipe_keys_match_auth_sections",
-          path: "structure.sign_recipe.#{name}",
+          path: "auth.sign_recipe.#{name}",
           message: "sign_recipe has entry #{inspect(name)} but it is not in authenticated_sections"
         }
       end)
@@ -388,21 +388,21 @@ defmodule CcxtExtract.ContractTest do
   end
 
   @doc """
-  Structural belt-and-suspenders check over each `structure.sign_recipe`
+  Structural belt-and-suspenders check over each `auth.sign_recipe`
   record:
     * the eight required keys are present (no missing / no extras),
     * `patch_count` is a non-negative integer,
     * `unresolved_reason` is either `null` or in the closed vocabulary.
 
   Deeper per-field enum/shape validation is done by
-  `CcxtExtract.Validation.validate_schema/2` against `exchange_v3.json#/$defs/SignRecipeRecord`.
+  `CcxtExtract.Validation.validate_schema/2` against `exchange_v4.json#/$defs/SignRecipeRecord`.
   This invariant catches the narrow case where JSV validation was skipped
   or the schema drifted.
   """
   @spec check_sign_recipe_shape_valid(map(), map()) :: [finding()]
   def check_sign_recipe_shape_valid(exchange, _observed) do
     id = exchange_id(exchange)
-    recipe = get_in(exchange, ["structure", "sign_recipe"]) || %{}
+    recipe = get_in(exchange, ["auth", "sign_recipe"]) || %{}
 
     recipe
     |> Enum.sort_by(fn {section, _} -> section end)
@@ -443,7 +443,7 @@ defmodule CcxtExtract.ContractTest do
     %{
       exchange: id,
       invariant: "sign_recipe_shape_valid",
-      path: "structure.sign_recipe.#{section}",
+      path: "auth.sign_recipe.#{section}",
       message: message
     }
   end
@@ -468,7 +468,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   @doc """
-  Validate the `structure.sign_recipe` honesty biconditional (Task 69):
+  Validate the `auth.sign_recipe` honesty biconditional (Task 69):
 
       unresolved_reason == nil  ⇔  every derivation field non-nil
 
@@ -488,7 +488,7 @@ defmodule CcxtExtract.ContractTest do
   @spec check_sign_recipe_honesty_valid(map(), map()) :: [finding()]
   def check_sign_recipe_honesty_valid(exchange, _observed) do
     id = exchange_id(exchange)
-    recipe = get_in(exchange, ["structure", "sign_recipe"]) || %{}
+    recipe = get_in(exchange, ["auth", "sign_recipe"]) || %{}
 
     recipe
     |> Enum.sort_by(fn {section, _} -> section end)
@@ -542,21 +542,21 @@ defmodule CcxtExtract.ContractTest do
     %{
       exchange: id,
       invariant: "sign_recipe_honesty_valid",
-      path: "structure.sign_recipe.#{section}",
+      path: "auth.sign_recipe.#{section}",
       message: message
     }
   end
 
   @doc """
-  Flag drift between `structure.request_shape` keys and
-  `structure.authenticated_sections`. Mirror of the sign_recipe
+  Flag drift between `endpoints.request.shape` keys and
+  `auth.authenticated_sections`. Mirror of the sign_recipe
   variant — the two key sets must agree exactly.
   """
   @spec check_request_shape_keys_match_auth_sections(map(), map()) :: [finding()]
   def check_request_shape_keys_match_auth_sections(exchange, _observed) do
     id = exchange_id(exchange)
-    record_map = get_in(exchange, ["structure", "request_shape"]) || %{}
-    sections = get_in(exchange, ["structure", "authenticated_sections"]) || []
+    record_map = get_in(exchange, ["endpoints", "request", "shape"]) || %{}
+    sections = get_in(exchange, ["auth", "authenticated_sections"]) || []
 
     record_keys = record_map |> Map.keys() |> MapSet.new()
     section_keys = MapSet.new(sections)
@@ -569,7 +569,7 @@ defmodule CcxtExtract.ContractTest do
         %{
           exchange: id,
           invariant: "request_shape_keys_match_auth_sections",
-          path: "structure.request_shape.#{name}",
+          path: "endpoints.request.shape.#{name}",
           message: "authenticated section #{inspect(name)} has no request_shape entry"
         }
       end)
@@ -582,7 +582,7 @@ defmodule CcxtExtract.ContractTest do
         %{
           exchange: id,
           invariant: "request_shape_keys_match_auth_sections",
-          path: "structure.request_shape.#{name}",
+          path: "endpoints.request.shape.#{name}",
           message: "request_shape has entry #{inspect(name)} but it is not in authenticated_sections"
         }
       end)
@@ -592,7 +592,7 @@ defmodule CcxtExtract.ContractTest do
 
   @doc """
   Structural belt-and-suspenders check over each
-  `structure.request_shape` record — the five required keys are
+  `endpoints.request.shape` record — the five required keys are
   present, `patch_count` is a non-negative integer,
   `unresolved_reason` is null or in the closed vocabulary,
   `body_encoding` is null or in the closed vocabulary, and every
@@ -600,14 +600,14 @@ defmodule CcxtExtract.ContractTest do
   path-params triple.
 
   Deeper enum / shape validation is done by JSV against
-  `exchange_v3.json#/$defs/RequestShapeRecord` —
+  `exchange_v4.json#/$defs/RequestShapeRecord` —
   this invariant catches the narrow case where JSV validation was
   skipped or the schema drifted.
   """
   @spec check_request_shape_valid(map(), map()) :: [finding()]
   def check_request_shape_valid(exchange, _observed) do
     id = exchange_id(exchange)
-    record_map = get_in(exchange, ["structure", "request_shape"]) || %{}
+    record_map = get_in(exchange, ["endpoints", "request", "shape"]) || %{}
 
     record_map
     |> Enum.sort_by(fn {section, _} -> section end)
@@ -651,7 +651,7 @@ defmodule CcxtExtract.ContractTest do
     %{
       exchange: id,
       invariant: "request_shape_valid",
-      path: "structure.request_shape.#{section}",
+      path: "endpoints.request.shape.#{section}",
       message: message
     }
   end
@@ -781,7 +781,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   @doc """
-  Validate the `structure.request_shape` honesty biconditional —
+  Validate the `endpoints.request.shape` honesty biconditional —
   mirror of the sign_recipe variant (Task 69 pattern):
 
       unresolved_reason == nil  ⇔  every derivation field populated
@@ -802,7 +802,7 @@ defmodule CcxtExtract.ContractTest do
   @spec check_request_shape_honesty_valid(map(), map()) :: [finding()]
   def check_request_shape_honesty_valid(exchange, _observed) do
     id = exchange_id(exchange)
-    record_map = get_in(exchange, ["structure", "request_shape"]) || %{}
+    record_map = get_in(exchange, ["endpoints", "request", "shape"]) || %{}
 
     record_map
     |> Enum.sort_by(fn {section, _} -> section end)
@@ -859,13 +859,13 @@ defmodule CcxtExtract.ContractTest do
     %{
       exchange: id,
       invariant: "request_shape_honesty_valid",
-      path: "structure.request_shape.#{section}",
+      path: "endpoints.request.shape.#{section}",
       message: message
     }
   end
 
   @doc """
-  Validate `runtime.testnet_urls` structural invariants that JSON Schema
+  Validate top-level `testnet` structural invariants that JSON Schema
   can't easily express:
 
     * `pattern` is one of `TestnetUrls.patterns/0`
@@ -884,7 +884,7 @@ defmodule CcxtExtract.ContractTest do
   @spec check_testnet_urls_shape_valid(map(), map()) :: [finding()]
   def check_testnet_urls_shape_valid(exchange, _observed) do
     id = exchange_id(exchange)
-    record = get_in(exchange, ["runtime", "testnet_urls"])
+    record = Map.get(exchange, "testnet")
 
     testnet_urls_record_findings(id, record)
   end
@@ -909,7 +909,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp testnet_urls_record_findings(id, _record) do
-    [testnet_urls_finding(id, "runtime.testnet_urls must be a map")]
+    [testnet_urls_finding(id, "testnet must be a map")]
   end
 
   defp testnet_urls_consistency_findings(id, record) do
@@ -1011,13 +1011,13 @@ defmodule CcxtExtract.ContractTest do
     %{
       exchange: id,
       invariant: "testnet_urls_shape_valid",
-      path: "runtime.testnet_urls",
+      path: "testnet",
       message: message
     }
   end
 
   @doc """
-  Flag `structure.error_class_hierarchy` records that don't satisfy the
+  Flag `errors.class_hierarchy` records that don't satisfy the
   intrinsic shape contract:
 
     * required keys `tree`, `flat_parents`, `ancestors` all present and of
@@ -1034,7 +1034,7 @@ defmodule CcxtExtract.ContractTest do
   @spec check_error_class_hierarchy_shape_valid(map(), map()) :: [finding()]
   def check_error_class_hierarchy_shape_valid(exchange, _observed) do
     id = exchange_id(exchange)
-    record = get_in(exchange, ["structure", "error_class_hierarchy"])
+    record = get_in(exchange, ["errors", "class_hierarchy"])
 
     error_class_hierarchy_record_findings(id, record)
   end
@@ -1052,7 +1052,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp error_class_hierarchy_record_findings(id, _record) do
-    [error_class_hierarchy_finding(id, "structure.error_class_hierarchy must be a map or null")]
+    [error_class_hierarchy_finding(id, "errors.class_hierarchy must be a map or null")]
   end
 
   defp error_class_hierarchy_full_check(id, record) do
@@ -1177,14 +1177,14 @@ defmodule CcxtExtract.ContractTest do
     %{
       exchange: id,
       invariant: "error_class_hierarchy_shape_valid",
-      path: "structure.error_class_hierarchy",
+      path: "errors.class_hierarchy",
       message: message
     }
   end
 
   @doc """
   Flag class names referenced by `handle_errors` that do NOT appear as a
-  key of `structure.error_class_hierarchy.flat_parents`. Two surfaces:
+  key of `errors.class_hierarchy.flat_parents`. Two surfaces:
 
     * `handle_errors.exceptions[group][message]` — values are class names.
     * `handle_errors.http_exceptions[status]` — values are class names.
@@ -1197,8 +1197,8 @@ defmodule CcxtExtract.ContractTest do
   @spec check_error_classes_covered_by_hierarchy(map(), map()) :: [finding()]
   def check_error_classes_covered_by_hierarchy(exchange, _observed) do
     id = exchange_id(exchange)
-    handle_errors = get_in(exchange, ["structure", "handle_errors"])
-    flat_parents = get_in(exchange, ["structure", "error_class_hierarchy", "flat_parents"])
+    handle_errors = get_in(exchange, ["errors", "handle_errors"])
+    flat_parents = get_in(exchange, ["errors", "class_hierarchy", "flat_parents"])
 
     if is_map(handle_errors) and is_map(flat_parents) do
       known = MapSet.new(Map.keys(flat_parents))
@@ -1218,8 +1218,8 @@ defmodule CcxtExtract.ContractTest do
             not MapSet.member?(known, class) do
           coverage_finding(
             id,
-            "handle_errors.exceptions[#{inspect(group)}][#{inspect(message)}]",
-            "class #{inspect(class)} not in error_class_hierarchy.flat_parents"
+            "errors.handle_errors.exceptions[#{inspect(group)}][#{inspect(message)}]",
+            "class #{inspect(class)} not in errors.class_hierarchy.flat_parents"
           )
         end
 
@@ -1236,8 +1236,8 @@ defmodule CcxtExtract.ContractTest do
         not MapSet.member?(known, class) do
       coverage_finding(
         id,
-        "handle_errors.http_exceptions[#{inspect(status)}]",
-        "class #{inspect(class)} not in error_class_hierarchy.flat_parents"
+        "errors.handle_errors.http_exceptions[#{inspect(status)}]",
+        "class #{inspect(class)} not in errors.class_hierarchy.flat_parents"
       )
     end
   end
@@ -1272,6 +1272,10 @@ defmodule CcxtExtract.ContractTest do
   def check_normalization_shape_valid(exchange, _observed) do
     case Map.fetch(exchange, "normalization") do
       :error -> []
+      # Honesty Rule: nil means the extractor produced nothing; matches the
+      # nil-parent branch in `check_provenance_covers_schema/2` and
+      # `check_parse_methods_digest_covers_inventory/2`.
+      {:ok, nil} -> []
       {:ok, record} -> normalization_record_findings(exchange_id(exchange), record)
     end
   end
@@ -1444,22 +1448,28 @@ defmodule CcxtExtract.ContractTest do
   otherwise the compact projection is lossy and consumers reading the
   digest miss methods that the inventory says exist.
 
-  Skipped on v3-shaped output (no `normalization` top-level key). Also
-  skipped when the inventory loader produced no entry for the exchange
-  (e.g. alias exchange that inherits its parent's parse methods, or a
-  scoped run that didn't extract this exchange).
+  Skipped when `normalization` is missing or `nil` (Honesty Rule — the
+  extractor produced nothing; same handling as the nil-parent branch in
+  `check_provenance_covers_schema/2`). Also skipped when the inventory
+  loader produced no entry for the exchange (e.g. alias exchange that
+  inherits its parent's parse methods, or a scoped run that didn't
+  extract this exchange).
   """
   @spec check_parse_methods_digest_covers_inventory(map(), map()) :: [finding()]
   def check_parse_methods_digest_covers_inventory(exchange, observed) do
     id = exchange_id(exchange)
 
-    if Map.has_key?(exchange, "normalization") do
-      digest = get_in(exchange, ["normalization", "parse_methods_digest"]) || %{}
-      inventory = Map.get(observed[:parse_methods_inventory] || %{}, id)
+    case Map.get(exchange, "normalization") do
+      norm when is_map(norm) ->
+        digest = Map.get(norm, "parse_methods_digest") || %{}
+        inventory = Map.get(observed[:parse_methods_inventory] || %{}, id)
+        digest_inventory_findings(id, digest, inventory)
 
-      digest_inventory_findings(id, digest, inventory)
-    else
-      []
+      # Honesty Rule: missing OR nil normalization means the extractor
+      # produced nothing for this exchange — no findings. (Matches the
+      # nil-parent handling in `check_provenance_covers_schema/2`.)
+      _ ->
+        []
     end
   end
 
@@ -1486,22 +1496,22 @@ defmodule CcxtExtract.ContractTest do
   defp digest_inventory_findings(_id, _digest, _other), do: []
 
   @doc """
-  Validate `structure.error_status_map` and `structure.error_retryable`
+  Validate `errors.status_map` and `errors.retry_classification`
   structural invariants that JSON Schema can't easily express:
 
-    * `error_status_map` keys are numeric strings (HTTP status codes)
+    * `status_map` keys are numeric strings (HTTP status codes)
     * Each entry has `class: <string>` and `source` ∈ {`http_exceptions`,
       `throw_dispatch_predicate`}
-    * `error_retryable` carries the constant five-bucket key set
+    * `retry_classification` carries the constant five-bucket key set
       (`rate_limit`, `auth`, `server_busy`, `network`, `non_retryable`).
       No extras, no missing.
     * Each bucket value is a sorted unique list of strings.
-    * Cross-section consistency: every class in `error_retryable[bucket]`
+    * Cross-section consistency: every class in `retry_classification[bucket]`
       is in the bucket the `ErrorHierarchy.bucket_for/1` classifier
       assigns it (catches drift between the classifier and the emitter).
 
   Both fields are nullable per schema — null values short-circuit (no
-  finding). `error_class_hierarchy` content is NOT validated here —
+  finding). `class_hierarchy` content is NOT validated here —
   JSON Schema only enforces the outer shape (`{string => string}`) via
   `additionalProperties`, not equality with the canonical
   `ErrorHierarchy.hierarchy/0` map. Content equality is guaranteed by
@@ -1514,8 +1524,8 @@ defmodule CcxtExtract.ContractTest do
   def check_handle_errors_retryable_shape_valid(exchange, _observed) do
     id = exchange_id(exchange)
 
-    status_findings = error_status_map_findings(id, get_in(exchange, ["structure", "error_status_map"]))
-    retryable_findings = error_retryable_findings(id, get_in(exchange, ["structure", "error_retryable"]))
+    status_findings = error_status_map_findings(id, get_in(exchange, ["errors", "status_map"]))
+    retryable_findings = error_retryable_findings(id, get_in(exchange, ["errors", "retry_classification"]))
 
     status_findings ++ retryable_findings
   end
@@ -1527,7 +1537,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp error_status_map_findings(id, other) do
-    [error_finding(id, "error_status_map", "must be a map or null, got #{inspect(other)}")]
+    [error_finding(id, "status_map", "must be a map or null, got #{inspect(other)}")]
   end
 
   defp error_status_entry_findings(id, status, entries) do
@@ -1535,14 +1545,14 @@ defmodule CcxtExtract.ContractTest do
       if numeric_string?(status) do
         []
       else
-        [error_finding(id, "error_status_map", "key #{inspect(status)} is not a numeric HTTP status string")]
+        [error_finding(id, "status_map", "key #{inspect(status)} is not a numeric HTTP status string")]
       end
 
     list_findings =
       if is_list(entries) do
         Enum.flat_map(entries, &error_status_entry_shape_findings(id, status, &1))
       else
-        [error_finding(id, "error_status_map.#{status}", "value must be a list, got #{inspect(entries)}")]
+        [error_finding(id, "status_map.#{status}", "value must be a list, got #{inspect(entries)}")]
       end
 
     key_findings ++ list_findings
@@ -1553,14 +1563,14 @@ defmodule CcxtExtract.ContractTest do
       if is_binary(class) and class != "" do
         []
       else
-        [error_finding(id, "error_status_map.#{status}", "entry class must be a non-empty string, got #{inspect(class)}")]
+        [error_finding(id, "status_map.#{status}", "entry class must be a non-empty string, got #{inspect(class)}")]
       end
 
     source_findings =
       if source in ~w(http_exceptions throw_dispatch_predicate) do
         []
       else
-        [error_finding(id, "error_status_map.#{status}", "entry source #{inspect(source)} not in vocabulary")]
+        [error_finding(id, "status_map.#{status}", "entry source #{inspect(source)} not in vocabulary")]
       end
 
     class_findings ++ source_findings
@@ -1570,7 +1580,7 @@ defmodule CcxtExtract.ContractTest do
     [
       error_finding(
         id,
-        "error_status_map.#{status}",
+        "status_map.#{status}",
         "entry must be a map with class+source keys, got #{inspect(other)}"
       )
     ]
@@ -1585,10 +1595,12 @@ defmodule CcxtExtract.ContractTest do
     extra = actual -- expected
 
     missing_findings =
-      Enum.map(missing, fn key -> error_finding(id, "error_retryable", "missing required bucket #{inspect(key)}") end)
+      Enum.map(missing, fn key ->
+        error_finding(id, "retry_classification", "missing required bucket #{inspect(key)}")
+      end)
 
     extra_findings =
-      Enum.map(extra, fn key -> error_finding(id, "error_retryable", "unexpected bucket #{inspect(key)}") end)
+      Enum.map(extra, fn key -> error_finding(id, "retry_classification", "unexpected bucket #{inspect(key)}") end)
 
     bucket_findings =
       Enum.flat_map(record, fn {bucket, classes} -> error_retryable_bucket_findings(id, bucket, classes) end)
@@ -1597,19 +1609,19 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp error_retryable_findings(id, other) do
-    [error_finding(id, "error_retryable", "must be a map or null, got #{inspect(other)}")]
+    [error_finding(id, "retry_classification", "must be a map or null, got #{inspect(other)}")]
   end
 
   defp error_retryable_bucket_findings(id, bucket, classes) when is_list(classes) do
     if Enum.all?(classes, &is_binary/1) do
       bucket_mismatch_findings(id, bucket, classes) ++ bucket_sort_findings(id, bucket, classes)
     else
-      [error_finding(id, "error_retryable.#{bucket}", "all entries must be strings, got #{inspect(classes)}")]
+      [error_finding(id, "retry_classification.#{bucket}", "all entries must be strings, got #{inspect(classes)}")]
     end
   end
 
   defp error_retryable_bucket_findings(id, bucket, other) do
-    [error_finding(id, "error_retryable.#{bucket}", "value must be a list, got #{inspect(other)}")]
+    [error_finding(id, "retry_classification.#{bucket}", "value must be a list, got #{inspect(other)}")]
   end
 
   defp bucket_mismatch_findings(id, bucket, classes) do
@@ -1629,7 +1641,7 @@ defmodule CcxtExtract.ContractTest do
       [
         error_finding(
           id,
-          "error_retryable.#{bucket}",
+          "retry_classification.#{bucket}",
           "class #{inspect(class)} classified as #{inspect(actual_bucket)} by ErrorHierarchy, " <>
             "but emitted under bucket #{inspect(bucket)}"
         )
@@ -1641,7 +1653,7 @@ defmodule CcxtExtract.ContractTest do
     if classes == Enum.sort(Enum.uniq(classes)) do
       []
     else
-      [error_finding(id, "error_retryable.#{bucket}", "class list must be sorted and unique")]
+      [error_finding(id, "retry_classification.#{bucket}", "class list must be sorted and unique")]
     end
   end
 
@@ -1652,7 +1664,7 @@ defmodule CcxtExtract.ContractTest do
     %{
       exchange: id,
       invariant: "handle_errors_retryable_shape_valid",
-      path: "structure.#{section}",
+      path: "errors.#{section}",
       message: message
     }
   end
@@ -1822,7 +1834,7 @@ defmodule CcxtExtract.ContractTest do
   @spec check_error_code_fields_root(map(), map()) :: [finding()]
   def check_error_code_fields_root(exchange, %{error_code_fields_roots: roots}) do
     id = exchange_id(exchange)
-    entries = get_in(exchange, ["structure", "handle_errors", "error_code_fields"]) || []
+    entries = get_in(exchange, ["errors", "handle_errors", "error_code_fields"]) || []
 
     entries
     |> Enum.with_index()
@@ -1927,7 +1939,14 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp override_path_finding(id, entry, exchange) do
-    keys = CcxtExtract.OverrideRegistry.pointer_to_keys(entry["path"])
+    # Override files carry v3 pointers (`/structure/...`); v4-shaped output
+    # lives under `/auth`, `/errors`, etc. Translate before walking so the
+    # invariant doesn't silently miss-resolve against v4 corpus. The pipeline
+    # does the same translation at apply-time (`Pipeline.apply_override_entry/5`).
+    pointer = entry["path"]
+    target = if v4_shape?(exchange), do: 4, else: 3
+    translated = CcxtExtract.OverrideRegistry.translate_pointer(pointer, target)
+    keys = CcxtExtract.OverrideRegistry.pointer_to_keys(translated)
     actual = get_in(exchange, keys)
 
     if actual == entry["value"] do
@@ -1937,7 +1956,7 @@ defmodule CcxtExtract.ContractTest do
         %{
           exchange: id,
           invariant: "override_paths_present_in_output",
-          path: entry["path"],
+          path: translated,
           message: "override value not present at path; got #{inspect(actual)}"
         }
       ]
@@ -1946,9 +1965,10 @@ defmodule CcxtExtract.ContractTest do
 
   @doc """
   Flag drift between the `CcxtExtract.Provenance` declared pointer lists
-  (`raw_pointers/0 ++ derived_pointers/0`) and the sections actually
-  emitted under `/exchange`, `/runtime`, and `/structure` in each
-  output exchange JSON. Catches three drift types:
+  (`raw_pointers_v4/0 ++ derived_pointers_v4/0`) and the sections actually
+  emitted under the v4 top-level groups (`/exchange`, `/raw`, `/auth`,
+  `/errors`, `/endpoints`, `/markets`, `/rate_limits`, `/normalization`)
+  in each output exchange JSON. Catches three drift types:
 
     * `uncovered_section` — Pipeline emits a section but Provenance has
       no matching pointer (and `_provenance` doesn't tag it `"override"`).
@@ -1959,10 +1979,13 @@ defmodule CcxtExtract.ContractTest do
       which is always allowed).
 
   Granularity mirrors Provenance's own split: most sections compare at
-  depth-2 (`/section/key`), but parents with deeper declared children
-  (today only `/structure/handle_errors`) compare at depth-3. Derived
-  from the declared set itself, not hardcoded — adding a deeper pointer
-  to `Provenance` automatically shifts enumeration for that prefix.
+  depth-2 (`/section/key`); parents with deeper declared children
+  (`/errors/handle_errors`, `/endpoints/request`, `/endpoints/handlers`)
+  compare at depth-3. Derived from the declared set itself, not
+  hardcoded — adding a deeper pointer to `Provenance` automatically
+  shifts enumeration for that prefix. `/testnet` is a depth-1 pointer
+  (the section IS the leaf) — coverage for it relies on the orphan
+  check, not the emit enumeration.
   """
   @spec check_provenance_covers_schema(map(), map()) :: [finding()]
   def check_provenance_covers_schema(exchange, _observed) do
@@ -1979,11 +2002,17 @@ defmodule CcxtExtract.ContractTest do
 
   ## Internals
 
-  @provenance_section_roots ~w(exchange runtime structure)
+  # v4 top-level groups iterated by `enumerate_emitted_pointers/2`.
+  # `testnet` is intentionally excluded — it's a depth-1 pointer
+  # (`/testnet`) and the walker emits sub-keys for everything in this
+  # list, so including it would spam uncovered_findings for every
+  # `/testnet/<subkey>`. Orphan coverage still validates that `/testnet`
+  # resolves in the emitted exchange.
+  @provenance_section_roots ~w(exchange raw auth errors endpoints markets rate_limits normalization)
 
   defp declared_tags do
-    raw = Map.new(CcxtExtract.Provenance.raw_pointers(), &{&1, "raw"})
-    derived = Map.new(CcxtExtract.Provenance.derived_pointers(), &{&1, "derived"})
+    raw = Map.new(CcxtExtract.Provenance.raw_pointers_v4(), &{&1, "raw"})
+    derived = Map.new(CcxtExtract.Provenance.derived_pointers_v4(), &{&1, "derived"})
     Map.merge(raw, derived)
   end
 
@@ -2115,9 +2144,16 @@ defmodule CcxtExtract.ContractTest do
   defp exchange_id(_), do: "<unknown>"
 
   # Schema copies and metadata files live alongside per-exchange JSON but
-  # are not exchanges. `exchange_v3.json` is the JSON Schema copy; files
-  # starting with `_` are manifests/reports. Mirrors validation.ex:207.
-  @non_exchange_files [CcxtExtract.Schema.schema_filename()]
+  # are not exchanges. `exchange_v4.json` is the JSON Schema copy under
+  # the default `--schema-target=4`; `exchange_v3.json` is the legacy
+  # copy still emitted under `--schema-target=3` (until Task 143 deletes
+  # v3 entirely). Both must be excluded so the wildcard loader doesn't
+  # try to validate a schema file as an exchange. Files starting with
+  # `_` are manifests/reports. Mirrors validation.ex:208.
+  @non_exchange_files [
+    CcxtExtract.Schema.schema_filename_for(3),
+    CcxtExtract.Schema.schema_filename_for(4)
+  ]
 
   defp load_exchanges(output_dir, scope) do
     output_dir
@@ -2322,19 +2358,19 @@ defmodule CcxtExtract.ContractTest do
   defp entry_root(_), do: nil
 
   defp error_code_fields_path(index, %{"object_path" => [root | _]}) when is_binary(root) do
-    "structure.handle_errors.error_code_fields[#{index}].object_path"
+    "errors.handle_errors.error_code_fields[#{index}].object_path"
   end
 
   defp error_code_fields_path(index, %{"object_path" => nil, "object" => object}) when is_binary(object) do
-    "structure.handle_errors.error_code_fields[#{index}].object"
+    "errors.handle_errors.error_code_fields[#{index}].object"
   end
 
   defp error_code_fields_path(index, %{"object" => object}) when is_binary(object) do
-    "structure.handle_errors.error_code_fields[#{index}].object"
+    "errors.handle_errors.error_code_fields[#{index}].object"
   end
 
   defp error_code_fields_path(index, _entry) do
-    base = "structure.handle_errors.error_code_fields[#{index}]"
+    base = "errors.handle_errors.error_code_fields[#{index}]"
     "#{base}.object_path"
   end
 

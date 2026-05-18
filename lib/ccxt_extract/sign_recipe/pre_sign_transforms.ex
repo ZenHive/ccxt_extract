@@ -11,7 +11,7 @@ defmodule CcxtExtract.SignRecipe.PreSignTransforms do
       %{"op" => op, "target" => target}
 
   where the vocabularies are closed by
-  `priv/schema/exchange_v3.json#/$defs/SignRecipePreSignTransform`:
+  `priv/schema/exchange_v4.json#/$defs/SignRecipePreSignTransform`:
 
     * `op`     ∈ `"hex_encode"` | `"base64_encode"` | `"lowercase"`
                  | `"url_encode"` | `"json_encode"`

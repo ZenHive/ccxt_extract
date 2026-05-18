@@ -32,16 +32,32 @@ defmodule Mix.Tasks.CcxtExtract.ContractTestTaskTest do
   # `has.fetchOHLCV = "__undefined"` to trigger the unified-endpoints
   # invariant only.
   defp clean_exchange(id) do
-    ExchangeFixtures.schema_conformant(id,
+    # Pin `normalization` to `nil` instead of the populated v4 default.
+    # Two invariants gate this:
+    #
+    #   * `parse_methods_digest_covers_inventory` skips when the key is
+    #     missing/nil — important because real ids like "binance" appear in
+    #     the committed `priv/discoveries/parse_methods.json` and a populated
+    #     digest would surface every method as a finding (45 for binance).
+    #   * `provenance_covers_schema` applies the "nil parent is vacuously
+    #     resolved" Honesty Rule, so the declared `/normalization/*` pointers
+    #     don't produce orphan findings.
+    #
+    # These tests cover report writing / sorting / tier scoping — not
+    # normalization coverage — so suppressing the normalization invariants
+    # via the nil-parent rule is in scope.
+    id
+    |> ExchangeFixtures.schema_conformant(
       describe: %{"has" => %{"fetchOHLCV" => true}, "api" => %{"public" => %{}}},
       unified_endpoints: %{"fetchOHLCV" => ["x"]}
     )
+    |> Map.put("normalization", nil)
   end
 
   defp violating_exchange(id) do
     id
     |> clean_exchange()
-    |> put_in(["runtime", "describe", "has"], %{"fetchOHLCV" => "__undefined"})
+    |> put_in(["raw", "describe", "has"], %{"fetchOHLCV" => "__undefined"})
   end
 
   test "writes report to --report path and exits normally on clean corpus", %{tmp: tmp} do

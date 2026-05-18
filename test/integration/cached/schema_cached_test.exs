@@ -162,7 +162,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
       "overrides" => build_overrides(ov_entries)
     }
 
-    Schema.build_exchange(meta, runtime, structure, @base_opts)
+    Schema.build_exchange_v4(meta, runtime, structure, @base_opts)
   end
 
   # --- Tests ---
@@ -173,18 +173,18 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     end
 
     test "validates successfully", %{exchange: exchange} do
-      assert :ok = Schema.validate(exchange)
+      assert :ok = Schema.validate_v4(exchange)
     end
 
     test "has describe data", %{exchange: exchange} do
-      describe = exchange["runtime"]["describe"]
+      describe = exchange["raw"]["describe"]
       assert is_map(describe)
       assert is_map(describe["has"])
       assert is_map(describe["api"])
     end
 
     test "has symbols_index", %{exchange: exchange} do
-      idx = exchange["runtime"]["symbols_index"]
+      idx = exchange["markets"]["symbols_index"]
       assert is_map(idx)
       assert map_size(idx) > 0
 
@@ -196,7 +196,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     end
 
     test "has sign method AST", %{exchange: exchange} do
-      sign = exchange["structure"]["sign_method"]
+      sign = exchange["auth"]["sign_method"]
       assert is_map(sign)
       assert sign["body"]["type"] == "BlockStatement"
       assert is_list(sign["params"])
@@ -206,20 +206,20 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     # The extractors still run and discovery files exist — see
     # test/integration/cached/parse_methods_cached_test.exs and
     # test/integration/cached/ws_methods_cached_test.exs.
-    test "structure no longer carries parse_methods or ws_methods", %{exchange: exchange} do
-      refute Map.has_key?(exchange["structure"], "parse_methods")
-      refute Map.has_key?(exchange["structure"], "ws_methods")
+    test "raw section no longer carries parse_methods or ws_methods", %{exchange: exchange} do
+      refute Map.has_key?(exchange["raw"], "parse_methods")
+      refute Map.has_key?(exchange["raw"], "ws_methods")
     end
 
     test "has class info with REST and WS", %{exchange: exchange} do
-      ci = exchange["structure"]["class_info"]
+      ci = exchange["raw"]["class_info"]
       assert is_map(ci["rest"])
       assert is_map(ci["ws"])
       assert ci["rest"]["node_key"] == "rest:binance"
     end
 
     test "has method inventory with REST and WS", %{exchange: exchange} do
-      methods = exchange["structure"]["methods"]
+      methods = exchange["raw"]["method_inventory"]
       assert is_list(methods["rest"])
       assert methods["rest"] != []
       assert is_list(methods["ws"])
@@ -232,11 +232,11 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     end
 
     test "validates successfully", %{exchange: exchange} do
-      assert :ok = Schema.validate(exchange)
+      assert :ok = Schema.validate_v4(exchange)
     end
 
     test "has overrides section", %{exchange: exchange} do
-      ov = exchange["structure"]["overrides"]
+      ov = exchange["raw"]["overrides_meta"]
       assert is_map(ov)
       assert ov["extends"] == "binance"
       assert is_map(ov["rest"]) or is_map(ov["ws"])
@@ -249,13 +249,13 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     end
 
     test "validates successfully", %{exchange: exchange} do
-      assert :ok = Schema.validate(exchange)
+      assert :ok = Schema.validate_v4(exchange)
     end
 
     test "has no overrides (root exchange)", %{exchange: exchange} do
       # deribit extends Exchange directly — may or may not appear in overrides
       # depending on whether it's classified as derived
-      ov = exchange["structure"]["overrides"]
+      ov = exchange["raw"]["overrides_meta"]
       assert is_nil(ov) or is_map(ov)
     end
   end
@@ -272,7 +272,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
 
     test "binance keeps all dispatches and exposes message_lookup explicitly" do
       exchange = build_from_fixtures("binance")
-      dispatches = exchange["structure"]["handle_errors"]["throw_dispatches"]
+      dispatches = exchange["errors"]["handle_errors"]["throw_dispatches"]
 
       assert length(dispatches) == 8
       assert Enum.all?(dispatches, &Map.has_key?(&1, "message_lookup"))
@@ -289,12 +289,12 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
 
       test "#{@exchange_id} produces valid schema output" do
         exchange = build_from_fixtures(@exchange_id)
-        assert :ok = Schema.validate(exchange)
+        assert :ok = Schema.validate_v4(exchange)
 
         assert exchange["schema_version"] == Schema.schema_version()
         assert exchange["exchange"]["id"] == @exchange_id
-        assert is_map(exchange["runtime"])
-        assert is_map(exchange["structure"])
+        assert is_map(exchange["raw"])
+        assert is_map(exchange["auth"])
       end
     end
   end

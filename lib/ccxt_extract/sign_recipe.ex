@@ -35,7 +35,7 @@ defmodule CcxtExtract.SignRecipe do
   ## Authoritative schema
 
   The record shape is enforced by `priv/schema/sign_recipe_v1.json`. An
-  equivalent copy lives under `priv/schema/exchange_v3.json#/$defs/SignRecipeRecord`
+  equivalent copy lives under `priv/schema/exchange_v4.json#/$defs/SignRecipeRecord`
   and the pipeline validator uses that copy during `mix ccxt_extract.validate`.
   Two contract-test invariants (`sign_recipe_keys_match_auth_sections` and
   `sign_recipe_shape_valid`) re-assert the shape from a different angle.
@@ -75,7 +75,7 @@ defmodule CcxtExtract.SignRecipe do
   The nine required keys on every `structure.sign_recipe` record.
   Authoritative for contract-test shape validation — keep in sync with
   `priv/schema/sign_recipe_v1.json#/required` and
-  `priv/schema/exchange_v3.json#/$defs/SignRecipeRecord/required`.
+  `priv/schema/exchange_v4.json#/$defs/SignRecipeRecord/required`.
   """
   @spec required_keys() :: [String.t()]
   def required_keys, do: @required_keys
@@ -120,7 +120,7 @@ defmodule CcxtExtract.SignRecipe do
   @doc """
   Closed vocabulary for `unresolved_reason`. Must stay in sync with the
   enum in `priv/schema/sign_recipe_v1.json` and the `SignRecipeRecord`
-  copy in `priv/schema/exchange_v3.json`.
+  copy in `priv/schema/exchange_v4.json`.
   """
   @spec unresolved_reasons() :: [String.t()]
   def unresolved_reasons, do: @unresolved_reasons

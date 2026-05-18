@@ -1,11 +1,8 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "project": "ccxt_extract",
   "default_branch": "development",
   "vision": "Extract everything CCXT knows about 111+ exchanges into language-agnostic JSON so any consumer — in any language — can operate an exchange without walking AST.",
-  "focus": {
-    "phase": 11
-  },
   "phases": {
     "0": {
       "name": "Maintenance Backlog",
@@ -173,6 +170,15 @@
       "phase": 0,
       "order": 6,
       "description": "Pipeline-level integration test coverage gaps surfaced by audit passes."
+    }
+  },
+  "milestones": {
+    "v4": {
+      "name": "v4 schema cut",
+      "description": "Flip default emission + validation to exchange.v4.json and delete the v3 plumbing.",
+      "order": 1,
+      "status": "active",
+      "target_version": "v4"
     }
   },
   "task": [
@@ -1251,6 +1257,7 @@
       "id": 142,
       "phase": 0,
       "bundle": "maintenance",
+      "milestone": "v4",
       "status": "pending",
       "title": "v4 cut — flip default emission and validation to v4",
       "scores": {
@@ -1299,6 +1306,7 @@
       "id": 143,
       "phase": 0,
       "bundle": "maintenance",
+      "milestone": "v4",
       "status": "pending",
       "title": "v3 teardown — delete v3 and all schema_target plumbing",
       "scores": {

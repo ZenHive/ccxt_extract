@@ -15,11 +15,7 @@
 ## 🎯 Current Focus
 
 <!-- FOCUS:BEGIN -->
-**Focus phase:** 11 — Request building contract (0 of 2 done · 0 in progress)
-
-**Last shipped:** no recent shipments
-
-**Up next:** Task 73f — Extend transaction_classification to non-unified raw broadcast endpoints [D:5/B:7/U:7 → Eff:1.4] 📋
+**Focus phase:** not set — add [focus] to tasks.toml
 <!-- FOCUS:END -->
 
 **Priority goal: v4 schema-freeze.** A ~22-task freeze list (endpoint-invocation Phases 11/13/14 remainder + normalization Phase 12) must ship before v4 emission flips on. v4 publishes atomically — `ccxt_client` and downstream libs keep reading v3 throughout the freeze; v4 becomes the default in one cut once the freeze list is empty. **Phase 12 (response parsing / normalization) is promoted** from previously-deprioritized to schema-freeze gate because downstream libraries depend on the unified-method normalization surface for the v4 cut to be useful. The endpoint-invocation critical path (signing ✅ → request building → rate limits) is unchanged in priority order; Phase 12 ships in parallel with that path. See [v4 Schema-Freeze Plan](#v4-schema-freeze-plan) below and [Endpoint-Invocation Priority Order](#endpoint-invocation-priority-order).
@@ -145,8 +141,8 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task 24 | 🔶 | 🎁 **superseded** · Parity.Compare for richer diffs [D:3/B:3/U:2 → Eff:0.83] ⚠️ |
 | Task 36 | ⛔ | 🎁 **superseded** · Schema migration framework [D:6/B:4/U:3 → Eff:0.58] ⚠️ |
 | Task rate-limit-headers | 🔶 | 🎁 **superseded** · Rate-limit header extraction [D:7/B:3/U:3 → Eff:0.43] ⚠️ |
-| Task 142 | ⬜ | 🎁 **maintenance** · v4 cut — flip default emission and validation to v4 [D:4/B:9/U:9 → Eff:2.25] 🎯 |
-| Task 143 | ⬜ | 🎁 **maintenance** · v3 teardown — delete v3 and all schema_target plumbing [D:3/B:7/U:6 → Eff:2.17] 🎯 |
+| Task 142 | ⬜ | 🎁 **maintenance** · 🚀 **v4** · v4 cut — flip default emission and validation to v4 [D:4/B:9/U:9 → Eff:2.25] 🎯 |
+| Task 143 | ⬜ | 🎁 **maintenance** · 🚀 **v4** · v3 teardown — delete v3 and all schema_target plumbing [D:3/B:7/U:6 → Eff:2.17] 🎯 |
 <!-- TASKS:END -->
 
 ---

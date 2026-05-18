@@ -17,26 +17,55 @@ Removing complexity is the priority. When in doubt: delete the old path, don't w
 
 ## Standard imports
 
+Grouped per `~/.claude/setup-guide.md` (Elixir Library + Volt + Reach template). Each include earns its token cost — niche Hex packages and behavioral rules the model can't recall reliably from training.
+
+### Behavioral / cross-instance
 @~/.claude/includes/across-instances.md
 @~/.claude/includes/critical-rules.md
 @~/.claude/includes/worktree-workflow.md
 
+### Workflow / roadmap
 @~/.claude/includes/task-prioritization.md
 @~/.claude/includes/task-writing.md
 @~/.claude/includes/rmap.md
 @~/.claude/includes/workflow-philosophy.md
 @~/.claude/includes/web-command.md
+
+### Elixir core
 @~/.claude/includes/elixir-setup.md
 @~/.claude/includes/ex-unit-json.md
 @~/.claude/includes/dialyzer-json.md
 @~/.claude/includes/code-style.md
 @~/.claude/includes/development-commands.md
 @~/.claude/includes/development-philosophy.md
+
+### JS/TS on the BEAM (Volt ecosystem)
 @~/.claude/includes/elixir-volt.md
 @~/.claude/includes/oxc.md
 @~/.claude/includes/quickbeam.md
 @~/.claude/includes/npm-ci-verify.md
+
+### Static analysis
 @~/.claude/includes/reach.md
+
+## Plugins & MCP
+
+**Project-scope plugins** (`.claude/settings.json`, committed — visible to anyone cloning the repo):
+
+| Plugin | Purpose |
+|---|---|
+| `elixir@deltahedge` | Elixir skills + agents (hex-docs-search, integration-testing, dialyzer-json, ex-unit-json, usage-rules, npm-* suite, reach, etc.) |
+| `elixir-workflows@deltahedge` | Mix / ExUnit / dev workflow commands; `workflow-generator` skill |
+
+Universal-core plugins (code-simplifier, feature-dev, claude-md-management, hookify, remember, git-commit, staged-review, task-driver, cloud-delegation, dev-lifecycle, codex) load at user scope and apply here implicitly — don't re-declare. New stack-specific plugins go in `.claude/settings.json`. See `~/.claude/plugin-catalog.md` for the picker.
+
+**MCP servers** (`.mcp.json`, committed):
+
+| Server | Endpoint | Purpose |
+|---|---|---|
+| `tidewave` | `http://localhost:4002/tidewave/mcp` | Runtime exploration via `mcp__tidewave__*` — `project_eval`, `get_logs`, `get_source_location`, `get_docs`, `search_package_docs`. Started by `mix tidewave` (or `iex -S mix tidewave`). |
+
+Tidewave port for this repo is 4002 (see `~/.claude/tidewave-ports.md` registry). Restart Claude Code if `.mcp.json` changes.
 
 ---
 

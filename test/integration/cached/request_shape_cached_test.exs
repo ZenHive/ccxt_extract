@@ -22,10 +22,11 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
     |> Jason.decode!()
   end
 
-  # Read sites use v4 path primary with v3 fallback during the v3→v4
-  # corpus-regen transition (Task 142). After `mix ccxt_extract.update`
-  # rebuilds priv/output to v4 shape, the v3 fallback is dead. Task 143
-  # removes the fallback when v3 emission is deleted.
+  # TODO(Task 143): v4 path primary with v3 fallback — transition scaffold
+  # for the v3→v4 corpus-regen window (introduced in Task 142). After
+  # `mix ccxt_extract.update` rebuilds priv/output to v4 shape, the v3
+  # fallback below is dead. Remove the fallback (and `v4_or_v3_pointer/1`)
+  # when v3 emission is deleted.
   defp record(id, section) do
     exchange = load_exchange!(id)
     Map.get(request_shape_map_for(exchange), section, :missing)
@@ -276,6 +277,13 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
 
       versions = Enum.map(ids, &{&1, load_exchange!(&1)["schema_version"]})
 
+      # Anchor: every exchange must declare a non-empty schema_version. Without
+      # this, the uniqueness check below would happily pass on a corpus where
+      # every file is missing the field (all-nil → one "distinct" value).
+      assert Enum.all?(versions, fn {_id, v} -> is_binary(v) and v != "" end),
+             "every exchange must have a non-empty schema_version: " <>
+               inspect(Enum.reject(versions, fn {_id, v} -> is_binary(v) and v != "" end))
+
       distinct = versions |> Enum.map(&elem(&1, 1)) |> Enum.uniq()
 
       assert length(distinct) == 1,
@@ -289,8 +297,10 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
 
         # Either tagged "derived" by Provenance.build_default_v4/0, or
         # "override" if a curated override re-stamped it. Anything
-        # else is drift. v4 path primary with v3 fallback during the
-        # corpus-regen transition (Task 142); Task 143 drops the v3 key.
+        # else is drift.
+        # TODO(Task 143): drop the v3 pointer fallback when v3 emission
+        # is deleted. v4 path primary with v3 fallback is the transition
+        # scaffold for the v3→v4 corpus-regen window (Task 142).
         pointer = v4_or_v3_pointer(provenance)
         tag = Map.get(provenance, pointer)
 

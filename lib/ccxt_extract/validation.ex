@@ -228,9 +228,11 @@ defmodule CcxtExtract.Validation do
     # Also skip exchange_v4.json (schema copy) and _base_methods.json
 
     manifest_set = MapSet.new(manifest_ids)
-    # Exclude metadata files (_manifest.json, _validation_report.json) and schema copy
+    # Exclude metadata files (_manifest.json, _validation_report.json) and schema copies.
+    # Whitelist both v3 and v4 basenames so a leftover sibling schema copy from a
+    # prior `--schema-target` run isn't flagged as an orphan.
     schema_basename = schema_target |> Schema.schema_filename_for() |> String.trim_trailing(".json")
-    known_files = MapSet.new([schema_basename])
+    known_files = MapSet.new(["exchange_v3", "exchange_v4", schema_basename])
 
     orphans =
       output_dir

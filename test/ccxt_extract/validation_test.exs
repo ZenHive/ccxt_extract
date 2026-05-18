@@ -800,7 +800,7 @@ defmodule CcxtExtract.ValidationTest do
       findings = Validation.validate_roundtrip(exchange, source, "testex")
 
       refute Enum.any?(findings, fn f ->
-               f["path"] == "structure.pagination"
+               f["path"] == "endpoints.pagination"
              end)
     end
   end

@@ -7,14 +7,16 @@
         "headers": null,
         "method": "GET",
         "params": {},
-        "path": "GetTickerHistory"
+        "path": "api/v3/apiTradingSymbols"
       },
       "name": "public_get_ticker",
       "output": {
         "body": null,
-        "headers": null,
+        "headers": {
+          "User-Agent": "ccxt"
+        },
         "method": "GET",
-        "url": "https://api.ndax.io:8443/AP/GetTickerHistory"
+        "url": "https://api-spot.weex.com/api/v3/apiTradingSymbols"
       }
     },
     {
@@ -24,19 +26,19 @@
         "headers": null,
         "method": "GET",
         "params": {},
-        "path": "GetUserAccountInfos"
+        "path": "api/v3/account/"
       },
       "name": "private_get_balance",
       "output": {
         "body": null,
         "headers": {
-          "APIKey": "account-TEST_API_KEY",
-          "Nonce": "1700000000",
-          "Signature": "528579baa02606fb0f4bd537e64d286f7a59d8c1372284522edcd25edac77367",
-          "UserId": "TEST_UID"
+          "ACCESS-KEY": "account-TEST_API_KEY",
+          "ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "ACCESS-SIGN": "7FXOB1wck4gb/i7Xj/Xymh6RacHAjgwx+gBN2Lypmn4=",
+          "ACCESS-TIMESTAMP": "1700000000"
         },
         "method": "GET",
-        "url": "https://api.ndax.io:8443/AP/GetUserAccountInfos"
+        "url": "https://api-spot.weex.com/api/v3/account/"
       }
     },
     {
@@ -52,32 +54,31 @@
           "symbol": "BTC/USDT",
           "type": "limit"
         },
-        "path": "CancelAllOrders"
+        "path": "api/v3/order"
       },
       "name": "private_post_order",
       "output": {
         "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
         "headers": {
-          "APIKey": "account-TEST_API_KEY",
-          "Content-Type": "application/json",
-          "Nonce": "1700000000",
-          "Signature": "528579baa02606fb0f4bd537e64d286f7a59d8c1372284522edcd25edac77367",
-          "UserId": "TEST_UID"
+          "ACCESS-KEY": "account-TEST_API_KEY",
+          "ACCESS-PASSPHRASE": "TEST_PASSPHRASE",
+          "ACCESS-SIGN": "AuvGM0jGZK7M4WrD0WKz5SsXhZBZQFdpntB0NSsezIE=",
+          "ACCESS-TIMESTAMP": "1700000000",
+          "Content-Type": "application/json"
         },
         "method": "POST",
-        "url": "https://api.ndax.io:8443/AP/CancelAllOrders"
+        "url": "https://api-spot.weex.com/api/v3/order"
       }
     }
   ],
   "ccxt_version": "4.5.54",
   "credentials": {
     "apiKey": "account-TEST_API_KEY",
-    "login": "TEST_LOGIN",
     "password": "TEST_PASSPHRASE",
     "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-    "uid": "TEST_UID"
+    "uid": null
   },
-  "exchange": "ndax",
+  "exchange": "weex",
   "frozen": {
     "nonce": 1700000000,
     "timestamp_ms": 1700000000000

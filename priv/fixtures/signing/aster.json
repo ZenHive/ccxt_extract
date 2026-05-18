@@ -16,7 +16,23 @@
         "method": "GET",
         "url": "https://fapi.asterdex.com/fapi/v1/ticker/24hr"
       }
-    },
+    }
+  ],
+  "ccxt_version": "4.5.54",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "privateKey": "0000000000000000000000000000000000000000000000000000000000000001",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "aster",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-05-18T16:28:51.363501Z",
+  "skipped": [
     {
       "input": {
         "api": "fapiPrivate",
@@ -27,14 +43,7 @@
         "path": "v2/balance"
       },
       "name": "private_get_balance",
-      "output": {
-        "body": null,
-        "headers": {
-          "X-MBX-APIKEY": "account-TEST_API_KEY"
-        },
-        "method": "GET",
-        "url": "https://fapi.asterdex.com/fapi/v2/balance?timestamp=1700000000000&recvWindow=10000&signature=f4ab600bc94b4537cf0cb7b137ac8b90dba77d16c59d487d9cf78f22dfe3578f"
-      }
+      "reason": "c: aster requires signerAddress in options when use v3 api"
     },
     {
       "input": {
@@ -52,29 +61,7 @@
         "path": "v1/order"
       },
       "name": "private_post_order",
-      "output": {
-        "body": "timestamp=1700000000000&symbol=BTC/USDT&type=limit&side=buy&amount=1&price=1&recvWindow=10000&signature=6c7acc897aff483144d49a8889d5fb87ed7ca64fb0752cbdae9e1a991c6ddb1a",
-        "headers": {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "X-MBX-APIKEY": "account-TEST_API_KEY"
-        },
-        "method": "POST",
-        "url": "https://fapi.asterdex.com/fapi/v1/order"
-      }
+      "reason": "c: aster requires signerAddress in options when use v3 api"
     }
-  ],
-  "ccxt_version": "4.5.47",
-  "credentials": {
-    "apiKey": "account-TEST_API_KEY",
-    "password": null,
-    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-    "uid": null
-  },
-  "exchange": "aster",
-  "frozen": {
-    "nonce": 1700000000,
-    "timestamp_ms": 1700000000000
-  },
-  "generated_at": "2026-05-08T14:56:14.047461Z",
-  "skipped": []
+  ]
 }

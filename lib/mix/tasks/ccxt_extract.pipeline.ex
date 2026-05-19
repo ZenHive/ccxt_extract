@@ -23,9 +23,6 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
     * `--pretty` — emit per-exchange JSON with indentation (~2× size; default
       compact). Useful for human inspection during debugging. Manifests,
       fixtures, and reports remain pretty-printed regardless of this flag.
-    * `--schema-target N` — `4` (default) emits per-exchange JSON conforming
-      to `exchange_v4.json`; `3` emits the legacy v3 shape conforming to
-      `exchange_v3.json`, reachable until Task 143 removes it.
     * `--tier1 --tier2 --tier3 --dex` — restrict assembly to the named priority
       tiers (combinable). Tier membership resolves via
       `priv/priority_tiers.json` with family inheritance.
@@ -64,7 +61,6 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
                 strict: :boolean,
                 force: :boolean,
                 pretty: :boolean,
-                schema_target: :integer,
                 allow_version_drift: :boolean
               ],
               TaskScope.scope_switches()
@@ -77,17 +73,13 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
     scope = TaskScope.resolve_scope!(opts, universe)
     enforce_git_safety_rail!(opts, scope)
     tier_scope = Scope.to_manifest_value(opts)
-    schema_target = resolve_schema_target!(opts)
 
-    Mix.shell().info(
-      "Assembling per-exchange JSON from discovery data#{scope_suffix(opts)}#{target_suffix(schema_target)}..."
-    )
+    Mix.shell().info("Assembling per-exchange JSON from discovery data#{scope_suffix(opts)}...")
 
     start = System.monotonic_time(:millisecond)
 
     extract_opts = [
       scope: scope,
-      schema_target: schema_target,
       allow_version_drift: opts[:allow_version_drift] || false
     ]
 
@@ -103,8 +95,7 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
         else
           CcxtExtract.Pipeline.write!(exchanges, output_dir,
             tier_scope: tier_scope,
-            pretty: opts[:pretty] || false,
-            schema_target: schema_target
+            pretty: opts[:pretty] || false
           )
 
           report_results(exchanges, stats, output_dir, elapsed)
@@ -133,19 +124,6 @@ defmodule Mix.Tasks.CcxtExtract.Pipeline do
 
     opts
   end
-
-  @spec resolve_schema_target!(keyword()) :: 3 | 4
-  defp resolve_schema_target!(opts) do
-    case Keyword.get(opts, :schema_target, 4) do
-      3 -> 3
-      4 -> 4
-      other -> Mix.raise("Invalid --schema-target #{inspect(other)}; expected 3 or 4")
-    end
-  end
-
-  @spec target_suffix(3 | 4) :: String.t()
-  defp target_suffix(4), do: ""
-  defp target_suffix(3), do: " (schema target: v3 — legacy)"
 
   # Full-universe runs overwrite without pruning, so the rail has nothing
   # to protect. Narrowed-scope runs prune out-of-scope files; gate them on

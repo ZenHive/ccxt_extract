@@ -1944,8 +1944,7 @@ defmodule CcxtExtract.ContractTest do
     # invariant doesn't silently miss-resolve against v4 corpus. The pipeline
     # does the same translation at apply-time (`Pipeline.apply_override_entry/5`).
     pointer = entry["path"]
-    target = if v4_shape?(exchange), do: 4, else: 3
-    translated = CcxtExtract.OverrideRegistry.translate_pointer(pointer, target)
+    translated = CcxtExtract.OverrideRegistry.translate_pointer(pointer)
     keys = CcxtExtract.OverrideRegistry.pointer_to_keys(translated)
     actual = get_in(exchange, keys)
 
@@ -2011,8 +2010,8 @@ defmodule CcxtExtract.ContractTest do
   @provenance_section_roots ~w(exchange raw auth errors endpoints markets rate_limits normalization)
 
   defp declared_tags do
-    raw = Map.new(CcxtExtract.Provenance.raw_pointers_v4(), &{&1, "raw"})
-    derived = Map.new(CcxtExtract.Provenance.derived_pointers_v4(), &{&1, "derived"})
+    raw = Map.new(CcxtExtract.Provenance.raw_pointers(), &{&1, "raw"})
+    derived = Map.new(CcxtExtract.Provenance.derived_pointers(), &{&1, "derived"})
     Map.merge(raw, derived)
   end
 
@@ -2145,15 +2144,9 @@ defmodule CcxtExtract.ContractTest do
 
   # Schema copies and metadata files live alongside per-exchange JSON but
   # are not exchanges. `exchange_v4.json` is the JSON Schema copy under
-  # the default `--schema-target=4`; `exchange_v3.json` is the legacy
-  # copy still emitted under `--schema-target=3` (until Task 143 deletes
-  # v3 entirely). Both must be excluded so the wildcard loader doesn't
-  # try to validate a schema file as an exchange. Files starting with
-  # `_` are manifests/reports. Mirrors validation.ex:208.
-  @non_exchange_files [
-    CcxtExtract.Schema.schema_filename_for(3),
-    CcxtExtract.Schema.schema_filename_for(4)
-  ]
+  # Schema files must be excluded so the wildcard loader does not try to
+  # treat them as exchange JSON. Files starting with `_` are manifests/reports.
+  @non_exchange_files [CcxtExtract.Schema.schema_filename()]
 
   defp load_exchanges(output_dir, scope) do
     output_dir

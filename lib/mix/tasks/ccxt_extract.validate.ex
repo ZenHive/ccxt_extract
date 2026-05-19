@@ -17,9 +17,6 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
       The validation report (`_validation_report.json`) is also written here.
     * `--strict` — fail with non-zero exit if any errors found
     * `--schema-only` — skip round-trip comparison (faster)
-    * `--schema-target N` — `4` (default) validates against
-      `priv/schema/exchange_v4.json`; `3` validates against
-      `priv/schema/exchange_v3.json` (legacy, removed in Task 143).
   """
 
   use Mix.Task
@@ -31,8 +28,7 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
         strict: [
           output: :string,
           strict: :boolean,
-          schema_only: :boolean,
-          schema_target: :integer
+          schema_only: :boolean
         ]
       )
 
@@ -46,16 +42,14 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
     end
 
     output_dir = opts[:output] || CcxtExtract.Paths.out("output")
-    schema_target = resolve_schema_target!(opts)
 
-    Mix.shell().info("Validating output in #{output_dir}#{target_suffix(schema_target)}...")
+    Mix.shell().info("Validating output in #{output_dir}...")
     start = System.monotonic_time(:millisecond)
 
     validation_opts = [
       output_dir: output_dir,
       schema_only: opts[:schema_only] || false,
-      tier_scope: read_manifest_tier_scope(output_dir),
-      schema_target: schema_target
+      tier_scope: read_manifest_tier_scope(output_dir)
     ]
 
     {:ok, report} = CcxtExtract.Validation.validate_all(validation_opts)
@@ -71,19 +65,6 @@ defmodule Mix.Tasks.CcxtExtract.Validate do
       Mix.raise("Validation found errors (strict mode). See report for details.")
     end
   end
-
-  @spec resolve_schema_target!(keyword()) :: 3 | 4
-  defp resolve_schema_target!(opts) do
-    case Keyword.get(opts, :schema_target, 4) do
-      3 -> 3
-      4 -> 4
-      other -> Mix.raise("Invalid --schema-target #{inspect(other)}; expected 3 or 4")
-    end
-  end
-
-  @spec target_suffix(3 | 4) :: String.t()
-  defp target_suffix(4), do: ""
-  defp target_suffix(3), do: " (schema target: v3 — legacy)"
 
   # Returns true if there are errors
   defp report_results(report, elapsed) do

@@ -1002,13 +1002,14 @@ id = 143
 phase = 0
 bundle = "maintenance"
 milestone = "v4"
-status = "pending"
+status = "done"
 title = "v3 teardown — delete v3 and all schema_target plumbing"
 scores = { d = 3, b = 7, u = 6 }
 depends_on = [142]
 acceptance_criteria = ["priv/schema/exchange_v3.json deleted", "grep -rn schema_target lib/ returns nothing — all 3|4 dispatch collapsed", "time mix compile --warnings-as-errors clean; mix test.json green", "mix dialyzer.json --quiet clean; mix credo --strict --format json clean", "mix ccxt_extract.contract_test passes"]
 out_of_scope = ["ccxt_client-side migration — tracked in ../ccxt_client/ROADMAP.md Task v4-adopt"]
 files_to_modify = ["lib/ccxt_extract/schema.ex", "lib/ccxt_extract/pipeline.ex", "lib/ccxt_extract/validation.ex", "lib/ccxt_extract/provenance.ex", "lib/ccxt_extract/override_registry.ex", "lib/mix/tasks/ccxt_extract.pipeline.ex", "lib/mix/tasks/ccxt_extract.validate.ex", "lib/mix/tasks/ccxt_extract.update.ex", "priv/schema/exchange_v3.json"]
+implemented = "Deleted exchange_v3.json, Schema.build_exchange/4 + validate/1+!, all v3 required-key attrs, normalize_schema_target!, the 3|4 dispatch in pipeline/validation/override_registry, the v3 recipe_path_map clause, target_suffix helpers, --schema-target from all 3 mix tasks, and the v3 provenance lists. Promoted provenance v4 paths to canonical names. Made translate_pointer/1 and build_schema_root/0. Removed flag from CLI surface and all threading. Deleted pure-v3 schema_test.exs. Zero 'schema_target' strings remain in lib/**/*.ex. Clean compile + contract_test baseline."
 body = """
 Delete v3 entirely. With v4 as the default (Task 142), v3 is dead weight — remove it per
 the repo's greenfield / no-backward-compat stance. This task is pure subtraction: no

@@ -122,7 +122,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "method_inventory" => nil,
         "overrides_meta" => nil
       },
-      "_provenance" => Provenance.build_default_v4()
+      "_provenance" => Provenance.build_default()
     }
   end
 end

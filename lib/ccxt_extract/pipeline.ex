@@ -4,8 +4,7 @@ defmodule CcxtExtract.Pipeline do
 
   Reads discovery data produced by individual extractors (QuickBEAM runtime
   values + OXC AST data) and combines them into validated per-exchange JSON
-  files conforming to `exchange_v4.json` (or the legacy `exchange_v3.json`
-  via `--schema-target=3`). After scoped
+  files conforming to `exchange_v4.json`. After scoped
   overrides and sign-recipe / request-shape sync, each exchange is checked
   with `CcxtExtract.Validation.validate_schema/2` (JSV) — failures are logged
   and recorded in `stats.validation_errors` without dropping the exchange (same
@@ -53,9 +52,6 @@ defmodule CcxtExtract.Pipeline do
       `MapSet` of exchange IDs to restrict assembly to. Integrity stats
       (`missing_entries`, `orphan_entries`, etc.) still reflect the full
       universe so we never hide real discovery drift.
-    * `:schema_target` — `4` (default) emits the v4 shape via
-      `Schema.build_exchange_v4/4`; `3` emits the legacy v3 shape via
-      `Schema.build_exchange/4`, reachable until Task 143 removes it.
     * `:allow_version_drift` — `true` bypasses the CCXT version-drift
       guard. Defaults to `false`.
 
@@ -89,16 +85,13 @@ defmodule CcxtExtract.Pipeline do
           DateTime.to_iso8601(DateTime.utc_now())
         end)
 
-      schema_target = normalize_schema_target!(Keyword.get(opts, :schema_target, 4))
-
       schema_opts = [
         ccxt_version: ccxt_version,
         extracted_at: extracted_at,
-        version_info: version_info,
-        schema_target: schema_target
+        version_info: version_info
       ]
 
-      schema_root = Validation.build_schema_root(schema_target)
+      schema_root = Validation.build_schema_root()
 
       scope = Keyword.get(opts, :scope, :all)
 
@@ -121,7 +114,7 @@ defmodule CcxtExtract.Pipeline do
       final_exchanges =
         exchanges
         |> Enum.reverse()
-        |> Enum.map(&apply_exchange_overrides(&1, schema_target))
+        |> Enum.map(&apply_exchange_overrides/1)
 
       jsv_errors = Enum.flat_map(final_exchanges, &validate_one(&1, schema_root))
 
@@ -135,7 +128,7 @@ defmodule CcxtExtract.Pipeline do
   Write per-exchange JSON files, the schema, and a manifest.
 
   Prunes per-exchange JSON files outside the written set before writing,
-  preserving the shared schema (`exchange_v3.json`) and any `_`-prefixed
+  preserving the shared schema (`exchange_v4.json`) and any `_`-prefixed
   metadata file (manifests, base methods).
 
   ## Options
@@ -148,16 +141,11 @@ defmodule CcxtExtract.Pipeline do
     * `:pretty` — boolean. When true, emit per-exchange JSON with
       indentation (~2× size). Default `false`. Manifests, fixtures, and
       reports remain pretty-printed regardless of this flag.
-    * `:schema_target` — `4` (default) copies `exchange_v4.json` and
-      stamps the v4 schema version into `_manifest.json`; `3` copies
-      `exchange_v3.json` and stamps the v3 version. Pruning preserves
-      whichever schema file matches the active target.
   """
   @spec write!([map()], String.t(), keyword()) :: :ok
   def write!(exchanges, output_dir \\ Paths.out(@output_dir), opts \\ []) do
     discoveries_dir = Keyword.get(opts, :discoveries_dir, Paths.priv("discoveries"))
-    schema_target = normalize_schema_target!(Keyword.get(opts, :schema_target, 4))
-    schema_file = Schema.schema_filename_for(schema_target)
+    schema_file = Schema.schema_filename()
 
     File.mkdir_p!(output_dir)
 
@@ -172,31 +160,13 @@ defmodule CcxtExtract.Pipeline do
       File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(exchange), pretty: pretty?))
     end
 
-    manifest = build_manifest(exchanges, Keyword.put(opts, :schema_target, schema_target))
+    manifest = build_manifest(exchanges, opts)
     manifest_path = Path.join(output_dir, "_manifest.json")
     File.write!(manifest_path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(manifest), pretty: true))
-    copy_schema!(output_dir, schema_target)
+    copy_schema!(output_dir)
     copy_base_methods!(output_dir, discoveries_dir)
 
     :ok
-  end
-
-  @doc """
-  Coerce a `:schema_target` opt to its integer canonical form.
-
-  Accepts the integer (`3` / `4`) or its string equivalent (`"3"` / `"4"`)
-  so callers wired up via `OptionParser` (mix tasks) and direct in-process
-  callers (tests) hit the same normalization. Raises `ArgumentError` on
-  any other input.
-  """
-  @spec normalize_schema_target!(term()) :: 3 | 4
-  def normalize_schema_target!(3), do: 3
-  def normalize_schema_target!(4), do: 4
-  def normalize_schema_target!("3"), do: 3
-  def normalize_schema_target!("4"), do: 4
-
-  def normalize_schema_target!(other) do
-    raise ArgumentError, "Invalid schema_target #{inspect(other)}; expected 3 or 4"
   end
 
   @doc """
@@ -276,7 +246,7 @@ defmodule CcxtExtract.Pipeline do
   # TODO(Task 62): `mix ccxt_extract.validate_overrides` will offer a strict
   # mode that propagates these errors — that task is where fail-hard
   # semantics belong.
-  defp apply_exchange_overrides(exchange, schema_target) do
+  defp apply_exchange_overrides(exchange) do
     id = exchange["exchange"]["id"]
     paths = recipe_path_map(exchange)
 
@@ -287,7 +257,7 @@ defmodule CcxtExtract.Pipeline do
       overrides when is_list(overrides) ->
         {updated, applied_paths} =
           Enum.reduce(overrides, {exchange, []}, fn entry, {acc, paths_acc} ->
-            apply_override_entry(entry, acc, paths_acc, id, schema_target)
+            apply_override_entry(entry, acc, paths_acc, id)
           end)
 
         updated
@@ -306,27 +276,14 @@ defmodule CcxtExtract.Pipeline do
       exchange
   end
 
-  # Returns the per-schema path map used by `sync_sign_recipe/2` and
-  # `sync_request_shape/2`. Detects v4 by the presence of the top-level
-  # `auth` key (mutually exclusive with v3's `structure`); falls back to
-  # v3 paths.
-  defp recipe_path_map(%{"auth" => _}) do
+  # Path map used by `sync_sign_recipe/2` and `sync_request_shape/2`.
+  defp recipe_path_map(_exchange) do
     %{
       auth_sections: ["auth", "authenticated_sections"],
       sign_method: ["auth", "sign_method"],
       sign_recipe: ["auth", "sign_recipe"],
       request_shape: ["endpoints", "request", "shape"],
       describe_api: ["raw", "describe", "api"]
-    }
-  end
-
-  defp recipe_path_map(_v3) do
-    %{
-      auth_sections: ["structure", "authenticated_sections"],
-      sign_method: ["structure", "sign_method"],
-      sign_recipe: ["structure", "sign_recipe"],
-      request_shape: ["structure", "request_shape"],
-      describe_api: ["runtime", "describe", "api"]
     }
   end
 
@@ -400,8 +357,8 @@ defmodule CcxtExtract.Pipeline do
   # never replaced.
   # TODO(Task 62): strict-mode validate_overrides will propagate these
   # instead of logging; see apply_exchange_overrides/1 header for rationale.
-  defp apply_override_entry(entry, acc, paths, id, schema_target) do
-    translated = OverrideRegistry.translate_pointer(entry["path"], schema_target)
+  defp apply_override_entry(entry, acc, paths, id) do
+    translated = OverrideRegistry.translate_pointer(entry["path"])
     keys = OverrideRegistry.pointer_to_keys(translated)
     {put_in(acc, keys, entry["value"]), [translated | paths]}
   rescue
@@ -449,12 +406,11 @@ defmodule CcxtExtract.Pipeline do
     end
   end
 
-  # Reduce callback: build one exchange and validate it
+  # Reduce callback: build one exchange and validate it.
   defp assemble_and_validate(meta, data, schema_opts, {acc, errs}) do
     exchange = build_exchange_data(meta, data, schema_opts)
-    schema_target = Keyword.get(schema_opts, :schema_target, 4)
 
-    case validate_for_target(exchange, schema_target) do
+    case Schema.validate_v4(exchange) do
       :ok ->
         {[exchange | acc], errs}
 
@@ -463,9 +419,6 @@ defmodule CcxtExtract.Pipeline do
         {[exchange | acc], [{meta["id"], reasons} | errs]}
     end
   end
-
-  defp validate_for_target(exchange, 3), do: Schema.validate(exchange)
-  defp validate_for_target(exchange, 4), do: Schema.validate_v4(exchange)
 
   # --- Assembly ---
 
@@ -524,29 +477,19 @@ defmodule CcxtExtract.Pipeline do
       "error_retryable" => CcxtExtract.HandleErrors.retryable_buckets(handle_errors)
     }
 
-    case Keyword.get(opts, :schema_target, 4) do
-      3 ->
-        Schema.build_exchange(meta, runtime_data, structure_data, opts)
+    # v4-only path (Task 143). Normalization carrier is always populated for v4.
+    # Map.get/3 on :fetch_methods because test fixtures may construct `data`
+    # without the key (fetch_methods.json is optional).
+    fetch_methods_lookup = Map.get(data, :fetch_methods, %{})
 
-      4 ->
-        # v4-only: Task 129 normalization carrier. v3 emission stays
-        # byte-identical — Normalization.build/2 is never reached on
-        # the v3 path, preserving the schema 3.0.0 (Task 117) Hex-cap
-        # win.
-        # Map.get/3 on :fetch_methods because test fixtures may
-        # construct `data` without the key (fetch_methods.json is
-        # optional — see missing_required filter above).
-        fetch_methods_lookup = Map.get(data, :fetch_methods, %{})
+    normalization =
+      Normalization.build(
+        Map.get(data.parse_methods, id),
+        Map.get(fetch_methods_lookup, id)
+      )
 
-        normalization =
-          Normalization.build(
-            Map.get(data.parse_methods, id),
-            Map.get(fetch_methods_lookup, id)
-          )
-
-        v4_opts = Keyword.put(opts, :normalization, normalization)
-        Schema.build_exchange_v4(meta, runtime_data, structure_data, v4_opts)
-    end
+    v4_opts = Keyword.put(opts, :normalization, normalization)
+    Schema.build_exchange_v4(meta, runtime_data, structure_data, v4_opts)
   end
 
   # Derive error dispatch from the assembled handle_errors map. Consumes
@@ -726,7 +669,7 @@ defmodule CcxtExtract.Pipeline do
   # (%{"user_agent" => ..., "default_headers" => ...}) from the discovery
   # lookup. Alias exchanges that didn't produce their own entry fall back
   # to the parent's value via class hierarchy. Returns nil only when the
-  # entire chain has no entry — `Schema.build_runtime_section/1` substitutes
+  # entire chain has no entry — `Schema.build_exchange_v4/4` substitutes
   # `RequestHeaders.empty_record()` so the schema-level always-emit
   # invariant survives.
   #
@@ -1144,10 +1087,10 @@ defmodule CcxtExtract.Pipeline do
     end
   end
 
-  defp copy_schema!(output_dir, schema_target_version) do
-    filename = Schema.schema_filename_for(schema_target_version)
+  defp copy_schema!(output_dir) do
+    filename = Schema.schema_filename()
     schema_source = Paths.priv("schema/" <> filename)
-    schema_target = Path.join(output_dir, filename)
+    schema_dest = Path.join(output_dir, filename)
     # TODO(Task 127): explicit read+write (not `File.cp!/2`) so the
     # `paths_rw_split` contract invariant sees a sanitized flow:
     # `Paths.priv → File.read! → File.write!`. `File.cp!` is a writer that
@@ -1155,7 +1098,7 @@ defmodule CcxtExtract.Pipeline do
     # position-distinguish. Restore `File.cp!` once Task 127 lands
     # position-aware sinks. Mode preservation isn't load-bearing for a JSON
     # schema file.
-    File.write!(schema_target, File.read!(schema_source))
+    File.write!(schema_dest, File.read!(schema_source))
   end
 
   # Copy _base_methods.json to the output directory as a shared artifact.
@@ -1176,11 +1119,10 @@ defmodule CcxtExtract.Pipeline do
   # not from version_info on disk. version_info is only used for source_git_sha.
   defp build_manifest(exchanges, opts) do
     version_info = Keyword.get_lazy(opts, :version_info, fn -> read_ccxt_version_info() end)
-    schema_target = Keyword.get(opts, :schema_target, 4)
     first = List.first(exchanges) || %{}
 
     %{
-      "schema_version" => Schema.schema_version_for(schema_target),
+      "schema_version" => Schema.schema_version(),
       "ccxt_version" => first["ccxt_version"] || "unknown",
       "source_git_sha" => version_info["source_git_sha"],
       "extracted_at" => first["extracted_at"] || DateTime.to_iso8601(DateTime.utc_now()),

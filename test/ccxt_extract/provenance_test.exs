@@ -18,22 +18,22 @@ defmodule CcxtExtract.ProvenanceTest do
       end
     end
 
-    test "includes known raw section pointers" do
+    test "includes known raw section pointers (v4 shape)" do
       provenance = Provenance.build_default()
 
-      assert provenance["/runtime/describe"] == "raw"
-      assert provenance["/runtime/url_templates"] == "raw"
-      assert provenance["/structure/class_info"] == "raw"
-      assert provenance["/structure/sign_method"] == "raw"
+      assert provenance["/raw/describe"] == "raw"
+      assert provenance["/raw/url_templates"] == "raw"
+      assert provenance["/raw/class_info"] == "raw"
+      assert provenance["/auth/sign_method"] == "raw"
     end
 
-    test "tags known derived fields as derived" do
+    test "tags known derived fields as derived (v4 shape)" do
       provenance = Provenance.build_default()
 
-      assert provenance["/runtime/symbols_index"] == "derived"
-      assert provenance["/runtime/symbol_patterns"] == "derived"
-      assert provenance["/structure/authenticated_sections"] == "derived"
-      assert provenance["/structure/unified_endpoints"] == "derived"
+      assert provenance["/markets/symbols_index"] == "derived"
+      assert provenance["/markets/patterns"] == "derived"
+      assert provenance["/auth/authenticated_sections"] == "derived"
+      assert provenance["/endpoints/unified"] == "derived"
       assert provenance["/exchange/tier"] == "derived"
     end
 
@@ -49,14 +49,14 @@ defmodule CcxtExtract.ProvenanceTest do
       refute Map.has_key?(provenance, "/structure/ws_methods")
     end
 
-    test "tags mixed handle_errors sub-keys individually" do
+    test "tags mixed handle_errors sub-keys individually (v4 shape)" do
       provenance = Provenance.build_default()
 
-      assert provenance["/structure/handle_errors/method"] == "raw"
-      assert provenance["/structure/handle_errors/exceptions"] == "raw"
-      assert provenance["/structure/handle_errors/http_exceptions"] == "raw"
-      assert provenance["/structure/handle_errors/error_code_fields"] == "derived"
-      assert provenance["/structure/handle_errors/throw_dispatches"] == "derived"
+      assert provenance["/errors/handle_errors/method"] == "raw"
+      assert provenance["/errors/handle_errors/exceptions"] == "raw"
+      assert provenance["/errors/handle_errors/http_exceptions"] == "raw"
+      assert provenance["/errors/handle_errors/error_code_fields"] == "derived"
+      assert provenance["/errors/handle_errors/throw_dispatches"] == "derived"
     end
 
     test "raw_pointers and derived_pointers are disjoint" do
@@ -69,20 +69,20 @@ defmodule CcxtExtract.ProvenanceTest do
   end
 
   describe "stamp_overrides/2" do
-    test "replaces an existing raw entry with override" do
+    test "replaces an existing raw entry with override (v4 shape)" do
       base = Provenance.build_default()
-      stamped = Provenance.stamp_overrides(base, ["/structure/sign_method"])
+      stamped = Provenance.stamp_overrides(base, ["/auth/sign_method"])
 
-      assert base["/structure/sign_method"] == "raw"
-      assert stamped["/structure/sign_method"] == "override"
+      assert base["/auth/sign_method"] == "raw"
+      assert stamped["/auth/sign_method"] == "override"
     end
 
-    test "replaces an existing derived entry with override" do
+    test "replaces an existing derived entry with override (v4 shape)" do
       base = Provenance.build_default()
-      stamped = Provenance.stamp_overrides(base, ["/structure/authenticated_sections"])
+      stamped = Provenance.stamp_overrides(base, ["/auth/authenticated_sections"])
 
-      assert base["/structure/authenticated_sections"] == "derived"
-      assert stamped["/structure/authenticated_sections"] == "override"
+      assert base["/auth/authenticated_sections"] == "derived"
+      assert stamped["/auth/authenticated_sections"] == "override"
     end
 
     test "adds new entries for sub-tree paths deeper than default granularity" do
@@ -90,15 +90,15 @@ defmodule CcxtExtract.ProvenanceTest do
 
       stamped =
         Provenance.stamp_overrides(base, [
-          "/structure/sign_method/params/timestamp",
-          "/runtime/describe/urls/api/public"
+          "/auth/sign_method/params/timestamp",
+          "/raw/describe/urls/api/public"
         ])
 
-      assert stamped["/structure/sign_method/params/timestamp"] == "override"
-      assert stamped["/runtime/describe/urls/api/public"] == "override"
+      assert stamped["/auth/sign_method/params/timestamp"] == "override"
+      assert stamped["/raw/describe/urls/api/public"] == "override"
       # Original entries still there.
-      assert stamped["/structure/sign_method"] == "raw"
-      assert stamped["/runtime/describe"] == "raw"
+      assert stamped["/auth/sign_method"] == "raw"
+      assert stamped["/raw/describe"] == "raw"
     end
 
     test "is identity on an empty path list" do

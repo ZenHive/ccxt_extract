@@ -955,7 +955,7 @@ defmodule CcxtExtract.ValidationTest do
 
   describe "roundtrip_skipped_reason envelope" do
     # The round-trip checks key on v4 output paths (raw.describe, auth.sign_method, ...).
-    # Under :schema_only OR :schema_target=3 the v4 paths are absent and every
+    # Under :schema_only the v4 round-trip paths are not exercised and every
     # check would silently no-op — the report's `"roundtrip_skipped_reason"`
     # field must surface that explicitly so callers don't read "0 findings"
     # as "passed". This block locks the contract.
@@ -977,13 +977,6 @@ defmodule CcxtExtract.ValidationTest do
     test "names schema_only when :schema_only is true", %{tmp: tmp} do
       {:ok, report} = Validation.validate_all(output_dir: tmp, schema_only: true)
       assert report["roundtrip_skipped_reason"] == "schema_only requested"
-      assert report["summary"]["roundtrip_checked"] == 0
-    end
-
-    test "names schema_target=3 when running against the legacy schema", %{tmp: tmp} do
-      {:ok, report} = Validation.validate_all(output_dir: tmp, schema_target: 3)
-
-      assert report["roundtrip_skipped_reason"] =~ "schema_target=3"
       assert report["summary"]["roundtrip_checked"] == 0
     end
   end

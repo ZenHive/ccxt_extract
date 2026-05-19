@@ -1308,7 +1308,7 @@
       "phase": 0,
       "bundle": "maintenance",
       "milestone": "v4",
-      "status": "pending",
+      "status": "done",
       "title": "v3 teardown — delete v3 and all schema_target plumbing",
       "scores": {
         "d": 3,
@@ -1344,6 +1344,7 @@
       "body": "Delete v3 entirely. With v4 as the default (Task 142), v3 is dead weight — remove it per\nthe repo's greenfield / no-backward-compat stance. This task is pure subtraction: no\nbehaviour changes, just complexity removal.\n\nDelete: `priv/schema/exchange_v3.json`; the v3 builder `Schema.build_exchange/4`; the v3\nvalidator `validate/1` + `validate!/1`; the v3 `@required_*` module attributes. Collapse\nevery `3 | 4` dispatch to a single v4 path — `normalize_schema_target!/1`,\n`validate_for_target/2`, `recipe_path_map/1`'s v3 clause, `schema_version_for/1` /\n`schema_filename_for/1`, `OverrideRegistry.translate_pointer/2` and its\n`@v3_to_v4_pointer_prefixes` table, and the `--schema-target` flag plus\n`resolve_schema_target!` / `target_suffix` / `schema_target_args` across the three mix\ntasks. In `provenance.ex`, promote the `_v4` pointer attributes/functions to canonical\nand drop the v3 ones. Remove v3-only tests and the v3 round-trip functions; fold the\n`schema_v4_emit` cached-test coverage into the baseline pipeline/schema tests.\n\nCoordination: `ccxt_client` must have completed its v4 migration before this lands —\nonce `exchange_v3.json` is gone there is no v3 fallback. Confirm `../ccxt_client/`\nTask v4-adopt is done first.\n",
       "created_at": "2026-05-14",
       "scored_at": "2026-05-15",
+      "implemented": "Deleted exchange_v3.json, Schema.build_exchange/4 + validate/1+!, all v3 required-key attrs, normalize_schema_target!, the 3|4 dispatch in pipeline/validation/override_registry, the v3 recipe_path_map clause, target_suffix helpers, --schema-target from all 3 mix tasks, and the v3 provenance lists. Promoted provenance v4 paths to canonical names. Made translate_pointer/1 and build_schema_root/0. Removed flag from CLI surface and all threading. Deleted pure-v3 schema_test.exs. Zero 'schema_target' strings remain in lib/**/*.ex. Clean compile + contract_test baseline.",
       "cross_repo": []
     }
   ]

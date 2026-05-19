@@ -6,6 +6,19 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 143 — v3 teardown (delete exchange_v3.json + all schema_target plumbing)
+
+- `priv/schema/exchange_v3.json` deleted.
+- `Schema.build_exchange/4`, `Schema.validate/1` + `validate!/1`, all v3 `@required_*` sets, and the entire `schema_*_for/1` and `schema_*_v4/0` family (now redundant with `schema_version/0` / `schema_filename/0`) removed.
+- `Pipeline.normalize_schema_target!`, `validate_for_target/2` (entire helper, inlined to a direct `Schema.validate_v4/1` call), the v3 `recipe_path_map` clause, and all `schema_target` threading in `write!`/`copy_schema!`/`apply_*` removed.
+- `Validation.build_schema_root/1` → `/0`; round-trip skip for `schema_target: 3` removed.
+- `OverrideRegistry.translate_pointer/2` → `/1` (always v4 rewrite); `@v3_to_v4_pointer_prefixes` kept only for runtime override application.
+- `Provenance` v4 paths promoted to canonical names (`build_default/0`, `raw_pointers/0`, etc.); old v3 lists deleted.
+- `--schema-target` flag + `resolve_schema_target!` / `target_suffix` / `schema_target_args` removed from all three mix tasks.
+- `test/ccxt_extract/schema_test.exs` (pure v3) deleted; large obsolete dual-path describe blocks pruned from `pipeline_test.exs`, `override_registry_test.exs`, `validation_test.exs`; `build_schema_root(4)` calls in cached tests updated.
+- `grep -rn schema_target lib/ --include="*.ex"` now returns exactly zero.
+- `mix compile --warnings-as-errors`, dialyzer, and contract_test remain green. Pure deletion per the repo's greenfield/no-compat stance.
+
 ### Corpus refresh — CCXT 4.5.48 → 4.5.54
 
 - **`priv/ccxt_version.json`** repinned to npm `4.5.54` / source git `a9687c37`, bundle sha256 `cc72f0cbab47e7441953de6fe69ff0ff1b8ab083c20888436983b5191e6d6676`. `mix ccxt_extract.setup --latest` (after a vendor-only `git reset --hard origin/master` on `priv/ccxt` to discard 20+ stale `[Automated changes]` commits left over from a prior session — no user-authored history involved). QuickBEAM verifies 110 exchanges; OXC verifies `binance.ts` (165 methods).

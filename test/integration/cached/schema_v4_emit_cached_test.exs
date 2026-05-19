@@ -58,7 +58,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
                "got #{inspect(Enum.map(exchanges, &get_in(&1, ["exchange", "id"])))} " <>
                "(have all of binance/deribit/okx been extracted?)"
 
-      v4_root = Validation.build_schema_root(4)
+      v4_root = Validation.build_schema_root()
 
       for exchange <- exchanges do
         id = get_in(exchange, ["exchange", "id"])
@@ -218,7 +218,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
                @ohlcv_object_scope,
              "expected exactly the 78b/78e scope #{inspect(MapSet.to_list(@ohlcv_object_scope))}"
 
-      v4_root = Validation.build_schema_root(4)
+      v4_root = Validation.build_schema_root()
 
       for exchange <- exchanges do
         id = get_in(exchange, ["exchange", "id"])
@@ -335,7 +335,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       assert hyperliquid["_provenance"]["/auth/authenticated_sections"] == "override",
              "override provenance must stamp the translated v4 pointer"
 
-      v4_root = Validation.build_schema_root(4)
+      v4_root = Validation.build_schema_root()
       assert Validation.validate_schema(hyperliquid, v4_root) == :ok
     end
 
@@ -396,7 +396,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       # sub_field_map / unresolved_reason keys) must not regress v4 strict
       # validation. NormalizationStubValue is permissive (additionalProperties:
       # true), so this is a safety net, not a load-bearing assertion.
-      v4_root = Validation.build_schema_root(4)
+      v4_root = Validation.build_schema_root()
 
       for {id, exchange} <- exchange_map do
         case Validation.validate_schema(exchange, v4_root) do
@@ -462,7 +462,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
 
       exchange_map = Map.new(exchanges, &{get_in(&1, ["exchange", "id"]), &1})
 
-      v4_root = Validation.build_schema_root(4)
+      v4_root = Validation.build_schema_root()
 
       for {id, exchange} <- exchange_map do
         case Validation.validate_schema(exchange, v4_root) do
@@ -521,7 +521,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
 
       exchange_map = Map.new(exchanges, &{get_in(&1, ["exchange", "id"]), &1})
 
-      v4_root = Validation.build_schema_root(4)
+      v4_root = Validation.build_schema_root()
 
       for {id, exchange} <- exchange_map do
         case Validation.validate_schema(exchange, v4_root) do
@@ -578,7 +578,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
 
       exchange_map = Map.new(exchanges, &{get_in(&1, ["exchange", "id"]), &1})
 
-      v4_root = Validation.build_schema_root(4)
+      v4_root = Validation.build_schema_root()
 
       for {id, exchange} <- exchange_map do
         case Validation.validate_schema(exchange, v4_root) do
@@ -621,7 +621,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
 
       exchange_map = Map.new(exchanges, &{get_in(&1, ["exchange", "id"]), &1})
 
-      v4_root = Validation.build_schema_root(4)
+      v4_root = Validation.build_schema_root()
 
       for {id, exchange} <- exchange_map do
         case Validation.validate_schema(exchange, v4_root) do
@@ -740,38 +740,6 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
 
       assert is_binary(binance_market["_unresolved_reason"]),
              "binance parseMarket must have non-nil _unresolved_reason"
-    end
-
-    test "v4 emit (default) is byte-identical with or without explicit --schema-target=4 for binance",
-         %{discoveries_dir: discoveries_dir} do
-      # Equivalence guard: the only thing that changes between
-      # `schema_target: 4` (explicit) and an omitted opt is one keyword.
-      # Output must be identical down to the byte. Task 142 flipped the
-      # default 3 → 4; v3 is still reachable via explicit `schema_target: 3`
-      # until Task 143 deletes it.
-      {:ok, [explicit], _} =
-        Pipeline.extract(
-          discoveries_dir: discoveries_dir,
-          ccxt_version: "4.5.45",
-          extracted_at: "2026-05-08T00:00:00Z",
-          scope: MapSet.new(["binance"]),
-          schema_target: 4
-        )
-
-      {:ok, [implicit], _} =
-        Pipeline.extract(
-          discoveries_dir: discoveries_dir,
-          ccxt_version: "4.5.45",
-          extracted_at: "2026-05-08T00:00:00Z",
-          scope: MapSet.new(["binance"])
-        )
-
-      assert explicit == implicit
-      assert explicit["schema_version"] == CcxtExtract.Schema.schema_version()
-      # v4 top-level reshape — these keys replace v3's `runtime` / `structure`.
-      assert Map.has_key?(explicit, "endpoints")
-      assert Map.has_key?(explicit, "auth")
-      assert Map.has_key?(explicit, "raw")
     end
   end
 end

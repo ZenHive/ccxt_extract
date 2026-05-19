@@ -36,9 +36,6 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     * `--pretty` — emit per-exchange JSON with indentation (~2× size; default
       compact). Forwarded to the pipeline stage. Manifests, fixtures, and
       reports remain pretty-printed regardless of this flag.
-    * `--schema-target N` — forwarded to the pipeline + validate stages.
-      `4` (default) emits the v4 published shape; `3` emits the legacy
-      v3 shape, reachable until Task 143 removes it.
     * `--allow-version-drift` — forwarded to the pipeline stage. Bypasses
       the CCXT version-drift guard so the pipeline runs even when
       `priv/ccxt` or `priv/ccxt_bundle.js` no longer matches the
@@ -84,7 +81,6 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     exchange: :keep,
     force: :boolean,
     pretty: :boolean,
-    schema_target: :integer,
     allow_version_drift: :boolean
   ]
 
@@ -200,21 +196,11 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     args = if opts[:force], do: ["--force" | args], else: args
     args = if opts[:pretty], do: ["--pretty" | args], else: args
     args = if opts[:allow_version_drift], do: ["--allow-version-drift" | args], else: args
-    args = schema_target_args(opts) ++ args
     args ++ scope_args(opts)
   end
 
   defp build_validate_args(opts) do
-    base = if opts[:strict], do: ["--strict"], else: []
-    schema_target_args(opts) ++ base
-  end
-
-  defp schema_target_args(opts) do
-    case opts[:schema_target] do
-      nil -> []
-      n when n in [3, 4] -> ["--schema-target", Integer.to_string(n)]
-      other -> Mix.raise("Invalid --schema-target #{inspect(other)}; expected 3 or 4")
-    end
+    if opts[:strict], do: ["--strict"], else: []
   end
 
   # `--strict` is omitted by design: contract_test prints findings and keeps

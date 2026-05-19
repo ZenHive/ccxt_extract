@@ -142,7 +142,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task 36 | ⛔ | 🎁 **superseded** · Schema migration framework [D:6/B:4/U:3 → Eff:0.58] ⚠️ |
 | Task rate-limit-headers | 🔶 | 🎁 **superseded** · Rate-limit header extraction [D:7/B:3/U:3 → Eff:0.43] ⚠️ |
 | Task 142 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v4 cut — flip default emission and validation to v4 [D:4/B:9/U:9 → Eff:2.25] 🎯 |
-| Task 143 | ⬜ | 🎁 **maintenance** · 🚀 **v4** · v3 teardown — delete v3 and all schema_target plumbing [D:3/B:7/U:6 → Eff:2.17] 🎯 |
+| Task 143 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v3 teardown — delete v3 and all schema_target plumbing [D:3/B:7/U:6 → Eff:2.17] 🎯 |
 <!-- TASKS:END -->
 
 ---

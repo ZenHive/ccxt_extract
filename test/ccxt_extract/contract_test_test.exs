@@ -268,17 +268,6 @@ defmodule CcxtExtract.ContractTestTest do
       assert ContractTest.check_override_paths_present_in_output(exchange, @base_observed) == []
     end
 
-    test "no findings when every override value appears at its path in output (v3 shape)" do
-      # `apply_all/2` doesn't translate pointers; the seed is the legacy v3
-      # shape so override paths land at `/structure/...` in the merged map.
-      # When schema_target=3 is fully retired, this test goes with it.
-      seed = %{"exchange" => %{"id" => "hyperliquid"}, "structure" => %{}}
-      overrides = OverrideRegistry.load("hyperliquid")
-      exchange = OverrideRegistry.apply_all(seed, overrides)
-
-      assert ContractTest.check_override_paths_present_in_output(exchange, @base_observed) == []
-    end
-
     test "no findings when v4 output carries the override at its translated path" do
       # v4-shaped exchange — the helper sees `endpoints` and translates the
       # override pointer `/structure/authenticated_sections` to

@@ -85,7 +85,11 @@ defmodule CcxtExtract.HandleErrors do
     if File.exists?(describe_path) do
       data = JsonIO.read_json!(describe_path)
       describe = data["describe"] || %{}
-      {normalize_map(describe["exceptions"]), normalize_map(describe["httpExceptions"])}
+
+      {
+        describe["exceptions"] |> normalize_map() |> strip_function_sentinels(),
+        describe["httpExceptions"] |> normalize_map() |> strip_function_sentinels()
+      }
     else
       {nil, nil}
     end
@@ -94,6 +98,27 @@ defmodule CcxtExtract.HandleErrors do
   # Normalize non-map values (e.g. "__undefined" sentinel from QuickBEAM) to nil
   defp normalize_map(value) when is_map(value), do: value
   defp normalize_map(_), do: nil
+
+  # CCXT's `httpExceptions` (and some `exceptions` entries) declare
+  # values as JS class-constructor references — bare identifiers like
+  # `ExchangeError` rather than the string `"ExchangeError"`. QuickBEAM
+  # serializes those as `"__function:<ClassName>"`. The flat-parents
+  # lookup in `error_classes_covered_by_hierarchy` is a bare-string key
+  # match, so the sentinel can't resolve. Strip at the extraction
+  # boundary so the emitted JSON carries bare class names and downstream
+  # consumers (contract test, http_status_map, retryable_buckets) all
+  # agree.
+  defp strip_function_sentinels(nil), do: nil
+
+  defp strip_function_sentinels(map) when is_map(map) do
+    Map.new(map, fn {k, v} -> {k, strip_function_sentinel_value(v)} end)
+  end
+
+  defp strip_function_sentinel_value(map) when is_map(map), do: strip_function_sentinels(map)
+
+  defp strip_function_sentinel_value("__function:" <> name) when name != "", do: name
+
+  defp strip_function_sentinel_value(other), do: other
 
   # --- Derived: HTTP status map (Task 85) ---
 

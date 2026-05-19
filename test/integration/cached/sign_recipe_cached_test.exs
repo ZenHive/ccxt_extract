@@ -22,7 +22,7 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
 
   defp recipe(id, section) do
     exchange = load_exchange!(id)
-    recipe_map = get_in(exchange, ["structure", "sign_recipe"]) || %{}
+    recipe_map = get_in(exchange, ["auth", "sign_recipe"]) || %{}
     Map.get(recipe_map, section, :missing)
   end
 
@@ -409,7 +409,7 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
 
       Enum.each(all_exchange_files(), fn file ->
         data = file |> File.read!() |> Jason.decode!()
-        recipe_map = get_in(data, ["structure", "sign_recipe"]) || %{}
+        recipe_map = get_in(data, ["auth", "sign_recipe"]) || %{}
 
         for {section, record} <- recipe_map do
           keys = record |> Map.keys() |> Enum.sort()
@@ -425,7 +425,7 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
 
       Enum.each(all_exchange_files(), fn file ->
         data = file |> File.read!() |> Jason.decode!()
-        recipe_map = get_in(data, ["structure", "sign_recipe"]) || %{}
+        recipe_map = get_in(data, ["auth", "sign_recipe"]) || %{}
 
         for {section, record} <- recipe_map do
           case record["crypto_op"] do
@@ -445,7 +445,7 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
 
       Enum.each(all_exchange_files(), fn file ->
         data = file |> File.read!() |> Jason.decode!()
-        recipe_map = get_in(data, ["structure", "sign_recipe"]) || %{}
+        recipe_map = get_in(data, ["auth", "sign_recipe"]) || %{}
 
         for {section, record} <- recipe_map do
           case record["signature_placement"] do
@@ -472,7 +472,7 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
       populated =
         Enum.flat_map(all_exchange_files(), fn file ->
           data = file |> File.read!() |> Jason.decode!()
-          recipe_map = get_in(data, ["structure", "sign_recipe"]) || %{}
+          recipe_map = get_in(data, ["auth", "sign_recipe"]) || %{}
 
           Enum.filter(recipe_map, fn {_section, record} ->
             is_map(record["crypto_op"])

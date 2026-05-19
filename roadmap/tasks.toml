@@ -16,7 +16,7 @@ vision = "Extract everything CCXT knows about 111+ exchanges into language-agnos
 [phases.0]
 name = "Maintenance Backlog"
 order = 0
-status = "in_progress"
+status = "pending"
 
 [phases.8]
 name = "Client harness + contract tests"
@@ -149,9 +149,14 @@ description = "Timestamps, headers, rate-limit buckets + per-endpoint cost — a
 order = 2
 phase = 11
 
-[bundles.12-simple]
-description = "parseOHLCV edge-case shapes + ticker.ex normalization-vocab alignment — non-gating Phase 12 remainder."
+[bundles.parse-ohlcv]
+description = "parseOHLCV edge-case shapes (hybrid Array.isArray, scrambled-coercion, discriminator vocabulary) — non-gating Phase 12 remainder."
 order = 1
+phase = 12
+
+[bundles.ticker-normalization]
+description = "ticker.ex normalization-vocab alignment — non-gating Phase 12 remainder."
+order = 2
 phase = 12
 
 [bundles.13-classify-fix]
@@ -282,6 +287,13 @@ files_to_modify = ["lib/ccxt_extract/contract_test.ex", "lib/ccxt_extract/pipeli
 body = """
 Task 112's `paths_rw_split` invariant lists `File.cp!`/`cp_r!`/`cp`/`cp_r`/`rename` in `@file_writer_fns` position-unaware, so `File.cp!(Paths.priv(...), target)` trips it even though the writer target is unrelated. Two band-aids were applied (rewriting `File.cp!` as write+read in `pipeline.ex`, broadening `@file_reader_fns`); both mask-bleed into a theoretical false negative. Proper fix: (a) position-aware sinks distinguishing write-position args from read-position args, likely via a registry keyed on `{function, arity, write_arg_indices}`; (b) variable-level sanitization so Reach sanitizes the specific variable passing through a reader, not every node on the chop — likely needs a Reach-side change. Once either lands: narrow `@file_reader_fns` back to content readers, restore `File.cp!` in `pipeline.ex`, delete both TODO blocks. Discovered 2026-04-24 during staged-review of the paths_rw_split sanitizer-broadening change.
 """
+acceptance_criteria = [
+  "paths_rw_split sink registry distinguishes write-position arg indices from read-position arg indices (or Reach exposes variable-level sanitization the contract_test consumes)",
+  "@file_reader_fns is narrowed back to content readers only — broadened entries added during the band-aid removed",
+  "pipeline.ex uses File.cp! directly; the write+read decomposition workaround is gone",
+  "Both Task-127 TODO blocks (in contract_test.ex and pipeline.ex) are deleted",
+  "mix ccxt_extract.contract_test passes without the band-aids in place",
+]
 
 [[task]]
 id = 136
@@ -459,11 +471,11 @@ body = """
 Two tests paper over scope drift with blunt skips: (a) `authenticated_sections_integration_test.exs` returns `[]` unconditionally for any override whose `priv/output/<id>.json` is absent, losing regression detection on full-universe runs; (b) `sign_recipe_cached_test.exs` uses `@tag :tier3_corpus` + default-exclude to bypass bitget. Replace both with a scope-aware helper that reads `_manifest.json`'s `tier_scope`, resolves it via `Tiers.members_for_tier/1` + `class_hierarchy.json`, and only skips when the target exchange is honestly out of scope. Drop the `:tier3_corpus` exclusion and `@tag` once the helper lands. Discovered 2026-04-20 during Task 117 code review.
 """
 
-# ── Phase 0 · bundle method-descriptors ───────────────────────────────────
+# ── Phase 12 · bundle method-descriptors ──────────────────────────────────
 
 [[task]]
 id = 121
-phase = 0
+phase = 12
 bundle = "method-descriptors"
 milestone = "feature_complete"
 status = "pending"
@@ -481,7 +493,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 122
-phase = 0
+phase = 12
 bundle = "method-descriptors"
 milestone = "feature_complete"
 status = "pending"
@@ -659,6 +671,13 @@ scores = { d = 5, b = 7, u = 6 }
 body = """
 Compare current derivation + overrides against the last-released output. Flags: (a) overrides whose underlying raw data changed (stale override), (b) derived fields that flipped value or disappeared, (c) new raw fields not yet derived. Report only; humans decide.
 """
+acceptance_criteria = [
+  "mix ccxt_extract.drift_audit task exists and runs end-to-end against a baseline release tag",
+  "Output identifies three categories: stale overrides (override over changed raw), flipped/disappeared derived fields, new raw fields not yet derived",
+  "Task is report-only — no auto-fix, no auto-mutate of overrides or derivations",
+  "Each finding cites the affected exchange id + JSON pointer + before/after values so a reviewer can act on it",
+  "Exits non-zero only on errors, not on findings (so CI can gate it separately if desired)",
+]
 scored_at = "2026-05-14"
 
 # ── Phase 9 · bundle 9-pipeline ───────────────────────────────────────────
@@ -690,6 +709,14 @@ cross_repo = [{ repo = "ccxt_client", task_id = 117, relation = "blocks" }]
 body = """
 Task 73d shipped a name-only classifier over CCXT's unified-method namespace; consumers correctly cannot trust `on_chain == false` (or absence) as a safety gate because non-unified raw paths bypass the convention. Coverage gap: DEX flows exposing blockchain transactions via helpers like `signL1Action` / `signEIP712`, implicit-API paths like `public_post_sendtx` / `sendTxBatch`, and sign-method bodies that construct a signed-payload-then-broadcast shape. Approach: an OXC pass over sign-method and exchange-method bodies looking for (a) known signed-payload helpers, (b) web3 / EIP-712 typed-data builders, (c) `sendTx` / `sendTxBatch` patterns, (d) DEX-specific signing imports (`@noble/curves`, `ethers`, `starknet`). Promote endpoints into `transaction_classification` with `on_chain: true` + `transactional: true`. Closes the security-gating gap from Task 73d. Filed 2026-05-08 from PR #9 review (INE-64).
 """
+acceptance_criteria = [
+  "OXC pass detects signed-payload helper calls (signL1Action, signEIP712) in sign-method and exchange-method bodies",
+  "OXC pass detects web3 / EIP-712 typed-data builder patterns and DEX signing-library imports (@noble/curves, ethers, starknet)",
+  "OXC pass detects sendTx / sendTxBatch and implicit-API public_post_sendtx patterns",
+  "Detected endpoints emit into transaction_classification with on_chain: true AND transactional: true",
+  "Coverage verified for at least: hyperliquid (signL1Action), one starknet-family exchange, one EIP-712 DEX",
+  "contract_test invariant gates that classifier-promoted entries carry both flags so a consumer can rely on on_chain == false as a negative safety gate",
+]
 scored_at = "2026-05-14"
 
 # ── Phase 11 · bundle 11+14 ───────────────────────────────────────────────
@@ -705,14 +732,20 @@ scores = { d = 5, b = 3, u = 3 }
 body = """
 Captures two QuickBEAM blind spots Task 73b can't reach because the values aren't in resolved `describe()`: (1) `bigone.ts` constructs `User-Agent` inside sign() as `'ccxt/' + this.id + '-' + this.version`; (2) `okx.ts` mutates `this.headers` at runtime via `setSandboxMode(true)` to inject `x-simulated-trading: 1`. Both need an OXC pass over sign-method bodies to detect (a) string-concat assignments to a `headers['User-Agent']` LHS, (b) `setSandboxMode`-equivalent runtime mutations on `this.headers`. Output would extend `runtime.request_headers` (or a sibling) with sign-time / sandbox-time variants. Score is low — affects 2 known exchanges, low consumer impact, high OXC complexity. File but defer until a priority consumer surfaces a concrete need. Discovered 2026-05-07 during Task 73b.
 """
+acceptance_criteria = [
+  "OXC pass detects string-concat assignments to a headers['User-Agent'] LHS in sign() bodies (catches bigone's 'ccxt/' + this.id + '-' + this.version shape)",
+  "OXC pass detects setSandboxMode-equivalent runtime mutations on this.headers (catches okx's x-simulated-trading: 1 injection)",
+  "Output extends runtime.request_headers (or a sibling section) with sign-time / sandbox-time variants — variants are distinguishable from describe()-resolved entries",
+  "Fixture coverage: bigone resolves its sign-time User-Agent template; okx resolves its sandbox-mode header injection",
+]
 scored_at = "2026-05-14"
 
-# ── Phase 12 · bundle 12-simple ───────────────────────────────────────────
+# ── Phase 12 · bundle parse-ohlcv ─────────────────────────────────────────
 
 [[task]]
 id = "78c"
 phase = 12
-bundle = "12-simple"
+bundle = "parse-ohlcv"
 milestone = "feature_complete"
 status = "pending"
 title = "parseOHLCV hybrid Array.isArray exchanges (gate, possible binance options-fallback)"
@@ -721,12 +754,18 @@ markers = ["parallel"]
 body = """
 Non-gating Phase 12 edge case. Adds `array_input`/`object_input` guard kinds + IfStatement-discriminated branches to the parseOHLCV field map for exchanges that branch on `Array.isArray` (gate, possible binance options-fallback). May ship post-v4-cut.
 """
+acceptance_criteria = [
+  "parseOHLCV field-map schema accepts array_input and object_input guard kinds, with each branch entry tagged by the kind that selected it",
+  "IfStatement-discriminated branches are preserved per exchange — gate is covered; binance options-fallback covered if present",
+  "Discriminator (the Array.isArray callsite + LHS variable) emitted alongside the branch entries so a consumer can dispatch on input shape",
+  "Existing non-hybrid parseOHLCV entries continue to render unchanged (no regression in the single-shape majority)",
+]
 scored_at = "2026-05-14"
 
 [[task]]
 id = "78d"
 phase = 12
-bundle = "12-simple"
+bundle = "parse-ohlcv"
 milestone = "feature_complete"
 status = "pending"
 title = "parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin)"
@@ -735,12 +774,18 @@ markers = ["parallel"]
 body = """
 Non-gating Phase 12 edge case. Adds `format: \"s\"` (coinbaseexchange `safeTimestamp` s→ms), populates an `extras` list (kraken VWAP-extras), and emits the kucoin timestamp-slot null with a reason (timestamp-length IfStatement heuristic). May ship post-v4-cut.
 """
+acceptance_criteria = [
+  "parseOHLCV field map supports format: \"s\" (seconds → ms) for the coinbaseexchange timestamp slot, matching safeTimestamp's coercion",
+  "extras list populated for kraken with VWAP-extras captured beyond the standard OHLCV columns",
+  "kucoin timestamp slot emits null with a documented reason carrying the timestamp-length IfStatement heuristic",
+  "Fixture coverage: coinbaseexchange, kraken, kucoin parseOHLCV entries shipped in priv/discoveries/parse_methods.json",
+]
 scored_at = "2026-05-14"
 
 [[task]]
 id = "78f"
 phase = 12
-bundle = "12-simple"
+bundle = "parse-ohlcv"
 milestone = "feature_complete"
 status = "pending"
 title = "parseOHLCV discriminator vocabulary beyond market.inverse"
@@ -754,7 +799,7 @@ scored_at = "2026-05-14"
 [[task]]
 id = 135
 phase = 12
-bundle = "12-simple"
+bundle = "ticker-normalization"
 milestone = "feature_complete"
 status = "pending"
 title = "ticker.ex normalization-vocab alignment"
@@ -819,6 +864,7 @@ milestone = "feature_complete"
 status = "pending"
 title = "WS subscribe / unsubscribe message shape per channel"
 scores = { d = 5, b = 8, u = 8 }
+markers = ["parallel"]
 depends_on = [144]
 acceptance_criteria = [
   "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
@@ -840,6 +886,7 @@ milestone = "feature_complete"
 status = "pending"
 title = "WS auth flow (sign-in msg / header / query param)"
 scores = { d = 4, b = 7, u = 8 }
+markers = ["parallel"]
 depends_on = [144]
 acceptance_criteria = [
   "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
@@ -857,6 +904,7 @@ milestone = "feature_complete"
 status = "pending"
 title = "Heartbeat / ping-pong pattern per exchange"
 scores = { d = 3, b = 6, u = 7 }
+markers = ["parallel"]
 depends_on = [144]
 acceptance_criteria = [
   "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
@@ -876,6 +924,7 @@ milestone = "feature_complete"
 status = "pending"
 title = "Channel → parse handler dispatch tables"
 scores = { d = 4, b = 7, u = 7 }
+markers = ["parallel"]
 depends_on = [144]
 acceptance_criteria = [
   "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
@@ -963,18 +1012,33 @@ id = 97
 phase = 16
 bundle = "16-currency"
 milestone = "feature_complete"
-status = "pending"
+status = "done"
 title = "Currency aliases (commonCurrencies) + network info"
 scores = { d = 3, b = 7, u = 8 }
 depends_on = [144]
 acceptance_criteria = [
-  "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+  "`markets.currencies` appears (map or explicit null) in every emitted exchange JSON",
+  "For priority exchanges that populate networks, sample entries contain non-empty networks sub-maps (fee/limits/precision)",
+  "`info` (currency-level and per-network) is stripped from the derived value",
+  "No new mix task; load_markets already uses TaskScope (post-144)",
+  "Currencies.derive/1 is pure and returns nil on missing/empty (matches SymbolsIndex/SymbolPatterns contract)",
+  "mix ccxt_extract.determinism_check (scoped) and contract_test pass",
+  "SCHEMA.md + CHANGELOG.md + rmap render updated"
 ]
 cross_repo = [{ repo = "ccxt_client", task_id = 60, relation = "blocks" }]
 body = """
 Currency aliases (`commonCurrencies`) + network info per exchange.
+
+Extends the load_markets QuickBEAM capture to also return the runtime `ex.currencies`
+(after `loadMarkets()`). Derives a compact `markets.currencies` surface (code → record
+with `networks`) under the v4 Markets group. `info` blobs are stripped for size;
+consumers needing raw vendor payloads can still reach the static describe scaffold or
+call `fetchCurrencies()` live. Unblocks ccxt_client Task 60 (replace hand-rolled aliases,
+unlock deposit/withdraw + Transaction network handling).
 """
+implemented = "markets.currencies derived from runtime ex.currencies after loadMarkets(); per-code metadata + networks, info stripped (currency-level and per-network); DiscoveryLoader/Pipeline/Schema/Provenance/SCHEMA.md/CHANGELOG updated; unit tests cover nil/empty/wrapper/non-map edge shapes"
 scored_at = "2026-05-14"
+done_at = "2026-05-19"
 
 [[task]]
 id = 98

@@ -131,8 +131,6 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task 125 | 🔶 | 🎁 **sibling-emit** · Secondary OpenRPC emitter for JSON-RPC exchanges (Deribit first) [D:3/B:3/U:2 → Eff:0.83] ⚠️ |
 | Task 119 | ⬜ | 🎁 **scope-hygiene** · mix ccxt_extract.prune — evict out-of-scope local state [D:4/B:5/U:4 → Eff:1.12] 📋 |
 | Task 120 | ⬜ | 🎁 **scope-hygiene** · Tier-scope-aware skip for authenticated_sections + sign_recipe cached tests [D:3/B:3/U:3 → Eff:1.0] 📋 |
-| Task 121 | ⬜ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Extract unified-method descriptors from CCXT TS — TS signature + JSDoc overlay [D:6/B:7/U:8 → Eff:1.25] 📋 |
-| Task 122 | ⬜ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Schema block + unified_method_descriptors_shape_valid contract-test invariant [D:3/B:4/U:5 → Eff:1.5] 🚀 |
 | Task 139 | ⬜ | 🎁 **docs-drift** · Reconcile AGENTS.md cloud-agent guidance with retired [CSR]/[CX] strategy [D:2/B:3/U:3 → Eff:1.5] 🚀 |
 | Task 140 | ⬜ | 🎁 **test-coverage** · Add pipeline-level integration tests for endpoint_cost_binding propagation [D:3/B:4/U:4 → Eff:1.33] 📋 |
 | Task 138 | ⬜ | 🎁 **det-contract** · Extract JsonIO.write_json!/2,3 + a deterministic_write contract invariant [D:4/B:4/U:3 → Eff:0.88] ⚠️ |
@@ -215,10 +213,12 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 <!-- TASKS:BEGIN phase=12 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 78c `[P]` | ⬜ | 🎁 **12-simple** · 🚀 **feature_complete** · parseOHLCV hybrid Array.isArray exchanges (gate, possible binance options-fallback) [D:5/B:4/U:4 → Eff:0.8] ⚠️ |
-| Task 78d `[P]` | ⬜ | 🎁 **12-simple** · 🚀 **feature_complete** · parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin) [D:5/B:4/U:4 → Eff:0.8] ⚠️ |
-| Task 78f `[P]` | ⬜ | 🎁 **12-simple** · 🚀 **feature_complete** · parseOHLCV discriminator vocabulary beyond market.inverse [D:3/B:4/U:4 → Eff:1.33] 📋 |
-| Task 135 | ⬜ | 🎁 **12-simple** · 🚀 **feature_complete** · ticker.ex normalization-vocab alignment [D:2/B:4/U:5 → Eff:2.25] 🎯 |
+| Task 121 | ⬜ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Extract unified-method descriptors from CCXT TS — TS signature + JSDoc overlay [D:6/B:7/U:8 → Eff:1.25] 📋 |
+| Task 122 | ⬜ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Schema block + unified_method_descriptors_shape_valid contract-test invariant [D:3/B:4/U:5 → Eff:1.5] 🚀 |
+| Task 78c `[P]` | ⬜ | 🎁 **parse-ohlcv** · 🚀 **feature_complete** · parseOHLCV hybrid Array.isArray exchanges (gate, possible binance options-fallback) [D:5/B:4/U:4 → Eff:0.8] ⚠️ |
+| Task 78d `[P]` | ⬜ | 🎁 **parse-ohlcv** · 🚀 **feature_complete** · parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin) [D:5/B:4/U:4 → Eff:0.8] ⚠️ |
+| Task 78f `[P]` | ⬜ | 🎁 **parse-ohlcv** · 🚀 **feature_complete** · parseOHLCV discriminator vocabulary beyond market.inverse [D:3/B:4/U:4 → Eff:1.33] 📋 |
+| Task 135 | ⬜ | 🎁 **ticker-normalization** · 🚀 **feature_complete** · ticker.ex normalization-vocab alignment [D:2/B:4/U:5 → Eff:2.25] 🎯 |
 <!-- TASKS:END -->
 
 Type-coercion tables fold into each per-type task (not standalone) — one task covers its type's field map + coercion + enums together so it fits in a session.
@@ -250,10 +250,10 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 <!-- TASKS:BEGIN phase=15 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 91 | ⬜ | 🎁 **15-msg** · 🚀 **feature_complete** · WS subscribe / unsubscribe message shape per channel [D:5/B:8/U:8 → Eff:1.6] 🚀 |
-| Task 92 | ⬜ | 🎁 **15-msg** · 🚀 **feature_complete** · WS auth flow (sign-in msg / header / query param) [D:4/B:7/U:8 → Eff:1.88] 🚀 |
-| Task 93 | ⬜ | 🎁 **15-msg** · 🚀 **feature_complete** · Heartbeat / ping-pong pattern per exchange [D:3/B:6/U:7 → Eff:2.17] 🎯 |
-| Task 94 | ⬜ | 🎁 **15-dispatch** · 🚀 **feature_complete** · Channel → parse handler dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 91 `[P]` | ⬜ | 🎁 **15-msg** · 🚀 **feature_complete** · WS subscribe / unsubscribe message shape per channel [D:5/B:8/U:8 → Eff:1.6] 🚀 |
+| Task 92 `[P]` | ⬜ | 🎁 **15-msg** · 🚀 **feature_complete** · WS auth flow (sign-in msg / header / query param) [D:4/B:7/U:8 → Eff:1.88] 🚀 |
+| Task 93 `[P]` | ⬜ | 🎁 **15-msg** · 🚀 **feature_complete** · Heartbeat / ping-pong pattern per exchange [D:3/B:6/U:7 → Eff:2.17] 🎯 |
+| Task 94 `[P]` | ⬜ | 🎁 **15-dispatch** · 🚀 **feature_complete** · Channel → parse handler dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 95a `[P]` | ⬜ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — orderbook [D:5/B:8/U:8 → Eff:1.6] 🚀 |
 | Task 95b `[P]` | ⬜ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — trades [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 95c `[P]` | ⬜ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — OHLCV [D:4/B:7/U:7 → Eff:1.75] 🚀 |
@@ -271,7 +271,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 <!-- TASKS:BEGIN phase=16 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 97 | ⬜ | 🎁 **16-currency** · 🚀 **feature_complete** · Currency aliases (commonCurrencies) + network info [D:3/B:7/U:8 → Eff:2.5] 🎯 |
+| Task 97 | ✅ | 🎁 **16-currency** · 🚀 **feature_complete** · Currency aliases (commonCurrencies) + network info [D:3/B:7/U:8 → Eff:2.5] 🎯 |
 | Task 98 | ⬜ | 🎁 **16-currency** · 🚀 **feature_complete** · Precision mode + tick/step derivation semantics [D:3/B:6/U:7 → Eff:2.17] 🎯 |
 | Task 99 | 🔶 | 🎁 **16-fees** · Tiered fee schedules + VIP level mapping [D:4/B:4/U:3 → Eff:0.88] ⚠️ |
 | Task 99b | 🔶 | 🎁 **16-fees** · Funding / withdrawal / deposit fee catalog [D:4/B:4/U:3 → Eff:0.88] ⚠️ |

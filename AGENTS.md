@@ -17,8 +17,21 @@ Removing complexity is the priority. When in doubt: delete the old path, don't w
 - Breaking changes do not require a deprecation period — the sole consumer
   (`../ccxt_client/`) takes one coordinated migration.
 
+## Delivery target — `feature_complete` milestone
+
+**v4 schema cut: ✅ shipped 2026-05-18.** The active milestone is now **`feature_complete`** — run `rmap milestones` for the live count. Definition: every pending task in the contract-defining phases (9 override infra, 11 request, 12 response, 13 error, 15 WS, 16 currency) + the method-descriptors bundle + the infrastructure tasks that gate them.
+
+**Why this milestone is the goal.** Closing `feature_complete` ends ccxt_extract's mission for `../ccxt_client/`. After it lands, ccxt_client can freeze the v4 JSON it consumes and treat further ccxt_extract releases as **optional regenerations against new CCXT versions**, not a live dependency. The architecture supports this — `ccxt_extract` is a generator, not an ingestion runtime; the JSON it emits is a static, schema-pinned contract that ccxt_client can fork, vendor, or own outright once the milestone closes.
+
+**How to pick the next task.** Use `rmap next --milestone feature_complete`. **It filters dep-blocked tasks**, so the visible list is "pickable now" not "the whole milestone" — `rmap list --status pending --milestone feature_complete` is the full inventory. **Task 144 (TaskScope helper) and Task 97 (markets.currencies + networks) shipped**, unblocking the WS bundle (91, 92, 93, 94, 95a, 95b, 95c) plus precision (98) and the method-descriptors pair (121, 122). The 🎯-tier visible queue is now: **135** (ticker.ex normalization, Eff 2.25), **98** (precision modes, 2.16), **93** (WS heartbeats, 2.16), then **92** (WS auth, 1.87). The WS bundle is dispatchable in parallel worktrees (marked `+parallel`).
+
+**Scope discipline.** `feature_complete`'s membership is **exclusion-driven** — blocked / superseded / pure-hygiene tasks stay out by design. Push back on proposals to add new contract-surface tasks unless a priority consumer (typically `../ccxt_client/`) has surfaced a concrete need; the milestone is a *ceiling*, not a backlog. Infrastructure / hygiene tasks join only when they gate an existing milestone task (the pattern Task 144 set, where 11 downstream tasks gained `depends_on = [144]` + an enforcement acceptance criterion).
+
 ## Standard imports
 
+Grouped per `~/.claude/setup-guide.md` (Elixir Library + Volt + Reach template). Each include earns its token cost — niche Hex packages and behavioral rules the model can't recall reliably from training.
+
+### Behavioral / cross-instance
 <!-- @-import: ~/.claude/includes/across-instances.md -->
 ## A Message Across Instances
 
@@ -138,7 +151,7 @@ If below tier, raise coverage **first** — write the missing tests, confirm the
 - Pure renames (variable, function, module — no behavior change)
 - Typo fixes in strings, log messages, error messages
 
-**Why:** mutating poorly-tested code is how regressions ship. The gate is a "do I have a safety net before I touch this?" check. Writing the missing tests first also surfaces the module's actual contract — which often changes the implementation you were about to write.
+The gate is a "do I have a safety net before I touch this?" check; writing the missing tests also surfaces the module's actual contract.
 
 **How to apply:**
 1. Run `mix test.json --cover --quiet --output /tmp/cov.json` (or `--cover-threshold 80` for a hard exit).
@@ -241,9 +254,7 @@ end
 
 **When our hooks flag issues on files you touched, just fix them — including pre-existing flags unrelated to your change.** Don't plan around it, don't ask permission, don't burn tokens discussing whether to. Hook fires → fix → re-run → stage.
 
-Applies to every hook-driven check (credo, format, dialyzer, doctor, sobelow, ex_dna, etc.). Scope is **only the files your change touched** — not the whole project.
-
-**Why:** debt accumulates across sessions. A touched file that ends dirtier than baseline makes the next session noisier; over time "zero issues" becomes "hundreds of issues." User pre-approves the broader scope so each fix doesn't need a clarifying question.
+Applies to every hook-driven check (credo, format, dialyzer, doctor, sobelow, ex_dna, etc.). Scope is **only the files your change touched** — not the whole project. User pre-approves the broader scope so each fix doesn't need a clarifying question; debt accumulates across sessions otherwise, and a touched file ending dirtier than baseline makes the next session noisier.
 
 **How to apply:**
 - Pre-existing flags in your touched file count too: alias ordering, unused vars, refactor opportunities, `TODO:` formatting.
@@ -287,7 +298,6 @@ When a task says "define unified data structs," the scope is ALL structs the sys
 
 You have no consumer telemetry. No usage counts. No signal about whether a feature will be called 12 times or 1200 times. So phrases like *"demand for this is unproven"*, *"we should wait until N consumers ask for this"*, *"is this widely needed?"*, *"only worth doing if a Nth+ use case is imminent"* are **risk-aversion theater**, not analysis. They sound rigorous; they're hedging.
 
-**Why this fails:**
 - In single-developer codebases or focused teams, the developer IS the demand signal. They asked. That's the data point.
 - "Wait for usage data" is a corporate-flavored instinct that doesn't apply to small teams. There's no telemetry pipeline; there's the user in front of you.
 - It gaslights the user: their request is reframed as "unproven need" requiring further validation. They have to argue for what they already asked for.
@@ -406,7 +416,7 @@ False technical claims cascade into bad architectural decisions, wasted resource
 - Anything already in the project's codebase or in hex docs you've already pulled in this session
 - Anything explicitly documented in a CLAUDE.md or include the user has imported
 
-**Why:** training-bias overconfidence on niche specs ships off-by-one byte-order bugs, wrong opcode gas costs, malformed RLP encodings, miscounted signature recovery IDs — exactly the class of bug that "just check the reference impl" catches in 30 seconds. Speculating from memory burns more time downstream (debugging the wrong assumption) than the fetch costs upfront. Source-citing also lets the user verify the basis instead of trusting model authority.
+Training-bias overconfidence on niche specs ships off-by-one byte-order bugs, wrong opcode gas costs, malformed RLP encodings, miscounted signature recovery IDs — exactly the class of bug a 30-second reference-impl check catches. Cite the source so the user can verify instead of trusting model authority.
 
 **How to apply:**
 1. Notice the trigger — you're about to assert behavior in one of the "research proactively" categories.
@@ -508,32 +518,45 @@ git worktree prune
 
 To start working in a new worktree, open a fresh Claude Code session in that directory: `claude` from `~/_DATA/worktrees/<repo>/<id>/`.
 
-## After PR Merge — Run `audit-review`
+## After PR Merge — `audit-review` Is Deferred
 
-After the PR merges to the default branch, `staged-review:audit-review` runs against the merge SHA. Catches hygiene drift (extractions, doc gaps, missing TODO markers, ROADMAP/CHANGELOG drift) that pre-commit `code-review` may have skipped under time pressure. The skill writes `.audit/<merge-sha>.md` reports + lands one `audit(...)` commit on the default branch.
+`staged-review:audit-review` catches hygiene drift (extractions, doc gaps, missing TODO markers, ROADMAP/CHANGELOG drift) that pre-commit `code-review` may have skipped, writes `.audit/<sha>.md` reports, and lands one `audit(...)` commit on the default branch.
 
-**Auto-invoked post-merge.** Two invocation paths:
-
-1. **Auto-merge path** — `commit-review` Step 15 already chains `Skill(audit-review) <merge-sha>^..<merge-sha>` immediately after `gh pr merge`. Nothing extra to do.
-2. **User-merge path** — when the user merges manually (any PR, cloud-agent or self-authored), the same session runs `audit-review` against the merge SHA in the next step.
+**Not chained off `gh pr merge`.** The post-merge tail ends at branch cleanup. The `staged-review` plugin's SessionStart hook (`check-unaudited-commits.sh`, ≥3 unaudited threshold) surfaces accumulated tails next session:
 
 ```
-# After `gh pr merge` lands (auto or manual):
-git checkout <default-branch> && git pull
-Skill(audit-review)  # arguments: <merge-sha>^..<merge-sha>
+/staged-review:audit-status        # read-only snapshot of unaudited commits per branch
+Skill(audit-review) <range>        # batched audit over the accumulated range
 ```
 
-**Manual override:** `/audit-review [<sha>|<range>]` for catch-up audits, batch passes, or compliance asks.
+`<range>` is typically `<last-audit-sha>..<default-branch-HEAD>` — one batched pass covers all merge SHAs since the last audit.
+
+**Manual override:** `/staged-review:audit-review [<sha>|<range>]` for catch-up audits, batch passes, or compliance asks.
 
 **Tiny-commit fast path.** For commits ≤100 LOC AND no `lib/` (or language equivalent) touched, the skill skips Codex dispatch and writes a `verdict: clean — fast-path` report. No separate skip flag needed; if every commit in the range is fast-path-eligible, the audit is cosmetic and ends in seconds.
 
-**Why post-merge, not post-pr-create.** Three reasons. (a) Bots (CodeRabbit, Copilot, Codex's GitHub bot) run between PR-open and merge — auditing pre-bot means re-auditing if bots flag substantive findings. (b) The audit commit lands on the default branch where it's durable; running pre-merge would land it on a soon-to-be-deleted feature branch. (c) `.audit/<merge-sha>.md` becomes the canonical inspection artifact for the merged change set, indexed off the SHA that's actually in `main` history.
+**Why deferred, not chained.** Bots (CodeRabbit, Copilot, Codex's GitHub bot) run between PR-open and merge, so auditing pre-bot risks re-auditing. The audit commit lands on the default branch where it's durable. Batching N merges into one pass is strictly cheaper than N synchronous passes, and `.audit/<sha>.md` artifacts indexed off merge SHAs in default-branch history remain the canonical inspection surface.
+
+## PR Auto-Merge — Set It When You Open
+
+When opening a PR from a worktree, immediately wire up GitHub-native auto-merge:
+
+```bash
+gh pr create --title "..." --body "..."
+gh pr merge <N> --auto --squash --delete-branch
+```
+
+GitHub holds the merge until all required checks pass (CI green + `block-merge-gate / gate` clean — i.e. no `[BLOCK-MERGE]` label present) AND no requested-changes review state. No Claude / cloud-agent invocation pre-merge — the gate is GH-native.
+
+**To hold a PR for manual review before merging:** `gh pr edit <N> --add-label "BLOCK-MERGE"`. Remove the label to release.
+
+Full adoption guide: `plugins/staged-review/templates/auto-merge.md` (branch protection setup, `block-merge-gate.yml`, optional auto-undraft action).
 
 ## Lifecycle — Cleanup Is Part of Completion
 
 **The work isn't done until the worktree is gone.**
 
-Cleanup trigger: PR merged to base, or feature branch deleted from remote.
+Cleanup trigger: PR merged to base (auto-merge fires from § "PR Auto-Merge"), or feature branch deleted from remote.
 
 ```bash
 # Same session that completes the PR merge:
@@ -577,10 +600,11 @@ A project can opt out of the worktree workflow by pinning a memory file under `~
 - `~/.claude/CLAUDE.md` § "Worktree-Per-Branch Workflow" — the rule pointer
 - `~/.claude/includes/critical-rules.md` § "NEVER COMMIT WITHOUT EXPLICIT REQUEST" — the relaxed rule for tracked worktrees
 - `~/.claude/includes/delegation-rules.md` — strict rules that stay strict (cloud-agent branches); auto-merge loosened for cloud-agent PRs
-- `~/.claude/includes/task-prioritization.md` § "Parallel Work (`[P]`)" — when ROADMAP-tracked work uses worktrees
+- `~/.claude/includes/task-prioritization.md` § "Parallel Work (`parallel` marker)" — when roadmap-tracked work uses worktrees
 - `staged-review:audit-review` skill — the post-merge hygiene pass
 
 
+### Workflow / roadmap
 <!-- @-import: ~/.claude/includes/task-prioritization.md -->
 ## Task Prioritization Framework
 
@@ -594,9 +618,9 @@ Each `[[task]]` in `roadmap/tasks.toml` carries `scores = { d, b, u }`. `rmap` c
 
 | Eff | Tier |
 |-----|------|
-| > 2.0 | 🎯 Exceptional ROI — do immediately |
-| 1.5–2.0 | 🚀 High ROI — do soon |
-| 1.0–1.5 | 📋 Good ROI — plan carefully |
+| ≥ 2.0 | 🎯 Exceptional ROI — do immediately |
+| 1.5–<2.0 | 🚀 High ROI — do soon |
+| 1.0–<1.5 | 📋 Good ROI — plan carefully |
 | < 1.0 | ⚠️ Poor ROI — reconsider or defer |
 
 `rmap` applies these exact tier thresholds; a `scored_at` older than 30 days renders an `Eff:W?` decay suffix.
@@ -645,7 +669,7 @@ Mark independent tasks with the `parallel` marker (`rmap mark <id> +parallel`, o
 
 ### Ceremony Floor — When NOT to Open a Task
 
-**Scope:** applies to **review-surface findings** (`staged-review:commit-review`, `staged-review:code-review`). Discoveries during `/research`, `/plan`, or implementation follow the discovery-capture rules (file via `rmap new`) — not this floor.
+**Scope:** applies to **review-surface findings** (`staged-review:code-review` pre-commit; `staged-review:audit-review` post-merge). Discoveries during `/research`, `/plan`, or implementation follow the discovery-capture rules (file via `rmap new`) — not this floor.
 
 Findings during code review or PR review have a ceremony floor below which they are NEVER tracked as `rmap` tasks. The roadmap-as-queue earns its overhead only when work spans sessions; an inline `defp` extraction does not.
 
@@ -668,6 +692,25 @@ Findings during code review or PR review have a ceremony floor below which they 
 
 **Cross-references (delegation flows only — applies if `delegation.md` is imported):** push-back-vs-fix-locally calculus is in `agent-pr-review.md` § "Push-Back-vs-Fix-Locally Matrix by Agent". Hard rule against pushing to cloud-agent branches is in `delegation-rules.md` § "NEVER PUSH TO A CLOUD-AGENT'S BRANCH".
 
+### Refine, Don't Duplicate — Before `rmap new`
+
+When new information arrives about work that's already on the roadmap (clearer requirements, refined acceptance criteria, additional edge cases, a discovered constraint), **update the existing pending task** — do not open a new one. `rmap new` is for **new scope**, not for **spec refinement** of pending work.
+
+**Required check before every `rmap new`:** scan pending tasks in the same bundle/topic (`rmap list --status pending`, or grep `roadmap/tasks.toml`). If one covers the same surface area, edit its `body` / `acceptance_criteria` / `out_of_scope` / `scores` in place. New task ONLY when the work could ship as an independent PR alongside the existing one. Duplicates fragment context, leave the original stale, and break the "queue, not log" invariant that makes `rmap next` trustworthy.
+
+**Heuristic — refinement vs new scope:**
+
+| Signal                                                          | Action                       |
+|-----------------------------------------------------------------|------------------------------|
+| Same bundle, same user-visible outcome, sharper requirements    | Edit existing                |
+| Same bundle, same outcome, adds an edge case or constraint      | Edit existing (`acceptance_criteria`) |
+| Same bundle, but ships as a separable follow-up PR              | New task, link with `depends_on` |
+| Different bundle or different user-visible outcome              | New task                     |
+| Bug against a **pending** task's surface (unclaimed)            | Edit existing (add to `acceptance_criteria`) — not a new bug task |
+| Bug against a **claimed/in-flight** task's surface              | Don't mutate the spec mid-flight — push back to the agent (see `agent-pr-review`) or file a follow-up task |
+
+When in doubt: edit. A spec that grew is easier to read than a roadmap that doubled.
+
 ### Task Descriptions as Prompts
 
 A task's `body` field should be a prompt for Claude Code (WHAT to accomplish), not an implementation spec (HOW). Let Claude research the codebase. Avoid code examples (they rot). Capture success criteria as `acceptance_criteria`. See `task-writing.md` for detail.
@@ -678,7 +721,9 @@ A task in `roadmap/tasks.toml`:
 
 ```toml
 [[task]]
+id = 42
 phase = 2
+bundle = "realtime"
 status = "pending"
 title = "Add WebSocket reconnection"
 scores = { d = 3, b = 9, u = 9 }   # rmap computes Eff 3.0 → 🎯
@@ -713,7 +758,7 @@ The `ROADMAP.md` marker-pair contract (`<!-- TASKS:BEGIN -->` etc.) lives in `rm
 
 ### Scope
 
-Applies to **ROADMAP.md, task lists, changelogs, cross-instance docs**. Does NOT apply to `/plan` files (single-task session blueprints, consumed by the same instance that wrote them).
+Applies to **`roadmap/tasks.toml`, task lists, cross-instance docs**. Does NOT apply to `/plan` files (single-task session blueprints, consumed by the same instance that wrote them).
 
 **Cross-instance docs** optimize for durability: prompt-style, vague enough to survive codebase changes. **Plan mode files** are the opposite — specific (exact paths, function names, line numbers) because the research just happened and will be used immediately.
 
@@ -771,6 +816,7 @@ Author tasks with `rmap new --from-stdin` (TOML on stdin, atomic batch):
 rmap new --from-stdin <<'TOML'
 [[task]]
 phase = 2
+bundle = "auth"
 title = "Add user authentication"
 scores = { d = 5, b = 9, u = 8 }
 body = "Add email/password auth with session tokens. Users register, log in, access protected routes. Hash passwords with bcrypt."
@@ -803,20 +849,26 @@ This file is the **decision layer** — *which* command, *when*. The authoritati
 
 | Intent | Command |
 |---|---|
-| Read one task / many | `rmap show <id> [--json]` · `rmap list --status\|--phase\|--marker\|--bundle [--json]` |
-| Pick the next task | `rmap next [--marker M] [--bundle B] [--count N] [--json]` |
+| Read one task / many | `rmap show <id> [--json]` · `rmap list --status\|--phase\|--marker\|--bundle\|--milestone [--json]` |
+| Pick the next task | `rmap next [--marker M] [--bundle B] [--milestone V] [--count N] [--json]` |
 | Pick a session-sized bundle | `rmap next-bundle [--json]` · `rmap bundles` to discover them |
-| Change status | `rmap status <id> <pending\|in_progress\|blocked\|done\|superseded>` (bulk `1,2,3` atomic) |
+| List release lines / pin to a release | `rmap milestones [--has-next\|--status\|--json]` · `rmap milestone <id> <name\|none>` |
+| Change status | `rmap status <id> <pending\|in_progress\|blocked\|done\|superseded> [--implemented "..."]` (bulk `1,2,3` atomic; `done` requires `implemented`) |
 | Toggle a marker | `rmap mark <id> +parallel -cx` |
 | Add a dependency | `rmap depend <id> on <id>` |
-| Create task(s) | `rmap new --from-stdin` (TOML on stdin, atomic batch) — see `task-writing.md` |
+| Create task(s) | `rmap new --from-stdin` (TOML on stdin, atomic batch, full field set per `rmap schema`) — see `task-writing.md`. Interactive `rmap new` covers the common subset; reach for `--from-stdin` when interactive doesn't prompt for a field you need. |
 | Format a task as a cloud-agent prompt | `rmap delegate <id> --to claude\|codex\|cursor` |
+| Migrate a hand-edited ROADMAP.md | `rmap import` |
 | See what changed vs a git ref | `rmap diff [--verbose] [--json]` |
 | Health signals (soft, always exit 0) | `rmap doctor [--json]` |
 | Strict gates (pre-commit / CI) | `rmap validate` · `rmap validate --check-render` |
 | Render after editing tasks.toml directly | `rmap render` (or `rmap watch` for live re-render) |
 
 All mutators **validate-then-write**: an invalid mutation leaves `tasks.toml` byte-equal to its prior state. `--json` envelopes on the read commands are append-only stable surfaces.
+
+### Batches are derived, not declared
+
+`rmap next-bundle` returns a session-sized **bundle** — a set of related pending tasks. A *batch* is a finer-grained slice of that bundle: the executor groups bundle tasks by `depends_on` into successive layers of disjoint work (per `workflow-philosophy.md` § "Batched Execution"). There is no `rmap batch` command — batch derivation is the executor's job, not the source-of-truth's. Hierarchy: phase ⊇ bundle ⊇ batch ⊇ task.
 
 ### D/B/U mapping
 
@@ -830,22 +882,39 @@ Set scores in `tasks.toml` (via `rmap new` or editing the file); never hand-form
 
 ### Status & marker vocabulary
 
-- **status:** `pending | in_progress | blocked | done | superseded` — transitions go through `rmap status`. `blocked` requires a `blocked_reason`.
+- **status:** `pending | in_progress | blocked | done | superseded` — transitions go through `rmap status`. `blocked` requires a `blocked_reason`; `done` requires `implemented` (set inline via `--implemented "..."`, or pre-populated in `tasks.toml`; on a TTY without the flag, `rmap status` prompts). For bulk `rmap status 1,2,3 done`: the mutation is atomic — if any task is missing `implemented` AND no `--implemented` flag is given AND we're not on a TTY, the whole batch is rejected; `--implemented "..."` applies the same string to every task in the batch.
 - **markers:** `parallel | cx | csr | bug | security | docs` — `parallel` is the old `[P]`; `cx` / `csr` are the Codex / Cursor delegation markers.
+- **milestone status:** `pending | active | done` — distinct vocabulary from task status. Flip by hand-editing `[milestones.<name>].status` (no mutator yet); `active` milestones sort first in `rmap milestones` and are the load-bearing affordance for the "what release am I cutting next?" query.
+
+### Milestones — first-class release lines
+
+`[milestones.<name>]` is a fourth top-level concept alongside phases / bundles / markers. **Phase** orders work, **bundle** groups topically, **markers** modify execution, **milestone** pins a task to a release line. Milestones cross phases by design: a `v1.0` cut typically pulls from several phases.
+
+- Author the table in `tasks.toml`: `[milestones.v0_1] name = "..." order = N status = "active" target_version = "0.1.0"`. `target_version` is optional free-text.
+- Pin a task: `rmap milestone <id> v0_1` (or set `milestone = "v0_1"` directly). Unpin: `rmap milestone <id> none`. One milestone per task.
+- Discovery: `rmap milestones` (table view with done/total counts + next-task glyph + active-first sort); `rmap milestones --json` for the agent envelope.
+- Drive a release line: `rmap next --milestone v0_1` returns the next pending task in that release; composes with `--bundle`, `--phase`, `--marker`. Without an explicit `--milestone`, `rmap next` automatically biases toward tasks pinned to any `active` milestone — analogous to the existing focus-phase bias. **Focus phase dominates** milestone when the two diverge (4-tier lexicographic: focus-only > active-milestone-only); pass `--milestone <name>` to override the auto-bias to a different release.
+- `rmap delegate` surfaces the milestone in `## Context` as `- Milestone: v0_1 (target=0.1.0)` so the target agent knows which release ships their work.
+- `rmap render` adds a conditional `🚀 **<milestone>** ·` segment to the task row in `ROADMAP.md` — rows without a milestone render byte-identically to before.
+
+### `body` vs `implemented`
+
+- `body` = original task definition / intent (never mutated after creation — the spec at scoping time).
+- `implemented` = what was actually built and why (required when `status = "done"`; `rmap show` renders both side-by-side as `body (original intent):` / `implemented (what shipped):` when present together). For trivial tasks where delivery matched the spec, `implemented = "as specified in body"` is honest and durable.
+
+### Pinning an LLM model per task
+
+`model = "<model-id>"` on a `[[task]]` records which LLM should do the work — free-text, unvalidated (model IDs churn). `rmap delegate` surfaces it as a `- Model:` bullet in the prompt's `## Context` so the target agent knows which model to run. Settable at creation via `rmap new` (interactive + `--from-stdin`) or a direct edit. Distinct from `assignee` (who owns it) and `rmap delegate --to` (which agent *environment*).
 
 ### Migrating a hand-edited ROADMAP.md
 
-rmap has no `import` command yet — migration is a one-time manual pass:
-
-1. Author `roadmap/tasks.toml` from the existing markdown: `schema_version = 1`, `project`, `default_branch`, `[phases.N]` tables, `[bundles.<name>]` if used, one `[[task]]` per task with `scores`, `status`, `title`, and `body` / `acceptance_criteria` carried from the prose.
-2. Replace the hand-maintained task tables in `ROADMAP.md` with marker pairs — `<!-- TASKS:BEGIN phase=N -->` … `<!-- TASKS:END -->` per phase (optional `<!-- FOCUS:BEGIN/END -->` and `<!-- MERMAID:BEGIN/END -->` pairs). Prose, headings, and links outside the markers are byte-preserved across every render.
-3. `rmap validate` → `rmap render` → diff-check the rendered `ROADMAP.md` against intent.
-4. Commit `roadmap/tasks.toml` + the marker-fied `ROADMAP.md` together.
+Run `rmap import` — it emits a paste-ready prompt that walks an agent through converting one or more hand-edited `ROADMAP.md` files into `roadmap/tasks.toml` (schema, marker pairs, validate → render → diff-check). One-time, LLM-driven; the prompt carries the detail so this include doesn't have to.
 
 ### Cross-references
 
 - `task-prioritization.md` — the D/B/U framework, tiers, ceremony floor, exclusions that rmap executes
 - `task-writing.md` — how to write a task's `body` / `acceptance_criteria`; the `rmap new --from-stdin` shape
+- `workflow-philosophy.md` § "Batched Execution" — canonical rule for the batch derivation referenced in § "Batches are derived, not declared"
 
 <!-- @-import: ~/.claude/includes/workflow-philosophy.md -->
 ## Workflow Philosophy
@@ -890,6 +959,33 @@ The done-signal between sessions is **staged-but-uncommitted**, not a commit. Th
 - **Implementer:** when tests pass and docs are updated, `git add` the final set and summarise what's staged. Do **not** `git commit`, even if the task "feels done" — that's the temptation the rule exists to stop.
 - **Reviewer (fresh session):** read the staged diff, run the review, stage no new code (the set being reviewed must be frozen); either approve + commit, or push back and let the original author amend the staged set in a follow-up.
 - **Exception:** the user explicitly says "commit it" in the implementer session. Global CLAUDE.md's "never commit without being asked" still governs — staging is the default handoff, not a permission to commit later.
+
+**Hand over a ready commit message.** Whenever you stop and a commit is the next step — the staged-but-uncommitted handoff above, a `⏸ CHECKPOINT`, or simply "the user will commit this" — include a ready one-line commit message in your closing summary. The user (or the next session) should never have to replay chat history to reconstruct what the commit should say. One line, imperative mood, matching the repo's existing log style.
+
+### Batched Execution
+
+**A sequenced plan executes as successive *batches* of disjoint work, with `/compact` rendered as explicit STOP checkpoints between batches — first-class markers, not prose.** This generalizes what `agent-dispatch` already does for delegation batches: the same disjoint-work + `/compact`-between pattern, lifted from the delegation-specific context into a general execution rule.
+
+**When this applies (threshold-gated).** Batched structure is for genuine multi-batch work: a plan with ≥3 batches, or a multi-file migration / phased feature whose file count would blow the context window run start-to-finish. A 2-step plan needs neither fan-out nor checkpoints — the ceremony costs more than it saves. Below the threshold, plan and execute in the main session normally.
+
+**What a batch is.** A batch is a set of work items with no unmet dependency among them — mutually disjoint, runnable simultaneously. Batches are *derived, not declared*: given a task set (e.g. an `rmap next-bundle` result), group it by `depends_on` into successive batches. A task set with no internal dependencies is a single batch. (Hierarchy: phase ⊇ bundle ⊇ batch ⊇ task.)
+
+**Batches nest inside a phase — they don't replace it.** Session-Per-Phase still holds: each *phase* runs in a fresh session with file-artifact handoffs. A *batch* is an in-session sub-structure within one phase's work. `⏸ CHECKPOINT` / `/compact` is the lightweight in-session boundary between batches; the fresh-session handoff stays the heavier boundary between phases. Phase > batch.
+
+**Rule 1 — disjoint work in a batch fans out to subagents.** A batch's items are disjoint by construction, so dispatch them to parallel subagents instead of running them sequentially in the main session. Constraints (per the agents docs):
+
+- Subagents that touch files use `isolation: worktree` — parallel edits collide otherwise.
+- Subagents return a *summary*, not a dump — every result lands back in main context.
+- **Subagents cannot spawn subagents** — a batch's fan-out is always orchestrated from the main session.
+- For a *uniform, mechanical* batch (one instruction describes every item), `/batch` is the native single-batch executor (worktree-isolated fan-out, one PR per item). `/batch` covers one batch, not the inter-batch structure.
+
+**Rule 2 — `/compact` is a first-class STOP checkpoint between batches.** Between batches, render an explicit marker — not a prose sentence the reader must notice:
+
+    ⏸ CHECKPOINT — batch N complete, /compact before batch N+1
+
+At the marker: finish the batch, one-line status, then **STOP**. Hand back so the user can `/compact` and signal continue. A checkpoint is a *planned* pause, not a clarification ask — compatible with "work without stopping for questions". If the batch closes with a commit the agent isn't making itself, the checkpoint carries a ready one-line commit message (see § "Implementer / Reviewer Handoff").
+
+**Render both, structurally.** A genuinely multi-batch plan artifact shows the batches and `⏸ CHECKPOINT` markers as distinct elements. A sentence saying "you may want to compact between phases" does *not* satisfy the rule — the marker is a line of its own.
 
 ### Model Assumption Tagging
 
@@ -976,6 +1072,8 @@ web --profile "myapp" http://localhost:4000/protected-page
 | `--js CODE` | Run JS after page loads |
 | `--profile NAME` | Named session profile |
 
+
+### Elixir core
 <!-- @-import: ~/.claude/includes/elixir-setup.md -->
 ## Elixir Project Setup
 
@@ -1022,11 +1120,11 @@ defp deps do
     {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
     {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
     {:ex_doc, "~> 0.40", only: :dev, runtime: false},
-    {:doctor, "~> 0.22", only: [:dev, :test], runtime: false},
+    {:doctor, "~> 0.23", only: [:dev, :test], runtime: false},
     {:tidewave, "~> 0.5", only: :dev},
     {:bandit, "~> 1.10", only: :dev},      # non-Phoenix only
     {:ex_dna, "~> 1.3", only: [:dev, :test], runtime: false},
-    {:ex_ast, "~> 0.11", only: [:dev, :test], runtime: false},
+    {:ex_ast, "~> 0.12", only: [:dev, :test], runtime: false},
     {:descripex, "~> 0.6"},                # full dep — macros expand at compile time
     {:api_toolkit, "~> 0.1"}               # API services only
   ]
@@ -1522,7 +1620,7 @@ Elixir has no true visibility modifier on `def`. These markers communicate "not 
 **Mandate: every function gets a `@spec` — `def` and `defp` alike.** No exceptions for "trivial" helpers; the spec is one line and pins the contract Dialyzer can't always infer (e.g. `integer() | float()` vs the narrower `integer()` you actually meant).
 
 - **Why mandate, not "publics-only" (the community default):** community default optimizes for team-onboarding cost — irrelevant here. Solo-dev library portfolio with Credo strict + Dialyzer in CI on every repo. Cost is one line per function; payoff is Dialyzer pointing at the spec mismatch (fast) instead of a downstream call site three layers away (slow). Domain is signing / wallet / wire-format code where binary-length, hex-vs-binary, and union-narrowing bugs are exactly what specs on `defp` catch.
-- **CI enforcement:** in `.credo.exs`, configure `{Credo.Check.Readability.Specs, [include_defp: true]}`. **The Credo default is `include_defp: false`** (verified against `rrrene/credo` master and HexDocs as of 2026-05) — publics-only. We override to `true` because the mandate covers every function. Doctor's spec-coverage gate handles publics; this Credo check closes the gap on privates.
+- **CI enforcement:** in `.credo.exs`, configure `{Credo.Check.Readability.Specs, [include_defp: true]}`. The Credo default is `include_defp: false` (publics-only). We override to `true` because the mandate covers every function. Doctor's spec-coverage gate handles publics; this Credo check closes the gap on privates.
 - **Placement:** `@spec` line goes immediately above the `def` / `defp`, after `@doc` / `@doc false`.
 - **The one trade-off:** macro-generated `defp` functions can trip the Credo check. Suppress per-callsite with `# credo:disable-for-next-line Credo.Check.Readability.Specs` rather than dropping `include_defp` back to `false`.
 
@@ -1622,6 +1720,8 @@ The schema **is** the macro's public contract. Adding a knob requires changing t
 - Prefer surgical fixes. The real bug is usually narrow (one ambiguous case colliding with another shape's branch). The surgical fix — accept both shapes, explicitly reject the one ambiguous combination — is almost always correct over the "while we're here, let's only accept canonical" cleanup.
 - If you must broaden scope, propose it explicitly: "I can fix the narrow bug, OR I can tighten the contract to canonical-only — the second breaks N internal callers. Which?"
 
+
+### JS/TS on the BEAM (Volt ecosystem)
 <!-- @-import: ~/.claude/includes/elixir-volt.md -->
 ## Elixir-Volt: JavaScript on the BEAM Without Node.js
 
@@ -1631,9 +1731,9 @@ The [elixir-volt](https://github.com/elixir-volt) ecosystem — Node.js replacem
 
 | Package | Hex | Purpose | Detail |
 |---|---|---|---|
-| `oxc` | `~> 0.7` | Parse, transform, bundle, minify JS/TS (Rust NIF) | `oxc.md` |
-| `quickbeam` | `~> 0.10` | Run JS on the BEAM — browser APIs, DOM, fetch, crypto, WebSocket, WASM (Zig NIF) | `quickbeam.md` |
-| `npm` | `~> 0.5` | Install npm packages, resolve deps, verify integrity | Pure Elixir |
+| `oxc` | `~> 0.13` | Parse, transform, bundle, minify, format, lint JS/TS (Rust NIFs) | `oxc.md` |
+| `quickbeam` | `~> 0.10.13` | Run JS on the BEAM — browser APIs, DOM, fetch, crypto, WebSocket, WASM (Zig NIF) | `quickbeam.md` |
+| `npm` | `~> 0.7.4` | Install npm packages, resolve deps, verify integrity, supply-chain hardening (OSV checks, exotic-dep allowlist, registry policy, package-age warnings) | Pure Elixir — `npm-*.md` |
 | `npm_semver` | `~> 0.1` | npm-compatible semver | Pure Elixir |
 
 **Phoenix frontend packages:** `volt` (build tool / dev server / HMR — replaces Vite), `oxide_ex` (Tailwind Oxide via Rust NIF), `vize_ex` (Vue SFC compiler), `phoenix_vapor` (Vue templates → LiveView rendered structs).
@@ -1683,7 +1783,7 @@ For API details, usage, recipes, and pitfalls, see `oxc.md` and `quickbeam.md`.
 
 Rust NIF bindings for the [OXC](https://oxc.rs) toolchain. Parses, transforms, minifies, and bundles JS/TS on the BEAM — no Node.js.
 
-**Min version: `{:oxc, "~> 0.10"}`.** The atom-keyed AST contract: `:type`/`:kind` values are snake_case atoms (`:import_declaration`, not `"ImportDeclaration"`); error tuples are `{:error, [%{message: String.t()}]}`; bang functions raise `OXC.Error`. Surface includes `OXC.codegen/1,!`, `OXC.bind/2`/`splice/3` (placeholder templating), `OXC.transform_many/2` (parallel via rayon), `OXC.Format` (oxfmt as a separate Rust NIF), `OXC.Lint` (oxlint's 650+ rules plus custom Elixir rules via `OXC.Lint.Rule`), and the `:external` bundle option.
+**Min version: `{:oxc, "~> 0.13"}`.** The atom-keyed AST contract: `:type`/`:kind` values are snake_case atoms (`:import_declaration`, not `"ImportDeclaration"`); error tuples are `{:error, [%{message: String.t()}]}`; bang functions raise `OXC.Error`. Surface includes `OXC.codegen/1,!`, `OXC.bind/2`/`splice/3` (placeholder templating), `OXC.transform_many/2` (parallel via rayon), `OXC.Format` (oxfmt as a separate Rust NIF — Prettier-compatible, ~30× faster, ships `:sort_imports` and `:sort_tailwindcss` plugins), `OXC.Lint` (oxlint's 650+ rules plus custom Elixir rules via `OXC.Lint.Rule`), and the full Rolldown bundle option surface (`:external`, `:exports`, `:preserve_entry_signatures`, `:conditions`, `:main_fields`, `:modules`, `:module_types`, `:cwd`). `OXC.bundle/2` accepts either a filesystem entry path (string) or a virtual `[{filename, source}]` project. The low-level `OXC.Native` NIF surface is public (rarely needed — use the `OXC` wrapper).
 
 **Does NOT cover:** runtime JS execution (→ QuickBEAM), installing npm packages (→ `mix npm.install`), frontend build + HMR (→ Volt).
 
@@ -1776,7 +1876,7 @@ OXC.splice(ast, :body, ["const x = 1;", "return x;"]) |> OXC.codegen!()
 
 ### Format
 
-`OXC.Format` wraps oxfmt (the OXC formatter, separate Rust NIF `oxc_fmt_nif`). Prettier-compatible output defaults; no Node.js needed.
+`OXC.Format` wraps oxfmt (the OXC formatter, separate Rust NIF `oxc_fmt_nif`). Prettier-compatible output, ~30× faster.
 
 ```elixir
 {:ok, "const x = 1 + 2;\nfunction foo(a, b) {\n  return a + b;\n}\n"} =
@@ -1785,7 +1885,38 @@ OXC.splice(ast, :body, ["const x = 1;", "return x;"]) |> OXC.codegen!()
 formatted = OXC.Format.run!(source, "t.ts")   # bang variant — raises OXC.Error
 ```
 
-Options mirror Prettier-ish knobs (`print_width`, `tab_width`, `use_tabs`, `single_quote`, `trailing_comma`, `semi`). `oxc_fmt_nif` ships precompiled for aarch64/x86_64 glibc + darwin — **no musl builds**, so on Alpine you'll compile from source (Rust toolchain required).
+**Prettier-ish options:** `:print_width` (default 80), `:tab_width` (2), `:use_tabs` (false), `:semi` (true), `:single_quote` (false), `:jsx_single_quote` (false), `:trailing_comma` (`:all`), `:bracket_spacing` (true), `:bracket_same_line` (false), `:arrow_parens` (`:always`), `:end_of_line` (`:lf`), `:quote_props` (`:as_needed`), `:single_attribute_per_line` (false), `:object_wrap` (`:preserve` | `:collapse`), `:experimental_operator_position` (`:start` | `:end`), `:experimental_ternaries` (false), `:embedded_language_formatting` (`:auto` | `:off`).
+
+**`:sort_imports`** — `true` for defaults, or a map of sub-options. Groups, orders, and dedupes import declarations:
+
+```elixir
+OXC.Format.run!(source, "t.ts",
+  sort_imports: %{
+    ignore_case: true,        # case-insensitive sorting (default)
+    sort_side_effects: false, # leave `import "x"` alone (default)
+    order: :asc,              # :asc | :desc
+    newlines_between: true,   # blank lines between groups
+    partition_by_newline: false,
+    partition_by_comment: false,
+    internal_pattern: ["~/", "@/"]  # prefixes treated as internal imports
+  })
+```
+
+**`:sort_tailwindcss`** — `true` for defaults, or a map. Sorts class names to Tailwind's recommended order:
+
+```elixir
+OXC.Format.run!(source, "App.tsx",
+  sort_tailwindcss: %{
+    config: "tailwind.config.js",  # v3 config path
+    stylesheet: "app.css",         # v4 stylesheet path
+    functions: ["clsx", "cn"],     # function names containing classes
+    attributes: ["className"],     # extra attrs to sort
+    preserve_whitespace: false,
+    preserve_duplicates: false
+  })
+```
+
+`oxc_fmt_nif` ships precompiled for aarch64/x86_64 glibc + darwin — **no musl builds**, so on Alpine you'll compile from source (Rust toolchain required).
 
 ### Transform Many
 
@@ -1808,7 +1939,7 @@ Each result is `{:ok, code}`, `{:ok, %{code:, sourcemap:}}` (with `sourcemap: tr
 ### Bundle
 
 ```elixir
-# Bundle multiple TS/JS modules — :entry is REQUIRED
+# Virtual project — list of {filename, source} tuples; :entry REQUIRED
 {:ok, js} = OXC.bundle(
   [
     {"event.ts", event_source},
@@ -1817,15 +1948,26 @@ Each result is `{:ok, code}`, `{:ok, %{code:, sourcemap:}}` (with `sourcemap: tr
   entry: "target.ts"
 )
 
+# Filesystem entry — first arg is a real path (string), resolves packages
+# from :cwd (or the file's directory). :entry is NOT used in this mode.
+{:ok, js} = OXC.bundle("priv/js/app.ts", cwd: File.cwd!())
+
 # Full options
-{:ok, js} = OXC.bundle(files,
-  entry: "main.ts",          # REQUIRED — entry module filename from files
+{:ok, js} = OXC.bundle(input,
+  entry: "main.ts",          # virtual-project entry filename (omit for filesystem path input)
+  cwd: File.cwd!(),          # project dir — resolves packages for filesystem entries
   format: :iife,             # :iife (default) | :esm | :cjs
   minify: true,
   treeshake: true,           # remove unused exports
   preamble: "const { ref } = Vue;",  # code injected at top of IIFE body
   external: ["react", "scheduler"],  # preserve as `import` in output (bare ESM
                                      # specifiers auto-detect; this is for cases auto-detect misses)
+  exports: :auto,            # :auto | :default | :named | :none
+  preserve_entry_signatures: :strict,  # :strict | :allow_extension | :exports_only | false
+  conditions: ["browser", "import", "default"],  # package export conditions for the resolver
+  main_fields: ["browser", "module", "main"],    # package.json fields for resolution
+  modules: ["node_modules"],                     # module directories
+  module_types: %{".css" => :empty, ".ttf" => :dataurl},  # per-extension loader
   banner: "/* v1.0 */",
   footer: "/* end */",
   define: %{"process.env.NODE_ENV" => ~s("production")},
@@ -1835,6 +1977,10 @@ Each result is `{:ok, code}`, `{:ok, %{code:, sourcemap:}}` (with `sourcemap: tr
   target: "es2020"
 )
 ```
+
+**`:module_types` loaders:** `:js`, `:jsx`, `:ts`, `:tsx`, `:json`, `:text`, `:base64`, `:dataurl`, `:binary`, `:empty`, `:css`, `:asset`. Use `:empty` to stub out CSS/font imports that the bundler doesn't need to process.
+
+**Filesystem vs virtual:** virtual projects (`[{filename, source}]`) are best for tests, generated sources, and the esbuild-style "load this exact string" use case. Filesystem entries (`"path/to/entry.ts"`) resolve packages through `node_modules` via `:cwd` — closes the gap the README pattern in this repo previously fills with `npx esbuild`.
 
 ### Imports
 
@@ -2055,7 +2201,7 @@ end
 | Property key access fails | Keys can be identifier or literal | `p.key.name \|\| p.key.value` |
 | Wrong file extension | Extension picks parser | `.ts`, `.tsx`, `.js`, `.jsx` |
 | Y-combinator forgotten | Anon fns can't self-recurse | Pass `fn` as arg |
-| `bundle/2` empty | Missing `:entry` | `:entry` is required |
+| `bundle/2` empty | Missing `:entry` (virtual project) | `:entry` is required when input is `[{filename, source}]`; omit it when input is a filesystem path string |
 | `transform_many`/`bundle` arg order reversed | `transform_many` is `{source, filename}`; `bundle` is `{filename, source}` | Remember: bundle files are virtual project *files* (filename first); transform inputs are *sources* being labeled |
 | `OXC.bind` `FunctionClauseError` | Passed a map `%{v: ...}` | Bindings must be a keyword list `[v: ...]` |
 | TS types vanish after `codegen` roundtrip | `codegen` emits JS, not TS | Expected — codegen is not an identity function on TS |
@@ -2086,9 +2232,9 @@ Rust NIF, CPU-bound. For batch transform, prefer `OXC.transform_many/2` (rayon t
 
 QuickJS-NG as a Zig NIF. Each runtime is a GenServer with a persistent JS context — run JS libraries, bridge Elixir↔JS bidirectionally. No Node.js.
 
-**Min version: `{:quickbeam, "~> 0.10.11"}`.** Requires `oxc ~> 0.12` (atom-keyed AST — see `oxc.md`). Ships `QuickBEAM.Cover` (JS line coverage via `mix test --cover`), `Beam.XML.parse` (xmerl), and a default `max_stack_size` of 8MB. Vendored C symbols are hidden in the native library, so QuickBEAM can be loaded alongside other Zig/C NIFs without symbol collisions.
+**Min version: `{:quickbeam, "~> 0.10.13"}`.** Requires `oxc ~> 0.13.0` (atom-keyed AST — see `oxc.md`). Ships `QuickBEAM.Cover` (JS line coverage via `mix test --cover`), `Beam.XML.parse` (xmerl), and a default `max_stack_size` of 8MB. The bundler exposes oxc's `module_types` per-extension loader option. Vendored C symbols are hidden in the native library, so QuickBEAM can be loaded alongside other Zig/C NIFs without symbol collisions.
 
-**`npm_ex` is optional.** QuickBEAM does not pull `npm_ex` into your dep tree. The runtime / `eval` / `call` / `load_module` path works without it. Add `{:npm, "~> 0.7"}` to your own `mix.exs` only when you actually need `mix npm.install`, lockfile resolution, or browser-bundle hot-loading. The public `QuickBEAM.JS` surface (`parse`, `transform`, `minify`, `bundle`, `bundle_file`) does NOT depend on npm.
+**`npm_ex` is optional.** QuickBEAM does not pull `npm_ex` into your dep tree. The runtime / `eval` / `call` / `load_module` path works without it. Add `{:npm, "~> 0.7.4"}` to your own `mix.exs` only when you actually need `mix npm.install`, lockfile resolution, or browser-bundle hot-loading. The public `QuickBEAM.JS` surface (`parse`, `transform`, `minify`, `bundle`, `bundle_file`) does NOT depend on npm.
 
 **Does NOT cover:** static JS/TS analysis (→ OXC), installing npm packages (→ `mix npm.install`), frontend builds (→ Volt).
 
@@ -2408,6 +2554,8 @@ WAMR-backed, standard JS `WebAssembly` API — `Module`, `Instance`, `Memory`, `
 <!-- @-import: ~/.claude/includes/npm-ci-verify.md -->
 ## npm_ex CI/CD & Installation Verification
 
+**Min version: `{:npm, "~> 0.7.4"}`.**
+
 Reproducible builds. The tools form a pipeline — each checks a different layer.
 
 ### Verification Stack
@@ -2433,9 +2581,9 @@ mix npm.verify     # node_modules ↔ lockfile
 ### Programmatic API
 
 ```elixir
-:ok = NPM.CI.preflight()        # lockfile + package.json exist?
-:ok = NPM.CI.validate()         # full CI validation
-true = NPM.CI.needs_clean?()    # needs rebuild?
+:ok = NPM.Install.CI.preflight()        # lockfile + package.json exist?
+:ok = NPM.Install.CI.validate()         # full CI validation
+true = NPM.Install.CI.needs_clean?()    # needs rebuild?
 
 {:ok, lockfile} = NPM.Lockfile.read()
 [] = NPM.Verify.check("node_modules", lockfile)     # (path, lockfile) — path first
@@ -2452,8 +2600,11 @@ NPM.Lockfile.has_package?("ccxt", "path/to/npm.lock")
 
 - `Lockfile.read/0` returns `{:ok, map}` — unwrap before passing downstream. #1 mistake.
 - `Verify.check/2` is `(path, lockfile)` — path first. `@spec check(String.t(), map())`.
-- `CI.needs_clean?/0` returning `true` means "reinstall needed," not "broken."
+- `Install.CI.needs_clean?/0` returning `true` means "reinstall needed," not "broken."
 - `npm.install --frozen` and `npm.ci` both fail on stale lockfiles. `npm.ci` additionally wipes `node_modules` first.
+- `mix npm.run` / `mix npm.exec` propagate non-zero exit codes — don't wrap them expecting silent failure.
+- `npm.lock` records the dependency security policy; `--frozen` fails on locks written under a weaker policy. Policy-less lockfiles (no policy section at all) install cleanly.
+- `--frozen` checks `optionalDependencies` for drift alongside regular deps.
 
 ### npm.lock vs npm-shrinkwrap.json
 
@@ -2469,12 +2620,14 @@ def project, do: [compilers: [:npm | Mix.compilers()], ...]
 
 Runs `NPM.install()` during compile — useful when npm packages are needed at compile time (e.g., loading a browser bundle).
 
+
+### Static analysis
 <!-- @-import: ~/.claude/includes/reach.md -->
 ## Reach: Program Dependence Graph for Elixir
 
 Builds PDG/SDG from Elixir, Erlang, Gleam, or compiled BEAM. Backward/forward slicing, taint analysis, independence checks, dead-code detection, OTP state-machine analysis, `mix reach` HTML viz.
 
-**Min version: `{:reach, "~> 2.3"}`.** Requires `ex_ast ~> 0.11.2` at the dep level. Optional `:boxart, "~> 0.3.3"` for terminal `--graph` rendering.
+**Min version: `{:reach, "~> 2.4"}`.** Requires `ex_ast ~> 0.12.0` at the dep level. Optional `:boxart, "~> 0.3.3"` for terminal `--graph` rendering.
 
 **Canonical CLI — five commands:** `mix reach.map` (project view), `reach.inspect TARGET` (target-local), `reach.trace` (taint + slicing), `reach.check` (CI gates), `reach.otp` (process / state-machine analysis). `TARGET` accepts `Module.function/arity` or `file:line`.
 
@@ -2752,6 +2905,34 @@ Start from `examples/reach.exs` in the Reach repo. Reach itself ships a root `.r
 
 Custom pattern checks via the ExAST-backed DSL: `use Reach.Smell.PatternCheck`, `smell ~p[<source pattern>]`. Guarded patterns: `from(~p[...]) |> where(...)`. Pipes, operators, function calls, and module attributes all work with the `~p` sigil; pattern checks share a zipper cache across modules. The `piped()` selector predicate distinguishes form — `where(piped())` matches only `|>` calls, `where(not piped())` matches only direct calls. Useful when a pattern means different things in pipe vs direct form (e.g. `Regex.replace` where the piped subject is the regex argument vs the source string).
 
+### Framework Smell Plugins
+
+`mix reach.check --smells` runs framework-specific checks contributed by plugins. Auto-activate when the host package is in the dep tree (same `Code.ensure_loaded?/1` gate as the other plugin built-ins):
+
+- **Phoenix** — LiveView lifecycle mistakes (e.g. `assign_new` misuse, raw HTML interpolation), socket-assigns shape drift.
+- **Ecto** — query pitfalls (cross-join surfaces, missing pinning), unsafe SQL interpolation in `fragment/1`, money-like `:float` field declarations.
+- **Oban** — `args` shape pitfalls (mixed atom/string keys, non-JSON-encodable values).
+- **Security / source** — unsafe dynamic atom creation (`String.to_atom/1` on untrusted input), unsafe `:erlang.binary_to_term/1`, missing `@external_resource` declarations on macros that read files, conservative Ecto cross-join detection.
+
+Real-world false positives in these checks have been narrowed against open-source Elixir corpora — Phoenix raw HTML, LiveView `assign_new`, and Oban `args` checks are intentionally conservative.
+
+**Source smell DSL.** Define custom checks with `use Reach.Smell.Check.Source` and the `smell/4` macro. AST callback rules with `mode: :ast` cover hot source-shape checks that need custom matching beyond the `~p` sigil. ExAST selectors compile to source prefilters automatically, so hot pattern scans skip unrelated files cheaply; prefilters route through `Reach.Smell.PatternConfig` / `Reach.Smell.SourceRunner`.
+
+**Custom plugin smells.** Plugins register checks via the `Reach.Plugin.smell_checks/0` callback (part of the `Reach.Plugin` behaviour). Projects can also load custom smell modules from `.reach.exs`. Plugin smells run only when their host plugin is active — never auto-discovered as generic built-ins.
+
+### Smell Corpus & Profiling Tooling
+
+For tuning new smell checks against real codebases:
+
+```bash
+mix run scripts/smell_corpus_scan.exs      # repeatable scans across external repos
+                                           # (plugin and kind filters supported)
+mix run scripts/profile_smells.exs         # per-check, per-pattern, per-query profiling
+                                           # against the current project or an external repo
+```
+
+Both live in the Reach repo (not shipped as `mix` tasks) — clone Reach to use them.
+
 ### Advisory Refactoring Candidates
 
 `mix reach.check --candidates` and `mix reach.inspect TARGET --candidates` surface graph-backed suggestions:
@@ -2840,6 +3021,11 @@ defmodule MyPlugin do
   # Teach the effect classifier about framework calls.
   @impl true
   def classify_effect(_node), do: nil                    # :pure | :read | :write | :io | :send | nil
+
+  # Register framework-specific smell checks. Each module must use
+  # Reach.Smell.Check.Source (or .AST) and is wired into `mix reach.check --smells`.
+  @impl true
+  def smell_checks, do: []
 end
 ```
 
@@ -2877,12 +3063,31 @@ Limitation: cross-language edges only form when the JS source is a **literal** a
 ### Dependencies
 
 ```elixir
-{:reach, "~> 2.3", only: [:dev, :test], runtime: false},
+{:reach, "~> 2.4", only: [:dev, :test], runtime: false},
 {:boxart, "~> 0.3.3", only: [:dev, :test], runtime: false}   # terminal --graph rendering
 ```
 
-Requires `ex_ast ~> 0.11.2` at the dep level. Pulls in `libgraph`. Optional companion deps: `jason`, `makeup`, `makeup_elixir`, `makeup_js` (HTML viz), `boxart` (terminal). For the JS frontend + cross-language plugin, add `{:quickbeam, "~> 0.10.11"}` — the plugin activates automatically when QuickBEAM is in the dep tree.
+Requires `ex_ast ~> 0.12.0` at the dep level. Pulls in `libgraph`. Optional companion deps: `jason`, `makeup`, `makeup_elixir`, `makeup_js` (HTML viz), `boxart` (terminal). For the JS frontend + cross-language plugin, add `{:quickbeam, "~> 0.10.13"}` — the plugin activates automatically when QuickBEAM is in the dep tree.
 
+
+## Plugins & MCP
+
+**Project-scope plugins** (`.claude/settings.json`, committed — visible to anyone cloning the repo):
+
+| Plugin | Purpose |
+|---|---|
+| `elixir@deltahedge` | Elixir skills + agents (hex-docs-search, integration-testing, dialyzer-json, ex-unit-json, usage-rules, npm-* suite, reach, etc.) |
+| `elixir-workflows@deltahedge` | Mix / ExUnit / dev workflow commands; `workflow-generator` skill |
+
+Universal-core plugins (code-simplifier, feature-dev, claude-md-management, hookify, remember, git-commit, staged-review, task-driver, cloud-delegation, dev-lifecycle, codex) load at user scope and apply here implicitly — don't re-declare. New stack-specific plugins go in `.claude/settings.json`. See `~/.claude/plugin-catalog.md` for the picker.
+
+**MCP servers** (`.mcp.json`, committed):
+
+| Server | Endpoint | Purpose |
+|---|---|---|
+| `tidewave` | `http://localhost:4002/tidewave/mcp` | Runtime exploration via `mcp__tidewave__*` — `project_eval`, `get_logs`, `get_source_location`, `get_docs`, `search_package_docs`. Started by `mix tidewave` (or `iex -S mix tidewave`). |
+
+Tidewave port for this repo is 4002 (see `~/.claude/tidewave-ports.md` registry). Restart Claude Code if `.mcp.json` changes.
 
 ---
 
@@ -2915,7 +3120,7 @@ Neither tool alone is sufficient. `contract_test` cross-validates the two (e.g.,
 
 ### Per-exchange JSON pipeline
 
-Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v3.json`. Provenance is explicit — every emitted JSON carries a flat top-level `_provenance` map keying each section (by RFC 6901 JSON Pointer) to `raw`/`derived`/`override`. Override *reasons* live in the `priv/overrides/<id>.json` entry, not inline in the emitted payload.
+Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v4.json`. The v4 top-level groups are `endpoints`, `auth`, `errors`, `rate_limits`, `normalization`, `markets`, `testnet`, and `raw` (consumer-shaped, not producer-shaped — see `SCHEMA.md` for the full path-migration table). Provenance is explicit — every emitted JSON carries a flat top-level `_provenance` map keying each section (by RFC 6901 JSON Pointer) to `raw`/`derived`/`override`. Override *reasons* live in the `priv/overrides/<id>.json` entry, not inline in the emitted payload.
 
 **Both paths are gitignored derived state.** `priv/output/` and `priv/discoveries/*` are not tracked in git — they're regenerated per CCXT release and would otherwise bloat the repo (~1GB of JSON per full-universe run, already accumulated 827MB in `.git`). The one exception is `priv/discoveries/class_hierarchy.json`, which `lib/ccxt_extract/tiers.ex` reads at compile time via `@external_resource` and must remain committed. Fresh clones materialize the rest via `mix setup`; external consumers via `mix ccxt_extract.update --output DIR`.
 
@@ -3027,7 +3232,7 @@ mix ccxt_extract.update --tier1 --output /path/to/consumer/ccxt
 # assemble only (discoveries → output/)
 mix ccxt_extract.pipeline
 
-# validate outputs against priv/schema/exchange_v3.json
+# validate outputs against priv/schema/exchange_v4.json
 mix ccxt_extract.validate
 
 # cross-extractor invariants (QuickBEAM vs OXC)

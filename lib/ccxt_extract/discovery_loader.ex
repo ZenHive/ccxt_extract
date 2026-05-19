@@ -206,8 +206,15 @@ defmodule CcxtExtract.DiscoveryLoader do
     case JsonIO.read_json(path) do
       {:ok, data} ->
         case validate_expected_id(path, "id", id, data["id"]) do
-          :ok -> {:ok, id, %{"market_count" => data["market_count"], "markets" => data["markets"]}}
-          {:id_mismatch, detail} -> {:id_mismatch, id, detail}
+          :ok ->
+            # currencies added in Task 97 (runtime ex.currencies after loadMarkets).
+            # Old discovery files (pre-97) will lack the key; treat as nil so
+            # Pipeline produces explicit null for markets.currencies (two-state contract).
+            currencies = Map.get(data, "currencies")
+            {:ok, id, %{"market_count" => data["market_count"], "markets" => data["markets"], "currencies" => currencies}}
+
+          {:id_mismatch, detail} ->
+            {:id_mismatch, id, detail}
         end
 
       {:error, {:missing_input, _}} ->

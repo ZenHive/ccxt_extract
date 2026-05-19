@@ -11,6 +11,11 @@ defmodule CcxtExtract.LoadMarkets do
   Output is one JSON file per successful exchange in `priv/discoveries/load_markets/`,
   plus a manifest at `priv/discoveries/load_markets/_manifest.json`.
 
+  As of Task 97 each entry also carries a `"currencies"` key (populated from
+  the exchange instance after `loadMarkets()`). This is the runtime-enriched
+  map with per-currency `networks` info (the static `describe().currencies`
+  scaffold is already available via the separate describe extractor).
+
   ## Usage
 
       {:ok, results} = CcxtExtract.LoadMarkets.extract()
@@ -48,7 +53,16 @@ defmodule CcxtExtract.LoadMarkets do
     try {
       const ex = new ccxt[id]();
       const markets = await ex.loadMarkets();
-      return JSON.stringify({ok: true, markets: _prepare(markets), market_count: Object.keys(markets).length});
+      // currencies is populated as a side-effect of loadMarkets() (Task 97).
+      // We capture the runtime-enriched version (with networks) rather than the
+      // static describe().currencies scaffold. _prepare strips __function refs.
+      const currencies = ex.currencies || {};
+      return JSON.stringify({
+        ok: true,
+        markets: _prepare(markets),
+        currencies: _prepare(currencies),
+        market_count: Object.keys(markets).length
+      });
     } catch(e) {
       return JSON.stringify({ok: false, error: e.message || String(e)});
     }
@@ -122,7 +136,8 @@ defmodule CcxtExtract.LoadMarkets do
            %{
              "id" => id,
              "market_count" => parsed["market_count"],
-             "markets" => parsed["markets"]
+             "markets" => parsed["markets"],
+             "currencies" => parsed["currencies"]
            }}
         else
           {:error, %{"id" => id, "error" => parsed["error"]}}
@@ -174,7 +189,8 @@ defmodule CcxtExtract.LoadMarkets do
         "id" => result["id"],
         "extracted_at" => extracted_at,
         "market_count" => result["market_count"],
-        "markets" => result["markets"]
+        "markets" => result["markets"],
+        "currencies" => result["currencies"]
       }
 
       File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(output), pretty: true))

@@ -63,10 +63,12 @@ Every per-exchange JSON file has exactly these top-level keys (**all required, n
 | `errors` | object | `handle_errors`, `class_hierarchy`, `status_map`, `retry_classification`, `dispatch` |
 | `rate_limits` | object | `buckets`, `per_endpoint_cost`, `endpoint_cost_binding` |
 | `normalization` | object | `parse_methods_digest`, `field_maps`, `response_envelopes` |
-| `markets` | object | `symbols_index`, `patterns`, `currencies` (planned), `precision_mode` (planned) |
+| `markets` | object | `symbols_index`, `patterns`, `currencies` (Task 97), `precision_mode` (Task 98 planned) |
 | `testnet` | object | Structured testnet / sandbox URL catalog |
 | `raw` | object | Raw passthroughs — `describe`, `url_templates`, `class_info`, `method_inventory`, `overrides_meta` |
 | `_provenance` | ProvenanceMap | Per-path source tags (raw / derived / override) |
+
+`markets.currencies` (Task 97) is the compact runtime view: unified code → `{precision, networks, ...}` with `info` stripped. `null` when the exchange had no load_markets data or the discovery predates the capture. Networks unlock deposit/withdraw + tx modeling in consumers.
 
 ### Two-State Optionality
 

@@ -745,10 +745,11 @@
     },
     "Markets": {
       "type": "object",
-      "description": "Markets surface. Initial v4 mirrors v3 runtime markets fields; future tasks add currencies (Task 97) and precision_mode (Task 98) if shipped by cut.",
+      "description": "Markets surface. symbols_index + patterns are the compact derived views (Task 117). currencies (Task 97) carries per-code metadata + networks from the runtime loadMarkets() side-effect. precision_mode (Task 98) is planned.",
       "required": [
         "symbols_index",
-        "patterns"
+        "patterns",
+        "currencies"
       ],
       "additionalProperties": false,
       "properties": {
@@ -773,6 +774,66 @@
             }
           ],
           "description": "Was runtime.symbol_patterns in v3 (renamed for brevity)."
+        },
+        "currencies": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/Currency"
+              },
+              "description": "Unified currency code -> lightweight currency record (networks included, info stripped). Populated from runtime ex.currencies after loadMarkets() (Task 97)."
+            }
+          ],
+          "description": "Per-currency metadata + network catalog (Task 97)."
+        }
+      }
+    },
+    "Currency": {
+      "type": "object",
+      "description": "Lightweight currency record derived from runtime ex.currencies (Task 97). 'info' and per-network 'info' are stripped to keep payload size reasonable; consumers needing raw vendor details can use live fetchCurrencies() or inspect the static describe scaffold.",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": ["string", "null"],
+          "description": "Exchange-native currency id (often same as code)."
+        },
+        "code": {
+          "type": ["string", "null"],
+          "description": "CCXT unified currency code."
+        },
+        "precision": {
+          "type": ["number", "null"],
+          "description": "Precision for amounts of this currency."
+        },
+        "networks": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/NetworkInfo"
+          },
+          "description": "Network code -> network metadata (fee, limits, etc.). Empty object when the exchange does not surface per-network info via loadMarkets()."
+        }
+      }
+    },
+    "NetworkInfo": {
+      "type": "object",
+      "description": "Per-network details for a currency (subset of CCXT CurrencyInterface.networks values). 'info' stripped.",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": ["string", "null"]
+        },
+        "code": {
+          "type": ["string", "null"]
+        },
+        "fee": {
+          "type": ["number", "string", "null"]
+        },
+        "precision": {
+          "type": ["number", "null"]
         }
       }
     },

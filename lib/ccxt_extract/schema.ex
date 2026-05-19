@@ -156,7 +156,8 @@ defmodule CcxtExtract.Schema do
       "normalization" => normalization,
       "markets" => %{
         "symbols_index" => runtime_data["symbols_index"],
-        "patterns" => runtime_data["symbol_patterns"]
+        "patterns" => runtime_data["symbol_patterns"],
+        "currencies" => runtime_data["currencies"]
       },
       "testnet" => runtime_data["testnet_urls"] || CcxtExtract.TestnetUrls.none_record(),
       "raw" => %{

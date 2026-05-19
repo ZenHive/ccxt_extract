@@ -91,6 +91,7 @@ defmodule CcxtExtract.Provenance do
     /exchange/tier
     /markets/symbols_index
     /markets/patterns
+    /markets/currencies
     /testnet
     /auth/authenticated_sections
     /auth/sign_recipe

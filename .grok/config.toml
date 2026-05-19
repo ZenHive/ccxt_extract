@@ -1,0 +1,17 @@
+# Project-scoped MCP server configuration for Grok.
+# This complements the Claude-compatible .mcp.json at the repo root.
+# Native [mcp_servers] sections here take precedence.
+
+[mcp_servers.tidewave]
+# Started via: mix tidewave  (or the :tidewave alias in mix.exs)
+# Listens on the port registered for this repo in ~/.claude/tidewave-ports.md (4002)
+url = "http://localhost:4002/tidewave/mcp"
+type = "http"
+enabled = true
+headers = { "Accept-Encoding" = "identity" }
+
+# Add other project-specific MCP servers below as needed.
+# Example:
+# [mcp_servers.my-local-db]
+# command = "npx"
+# args = ["-y", "@modelcontextprotocol/server-postgres", "postgresql://..."]

@@ -19,6 +19,16 @@ Post-merge dual-reviewer audit (Claude + Codex) of the seven commits that landed
 - **Direct unit tests restored for `OverrideRegistry.translate_pointer/1`.** Seven table-driven cases cover the 20-entry `@v3_to_v4_pointer_prefixes` rewrite table (previously only the `/structure/authenticated_sections` prefix was exercised, via Pipeline integration tests).
 - **Doc + roadmap cleanup.** Provenance moduledoc Usage example uses `/auth/...`. ROADMAP.md "v4 schema-freeze plan" prose flipped to past tense / "(retired in Task 143)" annotations. `roadmap/tasks.toml` Task 90b body updated from "both v3 and v4 paths" to v4-only assertions. Per-commit audit reports written under `.audit/`.
 
+### Task 97 — `markets.currencies` + network info (Phase 16)
+
+- New `markets.currencies` surface under the v4 Markets group: per-unified-code records carrying `precision`, flags, and — crucially — the `networks` sub-map that powers deposit/withdraw network selection and `Transaction` network parsing in the consumer.
+- Extended the `load_markets` QuickBEAM capture (the only place that runs real `loadMarkets()`) to also return the runtime `ex.currencies` after the call. The static `describe().currencies` scaffold was already present via the describe extractor; the runtime one is the one with populated networks.
+- Pure derivation module `CcxtExtract.Currencies` (modeled on `SymbolsIndex`/`SymbolPatterns`) strips the heavy `info` blobs (both currency-level and per-network) to avoid the size explosion that caused us to retire the full markets snapshot (Task 117).
+- Backward-compatible with pre-97 discovery files (`currencies` absent → explicit `null` in output, preserving the two-state contract).
+- No new mix task; `load_markets` already used the TaskScope helper (post-144).
+- Schema, provenance, and round-trip validation updated. Unit tests + integration paths exercised.
+- Unblocks ccxt_client Task 60 (consume for alias replacement + network-aware WS/Transaction work).
+
 ### Task 144 — TaskScope hygiene (full OXC discovery surface migrated to parse_and_resolve!)
 
 - `handle_errors.ex`, `parse_methods.ex`, and `sign_methods.ex` now use the single `TaskScope.parse_and_resolve!(args)` path instead of duplicating the OptionParser + validation + `load_universe` + `resolve_scope!` + `to_manifest_value` preamble.

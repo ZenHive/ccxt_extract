@@ -34,7 +34,7 @@ defmodule Mix.Tasks.CcxtExtract.Methods do
 
   @impl true
   def run(args) do
-    {scope, tier_scope, opts} = TaskScope.parse_and_resolve!(args, [type: :string])
+    {scope, tier_scope, opts} = TaskScope.parse_and_resolve!(args, type: :string)
 
     types =
       case Keyword.get(opts, :type) do

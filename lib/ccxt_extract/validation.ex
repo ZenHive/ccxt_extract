@@ -1049,7 +1049,9 @@ defmodule CcxtExtract.Validation do
 
     case JsonIO.read_json(path) do
       {:ok, parsed} ->
-        {id, %{"market_count" => parsed["market_count"], "markets" => parsed["markets"]}}
+        # currencies added in Task 97; keep the loader shape in sync with DiscoveryLoader
+        currencies = Map.get(parsed, "currencies")
+        {id, %{"market_count" => parsed["market_count"], "markets" => parsed["markets"], "currencies" => currencies}}
 
       {:error, {:missing_input, _}} ->
         {id, nil}

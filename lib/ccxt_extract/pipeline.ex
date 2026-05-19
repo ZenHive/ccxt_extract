@@ -433,6 +433,7 @@ defmodule CcxtExtract.Pipeline do
       "describe" => describe,
       "symbols_index" => CcxtExtract.SymbolsIndex.derive(markets),
       "symbol_patterns" => CcxtExtract.SymbolPatterns.derive(markets, describe),
+      "currencies" => CcxtExtract.Currencies.derive(markets),
       "url_templates" => get_url_templates(id, data),
       "testnet_urls" => CcxtExtract.TestnetUrls.derive(describe),
       "request_headers" => get_request_headers(id, data)

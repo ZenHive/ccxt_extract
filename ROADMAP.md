@@ -143,7 +143,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task rate-limit-headers | 🔶 | 🎁 **superseded** · Rate-limit header extraction [D:7/B:3/U:3 → Eff:0.43] ⚠️ |
 | Task 142 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v4 cut — flip default emission and validation to v4 [D:4/B:9/U:9 → Eff:2.25] 🎯 |
 | Task 143 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v3 teardown — delete v3 and all schema_target plumbing [D:3/B:7/U:6 → Eff:2.17] 🎯 |
-| Task 144 | ⬜ | 🎁 **scope-hygiene** · 🚀 **feature_complete** · TaskScope.parse_and_resolve! accepts task-specific switches [D:2/B:5/U:6 → Eff:2.75] 🎯 |
+| Task 144 | ✅ | 🎁 **scope-hygiene** · 🚀 **feature_complete** · TaskScope.parse_and_resolve! accepts task-specific switches [D:2/B:5/U:6 → Eff:2.75] 🎯 |
 | Task 145 | ⬜ | 🎁 **maintenance** · Paths read/write split — tighten read-only writer modules [D:3/B:3/U:3 → Eff:1.0] 📋 |
 <!-- TASKS:END -->
 

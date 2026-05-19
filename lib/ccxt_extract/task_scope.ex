@@ -8,12 +8,17 @@ defmodule CcxtExtract.TaskScope do
   and maps errors into `Mix.raise`. This module is the canonical home for
   that plumbing so tasks don't diverge.
 
-  Typical use inside a Mix task:
+  Typical use inside a Mix task (preferred):
 
-      {opts, leftover, invalid} = OptionParser.parse(args, strict: @switches)
-      universe = CcxtExtract.TaskScope.load_universe()
-      scope = CcxtExtract.TaskScope.resolve_scope!(opts, universe)
-      tier_scope = CcxtExtract.Scope.to_manifest_value(opts)
+      {scope, tier_scope, opts} = CcxtExtract.TaskScope.parse_and_resolve!(args)
+      # or with task-specific switches:
+      # {scope, tier_scope, opts} = CcxtExtract.TaskScope.parse_and_resolve!(args, @extra, @aliases)
+
+  The one-liner replaces the previous duplicated preamble (OptionParser + manual
+  validation + load_universe + resolve_scope! + to_manifest_value). The OXC
+  discovery surface is fully on the helper; orchestration tasks (pipeline,
+  update, determinism_check, contract_test) intentionally still do their own
+  parsing for richer post-resolve dispatching.
   """
 
   alias CcxtExtract.Scope

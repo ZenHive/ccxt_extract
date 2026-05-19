@@ -19,6 +19,15 @@ Post-merge dual-reviewer audit (Claude + Codex) of the seven commits that landed
 - **Direct unit tests restored for `OverrideRegistry.translate_pointer/1`.** Seven table-driven cases cover the 20-entry `@v3_to_v4_pointer_prefixes` rewrite table (previously only the `/structure/authenticated_sections` prefix was exercised, via Pipeline integration tests).
 - **Doc + roadmap cleanup.** Provenance moduledoc Usage example uses `/auth/...`. ROADMAP.md "v4 schema-freeze plan" prose flipped to past tense / "(retired in Task 143)" annotations. `roadmap/tasks.toml` Task 90b body updated from "both v3 and v4 paths" to v4-only assertions. Per-commit audit reports written under `.audit/`.
 
+### Task 144 — TaskScope hygiene (full OXC discovery surface migrated to parse_and_resolve!)
+
+- `handle_errors.ex`, `parse_methods.ex`, and `sign_methods.ex` now use the single `TaskScope.parse_and_resolve!(args)` path instead of duplicating the OptionParser + validation + `load_universe` + `resolve_scope!` + `to_manifest_value` preamble.
+- All three drop their local `@switches` and `alias Scope`; error messages are now the standardized helper versions (tests use loose regexes, so no breakage).
+- The helper already supported extra switches + aliases (exercised by `load_markets`/`validate_markets`); this task simply eliminated the last three duplicative sites on the OXC discovery surface.
+- 11 downstream `feature_complete` tasks already carried the `depends_on = [144]` + enforcement AC, so future mix-task authors are gated.
+- All gates green: compile/dialyzer/credo, `oxc_scope_flags_test` (45/45), `contract_test`, `determinism_check --tier1` (behavior-identical).
+- Opportunistic follow-up (same session): the remaining OXC discovery tasks (`ws_methods`, `fetch_methods`, `methods` (with `--type`), and `classes` (intentionally discards narrowed scope)) were also migrated in the same pass. The OXC surface is now fully on the helper; only the richer orchestration tasks (pipeline, update, determinism_check, contract_test, etc.) still do their own parsing.
+
 ### Task 143 — v3 teardown (delete exchange_v3.json + all schema_target plumbing)
 
 - `priv/schema/exchange_v3.json` deleted.

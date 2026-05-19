@@ -650,7 +650,7 @@
       "eff": 1.33,
       "markers": [],
       "depends_on": [],
-      "body": "Renumbered from legacy ROADMAP Task 133 (audit-surfaced copy) at migration to resolve the duplicate-ID collision with the Phase 13 Task 133. Task 90 shipped unit-level coverage on `RateLimitCostBinding.derive/1`. Pipeline-level gap: end-to-end propagation through `Pipeline.build_exchange_data/3` → `Schema.build_exchange_v3/v4` → `priv/output/<id>.json` is only validated implicitly via `cached_test` suites. Add 3 focused tests against synthetic `rate_limit_buckets` fixtures: (a) wrapper with valid first bucket → both v3 and v4 `endpoint_cost_binding` populated identically; (b) wrapper with `unresolved_reason != nil` → both paths emit null; (c) wrapper missing entirely → parent fallback emits null without raising. Lives in `test/ccxt_extract/pipeline_test.exs`. Discovered 2026-05-09 by staged-review:audit-review on commit 28166a2 (Codex C5).\n",
+      "body": "Renumbered from legacy ROADMAP Task 133 (audit-surfaced copy) at migration to resolve the duplicate-ID collision with the Phase 13 Task 133. Task 90 shipped unit-level coverage on `RateLimitCostBinding.derive/1`. Pipeline-level gap: end-to-end propagation through `Pipeline.build_exchange_data/3` → `Schema.build_exchange/4` → `priv/output/<id>.json` is only validated implicitly via `cached_test` suites. Add 3 focused tests against synthetic `rate_limit_buckets` fixtures: (a) wrapper with valid first bucket → `rate_limits.endpoint_cost_binding` populated correctly; (b) wrapper with `unresolved_reason != nil` → emits null; (c) wrapper missing entirely → parent fallback emits null without raising. Lives in `test/ccxt_extract/pipeline_test.exs`. Discovered 2026-05-09 by staged-review:audit-review on commit 28166a2 (Codex C5). Task body refreshed 2026-05-19 by `audit-review` on commit fa64144 — original referenced `Schema.build_exchange_v3/v4` and \"both v3 and v4 paths\" which are obsolete post-Task-143.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
     },
@@ -1436,7 +1436,7 @@
       "phase": 0,
       "bundle": "scope-hygiene",
       "milestone": "feature_complete",
-      "status": "pending",
+      "status": "done",
       "title": "TaskScope.parse_and_resolve! accepts task-specific switches",
       "scores": {
         "d": 2,
@@ -1467,6 +1467,7 @@
       "body": "Most extraction mix tasks duplicate ~8 lines of preamble (OptionParser → universe → scope resolve → tier_scope). `TaskScope.parse_and_resolve!/1` at `lib/ccxt_extract/task_scope.ex:121-142` only covers tasks with no extra switches; tasks needing custom opts (e.g. `lib/mix/tasks/ccxt_extract/handle_errors.ex:49-61`) fall back to manual `OptionParser`, re-introducing every drift class the helper was meant to prevent (mishandled `--exchange`, missing `tier_scope`, lost fuzzy-suggestion behavior on typos).\n\nExtend the helper to accept task-specific switches — e.g. `parse_and_resolve!(args, extra_switches: [...])` returning `{scope, extra_opts}` so callers get back typed/validated custom switches. Migrate ~3 representative tasks (`handle_errors`, `parse_methods`, `sign_methods`) to validate the API shape. Document the pattern at the top of `TaskScope` so the next task author defaults into it.\n\nThen update the downstream-task specs that will plausibly add a new mix task: add `depends_on = [<this task id>]` and append an acceptance criterion (\"Mix task uses `TaskScope.parse_and_resolve!/2` — no direct `OptionParser.parse` call\") to tasks 91, 92, 93, 94, 95a, 95b, 95c, 97, 98, 121, 122. The spec updates are part of this task's deliverable — otherwise the helper exists but nothing forces the next implementer to use it.\n\nPlan: ~/.claude/plans/task-143-is-already-mellow-crystal.md\n",
       "created_at": "2026-05-19",
       "scored_at": "2026-05-19",
+      "implemented": "Migrated the final three OXC discovery tasks still using duplicated OptionParser preamble (handle_errors, parse_methods, sign_methods) to the single TaskScope.parse_and_resolve! path. Helper already supported extra_switches + aliases with {scope, tier_scope, opts} return; all 11 downstream milestone tasks already carried the depends_on + enforcement AC. Static analysis (compile/dialyzer/credo), oxc_scope_flags_test (45/45), and contract_test green.",
       "cross_repo": []
     },
     {

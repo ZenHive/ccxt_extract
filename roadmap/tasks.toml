@@ -1111,7 +1111,8 @@ id = 144
 phase = 0
 bundle = "scope-hygiene"
 milestone = "feature_complete"
-status = "pending"
+status = "done"
+implemented = "Migrated the final three OXC discovery tasks still using duplicated OptionParser preamble (handle_errors, parse_methods, sign_methods) to the single TaskScope.parse_and_resolve! path. Helper already supported extra_switches + aliases with {scope, tier_scope, opts} return; all 11 downstream milestone tasks already carried the depends_on + enforcement AC. Static analysis (compile/dialyzer/credo), oxc_scope_flags_test (45/45), and contract_test green."
 title = "TaskScope.parse_and_resolve! accepts task-specific switches"
 scores = { d = 2, b = 5, u = 6 }
 acceptance_criteria = ["TaskScope.parse_and_resolve!/2 (or equivalent shape) supports per-task switches with typed/validated extra_opts return", "3 mix tasks migrated (handle_errors, parse_methods, sign_methods); mix test.json --include extraction passes", "Migrated tasks contain zero direct OptionParser.parse calls", "Downstream tasks 91, 92, 93, 94, 95a, 95b, 95c, 97, 98, 121, 122 each carry depends_on pointing here AND an acceptance criterion enforcing helper use", "time mix compile --warnings-as-errors clean; mix dialyzer.json --quiet clean; mix credo --strict --format json clean", "mix ccxt_extract.contract_test passes; mix ccxt_extract.determinism_check --tier1 byte-equal across two runs"]

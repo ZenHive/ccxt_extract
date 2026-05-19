@@ -33,27 +33,11 @@ defmodule Mix.Tasks.CcxtExtract.Classes do
 
   use Mix.Task
 
-  alias CcxtExtract.Scope
   alias CcxtExtract.TaskScope
-
-  @switches TaskScope.scope_switches()
 
   @impl true
   def run(args) do
-    {opts, leftover, invalid} = OptionParser.parse(args, strict: @switches)
-
-    if invalid != [] do
-      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
-      Mix.raise("Unknown option(s): #{switches}")
-    end
-
-    if leftover != [] do
-      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}")
-    end
-
-    universe = TaskScope.load_universe()
-    _scope = TaskScope.resolve_scope!(opts, universe)
-    tier_scope = Scope.to_manifest_value(opts)
+    {_scope, tier_scope, _opts} = TaskScope.parse_and_resolve!(args)
 
     Mix.shell().info("Extracting class hierarchy from CCXT TypeScript source...")
 

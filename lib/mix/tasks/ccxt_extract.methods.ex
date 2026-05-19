@@ -30,35 +30,19 @@ defmodule Mix.Tasks.CcxtExtract.Methods do
 
   use Mix.Task
 
-  alias CcxtExtract.Scope
   alias CcxtExtract.TaskScope
-
-  @switches Keyword.merge([type: :string], TaskScope.scope_switches())
 
   @impl true
   def run(args) do
-    {opts, leftover, invalid} = OptionParser.parse(args, strict: @switches)
-
-    if invalid != [] do
-      switches = Enum.map_join(invalid, ", ", fn {k, _} -> k end)
-      Mix.raise("Unknown option(s): #{switches}. Only --type is supported.")
-    end
-
-    if leftover != [] do
-      Mix.raise("Unexpected argument(s): #{Enum.join(leftover, ", ")}. This task takes no positional arguments.")
-    end
+    {scope, tier_scope, opts} = TaskScope.parse_and_resolve!(args, [type: :string])
 
     types =
-      case opts[:type] do
+      case Keyword.get(opts, :type) do
         "rest" -> [:rest]
         "ws" -> [:ws]
         nil -> [:rest, :ws]
         other -> Mix.raise(~s(Invalid --type #{inspect(other)}. Must be "rest" or "ws".))
       end
-
-    universe = TaskScope.load_universe()
-    scope = TaskScope.resolve_scope!(opts, universe)
-    tier_scope = Scope.to_manifest_value(opts)
 
     for type <- types do
       extract_and_write(type, scope, tier_scope)

@@ -48,8 +48,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
           discoveries_dir: discoveries_dir,
           ccxt_version: "4.5.45",
           extracted_at: "2026-05-08T00:00:00Z",
-          scope: @priority_scope,
-          schema_target: 4
+          scope: @priority_scope
         )
 
       assert MapSet.new(Enum.map(exchanges, &get_in(&1, ["exchange", "id"]))) ==

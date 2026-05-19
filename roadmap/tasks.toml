@@ -66,7 +66,7 @@ target_version = "v4"
 
 [milestones.feature_complete]
 name = "Feature complete — contract surface closed"
-description = "All pending tasks in the contract-defining phases (9 override infra, 11 request, 12 response, 13 error, 15 WS, 16 currency) + the method-descriptors bundle done. ccxt_extract's own mission surface; what 'finish ccxt_extract' means."
+description = "All pending tasks in the contract-defining phases (9 override infra, 11 request, 12 response, 13 error, 15 WS, 16 currency) + the method-descriptors bundle + the infrastructure tasks that gate them done. ccxt_extract's own mission surface; what 'finish ccxt_extract' means."
 order = 2
 status = "active"
 
@@ -521,7 +521,7 @@ title = "Add pipeline-level integration tests for endpoint_cost_binding propagat
 scores = { d = 3, b = 4, u = 4 }
 scored_at = "2026-05-14"
 body = """
-Renumbered from legacy ROADMAP Task 133 (audit-surfaced copy) at migration to resolve the duplicate-ID collision with the Phase 13 Task 133. Task 90 shipped unit-level coverage on `RateLimitCostBinding.derive/1`. Pipeline-level gap: end-to-end propagation through `Pipeline.build_exchange_data/3` → `Schema.build_exchange_v3/v4` → `priv/output/<id>.json` is only validated implicitly via `cached_test` suites. Add 3 focused tests against synthetic `rate_limit_buckets` fixtures: (a) wrapper with valid first bucket → both v3 and v4 `endpoint_cost_binding` populated identically; (b) wrapper with `unresolved_reason != nil` → both paths emit null; (c) wrapper missing entirely → parent fallback emits null without raising. Lives in `test/ccxt_extract/pipeline_test.exs`. Discovered 2026-05-09 by staged-review:audit-review on commit 28166a2 (Codex C5).
+Renumbered from legacy ROADMAP Task 133 (audit-surfaced copy) at migration to resolve the duplicate-ID collision with the Phase 13 Task 133. Task 90 shipped unit-level coverage on `RateLimitCostBinding.derive/1`. Pipeline-level gap: end-to-end propagation through `Pipeline.build_exchange_data/3` → `Schema.build_exchange/4` → `priv/output/<id>.json` is only validated implicitly via `cached_test` suites. Add 3 focused tests against synthetic `rate_limit_buckets` fixtures: (a) wrapper with valid first bucket → `rate_limits.endpoint_cost_binding` populated correctly; (b) wrapper with `unresolved_reason != nil` → emits null; (c) wrapper missing entirely → parent fallback emits null without raising. Lives in `test/ccxt_extract/pipeline_test.exs`. Discovered 2026-05-09 by staged-review:audit-review on commit 28166a2 (Codex C5). Task body refreshed 2026-05-19 by `audit-review` on commit fa64144 — original referenced `Schema.build_exchange_v3/v4` and "both v3 and v4 paths" which are obsolete post-Task-143.
 """
 
 # ── Phase 0 · bundle det-contract ─────────────────────────────────────────
@@ -1110,6 +1110,7 @@ scored_at = "2026-05-15"
 id = 144
 phase = 0
 bundle = "scope-hygiene"
+milestone = "feature_complete"
 status = "pending"
 title = "TaskScope.parse_and_resolve! accepts task-specific switches"
 scores = { d = 2, b = 5, u = 6 }

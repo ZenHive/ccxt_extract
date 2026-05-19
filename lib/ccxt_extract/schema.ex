@@ -28,14 +28,14 @@ defmodule CcxtExtract.Schema do
   Every emitted exchange JSON carries a top-level `_provenance` map
   tagging each section as `raw`/`derived`/`override` (see
   `CcxtExtract.Provenance`). The field is required and non-null since
-  schema 2.0.0 (Task 61c) — `validate_v4/1` enforces presence via
-  `@required_top_keys_v4`, and `exchange_v4.json` enforces the object shape
+  schema 2.0.0 (Task 61c) — `validate/1` enforces presence via
+  `@required_top_keys`, and `exchange_v4.json` enforces the object shape
   at JSV time.
 
   ## Usage
 
-      exchange = CcxtExtract.Schema.build_exchange_v4(meta, runtime, structure, ccxt_version: "4.5.45")
-      :ok = CcxtExtract.Schema.validate_v4(exchange)
+      exchange = CcxtExtract.Schema.build_exchange(meta, runtime, structure, ccxt_version: "4.5.45")
+      :ok = CcxtExtract.Schema.validate(exchange)
 
   """
 
@@ -49,16 +49,16 @@ defmodule CcxtExtract.Schema do
 
   @required_exchange_keys ~w(id name alias)
 
-  @required_top_keys_v4 ~w(schema_version extracted_at ccxt_version exchange endpoints auth errors rate_limits normalization markets testnet raw _provenance)
-  @required_endpoints_keys_v4 ~w(unified interfaces pagination request transaction_classification handlers)
-  @required_endpoints_request_keys_v4 ~w(defaults shape)
-  @required_endpoints_handlers_keys_v4 ~w(error signing parse)
-  @required_auth_keys_v4 ~w(sign_recipe sign_method authenticated_sections headers)
-  @required_errors_keys_v4 ~w(handle_errors class_hierarchy status_map retry_classification)
-  @required_rate_limits_keys_v4 ~w(buckets per_endpoint_cost endpoint_cost_binding)
-  @required_markets_keys_v4 ~w(symbols_index patterns)
-  @required_raw_keys_v4 ~w(describe url_templates class_info method_inventory overrides_meta)
-  @required_normalization_keys_v4 ~w(parse_methods_digest field_maps response_envelopes)
+  @required_top_keys ~w(schema_version extracted_at ccxt_version exchange endpoints auth errors rate_limits normalization markets testnet raw _provenance)
+  @required_endpoints_keys ~w(unified interfaces pagination request transaction_classification handlers)
+  @required_endpoints_request_keys ~w(defaults shape)
+  @required_endpoints_handlers_keys ~w(error signing parse)
+  @required_auth_keys ~w(sign_recipe sign_method authenticated_sections headers)
+  @required_errors_keys ~w(handle_errors class_hierarchy status_map retry_classification)
+  @required_rate_limits_keys ~w(buckets per_endpoint_cost endpoint_cost_binding)
+  @required_markets_keys ~w(symbols_index patterns)
+  @required_raw_keys ~w(describe url_templates class_info method_inventory overrides_meta)
+  @required_normalization_keys ~w(parse_methods_digest field_maps response_envelopes)
 
   # --- Public API ---
 
@@ -102,8 +102,8 @@ defmodule CcxtExtract.Schema do
   pre-populate either here beyond the Task 129 scaffold — keep the v4
   normalization carrier additive.
   """
-  @spec build_exchange_v4(map(), map(), map(), keyword()) :: map()
-  def build_exchange_v4(exchange_meta, runtime_data, structure_data, opts \\ []) do
+  @spec build_exchange(map(), map(), map(), keyword()) :: map()
+  def build_exchange(exchange_meta, runtime_data, structure_data, opts \\ []) do
     ccxt_version = Keyword.fetch!(opts, :ccxt_version)
 
     extracted_at =
@@ -177,30 +177,30 @@ defmodule CcxtExtract.Schema do
   version. Full draft-2020-12 enforcement against `priv/schema/exchange_v4.json`
   happens in `CcxtExtract.Validation.validate_schema/2`.
   """
-  @spec validate_v4(map()) :: :ok | {:error, [String.t()]}
-  def validate_v4(data) when is_map(data) do
+  @spec validate(map()) :: :ok | {:error, [String.t()]}
+  def validate(data) when is_map(data) do
     errors =
       []
-      |> check_required_keys(data, @required_top_keys_v4, "top-level")
-      |> check_schema_version_v4(data)
+      |> check_required_keys(data, @required_top_keys, "top-level")
+      |> check_schema_version(data)
       |> check_required_keys(data["exchange"], @required_exchange_keys, "exchange")
-      |> check_required_keys(data["endpoints"], @required_endpoints_keys_v4, "endpoints")
+      |> check_required_keys(data["endpoints"], @required_endpoints_keys, "endpoints")
       |> check_required_keys(
         get_in(data, ["endpoints", "request"]),
-        @required_endpoints_request_keys_v4,
+        @required_endpoints_request_keys,
         "endpoints.request"
       )
       |> check_required_keys(
         get_in(data, ["endpoints", "handlers"]),
-        @required_endpoints_handlers_keys_v4,
+        @required_endpoints_handlers_keys,
         "endpoints.handlers"
       )
-      |> check_required_keys(data["auth"], @required_auth_keys_v4, "auth")
-      |> check_required_keys(data["errors"], @required_errors_keys_v4, "errors")
-      |> check_required_keys(data["rate_limits"], @required_rate_limits_keys_v4, "rate_limits")
-      |> check_required_keys(data["markets"], @required_markets_keys_v4, "markets")
-      |> check_required_keys(data["raw"], @required_raw_keys_v4, "raw")
-      |> check_required_keys(data["normalization"], @required_normalization_keys_v4, "normalization")
+      |> check_required_keys(data["auth"], @required_auth_keys, "auth")
+      |> check_required_keys(data["errors"], @required_errors_keys, "errors")
+      |> check_required_keys(data["rate_limits"], @required_rate_limits_keys, "rate_limits")
+      |> check_required_keys(data["markets"], @required_markets_keys, "markets")
+      |> check_required_keys(data["raw"], @required_raw_keys, "raw")
+      |> check_required_keys(data["normalization"], @required_normalization_keys, "normalization")
 
     case errors do
       [] -> :ok
@@ -208,7 +208,7 @@ defmodule CcxtExtract.Schema do
     end
   end
 
-  def validate_v4(_), do: {:error, ["expected a map"]}
+  def validate(_), do: {:error, ["expected a map"]}
 
   # --- Section Builders ---
 
@@ -245,12 +245,12 @@ defmodule CcxtExtract.Schema do
     ["#{section}: expected a map" | errors]
   end
 
-  defp check_schema_version_v4(errors, %{"schema_version" => @schema_version}), do: errors
+  defp check_schema_version(errors, %{"schema_version" => @schema_version}), do: errors
 
-  defp check_schema_version_v4(errors, %{"schema_version" => v}),
+  defp check_schema_version(errors, %{"schema_version" => v}),
     do: ["schema_version: expected #{@schema_version}, got #{inspect(v)}" | errors]
 
-  defp check_schema_version_v4(errors, _), do: errors
+  defp check_schema_version(errors, _), do: errors
 
   @doc false
   @spec type_name(term()) :: String.t()

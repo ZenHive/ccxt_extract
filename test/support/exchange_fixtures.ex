@@ -3,8 +3,8 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
   Schema-conformant exchange maps for contract-test unit tests.
 
   `schema_conformant/2` returns a v4-shaped map that covers every pointer
-  declared by `CcxtExtract.Provenance.raw_pointers_v4/0` /
-  `derived_pointers_v4/0` at the granularity the `provenance_covers_schema`
+  declared by `CcxtExtract.Provenance.raw_pointers/0` /
+  `derived_pointers/0` at the granularity the `provenance_covers_schema`
   contract invariant expects. Fixtures built from this helper don't
   produce noise findings against that invariant — callers can layer
   per-test payloads on top via `put_in/3` (e.g. to populate

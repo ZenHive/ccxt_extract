@@ -196,7 +196,22 @@ defmodule CcxtExtract.OverrideRegistryTest do
     end
 
     test "replaces nested value" do
-      exchange = %{"structure" => %{"authenticated_sections" => ["derived"], "other" => 1}}
+      exchange = %{"auth" => %{"authenticated_sections" => ["derived"], "other" => 1}}
+
+      overrides = [
+        %{
+          "path" => "/auth/authenticated_sections",
+          "value" => ["override"],
+          "reason" => "r"
+        }
+      ]
+
+      assert OverrideRegistry.apply_all(exchange, overrides) ==
+               %{"auth" => %{"authenticated_sections" => ["override"], "other" => 1}}
+    end
+
+    test "translates legacy v3 pointer paths to v4 destinations" do
+      exchange = %{"auth" => %{"authenticated_sections" => ["derived"]}}
 
       overrides = [
         %{
@@ -207,7 +222,7 @@ defmodule CcxtExtract.OverrideRegistryTest do
       ]
 
       assert OverrideRegistry.apply_all(exchange, overrides) ==
-               %{"structure" => %{"authenticated_sections" => ["override"], "other" => 1}}
+               %{"auth" => %{"authenticated_sections" => ["override"]}}
     end
 
     test "is identity when overrides list is empty" do
@@ -217,17 +232,17 @@ defmodule CcxtExtract.OverrideRegistryTest do
 
     test "preserves untouched keys" do
       exchange = %{
-        "structure" => %{"authenticated_sections" => ["x"], "keep" => "kept"},
-        "runtime" => %{"describe" => %{}}
+        "auth" => %{"authenticated_sections" => ["x"], "keep" => "kept"},
+        "raw" => %{"describe" => %{}}
       }
 
       overrides = [
-        %{"path" => "/structure/authenticated_sections", "value" => ["y"], "reason" => "r"}
+        %{"path" => "/auth/authenticated_sections", "value" => ["y"], "reason" => "r"}
       ]
 
       result = OverrideRegistry.apply_all(exchange, overrides)
-      assert result["structure"]["keep"] == "kept"
-      assert result["runtime"] == %{"describe" => %{}}
+      assert result["auth"]["keep"] == "kept"
+      assert result["raw"] == %{"describe" => %{}}
     end
 
     test "applies multiple entries (different paths)" do
@@ -251,9 +266,84 @@ defmodule CcxtExtract.OverrideRegistryTest do
     end
   end
 
-  # `translate_pointer/1` is exercised at runtime by
-  # `Pipeline.apply_override_entry/4`; coverage lives in the higher-level
-  # override + provenance tests.
+  describe "translate_pointer/1" do
+    test "rewrites the structure → auth prefix family" do
+      assert OverrideRegistry.translate_pointer("/structure/authenticated_sections") ==
+               "/auth/authenticated_sections"
+
+      assert OverrideRegistry.translate_pointer("/structure/sign_method") == "/auth/sign_method"
+      assert OverrideRegistry.translate_pointer("/structure/sign_recipe") == "/auth/sign_recipe"
+    end
+
+    test "rewrites the structure → errors prefix family" do
+      assert OverrideRegistry.translate_pointer("/structure/handle_errors") ==
+               "/errors/handle_errors"
+
+      assert OverrideRegistry.translate_pointer("/structure/error_class_hierarchy") ==
+               "/errors/class_hierarchy"
+    end
+
+    test "rewrites the structure → endpoints prefix family" do
+      assert OverrideRegistry.translate_pointer("/structure/request_shape") ==
+               "/endpoints/request/shape"
+
+      assert OverrideRegistry.translate_pointer("/structure/request_defaults") ==
+               "/endpoints/request/defaults"
+
+      assert OverrideRegistry.translate_pointer("/structure/unified_endpoints") ==
+               "/endpoints/unified"
+
+      assert OverrideRegistry.translate_pointer("/structure/transaction_classification") ==
+               "/endpoints/transaction_classification"
+
+      assert OverrideRegistry.translate_pointer("/structure/interface_signatures") ==
+               "/endpoints/interfaces"
+
+      assert OverrideRegistry.translate_pointer("/structure/pagination") == "/endpoints/pagination"
+    end
+
+    test "rewrites the structure → raw prefix family" do
+      assert OverrideRegistry.translate_pointer("/structure/class_info") == "/raw/class_info"
+      assert OverrideRegistry.translate_pointer("/structure/methods") == "/raw/method_inventory"
+      assert OverrideRegistry.translate_pointer("/structure/overrides") == "/raw/overrides_meta"
+    end
+
+    test "rewrites the runtime → raw / markets / auth / testnet prefix family" do
+      assert OverrideRegistry.translate_pointer("/runtime/describe") == "/raw/describe"
+      assert OverrideRegistry.translate_pointer("/runtime/url_templates") == "/raw/url_templates"
+
+      assert OverrideRegistry.translate_pointer("/runtime/symbols_index") ==
+               "/markets/symbols_index"
+
+      assert OverrideRegistry.translate_pointer("/runtime/symbol_patterns") == "/markets/patterns"
+      assert OverrideRegistry.translate_pointer("/runtime/testnet_urls") == "/testnet"
+      assert OverrideRegistry.translate_pointer("/runtime/request_headers") == "/auth/headers"
+    end
+
+    test "preserves the sub-path after a translated prefix" do
+      assert OverrideRegistry.translate_pointer("/structure/sign_method/params") ==
+               "/auth/sign_method/params"
+
+      assert OverrideRegistry.translate_pointer("/runtime/describe/api/private") ==
+               "/raw/describe/api/private"
+
+      assert OverrideRegistry.translate_pointer("/structure/handle_errors/exceptions/exact") ==
+               "/errors/handle_errors/exceptions/exact"
+    end
+
+    test "passes through pointers whose prefix is already v4-shaped" do
+      assert OverrideRegistry.translate_pointer("/auth/authenticated_sections") ==
+               "/auth/authenticated_sections"
+
+      assert OverrideRegistry.translate_pointer("/endpoints/request/shape") ==
+               "/endpoints/request/shape"
+    end
+
+    test "passes through pointers with no recognized prefix" do
+      assert OverrideRegistry.translate_pointer("/exchange/id") == "/exchange/id"
+      assert OverrideRegistry.translate_pointer("/something/else") == "/something/else"
+    end
+  end
 
   # --- helpers ---
 

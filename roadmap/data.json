@@ -175,7 +175,7 @@
   "milestones": {
     "feature_complete": {
       "name": "Feature complete — contract surface closed",
-      "description": "All pending tasks in the contract-defining phases (9 override infra, 11 request, 12 response, 13 error, 15 WS, 16 currency) + the method-descriptors bundle done. ccxt_extract's own mission surface; what 'finish ccxt_extract' means.",
+      "description": "All pending tasks in the contract-defining phases (9 override infra, 11 request, 12 response, 13 error, 15 WS, 16 currency) + the method-descriptors bundle + the infrastructure tasks that gate them done. ccxt_extract's own mission surface; what 'finish ccxt_extract' means.",
       "order": 2,
       "status": "active"
     },
@@ -1435,6 +1435,7 @@
       "id": 144,
       "phase": 0,
       "bundle": "scope-hygiene",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "TaskScope.parse_and_resolve! accepts task-specific switches",
       "scores": {

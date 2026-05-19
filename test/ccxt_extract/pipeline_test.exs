@@ -1193,12 +1193,12 @@ defmodule CcxtExtract.PipelineTest do
   describe "validation" do
     test "full exchange passes schema validation" do
       result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
-      assert :ok = Schema.validate_v4(result)
+      assert :ok = Schema.validate(result)
     end
 
     test "alias exchange passes schema validation" do
       result = Pipeline.build_exchange_data(alias_meta(), empty_data(), @schema_opts)
-      assert :ok = Schema.validate_v4(result)
+      assert :ok = Schema.validate(result)
     end
 
     test "exchange with overrides passes validation" do
@@ -1213,7 +1213,7 @@ defmodule CcxtExtract.PipelineTest do
 
       data = %{full_data() | overrides: %{"testex" => [override_entry]}}
       result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
-      assert :ok = Schema.validate_v4(result)
+      assert :ok = Schema.validate(result)
     end
   end
 

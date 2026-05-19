@@ -58,7 +58,7 @@ defmodule CcxtExtract.Provenance do
 
       provenance =
         Provenance.build_default()
-        |> Provenance.stamp_overrides(["/structure/authenticated_sections"])
+        |> Provenance.stamp_overrides(["/auth/authenticated_sections"])
   """
 
   # Canonical v4 pointer paths (promoted in Task 143).

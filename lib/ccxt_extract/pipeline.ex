@@ -298,7 +298,6 @@ defmodule CcxtExtract.Pipeline do
   # recipe sub-paths still survives the sync: keys that appear in both
   # the new auth_sections and the existing recipe are preserved
   # untouched. Keys added by auth_sections that have no recipe entry get
-  # a fresh `null_recipe`. Path map varies by schema target (Task 130).
   defp sync_sign_recipe(exchange, paths) do
     auth_sections = get_in(exchange, paths.auth_sections)
     existing = get_in(exchange, paths.sign_recipe) || %{}
@@ -410,7 +409,7 @@ defmodule CcxtExtract.Pipeline do
   defp assemble_and_validate(meta, data, schema_opts, {acc, errs}) do
     exchange = build_exchange_data(meta, data, schema_opts)
 
-    case Schema.validate_v4(exchange) do
+    case Schema.validate(exchange) do
       :ok ->
         {[exchange | acc], errs}
 
@@ -489,7 +488,7 @@ defmodule CcxtExtract.Pipeline do
       )
 
     v4_opts = Keyword.put(opts, :normalization, normalization)
-    Schema.build_exchange_v4(meta, runtime_data, structure_data, v4_opts)
+    Schema.build_exchange(meta, runtime_data, structure_data, v4_opts)
   end
 
   # Derive error dispatch from the assembled handle_errors map. Consumes
@@ -669,7 +668,7 @@ defmodule CcxtExtract.Pipeline do
   # (%{"user_agent" => ..., "default_headers" => ...}) from the discovery
   # lookup. Alias exchanges that didn't produce their own entry fall back
   # to the parent's value via class hierarchy. Returns nil only when the
-  # entire chain has no entry — `Schema.build_exchange_v4/4` substitutes
+  # entire chain has no entry — `Schema.build_exchange/4` substitutes
   # `RequestHeaders.empty_record()` so the schema-level always-emit
   # invariant survives.
   #

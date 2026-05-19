@@ -30,7 +30,7 @@
 
 **Task 123 shipped 2026-04-24** — `structure.authenticated_sections` now emits dotted `<parent>.<child>` paths (e.g. `contract.private`, `spot.private`) alongside flat names for exchanges whose `describe.api` nests authenticated children one level deep under container keys (htx + huobi twin). No schema bump — field remains `string[]`. Unblocks `../ccxt_client/ROADMAP.md` Task 110 (raw_endpoint_probe classification cascade).
 
-**v4 schema-freeze plan adopted 2026-05-08.** Roadmap restructured: Phase 12 promoted from "deprioritized — unified-only" to schema-freeze gate; ~22-task freeze list spans Phases 11/12/13/14 plus new Tasks 129 (carrier) and 130 (emit gate); v3 stays the published contract until the freeze list is empty (atomic v4 cut). `ccxt_client` takes exactly one migration; no piecemeal v3.x bumps reach consumers between v3.1.0 and the v4 flip. See [v4 Schema-Freeze Plan](#v4-schema-freeze-plan) for the full task list, reshape, and gate mechanism. `../ccxt_client/ROADMAP.md` carries the single tracking row (`Task v4-adopt`, 🔶 Blocked). **Task 130 shipped 2026-05-08** via PR #7 (INE-60) — `--schema-target=3|4` flag + `Schema.build_exchange_v4/4` + `priv/schema/exchange_v4.json` now in place; default emission stays v3, freeze-list tasks can verify v4 output as they ship.
+**v4 schema-freeze plan adopted 2026-05-08, completed 2026-05-19.** Roadmap restructured: Phase 12 promoted from "deprioritized — unified-only" to schema-freeze gate; ~22-task freeze list spans Phases 11/12/13/14 plus Tasks 129 (carrier) and 130 (emit gate); v3 was the published contract until the freeze list emptied (atomic v4 cut shipped Task 142 / PR #31; v3 teardown shipped Task 143). `ccxt_client` took exactly one migration; no piecemeal v3.x bumps reached consumers between v3.1.0 and the v4 flip. See [v4 Schema-Freeze Plan](#v4-schema-freeze-plan) for the full task list, reshape, and gate mechanism. `../ccxt_client/ROADMAP.md` carries the single tracking row (`Task v4-adopt`, ✅ unblocked). **Task 130 shipped 2026-05-08** via PR #7 (INE-60) — opt-in `--schema-target=4` flag + `Schema.build_exchange/4` + `priv/schema/exchange_v4.json` landed (the `--schema-target` plumbing has since been removed in Task 143).
 
 > **Philosophy reminder:** Every value is either provable (emit it) or explicitly unprovable (`null` + reason). No silent guesses. Overrides (once Phase 9 ships) will fill gaps derivation can't reach and carry reasons too.
 
@@ -51,7 +51,7 @@ Phases reordered by criticality for consumers calling *any* endpoint (unified or
 
 ### v4 Schema-Freeze Plan
 
-**Goal:** ship v4 atomically once the freeze list is empty. v3 stays the published contract throughout the freeze. Consumers (`ccxt_client`, downstream libs) take exactly one migration on the v4 flip — not N piecemeal v3.x bumps.
+**Goal (historical):** ship v4 atomically once the freeze list is empty. v3 was the published contract throughout the freeze. Consumers (`ccxt_client`, downstream libs) took exactly one migration on the v4 flip — not N piecemeal v3.x bumps. **Completed:** v4 became default in Task 142 (PR #31); v3 was deleted in Task 143.
 
 **Freeze list (~22 tasks):**
 
@@ -62,7 +62,7 @@ Phases reordered by criticality for consumers calling *any* endpoint (unified or
 
 **Soft gate:** Task 114 (extraction determinism audit) — ✅ **shipped 2026-05-14.** Extraction is now byte-deterministic for a fixed CCXT version + bundle + scope (`mix ccxt_extract.determinism_check` gates it), so freeze diffs are meaningful and the v4 emit default can flip without determinism noise drowning the signal.
 
-**v4 emit gate (Task 130):** opt-in `--schema-target=4` flag, mirrors the existing `--pretty` plumbing (CLI flag → opts → `Pipeline.write!/3` → `Schema.build_exchange_v4/4`). v3 stays default until freeze list is empty AND `ccxt_client` has its v4 migration ready (Task 114 — the determinism soft gate — is ✅ green as of 2026-05-14). Schema files: `priv/schema/exchange_v3.json` (current) and `priv/schema/exchange_v4.json` (new) coexist during the freeze; v3 is deleted once v4 is the default (Task 143, v3 teardown) — no retention window, per the greenfield stance in [CLAUDE.md](CLAUDE.md#project-stance--greenfield).
+**v4 emit gate (Task 130, retired in Task 143):** opt-in `--schema-target=4` flag, mirrored the existing `--pretty` plumbing (CLI flag → opts → `Pipeline.write!/3` → `Schema.build_exchange/4`). v3 was the default until the freeze list emptied AND `ccxt_client` had its v4 migration ready (Task 114 — the determinism soft gate — went ✅ green 2026-05-14). Schema files: `priv/schema/exchange_v3.json` (deleted in Task 143) and `priv/schema/exchange_v4.json` (current) coexisted during the freeze; v3 was deleted once v4 became the default (Task 143, v3 teardown) — no retention window, per the greenfield stance in [CLAUDE.md](CLAUDE.md#project-stance--greenfield).
 
 **v4 reshape — top-level sections** (consumer-shaped, not producer-shaped — see [SCHEMA.md § Version 4.0.0](SCHEMA.md#version-400--in-progress-gated) for the full path-migration table):
 
@@ -143,7 +143,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task rate-limit-headers | 🔶 | 🎁 **superseded** · Rate-limit header extraction [D:7/B:3/U:3 → Eff:0.43] ⚠️ |
 | Task 142 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v4 cut — flip default emission and validation to v4 [D:4/B:9/U:9 → Eff:2.25] 🎯 |
 | Task 143 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v3 teardown — delete v3 and all schema_target plumbing [D:3/B:7/U:6 → Eff:2.17] 🎯 |
-| Task 144 | ⬜ | 🎁 **scope-hygiene** · TaskScope.parse_and_resolve! accepts task-specific switches [D:2/B:5/U:6 → Eff:2.75] 🎯 |
+| Task 144 | ⬜ | 🎁 **scope-hygiene** · 🚀 **feature_complete** · TaskScope.parse_and_resolve! accepts task-specific switches [D:2/B:5/U:6 → Eff:2.75] 🎯 |
 | Task 145 | ⬜ | 🎁 **maintenance** · Paths read/write split — tighten read-only writer modules [D:3/B:3/U:3 → Eff:1.0] 📋 |
 <!-- TASKS:END -->
 

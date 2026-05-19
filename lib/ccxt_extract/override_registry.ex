@@ -170,7 +170,7 @@ defmodule CcxtExtract.OverrideRegistry do
   @spec apply_all(map(), [map()]) :: map()
   def apply_all(exchange_map, overrides) when is_map(exchange_map) and is_list(overrides) do
     Enum.reduce(overrides, exchange_map, fn entry, acc ->
-      keys = pointer_to_keys(entry["path"])
+      keys = entry["path"] |> translate_pointer() |> pointer_to_keys()
       put_in(acc, keys, entry["value"])
     end)
   end

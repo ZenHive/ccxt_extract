@@ -100,8 +100,8 @@ defmodule CcxtExtract.AuthenticatedSectionsIntegrationTest do
     id = Path.basename(path, ".json")
     data = path |> File.read!() |> Jason.decode!()
     tier = get_in(data, ["exchange", "tier"])
-    api = get_in(data, ["runtime", "describe", "api"]) || %{}
-    auth = get_in(data, ["structure", "authenticated_sections"]) || []
+    api = get_in(data, ["raw", "describe", "api"]) || %{}
+    auth = get_in(data, ["auth", "authenticated_sections"]) || []
 
     has_private_key? =
       api
@@ -141,8 +141,8 @@ defmodule CcxtExtract.AuthenticatedSectionsIntegrationTest do
     override_sections = override_sections_for(id)
 
     data = output_path |> File.read!() |> Jason.decode!()
-    sign_method = get_in(data, ["structure", "sign_method"])
-    api_keys = Map.keys(get_in(data, ["runtime", "describe", "api"]) || %{})
+    sign_method = get_in(data, ["auth", "sign_method"])
+    api_keys = Map.keys(get_in(data, ["raw", "describe", "api"]) || %{})
 
     derived = CcxtExtract.AuthenticatedSections.derive(sign_method, api_keys) || []
 

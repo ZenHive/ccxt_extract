@@ -1,7 +1,7 @@
 defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
   @moduledoc """
   Corpus-level assertions for Phase 11 / Tasks 70 + 71
-  (`structure.request_shape`).
+  (`endpoints.request.shape`).
 
   Reads the committed `priv/output/*.json` files — does NOT re-run
   extraction. Pins concrete expected outcomes for priority exchanges
@@ -22,11 +22,6 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
     |> Jason.decode!()
   end
 
-  # TODO(Task 143): v4 path primary with v3 fallback — transition scaffold
-  # for the v3→v4 corpus-regen window (introduced in Task 142). After
-  # `mix ccxt_extract.update` rebuilds priv/output to v4 shape, the v3
-  # fallback below is dead. Remove the fallback (and `v4_or_v3_pointer/1`)
-  # when v3 emission is deleted.
   defp record(id, section) do
     exchange = load_exchange!(id)
     Map.get(request_shape_map_for(exchange), section, :missing)
@@ -37,23 +32,11 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
   end
 
   defp request_shape_map_for(exchange) do
-    get_in(exchange, ["endpoints", "request", "shape"]) ||
-      get_in(exchange, ["structure", "request_shape"]) ||
-      %{}
+    get_in(exchange, ["endpoints", "request", "shape"]) || %{}
   end
 
   defp authenticated_sections(exchange) do
-    get_in(exchange, ["auth", "authenticated_sections"]) ||
-      get_in(exchange, ["structure", "authenticated_sections"]) ||
-      []
-  end
-
-  defp v4_or_v3_pointer(provenance) do
-    if Map.has_key?(provenance, "/endpoints/request/shape") do
-      "/endpoints/request/shape"
-    else
-      "/structure/request_shape"
-    end
+    get_in(exchange, ["auth", "authenticated_sections"]) || []
   end
 
   defp output_dir, do: Paths.priv("output")
@@ -63,7 +46,7 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
       {:ok, entries} ->
         entries
         |> Enum.filter(&String.ends_with?(&1, ".json"))
-        |> Enum.reject(&(String.starts_with?(&1, "_") or &1 in ["exchange_v3.json", "exchange_v4.json"]))
+        |> Enum.reject(&(String.starts_with?(&1, "_") or &1 == "exchange_v4.json"))
         |> Enum.map(&String.replace_suffix(&1, ".json", ""))
 
       {:error, _} ->
@@ -295,13 +278,10 @@ defmodule CcxtExtract.Integration.Cached.RequestShapeCachedTest do
         exchange = load_exchange!(id)
         provenance = exchange["_provenance"] || %{}
 
-        # Either tagged "derived" by Provenance.build_default_v4/0, or
+        # Either tagged "derived" by Provenance.build_default/0, or
         # "override" if a curated override re-stamped it. Anything
         # else is drift.
-        # TODO(Task 143): drop the v3 pointer fallback when v3 emission
-        # is deleted. v4 path primary with v3 fallback is the transition
-        # scaffold for the v3→v4 corpus-regen window (Task 142).
-        pointer = v4_or_v3_pointer(provenance)
+        pointer = "/endpoints/request/shape"
         tag = Map.get(provenance, pointer)
 
         assert tag in ["derived", "override"],

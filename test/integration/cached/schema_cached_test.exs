@@ -162,7 +162,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
       "overrides" => build_overrides(ov_entries)
     }
 
-    Schema.build_exchange_v4(meta, runtime, structure, @base_opts)
+    Schema.build_exchange(meta, runtime, structure, @base_opts)
   end
 
   # --- Tests ---
@@ -173,7 +173,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     end
 
     test "validates successfully", %{exchange: exchange} do
-      assert :ok = Schema.validate_v4(exchange)
+      assert :ok = Schema.validate(exchange)
     end
 
     test "has describe data", %{exchange: exchange} do
@@ -232,7 +232,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     end
 
     test "validates successfully", %{exchange: exchange} do
-      assert :ok = Schema.validate_v4(exchange)
+      assert :ok = Schema.validate(exchange)
     end
 
     test "has overrides section", %{exchange: exchange} do
@@ -249,7 +249,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
     end
 
     test "validates successfully", %{exchange: exchange} do
-      assert :ok = Schema.validate_v4(exchange)
+      assert :ok = Schema.validate(exchange)
     end
 
     test "has no overrides (root exchange)", %{exchange: exchange} do
@@ -289,7 +289,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaCachedTest do
 
       test "#{@exchange_id} produces valid schema output" do
         exchange = build_from_fixtures(@exchange_id)
-        assert :ok = Schema.validate_v4(exchange)
+        assert :ok = Schema.validate(exchange)
 
         assert exchange["schema_version"] == Schema.schema_version()
         assert exchange["exchange"]["id"] == @exchange_id

@@ -66,7 +66,7 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
     test "all exchanges pass schema validation", %{exchanges: exchanges} do
       failures =
         exchanges
-        |> Enum.map(fn ex -> {ex["exchange"]["id"], Schema.validate_v4(ex)} end)
+        |> Enum.map(fn ex -> {ex["exchange"]["id"], Schema.validate(ex)} end)
         |> Enum.reject(fn {_id, result} -> result == :ok end)
 
       assert failures == [],
@@ -255,7 +255,7 @@ defmodule CcxtExtract.Integration.Cached.PipelineCachedTest do
       assert File.exists?(binance_path)
       binance = binance_path |> File.read!() |> Jason.decode!()
       assert binance["exchange"]["id"] == "binance"
-      assert :ok = Schema.validate_v4(binance)
+      assert :ok = Schema.validate(binance)
 
       schema_path = Path.join(tmp_dir, "exchange_v4.json")
       assert File.exists?(schema_path)

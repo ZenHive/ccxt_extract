@@ -261,8 +261,6 @@ defmodule CcxtExtract.ContractTestTest do
   end
 
   describe "check_override_paths_present_in_output/2" do
-    alias CcxtExtract.OverrideRegistry
-
     test "no findings when exchange has no override file" do
       exchange = %{"exchange" => %{"id" => "__no_override_#{System.unique_integer([:positive])}__"}}
       assert ContractTest.check_override_paths_present_in_output(exchange, @base_observed) == []
@@ -1076,10 +1074,12 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
-  describe "check_handler_dispatch_v4_shape_valid/2" do
-    test "no findings on v3-shaped exchange (short-circuit)" do
-      # clean_exchange returns a v3-shaped fixture (has 'structure', no 'endpoints')
-      assert ContractTest.check_handler_dispatch_v4_shape_valid(clean_exchange(), @base_observed) == []
+  describe "check_handler_dispatch_shape_valid/2" do
+    test "no findings on clean v4 fixture with nil handlers" do
+      # clean_exchange returns a v4-shaped fixture with `endpoints.handlers`
+      # populated as `%{"error" => nil, "signing" => nil, "parse" => nil}`
+      # (all nullable per the schema).
+      assert ContractTest.check_handler_dispatch_shape_valid(clean_exchange(), @base_observed) == []
     end
 
     test "no findings on well-formed v4 endpoints.handlers" do
@@ -1095,7 +1095,7 @@ defmodule CcxtExtract.ContractTestTest do
         }
       }
 
-      assert ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed) == []
+      assert ContractTest.check_handler_dispatch_shape_valid(v4_exchange, @base_observed) == []
     end
 
     test "all-null v4 handlers are valid (alias exchange shape)" do
@@ -1105,7 +1105,7 @@ defmodule CcxtExtract.ContractTestTest do
         "endpoints" => %{"handlers" => %{"error" => nil, "signing" => nil, "parse" => nil}}
       }
 
-      assert ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed) == []
+      assert ContractTest.check_handler_dispatch_shape_valid(v4_exchange, @base_observed) == []
     end
 
     test "missing required handler key produces a finding" do
@@ -1115,7 +1115,7 @@ defmodule CcxtExtract.ContractTestTest do
         "endpoints" => %{"handlers" => %{"error" => [], "signing" => nil}}
       }
 
-      findings = ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed)
+      findings = ContractTest.check_handler_dispatch_shape_valid(v4_exchange, @base_observed)
       assert Enum.any?(findings, fn f -> f.message =~ "missing required key" and f.message =~ "parse" end)
     end
 
@@ -1128,7 +1128,7 @@ defmodule CcxtExtract.ContractTestTest do
         }
       }
 
-      findings = ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed)
+      findings = ContractTest.check_handler_dispatch_shape_valid(v4_exchange, @base_observed)
       assert Enum.any?(findings, fn f -> f.message =~ "unexpected key" and f.message =~ "extras" end)
     end
 
@@ -1139,7 +1139,7 @@ defmodule CcxtExtract.ContractTestTest do
         "endpoints" => %{"handlers" => %{"error" => "not a list", "signing" => nil, "parse" => nil}}
       }
 
-      findings = ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed)
+      findings = ContractTest.check_handler_dispatch_shape_valid(v4_exchange, @base_observed)
       assert Enum.any?(findings, fn f -> f.path == "endpoints.handlers.error" and f.message =~ "list" end)
     end
 
@@ -1150,13 +1150,16 @@ defmodule CcxtExtract.ContractTestTest do
         "endpoints" => %{}
       }
 
-      findings = ContractTest.check_handler_dispatch_v4_shape_valid(v4_exchange, @base_observed)
+      findings = ContractTest.check_handler_dispatch_shape_valid(v4_exchange, @base_observed)
       assert Enum.any?(findings, fn f -> f.path == "endpoints.handlers" and f.message =~ "missing" end)
     end
   end
 
   describe "check_rate_limits_endpoint_cost_binding_coherent/2" do
-    test "no-op on v3-shaped exchange (short-circuit)" do
+    test "no findings when wrapper + binding both null (clean v4 fixture)" do
+      # clean_exchange has rate_limits.buckets as an empty record and
+      # endpoint_cost_binding as nil — derive(wrapper) returns nil too,
+      # so the binding matches and no finding is emitted.
       assert ContractTest.check_rate_limits_endpoint_cost_binding_coherent(clean_exchange(), @base_observed) == []
     end
 

@@ -15,6 +15,16 @@ Removing complexity is the priority. When in doubt: delete the old path, don't w
 - Breaking changes do not require a deprecation period — the sole consumer
   (`../ccxt_client/`) takes one coordinated migration.
 
+## Delivery target — `feature_complete` milestone
+
+**v4 schema cut: ✅ shipped 2026-05-18.** The active milestone is now **`feature_complete`** — run `rmap milestones` for the live count. Definition: every pending task in the contract-defining phases (9 override infra, 11 request, 12 response, 13 error, 15 WS, 16 currency) + the method-descriptors bundle + the infrastructure tasks that gate them.
+
+**Why this milestone is the goal.** Closing `feature_complete` ends ccxt_extract's mission for `../ccxt_client/`. After it lands, ccxt_client can freeze the v4 JSON it consumes and treat further ccxt_extract releases as **optional regenerations against new CCXT versions**, not a live dependency. The architecture supports this — `ccxt_extract` is a generator, not an ingestion runtime; the JSON it emits is a static, schema-pinned contract that ccxt_client can fork, vendor, or own outright once the milestone closes.
+
+**How to pick the next task.** Use `rmap next --milestone feature_complete`. **It filters dep-blocked tasks**, so the visible list is "pickable now" not "the whole milestone" — `rmap list --status pending --milestone feature_complete` is the full inventory. As of the most recent render, **Task 144** (TaskScope helper) is the load-bearing unblocker: it gates 11 of 25 milestone tasks via `depends_on`, so shipping it first widens the queue substantially. After 144 lands, the dep-blocked 🎯-tier tasks (97 currency aliases, 93 WS heartbeats, 98 precision modes) surface as the real top-Eff path.
+
+**Scope discipline.** `feature_complete`'s membership is **exclusion-driven** — blocked / superseded / pure-hygiene tasks stay out by design. Push back on proposals to add new contract-surface tasks unless a priority consumer (typically `../ccxt_client/`) has surfaced a concrete need; the milestone is a *ceiling*, not a backlog. Infrastructure / hygiene tasks join only when they gate an existing milestone task (the pattern Task 144 set, where 11 downstream tasks gained `depends_on = [144]` + an enforcement acceptance criterion).
+
 ## Standard imports
 
 Grouped per `~/.claude/setup-guide.md` (Elixir Library + Volt + Reach template). Each include earns its token cost — niche Hex packages and behavioral rules the model can't recall reliably from training.
@@ -98,7 +108,7 @@ Neither tool alone is sufficient. `contract_test` cross-validates the two (e.g.,
 
 ### Per-exchange JSON pipeline
 
-Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v4.json`. Provenance is explicit — every emitted JSON carries a flat top-level `_provenance` map keying each section (by RFC 6901 JSON Pointer) to `raw`/`derived`/`override`. Override *reasons* live in the `priv/overrides/<id>.json` entry, not inline in the emitted payload.
+Raw extractors write to `priv/discoveries/*.json` (and subdirs like `describe/<id>.json`, `load_markets/<id>.json`). `CcxtExtract.Pipeline` then assembles those into per-exchange files under `priv/output/<id>.json` validated against `priv/schema/exchange_v4.json`. The v4 top-level groups are `endpoints`, `auth`, `errors`, `rate_limits`, `normalization`, `markets`, `testnet`, and `raw` (consumer-shaped, not producer-shaped — see `SCHEMA.md` for the full path-migration table). Provenance is explicit — every emitted JSON carries a flat top-level `_provenance` map keying each section (by RFC 6901 JSON Pointer) to `raw`/`derived`/`override`. Override *reasons* live in the `priv/overrides/<id>.json` entry, not inline in the emitted payload.
 
 **Both paths are gitignored derived state.** `priv/output/` and `priv/discoveries/*` are not tracked in git — they're regenerated per CCXT release and would otherwise bloat the repo (~1GB of JSON per full-universe run, already accumulated 827MB in `.git`). The one exception is `priv/discoveries/class_hierarchy.json`, which `lib/ccxt_extract/tiers.ex` reads at compile time via `@external_resource` and must remain committed. Fresh clones materialize the rest via `mix setup`; external consumers via `mix ccxt_extract.update --output DIR`.
 

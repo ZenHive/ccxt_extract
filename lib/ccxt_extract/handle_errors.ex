@@ -99,6 +99,12 @@ defmodule CcxtExtract.HandleErrors do
   defp normalize_map(value) when is_map(value), do: value
   defp normalize_map(_), do: nil
 
+  # QuickBEAM serializes JS class references in describe() maps as
+  # `"__function:ClassName"`. Defined once here so both call paths
+  # (`strip_function_sentinel_value/1` directly below and
+  # `normalize_class_name/1` further down) read from one constant.
+  @function_sentinel "__function:"
+
   # CCXT's `httpExceptions` (and some `exceptions` entries) declare
   # values as JS class-constructor references — bare identifiers like
   # `ExchangeError` rather than the string `"ExchangeError"`. QuickBEAM
@@ -107,7 +113,14 @@ defmodule CcxtExtract.HandleErrors do
   # match, so the sentinel can't resolve. Strip at the extraction
   # boundary so the emitted JSON carries bare class names and downstream
   # consumers (contract test, http_status_map, retryable_buckets) all
-  # agree.
+  # agree. Reuses `@function_sentinel` (defined below for
+  # `normalize_class_name/1`) so the sentinel literal lives in exactly
+  # one place — any future change to QuickBEAM's function-sentinel
+  # encoding propagates through one constant. Double-prefix values like
+  # `"__function:__function:Foo"` strip exactly once by design — the
+  # empty-suffix test pins this; the sentinel never composes in CCXT's
+  # describe shape, so a stripped-once result on the malformed form is
+  # honest preservation, not a missed strip.
   defp strip_function_sentinels(nil), do: nil
 
   defp strip_function_sentinels(map) when is_map(map) do
@@ -116,7 +129,9 @@ defmodule CcxtExtract.HandleErrors do
 
   defp strip_function_sentinel_value(map) when is_map(map), do: strip_function_sentinels(map)
 
-  defp strip_function_sentinel_value("__function:" <> name) when name != "", do: name
+  defp strip_function_sentinel_value(list) when is_list(list), do: Enum.map(list, &strip_function_sentinel_value/1)
+
+  defp strip_function_sentinel_value(@function_sentinel <> name) when name != "", do: name
 
   defp strip_function_sentinel_value(other), do: other
 
@@ -205,13 +220,10 @@ defmodule CcxtExtract.HandleErrors do
 
   defp http_exception_entry(_), do: []
 
-  # QuickBEAM serializes JS class references in describe() maps as the
-  # sentinel string `"__function:ClassName"` (the value is a function
-  # reference at runtime, not a string literal). Strip the prefix so the
-  # downstream classifier sees the bare class name. Pure string literals
-  # (rare — e.g. an exchange that ships `"BadRequest"` as text) pass
-  # through unchanged.
-  @function_sentinel "__function:"
+  # Strip the `@function_sentinel` prefix (defined at the top of the
+  # module) so the downstream classifier sees the bare class name. Pure
+  # string literals (rare — e.g. an exchange that ships `"BadRequest"`
+  # as text) pass through unchanged.
   defp normalize_class_name(class) when is_binary(class) do
     case class do
       @function_sentinel <> name when name != "" -> name

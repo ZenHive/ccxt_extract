@@ -87,7 +87,7 @@ defmodule CcxtExtract.Normalization do
 
   @doc """
   Single-arg shim for callers (mostly tests + the v4 fallback in
-  `Schema.build_exchange_v4/4`) that don't carry a `fetch_methods_entry`.
+  `Schema.build_exchange/4`) that don't carry a `fetch_methods_entry`.
   When `parse_methods_entry` carries `parse_dispatch`, response envelopes
   are still derived (per-fetcher entries flag `"no_fetcher_method_body"`);
   the scaffold `"not_yet_derived"` stub only applies when both args are `nil`.

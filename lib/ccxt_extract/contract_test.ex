@@ -73,7 +73,7 @@ defmodule CcxtExtract.ContractTest do
     {"normalization_shape_valid", :check_normalization_shape_valid},
     {"parse_methods_digest_covers_inventory", :check_parse_methods_digest_covers_inventory},
     {"handle_errors_retryable_shape_valid", :check_handle_errors_retryable_shape_valid},
-    {"handler_dispatch_v4_shape_valid", :check_handler_dispatch_v4_shape_valid},
+    {"handler_dispatch_shape_valid", :check_handler_dispatch_shape_valid},
     {"rate_limits_endpoint_cost_binding_coherent", :check_rate_limits_endpoint_cost_binding_coherent}
   ]
 
@@ -1265,18 +1265,26 @@ defmodule CcxtExtract.ContractTest do
       type plus `_unresolved_reason` (and only those keys), with values
       either `null` (Task 129 scaffold) or a map (Phase 12 populated).
 
-  Skipped on v3-shaped output (no `normalization` top-level key) — the
-  invariant only fires under `--schema-target=4`.
+  Missing `normalization` top-level key is now a finding (post-Task 143)
+  — v4 is the only emitted schema, so an absent `normalization` group is
+  an extractor regression, not a v3-compat short-circuit.
   """
   @spec check_normalization_shape_valid(map(), map()) :: [finding()]
   def check_normalization_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+
     case Map.fetch(exchange, "normalization") do
-      :error -> []
+      :error ->
+        [normalization_finding(id, "normalization", "missing required top-level key")]
+
       # Honesty Rule: nil means the extractor produced nothing; matches the
       # nil-parent branch in `check_provenance_covers_schema/2` and
       # `check_parse_methods_digest_covers_inventory/2`.
-      {:ok, nil} -> []
-      {:ok, record} -> normalization_record_findings(exchange_id(exchange), record)
+      {:ok, nil} ->
+        []
+
+      {:ok, record} ->
+        normalization_record_findings(id, record)
     end
   end
 
@@ -1670,45 +1678,33 @@ defmodule CcxtExtract.ContractTest do
   end
 
   @doc """
-  Validate the v4 `endpoints.handlers` reshape (Tasks 88a/88b/88c).
+  Validate the `endpoints.handlers` reshape (Tasks 88a/88b/88c, finalized in Task 142).
 
-  At v3 emission, the dispatch tables live at
-  `structure.error_dispatch` / `sign_dispatch` / `parse_dispatch`. At
-  v4 emission, the same tables route into
-  `endpoints.handlers.{error,signing,parse}`. This invariant fires only
-  when an exchange is v4-shaped (top-level `endpoints` group present
-  and no `structure` section); on v3-shaped emission it short-circuits
-  to no findings. Within a v4 exchange it asserts:
+  The error/sign/parse dispatch tables route into
+  `endpoints.handlers.{error,signing,parse}`. Asserts:
 
     * `endpoints.handlers` exists and is a map.
     * The three keys (`error`, `signing`, `parse`) are present.
     * No extra keys.
-    * Each value content matches its v3 counterpart's nullable-shape
-      (the JSON Schema enforces deeper structural shape — this
-      invariant catches presence drift, not entry shape).
+    * Each value's content matches the expected nullable shape (the
+      JSON Schema enforces deeper structural shape — this invariant
+      catches presence drift, not entry shape).
 
   Mirrors `testnet_urls_shape_valid`'s structure: per-key audit with a
   finding per drift type. JSON Schema catches the array-of-records and
   object-of-arrays leaf shapes; this invariant catches the
   reorganization integrity.
+
+  Post-Task-143: no v3-shape short-circuit — every emitted exchange is
+  v4-shaped, so a missing `endpoints.handlers` map is a real finding,
+  not a v3 fallback.
   """
-  @spec check_handler_dispatch_v4_shape_valid(map(), map()) :: [finding()]
-  def check_handler_dispatch_v4_shape_valid(exchange, _observed) do
+  @spec check_handler_dispatch_shape_valid(map(), map()) :: [finding()]
+  def check_handler_dispatch_shape_valid(exchange, _observed) do
     id = exchange_id(exchange)
-
-    if v4_shape?(exchange) do
-      handlers = get_in(exchange, ["endpoints", "handlers"])
-      handler_dispatch_findings(id, handlers)
-    else
-      []
-    end
+    handlers = get_in(exchange, ["endpoints", "handlers"])
+    handler_dispatch_findings(id, handlers)
   end
-
-  defp v4_shape?(exchange) when is_map(exchange) do
-    Map.has_key?(exchange, "endpoints") and not Map.has_key?(exchange, "structure")
-  end
-
-  defp v4_shape?(_), do: false
 
   @handler_keys ~w(error signing parse)
 
@@ -1777,25 +1773,21 @@ defmodule CcxtExtract.ContractTest do
   defp handler_finding(id, path, message) do
     %{
       exchange: id,
-      invariant: "handler_dispatch_v4_shape_valid",
+      invariant: "handler_dispatch_shape_valid",
       path: path,
       message: message
     }
   end
 
   @doc """
-  v4-only: `rate_limits.endpoint_cost_binding` must match
+  `rate_limits.endpoint_cost_binding` must match
   `CcxtExtract.RateLimitCostBinding.derive/1` applied to the bucket wrapper at
   `rate_limits.buckets` — non-null only when the wrapper has a resolved,
-  non-empty `buckets` list; otherwise null. Short-circuits on v3-shaped output.
+  non-empty `buckets` list; otherwise null.
   """
   @spec check_rate_limits_endpoint_cost_binding_coherent(map(), map()) :: [finding()]
   def check_rate_limits_endpoint_cost_binding_coherent(exchange, _observed) do
-    if v4_shape?(exchange) do
-      endpoint_cost_binding_findings(exchange)
-    else
-      []
-    end
+    endpoint_cost_binding_findings(exchange)
   end
 
   defp endpoint_cost_binding_findings(exchange) do
@@ -1964,7 +1956,7 @@ defmodule CcxtExtract.ContractTest do
 
   @doc """
   Flag drift between the `CcxtExtract.Provenance` declared pointer lists
-  (`raw_pointers_v4/0 ++ derived_pointers_v4/0`) and the sections actually
+  (`raw_pointers/0 ++ derived_pointers/0`) and the sections actually
   emitted under the v4 top-level groups (`/exchange`, `/raw`, `/auth`,
   `/errors`, `/endpoints`, `/markets`, `/rate_limits`, `/normalization`)
   in each output exchange JSON. Catches three drift types:

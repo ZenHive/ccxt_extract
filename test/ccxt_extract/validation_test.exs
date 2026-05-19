@@ -153,11 +153,11 @@ defmodule CcxtExtract.ValidationTest do
   end
 
   defp build_full_exchange do
-    Schema.build_exchange_v4(@full_meta, full_runtime(), full_structure(), @base_opts)
+    Schema.build_exchange(@full_meta, full_runtime(), full_structure(), @base_opts)
   end
 
   defp build_alias_exchange do
-    Schema.build_exchange_v4(@alias_meta, alias_runtime(), alias_structure(), @base_opts)
+    Schema.build_exchange(@alias_meta, alias_runtime(), alias_structure(), @base_opts)
   end
 
   # --- validate_schema/2 ---
@@ -526,7 +526,7 @@ defmodule CcxtExtract.ValidationTest do
       parent_symbols_index = CcxtExtract.SymbolsIndex.derive(parent_markets)
 
       exchange =
-        Schema.build_exchange_v4(
+        Schema.build_exchange(
           @alias_meta,
           %{
             "describe" => parent_describe,

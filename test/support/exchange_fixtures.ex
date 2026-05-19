@@ -112,7 +112,8 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
       "normalization" => Normalization.build(nil, nil),
       "markets" => %{
         "symbols_index" => nil,
-        "patterns" => %{}
+        "patterns" => %{},
+        "currencies" => nil
       },
       "testnet" => CcxtExtract.TestnetUrls.none_record(),
       "raw" => %{

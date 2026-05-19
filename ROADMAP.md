@@ -131,8 +131,8 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task 125 | 🔶 | 🎁 **sibling-emit** · Secondary OpenRPC emitter for JSON-RPC exchanges (Deribit first) [D:3/B:3/U:2 → Eff:0.83] ⚠️ |
 | Task 119 | ⬜ | 🎁 **scope-hygiene** · mix ccxt_extract.prune — evict out-of-scope local state [D:4/B:5/U:4 → Eff:1.12] 📋 |
 | Task 120 | ⬜ | 🎁 **scope-hygiene** · Tier-scope-aware skip for authenticated_sections + sign_recipe cached tests [D:3/B:3/U:3 → Eff:1.0] 📋 |
-| Task 121 | ⬜ | 🎁 **method-descriptors** · Extract unified-method descriptors from CCXT TS — TS signature + JSDoc overlay [D:6/B:7/U:8 → Eff:1.25] 📋 |
-| Task 122 | ⬜ | 🎁 **method-descriptors** · Schema block + unified_method_descriptors_shape_valid contract-test invariant [D:3/B:4/U:5 → Eff:1.5] 🚀 |
+| Task 121 | ⬜ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Extract unified-method descriptors from CCXT TS — TS signature + JSDoc overlay [D:6/B:7/U:8 → Eff:1.25] 📋 |
+| Task 122 | ⬜ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Schema block + unified_method_descriptors_shape_valid contract-test invariant [D:3/B:4/U:5 → Eff:1.5] 🚀 |
 | Task 139 | ⬜ | 🎁 **docs-drift** · Reconcile AGENTS.md cloud-agent guidance with retired [CSR]/[CX] strategy [D:2/B:3/U:3 → Eff:1.5] 🚀 |
 | Task 140 | ⬜ | 🎁 **test-coverage** · Add pipeline-level integration tests for endpoint_cost_binding propagation [D:3/B:4/U:4 → Eff:1.33] 📋 |
 | Task 138 | ⬜ | 🎁 **det-contract** · Extract JsonIO.write_json!/2,3 + a deterministic_write contract invariant [D:4/B:4/U:3 → Eff:0.88] ⚠️ |
@@ -143,6 +143,8 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task rate-limit-headers | 🔶 | 🎁 **superseded** · Rate-limit header extraction [D:7/B:3/U:3 → Eff:0.43] ⚠️ |
 | Task 142 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v4 cut — flip default emission and validation to v4 [D:4/B:9/U:9 → Eff:2.25] 🎯 |
 | Task 143 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v3 teardown — delete v3 and all schema_target plumbing [D:3/B:7/U:6 → Eff:2.17] 🎯 |
+| Task 144 | ⬜ | 🎁 **scope-hygiene** · TaskScope.parse_and_resolve! accepts task-specific switches [D:2/B:5/U:6 → Eff:2.75] 🎯 |
+| Task 145 | ⬜ | 🎁 **maintenance** · Paths read/write split — tighten read-only writer modules [D:3/B:3/U:3 → Eff:1.0] 📋 |
 <!-- TASKS:END -->
 
 ---
@@ -156,7 +158,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 <!-- TASKS:BEGIN phase=8 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 57c | ⬜ | 🎁 **9-pipeline-follow-up** · unified_endpoints/has drift triage — Pattern C honest fix [D:3/B:5/U:5 → Eff:1.67] 🚀 |
+| Task 57c | ⬜ | 🎁 **9-pipeline-follow-up** · 🚀 **feature_complete** · unified_endpoints/has drift triage — Pattern C honest fix [D:3/B:5/U:5 → Eff:1.67] 🚀 |
 <!-- TASKS:END -->
 
 Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG.md).
@@ -174,9 +176,9 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 <!-- TASKS:BEGIN phase=9 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 62 | ⬜ | 🎁 **9-audit** · mix ccxt_extract.validate_overrides [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 63 | ⬜ | 🎁 **9-audit** · mix ccxt_extract.drift_audit [D:5/B:7/U:6 → Eff:1.3] 📋 |
-| Task 104 | ⬜ | 🎁 **9-pipeline** · Array-index JSON Pointers in OverrideRegistry [D:2/B:3/U:2 → Eff:1.25] 📋 |
+| Task 62 | ⬜ | 🎁 **9-audit** · 🚀 **feature_complete** · mix ccxt_extract.validate_overrides [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 63 | ⬜ | 🎁 **9-audit** · 🚀 **feature_complete** · mix ccxt_extract.drift_audit [D:5/B:7/U:6 → Eff:1.3] 📋 |
+| Task 104 | ⬜ | 🎁 **9-pipeline** · 🚀 **feature_complete** · Array-index JSON Pointers in OverrideRegistry [D:2/B:3/U:2 → Eff:1.25] 📋 |
 <!-- TASKS:END -->
 
 ---
@@ -190,8 +192,8 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 <!-- TASKS:BEGIN phase=11 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 73f | ⬜ | 🎁 **11-shape** · Extend transaction_classification to non-unified raw broadcast endpoints [D:5/B:7/U:7 → Eff:1.4] 📋 |
-| Task 73e | ⬜ | 🎁 **11+14** · OXC-side extractor for sign-method-constructed User-Agent and runtime header mutations [D:5/B:3/U:3 → Eff:0.6] ⚠️ |
+| Task 73f | ⬜ | 🎁 **11-shape** · 🚀 **feature_complete** · Extend transaction_classification to non-unified raw broadcast endpoints [D:5/B:7/U:7 → Eff:1.4] 📋 |
+| Task 73e | ⬜ | 🎁 **11+14** · 🚀 **feature_complete** · OXC-side extractor for sign-method-constructed User-Agent and runtime header mutations [D:5/B:3/U:3 → Eff:0.6] ⚠️ |
 <!-- TASKS:END -->
 
 > **Three-Strikes escalation for Task 73c:** If the request-object derivation is patched three times to handle new shapes (conditional keys, spread elaboration, reassignment tracking, etc.), the Three-Strikes Rule requires a replacement tier — surfacing a bounded mechanics-AST subtree per CLAUDE.md's mechanics carve-out rather than continuing to stretch the derivation. No task created yet; this is a placeholder for when/if the patch counter reaches 3/3.
@@ -213,10 +215,10 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 <!-- TASKS:BEGIN phase=12 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 78c `[P]` | ⬜ | 🎁 **12-simple** · parseOHLCV hybrid Array.isArray exchanges (gate, possible binance options-fallback) [D:5/B:4/U:4 → Eff:0.8] ⚠️ |
-| Task 78d `[P]` | ⬜ | 🎁 **12-simple** · parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin) [D:5/B:4/U:4 → Eff:0.8] ⚠️ |
-| Task 78f `[P]` | ⬜ | 🎁 **12-simple** · parseOHLCV discriminator vocabulary beyond market.inverse [D:3/B:4/U:4 → Eff:1.33] 📋 |
-| Task 135 | ⬜ | 🎁 **12-simple** · ticker.ex normalization-vocab alignment [D:2/B:4/U:5 → Eff:2.25] 🎯 |
+| Task 78c `[P]` | ⬜ | 🎁 **12-simple** · 🚀 **feature_complete** · parseOHLCV hybrid Array.isArray exchanges (gate, possible binance options-fallback) [D:5/B:4/U:4 → Eff:0.8] ⚠️ |
+| Task 78d `[P]` | ⬜ | 🎁 **12-simple** · 🚀 **feature_complete** · parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin) [D:5/B:4/U:4 → Eff:0.8] ⚠️ |
+| Task 78f `[P]` | ⬜ | 🎁 **12-simple** · 🚀 **feature_complete** · parseOHLCV discriminator vocabulary beyond market.inverse [D:3/B:4/U:4 → Eff:1.33] 📋 |
+| Task 135 | ⬜ | 🎁 **12-simple** · 🚀 **feature_complete** · ticker.ex normalization-vocab alignment [D:2/B:4/U:5 → Eff:2.25] 🎯 |
 <!-- TASKS:END -->
 
 Type-coercion tables fold into each per-type task (not standalone) — one task covers its type's field map + coercion + enums together so it fits in a session.
@@ -232,9 +234,9 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 <!-- TASKS:BEGIN phase=13 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 132 | ⬜ | 🎁 **13-classify-fix** · Split predicate_kind http_status_in into eq vs range [D:3/B:5/U:5 → Eff:1.67] 🚀 |
-| Task 133 | ⬜ | 🎁 **13-classify-safety** · Explicit error_class_hierarchy content-equality invariant in contract_test [D:2/B:4/U:3 → Eff:1.75] 🚀 |
-| Task 134 | ⬜ | 🎁 **13-perf** · Thread precomputed error_dispatch through http_status_map/1 and retryable_buckets/1 [D:3/B:3/U:2 → Eff:0.83] ⚠️ |
+| Task 132 | ⬜ | 🎁 **13-classify-fix** · 🚀 **feature_complete** · Split predicate_kind http_status_in into eq vs range [D:3/B:5/U:5 → Eff:1.67] 🚀 |
+| Task 133 | ⬜ | 🎁 **13-classify-safety** · 🚀 **feature_complete** · Explicit error_class_hierarchy content-equality invariant in contract_test [D:2/B:4/U:3 → Eff:1.75] 🚀 |
+| Task 134 | ⬜ | 🎁 **13-perf** · 🚀 **feature_complete** · Thread precomputed error_dispatch through http_status_map/1 and retryable_buckets/1 [D:3/B:3/U:2 → Eff:0.83] ⚠️ |
 <!-- TASKS:END -->
 
 ---
@@ -248,13 +250,13 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 <!-- TASKS:BEGIN phase=15 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 91 | ⬜ | 🎁 **15-msg** · WS subscribe / unsubscribe message shape per channel [D:5/B:8/U:8 → Eff:1.6] 🚀 |
-| Task 92 | ⬜ | 🎁 **15-msg** · WS auth flow (sign-in msg / header / query param) [D:4/B:7/U:8 → Eff:1.88] 🚀 |
-| Task 93 | ⬜ | 🎁 **15-msg** · Heartbeat / ping-pong pattern per exchange [D:3/B:6/U:7 → Eff:2.17] 🎯 |
-| Task 94 | ⬜ | 🎁 **15-dispatch** · Channel → parse handler dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 95a `[P]` | ⬜ | 🎁 **15-semantics** · Snapshot/delta semantics — orderbook [D:5/B:8/U:8 → Eff:1.6] 🚀 |
-| Task 95b `[P]` | ⬜ | 🎁 **15-semantics** · Snapshot/delta semantics — trades [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 95c `[P]` | ⬜ | 🎁 **15-semantics** · Snapshot/delta semantics — OHLCV [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 91 | ⬜ | 🎁 **15-msg** · 🚀 **feature_complete** · WS subscribe / unsubscribe message shape per channel [D:5/B:8/U:8 → Eff:1.6] 🚀 |
+| Task 92 | ⬜ | 🎁 **15-msg** · 🚀 **feature_complete** · WS auth flow (sign-in msg / header / query param) [D:4/B:7/U:8 → Eff:1.88] 🚀 |
+| Task 93 | ⬜ | 🎁 **15-msg** · 🚀 **feature_complete** · Heartbeat / ping-pong pattern per exchange [D:3/B:6/U:7 → Eff:2.17] 🎯 |
+| Task 94 | ⬜ | 🎁 **15-dispatch** · 🚀 **feature_complete** · Channel → parse handler dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 95a `[P]` | ⬜ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — orderbook [D:5/B:8/U:8 → Eff:1.6] 🚀 |
+| Task 95b `[P]` | ⬜ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — trades [D:4/B:7/U:7 → Eff:1.75] 🚀 |
+| Task 95c `[P]` | ⬜ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — OHLCV [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 96 | 🔶 | 🎁 **15-reconnect** · Reconnect triggers + backoff policy hints [D:3/B:6/U:6 → Eff:2.0] 🎯 |
 <!-- TASKS:END -->
 
@@ -269,8 +271,8 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 <!-- TASKS:BEGIN phase=16 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 97 | ⬜ | 🎁 **16-currency** · Currency aliases (commonCurrencies) + network info [D:3/B:7/U:8 → Eff:2.5] 🎯 |
-| Task 98 | ⬜ | 🎁 **16-currency** · Precision mode + tick/step derivation semantics [D:3/B:6/U:7 → Eff:2.17] 🎯 |
+| Task 97 | ⬜ | 🎁 **16-currency** · 🚀 **feature_complete** · Currency aliases (commonCurrencies) + network info [D:3/B:7/U:8 → Eff:2.5] 🎯 |
+| Task 98 | ⬜ | 🎁 **16-currency** · 🚀 **feature_complete** · Precision mode + tick/step derivation semantics [D:3/B:6/U:7 → Eff:2.17] 🎯 |
 | Task 99 | 🔶 | 🎁 **16-fees** · Tiered fee schedules + VIP level mapping [D:4/B:4/U:3 → Eff:0.88] ⚠️ |
 | Task 99b | 🔶 | 🎁 **16-fees** · Funding / withdrawal / deposit fee catalog [D:4/B:4/U:3 → Eff:0.88] ⚠️ |
 <!-- TASKS:END -->

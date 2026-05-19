@@ -173,11 +173,17 @@
     }
   },
   "milestones": {
+    "feature_complete": {
+      "name": "Feature complete — contract surface closed",
+      "description": "All pending tasks in the contract-defining phases (9 override infra, 11 request, 12 response, 13 error, 15 WS, 16 currency) + the method-descriptors bundle done. ccxt_extract's own mission surface; what 'finish ccxt_extract' means.",
+      "order": 2,
+      "status": "active"
+    },
     "v4": {
       "name": "v4 schema cut",
       "description": "Flip default emission + validation to exchange.v4.json and delete the v3 plumbing.",
       "order": 1,
-      "status": "active",
+      "status": "done",
       "target_version": "v4"
     }
   },
@@ -560,6 +566,7 @@
       "id": 121,
       "phase": 0,
       "bundle": "method-descriptors",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Extract unified-method descriptors from CCXT TS — TS signature + JSDoc overlay",
       "scores": {
@@ -569,7 +576,12 @@
       },
       "eff": 1.25,
       "markers": [],
-      "depends_on": [],
+      "depends_on": [
+        144
+      ],
+      "acceptance_criteria": [
+        "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+      ],
       "body": "CCXT's unified methods carry two complementary axes: (a) the TS method signature — ordered `.value.params` with name, TS type, optional flag, default value, plus return type — the structural source of truth; (b) a leading JSDoc block adding per-param prose, `@throws {ErrorClass}` entries, `@returns` shape — the semantic overlay. Both halves matter; don't ship JSDoc alone. Extract both via an OXC pass over method definitions and emit a unified-method descriptor per method so each downstream client maps it to its own arg-shape convention — do NOT encode any single consumer's arg-shape in the descriptor. The TS-signature half is mechanical; the JSDoc half is the unknown — verify whether OXC surfaces JSDoc through `leadingComments`, a program-level comments array, or needs a second pass; QuickBEAM over the TS source is the fallback. Also emit `descriptor.source` — the byte-for-byte method body slice via OXC `.start`/`.end` offsets (provenance `raw`, just the method body, no normalization) so the descriptor becomes self-verifying. Provenance: both halves `raw`. Partial descriptors are honest (missing JSDoc → `description: null`, `errors: null` + `unresolved_reason`). Emission shape left to the implementer. Discovered 2026-04-21 during a descripex surface audit. ([Opus] model-hint marker from the legacy ROADMAP dropped — retired-era convention.)\n",
       "scored_at": "2026-05-14",
       "cross_repo": [
@@ -585,6 +597,7 @@
       "id": 122,
       "phase": 0,
       "bundle": "method-descriptors",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Schema block + unified_method_descriptors_shape_valid contract-test invariant",
       "scores": {
@@ -595,7 +608,11 @@
       "eff": 1.5,
       "markers": [],
       "depends_on": [
-        121
+        121,
+        144
+      ],
+      "acceptance_criteria": [
+        "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
       "body": "Depends on 121. Add the chosen emission shape to the JSON Schema file (additive minor-version bump, not breaking, unless the implementer intentionally promotes to required), add a shape invariant mirroring `testnet_urls_shape_valid`'s structure, and extend `CcxtExtract.Provenance.section_pointers/0` so `provenance_covers_schema` stays at zero findings. Update SCHEMA.md with a field reference and the descriptor value space (what `params` looks like, how `errors` is scoped, when fields are null + reason).\n",
       "scored_at": "2026-05-14",
@@ -758,6 +775,7 @@
       "id": "57c",
       "phase": 8,
       "bundle": "9-pipeline-follow-up",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "unified_endpoints/has drift triage — Pattern C honest fix",
       "scores": {
@@ -776,6 +794,7 @@
       "id": 62,
       "phase": 9,
       "bundle": "9-audit",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "mix ccxt_extract.validate_overrides",
       "scores": {
@@ -794,6 +813,7 @@
       "id": 63,
       "phase": 9,
       "bundle": "9-audit",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "mix ccxt_extract.drift_audit",
       "scores": {
@@ -812,6 +832,7 @@
       "id": 104,
       "phase": 9,
       "bundle": "9-pipeline",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Array-index JSON Pointers in OverrideRegistry",
       "scores": {
@@ -830,6 +851,7 @@
       "id": "73f",
       "phase": 11,
       "bundle": "11-shape",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Extend transaction_classification to non-unified raw broadcast endpoints",
       "scores": {
@@ -855,6 +877,7 @@
       "id": "73e",
       "phase": 11,
       "bundle": "11+14",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "OXC-side extractor for sign-method-constructed User-Agent and runtime header mutations",
       "scores": {
@@ -873,6 +896,7 @@
       "id": "78c",
       "phase": 12,
       "bundle": "12-simple",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "parseOHLCV hybrid Array.isArray exchanges (gate, possible binance options-fallback)",
       "scores": {
@@ -893,6 +917,7 @@
       "id": "78d",
       "phase": 12,
       "bundle": "12-simple",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin)",
       "scores": {
@@ -913,6 +938,7 @@
       "id": "78f",
       "phase": 12,
       "bundle": "12-simple",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "parseOHLCV discriminator vocabulary beyond market.inverse",
       "scores": {
@@ -933,6 +959,7 @@
       "id": 135,
       "phase": 12,
       "bundle": "12-simple",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "ticker.ex normalization-vocab alignment",
       "scores": {
@@ -951,6 +978,7 @@
       "id": 132,
       "phase": 13,
       "bundle": "13-classify-fix",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Split predicate_kind http_status_in into eq vs range",
       "scores": {
@@ -969,6 +997,7 @@
       "id": 133,
       "phase": 13,
       "bundle": "13-classify-safety",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Explicit error_class_hierarchy content-equality invariant in contract_test",
       "scores": {
@@ -987,6 +1016,7 @@
       "id": 134,
       "phase": 13,
       "bundle": "13-perf",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Thread precomputed error_dispatch through http_status_map/1 and retryable_buckets/1",
       "scores": {
@@ -1005,6 +1035,7 @@
       "id": 91,
       "phase": 15,
       "bundle": "15-msg",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "WS subscribe / unsubscribe message shape per channel",
       "scores": {
@@ -1014,7 +1045,12 @@
       },
       "eff": 1.6,
       "markers": [],
-      "depends_on": [],
+      "depends_on": [
+        144
+      ],
+      "acceptance_criteria": [
+        "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+      ],
       "body": "Ship both the frame envelope shape AND per-method channel-name templates (e.g. `\"tickers.{symbol}\"`, `\"book.{symbol}.raw\"`). ccxt_client T94 already ports envelope patterns from bak; T97 is blocked on the channel templates specifically.\n",
       "scored_at": "2026-05-14",
       "cross_repo": [
@@ -1036,6 +1072,7 @@
       "id": 92,
       "phase": 15,
       "bundle": "15-msg",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "WS auth flow (sign-in msg / header / query param)",
       "scores": {
@@ -1045,7 +1082,12 @@
       },
       "eff": 1.88,
       "markers": [],
-      "depends_on": [],
+      "depends_on": [
+        144
+      ],
+      "acceptance_criteria": [
+        "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+      ],
       "body": "WS authentication flow per exchange — sign-in message, header, or query param. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1054,6 +1096,7 @@
       "id": 93,
       "phase": 15,
       "bundle": "15-msg",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Heartbeat / ping-pong pattern per exchange",
       "scores": {
@@ -1063,7 +1106,12 @@
       },
       "eff": 2.17,
       "markers": [],
-      "depends_on": [],
+      "depends_on": [
+        144
+      ],
+      "acceptance_criteria": [
+        "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+      ],
       "body": "Heartbeat / ping-pong pattern per exchange. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1072,6 +1120,7 @@
       "id": 94,
       "phase": 15,
       "bundle": "15-dispatch",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Channel → parse handler dispatch tables",
       "scores": {
@@ -1081,7 +1130,12 @@
       },
       "eff": 1.75,
       "markers": [],
-      "depends_on": [],
+      "depends_on": [
+        144
+      ],
+      "acceptance_criteria": [
+        "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+      ],
       "body": "WS channel → parse handler dispatch tables. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1090,6 +1144,7 @@
       "id": "95a",
       "phase": 15,
       "bundle": "15-semantics",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Snapshot/delta semantics — orderbook",
       "scores": {
@@ -1101,7 +1156,12 @@
       "markers": [
         "parallel"
       ],
-      "depends_on": [],
+      "depends_on": [
+        144
+      ],
+      "acceptance_criteria": [
+        "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+      ],
       "body": "WS snapshot/delta semantics for the orderbook channel. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1110,6 +1170,7 @@
       "id": "95b",
       "phase": 15,
       "bundle": "15-semantics",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Snapshot/delta semantics — trades",
       "scores": {
@@ -1121,7 +1182,12 @@
       "markers": [
         "parallel"
       ],
-      "depends_on": [],
+      "depends_on": [
+        144
+      ],
+      "acceptance_criteria": [
+        "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+      ],
       "body": "WS snapshot/delta semantics for the trades channel. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1130,6 +1196,7 @@
       "id": "95c",
       "phase": 15,
       "bundle": "15-semantics",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Snapshot/delta semantics — OHLCV",
       "scores": {
@@ -1141,7 +1208,12 @@
       "markers": [
         "parallel"
       ],
-      "depends_on": [],
+      "depends_on": [
+        144
+      ],
+      "acceptance_criteria": [
+        "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+      ],
       "body": "WS snapshot/delta semantics for the OHLCV channel. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1169,6 +1241,7 @@
       "id": 97,
       "phase": 16,
       "bundle": "16-currency",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Currency aliases (commonCurrencies) + network info",
       "scores": {
@@ -1178,7 +1251,12 @@
       },
       "eff": 2.5,
       "markers": [],
-      "depends_on": [],
+      "depends_on": [
+        144
+      ],
+      "acceptance_criteria": [
+        "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+      ],
       "body": "Currency aliases (`commonCurrencies`) + network info per exchange.\n",
       "scored_at": "2026-05-14",
       "cross_repo": [
@@ -1194,6 +1272,7 @@
       "id": 98,
       "phase": 16,
       "bundle": "16-currency",
+      "milestone": "feature_complete",
       "status": "pending",
       "title": "Precision mode + tick/step derivation semantics",
       "scores": {
@@ -1203,7 +1282,12 @@
       },
       "eff": 2.17,
       "markers": [],
-      "depends_on": [],
+      "depends_on": [
+        144
+      ],
+      "acceptance_criteria": [
+        "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+      ],
       "body": "Precision mode + tick/step derivation semantics per exchange.\n",
       "scored_at": "2026-05-14",
       "cross_repo": [
@@ -1345,6 +1429,83 @@
       "created_at": "2026-05-14",
       "scored_at": "2026-05-15",
       "implemented": "Deleted exchange_v3.json, Schema.build_exchange/4 + validate/1+!, all v3 required-key attrs, normalize_schema_target!, the 3|4 dispatch in pipeline/validation/override_registry, the v3 recipe_path_map clause, target_suffix helpers, --schema-target from all 3 mix tasks, and the v3 provenance lists. Promoted provenance v4 paths to canonical names. Made translate_pointer/1 and build_schema_root/0. Removed flag from CLI surface and all threading. Deleted pure-v3 schema_test.exs. Zero 'schema_target' strings remain in lib/**/*.ex. Clean compile + contract_test baseline.",
+      "cross_repo": []
+    },
+    {
+      "id": 144,
+      "phase": 0,
+      "bundle": "scope-hygiene",
+      "status": "pending",
+      "title": "TaskScope.parse_and_resolve! accepts task-specific switches",
+      "scores": {
+        "d": 2,
+        "b": 5,
+        "u": 6
+      },
+      "eff": 2.75,
+      "markers": [],
+      "depends_on": [],
+      "acceptance_criteria": [
+        "TaskScope.parse_and_resolve!/2 (or equivalent shape) supports per-task switches with typed/validated extra_opts return",
+        "3 mix tasks migrated (handle_errors, parse_methods, sign_methods); mix test.json --include extraction passes",
+        "Migrated tasks contain zero direct OptionParser.parse calls",
+        "Downstream tasks 91, 92, 93, 94, 95a, 95b, 95c, 97, 98, 121, 122 each carry depends_on pointing here AND an acceptance criterion enforcing helper use",
+        "time mix compile --warnings-as-errors clean; mix dialyzer.json --quiet clean; mix credo --strict --format json clean",
+        "mix ccxt_extract.contract_test passes; mix ccxt_extract.determinism_check --tier1 byte-equal across two runs"
+      ],
+      "out_of_scope": [
+        "Migrating all 40+ mix tasks at once (opportunistic; downstream tasks enforce via their own acceptance criteria)",
+        "v3 task surface (Task 143 owns)"
+      ],
+      "files_to_modify": [
+        "lib/ccxt_extract/task_scope.ex",
+        "lib/mix/tasks/ccxt_extract/handle_errors.ex",
+        "lib/mix/tasks/ccxt_extract/parse_methods.ex",
+        "lib/mix/tasks/ccxt_extract/sign_methods.ex"
+      ],
+      "body": "Most extraction mix tasks duplicate ~8 lines of preamble (OptionParser → universe → scope resolve → tier_scope). `TaskScope.parse_and_resolve!/1` at `lib/ccxt_extract/task_scope.ex:121-142` only covers tasks with no extra switches; tasks needing custom opts (e.g. `lib/mix/tasks/ccxt_extract/handle_errors.ex:49-61`) fall back to manual `OptionParser`, re-introducing every drift class the helper was meant to prevent (mishandled `--exchange`, missing `tier_scope`, lost fuzzy-suggestion behavior on typos).\n\nExtend the helper to accept task-specific switches — e.g. `parse_and_resolve!(args, extra_switches: [...])` returning `{scope, extra_opts}` so callers get back typed/validated custom switches. Migrate ~3 representative tasks (`handle_errors`, `parse_methods`, `sign_methods`) to validate the API shape. Document the pattern at the top of `TaskScope` so the next task author defaults into it.\n\nThen update the downstream-task specs that will plausibly add a new mix task: add `depends_on = [<this task id>]` and append an acceptance criterion (\"Mix task uses `TaskScope.parse_and_resolve!/2` — no direct `OptionParser.parse` call\") to tasks 91, 92, 93, 94, 95a, 95b, 95c, 97, 98, 121, 122. The spec updates are part of this task's deliverable — otherwise the helper exists but nothing forces the next implementer to use it.\n\nPlan: ~/.claude/plans/task-143-is-already-mellow-crystal.md\n",
+      "created_at": "2026-05-19",
+      "scored_at": "2026-05-19",
+      "cross_repo": []
+    },
+    {
+      "id": 145,
+      "phase": 0,
+      "bundle": "maintenance",
+      "status": "pending",
+      "title": "Paths read/write split — tighten read-only writer modules",
+      "scores": {
+        "d": 3,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 1.0,
+      "markers": [],
+      "depends_on": [],
+      "acceptance_criteria": [
+        "All five identified modules use `Paths.*` helpers (or document the exception — `tiers.ex`'s compile-time `@external_resource` may qualify)",
+        "`paths_rw_split` (or sibling) invariant extended to flag read-side leaks on `priv/...` paths",
+        "Existing tests under `CcxtExtract.PrivWriteCase` continue to isolate writes correctly",
+        "The new contract check fires on a deliberate `File.read!(\"priv/...\")` fixture",
+        "mix ccxt_extract.determinism_check --tier1 byte-identical across two runs",
+        "time mix compile --warnings-as-errors clean; mix dialyzer.json --quiet clean; mix credo --strict --format json clean; mix ccxt_extract.contract_test passes"
+      ],
+      "out_of_scope": [
+        "A new `Paths.cp!/2` helper (waits on Task 127 — Reach position-aware sinks)",
+        "Test-support files (already `:test`-only)",
+        "v3 task surface (Task 143 owns)"
+      ],
+      "files_to_modify": [
+        "lib/ccxt_extract/overrides.ex",
+        "lib/ccxt_extract/oxc_batch.ex",
+        "lib/ccxt_extract/error_hierarchy.ex",
+        "lib/ccxt_extract/base_methods.ex",
+        "lib/ccxt_extract/tiers.ex",
+        "lib/ccxt_extract/contract_test.ex"
+      ],
+      "body": "Several modules use `File.read!` / `File.write!` directly instead of routing through `CcxtExtract.Paths` helpers:\n\n- `lib/ccxt_extract/overrides.ex` — `File.read!`\n- `lib/ccxt_extract/oxc_batch.ex` — `File.read!`\n- `lib/ccxt_extract/error_hierarchy.ex` — `File.read!`\n- `lib/ccxt_extract/base_methods.ex` — `File.read!` + `File.write!`\n- `lib/ccxt_extract/tiers.ex` — `File.read!` (note: compile-time `@external_resource`; may need special handling)\n\nThe `paths_rw_split` contract invariant (Reach taint analysis at `lib/ccxt_extract/contract_test.ex:2285`) catches direct `File.write!` inside read-aware functions but doesn't catch read-only leaks in modules that never write. The gap matters because `--output DIR` and `PrivWriteCase` rely on the `Paths.*` override hooks; direct `File.read!` on hardcoded `priv/...` paths silently bypasses both `:priv_dir_override` and `:priv_write_override`.\n\nRoute all reads through `Paths.priv/1` and writes through `Paths.out/1`. Extend the contract invariant (or add a sibling invariant) to flag direct `File.read!` / `File.write!` literals on `priv/...` paths.\n\nOptional downstream-spec hook: for any pending task that introduces a new module under `lib/ccxt_extract/`, append an acceptance criterion enforcing the same convention. Less strict than Task 144's `depends_on` since the new invariant catches leaks at CI time regardless.\n\nPlan: ~/.claude/plans/task-143-is-already-mellow-crystal.md\n",
+      "created_at": "2026-05-19",
+      "scored_at": "2026-05-19",
       "cross_repo": []
     }
   ]

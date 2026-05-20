@@ -591,6 +591,7 @@
       "depends_on": [
         144
       ],
+      "model": "claude-opus-4-7",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -623,6 +624,7 @@
         121,
         144
       ],
+      "model": "claude-sonnet-4-6",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -798,6 +800,7 @@
       "eff": 1.67,
       "markers": [],
       "depends_on": [],
+      "model": "claude-opus-4-7",
       "body": "Pattern A/B fixed (341 → 53 findings). Provenance now lands (Task 61a, 2026-04-17) so the honest Pattern C fix is unblocked — tag `has`-confirmed entries as `\"derived\"` at the provenance tier rather than silently filtering. Still deferred until a Tier 1/2/DEX exchange surfaces a Pattern C failure. The legacy ROADMAP listed this task twice (Phase 8 row + a \"Next Up\" preview row) — the preview was a view; rmap's FOCUS block replaces it, so this is a single row.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -817,6 +820,7 @@
       "eff": 1.75,
       "markers": [],
       "depends_on": [],
+      "model": "claude-sonnet-4-6",
       "body": "Cross-check each override against runtime behavior where a probe exists (URL override vs runtime `url_templates`; signing override vs live sign() probe). Emit a per-exchange report: verified vs unverified-with-reason.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -836,6 +840,7 @@
       "eff": 1.3,
       "markers": [],
       "depends_on": [],
+      "model": "claude-sonnet-4-6",
       "acceptance_criteria": [
         "mix ccxt_extract.drift_audit task exists and runs end-to-end against a baseline release tag",
         "Output identifies three categories: stale overrides (override over changed raw), flipped/disappeared derived fields, new raw fields not yet derived",
@@ -862,6 +867,7 @@
       "eff": 1.25,
       "markers": [],
       "depends_on": [],
+      "model": "claude-sonnet-4-6",
       "body": "Extend `pointer_to_keys/1` to emit `Access.at/1` for numeric segments so paths like `/structure/sign_method/params/0/name` resolve to deep list elements. Currently raises loudly with a TODO marker — fine while every shipped override file uses shallow string-key pointers. Unblock when a real override file needs `/path/0/...`.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -881,6 +887,7 @@
       "eff": 1.4,
       "markers": [],
       "depends_on": [],
+      "model": "claude-sonnet-4-6",
       "acceptance_criteria": [
         "OXC pass detects signed-payload helper calls (signL1Action, signEIP712) in sign-method and exchange-method bodies",
         "OXC pass detects web3 / EIP-712 typed-data builder patterns and DEX signing-library imports (@noble/curves, ethers, starknet)",
@@ -915,6 +922,7 @@
       "eff": 0.6,
       "markers": [],
       "depends_on": [],
+      "model": "claude-sonnet-4-6",
       "acceptance_criteria": [
         "OXC pass detects string-concat assignments to a headers['User-Agent'] LHS in sign() bodies (catches bigone's 'ccxt/' + this.id + '-' + this.version shape)",
         "OXC pass detects setSandboxMode-equivalent runtime mutations on this.headers (catches okx's x-simulated-trading: 1 injection)",
@@ -942,6 +950,7 @@
         "parallel"
       ],
       "depends_on": [],
+      "model": "claude-sonnet-4-6",
       "acceptance_criteria": [
         "parseOHLCV field-map schema accepts array_input and object_input guard kinds, with each branch entry tagged by the kind that selected it",
         "binance options-fallback IfStatement-discriminated branches are preserved if present; if binance has no hybrid branch, the task closes as a verified no-op",
@@ -996,6 +1005,7 @@
         "parallel"
       ],
       "depends_on": [],
+      "model": "claude-sonnet-4-6",
       "body": "Non-gating Phase 12 edge case. Generalize the closed `discriminator` vocab beyond `market.inverse` to cover okx `type === 'spot'` and similar multi-market-type gating — okx's `volumeIndex` test is `(type === 'spot') ? 5 : 6`, currently emits `volume = null` honestly. Ship okx volume populated when fixed. Discovered during Task 78 implementation.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1051,6 +1061,7 @@
       "eff": 1.67,
       "markers": [],
       "depends_on": [],
+      "model": "claude-sonnet-4-6",
       "body": "Surfaced during PR #13 review. The current single-bucket lumping of `predicate_kind: \"http_status_in\"` loses information for retry/backoff heuristics — split it into `eq` vs `range`. (Phase 13 Task 132 — keeps its original id; the audit-surfaced legacy Task 132 was renumbered to 139 at migration.)\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1070,6 +1081,7 @@
       "eff": 1.75,
       "markers": [],
       "depends_on": [],
+      "model": "claude-sonnet-4-6",
       "body": "Surfaced during PR #13 review. Today only the outer shape of `error_class_hierarchy` is enforced — drift would only be caught by JSV on cosmetic changes. Add an explicit content-equality invariant in `contract_test`. (Phase 13 Task 133 — keeps its original id; the audit-surfaced legacy Task 133 was renumbered to 140 at migration.)\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1089,6 +1101,7 @@
       "eff": 0.83,
       "markers": [],
       "depends_on": [],
+      "model": "claude-sonnet-4-6",
       "body": "Surfaced during PR #13 review. Both helpers re-walk the handle_errors AST when the caller already has the predicate-classified dispatch list — thread the precomputed `error_dispatch` through `http_status_map/1` and `retryable_buckets/1` instead.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1112,6 +1125,7 @@
       "depends_on": [
         144
       ],
+      "model": "claude-sonnet-4-6",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1151,6 +1165,7 @@
       "depends_on": [
         144
       ],
+      "model": "claude-opus-4-7",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1177,6 +1192,7 @@
       "depends_on": [
         144
       ],
+      "model": "claude-sonnet-4-6",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1203,6 +1219,7 @@
       "depends_on": [
         144
       ],
+      "model": "claude-sonnet-4-6",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1229,6 +1246,7 @@
       "depends_on": [
         144
       ],
+      "model": "claude-opus-4-7",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1255,6 +1273,7 @@
       "depends_on": [
         144
       ],
+      "model": "claude-opus-4-7",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1281,6 +1300,7 @@
       "depends_on": [
         144
       ],
+      "model": "claude-opus-4-7",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1363,6 +1383,7 @@
       "depends_on": [
         144
       ],
+      "model": "claude-opus-4-7",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],

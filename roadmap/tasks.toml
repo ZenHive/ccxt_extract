@@ -475,6 +475,7 @@ Two tests paper over scope drift with blunt skips: (a) `authenticated_sections_i
 
 [[task]]
 id = 121
+model = "claude-opus-4-7"
 phase = 12
 bundle = "method-descriptors"
 milestone = "feature_complete"
@@ -493,6 +494,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 122
+model = "claude-sonnet-4-6"
 phase = 12
 bundle = "method-descriptors"
 milestone = "feature_complete"
@@ -634,6 +636,7 @@ Extract per-exchange rate-limit response headers. Confirmed not observable from 
 
 [[task]]
 id = "57c"
+model = "claude-opus-4-7"
 phase = 8
 bundle = "9-pipeline-follow-up"
 milestone = "feature_complete"
@@ -649,6 +652,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 62
+model = "claude-sonnet-4-6"
 phase = 9
 bundle = "9-audit"
 milestone = "feature_complete"
@@ -662,6 +666,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 63
+model = "claude-sonnet-4-6"
 phase = 9
 bundle = "9-audit"
 milestone = "feature_complete"
@@ -684,6 +689,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 104
+model = "claude-sonnet-4-6"
 phase = 9
 bundle = "9-pipeline"
 milestone = "feature_complete"
@@ -699,6 +705,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "73f"
+model = "claude-sonnet-4-6"
 phase = 11
 bundle = "11-shape"
 milestone = "feature_complete"
@@ -723,6 +730,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "73e"
+model = "claude-sonnet-4-6"
 phase = 11
 bundle = "11+14"
 milestone = "feature_complete"
@@ -744,6 +752,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "78c"
+model = "claude-sonnet-4-6"
 phase = 12
 bundle = "parse-ohlcv"
 milestone = "feature_complete"
@@ -786,6 +795,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "78f"
+model = "claude-sonnet-4-6"
 phase = 12
 bundle = "parse-ohlcv"
 milestone = "feature_complete"
@@ -832,6 +842,7 @@ done_at = "2026-05-20"
 
 [[task]]
 id = 132
+model = "claude-sonnet-4-6"
 phase = 13
 bundle = "13-classify-fix"
 milestone = "feature_complete"
@@ -847,6 +858,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 133
+model = "claude-sonnet-4-6"
 phase = 13
 bundle = "13-classify-safety"
 milestone = "feature_complete"
@@ -862,6 +874,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 134
+model = "claude-sonnet-4-6"
 phase = 13
 bundle = "13-perf"
 milestone = "feature_complete"
@@ -877,6 +890,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 91
+model = "claude-sonnet-4-6"
 phase = 15
 bundle = "15-msg"
 milestone = "feature_complete"
@@ -899,6 +913,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 92
+model = "claude-opus-4-7"
 phase = 15
 bundle = "15-msg"
 milestone = "feature_complete"
@@ -917,6 +932,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 93
+model = "claude-sonnet-4-6"
 phase = 15
 bundle = "15-msg"
 milestone = "feature_complete"
@@ -937,6 +953,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 94
+model = "claude-sonnet-4-6"
 phase = 15
 bundle = "15-dispatch"
 milestone = "feature_complete"
@@ -957,6 +974,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "95a"
+model = "claude-opus-4-7"
 phase = 15
 bundle = "15-semantics"
 milestone = "feature_complete"
@@ -975,6 +993,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "95b"
+model = "claude-opus-4-7"
 phase = 15
 bundle = "15-semantics"
 milestone = "feature_complete"
@@ -993,6 +1012,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "95c"
+model = "claude-opus-4-7"
 phase = 15
 bundle = "15-semantics"
 milestone = "feature_complete"
@@ -1061,6 +1081,7 @@ done_at = "2026-05-19"
 
 [[task]]
 id = 98
+model = "claude-opus-4-7"
 phase = 16
 bundle = "16-currency"
 milestone = "feature_complete"

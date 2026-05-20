@@ -6,6 +6,14 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### WebSocket heartbeat extraction — `websocket.heartbeat` (2026-05-20)
+
+New top-level `websocket` group in the v4 per-exchange JSON, opening Phase 15. Its first sub-section, `heartbeat`, captures how each exchange keeps a WebSocket connection alive — the ping/pong keep-alive contract a port needs to hold a connection open.
+
+- A new OXC extractor (`mix ccxt_extract.ws_heartbeat`) parses every CCXT Pro class for its `ping` / `pong` / `handlePong` / `handlePing` methods and `describe().streaming` block, writing raw, inheritance-free facts to `priv/discoveries/ws_heartbeat.json`.
+- The pipeline resolves WS-class-hierarchy inheritance (e.g. `binanceusdm` inherits `binance`'s 180s `keepAlive`) and classifies the ping strategy **structurally from the AST** — `native_frame`, `string_message`, `json_message`, or an honest `unknown` for shapes it cannot statically resolve. REST-only exchanges carry an honest-empty record.
+- Added additively — no schema-version bump. A `websocket_heartbeat_shape_valid` contract-test invariant guards the cross-field honesty rule JSON Schema cannot express.
+
 ### Derivation scope narrowed to 7 exchanges (2026-05-20)
 
 The sole consumer (`../ccxt_client/`) scoped to a 7-exchange option-seller set, so ccxt_extract's **derivation** effort follows. Raw extraction is unchanged — still full-universe.

@@ -57,6 +57,7 @@ defmodule CcxtExtract.DiscoveryLoader do
     {rate_limit_buckets, stats} = load_exchange_lookup(dir, "rate_limit_buckets.json", expected_ids, stats)
     {rate_limit_costs, stats} = load_exchange_lookup(dir, "rate_limit_costs.json", expected_ids, stats)
     {fetch_methods, stats} = load_exchange_lookup(dir, "fetch_methods.json", expected_ids, stats)
+    {ws_heartbeat, stats} = load_exchange_lookup(dir, "ws_heartbeat.json", expected_ids, stats)
     {overrides, stats} = load_overrides(dir, expected_ids, stats)
 
     %{
@@ -72,6 +73,7 @@ defmodule CcxtExtract.DiscoveryLoader do
       parse_methods: parse_methods,
       fetch_methods: fetch_methods,
       ws_methods: ws_methods,
+      ws_heartbeat: ws_heartbeat,
       interface_signatures: interface_signatures,
       pagination: pagination,
       unified_endpoints: unified_endpoints,

@@ -33,6 +33,7 @@ defmodule CcxtExtract.Pipeline do
   alias CcxtExtract.ScopeCleanup
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.Validation
+  alias CcxtExtract.WsHeartbeat
 
   require Logger
 
@@ -488,7 +489,16 @@ defmodule CcxtExtract.Pipeline do
         Map.get(fetch_methods_lookup, id)
       )
 
-    v4_opts = Keyword.put(opts, :normalization, normalization)
+    # WebSocket heartbeat carrier (Task 93). Map.get/3 on :ws_heartbeat so
+    # older test fixtures that omit the key resolve to the none_record.
+    ws_heartbeat_lookup = Map.get(data, :ws_heartbeat, %{})
+    websocket = %{"heartbeat" => WsHeartbeat.build(Map.get(ws_heartbeat_lookup, id), ws_heartbeat_lookup)}
+
+    v4_opts =
+      opts
+      |> Keyword.put(:normalization, normalization)
+      |> Keyword.put(:websocket, websocket)
+
     Schema.build_exchange(meta, runtime_data, structure_data, v4_opts)
   end
 

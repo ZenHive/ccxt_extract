@@ -89,12 +89,14 @@ defmodule CcxtExtract.Currencies do
 
   defp normalize_currency(_), do: %{}
 
+  @spec normalize_networks(term()) :: map()
   defp normalize_networks(nets) when is_map(nets) do
     Map.new(nets, fn {net_code, net} -> {net_code, normalize_network(net)} end)
   end
 
   defp normalize_networks(_), do: %{}
 
+  @spec normalize_network(term()) :: map()
   defp normalize_network(net) when is_map(net) do
     Map.delete(net, "info")
   end
@@ -104,6 +106,7 @@ defmodule CcxtExtract.Currencies do
   # Drop every `"__undefined"`-valued key, recursing through nested maps
   # (notably the per-network records). Lists are walked for completeness;
   # all other leaves pass through untouched.
+  @spec strip_undefined(term()) :: term()
   defp strip_undefined(map) when is_map(map) do
     map
     |> Enum.reject(fn {_k, v} -> v == @undefined_sentinel end)

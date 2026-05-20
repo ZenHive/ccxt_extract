@@ -244,7 +244,7 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 `TSAsExpression` wrappers are unwrapped before classification. Inheriting exchanges (no `parseTicker` override) emit `field_maps["ticker"] = null`.
 
-**Honesty contract:** every populated slot is provable from AST. No field is synthesized or inferred from exchange documentation. `_unresolved_reason` is either `null` or one of the four strings above (two are prefix-bearing with open suffixes: `non_safe_ticker_return:*` and the others are exact). `coercion` and `format` are closed (hard-error on unrecognized); `key` is open (any wire-format string from the exchange).
+**Honesty contract:** every populated slot is provable from AST. No field is synthesized or inferred from exchange documentation. `_unresolved_reason` is either `null` or one of the four strings above (one is prefix-bearing with an open suffix — `non_safe_ticker_return:*`; the other three are exact). `coercion` and `format` are closed (hard-error on unrecognized); `key` is open (any wire-format string from the exchange).
 
 ### `normalization.field_maps.trade` — shape (Task 76)
 

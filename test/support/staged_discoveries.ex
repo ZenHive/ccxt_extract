@@ -15,11 +15,19 @@ defmodule CcxtExtract.Test.StagedDiscoveries do
   """
   @spec stage!(String.t()) :: String.t()
   def stage!(source_dir) do
-    # `:erlang.unique_integer/1` only guarantees uniqueness within one VM
-    # instance — the counter restarts each `mix test` run, so a leftover dir
-    # from a crashed run (whose `on_exit` cleanup never fired) collides and
-    # `File.ln_s/2` below trips `{:error, :eexist}`. Clear any stale dir first.
-    tmp = Path.join(System.tmp_dir!(), "ccxt_staged_discoveries_#{:erlang.unique_integer([:positive])}")
+    # `:erlang.unique_integer/1` is unique only within one VM, and the counter
+    # restarts each `mix test` run. `System.tmp_dir!/0` is shared across
+    # concurrent VMs (parallel `mix test`, separate worktrees), so a bare
+    # counter path can collide — and the `rm_rf!` below would then delete
+    # another live VM's active staged corpus. Namespacing with the OS pid
+    # (`System.pid/0`) makes the path unique per VM; `rm_rf!` stays as harmless
+    # defensive cleanup before `mkdir_p!`.
+    tmp =
+      Path.join(
+        System.tmp_dir!(),
+        "ccxt_staged_discoveries_#{System.pid()}_#{:erlang.unique_integer([:positive])}"
+      )
+
     File.rm_rf!(tmp)
     File.mkdir_p!(tmp)
 

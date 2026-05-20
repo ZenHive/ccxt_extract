@@ -131,8 +131,8 @@ For every `parse*` method, a consumer needs a declarative field map.
 |------|--------|--------|
 | Market symbol index (per-symbol spot/swap classification) | ✅ | `markets.symbols_index` (schema 3.0.0 / Task 117 — compact `%{symbol => %{spot, swap}}`). Full market structure (price, precision, limits, info) must be fetched at runtime via live `loadMarkets()` — it drifts between extraction runs and is no longer emitted to spec. |
 | Symbol format patterns per market type | ✅ | `markets.patterns` (Task 40) |
-| Currency aliases (`commonCurrencies`) | ⬜ | Phase 16 — Task 97 |
-| Network info (USDT-ERC20 vs TRC20, etc.) | ⬜ | Phase 16 — Task 97 |
+| Currency aliases (`commonCurrencies`) | 🚧 | Native id in `markets.currencies` + `raw.describe.commonCurrencies`; no dedicated derived alias map (Task 97) |
+| Network info (USDT-ERC20 vs TRC20, etc.) | ✅ | `markets.currencies[<code>].networks` (Task 97) |
 | Precision mode + tick/step semantics | ⬜ | Phase 16 — Task 98 |
 | Trading fees (maker/taker, default) | ✅ | `raw.describe.fees.trading` |
 | Tiered fee schedules + VIP level mapping | ⬜ | Phase 16 — Task 99 |

@@ -30,9 +30,25 @@ defmodule CcxtExtract.Normalization.Ticker do
   `timestamp` via `iso8601`, not from raw), and `info` (the raw ticker
   object pass-through — not a safe-call).
 
-  `_unresolved_reason` is nil when the `safeTicker` return pattern was found
-  (even if many individual fields are null); non-nil when the return structure
-  is not the slottable pattern (e.g. kucoin returns `parseContractTicker`).
+  ## `_unresolved_reason` vocabulary
+
+  - `nil` — slottable return found (`safeTicker` call or bare `ObjectExpression`); per-field slots may still be nil
+  - `"no_return_statement"` — body has no `ReturnStatement` at all
+  - `"non_safe_ticker_return:<callee>"` — return is a different `this.<callee>(...)` call
+  - `"identifier_return"` — return is a bare Identifier (pre-built variable)
+  - `"unrecognized_return_shape"` — return argument matches none of the above (e.g. `return foo() + bar()`)
+
+  `TSAsExpression` wrappers (`return {...} as Ticker`) are unwrapped before
+  classification, so a TS-cast around an otherwise-slottable `safeTicker` call
+  resolves cleanly.
+
+  ## Three-Strikes Patch counter
+
+  # Patch count: 0/3
+
+  Authorized future patches:
+  - Patch 1 candidate: richer binding resolution for fields that arrive via
+    intermediate variables that are not simple safe* calls (rare in ticker corpus).
   """
 
   alias CcxtExtract.SignRecipe.ASTHelpers
@@ -85,46 +101,59 @@ defmodule CcxtExtract.Normalization.Ticker do
     end
   end
 
-  # Finds the top-level ReturnStatement returning `this.safeTicker({...}, market)`.
-  # Returns {:ok, properties} where properties is the ObjectExpression's property list,
-  # or {:error, reason} when the pattern doesn't match.
+  # Finds the last ReturnStatement and classifies its argument (after unwrapping any
+  # TSAsExpression cast). Returns {:ok, properties} for the slottable safeTicker (or bare
+  # ObjectExpression) case; {:error, reason} otherwise.
   @spec find_safe_ticker_object([map()]) :: {:ok, [map()]} | {:error, String.t()}
   defp find_safe_ticker_object(body_stmts) do
-    return_stmt = Enum.find(body_stmts, &(is_map(&1) and &1["type"] == "ReturnStatement"))
+    last_return =
+      body_stmts
+      |> Enum.filter(&match?(%{"type" => "ReturnStatement"}, &1))
+      |> List.last()
 
-    case return_stmt do
-      nil ->
-        {:error, "no_return_statement"}
-
-      %{
-        "argument" => %{
-          "type" => "CallExpression",
-          "callee" => %{
-            "type" => "MemberExpression",
-            "object" => %{"type" => "ThisExpression"},
-            "property" => %{"type" => "Identifier", "name" => "safeTicker"}
-          },
-          "arguments" => [%{"type" => "ObjectExpression", "properties" => properties} | _]
-        }
-      } ->
-        {:ok, properties}
-
-      %{
-        "argument" => %{
-          "type" => "CallExpression",
-          "callee" => %{
-            "type" => "MemberExpression",
-            "object" => %{"type" => "ThisExpression"},
-            "property" => %{"type" => "Identifier", "name" => callee_name}
-          }
-        }
-      } ->
-        {:error, "non_safe_ticker_return:#{callee_name}"}
-
-      _ ->
-        {:error, "no_return_statement"}
+    case last_return do
+      nil -> {:error, "no_return_statement"}
+      %{"argument" => arg} -> classify_return_argument(unwrap_ts_as(arg))
     end
   end
+
+  # TSAsExpression wraps `expr as Type` TypeScript casts; unwrap to the inner expr.
+  # Recursive so chained casts unwrap fully (parity with market.ex / transaction.ex).
+  @spec unwrap_ts_as(map() | nil) :: map() | nil
+  defp unwrap_ts_as(%{"type" => "TSAsExpression", "expression" => inner}), do: unwrap_ts_as(inner)
+  defp unwrap_ts_as(node), do: node
+
+  @spec classify_return_argument(map() | nil) :: {:ok, [map()]} | {:error, String.t()}
+  # `return this.safeTicker({...}, market)`
+  defp classify_return_argument(%{
+         "type" => "CallExpression",
+         "callee" => %{
+           "type" => "MemberExpression",
+           "object" => %{"type" => "ThisExpression"},
+           "property" => %{"type" => "Identifier", "name" => "safeTicker"}
+         },
+         "arguments" => [%{"type" => "ObjectExpression", "properties" => properties} | _]
+       }),
+       do: {:ok, properties}
+
+  # Bare ObjectExpression return (defensive; some parsers return the object directly)
+  defp classify_return_argument(%{"type" => "ObjectExpression", "properties" => properties}), do: {:ok, properties}
+
+  # Some other `this.<callee>(...)`
+  defp classify_return_argument(%{
+         "type" => "CallExpression",
+         "callee" => %{
+           "type" => "MemberExpression",
+           "object" => %{"type" => "ThisExpression"},
+           "property" => %{"type" => "Identifier", "name" => callee_name}
+         }
+       }),
+       do: {:error, "non_safe_ticker_return:#{callee_name}"}
+
+  # `return someIdentifier;` — pre-built variable, not an inline object
+  defp classify_return_argument(%{"type" => "Identifier"}), do: {:error, "identifier_return"}
+
+  defp classify_return_argument(_), do: {:error, "unrecognized_return_shape"}
 
   @spec build_result([map()], [{String.t(), map()}]) :: map()
   defp build_result(properties, bindings) do

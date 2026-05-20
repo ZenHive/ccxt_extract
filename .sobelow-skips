@@ -759,3 +759,6 @@ Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/pipel
 Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/pipeline.ex:1101,24A8E7C
 Traversal.FileModule: Directory Traversal in `File.rm`,lib/ccxt_extract/pipeline.ex:1114,3AD4222
 Traversal.FileModule: Directory Traversal in `File.cp!`,lib/ccxt_extract/pipeline.ex:1112,3EF6C3F
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/load_markets.ex:196,10985D5
+Traversal.FileModule: Directory Traversal in `File.write!`,lib/ccxt_extract/load_markets.ex:227,6F0E034
+Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/load_markets.ex:181,788C2B7

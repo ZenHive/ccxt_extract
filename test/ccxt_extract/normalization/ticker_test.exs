@@ -110,6 +110,33 @@ defmodule CcxtExtract.Normalization.TickerTest do
 
       assert result["_unresolved_reason"] == "no_return_statement"
       assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
+      assert result["extras"] == []
+    end
+
+    test "bare Identifier return emits _unresolved_reason: identifier_return" do
+      ret = %{"type" => "ReturnStatement", "argument" => identifier("ticker")}
+
+      result = Ticker.derive(wrap_entry([ret]))
+      assert result["_unresolved_reason"] == "identifier_return"
+      assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
+      assert result["extras"] == []
+    end
+
+    test "unrecognized return shape emits _unresolved_reason: unrecognized_return_shape" do
+      ret = %{
+        "type" => "ReturnStatement",
+        "argument" => %{
+          "type" => "BinaryExpression",
+          "operator" => "+",
+          "left" => identifier("a"),
+          "right" => identifier("b")
+        }
+      }
+
+      result = Ticker.derive(wrap_entry([ret]))
+      assert result["_unresolved_reason"] == "unrecognized_return_shape"
+      assert result["field_map"] |> Map.values() |> Enum.all?(&is_nil/1)
+      assert result["extras"] == []
     end
   end
 
@@ -136,6 +163,25 @@ defmodule CcxtExtract.Normalization.TickerTest do
       slot = result["field_map"]["bid"]
       assert slot["key"] == "bidPrice"
       assert slot["coercion"] == "safeNumber"
+    end
+
+    test "TSAsExpression-wrapped safeTicker return resolves cleanly" do
+      # `return this.safeTicker({ high: ... }, market) as Ticker;`
+      props = [prop("high", this_call("safeString", [identifier("ticker"), literal("highPrice")]))]
+      object = %{"type" => "ObjectExpression", "properties" => props}
+
+      ts_as = %{
+        "type" => "TSAsExpression",
+        "expression" => this_call("safeTicker", [object, identifier("market")])
+      }
+
+      ret = %{"type" => "ReturnStatement", "argument" => ts_as}
+      result = Ticker.derive(wrap_entry([ret]))
+
+      assert result["_unresolved_reason"] == nil
+      slot = result["field_map"]["high"]
+      assert slot["key"] == "highPrice"
+      assert slot["coercion"] == "safeString"
     end
   end
 

@@ -801,13 +801,30 @@ id = 135
 phase = 12
 bundle = "ticker-normalization"
 milestone = "feature_complete"
-status = "pending"
+status = "done"
 title = "ticker.ex normalization-vocab alignment"
 scores = { d = 2, b = 4, u = 5 }
 body = """
 `lib/ccxt_extract/normalization/ticker.ex` still emits `\"no_return_statement\"` from a wildcard fall-through (a misnomer mirroring the bug fixed in `balance.ex`/`market.ex`/`trade.ex` via audits 80cb242 and 1fc712f), AND lacks the `unwrap_ts_as/1` helper that `transaction.ex`/`deposit_address.ex`/`market.ex` ship. Apply the same split-find-from-classify refactor: add `unwrap_ts_as/1`, rename the misnomer to `\"unrecognized_return_shape\"`, add an `identifier_return` clause for bare-Identifier returns, expand the moduledoc vocab + the SCHEMA.md ticker section. Surfaced by Codex during the 1fc712f follow-up audit.
 """
+acceptance_criteria = [
+  "Ticker.derive now uses last-ReturnStatement + unwrap_ts_as + classify_return_argument (parity with market/balance/trade/transaction)",
+  "Full modern _unresolved_reason vocabulary emitted: no_return_statement, non_safe_ticker_return:<callee>, identifier_return, unrecognized_return_shape",
+  "unwrap_ts_as/1 added and exercised; TSAsExpression-wrapped safeTicker returns now resolve cleanly",
+  "Unit tests cover the two new unresolved cases (bare Identifier + unrecognized shape) plus a TSAsExpression resolved case; all ticker tests green",
+  "SCHEMA.md ticker section + moduledoc updated with complete vocabulary",
+  "mix ccxt_extract.determinism_check (scoped to ticker-heavy exchanges) and contract_test pass with no new normalization findings",
+  "CHANGELOG.md entry added; no schema/JSON shape change for clean exchanges"
+]
+files_to_modify = [
+  "lib/ccxt_extract/normalization/ticker.ex",
+  "test/ccxt_extract/normalization/ticker_test.exs",
+  "SCHEMA.md",
+  "CHANGELOG.md"
+]
+implemented = "split-find-from-classify refactor on Ticker (last Return + unwrap_ts_as + exhaustive classify_return_argument); full four-value _unresolved_reason vocab now matches the audited normalizers; new unit tests; docs updated in moduledoc + SCHEMA.md + CHANGELOG"
 scored_at = "2026-05-14"
+done_at = "2026-05-20"
 
 # ── Phase 13 · bundle 13-classify-fix ─────────────────────────────────────
 

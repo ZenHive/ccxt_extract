@@ -235,9 +235,16 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 **`extras` list:** properties in the `safeTicker(objectExpr, market)` call that are not among the 22 unified fields. Each entry is `%{"unified_key" => key, "key" => wire_key, "coercion" => method}`. An extras slot only appears when its coercion is in the closed vocabulary; non-vocab coercions are silently excluded (same honesty rule as unified slots).
 
-**`_unresolved_reason`:** `null` when the `safeTicker` return pattern was found (even if many individual slots are `null`); a non-null string when the return structure isn't the slottable pattern — e.g. kucoin: `"non_safe_ticker_return:parseContractTicker"`. Inheriting exchanges (no `parseTicker` override) emit `field_maps["ticker"] = null`.
+**`_unresolved_reason`:** `null` when the `safeTicker` return pattern was found (even if many individual slots are `null`); a non-null string when the return structure isn't the slottable pattern — e.g. kucoin: `"non_safe_ticker_return:parseContractTicker"`. Full vocabulary:
 
-**Honesty contract:** every populated slot is provable from AST. No field is synthesized or inferred from exchange documentation. The same open-closed distinction as OHLCV: `_unresolved_reason` follows one of two patterns — the fixed string `"no_return_statement"`, or the prefix `"non_safe_ticker_return:"` followed by the callee identifier name from the source (open suffix — consumers must match on the prefix, not the full string); `coercion` is closed (hard-error on unrecognized), `format` is closed (hard-error on unrecognized), `key` is open (any wire-format string from the exchange).
+- `"no_return_statement"` — no `ReturnStatement` present in the body
+- `"non_safe_ticker_return:<callee>"` — a different `this.<callee>(...)` call
+- `"identifier_return"` — bare Identifier (pre-built variable returned directly)
+- `"unrecognized_return_shape"` — any other non-slottable return argument
+
+`TSAsExpression` wrappers are unwrapped before classification. Inheriting exchanges (no `parseTicker` override) emit `field_maps["ticker"] = null`.
+
+**Honesty contract:** every populated slot is provable from AST. No field is synthesized or inferred from exchange documentation. `_unresolved_reason` is either `null` or one of the four strings above (two are prefix-bearing with open suffixes: `non_safe_ticker_return:*` and the others are exact). `coercion` and `format` are closed (hard-error on unrecognized); `key` is open (any wire-format string from the exchange).
 
 ### `normalization.field_maps.trade` — shape (Task 76)
 

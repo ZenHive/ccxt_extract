@@ -38,6 +38,15 @@ Post-merge dual-reviewer audit (Claude + Codex) of the seven commits that landed
 - All gates green: compile/dialyzer/credo, `oxc_scope_flags_test` (45/45), `contract_test`, `determinism_check --tier1` (behavior-identical).
 - Opportunistic follow-up (same session): the remaining OXC discovery tasks (`ws_methods`, `fetch_methods`, `methods` (with `--type`), and `classes` (intentionally discards narrowed scope)) were also migrated in the same pass. The OXC surface is now fully on the helper; only the richer orchestration tasks (pipeline, update, determinism_check, contract_test, etc.) still do their own parsing.
 
+### Task 135 — ticker.ex normalization-vocab alignment (Phase 12)
+
+- `CcxtExtract.Normalization.Ticker` now uses the same "last ReturnStatement + unwrap_ts_as + classify_return_argument" pattern as market.ex / balance.ex / trade.ex / transaction.ex / deposit_address.ex (post-audit hygiene from 80cb242 / 1fc712f).
+- Added `unwrap_ts_as/1` (handles `TSAsExpression` casts) and the full modern `_unresolved_reason` vocabulary: `"no_return_statement"`, `"non_safe_ticker_return:<callee>"`, `"identifier_return"`, `"unrecognized_return_shape"`.
+- Fixed the previous wildcard misnomer that emitted `"no_return_statement"` for any non-matching return shape.
+- Unit tests expanded with three cases (bare Identifier, unrecognized shape, and a TSAsExpression-wrapped resolved return). Moduledoc and SCHEMA.md updated to document the complete vocabulary.
+- All gates green: normalization unit tests, ticker-specific tests, `mix ccxt_extract.contract_test` (normalization_shape_valid unchanged), determinism_check on binance/okx/deribit/kucoin (byte-identical), compile/dialyzer/credo clean.
+- No schema or JSON shape impact for exchanges with clean `safeTicker` returns.
+
 ### Task 143 — v3 teardown (delete exchange_v3.json + all schema_target plumbing)
 
 - `priv/schema/exchange_v3.json` deleted.

@@ -10,7 +10,7 @@ defmodule Mix.Tasks.CcxtExtract.ContractTest do
       mix ccxt_extract.contract_test
       mix ccxt_extract.contract_test --strict
       mix ccxt_extract.contract_test --report /tmp/contract.json
-      mix ccxt_extract.contract_test --tier1 --tier2 --dex
+      mix ccxt_extract.contract_test --tier1 --dex
       mix ccxt_extract.contract_test --exchange binance,deribit
 
   ## Options
@@ -132,7 +132,7 @@ defmodule Mix.Tasks.CcxtExtract.ContractTest do
 
     Or narrow the contract test to match what's on disk:
 
-        mix ccxt_extract.contract_test --tier1 --tier2 --dex
+        mix ccxt_extract.contract_test --tier1 --dex
         mix ccxt_extract.contract_test --exchange <id>[,<id>...]
     """
   end

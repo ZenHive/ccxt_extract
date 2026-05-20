@@ -12,31 +12,39 @@ defmodule CcxtExtract.TiersTest do
       assert "bybit" in roots
       assert "okx" in roots
       assert "deribit" in roots
-      assert "coinbaseexchange" in roots
+
+      # coinbaseexchange was demoted to tier3 in the 2026-05-20 narrowing.
+      refute "coinbaseexchange" in roots
 
       refute "binanceus" in roots
       refute "binancecoinm" in roots
       refute "okxus" in roots
     end
 
-    test "tier2_exchanges/0 contains the valuable set and excludes variants" do
-      roots = Tiers.tier2_exchanges()
-      for ex <- ~w(kraken kucoin gate htx bitmex bitfinex), do: assert(ex in roots)
-
-      refute "kucoinfutures" in roots
-      refute "gateio" in roots
-      refute "huobi" in roots
+    test "tier2_exchanges/0 is intentionally empty — the re-add staging bucket" do
+      # Tier 2's former roots (kraken, kucoin, gate, htx, bitmex, bitfinex)
+      # were demoted to tier3 on 2026-05-20. The key is kept empty as the
+      # staging bucket for re-adding exchanges in matching family groups.
+      assert Tiers.tier2_exchanges() == []
     end
 
     test "tier3_exchanges/0 contains the deprioritized CEX + niche DEX set" do
+      roots = Tiers.tier3_exchanges()
+
       for ex <- ~w(bitget bingx bitmart coinex cryptocom mexc hashkey woo
                    dydx paradex apex woofipro modetrade) do
-        assert ex in Tiers.tier3_exchanges()
+        assert ex in roots
+      end
+
+      # Demoted in the 2026-05-20 narrowing: coinbaseexchange (from tier1),
+      # the six former tier2 roots, and aster/lighter (from dex).
+      for ex <- ~w(coinbaseexchange kraken kucoin gate htx bitmex bitfinex aster lighter) do
+        assert ex in roots
       end
     end
 
     test "dex_exchanges/0 contains the priority DEX set" do
-      assert Tiers.dex_exchanges() == ["hyperliquid", "aster", "lighter", "derive"]
+      assert Tiers.dex_exchanges() == ["hyperliquid", "derive"]
     end
 
     test "root tier lists are disjoint" do
@@ -56,8 +64,14 @@ defmodule CcxtExtract.TiersTest do
       assert "myokx" in members
     end
 
-    test "tier2_members/0 includes kucoin and alias families" do
-      members = Tiers.tier2_members()
+    test "tier2_members/0 is empty while tier2 has no roots" do
+      assert Tiers.tier2_members() == []
+    end
+
+    test "tier3_members/0 includes the demoted alias/variant families" do
+      members = Tiers.tier3_members()
+      # Family inheritance still resolves — the demoted roots carry their
+      # variants and aliases into tier3.
       assert "kucoin" in members
       assert "kucoinfutures" in members
       assert "gate" in members
@@ -100,7 +114,7 @@ defmodule CcxtExtract.TiersTest do
   describe "get_priority_tier/1" do
     test "classifies known root exchanges" do
       assert Tiers.get_priority_tier("binance") == :tier1
-      assert Tiers.get_priority_tier("kraken") == :tier2
+      assert Tiers.get_priority_tier("kraken") == :tier3
       assert Tiers.get_priority_tier("bitget") == :tier3
       assert Tiers.get_priority_tier("hyperliquid") == :dex
       assert Tiers.get_priority_tier("derive") == :dex
@@ -112,12 +126,12 @@ defmodule CcxtExtract.TiersTest do
       assert Tiers.get_priority_tier("binanceusdm") == :tier1
       assert Tiers.get_priority_tier("okxus") == :tier1
       assert Tiers.get_priority_tier("myokx") == :tier1
-      assert Tiers.get_priority_tier("kucoinfutures") == :tier2
+      assert Tiers.get_priority_tier("kucoinfutures") == :tier3
     end
 
     test "aliases inherit the family root's tier" do
-      assert Tiers.get_priority_tier("huobi") == :tier2
-      assert Tiers.get_priority_tier("gateio") == :tier2
+      assert Tiers.get_priority_tier("huobi") == :tier3
+      assert Tiers.get_priority_tier("gateio") == :tier3
     end
 
     test "returns :unclassified for unknown ids" do
@@ -134,18 +148,20 @@ defmodule CcxtExtract.TiersTest do
       refute Tiers.tier1?("kraken")
     end
 
-    test "tier2?/1 covers roots and aliases" do
-      assert Tiers.tier2?("kraken")
-      assert Tiers.tier2?("huobi")
-      assert Tiers.tier2?("gateio")
+    test "tier2?/1 is false for every id while tier2 is empty" do
+      refute Tiers.tier2?("kraken")
+      refute Tiers.tier2?("huobi")
       refute Tiers.tier2?("binance")
     end
 
     test "tier3?/1 and dex?/1 predicates" do
       assert Tiers.tier3?("bitget")
+      assert Tiers.tier3?("kraken")
+      assert Tiers.tier3?("coinbaseexchange")
       refute Tiers.tier3?("binance")
 
       assert Tiers.dex?("hyperliquid")
+      assert Tiers.dex?("derive")
       refute Tiers.dex?("binance")
     end
   end
@@ -179,8 +195,9 @@ defmodule CcxtExtract.TiersTest do
       {exchanges, label} = Tiers.collect_tier_exchanges(tier1: true, tier2: true, dex: true)
       expected = Enum.sort(Tiers.tier1_members() ++ Tiers.tier2_members() ++ Tiers.dex_members())
       assert exchanges == expected
-      assert "huobi" in exchanges
-      assert "kucoinfutures" in exchanges
+      assert "binanceus" in exchanges
+      assert "hyperliquid" in exchanges
+      # The label reflects the flags passed, so empty tier2 still shows.
       assert label == "TIER 1 + TIER 2 + DEX (#{length(exchanges)})"
     end
 

@@ -56,7 +56,7 @@ defmodule CcxtExtract.Schema do
   @required_auth_keys ~w(sign_recipe sign_method authenticated_sections headers)
   @required_errors_keys ~w(handle_errors class_hierarchy status_map retry_classification)
   @required_rate_limits_keys ~w(buckets per_endpoint_cost endpoint_cost_binding)
-  @required_markets_keys ~w(symbols_index patterns)
+  @required_markets_keys ~w(symbols_index patterns currencies)
   @required_raw_keys ~w(describe url_templates class_info method_inventory overrides_meta)
   @required_normalization_keys ~w(parse_methods_digest field_maps response_envelopes)
 

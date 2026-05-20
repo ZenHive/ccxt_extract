@@ -12,7 +12,7 @@ defmodule CcxtExtract.Aliases do
 
   That asymmetry collides with tier-based scope expansion: `CcxtExtract.Tiers`
   pulls in the whole family from `class_hierarchy.json`, so scopes like
-  `--tier1 --tier2 --dex` include `gateio` and `huobi` — ids whose per-exchange
+  `--tier1 --tier3 --dex` include `gateio` and `huobi` — ids whose per-exchange
   files legitimately never exist. Stage-3 guards that probe for those files
   must know which ids are aliases so they don't fail loudly on legitimately
   absent output.

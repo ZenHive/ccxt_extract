@@ -163,7 +163,20 @@ The split is enforced by the `paths_rw_split` corpus-level invariant in `mix ccx
 
 ### Tier-based scoping (philosophy)
 
-Raw extraction runs for every CCXT exchange regardless of tier. **Derivation effort** (signing recipes, fee schedules, error handlers) is scoped to Tier 1 + Tier 2 + priority DEX. Tier 3 and unclassified exchanges receive `null + reason` for derived fields until a priority consumer surfaces a concrete need. Roots are hand-curated in `priv/priority_tiers.json`; variants inherit their root's tier via `class_hierarchy.json`. A tier task that exists only to handle Tier-3 quirks belongs in "Superseded / Deferred", not active phases.
+Raw extraction runs for every CCXT exchange regardless of tier. **Derivation effort** (signing recipes, fee schedules, error handlers) is scoped to the **7-exchange option-seller set** — Tier 1 (`binance` + its `binanceusdm` variant, `bybit`, `okx`, `deribit`) plus priority DEX (`hyperliquid`, `derive`). Tier 2 is **intentionally empty** (see the frozen-curation note below). Tier 3 and unclassified exchanges receive `null + reason` for derived fields until a priority consumer surfaces a concrete need. Roots are hand-curated in `priv/priority_tiers.json`; variants inherit their root's tier via `class_hierarchy.json`. A tier task that exists only to handle Tier-3 quirks belongs in "Superseded / Deferred", not active phases.
+
+The derivation scope is a **movable slider**. Re-add an exchange — or a matching family group — by lifting its root back into `tier1` / `tier2` / `dex` in `priv/priority_tiers.json`, then running a scoped `mix ccxt_extract.update --exchange <id>`. Raw discoveries are already on disk universe-wide, so a re-add only *unlocks derivation* — no catch-up extraction. `tier2` is kept as the empty key precisely as the staging bucket for these re-additions.
+
+**Pre-narrow tier curation (frozen 2026-05-20).** Before the narrowing to the 7-exchange option-seller set, the tiers were:
+
+| Tier  | Roots                                                                                                  |
+|-------|--------------------------------------------------------------------------------------------------------|
+| tier1 | binance, bybit, okx, deribit, coinbaseexchange                                                         |
+| tier2 | kraken, kucoin, gate, htx, bitmex, bitfinex                                                            |
+| tier3 | bitget, bingx, bitmart, coinex, cryptocom, mexc, hashkey, woo, dydx, paradex, apex, woofipro, modetrade |
+| dex   | hyperliquid, aster, lighter, derive                                                                    |
+
+The narrowing demoted `coinbaseexchange` (tier1→tier3), all six tier2 roots (→tier3), and `aster` + `lighter` (dex→tier3) when the sole consumer (`../ccxt_client/`) scoped to 7 exchanges, retiring the speculative market-maker / options framing that justified the broader set. This table is the reference for re-adding exchanges in matching family groups.
 
 ### Signing fixtures are the port contract
 
@@ -207,8 +220,8 @@ mix ccxt_extract.setup
 # full refresh, full universe
 mix ccxt_extract.update
 
-# scoped refresh — e.g. only priority families
-mix ccxt_extract.update --tier1 --tier2 --dex
+# scoped refresh — the 7-exchange derivation-scoped set
+mix ccxt_extract.update --tier1 --dex
 
 # single-exchange or mixed
 mix ccxt_extract.update --exchange binance,deribit

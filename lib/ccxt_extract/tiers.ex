@@ -17,13 +17,13 @@ defmodule CcxtExtract.Tiers do
   Inheritance is **provable** from the class graph, not guessed — this
   respects the Honesty Rule. The four member buckets are:
 
-    * `:tier1` — must-have priority (roots: binance, bybit, okx, deribit,
-      coinbaseexchange)
-    * `:tier2` — valuable, specific use cases (roots: kraken, kucoin, gate,
-      htx, bitmex, bitfinex)
+    * `:tier1` — must-have priority (roots: binance, bybit, okx, deribit)
+    * `:tier2` — intentionally empty; the staging bucket for re-adding
+      exchanges in matching family groups (see `priv/priority_tiers.json`
+      `_notes` and CLAUDE.md § "Tier-based scoping")
     * `:tier3` — explicitly deprioritized; supported but tasks defer until
       a real consumer surfaces a need
-    * `:dex` — priority DEX track (perps + on-chain options)
+    * `:dex` — priority DEX track (roots: hyperliquid, derive)
 
   Anything not in any member set is `:unclassified`. Raw extraction still
   runs for every CCXT exchange regardless of tier — this module only
@@ -188,7 +188,7 @@ defmodule CcxtExtract.Tiers do
       :tier1
 
       iex> CcxtExtract.Tiers.get_priority_tier("huobi")
-      :tier2
+      :tier3
 
       iex> CcxtExtract.Tiers.get_priority_tier("hyperliquid")
       :dex

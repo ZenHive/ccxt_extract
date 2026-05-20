@@ -21,7 +21,7 @@ defmodule Mix.Tasks.CcxtExtract.RateLimitCosts do
   ## Usage
 
       mix ccxt_extract.rate_limit_costs                     # full universe
-      mix ccxt_extract.rate_limit_costs --tier1 --tier2     # priority families
+      mix ccxt_extract.rate_limit_costs --tier1 --dex       # priority families
       mix ccxt_extract.rate_limit_costs --exchange binance  # single exchange
       mix ccxt_extract.rate_limit_costs --all               # explicit full run
   """

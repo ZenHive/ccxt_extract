@@ -6,6 +6,14 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Derivation scope narrowed to 7 exchanges (2026-05-20)
+
+The sole consumer (`../ccxt_client/`) scoped to a 7-exchange option-seller set, so ccxt_extract's **derivation** effort follows. Raw extraction is unchanged — still full-universe.
+
+- `priv/priority_tiers.json` rewritten. Tier 1 is now `binance`, `bybit`, `okx`, `deribit`; priority DEX is `hyperliquid`, `derive` (with `binanceusdm` inheriting Tier 1 as a binance variant). `coinbaseexchange`, the six former Tier 2 roots (`kraken`, `kucoin`, `gate`, `htx`, `bitmex`, `bitfinex`), and `aster` + `lighter` were demoted to Tier 3 — they now get `null + reason` for derived fields rather than derivation effort.
+- Tier 2 is intentionally empty, kept as the staging bucket for re-adding exchanges in matching family groups. The derivation scope is a movable slider; the re-add procedure and the frozen pre-narrow tier curation are recorded in `CLAUDE.md` § "Tier-based scoping (philosophy)".
+- Roadmap follow-through in the `parse-ohlcv` bundle: task 78d superseded (its three targets — coinbaseexchange, kraken, kucoin — all demoted out of scope, leaving no deliverable); 78c narrowed from "gate + binance" to binance only. 78f is unaffected — its target, okx, stays in scope.
+
 ### Audit pass — `5de75a9..fa64144` (2026-05-19)
 
 Post-merge dual-reviewer audit (Claude + Codex) of the seven commits that landed the v4 cut + v3 teardown work. Findings auto-applied as a follow-up hygiene commit (`audit(...)` per the `staged-review:audit-review` skill). Highlights:

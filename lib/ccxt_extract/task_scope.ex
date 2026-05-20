@@ -177,7 +177,7 @@ defmodule CcxtExtract.TaskScope do
       before the existence check. Tasks whose upstream extractor skips
       aliases (describe, url_templates, signing_fixtures, load_markets) opt
       into this so a scoped run that pulls in an alias-containing family
-      (e.g. `--tier1 --tier2 --dex` bringing in `gateio`/`huobi`) does not
+      (e.g. `--tier1 --tier3 --dex` bringing in `gateio`/`huobi`) does not
       fail on legitimately absent per-exchange output. Mirrors the
       `is_alias` → `layer(false, false, "alias")` pattern in
       `CcxtExtract.CoverageReport`.

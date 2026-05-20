@@ -55,16 +55,16 @@ mix run examples/1_parse_exchange.exs binance
 
 ## Priority Tiers
 
-Each output JSON carries `exchange.tier` (schema 1.8.0+) — one of `"tier1"`, `"tier2"`, `"tier3"`, `"dex"`, or `"unclassified"`. The canonical **roots** list is hand-curated in [`priv/priority_tiers.json`](priv/priority_tiers.json); variants and aliases inherit their root's tier via `priv/discoveries/class_hierarchy.json` (e.g. `binanceus`, `binancecoinm`, `binanceusdm` → `tier1`; `huobi`, `gateio` → `tier2`).
+Each output JSON carries `exchange.tier` (schema 1.8.0+) — one of `"tier1"`, `"tier2"`, `"tier3"`, `"dex"`, or `"unclassified"`. The canonical **roots** list is hand-curated in [`priv/priority_tiers.json`](priv/priority_tiers.json); variants and aliases inherit their root's tier via `priv/discoveries/class_hierarchy.json` (e.g. `binanceus`, `binancecoinm`, `binanceusdm` → `tier1`; `huobi`, `gateio` → `tier3`).
 
-Raw extraction runs for all 110 exchanges. **Derivation** effort (signing recipes, fee schedules, error handlers) is scoped to Tier 1, Tier 2, and priority DEX; Tier 3 and unclassified exchanges get `null + reason` for derived fields until a priority consumer surfaces a need. See `CLAUDE.md` §"Tier-Based Scoping".
+Raw extraction runs for all 110 exchanges. **Derivation** effort (signing recipes, fee schedules, error handlers) is scoped (since 2026-05-20) to the **7-exchange option-seller set** — Tier 1 (`binance` + `binanceusdm`, `bybit`, `okx`, `deribit`) plus priority DEX (`hyperliquid`, `derive`). Tier 2 is intentionally empty; Tier 3 and unclassified exchanges get `null + reason` for derived fields until a priority consumer surfaces a need. The scope is a movable slider — see `CLAUDE.md` §"Tier-based scoping (philosophy)" for the re-add procedure and the frozen pre-narrow curation.
 
 Every per-exchange extraction Mix task accepts the canonical scope flag set — `--tier1 --tier2 --tier3 --dex --all --exchange ID` (combinable; `--exchange` is repeatable and accepts comma-split IDs; unknown IDs abort with fuzzy suggestions). Corpus-level tasks (`setup`, `exchanges`, `base_methods`, top-level `validate`) run unscoped by design. Tier flags expand to the **whole family** — `--tier1` pulls in the binance variants alongside `binance`:
 
 ```bash
-mix ccxt_extract.load_markets --tier1 --tier2 --dex
-mix ccxt_extract.contract_test --tier1 --tier2 --dex
-mix ccxt_extract.update --tier1 --tier2 --dex
+mix ccxt_extract.load_markets --tier1 --dex
+mix ccxt_extract.contract_test --tier1 --dex
+mix ccxt_extract.update --tier1 --dex                    # the 7-exchange derivation-scoped set
 mix ccxt_extract.update --exchange binance,deribit       # single-exchange subset (repeatable or comma-split)
 mix ccxt_extract.update --tier1 --exchange hyperliquid   # mixed tier + individual
 ```

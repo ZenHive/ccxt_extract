@@ -16,7 +16,7 @@ defmodule Mix.Tasks.CcxtExtract.LoadMarkets do
   ## Usage
 
       mix ccxt_extract.load_markets                               # full universe
-      mix ccxt_extract.load_markets --tier1 --tier2 --dex         # tiers
+      mix ccxt_extract.load_markets --tier1 --dex                 # tiers
       mix ccxt_extract.load_markets --exchange binance --exchange bybit
       mix ccxt_extract.load_markets --all                         # explicit full run
       mix ccxt_extract.load_markets --delay 500

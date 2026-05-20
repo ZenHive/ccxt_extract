@@ -39,12 +39,13 @@ defmodule CcxtExtract.Currencies do
   scaffold).
 
   QuickBEAM serializes JS `undefined` as the string sentinel `"__undefined"`
-  (see `CcxtExtract.QuickbeamRuntime`). The typed `Currency` / `NetworkInfo`
-  schema declares `precision` as number-or-null and `id` / `code` as
-  string-or-null, so a raw `"__undefined"` would fail validation. Every
-  sentinel-valued key is dropped recursively — an absent key is the
-  lightweight, schema-conformant encoding of "the exchange did not surface
-  this field".
+  (see `CcxtExtract.QuickbeamRuntime`). It is a serialization artifact, not a
+  real value — emitting it as a field (e.g. `precision: "__undefined"`) would
+  be a false claim about the exchange, and the typed `Currency` / `NetworkInfo`
+  schema (`precision` is number-or-string-or-null; `id` / `code` are
+  string-or-null) has no slot for it. Every sentinel-valued key is dropped
+  recursively — an absent key is the lightweight, schema-conformant encoding
+  of "the exchange did not surface this field".
   """
 
   # QuickBEAM's JSON-safe stand-in for JS `undefined`.
@@ -78,6 +79,7 @@ defmodule CcxtExtract.Currencies do
 
   # --- Internal ---
 
+  @spec normalize_currency(term()) :: map()
   defp normalize_currency(entry) when is_map(entry) do
     entry
     |> Map.delete("info")

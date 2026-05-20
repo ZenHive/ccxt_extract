@@ -748,15 +748,15 @@ phase = 12
 bundle = "parse-ohlcv"
 milestone = "feature_complete"
 status = "pending"
-title = "parseOHLCV hybrid Array.isArray exchanges (gate, possible binance options-fallback)"
+title = "parseOHLCV hybrid Array.isArray branch (binance options-fallback)"
 scores = { d = 5, b = 4, u = 4 }
 markers = ["parallel"]
 body = """
-Non-gating Phase 12 edge case. Adds `array_input`/`object_input` guard kinds + IfStatement-discriminated branches to the parseOHLCV field map for exchanges that branch on `Array.isArray` (gate, possible binance options-fallback). May ship post-v4-cut.
+Non-gating Phase 12 edge case. Adds `array_input`/`object_input` guard kinds + IfStatement-discriminated branches to the parseOHLCV field map for binance, which may branch on `Array.isArray` in an options-fallback path. Narrowed 2026-05-20: gate dropped (demoted to tier3); if binance has no hybrid branch the task closes as a verified no-op. May ship post-v4-cut.
 """
 acceptance_criteria = [
   "parseOHLCV field-map schema accepts array_input and object_input guard kinds, with each branch entry tagged by the kind that selected it",
-  "IfStatement-discriminated branches are preserved per exchange — gate is covered; binance options-fallback covered if present",
+  "binance options-fallback IfStatement-discriminated branches are preserved if present; if binance has no hybrid branch, the task closes as a verified no-op",
   "Discriminator (the Array.isArray callsite + LHS variable) emitted alongside the branch entries so a consumer can dispatch on input shape",
   "Existing non-hybrid parseOHLCV entries continue to render unchanged (no regression in the single-shape majority)",
 ]
@@ -767,12 +767,14 @@ id = "78d"
 phase = 12
 bundle = "parse-ohlcv"
 milestone = "feature_complete"
-status = "pending"
+status = "superseded"
 title = "parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin)"
 scores = { d = 5, b = 4, u = 4 }
 markers = ["parallel"]
 body = """
 Non-gating Phase 12 edge case. Adds `format: \"s\"` (coinbaseexchange `safeTimestamp` s→ms), populates an `extras` list (kraken VWAP-extras), and emits the kucoin timestamp-slot null with a reason (timestamp-length IfStatement heuristic). May ship post-v4-cut.
+
+SUPERSEDED 2026-05-20: all three target exchanges (coinbaseexchange, kraken, kucoin) were demoted to tier3 in the 7-exchange derivation-scope narrowing. Zero in-scope exchanges remain, so this task has no deliverable.
 """
 acceptance_criteria = [
   "parseOHLCV field map supports format: \"s\" (seconds → ms) for the coinbaseexchange timestamp slot, matching safeTimestamp's coercion",

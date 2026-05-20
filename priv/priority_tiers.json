@@ -1,12 +1,15 @@
 {
-  "tier1": ["binance", "bybit", "okx", "deribit", "coinbaseexchange"],
-  "tier2": ["kraken", "kucoin", "gate", "htx", "bitmex", "bitfinex"],
-  "tier3": ["bitget", "bingx", "bitmart", "coinex", "cryptocom", "mexc", "hashkey", "woo",
-           "dydx", "paradex", "apex", "woofipro", "modetrade"],
-  "dex":   ["hyperliquid", "aster", "lighter", "derive"],
+  "tier1": ["binance", "bybit", "okx", "deribit"],
+  "tier2": [],
+  "tier3": ["coinbaseexchange", "kraken", "kucoin", "gate", "htx", "bitmex", "bitfinex",
+           "aster", "lighter", "bitget", "bingx", "bitmart", "coinex", "cryptocom", "mexc",
+           "hashkey", "woo", "dydx", "paradex", "apex", "woofipro", "modetrade"],
+  "dex":   ["hyperliquid", "derive"],
   "_notes": {
-    "paradex": "T3 today. Candidate for promotion to DEX bucket if/when option-seller consumers need derived recipes (signing, options chain, portfolio margin). StarkNet L2 with perps + options.",
-    "aevo": "Requested for option-seller coverage but NOT in CCXT (no priv/ccxt/ts/src/aevo.ts). Cannot classify until CCXT ships an aevo module upstream.",
-    "bitfinex": "Promoted to T2 for market-maker consumers (maker rebates, WS v2 order entry, advanced order types)."
+    "scope": "Derivation scope narrowed 2026-05-20 to the 7-exchange option-seller set: binance (+ binanceusdm variant), bybit, okx, deribit (tier1) + hyperliquid, derive (dex). Raw extraction still runs full-universe; everything outside the 7 receives null + reason for derived fields.",
+    "tier2_empty": "Tier 2 is intentionally empty — kept as the staging bucket for re-adding exchanges in matching family groups. Its former members (kraken, kucoin, gate, htx, bitmex, bitfinex) were demoted to tier3 on 2026-05-20.",
+    "prior_curation": "The pre-narrow full tier curation (frozen 2026-05-20) and the re-add procedure are recorded in CLAUDE.md, section 'Tier-based scoping (philosophy)'.",
+    "paradex": "tier3 today. Candidate for promotion to the dex bucket if an option-seller consumer needs derived recipes — StarkNet L2 with perps + options.",
+    "aevo": "Requested for option-seller coverage but NOT in CCXT (no priv/ccxt/ts/src/aevo.ts). Cannot classify until CCXT ships an aevo module upstream."
   }
 }

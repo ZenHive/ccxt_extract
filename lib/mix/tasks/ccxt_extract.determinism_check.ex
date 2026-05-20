@@ -20,7 +20,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
 
       mix ccxt_extract.determinism_check
       mix ccxt_extract.determinism_check --task ccxt_extract.exchanges
-      mix ccxt_extract.determinism_check --task ccxt_extract.pipeline --scope-args="--tier1 --tier2"
+      mix ccxt_extract.determinism_check --task ccxt_extract.pipeline --scope-args="--tier1 --tier3"
       mix ccxt_extract.determinism_check --strip-keys extracted_at,generated_at,my_custom_key
 
   ## Options
@@ -31,7 +31,7 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
       `ccxt_extract.pipeline` when omitted — the cheapest invocation
       that exercises the per-exchange writer + manifest envelope.
     * `--scope-args STRING` — extra args appended verbatim to each
-      task invocation. Must use `=` form (`--scope-args="--tier1 --tier2"`)
+      task invocation. Must use `=` form (`--scope-args="--tier1 --tier3"`)
       since the value starts with `--` and `OptionParser` would otherwise
       treat it as a separate flag. Lets the same harness exercise scoped
       runs without baking flags into the task switches.

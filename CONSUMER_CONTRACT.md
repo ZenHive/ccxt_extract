@@ -6,6 +6,15 @@
 
 **Status legend:** ✅ covered · 🚧 in progress · ⬜ open · ➖ not applicable
 
+**Consumer scope (since 2026-05-20):** the sole consumer (`../ccxt_client/`) consumes a 7-exchange option-seller set. Regenerate its corpus with:
+
+```bash
+mix ccxt_extract.update --output /path/to/ccxt_client/priv/ccxt \
+  --exchange binance,binanceusdm,bybit,deribit,derive,hyperliquid,okx
+```
+
+Derivation for these 7 is full; every other exchange is raw-only (`null + reason` for derived fields). See [CLAUDE.md](CLAUDE.md) § "Tier-based scoping (philosophy)".
+
 ---
 
 ## 1. Request signing

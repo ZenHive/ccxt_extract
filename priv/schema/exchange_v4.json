@@ -806,8 +806,8 @@
           "description": "CCXT unified currency code."
         },
         "precision": {
-          "type": ["number", "null"],
-          "description": "Precision for amounts of this currency."
+          "type": ["number", "string", "null"],
+          "description": "Precision for amounts of this currency. Usually a number (decimal places or tick size); a few exchanges (e.g. hyperliquid) emit it as a decimal string to preserve exact tick sizes — extracted verbatim, matching the `fee` field's number-or-string union."
         },
         "networks": {
           "type": "object",
@@ -833,7 +833,8 @@
           "type": ["number", "string", "null"]
         },
         "precision": {
-          "type": ["number", "null"]
+          "type": ["number", "string", "null"],
+          "description": "Network precision — number, or a decimal string for exchanges that stringify tick sizes (see Currency.precision)."
         }
       }
     },

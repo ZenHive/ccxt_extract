@@ -67,5 +67,96 @@ defmodule CcxtExtract.CurrenciesTest do
 
       assert Currencies.derive(input) == %{"BTC" => %{"id" => "BTC", "networks" => %{}}}
     end
+
+    test "non-map network entry collapses to empty map" do
+      input = %{"currencies" => %{"BTC" => %{"networks" => %{"BTC" => "not-a-map"}}}}
+
+      assert Currencies.derive(input) ==
+               %{"BTC" => %{"networks" => %{"BTC" => %{}}}}
+    end
+
+    test "drops currency-level __undefined sentinels (QuickBEAM undefined leak)" do
+      input = %{
+        "currencies" => %{
+          "XRP" => %{
+            "id" => "XRP",
+            "code" => "XRP",
+            "precision" => "__undefined",
+            "active" => "__undefined",
+            "fee" => 0.0001,
+            "networks" => %{}
+          }
+        }
+      }
+
+      assert Currencies.derive(input) == %{
+               "XRP" => %{
+                 "id" => "XRP",
+                 "code" => "XRP",
+                 "fee" => 0.0001,
+                 "networks" => %{}
+               }
+             }
+    end
+
+    test "drops network-level __undefined sentinels recursively" do
+      input = %{
+        "currencies" => %{
+          "XTZ" => %{
+            "code" => "XTZ",
+            "networks" => %{
+              "XTZ" => %{"id" => "XTZ", "precision" => "__undefined", "fee" => "__undefined"}
+            }
+          }
+        }
+      }
+
+      assert Currencies.derive(input) == %{
+               "XTZ" => %{
+                 "code" => "XTZ",
+                 "networks" => %{"XTZ" => %{"id" => "XTZ"}}
+               }
+             }
+    end
+
+    test "walks list-valued fields, stripping __undefined inside nested maps" do
+      input = %{
+        "currencies" => %{
+          "BTC" => %{
+            "code" => "BTC",
+            "tiers" => [%{"level" => 1, "rate" => "__undefined"}],
+            "networks" => %{}
+          }
+        }
+      }
+
+      assert Currencies.derive(input) == %{
+               "BTC" => %{
+                 "code" => "BTC",
+                 "tiers" => [%{"level" => 1}],
+                 "networks" => %{}
+               }
+             }
+    end
+
+    test "strips __undefined nested inside non-typed maps (limits, fees)" do
+      input = %{
+        "currencies" => %{
+          "BTC" => %{
+            "code" => "BTC",
+            "limits" => %{"amount" => %{"min" => "__undefined", "max" => 21_000_000}},
+            "networks" => %{}
+          }
+        }
+      }
+
+      assert Currencies.derive(input) == %{
+               "BTC" => %{
+                 "code" => "BTC",
+                 "limits" => %{"amount" => %{"max" => 21_000_000}},
+                 "networks" => %{}
+               }
+             }
+    end
   end
 end

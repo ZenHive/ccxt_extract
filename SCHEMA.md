@@ -68,7 +68,7 @@ Every per-exchange JSON file has exactly these top-level keys (**all required, n
 | `raw` | object | Raw passthroughs — `describe`, `url_templates`, `class_info`, `method_inventory`, `overrides_meta` |
 | `_provenance` | ProvenanceMap | Per-path source tags (raw / derived / override) |
 
-`markets.currencies` (Task 97) is the compact runtime view: unified code → `{precision, networks, ...}` with `info` stripped. `null` when the exchange had no load_markets data or the discovery predates the capture. Networks unlock deposit/withdraw + tx modeling in consumers.
+`markets.currencies` (Task 97) is the compact runtime view: unified code → `{precision, networks, ...}` with `info` stripped. `null` when the exchange had no load_markets data or the discovery predates the capture. Networks unlock deposit/withdraw + tx modeling in consumers. QuickBEAM `"__undefined"` sentinels (JS `undefined`) are dropped recursively — a field the exchange does not surface is simply absent. `precision` is typed `number | string | null`: usually numeric, but a few exchanges (hyperliquid) emit it as a decimal string for exact tick sizes, extracted verbatim.
 
 ### Two-State Optionality
 

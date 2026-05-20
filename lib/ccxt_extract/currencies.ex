@@ -37,7 +37,18 @@ defmodule CcxtExtract.Currencies do
   `symbols_index` (Task 117). Consumers who need the vendor `info` can still
   call `fetchCurrencies()` live or inspect `raw.describe.currencies` (static
   scaffold).
+
+  QuickBEAM serializes JS `undefined` as the string sentinel `"__undefined"`
+  (see `CcxtExtract.QuickbeamRuntime`). The typed `Currency` / `NetworkInfo`
+  schema declares `precision` as number-or-null and `id` / `code` as
+  string-or-null, so a raw `"__undefined"` would fail validation. Every
+  sentinel-valued key is dropped recursively — an absent key is the
+  lightweight, schema-conformant encoding of "the exchange did not surface
+  this field".
   """
+
+  # QuickBEAM's JSON-safe stand-in for JS `undefined`.
+  @undefined_sentinel "__undefined"
 
   @doc """
   Derive a currencies map (code → currency record with networks) from the
@@ -71,6 +82,7 @@ defmodule CcxtExtract.Currencies do
     entry
     |> Map.delete("info")
     |> Map.update("networks", %{}, &normalize_networks/1)
+    |> strip_undefined()
   end
 
   defp normalize_currency(_), do: %{}
@@ -86,4 +98,17 @@ defmodule CcxtExtract.Currencies do
   end
 
   defp normalize_network(_), do: %{}
+
+  # Drop every `"__undefined"`-valued key, recursing through nested maps
+  # (notably the per-network records). Lists are walked for completeness;
+  # all other leaves pass through untouched.
+  defp strip_undefined(map) when is_map(map) do
+    map
+    |> Enum.reject(fn {_k, v} -> v == @undefined_sentinel end)
+    |> Map.new(fn {k, v} -> {k, strip_undefined(v)} end)
+  end
+
+  defp strip_undefined(list) when is_list(list), do: Enum.map(list, &strip_undefined/1)
+
+  defp strip_undefined(value), do: value
 end

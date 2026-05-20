@@ -15,7 +15,12 @@ defmodule CcxtExtract.Test.StagedDiscoveries do
   """
   @spec stage!(String.t()) :: String.t()
   def stage!(source_dir) do
+    # `:erlang.unique_integer/1` only guarantees uniqueness within one VM
+    # instance — the counter restarts each `mix test` run, so a leftover dir
+    # from a crashed run (whose `on_exit` cleanup never fired) collides and
+    # `File.ln_s/2` below trips `{:error, :eexist}`. Clear any stale dir first.
     tmp = Path.join(System.tmp_dir!(), "ccxt_staged_discoveries_#{:erlang.unique_integer([:positive])}")
+    File.rm_rf!(tmp)
     File.mkdir_p!(tmp)
 
     for entry <- File.ls!(source_dir) do

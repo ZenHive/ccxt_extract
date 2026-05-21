@@ -1077,25 +1077,54 @@ defmodule CcxtExtract.ContractTest do
   # The honesty rule JSV cannot express: the no-WS state (ping_kind=none)
   # and the unknown-ping state must agree across every field that encodes
   # them, so a build/2 regression can't emit an internally-contradictory
-  # record that still passes structural schema validation.
+  # record that still passes structural schema validation. The no-WS state
+  # additionally requires every heartbeat field to be empty — a `none`
+  # record carrying a populated payload/handler is dishonest about having
+  # no WebSocket support even though structural JSV validation accepts it.
   defp ws_heartbeat_honesty_findings(id, record) do
     kind = Map.get(record, "ping_kind")
+    none? = kind == "none"
 
     [
       ws_heartbeat_coherence(
         id,
-        kind == "none" == (Map.get(record, "unresolved_reason") == "no_ws_support"),
+        none? == (Map.get(record, "unresolved_reason") == "no_ws_support"),
         "ping_kind=none must agree with unresolved_reason=no_ws_support"
       ),
       ws_heartbeat_coherence(
         id,
-        kind == "none" == (Map.get(record, "source") == "none"),
+        none? == (Map.get(record, "source") == "none"),
         "ping_kind=none must agree with source=none"
       ),
       ws_heartbeat_coherence(
         id,
-        kind == "none" == is_nil(Map.get(record, "keep_alive_ms")),
+        none? == is_nil(Map.get(record, "keep_alive_ms")),
         "ping_kind=none must agree with keep_alive_ms=null"
+      ),
+      ws_heartbeat_coherence(
+        id,
+        not none? or is_nil(Map.get(record, "ping_payload")),
+        "ping_kind=none must agree with ping_payload=null"
+      ),
+      ws_heartbeat_coherence(
+        id,
+        not none? or is_nil(Map.get(record, "ping_payload_kind")),
+        "ping_kind=none must agree with ping_payload_kind=null"
+      ),
+      ws_heartbeat_coherence(
+        id,
+        not none? or is_nil(Map.get(record, "max_ping_pong_misses")),
+        "ping_kind=none must agree with max_ping_pong_misses=null"
+      ),
+      ws_heartbeat_coherence(
+        id,
+        not none? or is_nil(Map.get(record, "keep_alive_resolved_from")),
+        "ping_kind=none must agree with keep_alive_resolved_from=null"
+      ),
+      ws_heartbeat_coherence(
+        id,
+        not none? or Map.get(record, "has_pong_handler") == false,
+        "ping_kind=none must agree with has_pong_handler=false"
       ),
       ws_heartbeat_coherence(
         id,

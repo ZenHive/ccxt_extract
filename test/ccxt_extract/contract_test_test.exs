@@ -733,6 +733,66 @@ defmodule CcxtExtract.ContractTestTest do
       assert finding.message =~
                "ping_kind=unknown must agree with unresolved_reason=ping_return_not_literal"
     end
+
+    test "ping_kind=none carrying a populated ping_payload is flagged (honesty rule)" do
+      record = Map.put(WsHeartbeat.none_record(), "ping_payload", "ping")
+
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("incoherent", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "ping_kind=none must agree with ping_payload=null"
+    end
+
+    test "ping_kind=none carrying a populated ping_payload_kind is flagged (honesty rule)" do
+      record = Map.put(WsHeartbeat.none_record(), "ping_payload_kind", "literal")
+
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("incoherent", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "ping_kind=none must agree with ping_payload_kind=null"
+    end
+
+    test "ping_kind=none carrying a populated max_ping_pong_misses is flagged (honesty rule)" do
+      record = Map.put(WsHeartbeat.none_record(), "max_ping_pong_misses", 2.0)
+
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("incoherent", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "ping_kind=none must agree with max_ping_pong_misses=null"
+    end
+
+    test "ping_kind=none carrying a populated keep_alive_resolved_from is flagged (honesty rule)" do
+      record = Map.put(WsHeartbeat.none_record(), "keep_alive_resolved_from", "self")
+
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("incoherent", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "ping_kind=none must agree with keep_alive_resolved_from=null"
+    end
+
+    test "ping_kind=none with has_pong_handler=true is flagged (honesty rule)" do
+      record = Map.put(WsHeartbeat.none_record(), "has_pong_handler", true)
+
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("incoherent", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "ping_kind=none must agree with has_pong_handler=false"
+    end
   end
 
   describe "check_error_class_hierarchy_shape_valid/2" do

@@ -63,6 +63,7 @@ Every per-exchange JSON file has exactly these top-level keys (**all required, n
 | `errors` | object | `handle_errors`, `class_hierarchy`, `status_map`, `retry_classification`, `dispatch` |
 | `rate_limits` | object | `buckets`, `per_endpoint_cost`, `endpoint_cost_binding` |
 | `normalization` | object | `parse_methods_digest`, `field_maps`, `response_envelopes` |
+| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93) |
 | `markets` | object | `symbols_index`, `patterns`, `currencies` (Task 97), `precision_mode` (Task 98 planned) |
 | `testnet` | object | Structured testnet / sandbox URL catalog |
 | `raw` | object | Raw passthroughs — `describe`, `url_templates`, `class_info`, `method_inventory`, `overrides_meta` |
@@ -105,7 +106,7 @@ The `_provenance` field is a flat map keyed by RFC 6901 JSON Pointer strings. Ev
 
 **JSON Schema:** `exchange_v4.json` (included in every output directory).
 
-**Why a major bump (vs additive 3.x):** the v4 cut reorganized top-level sections from producer-shaped (`runtime` / `structure`) to consumer-shaped (`endpoints` / `auth` / `errors` / `rate_limits` / `normalization` / `markets` / `testnet` / `raw`). Additive 3.x can grow new keys but cannot reorganize without breaking; one migration cost in exchange for a coherent stable contract.
+**Why a major bump (vs additive 3.x):** the v4 cut reorganized top-level sections from producer-shaped (`runtime` / `structure`) to consumer-shaped (`endpoints` / `auth` / `errors` / `rate_limits` / `normalization` / `websocket` / `markets` / `testnet` / `raw`). Additive 3.x can grow new keys but cannot reorganize without breaking; one migration cost in exchange for a coherent stable contract.
 
 ### Why `normalization.parse_methods_digest` is compact, not raw
 
@@ -444,6 +445,44 @@ Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, defaul
 **Fetcher scope filter.** Only names beginning with `fetch` are considered — mutators like `createOrder` / `cancelOrder` / `editSpotOrder` are excluded even when they share a parser callee. The per-parser-type fetcher list is the intersection of `parse_dispatch` callers and the parser-type's `parse_fn` set, restricted to `fetch*` names.
 
 **Inheriting exchanges** (no `parse_dispatch` entry, no fetcher bodies) emit `response_envelopes` with every parser-type slot `null` plus `_unresolved_reason: "not_yet_derived"`.
+
+---
+
+### `websocket.heartbeat` — shape (Task 93)
+
+`websocket` is the WebSocket surface; Task 93 ships its first sub-section, `heartbeat`. The record describes how an exchange keeps a WS connection alive, derived from the Pro class's `describe().streaming` block and its `ping` / `pong` method definitions. It is **always emitted** — REST-only exchanges (no Pro class) carry the honest-empty record.
+
+```json
+"websocket": {
+  "heartbeat": {
+    "ping_kind": "json_message",
+    "ping_payload": { "op": "ping" },
+    "ping_payload_kind": "partial",
+    "keep_alive_ms": 18000,
+    "max_ping_pong_misses": 2.0,
+    "has_pong_handler": true,
+    "keep_alive_resolved_from": "self",
+    "source": "pro_describe",
+    "unresolved_reason": null
+  }
+}
+```
+
+| Key | Type | Meaning |
+|-----|------|---------|
+| `ping_kind` | enum | Heartbeat strategy, classified structurally from the `ping()` return-node AST type: `native_frame` (no `ping()` override — base client uses protocol-level WS frames), `string_message` (`ping()` returns a string literal), `json_message` (returns an object literal), `unknown` (`ping()` defined but its return is not a statically resolvable literal), `none` (no Pro class). |
+| `ping_payload` | `string \| object \| null` | Decoded `ping()` return — a string, or an object carrying its statically-literal keys. `null` for `native_frame` / `none` / `unknown`. |
+| `ping_payload_kind` | enum \| null | `literal` (fully static), `partial` (some object keys runtime-computed, omitted from `ping_payload`), `unresolved`. `null` when there is no `ping()`. |
+| `keep_alive_ms` | `number \| null` | Ping interval (ms), resolved after WS-class inheritance (`binanceusdm` inherits `binance`'s 180000). Base CCXT default 30000 when a Pro class sets none. `null` for REST-only exchanges. |
+| `max_ping_pong_misses` | `number \| null` | Missed-pong tolerance before the connection is treated as dead. Base CCXT default 2.0. |
+| `has_pong_handler` | boolean | True when the Pro class (or an ancestor) defines `pong` / `handlePong` / `handlePing`. |
+| `keep_alive_resolved_from` | `string \| null` | `"self"`, an ancestor exchange id (inherited via the `extends` chain), or `"base_default"`. |
+| `source` | enum | `pro_describe` (own/inherited `streaming` block), `base_default` (Pro class with no `keepAlive`), `none` (no Pro class). |
+| `unresolved_reason` | enum \| null | `no_ws_support` (no Pro class — every field null/false/none), `ping_return_not_literal` (`ping()` defined but `ping_kind` is `unknown`), `null` when fully resolved. |
+
+**Honest-empty record** — a REST-only exchange emits `ping_kind: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`, with `null` / `false` for the remaining fields.
+
+`websocket` is the designated growth point for Phase 15 WS-derived sub-sections; sibling tasks add keys to it additively.
 
 ---
 

@@ -54,6 +54,9 @@ defmodule CcxtExtract.Provenance do
   class_hierarchy}` plus the handler-routing v4 reshape under
   `/endpoints/handlers/{error, signing, parse}` (Tasks 88a/b/c).
 
+  Task 93 adds `/websocket/heartbeat` for the new `websocket` top-level
+  group — an additive derived pointer, no schema-version bump.
+
   ## Usage
 
       provenance =
@@ -108,6 +111,7 @@ defmodule CcxtExtract.Provenance do
     /normalization/parse_methods_digest
     /normalization/field_maps
     /normalization/response_envelopes
+    /websocket/heartbeat
     /endpoints/handlers/error
     /endpoints/handlers/signing
     /endpoints/handlers/parse

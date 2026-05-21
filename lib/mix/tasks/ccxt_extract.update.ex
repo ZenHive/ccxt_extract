@@ -327,6 +327,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     {"ccxt_extract.parse_methods", :scoped},
     {"ccxt_extract.fetch_methods", :scoped},
     {"ccxt_extract.ws_methods", :scoped},
+    {"ccxt_extract.ws_heartbeat", :scoped},
     {"ccxt_extract.interface_signatures", :scoped},
     {"ccxt_extract.pagination", :scoped},
     {"ccxt_extract.unified_endpoints", :scoped},

@@ -41,6 +41,7 @@ defmodule CcxtExtract.ContractTest do
   alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.TestnetUrls
+  alias CcxtExtract.WsHeartbeat
 
   @type finding :: %{
           exchange: String.t(),
@@ -68,6 +69,7 @@ defmodule CcxtExtract.ContractTest do
     {"request_shape_valid", :check_request_shape_valid},
     {"request_shape_honesty_valid", :check_request_shape_honesty_valid},
     {"testnet_urls_shape_valid", :check_testnet_urls_shape_valid},
+    {"websocket_heartbeat_shape_valid", :check_websocket_heartbeat_shape_valid},
     {"error_class_hierarchy_shape_valid", :check_error_class_hierarchy_shape_valid},
     {"error_classes_covered_by_hierarchy", :check_error_classes_covered_by_hierarchy},
     {"normalization_shape_valid", :check_normalization_shape_valid},
@@ -1012,6 +1014,103 @@ defmodule CcxtExtract.ContractTest do
       exchange: id,
       invariant: "testnet_urls_shape_valid",
       path: "testnet",
+      message: message
+    }
+  end
+
+  @doc """
+  `websocket.heartbeat` must carry exactly the `WsHeartbeat` key set with
+  closed-vocabulary `ping_kind` / `source` / `unresolved_reason` values, and
+  satisfy the cross-field honesty rule JSV cannot express: the no-WS and
+  unknown-ping states must agree across `ping_kind`, `source`,
+  `keep_alive_ms` nullity, and `unresolved_reason`.
+  """
+  @spec check_websocket_heartbeat_shape_valid(map(), map()) :: [finding()]
+  def check_websocket_heartbeat_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    ws_heartbeat_record_findings(id, get_in(exchange, ["websocket", "heartbeat"]))
+  end
+
+  defp ws_heartbeat_record_findings(id, record) when is_map(record) do
+    missing = WsHeartbeat.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- WsHeartbeat.required_keys()
+
+    missing_findings = Enum.map(missing, &ws_heartbeat_finding(id, "missing required key #{inspect(&1)}"))
+    extra_findings = Enum.map(extra, &ws_heartbeat_finding(id, "unexpected key #{inspect(&1)}"))
+
+    consistency_findings =
+      case missing do
+        [] -> ws_heartbeat_consistency_findings(id, record)
+        _ -> []
+      end
+
+    missing_findings ++ extra_findings ++ consistency_findings
+  end
+
+  defp ws_heartbeat_record_findings(id, _record) do
+    [ws_heartbeat_finding(id, "websocket.heartbeat must be a map")]
+  end
+
+  defp ws_heartbeat_consistency_findings(id, record) do
+    vocab_findings =
+      [
+        ws_heartbeat_vocab_finding(id, record, "ping_kind", WsHeartbeat.ping_kinds()),
+        ws_heartbeat_vocab_finding(id, record, "source", WsHeartbeat.sources()),
+        ws_heartbeat_vocab_finding(id, record, "unresolved_reason", [nil | WsHeartbeat.unresolved_reasons()])
+      ]
+
+    Enum.reject(vocab_findings ++ ws_heartbeat_honesty_findings(id, record), &is_nil/1)
+  end
+
+  defp ws_heartbeat_vocab_finding(id, record, key, allowed) do
+    value = Map.get(record, key)
+
+    if value in allowed do
+      nil
+    else
+      ws_heartbeat_finding(id, "#{key} must be one of #{inspect(allowed)}, got #{inspect(value)}")
+    end
+  end
+
+  # The honesty rule JSV cannot express: the no-WS state (ping_kind=none)
+  # and the unknown-ping state must agree across every field that encodes
+  # them, so a build/2 regression can't emit an internally-contradictory
+  # record that still passes structural schema validation.
+  defp ws_heartbeat_honesty_findings(id, record) do
+    kind = Map.get(record, "ping_kind")
+
+    [
+      ws_heartbeat_coherence(
+        id,
+        kind == "none" == (Map.get(record, "unresolved_reason") == "no_ws_support"),
+        "ping_kind=none must agree with unresolved_reason=no_ws_support"
+      ),
+      ws_heartbeat_coherence(
+        id,
+        kind == "none" == (Map.get(record, "source") == "none"),
+        "ping_kind=none must agree with source=none"
+      ),
+      ws_heartbeat_coherence(
+        id,
+        kind == "none" == is_nil(Map.get(record, "keep_alive_ms")),
+        "ping_kind=none must agree with keep_alive_ms=null"
+      ),
+      ws_heartbeat_coherence(
+        id,
+        kind == "unknown" == (Map.get(record, "unresolved_reason") == "ping_return_not_literal"),
+        "ping_kind=unknown must agree with unresolved_reason=ping_return_not_literal"
+      )
+    ]
+  end
+
+  defp ws_heartbeat_coherence(_id, true, _message), do: nil
+  defp ws_heartbeat_coherence(id, false, message), do: ws_heartbeat_finding(id, message)
+
+  defp ws_heartbeat_finding(id, message) do
+    %{
+      exchange: id,
+      invariant: "websocket_heartbeat_shape_valid",
+      path: "websocket/heartbeat",
       message: message
     }
   end

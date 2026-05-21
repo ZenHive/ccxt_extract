@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "exchange_v4.json",
   "title": "CCXT Exchange Extraction Output (v4)",
-  "description": "Per-exchange extraction output (schema 4.0.0). Top-level groups are consumer-shaped (endpoints/auth/errors/rate_limits/normalization/markets/testnet/raw). See SCHEMA.md § 'Version 4.0.0' for the consumer guidance, top-level reshape table from v3, and migration notes.",
+  "description": "Per-exchange extraction output (schema 4.0.0). Top-level groups are consumer-shaped (endpoints/auth/errors/rate_limits/normalization/websocket/markets/testnet/raw). See SCHEMA.md § 'Version 4.0.0' for the consumer guidance, top-level reshape table from v3, and migration notes.",
   "type": "object",
   "required": [
     "schema_version",
@@ -14,6 +14,7 @@
     "errors",
     "rate_limits",
     "normalization",
+    "websocket",
     "markets",
     "testnet",
     "raw",
@@ -49,6 +50,9 @@
     },
     "normalization": {
       "$ref": "#/$defs/Normalization"
+    },
+    "websocket": {
+      "$ref": "#/$defs/Websocket"
     },
     "markets": {
       "$ref": "#/$defs/Markets"
@@ -544,6 +548,85 @@
           "type": "object",
           "additionalProperties": true,
           "description": "Weight-axis variants from CCXT's object-style endpoint config (the `cost` key itself is excluded — it is hoisted to the sibling `cost` field above). Keys mirror CCXT's axis names verbatim; values mirror CCXT's literal value verbatim. Empty object when the endpoint has no axis variants."
+        }
+      }
+    },
+    "Websocket": {
+      "type": "object",
+      "description": "WebSocket surface. Task 93 ships the heartbeat sub-section (ping/pong keep-alive). Sibling Phase 15 tasks add further sub-sections additively — this group is the designated growth point for WS-derived data (see SCHEMA.md).",
+      "required": [
+        "heartbeat"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "heartbeat": {
+          "$ref": "#/$defs/WebsocketHeartbeat",
+          "description": "Per-exchange ping/pong keep-alive configuration derived from the Pro class describe().streaming block plus ping/pong method definitions (Task 93)."
+        }
+      }
+    },
+    "WebsocketHeartbeat": {
+      "type": "object",
+      "description": "Heartbeat / ping-pong keep-alive record. Mirrors CCXT's base WS client (priv/ccxt/ts/src/base/ws/Client.ts: keepAlive default 30000ms, maxPingPongMisses 2.0). keep_alive_ms and max_ping_pong_misses are resolved after WS-class-hierarchy inheritance. Always emitted — REST-only exchanges carry the honest-empty record (ping_kind 'none', unresolved_reason 'no_ws_support').",
+      "required": [
+        "ping_kind",
+        "ping_payload",
+        "ping_payload_kind",
+        "keep_alive_ms",
+        "max_ping_pong_misses",
+        "has_pong_handler",
+        "keep_alive_resolved_from",
+        "source",
+        "unresolved_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ping_kind": {
+          "enum": ["native_frame", "string_message", "json_message", "unknown", "none"],
+          "description": "Heartbeat strategy, classified structurally from the ping() return-node AST type. 'native_frame': no ping() override — the base client uses protocol-level WebSocket ping frames. 'string_message': ping() returns a string literal. 'json_message': ping() returns an object literal. 'unknown': ping() is defined but its return is not a statically resolvable literal. 'none': the exchange has no WebSocket (Pro) class."
+        },
+        "ping_payload": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "additionalProperties": true
+            }
+          ],
+          "description": "Decoded ping() return value — a string, or an object carrying its statically-literal keys (runtime-computed keys omitted). Null for native_frame / none / unknown."
+        },
+        "ping_payload_kind": {
+          "enum": ["literal", "partial", "unresolved", null],
+          "description": "Resolution quality of ping_payload. 'literal': fully static. 'partial': some object keys static, some runtime-computed (the computed keys are omitted from ping_payload). 'unresolved': no key resolved statically. Null when there is no ping() method."
+        },
+        "keep_alive_ms": {
+          "type": ["number", "null"],
+          "description": "Ping interval in milliseconds, resolved after WS-class inheritance (e.g. binanceusdm inherits binance's 180000). Base CCXT default 30000 when a Pro class exists but sets no keepAlive. Null for REST-only exchanges."
+        },
+        "max_ping_pong_misses": {
+          "type": ["number", "null"],
+          "description": "Missed-pong tolerance before the connection is treated as dead. Base CCXT default 2.0. Null for REST-only exchanges."
+        },
+        "has_pong_handler": {
+          "type": "boolean",
+          "description": "True when the Pro class (or an ancestor) defines pong, handlePong, or handlePing — it processes inbound heartbeat frames itself rather than relying on the base client's onPong()."
+        },
+        "keep_alive_resolved_from": {
+          "type": ["string", "null"],
+          "description": "Where keep_alive_ms resolved: 'self' (the exchange's own streaming block), an ancestor exchange id (inherited via the extends chain), or 'base_default'. Null for REST-only exchanges."
+        },
+        "source": {
+          "enum": ["pro_describe", "base_default", "none"],
+          "description": "Origin of the resolved values. 'pro_describe': the Pro class's own or inherited describe().streaming block. 'base_default': a Pro class exists but ships no keepAlive, so the base client default applies. 'none': no Pro class."
+        },
+        "unresolved_reason": {
+          "enum": ["no_ws_support", "ping_return_not_literal", null],
+          "description": "Honesty tag. 'no_ws_support': the exchange has no WebSocket (Pro) class — every field is null/false/none. 'ping_return_not_literal': ping() is defined but its return is not a statically resolvable literal (ping_kind is 'unknown'). Null when the record is fully resolved."
         }
       }
     },

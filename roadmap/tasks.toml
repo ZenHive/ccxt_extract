@@ -932,11 +932,10 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 93
-model = "claude-sonnet-4-6"
 phase = 15
 bundle = "15-msg"
 milestone = "feature_complete"
-status = "pending"
+status = "done"
 title = "Heartbeat / ping-pong pattern per exchange"
 scores = { d = 3, b = 6, u = 7 }
 markers = ["parallel"]
@@ -944,10 +943,14 @@ depends_on = [144]
 acceptance_criteria = [
   "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
 ]
+model = "claude-sonnet-4-6"
 body = """
 Heartbeat / ping-pong pattern per exchange. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.
 """
+implemented = "Shipped the websocket top-level v4 group with its first sub-section, heartbeat. New OXC extractor CcxtExtract.WsHeartbeat parses every CCXT Pro class for ping/pong/handlePong/handlePing methods and the describe().streaming block, writing raw inheritance-free facts to priv/discoveries/ws_heartbeat.json (80 WS exchanges). Pipeline derivation (build/2) resolves WS-class-hierarchy inheritance via the extends chain (binanceusdm inherits binance's 180s keepAlive) and classifies ping strategy structurally from the AST return-node type: native_frame/string_message/json_message/unknown/none. Wired through discovery_loader, schema (required websocket group), provenance (/websocket/heartbeat derived), update orchestrator, and a websocket_heartbeat_shape_valid contract invariant (0 corpus findings). REST-only exchanges carry an honest-empty none_record. All 110 exchanges pass JSV validation; extractor is byte-deterministic. No schema-version bump per user direction (greenfield, no consumer pinned to 4.0.0)."
+started_at = "2026-05-20"
 scored_at = "2026-05-14"
+done_at = "2026-05-20"
 
 # ── Phase 15 · bundle 15-dispatch ─────────────────────────────────────────
 

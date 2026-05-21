@@ -3,8 +3,8 @@ defmodule CcxtExtract.Schema do
   Build and validate per-exchange JSON output conforming to `exchange_v4.json`.
 
   v4 assembles extraction-layer data into consumer-shaped top-level sections
-  (`endpoints`, `auth`, `errors`, `rate_limits`, `normalization`, `markets`,
-  `testnet`, `raw`).
+  (`endpoints`, `auth`, `errors`, `rate_limits`, `normalization`,
+  `websocket`, `markets`, `testnet`, `raw`).
 
   ## Schema Versioning
 
@@ -49,7 +49,7 @@ defmodule CcxtExtract.Schema do
 
   @required_exchange_keys ~w(id name alias)
 
-  @required_top_keys ~w(schema_version extracted_at ccxt_version exchange endpoints auth errors rate_limits normalization markets testnet raw _provenance)
+  @required_top_keys ~w(schema_version extracted_at ccxt_version exchange endpoints auth errors rate_limits normalization websocket markets testnet raw _provenance)
   @required_endpoints_keys ~w(unified interfaces pagination request transaction_classification handlers)
   @required_endpoints_request_keys ~w(defaults shape)
   @required_endpoints_handlers_keys ~w(error signing parse)
@@ -59,6 +59,7 @@ defmodule CcxtExtract.Schema do
   @required_markets_keys ~w(symbols_index patterns currencies)
   @required_raw_keys ~w(describe url_templates class_info method_inventory overrides_meta)
   @required_normalization_keys ~w(parse_methods_digest field_maps response_envelopes)
+  @required_websocket_keys ~w(heartbeat)
 
   # --- Public API ---
 
@@ -74,8 +75,8 @@ defmodule CcxtExtract.Schema do
   Build a per-exchange output map conforming to `exchange_v4.json`.
 
   v4 assembles extraction-layer data into consumer-shaped top-level groups
-  (`endpoints`, `auth`, `errors`, `rate_limits`, `normalization`, `markets`,
-  `testnet`, `raw`).
+  (`endpoints`, `auth`, `errors`, `rate_limits`, `normalization`,
+  `websocket`, `markets`, `testnet`, `raw`).
 
   ## Parameters
 
@@ -115,6 +116,7 @@ defmodule CcxtExtract.Schema do
     sign_method = structure_data["sign_method"]
     describe_api = structure_data["describe_api"]
     normalization = Keyword.get(opts, :normalization) || CcxtExtract.Normalization.build(nil, nil)
+    websocket = Keyword.get(opts, :websocket) || %{"heartbeat" => CcxtExtract.WsHeartbeat.none_record()}
 
     %{
       "schema_version" => @schema_version,
@@ -154,6 +156,7 @@ defmodule CcxtExtract.Schema do
         "endpoint_cost_binding" => structure_data["endpoint_cost_binding"]
       },
       "normalization" => normalization,
+      "websocket" => websocket,
       "markets" => %{
         "symbols_index" => runtime_data["symbols_index"],
         "patterns" => runtime_data["symbol_patterns"],
@@ -202,6 +205,7 @@ defmodule CcxtExtract.Schema do
       |> check_required_keys(data["markets"], @required_markets_keys, "markets")
       |> check_required_keys(data["raw"], @required_raw_keys, "raw")
       |> check_required_keys(data["normalization"], @required_normalization_keys, "normalization")
+      |> check_required_keys(data["websocket"], @required_websocket_keys, "websocket")
 
     case errors do
       [] -> :ok

@@ -828,11 +828,12 @@
     },
     "Markets": {
       "type": "object",
-      "description": "Markets surface. symbols_index + patterns are the compact derived views (Task 117). currencies (Task 97) carries per-code metadata + networks from the runtime loadMarkets() side-effect. precision_mode (Task 98) is planned.",
+      "description": "Markets surface. symbols_index + patterns are the compact derived views (Task 117). currencies (Task 97) carries per-code metadata + networks from the runtime loadMarkets() side-effect. precision_mode (Task 98) decodes the exchange's precisionMode/paddingMode interpretation key.",
       "required": [
         "symbols_index",
         "patterns",
-        "currencies"
+        "currencies",
+        "precision_mode"
       ],
       "additionalProperties": false,
       "properties": {
@@ -872,6 +873,59 @@
             }
           ],
           "description": "Per-currency metadata + network catalog (Task 97)."
+        },
+        "precision_mode": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/PrecisionMode"
+            }
+          ],
+          "description": "Decoded precisionMode/paddingMode — the interpretation key for market precision values (Task 98)."
+        }
+      }
+    },
+    "PrecisionMode": {
+      "type": "object",
+      "description": "Decoded per-exchange precision configuration (Task 98). 'mode' selects how a market's precision.{amount,price,cost} value is read; see SCHEMA.md for the tick/step derivation rule. Decoded from describe().precisionMode / paddingMode integers.",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "padding_mode"
+      ],
+      "properties": {
+        "mode": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "tick_size",
+                "decimal_places",
+                "significant_digits"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "tick_size: a precision value IS the increment. decimal_places: precision is a digit count (increment = 10^-n). significant_digits: precision is a sig-digit count, no fixed increment. null only if CCXT emits an unrecognized precisionMode integer."
+        },
+        "padding_mode": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "no_padding",
+                "pad_with_zero"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Whether rounded numbers are zero-padded to the precision width."
         }
       }
     },

@@ -272,7 +272,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 97 | ✅ | 🎁 **16-currency** · 🚀 **feature_complete** · Currency aliases (commonCurrencies) + network info [D:3/B:7/U:8 → Eff:2.5] 🎯 |
-| Task 98 | ⬜ | 🎁 **16-currency** · 🚀 **feature_complete** · Precision mode + tick/step derivation semantics [D:3/B:6/U:7 → Eff:2.17] 🎯 |
+| Task 98 | ✅ | 🎁 **16-currency** · 🚀 **feature_complete** · Precision mode + tick/step derivation semantics [D:3/B:6/U:7 → Eff:2.17] 🎯 |
 | Task 99 | 🔶 | 🎁 **16-fees** · Tiered fee schedules + VIP level mapping [D:4/B:4/U:3 → Eff:0.88] ⚠️ |
 | Task 99b | 🔶 | 🎁 **16-fees** · Funding / withdrawal / deposit fee catalog [D:4/B:4/U:3 → Eff:0.88] ⚠️ |
 <!-- TASKS:END -->

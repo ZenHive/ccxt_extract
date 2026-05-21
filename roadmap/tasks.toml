@@ -1084,11 +1084,10 @@ done_at = "2026-05-19"
 
 [[task]]
 id = 98
-model = "claude-opus-4-7"
 phase = 16
 bundle = "16-currency"
 milestone = "feature_complete"
-status = "pending"
+status = "done"
 title = "Precision mode + tick/step derivation semantics"
 scores = { d = 3, b = 6, u = 7 }
 depends_on = [144]
@@ -1096,10 +1095,14 @@ acceptance_criteria = [
   "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
 ]
 cross_repo = [{ repo = "ccxt_client", task_id = 60, relation = "blocks" }]
+model = "claude-opus-4-7"
 body = """
 Precision mode + tick/step derivation semantics per exchange.
 """
+implemented = "Added markets.precision_mode — a {mode, padding_mode} record decoded from describe().precisionMode/paddingMode by the new pure CcxtExtract.PrecisionMode module (mirrors Currencies.derive/1: pure, total, nil on missing describe). Wired into pipeline runtime_data, the schema Markets group (required key), and provenance (/markets/precision_mode -> derived). New PrecisionMode $def in exchange_v4.json; the tick/step derivation rule table is documented in SCHEMA.md. No new mix task — precisionMode/paddingMode were already captured in the describe discovery, so the Task-144 AC ('no OptionParser.parse in the new mix task') is satisfied by absence, same resolution as Task 97. Verified: 110/110 full JSV schema validation, contract_test provenance_covers_schema 0 findings, determinism_check pipeline --tier1 byte-equal across two runs, all three modes spot-checked (binance/okx tick_size, foxbit decimal_places, bitfinex/bithumb significant_digits)."
+started_at = "2026-05-21"
 scored_at = "2026-05-14"
+done_at = "2026-05-21"
 
 # ── Phase 16 · bundle 16-fees (blocked — not required by priority consumers) ──
 

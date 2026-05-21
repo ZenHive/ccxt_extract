@@ -146,7 +146,14 @@ defmodule CcxtExtract.PipelineTest do
   defp full_data do
     %{
       exchanges: [full_meta()],
-      describe: %{"testex" => %{"id" => "testex", "has" => %{"fetchTicker" => true}}},
+      describe: %{
+        "testex" => %{
+          "id" => "testex",
+          "has" => %{"fetchTicker" => true},
+          "precisionMode" => 4,
+          "paddingMode" => 5
+        }
+      },
       load_markets: %{
         "testex" => %{"market_count" => 100, "markets" => %{"BTC/USDT" => %{"active" => true}}}
       },
@@ -319,6 +326,9 @@ defmodule CcxtExtract.PipelineTest do
       assert is_map(result["markets"]["symbols_index"])
       assert is_map(result["markets"]["patterns"])
 
+      assert result["markets"]["precision_mode"] ==
+               %{"mode" => "tick_size", "padding_mode" => "no_padding"}
+
       # v4 raw/auth sections (was structure)
       assert result["raw"]["class_info"]["rest"]["node_key"] == "rest:testex"
       assert result["raw"]["class_info"]["ws"]["node_key"] == "ws:testex"
@@ -347,6 +357,7 @@ defmodule CcxtExtract.PipelineTest do
       assert result["raw"]["describe"] == nil
       assert result["markets"]["symbols_index"] == nil
       assert result["markets"]["patterns"] == nil
+      assert result["markets"]["precision_mode"] == nil
       assert result["raw"]["class_info"] == nil
       assert result["raw"]["method_inventory"] == nil
       assert result["auth"]["sign_method"] == nil

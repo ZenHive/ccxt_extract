@@ -6,6 +6,13 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 98 — `markets.precision_mode` (Phase 16)
+
+- New `markets.precision_mode` surface under the v4 Markets group: the decoded `{mode, padding_mode}` record that tells a consumer how to interpret every market's `precision.{amount,price,cost}` value. `mode` is one of `tick_size` / `decimal_places` / `significant_digits`; `padding_mode` is `no_padding` / `pad_with_zero`.
+- Pure assembly-time derivation (`CcxtExtract.PrecisionMode`) — no new extractor and no re-extraction. The source integers (`precisionMode` / `paddingMode`) were already captured in the `describe` discovery; the field is produced by re-running the pipeline.
+- The tick/step **derivation rule** keyed by `mode` is documented in `SCHEMA.md` § Markets — a `precision` value is a literal increment under `tick_size`, a digit count under `decimal_places`, and a significant-digit count under `significant_digits`.
+- Tagged `derived` in `_provenance` and added to the Markets required key set — appears (record or explicit `null`) in every emitted exchange JSON, matching the Task 97 `currencies` contract.
+
 ### WebSocket heartbeat extraction — `websocket.heartbeat` (2026-05-20)
 
 New top-level `websocket` group in the v4 per-exchange JSON, opening Phase 15. Its first sub-section, `heartbeat`, captures how each exchange keeps a WebSocket connection alive — the ping/pong keep-alive contract a port needs to hold a connection open.

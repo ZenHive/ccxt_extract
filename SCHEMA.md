@@ -64,12 +64,22 @@ Every per-exchange JSON file has exactly these top-level keys (**all required, n
 | `rate_limits` | object | `buckets`, `per_endpoint_cost`, `endpoint_cost_binding` |
 | `normalization` | object | `parse_methods_digest`, `field_maps`, `response_envelopes` |
 | `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93) |
-| `markets` | object | `symbols_index`, `patterns`, `currencies` (Task 97), `precision_mode` (Task 98 planned) |
+| `markets` | object | `symbols_index`, `patterns`, `currencies` (Task 97), `precision_mode` (Task 98) |
 | `testnet` | object | Structured testnet / sandbox URL catalog |
 | `raw` | object | Raw passthroughs — `describe`, `url_templates`, `class_info`, `method_inventory`, `overrides_meta` |
 | `_provenance` | ProvenanceMap | Per-path source tags (raw / derived / override) |
 
 `markets.currencies` (Task 97) is the compact runtime view: unified code → `{precision, networks, ...}` with `info` stripped. `null` when the exchange had no load_markets data or the discovery predates the capture. Networks unlock deposit/withdraw + tx modeling in consumers. QuickBEAM `"__undefined"` sentinels (JS `undefined`) are dropped recursively — a field the exchange does not surface is simply absent. `precision` is typed `number | string | null`: usually numeric, but a few exchanges (hyperliquid) emit it as a decimal string for exact tick sizes, extracted verbatim.
+
+`markets.precision_mode` (Task 98) decodes the two integers CCXT exposes in `describe()` — `precisionMode` and `paddingMode` — into the record `{mode, padding_mode}`. `mode` ∈ `tick_size` | `decimal_places` | `significant_digits`; `padding_mode` ∈ `no_padding` | `pad_with_zero`. `null` only when no `describe` data was available. This is the **interpretation key** for every market's `precision.{amount,price,cost}` value — derive a tick (price increment) / step (amount increment) from a raw `precision` value `p` as:
+
+| `mode` | a `precision` value `p` means | tick / step |
+|---|---|---|
+| `tick_size` | `p` is the increment itself | round to the nearest multiple of `p` |
+| `decimal_places` | `p` is a decimal-place count | increment = `10^(-p)` |
+| `significant_digits` | `p` is a significant-digit count | no fixed increment — round the value to `p` significant digits |
+
+CCXT rounding directions are constant across exchanges (base `Exchange.ts`): price → ROUND, amount → TRUNCATE, cost → TRUNCATE (cost falls back to price precision when a market carries no `cost` precision). Most exchanges use `tick_size`; the non-default modes are rare (e.g. `bitfinex` / `bithumb` use `significant_digits`, `foxbit` uses `decimal_places`).
 
 ### Two-State Optionality
 

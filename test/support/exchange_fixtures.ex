@@ -114,7 +114,8 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
       "markets" => %{
         "symbols_index" => nil,
         "patterns" => %{},
-        "currencies" => nil
+        "currencies" => nil,
+        "precision_mode" => nil
       },
       "testnet" => CcxtExtract.TestnetUrls.none_record(),
       "raw" => %{

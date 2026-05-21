@@ -133,7 +133,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 | Symbol format patterns per market type | ✅ | `markets.patterns` (Task 40) |
 | Currency aliases (`commonCurrencies`) | 🚧 | Native id in `markets.currencies` + `raw.describe.commonCurrencies`; no dedicated derived alias map (Task 97) |
 | Network info (USDT-ERC20 vs TRC20, etc.) | ✅ | `markets.currencies[<code>].networks` (Task 97) |
-| Precision mode + tick/step semantics | ⬜ | Phase 16 — Task 98 |
+| Precision mode + tick/step semantics | ✅ | `markets.precision_mode` — decoded `{mode, padding_mode}` from `describe().precisionMode`/`paddingMode` (Task 98); tick/step derivation rule keyed by `mode` documented in `SCHEMA.md` § Markets |
 | Trading fees (maker/taker, default) | ✅ | `raw.describe.fees.trading` |
 | Tiered fee schedules + VIP level mapping | ⬜ | Phase 16 — Task 99 |
 | Funding / withdrawal / deposit fees | 🚧 | Partial in `raw.describe.fees`; Phase 16 — Task 99b |

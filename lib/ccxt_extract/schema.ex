@@ -56,7 +56,7 @@ defmodule CcxtExtract.Schema do
   @required_auth_keys ~w(sign_recipe sign_method authenticated_sections headers)
   @required_errors_keys ~w(handle_errors class_hierarchy status_map retry_classification)
   @required_rate_limits_keys ~w(buckets per_endpoint_cost endpoint_cost_binding)
-  @required_markets_keys ~w(symbols_index patterns currencies)
+  @required_markets_keys ~w(symbols_index patterns currencies precision_mode)
   @required_raw_keys ~w(describe url_templates class_info method_inventory overrides_meta)
   @required_normalization_keys ~w(parse_methods_digest field_maps response_envelopes)
   @required_websocket_keys ~w(heartbeat)
@@ -160,7 +160,8 @@ defmodule CcxtExtract.Schema do
       "markets" => %{
         "symbols_index" => runtime_data["symbols_index"],
         "patterns" => runtime_data["symbol_patterns"],
-        "currencies" => runtime_data["currencies"]
+        "currencies" => runtime_data["currencies"],
+        "precision_mode" => runtime_data["precision_mode"]
       },
       "testnet" => runtime_data["testnet_urls"] || CcxtExtract.TestnetUrls.none_record(),
       "raw" => %{

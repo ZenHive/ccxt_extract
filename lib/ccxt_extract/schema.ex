@@ -59,7 +59,7 @@ defmodule CcxtExtract.Schema do
   @required_markets_keys ~w(symbols_index patterns currencies precision_mode)
   @required_raw_keys ~w(describe url_templates class_info method_inventory overrides_meta)
   @required_normalization_keys ~w(parse_methods_digest field_maps response_envelopes)
-  @required_websocket_keys ~w(heartbeat)
+  @required_websocket_keys ~w(heartbeat auth)
 
   # --- Public API ---
 
@@ -116,7 +116,13 @@ defmodule CcxtExtract.Schema do
     sign_method = structure_data["sign_method"]
     describe_api = structure_data["describe_api"]
     normalization = Keyword.get(opts, :normalization) || CcxtExtract.Normalization.build(nil, nil)
-    websocket = Keyword.get(opts, :websocket) || %{"heartbeat" => CcxtExtract.WsHeartbeat.none_record()}
+
+    websocket =
+      Keyword.get(opts, :websocket) ||
+        %{
+          "heartbeat" => CcxtExtract.WsHeartbeat.none_record(),
+          "auth" => CcxtExtract.WsAuth.none_record()
+        }
 
     %{
       "schema_version" => @schema_version,

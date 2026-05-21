@@ -41,6 +41,7 @@ defmodule CcxtExtract.ContractTest do
   alias CcxtExtract.RequestShape
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.TestnetUrls
+  alias CcxtExtract.WsAuth
   alias CcxtExtract.WsHeartbeat
 
   @type finding :: %{
@@ -70,6 +71,7 @@ defmodule CcxtExtract.ContractTest do
     {"request_shape_honesty_valid", :check_request_shape_honesty_valid},
     {"testnet_urls_shape_valid", :check_testnet_urls_shape_valid},
     {"websocket_heartbeat_shape_valid", :check_websocket_heartbeat_shape_valid},
+    {"websocket_auth_shape_valid", :check_websocket_auth_shape_valid},
     {"error_class_hierarchy_shape_valid", :check_error_class_hierarchy_shape_valid},
     {"error_classes_covered_by_hierarchy", :check_error_classes_covered_by_hierarchy},
     {"normalization_shape_valid", :check_normalization_shape_valid},
@@ -1111,6 +1113,109 @@ defmodule CcxtExtract.ContractTest do
       exchange: id,
       invariant: "websocket_heartbeat_shape_valid",
       path: "websocket/heartbeat",
+      message: message
+    }
+  end
+
+  @doc """
+  `websocket.auth` must carry exactly the `WsAuth` key set with
+  closed-vocabulary `mechanism` / `source` / `unresolved_reason` values, and
+  satisfy the cross-field honesty rule JSV cannot express: the no-auth,
+  sign-in-message, and unknown states must agree across `mechanism`,
+  `source`, `authenticate_defined`, `message` nullity, and
+  `unresolved_reason`.
+  """
+  @spec check_websocket_auth_shape_valid(map(), map()) :: [finding()]
+  def check_websocket_auth_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    ws_auth_record_findings(id, get_in(exchange, ["websocket", "auth"]))
+  end
+
+  defp ws_auth_record_findings(id, record) when is_map(record) do
+    missing = WsAuth.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- WsAuth.required_keys()
+
+    missing_findings = Enum.map(missing, &ws_auth_finding(id, "missing required key #{inspect(&1)}"))
+    extra_findings = Enum.map(extra, &ws_auth_finding(id, "unexpected key #{inspect(&1)}"))
+
+    consistency_findings =
+      case missing do
+        [] -> ws_auth_consistency_findings(id, record)
+        _ -> []
+      end
+
+    missing_findings ++ extra_findings ++ consistency_findings
+  end
+
+  defp ws_auth_record_findings(id, _record) do
+    [ws_auth_finding(id, "websocket.auth must be a map")]
+  end
+
+  defp ws_auth_consistency_findings(id, record) do
+    vocab_findings =
+      [
+        ws_auth_vocab_finding(id, record, "mechanism", WsAuth.mechanisms()),
+        ws_auth_vocab_finding(id, record, "source", WsAuth.sources()),
+        ws_auth_vocab_finding(id, record, "unresolved_reason", [nil | WsAuth.unresolved_reasons()])
+      ]
+
+    Enum.reject(vocab_findings ++ ws_auth_honesty_findings(id, record), &is_nil/1)
+  end
+
+  defp ws_auth_vocab_finding(id, record, key, allowed) do
+    value = Map.get(record, key)
+
+    if value in allowed do
+      nil
+    else
+      ws_auth_finding(id, "#{key} must be one of #{inspect(allowed)}, got #{inspect(value)}")
+    end
+  end
+
+  # The honesty rule JSV cannot express: the no-auth state (mechanism=none),
+  # the sign-in-message state, and the unknown state must agree across every
+  # field that encodes them, so a build/2 regression can't emit an
+  # internally-contradictory record that still passes structural validation.
+  defp ws_auth_honesty_findings(id, record) do
+    mechanism = Map.get(record, "mechanism")
+
+    [
+      ws_auth_coherence(
+        id,
+        mechanism == "none" == (Map.get(record, "authenticate_defined") == false),
+        "mechanism=none must agree with authenticate_defined=false"
+      ),
+      ws_auth_coherence(
+        id,
+        mechanism == "none" == (Map.get(record, "source") == "none"),
+        "mechanism=none must agree with source=none"
+      ),
+      ws_auth_coherence(
+        id,
+        mechanism == "none" == Map.get(record, "unresolved_reason") in ["no_ws_support", "no_ws_auth"],
+        "mechanism=none must agree with unresolved_reason no_ws_support/no_ws_auth"
+      ),
+      ws_auth_coherence(
+        id,
+        mechanism == "sign_in_message" == is_map(Map.get(record, "message")),
+        "mechanism=sign_in_message must agree with a non-null message"
+      ),
+      ws_auth_coherence(
+        id,
+        mechanism == "unknown" == (Map.get(record, "unresolved_reason") == "auth_not_classifiable"),
+        "mechanism=unknown must agree with unresolved_reason=auth_not_classifiable"
+      )
+    ]
+  end
+
+  defp ws_auth_coherence(_id, true, _message), do: nil
+  defp ws_auth_coherence(id, false, message), do: ws_auth_finding(id, message)
+
+  defp ws_auth_finding(id, message) do
+    %{
+      exchange: id,
+      invariant: "websocket_auth_shape_valid",
+      path: "websocket/auth",
       message: message
     }
   end

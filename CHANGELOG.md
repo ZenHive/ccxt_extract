@@ -13,6 +13,15 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 - The tick/step **derivation rule** keyed by `mode` is documented in `SCHEMA.md` § Markets — a `precision` value is a literal increment under `tick_size`, a digit count under `decimal_places`, and a significant-digit count under `significant_digits`.
 - Tagged `derived` in `_provenance` and added to the Markets required key set — appears (record or explicit `null`) in every emitted exchange JSON, matching the Task 97 `currencies` contract.
 
+### WebSocket auth-flow extraction — `websocket.auth` (2026-05-21)
+
+Second sub-section of the v4 `websocket` group: `auth` captures how each exchange authenticates a *private* WebSocket connection — the sign-in handshake a port must run before subscribing to private streams.
+
+- A new OXC extractor (`mix ccxt_extract.ws_auth`) parses every CCXT Pro class's `authenticate()` method, writing raw, inheritance-free probes to `priv/discoveries/ws_auth.json`: the request object literal (`op` / `method` discriminant + keys), the `this.<credential>` reads, socket-send calls, and a `listenKey` URL-parameter signal.
+- The pipeline resolves `extends`-chain inheritance (`binanceusdm` inherits `binance`'s `authenticate()`) and classifies the mechanism **structurally from the AST** — `sign_in_message` (bybit `op:'auth'`, okx `op:'login'`, deribit `method:'public/auth'`), `url_param` (binance `listenKey`), or an honest `unknown`. Public-only-WS exchanges (Pro class, no `authenticate()`) and REST-only exchanges carry honest-empty records distinguished by `unresolved_reason`.
+- An identifier-valued discriminant (okx's `{ op: operation }` where `const operation = 'login'`) is resolved through a bounded local-`const` scan — deterministic source-binding resolution, not a heuristic.
+- Added additively — no schema-version bump. A `websocket_auth_shape_valid` contract-test invariant guards the cross-field honesty rule JSON Schema cannot express.
+
 ### WebSocket heartbeat extraction — `websocket.heartbeat` (2026-05-20)
 
 New top-level `websocket` group in the v4 per-exchange JSON, opening Phase 15. Its first sub-section, `heartbeat`, captures how each exchange keeps a WebSocket connection alive — the ping/pong keep-alive contract a port needs to hold a connection open.

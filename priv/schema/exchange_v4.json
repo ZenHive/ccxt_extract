@@ -553,15 +553,20 @@
     },
     "Websocket": {
       "type": "object",
-      "description": "WebSocket surface. Task 93 ships the heartbeat sub-section (ping/pong keep-alive). Sibling Phase 15 tasks add further sub-sections additively — this group is the designated growth point for WS-derived data (see SCHEMA.md).",
+      "description": "WebSocket surface. Task 93 ships the heartbeat sub-section (ping/pong keep-alive); Task 92 the auth sub-section (connection authentication flow). Sibling Phase 15 tasks add further sub-sections additively — this group is the designated growth point for WS-derived data (see SCHEMA.md).",
       "required": [
-        "heartbeat"
+        "heartbeat",
+        "auth"
       ],
       "additionalProperties": false,
       "properties": {
         "heartbeat": {
           "$ref": "#/$defs/WebsocketHeartbeat",
           "description": "Per-exchange ping/pong keep-alive configuration derived from the Pro class describe().streaming block plus ping/pong method definitions (Task 93)."
+        },
+        "auth": {
+          "$ref": "#/$defs/WebsocketAuth",
+          "description": "Per-exchange WebSocket authentication flow derived from the Pro class authenticate() method (Task 92)."
         }
       }
     },
@@ -627,6 +632,79 @@
         "unresolved_reason": {
           "enum": ["no_ws_support", "ping_return_not_literal", null],
           "description": "Honesty tag. 'no_ws_support': the exchange has no WebSocket (Pro) class — every field is null/false/none. 'ping_return_not_literal': ping() is defined but its return is not a statically resolvable literal (ping_kind is 'unknown'). Null when the record is fully resolved."
+        }
+      }
+    },
+    "WebsocketAuth": {
+      "type": "object",
+      "description": "WebSocket connection-authentication record, derived from the Pro class authenticate() method (Task 92). Always emitted — REST-only exchanges and public-only WS exchanges carry the honest-empty record (mechanism 'none').",
+      "required": [
+        "mechanism",
+        "authenticate_defined",
+        "message",
+        "credentials",
+        "resolved_from",
+        "source",
+        "unresolved_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "mechanism": {
+          "enum": ["sign_in_message", "url_param", "header", "unknown", "none"],
+          "description": "How the connection is authenticated, classified structurally from the authenticate() method AST. 'sign_in_message': authenticate() builds a request object and sends it over the socket (bybit op:'auth', okx op:'login', deribit method:'public/auth'). 'url_param': credentials (typically a REST-acquired listenKey) are appended to the WS URL. 'header': an HTTP header on the WS upgrade — named for completeness, reachable only via override. 'unknown': authenticate() is defined but matches no known shape. 'none': no authenticate() method (REST-only or public-only WS)."
+        },
+        "authenticate_defined": {
+          "type": "boolean",
+          "description": "True when the Pro class (or an ancestor via the extends chain) defines an authenticate() method."
+        },
+        "message": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "required": ["op", "method", "keys"],
+              "additionalProperties": false,
+              "properties": {
+                "op": {
+                  "type": ["string", "null"],
+                  "description": "The 'op' discriminant of the sign-in message (e.g. 'auth', 'login'), resolved from a string literal or a local const binding. Null when the message has no 'op' key or it is not statically resolvable."
+                },
+                "method": {
+                  "type": ["string", "null"],
+                  "description": "The 'method' discriminant of the sign-in message (e.g. 'public/auth', 'public/login'). Null when the message has no 'method' key or it is not statically resolvable."
+                },
+                "keys": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Top-level keys of the sign-in request object literal, in source order."
+                }
+              }
+            }
+          ],
+          "description": "The sign-in request object shape, when mechanism is 'sign_in_message'. Null for every other mechanism."
+        },
+        "credentials": {
+          "type": "array",
+          "items": {
+            "enum": ["apiKey", "secret", "password", "uid", "privateKey", "walletAddress"]
+          },
+          "description": "The this.<credential> fields the authenticate() method reads, sorted. Empty when there is no authenticate() method."
+        },
+        "resolved_from": {
+          "type": ["string", "null"],
+          "description": "Where the authenticate() method resolved: 'self' (the exchange's own Pro class) or an ancestor exchange id (inherited via the extends chain). Null when there is no authenticate() method."
+        },
+        "source": {
+          "enum": ["pro_authenticate", "none"],
+          "description": "Origin of the record. 'pro_authenticate': an authenticate() method (own or inherited). 'none': no authenticate() method."
+        },
+        "unresolved_reason": {
+          "enum": ["no_ws_support", "no_ws_auth", "auth_not_classifiable", null],
+          "description": "Honesty tag. 'no_ws_support': the exchange has no WebSocket (Pro) class. 'no_ws_auth': a Pro class exists but defines no authenticate() — public-only WS. 'auth_not_classifiable': authenticate() is defined but its mechanism is not statically classifiable (mechanism is 'unknown'). Null when the record is fully resolved."
         }
       }
     },

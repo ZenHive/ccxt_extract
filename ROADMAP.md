@@ -251,7 +251,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 91 `[P]` | ⬜ | 🎁 **15-msg** · 🚀 **feature_complete** · WS subscribe / unsubscribe message shape per channel [D:5/B:8/U:8 → Eff:1.6] 🚀 |
-| Task 92 `[P]` | ⬜ | 🎁 **15-msg** · 🚀 **feature_complete** · WS auth flow (sign-in msg / header / query param) [D:4/B:7/U:8 → Eff:1.88] 🚀 |
+| Task 92 `[P]` | ✅ | 🎁 **15-msg** · 🚀 **feature_complete** · WS auth flow (sign-in msg / header / query param) [D:4/B:7/U:8 → Eff:1.88] 🚀 |
 | Task 93 `[P]` | ✅ | 🎁 **15-msg** · 🚀 **feature_complete** · Heartbeat / ping-pong pattern per exchange [D:3/B:6/U:7 → Eff:2.17] 🎯 |
 | Task 94 `[P]` | ⬜ | 🎁 **15-dispatch** · 🚀 **feature_complete** · Channel → parse handler dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 95a `[P]` | ⬜ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — orderbook [D:5/B:8/U:8 → Eff:1.6] 🚀 |

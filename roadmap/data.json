@@ -1151,7 +1151,7 @@
       "phase": 15,
       "bundle": "15-msg",
       "milestone": "feature_complete",
-      "status": "pending",
+      "status": "done",
       "title": "WS auth flow (sign-in msg / header / query param)",
       "scores": {
         "d": 4,
@@ -1170,7 +1170,10 @@
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
       "body": "WS authentication flow per exchange — sign-in message, header, or query param. Phase 15 is gated by the shared cross-repo coupling on ccxt_client Phase 6 (Tasks 22–27); no per-task cross_repo edge.\n",
+      "started_at": "2026-05-21",
+      "done_at": "2026-05-21",
       "scored_at": "2026-05-14",
+      "implemented": "Shipped CcxtExtract.WsAuth extractor + derivation. New OXC extractor (mix ccxt_extract.ws_auth) parses every Pro class authenticate() into raw probes at priv/discoveries/ws_auth.json; pipeline build/2 resolves extends-chain inheritance and classifies the mechanism structurally (sign_in_message / url_param / header / unknown / none) into the new websocket.auth section. A bounded local-const resolver recovers okx's identifier-valued op:'login'. Added WebsocketAuth schema $def, /websocket/auth provenance pointer, websocket_auth_shape_valid contract invariant, and ws_auth in the update orchestrator. Mix task uses TaskScope.parse_and_resolve!/2 (Task 144 AC). Unit + integration + cached tests; WsAuth module 91.67% cover. Full suite green (2732 offline + 470 extraction), validate 110/110, contract_test 0 websocket_auth findings, byte-deterministic.",
       "cross_repo": []
     },
     {

@@ -63,7 +63,7 @@ Every per-exchange JSON file has exactly these top-level keys (**all required, n
 | `errors` | object | `handle_errors`, `class_hierarchy`, `status_map`, `retry_classification`, `dispatch` |
 | `rate_limits` | object | `buckets`, `per_endpoint_cost`, `endpoint_cost_binding` |
 | `normalization` | object | `parse_methods_digest`, `field_maps`, `response_envelopes` |
-| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93) |
+| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93); `auth` — WebSocket connection auth flow (Task 92) |
 | `markets` | object | `symbols_index`, `patterns`, `currencies` (Task 97), `precision_mode` (Task 98) |
 | `testnet` | object | Structured testnet / sandbox URL catalog |
 | `raw` | object | Raw passthroughs — `describe`, `url_templates`, `class_info`, `method_inventory`, `overrides_meta` |
@@ -491,6 +491,36 @@ Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, defaul
 | `unresolved_reason` | enum \| null | `no_ws_support` (no Pro class — every field null/false/none), `ping_return_not_literal` (`ping()` defined but `ping_kind` is `unknown`), `null` when fully resolved. |
 
 **Honest-empty record** — a REST-only exchange emits `ping_kind: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`, with `null` / `false` for the remaining fields.
+
+### `websocket.auth` — shape (Task 92)
+
+`auth` describes how an exchange authenticates a *private* WebSocket connection, derived structurally from the Pro class's `authenticate()` method. Like `heartbeat` it is **always emitted** — REST-only and public-only-WS exchanges carry the honest-empty record.
+
+```json
+"websocket": {
+  "auth": {
+    "mechanism": "sign_in_message",
+    "authenticate_defined": true,
+    "message": { "op": "login", "method": null, "keys": ["op", "args"] },
+    "credentials": ["apiKey", "password", "secret"],
+    "resolved_from": "self",
+    "source": "pro_authenticate",
+    "unresolved_reason": null
+  }
+}
+```
+
+| Key | Type | Meaning |
+|-----|------|---------|
+| `mechanism` | enum | How the connection authenticates, classified structurally from the `authenticate()` AST: `sign_in_message` (builds a request object and sends it over the socket — bybit `op:'auth'`, okx `op:'login'`, deribit `method:'public/auth'`), `url_param` (credentials / `listenKey` appended to the WS URL), `header` (HTTP upgrade header — named for completeness, override-only), `unknown` (`authenticate()` defined but matches no known shape), `none` (no `authenticate()`). |
+| `authenticate_defined` | boolean | True when the Pro class (or an ancestor) defines `authenticate()`. |
+| `message` | `object \| null` | For `sign_in_message`: `{ op, method, keys }` — the `op` / `method` discriminant (string literal, or resolved through a local `const` binding) and the request object's top-level keys in source order. `null` for every other mechanism. |
+| `credentials` | `string[]` | The `this.<credential>` fields `authenticate()` reads (`apiKey` / `secret` / `password` / `uid` / `privateKey` / `walletAddress`), sorted. |
+| `resolved_from` | `string \| null` | `"self"`, or an ancestor exchange id when `authenticate()` is inherited via the `extends` chain (`binanceusdm` resolves from `binance`). `null` when there is no `authenticate()`. |
+| `source` | enum | `pro_authenticate` (own / inherited `authenticate()`), `none` (no `authenticate()`). |
+| `unresolved_reason` | enum \| null | `no_ws_support` (no Pro class), `no_ws_auth` (Pro class but no `authenticate()` — public-only WS), `auth_not_classifiable` (`mechanism` is `unknown`), `null` when fully resolved. |
+
+**Honest-empty record** — a REST-only exchange emits `mechanism: "none"`, `unresolved_reason: "no_ws_support"`; a public-only-WS exchange (Pro class, no `authenticate()`) emits `mechanism: "none"`, `unresolved_reason: "no_ws_auth"`.
 
 `websocket` is the designated growth point for Phase 15 WS-derived sub-sections; sibling tasks add keys to it additively.
 

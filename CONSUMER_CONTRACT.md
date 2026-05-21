@@ -114,7 +114,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 |------|--------|--------|
 | WS connection URLs per stream type | 🚧 | Partial in `raw.describe.urls`; Phase 15 — Task 91 |
 | Subscribe / unsubscribe message shape per channel | ⬜ | Phase 15 — Task 91 |
-| WS auth flow (sign-in message / header / query param) | ⬜ | Phase 15 — Task 92 |
+| WS auth flow (sign-in message / header / query param) | ✅ | `websocket.auth` (Task 92) — structural `mechanism` (`sign_in_message` / `url_param` / `unknown` / `none`), decoded sign-in `message` (`op` / `method` discriminant + keys), `credentials`, inheritance-resolved via the `extends` chain |
 | Heartbeat / ping-pong pattern | ✅ | `websocket.heartbeat` (Task 93) — structural ping strategy (`ping_kind`), decoded payload, inheritance-resolved `keep_alive_ms`, `has_pong_handler` |
 | Channel → parse handler dispatch tables | ⬜ | Phase 15 — Task 94 |
 | Snapshot vs delta semantics — orderbook | ⬜ | Phase 15 — Task 95a |

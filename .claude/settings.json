@@ -7,5 +7,18 @@
   "enabledPlugins": {
     "elixir@deltahedge": true,
     "elixir-workflows@deltahedge": true
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guard-class-hierarchy.sh"
+          }
+        ]
+      }
+    ]
   }
 }

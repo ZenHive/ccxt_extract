@@ -47,8 +47,9 @@ defmodule CcxtExtract.WsHeartbeat do
   `base/ws/Client.ts` is gitignored (absent on a fresh clone before
   `mix ccxt_extract.setup`), so its defaults cannot be read at compile time.
   They are pinned as module attributes here and guarded against upstream
-  drift by `ws_heartbeat_base_defaults_test.exs` (`:extraction`-tagged —
-  runs only when the CCXT source is present).
+  drift by the "base client default drift guard" test in
+  `ws_heartbeat_integration_test.exs` (`:extraction`-tagged — runs only
+  when the CCXT source is present).
 
   ## Usage
 

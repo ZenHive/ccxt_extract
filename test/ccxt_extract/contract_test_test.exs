@@ -563,6 +563,178 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_websocket_heartbeat_shape_valid/2" do
+    alias CcxtExtract.WsHeartbeat
+
+    defp ws_exchange(id, heartbeat) do
+      %{"exchange" => %{"id" => id}, "websocket" => %{"heartbeat" => heartbeat}}
+    end
+
+    test "no findings on the honest-empty none_record" do
+      exchange = ws_exchange("restonly", WsHeartbeat.none_record())
+      assert ContractTest.check_websocket_heartbeat_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "no findings on a freshly-derived record" do
+      entry = %{
+        "id" => "okx",
+        "extends" => "okxRest",
+        "ping" => %{
+          "defined" => true,
+          "shape" => "string",
+          "return_value" => %{"value" => "ping", "kind" => "literal", "reason" => nil}
+        },
+        "pong_methods" => %{"pong" => false, "handlePong" => true, "handlePing" => false},
+        "streaming" => %{
+          "present" => true,
+          "keep_alive_ms" => 18_000,
+          "max_ping_pong_misses" => nil,
+          "has_ping_property" => true
+        }
+      }
+
+      exchange = ws_exchange("okx", WsHeartbeat.build(entry, %{"okx" => entry}))
+      assert ContractTest.check_websocket_heartbeat_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "non-map heartbeat is flagged" do
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("bad", "garbage"),
+          @base_observed
+        )
+
+      assert finding.exchange == "bad"
+      assert finding.invariant == "websocket_heartbeat_shape_valid"
+      assert finding.path == "websocket/heartbeat"
+      assert finding.message =~ "must be a map"
+    end
+
+    test "a missing required key is flagged" do
+      record = Map.delete(WsHeartbeat.none_record(), "keep_alive_ms")
+
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("bad", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "missing required key"
+      assert finding.message =~ "keep_alive_ms"
+    end
+
+    test "an unexpected key is flagged" do
+      record = Map.put(WsHeartbeat.none_record(), "rogue", true)
+
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("bad", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "unexpected key"
+      assert finding.message =~ "rogue"
+    end
+
+    test "an out-of-vocabulary ping_kind is flagged" do
+      record = Map.put(WsHeartbeat.none_record(), "ping_kind", "bogus")
+
+      findings =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("bad", record),
+          @base_observed
+        )
+
+      assert Enum.any?(findings, &(&1.message =~ "ping_kind must be one of"))
+    end
+
+    test "an out-of-vocabulary source is flagged" do
+      record = Map.put(WsHeartbeat.none_record(), "source", "bogus")
+
+      findings =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("bad", record),
+          @base_observed
+        )
+
+      assert Enum.any?(findings, &(&1.message =~ "source must be one of"))
+    end
+
+    test "an out-of-vocabulary unresolved_reason is flagged" do
+      record = Map.put(WsHeartbeat.none_record(), "unresolved_reason", "bogus")
+
+      findings =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("bad", record),
+          @base_observed
+        )
+
+      assert Enum.any?(findings, &(&1.message =~ "unresolved_reason must be one of"))
+    end
+
+    test "ping_kind=none disagreeing with unresolved_reason is flagged (honesty rule)" do
+      record = Map.put(WsHeartbeat.none_record(), "unresolved_reason", nil)
+
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("incoherent", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "ping_kind=none must agree with unresolved_reason=no_ws_support"
+    end
+
+    test "ping_kind=none disagreeing with source is flagged (honesty rule)" do
+      record = Map.put(WsHeartbeat.none_record(), "source", "pro_describe")
+
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("incoherent", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "ping_kind=none must agree with source=none"
+    end
+
+    test "ping_kind=none disagreeing with keep_alive_ms is flagged (honesty rule)" do
+      record = Map.put(WsHeartbeat.none_record(), "keep_alive_ms", 30_000)
+
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("incoherent", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "ping_kind=none must agree with keep_alive_ms=null"
+    end
+
+    test "ping_kind=unknown disagreeing with unresolved_reason is flagged (honesty rule)" do
+      entry = %{
+        "id" => "oddex",
+        "extends" => "oddexRest",
+        "ping" => %{"defined" => true, "shape" => "other", "return_value" => nil},
+        "pong_methods" => %{"pong" => false, "handlePong" => false, "handlePing" => false},
+        "streaming" => %{
+          "present" => false,
+          "keep_alive_ms" => nil,
+          "max_ping_pong_misses" => nil,
+          "has_ping_property" => false
+        }
+      }
+
+      record = Map.put(WsHeartbeat.build(entry, %{"oddex" => entry}), "unresolved_reason", nil)
+
+      [finding] =
+        ContractTest.check_websocket_heartbeat_shape_valid(
+          ws_exchange("incoherent", record),
+          @base_observed
+        )
+
+      assert finding.message =~
+               "ping_kind=unknown must agree with unresolved_reason=ping_return_not_literal"
+    end
+  end
+
   describe "check_error_class_hierarchy_shape_valid/2" do
     defp exchange_with_hierarchy(id, hierarchy) do
       %{

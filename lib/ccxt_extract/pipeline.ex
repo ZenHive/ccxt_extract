@@ -245,9 +245,8 @@ defmodule CcxtExtract.Pipeline do
   # assembly-time log keeps a single bad file from blocking a full-universe
   # build.
   #
-  # TODO(Task 62): `mix ccxt_extract.validate_overrides` will offer a strict
-  # mode that propagates these errors — that task is where fail-hard
-  # semantics belong.
+  # Strict override failures: `mix ccxt_extract.validate_overrides --strict`
+  # (assembly stays warn-and-continue so one file cannot brick the universe).
   defp apply_exchange_overrides(exchange) do
     id = exchange["exchange"]["id"]
     paths = recipe_path_map(exchange)
@@ -356,8 +355,7 @@ defmodule CcxtExtract.Pipeline do
   # Entries that raise are logged and dropped from the path list — failed
   # overrides must not claim override provenance for a raw value that was
   # never replaced.
-  # TODO(Task 62): strict-mode validate_overrides will propagate these
-  # instead of logging; see apply_exchange_overrides/1 header for rationale.
+  # Strict-mode pointer failures: `mix ccxt_extract.validate_overrides --strict`.
   defp apply_override_entry(entry, acc, paths, id) do
     translated = OverrideRegistry.translate_pointer(entry["path"])
     keys = OverrideRegistry.pointer_to_keys(translated)

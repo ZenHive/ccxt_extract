@@ -245,6 +245,10 @@ mix ccxt_extract.determinism_check
 # regenerate port-contract signing vectors
 mix ccxt_extract.signing_fixtures
 
+# audit priv/overrides entries against AST/runtime probes
+mix ccxt_extract.validate_overrides
+mix ccxt_extract.validate_overrides --strict
+
 # Tidewave MCP server (for runtime exploration via `mcp__tidewave__*`)
 mix tidewave   # listens on http://localhost:4002
 

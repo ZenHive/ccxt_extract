@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 62 — `mix ccxt_extract.validate_overrides` (Phase 9 audit)
+
+Override auditing mix task cross-checks each `priv/overrides/<id>.json` entry against probes where they exist: `authenticated_sections` (AST derivation, curated-subset fixes, `describe.api` reachability, optional `verified_against` file citation), `url_templates` (equality vs `url_templates.json` discovery), signing paths stubbed for a future live `sign()` replay. Emits `priv/discoveries/override_validation_report.json` with per-entry `verified` / `unverified` / `warning` / `mismatch` / `error`. `--strict` fails CI on mismatches, errors, redundant overrides, and entries explicitly marked `unverified: true`.
+
 ### Task 98 — `markets.precision_mode` (Phase 16)
 
 - New `markets.precision_mode` surface under the v4 Markets group: the decoded `{mode, padding_mode}` record that tells a consumer how to interpret every market's `precision.{amount,price,cost}` value. `mode` is one of `tick_size` / `decimal_places` / `significant_digits`; `padding_mode` is `no_padding` / `pad_with_zero`.

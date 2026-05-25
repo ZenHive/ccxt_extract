@@ -810,7 +810,7 @@
       "phase": 9,
       "bundle": "9-audit",
       "milestone": "feature_complete",
-      "status": "pending",
+      "status": "done",
       "title": "mix ccxt_extract.validate_overrides",
       "scores": {
         "d": 4,
@@ -821,8 +821,18 @@
       "markers": [],
       "depends_on": [],
       "model": "claude-sonnet-4-6",
+      "acceptance_criteria": [
+        "mix ccxt_extract.validate_overrides exists and validates all files in priv/overrides/",
+        "Per-exchange report with per-entry status, probe, reason, translated_path",
+        "authenticated_sections and url_templates probes implemented; unknown paths -> unverified with reason",
+        "--strict exits non-zero on errors, mismatches, warnings, and entries with unverified: true",
+        "Default run exits 0 when only informational unverified rows exist",
+        "Unit tests and cached integration test green without :extraction"
+      ],
+      "shipped_in": "task-62",
       "body": "Cross-check each override against runtime behavior where a probe exists (URL override vs runtime `url_templates`; signing override vs live sign() probe). Emit a per-exchange report: verified vs unverified-with-reason.\n",
       "scored_at": "2026-05-14",
+      "implemented": "CcxtExtract.ValidateOverrides + mix ccxt_extract.validate_overrides: path-keyed probes for /auth/authenticated_sections (AST derive + API reachability + citation path check), /raw/url_templates (discovery equality), signing paths stubbed; JSON report at priv/discoveries/override_validation_report.json; --strict for CI. Pipeline TODOs unchanged (warn-and-continue at assembly).",
       "cross_repo": []
     },
     {

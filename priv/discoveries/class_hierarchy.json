@@ -60114,17 +60114,8 @@
     }
   ],
   "count": 192,
-  "extracted_at": "2026-06-10T13:30:09.896892Z",
-  "tier_scope": [
-    "exchange:binance",
-    "exchange:bingx",
-    "exchange:bitget",
-    "exchange:bitmex",
-    "exchange:bybit",
-    "exchange:deribit",
-    "exchange:hyperliquid",
-    "exchange:okx"
-  ],
+  "extracted_at": "2026-06-10T09:19:04.358295Z",
+  "tier_scope": "all",
   "tree": {
     "Exchange": [
       "rest:aftermath",

@@ -180,7 +180,7 @@
   "milestones": {
     "feature_complete": {
       "name": "Feature complete — contract surface closed",
-      "description": "All pending tasks in the contract-defining phases (9 override infra, 11 request, 12 response, 13 error, 15 WS, 16 currency) + the method-descriptors bundle + the infrastructure tasks that gate them done. ccxt_extract's own mission surface; what 'finish ccxt_extract' means.",
+      "description": "Tests the hypothesis that the v4 JSON contract is sufficient for a downstream consumer (first: `../ccxt_client/`) to operate every priority-tier exchange end-to-end — REST signing, request building, response normalization, errors, rate limits, WS streaming, market and currency semantics — without re-deriving any of those surfaces from CCXT AST. Closing the milestone falsifies the hypothesis if any pinned task ships and the consumer still needs AST; confirms it if the consumer can freeze the v4 JSON and treat further ccxt_extract releases as optional regenerations.",
       "order": 2,
       "status": "active"
     },
@@ -205,8 +205,10 @@
         "u": 2
       },
       "eff": 1.25,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "grok",
       "files_to_modify": [
         "test/ccxt_extract/unified_endpoints_test.exs"
       ],
@@ -226,8 +228,10 @@
         "u": 3
       },
       "eff": 1.5,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "codex",
       "body": "The contract-test invariant today only exercises the 0-finding case (see `test/ccxt_extract/contract_test_test.exs`). Add a fixture that injects a drifted override (pointer value absent from output) once `ContractTest.run_all/1` threads overrides through `observed`. Discovered during Task 61c.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -244,8 +248,10 @@
         "u": 2
       },
       "eff": 1.0,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "cursor",
       "body": "`CcxtExtract.ContractTest.@type finding` is constructed in five builder sites with identical `{exchange, invariant, path, message}` key sets. Replacing with a `defstruct` + `@enforce_keys` gains compile-time key validation and silences the recurring `struct-hint` post-edit hook. Must `@derive Jason.Encoder` so `priv/output/_contract_test_report.json` stays free of `__struct__` keys, and re-verify `Enum.sort/1` over findings produces the same ordering for downstream consumers. Discovered during Task 61d code review.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -262,8 +268,10 @@
         "u": 4
       },
       "eff": 1.0,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "codex",
       "body": "Baseline full-corpus run surfaces 32 helper-method findings (e.g. `bybit.fetchSpotMarkets`, `coinbase.fetchAccountsV2`). These helpers get request-body literals extracted and ARE called transitively from a unified method, but `unified_endpoints` values store interface method names (`publicGetX`), so the reachability check can't see the call chain. Either (a) add transitive-call analysis that walks unified method bodies for `this.<helper>()` calls, or (b) maintain a committed baseline allowlist like `priv/contract_test/error_code_fields_roots.json`. Discovered during Task 73c.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -280,8 +288,10 @@
         "u": 4
       },
       "eff": 1.0,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "grok",
       "body": "Bybit discontinued its V3 Spot Open API as of 2024-08-31; upstream CCXT TS still lists these endpoints in `bybit.ts`'s `api.spot.v3.private`, so extraction emits them into `implicit_endpoints` / `unified_endpoints` and ccxt_client's probe generator produces tests for them. Three options in rough preference order: (a) push a PR upstream to ccxt removing the dead endpoints; (b) add a JSON-Pointer deletion override under `priv/overrides/bybit/` once delete-pointer semantics are nailed down; (c) a derivation-time deprecated-path filter (risk: hardcodes a Bybit policy into generic logic). Discovered 2026-04-21 from a ccxt_client full-tag run (22 INCONCLUSIVE warnings).\n",
       "scored_at": "2026-05-14",
       "cross_repo": [
@@ -305,8 +315,11 @@
         "u": 3
       },
       "eff": 0.6,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "cursor",
+      "model": "claude-opus-4-8-thinking-high",
       "acceptance_criteria": [
         "paths_rw_split sink registry distinguishes write-position arg indices from read-position arg indices (or Reach exposes variable-level sanitization the contract_test consumes)",
         "@file_reader_fns is narrowed back to content readers only — broadened entries added during the band-aid removed",
@@ -334,8 +347,10 @@
         "u": 5
       },
       "eff": 1.5,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "cursor",
       "body": "The Task 114 follow-up it explicitly named. Untracking (2026-04-18) was the size band-aid; Task 114 (2026-05-14) eliminated the churn root cause, so a re-tracked `priv/output/` would now produce meaningful, infrequent diffs. Scope: decide whether to re-track `priv/output/` (and possibly per-exchange `priv/discoveries/` subdirs), measure resulting `.git` growth against a representative CCXT-version-bump diff, update `.gitignore` + CLAUDE.md, confirm the git-status safety rail re-arms once paths are back in the index. Don't re-track until a real version-bump diff is measured. Follow-up to Task 114 (done — dependency satisfied, no edge). Discovered 2026-05-14 during Task 114.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -352,8 +367,10 @@
         "u": 3
       },
       "eff": 0.75,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "codex",
       "body": "`mix ccxt_extract.determinism_check` currently strips volatile timestamp keys before comparison because Pattern B writers stamp `DateTime.utc_now()` at write time. The strip-keys list is a workaround — the gate can't catch a regression landing inside a stamped-timestamp envelope. Scope: thread an optional `:extracted_at` (and siblings) through the Pattern B aggregate writers — `AggregateWriter` and per-extractor envelope builders — so the determinism harness (or a `--frozen-clock` flag) can pass a fixed timestamp; default stays wall-clock. Then `determinism_check` passes a frozen clock instead of stripping keys. Discovered 2026-05-14 during Task 114 (Phase 3b).\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -370,8 +387,10 @@
         "u": 3
       },
       "eff": 1.0,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "grok",
       "body": "PROPOSED SCORES — audit-surfaced follow-up; the audit can't speculate on user-side cost/value. Confirm or adjust.\n\n`rmap doctor` (advisory, not the documented `rmap validate --check-render` gate) flags 10 roadmap-health warnings against `roadmap/tasks.toml`: nine D≥5/B≥8 tasks (127, 121, 63, 73f, 73e, 78c, 78d, 91, 95a) lack an `acceptance_criteria` field, and bundle `12-simple` is \"degenerate\" (covers all 4 open Phase 12 tasks). Both predate the rmap migration — the source `ROADMAP.md` had no structured acceptance criteria, and `12-simple` is deliberately described as \"the non-gating Phase 12 remainder\". Scope: (a) decide whether to adopt `rmap doctor` as a roadmap-health gate alongside `rmap validate --check-render`; (b) if so, author `acceptance_criteria` for the 9 flagged tasks; (c) decide whether `12-simple` stays as-is (degenerate-by-construction is acceptable for a phase remainder) or gets reconsidered. Filed by audit-review on 2026-05-14 against commit 2f2b342; Claude + Codex convergent — both independently resolved \"file a single follow-up, don't auto-author in the audit commit\" (rmap doctor is advisory; authoring criteria is new editorial work, not audit hygiene). See `.audit/2f2b342-roadmap-migrate-to-rmap.md`.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -388,6 +407,7 @@
         "u": 3
       },
       "eff": 0.75,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "htx (and likely others) build `const request = {..., Signature: signature}` then `url += '?' + this.urlencode(request)`. The placement is genuinely `query` with key `Signature`, but Task 65 derivation only tracks direct `query = ...` / `headers['K'] = ...` / `body = this.json({...})` assignments. Add an object-level propagation step: when an ObjectExpression with a sig-referencing property is bound to a variable, follow the variable into subsequent `url += '?' + this.urlencode(<var>)` / `body = this.urlencode(<var>)` statements and attribute the placement. Discovered during Task 65 (htx.private ships `signature_placement: null` until this lands). Distinct from the retired LFS Task 113 (corpus untracking) — same number in legacy ROADMAP, resolved separately.\n",
@@ -407,6 +427,7 @@
         "u": 7
       },
       "eff": 1.75,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "Add `source: \"nonce\"` (Deribit uses both a wall-clock timestamp AND a per-request nonce), `source: \"hostname\"` (HTX v1 signs method+hostname+path+query), `source: \"expiry\"` (Phemex signs an expiryString field), and an `encoding: \"delimited\"` mode with explicit separator handling (Gate/HTX/Deribit use `.join`). Also consider a nested-op component source for Kraken's `binaryConcat(encode(url), hash(encode(nonce + body)))` and Gate's SHA512(body) slot. Discovered 2026-04-19 during Task 66a — those priority exchanges currently emit null `canonical_string` with `unresolved_reason: \"not_yet_derived\"`.\n",
@@ -426,6 +447,7 @@
         "u": 6
       },
       "eff": 1.2,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "Both exchanges route `if (secret.indexOf('PRIVATE KEY') > -1) { rsa/eddsa } else { this.hmac }`. Task 65 correctly emits `crypto_op: null` with `unresolved_reason: \"ambiguous_ast\"` because no single crypto_op is truthful. A future pass could disambiguate by credential format: two alternative recipes, or a per-key-format discriminator. Likely overrides territory under the Three-Strikes Rule rather than a derivation extension. Discovered 2026-04-19 during Task 66a; not urgent because priority consumers use HMAC keys exclusively.\n",
@@ -445,6 +467,7 @@
         "u": 3
       },
       "eff": 1.0,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "files_to_modify": [
@@ -467,6 +490,7 @@
         "u": 4
       },
       "eff": 0.8,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "kucoin's `let endpart = ''; if (method !== 'GET') endpart = body; auth += endpart` and coinbaseexchange's `let payload = ''; if (method !== 'GET') payload = this.json(body); auth += payload`. Both emit `canonical_string: null` at recipe level — Task 66b's `@body_names` exemption is deliberately narrow (identifier `body`/`bodyPayload` by name only). A future pass would walk conditionally-reassigned identifiers whose RHS in each branch is a recognized body-shaped expression, propagating the source tag per-verb. Risk: over-permissive tracing could mistag an unrelated identifier. Safer to ship overrides under the Three-Strikes Rule if a priority consumer needs kucoin/coinbase POST canonicals first. Discovered 2026-04-21 during Task 66b.\n",
@@ -486,6 +510,7 @@
         "u": 3
       },
       "eff": 0.75,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "files_to_modify": [
@@ -508,6 +533,7 @@
         "u": 5
       },
       "eff": 1.0,
+      "dep_layer": 2,
       "markers": [],
       "depends_on": [
         121
@@ -529,6 +555,7 @@
         "u": 2
       },
       "eff": 0.83,
+      "dep_layer": 3,
       "markers": [],
       "depends_on": [
         126
@@ -550,8 +577,10 @@
         "u": 4
       },
       "eff": 1.13,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "codex",
       "body": "`AggregateWriter.merge/2` is intentionally additive so scoped runs accumulate — which means `priv/discoveries/` per-exchange subdirs and envelope aggregates drift out of sync with the declared scope (e.g. `priv/output/` held 23 priority files while `describe/` held 107). Everything except `class_hierarchy.json` is gitignored, so the safety rail never fires. Scope: a new mix task accepting the same `--tier*/--all/--exchange ID` / `Paths.out(...)` plumbing, computing the in-scope ID set via `Tiers.members_for_tier/1` + class_hierarchy, deleting out-of-scope per-exchange files in all `priv/discoveries/<subdir>/` (plus matching `priv/output/<id>.json`), then re-aggregating every envelope file from only the surviving in-scope files — never touch `class_hierarchy.json`. Honor `:priv_write_override`. `--dry-run` by default, `--force` to actually delete. Success: post-run ID sets in `priv/discoveries/describe/`, `priv/output/`, and envelope `by_exchange_id` stamps all match. Discovered 2026-04-20 from a scope-drift report.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -568,8 +597,10 @@
         "u": 3
       },
       "eff": 1.0,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "grok",
       "body": "Two tests paper over scope drift with blunt skips: (a) `authenticated_sections_integration_test.exs` returns `[]` unconditionally for any override whose `priv/output/<id>.json` is absent, losing regression detection on full-universe runs; (b) `sign_recipe_cached_test.exs` uses `@tag :tier3_corpus` + default-exclude to bypass bitget. Replace both with a scope-aware helper that reads `_manifest.json`'s `tier_scope`, resolves it via `Tiers.members_for_tier/1` + `class_hierarchy.json`, and only skips when the target exchange is honestly out of scope. Drop the `:tier3_corpus` exclusion and `@tag` once the helper lands. Discovered 2026-04-20 during Task 117 code review.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -587,11 +618,13 @@
         "u": 8
       },
       "eff": 1.25,
+      "dep_layer": 1,
       "markers": [],
       "depends_on": [
         144
       ],
-      "model": "claude-opus-4-7",
+      "assignee": "cursor",
+      "model": "claude-opus-4-8-thinking-high",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -619,12 +652,13 @@
         "u": 5
       },
       "eff": 1.5,
+      "dep_layer": 2,
       "markers": [],
       "depends_on": [
         121,
         144
       ],
-      "model": "claude-sonnet-4-6",
+      "assignee": "codex",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -644,8 +678,10 @@
         "u": 3
       },
       "eff": 1.5,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "cursor",
       "body": "Renumbered from legacy ROADMAP Task 132 (audit-surfaced copy) at migration to resolve the duplicate-ID collision with the Phase 13 Task 132. `AGENTS.md` (generated from `~/.claude/includes/*.md` per the bundled-include workflow) ships ~15 references to cloud-agent flows (`[CSR]`, `[CX]`, \"Cursor Delegation Flow\", \"Push-Back-vs-Fix-Locally Matrix\") that contradict ROADMAP § Notes (\"cloud-agent delegation retired\"). Generator-side fix: either (a) drop the `linear-workflow.md` + `delegation-rules.md` includes from this repo's bundle, (b) regenerate from a slimmer include set, or (c) add a top-of-file callout that cloud-agent sections are reference-only here. Discovered 2026-05-09 by staged-review:audit-review on commit 28166a2 (Codex C3).\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -662,8 +698,10 @@
         "u": 4
       },
       "eff": 1.33,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "grok",
       "body": "Renumbered from legacy ROADMAP Task 133 (audit-surfaced copy) at migration to resolve the duplicate-ID collision with the Phase 13 Task 133. Task 90 shipped unit-level coverage on `RateLimitCostBinding.derive/1`. Pipeline-level gap: end-to-end propagation through `Pipeline.build_exchange_data/3` → `Schema.build_exchange/4` → `priv/output/<id>.json` is only validated implicitly via `cached_test` suites. Add 3 focused tests against synthetic `rate_limit_buckets` fixtures: (a) wrapper with valid first bucket → `rate_limits.endpoint_cost_binding` populated correctly; (b) wrapper with `unresolved_reason != nil` → emits null; (c) wrapper missing entirely → parent fallback emits null without raising. Lives in `test/ccxt_extract/pipeline_test.exs`. Discovered 2026-05-09 by staged-review:audit-review on commit 28166a2 (Codex C5). Task body refreshed 2026-05-19 by `audit-review` on commit fa64144 — original referenced `Schema.build_exchange_v3/v4` and \"both v3 and v4 paths\" which are obsolete post-Task-143.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -680,8 +718,10 @@
         "u": 3
       },
       "eff": 0.88,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "codex",
       "files_to_modify": [
         "lib/ccxt_extract/json_io.ex",
         "lib/ccxt_extract/contract_test.ex"
@@ -702,6 +742,7 @@
         "u": 3
       },
       "eff": 0.7,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nCanonical-string recipe derivation for the JWT / RSA / Ed25519 signing family. No Tier 1/2/DEX exchange uses these signing schemes today.\n",
@@ -721,6 +762,7 @@
         "u": 3
       },
       "eff": 0.6,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nCanonical-string recipe derivation for the custom / outlier signing family. Tail-only — per the Three-Strikes Rule this belongs in overrides once a priority exchange surfaces a concrete need.\n",
@@ -740,6 +782,7 @@
         "u": 2
       },
       "eff": 0.83,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nParity.Compare for richer extraction diffs. Deferred: adds a sibling-project path dependency. Improve diffs inline if a concrete need surfaces.\n",
@@ -759,6 +802,7 @@
         "u": 3
       },
       "eff": 0.58,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nA general schema migration framework. Still premature — the Schema 2.0.0 bump from Task 61c was a one-time event, not ongoing migration tooling. Build when a real v3.0 need emerges with concrete requirements.\n",
@@ -778,6 +822,7 @@
         "u": 3
       },
       "eff": 0.43,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nExtract per-exchange rate-limit response headers. Confirmed not observable from static analysis or resolved `describe()` — these are response behaviors scattered across handler code. The unnumbered legacy ROADMAP entry is given the string id `rate-limit-headers` at migration (rmap requires an id).\n",
@@ -798,9 +843,10 @@
         "u": 5
       },
       "eff": 1.67,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
-      "model": "claude-opus-4-7",
+      "assignee": "cursor",
       "body": "Pattern A/B fixed (341 → 53 findings). Provenance now lands (Task 61a, 2026-04-17) so the honest Pattern C fix is unblocked — tag `has`-confirmed entries as `\"derived\"` at the provenance tier rather than silently filtering. Still deferred until a Tier 1/2/DEX exchange surfaces a Pattern C failure. The legacy ROADMAP listed this task twice (Phase 8 row + a \"Next Up\" preview row) — the preview was a view; rmap's FOCUS block replaces it, so this is a single row.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -818,6 +864,7 @@
         "u": 7
       },
       "eff": 1.75,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "model": "claude-sonnet-4-6",
@@ -848,9 +895,10 @@
         "u": 6
       },
       "eff": 1.3,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
-      "model": "claude-sonnet-4-6",
+      "assignee": "grok",
       "acceptance_criteria": [
         "mix ccxt_extract.drift_audit task exists and runs end-to-end against a baseline release tag",
         "Output identifies three categories: stale overrides (override over changed raw), flipped/disappeared derived fields, new raw fields not yet derived",
@@ -875,9 +923,10 @@
         "u": 2
       },
       "eff": 1.25,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
-      "model": "claude-sonnet-4-6",
+      "assignee": "cursor",
       "body": "Extend `pointer_to_keys/1` to emit `Access.at/1` for numeric segments so paths like `/structure/sign_method/params/0/name` resolve to deep list elements. Currently raises loudly with a TODO marker — fine while every shipped override file uses shallow string-key pointers. Unblock when a real override file needs `/path/0/...`.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -895,9 +944,10 @@
         "u": 7
       },
       "eff": 1.4,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
-      "model": "claude-sonnet-4-6",
+      "assignee": "cursor",
       "acceptance_criteria": [
         "OXC pass detects signed-payload helper calls (signL1Action, signEIP712) in sign-method and exchange-method bodies",
         "OXC pass detects web3 / EIP-712 typed-data builder patterns and DEX signing-library imports (@noble/curves, ethers, starknet)",
@@ -930,9 +980,10 @@
         "u": 3
       },
       "eff": 0.6,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
-      "model": "claude-sonnet-4-6",
+      "assignee": "grok",
       "acceptance_criteria": [
         "OXC pass detects string-concat assignments to a headers['User-Agent'] LHS in sign() bodies (catches bigone's 'ccxt/' + this.id + '-' + this.version shape)",
         "OXC pass detects setSandboxMode-equivalent runtime mutations on this.headers (catches okx's x-simulated-trading: 1 injection)",
@@ -956,11 +1007,12 @@
         "u": 4
       },
       "eff": 0.8,
+      "dep_layer": 0,
       "markers": [
         "parallel"
       ],
       "depends_on": [],
-      "model": "claude-sonnet-4-6",
+      "assignee": "codex",
       "acceptance_criteria": [
         "parseOHLCV field-map schema accepts array_input and object_input guard kinds, with each branch entry tagged by the kind that selected it",
         "binance options-fallback IfStatement-discriminated branches are preserved if present; if binance has no hybrid branch, the task closes as a verified no-op",
@@ -984,6 +1036,7 @@
         "u": 4
       },
       "eff": 0.8,
+      "dep_layer": 0,
       "markers": [
         "parallel"
       ],
@@ -1011,11 +1064,12 @@
         "u": 4
       },
       "eff": 1.33,
+      "dep_layer": 0,
       "markers": [
         "parallel"
       ],
       "depends_on": [],
-      "model": "claude-sonnet-4-6",
+      "assignee": "grok",
       "body": "Non-gating Phase 12 edge case. Generalize the closed `discriminator` vocab beyond `market.inverse` to cover okx `type === 'spot'` and similar multi-market-type gating — okx's `volumeIndex` test is `(type === 'spot') ? 5 : 6`, currently emits `volume = null` honestly. Ship okx volume populated when fixed. Discovered during Task 78 implementation.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1033,6 +1087,7 @@
         "u": 5
       },
       "eff": 2.25,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "acceptance_criteria": [
@@ -1069,9 +1124,10 @@
         "u": 5
       },
       "eff": 1.67,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
-      "model": "claude-sonnet-4-6",
+      "assignee": "codex",
       "body": "Surfaced during PR #13 review. The current single-bucket lumping of `predicate_kind: \"http_status_in\"` loses information for retry/backoff heuristics — split it into `eq` vs `range`. (Phase 13 Task 132 — keeps its original id; the audit-surfaced legacy Task 132 was renumbered to 139 at migration.)\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1089,9 +1145,10 @@
         "u": 3
       },
       "eff": 1.75,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
-      "model": "claude-sonnet-4-6",
+      "assignee": "grok",
       "body": "Surfaced during PR #13 review. Today only the outer shape of `error_class_hierarchy` is enforced — drift would only be caught by JSV on cosmetic changes. Add an explicit content-equality invariant in `contract_test`. (Phase 13 Task 133 — keeps its original id; the audit-surfaced legacy Task 133 was renumbered to 140 at migration.)\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1109,9 +1166,10 @@
         "u": 2
       },
       "eff": 0.83,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
-      "model": "claude-sonnet-4-6",
+      "assignee": "codex",
       "body": "Surfaced during PR #13 review. Both helpers re-walk the handle_errors AST when the caller already has the predicate-classified dispatch list — thread the precomputed `error_dispatch` through `http_status_map/1` and `retryable_buckets/1` instead.\n",
       "scored_at": "2026-05-14",
       "cross_repo": []
@@ -1129,13 +1187,15 @@
         "u": 8
       },
       "eff": 1.6,
+      "dep_layer": 1,
       "markers": [
         "parallel"
       ],
       "depends_on": [
         144
       ],
-      "model": "claude-sonnet-4-6",
+      "assignee": "cursor",
+      "model": "claude-opus-4-8-thinking-high",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1169,6 +1229,7 @@
         "u": 8
       },
       "eff": 1.88,
+      "dep_layer": 1,
       "markers": [
         "parallel"
       ],
@@ -1199,6 +1260,7 @@
         "u": 7
       },
       "eff": 2.17,
+      "dep_layer": 1,
       "markers": [
         "parallel"
       ],
@@ -1229,13 +1291,14 @@
         "u": 7
       },
       "eff": 1.75,
+      "dep_layer": 1,
       "markers": [
         "parallel"
       ],
       "depends_on": [
         144
       ],
-      "model": "claude-sonnet-4-6",
+      "assignee": "cursor",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1256,13 +1319,15 @@
         "u": 8
       },
       "eff": 1.6,
+      "dep_layer": 1,
       "markers": [
         "parallel"
       ],
       "depends_on": [
         144
       ],
-      "model": "claude-opus-4-7",
+      "assignee": "cursor",
+      "model": "claude-opus-4-8-thinking-high",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1283,13 +1348,14 @@
         "u": 7
       },
       "eff": 1.75,
+      "dep_layer": 1,
       "markers": [
         "parallel"
       ],
       "depends_on": [
         144
       ],
-      "model": "claude-opus-4-7",
+      "assignee": "codex",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1310,13 +1376,14 @@
         "u": 7
       },
       "eff": 1.75,
+      "dep_layer": 1,
       "markers": [
         "parallel"
       ],
       "depends_on": [
         144
       ],
-      "model": "claude-opus-4-7",
+      "assignee": "grok",
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
@@ -1336,6 +1403,7 @@
         "u": 6
       },
       "eff": 2.0,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "WS reconnect triggers + backoff policy hints. Deferred — priority exchanges already handle reconnect behavior in the consumer; no derived recipe needed until a concrete need is proven.\n",
@@ -1356,6 +1424,7 @@
         "u": 8
       },
       "eff": 2.5,
+      "dep_layer": 1,
       "markers": [],
       "depends_on": [
         144
@@ -1395,6 +1464,7 @@
         "u": 7
       },
       "eff": 2.17,
+      "dep_layer": 1,
       "markers": [],
       "depends_on": [
         144
@@ -1429,6 +1499,7 @@
         "u": 3
       },
       "eff": 0.88,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nTiered fee schedules + VIP level mapping per exchange. Deferred — not required by priority consumers.\n",
@@ -1448,6 +1519,7 @@
         "u": 3
       },
       "eff": 0.88,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "body": "PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.\n\nFunding / withdrawal / deposit fee catalog per exchange. Deferred — not required by priority consumers.\n",
@@ -1468,6 +1540,7 @@
         "u": 9
       },
       "eff": 2.25,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "acceptance_criteria": [
@@ -1518,6 +1591,7 @@
         "u": 6
       },
       "eff": 2.17,
+      "dep_layer": 1,
       "markers": [],
       "depends_on": [
         142
@@ -1562,6 +1636,7 @@
         "u": 6
       },
       "eff": 2.75,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
       "acceptance_criteria": [
@@ -1600,8 +1675,10 @@
         "u": 3
       },
       "eff": 1.0,
+      "dep_layer": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "cursor",
       "acceptance_criteria": [
         "All five identified modules use `Paths.*` helpers (or document the exception — `tiers.ex`'s compile-time `@external_resource` may qualify)",
         "`paths_rw_split` (or sibling) invariant extended to flag read-side leaks on `priv/...` paths",
@@ -1640,10 +1717,12 @@
         "u": 4
       },
       "eff": 1.13,
+      "dep_layer": 0,
       "markers": [
         "bug"
       ],
       "depends_on": [],
+      "assignee": "grok",
       "acceptance_criteria": [
         "A scoped run naming a variant without its WS root (e.g. --exchange binanceusdm) on a fresh corpus writes the extends-chain ancestors alongside the requested entries",
         "WsHeartbeat.build/2 derives the correct inherited keep_alive_ms / keep_alive_resolved_from for the variant after such a scoped run (no base_default fallback when a parent set keepAlive)",

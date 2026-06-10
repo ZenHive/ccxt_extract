@@ -66,7 +66,7 @@ target_version = "v4"
 
 [milestones.feature_complete]
 name = "Feature complete — contract surface closed"
-description = "All pending tasks in the contract-defining phases (9 override infra, 11 request, 12 response, 13 error, 15 WS, 16 currency) + the method-descriptors bundle + the infrastructure tasks that gate them done. ccxt_extract's own mission surface; what 'finish ccxt_extract' means."
+description = "Tests the hypothesis that the v4 JSON contract is sufficient for a downstream consumer (first: `../ccxt_client/`) to operate every priority-tier exchange end-to-end — REST signing, request building, response normalization, errors, rate limits, WS streaming, market and currency semantics — without re-deriving any of those surfaces from CCXT AST. Closing the milestone falsifies the hypothesis if any pinned task ships and the consumer still needs AST; confirms it if the consumer can freeze the v4 JSON and treat further ccxt_extract releases as optional regenerations."
 order = 2
 status = "active"
 
@@ -215,6 +215,7 @@ phase = 16
 
 [[task]]
 id = 105
+assignee = "grok"
 phase = 0
 bundle = "maintenance"
 status = "pending"
@@ -228,6 +229,7 @@ coincatch was removed upstream; the test that validated `parse_file/1` walking a
 
 [[task]]
 id = 106
+assignee = "codex"
 phase = 0
 bundle = "maintenance"
 status = "pending"
@@ -240,6 +242,7 @@ The contract-test invariant today only exercises the 0-finding case (see `test/c
 
 [[task]]
 id = 109
+assignee = "cursor"
 phase = 0
 bundle = "maintenance"
 status = "pending"
@@ -252,6 +255,7 @@ body = """
 
 [[task]]
 id = 110
+assignee = "codex"
 phase = 0
 bundle = "maintenance"
 status = "pending"
@@ -264,6 +268,7 @@ Baseline full-corpus run surfaces 32 helper-method findings (e.g. `bybit.fetchSp
 
 [[task]]
 id = 124
+assignee = "grok"
 phase = 0
 bundle = "maintenance"
 status = "pending"
@@ -277,6 +282,8 @@ Bybit discontinued its V3 Spot Open API as of 2024-08-31; upstream CCXT TS still
 
 [[task]]
 id = 127
+assignee = "cursor"
+model = "claude-opus-4-8-thinking-high"
 phase = 0
 bundle = "maintenance"
 status = "pending"
@@ -297,6 +304,7 @@ acceptance_criteria = [
 
 [[task]]
 id = 136
+assignee = "cursor"
 phase = 0
 bundle = "maintenance"
 status = "pending"
@@ -309,6 +317,7 @@ The Task 114 follow-up it explicitly named. Untracking (2026-04-18) was the size
 
 [[task]]
 id = 137
+assignee = "codex"
 phase = 0
 bundle = "maintenance"
 status = "pending"
@@ -321,6 +330,7 @@ body = """
 
 [[task]]
 id = 141
+assignee = "grok"
 phase = 0
 bundle = "maintenance"
 status = "pending"
@@ -449,6 +459,7 @@ Emit an OpenRPC 1.3 document alongside `priv/output/<id>.json` only for exchange
 
 [[task]]
 id = 119
+assignee = "codex"
 phase = 0
 bundle = "scope-hygiene"
 status = "pending"
@@ -461,6 +472,7 @@ body = """
 
 [[task]]
 id = 120
+assignee = "grok"
 phase = 0
 bundle = "scope-hygiene"
 status = "pending"
@@ -475,7 +487,8 @@ Two tests paper over scope drift with blunt skips: (a) `authenticated_sections_i
 
 [[task]]
 id = 121
-model = "claude-opus-4-7"
+assignee = "cursor"
+model = "claude-opus-4-8-thinking-high"
 phase = 12
 bundle = "method-descriptors"
 milestone = "feature_complete"
@@ -494,7 +507,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 122
-model = "claude-sonnet-4-6"
+assignee = "codex"
 phase = 12
 bundle = "method-descriptors"
 milestone = "feature_complete"
@@ -514,6 +527,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 139
+assignee = "cursor"
 phase = 0
 bundle = "docs-drift"
 status = "pending"
@@ -528,6 +542,7 @@ Renumbered from legacy ROADMAP Task 132 (audit-surfaced copy) at migration to re
 
 [[task]]
 id = 140
+assignee = "grok"
 phase = 0
 bundle = "test-coverage"
 status = "pending"
@@ -542,6 +557,7 @@ Renumbered from legacy ROADMAP Task 133 (audit-surfaced copy) at migration to re
 
 [[task]]
 id = 138
+assignee = "codex"
 phase = 0
 bundle = "det-contract"
 status = "pending"
@@ -636,7 +652,7 @@ Extract per-exchange rate-limit response headers. Confirmed not observable from 
 
 [[task]]
 id = "57c"
-model = "claude-opus-4-7"
+assignee = "cursor"
 phase = 8
 bundle = "9-pipeline-follow-up"
 milestone = "feature_complete"
@@ -676,7 +692,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 63
-model = "claude-sonnet-4-6"
+assignee = "grok"
 phase = 9
 bundle = "9-audit"
 milestone = "feature_complete"
@@ -699,7 +715,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 104
-model = "claude-sonnet-4-6"
+assignee = "cursor"
 phase = 9
 bundle = "9-pipeline"
 milestone = "feature_complete"
@@ -715,7 +731,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "73f"
-model = "claude-sonnet-4-6"
+assignee = "cursor"
 phase = 11
 bundle = "11-shape"
 milestone = "feature_complete"
@@ -740,7 +756,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "73e"
-model = "claude-sonnet-4-6"
+assignee = "grok"
 phase = 11
 bundle = "11+14"
 milestone = "feature_complete"
@@ -762,7 +778,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "78c"
-model = "claude-sonnet-4-6"
+assignee = "codex"
 phase = 12
 bundle = "parse-ohlcv"
 milestone = "feature_complete"
@@ -805,7 +821,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "78f"
-model = "claude-sonnet-4-6"
+assignee = "grok"
 phase = 12
 bundle = "parse-ohlcv"
 milestone = "feature_complete"
@@ -852,7 +868,7 @@ done_at = "2026-05-20"
 
 [[task]]
 id = 132
-model = "claude-sonnet-4-6"
+assignee = "codex"
 phase = 13
 bundle = "13-classify-fix"
 milestone = "feature_complete"
@@ -868,7 +884,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 133
-model = "claude-sonnet-4-6"
+assignee = "grok"
 phase = 13
 bundle = "13-classify-safety"
 milestone = "feature_complete"
@@ -884,7 +900,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 134
-model = "claude-sonnet-4-6"
+assignee = "codex"
 phase = 13
 bundle = "13-perf"
 milestone = "feature_complete"
@@ -900,7 +916,8 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 91
-model = "claude-sonnet-4-6"
+assignee = "cursor"
+model = "claude-opus-4-8-thinking-high"
 phase = 15
 bundle = "15-msg"
 milestone = "feature_complete"
@@ -969,7 +986,7 @@ done_at = "2026-05-20"
 
 [[task]]
 id = 94
-model = "claude-sonnet-4-6"
+assignee = "cursor"
 phase = 15
 bundle = "15-dispatch"
 milestone = "feature_complete"
@@ -990,7 +1007,8 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "95a"
-model = "claude-opus-4-7"
+assignee = "cursor"
+model = "claude-opus-4-8-thinking-high"
 phase = 15
 bundle = "15-semantics"
 milestone = "feature_complete"
@@ -1009,7 +1027,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "95b"
-model = "claude-opus-4-7"
+assignee = "codex"
 phase = 15
 bundle = "15-semantics"
 milestone = "feature_complete"
@@ -1028,7 +1046,7 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "95c"
-model = "claude-opus-4-7"
+assignee = "grok"
 phase = 15
 bundle = "15-semantics"
 milestone = "feature_complete"
@@ -1255,6 +1273,7 @@ scored_at = "2026-05-19"
 
 [[task]]
 id = 145
+assignee = "cursor"
 phase = 0
 bundle = "maintenance"
 status = "pending"
@@ -1285,6 +1304,7 @@ scored_at = "2026-05-19"
 
 [[task]]
 id = 146
+assignee = "grok"
 phase = 0
 bundle = "maintenance"
 status = "pending"

@@ -110,17 +110,35 @@ defmodule CcxtExtract.MarketValidationTest do
   end
 
   describe "required field checks" do
-    test "missing symbol produces error" do
+    test "symbol-less market is skipped as an unidentifiable warning, not errors" do
+      # A market with no resolvable symbol can only come from CCXT keying an
+      # `undefined` symbol (e.g. an OKX preopen slot with empty instId). It is
+      # skipped with one warning rather than a cascade of required-field errors.
       market = Map.delete(@valid_spot_market, "symbol")
 
       exchange = %{
         "id" => "test",
         "market_count" => 1,
-        "markets" => %{"BAD" => market}
+        "markets" => %{"undefined" => market}
       }
 
       report = MarketValidation.validate_exchange(exchange)
-      assert Enum.any?(report["errors"], &String.contains?(&1, "symbol"))
+      assert report["errors"] == []
+      assert Enum.any?(report["warnings"], &String.contains?(&1, "unidentifiable market"))
+    end
+
+    test "__undefined symbol is skipped as an unidentifiable warning" do
+      market = Map.put(@valid_spot_market, "symbol", "__undefined")
+
+      exchange = %{
+        "id" => "test",
+        "market_count" => 1,
+        "markets" => %{"undefined" => market}
+      }
+
+      report = MarketValidation.validate_exchange(exchange)
+      assert report["errors"] == []
+      assert Enum.any?(report["warnings"], &String.contains?(&1, "unidentifiable market"))
     end
 
     test "nil required field produces error" do
@@ -137,7 +155,7 @@ defmodule CcxtExtract.MarketValidationTest do
     end
 
     test "__undefined required field produces error" do
-      market = Map.put(@valid_spot_market, "type", "__undefined")
+      market = Map.put(@valid_spot_market, "base", "__undefined")
 
       exchange = %{
         "id" => "test",
@@ -146,7 +164,37 @@ defmodule CcxtExtract.MarketValidationTest do
       }
 
       report = MarketValidation.validate_exchange(exchange)
-      assert Enum.any?(report["errors"], &String.contains?(&1, "type"))
+      assert Enum.any?(report["errors"], &String.contains?(&1, "base"))
+    end
+
+    test "__undefined type is a warning, not an error" do
+      # CCXT legitimately leaves `type` undefined for exotic/spread markets
+      # (e.g. BitMEX FFMCSX calendar spreads) — faithful extraction, not a bug.
+      market = Map.put(@valid_spot_market, "type", "__undefined")
+
+      exchange = %{
+        "id" => "test",
+        "market_count" => 1,
+        "markets" => %{"XBTU26-XBTZ26" => market}
+      }
+
+      report = MarketValidation.validate_exchange(exchange)
+      refute Enum.any?(report["errors"], &String.contains?(&1, "type"))
+      assert Enum.any?(report["warnings"], &String.contains?(&1, "'type' is undefined"))
+    end
+
+    test "missing (nil) type is a warning, not an error" do
+      market = Map.delete(@valid_spot_market, "type")
+
+      exchange = %{
+        "id" => "test",
+        "market_count" => 1,
+        "markets" => %{"EXOTIC" => market}
+      }
+
+      report = MarketValidation.validate_exchange(exchange)
+      refute Enum.any?(report["errors"], &String.contains?(&1, "type"))
+      assert Enum.any?(report["warnings"], &String.contains?(&1, "'type' is undefined"))
     end
   end
 

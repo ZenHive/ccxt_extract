@@ -39,8 +39,17 @@ defmodule CcxtExtract.MarketValidation do
   @load_markets_dir "discoveries/load_markets"
   @default_spot_check_exchanges ["binance", "bybit", "okx"]
 
-  # Fields that must be non-nil, non-__undefined strings on every market
-  @required_fields ["symbol", "id", "base", "quote", "type"]
+  # Fields that must be non-nil, non-__undefined strings on every market.
+  # `type` is intentionally NOT here — CCXT legitimately leaves it undefined for
+  # exotic/spread/index markets (e.g. BitMEX `FFMCSX` calendar spreads, where
+  # bitmex.ts maps only FFWCSX/IFXXXP/FFCCSX/FFICSX/FFSCSX and falls through for
+  # the rest). A faithfully-copied undefined `type` is a CCXT data quirk
+  # (warning), not an extraction bug (error). See @soft_required_fields.
+  @required_fields ["symbol", "id", "base", "quote"]
+
+  # Fields that should normally be present but which CCXT genuinely omits for
+  # some markets. Missing / __undefined -> warning, not error.
+  @soft_required_fields ["type"]
 
   # Fields that must be actual booleans (true/false) when present and not __undefined
   @boolean_fields ["spot", "swap", "future", "option", "contract", "linear", "inverse"]
@@ -128,8 +137,7 @@ defmodule CcxtExtract.MarketValidation do
 
     {errors, warnings, density} =
       Enum.reduce(markets, {[], [], {0, 0}}, fn {symbol, market}, {errs, warns, {undef, total}} ->
-        market_errs = check_required_fields(market, symbol) ++ check_types(market, symbol)
-        market_warns = check_consistency(market, symbol)
+        {market_errs, market_warns} = check_market(market, symbol)
         {u, t} = count_undefined(market)
 
         {errs ++ market_errs, warns ++ market_warns, {undef + u, total + t}}
@@ -216,6 +224,35 @@ defmodule CcxtExtract.MarketValidation do
     end
   end
 
+  # Runs every per-market check, returning {errors, warnings}.
+  #
+  # Unidentifiable markets — those with no resolvable `symbol` — are skipped with
+  # a single warning instead of a pile of required-field errors. They can only
+  # arise from CCXT's own `indexBy(markets, 'symbol')` keying an `undefined`
+  # symbol (which JS stringifies to the literal key `"undefined"`), so they are
+  # always faithful copies of a degenerate upstream instrument (e.g. an OKX
+  # `preopen` futures slot with an empty `instId`), never an extraction bug.
+  defp check_market(market, symbol) do
+    if unidentifiable_market?(market) do
+      {[],
+       [
+         "#{symbol}: unidentifiable market (no symbol) — skipped; likely a CCXT preopen/placeholder instrument"
+       ]}
+    else
+      {check_required_fields(market, symbol) ++ check_types(market, symbol),
+       check_soft_required(market, symbol) ++ check_consistency(market, symbol)}
+    end
+  end
+
+  # A market with no usable `symbol` field cannot be meaningfully validated.
+  defp unidentifiable_market?(market) do
+    case Map.get(market, "symbol") do
+      nil -> true
+      "__undefined" -> true
+      _ -> false
+    end
+  end
+
   # Checks that required fields are present and are non-nil, non-__undefined strings.
   defp check_required_fields(market, symbol) do
     Enum.flat_map(@required_fields, fn field ->
@@ -233,6 +270,23 @@ defmodule CcxtExtract.MarketValidation do
 
         true ->
           []
+      end
+    end)
+  end
+
+  # Soft-required fields (currently just `type`) get a WARNING — not an error —
+  # when missing or __undefined. CCXT genuinely leaves `type` undefined for
+  # exotic/spread/index markets (bitmex.ts only maps FFWCSX/IFXXXP/FFCCSX/
+  # FFICSX/FFSCSX and falls through for e.g. FFMCSX calendar spreads), so the
+  # extraction is faithful and this is a data quirk worth surfacing, not a bug.
+  defp check_soft_required(market, symbol) do
+    Enum.flat_map(@soft_required_fields, fn field ->
+      value = Map.get(market, field)
+
+      if is_nil(value) or value == "__undefined" do
+        ["#{symbol}: '#{field}' is undefined (CCXT leaves it unset for exotic markets)"]
+      else
+        []
       end
     end)
   end

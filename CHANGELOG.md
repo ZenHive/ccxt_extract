@@ -38,6 +38,15 @@ The Task 114 follow-up. Untracking the corpus (2026-04-18) was the size band-aid
 
 Added an end-to-end `ContractTest.run_all/1` fixture that writes a drifted `hyperliquid` output JSON and asserts the report surfaces exactly one `override_paths_present_in_output` finding at `/auth/authenticated_sections`.
 
+### Fix — `MarketValidation` no longer errors on CCXT-faithful degenerate markets
+
+A corpus regeneration surfaced two market shapes that CCXT itself emits faithfully but that `CcxtExtract.MarketValidation` was miscategorizing as extraction **errors** (failing the `no errors on required fields for cached data` cached test):
+
+- **Undefined `type` on exotic instruments** — BitMEX calendar spreads carry `info.typ = "FFMCSX"`, which `bitmex.ts` parseMarket does not map (it only assigns `type` for `FFWCSX`/`IFXXXP`/`FFCCSX`/`FFICSX`/`FFSCSX`), so `type` stays `undefined` on a real, symbol-bearing market. `type` is removed from `@required_fields` and moved to a new `@soft_required_fields` lane that emits a **warning**, matching the validator's own taxonomy (error = extraction bug, warning = CCXT data quirk).
+- **Symbol-less phantom markets** — an OKX `preopen` futures slot with an empty `instId` parses into a market with no resolvable `symbol`, which CCXT keys under the literal string `"undefined"` via `indexBy(markets, 'symbol')`. Such entries can only ever be faithful copies of degenerate upstream data, never our bug, so per-market validation now skips them with a single `unidentifiable market` **warning** instead of a cascade of required-field errors.
+
+`symbol`/`id`/`base`/`quote` remain hard-required errors. Added unit coverage for both new paths (module coverage 90%). No emitted-JSON schema change — this is validation-report semantics only.
+
 ### Task 132 — Split HTTP status predicate kind
 
 `CcxtExtract.ErrorDispatch.derive/1` now emits `"http_status_eq"` for exact `code === N` / `code == N` predicates and `"http_status_range"` for non-exact status comparisons (`!==`, `!=`, `>=`, `>`, `<=`, `<`). `errors.status_map` now projects only exact status predicates, avoiding fake concrete keys from range checks such as `code >= 500`. The v4 schema enum and docs were updated to match.

@@ -26,6 +26,12 @@ defmodule CcxtExtract.ContractTest do
       being validated would make the invariant tautological. When a new
       root legitimately appears, update the baseline file intentionally.
 
+    * `error_class_hierarchy_content_equals_baseline` — `errors.class_hierarchy`
+      (the tree/flat_parents/ancestors record copied into every exchange) must
+      equal the committed baseline at `priv/contract_test/error_class_hierarchy.json`
+      exactly. Shape + JSV only see keys and map-of-string; this catches value
+      drift (added/removed/renamed classes, parent changes, order).
+
     * `rate_limits_endpoint_cost_binding_coherent` — v4 emit only;
       `rate_limits.endpoint_cost_binding` equals
       `RateLimitCostBinding.derive(rate_limits.buckets)` (null when the wrapper
@@ -74,6 +80,7 @@ defmodule CcxtExtract.ContractTest do
     {"websocket_auth_shape_valid", :check_websocket_auth_shape_valid},
     {"error_class_hierarchy_shape_valid", :check_error_class_hierarchy_shape_valid},
     {"error_classes_covered_by_hierarchy", :check_error_classes_covered_by_hierarchy},
+    {"error_class_hierarchy_content_equals_baseline", :check_error_class_hierarchy_content_equals_baseline},
     {"normalization_shape_valid", :check_normalization_shape_valid},
     {"parse_methods_digest_covers_inventory", :check_parse_methods_digest_covers_inventory},
     {"handle_errors_retryable_shape_valid", :check_handle_errors_retryable_shape_valid},
@@ -158,6 +165,9 @@ defmodule CcxtExtract.ContractTest do
       `priv/contract_test/error_code_fields_roots.json`).
     * `:baseline_roots` — inline baseline list (tests). Takes precedence
       over `:baseline_path`.
+    * `:hierarchy_baseline` — inline 3-key hierarchy map for the
+      `error_class_hierarchy_content_equals_baseline` check (tests). Takes
+      precedence over the file at `priv/contract_test/error_class_hierarchy.json`.
     * `:exchanges` — optional list/MapSet of exchange IDs to load. When
       given, only matching `<id>.json` files are loaded. Missing files
       are silently skipped — callers that need strict "missing" detection
@@ -173,9 +183,16 @@ defmodule CcxtExtract.ContractTest do
     exchanges = load_exchanges(output_dir, opts[:exchanges])
     parse_methods_inventory = opts[:parse_methods_inventory] || load_parse_methods_inventory(opts)
 
+    hierarchy_baseline =
+      case Keyword.fetch(opts, :hierarchy_baseline) do
+        {:ok, v} -> v
+        :error -> load_hierarchy_baseline(opts)
+      end
+
     baseline = %{
       error_code_fields_roots: baseline_roots,
-      parse_methods_inventory: parse_methods_inventory
+      parse_methods_inventory: parse_methods_inventory,
+      error_class_hierarchy: hierarchy_baseline
     }
 
     tier_scope = Keyword.get(opts, :tier_scope, "all")
@@ -1487,6 +1504,40 @@ defmodule CcxtExtract.ContractTest do
   end
 
   @doc """
+  Content-equality invariant over the corpus-global error class hierarchy
+  (Task 133). The `errors.class_hierarchy` value embedded in every
+  per-exchange JSON must be byte-for-byte content-identical to the
+  committed baseline. Outer shape is already checked by
+  `check_error_class_hierarchy_shape_valid`; JSV only constrains map
+  structure. This catches value-level drift (reparenting, added/removed
+  classes, child order, renames) that would otherwise only surface on
+  cosmetic schema changes or manual inspection.
+  """
+  @spec check_error_class_hierarchy_content_equals_baseline(map(), map()) :: [finding()]
+  def check_error_class_hierarchy_content_equals_baseline(exchange, observed) do
+    id = exchange_id(exchange)
+    record = get_in(exchange, ["errors", "class_hierarchy"])
+    baseline = Map.get(observed, :error_class_hierarchy)
+
+    cond do
+      is_nil(record) -> []
+      is_nil(baseline) -> []
+      record == baseline -> []
+      true -> [hierarchy_content_finding(id)]
+    end
+  end
+
+  defp hierarchy_content_finding(id) do
+    %{
+      exchange: id,
+      invariant: "error_class_hierarchy_content_equals_baseline",
+      path: "errors.class_hierarchy",
+      message:
+        "class_hierarchy content differs from baseline (update priv/contract_test/error_class_hierarchy.json intentionally on taxonomy changes)"
+    }
+  end
+
+  @doc """
   Validate the `normalization` block scaffold (Task 129):
 
     * `parse_methods_digest`, `field_maps`, `response_envelopes` are all
@@ -2461,6 +2512,37 @@ defmodule CcxtExtract.ContractTest do
         The baseline is the authority for \
         error_code_fields_root_in_observed_set. Deriving the safelist from \
         the same corpus being validated would make the invariant tautological.
+        """
+    end
+  end
+
+  defp load_hierarchy_baseline(opts) do
+    path =
+      opts[:hierarchy_baseline_path] ||
+        CcxtExtract.Paths.priv("contract_test/error_class_hierarchy.json")
+
+    case JsonIO.read_json(path) do
+      {:ok, %{"tree" => _, "flat_parents" => _, "ancestors" => _} = rec} ->
+        rec
+
+      {:ok, other} ->
+        raise """
+        Contract test hierarchy baseline at #{path} has unexpected shape.
+
+        Expected map with keys "tree", "flat_parents", "ancestors".
+        Got: #{inspect(other, limit: 3)}
+
+        The baseline is the authority for error_class_hierarchy_content_equals_baseline.
+        Update the committed file intentionally on legitimate taxonomy changes.
+        """
+
+      {:error, {:missing_input, _}} ->
+        raise """
+        Contract test baseline missing at #{path}.
+
+        The baseline pins the exact CCXT error class taxonomy (tree/flat_parents/ancestors)
+        for content-equality checking. It is updated intentionally when
+        errorHierarchy.ts legitimately changes.
         """
     end
   end

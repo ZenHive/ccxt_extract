@@ -52,6 +52,7 @@ defmodule Mix.Tasks.CcxtExtract.ContractTestTaskTest do
       unified_endpoints: %{"fetchOHLCV" => ["x"]}
     )
     |> Map.put("normalization", nil)
+    |> put_in(["errors", "class_hierarchy"], nil)
   end
 
   defp violating_exchange(id) do

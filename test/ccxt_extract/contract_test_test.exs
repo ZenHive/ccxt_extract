@@ -1010,6 +1010,68 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_error_class_hierarchy_content_equals_baseline/2" do
+    test "no finding when record exactly matches the provided baseline" do
+      h = %{
+        "tree" => %{"BaseError" => %{}},
+        "flat_parents" => %{"BaseError" => nil},
+        "ancestors" => %{"BaseError" => []}
+      }
+
+      exchange = %{
+        "exchange" => %{"id" => "good"},
+        "errors" => %{"class_hierarchy" => h}
+      }
+
+      assert ContractTest.check_error_class_hierarchy_content_equals_baseline(exchange, %{error_class_hierarchy: h}) == []
+    end
+
+    test "finding when tree/parents/ancestors differ from baseline" do
+      baseline = %{
+        "tree" => %{"BaseError" => %{}},
+        "flat_parents" => %{"BaseError" => nil},
+        "ancestors" => %{"BaseError" => []}
+      }
+
+      drifted = %{
+        "tree" => %{"BaseError" => %{"Ghost" => %{}}},
+        "flat_parents" => %{"BaseError" => nil, "Ghost" => "BaseError"},
+        "ancestors" => %{"BaseError" => [], "Ghost" => ["BaseError"]}
+      }
+
+      exchange = %{
+        "exchange" => %{"id" => "drift"},
+        "errors" => %{"class_hierarchy" => drifted}
+      }
+
+      [finding] =
+        ContractTest.check_error_class_hierarchy_content_equals_baseline(
+          exchange,
+          %{error_class_hierarchy: baseline}
+        )
+
+      assert finding.exchange == "drift"
+      assert finding.invariant == "error_class_hierarchy_content_equals_baseline"
+      assert finding.path == "errors.class_hierarchy"
+      assert finding.message =~ "differs from baseline"
+    end
+
+    test "no finding when class_hierarchy is null (missing-data case)" do
+      exchange = %{
+        "exchange" => %{"id" => "nullex"},
+        "errors" => %{"class_hierarchy" => nil}
+      }
+
+      assert ContractTest.check_error_class_hierarchy_content_equals_baseline(exchange, %{error_class_hierarchy: %{}}) == []
+    end
+
+    test "no finding when no hierarchy baseline in observed (graceful for partial test contexts)" do
+      h = %{"tree" => %{}, "flat_parents" => %{}, "ancestors" => %{}}
+      exchange = %{"exchange" => %{"id" => "x"}, "errors" => %{"class_hierarchy" => h}}
+      assert ContractTest.check_error_class_hierarchy_content_equals_baseline(exchange, @base_observed) == []
+    end
+  end
+
   describe "check_normalization_shape_valid/2" do
     test "skipped on v3-shaped output (no normalization key)" do
       v3_exchange = clean_exchange()
@@ -1488,7 +1550,7 @@ defmodule CcxtExtract.ContractTestTest do
       File.write!(Path.join(tmp, "bad.json"), Jason.encode!(bad))
       File.write!(Path.join(tmp, "_manifest.json"), "{}")
 
-      {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: ["response"])
+      {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: ["response"], hierarchy_baseline: nil)
 
       assert report["summary"]["exchanges_checked"] == 2
 
@@ -1520,7 +1582,7 @@ defmodule CcxtExtract.ContractTestTest do
       File.write!(Path.join(tmp, "exchange_v4.json"), Jason.encode!(%{"$schema" => "x"}))
       File.write!(Path.join(tmp, "_manifest.json"), "{}")
 
-      {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: [])
+      {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: [], hierarchy_baseline: nil)
 
       assert report["summary"]["exchanges_checked"] == 1
     end
@@ -1535,7 +1597,7 @@ defmodule CcxtExtract.ContractTestTest do
 
     test "writes report via write!/2", %{tmp: tmp} do
       File.write!(Path.join(tmp, "x.json"), Jason.encode!(%{"id" => "x"}))
-      {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: [])
+      {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: [], hierarchy_baseline: nil)
       out = Path.join(tmp, "report.json")
       assert :ok = ContractTest.write!(report, out)
       assert out |> File.read!() |> Jason.decode!() == report
@@ -1543,7 +1605,7 @@ defmodule CcxtExtract.ContractTestTest do
 
     test ~s|tier_scope defaults to "all" when opt not passed|, %{tmp: tmp} do
       File.write!(Path.join(tmp, "x.json"), Jason.encode!(%{"id" => "x"}))
-      {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: [])
+      {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: [], hierarchy_baseline: nil)
       assert report["tier_scope"] == "all"
     end
 
@@ -1551,7 +1613,7 @@ defmodule CcxtExtract.ContractTestTest do
       File.write!(Path.join(tmp, "x.json"), Jason.encode!(%{"id" => "x"}))
 
       {:ok, report} =
-        ContractTest.run_all(output_dir: tmp, baseline_roots: [], tier_scope: ["tier1", "tier2"])
+        ContractTest.run_all(output_dir: tmp, baseline_roots: [], hierarchy_baseline: nil, tier_scope: ["tier1", "tier2"])
 
       assert report["tier_scope"] == ["tier1", "tier2"]
     end

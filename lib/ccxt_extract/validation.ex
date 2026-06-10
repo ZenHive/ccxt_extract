@@ -935,8 +935,7 @@ defmodule CcxtExtract.Validation do
     |> check_method_map_asts(output_map, source_map, id, path)
   end
 
-  defp exclude_bybit_dead_v3_spot_private(names, id, "endpoints.interfaces")
-       when id in ~w(bybit bybiteu) do
+  defp exclude_bybit_dead_v3_spot_private(names, id, "endpoints.interfaces") when id in ~w(bybit bybiteu) do
     MapSet.reject(names, &dead_spot_v3_private_interface_name?/1)
   end
 

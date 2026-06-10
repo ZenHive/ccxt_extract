@@ -51,7 +51,7 @@
           "symbol": "BTC/USDT",
           "type": "limit"
         },
-        "path": "orders"
+        "path": "algo/orders"
       },
       "name": "private_post_order",
       "output": {
@@ -63,11 +63,11 @@
           "PARADEX-PARTNER": "CCXT"
         },
         "method": "POST",
-        "url": "https://api.prod.paradex.trade/v1/orders"
+        "url": "https://api.prod.paradex.trade/v1/algo/orders"
       }
     }
   ],
-  "ccxt_version": "4.5.54",
+  "ccxt_version": "4.5.55",
   "credentials": {
     "apiKey": "account-TEST_API_KEY",
     "password": null,
@@ -81,6 +81,6 @@
     "nonce": 1700000000,
     "timestamp_ms": 1700000000000
   },
-  "generated_at": "2026-05-19T15:26:10.404717Z",
+  "generated_at": "2026-06-10T09:19:02.008281Z",
   "skipped": []
 }

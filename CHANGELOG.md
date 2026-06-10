@@ -6,6 +6,14 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### CCXT bump 4.5.54 → 4.5.56 (2026-06-10)
+
+- `mix ccxt_extract.setup --ccxt-version 4.5.56` — checked out the `v4.5.56` CCXT git tag for OXC source parsing, installed `ccxt@4.5.56` (npm bundle for QuickBEAM), recopied the browser bundle, and rewrote the `priv/ccxt_version.json` baseline (`source_git_sha 37d19cd`, new `bundle_sha256`). QuickBEAM now loads **111 exchanges** (was 110). Full corpus regenerated against 4.5.56.
+
+### Fix — `markets.patterns` `__undefined` sentinel leak
+
+`CcxtExtract.SymbolPatterns.group_by_type/1` rejected only `nil` market types, letting QuickBEAM's `"__undefined"` string sentinel (a market whose JS `type` is `undefined` — e.g. bitmex 2026 futures-spread symbols like `XBTU26-XBTZ26`) leak through as an illegal `"__undefined"` pattern bucket that failed `exchange_v4.json` validation for bitmex. Now rejects both `nil` and the sentinel, matching the QuickBEAM-boundary convention already used in `currencies.ex`. Restores 110/110 schema validation.
+
 ### Dependency refresh (2026-06-10)
 
 Updated all outdated Hex dependencies to latest. Patch/in-constraint bumps: `bandit` 1.11.1→1.12.0, `credo` 1.7.18→1.7.19, `dialyzer_json` 0.2.0→0.2.1, `ex_dna` 1.5.1→1.5.2, `ex_doc` 0.40.2→0.40.3, `ex_slop` 0.4.1→0.4.2, `ex_unit_json` 0.4.3→0.5.0, `jsv` 0.19.1→0.19.4. Constraint bumps in `mix.exs` for the load-bearing extraction NIFs: `oxc` `~> 0.13.0`→`~> 0.15.1` (0.13.0→0.15.1) and `quickbeam` `~> 0.10.14`→`~> 0.10.15` — coupled, since quickbeam 0.10.15 requires `oxc ~> 0.15.0`, so the oxc minor bump was a prerequisite for quickbeam's patch. `reach` `~> 2.5.0`→`~> 2.7.1` (the `paths_rw_split` taint-analysis dep). Verified: `mix compile --warnings-as-errors`, offline suite (3226 passed), and the `:extraction` suite (exercises the new oxc/quickbeam parsers against real CCXT source) all green.

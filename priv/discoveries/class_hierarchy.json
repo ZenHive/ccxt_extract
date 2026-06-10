@@ -144,7 +144,7 @@
           "async": true,
           "name": "createOrder",
           "params": 6,
-          "statements": 6
+          "statements": 7
         },
         {
           "async": true,
@@ -198,7 +198,7 @@
           "async": true,
           "name": "withdraw",
           "params": 5,
-          "statements": 10
+          "statements": 13
         },
         {
           "async": false,
@@ -589,7 +589,7 @@
       "extends_resolved": "Exchange",
       "file": "apex.ts",
       "id": "apex",
-      "method_count": 46,
+      "method_count": 47,
       "method_details": [
         {
           "async": false,
@@ -631,7 +631,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 9
+          "statements": 10
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 11
         },
         {
           "async": true,
@@ -769,13 +775,13 @@
           "async": true,
           "name": "createOrder",
           "params": 6,
-          "statements": 37
+          "statements": 39
         },
         {
           "async": true,
           "name": "transfer",
           "params": 5,
-          "statements": 33
+          "statements": 37
         },
         {
           "async": false,
@@ -876,6 +882,7 @@
         "parseAccount",
         "fetchAccount",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarkets",
         "parseMarket",
         "parseTicker",
@@ -1106,7 +1113,7 @@
           "async": true,
           "name": "fetchDepositAddressesByNetwork",
           "params": 2,
-          "statements": 9
+          "statements": 10
         },
         {
           "async": false,
@@ -1284,7 +1291,7 @@
       "extends_resolved": "Exchange",
       "file": "ascendex.ts",
       "id": "ascendex",
-      "method_count": 65,
+      "method_count": 66,
       "method_details": [
         {
           "async": false,
@@ -1302,7 +1309,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 5
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 7
         },
         {
           "async": true,
@@ -1332,7 +1345,7 @@
           "async": true,
           "name": "fetchAccounts",
           "params": 1,
-          "statements": 4
+          "statements": 6
         },
         {
           "async": false,
@@ -1542,7 +1555,7 @@
           "async": true,
           "name": "modifyMarginHelper",
           "params": 4,
-          "statements": 10
+          "statements": 11
         },
         {
           "async": false,
@@ -1681,6 +1694,7 @@
         "describe",
         "getAccount",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarkets",
         "fetchSpotMarkets",
         "fetchContractMarkets",
@@ -1754,7 +1768,7 @@
       "extends_resolved": "Exchange",
       "file": "aster.ts",
       "id": "aster",
-      "method_count": 84,
+      "method_count": 85,
       "method_details": [
         {
           "async": false,
@@ -1778,7 +1792,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 10
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 3
         },
         {
           "async": true,
@@ -2266,6 +2286,7 @@
         "isInverse",
         "isLinear",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarkets",
         "parseMarket",
         "fetchTime",
@@ -2357,7 +2378,7 @@
       "extends_resolved": "Exchange",
       "file": "backpack.ts",
       "id": "backpack",
-      "method_count": 50,
+      "method_count": 51,
       "method_details": [
         {
           "async": false,
@@ -2369,7 +2390,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 4
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 10
         },
         {
           "async": true,
@@ -2663,6 +2690,7 @@
       "methods": [
         "describe",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarkets",
         "parseMarket",
         "parseMarketType",
@@ -2744,7 +2772,7 @@
       "extends_resolved": "Exchange",
       "file": "bigone.ts",
       "id": "bigone",
-      "method_count": 40,
+      "method_count": 41,
       "method_details": [
         {
           "async": false,
@@ -2756,7 +2784,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 6
+          "statements": 4
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 11
         },
         {
           "async": true,
@@ -2990,6 +3024,7 @@
       "methods": [
         "describe",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarkets",
         "parseTicker",
         "fetchTicker",
@@ -3297,7 +3332,7 @@
           "async": false,
           "name": "createOrderRequest",
           "params": 6,
-          "statements": 61
+          "statements": 62
         },
         {
           "async": true,
@@ -4303,7 +4338,7 @@
       "extends_resolved": "Exchange",
       "file": "bingx.ts",
       "id": "bingx",
-      "method_count": 95,
+      "method_count": 96,
       "method_details": [
         {
           "async": false,
@@ -4321,7 +4356,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 10
+          "statements": 6
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 7
         },
         {
           "async": true,
@@ -4880,6 +4921,7 @@
         "describe",
         "fetchTime",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchSpotMarkets",
         "fetchSwapMarkets",
         "fetchInverseSwapMarkets",
@@ -6255,7 +6297,7 @@
       "extends_resolved": "Exchange",
       "file": "bitget.ts",
       "id": "bitget",
-      "method_count": 113,
+      "method_count": 114,
       "method_details": [
         {
           "async": false,
@@ -6291,7 +6333,7 @@
           "async": true,
           "name": "fetchMarkets",
           "params": 1,
-          "statements": 4
+          "statements": 5
         },
         {
           "async": true,
@@ -6309,7 +6351,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 6
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 14
         },
         {
           "async": true,
@@ -6946,6 +6994,7 @@
         "fetchDefaultMarkets",
         "fetchUtaMarkets",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarketLeverageTiers",
         "parseMarketLeverageTiers",
         "fetchDeposits",
@@ -7649,7 +7698,7 @@
           "async": true,
           "name": "fetchTransfers",
           "params": 4,
-          "statements": 15
+          "statements": 16
         },
         {
           "async": true,
@@ -7917,7 +7966,7 @@
       "extends_resolved": "Exchange",
       "file": "bitmex.ts",
       "id": "bitmex",
-      "method_count": 67,
+      "method_count": 68,
       "method_details": [
         {
           "async": false,
@@ -7929,7 +7978,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 4
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 22
         },
         {
           "async": false,
@@ -8055,7 +8110,7 @@
           "async": false,
           "name": "parseTransaction",
           "params": 2,
-          "statements": 17
+          "statements": 18
         },
         {
           "async": true,
@@ -8121,7 +8176,7 @@
           "async": true,
           "name": "createOrder",
           "params": 6,
-          "statements": 25
+          "statements": 26
         },
         {
           "async": true,
@@ -8223,7 +8278,7 @@
           "async": true,
           "name": "fetchDepositAddress",
           "params": 2,
-          "statements": 9
+          "statements": 10
         },
         {
           "async": false,
@@ -8325,6 +8380,7 @@
       "methods": [
         "describe",
         "fetchCurrencies",
+        "parseCurrency",
         "convertFromRealAmount",
         "convertToRealAmount",
         "amountToPrecision",
@@ -8401,7 +8457,7 @@
       "extends_resolved": "Exchange",
       "file": "bitopro.ts",
       "id": "bitopro",
-      "method_count": 38,
+      "method_count": 39,
       "method_details": [
         {
           "async": false,
@@ -8413,7 +8469,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 6
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 7
         },
         {
           "async": true,
@@ -8635,6 +8697,7 @@
       "methods": [
         "describe",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarkets",
         "parseMarket",
         "parseTicker",
@@ -8682,7 +8745,7 @@
       "extends_resolved": "Exchange",
       "file": "bitrue.ts",
       "id": "bitrue",
-      "method_count": 44,
+      "method_count": 45,
       "method_details": [
         {
           "async": false,
@@ -8712,7 +8775,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 5
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 7
         },
         {
           "async": true,
@@ -8724,7 +8793,7 @@
           "async": false,
           "name": "parseMarket",
           "params": 1,
-          "statements": 32
+          "statements": 33
         },
         {
           "async": false,
@@ -8955,6 +9024,7 @@
         "fetchStatus",
         "fetchTime",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarkets",
         "parseMarket",
         "parseBalance",
@@ -9279,7 +9349,7 @@
       "extends_resolved": "Exchange",
       "file": "bitstamp.ts",
       "id": "bitstamp",
-      "method_count": 56,
+      "method_count": 57,
       "method_details": [
         {
           "async": false,
@@ -9309,7 +9379,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 4
+          "statements": 6
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 13
         },
         {
           "async": true,
@@ -9375,7 +9451,7 @@
           "async": false,
           "name": "parseBalance",
           "params": 1,
-          "statements": 4
+          "statements": 5
         },
         {
           "async": true,
@@ -9624,6 +9700,7 @@
         "constructCurrencyObject",
         "fetchMarketsFromCache",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchOrderBook",
         "parseTicker",
         "fetchTicker",
@@ -9686,7 +9763,7 @@
       "extends_resolved": "Exchange",
       "file": "bitteam.ts",
       "id": "bitteam",
-      "method_count": 33,
+      "method_count": 34,
       "method_details": [
         {
           "async": false,
@@ -9710,7 +9787,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 8
+          "statements": 9
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 24
         },
         {
           "async": true,
@@ -9892,6 +9975,7 @@
         "fetchMarkets",
         "parseMarket",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchOHLCV",
         "parseOHLCV",
         "fetchOrderBook",
@@ -9932,7 +10016,7 @@
       "extends_resolved": "Exchange",
       "file": "bittrade.ts",
       "id": "bittrade",
-      "method_count": 44,
+      "method_count": 45,
       "method_details": [
         {
           "async": false,
@@ -10046,7 +10130,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 6
+          "statements": 4
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 11
         },
         {
           "async": false,
@@ -10219,6 +10309,7 @@
         "fetchOHLCV",
         "fetchAccounts",
         "fetchCurrencies",
+        "parseCurrency",
         "parseBalance",
         "fetchBalance",
         "fetchOrdersByStates",
@@ -10289,9 +10380,9 @@
         },
         {
           "async": false,
-          "name": "parseCurrenciesCustom",
+          "name": "parseCurrency",
           "params": 1,
-          "statements": 4
+          "statements": 14
         },
         {
           "async": true,
@@ -10552,7 +10643,7 @@
         "fetchMarkets",
         "parseMarkets",
         "fetchCurrencies",
-        "parseCurrenciesCustom",
+        "parseCurrency",
         "fetchTicker",
         "parseTicker",
         "fetchTickers",
@@ -10863,7 +10954,7 @@
           "async": false,
           "name": "parseMarket",
           "params": 1,
-          "statements": 26
+          "statements": 27
         },
         {
           "async": true,
@@ -11906,7 +11997,7 @@
       "extends_resolved": "Exchange",
       "file": "bullish.ts",
       "id": "bullish",
-      "method_count": 62,
+      "method_count": 63,
       "method_details": [
         {
           "async": false,
@@ -11924,7 +12015,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 4
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 5
         },
         {
           "async": true,
@@ -12285,6 +12382,7 @@
         "describe",
         "fetchTime",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarkets",
         "parseMarket",
         "parseMarketType",
@@ -12397,7 +12495,7 @@
           "async": false,
           "name": "createExpiredOptionMarket",
           "params": 1,
-          "statements": 15
+          "statements": 16
         },
         {
           "async": false,
@@ -13342,6 +13440,28 @@
       ],
       "node_key": "rest:bybit",
       "parent_key": "Exchange",
+      "type": "rest"
+    },
+    {
+      "class_name": "bybiteu",
+      "extends_raw": "bybit",
+      "extends_resolved": "bybit",
+      "file": "bybiteu.ts",
+      "id": "bybiteu",
+      "method_count": 1,
+      "method_details": [
+        {
+          "async": false,
+          "name": "describe",
+          "params": 0,
+          "statements": 1
+        }
+      ],
+      "methods": [
+        "describe"
+      ],
+      "node_key": "rest:bybiteu",
+      "parent_key": "rest:bybit",
       "type": "rest"
     },
     {
@@ -14761,7 +14881,7 @@
       "extends_resolved": "Exchange",
       "file": "coinbaseexchange.ts",
       "id": "coinbaseexchange",
-      "method_count": 42,
+      "method_count": 43,
       "method_details": [
         {
           "async": false,
@@ -14773,7 +14893,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 4
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 8
         },
         {
           "async": true,
@@ -14833,7 +14959,7 @@
           "async": false,
           "name": "parseTrade",
           "params": 2,
-          "statements": 19
+          "statements": 20
         },
         {
           "async": true,
@@ -15019,6 +15145,7 @@
       "methods": [
         "describe",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarkets",
         "fetchAccounts",
         "parseAccount",
@@ -15118,7 +15245,7 @@
           "async": true,
           "name": "fetchFundingRateHistory",
           "params": 4,
-          "statements": 15
+          "statements": 16
         },
         {
           "async": false,
@@ -15202,7 +15329,7 @@
           "async": true,
           "name": "fetchDepositsWithdrawals",
           "params": 4,
-          "statements": 20
+          "statements": 21
         },
         {
           "async": true,
@@ -15262,7 +15389,7 @@
           "async": false,
           "name": "parseMarket",
           "params": 1,
-          "statements": 10
+          "statements": 12
         },
         {
           "async": true,
@@ -15364,13 +15491,13 @@
           "async": true,
           "name": "fetchOpenOrders",
           "params": 4,
-          "statements": 18
+          "statements": 19
         },
         {
           "async": true,
           "name": "fetchMyTrades",
           "params": 4,
-          "statements": 18
+          "statements": 19
         },
         {
           "async": true,
@@ -16453,7 +16580,7 @@
       "extends_resolved": "Exchange",
       "file": "coinmetro.ts",
       "id": "coinmetro",
-      "method_count": 36,
+      "method_count": 37,
       "method_details": [
         {
           "async": false,
@@ -16465,13 +16592,19 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 5
+          "statements": 9
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 8
         },
         {
           "async": true,
           "name": "fetchMarkets",
           "params": 1,
-          "statements": 8
+          "statements": 7
         },
         {
           "async": false,
@@ -16675,6 +16808,7 @@
       "methods": [
         "describe",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarkets",
         "parseMarket",
         "parseMarketId",
@@ -16720,7 +16854,7 @@
       "extends_resolved": "Exchange",
       "file": "coinone.ts",
       "id": "coinone",
-      "method_count": 21,
+      "method_count": 22,
       "method_details": [
         {
           "async": false,
@@ -16732,7 +16866,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 5
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 6
         },
         {
           "async": true,
@@ -16852,6 +16992,7 @@
       "methods": [
         "describe",
         "fetchCurrencies",
+        "parseCurrency",
         "fetchMarkets",
         "parseBalance",
         "fetchBalance",
@@ -16882,7 +17023,7 @@
       "extends_resolved": "Exchange",
       "file": "coinsph.ts",
       "id": "coinsph",
-      "method_count": 45,
+      "method_count": 46,
       "method_details": [
         {
           "async": false,
@@ -16894,7 +17035,13 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 5
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 7
         },
         {
           "async": false,
@@ -17158,6 +17305,7 @@
       "methods": [
         "describe",
         "fetchCurrencies",
+        "parseCurrency",
         "calculateRateLimiterCost",
         "fetchStatus",
         "fetchTime",
@@ -17486,7 +17634,7 @@
           "async": true,
           "name": "fetchDepositAddress",
           "params": 2,
-          "statements": 4
+          "statements": 6
         },
         {
           "async": true,
@@ -17986,7 +18134,7 @@
           "async": false,
           "name": "parseMarket",
           "params": 1,
-          "statements": 21
+          "statements": 23
         },
         {
           "async": false,
@@ -18226,7 +18374,7 @@
           "async": true,
           "name": "cancelAllOrders",
           "params": 2,
-          "statements": 14
+          "statements": 15
         },
         {
           "async": true,
@@ -18439,7 +18587,7 @@
           "async": false,
           "name": "createExpiredOptionMarket",
           "params": 1,
-          "statements": 13
+          "statements": 14
         },
         {
           "async": false,
@@ -18902,7 +19050,7 @@
           "async": false,
           "name": "createExpiredOptionMarket",
           "params": 1,
-          "statements": 15
+          "statements": 17
         },
         {
           "async": false,
@@ -19435,7 +19583,7 @@
           "async": false,
           "name": "parseMarket",
           "params": 1,
-          "statements": 22
+          "statements": 24
         },
         {
           "async": true,
@@ -20736,7 +20884,7 @@
           "async": true,
           "name": "fetchTradingFees",
           "params": 1,
-          "statements": 5
+          "statements": 6
         },
         {
           "async": true,
@@ -20928,7 +21076,7 @@
           "async": true,
           "name": "fetchCanceledOrders",
           "params": 4,
-          "statements": 14
+          "statements": 20
         },
         {
           "async": true,
@@ -22383,7 +22531,7 @@
           "async": false,
           "name": "parseMarket",
           "params": 1,
-          "statements": 22
+          "statements": 23
         },
         {
           "async": true,
@@ -22823,7 +22971,7 @@
           "async": true,
           "name": "loadAccountInfos",
           "params": 0,
-          "statements": 10
+          "statements": 11
         },
         {
           "async": true,
@@ -22835,7 +22983,7 @@
           "async": true,
           "name": "createOrder",
           "params": 6,
-          "statements": 31
+          "statements": 33
         },
         {
           "async": false,
@@ -22913,7 +23061,7 @@
           "async": true,
           "name": "fetchOrders",
           "params": 4,
-          "statements": 10
+          "statements": 11
         },
         {
           "async": true,
@@ -22925,7 +23073,7 @@
           "async": true,
           "name": "fetchOrder",
           "params": 3,
-          "statements": 7
+          "statements": 8
         },
         {
           "async": false,
@@ -22961,7 +23109,7 @@
           "async": true,
           "name": "cancelOrder",
           "params": 3,
-          "statements": 7
+          "statements": 8
         },
         {
           "async": false,
@@ -24027,7 +24175,7 @@
       "extends_resolved": "Exchange",
       "file": "hitbtc.ts",
       "id": "hitbtc",
-      "method_count": 69,
+      "method_count": 71,
       "method_details": [
         {
           "async": false,
@@ -24051,7 +24199,19 @@
           "async": true,
           "name": "fetchCurrencies",
           "params": 1,
-          "statements": 5
+          "statements": 3
+        },
+        {
+          "async": false,
+          "name": "parseCurrency",
+          "params": 1,
+          "statements": 7
+        },
+        {
+          "async": false,
+          "name": "addKeyInArrayItems",
+          "params": 2,
+          "statements": 4
         },
         {
           "async": true,
@@ -24369,7 +24529,7 @@
           "async": true,
           "name": "modifyMarginHelper",
           "params": 4,
-          "statements": 15
+          "statements": 16
         },
         {
           "async": false,
@@ -24449,6 +24609,8 @@
         "nonce",
         "fetchMarkets",
         "fetchCurrencies",
+        "parseCurrency",
+        "addKeyInArrayItems",
         "createDepositAddress",
         "fetchDepositAddress",
         "parseBalance",
@@ -24998,7 +25160,7 @@
           "async": true,
           "name": "fetchBalance",
           "params": 1,
-          "statements": 25
+          "statements": 26
         },
         {
           "async": true,
@@ -26020,7 +26182,7 @@
           "async": false,
           "name": "parseOrder",
           "params": 2,
-          "statements": 21
+          "statements": 22
         },
         {
           "async": false,
@@ -29135,7 +29297,7 @@
           "async": true,
           "name": "fetchOHLCV",
           "params": 5,
-          "statements": 8
+          "statements": 10
         },
         {
           "async": false,
@@ -30273,7 +30435,7 @@
           "async": false,
           "name": "parseOrder",
           "params": 2,
-          "statements": 16
+          "statements": 17
         },
         {
           "async": true,
@@ -32157,7 +32319,7 @@
           "async": false,
           "name": "parseMarket",
           "params": 1,
-          "statements": 30
+          "statements": 33
         },
         {
           "async": true,
@@ -32187,7 +32349,7 @@
           "async": false,
           "name": "parseTicker",
           "params": 2,
-          "statements": 12
+          "statements": 15
         },
         {
           "async": true,
@@ -33556,7 +33718,7 @@
           "async": true,
           "name": "createOrder",
           "params": 6,
-          "statements": 11
+          "statements": 13
         },
         {
           "async": true,
@@ -33820,13 +33982,13 @@
           "async": true,
           "name": "fetchMyTrades",
           "params": 4,
-          "statements": 14
+          "statements": 16
         },
         {
           "async": true,
           "name": "fetchClosedOrders",
           "params": 4,
-          "statements": 17
+          "statements": 19
         },
         {
           "async": false,
@@ -34491,7 +34653,7 @@
       "extends_resolved": "Exchange",
       "file": "paradex.ts",
       "id": "paradex",
-      "method_count": 59,
+      "method_count": 71,
       "method_details": [
         {
           "async": false,
@@ -34521,7 +34683,25 @@
           "async": false,
           "name": "parseMarket",
           "params": 1,
-          "statements": 21
+          "statements": 22
+        },
+        {
+          "async": false,
+          "name": "parseTradingFee",
+          "params": 2,
+          "statements": 7
+        },
+        {
+          "async": true,
+          "name": "fetchTradingFee",
+          "params": 2,
+          "statements": 8
+        },
+        {
+          "async": true,
+          "name": "fetchTradingFees",
+          "params": 1,
+          "statements": 6
         },
         {
           "async": true,
@@ -34662,16 +34842,46 @@
           "statements": 1
         },
         {
+          "async": false,
+          "name": "createOrderRequest",
+          "params": 6,
+          "statements": 26
+        },
+        {
+          "async": true,
+          "name": "signOrderRequest",
+          "params": 2,
+          "statements": 14
+        },
+        {
           "async": true,
           "name": "createOrder",
           "params": 6,
-          "statements": 39
+          "statements": 8
+        },
+        {
+          "async": true,
+          "name": "editOrder",
+          "params": 7,
+          "statements": 12
+        },
+        {
+          "async": true,
+          "name": "createOrders",
+          "params": 2,
+          "statements": 10
         },
         {
           "async": true,
           "name": "cancelOrder",
           "params": 3,
           "statements": 7
+        },
+        {
+          "async": true,
+          "name": "cancelOrders",
+          "params": 3,
+          "statements": 15
         },
         {
           "async": true,
@@ -34735,9 +34945,9 @@
         },
         {
           "async": true,
-          "name": "fetchLiquidations",
+          "name": "fetchMyLiquidations",
           "params": 4,
-          "statements": 8
+          "statements": 10
         },
         {
           "async": false,
@@ -34756,6 +34966,18 @@
           "name": "fetchWithdrawals",
           "params": 4,
           "statements": 14
+        },
+        {
+          "async": true,
+          "name": "fetchTransfers",
+          "params": 4,
+          "statements": 14
+        },
+        {
+          "async": false,
+          "name": "parseTransfer",
+          "params": 2,
+          "statements": 8
         },
         {
           "async": false,
@@ -34831,6 +35053,18 @@
         },
         {
           "async": true,
+          "name": "fetchFundingHistory",
+          "params": 4,
+          "statements": 14
+        },
+        {
+          "async": false,
+          "name": "parseIncome",
+          "params": 2,
+          "statements": 4
+        },
+        {
+          "async": true,
           "name": "fetchFundingRateHistory",
           "params": 4,
           "statements": 14
@@ -34839,7 +35073,7 @@
           "async": false,
           "name": "sign",
           "params": 6,
-          "statements": 4
+          "statements": 6
         },
         {
           "async": false,
@@ -34854,6 +35088,9 @@
         "fetchStatus",
         "fetchMarkets",
         "parseMarket",
+        "parseTradingFee",
+        "fetchTradingFee",
+        "fetchTradingFees",
         "fetchOHLCV",
         "parseOHLCV",
         "fetchTickers",
@@ -34877,8 +35114,13 @@
         "parseOrderStatus",
         "parseOrderType",
         "scaleNumber",
+        "createOrderRequest",
+        "signOrderRequest",
         "createOrder",
+        "editOrder",
+        "createOrders",
         "cancelOrder",
+        "cancelOrders",
         "cancelAllOrders",
         "fetchOrder",
         "fetchOrders",
@@ -34889,10 +35131,12 @@
         "fetchPosition",
         "fetchPositions",
         "parsePosition",
-        "fetchLiquidations",
+        "fetchMyLiquidations",
         "parseLiquidation",
         "fetchDeposits",
         "fetchWithdrawals",
+        "fetchTransfers",
+        "parseTransfer",
         "parseTransaction",
         "parseTransactionStatus",
         "fetchMarginMode",
@@ -34905,6 +35149,8 @@
         "fetchGreeks",
         "fetchAllGreeks",
         "parseGreeks",
+        "fetchFundingHistory",
+        "parseIncome",
         "fetchFundingRateHistory",
         "sign",
         "handleErrors"
@@ -35085,7 +35331,7 @@
           "async": false,
           "name": "parseSwapMarket",
           "params": 1,
-          "statements": 23
+          "statements": 24
         },
         {
           "async": false,
@@ -35688,7 +35934,7 @@
           "async": false,
           "name": "parseSwapMarket",
           "params": 1,
-          "statements": 16
+          "statements": 17
         },
         {
           "async": true,
@@ -40331,7 +40577,7 @@
           "async": true,
           "name": "fetchOrder",
           "params": 3,
-          "statements": 6
+          "statements": 7
         },
         {
           "async": true,
@@ -41976,7 +42222,7 @@
           "async": false,
           "name": "parseWsTicker",
           "params": 2,
-          "statements": 9
+          "statements": 7
         },
         {
           "async": true,
@@ -44880,7 +45126,7 @@
           "async": false,
           "name": "handleErrorMessage",
           "params": 2,
-          "statements": 3
+          "statements": 4
         },
         {
           "async": false,
@@ -46937,11 +47183,17 @@
       "extends_resolved": "bybit",
       "file": "bybit.ts",
       "id": "bybit",
-      "method_count": 62,
+      "method_count": 63,
       "method_details": [
         {
           "async": false,
           "name": "describe",
+          "params": 0,
+          "statements": 2
+        },
+        {
+          "async": false,
+          "name": "describeData",
           "params": 0,
           "statements": 1
         },
@@ -47314,6 +47566,7 @@
       ],
       "methods": [
         "describe",
+        "describeData",
         "requestId",
         "getUrlByMarketType",
         "cleanParams",
@@ -47378,6 +47631,28 @@
       ],
       "node_key": "ws:bybit",
       "parent_key": "rest:bybit",
+      "type": "ws"
+    },
+    {
+      "class_name": "bybiteu",
+      "extends_raw": "bybit",
+      "extends_resolved": "bybit",
+      "file": "bybiteu.ts",
+      "id": "bybiteu",
+      "method_count": 1,
+      "method_details": [
+        {
+          "async": false,
+          "name": "describe",
+          "params": 0,
+          "statements": 5
+        }
+      ],
+      "methods": [
+        "describe"
+      ],
+      "node_key": "ws:bybiteu",
+      "parent_key": "ws:bybit",
       "type": "ws"
     },
     {
@@ -51326,7 +51601,7 @@
           "async": false,
           "name": "handleOrderBook",
           "params": 2,
-          "statements": 18
+          "statements": 19
         },
         {
           "async": true,
@@ -52570,7 +52845,7 @@
           "async": false,
           "name": "handleTrades",
           "params": 2,
-          "statements": 11
+          "statements": 13
         },
         {
           "async": false,
@@ -53468,7 +53743,7 @@
           "async": false,
           "name": "handleErrorMessage",
           "params": 2,
-          "statements": 2
+          "statements": 3
         },
         {
           "async": false,
@@ -55818,7 +56093,7 @@
           "async": false,
           "name": "handleOrderBookMessage",
           "params": 5,
-          "statements": 16
+          "statements": 19
         },
         {
           "async": false,
@@ -59838,8 +60113,8 @@
       "type": "ws"
     }
   ],
-  "count": 190,
-  "extracted_at": "2026-06-10T08:45:34.611812Z",
+  "count": 192,
+  "extracted_at": "2026-06-10T09:19:04.358295Z",
   "tier_scope": "all",
   "tree": {
     "Exchange": [
@@ -60013,6 +60288,7 @@
       "ws:bullish"
     ],
     "rest:bybit": [
+      "rest:bybiteu",
       "ws:bybit"
     ],
     "rest:bydfi": [
@@ -60169,6 +60445,9 @@
       "ws:binanceus",
       "ws:binanceusdm"
     ],
+    "ws:bybit": [
+      "ws:bybiteu"
+    ],
     "ws:coinbase": [
       "ws:coinbaseadvanced"
     ],
@@ -60217,6 +60496,7 @@
     "blofin",
     "bullish",
     "bybit",
+    "bybiteu",
     "bydfi",
     "cex",
     "coinbase",

@@ -7,14 +7,14 @@
         "headers": null,
         "method": "GET",
         "params": {},
-        "path": "common/symbol"
+        "path": "spot/v3/public/symbols"
       },
       "name": "public_get_ticker",
       "output": {
         "body": null,
         "headers": null,
         "method": "GET",
-        "url": "https://api.novadax.com/v1/common/symbol"
+        "url": "https://api.bybit.eu/spot/v3/public/symbols"
       }
     },
     {
@@ -24,18 +24,14 @@
         "headers": null,
         "method": "GET",
         "params": {},
-        "path": "account/getBalance"
+        "path": "v2/private/wallet/fund/records"
       },
       "name": "private_get_balance",
       "output": {
         "body": null,
-        "headers": {
-          "X-Nova-Access-Key": "account-TEST_API_KEY",
-          "X-Nova-Signature": "5e104ae4830ff68491fa8f73f0226f12970d8022695d2f89b53b5cebf58fdbc8",
-          "X-Nova-Timestamp": "1700000000000"
-        },
+        "headers": null,
         "method": "GET",
-        "url": "https://api.novadax.com/v1/account/getBalance"
+        "url": "https://api.bybit.eu/v2/private/wallet/fund/records?api_key=account-TEST_API_KEY&recv_window=5000&timestamp=1700000000&sign=d38be30b05ffabf37fe3b74e0813201550961ce09104bab84f0e2930e0be018d"
       }
     },
     {
@@ -51,19 +47,17 @@
           "symbol": "BTC/USDT",
           "type": "limit"
         },
-        "path": "orders/create"
+        "path": "spot/v3/private/order"
       },
       "name": "private_post_order",
       "output": {
-        "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
+        "body": "symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1&api_key=account-TEST_API_KEY&recv_window=5000&timestamp=1700000000&sign=3f9d812856e894f97cb6bd0b6c692087dad7d43b94c51b5651eac9d668be0c26",
         "headers": {
-          "Content-Type": "application/json",
-          "X-Nova-Access-Key": "account-TEST_API_KEY",
-          "X-Nova-Signature": "bbdda900fef68af193b4b5097c32462a5641e367ae6c9807307b67d9e8cc3b33",
-          "X-Nova-Timestamp": "1700000000000"
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Referer": "CCXT"
         },
         "method": "POST",
-        "url": "https://api.novadax.com/v1/orders/create"
+        "url": "https://api.bybit.eu/spot/v3/private/order"
       }
     }
   ],
@@ -74,7 +68,7 @@
     "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
     "uid": null
   },
-  "exchange": "novadax",
+  "exchange": "bybiteu",
   "frozen": {
     "nonce": 1700000000,
     "timestamp_ms": 1700000000000

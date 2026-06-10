@@ -27,36 +27,23 @@ Removing complexity is the priority. When in doubt: delete the old path, don't w
 
 ## Standard imports
 
-Grouped per `~/.claude/setup-guide.md` (Elixir Library + Volt + Reach template). Each include earns its token cost — niche Hex packages and behavioral rules the model can't recall reliably from training.
+Per `~/.claude/setup-guide.md` § Selective-Load Philosophy (Opus 4.8): eager-load only the irreducible floor; everything else is **skill-on-demand**. `response-conventions` loads globally via `~/.claude/CLAUDE.md`. The floor here is two includes:
 
-### Behavioral / cross-instance
-@~/.claude/includes/across-instances.md
+- **`critical-rules`** — hard guardrails that must stay ambient every session (a guardrail the model invokes "when relevant" fails exactly when it doesn't realize the rule applies).
+- **`harness-workflow`** — this repo is **harness-registered with auto-land**, so the implement → review → land loop and its delegation roster (cursor / codex / grok first, **opus only if needed** — opus tokens are precious) are load-bearing every session, not on-demand reference. (The `harness.yml` GitHub Action is the separate deterministic CI gate that auto-land's merge waits on.)
+
 @~/.claude/includes/critical-rules.md
-@~/.claude/includes/worktree-workflow.md
+@~/.claude/includes/harness-workflow.md
 
-### Workflow / roadmap
-@~/.claude/includes/task-prioritization.md
-@~/.claude/includes/task-writing.md
-@~/.claude/includes/rmap.md
-@~/.claude/includes/workflow-philosophy.md
-@~/.claude/includes/web-command.md
+Everything this repo previously eager-imported is now reachable as an auto-synced skill with a byte-identical body — `@`-importing one **and** enabling its sibling skill pays twice for the same tokens. The mapping:
 
-### Elixir core
-@~/.claude/includes/elixir-setup.md
-@~/.claude/includes/ex-unit-json.md
-@~/.claude/includes/dialyzer-json.md
-@~/.claude/includes/code-style.md
-@~/.claude/includes/development-commands.md
-@~/.claude/includes/development-philosophy.md
+- **Roadmap / workflow** → `tasks:rmap`, `tasks:roadmap-planning`, `tasks:task-writing`, `workflow:workflow-philosophy`, `workflow:git-worktrees`, `elixir:web-command`
+- **Elixir core** → `elixir:ex-unit-json`, `elixir:dialyzer-json`, `elixir:code-style`, `elixir:development-commands`, `elixir:development-philosophy`, `elixir:elixir-setup`
+- **Volt + static analysis** → `elixir-volt:elixir-volt`, `elixir-volt:oxc`, `elixir-volt:quickbeam`, `elixir-volt:npm-ci-verify`, `elixir:reach`
 
-### JS/TS on the BEAM (Volt ecosystem)
-@~/.claude/includes/elixir-volt.md
-@~/.claude/includes/oxc.md
-@~/.claude/includes/quickbeam.md
-@~/.claude/includes/npm-ci-verify.md
+The model self-invokes these on matching work; the *hard* parts are hook-enforced independently (no-IO-in-`@doc` + TODO-tagging via `warn-doctest-io-and-untagged-todos.sh`; format / compile-warnings / credo / doctor / sobelow via the pre-commit stack).
 
-### Static analysis
-@~/.claude/includes/reach.md
+**Re-add candidates (per-project escape hatch).** `oxc`, `quickbeam`, and `reach` are niche custom Hex packages this codebase is *built on* — the OXC/QuickBEAM two-tool extraction pipeline and Reach's `taint_analysis` in `contract_test` (`paths_rw_split` invariant). Their includes carry "runtime-verified corrections to common misconceptions" (atom-keyed AST, the browser-stub footgun, source-vs-BEAM frontend). If you observe Opus guessing these APIs, `@`-import the specific one for this project rather than re-eager-loading the whole stack — that's the setup-guide-sanctioned reversal, kept empirical (re-add on observed failure, not preemptively).
 
 ## Plugins & MCP
 
@@ -260,6 +247,15 @@ mix dialyzer.json --quiet
 mix credo --strict --format json
 mix sobelow --mark-skip-all        # re-mark skips after a scan
 ```
+
+## Toolchain & check commands
+
+**Reviewer-facing — this section is intentionally self-contained.** Cross-family reviewers (codex / cursor / grok under harness auto-land) read `AGENTS.md` (generated from this file by `claude-marketplace/scripts/sync-agents-md.sh`), not your local Claude skills. Since `ex_unit_json` / `dialyzer_json` are no longer eager-imported (Opus-4.8 skill-on-demand), the facts below must live here or reviewers won't have them.
+
+- **Canonical gate:** `mix precommit.full` — format · compile (warnings-as-errors) · credo --strict · doctor · test+cover · dialyzer. The `harness.yml` GitHub Action runs the same stack as a deterministic PR check that auto-land's merge waits on.
+- **`mix test.json` (`ex_unit_json`) emits JSON by design.** It is *not* a build failure — parse the payload for real failures (`summary.result`, `.tests[] | select(.state=="failed")`). Exit code 2 = test failures or coverage-below-threshold, **not** a tooling error. Flaky reds auto-heal via one isolated retry (a failure that passes on retry moves to `flaky[]` and exit code is 0).
+- **`mix dialyzer.json` (`dialyzer_json`) emits JSON by design.** Same rule: never flag the JSON envelope as a crash. If the JSON encoder can't serialize a particular warning shape, **plain `mix dialyzer` is the authoritative dialyzer check** — fall back to it rather than reporting a failure.
+- **`:extraction` tests are excluded by default** and require the gitignored corpus (`mix ccxt_extract.update` materializes it). CI runs `mix ccxt_extract.update` before the suite because `test_helper.exs` raises on missing corpus sentinels. Don't read an excluded/needs-corpus skip as a regression.
 
 ## Test conventions
 

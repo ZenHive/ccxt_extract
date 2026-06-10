@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Dependency refresh (2026-06-10)
+
+Updated all outdated Hex dependencies to latest. Patch/in-constraint bumps: `bandit` 1.11.1→1.12.0, `credo` 1.7.18→1.7.19, `dialyzer_json` 0.2.0→0.2.1, `ex_dna` 1.5.1→1.5.2, `ex_doc` 0.40.2→0.40.3, `ex_slop` 0.4.1→0.4.2, `ex_unit_json` 0.4.3→0.5.0, `jsv` 0.19.1→0.19.4. Constraint bumps in `mix.exs` for the load-bearing extraction NIFs: `oxc` `~> 0.13.0`→`~> 0.15.1` (0.13.0→0.15.1) and `quickbeam` `~> 0.10.14`→`~> 0.10.15` — coupled, since quickbeam 0.10.15 requires `oxc ~> 0.15.0`, so the oxc minor bump was a prerequisite for quickbeam's patch. `reach` `~> 2.5.0`→`~> 2.7.1` (the `paths_rw_split` taint-analysis dep). Verified: `mix compile --warnings-as-errors`, offline suite (3226 passed), and the `:extraction` suite (exercises the new oxc/quickbeam parsers against real CCXT source) all green.
+
 ### Task 62 — `mix ccxt_extract.validate_overrides` (Phase 9 audit)
 
 Override auditing mix task cross-checks each `priv/overrides/<id>.json` entry against probes where they exist: `authenticated_sections` (AST derivation, curated-subset fixes, `describe.api` reachability, optional `verified_against` file citation), `url_templates` (equality vs `url_templates.json` discovery), signing paths stubbed for a future live `sign()` replay. Emits `priv/discoveries/override_validation_report.json` with per-entry `verified` / `unverified` / `warning` / `mismatch` / `error`. `--strict` fails CI on mismatches, errors, redundant overrides, and entries explicitly marked `unverified: true`.

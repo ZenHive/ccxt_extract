@@ -39,8 +39,8 @@ defmodule CcxtExtract.MixProject do
   defp deps do
     [
       # Core extraction tools
-      {:oxc, "~> 0.13.0"},
-      {:quickbeam, "~> 0.10.14"},
+      {:oxc, "~> 0.15.1"},
+      {:quickbeam, "~> 0.10.15"},
       {:npm, "~> 0.7.4"},
 
       # JSON
@@ -64,7 +64,7 @@ defmodule CcxtExtract.MixProject do
       {:ex_dna, "~> 1.5", only: [:dev, :test], runtime: false},
       {:ex_ast, "~> 0.12.0", only: [:dev, :test], runtime: false},
       {:ex_slop, "~> 0.4.1", only: [:dev, :test], runtime: false},
-      {:reach, "~> 2.5.0", only: [:dev, :test], runtime: false},
+      {:reach, "~> 2.7.1", only: [:dev, :test], runtime: false},
       {:tidewave, "~> 0.5", only: :dev},
       {:bandit, "~> 1.10", only: :dev}
     ]

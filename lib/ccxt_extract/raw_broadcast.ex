@@ -70,9 +70,11 @@ defmodule CcxtExtract.RawBroadcast do
   ]
 
   @impl true
+  @spec source_dir() :: String.t()
   def source_dir, do: CcxtExtract.Paths.ts_src()
 
   @impl true
+  @spec extract_from_ast(map(), String.t()) :: map() | nil
   def extract_from_ast(ast, filename) do
     export = Enum.find(ast.body, &(&1.type == :export_default_declaration))
 
@@ -82,6 +84,7 @@ defmodule CcxtExtract.RawBroadcast do
   end
 
   @impl true
+  @spec write_stats([map()]) :: map()
   def write_stats(exchanges) do
     %{"with_broadcast" => Enum.count(exchanges, &(map_size(&1["broadcast_methods"]) > 0))}
   end

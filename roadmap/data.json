@@ -220,7 +220,7 @@
       "id": 106,
       "phase": 0,
       "bundle": "maintenance",
-      "status": "in_progress",
+      "status": "done",
       "title": "Drifted-override fixture for override_paths_present_in_output",
       "scores": {
         "d": 2,
@@ -232,9 +232,14 @@
       "markers": [],
       "depends_on": [],
       "assignee": "codex",
+      "shipped_in": "5598f4889917e1632a263ac819d90032b26b31ca",
       "body": "The contract-test invariant today only exercises the 0-finding case (see `test/ccxt_extract/contract_test_test.exs`). Add a fixture that injects a drifted override (pointer value absent from output) once `ContractTest.run_all/1` threads overrides through `observed`. Discovered during Task 61c.\n",
       "started_at": "2026-06-10",
+      "done_at": "2026-06-10",
       "scored_at": "2026-05-14",
+      "implemented": "Landed by codex via merge-train; reviewer-approved (run run-1781096207867-1d4c30f5, 5598f4889917e1632a263ac819d90032b26b31ca).",
+      "delivered_by": "codex",
+      "verified": true,
       "cross_repo": []
     },
     {

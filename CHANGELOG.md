@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 106 — Drifted override fixture for `override_paths_present_in_output`
+
+Added an end-to-end `ContractTest.run_all/1` fixture that writes a drifted `hyperliquid` output JSON and asserts the report surfaces exactly one `override_paths_present_in_output` finding at `/auth/authenticated_sections`.
+
 ### Task 132 — Split HTTP status predicate kind
 
 `CcxtExtract.ErrorDispatch.derive/1` now emits `"http_status_eq"` for exact `code === N` / `code == N` predicates and `"http_status_range"` for non-exact status comparisons (`!==`, `!=`, `>=`, `>`, `<=`, `<`). `errors.status_map` now projects only exact status predicates, avoiding fake concrete keys from range checks such as `code >= 500`. The v4 schema enum and docs were updated to match.

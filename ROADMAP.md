@@ -144,7 +144,7 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 <!-- TASKS:BEGIN phase=11 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 73f | ⬜ | 🎁 **11-shape** · 🚀 **feature_complete** · Extend transaction_classification to non-unified raw broadcast endpoints [D:5/B:7/U:7 → Eff:1.4] 📋 |
+| Task 73f | ✅ | 🎁 **11-shape** · 🚀 **feature_complete** · Extend transaction_classification to non-unified raw broadcast endpoints [D:5/B:7/U:7 → Eff:1.4] 📋 |
 | Task 73e | 🔶 | 🎁 **11+14** · OXC-side extractor for sign-method-constructed User-Agent and runtime header mutations [D:5/B:3/U:3 → Eff:0.6] ⚠️ ⛔ Self-deferred — affects 2 known exchanges, low consumer impact, high OXC complexity; body says 'file but defer until a priority consumer surfaces a concrete need'. Unpinned from feature_complete 2026-06-10 (roadmap hygiene review). |
 <!-- TASKS:END -->
 

@@ -770,7 +770,7 @@ id = "73f"
 phase = 11
 bundle = "11-shape"
 milestone = "feature_complete"
-status = "pending"
+status = "done"
 title = "Extend transaction_classification to non-unified raw broadcast endpoints"
 scores = { d = 5, b = 7, u = 7 }
 acceptance_criteria = [
@@ -786,8 +786,12 @@ assignee = "cursor"
 body = """
 Task 73d shipped a name-only classifier over CCXT's unified-method namespace; consumers correctly cannot trust `on_chain == false` (or absence) as a safety gate because non-unified raw paths bypass the convention. Coverage gap: DEX flows exposing blockchain transactions via helpers like `signL1Action` / `signEIP712`, implicit-API paths like `public_post_sendtx` / `sendTxBatch`, and sign-method bodies that construct a signed-payload-then-broadcast shape. Approach: an OXC pass over sign-method and exchange-method bodies looking for (a) known signed-payload helpers, (b) web3 / EIP-712 typed-data builders, (c) `sendTx` / `sendTxBatch` patterns, (d) DEX-specific signing imports (`@noble/curves`, `ethers`, `starknet`). Promote endpoints into `transaction_classification` with `on_chain: true` + `transactional: true`. Closes the security-gating gap from Task 73d. Filed 2026-05-08 from PR #9 review (INE-64).
 """
+implemented = "Salvaged from run-1781092591231-dc8709ea (cursor implementer SIGKILL'd at 12.79 GB under stale 12 GB ceiling before its own commit). New CcxtExtract.RawBroadcast OXC extractor + mix task, TransactionClassification.derive/3 promotes broadcast_methods + implicit-API sendTx paths with on_chain+transactional, pipeline wiring, contract-test invariant. Hand-landed (no reviewer gate ran)."
+delivered_by = "cursor"
 started_at = "2026-06-10"
 scored_at = "2026-05-14"
+done_at = "2026-06-10"
+shipped_in = "5147dfb776d317ca8fd306002af5f7fe69752274"
 
 # ── Phase 11 · bundle 11+14 ───────────────────────────────────────────────
 

@@ -70,7 +70,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 |------|--------|-------|
 | Task 105 | ✅ | 🎁 **maintenance** · Port super.*() delegation coverage off coincatch [D:2/B:3/U:2 → Eff:1.25] 📋 |
 | Task 106 | ✅ | 🎁 **maintenance** · Drifted-override fixture for override_paths_present_in_output [D:2/B:3/U:3 → Eff:1.5] 🚀 |
-| Task 109 | ⬜ | 🎁 **maintenance** · Promote finding() map type to a %Finding{} struct [D:2/B:2/U:2 → Eff:1.0] 📋 |
+| Task 109 | 🔄 | 🎁 **maintenance** · Promote finding() map type to a %Finding{} struct [D:2/B:2/U:2 → Eff:1.0] 📋 |
 | Task 110 | ⬜ | 🎁 **maintenance** · Triage 32 request_defaults_resolvable_reachable_from_unified findings [D:4/B:4/U:4 → Eff:1.0] 📋 |
 | Task 124 | ✅ | 🎁 **maintenance** · Prune Bybit discontinued spot/v3/private/* endpoints from extracted spec [D:4/B:4/U:4 → Eff:1.0] 📋 |
 | Task 127 | ⬜ | 🎁 **maintenance** · Position-aware paths_rw_split sinks + variable-level sanitization [D:5/B:3/U:3 → Eff:0.6] ⚠️ |

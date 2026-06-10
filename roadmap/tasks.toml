@@ -344,15 +344,20 @@ shipped_in = "07db91cf20dc07bc5cd3df7f8c00fa7baab3329c"
 id = 137
 phase = 0
 bundle = "maintenance"
-status = "in_progress"
+status = "done"
 title = "Retrofit Pattern B timestamp writers to accept an :extracted_at opt"
 scores = { d = 4, b = 3, u = 3 }
 assignee = "codex"
 body = """
 `mix ccxt_extract.determinism_check` currently strips volatile timestamp keys before comparison because Pattern B writers stamp `DateTime.utc_now()` at write time. The strip-keys list is a workaround — the gate can't catch a regression landing inside a stamped-timestamp envelope. Scope: thread an optional `:extracted_at` (and siblings) through the Pattern B aggregate writers — `AggregateWriter` and per-extractor envelope builders — so the determinism harness (or a `--frozen-clock` flag) can pass a fixed timestamp; default stays wall-clock. Then `determinism_check` passes a frozen clock instead of stripping keys. Discovered 2026-05-14 during Task 114 (Phase 3b).
 """
+implemented = "Landed by codex via merge-train; reviewer-approved (run run-1781131419137-8defb8fb, f470ca8a84606af5343b9aa921c8fb6163e665af)."
+delivered_by = "codex"
+verified = true
 started_at = "2026-06-10"
 scored_at = "2026-05-14"
+done_at = "2026-06-10"
+shipped_in = "f470ca8a84606af5343b9aa921c8fb6163e665af"
 
 [[task]]
 id = 141

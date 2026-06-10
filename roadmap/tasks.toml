@@ -229,16 +229,17 @@ coincatch was removed upstream; the test that validated `parse_file/1` walking a
 
 [[task]]
 id = 106
-assignee = "codex"
 phase = 0
 bundle = "maintenance"
-status = "pending"
+status = "in_progress"
 title = "Drifted-override fixture for override_paths_present_in_output"
 scores = { d = 2, b = 3, u = 3 }
-scored_at = "2026-05-14"
+assignee = "codex"
 body = """
 The contract-test invariant today only exercises the 0-finding case (see `test/ccxt_extract/contract_test_test.exs`). Add a fixture that injects a drifted override (pointer value absent from output) once `ContractTest.run_all/1` threads overrides through `observed`. Discovered during Task 61c.
 """
+started_at = "2026-06-10"
+scored_at = "2026-05-14"
 
 [[task]]
 id = 109

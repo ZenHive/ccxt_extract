@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 105 — Port `super.*()` delegation coverage off `coincatch`
+
+Replaced the completed `TODO(Task 105)` marker in `UnifiedEndpointsTest` with an extraction-tagged `kucoin` regression test that exercises real `parse_file/1` resolution through a `super.fetchDepositAddress` delegation chain. This restores coverage for the production parser path after `coincatch` disappeared from the current CCXT source corpus.
+
 ### Task 136 — Re-track `priv/output/` evaluation (decision: defer)
 
 The Task 114 follow-up. Untracking the corpus (2026-04-18) was the size band-aid; Task 114 (2026-05-14) made extraction byte-deterministic for a fixed CCXT version + bundle, so the working assumption was that a re-tracked `priv/output/` would now produce meaningful, infrequent diffs. **Measured first, then decided: defer re-tracking — the determinism gate is necessary but not sufficient.**

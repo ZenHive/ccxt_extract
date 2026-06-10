@@ -868,16 +868,17 @@ done_at = "2026-05-20"
 
 [[task]]
 id = 132
-assignee = "codex"
 phase = 13
 bundle = "13-classify-fix"
 milestone = "feature_complete"
-status = "pending"
+status = "in_progress"
 title = "Split predicate_kind http_status_in into eq vs range"
 scores = { d = 3, b = 5, u = 5 }
+assignee = "codex"
 body = """
 Surfaced during PR #13 review. The current single-bucket lumping of `predicate_kind: \"http_status_in\"` loses information for retry/backoff heuristics — split it into `eq` vs `range`. (Phase 13 Task 132 — keeps its original id; the audit-surfaced legacy Task 132 was renumbered to 139 at migration.)
 """
+started_at = "2026-06-10"
 scored_at = "2026-05-14"
 
 # ── Phase 13 · bundle 13-classify-safety ──────────────────────────────────

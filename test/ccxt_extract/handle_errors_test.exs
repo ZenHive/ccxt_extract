@@ -246,7 +246,7 @@ defmodule CcxtExtract.HandleErrorsTest do
       assert HandleErrors.http_status_map(handle_errors) == %{}
     end
 
-    test "merges throw_dispatch_predicate entries from error_dispatch http_status_in" do
+    test "merges throw_dispatch_predicate entries from error_dispatch http_status_eq" do
       # ESTree fragment: if (code === 418) throw new DDoSProtection('msg')
       method = %{
         "body" => %{
@@ -332,6 +332,41 @@ defmodule CcxtExtract.HandleErrorsTest do
       assert HandleErrors.http_status_map(handle_errors) == %{
                "429" => [%{"class" => "RateLimitExceeded", "source" => "throw_dispatch_predicate"}]
              }
+    end
+
+    test "does not project range predicates as exact status-map keys" do
+      method = %{
+        "body" => %{
+          "body" => [
+            %{
+              "type" => "IfStatement",
+              "test" => %{
+                "type" => "BinaryExpression",
+                "operator" => ">=",
+                "left" => %{"type" => "Identifier", "name" => "code"},
+                "right" => %{"type" => "Literal", "value" => 500}
+              },
+              "consequent" => %{
+                "type" => "BlockStatement",
+                "body" => [
+                  %{
+                    "type" => "ThrowStatement",
+                    "argument" => %{
+                      "type" => "NewExpression",
+                      "callee" => %{"type" => "Identifier", "name" => "ExchangeNotAvailable"},
+                      "arguments" => []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+
+      handle_errors = %{"method" => method, "http_exceptions" => nil, "exceptions" => nil}
+
+      assert HandleErrors.http_status_map(handle_errors) == %{}
     end
   end
 

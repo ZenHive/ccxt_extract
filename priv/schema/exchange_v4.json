@@ -328,7 +328,7 @@
               "$ref": "#/$defs/ErrorStatusMap"
             }
           ],
-          "description": "Was structure.error_status_map in v3 (Task 85). Map of HTTP status -> [{class, source}] derived from describe().httpExceptions and error_dispatch http_status_in predicates."
+          "description": "Was structure.error_status_map in v3 (Task 85). Map of HTTP status -> [{class, source}] derived from describe().httpExceptions and error_dispatch http_status_eq predicates."
         },
         "retry_classification": {
           "oneOf": [
@@ -367,7 +367,7 @@
         "source": {
           "type": "string",
           "enum": ["http_exceptions", "throw_dispatch_predicate"],
-          "description": "Which channel produced this entry. 'http_exceptions' = lifted from `describe().httpExceptions` (static lookup). 'throw_dispatch_predicate' = AST-derived from error_dispatch entries with `predicate_kind == 'http_status_in'`."
+          "description": "Which channel produced this entry. 'http_exceptions' = lifted from `describe().httpExceptions` (static lookup). 'throw_dispatch_predicate' = AST-derived from error_dispatch entries with `predicate_kind == 'http_status_eq'`."
         }
       }
     },
@@ -2424,7 +2424,7 @@
     },
     "ErrorDispatchEntry": {
       "type": "object",
-      "description": "A single AST literal `throw new <ExceptionClass>(...)` site in handleErrors(). Records the exception class, the raw rendering of the conjoined `IfStatement.test` chain that gates the throw, and a coarse classifier of the innermost predicate (http_status_in / body_contains / identifier_check / other) plus extracted literal values when classification succeeds.",
+      "description": "A single AST literal `throw new <ExceptionClass>(...)` site in handleErrors(). Records the exception class, the raw rendering of the conjoined `IfStatement.test` chain that gates the throw, and a coarse classifier of the innermost predicate (http_status_eq / http_status_range / body_contains / identifier_check / other) plus extracted literal values when classification succeeds.",
       "required": ["exception_class", "predicate_raw", "predicate_kind", "predicate_values"],
       "additionalProperties": false,
       "properties": {
@@ -2441,15 +2441,15 @@
         },
         "predicate_kind": {
           "type": "string",
-          "enum": ["http_status_in", "body_contains", "identifier_check", "other"],
-          "description": "Coarse classifier of the innermost condition shape. 'http_status_in' covers `code <op> N` for `<op>` in `===`, `==`, `!==`, `!=`, `>=`, `>`, `<=`, `<`, plus `||`-disjunctions thereof. 'body_contains' covers `body.indexOf(<literal>) >= 0` and `body.indexOf(<literal>) > -1` (also accepted on `message` / `url` / `reason`), plus `||`-disjunctions thereof. 'identifier_check' covers bare-identifier truthy checks (`if (code) ...`) and `<id> === <literal>` / `<literal> === <id>` shapes. 'other' is the anti-rot fallback."
+          "enum": ["http_status_eq", "http_status_range", "body_contains", "identifier_check", "other"],
+          "description": "Coarse classifier of the innermost condition shape. 'http_status_eq' covers exact `code === N` / `code == N` predicates plus `||`-disjunctions of exact status comparisons. 'http_status_range' covers non-exact `code <op> N` predicates for `<op>` in `!==`, `!=`, `>=`, `>`, `<=`, `<`, plus `||`-disjunctions containing any non-exact status comparison. 'body_contains' covers `body.indexOf(<literal>) >= 0` and `body.indexOf(<literal>) > -1` (also accepted on `message` / `url` / `reason`), plus `||`-disjunctions thereof. 'identifier_check' covers bare-identifier truthy checks (`if (code) ...`) and `<id> === <literal>` / `<literal> === <id>` shapes. 'other' is the anti-rot fallback."
         },
         "predicate_values": {
           "oneOf": [
             { "type": "null" },
             { "type": "array", "items": { "type": "string" } }
           ],
-          "description": "Literal values pulled from the predicate when `predicate_kind` is 'http_status_in' or 'body_contains'. Null for 'identifier_check' and 'other' (consumers fall back to `predicate_raw`)."
+          "description": "Literal values pulled from the predicate when `predicate_kind` is 'http_status_eq', 'http_status_range', or 'body_contains'. Null for 'identifier_check' and 'other' (consumers fall back to `predicate_raw`)."
         }
       }
     },

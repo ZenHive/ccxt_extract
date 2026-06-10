@@ -148,7 +148,7 @@ defmodule CcxtExtract.HandleErrors do
        lifted into `handle_errors.http_exceptions` by Pipeline. Each
        entry surfaces as `source: "http_exceptions"`.
     2. `error_dispatch` predicates classified `predicate_kind:
-       "http_status_in"` — e.g. `if (code === 418) throw new
+       "http_status_eq"` — e.g. `if (code === 418) throw new
        DDoSProtection(...)` produces an entry under status `"418"`
        with `source: "throw_dispatch_predicate"`.
 
@@ -250,12 +250,12 @@ defmodule CcxtExtract.HandleErrors do
   @spec dispatch_status_entry(term()) :: [%{String.t() => String.t()}]
   defp dispatch_status_entry(%{
          "exception_class" => class,
-         "predicate_kind" => "http_status_in",
+         "predicate_kind" => "http_status_eq",
          "predicate_values" => values
        })
        when is_binary(class) and is_list(values) do
     # `error_dispatch` classifies any `code === <literal>` as
-    # `http_status_in`, but `code` is overloaded in some exchanges
+    # `http_status_eq`, but `code` is overloaded in some exchanges
     # (e.g. bitstamp checks `code === 'API0005'` against an extracted
     # error-code field that happens to be named `code`). Filter to
     # numeric-string values so `error_status_map` stays HTTP-status-

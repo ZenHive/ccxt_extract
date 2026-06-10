@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 132 — Split HTTP status predicate kind
+
+`CcxtExtract.ErrorDispatch.derive/1` now emits `"http_status_eq"` for exact `code === N` / `code == N` predicates and `"http_status_range"` for non-exact status comparisons (`!==`, `!=`, `>=`, `>`, `<=`, `<`). `errors.status_map` now projects only exact status predicates, avoiding fake concrete keys from range checks such as `code >= 500`. The v4 schema enum and docs were updated to match.
+
 ### Task 133 — Explicit `error_class_hierarchy` content-equality invariant in `contract_test`
 
 Added `"error_class_hierarchy_content_equals_baseline", :check_...` to the `@invariants` registry (after the two shape/coverage checks for the same field). New tracked baseline `priv/contract_test/error_class_hierarchy.json` holds the exact 3-key record; `run_all/1` loads it (inline override `:hierarchy_baseline` for tests) and the check does `==` against the embedded copy in each exchange's `errors.class_hierarchy`. Skips on nil (matches shape/coverage precedent). Updated module docs, run_all opts + loader, added 4 unit tests for the new check, and pinned `class_hierarchy: nil` in task-test clean fixtures so their "total_findings == 0" stays true. All contract tests and task tests pass; scoped `mix ccxt_extract.contract_test --exchange binance` surfaces the new invariant at count 0 with no findings.

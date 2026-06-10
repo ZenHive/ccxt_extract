@@ -12,9 +12,11 @@ defmodule CcxtExtract.ErrorDispatch do
     that gates this throw, or `null` for unconditional throws (top-level body
     statements)
   * `predicate_kind` — coarse classifier of the **innermost** condition shape:
-    * `"http_status_in"` — comparisons of the form `code <op> N` where
-      `<op>` is one of `===`, `==`, `!==`, `!=`, `>=`, `>`, `<=`, `<`,
-      or `||`-disjunctions thereof
+    * `"http_status_eq"` — exact comparisons of the form `code === N` /
+      `code == N`, or `||`-disjunctions of exact status comparisons
+    * `"http_status_range"` — non-exact comparisons of the form `code <op> N`
+      where `<op>` is one of `!==`, `!=`, `>=`, `>`, `<=`, `<`, or
+      `||`-disjunctions containing any non-exact status comparison
     * `"body_contains"` — `body.indexOf(<literal>) >= 0`,
       `body.indexOf(<literal>) > -1`, or `||`-disjunctions thereof
       (also accepted on `message` / `url` / `reason`)
@@ -22,8 +24,8 @@ defmodule CcxtExtract.ErrorDispatch do
       `<literal> === <id>`
     * `"other"` — anything else / unconditional
   * `predicate_values` — array of literal values pulled out when
-    `predicate_kind` is `"http_status_in"` or `"body_contains"`; `null`
-    otherwise.
+    `predicate_kind` is `"http_status_eq"`, `"http_status_range"`, or
+    `"body_contains"`; `null` otherwise.
 
   The dispatch table complements existing `handle_errors` derivations:
   `error_code_fields` (which fields carry routing keys), `throw_dispatches`
@@ -35,6 +37,9 @@ defmodule CcxtExtract.ErrorDispatch do
   Returns `nil` when the input is `nil` or has no `body`. Returns an empty
   list when the method body has zero literal throws.
   """
+
+  @status_eq_ops ~w(=== ==)
+  @status_range_ops ~w(!== != >= > <= <)
 
   @doc """
   Derive a list of `ErrorDispatchEntry` maps from a `handleErrors()` method AST.
@@ -122,9 +127,9 @@ defmodule CcxtExtract.ErrorDispatch do
   # `code === N` / `code !== N` / `code >= N` etc.
   defp classify_predicate(%{"type" => "BinaryExpression", "left" => left, "right" => right, "operator" => op})
        when op in ["===", "==", ">=", ">", "<=", "<", "!==", "!="] do
-    case classify_status_compare(left, right) do
-      {:status, value} ->
-        {"http_status_in", [to_string(value)]}
+    case classify_status_compare(left, right, op) do
+      {:status, kind, value} ->
+        {kind, [to_string(value)]}
 
       :body_contains ->
         {"body_contains",
@@ -138,7 +143,7 @@ defmodule CcxtExtract.ErrorDispatch do
   # `code === 1 || code === 2`
   defp classify_predicate(%{"type" => "LogicalExpression", "operator" => "||"} = node) do
     case collect_status_disjuncts(node) do
-      {:ok, values} -> {"http_status_in", Enum.uniq(values)}
+      {:ok, entries} -> status_disjunct_result(entries)
       :no -> classify_body_disjuncts(node)
     end
   end
@@ -151,28 +156,31 @@ defmodule CcxtExtract.ErrorDispatch do
   defp classify_predicate(_), do: {"other", nil}
 
   # `code === 418`
-  defp classify_status_compare(%{"type" => "Identifier", "name" => "code"}, %{"type" => "Literal", "value" => value}),
-    do: {:status, value}
+  defp classify_status_compare(%{"type" => "Identifier", "name" => "code"}, %{"type" => "Literal", "value" => value}, op),
+    do: {:status, status_kind_for_op(op), value}
 
-  defp classify_status_compare(%{"type" => "Literal", "value" => value}, %{"type" => "Identifier", "name" => "code"}),
-    do: {:status, value}
+  defp classify_status_compare(%{"type" => "Literal", "value" => value}, %{"type" => "Identifier", "name" => "code"}, op),
+    do: {:status, status_kind_for_op(op), value}
 
   # `body.indexOf('LOT_SIZE') >= 0`
-  defp classify_status_compare(%{"type" => "CallExpression"} = call, %{"type" => "Literal", "value" => 0}) do
+  defp classify_status_compare(%{"type" => "CallExpression"} = call, %{"type" => "Literal", "value" => 0}, _op) do
     if body_indexof_call?(call), do: :body_contains, else: :other
   end
 
   # `body.indexOf('LOT_SIZE') > -1` / `!== -1` — JS AST has no negative literals,
   # so `-1` is `UnaryExpression(-, Literal(1))`.
-  defp classify_status_compare(%{"type" => "CallExpression"} = call, %{
-         "type" => "UnaryExpression",
-         "operator" => "-",
-         "argument" => %{"type" => "Literal", "value" => 1}
-       }) do
+  defp classify_status_compare(
+         %{"type" => "CallExpression"} = call,
+         %{"type" => "UnaryExpression", "operator" => "-", "argument" => %{"type" => "Literal", "value" => 1}},
+         _op
+       ) do
     if body_indexof_call?(call), do: :body_contains, else: :other
   end
 
-  defp classify_status_compare(_, _), do: :other
+  defp classify_status_compare(_, _, _), do: :other
+
+  defp status_kind_for_op(op) when op in @status_eq_ops, do: "http_status_eq"
+  defp status_kind_for_op(op) when op in @status_range_ops, do: "http_status_range"
 
   defp body_indexof_call?(%{
          "type" => "CallExpression",
@@ -182,8 +190,7 @@ defmodule CcxtExtract.ErrorDispatch do
            "property" => %{"type" => "Identifier", "name" => "indexOf"}
          }
        })
-       when obj in ["body", "message", "url", "reason"],
-       do: true
+       when obj in ["body", "message", "url", "reason"], do: true
 
   defp body_indexof_call?(_), do: false
 
@@ -198,8 +205,7 @@ defmodule CcxtExtract.ErrorDispatch do
            "arguments" => [%{"type" => "Literal", "value" => v} | _]
          }
        })
-       when obj in ["body", "message", "url", "reason"] and is_binary(v),
-       do: [v]
+       when obj in ["body", "message", "url", "reason"] and is_binary(v), do: [v]
 
   defp body_contains_values(_), do: nil
 
@@ -222,13 +228,20 @@ defmodule CcxtExtract.ErrorDispatch do
     do: collect_status_disjuncts(inner)
 
   defp collect_status_disjuncts(%{"type" => "BinaryExpression"} = node) do
-    case classify_status_compare(node["left"], node["right"]) do
-      {:status, v} -> {:ok, [to_string(v)]}
+    case classify_status_compare(node["left"], node["right"], node["operator"]) do
+      {:status, kind, v} -> {:ok, [{kind, to_string(v)}]}
       _ -> :no
     end
   end
 
   defp collect_status_disjuncts(_), do: :no
+
+  defp status_disjunct_result(entries) do
+    values = entries |> Enum.map(fn {_kind, value} -> value end) |> Enum.uniq()
+    kind = if Enum.all?(entries, &match?({"http_status_eq", _value}, &1)), do: "http_status_eq", else: "http_status_range"
+
+    {kind, values}
+  end
 
   defp classify_body_disjuncts(%{"type" => "LogicalExpression", "operator" => "||"} = node) do
     values = walk_body_disjuncts(node, [])

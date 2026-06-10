@@ -1521,6 +1521,90 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_transaction_classification_promoted_flags_consistent/2" do
+    defp tc_exchange(id, classification) do
+      %{
+        "exchange" => %{"id" => id},
+        "endpoints" => %{"transaction_classification" => classification}
+      }
+    end
+
+    test "no findings when every on_chain entry is also transactional" do
+      exchange =
+        tc_exchange("goodex", %{
+          "createOrder" => %{"transactional" => true, "on_chain" => false},
+          "withdraw" => %{"transactional" => true, "on_chain" => true},
+          "fetchTicker" => %{"transactional" => false, "on_chain" => false}
+        })
+
+      assert ContractTest.check_transaction_classification_promoted_flags_consistent(
+               exchange,
+               @base_observed
+             ) == []
+    end
+
+    test "finding when on_chain=true but transactional=false (the gate violation)" do
+      exchange =
+        tc_exchange("badex", %{"sendTx" => %{"transactional" => false, "on_chain" => true}})
+
+      [finding] =
+        ContractTest.check_transaction_classification_promoted_flags_consistent(
+          exchange,
+          @base_observed
+        )
+
+      assert finding.exchange == "badex"
+      assert finding.invariant == "transaction_classification_promoted_flags_consistent"
+      assert finding.path == "endpoints.transaction_classification.sendTx"
+      assert finding.message =~ "on_chain=true"
+      assert finding.message =~ "transactional=false"
+    end
+
+    test "finding when on_chain=true but transactional key is missing" do
+      exchange = tc_exchange("missingex", %{"weird" => %{"on_chain" => true}})
+
+      [finding] =
+        ContractTest.check_transaction_classification_promoted_flags_consistent(
+          exchange,
+          @base_observed
+        )
+
+      assert finding.path == "endpoints.transaction_classification.weird"
+    end
+
+    test "findings are sorted by endpoint name and report each violation" do
+      exchange =
+        tc_exchange("multi", %{
+          "zSend" => %{"transactional" => false, "on_chain" => true},
+          "aSend" => %{"transactional" => false, "on_chain" => true},
+          "createOrder" => %{"transactional" => true, "on_chain" => false}
+        })
+
+      findings =
+        ContractTest.check_transaction_classification_promoted_flags_consistent(
+          exchange,
+          @base_observed
+        )
+
+      assert Enum.map(findings, & &1.path) == [
+               "endpoints.transaction_classification.aSend",
+               "endpoints.transaction_classification.zSend"
+             ]
+    end
+
+    test "no findings when transaction_classification is absent or nil" do
+      assert ContractTest.check_transaction_classification_promoted_flags_consistent(
+               %{"exchange" => %{"id" => "x"}},
+               @base_observed
+             ) == []
+
+      assert ContractTest.check_transaction_classification_promoted_flags_consistent(
+               tc_exchange("nilex", nil),
+               @base_observed
+             ) == []
+    end
+  end
+
   describe "run_all/1" do
     setup do
       tmp = Path.join(System.tmp_dir!(), "ccxt_contract_test_#{System.unique_integer([:positive])}")

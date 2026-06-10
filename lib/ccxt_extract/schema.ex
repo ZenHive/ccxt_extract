@@ -131,7 +131,12 @@ defmodule CcxtExtract.Schema do
       "exchange" => build_exchange_section(exchange_meta),
       "endpoints" => %{
         "unified" => structure_data["unified_endpoints"],
-        "transaction_classification" => TransactionClassification.derive(structure_data["unified_endpoints"]),
+        "transaction_classification" =>
+          TransactionClassification.derive(
+            structure_data["unified_endpoints"],
+            structure_data["raw_broadcast"],
+            describe_api
+          ),
         "interfaces" => structure_data["interface_signatures"],
         "pagination" => structure_data["pagination"],
         "request" => %{

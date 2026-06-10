@@ -52,6 +52,7 @@ defmodule CcxtExtract.DiscoveryLoader do
     {pagination, stats} = load_exchange_lookup(dir, "pagination.json", expected_ids, stats)
     {unified_endpoints, stats} = load_exchange_lookup(dir, "unified_endpoints.json", expected_ids, stats)
     {request_defaults, stats} = load_exchange_lookup(dir, "request_defaults.json", expected_ids, stats)
+    {raw_broadcast, stats} = load_exchange_lookup(dir, "raw_broadcast.json", expected_ids, stats)
     {url_templates, stats} = load_exchange_lookup(dir, "url_templates.json", expected_ids, stats)
     {request_headers, stats} = load_exchange_lookup(dir, "request_headers.json", expected_ids, stats)
     {rate_limit_buckets, stats} = load_exchange_lookup(dir, "rate_limit_buckets.json", expected_ids, stats)
@@ -80,6 +81,7 @@ defmodule CcxtExtract.DiscoveryLoader do
       pagination: pagination,
       unified_endpoints: unified_endpoints,
       request_defaults: request_defaults,
+      raw_broadcast: raw_broadcast,
       url_templates: url_templates,
       request_headers: request_headers,
       rate_limit_buckets: rate_limit_buckets,

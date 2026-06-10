@@ -85,7 +85,8 @@ defmodule CcxtExtract.ContractTest do
     {"parse_methods_digest_covers_inventory", :check_parse_methods_digest_covers_inventory},
     {"handle_errors_retryable_shape_valid", :check_handle_errors_retryable_shape_valid},
     {"handler_dispatch_shape_valid", :check_handler_dispatch_shape_valid},
-    {"rate_limits_endpoint_cost_binding_coherent", :check_rate_limits_endpoint_cost_binding_coherent}
+    {"rate_limits_endpoint_cost_binding_coherent", :check_rate_limits_endpoint_cost_binding_coherent},
+    {"transaction_classification_promoted_flags_consistent", :check_transaction_classification_promoted_flags_consistent}
   ]
 
   # Corpus-level invariants run once per run_all/1 (not per-exchange). Used
@@ -259,6 +260,40 @@ defmodule CcxtExtract.ContractTest do
   defp has_claims_support?(has, name) do
     Map.get(has, name) in [true, "emulated"]
   end
+
+  @doc """
+  Flag `endpoints.transaction_classification` entries that declare
+  `on_chain: true` without `transactional: true`.
+
+  `on_chain` is strictly narrower than `transactional` — every on-chain
+  endpoint mutates state, so the inverse implication is incoherent. The
+  raw-broadcast classifier (Task 73f) promotes detected broadcast endpoints
+  to BOTH flags; this invariant guards that promotion so a consumer can rely
+  on `on_chain == false` as a negative safety gate (a broadcast endpoint can
+  never hide behind `on_chain: false`, and an `on_chain: true` entry always
+  carries `transactional: true`).
+  """
+  @spec check_transaction_classification_promoted_flags_consistent(map(), map()) :: [finding()]
+  def check_transaction_classification_promoted_flags_consistent(exchange, _observed) do
+    id = exchange_id(exchange)
+    classification = get_in(exchange, ["endpoints", "transaction_classification"]) || %{}
+
+    classification
+    |> Enum.sort_by(fn {name, _} -> name end)
+    |> Enum.filter(fn {_name, flags} -> incoherent_on_chain?(flags) end)
+    |> Enum.map(fn {name, flags} ->
+      %{
+        exchange: id,
+        invariant: "transaction_classification_promoted_flags_consistent",
+        path: "endpoints.transaction_classification.#{name}",
+        message:
+          "transaction_classification.#{name} declares on_chain=true but transactional=#{inspect(Map.get(flags, "transactional"))} (on_chain must imply transactional)"
+      }
+    end)
+  end
+
+  defp incoherent_on_chain?(%{"on_chain" => true} = flags), do: Map.get(flags, "transactional") != true
+  defp incoherent_on_chain?(_), do: false
 
   @doc """
   Flag `request_defaults` methods that contain at least one `kind: "literal"`

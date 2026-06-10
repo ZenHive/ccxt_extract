@@ -74,6 +74,79 @@ defmodule CcxtExtract.TransactionClassificationTest do
     end
   end
 
+  describe "derive/3 raw-broadcast promotion" do
+    test "promotes broadcast_methods keys to on_chain + transactional" do
+      result =
+        TransactionClassification.derive(
+          %{"createOrder" => ["privatePostOrder"]},
+          %{"broadcast_methods" => %{"createVault" => ["signL1Action"], "approveBuilderFee" => ["signUserSignedAction"]}}
+        )
+
+      assert result["createVault"] == %{"transactional" => true, "on_chain" => true}
+      assert result["approveBuilderFee"] == %{"transactional" => true, "on_chain" => true}
+      # base name-only classification is preserved
+      assert result["createOrder"] == %{"transactional" => true, "on_chain" => false}
+    end
+
+    test "broadcast promotion overrides a name-only off-chain base entry" do
+      # createOrder is in BOTH the unified base (on_chain:false) and the
+      # broadcast set — promotion must win.
+      result =
+        TransactionClassification.derive(
+          %{"createOrder" => ["privatePostOrder"]},
+          %{"broadcast_methods" => %{"createOrder" => ["signL1Action"]}}
+        )
+
+      assert result["createOrder"] == %{"transactional" => true, "on_chain" => true}
+    end
+
+    test "nil/empty raw_broadcast leaves the base untouched" do
+      base = %{"createOrder" => ["x"]}
+      assert TransactionClassification.derive(base, nil) == TransactionClassification.derive(base)
+      assert TransactionClassification.derive(base, %{}) == TransactionClassification.derive(base)
+
+      assert TransactionClassification.derive(base, %{"broadcast_methods" => %{}}) ==
+               TransactionClassification.derive(base)
+    end
+
+    test "returns broadcast-only map when there are no unified endpoints" do
+      result =
+        TransactionClassification.derive(nil, %{"broadcast_methods" => %{"withdraw" => ["signEIP712"]}})
+
+      assert result == %{"withdraw" => %{"transactional" => true, "on_chain" => true}}
+    end
+  end
+
+  describe "derive/3 implicit-API sendTx promotion" do
+    test "promotes map-form sendTx / sendTxBatch under implicit method names" do
+      api = %{"public" => %{"post" => %{"sendTx" => 1, "sendTxBatch" => 1, "other" => 1}}}
+      result = TransactionClassification.derive(nil, nil, api)
+
+      assert result["publicPostSendTx"] == %{"transactional" => true, "on_chain" => true}
+      assert result["publicPostSendTxBatch"] == %{"transactional" => true, "on_chain" => true}
+      refute Map.has_key?(result, "publicPostOther")
+    end
+
+    test "promotes array-form sendTx paths" do
+      api = %{"private" => %{"post" => ["sendTx", "createOrder"]}}
+      result = TransactionClassification.derive(nil, nil, api)
+
+      assert result["privatePostSendTx"] == %{"transactional" => true, "on_chain" => true}
+      refute Map.has_key?(result, "privatePostCreateOrder")
+    end
+
+    test "matches sendtx case-insensitively on the leaf segment" do
+      api = %{"public" => %{"post" => %{"sendtx" => 1}}}
+      result = TransactionClassification.derive(nil, nil, api)
+      assert result["publicPostSendtx"] == %{"transactional" => true, "on_chain" => true}
+    end
+
+    test "nil describe_api yields no sendTx promotions" do
+      assert TransactionClassification.derive(%{"createOrder" => []}, nil, nil) ==
+               TransactionClassification.derive(%{"createOrder" => []})
+    end
+  end
+
   describe "transactional?/1" do
     test "false for fetch* methods" do
       refute TransactionClassification.transactional?("fetchTicker")

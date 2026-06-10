@@ -70,10 +70,11 @@ defmodule CcxtExtract.Pipeline do
     with {:ok, exchanges_json} <- CcxtExtract.JsonIO.read_json(exchanges_path) do
       data = DiscoveryLoader.load_all!(dir, exchanges_json)
 
-      # fetch_methods.json (Task 83a) is optional — its absence just
-      # leaves per-fetcher entries flagged `"no_fetcher_method_body"`;
-      # ResponseEnvelopes.derive/2 still runs whenever parse_dispatch is present.
-      missing_required = data.missing_files -- ["fetch_methods.json"]
+      # fetch_methods.json (Task 83a) and raw_broadcast.json (Task 73f) are
+      # optional. fetch_methods absence leaves per-fetcher entries flagged
+      # `"no_fetcher_method_body"`; raw_broadcast absence just means no
+      # transaction_classification promotions (name-only base still emits).
+      missing_required = data.missing_files -- ["fetch_methods.json", "raw_broadcast.json"]
 
       if missing_required != [] do
         raise "Pipeline cannot run — missing required discovery files: #{Enum.join(missing_required, ", ")}"
@@ -466,6 +467,7 @@ defmodule CcxtExtract.Pipeline do
       "interface_signatures" => get_interface_signatures(id, data),
       "pagination" => get_pagination(id, data),
       "unified_endpoints" => get_unified_endpoints(id, data),
+      "raw_broadcast" => get_raw_broadcast(id, data),
       "request_defaults" => get_request_defaults(id, data),
       "overrides" => get_overrides(id, data),
       "error_dispatch" => get_error_dispatch(handle_errors),
@@ -791,6 +793,25 @@ defmodule CcxtExtract.Pipeline do
     |> drop_disabled_endpoints(disabled)
     |> restrict_to_canonical_vocab(canonical)
     |> filter_unified_endpoints(valid_endpoints)
+  end
+
+  # Raw broadcast detection (Task 73f): the per-exchange raw_broadcast.json
+  # entry, used by TransactionClassification.derive/3 to promote on-chain
+  # broadcast endpoints. Falls back to the parent for DEX aliases that share
+  # a source class. nil when the chain has no entry (most non-DEX exchanges).
+  defp get_raw_broadcast(id, data) do
+    case data |> Map.get(:raw_broadcast, %{}) |> Map.get(id) do
+      nil -> get_parent_raw_broadcast(id, data)
+      entry when is_map(entry) -> entry
+      _ -> nil
+    end
+  end
+
+  defp get_parent_raw_broadcast(id, data) do
+    case find_parent_exchange_id(id, data) do
+      nil -> nil
+      parent_id -> get_raw_broadcast(parent_id, data)
+    end
   end
 
   defp exchange_disabled_has_keys(id, data) do

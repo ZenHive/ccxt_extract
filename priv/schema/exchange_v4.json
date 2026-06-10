@@ -111,7 +111,7 @@
               }
             }
           ],
-          "description": "Map of unified method name -> per-endpoint write-side classification flags (`transactional`, `on_chain`). Keys mirror `endpoints.unified`. Was structure.transaction_classification in v3 (added at v3 schema 3.3.0, Task 73d)."
+          "description": "Map of method name -> per-endpoint write-side classification flags (`transactional`, `on_chain`). Base keys mirror `endpoints.unified` (name-only convention, Task 73d). Task 73f additionally promotes non-unified raw blockchain-broadcast endpoints detected by an OXC pass (DEX signing helpers like signL1Action / starknetSign / createSignedRequest) and implicit-API sendTx / sendTxBatch paths (keyed by their CCXT implicit method name, e.g. `publicPostSendTx`); promoted entries always carry `on_chain: true` AND `transactional: true`, so a consumer can rely on `on_chain == false`/absence as a negative safety gate within detection coverage. Was structure.transaction_classification in v3 (added at v3 schema 3.3.0, Task 73d)."
         },
         "interfaces": {
           "oneOf": [

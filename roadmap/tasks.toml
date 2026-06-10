@@ -884,17 +884,22 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 133
-assignee = "grok"
 phase = 13
 bundle = "13-classify-safety"
 milestone = "feature_complete"
-status = "pending"
+status = "done"
 title = "Explicit error_class_hierarchy content-equality invariant in contract_test"
 scores = { d = 2, b = 4, u = 3 }
+assignee = "grok"
 body = """
 Surfaced during PR #13 review. Today only the outer shape of `error_class_hierarchy` is enforced — drift would only be caught by JSV on cosmetic changes. Add an explicit content-equality invariant in `contract_test`. (Phase 13 Task 133 — keeps its original id; the audit-surfaced legacy Task 133 was renumbered to 140 at migration.)
 """
+implemented = "Landed by grok via merge-train; reviewer-approved (run run-1781091271293-5f82d9be, f3a304232493bb52a7a35ef00e1cbfd4e29e3992)."
+delivered_by = "grok"
+verified = true
 scored_at = "2026-05-14"
+done_at = "2026-06-10"
+shipped_in = "f3a304232493bb52a7a35ef00e1cbfd4e29e3992"
 
 # ── Phase 13 · bundle 13-perf ─────────────────────────────────────────────
 

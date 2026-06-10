@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Roadmap hygiene pass (2026-06-10)
+
+Review of `roadmap/tasks.toml` surfaced milestone-scope drift; the `feature_complete` milestone was unclosable as written. Fixes: self-deferred Tasks 57c + 73e flipped to `blocked` and unpinned from the milestone (their bodies say "defer until a priority consumer surfaces a need" — defer-until-need tasks can't gate a closable milestone; matches the 66-family precedent); superseded Task 78d unpinned; bug Task 146 (ws_heartbeat wrong `keep_alive_ms` + dishonest provenance on variant-scoped runs) pinned IN — it breaks the milestone's "consumer can trust v4 JSON" hypothesis. Milestone denominator: 7/24 → 7/23. Also: stale `v4`-as-frontier header comment rewritten; Phase 15/16 statuses → `in_progress`; `method-descriptors` bundle moved to its tasks' phase (0 → 12); inverted "Phase 15 is gated by ccxt_client Phase 6" sentences corrected in Tasks 91/94/95a-c (the dependency points the other way — Task 91 *blocks* ccxt_client 94/97); Task 141 rescoped from its overtaken doctor-findings backfill to authoring real specs for the thin WS milestone tasks 94 + 95a/95b/95c; Tasks 93/135/142/143 marked `--verified` (independent post-merge audit / PR-bot review evidence). Tasks 62/92/97/98/144 stay unverified pending the audit-review sweep of the 7 unaudited commits.
+
 ### CCXT bump 4.5.54 → 4.5.56 (2026-06-10)
 
 - `mix ccxt_extract.setup --ccxt-version 4.5.56` — checked out the `v4.5.56` CCXT git tag for OXC source parsing, installed `ccxt@4.5.56` (npm bundle for QuickBEAM), recopied the browser bundle, and rewrote the `priv/ccxt_version.json` baseline (`source_git_sha 37d19cd`, new `bundle_sha256`). QuickBEAM now loads **111 exchanges** (was 110). Full corpus regenerated against 4.5.56.

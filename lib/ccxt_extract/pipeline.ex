@@ -506,7 +506,8 @@ defmodule CcxtExtract.Pipeline do
       |> Keyword.put(:normalization, normalization)
       |> Keyword.put(:websocket, websocket)
 
-    Schema.build_exchange(meta, runtime_data, structure_data, v4_opts)
+    exchange = Schema.build_exchange(meta, runtime_data, structure_data, v4_opts)
+    prune_bybit_dead_spot_v3_private_endpoints(exchange)
   end
 
   # Derive error dispatch from the assembled handle_errors map. Consumes
@@ -653,12 +654,20 @@ defmodule CcxtExtract.Pipeline do
     end
   end
 
-  # Interface signatures: extract the interface_signatures map
+  # Interface signatures: extract the interface_signatures map.
+  # For bybit/bybiteu, intentionally drop the discontinued spot/v3/private/* interface
+  # methods (Bybit V3 Spot Open API shutdown 2024-08-31). Keeps both emitted
+  # endpoints.interfaces and the valid set used to filter unified call lists clean.
   defp get_interface_signatures(id, data) do
     case Map.get(data.interface_signatures, id) do
-      nil -> nil
-      %{"interface_signatures" => sigs} when map_size(sigs) > 0 -> sigs
-      _ -> nil
+      nil ->
+        nil
+
+      %{"interface_signatures" => sigs} when map_size(sigs) > 0 ->
+        prune_dead_bybit_spot_v3_private_interfaces(sigs, id)
+
+      _ ->
+        nil
     end
   end
 
@@ -933,8 +942,14 @@ defmodule CcxtExtract.Pipeline do
 
   defp get_interface_signature_keys(id, data) do
     case Map.get(data.interface_signatures, id) do
-      %{"interface_signatures" => sigs} when map_size(sigs) > 0 -> sigs |> Map.keys() |> MapSet.new()
-      _ -> MapSet.new()
+      %{"interface_signatures" => sigs} when map_size(sigs) > 0 ->
+        sigs
+        |> prune_dead_bybit_spot_v3_private_interfaces(id)
+        |> Map.keys()
+        |> MapSet.new()
+
+      _ ->
+        MapSet.new()
     end
   end
 
@@ -955,6 +970,66 @@ defmodule CcxtExtract.Pipeline do
       |> Map.new()
 
     if map_size(filtered) > 0, do: filtered
+  end
+
+  # --- Bybit V3 Spot private dead-endpoint pruning (Task 124) ---
+
+  # Bybit discontinued the entire V3 Spot Open API 2024-08-31. CCXT still
+  # carries the definitions under api.private.* and in the generated abstract
+  # interface (SpotV3Private*), so we prune at assembly time from the consumer
+  # surfaces (interfaces, unified call lists, request.shape endpoints). Raw
+  # describe.api is left untouched; only the derived spec is cleaned.
+  #
+  # Affects bybit + bybiteu (the only current family members declaring them).
+
+  defp bybit_family?(id) when id in ~w(bybit bybiteu), do: true
+  defp bybit_family?(_), do: false
+
+  defp dead_spot_v3_private_interface_name?(name) when is_binary(name) do
+    Regex.match?(~r/^private(Get|Post|Put|Delete|Patch)SpotV3Private/, name)
+  end
+
+  defp dead_spot_v3_private_interface_name?(_), do: false
+
+  defp dead_spot_v3_private_path?(path) when is_binary(path) do
+    String.starts_with?(path, "spot/v3/private/")
+  end
+
+  defp dead_spot_v3_private_path?(_), do: false
+
+  defp prune_dead_bybit_spot_v3_private_interfaces(sigs, id) when is_map(sigs) do
+    if bybit_family?(id) do
+      Map.reject(sigs, fn {name, _sig} -> dead_spot_v3_private_interface_name?(name) end)
+    else
+      sigs
+    end
+  end
+
+  defp prune_dead_bybit_spot_v3_private_interfaces(sigs, _id), do: sigs
+
+  defp prune_bybit_dead_spot_v3_private_endpoints(%{"exchange" => %{"id" => id}} = exchange)
+       when is_binary(id) do
+    if bybit_family?(id), do: do_prune_bybit_shape(exchange), else: exchange
+  end
+
+  defp prune_bybit_dead_spot_v3_private_endpoints(exchange), do: exchange
+
+  defp do_prune_bybit_shape(exchange) do
+    shape_path = ["endpoints", "request", "shape"]
+    shape = get_in(exchange, shape_path) || %{}
+    pruned = Map.new(shape, &prune_section_endpoints/1)
+    put_in(exchange, shape_path, pruned)
+  end
+
+  defp prune_section_endpoints({section, rec}) do
+    case rec["endpoints"] do
+      eps when is_list(eps) ->
+        kept = Enum.reject(eps, fn ep -> dead_spot_v3_private_path?(ep["path_template"]) end)
+        {section, Map.put(rec, "endpoints", kept)}
+
+      _ ->
+        {section, rec}
+    end
   end
 
   # Overrides: group REST/WS entries, rename fields

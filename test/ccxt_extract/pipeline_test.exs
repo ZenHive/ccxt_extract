@@ -287,6 +287,19 @@ defmodule CcxtExtract.PipelineTest do
     }
   end
 
+  defp bybit_meta do
+    %{
+      "id" => "bybit",
+      "name" => "Bybit",
+      "certified" => true,
+      "pro" => true,
+      "version" => "v5",
+      "country" => ["AE", "SG"],
+      "alias" => false,
+      "referral" => nil
+    }
+  end
+
   # Data lookup with no data for "aliasex"
   defp empty_data do
     %{
@@ -787,6 +800,75 @@ defmodule CcxtExtract.PipelineTest do
 
       assert ue["fetchTicker"] == ["publicGetTicker"]
       refute Map.has_key?(ue, "fetchSpotMarkets")
+    end
+
+    test "bybit dead spot/v3/private/* endpoints are pruned from interfaces and do not appear in unified call lists" do
+      # The dead interface names (from abstract/bybit.ts still listing api.spot.v3.private)
+      # must be dropped from emitted endpoints.interfaces and from any unified call arrays
+      # (via the valid_endpoints filter). This stops ccxt_client probe generation for the
+      # discontinued V3 Spot private API (shutdown 2024-08-31).
+      dead = "privateGetSpotV3PrivateOrder"
+      live = "privateGetV5AccountWalletBalance"
+
+      sig_dead = %{"name" => dead, "params" => [], "return_type" => "Promise<implicitReturnType>"}
+      sig_live = %{"name" => live, "params" => [], "return_type" => "Promise<implicitReturnType>"}
+
+      data = %{
+        empty_data()
+        | exchanges: [bybit_meta()],
+          classes: %{"bybit" => [@rest_class]},
+          sign_methods: %{"bybit" => @sample_method_ast},
+          interface_signatures: %{
+            "bybit" => %{
+              "id" => "bybit",
+              "interface_signatures" => %{dead => sig_dead, live => sig_live},
+              "interface_signature_count" => 2
+            }
+          },
+          unified_endpoints: %{
+            "bybit" => %{
+              "id" => "bybit",
+              "unified_endpoints" => %{
+                "fetchBalance" => [live, dead]
+              },
+              "unified_endpoint_count" => 2
+            }
+          },
+          # Supply a describe.api snippet containing a dead v3 private path so that
+          # request.shape derivation + the bybit prune can be exercised in this build.
+          describe: %{
+            "bybit" => %{
+              "id" => "bybit",
+              "api" => %{
+                "private" => %{
+                  "get" => %{
+                    "spot/v3/private/order" => 2.5,
+                    "v5/account/wallet-balance" => 1
+                  }
+                }
+              }
+            }
+          }
+      }
+
+      result = Pipeline.build_exchange_data(bybit_meta(), data, @schema_opts)
+      interfaces = result["endpoints"]["interfaces"]
+      ue = result["endpoints"]["unified"] || %{}
+
+      # dead interface pruned from emission
+      refute Map.has_key?(interfaces, dead)
+      assert Map.has_key?(interfaces, live)
+
+      # dead call pruned from unified lists (and would drop whole entry if only dead)
+      assert ue["fetchBalance"] == [live]
+
+      # shape endpoints for any "private" section must not contain the dead path
+      # (prune runs even if auth derivation yields no "private" for this minimal sign AST;
+      # when it does, the dead is dropped; either way the filter path is live for bybit id)
+      shape = get_in(result, ["endpoints", "request", "shape"]) || %{}
+      priv_eps = get_in(shape, ["private", "endpoints"]) || []
+      dead_in_shape = Enum.any?(priv_eps, fn e -> String.starts_with?(e["path_template"] || "", "spot/v3/private/") end)
+      refute dead_in_shape, "dead spot/v3/private paths must be pruned from request.shape"
     end
   end
 

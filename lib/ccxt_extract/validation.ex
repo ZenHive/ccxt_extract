@@ -924,12 +924,29 @@ defmodule CcxtExtract.Validation do
   defp maybe_check_method_map_content(findings, output_map, source_map, id, path) do
     output_names = output_map |> Map.keys() |> MapSet.new()
     source_names = source_map |> Map.keys() |> MapSet.new()
+    # Task 124: bybit/bybiteu intentionally drop discontinued spot/v3/private/*
+    # interface methods from endpoints.interfaces (V3 Spot shutdown); do not
+    # treat them as "missing" in roundtrip.
+    source_names = exclude_bybit_dead_v3_spot_private(source_names, id, path)
     missing = MapSet.difference(source_names, output_names)
 
     findings
     |> maybe_add_finding(missing, id, path, "error", "missing methods from source")
     |> check_method_map_asts(output_map, source_map, id, path)
   end
+
+  defp exclude_bybit_dead_v3_spot_private(names, id, "endpoints.interfaces")
+       when id in ~w(bybit bybiteu) do
+    MapSet.reject(names, &dead_spot_v3_private_interface_name?/1)
+  end
+
+  defp exclude_bybit_dead_v3_spot_private(names, _id, _path), do: names
+
+  defp dead_spot_v3_private_interface_name?(name) when is_binary(name) do
+    Regex.match?(~r/^private(Get|Post|Put|Delete|Patch)SpotV3Private/, name)
+  end
+
+  defp dead_spot_v3_private_interface_name?(_), do: false
 
   # Compare full MethodAST for each method present in both maps
   defp check_method_map_asts(findings, output_map, source_map, id, path) do

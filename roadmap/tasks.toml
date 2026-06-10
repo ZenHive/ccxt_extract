@@ -217,7 +217,7 @@ phase = 16
 id = 105
 phase = 0
 bundle = "maintenance"
-status = "in_progress"
+status = "done"
 title = "Port super.*() delegation coverage off coincatch"
 scores = { d = 2, b = 3, u = 2 }
 files_to_modify = ["test/ccxt_extract/unified_endpoints_test.exs"]
@@ -225,8 +225,13 @@ assignee = "grok"
 body = """
 coincatch was removed upstream; the test that validated `parse_file/1` walking a super-delegation chain was deleted in Task 101. Find another currently-shipping exchange with a non-trivial `super.*()` chain and reinstate targeted coverage, otherwise `parse_file` regressions on that code path escape. TODO marker at `test/ccxt_extract/unified_endpoints_test.exs`.
 """
+implemented = "Landed by grok via merge-train; reviewer-approved (run run-1781096212533-311bb747, 81e4a76b3fd38af72348337d7aa4ac5ea327fcf1)."
+delivered_by = "grok"
+verified = true
 started_at = "2026-06-10"
 scored_at = "2026-05-14"
+done_at = "2026-06-10"
+shipped_in = "81e4a76b3fd38af72348337d7aa4ac5ea327fcf1"
 
 [[task]]
 id = 106

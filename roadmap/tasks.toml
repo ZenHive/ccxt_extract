@@ -731,17 +731,12 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "73f"
-assignee = "cursor"
 phase = 11
 bundle = "11-shape"
 milestone = "feature_complete"
-status = "pending"
+status = "in_progress"
 title = "Extend transaction_classification to non-unified raw broadcast endpoints"
 scores = { d = 5, b = 7, u = 7 }
-cross_repo = [{ repo = "ccxt_client", task_id = 117, relation = "blocks" }]
-body = """
-Task 73d shipped a name-only classifier over CCXT's unified-method namespace; consumers correctly cannot trust `on_chain == false` (or absence) as a safety gate because non-unified raw paths bypass the convention. Coverage gap: DEX flows exposing blockchain transactions via helpers like `signL1Action` / `signEIP712`, implicit-API paths like `public_post_sendtx` / `sendTxBatch`, and sign-method bodies that construct a signed-payload-then-broadcast shape. Approach: an OXC pass over sign-method and exchange-method bodies looking for (a) known signed-payload helpers, (b) web3 / EIP-712 typed-data builders, (c) `sendTx` / `sendTxBatch` patterns, (d) DEX-specific signing imports (`@noble/curves`, `ethers`, `starknet`). Promote endpoints into `transaction_classification` with `on_chain: true` + `transactional: true`. Closes the security-gating gap from Task 73d. Filed 2026-05-08 from PR #9 review (INE-64).
-"""
 acceptance_criteria = [
   "OXC pass detects signed-payload helper calls (signL1Action, signEIP712) in sign-method and exchange-method bodies",
   "OXC pass detects web3 / EIP-712 typed-data builder patterns and DEX signing-library imports (@noble/curves, ethers, starknet)",
@@ -750,6 +745,12 @@ acceptance_criteria = [
   "Coverage verified for at least: hyperliquid (signL1Action), one starknet-family exchange, one EIP-712 DEX",
   "contract_test invariant gates that classifier-promoted entries carry both flags so a consumer can rely on on_chain == false as a negative safety gate",
 ]
+cross_repo = [{ repo = "ccxt_client", task_id = 117, relation = "blocks" }]
+assignee = "cursor"
+body = """
+Task 73d shipped a name-only classifier over CCXT's unified-method namespace; consumers correctly cannot trust `on_chain == false` (or absence) as a safety gate because non-unified raw paths bypass the convention. Coverage gap: DEX flows exposing blockchain transactions via helpers like `signL1Action` / `signEIP712`, implicit-API paths like `public_post_sendtx` / `sendTxBatch`, and sign-method bodies that construct a signed-payload-then-broadcast shape. Approach: an OXC pass over sign-method and exchange-method bodies looking for (a) known signed-payload helpers, (b) web3 / EIP-712 typed-data builders, (c) `sendTx` / `sendTxBatch` patterns, (d) DEX-specific signing imports (`@noble/curves`, `ethers`, `starknet`). Promote endpoints into `transaction_classification` with `on_chain: true` + `transactional: true`. Closes the security-gating gap from Task 73d. Filed 2026-05-08 from PR #9 review (INE-64).
+"""
+started_at = "2026-06-10"
 scored_at = "2026-05-14"
 
 # ── Phase 11 · bundle 11+14 ───────────────────────────────────────────────

@@ -1023,7 +1023,10 @@ defmodule CcxtExtract.ContractTestTest do
         "errors" => %{"class_hierarchy" => h}
       }
 
-      assert ContractTest.check_error_class_hierarchy_content_equals_baseline(exchange, %{error_class_hierarchy: h}) == []
+      assert ContractTest.check_error_class_hierarchy_content_equals_baseline(
+               exchange,
+               %{error_class_hierarchy: h}
+             ) == []
     end
 
     test "finding when tree/parents/ancestors differ from baseline" do
@@ -1062,7 +1065,10 @@ defmodule CcxtExtract.ContractTestTest do
         "errors" => %{"class_hierarchy" => nil}
       }
 
-      assert ContractTest.check_error_class_hierarchy_content_equals_baseline(exchange, %{error_class_hierarchy: %{}}) == []
+      assert ContractTest.check_error_class_hierarchy_content_equals_baseline(
+               exchange,
+               %{error_class_hierarchy: %{}}
+             ) == []
     end
 
     test "no finding when no hierarchy baseline in observed (graceful for partial test contexts)" do

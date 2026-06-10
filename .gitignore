@@ -29,6 +29,7 @@ package.json
 # Contents-level patterns (`/*`) not directory-level (`/`), so the
 # class_hierarchy.json negation below can re-include the one file
 # `lib/ccxt_extract/tiers.ex` needs at compile time.
+/priv/output
 /priv/output/*
 /priv/discoveries/*
 !/priv/discoveries/class_hierarchy.json

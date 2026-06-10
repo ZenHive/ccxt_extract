@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 109 — Promote `finding()` map type to a `%Finding{}` struct
+
+`CcxtExtract.ContractTest` built its `{exchange, invariant, path, message}` finding at 32 builder sites as a bare map, relying on the post-edit `struct-hint` hook to catch typos. Promoted to a `CcxtExtract.ContractTest.Finding` struct (`@enforce_keys [:exchange, :invariant, :path, :message]`, `@derive Jason.Encoder`) so every builder is key-validated at compile time. `@type finding` is now `Finding.t()`. `build_report/4` converts each struct through `Map.from_struct/1` before stringifying keys, so `priv/output/_contract_test_report.json` keeps the identical `{"exchange","invariant","path","message"}` shape with no `__struct__` leakage, and the deterministic `Enum.sort_by/2` ordering over findings is unchanged. Added struct-specific tests (enforce-keys rejection, `__struct__`-free JSON, sort stability) plus a `refute __struct__` assertion on the `run_all/1` report. Discovered during Task 61d code review.
+
 ### Task 124 — Prune Bybit discontinued spot/v3/private/* endpoints from extracted spec
 
 Bybit V3 Spot Open API was shut down 2024-08-31; CCXT TS still lists the paths under `api.private` (get/post/...) and the corresponding `private*SpotV3Private*` implicit methods in `abstract/bybit.ts` (and bybiteu). Extraction therefore emitted them into `endpoints.interfaces`, as call targets inside `endpoints.unified`, and inside `endpoints.request.shape.*.endpoints` lists. Added assembly-time pruning (in `Pipeline`) for the bybit family so the consumer surfaces (what ccxt_client probes are generated from) no longer contain the dead endpoints. Raw `describe.api` left as-is (CCXT truth). Updated the interfaces roundtrip check in `Validation` to treat the intentional drops as non-errors. Added unit test in `pipeline_test.exs`. No override or generic deprecated-path filter; the prune is a narrow, explicit maintenance gate for this known deprecation.

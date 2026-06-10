@@ -40,6 +40,7 @@ defmodule CcxtExtract.ContractTest do
   New invariants append to `@invariants`; the runner is registry-driven.
   """
 
+  alias CcxtExtract.ContractTest.Finding
   alias CcxtExtract.ErrorHierarchy
   alias CcxtExtract.JsonIO
   alias CcxtExtract.Normalization
@@ -50,12 +51,7 @@ defmodule CcxtExtract.ContractTest do
   alias CcxtExtract.WsAuth
   alias CcxtExtract.WsHeartbeat
 
-  @type finding :: %{
-          exchange: String.t(),
-          invariant: String.t(),
-          path: String.t(),
-          message: String.t()
-        }
+  @type finding :: Finding.t()
 
   @type report :: %{
           String.t() => term()
@@ -246,7 +242,7 @@ defmodule CcxtExtract.ContractTest do
     |> Enum.map(fn name ->
       actual = Map.get(has, name, :missing)
 
-      %{
+      %Finding{
         exchange: id,
         invariant: "unified_endpoints_claimed_in_has",
         path: "endpoints.unified.#{name}",
@@ -282,7 +278,7 @@ defmodule CcxtExtract.ContractTest do
     |> Enum.sort_by(fn {name, _} -> name end)
     |> Enum.filter(fn {_name, flags} -> incoherent_on_chain?(flags) end)
     |> Enum.map(fn {name, flags} ->
-      %{
+      %Finding{
         exchange: id,
         invariant: "transaction_classification_promoted_flags_consistent",
         path: "endpoints.transaction_classification.#{name}",
@@ -326,7 +322,7 @@ defmodule CcxtExtract.ContractTest do
     |> Enum.filter(fn {_method, body} -> has_literal_entry?(body) end)
     |> Enum.reject(fn {method, _} -> MapSet.member?(reachable, method) end)
     |> Enum.map(fn {method, _} ->
-      %{
+      %Finding{
         exchange: id,
         invariant: "request_defaults_resolvable_reachable_from_unified",
         path: "endpoints.request.defaults.#{method}",
@@ -376,7 +372,7 @@ defmodule CcxtExtract.ContractTest do
     |> Enum.with_index()
     |> Enum.reject(fn {name, _i} -> reachable_in_api?(name, api, reachable) end)
     |> Enum.map(fn {name, i} ->
-      %{
+      %Finding{
         exchange: id,
         invariant: "authenticated_sections_reachable_in_api",
         path: "auth.authenticated_sections[#{i}]",
@@ -419,7 +415,7 @@ defmodule CcxtExtract.ContractTest do
       |> MapSet.difference(recipe_keys)
       |> Enum.sort()
       |> Enum.map(fn name ->
-        %{
+        %Finding{
           exchange: id,
           invariant: "sign_recipe_keys_match_auth_sections",
           path: "auth.sign_recipe.#{name}",
@@ -432,7 +428,7 @@ defmodule CcxtExtract.ContractTest do
       |> MapSet.difference(section_keys)
       |> Enum.sort()
       |> Enum.map(fn name ->
-        %{
+        %Finding{
           exchange: id,
           invariant: "sign_recipe_keys_match_auth_sections",
           path: "auth.sign_recipe.#{name}",
@@ -496,7 +492,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp sign_recipe_finding(id, section, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "sign_recipe_shape_valid",
       path: "auth.sign_recipe.#{section}",
@@ -595,7 +591,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp sign_recipe_honesty_finding(id, section, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "sign_recipe_honesty_valid",
       path: "auth.sign_recipe.#{section}",
@@ -622,7 +618,7 @@ defmodule CcxtExtract.ContractTest do
       |> MapSet.difference(record_keys)
       |> Enum.sort()
       |> Enum.map(fn name ->
-        %{
+        %Finding{
           exchange: id,
           invariant: "request_shape_keys_match_auth_sections",
           path: "endpoints.request.shape.#{name}",
@@ -635,7 +631,7 @@ defmodule CcxtExtract.ContractTest do
       |> MapSet.difference(section_keys)
       |> Enum.sort()
       |> Enum.map(fn name ->
-        %{
+        %Finding{
           exchange: id,
           invariant: "request_shape_keys_match_auth_sections",
           path: "endpoints.request.shape.#{name}",
@@ -704,7 +700,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp request_shape_finding(id, section, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "request_shape_valid",
       path: "endpoints.request.shape.#{section}",
@@ -912,7 +908,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp request_shape_honesty_finding(id, section, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "request_shape_honesty_valid",
       path: "endpoints.request.shape.#{section}",
@@ -1064,7 +1060,7 @@ defmodule CcxtExtract.ContractTest do
   defp collect_strings(_), do: []
 
   defp testnet_urls_finding(id, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "testnet_urls_shape_valid",
       path: "testnet",
@@ -1190,7 +1186,7 @@ defmodule CcxtExtract.ContractTest do
   defp ws_heartbeat_coherence(id, false, message), do: ws_heartbeat_finding(id, message)
 
   defp ws_heartbeat_finding(id, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "websocket_heartbeat_shape_valid",
       path: "websocket/heartbeat",
@@ -1293,7 +1289,7 @@ defmodule CcxtExtract.ContractTest do
   defp ws_auth_coherence(id, false, message), do: ws_auth_finding(id, message)
 
   defp ws_auth_finding(id, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "websocket_auth_shape_valid",
       path: "websocket/auth",
@@ -1459,7 +1455,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp error_class_hierarchy_finding(id, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "error_class_hierarchy_shape_valid",
       path: "errors.class_hierarchy",
@@ -1530,7 +1526,7 @@ defmodule CcxtExtract.ContractTest do
   defp http_exceptions_findings(_id, _http_exceptions, _known), do: []
 
   defp coverage_finding(id, path, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "error_classes_covered_by_hierarchy",
       path: path,
@@ -1563,7 +1559,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp hierarchy_content_finding(id) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "error_class_hierarchy_content_equals_baseline",
       path: "errors.class_hierarchy",
@@ -1760,7 +1756,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp normalization_finding(id, path, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "normalization_shape_valid",
       path: path,
@@ -1810,7 +1806,7 @@ defmodule CcxtExtract.ContractTest do
     |> Enum.reject(&MapSet.member?(digest_keys, &1))
     |> Enum.sort()
     |> Enum.map(fn name ->
-      %{
+      %Finding{
         exchange: id,
         invariant: "parse_methods_digest_covers_inventory",
         path: "normalization.parse_methods_digest.#{name}",
@@ -1988,7 +1984,7 @@ defmodule CcxtExtract.ContractTest do
   defp numeric_string?(_), do: false
 
   defp error_finding(id, section, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "handle_errors_retryable_shape_valid",
       path: "errors.#{section}",
@@ -2090,7 +2086,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp handler_finding(id, path, message) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "handler_dispatch_shape_valid",
       path: path,
@@ -2127,7 +2123,7 @@ defmodule CcxtExtract.ContractTest do
       []
     else
       [
-        %{
+        %Finding{
           exchange: id,
           invariant: "rate_limits_endpoint_cost_binding_coherent",
           path: "rate_limits.endpoint_cost_binding",
@@ -2163,7 +2159,7 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp root_finding_map(id, entry, root, index, roots) do
-    %{
+    %Finding{
       exchange: id,
       invariant: "error_code_fields_root_in_observed_set",
       path: error_code_fields_path(index, entry),
@@ -2186,7 +2182,7 @@ defmodule CcxtExtract.ContractTest do
     rescue
       e ->
         [
-          %{
+          %Finding{
             exchange: id,
             invariant: "override_registry_valid",
             path: "priv/overrides/#{id}.json",
@@ -2220,7 +2216,7 @@ defmodule CcxtExtract.ContractTest do
   rescue
     e in [RuntimeError, File.Error, Jason.DecodeError] ->
       [
-        %{
+        %Finding{
           exchange: exchange_id(exchange),
           invariant: "override_paths_present_in_output",
           path: "priv/overrides/#{exchange_id(exchange)}.json",
@@ -2240,7 +2236,7 @@ defmodule CcxtExtract.ContractTest do
   rescue
     e in [RuntimeError, KeyError, ArgumentError, FunctionClauseError] ->
       [
-        %{
+        %Finding{
           exchange: id,
           invariant: "override_paths_present_in_output",
           path: entry["path"] || "<unknown>",
@@ -2263,7 +2259,7 @@ defmodule CcxtExtract.ContractTest do
       []
     else
       [
-        %{
+        %Finding{
           exchange: id,
           invariant: "override_paths_present_in_output",
           path: translated,
@@ -2381,7 +2377,7 @@ defmodule CcxtExtract.ContractTest do
     end)
     |> Enum.sort()
     |> Enum.map(fn p ->
-      %{
+      %Finding{
         exchange: id,
         invariant: "provenance_covers_schema",
         path: p,
@@ -2399,7 +2395,7 @@ defmodule CcxtExtract.ContractTest do
     |> Enum.reject(&pointer_resolves?(exchange, &1))
     |> Enum.sort()
     |> Enum.map(fn p ->
-      %{
+      %Finding{
         exchange: id,
         invariant: "provenance_covers_schema",
         path: p,
@@ -2418,7 +2414,7 @@ defmodule CcxtExtract.ContractTest do
     |> Enum.map(fn {p, expected} ->
       actual = Map.get(provenance, p)
 
-      %{
+      %Finding{
         exchange: id,
         invariant: "provenance_covers_schema",
         path: p,
@@ -2678,7 +2674,7 @@ defmodule CcxtExtract.ContractTest do
     src_fn = "#{inspect(source.meta.module)}.#{source.meta.function}/#{source.meta.arity}"
     sink_fn = "File.#{sink.meta.function}/#{sink.meta.arity}"
 
-    %{
+    %Finding{
       exchange: "_corpus",
       invariant: "paths_rw_split",
       path: "#{source.source_span.file}:#{source.source_span.start_line}",
@@ -2730,8 +2726,17 @@ defmodule CcxtExtract.ContractTest do
       "baseline" => %{
         "error_code_fields_roots" => baseline.error_code_fields_roots
       },
-      "findings" => Enum.map(findings, &Map.new(&1, fn {k, v} -> {Atom.to_string(k), v} end))
+      "findings" => Enum.map(findings, &finding_to_string_keyed_map/1)
     }
+  end
+
+  # `Map.from_struct/1` drops `__struct__` before stringifying keys, so the
+  # emitted report carries plain `{"exchange","invariant","path","message"}`
+  # objects identical to the pre-struct map shape (Task 109).
+  defp finding_to_string_keyed_map(%Finding{} = finding) do
+    finding
+    |> Map.from_struct()
+    |> Map.new(fn {k, v} -> {Atom.to_string(k), v} end)
   end
 
   defp count_by_invariant(findings) do

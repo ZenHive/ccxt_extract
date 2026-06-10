@@ -12,6 +12,7 @@ defmodule CcxtExtract.ContractTestTest do
   import CcxtExtract.Test.ExchangeFixtures, only: [schema_conformant: 1, schema_conformant: 2]
 
   alias CcxtExtract.ContractTest
+  alias CcxtExtract.ContractTest.Finding
 
   @base_observed %{error_code_fields_roots: ["response"]}
 
@@ -1605,6 +1606,46 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "Finding struct (Task 109)" do
+    test "invariant builders emit %Finding{} structs, not bare maps" do
+      exchange = %{
+        "id" => "badex",
+        "raw" => %{"describe" => %{"has" => %{"fetchOHLCV" => "__undefined"}}},
+        "endpoints" => %{"unified" => %{"fetchOHLCV" => ["pubGetKlines"]}}
+      }
+
+      [finding] = ContractTest.check_unified_endpoints_claimed_in_has(exchange, @base_observed)
+      assert %Finding{} = finding
+    end
+
+    test "@enforce_keys rejects construction missing a required key" do
+      assert_raise ArgumentError, fn ->
+        struct!(Finding, exchange: "x", invariant: "y", path: "z")
+      end
+    end
+
+    test "Jason.encode of a Finding carries no __struct__ key" do
+      finding = %Finding{exchange: "x", invariant: "y", path: "z", message: "m"}
+      decoded = finding |> Jason.encode!() |> Jason.decode!()
+
+      assert decoded == %{"exchange" => "x", "invariant" => "y", "path" => "z", "message" => "m"}
+      refute Map.has_key?(decoded, "__struct__")
+    end
+
+    test "Enum.sort over findings is stable across the struct promotion" do
+      findings = [
+        %Finding{exchange: "b", invariant: "i", path: "p", message: "m"},
+        %Finding{exchange: "a", invariant: "i", path: "p", message: "m"},
+        %Finding{exchange: "a", invariant: "h", path: "p", message: "m"}
+      ]
+
+      sorted = Enum.sort_by(findings, &{&1.exchange, &1.invariant, &1.path})
+
+      assert Enum.map(sorted, & &1.exchange) == ["a", "a", "b"]
+      assert Enum.map(sorted, & &1.invariant) == ["h", "i", "i"]
+    end
+  end
+
   describe "run_all/1" do
     setup do
       tmp = Path.join(System.tmp_dir!(), "ccxt_contract_test_#{System.unique_integer([:positive])}")
@@ -1662,6 +1703,9 @@ defmodule CcxtExtract.ContractTestTest do
       assert f1["exchange"] == "bad"
       assert f2["exchange"] == "bad"
       assert f1["invariant"] <= f2["invariant"]
+
+      # Findings serialize as plain string-keyed maps — no struct leakage.
+      refute Map.has_key?(f1, "__struct__")
 
       # Baseline roots come from the committed safelist, not the corpus
       assert report["baseline"]["error_code_fields_roots"] == ["response"]

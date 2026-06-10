@@ -58,7 +58,10 @@ defmodule CcxtExtract.SymbolPatterns do
   defp group_by_type(markets) do
     markets
     |> Enum.group_by(fn {_symbol, market} -> market["type"] end)
-    |> Enum.reject(fn {type, _} -> is_nil(type) end)
+    # Drop both real-nil types and the QuickBEAM `undefined` sentinel — a market
+    # whose JS `type` is `undefined` (e.g. bitmex futures-spread symbols) would
+    # otherwise leak an illegal `"__undefined"` pattern bucket into the output.
+    |> Enum.reject(fn {type, _} -> is_nil(type) or type == "__undefined" end)
     |> Map.new()
   end
 

@@ -55,6 +55,34 @@ defmodule CcxtExtract.SymbolPatternsTest do
       result = SymbolPatterns.derive(markets, nil)
       assert result["currency_aliases"] == %{}
     end
+
+    test "drops the QuickBEAM __undefined type sentinel instead of leaking a bucket" do
+      # A market whose JS `type` is `undefined` (e.g. bitmex futures-spread
+      # symbols) serializes to the "__undefined" sentinel — it must never
+      # become a pattern bucket (schema forbids the key).
+      markets =
+        wrap_markets([
+          market("BTC/USDT", "BTCUSDT", "BTC", "USDT", "spot"),
+          market("XBTU26-XBTZ26", "XBTU26-XBTZ26", "XBT", "USD", "__undefined")
+        ])
+
+      result = SymbolPatterns.derive(markets, nil)
+
+      refute Map.has_key?(result, "__undefined")
+      assert Map.has_key?(result, "spot")
+    end
+
+    test "drops nil-typed markets from pattern buckets" do
+      markets =
+        wrap_markets([
+          market("BTC/USDT", "BTCUSDT", "BTC", "USDT", "spot"),
+          market("WAT/USD", "WATUSD", "WAT", "USD", nil)
+        ])
+
+      result = SymbolPatterns.derive(markets, nil)
+
+      assert result |> Map.keys() |> Enum.sort() == ["currency_aliases", "spot"]
+    end
   end
 
   describe "no separator (Binance-style)" do

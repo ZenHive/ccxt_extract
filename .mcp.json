@@ -6,6 +6,10 @@
       "headers": {
         "Accept-Encoding": "identity"
       }
+    },
+    "harness": {
+      "type": "http",
+      "url": "http://localhost:4018/harness/mcp"
     }
   }
 }

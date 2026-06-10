@@ -51,16 +51,19 @@ The model self-invokes these on matching work; the *hard* parts are hook-enforce
 
 | Plugin | Purpose |
 |---|---|
-| `elixir@deltahedge` | Elixir skills + agents (hex-docs-search, integration-testing, dialyzer-json, ex-unit-json, usage-rules, npm-* suite, reach, etc.) |
-| `elixir-workflows@deltahedge` | Mix / ExUnit / dev workflow commands; `workflow-generator` skill |
+| `elixir@zenhive` | Elixir skills + agents (hex-docs-search, integration-testing, dialyzer-json, ex-unit-json, usage-rules, npm-* suite, reach, etc.) |
+| `elixir-volt@zenhive` | Volt-stack skills — `oxc`, `quickbeam`, `elixir-volt`, npm-* suite. This repo's two-tool extraction pipeline (OXC Rust NIF + QuickBEAM Zig NIF) is built on it. |
+| `elixir-workflows@zenhive` | Mix / ExUnit / dev workflow commands; `workflow-generator` skill |
+| `harness@zenhive` | `harness-driver` + `harness-workflow` skills — this repo is harness-registered with auto-land (`landing_policy: auto`, target `development`). |
 
-Universal-core plugins (code-simplifier, feature-dev, claude-md-management, hookify, remember, git-commit, staged-review, task-driver, cloud-delegation, dev-lifecycle, codex) load at user scope and apply here implicitly — don't re-declare. New stack-specific plugins go in `.claude/settings.json`. See `~/.claude/plugin-catalog.md` for the picker.
+The `zenhive` marketplace (`ZenHive/claude-marketplace`) is declared in this file's `extraKnownMarketplaces` so a fresh clone resolves these without relying on user-scope registration. Universal-core plugins (code-simplifier, feature-dev, claude-md-management, hookify, remember, git-commit, review, tasks, workflow, delegation, dev-discipline, codex) load at user scope and apply here implicitly — don't re-declare. New stack-specific plugins go in `.claude/settings.json`. See `~/.claude/plugin-catalog.md` for the picker.
 
 **MCP servers** (`.mcp.json`, committed):
 
 | Server | Endpoint | Purpose |
 |---|---|---|
 | `tidewave` | `http://localhost:4002/tidewave/mcp` | Runtime exploration via `mcp__tidewave__*` — `project_eval`, `get_logs`, `get_source_location`, `get_docs`, `search_package_docs`. Started by `mix tidewave` (or `iex -S mix tidewave`). |
+| `harness` | `http://localhost:4018/harness/mcp` | Implement → review → land dispatch via `mcp__harness__*` — `dispatch-task`, `dispatch-await`, `dispatch-status`, `roadmap-*`, `project_registry-*`. Served by the long-lived harness BEAM (`iex -S mix` in the harness checkout). |
 
 Tidewave port for this repo is 4002 (see `~/.claude/tidewave-ports.md` registry). Restart Claude Code if `.mcp.json` changes.
 

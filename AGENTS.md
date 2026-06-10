@@ -676,10 +676,10 @@ The stages are, in order:
 
 Extraction is **byte-deterministic** for a fixed CCXT version + bundle + scope: two consecutive runs of the same scope produce byte-identical output (Task 114). Two mechanisms enforce this:
 
-- **`mix ccxt_extract.determinism_check`** runs an extraction task twice into isolated tmp dirs and byte-diffs every `.json` file. It strips volatile timestamp keys and re-encodes both sides through sorted-key canonical JSON, so map-iteration order and wall-clock stamps can't masquerade as drift. Exit non-zero on any divergence. Run it after touching any extractor or the pipeline.
+- **`mix ccxt_extract.determinism_check`** runs an extraction task twice into isolated tmp dirs and byte-diffs every `.json` file. It freezes the timestamp envelope keys (`extracted_at`, `generated_at`, `checked_at`, `validated_at`, `recorded_at`) to a constant via `CcxtExtract.Clock` (overridable through application env) while the tasks execute, then re-encodes both sides through sorted-key canonical JSON so map-iteration order can't masquerade as drift. `--strip-keys` remains available for custom fields or other JsonDiff consumers (e.g. signing fixture parity). Exit non-zero on any divergence. Run it after touching any extractor or the pipeline.
 - **`Pipeline.check_version_drift!/1`** runs at the top of `Pipeline.extract/1` and aborts loudly when `priv/ccxt` HEAD or `priv/ccxt_bundle.js` no longer matches the baseline in `priv/ccxt_version.json` — silent upstream drift can't regenerate the corpus against a different CCXT without a signal. Bypass with `--allow-version-drift` when the drift is intentional (a deliberate CCXT bump).
 
-`AstNormalize.to_encodable/1` deep-sorts object keys before encoding — the load-bearing fix that made determinism achievable at the source. The two remaining workarounds (timestamp-key stripping in the checker; no frozen-clock path through Pattern B writers) are tracked as Task 137.
+`AstNormalize.to_encodable/1` deep-sorts object keys before encoding — the load-bearing fix (Task 114) that, together with the Pattern B clock retrofit (Task 137), gives the current determinism guarantee without per-run key stripping in the common case.
 
 ### Scope is orthogonal to the stages
 

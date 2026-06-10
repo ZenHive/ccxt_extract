@@ -292,7 +292,7 @@
       "id": 124,
       "phase": 0,
       "bundle": "maintenance",
-      "status": "in_progress",
+      "status": "done",
       "title": "Prune Bybit discontinued spot/v3/private/* endpoints from extracted spec",
       "scores": {
         "d": 4,
@@ -304,9 +304,14 @@
       "markers": [],
       "depends_on": [],
       "assignee": "grok",
+      "shipped_in": "49a7017db76a42062112efec0cdacff6fb2fd661",
       "body": "Bybit discontinued its V3 Spot Open API as of 2024-08-31; upstream CCXT TS still lists these endpoints in `bybit.ts`'s `api.spot.v3.private`, so extraction emits them into `implicit_endpoints` / `unified_endpoints` and ccxt_client's probe generator produces tests for them. Three options in rough preference order: (a) push a PR upstream to ccxt removing the dead endpoints; (b) add a JSON-Pointer deletion override under `priv/overrides/bybit/` once delete-pointer semantics are nailed down; (c) a derivation-time deprecated-path filter (risk: hardcodes a Bybit policy into generic logic). Discovered 2026-04-21 from a ccxt_client full-tag run (22 INCONCLUSIVE warnings).\n",
       "started_at": "2026-06-10",
+      "done_at": "2026-06-10",
       "scored_at": "2026-05-14",
+      "implemented": "Landed by grok via merge-train; reviewer-approved (run run-1781131417237-84f08acb, 49a7017db76a42062112efec0cdacff6fb2fd661).",
+      "delivered_by": "grok",
+      "verified": true,
       "cross_repo": [
         {
           "repo": "ccxt_client",

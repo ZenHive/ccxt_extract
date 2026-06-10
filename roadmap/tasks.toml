@@ -256,15 +256,20 @@ shipped_in = "5598f4889917e1632a263ac819d90032b26b31ca"
 id = 109
 phase = 0
 bundle = "maintenance"
-status = "in_progress"
+status = "done"
 title = "Promote finding() map type to a %Finding{} struct"
 scores = { d = 2, b = 2, u = 2 }
 assignee = "cursor"
 body = """
 `CcxtExtract.ContractTest.@type finding` is constructed in five builder sites with identical `{exchange, invariant, path, message}` key sets. Replacing with a `defstruct` + `@enforce_keys` gains compile-time key validation and silences the recurring `struct-hint` post-edit hook. Must `@derive Jason.Encoder` so `priv/output/_contract_test_report.json` stays free of `__struct__` keys, and re-verify `Enum.sort/1` over findings produces the same ordering for downstream consumers. Discovered during Task 61d code review.
 """
+implemented = "Landed by cursor via merge-train; reviewer-approved (run run-1781131421758-fa88da6e, 752aaf40478f503e959fc3ac1bfe5eb195a348af)."
+delivered_by = "cursor"
+verified = true
 started_at = "2026-06-10"
 scored_at = "2026-05-14"
+done_at = "2026-06-10"
+shipped_in = "752aaf40478f503e959fc3ac1bfe5eb195a348af"
 
 [[task]]
 id = 110

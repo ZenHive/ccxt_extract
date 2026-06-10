@@ -485,7 +485,7 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
       "source_version" => ts_version,
       "source_git_sha" => source_git_sha,
       "bundle_sha256" => bundle_sha256,
-      "recorded_at" => DateTime.to_iso8601(DateTime.utc_now())
+      "recorded_at" => CcxtExtract.Clock.timestamp(:recorded_at)
     }
 
     version_file = CcxtExtract.Paths.out_version_file()

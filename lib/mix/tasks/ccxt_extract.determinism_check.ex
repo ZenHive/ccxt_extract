@@ -7,10 +7,9 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
   `.json` file produced. Reports any divergence and exits non-zero
   when at least one file differs.
 
-  Volatile timestamp keys (`extracted_at`, `generated_at`,
-  `checked_at`, `validated_at`, `recorded_at`) are stripped before
-  comparison so the gate passes while Pattern B writers still stamp
-  wall-clock time (deferred Task 137). The harness re-encodes both
+  Timestamp keys (`extracted_at`, `generated_at`, `checked_at`,
+  `validated_at`, `recorded_at`) are frozen while extraction tasks run.
+  The harness re-encodes both
   sides through `Jason.OrderedObject` with sorted keys so map-iteration
   order can't masquerade as drift either — the resulting "byte equal"
   claim means the canonical-form bytes match, which is the strongest
@@ -35,9 +34,9 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
       since the value starts with `--` and `OptionParser` would otherwise
       treat it as a separate flag. Lets the same harness exercise scoped
       runs without baking flags into the task switches.
-    * `--strip-keys k1,k2,...` — comma-separated volatile keys to
-      drop at every depth before comparison. Replaces (not extends)
-      the default set.
+    * `--strip-keys k1,k2,...` — comma-separated keys to drop at every
+      depth before comparison. Defaults to no stripping; timestamp fields
+      are frozen instead.
     * `--diff-dirs path1,path2,...` — relative-to-`priv/` directories
       to walk when collecting `.json` files. Defaults to
       `output,discoveries,fixtures/signing`. Files outside these roots
@@ -68,6 +67,8 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
 
   @default_tasks ["ccxt_extract.pipeline"]
   @default_diff_dirs ["output", "discoveries", "fixtures/signing"]
+  @frozen_timestamp "2026-01-01T00:00:00Z"
+  @frozen_clock_keys [:extracted_at, :generated_at, :checked_at, :validated_at, :recorded_at]
 
   @typep parsed :: %{
            tasks: [String.t()],
@@ -177,13 +178,8 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
     String.split(s, ~r/\s+/, trim: true)
   end
 
-  # TODO(Task 137): strip-keys is a workaround, not the fix. Pattern B
-  # writers still stamp wall-clock time, so volatile keys must be dropped
-  # before comparison. When Task 137 threads an `:extracted_at` opt through
-  # those writers, this harness passes a frozen clock instead and the strip
-  # set shrinks to genuinely-uncontrollable fields.
   @spec parse_strip_keys(String.t() | nil) :: [String.t()]
-  defp parse_strip_keys(nil), do: JsonDiff.default_volatile_keys()
+  defp parse_strip_keys(nil), do: []
 
   defp parse_strip_keys(s) do
     s |> String.split(",", trim: true) |> Enum.map(&String.trim/1)
@@ -214,7 +210,9 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
   @spec run_into!(Path.t(), [String.t()], [String.t()]) :: :ok
   defp run_into!(dir, tasks, extra_args) do
     prior = Application.get_env(:ccxt_extract, :priv_write_override)
+    prior_clock = Map.new(@frozen_clock_keys, &{&1, Application.get_env(:ccxt_extract, &1)})
     Application.put_env(:ccxt_extract, :priv_write_override, dir)
+    Enum.each(@frozen_clock_keys, &Application.put_env(:ccxt_extract, &1, @frozen_timestamp))
 
     try do
       Enum.each(tasks, fn task ->
@@ -226,6 +224,11 @@ defmodule Mix.Tasks.CcxtExtract.DeterminismCheck do
         nil -> Application.delete_env(:ccxt_extract, :priv_write_override)
         val -> Application.put_env(:ccxt_extract, :priv_write_override, val)
       end
+
+      Enum.each(prior_clock, fn
+        {key, nil} -> Application.delete_env(:ccxt_extract, key)
+        {key, val} -> Application.put_env(:ccxt_extract, key, val)
+      end)
     end
   end
 

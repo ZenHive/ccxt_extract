@@ -123,7 +123,7 @@ defmodule CcxtExtract.DescribeKeyAnalysis do
       end)
 
     %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
+      "extracted_at" => CcxtExtract.Clock.timestamp(:extracted_at),
       "exchange_count" => exchange_count,
       "key_count" => length(key_stats),
       "keys" => key_stats,

@@ -474,7 +474,7 @@ defmodule CcxtExtract.ValidateOverrides do
     }
 
     %{
-      "validated_at" => DateTime.to_iso8601(DateTime.utc_now()),
+      "validated_at" => CcxtExtract.Clock.timestamp(:validated_at),
       "summary" => summary,
       "exchanges" => exchanges
     }

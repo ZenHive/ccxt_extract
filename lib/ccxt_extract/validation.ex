@@ -1174,7 +1174,7 @@ defmodule CcxtExtract.Validation do
     by_severity = Enum.group_by(all_findings, & &1["severity"])
 
     %{
-      "validated_at" => DateTime.to_iso8601(DateTime.utc_now()),
+      "validated_at" => CcxtExtract.Clock.timestamp(:validated_at),
       "exchange_count" => length(exchange_results),
       "schema_version" => Schema.schema_version(),
       "tier_scope" => tier_scope,

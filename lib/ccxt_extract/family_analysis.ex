@@ -79,7 +79,7 @@ defmodule CcxtExtract.FamilyAnalysis do
 
     {:ok,
      %{
-       "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
+       "extracted_at" => CcxtExtract.Clock.timestamp(:extracted_at),
        "source_files" => %{
          "class_hierarchy" => @classes_file,
          "exchange_summary" => @summary_file,

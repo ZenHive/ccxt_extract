@@ -100,7 +100,7 @@ defmodule CcxtExtract.Describe do
 
     File.mkdir_p!(output_dir)
 
-    extracted_at = DateTime.to_iso8601(DateTime.utc_now())
+    extracted_at = CcxtExtract.Clock.timestamp(:extracted_at)
 
     for result <- results do
       path = Path.join(output_dir, "#{result["id"]}.json")

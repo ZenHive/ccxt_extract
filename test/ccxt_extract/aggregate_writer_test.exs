@@ -60,6 +60,29 @@ defmodule CcxtExtract.AggregateWriterTest do
       assert Enum.map(data["exchanges"], & &1["id"]) == ~w(binance bybit)
     end
 
+    test "uses the frozen extracted_at application env when no explicit timestamp is provided" do
+      prior = Application.get_env(:ccxt_extract, :extracted_at)
+      Application.put_env(:ccxt_extract, :extracted_at, "2026-04-15T12:00:00Z")
+
+      on_exit(fn ->
+        case prior do
+          nil -> Application.delete_env(:ccxt_extract, :extracted_at)
+          value -> Application.put_env(:ccxt_extract, :extracted_at, value)
+        end
+      end)
+
+      file = path("parse_methods.json")
+
+      AggregateWriter.write!(file, [ex("binance", 10)],
+        entry_key: "exchanges",
+        id_key: "id",
+        scope: :all,
+        stats_fn: parse_stats_fn()
+      )
+
+      assert read_json(file)["extracted_at"] == "2026-04-15T12:00:00Z"
+    end
+
     test "creates parent directories as needed" do
       file = path("nested/deeply/parse_methods.json")
 

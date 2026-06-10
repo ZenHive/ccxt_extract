@@ -65,7 +65,7 @@ defmodule CcxtExtract.PublicExchanges do
     fully_public_count = Enum.count(classified, &(&1["credential_pattern"] == []))
 
     %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
+      "extracted_at" => CcxtExtract.Clock.timestamp(:extracted_at),
       "exchange_count" => length(classified),
       "summary" => %{
         "all_have_fetch_markets" => advertise_count == length(classified),

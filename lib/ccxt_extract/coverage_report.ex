@@ -88,7 +88,7 @@ defmodule CcxtExtract.CoverageReport do
       |> Enum.sort_by(&{-&1["gap_count"], &1["id"]})
 
     %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
+      "extracted_at" => CcxtExtract.Clock.timestamp(:extracted_at),
       "exchange_count" => length(exchanges),
       "summary" => summary,
       "exchanges" => exchange_reports,

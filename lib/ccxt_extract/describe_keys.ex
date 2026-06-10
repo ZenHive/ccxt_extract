@@ -106,7 +106,7 @@ defmodule CcxtExtract.DescribeKeys do
     all_keys = collect_all_keys(exchanges)
 
     output = %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
+      "extracted_at" => CcxtExtract.Clock.timestamp(:extracted_at),
       "count" => length(exchanges),
       "tier_scope" => tier_scope,
       "all_keys" => all_keys,

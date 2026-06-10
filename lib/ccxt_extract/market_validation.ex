@@ -189,7 +189,7 @@ defmodule CcxtExtract.MarketValidation do
 
     {:ok,
      %{
-       "checked_at" => DateTime.to_iso8601(DateTime.utc_now()),
+       "checked_at" => CcxtExtract.Clock.timestamp(:checked_at),
        "exchanges_checked" => exchange_ids,
        "exchanges_failed" => failed_ids,
        "results" => comparisons
@@ -356,7 +356,7 @@ defmodule CcxtExtract.MarketValidation do
       end
 
     %{
-      "validated_at" => DateTime.to_iso8601(DateTime.utc_now()),
+      "validated_at" => CcxtExtract.Clock.timestamp(:validated_at),
       "exchange_count" => map_size(exchange_reports),
       "summary" => %{
         "exchanges_valid" => map_size(exchange_reports) - exchanges_with_issues,
@@ -425,12 +425,16 @@ defmodule CcxtExtract.MarketValidation do
     end)
   end
 
-  defp inspect_type(value) when is_binary(value), do: "string"
-  defp inspect_type(value) when is_integer(value), do: "integer"
-  defp inspect_type(value) when is_float(value), do: "float"
-  defp inspect_type(value) when is_boolean(value), do: "boolean"
-  defp inspect_type(value) when is_list(value), do: "list"
-  defp inspect_type(value) when is_map(value), do: "map"
-  defp inspect_type(nil), do: "nil"
-  defp inspect_type(_), do: "unknown"
+  defp inspect_type(value) do
+    cond do
+      is_nil(value) -> "nil"
+      is_binary(value) -> "string"
+      is_integer(value) -> "integer"
+      is_float(value) -> "float"
+      is_boolean(value) -> "boolean"
+      is_list(value) -> "list"
+      is_map(value) -> "map"
+      true -> "unknown"
+    end
+  end
 end

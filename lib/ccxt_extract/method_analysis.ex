@@ -78,7 +78,7 @@ defmodule CcxtExtract.MethodAnalysis do
     cross_type = cross_type_analysis(rest_method_names, ws_method_names)
 
     %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
+      "extracted_at" => CcxtExtract.Clock.timestamp(:extracted_at),
       "rest" => rest_analysis,
       "ws" => ws_analysis,
       "cross_type" => cross_type

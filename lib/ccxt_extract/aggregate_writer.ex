@@ -44,7 +44,7 @@ defmodule CcxtExtract.AggregateWriter do
       (MapSet) merge it is unioned with the existing file's stamp via
       `CcxtExtract.Scope.merge_manifest_values/2`, so the stamp always
       reflects every tier/exchange the merged file holds.
-    * `:extracted_at` — ISO8601 timestamp. Defaults to `DateTime.utc_now/0`.
+    * `:extracted_at` — ISO8601 timestamp. Defaults to `CcxtExtract.Clock.timestamp/1`.
     * `:extra` — additional static envelope fields (e.g.
       `%{"type" => "rest"}` for `methods_{rest,ws}.json`). Applied after
       the base envelope but before `stats_fn` output, so `stats_fn` wins
@@ -108,7 +108,7 @@ defmodule CcxtExtract.AggregateWriter do
     scope = Keyword.fetch!(opts, :scope)
     stats_fn = Keyword.fetch!(opts, :stats_fn)
     tier_scope = Keyword.get(opts, :tier_scope, "all")
-    extracted_at = Keyword.get(opts, :extracted_at, DateTime.to_iso8601(DateTime.utc_now()))
+    extracted_at = Keyword.get_lazy(opts, :extracted_at, fn -> CcxtExtract.Clock.timestamp(:extracted_at) end)
     extra = Keyword.get(opts, :extra, %{})
 
     # :all replaces the file wholesale, so a corrupt existing aggregate

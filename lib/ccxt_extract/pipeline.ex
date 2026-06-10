@@ -85,7 +85,7 @@ defmodule CcxtExtract.Pipeline do
 
       extracted_at =
         Keyword.get_lazy(opts, :extracted_at, fn ->
-          DateTime.to_iso8601(DateTime.utc_now())
+          CcxtExtract.Clock.timestamp(:extracted_at)
         end)
 
       schema_opts = [
@@ -1235,7 +1235,7 @@ defmodule CcxtExtract.Pipeline do
       "schema_version" => Schema.schema_version(),
       "ccxt_version" => first["ccxt_version"] || "unknown",
       "source_git_sha" => version_info["source_git_sha"],
-      "extracted_at" => first["extracted_at"] || DateTime.to_iso8601(DateTime.utc_now()),
+      "extracted_at" => first["extracted_at"] || CcxtExtract.Clock.timestamp(:extracted_at),
       "tier_scope" => Keyword.get(opts, :tier_scope, "all"),
       "exchange_count" => length(exchanges),
       "exchanges" => exchanges |> Enum.map(& &1["exchange"]["id"]) |> Enum.sort()

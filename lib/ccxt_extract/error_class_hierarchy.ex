@@ -118,7 +118,7 @@ defmodule CcxtExtract.ErrorClassHierarchy do
 
     extracted_at =
       Keyword.get_lazy(opts, :extracted_at, fn ->
-        DateTime.to_iso8601(DateTime.utc_now())
+        CcxtExtract.Clock.timestamp(:extracted_at)
       end)
 
     envelope =

@@ -10,6 +10,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 Bybit V3 Spot Open API was shut down 2024-08-31; CCXT TS still lists the paths under `api.private` (get/post/...) and the corresponding `private*SpotV3Private*` implicit methods in `abstract/bybit.ts` (and bybiteu). Extraction therefore emitted them into `endpoints.interfaces`, as call targets inside `endpoints.unified`, and inside `endpoints.request.shape.*.endpoints` lists. Added assembly-time pruning (in `Pipeline`) for the bybit family so the consumer surfaces (what ccxt_client probes are generated from) no longer contain the dead endpoints. Raw `describe.api` left as-is (CCXT truth). Updated the interfaces roundtrip check in `Validation` to treat the intentional drops as non-errors. Added unit test in `pipeline_test.exs`. No override or generic deprecated-path filter; the prune is a narrow, explicit maintenance gate for this known deprecation.
 
+### Task 137 — Frozen timestamp clock for determinism checks
+
+`mix ccxt_extract.determinism_check` now freezes the known timestamp envelope keys (`extracted_at`, `generated_at`, `checked_at`, `validated_at`, `recorded_at`) while running its paired extraction tasks, and defaults to comparing without stripping keys. Added `CcxtExtract.Clock` as the shared timestamp source; Pattern B aggregate writes and existing envelope builders now route wall-clock stamps through it while retaining explicit `:extracted_at` / sibling overrides via application env for deterministic harnesses.
+
 ### Task 105 — Port `super.*()` delegation coverage off `coincatch`
 
 Replaced the completed `TODO(Task 105)` marker in `UnifiedEndpointsTest` with an extraction-tagged `kucoin` regression test that exercises real `parse_file/1` resolution through a `super.fetchDepositAddress` delegation chain. This restores coverage for the production parser path after `coincatch` disappeared from the current CCXT source corpus.

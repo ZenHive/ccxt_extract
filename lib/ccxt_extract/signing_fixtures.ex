@@ -452,7 +452,7 @@ defmodule CcxtExtract.SigningFixtures do
 
     File.mkdir_p!(output_dir)
 
-    generated_at = DateTime.to_iso8601(DateTime.utc_now())
+    generated_at = CcxtExtract.Clock.timestamp(:generated_at)
 
     Enum.each(results, fn fixture ->
       id = fixture["exchange"]

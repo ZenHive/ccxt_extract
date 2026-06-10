@@ -82,7 +82,7 @@ defmodule CcxtExtract.Summary do
     ws_count = Enum.count(classes, &(&1["type"] == "ws"))
 
     %{
-      "extracted_at" => DateTime.to_iso8601(DateTime.utc_now()),
+      "extracted_at" => CcxtExtract.Clock.timestamp(:extracted_at),
       "source_files" => %{
         "exchanges" => @exchanges_file,
         "class_hierarchy" => @classes_file

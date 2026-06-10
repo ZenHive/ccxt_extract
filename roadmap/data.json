@@ -340,7 +340,7 @@
       "id": 136,
       "phase": 0,
       "bundle": "maintenance",
-      "status": "pending",
+      "status": "in_progress",
       "title": "Re-track priv/output/ now that extraction is byte-deterministic",
       "scores": {
         "d": 3,
@@ -353,6 +353,7 @@
       "depends_on": [],
       "assignee": "cursor",
       "body": "The Task 114 follow-up it explicitly named. Untracking (2026-04-18) was the size band-aid; Task 114 (2026-05-14) eliminated the churn root cause, so a re-tracked `priv/output/` would now produce meaningful, infrequent diffs. Scope: decide whether to re-track `priv/output/` (and possibly per-exchange `priv/discoveries/` subdirs), measure resulting `.git` growth against a representative CCXT-version-bump diff, update `.gitignore` + CLAUDE.md, confirm the git-status safety rail re-arms once paths are back in the index. Don't re-track until a real version-bump diff is measured. Follow-up to Task 114 (done — dependency satisfied, no edge). Discovered 2026-05-14 during Task 114.\n",
+      "started_at": "2026-06-10",
       "scored_at": "2026-05-14",
       "cross_repo": []
     },

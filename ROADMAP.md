@@ -74,7 +74,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task 110 | ⬜ | 🎁 **maintenance** · Triage 32 request_defaults_resolvable_reachable_from_unified findings [D:4/B:4/U:4 → Eff:1.0] 📋 |
 | Task 124 | ⬜ | 🎁 **maintenance** · Prune Bybit discontinued spot/v3/private/* endpoints from extracted spec [D:4/B:4/U:4 → Eff:1.0] 📋 |
 | Task 127 | ⬜ | 🎁 **maintenance** · Position-aware paths_rw_split sinks + variable-level sanitization [D:5/B:3/U:3 → Eff:0.6] ⚠️ |
-| Task 136 | ⬜ | 🎁 **maintenance** · Re-track priv/output/ now that extraction is byte-deterministic [D:3/B:4/U:5 → Eff:1.5] 🚀 |
+| Task 136 | 🔄 | 🎁 **maintenance** · Re-track priv/output/ now that extraction is byte-deterministic [D:3/B:4/U:5 → Eff:1.5] 🚀 |
 | Task 137 | ⬜ | 🎁 **maintenance** · Retrofit Pattern B timestamp writers to accept an :extracted_at opt [D:4/B:3/U:3 → Eff:0.75] ⚠️ |
 | Task 141 | ⬜ | 🎁 **maintenance** · Author real specs for WS milestone tasks 94 + 95a/95b/95c [D:3/B:3/U:3 → Eff:1.0] 📋 |
 | Task 113 | 🔶 | 🎁 **10-sign-extend** · Track indirect signature placement via request-like object construction [D:4/B:3/U:3 → Eff:0.75] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |

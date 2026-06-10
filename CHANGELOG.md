@@ -6,6 +6,18 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 136 — Re-track `priv/output/` evaluation (decision: defer)
+
+The Task 114 follow-up. Untracking the corpus (2026-04-18) was the size band-aid; Task 114 (2026-05-14) made extraction byte-deterministic for a fixed CCXT version + bundle, so the working assumption was that a re-tracked `priv/output/` would now produce meaningful, infrequent diffs. **Measured first, then decided: defer re-tracking — the determinism gate is necessary but not sufficient.**
+
+- **Methodology (real version-bump diff).** Set up CCXT at two adjacent tags in-worktree (v4.5.54, then v4.5.56) and regenerated a representative 8-exchange scope (`binance, bybit, okx, deribit, hyperliquid, bingx, bitmex, bitget`) at each — **same wall-clock**, so live data cancels and the diff isolates the version delta. Measured `.git` growth via throwaway repos with `git gc` (captures git's delta-compression of near-identical large JSON), not naive blob sums.
+- **Costs (acceptable on their own).** One-time: the full 116-file 4.5.56 corpus (70MB apparent) packs to **~7.94MB** in `.git` — ≈1% of the existing 827MB. Per-bump: the 8-exchange v4.5.54→v4.5.56 delta packed to **~955KB** (3–160KB/exchange). These structural diffs are genuinely meaningful — Task 114 delivered that.
+- **Blocker 1 — live `markets` data is not version-pinned.** `markets.symbols_index` + `markets.currencies` are derived from live `loadMarkets()` HTTP calls and are **5–45% (avg ~22%) of each per-exchange file**. Two regenerations **~5 minutes apart already drifted** for `deribit` and `bitmex` (option expiries / new listings). Task 114's determinism only holds back-to-back; across the days between real CCXT bumps, most exchanges' market listings drift — so a re-tracked corpus would churn on *every* regeneration regardless of version, reintroducing exactly the churn class the untracking removed.
+- **Blocker 2 — absolute byte-offsets in method ASTs.** `raw.overrides_meta.*.new_methods` embeds each node's `start`/`end` source byte offset. A small edit near the top of a source file shifts every downstream offset and rewrites the (large) AST blob: `okx`'s 16-line source change produced a **102KB** packed delta, while `bitget`'s 150-line change (not touching its own class methods) produced only 7KB and a byte-identical `new_methods`. Offsets amplify diffs beyond the semantic change and defeat delta-compression.
+- **Safety rail.** Confirmed empirically that the git-status rail **re-arms with no code change** the instant `priv/output/` leaves `.gitignore`: `git status --porcelain -- priv/output` returns `""` while ignored (rail inert) and `?? priv/output/` once un-ignored (rail fires).
+- **Decisions.** `priv/discoveries/` (733MB, pure intermediate, regenerable, zero consumer value) — **clear no**. `priv/output/` — **deferred**: `.gitignore` unchanged. **Path to re-track:** exclude or snapshot-pin the live `markets` subtree from the tracked artifact, and make AST offsets relative/strippable, then re-track the version-deterministic remainder — at which point the diffs become the meaningful, infrequent ones the task envisioned.
+- **Docs.** `CLAUDE.md` § "Per-exchange JSON pipeline" gains a "Re-track evaluated and deferred (Task 136)" note; the Safety-rails "Post-untrack note" records the no-code rail re-arm. No code/schema change — this task is a measurement + decision.
+
 ### Task 106 — Drifted override fixture for `override_paths_present_in_output`
 
 Added an end-to-end `ContractTest.run_all/1` fixture that writes a drifted `hyperliquid` output JSON and asserts the report surfaces exactly one `override_paths_present_in_output` finding at `/auth/authenticated_sections`.

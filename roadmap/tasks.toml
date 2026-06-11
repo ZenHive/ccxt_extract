@@ -986,12 +986,10 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 91
-assignee = "cursor"
-model = "claude-opus-4-8-thinking-high"
 phase = 15
 bundle = "15-msg"
 milestone = "feature_complete"
-status = "pending"
+status = "in_progress"
 title = "WS subscribe / unsubscribe message shape per channel"
 scores = { d = 5, b = 8, u = 8 }
 markers = ["parallel"]
@@ -1003,9 +1001,12 @@ cross_repo = [
   { repo = "ccxt_client", task_id = 94, relation = "blocks" },
   { repo = "ccxt_client", task_id = 97, relation = "blocks" },
 ]
+assignee = "cursor"
+model = "claude-opus-4-8-thinking-high"
 body = """
 Ship both the frame envelope shape AND per-method channel-name templates (e.g. `\"tickers.{symbol}\"`, `\"book.{symbol}.raw\"`). ccxt_client T94 already ports envelope patterns from bak; T97 is blocked on the channel templates specifically. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27) — this task carries the explicit cross_repo edges.
 """
+started_at = "2026-06-11"
 scored_at = "2026-05-14"
 
 [[task]]

@@ -704,7 +704,7 @@
       "phase": 12,
       "bundle": "method-descriptors",
       "milestone": "feature_complete",
-      "status": "pending",
+      "status": "in_progress",
       "title": "Schema block + unified_method_descriptors_shape_valid contract-test invariant",
       "scores": {
         "d": 3,
@@ -723,6 +723,7 @@
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
       "body": "Depends on 121. Add the chosen emission shape to the JSON Schema file (additive minor-version bump, not breaking, unless the implementer intentionally promotes to required), add a shape invariant mirroring `testnet_urls_shape_valid`'s structure, and extend `CcxtExtract.Provenance.section_pointers/0` so `provenance_covers_schema` stays at zero findings. Update SCHEMA.md with a field reference and the descriptor value space (what `params` looks like, how `errors` is scoped, when fields are null + reason).\n",
+      "started_at": "2026-06-11",
       "scored_at": "2026-05-14",
       "cross_repo": []
     },

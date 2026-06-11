@@ -1187,7 +1187,10 @@ defmodule CcxtExtract.ContractTestTest do
       findings =
         ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("incoherent", record), @base_observed)
 
-      assert Enum.any?(findings, &(&1.message =~ "kind=opaque must agree with unresolved_reason=dispatch_not_classifiable"))
+      assert Enum.any?(
+               findings,
+               &(&1.message =~ "kind=opaque must agree with unresolved_reason=dispatch_not_classifiable")
+             )
     end
   end
 

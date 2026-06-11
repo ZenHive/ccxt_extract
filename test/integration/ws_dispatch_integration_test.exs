@@ -53,7 +53,7 @@ defmodule CcxtExtract.WsDispatchIntegrationTest do
       # binanceusdm defines no handleMessage() of its own — it inherits binance's.
       binanceusdm = WsDispatch.build(by_id["binanceusdm"], by_id)
 
-      unless get_in(by_id, ["binanceusdm", "handle_message", "defined"]) do
+      if !get_in(by_id, ["binanceusdm", "handle_message", "defined"]) do
         assert binanceusdm["resolved_from"] == "binance"
         assert binanceusdm["kind"] == "routed"
       end

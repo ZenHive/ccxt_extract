@@ -123,7 +123,7 @@ defmodule CcxtExtract.Integration.Cached.WsDispatchCachedTest do
       if entry = by_id["binanceusdm"] do
         record = WsDispatch.build(entry, by_id)
 
-        unless get_in(entry, ["handle_message", "defined"]) do
+        if !get_in(entry, ["handle_message", "defined"]) do
           assert record["resolved_from"] == "binance"
           assert record["kind"] == "routed"
         end

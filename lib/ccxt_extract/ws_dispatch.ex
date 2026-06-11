@@ -158,11 +158,11 @@ defmodule CcxtExtract.WsDispatch do
          object: %{type: :this_expression},
          property: %{type: :identifier, name: name}
        }) do
-    if handler_name?(name), do: name, else: nil
+    if handler_name?(name), do: name
   end
 
   defp handler_value(%{type: type, value: v}) when type in [:literal, :string_literal] and is_binary(v) do
-    if handler_name?(v), do: v, else: nil
+    if handler_name?(v), do: v
   end
 
   defp handler_value(_node), do: nil
@@ -190,12 +190,10 @@ defmodule CcxtExtract.WsDispatch do
   defp map_property_result(%{type: :spread_element}), do: {:unresolved, "spread_property"}
 
   defp map_property_result(%{type: type} = prop) when type in [:object_property, :property] do
-    cond do
-      Map.get(prop, :computed, false) ->
-        {:unresolved, "computed_channel_key"}
-
-      true ->
-        classify_map_property(property_key(prop), handler_value(Map.get(prop, :value)))
+    if Map.get(prop, :computed, false) do
+      {:unresolved, "computed_channel_key"}
+    else
+      classify_map_property(property_key(prop), handler_value(Map.get(prop, :value)))
     end
   end
 
@@ -279,8 +277,7 @@ defmodule CcxtExtract.WsDispatch do
   # Identifier names compared against a string literal in a test (mirror of
   # comparison_channels, but the discriminator side).
   @spec comparison_identifiers(map()) :: [String.t()]
-  defp comparison_identifiers(%{type: :parenthesized_expression, expression: inner}),
-    do: comparison_identifiers(inner)
+  defp comparison_identifiers(%{type: :parenthesized_expression, expression: inner}), do: comparison_identifiers(inner)
 
   defp comparison_identifiers(%{type: :logical_expression, operator: "||", left: l, right: r}) do
     comparison_identifiers(l) ++ comparison_identifiers(r)
@@ -304,8 +301,8 @@ defmodule CcxtExtract.WsDispatch do
   # (name → literal keys).
   @spec discriminator_keys(map(), MapSet.t(), %{String.t() => [String.t()]}) :: [String.t()]
   defp discriminator_keys(fn_expr, map_names, bindings) do
-    from_map = lookup_key_exprs(fn_expr, map_names) |> Enum.flat_map(&key_expr_keys(&1, bindings))
-    from_if = if_chain_identifiers(fn_expr) |> Enum.flat_map(&Map.get(bindings, &1, []))
+    from_map = fn_expr |> lookup_key_exprs(map_names) |> Enum.flat_map(&key_expr_keys(&1, bindings))
+    from_if = fn_expr |> if_chain_identifiers() |> Enum.flat_map(&Map.get(bindings, &1, []))
 
     (from_map ++ from_if) |> Enum.uniq() |> Enum.sort()
   end

@@ -1537,7 +1537,12 @@ defmodule CcxtExtract.ContractTest do
     if reason in WsDispatch.unresolved_entry_reasons() do
       []
     else
-      [ws_dispatch_finding(id, "unresolved reason must be one of #{inspect(WsDispatch.unresolved_entry_reasons())}, got #{inspect(reason)}")]
+      [
+        ws_dispatch_finding(
+          id,
+          "unresolved reason must be one of #{inspect(WsDispatch.unresolved_entry_reasons())}, got #{inspect(reason)}"
+        )
+      ]
     end
   end
 

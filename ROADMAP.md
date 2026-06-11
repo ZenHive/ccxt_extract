@@ -205,7 +205,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 | Task 92 `[P]` | ✅ | 🎁 **15-msg** · 🚀 **feature_complete** · WS auth flow (sign-in msg / header / query param) [D:4/B:7/U:8 → Eff:1.88] 🚀 |
 | Task 93 `[P]` | ✅ | 🎁 **15-msg** · 🚀 **feature_complete** · Heartbeat / ping-pong pattern per exchange [D:3/B:6/U:7 → Eff:2.17] 🎯 |
 | Task 94 `[P]` | ✅ | 🎁 **15-dispatch** · 🚀 **feature_complete** · Channel → parse handler dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 95a `[P]` | 🔶 | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — orderbook [D:5/B:8/U:8 → Eff:1.6] 🚀 ⛔ land-cap exhausted after push_rejected x2 (task 95a, last run run-1781153964863-becc0144) |
+| Task 95a `[P]` | ✅ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — orderbook [D:5/B:8/U:8 → Eff:1.6] 🚀 |
 | Task 95b `[P]` | ✅ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — trades [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 95c `[P]` | ✅ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — OHLCV [D:4/B:7/U:7 → Eff:1.75] 🚀 |
 | Task 96 | 🔶 | 🎁 **15-reconnect** · Reconnect triggers + backoff policy hints [D:3/B:6/U:6 → Eff:2.0] 🎯 ⛔ Priority exchanges already handle reconnect behavior in the consumer; no derived recipe needed until proven. |

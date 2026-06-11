@@ -1476,7 +1476,7 @@
       "phase": 15,
       "bundle": "15-semantics",
       "milestone": "feature_complete",
-      "status": "in_progress",
+      "status": "done",
       "title": "Snapshot/delta semantics — OHLCV",
       "scores": {
         "d": 4,
@@ -1501,9 +1501,14 @@
         "New `websocket_ohlcv_semantics_shape_valid` invariant in `mix ccxt_extract.contract_test` (required-key set + closed vocabularies + honest-empty coherence) reports 0 corpus findings; exchanges with no WS OHLCV channel carry an honest-empty record",
         "`mix ccxt_extract.determinism_check` is byte-deterministic for the new extractor; unit + integration (`:extraction`) + cached tests cover the extractor and derivation, `WsOhlcvSemantics` module at the standard ≥80% coverage tier"
       ],
+      "shipped_in": "4fa83af1f93ae098196934598c86d70a6c7494a5",
       "body": "Emit, per WS exchange, the OHLCV (candle) channel update model. CCXT's `handleOHLCV(client, message)` (in `priv/ccxt/ts/src/pro/<id>.ts`) updates the most recent candle in place on every tick and appends a new candle when the bucket rolls over, keyed by timeframe, into a bounded `ArrayCacheByTimestamp` capped by `ohlcvLimit`. Extract, per exchange: the update model (`replace_latest_then_append`), the timeframe key/dimension, the candle-closed / confirm signal field if the exchange exposes one (e.g. bybit `confirm`, binance kline `x` closed flag), and the cache-limit field/default.\n\nClassification is structural, mirroring the shipped Tasks 92 (ws_auth) / 93 (ws_heartbeat) — model and field names come from literal AST (cache constructor, `safeValue` timeframe key, closed-flag key), never inferred. Resolve extends-chain inheritance via the WS class hierarchy as `WsHeartbeat.build/2` walks `extends`. Exchanges with no WS OHLCV channel carry an honest-empty record. Source `handle*` ASTs are already on disk in `priv/discoveries/ws_methods.json`.\n\nThis is a sibling sub-section to Tasks 95a (orderbook) / 95b (trades) — each owns its own extractor module, discovery file, schema `$def`, provenance pointer, and contract invariant so the three land independently without same-function collision. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.\n",
       "started_at": "2026-06-11",
+      "done_at": "2026-06-11",
       "scored_at": "2026-05-14",
+      "implemented": "Landed by grok via merge-train; reviewer-approved (run run-1781142271347-00d58662, 4fa83af1f93ae098196934598c86d70a6c7494a5).",
+      "delivered_by": "grok",
+      "verified": true,
       "cross_repo": []
     },
     {

@@ -130,7 +130,7 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 62 | ✅ | 🎁 **9-audit** · 🚀 **feature_complete** · mix ccxt_extract.validate_overrides [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 63 | ⬜ | 🎁 **9-audit** · 🚀 **feature_complete** · mix ccxt_extract.drift_audit [D:5/B:7/U:6 → Eff:1.3] 📋 |
+| Task 63 | 🔄 | 🎁 **9-audit** · 🚀 **feature_complete** · mix ccxt_extract.drift_audit [D:5/B:7/U:6 → Eff:1.3] 📋 |
 | Task 104 | ⬜ | 🎁 **9-pipeline** · 🚀 **feature_complete** · Array-index JSON Pointers in OverrideRegistry [D:2/B:3/U:2 → Eff:1.25] 📋 |
 <!-- TASKS:END -->
 

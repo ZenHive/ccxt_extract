@@ -746,16 +746,12 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = 63
-assignee = "grok"
 phase = 9
 bundle = "9-audit"
 milestone = "feature_complete"
-status = "pending"
+status = "in_progress"
 title = "mix ccxt_extract.drift_audit"
 scores = { d = 5, b = 7, u = 6 }
-body = """
-Compare current derivation + overrides against the last-released output. Flags: (a) overrides whose underlying raw data changed (stale override), (b) derived fields that flipped value or disappeared, (c) new raw fields not yet derived. Report only; humans decide.
-"""
 acceptance_criteria = [
   "mix ccxt_extract.drift_audit task exists and runs end-to-end against a baseline release tag",
   "Output identifies three categories: stale overrides (override over changed raw), flipped/disappeared derived fields, new raw fields not yet derived",
@@ -763,6 +759,11 @@ acceptance_criteria = [
   "Each finding cites the affected exchange id + JSON pointer + before/after values so a reviewer can act on it",
   "Exits non-zero only on errors, not on findings (so CI can gate it separately if desired)",
 ]
+assignee = "grok"
+body = """
+Compare current derivation + overrides against the last-released output. Flags: (a) overrides whose underlying raw data changed (stale override), (b) derived fields that flipped value or disappeared, (c) new raw fields not yet derived. Report only; humans decide.
+"""
+started_at = "2026-06-11"
 scored_at = "2026-05-14"
 
 # ── Phase 9 · bundle 9-pipeline ───────────────────────────────────────────

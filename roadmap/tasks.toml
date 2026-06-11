@@ -275,15 +275,20 @@ shipped_in = "752aaf40478f503e959fc3ac1bfe5eb195a348af"
 id = 110
 phase = 0
 bundle = "maintenance"
-status = "in_progress"
+status = "done"
 title = "Triage 32 request_defaults_resolvable_reachable_from_unified findings"
 scores = { d = 4, b = 4, u = 4 }
 assignee = "codex"
 body = """
 Baseline full-corpus run surfaces 32 helper-method findings (e.g. `bybit.fetchSpotMarkets`, `coinbase.fetchAccountsV2`). These helpers get request-body literals extracted and ARE called transitively from a unified method, but `unified_endpoints` values store interface method names (`publicGetX`), so the reachability check can't see the call chain. Either (a) add transitive-call analysis that walks unified method bodies for `this.<helper>()` calls, or (b) maintain a committed baseline allowlist like `priv/contract_test/error_code_fields_roots.json`. Discovered during Task 73c.
 """
+implemented = "Landed by cursor via merge-train; reviewer-approved (run run-1781141158863-74332a33, 54ca61d9cf3baf722de03b883b830c671b47160d)."
+delivered_by = "cursor"
+verified = true
 started_at = "2026-06-11"
 scored_at = "2026-05-14"
+done_at = "2026-06-11"
+shipped_in = "54ca61d9cf3baf722de03b883b830c671b47160d"
 
 [[task]]
 id = 124

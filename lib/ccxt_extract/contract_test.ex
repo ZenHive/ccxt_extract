@@ -2043,7 +2043,9 @@ defmodule CcxtExtract.ContractTest do
 
         Enum.reject(
           [
-            if(!is_boolean(present), do: ws_ob_finding(id, "checksum.present must be a boolean, got #{inspect(present)}")),
+            if(!is_boolean(present),
+              do: ws_ob_finding(id, "checksum.present must be a boolean, got #{inspect(present)}")
+            ),
             if(!(is_nil(field) or is_binary(field)),
               do: ws_ob_finding(id, "checksum.field must be a string or null, got #{inspect(field)}")
             ),

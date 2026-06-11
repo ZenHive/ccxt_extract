@@ -50,6 +50,7 @@ defmodule CcxtExtract.ContractTest do
   alias CcxtExtract.TestnetUrls
   alias CcxtExtract.WsAuth
   alias CcxtExtract.WsHeartbeat
+  alias CcxtExtract.WsSubscribe
 
   @type finding :: Finding.t()
 
@@ -74,6 +75,7 @@ defmodule CcxtExtract.ContractTest do
     {"testnet_urls_shape_valid", :check_testnet_urls_shape_valid},
     {"websocket_heartbeat_shape_valid", :check_websocket_heartbeat_shape_valid},
     {"websocket_auth_shape_valid", :check_websocket_auth_shape_valid},
+    {"websocket_subscribe_shape_valid", :check_websocket_subscribe_shape_valid},
     {"error_class_hierarchy_shape_valid", :check_error_class_hierarchy_shape_valid},
     {"error_classes_covered_by_hierarchy", :check_error_classes_covered_by_hierarchy},
     {"error_class_hierarchy_content_equals_baseline", :check_error_class_hierarchy_content_equals_baseline},
@@ -1326,6 +1328,121 @@ defmodule CcxtExtract.ContractTest do
       exchange: id,
       invariant: "websocket_auth_shape_valid",
       path: "websocket/auth",
+      message: message
+    }
+  end
+
+  @doc """
+  `websocket.subscribe` must carry exactly the `WsSubscribe` key set with
+  closed-vocabulary `mechanism` / `source` / `unresolved_reason` values, and
+  satisfy the cross-field honesty rule JSV cannot express: the no-WS,
+  json-message, and unknown states must agree across `mechanism`, `source`,
+  `discriminant` nullity, `channels`/`envelope_keys` emptiness, and
+  `unresolved_reason`.
+  """
+  @spec check_websocket_subscribe_shape_valid(map(), map()) :: [finding()]
+  def check_websocket_subscribe_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    ws_subscribe_record_findings(id, get_in(exchange, ["websocket", "subscribe"]))
+  end
+
+  defp ws_subscribe_record_findings(id, record) when is_map(record) do
+    missing = WsSubscribe.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- WsSubscribe.required_keys()
+
+    missing_findings = Enum.map(missing, &ws_subscribe_finding(id, "missing required key #{inspect(&1)}"))
+    extra_findings = Enum.map(extra, &ws_subscribe_finding(id, "unexpected key #{inspect(&1)}"))
+
+    consistency_findings =
+      case missing do
+        [] -> ws_subscribe_consistency_findings(id, record)
+        _ -> []
+      end
+
+    missing_findings ++ extra_findings ++ consistency_findings
+  end
+
+  defp ws_subscribe_record_findings(id, _record) do
+    [ws_subscribe_finding(id, "websocket.subscribe must be a map")]
+  end
+
+  defp ws_subscribe_consistency_findings(id, record) do
+    vocab_findings =
+      [
+        ws_subscribe_vocab_finding(id, record, "mechanism", WsSubscribe.mechanisms()),
+        ws_subscribe_vocab_finding(id, record, "source", WsSubscribe.sources()),
+        ws_subscribe_vocab_finding(id, record, "unresolved_reason", [nil | WsSubscribe.unresolved_reasons()])
+      ]
+
+    Enum.reject(vocab_findings ++ ws_subscribe_honesty_findings(id, record), &is_nil/1)
+  end
+
+  defp ws_subscribe_vocab_finding(id, record, key, allowed) do
+    value = Map.get(record, key)
+
+    if value in allowed do
+      nil
+    else
+      ws_subscribe_finding(id, "#{key} must be one of #{inspect(allowed)}, got #{inspect(value)}")
+    end
+  end
+
+  # The honesty rule JSV cannot express: the no-WS state (mechanism=none), the
+  # json-message state, and the unknown state must agree across every field
+  # that encodes them, so a build/2 regression can't emit an
+  # internally-contradictory record that still passes structural validation.
+  # The no-WS state additionally requires every subscribe field to be empty.
+  defp ws_subscribe_honesty_findings(id, record) do
+    mechanism = Map.get(record, "mechanism")
+    none? = mechanism == "none"
+
+    [
+      ws_subscribe_coherence(
+        id,
+        none? == (Map.get(record, "source") == "none"),
+        "mechanism=none must agree with source=none"
+      ),
+      ws_subscribe_coherence(
+        id,
+        none? == (Map.get(record, "unresolved_reason") == "no_ws_support"),
+        "mechanism=none must agree with unresolved_reason=no_ws_support"
+      ),
+      ws_subscribe_coherence(
+        id,
+        not none? or Map.get(record, "channels") == %{},
+        "mechanism=none must agree with empty channels"
+      ),
+      ws_subscribe_coherence(
+        id,
+        not none? or Map.get(record, "envelope_keys") == [],
+        "mechanism=none must agree with empty envelope_keys"
+      ),
+      ws_subscribe_coherence(
+        id,
+        mechanism == "json_message" == is_binary(Map.get(record, "discriminant")),
+        "mechanism=json_message must agree with a non-null discriminant"
+      ),
+      ws_subscribe_coherence(
+        id,
+        mechanism == "json_message" == is_binary(Map.get(record, "subscribe_op")),
+        "mechanism=json_message must agree with a non-null subscribe_op"
+      ),
+      ws_subscribe_coherence(
+        id,
+        mechanism == "unknown" == (Map.get(record, "unresolved_reason") == "subscribe_not_classifiable"),
+        "mechanism=unknown must agree with unresolved_reason=subscribe_not_classifiable"
+      )
+    ]
+  end
+
+  defp ws_subscribe_coherence(_id, true, _message), do: nil
+  defp ws_subscribe_coherence(id, false, message), do: ws_subscribe_finding(id, message)
+
+  defp ws_subscribe_finding(id, message) do
+    %Finding{
+      exchange: id,
+      invariant: "websocket_subscribe_shape_valid",
+      path: "websocket/subscribe",
       message: message
     }
   end

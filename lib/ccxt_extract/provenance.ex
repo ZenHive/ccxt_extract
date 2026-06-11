@@ -54,9 +54,9 @@ defmodule CcxtExtract.Provenance do
   class_hierarchy}` plus the handler-routing v4 reshape under
   `/endpoints/handlers/{error, signing, parse}` (Tasks 88a/b/c).
 
-  Task 93 adds `/websocket/heartbeat` and Task 92 `/websocket/auth` for the
-  `websocket` top-level group — additive derived pointers, no schema-version
-  bump.
+  Task 93 adds `/websocket/heartbeat`, Task 92 `/websocket/auth`, and Task 91
+  `/websocket/subscribe` for the `websocket` top-level group — additive
+  derived pointers, no schema-version bump.
 
   ## Usage
 
@@ -115,6 +115,7 @@ defmodule CcxtExtract.Provenance do
     /normalization/response_envelopes
     /websocket/heartbeat
     /websocket/auth
+    /websocket/subscribe
     /endpoints/handlers/error
     /endpoints/handlers/signing
     /endpoints/handlers/parse

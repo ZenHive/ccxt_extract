@@ -907,6 +907,133 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_websocket_subscribe_shape_valid/2" do
+    alias CcxtExtract.WsSubscribe
+
+    defp ws_subscribe_exchange(id, subscribe) do
+      %{"exchange" => %{"id" => id}, "websocket" => %{"subscribe" => subscribe}}
+    end
+
+    defp json_subscribe_record do
+      %{
+        "mechanism" => "json_message",
+        "discriminant" => "op",
+        "subscribe_op" => "subscribe",
+        "unsubscribe_op" => "unsubscribe",
+        "args_key" => "args",
+        "envelope_keys" => ["op", "args"],
+        "channels" => %{"watchTicker" => ["ticker:{symbol}"]},
+        "resolved_from" => "self",
+        "source" => "pro_watch",
+        "unresolved_reason" => nil
+      }
+    end
+
+    test "no findings on the honest-empty none_record" do
+      exchange = ws_subscribe_exchange("restonly", WsSubscribe.none_record())
+      assert ContractTest.check_websocket_subscribe_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "no findings on a freshly-derived json_message record" do
+      exchange = ws_subscribe_exchange("bybit", json_subscribe_record())
+      assert ContractTest.check_websocket_subscribe_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "no findings on an unknown record carrying channels" do
+      entry = %{
+        "id" => "deribit",
+        "extends" => "deribitRest",
+        "envelope" => %{
+          "discriminant" => nil,
+          "subscribe" => nil,
+          "unsubscribe" => nil,
+          "args_key" => nil,
+          "subscribe_keys" => [],
+          "unsubscribe_keys" => []
+        },
+        "channels" => %{"watchTicker" => ["ticker.{symbol}"]}
+      }
+
+      exchange = ws_subscribe_exchange("deribit", WsSubscribe.build(entry, %{"deribit" => entry}))
+      assert ContractTest.check_websocket_subscribe_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "non-map subscribe is flagged" do
+      [finding] =
+        ContractTest.check_websocket_subscribe_shape_valid(
+          ws_subscribe_exchange("bad", "garbage"),
+          @base_observed
+        )
+
+      assert finding.exchange == "bad"
+      assert finding.invariant == "websocket_subscribe_shape_valid"
+      assert finding.path == "websocket/subscribe"
+      assert finding.message =~ "must be a map"
+    end
+
+    test "a missing required key is flagged" do
+      record = Map.delete(WsSubscribe.none_record(), "channels")
+
+      [finding] =
+        ContractTest.check_websocket_subscribe_shape_valid(
+          ws_subscribe_exchange("bad", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "missing required key"
+      assert finding.message =~ "channels"
+    end
+
+    test "an unexpected key is flagged" do
+      record = Map.put(WsSubscribe.none_record(), "rogue", true)
+
+      [finding] =
+        ContractTest.check_websocket_subscribe_shape_valid(
+          ws_subscribe_exchange("bad", record),
+          @base_observed
+        )
+
+      assert finding.message =~ "unexpected key"
+      assert finding.message =~ "rogue"
+    end
+
+    test "an out-of-vocabulary mechanism is flagged" do
+      record = Map.put(json_subscribe_record(), "mechanism", "bogus")
+
+      findings =
+        ContractTest.check_websocket_subscribe_shape_valid(
+          ws_subscribe_exchange("bad", record),
+          @base_observed
+        )
+
+      assert Enum.any?(findings, &(&1.message =~ "mechanism must be one of"))
+    end
+
+    test "mechanism=none with a populated channels map is flagged as incoherent" do
+      record = Map.put(WsSubscribe.none_record(), "channels", %{"watchTicker" => ["x"]})
+
+      findings =
+        ContractTest.check_websocket_subscribe_shape_valid(
+          ws_subscribe_exchange("incoherent", record),
+          @base_observed
+        )
+
+      assert Enum.any?(findings, &(&1.message =~ "mechanism=none must agree with empty channels"))
+    end
+
+    test "mechanism=json_message with a null discriminant is flagged as incoherent" do
+      record = Map.put(json_subscribe_record(), "discriminant", nil)
+
+      findings =
+        ContractTest.check_websocket_subscribe_shape_valid(
+          ws_subscribe_exchange("incoherent", record),
+          @base_observed
+        )
+
+      assert Enum.any?(findings, &(&1.message =~ "mechanism=json_message must agree with a non-null discriminant"))
+    end
+  end
+
   describe "check_error_class_hierarchy_shape_valid/2" do
     defp exchange_with_hierarchy(id, hierarchy) do
       %{

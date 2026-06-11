@@ -112,7 +112,8 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
       "normalization" => Normalization.build(nil, nil),
       "websocket" => %{
         "heartbeat" => CcxtExtract.WsHeartbeat.none_record(),
-        "auth" => CcxtExtract.WsAuth.none_record()
+        "auth" => CcxtExtract.WsAuth.none_record(),
+        "subscribe" => CcxtExtract.WsSubscribe.none_record()
       },
       "markets" => %{
         "symbols_index" => nil,

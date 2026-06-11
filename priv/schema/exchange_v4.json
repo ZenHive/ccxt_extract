@@ -553,10 +553,11 @@
     },
     "Websocket": {
       "type": "object",
-      "description": "WebSocket surface. Task 93 ships the heartbeat sub-section (ping/pong keep-alive); Task 92 the auth sub-section (connection authentication flow). Sibling Phase 15 tasks add further sub-sections additively — this group is the designated growth point for WS-derived data (see SCHEMA.md).",
+      "description": "WebSocket surface. Task 93 ships the heartbeat sub-section (ping/pong keep-alive); Task 92 the auth sub-section (connection authentication flow); Task 91 the subscribe sub-section (subscribe/unsubscribe frame envelope + per-method channel-name templates). Sibling Phase 15 tasks add further sub-sections additively — this group is the designated growth point for WS-derived data (see SCHEMA.md).",
       "required": [
         "heartbeat",
-        "auth"
+        "auth",
+        "subscribe"
       ],
       "additionalProperties": false,
       "properties": {
@@ -567,6 +568,10 @@
         "auth": {
           "$ref": "#/$defs/WebsocketAuth",
           "description": "Per-exchange WebSocket authentication flow derived from the Pro class authenticate() method (Task 92)."
+        },
+        "subscribe": {
+          "$ref": "#/$defs/WebsocketSubscribe",
+          "description": "Per-exchange WebSocket subscribe/unsubscribe frame envelope and per-method channel-name templates derived from the Pro class watch* methods (Task 91)."
         }
       }
     },
@@ -705,6 +710,74 @@
         "unresolved_reason": {
           "enum": ["no_ws_support", "no_ws_auth", "auth_not_classifiable", null],
           "description": "Honesty tag. 'no_ws_support': the exchange has no WebSocket (Pro) class. 'no_ws_auth': a Pro class exists but defines no authenticate() — public-only WS. 'auth_not_classifiable': authenticate() is defined but its mechanism is not statically classifiable (mechanism is 'unknown'). Null when the record is fully resolved."
+        }
+      }
+    },
+    "WebsocketSubscribe": {
+      "type": "object",
+      "description": "WebSocket subscribe/unsubscribe record, derived from the Pro class watch* methods and the subscribe/unsubscribe request object literals (Task 91). Always emitted — REST-only exchanges carry the honest-empty record (mechanism 'none'). The frame envelope (discriminant + verbs + carrier key) is classified from the request object literal; channel-name templates are the statically-resolvable channel strings each watch* method builds.",
+      "required": [
+        "mechanism",
+        "discriminant",
+        "subscribe_op",
+        "unsubscribe_op",
+        "args_key",
+        "envelope_keys",
+        "channels",
+        "resolved_from",
+        "source",
+        "unresolved_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "mechanism": {
+          "enum": ["json_message", "unknown", "none"],
+          "description": "How the connection subscribes, classified structurally from the subscribe request object AST. 'json_message': a request object literal carries a discriminant key (op/method/event/type/action) with a subscribe verb (bybit op:'subscribe', binance method:'SUBSCRIBE', okx op:'subscribe'). 'unknown': a Pro class exists but no classifiable subscribe envelope was found (channels may still be present). 'none': no Pro class (REST-only)."
+        },
+        "discriminant": {
+          "type": ["string", "null"],
+          "description": "The object key carrying the subscribe/unsubscribe verb (e.g. 'op', 'method'). Null when the envelope is not classifiable."
+        },
+        "subscribe_op": {
+          "type": ["string", "null"],
+          "description": "The verb value that opens a subscription (e.g. 'subscribe', 'SUBSCRIBE'), resolved from a string literal or a local const binding. Null when not classifiable."
+        },
+        "unsubscribe_op": {
+          "type": ["string", "null"],
+          "description": "The verb value that closes a subscription (e.g. 'unsubscribe', 'UNSUBSCRIBE'). Null when the Pro class defines no unsubscribe frame or it is not classifiable."
+        },
+        "args_key": {
+          "type": ["string", "null"],
+          "description": "The top-level key of the subscribe request that carries the channel list (e.g. 'args', 'params', 'topics'). Null when not classifiable."
+        },
+        "envelope_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Top-level keys of the subscribe request object literal, in source order. Empty when the envelope is not classifiable."
+        },
+        "channels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": "Per watch* method, the statically-resolvable channel-name templates it builds, sorted and deduped. Placeholders: {symbol} for a market/symbol identifier, {timeframe} for a timeframe identifier (e.g. 'book.{symbol}.raw', 'tickers'). Methods whose channel string is seeded by a local variable (not statically resolvable) are omitted rather than guessed. Resolved across the extends chain (a variant inherits its parent's watch* templates)."
+        },
+        "resolved_from": {
+          "type": ["string", "null"],
+          "description": "Where the subscribe envelope resolved: 'self' (the exchange's own Pro class) or an ancestor exchange id (inherited via the extends chain). Null when the envelope is not classifiable."
+        },
+        "source": {
+          "enum": ["pro_watch", "none"],
+          "description": "Origin of the record. 'pro_watch': a Pro class (own or inherited) — classifiable or not. 'none': no Pro class."
+        },
+        "unresolved_reason": {
+          "enum": ["no_ws_support", "subscribe_not_classifiable", null],
+          "description": "Honesty tag. 'no_ws_support': the exchange has no WebSocket (Pro) class. 'subscribe_not_classifiable': a Pro class exists but no subscribe envelope matched a known shape (mechanism is 'unknown'). Null when the record is fully resolved."
         }
       }
     },

@@ -55,10 +55,10 @@ defmodule CcxtExtract.Provenance do
   `/endpoints/handlers/{error, signing, parse}` (Tasks 88a/b/c).
 
   Task 93 adds `/websocket/heartbeat`, Task 92 `/websocket/auth`, Task 91
-  `/websocket/subscribe`, Task 94 `/websocket/dispatch`, Task 95b
-  `/websocket/trades_semantics`, and Task 95c `/websocket/ohlcv_semantics` for the
-  `websocket` top-level group — additive derived pointers, no schema-version
-  bump.
+  `/websocket/subscribe`, Task 94 `/websocket/dispatch`, Task 95a
+  `/websocket/orderbook_semantics`, Task 95b `/websocket/trades_semantics`,
+  and Task 95c `/websocket/ohlcv_semantics` for the `websocket` top-level group —
+  additive derived pointers, no schema-version bump.
 
   ## Usage
 
@@ -119,6 +119,7 @@ defmodule CcxtExtract.Provenance do
     /websocket/auth
     /websocket/subscribe
     /websocket/dispatch
+    /websocket/orderbook_semantics
     /websocket/trades_semantics
     /websocket/ohlcv_semantics
     /endpoints/handlers/error

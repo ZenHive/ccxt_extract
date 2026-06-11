@@ -59,7 +59,7 @@ defmodule CcxtExtract.Schema do
   @required_markets_keys ~w(symbols_index patterns currencies precision_mode)
   @required_raw_keys ~w(describe url_templates class_info method_inventory overrides_meta)
   @required_normalization_keys ~w(parse_methods_digest field_maps response_envelopes)
-  @required_websocket_keys ~w(heartbeat auth subscribe dispatch trades_semantics ohlcv_semantics)
+  @required_websocket_keys ~w(heartbeat auth subscribe dispatch orderbook_semantics trades_semantics ohlcv_semantics)
 
   # --- Public API ---
 
@@ -124,6 +124,7 @@ defmodule CcxtExtract.Schema do
           "auth" => CcxtExtract.WsAuth.none_record(),
           "subscribe" => CcxtExtract.WsSubscribe.none_record(),
           "dispatch" => CcxtExtract.WsDispatch.none_record(),
+          "orderbook_semantics" => CcxtExtract.WsOrderbookSemantics.none_record(),
           "trades_semantics" => CcxtExtract.WsTradesSemantics.none_record(),
           "ohlcv_semantics" => CcxtExtract.WsOhlcvSemantics.none_record()
         }

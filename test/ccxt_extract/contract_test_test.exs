@@ -1194,6 +1194,155 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_websocket_orderbook_semantics_shape_valid/2" do
+    alias CcxtExtract.WsOrderbookSemantics, as: OB
+
+    defp ob_exchange(id, record) do
+      %{"exchange" => %{"id" => id}, "websocket" => %{"orderbook_semantics" => record}}
+    end
+
+    defp incremental_record do
+      entry = %{
+        "id" => "bybit",
+        "extends" => "bybitRest",
+        "orderbook" => %{
+          "defined" => true,
+          "methods" => ["handleOrderBook"],
+          "comparisons" => [%{"field" => "type", "value" => "snapshot"}],
+          "sequence_keys" => ["U", "u"],
+          "checksum" => %{"present" => false, "field" => nil, "algorithm" => nil},
+          "applies_deltas" => true,
+          "resets_book" => false
+        }
+      }
+
+      OB.build(entry, %{"bybit" => entry})
+    end
+
+    test "no findings on the honest-empty none_record" do
+      exchange = ob_exchange("restonly", OB.none_record())
+      assert ContractTest.check_websocket_orderbook_semantics_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "no findings on a freshly-derived incremental record" do
+      exchange = ob_exchange("bybit", incremental_record())
+      assert ContractTest.check_websocket_orderbook_semantics_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "non-map orderbook_semantics is flagged" do
+      [finding] =
+        ContractTest.check_websocket_orderbook_semantics_shape_valid(ob_exchange("bad", "garbage"), @base_observed)
+
+      assert finding.exchange == "bad"
+      assert finding.invariant == "websocket_orderbook_semantics_shape_valid"
+      assert finding.path == "websocket/orderbook_semantics"
+      assert finding.message =~ "must be a map"
+    end
+
+    test "a missing required key is flagged" do
+      record = Map.delete(OB.none_record(), "sequence_fields")
+
+      [finding] =
+        ContractTest.check_websocket_orderbook_semantics_shape_valid(ob_exchange("bad", record), @base_observed)
+
+      assert finding.message =~ "missing required key"
+      assert finding.message =~ "sequence_fields"
+    end
+
+    test "an unexpected key is flagged" do
+      record = Map.put(OB.none_record(), "rogue", true)
+
+      [finding] =
+        ContractTest.check_websocket_orderbook_semantics_shape_valid(ob_exchange("bad", record), @base_observed)
+
+      assert finding.message =~ "unexpected key"
+      assert finding.message =~ "rogue"
+    end
+
+    test "an out-of-vocabulary apply_mode is flagged" do
+      record = Map.put(OB.none_record(), "apply_mode", "bogus")
+
+      findings =
+        ContractTest.check_websocket_orderbook_semantics_shape_valid(ob_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "apply_mode must be one of"))
+    end
+
+    test "an out-of-vocabulary source is flagged" do
+      record = Map.put(OB.none_record(), "source", "bogus")
+
+      findings =
+        ContractTest.check_websocket_orderbook_semantics_shape_valid(ob_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "source must be one of"))
+    end
+
+    test "an out-of-vocabulary unresolved_reason is flagged" do
+      record = Map.put(OB.none_record(), "unresolved_reason", "bogus")
+
+      findings =
+        ContractTest.check_websocket_orderbook_semantics_shape_valid(ob_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "unresolved_reason must be one of"))
+    end
+
+    test "an out-of-vocabulary discriminator value is flagged" do
+      record =
+        Map.put(incremental_record(), "discriminator", %{
+          "field" => "type",
+          "snapshot_values" => ["bogus"],
+          "delta_values" => []
+        })
+
+      findings =
+        ContractTest.check_websocket_orderbook_semantics_shape_valid(ob_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "discriminator.snapshot_values must be drawn from"))
+    end
+
+    test "an out-of-vocabulary sequence field is flagged" do
+      record = Map.put(incremental_record(), "sequence_fields", ["not_a_seq_field"])
+
+      findings =
+        ContractTest.check_websocket_orderbook_semantics_shape_valid(ob_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "sequence_fields must be drawn from the recognized vocabulary"))
+    end
+
+    test "a malformed checksum shape is flagged" do
+      record = Map.put(incremental_record(), "checksum", %{"present" => false})
+
+      findings =
+        ContractTest.check_websocket_orderbook_semantics_shape_valid(ob_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "checksum must carry present + field + algorithm"))
+    end
+
+    test "apply_mode=none disagreeing with source is flagged (honesty rule)" do
+      record = Map.put(OB.none_record(), "source", "pro_handle_orderbook")
+
+      findings =
+        ContractTest.check_websocket_orderbook_semantics_shape_valid(ob_exchange("incoherent", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "apply_mode=none must agree with source=none"))
+    end
+
+    test "apply_mode=unknown disagreeing with unresolved_reason is flagged (honesty rule)" do
+      record =
+        incremental_record()
+        |> Map.put("apply_mode", "unknown")
+        |> Map.put("unresolved_reason", nil)
+
+      findings =
+        ContractTest.check_websocket_orderbook_semantics_shape_valid(ob_exchange("incoherent", record), @base_observed)
+
+      assert Enum.any?(
+               findings,
+               &(&1.message =~ "apply_mode=unknown must agree with unresolved_reason=orderbook_not_classifiable")
+             )
+    end
+  end
+
   describe "check_error_class_hierarchy_shape_valid/2" do
     defp exchange_with_hierarchy(id, hierarchy) do
       %{

@@ -52,6 +52,7 @@ defmodule CcxtExtract.ContractTest do
   alias CcxtExtract.WsDispatch
   alias CcxtExtract.WsHeartbeat
   alias CcxtExtract.WsOhlcvSemantics
+  alias CcxtExtract.WsOrderbookSemantics
   alias CcxtExtract.WsSubscribe
   alias CcxtExtract.WsTradesSemantics
 
@@ -80,6 +81,7 @@ defmodule CcxtExtract.ContractTest do
     {"websocket_auth_shape_valid", :check_websocket_auth_shape_valid},
     {"websocket_subscribe_shape_valid", :check_websocket_subscribe_shape_valid},
     {"websocket_dispatch_shape_valid", :check_websocket_dispatch_shape_valid},
+    {"websocket_orderbook_semantics_shape_valid", :check_websocket_orderbook_semantics_shape_valid},
     {"websocket_trades_semantics_shape_valid", :check_websocket_trades_semantics_shape_valid},
     {"websocket_ohlcv_semantics_shape_valid", :check_websocket_ohlcv_semantics_shape_valid},
     {"error_class_hierarchy_shape_valid", :check_error_class_hierarchy_shape_valid},
@@ -1919,6 +1921,211 @@ defmodule CcxtExtract.ContractTest do
       exchange: id,
       invariant: "websocket_ohlcv_semantics_shape_valid",
       path: "websocket/ohlcv_semantics",
+      message: message
+    }
+  end
+
+  @doc """
+  `websocket.orderbook_semantics` must carry exactly the
+  `WsOrderbookSemantics` key set with closed-vocabulary `apply_mode` /
+  `source` / `unresolved_reason` / `checksum.algorithm` values, valid nested
+  `discriminator` / `checksum` shapes, `sequence_fields` and discriminator
+  literals drawn from their recognized vocabularies, and satisfy the
+  cross-field honesty rule JSV cannot express: the no-orderbook and
+  unclassifiable states must agree across `apply_mode`, `source`,
+  `handle_orderbook_defined`, `resolved_from`, and `unresolved_reason`.
+  REST-only exchanges carry the honest-empty record.
+  """
+  @spec check_websocket_orderbook_semantics_shape_valid(map(), map()) :: [finding()]
+  def check_websocket_orderbook_semantics_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    ws_ob_record_findings(id, get_in(exchange, ["websocket", "orderbook_semantics"]))
+  end
+
+  defp ws_ob_record_findings(id, record) when is_map(record) do
+    missing = WsOrderbookSemantics.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- WsOrderbookSemantics.required_keys()
+
+    missing_findings = Enum.map(missing, &ws_ob_finding(id, "missing required key #{inspect(&1)}"))
+    extra_findings = Enum.map(extra, &ws_ob_finding(id, "unexpected key #{inspect(&1)}"))
+
+    consistency_findings =
+      case missing do
+        [] -> ws_ob_consistency_findings(id, record)
+        _ -> []
+      end
+
+    missing_findings ++ extra_findings ++ consistency_findings
+  end
+
+  defp ws_ob_record_findings(id, _record) do
+    [ws_ob_finding(id, "websocket.orderbook_semantics must be a map")]
+  end
+
+  defp ws_ob_consistency_findings(id, record) do
+    vocab_findings = [
+      ws_ob_vocab_finding(id, record, "apply_mode", WsOrderbookSemantics.apply_modes()),
+      ws_ob_vocab_finding(id, record, "source", WsOrderbookSemantics.sources()),
+      ws_ob_vocab_finding(id, record, "unresolved_reason", [nil | WsOrderbookSemantics.unresolved_reasons()])
+    ]
+
+    element_findings =
+      ws_ob_discriminator_findings(id, record) ++
+        ws_ob_sequence_findings(id, record) ++ ws_ob_checksum_findings(id, record)
+
+    Enum.reject(vocab_findings ++ element_findings ++ ws_ob_honesty_findings(id, record), &is_nil/1)
+  end
+
+  defp ws_ob_vocab_finding(id, record, key, allowed) do
+    value = Map.get(record, key)
+
+    if value in allowed do
+      nil
+    else
+      ws_ob_finding(id, "#{key} must be one of #{inspect(allowed)}, got #{inspect(value)}")
+    end
+  end
+
+  # discriminator: a map carrying field (string|null) + snapshot/delta value
+  # lists drawn from the recognized vocabularies.
+  defp ws_ob_discriminator_findings(id, record) do
+    case Map.get(record, "discriminator") do
+      %{"field" => field, "snapshot_values" => snap, "delta_values" => delta} = disc ->
+        extra = Map.keys(disc) -- ["field", "snapshot_values", "delta_values"]
+
+        Enum.reject(
+          [
+            if(!(is_nil(field) or is_binary(field)),
+              do: ws_ob_finding(id, "discriminator.field must be a string or null, got #{inspect(field)}")
+            ),
+            ws_ob_value_list_finding(id, "snapshot_values", snap, WsOrderbookSemantics.snapshot_value_vocab()),
+            ws_ob_value_list_finding(id, "delta_values", delta, WsOrderbookSemantics.delta_value_vocab()),
+            if(extra != [], do: ws_ob_finding(id, "discriminator has unexpected keys #{inspect(extra)}"))
+          ],
+          &is_nil/1
+        )
+
+      other ->
+        [ws_ob_finding(id, "discriminator must carry field + snapshot_values + delta_values, got #{inspect(other)}")]
+    end
+  end
+
+  defp ws_ob_value_list_finding(id, key, values, vocab) when is_list(values) do
+    case Enum.reject(values, &(&1 in vocab)) do
+      [] -> nil
+      bad -> ws_ob_finding(id, "discriminator.#{key} must be drawn from #{inspect(vocab)}, got #{inspect(bad)}")
+    end
+  end
+
+  defp ws_ob_value_list_finding(id, key, other, _vocab) do
+    ws_ob_finding(id, "discriminator.#{key} must be a list, got #{inspect(other)}")
+  end
+
+  # sequence_fields: a list whose every element is in the recognized vocabulary.
+  defp ws_ob_sequence_findings(id, record) do
+    case Map.get(record, "sequence_fields") do
+      fields when is_list(fields) ->
+        case Enum.reject(fields, &(&1 in WsOrderbookSemantics.sequence_field_vocab())) do
+          [] -> []
+          bad -> [ws_ob_finding(id, "sequence_fields must be drawn from the recognized vocabulary, got #{inspect(bad)}")]
+        end
+
+      other ->
+        [ws_ob_finding(id, "sequence_fields must be a list, got #{inspect(other)}")]
+    end
+  end
+
+  # checksum: present (bool) + field (string|null) + algorithm (closed vocab|null).
+  defp ws_ob_checksum_findings(id, record) do
+    case Map.get(record, "checksum") do
+      %{"present" => present, "field" => field, "algorithm" => algorithm} = checksum ->
+        extra = Map.keys(checksum) -- ["present", "field", "algorithm"]
+
+        Enum.reject(
+          [
+            if(!is_boolean(present), do: ws_ob_finding(id, "checksum.present must be a boolean, got #{inspect(present)}")),
+            if(!(is_nil(field) or is_binary(field)),
+              do: ws_ob_finding(id, "checksum.field must be a string or null, got #{inspect(field)}")
+            ),
+            if(algorithm not in [nil | WsOrderbookSemantics.algorithms()],
+              do:
+                ws_ob_finding(
+                  id,
+                  "checksum.algorithm must be one of #{inspect([nil | WsOrderbookSemantics.algorithms()])}, got #{inspect(algorithm)}"
+                )
+            ),
+            if(extra != [], do: ws_ob_finding(id, "checksum has unexpected keys #{inspect(extra)}"))
+          ],
+          &is_nil/1
+        )
+
+      other ->
+        [ws_ob_finding(id, "checksum must carry present + field + algorithm, got #{inspect(other)}")]
+    end
+  end
+
+  # The honesty rule JSV cannot express: the no-orderbook (apply_mode=none)
+  # and unclassifiable (apply_mode=unknown) states must agree across every
+  # field that encodes them, and the none state must be empty of every
+  # populated fact.
+  defp ws_ob_honesty_findings(id, record) do
+    apply_mode = Map.get(record, "apply_mode")
+    none? = apply_mode == "none"
+    discriminator = Map.get(record, "discriminator", %{})
+    checksum = Map.get(record, "checksum", %{})
+
+    [
+      ws_ob_coherence(
+        id,
+        none? == (Map.get(record, "source") == "none"),
+        "apply_mode=none must agree with source=none"
+      ),
+      ws_ob_coherence(
+        id,
+        none? == (Map.get(record, "handle_orderbook_defined") == false),
+        "apply_mode=none must agree with handle_orderbook_defined=false"
+      ),
+      ws_ob_coherence(
+        id,
+        none? == Map.get(record, "unresolved_reason") in ["no_ws_support", "no_ws_orderbook"],
+        "apply_mode=none must agree with unresolved_reason no_ws_support/no_ws_orderbook"
+      ),
+      ws_ob_coherence(
+        id,
+        none? == is_nil(Map.get(record, "resolved_from")),
+        "apply_mode=none must agree with resolved_from=null"
+      ),
+      ws_ob_coherence(
+        id,
+        not none? or is_nil(Map.get(discriminator, "field")),
+        "apply_mode=none must agree with discriminator.field=null"
+      ),
+      ws_ob_coherence(
+        id,
+        not none? or Map.get(record, "sequence_fields") == [],
+        "apply_mode=none must agree with empty sequence_fields"
+      ),
+      ws_ob_coherence(
+        id,
+        not none? or Map.get(checksum, "present") == false,
+        "apply_mode=none must agree with checksum.present=false"
+      ),
+      ws_ob_coherence(
+        id,
+        apply_mode == "unknown" == (Map.get(record, "unresolved_reason") == "orderbook_not_classifiable"),
+        "apply_mode=unknown must agree with unresolved_reason=orderbook_not_classifiable"
+      )
+    ]
+  end
+
+  defp ws_ob_coherence(_id, true, _message), do: nil
+  defp ws_ob_coherence(id, false, message), do: ws_ob_finding(id, message)
+
+  defp ws_ob_finding(id, message) do
+    %Finding{
+      exchange: id,
+      invariant: "websocket_orderbook_semantics_shape_valid",
+      path: "websocket/orderbook_semantics",
       message: message
     }
   end

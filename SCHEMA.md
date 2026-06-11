@@ -63,7 +63,7 @@ Every per-exchange JSON file has exactly these top-level keys (**all required, n
 | `errors` | object | `handle_errors`, `class_hierarchy`, `status_map`, `retry_classification`, `dispatch` |
 | `rate_limits` | object | `buckets`, `per_endpoint_cost`, `endpoint_cost_binding` |
 | `normalization` | object | `parse_methods_digest`, `field_maps`, `response_envelopes` |
-| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93); `auth` — WebSocket connection auth flow (Task 92); `subscribe` — subscribe/unsubscribe frame envelope + channel templates (Task 91); `dispatch` — channel → parse-handler routing table (Task 94); `trades_semantics` — trades-channel append/snapshot semantics (Task 95b); `ohlcv_semantics` — OHLCV (candle) channel replace-latest-then-append semantics (Task 95c) |
+| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93); `auth` — WebSocket connection auth flow (Task 92); `subscribe` — subscribe/unsubscribe frame envelope + channel templates (Task 91); `dispatch` — channel → parse-handler routing table (Task 94); `orderbook_semantics` — orderbook snapshot/delta semantics (Task 95a); `trades_semantics` — trades-channel append/snapshot semantics (Task 95b); `ohlcv_semantics` — OHLCV (candle) channel replace-latest-then-append semantics (Task 95c) |
 | `markets` | object | `symbols_index`, `patterns`, `currencies` (Task 97), `precision_mode` (Task 98) |
 | `testnet` | object | Structured testnet / sandbox URL catalog |
 | `raw` | object | Raw passthroughs — `describe`, `url_templates`, `class_info`, `method_inventory`, `overrides_meta` |
@@ -638,6 +638,42 @@ Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, defaul
 | `unresolved_reason` | enum \| null | `no_ws_support`, `no_ws_trades`, `trades_not_classifiable`, or `null` when resolved. |
 
 **Honest-empty record** — a REST-only exchange emits `update_model: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`, with null/false/empty values for the remaining fields. A Pro class with no public trades handler emits `unresolved_reason: "no_ws_trades"`. A handler whose update model is not statically classifiable emits `update_model: "unknown"` and `unresolved_reason: "trades_not_classifiable"`.
+
+### `websocket.orderbook_semantics` — shape (Task 95a)
+
+`orderbook_semantics` describes how the Pro class's orderbook channel signals a full snapshot vs an incremental delta, and the fields a consumer needs to apply deltas correctly. It is derived structurally from the `handleOrderBook()` / `handleOrderBookMessage()` (and `handleSnapshot` / `handleChecksum` / `checkOrderBookChecksum`) handlers — `safeString` / `safeInteger` keys and `===` comparison literals — never inferred from server behavior. It is **always emitted**; REST-only exchanges carry the honest-empty record.
+
+```json
+"websocket": {
+  "orderbook_semantics": {
+    "apply_mode": "both",
+    "handle_orderbook_defined": true,
+    "discriminator": {
+      "field": "action",
+      "snapshot_values": ["snapshot"],
+      "delta_values": ["update"]
+    },
+    "sequence_fields": ["prevSeqId", "seqId"],
+    "checksum": {"present": false, "field": null, "algorithm": null},
+    "resolved_from": "self",
+    "source": "pro_handle_orderbook",
+    "unresolved_reason": null
+  }
+}
+```
+
+| Key | Type | Meaning |
+|-----|------|---------|
+| `apply_mode` | enum | `incremental` (applies `handleDeltas`), `replace` (resets the local book via `.reset()` / `this.orderBook()`), `both` (does both), `unknown` (handler defined but apply strategy not structurally classifiable), `none` (no orderbook handler in the chain). |
+| `handle_orderbook_defined` | boolean | True when the Pro class or an ancestor defines `handleOrderBook()` / `handleOrderBookMessage()`. |
+| `discriminator` | object | `{field, snapshot_values, delta_values}` — the frame key compared against snapshot/delta literals, with the literals split by closed vocabulary. `field` is null when no in-vocabulary comparison exists (the delta is an else-branch). |
+| `sequence_fields` | `string[]` | Integer-accessor keys in the closed sequence vocabulary (first/final/previous update id, `seqId`, `nonce`, etc.) — `U`/`u`/`pu` on binance, `seqId`/`prevSeqId` on okx. |
+| `checksum` | object | `{present, field, algorithm}` — present only when a checksum key is read via a safe-accessor or `crc32` is computed in the handler. `algorithm` is `"crc32"` or null. |
+| `resolved_from` | `string \| null` | `"self"`, or an ancestor exchange id when the handler is inherited through the `extends` chain. |
+| `source` | enum | `pro_handle_orderbook` for own / inherited orderbook-handler facts, `none` for no orderbook source. |
+| `unresolved_reason` | enum \| null | `no_ws_support` (no Pro class), `no_ws_orderbook` (Pro class with no orderbook handler), `orderbook_not_classifiable` (handler defined but `apply_mode` is `unknown`), or `null` when classified. |
+
+**Honest-empty record** — a REST-only exchange emits `apply_mode: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`. A Pro class with no orderbook handler emits `apply_mode: "none"`, `unresolved_reason: "no_ws_orderbook"`.
 
 `websocket` is the designated growth point for Phase 15 WS-derived sub-sections; sibling tasks add keys to it additively.
 

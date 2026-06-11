@@ -331,6 +331,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     {"ccxt_extract.ws_auth", :scoped},
     {"ccxt_extract.ws_subscribe", :scoped},
     {"ccxt_extract.ws_dispatch", :scoped},
+    {"ccxt_extract.ws_orderbook_semantics", :scoped},
     {"ccxt_extract.ws_trades_semantics", :scoped},
     {"ccxt_extract.ws_ohlcv_semantics", :scoped},
     {"ccxt_extract.interface_signatures", :scoped},

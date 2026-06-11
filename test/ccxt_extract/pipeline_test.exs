@@ -1260,6 +1260,7 @@ defmodule CcxtExtract.PipelineTest do
     write_json(Path.join(dir, "ws_auth.json"), empty_global)
     write_json(Path.join(dir, "ws_subscribe.json"), empty_global)
     write_json(Path.join(dir, "ws_dispatch.json"), empty_global)
+    write_json(Path.join(dir, "ws_orderbook_semantics.json"), empty_global)
     write_json(Path.join(dir, "ws_trades_semantics.json"), empty_global)
     write_json(Path.join(dir, "ws_ohlcv_semantics.json"), empty_global)
     write_json(Path.join(dir, "interface_signatures.json"), empty_global)

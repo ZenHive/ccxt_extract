@@ -553,12 +553,13 @@
     },
     "Websocket": {
       "type": "object",
-      "description": "WebSocket surface. Task 93 ships the heartbeat sub-section (ping/pong keep-alive); Task 92 the auth sub-section (connection authentication flow); Task 91 the subscribe sub-section (subscribe/unsubscribe frame envelope + per-method channel-name templates); Task 94 the dispatch sub-section (channel → parse-handler routing table). Sibling Phase 15 tasks add further sub-sections additively — this group is the designated growth point for WS-derived data (see SCHEMA.md).",
+      "description": "WebSocket surface. Task 93 ships the heartbeat sub-section (ping/pong keep-alive); Task 92 the auth sub-section (connection authentication flow); Task 91 the subscribe sub-section (subscribe/unsubscribe frame envelope + per-method channel-name templates); Task 94 the dispatch sub-section (channel → parse-handler routing table); Task 95a the orderbook_semantics sub-section (snapshot/delta discriminator + sequence + checksum); Task 95b the trades_semantics sub-section; Task 95c the ohlcv_semantics sub-section. Sibling Phase 15 tasks add further sub-sections additively — this group is the designated growth point for WS-derived data (see SCHEMA.md).",
       "required": [
         "heartbeat",
         "auth",
         "subscribe",
         "dispatch",
+        "orderbook_semantics",
         "trades_semantics",
         "ohlcv_semantics"
       ],
@@ -580,6 +581,10 @@
           "$ref": "#/$defs/WebsocketDispatch",
           "description": "Per-exchange channel → parse-handler dispatch table derived from the Pro class handleMessage() method (Task 94)."
         },
+        "orderbook_semantics": {
+          "$ref": "#/$defs/WebsocketOrderbookSemantics",
+          "description": "Per-exchange orderbook snapshot/delta semantics derived from the Pro class handleOrderBook() handlers — how the channel signals a full snapshot vs an incremental delta and the fields a consumer needs to apply deltas correctly (Task 95a)."
+        },
         "trades_semantics": {
           "$ref": "#/$defs/WebsocketTradesSemantics",
           "description": "Per-exchange trades-channel update semantics derived from handleTrade(s) / handleMyTrade(s) methods (Task 95b)."
@@ -587,6 +592,96 @@
         "ohlcv_semantics": {
           "$ref": "#/$defs/WebsocketOhlcvSemantics",
           "description": "Per-exchange OHLCV (candle) channel update semantics derived from handleOHLCV method (Task 95c)."
+        }
+      }
+    },
+    "WebsocketOrderbookSemantics": {
+      "type": "object",
+      "description": "Orderbook snapshot/delta semantics, derived from the Pro class handleOrderBook()/handleOrderBookMessage() handlers (Task 95a). Structurally classified from literal AST arguments — the snapshot/delta discriminator field + its literal values, the sequence/ordering id fields (first/final/previous update id, seqNum), the integrity-check (checksum) field + algorithm hint, and an incremental-vs-replace apply_mode flag. Resolved across the WS extends chain (a variant inherits its parent's handler). Always emitted — REST-only exchanges and WS exchanges with no orderbook channel carry the honest-empty record (apply_mode 'none').",
+      "required": [
+        "apply_mode",
+        "handle_orderbook_defined",
+        "discriminator",
+        "sequence_fields",
+        "checksum",
+        "resolved_from",
+        "source",
+        "unresolved_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "apply_mode": {
+          "enum": ["incremental", "replace", "both", "unknown", "none"],
+          "description": "Whether orderbook update messages apply incrementally or fully replace the local book, classified structurally from the handler's delta/reset markers. 'incremental': the handler applies row deltas (handleDeltas) and never resets — the snapshot is REST-seeded (binance, deribit). 'replace': the handler only rebuilds the book, no deltas. 'both': the handler has a snapshot-reset path AND a delta-apply path (bybit, okx, kraken). 'unknown': an orderbook handler exists but neither marker was found. 'none': the exchange has no WebSocket orderbook channel."
+        },
+        "handle_orderbook_defined": {
+          "type": "boolean",
+          "description": "True when the Pro class (or an ancestor via the extends chain) defines a handleOrderBook() or handleOrderBookMessage() method."
+        },
+        "discriminator": {
+          "type": "object",
+          "required": ["field", "snapshot_values", "delta_values"],
+          "additionalProperties": false,
+          "properties": {
+            "field": {
+              "type": ["string", "null"],
+              "description": "The frame field read to distinguish a snapshot from a delta (bybit/kraken 'type', okx 'action'), resolved from the safe-accessor key whose compared literals fall in the snapshot/delta vocabulary. Null when the channel carries no in-band discriminator (binance/deribit are REST-seeded delta streams)."
+            },
+            "snapshot_values": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The discriminator literals that signal a full snapshot (e.g. 'snapshot'), sorted unique. Empty when the snapshot is the else-branch (no explicit literal) or there is no discriminator."
+            },
+            "delta_values": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The discriminator literals that signal an incremental delta (e.g. 'update', 'delta'), sorted unique. Empty when the delta is the else-branch or there is no discriminator."
+            }
+          },
+          "description": "The snapshot/delta discriminator field and its recognized literal values."
+        },
+        "sequence_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The sequence/ordering id keys the handler reads via an integer safe-accessor, intersected with the recognized vocabulary (e.g. binance ['U','pu','u'], okx ['prevSeqId','seqId']), sorted unique. These are the fields a consumer chains to apply deltas in order. Empty when the handler reads no recognized sequence id."
+        },
+        "checksum": {
+          "type": "object",
+          "required": ["present", "field", "algorithm"],
+          "additionalProperties": false,
+          "properties": {
+            "present": {
+              "type": "boolean",
+              "description": "True when the handler reads a wire checksum field via a safe-accessor or computes a crc32 — an integrity check the consumer can re-verify (kraken)."
+            },
+            "field": {
+              "type": ["string", "null"],
+              "description": "The wire checksum field name (e.g. 'checksum') read via the safe-accessor. Null when no checksum field is read."
+            },
+            "algorithm": {
+              "enum": ["crc32", null],
+              "description": "Integrity-check algorithm hint. 'crc32' when the handler computes a crc32. Null when no algorithm is statically identifiable."
+            }
+          },
+          "description": "The integrity-check (checksum) field and algorithm hint."
+        },
+        "resolved_from": {
+          "type": ["string", "null"],
+          "description": "Where the orderbook handler resolved: 'self' (the exchange's own Pro class) or an ancestor exchange id (inherited via the extends chain). Null when there is no orderbook handler."
+        },
+        "source": {
+          "enum": ["pro_handle_orderbook", "none"],
+          "description": "Origin of the record. 'pro_handle_orderbook': an orderbook handler (own or inherited). 'none': no orderbook handler."
+        },
+        "unresolved_reason": {
+          "enum": ["no_ws_support", "no_ws_orderbook", "orderbook_not_classifiable", null],
+          "description": "Honesty tag. 'no_ws_support': the exchange has no WebSocket (Pro) class. 'no_ws_orderbook': a Pro class exists but defines no orderbook handler anywhere in its chain. 'orderbook_not_classifiable': an orderbook handler is defined but its apply strategy was neither incremental nor replace (apply_mode is 'unknown'). Null when the record is fully resolved."
         }
       }
     },

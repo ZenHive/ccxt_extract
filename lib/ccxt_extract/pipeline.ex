@@ -37,6 +37,7 @@ defmodule CcxtExtract.Pipeline do
   alias CcxtExtract.WsDispatch
   alias CcxtExtract.WsHeartbeat
   alias CcxtExtract.WsOhlcvSemantics
+  alias CcxtExtract.WsOrderbookSemantics
   alias CcxtExtract.WsSubscribe
 
   require Logger
@@ -500,6 +501,7 @@ defmodule CcxtExtract.Pipeline do
     ws_auth_lookup = Map.get(data, :ws_auth, %{})
     ws_subscribe_lookup = Map.get(data, :ws_subscribe, %{})
     ws_dispatch_lookup = Map.get(data, :ws_dispatch, %{})
+    ws_orderbook_lookup = Map.get(data, :ws_orderbook_semantics, %{})
     ws_trades_semantics_lookup = Map.get(data, :ws_trades_semantics, %{})
     ws_ohlcv_semantics_lookup = Map.get(data, :ws_ohlcv_semantics, %{})
 
@@ -508,6 +510,7 @@ defmodule CcxtExtract.Pipeline do
       "auth" => WsAuth.build(Map.get(ws_auth_lookup, id), ws_auth_lookup),
       "subscribe" => WsSubscribe.build(Map.get(ws_subscribe_lookup, id), ws_subscribe_lookup),
       "dispatch" => WsDispatch.build(Map.get(ws_dispatch_lookup, id), ws_dispatch_lookup),
+      "orderbook_semantics" => WsOrderbookSemantics.build(Map.get(ws_orderbook_lookup, id), ws_orderbook_lookup),
       "trades_semantics" =>
         CcxtExtract.WsTradesSemantics.build(
           Map.get(ws_trades_semantics_lookup, id),

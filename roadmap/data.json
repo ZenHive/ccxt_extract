@@ -1436,7 +1436,7 @@
       "phase": 15,
       "bundle": "15-semantics",
       "milestone": "feature_complete",
-      "status": "in_progress",
+      "status": "done",
       "title": "Snapshot/delta semantics — trades",
       "scores": {
         "d": 4,
@@ -1461,9 +1461,14 @@
         "New `websocket_trades_semantics_shape_valid` invariant in `mix ccxt_extract.contract_test` (required-key set + closed vocabularies + honest-empty coherence) reports 0 corpus findings; exchanges with no WS trades channel carry an honest-empty record",
         "`mix ccxt_extract.determinism_check` is byte-deterministic for the new extractor; unit + integration (`:extraction`) + cached tests cover the extractor and derivation, `WsTradesSemantics` module at the standard ≥80% coverage tier"
       ],
+      "shipped_in": "27bc61cad95c21db55b20c853bd53da157932122",
       "body": "Emit, per WS exchange, the trades-channel update model. CCXT's `handleTrade(s)(client, message)` (in `priv/ccxt/ts/src/pro/<id>.ts`) treats trades as an append-only stream: each frame carries a batch of new trades pushed into a bounded `ArrayCacheBySymbolById`/deque, capped by `tradesLimit`/`myTradesLimit`. Unlike the orderbook there is usually no snapshot/delta discriminator. Extract, per exchange: the update model (`append` vs any snapshot/replace path some exchanges use on (re)subscribe), the cache type + dedup key (trade id field), the cache-limit field/default, and whether a separate private `myTrades` channel exists with its own limit.\n\nClassification is structural, mirroring the shipped Tasks 92 (ws_auth) / 93 (ws_heartbeat) — model and field names come from literal AST (cache constructor type, `safeString` id key, `tradesLimit` reads), never inferred. Resolve extends-chain inheritance via the WS class hierarchy as `WsHeartbeat.build/2` walks `extends`. Exchanges with no WS trades channel carry an honest-empty record. Source `handle*` ASTs are already on disk in `priv/discoveries/ws_methods.json`.\n\nThis is a sibling sub-section to Tasks 95a (orderbook) / 95c (OHLCV) — each owns its own extractor module, discovery file, schema `$def`, provenance pointer, and contract invariant so the three land independently without same-function collision. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.\n",
       "started_at": "2026-06-11",
+      "done_at": "2026-06-11",
       "scored_at": "2026-05-14",
+      "implemented": "Landed by codex via merge-train; reviewer-approved (run run-1781142267537-78d15566, 27bc61cad95c21db55b20c853bd53da157932122).",
+      "delivered_by": "codex",
+      "verified": true,
       "cross_repo": []
     },
     {

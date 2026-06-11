@@ -1134,7 +1134,7 @@ id = "95b"
 phase = 15
 bundle = "15-semantics"
 milestone = "feature_complete"
-status = "in_progress"
+status = "done"
 title = "Snapshot/delta semantics — trades"
 scores = { d = 4, b = 7, u = 7 }
 markers = ["parallel"]
@@ -1156,8 +1156,13 @@ Classification is structural, mirroring the shipped Tasks 92 (ws_auth) / 93 (ws_
 
 This is a sibling sub-section to Tasks 95a (orderbook) / 95c (OHLCV) — each owns its own extractor module, discovery file, schema `$def`, provenance pointer, and contract invariant so the three land independently without same-function collision. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.
 """
+implemented = "Landed by codex via merge-train; reviewer-approved (run run-1781142267537-78d15566, 27bc61cad95c21db55b20c853bd53da157932122)."
+delivered_by = "codex"
+verified = true
 started_at = "2026-06-11"
 scored_at = "2026-05-14"
+done_at = "2026-06-11"
+shipped_in = "27bc61cad95c21db55b20c853bd53da157932122"
 
 [[task]]
 id = "95c"

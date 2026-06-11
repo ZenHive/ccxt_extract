@@ -117,10 +117,9 @@ For every `parse*` method, a consumer needs a declarative field map.
 | WS auth flow (sign-in message / header / query param) | ✅ | `websocket.auth` (Task 92) — structural `mechanism` (`sign_in_message` / `url_param` / `unknown` / `none`), decoded sign-in `message` (`op` / `method` discriminant + keys), `credentials`, inheritance-resolved via the `extends` chain |
 | Heartbeat / ping-pong pattern | ✅ | `websocket.heartbeat` (Task 93) — structural ping strategy (`ping_kind`), decoded payload, inheritance-resolved `keep_alive_ms`, `has_pong_handler` |
 | Channel → parse handler dispatch tables | ✅ | `websocket.dispatch` (Task 94) — structural channel → `handle*` entries, discriminator fields, inheritance-resolved `resolved_from`, and honest `opaque` / `none` states |
+| Orderbook snapshot/delta semantics | ✅ | `websocket.orderbook_semantics` (Task 95a) — structural snapshot/delta discriminator, sequence fields, checksum hints, apply mode, inheritance-resolved `resolved_from`, and honest `unknown` / `none` states |
 | Trades snapshot/delta semantics | ✅ | `websocket.trades_semantics` (Task 95b) — structural `update_model`, cache constructor, trade id dedup key, `tradesLimit` / `myTradesLimit`, private myTrades presence, and honest `unknown` / `none` states |
-| Snapshot vs delta semantics — orderbook | ⬜ | Phase 15 — Task 95a |
-| Snapshot vs delta semantics — trades | ⬜ | Phase 15 — Task 95b |
-| Snapshot vs delta semantics — OHLCV | ⬜ | Phase 15 — Task 95c |
+| OHLCV snapshot/delta semantics | ✅ | `websocket.ohlcv_semantics` (Task 95c) — structural candle update model, timeframe key, closed/confirm signal, cache limit, inheritance-resolved `resolved_from`, and honest `unknown` / `none` states |
 | Reconnect triggers + backoff policy hints | ⬜ | Phase 15 — Task 96 |
 | Raw WS method ASTs (escape hatch) | ✅ | `priv/discoveries/ws_methods.json` (discovery only since schema 3.0.0 / Task 117 — no longer emitted into per-exchange spec JSON; Phase 15 consumes from discoveries) |
 
@@ -153,6 +152,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 | REST method inventory | ✅ | `raw.method_inventory` — in every per-exchange JSON. |
 | WS method inventory | ➖ | Not in per-exchange JSON. Corpus-wide list lives in `priv/discoveries/methods_ws.json` since schema 3.0.0 / Task 117. Consumers needing WS dispatch read the discovery file directly. |
 | Interface signatures (typed method signatures) | ✅ | `endpoints.interfaces` (Task 30) |
+| Unified-method descriptors | ✅ | `priv/discoveries/method_descriptors.json` (Task 121) — discovery-only TS signature + JSDoc overlay for public unified Promise-returning methods. |
 | Capability flags (`has.*`) | ✅ | `raw.describe.has` |
 | Base Exchange method catalog | ✅ | `_base_methods.json` (Task 31) |
 | Referral URLs | ✅ | `exchange` / `raw.describe.urls.referral` |

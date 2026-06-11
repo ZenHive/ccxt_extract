@@ -681,6 +681,38 @@ Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, defaul
 
 `ohlcv_semantics` describes how a Pro class updates its candle cache from `handleOHLCV` frames (replace-latest on same-timestamp ticks, append on bucket rollover via `ArrayCacheByTimestamp`). The timeframe dimension key (e.g. binance kline `'i'`) and closed/confirm signal (binance `'x'`, bybit `'confirm'`) are extracted from literal `safe*` arguments when present. It is **always emitted** — REST-only exchanges carry the honest-empty record.
 
+```json
+"websocket": {
+  "ohlcv_semantics": {
+    "update_model": "replace_latest_then_append",
+    "ohlcv_defined": true,
+    "timeframe_key": "i",
+    "closed_signal": "x",
+    "cache_type": "ArrayCacheByTimestamp",
+    "cache_limit_field": "OHLCVLimit",
+    "cache_limit_default": 1000,
+    "unresolved": [],
+    "resolved_from": "self",
+    "source": "pro_handle_ohlcv",
+    "unresolved_reason": null
+  }
+}
+```
+
+| Key | Type | Meaning |
+|-----|------|---------|
+| `update_model` | enum | `replace_latest_then_append` (updates the latest candle in place and appends on bucket rollover), `unknown`, or `none`. |
+| `ohlcv_defined` | boolean | True when the Pro class or an ancestor defines `handleOHLCV()`. |
+| `timeframe_key` | `string \| null` | Literal timeframe/interval key read from the frame, such as binance kline `'i'`. |
+| `closed_signal` | `string \| null` | Literal candle-closed/confirm flag key, such as binance `'x'` or bybit `'confirm'`. |
+| `cache_type` | `string \| null` | Literal cache constructor, currently `ArrayCacheByTimestamp` when classified. |
+| `cache_limit_field` | enum \| null | `OHLCVLimit` or `null`. |
+| `cache_limit_default` | number \| null | Literal numeric default for the cache-limit accessor. |
+| `unresolved` | object[] | Closed-vocabulary per-shape findings: `cache_not_classifiable`, `timeframe_key_not_classifiable`, `closed_signal_not_classifiable`. |
+| `resolved_from` | `string \| null` | `self`, an ancestor exchange id, or `null` when no OHLCV handler resolved. |
+| `source` | enum | `pro_handle_ohlcv` or `none`. |
+| `unresolved_reason` | enum \| null | `no_ws_support`, `no_ws_ohlcv`, `ohlcv_not_classifiable`, or `null` when resolved. |
+
 **Honest-empty record** — a REST-only exchange emits `update_model: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`. A Pro class with no `handleOHLCV` emits `unresolved_reason: "no_ws_ohlcv"`. An unclassifiable handler shape emits `update_model: "unknown"` and `unresolved_reason: "ohlcv_not_classifiable"`.
 
 ---

@@ -165,6 +165,12 @@ defmodule CcxtExtract.ContractTest do
     * `:hierarchy_baseline` — inline 3-key hierarchy map for the
       `error_class_hierarchy_content_equals_baseline` check (tests). Takes
       precedence over the file at `priv/contract_test/error_class_hierarchy.json`.
+    * `:request_defaults_reachable_baseline` — inline `{exchange_id =>
+      [method, …]}` allowlist for
+      `request_defaults_resolvable_reachable_from_unified` (tests). Takes
+      precedence over `:request_defaults_baseline_path`.
+    * `:request_defaults_baseline_path` — override the committed allowlist
+      path (default: `priv/contract_test/request_defaults_reachable_baseline.json`).
     * `:exchanges` — optional list/MapSet of exchange IDs to load. When
       given, only matching `<id>.json` files are loaded. Missing files
       are silently skipped — callers that need strict "missing" detection
@@ -189,7 +195,9 @@ defmodule CcxtExtract.ContractTest do
     baseline = %{
       error_code_fields_roots: baseline_roots,
       parse_methods_inventory: parse_methods_inventory,
-      error_class_hierarchy: hierarchy_baseline
+      error_class_hierarchy: hierarchy_baseline,
+      request_defaults_reachable_baseline:
+        opts[:request_defaults_reachable_baseline] || load_request_defaults_reachable_baseline(opts)
     }
 
     tier_scope = Keyword.get(opts, :tier_scope, "all")
@@ -303,24 +311,44 @@ defmodule CcxtExtract.ContractTest do
   informational (the Honesty Rule preserves them so consumers know the
   endpoint has a structured body); they don't assert a consumer contract
   the way literal entries do.
+
+  ## Baseline allowlist (Task 110)
+
+  `endpoints.unified` is the *filtered* unified-call map: `Pipeline`'s
+  `restrict_to_canonical_vocab` strips internal routing helpers
+  (`fetchSpotMarkets`, `modifyMarginHelper`, …) that aren't canonical
+  `has` keys, and `filter_unified_endpoints` drops methods whose interface
+  calls aren't captured. So two legitimate method classes carry resolvable
+  literal bodies yet never appear in `endpoints.unified`:
+
+    1. **Transitive helpers** — `this.fetchSpotMarkets()` called from a
+       unified `fetchMarkets`; the call chain is invisible because unified
+       values store *interface* names (`publicGetX`), never helper names.
+    2. **Unified methods absent from the map** — real `has`-true methods
+       (`binance.fetchFundingHistory`, `kraken.fetchOrdersByIds`) whose
+       interface call the unified extractor didn't surface.
+
+  Neither is resolvable structurally from the emitted JSON, so a committed
+  per-exchange allowlist at
+  `priv/contract_test/request_defaults_reachable_baseline.json`
+  (`{exchange_id => [method, …]}`) exempts the known-legitimate set. The
+  baseline is the authority — update it intentionally when a CCXT bump adds
+  or removes such methods (a *new* unreachable literal method that isn't in
+  the baseline still flags). Scoping is per-`{exchange, method}` pair, so a
+  helper named for one exchange can't mask a genuine orphan in another.
   """
-  # TODO(Task 110): Baseline corpus surfaces ~32 legitimate "helper method"
-  # findings — e.g. bybit.fetchSpotMarkets, coinbase.fetchAccountsV2. These
-  # helpers are called by a unified method but unified_endpoints values store
-  # interface names (publicGetX), not helper names, so the reachability check
-  # has no way to see the transitive call. Either add a transitive-call
-  # analysis or maintain a baseline allowlist for known helpers.
   @spec check_request_defaults_resolvable_reachable_from_unified(map(), map()) :: [finding()]
-  def check_request_defaults_resolvable_reachable_from_unified(exchange, _observed) do
+  def check_request_defaults_resolvable_reachable_from_unified(exchange, observed) do
     id = exchange_id(exchange)
     defaults = get_in(exchange, ["endpoints", "request", "defaults"]) || %{}
     unified = get_in(exchange, ["endpoints", "unified"]) || %{}
     reachable = unified_reachable_names(unified)
+    allowed = baseline_allowed_methods(observed, id)
 
     defaults
     |> Enum.sort_by(fn {method, _} -> method end)
     |> Enum.filter(fn {_method, body} -> has_literal_entry?(body) end)
-    |> Enum.reject(fn {method, _} -> MapSet.member?(reachable, method) end)
+    |> Enum.reject(fn {method, _} -> MapSet.member?(reachable, method) or MapSet.member?(allowed, method) end)
     |> Enum.map(fn {method, _} ->
       %Finding{
         exchange: id,
@@ -345,6 +373,18 @@ defmodule CcxtExtract.ContractTest do
   end
 
   defp unified_reachable_names(_), do: MapSet.new()
+
+  # Per-exchange Task 110 allowlist: methods known to carry resolvable literal
+  # bodies but legitimately absent from the filtered `endpoints.unified` map
+  # (transitive helpers + unified methods the extractor didn't surface).
+  defp baseline_allowed_methods(%{request_defaults_reachable_baseline: baseline}, id) when is_map(baseline) do
+    case Map.get(baseline, id) do
+      methods when is_list(methods) -> MapSet.new(methods)
+      _ -> MapSet.new()
+    end
+  end
+
+  defp baseline_allowed_methods(_observed, _id), do: MapSet.new()
 
   defp has_literal_entry?(body) when is_map(body) do
     Enum.any?(body, fn
@@ -2544,6 +2584,34 @@ defmodule CcxtExtract.ContractTest do
         error_code_fields_root_in_observed_set. Deriving the safelist from \
         the same corpus being validated would make the invariant tautological.
         """
+    end
+  end
+
+  defp load_request_defaults_reachable_baseline(opts) do
+    path =
+      opts[:request_defaults_baseline_path] ||
+        CcxtExtract.Paths.priv("contract_test/request_defaults_reachable_baseline.json")
+
+    case JsonIO.read_json(path) do
+      {:ok, baseline} when is_map(baseline) ->
+        baseline
+
+      {:ok, other} ->
+        raise """
+        Contract test baseline at #{path} has unexpected shape.
+
+        Expected a map of #{inspect(%{"binance" => ["fetchFundingHistory"]})}.
+        Got: #{inspect(other, limit: 3)}
+
+        The baseline is the authority for \
+        request_defaults_resolvable_reachable_from_unified — it exempts methods \
+        that legitimately carry resolvable literal bodies but never appear in \
+        the filtered endpoints.unified map (transitive helpers + unified methods \
+        the extractor didn't surface). Update it intentionally on CCXT bumps.
+        """
+
+      {:error, {:missing_input, _}} ->
+        %{}
     end
   end
 

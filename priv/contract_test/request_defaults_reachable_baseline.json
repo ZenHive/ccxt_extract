@@ -1,0 +1,68 @@
+{
+  "binanceus": [
+    "borrowIsolatedMargin",
+    "fetchFundingHistory",
+    "repayIsolatedMargin"
+  ],
+  "blockchaincom": [
+    "fetchOrdersByState"
+  ],
+  "bybit": [
+    "fetchOptionMarkets",
+    "fetchSpotMarkets"
+  ],
+  "bybiteu": [
+    "fetchOptionMarkets",
+    "fetchSpotMarkets"
+  ],
+  "coinbase": [
+    "deposit",
+    "fetchAccountsV2",
+    "fetchAccountsV3",
+    "fetchTickerV3"
+  ],
+  "coinbaseadvanced": [
+    "deposit",
+    "fetchAccountsV2",
+    "fetchAccountsV3",
+    "fetchTickerV3"
+  ],
+  "coinex": [
+    "modifyMarginHelper"
+  ],
+  "derive": [
+    "fetchOptionMarkets",
+    "fetchSpotMarkets",
+    "fetchSwapMarkets"
+  ],
+  "htx": [
+    "fetchContractOrders"
+  ],
+  "huobi": [
+    "fetchContractOrders"
+  ],
+  "hyperliquid": [
+    "approveBuilderFee",
+    "enableUserDexAbstraction",
+    "fetchSpotMarkets",
+    "fetchSwapMarkets",
+    "setUserAbstraction"
+  ],
+  "kraken": [
+    "fetchOrdersByIds"
+  ],
+  "kucoin": [
+    "cancelAllUtaOrders",
+    "fetchLeverageTiers"
+  ],
+  "kucoinfutures": [
+    "cancelAllUtaOrders",
+    "fetchLeverageTiers"
+  ],
+  "lbank": [
+    "fetchSwapMarkets"
+  ],
+  "woo": [
+    "modifyMarginHelper"
+  ]
+}

@@ -116,6 +116,52 @@ defmodule CcxtExtract.ContractTestTest do
                @base_observed
              ) == []
     end
+
+    test "baseline allowlist exempts a known helper for its exchange (Task 110)" do
+      exchange = %{
+        "id" => "bybit",
+        "endpoints" => %{
+          "unified" => %{"fetchMarkets" => ["publicGetMarketInstrumentsInfo"]},
+          "request" => %{"defaults" => %{"fetchSpotMarkets" => %{"category" => literal_entry("spot")}}}
+        }
+      }
+
+      observed =
+        Map.put(@base_observed, :request_defaults_reachable_baseline, %{"bybit" => ["fetchSpotMarkets"]})
+
+      assert ContractTest.check_request_defaults_resolvable_reachable_from_unified(exchange, observed) == []
+    end
+
+    test "baseline allowlist is per-exchange — does not mask the same method on another exchange" do
+      exchange = %{
+        "id" => "otherex",
+        "endpoints" => %{
+          "unified" => %{"fetchMarkets" => ["publicGetMarkets"]},
+          "request" => %{"defaults" => %{"fetchSpotMarkets" => %{"category" => literal_entry("spot")}}}
+        }
+      }
+
+      # fetchSpotMarkets is allowlisted for bybit, NOT otherex.
+      observed =
+        Map.put(@base_observed, :request_defaults_reachable_baseline, %{"bybit" => ["fetchSpotMarkets"]})
+
+      [finding] = ContractTest.check_request_defaults_resolvable_reachable_from_unified(exchange, observed)
+      assert finding.exchange == "otherex"
+      assert finding.path == "endpoints.request.defaults.fetchSpotMarkets"
+    end
+
+    test "absent baseline key behaves as empty allowlist (still flags)" do
+      exchange = %{
+        "id" => "deadex",
+        "endpoints" => %{
+          "unified" => %{"fetchTicker" => ["publicGetTicker"]},
+          "request" => %{"defaults" => %{"fetchOrphan" => %{"type" => literal_entry("x")}}}
+        }
+      }
+
+      assert [%Finding{path: "endpoints.request.defaults.fetchOrphan"}] =
+               ContractTest.check_request_defaults_resolvable_reachable_from_unified(exchange, @base_observed)
+    end
   end
 
   describe "check_unified_endpoints_claimed_in_has/2" do
@@ -1718,7 +1764,20 @@ defmodule CcxtExtract.ContractTestTest do
       File.write!(Path.join(tmp, "hyperliquid.json"), Jason.encode!(drifted))
       File.write!(Path.join(tmp, "_manifest.json"), "{}")
 
-      {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: [], hierarchy_baseline: nil)
+      # Isolate from ambient corpus baselines so `total_findings == 1` stays
+      # deterministic: this test's subject is override-path drift, but `id:
+      # "hyperliquid"` collides with the real `parse_methods.json` inventory
+      # when a corpus is materialized (the suite requires one — see
+      # test_helper.exs), which would otherwise add parse_methods_digest
+      # findings. `baseline_roots`/`hierarchy_baseline` are pinned for the
+      # same reason.
+      {:ok, report} =
+        ContractTest.run_all(
+          output_dir: tmp,
+          baseline_roots: [],
+          hierarchy_baseline: nil,
+          parse_methods_inventory: %{}
+        )
 
       assert report["summary"]["total_findings"] == 1
       assert report["summary"]["findings_by_invariant"]["override_paths_present_in_output"] == 1
@@ -1736,6 +1795,53 @@ defmodule CcxtExtract.ContractTestTest do
       File.write!(Path.join(tmp, "_manifest.json"), "{}")
 
       {:ok, report} = ContractTest.run_all(output_dir: tmp, baseline_roots: [], hierarchy_baseline: nil)
+
+      assert report["summary"]["exchanges_checked"] == 1
+    end
+
+    test "run_all honors inline request_defaults_reachable_baseline (Task 110)", %{tmp: tmp} do
+      ex = %{
+        "id" => "helperex",
+        "endpoints" => %{
+          "unified" => %{"fetchMarkets" => ["publicGetMarkets"]},
+          "request" => %{
+            "defaults" => %{
+              "fetchSpotMarkets" => %{"category" => %{"value" => "spot", "kind" => "literal", "reason" => nil}}
+            }
+          }
+        }
+      }
+
+      File.write!(Path.join(tmp, "helperex.json"), Jason.encode!(ex))
+
+      invariant = "request_defaults_resolvable_reachable_from_unified"
+
+      # Without an allowlist the literal helper flags.
+      {:ok, flagged} = ContractTest.run_all(output_dir: tmp, baseline_roots: [], hierarchy_baseline: nil)
+      assert flagged["summary"]["findings_by_invariant"][invariant] == 1
+
+      # Inline allowlist for this exchange suppresses it.
+      {:ok, clean} =
+        ContractTest.run_all(
+          output_dir: tmp,
+          baseline_roots: [],
+          hierarchy_baseline: nil,
+          request_defaults_reachable_baseline: %{"helperex" => ["fetchSpotMarkets"]}
+        )
+
+      assert clean["summary"]["findings_by_invariant"][invariant] == 0
+    end
+
+    test "run_all tolerates a missing request_defaults baseline file (empty allowlist)", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "x.json"), Jason.encode!(%{"id" => "x"}))
+
+      {:ok, report} =
+        ContractTest.run_all(
+          output_dir: tmp,
+          baseline_roots: [],
+          hierarchy_baseline: nil,
+          request_defaults_baseline_path: Path.join(tmp, "no_such_baseline.json")
+        )
 
       assert report["summary"]["exchanges_checked"] == 1
     end

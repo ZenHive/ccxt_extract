@@ -1005,8 +1005,6 @@ defmodule CcxtExtract.Pipeline do
     end
   end
 
-  defp prune_dead_bybit_spot_v3_private_interfaces(sigs, _id), do: sigs
-
   defp prune_bybit_dead_spot_v3_private_endpoints(%{"exchange" => %{"id" => id}} = exchange) when is_binary(id) do
     if bybit_family?(id), do: do_prune_bybit_shape(exchange), else: exchange
   end

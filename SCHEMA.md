@@ -63,7 +63,7 @@ Every per-exchange JSON file has exactly these top-level keys (**all required, n
 | `errors` | object | `handle_errors`, `class_hierarchy`, `status_map`, `retry_classification`, `dispatch` |
 | `rate_limits` | object | `buckets`, `per_endpoint_cost`, `endpoint_cost_binding` |
 | `normalization` | object | `parse_methods_digest`, `field_maps`, `response_envelopes` |
-| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93); `auth` — WebSocket connection auth flow (Task 92); `subscribe` — subscribe/unsubscribe frame envelope + channel templates (Task 91) |
+| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93); `auth` — WebSocket connection auth flow (Task 92); `subscribe` — subscribe/unsubscribe frame envelope + channel templates (Task 91); `dispatch` — channel → parse-handler routing table (Task 94) |
 | `markets` | object | `symbols_index`, `patterns`, `currencies` (Task 97), `precision_mode` (Task 98) |
 | `testnet` | object | Structured testnet / sandbox URL catalog |
 | `raw` | object | Raw passthroughs — `describe`, `url_templates`, `class_info`, `method_inventory`, `overrides_meta` |
@@ -560,6 +560,40 @@ Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, defaul
 | `unresolved_reason` | enum \| null | `no_ws_support` (no Pro class), `subscribe_not_classifiable` (`mechanism` is `unknown`), or `null` when fully resolved. |
 
 **Honest-empty record** — a REST-only exchange emits `mechanism: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`, with `null` / empty values for the remaining fields. A Pro class with unclassified subscribe frames emits `mechanism: "unknown"`, `source: "pro_watch"`, and still carries any channel templates that were statically resolvable.
+
+### `websocket.dispatch` — shape (Task 94)
+
+`dispatch` describes how the Pro class routes an inbound WebSocket frame to a parse handler. It is derived structurally from `handleMessage()` handler maps, if-chains, and switch cases, and is **always emitted** — REST-only exchanges carry the honest-empty record.
+
+```json
+"websocket": {
+  "dispatch": {
+    "kind": "routed",
+    "handle_message_defined": true,
+    "discriminators": ["topic"],
+    "entries": [
+      {"channel": "kline", "handler": "handleOHLCV"}
+    ],
+    "unresolved": [],
+    "resolved_from": "self",
+    "source": "pro_handle_message",
+    "unresolved_reason": null
+  }
+}
+```
+
+| Key | Type | Meaning |
+|-----|------|---------|
+| `kind` | enum | `routed` when at least one channel → handler entry was resolved, `opaque` when `handleMessage()` exists but no entry was statically classifiable, `none` when no WebSocket class or no `handleMessage()` exists in the inheritance chain. |
+| `handle_message_defined` | boolean | True when the Pro class or an ancestor defines `handleMessage()`. |
+| `discriminators` | `string[]` | Literal frame fields read to route messages, such as `channel`, `topic`, `e`, `type`, or `op`. |
+| `entries` | array | `{channel, handler}` pairs where both values are literals; handler names are `handle*` methods. |
+| `unresolved` | array | Per-shape unresolved reasons for handler-map properties: `computed_channel_key`, `spread_property`, or `non_handler_value`. |
+| `resolved_from` | `string \| null` | `"self"`, or an ancestor exchange id when `handleMessage()` is inherited through the `extends` chain. |
+| `source` | enum | `pro_handle_message` for own / inherited `handleMessage()` facts, `none` for no dispatch source. |
+| `unresolved_reason` | enum \| null | `no_ws_support`, `no_ws_dispatch`, `dispatch_not_classifiable`, or `null` when fully routed. |
+
+**Honest-empty record** — a REST-only exchange emits `kind: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`. A Pro class with no `handleMessage()` emits `kind: "none"`, `unresolved_reason: "no_ws_dispatch"`.
 
 `websocket` is the designated growth point for Phase 15 WS-derived sub-sections; sibling tasks add keys to it additively.
 

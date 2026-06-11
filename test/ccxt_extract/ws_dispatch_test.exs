@@ -270,6 +270,36 @@ defmodule CcxtExtract.WsDispatchTest do
 
       assert hm["entries"] == [pair("pong", "handlePong")]
     end
+
+    test "extracts switch cases, including fall-through channel aliases" do
+      source = """
+      export default class sw extends swRest {
+          handleMessage (client, message) {
+              const topic = this.safeString (message, 'topic');
+              switch (topic) {
+                  case 'ticker':
+                      this.handleTicker (client, message);
+                      break;
+                  case 'trade':
+                  case 'trades':
+                      this.handleTrades (client, message);
+                      break;
+                  default:
+                      this.handleMessageDefault (client, message);
+              }
+          }
+      }
+      """
+
+      {:ok, ast} = OXC.parse(source, "sw.ts")
+      hm = WsDispatch.extract_from_ast(ast, "sw.ts")["handle_message"]
+
+      assert pair("ticker", "handleTicker") in hm["entries"]
+      assert pair("trade", "handleTrades") in hm["entries"]
+      assert pair("trades", "handleTrades") in hm["entries"]
+      refute Enum.any?(hm["entries"], &(&1["handler"] == "handleMessageDefault"))
+      assert hm["discriminators"] == ["topic"]
+    end
   end
 
   describe "extract_from_ast/2 — honest absence" do

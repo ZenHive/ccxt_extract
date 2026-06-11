@@ -108,6 +108,7 @@ defmodule CcxtExtract.WsDispatch do
         map_names = MapSet.new(maps, fn {name, _obj} -> name end)
         {map_entries, map_unresolved} = collect_map_results(maps)
         if_entries = if_chain_entries(fn_expr)
+        switch_entries = switch_entries(fn_expr)
 
         bindings = safe_key_bindings(fn_expr)
         discriminators = discriminator_keys(fn_expr, map_names, bindings)
@@ -115,7 +116,7 @@ defmodule CcxtExtract.WsDispatch do
         %{
           "defined" => true,
           "discriminators" => discriminators,
-          "entries" => dedup_entries(map_entries ++ if_entries),
+          "entries" => dedup_entries(map_entries ++ if_entries ++ switch_entries),
           "unresolved" => map_unresolved
         }
     end
@@ -229,11 +230,40 @@ defmodule CcxtExtract.WsDispatch do
 
   defp if_statement_entries(_node), do: []
 
+  @spec switch_entries(map()) :: [map()]
+  defp switch_entries(fn_expr) do
+    fn_expr
+    |> OXC.collect(fn
+      %{type: :switch_statement} = node -> {:keep, node}
+      _ -> :skip
+    end)
+    |> Enum.flat_map(&switch_statement_entries/1)
+  end
+
+  @spec switch_statement_entries(map()) :: [map()]
+  defp switch_statement_entries(%{cases: cases}) do
+    {entries, _pending} =
+      Enum.reduce(cases, {[], []}, fn case_node, {entries, pending} ->
+        channel = string_literal_value(Map.get(case_node, :test))
+        channels = if is_binary(channel), do: pending ++ [channel], else: pending
+
+        case consequent_handler(Map.get(case_node, :consequent)) do
+          nil -> {entries, channels}
+          handler -> {entries ++ Enum.map(channels, &%{"channel" => &1, "handler" => handler}), []}
+        end
+      end)
+
+    entries
+  end
+
+  defp switch_statement_entries(_node), do: []
+
   # First `this.handle*(...)` call inside a consequent, or nil. The `alternate`
   # branch is not part of the consequent, so else-if handlers are not captured
   # here (their own `if_statement` is processed separately).
-  @spec consequent_handler(map() | nil) :: String.t() | nil
+  @spec consequent_handler(term()) :: String.t() | nil
   defp consequent_handler(nil), do: nil
+  defp consequent_handler(nodes) when is_list(nodes), do: Enum.find_value(nodes, &consequent_handler/1)
 
   defp consequent_handler(consequent) do
     consequent
@@ -303,8 +333,9 @@ defmodule CcxtExtract.WsDispatch do
   defp discriminator_keys(fn_expr, map_names, bindings) do
     from_map = fn_expr |> lookup_key_exprs(map_names) |> Enum.flat_map(&key_expr_keys(&1, bindings))
     from_if = fn_expr |> if_chain_identifiers() |> Enum.flat_map(&Map.get(bindings, &1, []))
+    from_switch = fn_expr |> switch_discriminants() |> Enum.flat_map(&key_expr_keys(&1, bindings))
 
-    (from_map ++ from_if) |> Enum.uniq() |> Enum.sort()
+    (from_map ++ from_if ++ from_switch) |> Enum.uniq() |> Enum.sort()
   end
 
   # `const <name> = this.safe*(<obj>, '<k1>', '<k2>', ...)` declarators →
@@ -365,6 +396,14 @@ defmodule CcxtExtract.WsDispatch do
     |> List.flatten()
   end
 
+  @spec switch_discriminants(map()) :: [map()]
+  defp switch_discriminants(fn_expr) do
+    OXC.collect(fn_expr, fn
+      %{type: :switch_statement, discriminant: discriminant} -> {:keep, discriminant}
+      _ -> :skip
+    end)
+  end
+
   # Non-empty string-literal key arguments of a `this.safe*(<obj>, keys...)`
   # call (the first argument is the object, not a key). The trailing `''`
   # default is dropped.
@@ -385,8 +424,7 @@ defmodule CcxtExtract.WsDispatch do
          computed: false,
          object: %{type: :this_expression},
          property: %{type: :identifier, name: name}
-       }),
-       do: String.starts_with?(name, "safe")
+       }), do: String.starts_with?(name, "safe")
 
   defp safe_callee?(_node), do: false
 

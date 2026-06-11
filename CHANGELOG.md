@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 94 — WS channel → parse handler dispatch tables
+
+Added the `websocket.dispatch` section to the v4 WebSocket group. A new OXC extractor (`mix ccxt_extract.ws_dispatch`) scans CCXT Pro `handleMessage()` methods for structurally-resolvable channel → `handle*` parse-handler routing, including object-literal handler maps, if-chains, and switch cases with fall-through aliases. Pipeline assembly resolves `extends`-chain inheritance and emits an always-present record with `kind`, `handle_message_defined`, `discriminators`, `entries`, `unresolved`, `resolved_from`, `source`, provenance at `/websocket/dispatch`, JSON Schema coverage, and a `websocket_dispatch_shape_valid` contract invariant. REST-only exchanges carry an honest-empty `none_record`, while Pro classes whose `handleMessage()` cannot be statically classified carry `kind: "opaque"` plus `unresolved_reason: "dispatch_not_classifiable"`.
+
 ### Task 91 — WS subscribe / unsubscribe message shape per channel
 
 Added the `websocket.subscribe` section to the v4 WebSocket group. A new OXC extractor (`mix ccxt_extract.ws_subscribe`) scans CCXT Pro `watch*` methods for subscribe/unsubscribe frame envelopes and statically-resolvable channel-name templates, writing raw facts to `priv/discoveries/ws_subscribe.json`. Pipeline assembly resolves `extends`-chain inheritance and emits an always-present record with `mechanism`, discriminant/verb keys, channel-list carrier key, per-method `channels`, provenance at `/websocket/subscribe`, JSON Schema coverage, and a `websocket_subscribe_shape_valid` contract invariant. REST-only exchanges carry an honest-empty `none_record`, while Pro classes with unclassified subscribe frames carry `mechanism: "unknown"` plus `unresolved_reason: "subscribe_not_classifiable"`.

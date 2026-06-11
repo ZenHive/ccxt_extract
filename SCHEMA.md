@@ -63,7 +63,7 @@ Every per-exchange JSON file has exactly these top-level keys (**all required, n
 | `errors` | object | `handle_errors`, `class_hierarchy`, `status_map`, `retry_classification`, `dispatch` |
 | `rate_limits` | object | `buckets`, `per_endpoint_cost`, `endpoint_cost_binding` |
 | `normalization` | object | `parse_methods_digest`, `field_maps`, `response_envelopes` |
-| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93); `auth` — WebSocket connection auth flow (Task 92) |
+| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93); `auth` — WebSocket connection auth flow (Task 92); `subscribe` — subscribe/unsubscribe frame envelope + channel templates (Task 91) |
 | `markets` | object | `symbols_index`, `patterns`, `currencies` (Task 97), `precision_mode` (Task 98) |
 | `testnet` | object | Structured testnet / sandbox URL catalog |
 | `raw` | object | Raw passthroughs — `describe`, `url_templates`, `class_info`, `method_inventory`, `overrides_meta` |
@@ -521,6 +521,45 @@ Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, defaul
 | `unresolved_reason` | enum \| null | `no_ws_support` (no Pro class), `no_ws_auth` (Pro class but no `authenticate()` — public-only WS), `auth_not_classifiable` (`mechanism` is `unknown`), `null` when fully resolved. |
 
 **Honest-empty record** — a REST-only exchange emits `mechanism: "none"`, `unresolved_reason: "no_ws_support"`; a public-only-WS exchange (Pro class, no `authenticate()`) emits `mechanism: "none"`, `unresolved_reason: "no_ws_auth"`.
+
+### `websocket.subscribe` — shape (Task 91)
+
+`subscribe` describes the WebSocket subscribe/unsubscribe frame envelope and the per-`watch*` channel-name templates a consumer needs to open and close streams. It is derived structurally from the Pro class `watch*` methods and is **always emitted** — REST-only exchanges carry the honest-empty record.
+
+```json
+"websocket": {
+  "subscribe": {
+    "mechanism": "json_message",
+    "discriminant": "op",
+    "subscribe_op": "subscribe",
+    "unsubscribe_op": "unsubscribe",
+    "args_key": "args",
+    "envelope_keys": ["op", "req_id", "args"],
+    "channels": {
+      "watchOrderBook": ["book.{symbol}.raw"],
+      "watchTicker": ["tickers"]
+    },
+    "resolved_from": "self",
+    "source": "pro_watch",
+    "unresolved_reason": null
+  }
+}
+```
+
+| Key | Type | Meaning |
+|-----|------|---------|
+| `mechanism` | enum | Subscribe mechanism: `json_message` (a request object literal carries a discriminant such as `op` / `method` with a subscribe verb), `unknown` (Pro class exists but the envelope is not classifiable), or `none` (no Pro class). |
+| `discriminant` | `string \| null` | Object key carrying the subscribe/unsubscribe verb, such as `op` or `method`. |
+| `subscribe_op` | `string \| null` | Verb value that opens a subscription, resolved from a string literal or local const binding. |
+| `unsubscribe_op` | `string \| null` | Verb value that closes a subscription. `null` when the class defines no classifiable unsubscribe frame. |
+| `args_key` | `string \| null` | Top-level request key carrying the channel list, such as `args` or `params`. |
+| `envelope_keys` | `string[]` | Top-level keys of the subscribe request object literal, in source order. |
+| `channels` | object | Method name → sorted channel templates statically resolved from `watch*` methods. Placeholders are `{symbol}` and `{timeframe}`. |
+| `resolved_from` | `string \| null` | `"self"`, or an ancestor exchange id when the envelope is inherited through the `extends` chain. |
+| `source` | enum | `pro_watch` for Pro-class `watch*` facts, `none` for REST-only exchanges. |
+| `unresolved_reason` | enum \| null | `no_ws_support` (no Pro class), `subscribe_not_classifiable` (`mechanism` is `unknown`), or `null` when fully resolved. |
+
+**Honest-empty record** — a REST-only exchange emits `mechanism: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`, with `null` / empty values for the remaining fields. A Pro class with unclassified subscribe frames emits `mechanism: "unknown"`, `source: "pro_watch"`, and still carries any channel templates that were statically resolvable.
 
 `websocket` is the designated growth point for Phase 15 WS-derived sub-sections; sibling tasks add keys to it additively.
 

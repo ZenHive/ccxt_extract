@@ -1401,7 +1401,7 @@
       "phase": 15,
       "bundle": "15-semantics",
       "milestone": "feature_complete",
-      "status": "in_progress",
+      "status": "blocked",
       "title": "Snapshot/delta semantics — orderbook",
       "scores": {
         "d": 5,
@@ -1430,6 +1430,7 @@
       "body": "Emit, per WS exchange, how the orderbook channel signals a full snapshot vs an incremental delta, and the fields a consumer needs to apply deltas correctly. CCXT's `handleOrderBook(client, message)` (and helpers `handleDelta`/`handleSnapshot`/`handleOrderBookMessage` in `priv/ccxt/ts/src/pro/<id>.ts`) distinguishes a snapshot (full book, local book reset) from a delta (incremental bid/ask changes) via a discriminator — e.g. bybit `type: 'snapshot' | 'delta'`, okx `action: 'snapshot' | 'update'` + a crc32 `checksum`, binance a REST-seeded snapshot followed by `depthUpdate` deltas keyed by first/final update ids (`U`/`u`, plus `pu` on futures). Extract, per exchange: the snapshot/delta discriminator field and its literal values; the sequence/ordering fields (first/final/previous update id, seqNum); the integrity-check field + algorithm hint (checksum/crc32) when present; and whether deltas apply incrementally or fully replace.\n\nClassification is structural, mirroring the shipped Tasks 92 (ws_auth) / 93 (ws_heartbeat) — field names and discriminator values are read from literal AST arguments (`safeString`/`safeInteger`/`safeValue` keys, comparison literals), never inferred from server behavior. Resolve extends-chain inheritance via the WS class hierarchy (a variant/alias Pro class inherits its parent's semantics) as `WsHeartbeat.build/2` walks `extends`. Exchanges with no WS orderbook channel carry an honest-empty record. Source `handle*` ASTs are already on disk in `priv/discoveries/ws_methods.json`.\n\nThis is a sibling sub-section to Tasks 95b (trades) / 95c (OHLCV) — each owns its own extractor module, discovery file, schema `$def`, provenance pointer, and contract invariant so the three land independently without same-function collision. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.\n",
       "started_at": "2026-06-11",
       "scored_at": "2026-05-14",
+      "blocked_reason": "land-cap exhausted after push_rejected x2 (task 95a, last run run-1781153964863-becc0144)",
       "cross_repo": []
     },
     {

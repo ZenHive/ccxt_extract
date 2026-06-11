@@ -1121,7 +1121,7 @@
       "phase": 12,
       "bundle": "parse-ohlcv",
       "milestone": "feature_complete",
-      "status": "pending",
+      "status": "done",
       "title": "parseOHLCV discriminator vocabulary beyond market.inverse",
       "scores": {
         "d": 3,
@@ -1135,9 +1135,14 @@
       ],
       "depends_on": [],
       "assignee": "grok",
+      "shipped_in": "6109a059f10d6198be8f99265f4890664352fae9",
       "body": "Non-gating Phase 12 edge case. Generalize the closed `discriminator` vocab beyond `market.inverse` to cover okx `type === 'spot'` and similar multi-market-type gating — okx's `volumeIndex` test is `(type === 'spot') ? 5 : 6`, currently emits `volume = null` honestly. Ship okx volume populated when fixed. Discovered during Task 78 implementation.\n",
       "started_at": "2026-06-11",
+      "done_at": "2026-06-11",
       "scored_at": "2026-05-14",
+      "implemented": "Landed by grok via merge-train; reviewer-approved (run run-1781220954785-71d568f7, 6109a059f10d6198be8f99265f4890664352fae9).",
+      "delivered_by": "grok",
+      "verified": true,
       "cross_repo": []
     },
     {

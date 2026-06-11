@@ -947,7 +947,7 @@
       "phase": 9,
       "bundle": "9-audit",
       "milestone": "feature_complete",
-      "status": "pending",
+      "status": "done",
       "title": "mix ccxt_extract.drift_audit",
       "scores": {
         "d": 5,
@@ -966,8 +966,13 @@
         "Each finding cites the affected exchange id + JSON pointer + before/after values so a reviewer can act on it",
         "Exits non-zero only on errors, not on findings (so CI can gate it separately if desired)"
       ],
+      "shipped_in": "39f5ab1db92c70e622da894645843868baf01c5d",
       "body": "Compare current derivation + overrides against the last-released output. Flags: (a) overrides whose underlying raw data changed (stale override), (b) derived fields that flipped value or disappeared, (c) new raw fields not yet derived. Report only; humans decide.\n",
+      "done_at": "2026-06-11",
       "scored_at": "2026-05-14",
+      "implemented": "Landed by grok via merge-train; reviewer-approved (run run-1781220952601-afcc41df, 39f5ab1db92c70e622da894645843868baf01c5d).",
+      "delivered_by": "grok",
+      "verified": true,
       "cross_repo": []
     },
     {

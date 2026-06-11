@@ -541,12 +541,10 @@ Two tests paper over scope drift with blunt skips: (a) `authenticated_sections_i
 
 [[task]]
 id = 121
-assignee = "cursor"
-model = "claude-opus-4-8-thinking-high"
 phase = 12
 bundle = "method-descriptors"
 milestone = "feature_complete"
-status = "pending"
+status = "in_progress"
 title = "Extract unified-method descriptors from CCXT TS — TS signature + JSDoc overlay"
 scores = { d = 6, b = 7, u = 8 }
 depends_on = [144]
@@ -554,9 +552,12 @@ acceptance_criteria = [
   "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
 ]
 cross_repo = [{ repo = "ccxt_client", task_id = 109, relation = "blocks" }]
+assignee = "cursor"
+model = "claude-opus-4-8-thinking-high"
 body = """
 CCXT's unified methods carry two complementary axes: (a) the TS method signature — ordered `.value.params` with name, TS type, optional flag, default value, plus return type — the structural source of truth; (b) a leading JSDoc block adding per-param prose, `@throws {ErrorClass}` entries, `@returns` shape — the semantic overlay. Both halves matter; don't ship JSDoc alone. Extract both via an OXC pass over method definitions and emit a unified-method descriptor per method so each downstream client maps it to its own arg-shape convention — do NOT encode any single consumer's arg-shape in the descriptor. The TS-signature half is mechanical; the JSDoc half is the unknown — verify whether OXC surfaces JSDoc through `leadingComments`, a program-level comments array, or needs a second pass; QuickBEAM over the TS source is the fallback. Also emit `descriptor.source` — the byte-for-byte method body slice via OXC `.start`/`.end` offsets (provenance `raw`, just the method body, no normalization) so the descriptor becomes self-verifying. Provenance: both halves `raw`. Partial descriptors are honest (missing JSDoc → `description: null`, `errors: null` + `unresolved_reason`). Emission shape left to the implementer. Discovered 2026-04-21 during a descripex surface audit. ([Opus] model-hint marker from the legacy ROADMAP dropped — retired-era convention.)
 """
+started_at = "2026-06-11"
 scored_at = "2026-05-14"
 
 [[task]]

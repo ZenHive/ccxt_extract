@@ -1062,10 +1062,20 @@ scores = { d = 4, b = 7, u = 7 }
 markers = ["parallel"]
 depends_on = [144]
 acceptance_criteria = [
-  "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+  "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)",
+  "New OXC extractor `CcxtExtract.WsDispatch` (`use CcxtExtract.OXCExtractor` over the `pro/` source dir, discovery file `priv/discoveries/ws_dispatch.json`) writes raw, inheritance-free per-exchange channel→handler facts; driven by `mix ccxt_extract.ws_dispatch` and wired into the `ccxt_extract.update` orchestrator and `CcxtExtract.DiscoveryLoader`",
+  "Pipeline `build/2` derivation resolves WS extends-chain inheritance (a Pro class without its own `handleMessage` inherits the parent's table, as `WsHeartbeat.build/2` walks `extends`) and emits a `websocket.dispatch` sub-section; channel→handler entries are structurally classified from literal handler identifiers + literal discriminator keys (the `safeString`/`safeValue` lookup keys), unrecognized shapes recorded as `unresolved` with a reason — never guessed",
+  "Schema: new `WebsocketDispatch` `$def` in `priv/schema/exchange_v4.json`, added additively to the `Websocket` group `required` + `properties`; `mix ccxt_extract.validate` passes 110/110",
+  "Provenance: `/websocket/dispatch` registered in `CcxtExtract.Provenance` as `derived`",
+  "New `websocket_dispatch_shape_valid` invariant in `mix ccxt_extract.contract_test` (required-key set + closed vocabularies + honest-empty coherence) reports 0 corpus findings; REST-only exchanges carry an honest-empty record",
+  "`mix ccxt_extract.determinism_check` is byte-deterministic for the new extractor; unit + integration (`:extraction`) + cached tests cover the extractor and derivation, `WsDispatch` module at the standard ≥80% coverage tier"
 ]
 body = """
-WS channel → parse handler dispatch tables. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.
+Emit, per WS exchange, the dispatch table CCXT's Pro class uses to route an inbound frame to its parse handler. CCXT routes every WS message through `handleMessage(client, message)` (in `priv/ccxt/ts/src/pro/<id>.ts`), which reads one or more discriminator fields (e.g. `safeString(message, 'channel' | 'topic' | 'e' | 'type' | 'op')`) and dispatches to a `handle<Channel>` method — either through a `methods`/`handlers` object-literal map (channel-string → handler-name) or an if/switch chain that calls the handlers directly. This task extracts that channel → handler mapping plus the discriminator field(s) read, so a consumer knows which parse handler owns a given inbound channel frame. The watch*/subscribe side (channel-name templates) is Task 91; this is the receive/parse side. Source `handle*`/`watch*` ASTs are already on disk in `priv/discoveries/ws_methods.json` — reuse them rather than re-parsing where possible.
+
+Classification is structural, mirroring the shipped Tasks 92 (ws_auth) / 93 (ws_heartbeat): the handler name is the literal identifier invoked, the discriminator is the literal key argument to the `safeString`/`safeValue` lookup. An unrecognized dispatch shape lands in an `unresolved` entry with a reason — never a guessed mapping. Resolve extends-chain inheritance via the WS class hierarchy (a variant/alias Pro class that does not define `handleMessage` inherits its parent's table), exactly as `WsHeartbeat.build/2` walks the `extends` chain. REST-only exchanges carry an honest-empty record.
+
+Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.
 """
 scored_at = "2026-05-14"
 
@@ -1084,10 +1094,20 @@ scores = { d = 5, b = 8, u = 8 }
 markers = ["parallel"]
 depends_on = [144]
 acceptance_criteria = [
-  "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+  "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)",
+  "New OXC extractor `CcxtExtract.WsOrderbookSemantics` (`use CcxtExtract.OXCExtractor` over `pro/`, discovery file `priv/discoveries/ws_orderbook_semantics.json`) writes raw, inheritance-free per-exchange orderbook snapshot/delta facts; driven by `mix ccxt_extract.ws_orderbook_semantics` and wired into the `ccxt_extract.update` orchestrator and `CcxtExtract.DiscoveryLoader`",
+  "Pipeline `build/2` derivation resolves WS extends-chain inheritance (as `WsHeartbeat.build/2` walks `extends`) and emits a `websocket.orderbook_semantics` sub-section carrying: the snapshot/delta discriminator field + its literal values, the sequence/ordering fields (first/final/previous update id, seqNum), the integrity-check (checksum) field + algorithm hint, and an incremental-vs-replace flag — all structurally extracted from literal AST arguments, unrecognized shapes recorded `unresolved` with a reason, never inferred from server behavior",
+  "Schema: new `WebsocketOrderbookSemantics` `$def` in `priv/schema/exchange_v4.json`, added additively to the `Websocket` group `required` + `properties`; `mix ccxt_extract.validate` passes 110/110",
+  "Provenance: `/websocket/orderbook_semantics` registered in `CcxtExtract.Provenance` as `derived`",
+  "New `websocket_orderbook_semantics_shape_valid` invariant in `mix ccxt_extract.contract_test` (required-key set + closed vocabularies + honest-empty coherence) reports 0 corpus findings; exchanges with no WS orderbook channel carry an honest-empty record",
+  "`mix ccxt_extract.determinism_check` is byte-deterministic for the new extractor; unit + integration (`:extraction`) + cached tests cover the extractor and derivation, `WsOrderbookSemantics` module at the standard ≥80% coverage tier"
 ]
 body = """
-WS snapshot/delta semantics for the orderbook channel. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.
+Emit, per WS exchange, how the orderbook channel signals a full snapshot vs an incremental delta, and the fields a consumer needs to apply deltas correctly. CCXT's `handleOrderBook(client, message)` (and helpers `handleDelta`/`handleSnapshot`/`handleOrderBookMessage` in `priv/ccxt/ts/src/pro/<id>.ts`) distinguishes a snapshot (full book, local book reset) from a delta (incremental bid/ask changes) via a discriminator — e.g. bybit `type: 'snapshot' | 'delta'`, okx `action: 'snapshot' | 'update'` + a crc32 `checksum`, binance a REST-seeded snapshot followed by `depthUpdate` deltas keyed by first/final update ids (`U`/`u`, plus `pu` on futures). Extract, per exchange: the snapshot/delta discriminator field and its literal values; the sequence/ordering fields (first/final/previous update id, seqNum); the integrity-check field + algorithm hint (checksum/crc32) when present; and whether deltas apply incrementally or fully replace.
+
+Classification is structural, mirroring the shipped Tasks 92 (ws_auth) / 93 (ws_heartbeat) — field names and discriminator values are read from literal AST arguments (`safeString`/`safeInteger`/`safeValue` keys, comparison literals), never inferred from server behavior. Resolve extends-chain inheritance via the WS class hierarchy (a variant/alias Pro class inherits its parent's semantics) as `WsHeartbeat.build/2` walks `extends`. Exchanges with no WS orderbook channel carry an honest-empty record. Source `handle*` ASTs are already on disk in `priv/discoveries/ws_methods.json`.
+
+This is a sibling sub-section to Tasks 95b (trades) / 95c (OHLCV) — each owns its own extractor module, discovery file, schema `$def`, provenance pointer, and contract invariant so the three land independently without same-function collision. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.
 """
 scored_at = "2026-05-14"
 
@@ -1103,10 +1123,20 @@ scores = { d = 4, b = 7, u = 7 }
 markers = ["parallel"]
 depends_on = [144]
 acceptance_criteria = [
-  "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+  "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)",
+  "New OXC extractor `CcxtExtract.WsTradesSemantics` (`use CcxtExtract.OXCExtractor` over `pro/`, discovery file `priv/discoveries/ws_trades_semantics.json`) writes raw, inheritance-free per-exchange trades-channel facts; driven by `mix ccxt_extract.ws_trades_semantics` and wired into the `ccxt_extract.update` orchestrator and `CcxtExtract.DiscoveryLoader`",
+  "Pipeline `build/2` derivation resolves WS extends-chain inheritance (as `WsHeartbeat.build/2` walks `extends`) and emits a `websocket.trades_semantics` sub-section carrying: the update model (`append` vs any snapshot/replace path on (re)subscribe), the cache type + dedup key (trade id field), the cache-limit field/default (`tradesLimit`), and whether a separate private `myTrades` channel exists with its own limit — all structurally extracted, unrecognized shapes recorded `unresolved` with a reason",
+  "Schema: new `WebsocketTradesSemantics` `$def` in `priv/schema/exchange_v4.json`, added additively to the `Websocket` group `required` + `properties`; `mix ccxt_extract.validate` passes 110/110",
+  "Provenance: `/websocket/trades_semantics` registered in `CcxtExtract.Provenance` as `derived`",
+  "New `websocket_trades_semantics_shape_valid` invariant in `mix ccxt_extract.contract_test` (required-key set + closed vocabularies + honest-empty coherence) reports 0 corpus findings; exchanges with no WS trades channel carry an honest-empty record",
+  "`mix ccxt_extract.determinism_check` is byte-deterministic for the new extractor; unit + integration (`:extraction`) + cached tests cover the extractor and derivation, `WsTradesSemantics` module at the standard ≥80% coverage tier"
 ]
 body = """
-WS snapshot/delta semantics for the trades channel. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.
+Emit, per WS exchange, the trades-channel update model. CCXT's `handleTrade(s)(client, message)` (in `priv/ccxt/ts/src/pro/<id>.ts`) treats trades as an append-only stream: each frame carries a batch of new trades pushed into a bounded `ArrayCacheBySymbolById`/deque, capped by `tradesLimit`/`myTradesLimit`. Unlike the orderbook there is usually no snapshot/delta discriminator. Extract, per exchange: the update model (`append` vs any snapshot/replace path some exchanges use on (re)subscribe), the cache type + dedup key (trade id field), the cache-limit field/default, and whether a separate private `myTrades` channel exists with its own limit.
+
+Classification is structural, mirroring the shipped Tasks 92 (ws_auth) / 93 (ws_heartbeat) — model and field names come from literal AST (cache constructor type, `safeString` id key, `tradesLimit` reads), never inferred. Resolve extends-chain inheritance via the WS class hierarchy as `WsHeartbeat.build/2` walks `extends`. Exchanges with no WS trades channel carry an honest-empty record. Source `handle*` ASTs are already on disk in `priv/discoveries/ws_methods.json`.
+
+This is a sibling sub-section to Tasks 95a (orderbook) / 95c (OHLCV) — each owns its own extractor module, discovery file, schema `$def`, provenance pointer, and contract invariant so the three land independently without same-function collision. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.
 """
 scored_at = "2026-05-14"
 
@@ -1122,10 +1152,20 @@ scores = { d = 4, b = 7, u = 7 }
 markers = ["parallel"]
 depends_on = [144]
 acceptance_criteria = [
-  "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
+  "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)",
+  "New OXC extractor `CcxtExtract.WsOhlcvSemantics` (`use CcxtExtract.OXCExtractor` over `pro/`, discovery file `priv/discoveries/ws_ohlcv_semantics.json`) writes raw, inheritance-free per-exchange OHLCV-channel facts; driven by `mix ccxt_extract.ws_ohlcv_semantics` and wired into the `ccxt_extract.update` orchestrator and `CcxtExtract.DiscoveryLoader`",
+  "Pipeline `build/2` derivation resolves WS extends-chain inheritance (as `WsHeartbeat.build/2` walks `extends`) and emits a `websocket.ohlcv_semantics` sub-section carrying: the update model (`replace_latest_then_append`), the timeframe key/dimension, the candle-closed/confirm signal field if the exchange exposes one (e.g. bybit `confirm`, binance kline `x`), and the cache-limit field/default (`ohlcvLimit`) — all structurally extracted, unrecognized shapes recorded `unresolved` with a reason",
+  "Schema: new `WebsocketOhlcvSemantics` `$def` in `priv/schema/exchange_v4.json`, added additively to the `Websocket` group `required` + `properties`; `mix ccxt_extract.validate` passes 110/110",
+  "Provenance: `/websocket/ohlcv_semantics` registered in `CcxtExtract.Provenance` as `derived`",
+  "New `websocket_ohlcv_semantics_shape_valid` invariant in `mix ccxt_extract.contract_test` (required-key set + closed vocabularies + honest-empty coherence) reports 0 corpus findings; exchanges with no WS OHLCV channel carry an honest-empty record",
+  "`mix ccxt_extract.determinism_check` is byte-deterministic for the new extractor; unit + integration (`:extraction`) + cached tests cover the extractor and derivation, `WsOhlcvSemantics` module at the standard ≥80% coverage tier"
 ]
 body = """
-WS snapshot/delta semantics for the OHLCV channel. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.
+Emit, per WS exchange, the OHLCV (candle) channel update model. CCXT's `handleOHLCV(client, message)` (in `priv/ccxt/ts/src/pro/<id>.ts`) updates the most recent candle in place on every tick and appends a new candle when the bucket rolls over, keyed by timeframe, into a bounded `ArrayCacheByTimestamp` capped by `ohlcvLimit`. Extract, per exchange: the update model (`replace_latest_then_append`), the timeframe key/dimension, the candle-closed / confirm signal field if the exchange exposes one (e.g. bybit `confirm`, binance kline `x` closed flag), and the cache-limit field/default.
+
+Classification is structural, mirroring the shipped Tasks 92 (ws_auth) / 93 (ws_heartbeat) — model and field names come from literal AST (cache constructor, `safeValue` timeframe key, closed-flag key), never inferred. Resolve extends-chain inheritance via the WS class hierarchy as `WsHeartbeat.build/2` walks `extends`. Exchanges with no WS OHLCV channel carry an honest-empty record. Source `handle*` ASTs are already on disk in `priv/discoveries/ws_methods.json`.
+
+This is a sibling sub-section to Tasks 95a (orderbook) / 95b (trades) — each owns its own extractor module, discovery file, schema `$def`, provenance pointer, and contract invariant so the three land independently without same-function collision. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.
 """
 scored_at = "2026-05-14"
 

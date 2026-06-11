@@ -1360,7 +1360,7 @@
       "phase": 15,
       "bundle": "15-dispatch",
       "milestone": "feature_complete",
-      "status": "in_progress",
+      "status": "done",
       "title": "Channel → parse handler dispatch tables",
       "scores": {
         "d": 4,
@@ -1385,9 +1385,14 @@
         "New `websocket_dispatch_shape_valid` invariant in `mix ccxt_extract.contract_test` (required-key set + closed vocabularies + honest-empty coherence) reports 0 corpus findings; REST-only exchanges carry an honest-empty record",
         "`mix ccxt_extract.determinism_check` is byte-deterministic for the new extractor; unit + integration (`:extraction`) + cached tests cover the extractor and derivation, `WsDispatch` module at the standard ≥80% coverage tier"
       ],
+      "shipped_in": "8605ded22114f520894ff692eaab410bb76e4227",
       "body": "Emit, per WS exchange, the dispatch table CCXT's Pro class uses to route an inbound frame to its parse handler. CCXT routes every WS message through `handleMessage(client, message)` (in `priv/ccxt/ts/src/pro/<id>.ts`), which reads one or more discriminator fields (e.g. `safeString(message, 'channel' | 'topic' | 'e' | 'type' | 'op')`) and dispatches to a `handle<Channel>` method — either through a `methods`/`handlers` object-literal map (channel-string → handler-name) or an if/switch chain that calls the handlers directly. This task extracts that channel → handler mapping plus the discriminator field(s) read, so a consumer knows which parse handler owns a given inbound channel frame. The watch*/subscribe side (channel-name templates) is Task 91; this is the receive/parse side. Source `handle*`/`watch*` ASTs are already on disk in `priv/discoveries/ws_methods.json` — reuse them rather than re-parsing where possible.\n\nClassification is structural, mirroring the shipped Tasks 92 (ws_auth) / 93 (ws_heartbeat): the handler name is the literal identifier invoked, the discriminator is the literal key argument to the `safeString`/`safeValue` lookup. An unrecognized dispatch shape lands in an `unresolved` entry with a reason — never a guessed mapping. Resolve extends-chain inheritance via the WS class hierarchy (a variant/alias Pro class that does not define `handleMessage` inherits its parent's table), exactly as `WsHeartbeat.build/2` walks the `extends` chain. REST-only exchanges carry an honest-empty record.\n\nPhase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27); Task 91 carries the explicit cross_repo edges.\n",
       "started_at": "2026-06-11",
+      "done_at": "2026-06-11",
       "scored_at": "2026-05-14",
+      "implemented": "Landed by cursor via merge-train; reviewer-approved (run run-1781142264462-a3de3633, 8605ded22114f520894ff692eaab410bb76e4227).",
+      "delivered_by": "cursor",
+      "verified": true,
       "cross_repo": []
     },
     {

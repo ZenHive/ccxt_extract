@@ -1249,7 +1249,7 @@
       "phase": 15,
       "bundle": "15-msg",
       "milestone": "feature_complete",
-      "status": "in_progress",
+      "status": "done",
       "title": "WS subscribe / unsubscribe message shape per channel",
       "scores": {
         "d": 5,
@@ -1269,9 +1269,14 @@
       "acceptance_criteria": [
         "Mix task uses `TaskScope.parse_and_resolve!/2` for scope parsing — no direct `OptionParser.parse` call in the new mix task (per Task 144)"
       ],
+      "shipped_in": "f07914df993861a16b989d0a9c52cdb66d5f77e3",
       "body": "Ship both the frame envelope shape AND per-method channel-name templates (e.g. `\"tickers.{symbol}\"`, `\"book.{symbol}.raw\"`). ccxt_client T94 already ports envelope patterns from bak; T97 is blocked on the channel templates specifically. Phase 15 output feeds ccxt_client's ws_unified bundle (Tasks 22–27) — this task carries the explicit cross_repo edges.\n",
       "started_at": "2026-06-11",
+      "done_at": "2026-06-11",
       "scored_at": "2026-05-14",
+      "implemented": "Landed by cursor via merge-train; reviewer-approved (run run-1781142263106-e08c5461, f07914df993861a16b989d0a9c52cdb66d5f77e3).",
+      "delivered_by": "cursor",
+      "verified": true,
       "cross_repo": [
         {
           "repo": "ccxt_client",

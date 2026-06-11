@@ -121,7 +121,8 @@ defmodule CcxtExtract.Schema do
       Keyword.get(opts, :websocket) ||
         %{
           "heartbeat" => CcxtExtract.WsHeartbeat.none_record(),
-          "auth" => CcxtExtract.WsAuth.none_record()
+          "auth" => CcxtExtract.WsAuth.none_record(),
+          "subscribe" => CcxtExtract.WsSubscribe.none_record()
         }
 
     %{

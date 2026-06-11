@@ -154,42 +154,64 @@ defmodule CcxtExtract.WsSubscribe do
 
   @spec extract_envelope(map(), %{String.t() => String.t()}) :: map()
   defp extract_envelope(class, const_map) do
-    objects = OXC.collect(class, fn %{type: :object_expression} = n -> {:keep, n}; _ -> :skip end)
+    objects =
+      OXC.collect(class, fn
+        %{type: :object_expression} = n -> {:keep, n}
+        _ -> :skip
+      end)
 
     sub_classifier = fn value -> subscribe_op?(value) end
     unsub_classifier = fn value -> unsubscribe_op?(value) end
     sub = Enum.find_value(objects, &op_object(&1, const_map, sub_classifier))
     unsub = Enum.find_value(objects, &op_object(&1, const_map, unsub_classifier))
 
+    build_envelope(sub, unsub)
+  end
+
+  @spec build_envelope(map() | nil, map() | nil) :: map()
+  defp build_envelope(sub, unsub) do
     primary = sub || unsub
 
     %{
-      "discriminant" => primary && primary.disc_key,
-      "subscribe" => sub && sub.op,
-      "unsubscribe" => unsub && unsub.op,
-      "args_key" => primary && args_key(primary.object),
-      "subscribe_keys" => (sub && message_keys(sub.object)) || [],
-      "unsubscribe_keys" => (unsub && message_keys(unsub.object)) || []
+      "discriminant" => op_get(primary, & &1.disc_key),
+      "subscribe" => op_get(sub, & &1.op),
+      "unsubscribe" => op_get(unsub, & &1.op),
+      "args_key" => op_get(primary, &args_key(&1.object)),
+      "subscribe_keys" => op_keys(sub),
+      "unsubscribe_keys" => op_keys(unsub)
     }
   end
+
+  @spec op_get(map() | nil, (map() -> term())) :: term() | nil
+  defp op_get(nil, _fun), do: nil
+  defp op_get(entry, fun), do: fun.(entry)
+
+  @spec op_keys(map() | nil) :: [String.t()]
+  defp op_keys(nil), do: []
+  defp op_keys(entry), do: message_keys(entry.object)
 
   # `%{disc_key, op, object}` when one of the discriminant keys of `object`
   # holds a verb that passes `classifier`, else nil.
   @spec op_object(map(), %{String.t() => String.t()}, (String.t() -> boolean())) ::
           %{disc_key: String.t(), op: String.t(), object: map()} | nil
   defp op_object(%{type: :object_expression} = object, const_map, classifier) do
-    Enum.find_value(@discriminant_keys, fn key ->
-      case discriminant_value(object, key, const_map) do
-        value when is_binary(value) ->
-          if classifier.(value), do: %{disc_key: key, op: value, object: object}
-
-        _ ->
-          nil
-      end
-    end)
+    Enum.find_value(@discriminant_keys, &classified_discriminant(object, &1, const_map, classifier))
   end
 
   defp op_object(_node, _const_map, _classifier), do: nil
+
+  # `%{disc_key, op, object}` when discriminant `key` of `object` holds a verb
+  # passing `classifier`, else nil.
+  @spec classified_discriminant(map(), String.t(), %{String.t() => String.t()}, (String.t() -> boolean())) ::
+          %{disc_key: String.t(), op: String.t(), object: map()} | nil
+  defp classified_discriminant(object, key, const_map, classifier) do
+    with value when is_binary(value) <- discriminant_value(object, key, const_map),
+         true <- classifier.(value) do
+      %{disc_key: key, op: value, object: object}
+    else
+      _ -> nil
+    end
+  end
 
   # Verb-value classifiers. `contains` (not exact) catches the JSON-RPC
   # namespaced forms `public/subscribe` (deribit) and `public/unsubscribe`
@@ -312,8 +334,7 @@ defmodule CcxtExtract.WsSubscribe do
 
   # A concat operand becomes a literal string, a placeholder, or :unresolved.
   @spec operand_token(map()) :: String.t() | :unresolved
-  defp operand_token(%{type: type, value: value}) when type in [:literal, :string_literal] and is_binary(value),
-    do: value
+  defp operand_token(%{type: type, value: value}) when type in [:literal, :string_literal] and is_binary(value), do: value
 
   defp operand_token(%{type: :identifier, name: name}) do
     cond do
@@ -323,7 +344,12 @@ defmodule CcxtExtract.WsSubscribe do
     end
   end
 
-  defp operand_token(%{type: :member_expression, computed: true, object: %{type: :identifier, name: "market"}, property: prop}) do
+  defp operand_token(%{
+         type: :member_expression,
+         computed: true,
+         object: %{type: :identifier, name: "market"},
+         property: prop
+       }) do
     case string_literal_value(prop) do
       v when v in @symbol_market_props -> "{symbol}"
       _ -> :unresolved
@@ -336,17 +362,21 @@ defmodule CcxtExtract.WsSubscribe do
   @spec property_channel_literals(map()) :: [String.t()]
   defp property_channel_literals(method) do
     method
-    |> OXC.collect(fn %{type: :object_expression} = n -> {:keep, n}; _ -> :skip end)
-    |> Enum.flat_map(fn %{properties: props} ->
-      Enum.flat_map(props, fn prop ->
-        with key when key in @channel_keys <- property_key(prop),
-             value when is_binary(value) <- string_literal_value(Map.get(prop, :value)) do
-          [value]
-        else
-          _ -> []
-        end
-      end)
+    |> OXC.collect(fn
+      %{type: :object_expression} = n -> {:keep, n}
+      _ -> :skip
     end)
+    |> Enum.flat_map(fn %{properties: props} -> Enum.flat_map(props, &channel_property_literal/1) end)
+  end
+
+  @spec channel_property_literal(map()) :: [String.t()]
+  defp channel_property_literal(prop) do
+    with key when key in @channel_keys <- property_key(prop),
+         value when is_binary(value) <- string_literal_value(Map.get(prop, :value)) do
+      [value]
+    else
+      _ -> []
+    end
   end
 
   # (3) String-literal channel defaults that follow a `'channel'`/`'name'`/
@@ -354,7 +384,10 @@ defmodule CcxtExtract.WsSubscribe do
   @spec option_channel_defaults(map()) :: [String.t()]
   defp option_channel_defaults(method) do
     method
-    |> OXC.collect(fn %{type: :call_expression} = n -> {:keep, n}; _ -> :skip end)
+    |> OXC.collect(fn
+      %{type: :call_expression} = n -> {:keep, n}
+      _ -> :skip
+    end)
     |> Enum.flat_map(fn %{arguments: args} -> channel_defaults_in_args(args) end)
   end
 

@@ -373,18 +373,19 @@ shipped_in = "f470ca8a84606af5343b9aa921c8fb6163e665af"
 
 [[task]]
 id = 141
-assignee = "grok"
 phase = 0
 bundle = "maintenance"
-status = "pending"
+status = "in_progress"
 title = "Author real specs for WS milestone tasks 94 + 95a/95b/95c"
 scores = { d = 3, b = 3, u = 3 }
-scored_at = "2026-06-10"
+assignee = "grok"
 body = """
 Rescoped 2026-06-10 (roadmap hygiene review) — the original scope ("backfill acceptance_criteria flagged by rmap doctor; decide on the degenerate `12-simple` bundle") is overtaken: the flagged acceptance_criteria were authored task-by-task, `12-simple` no longer exists (split into parse-ohlcv / ticker-normalization), and current `rmap doctor` output is a different finding class (done-without-verified, handled by the audit-review sweep).
 
 Remaining editorial gap: WS milestone tasks 94 (channel → parse handler dispatch tables) and 95a/95b/95c (snapshot/delta semantics for orderbook/trades/OHLCV) carry one-line bodies and only the boilerplate TaskScope acceptance criterion, yet they are the largest remaining feature_complete surface (B:7–8) and are assigned to headless harness adapters — the body IS the implementer's spec. Scope: author real bodies + acceptance_criteria for these four tasks before dispatch, using the shipped Task 92 (ws_auth) and Task 93 (ws_heartbeat) `implemented` notes as the spec template (extractor module, discovery file, pipeline derivation + extends-chain inheritance, schema $def, provenance pointer, contract-test shape invariant, determinism + validation gates). Original filing history: audit-review 2026-05-14 against commit 2f2b342, see `.audit/2f2b342-roadmap-migrate-to-rmap.md`.
 """
+started_at = "2026-06-11"
+scored_at = "2026-06-10"
 
 # ── Phase 0 · bundle 10-sign-extend (all blocked — scope-creep audit) ──────
 

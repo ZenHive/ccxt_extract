@@ -235,9 +235,9 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
     assert branch["field_map"]["volume"]["false"]["index"] == 5
   end
 
-  # --- 7b. non-inverse discriminator (okx-style `type === 'spot'`) → null + reason ---
+  # --- 7b. market.spot discriminator (okx-style `type === 'spot'`) — volume now populated ---
 
-  test "non-inverse ConditionalExpression test → volume slot null + branch reason" do
+  test "discriminated volume via market.spot (okx `(type === 'spot') ? 5 : 6`)" do
     test_expr =
       paren(%{
         "type" => "BinaryExpression",
@@ -259,9 +259,13 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
     entry = wrap_entry([volume_index_decl, return_stmt(array_expr(elements))])
     %{"branches" => [branch]} = OHLCV.derive(entry)
 
-    assert branch["field_map"]["volume"] == nil
-    assert branch["_unresolved_reason"] =~ "non_inverse_discriminator"
-    # The other 5 slots still populate
+    volume_slot = branch["field_map"]["volume"]
+    assert volume_slot["kind"] == "discriminated"
+    assert volume_slot["discriminator"] == "market.spot"
+    assert volume_slot["true"]["index"] == 5
+    assert volume_slot["false"]["index"] == 6
+    assert branch["_unresolved_reason"] == nil
+    # All slots populate
     assert branch["field_map"]["timestamp"]["coercion"] == "safeInteger"
     assert branch["field_map"]["close"]["index"] == 4
   end
@@ -430,11 +434,11 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
     assert branch["_unresolved_reason"] =~ "volume_index_non_conditional"
   end
 
-  # --- 19. inverse_discriminator? on Identifier with broken transitive binding ---
+  # --- 19. unsupported discriminator test (Identifier chain that does not resolve to inverse/spot shape) ---
 
-  test "discriminator chain dead-ends at unbound Identifier → non_inverse_discriminator" do
+  test "discriminator chain dead-ends at unbound Identifier → unsupported_discriminator" do
     # volumeIndex = ghostFlag ? 7 : 5, but ghostFlag is never declared.
-    # The Identifier branch of inverse_discriminator? should fall through to false.
+    # The test ident does not resolve to a recognized inverse/spot shape.
     volume_index_decl =
       var_decl(
         "volumeIndex",
@@ -451,7 +455,7 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
     %{"branches" => [branch]} = OHLCV.derive(entry)
 
     assert branch["field_map"]["volume"] == nil
-    assert branch["_unresolved_reason"] =~ "non_inverse_discriminator"
+    assert branch["_unresolved_reason"] =~ "unsupported_discriminator"
   end
 
   # --- 20. derive/1 with a non-map, non-nil fallthrough ---
@@ -495,7 +499,7 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
   test "cyclic identifier binding chain terminates without hanging" do
     # Synthetic AST cycle: `a` binds to identifier `b`, `b` binds to identifier
     # `a`. `volumeIndex = a ? 7 : 5` would chain `a -> b -> a -> infinity`
-    # without the visited-set guard in inverse_discriminator?/3. Real JS const
+    # without the visited-set guard in discriminator_for_test/3. Real JS const
     # semantics forbid this, but the AST representation could carry it
     # (codegen, future fixtures, macro-synthesized parse_methods entries).
     decl_a = var_decl("a", identifier("b"))
@@ -513,11 +517,11 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
 
     entry = wrap_entry([decl_a, decl_b, volume_index_decl, return_stmt(array_expr(elements))])
 
-    # Must terminate (not hang). Cycle dead-ends -> non_inverse_discriminator.
+    # Must terminate (not hang). Cycle dead-ends -> unsupported_discriminator.
     %{"branches" => [branch]} = OHLCV.derive(entry)
 
     assert branch["field_map"]["volume"] == nil
-    assert branch["_unresolved_reason"] =~ "non_inverse_discriminator"
+    assert branch["_unresolved_reason"] =~ "unsupported_discriminator"
   end
 
   # --- 23. hybrid return: one array + one non-array → ambiguous, not silent always-array ---

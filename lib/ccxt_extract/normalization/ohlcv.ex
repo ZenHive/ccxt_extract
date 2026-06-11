@@ -46,8 +46,8 @@ defmodule CcxtExtract.Normalization.OHLCV do
   `mixed_input_locators` to the branch reason and omits `input_shape`.
 
   A `discriminated_slot()` (used when `volume`'s index resolves through
-  `volumeIndex = inverse-test ? a : b`) is
-  `%{"kind" => "discriminated", "discriminator" => "market.inverse",
+  a Conditional `volumeIndex = test ? a : b`) is
+  `%{"kind" => "discriminated", "discriminator" => "market.inverse" | "market.spot",
      "true" => %{"index" => integer(), "coercion" => method},
      "false" => %{"index" => integer(), "coercion" => method}}`.
 
@@ -291,7 +291,8 @@ defmodule CcxtExtract.Normalization.OHLCV do
   # Volume has three legitimate shapes:
   #   1. Direct safe_num call with literal int/string idx — pure slot.
   #   2. safe_num call with Identifier idx (`volumeIndex`) — discriminated slot
-  #      via `volumeIndex = inverse-test ? a : b`.
+  #      via `volumeIndex = <inverse-or-spot-test> ? a : b` (market.inverse or
+  #      market.spot discriminators).
   #   3. Bare Identifier element (`volume`) bound at the top of the parseOHLCV
   #      body to something we can't slot-map (e.g. bitmex's
   #      `convertFromRawQuantity`). Honest-null the slot, surface the binding's
@@ -372,11 +373,11 @@ defmodule CcxtExtract.Normalization.OHLCV do
           {:ok, map()} | {:error, String.t()}
   defp build_discriminated_volume(name, method, bindings) do
     case resolve_volume_index(name, bindings) do
-      {:ok, %{cons: cons, alt: alt}} ->
+      {:ok, %{cons: cons, alt: alt, discriminator: disc}} ->
         {:ok,
          %{
            "kind" => "discriminated",
-           "discriminator" => "market.inverse",
+           "discriminator" => disc,
            "true" => %{"index" => cons, "coercion" => method},
            "false" => %{"index" => alt, "coercion" => method}
          }}
@@ -387,7 +388,7 @@ defmodule CcxtExtract.Normalization.OHLCV do
   end
 
   @spec resolve_volume_index(String.t(), [{String.t(), map()}]) ::
-          {:ok, %{cons: integer(), alt: integer()}} | {:error, String.t()}
+          {:ok, %{cons: integer(), alt: integer(), discriminator: String.t()}} | {:error, String.t()}
   defp resolve_volume_index(name, bindings) do
     case lookup_binding(name, bindings) do
       %{
@@ -397,9 +398,10 @@ defmodule CcxtExtract.Normalization.OHLCV do
         "alternate" => %{"type" => "Literal", "value" => alt}
       }
       when is_integer(cons) and is_integer(alt) ->
-        if inverse_discriminator?(test, bindings),
-          do: {:ok, %{cons: cons, alt: alt}},
-          else: {:error, "non_inverse_discriminator"}
+        case discriminator_for_test(test, bindings) do
+          nil -> {:error, "unsupported_discriminator"}
+          disc -> {:ok, %{cons: cons, alt: alt, discriminator: disc}}
+        end
 
       nil ->
         {:error, "volume_index_unbound:#{name}"}
@@ -409,25 +411,27 @@ defmodule CcxtExtract.Normalization.OHLCV do
     end
   end
 
-  # Recognizes `market.inverse`-shaped tests:
-  #   market['inverse']                    (MemberExpression w/ Literal property "inverse")
-  #   (market['inverse'])                  (ParenthesizedExpression around the above)
-  #   this.safeBool(market, 'inverse', …)  (CallExpression)
-  #   inverse                              (Identifier — bound transitively via `bindings`)
+  # Returns the discriminator label ("market.inverse" or "market.spot") for a
+  # recognized Conditional test expression, or nil for unsupported shapes.
+  # Supports:
+  #   market.inverse: market['inverse'], (market['inverse']), this.safeBool(market, 'inverse'),
+  #                   or Identifier transitively bound to one of the above.
+  #   market.spot:    (type === 'spot') or (type == 'spot') (or swapped sides),
+  #                   or Identifier transitively bound to such a BinaryExpression
+  #                   (covers okx: const type = ...; const volumeIndex = (type === 'spot') ? 5 : 6).
   #
-  # The Identifier clause threads a visited-set through arity-3 to defend
-  # against cyclic AST chains (`a -> b -> a`) that would otherwise infinite-loop.
-  # Real JS const semantics forbid the cycle, but the AST representation can
-  # carry one (codegen, future fixtures); the guard keeps the function total.
-  @spec inverse_discriminator?(map(), [{String.t(), map()}]) :: boolean()
-  defp inverse_discriminator?(node, bindings), do: inverse_discriminator?(node, bindings, MapSet.new())
+  # The Identifier clause threads a visited-set to defend against cyclic AST
+  # (defensive; real consts do not cycle).
+  @spec discriminator_for_test(map(), [{String.t(), map()}]) :: String.t() | nil
+  defp discriminator_for_test(node, bindings), do: discriminator_for_test(node, bindings, MapSet.new())
 
-  @spec inverse_discriminator?(map(), [{String.t(), map()}], MapSet.t()) :: boolean()
-  defp inverse_discriminator?(%{"type" => "ParenthesizedExpression", "expression" => inner}, bindings, seen) do
-    inverse_discriminator?(inner, bindings, seen)
+  @spec discriminator_for_test(map(), [{String.t(), map()}], MapSet.t()) :: String.t() | nil
+  defp discriminator_for_test(%{"type" => "ParenthesizedExpression", "expression" => inner}, bindings, seen) do
+    discriminator_for_test(inner, bindings, seen)
   end
 
-  defp inverse_discriminator?(
+  # market.inverse shapes
+  defp discriminator_for_test(
          %{
            "type" => "MemberExpression",
            "object" => %{"type" => "Identifier", "name" => "market"},
@@ -436,9 +440,9 @@ defmodule CcxtExtract.Normalization.OHLCV do
          _bindings,
          _seen
        ),
-       do: true
+       do: "market.inverse"
 
-  defp inverse_discriminator?(
+  defp discriminator_for_test(
          %{
            "type" => "CallExpression",
            "callee" => %{
@@ -454,20 +458,47 @@ defmodule CcxtExtract.Normalization.OHLCV do
          _bindings,
          _seen
        ),
-       do: true
+       do: "market.inverse"
 
-  defp inverse_discriminator?(%{"type" => "Identifier", "name" => name}, bindings, seen) do
+  # market.spot via type === 'spot' / == 'spot' (okx multi-market-type gating for volume)
+  defp discriminator_for_test(
+         %{
+           "type" => "BinaryExpression",
+           "operator" => op,
+           "left" => %{"type" => "Identifier", "name" => "type"},
+           "right" => %{"type" => "Literal", "value" => "spot"}
+         },
+         _bindings,
+         _seen
+       )
+       when op in ["===", "=="],
+       do: "market.spot"
+
+  defp discriminator_for_test(
+         %{
+           "type" => "BinaryExpression",
+           "operator" => op,
+           "left" => %{"type" => "Literal", "value" => "spot"},
+           "right" => %{"type" => "Identifier", "name" => "type"}
+         },
+         _bindings,
+         _seen
+       )
+       when op in ["===", "=="],
+       do: "market.spot"
+
+  defp discriminator_for_test(%{"type" => "Identifier", "name" => name}, bindings, seen) do
     if MapSet.member?(seen, name) do
-      false
+      nil
     else
       case lookup_binding(name, bindings) do
-        nil -> false
-        init -> inverse_discriminator?(init, bindings, MapSet.put(seen, name))
+        nil -> nil
+        init -> discriminator_for_test(init, bindings, MapSet.put(seen, name))
       end
     end
   end
 
-  defp inverse_discriminator?(_, _, _), do: false
+  defp discriminator_for_test(_, _, _), do: nil
 
   @spec lookup_binding(String.t(), [{String.t(), map()}]) :: map() | nil
   defp lookup_binding(name, bindings) do

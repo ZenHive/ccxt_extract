@@ -177,14 +177,13 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
             assert branch["field_map"]["volume"]["discriminator"] == "market.inverse"
 
           "okx" ->
-            # okx's volumeIndex is gated on `(type === 'spot') ? 5 : 6`,
-            # not market.inverse — per the closed-vocab honesty rule, the
-            # volume slot emits null with a branch-level reason. The
-            # other 5 slots (timestamp + OHLC) populate normally.
+            # okx volumeIndex uses `(type === 'spot') ? 5 : 6` (Task 78f) —
+            # now recognized as "market.spot" discriminator; volume slot populated.
             assert is_map(ohlcv)
             assert [branch] = ohlcv["branches"]
-            assert branch["field_map"]["volume"] == nil
-            assert branch["_unresolved_reason"] =~ "non_inverse_discriminator"
+            assert branch["field_map"]["volume"]["kind"] == "discriminated"
+            assert branch["field_map"]["volume"]["discriminator"] == "market.spot"
+            assert branch["_unresolved_reason"] == nil
             assert branch["field_map"]["timestamp"]["coercion"] in ~w(safeInteger safeInteger2)
 
           "deribit" ->

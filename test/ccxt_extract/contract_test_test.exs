@@ -1034,6 +1034,163 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_websocket_dispatch_shape_valid/2" do
+    alias CcxtExtract.WsDispatch
+
+    defp disp_exchange(id, dispatch) do
+      %{"exchange" => %{"id" => id}, "websocket" => %{"dispatch" => dispatch}}
+    end
+
+    defp routed_record do
+      entry = %{
+        "id" => "bybit",
+        "extends" => "bybitRest",
+        "handle_message" => %{
+          "defined" => true,
+          "discriminators" => ["topic"],
+          "entries" => [%{"channel" => "kline", "handler" => "handleOHLCV"}],
+          "unresolved" => []
+        }
+      }
+
+      WsDispatch.build(entry, %{"bybit" => entry})
+    end
+
+    test "no findings on the honest-empty none_record" do
+      exchange = disp_exchange("restonly", WsDispatch.none_record())
+      assert ContractTest.check_websocket_dispatch_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "no findings on a freshly-derived routed record" do
+      exchange = disp_exchange("bybit", routed_record())
+      assert ContractTest.check_websocket_dispatch_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "non-map dispatch is flagged" do
+      [finding] =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("bad", "garbage"), @base_observed)
+
+      assert finding.exchange == "bad"
+      assert finding.invariant == "websocket_dispatch_shape_valid"
+      assert finding.path == "websocket/dispatch"
+      assert finding.message =~ "must be a map"
+    end
+
+    test "a missing required key is flagged" do
+      record = Map.delete(WsDispatch.none_record(), "entries")
+
+      [finding] =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("bad", record), @base_observed)
+
+      assert finding.message =~ "missing required key"
+      assert finding.message =~ "entries"
+    end
+
+    test "an unexpected key is flagged" do
+      record = Map.put(WsDispatch.none_record(), "rogue", true)
+
+      [finding] =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("bad", record), @base_observed)
+
+      assert finding.message =~ "unexpected key"
+      assert finding.message =~ "rogue"
+    end
+
+    test "an out-of-vocabulary kind is flagged" do
+      record = Map.put(WsDispatch.none_record(), "kind", "bogus")
+
+      findings =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "kind must be one of"))
+    end
+
+    test "an out-of-vocabulary source is flagged" do
+      record = Map.put(WsDispatch.none_record(), "source", "bogus")
+
+      findings =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "source must be one of"))
+    end
+
+    test "an out-of-vocabulary unresolved_reason is flagged" do
+      record = Map.put(WsDispatch.none_record(), "unresolved_reason", "bogus")
+
+      findings =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "unresolved_reason must be one of"))
+    end
+
+    test "a non-string entry handler is flagged" do
+      record = Map.put(routed_record(), "entries", [%{"channel" => "kline", "handler" => 42}])
+
+      findings =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "entry handler must be a string"))
+    end
+
+    test "a malformed entry shape is flagged" do
+      record = Map.put(routed_record(), "entries", [%{"channel" => "kline"}])
+
+      findings =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "entry must carry channel + handler"))
+    end
+
+    test "an out-of-vocabulary unresolved entry reason is flagged" do
+      record = Map.put(routed_record(), "unresolved", [%{"reason" => "bogus"}])
+
+      findings =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("bad", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "unresolved reason must be one of"))
+    end
+
+    test "kind=none disagreeing with handle_message_defined is flagged (honesty rule)" do
+      record = Map.put(WsDispatch.none_record(), "handle_message_defined", true)
+
+      [finding] =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("incoherent", record), @base_observed)
+
+      assert finding.message =~ "kind=none must agree with handle_message_defined=false"
+    end
+
+    test "kind=none disagreeing with source is flagged (honesty rule)" do
+      record = Map.put(WsDispatch.none_record(), "source", "pro_handle_message")
+
+      [finding] =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("incoherent", record), @base_observed)
+
+      assert finding.message =~ "kind=none must agree with source=none"
+    end
+
+    test "kind=routed disagreeing with an empty entries list is flagged (honesty rule)" do
+      record = Map.put(routed_record(), "entries", [])
+
+      findings =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("incoherent", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "kind=routed must agree with a non-empty entries list"))
+    end
+
+    test "kind=opaque disagreeing with unresolved_reason is flagged (honesty rule)" do
+      record =
+        routed_record()
+        |> Map.put("kind", "opaque")
+        |> Map.put("entries", [])
+        |> Map.put("unresolved_reason", nil)
+
+      findings =
+        ContractTest.check_websocket_dispatch_shape_valid(disp_exchange("incoherent", record), @base_observed)
+
+      assert Enum.any?(findings, &(&1.message =~ "kind=opaque must agree with unresolved_reason=dispatch_not_classifiable"))
+    end
+  end
+
   describe "check_error_class_hierarchy_shape_valid/2" do
     defp exchange_with_hierarchy(id, hierarchy) do
       %{

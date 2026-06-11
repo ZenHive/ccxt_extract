@@ -61,6 +61,7 @@ defmodule CcxtExtract.DiscoveryLoader do
     {ws_heartbeat, stats} = load_exchange_lookup(dir, "ws_heartbeat.json", expected_ids, stats)
     {ws_auth, stats} = load_exchange_lookup(dir, "ws_auth.json", expected_ids, stats)
     {ws_subscribe, stats} = load_exchange_lookup(dir, "ws_subscribe.json", expected_ids, stats)
+    {ws_dispatch, stats} = load_exchange_lookup(dir, "ws_dispatch.json", expected_ids, stats)
     {overrides, stats} = load_overrides(dir, expected_ids, stats)
 
     %{
@@ -79,6 +80,7 @@ defmodule CcxtExtract.DiscoveryLoader do
       ws_heartbeat: ws_heartbeat,
       ws_auth: ws_auth,
       ws_subscribe: ws_subscribe,
+      ws_dispatch: ws_dispatch,
       interface_signatures: interface_signatures,
       pagination: pagination,
       unified_endpoints: unified_endpoints,

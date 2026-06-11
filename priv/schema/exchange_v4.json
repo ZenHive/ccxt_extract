@@ -553,11 +553,12 @@
     },
     "Websocket": {
       "type": "object",
-      "description": "WebSocket surface. Task 93 ships the heartbeat sub-section (ping/pong keep-alive); Task 92 the auth sub-section (connection authentication flow); Task 91 the subscribe sub-section (subscribe/unsubscribe frame envelope + per-method channel-name templates). Sibling Phase 15 tasks add further sub-sections additively — this group is the designated growth point for WS-derived data (see SCHEMA.md).",
+      "description": "WebSocket surface. Task 93 ships the heartbeat sub-section (ping/pong keep-alive); Task 92 the auth sub-section (connection authentication flow); Task 91 the subscribe sub-section (subscribe/unsubscribe frame envelope + per-method channel-name templates); Task 94 the dispatch sub-section (channel → parse-handler routing table). Sibling Phase 15 tasks add further sub-sections additively — this group is the designated growth point for WS-derived data (see SCHEMA.md).",
       "required": [
         "heartbeat",
         "auth",
-        "subscribe"
+        "subscribe",
+        "dispatch"
       ],
       "additionalProperties": false,
       "properties": {
@@ -572,6 +573,88 @@
         "subscribe": {
           "$ref": "#/$defs/WebsocketSubscribe",
           "description": "Per-exchange WebSocket subscribe/unsubscribe frame envelope and per-method channel-name templates derived from the Pro class watch* methods (Task 91)."
+        },
+        "dispatch": {
+          "$ref": "#/$defs/WebsocketDispatch",
+          "description": "Per-exchange channel → parse-handler dispatch table derived from the Pro class handleMessage() method (Task 94)."
+        }
+      }
+    },
+    "WebsocketDispatch": {
+      "type": "object",
+      "description": "Channel → parse-handler routing table, derived from the Pro class handleMessage() method (Task 94). handleMessage reads one or more discriminator fields off an inbound frame and routes it to a handle<Channel> method, either through an object-literal handler map or an if/switch chain. entries are structurally classified from literal channel keys + literal handler identifiers (must start with 'handle'); unrecognized shapes land in unresolved. Always emitted — REST-only exchanges carry the honest-empty record (kind 'none', unresolved_reason 'no_ws_support').",
+      "required": [
+        "kind",
+        "handle_message_defined",
+        "discriminators",
+        "entries",
+        "unresolved",
+        "resolved_from",
+        "source",
+        "unresolved_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": ["routed", "opaque", "none"],
+          "description": "Dispatch classification. 'routed': at least one channel→handler entry was structurally resolved. 'opaque': handleMessage is defined but its dispatch shape yielded no resolvable entry (e.g. a fully computed lookup). 'none': the exchange has no WebSocket (Pro) class, or no handleMessage anywhere in its extends chain."
+        },
+        "handle_message_defined": {
+          "type": "boolean",
+          "description": "True when the Pro class (or an ancestor via the extends chain) defines a handleMessage() method."
+        },
+        "discriminators": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The literal frame fields read to route a message, sorted unique — the key arguments to the safeString/safeValue lookup(s) that feed the dispatch (e.g. 'channel', 'topic', 'e', 'op'). Empty when no discriminator could be statically resolved."
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["channel", "handler"],
+            "additionalProperties": false,
+            "properties": {
+              "channel": {
+                "type": "string",
+                "description": "The literal channel-string the discriminator matches (object-map property key or if-chain === comparison literal)."
+              },
+              "handler": {
+                "type": "string",
+                "description": "The literal handle<Channel> method name the channel routes to."
+              }
+            }
+          },
+          "description": "The channel → handler routing pairs, in source order, deduplicated. A channel mapped to two handlers across separate maps yields two entries."
+        },
+        "unresolved": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["reason"],
+            "additionalProperties": false,
+            "properties": {
+              "reason": {
+                "enum": ["computed_channel_key", "spread_property", "non_handler_value"],
+                "description": "Why a handler-map property could not be resolved to an entry. 'computed_channel_key': the property key is a runtime expression. 'spread_property': a spread element (...someMap). 'non_handler_value': the property value is not a this.handle<X> reference."
+              }
+            }
+          },
+          "description": "Per-shape unresolved findings inside an otherwise-recognized handler map. Empty when every property resolved."
+        },
+        "resolved_from": {
+          "type": ["string", "null"],
+          "description": "Where the handleMessage() resolved: 'self' (the exchange's own Pro class) or an ancestor exchange id (inherited via the extends chain). Null when there is no handleMessage."
+        },
+        "source": {
+          "enum": ["pro_handle_message", "none"],
+          "description": "Origin of the record. 'pro_handle_message': a handleMessage() method (own or inherited). 'none': no handleMessage()."
+        },
+        "unresolved_reason": {
+          "enum": ["no_ws_support", "no_ws_dispatch", "dispatch_not_classifiable", null],
+          "description": "Honesty tag. 'no_ws_support': the exchange has no WebSocket (Pro) class. 'no_ws_dispatch': a Pro class exists but defines no handleMessage() anywhere in its chain. 'dispatch_not_classifiable': handleMessage() is defined but no entry was structurally resolvable (kind is 'opaque'). Null when the table is routed."
         }
       }
     },

@@ -34,6 +34,7 @@ defmodule CcxtExtract.Pipeline do
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.Validation
   alias CcxtExtract.WsAuth
+  alias CcxtExtract.WsDispatch
   alias CcxtExtract.WsHeartbeat
   alias CcxtExtract.WsSubscribe
 
@@ -492,16 +493,18 @@ defmodule CcxtExtract.Pipeline do
         Map.get(fetch_methods_lookup, id)
       )
 
-    # WebSocket carrier (Tasks 93, 92, 91). Map.get/3 on each lookup so older
-    # test fixtures that omit a key resolve to the none_record.
+    # WebSocket carrier (Tasks 93, 92, 91, 94). Map.get/3 on each lookup so
+    # older test fixtures that omit a key resolve to the none_record.
     ws_heartbeat_lookup = Map.get(data, :ws_heartbeat, %{})
     ws_auth_lookup = Map.get(data, :ws_auth, %{})
     ws_subscribe_lookup = Map.get(data, :ws_subscribe, %{})
+    ws_dispatch_lookup = Map.get(data, :ws_dispatch, %{})
 
     websocket = %{
       "heartbeat" => WsHeartbeat.build(Map.get(ws_heartbeat_lookup, id), ws_heartbeat_lookup),
       "auth" => WsAuth.build(Map.get(ws_auth_lookup, id), ws_auth_lookup),
-      "subscribe" => WsSubscribe.build(Map.get(ws_subscribe_lookup, id), ws_subscribe_lookup)
+      "subscribe" => WsSubscribe.build(Map.get(ws_subscribe_lookup, id), ws_subscribe_lookup),
+      "dispatch" => WsDispatch.build(Map.get(ws_dispatch_lookup, id), ws_dispatch_lookup)
     }
 
     v4_opts =

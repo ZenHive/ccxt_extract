@@ -330,6 +330,7 @@ defmodule Mix.Tasks.CcxtExtract.Update do
     {"ccxt_extract.ws_heartbeat", :scoped},
     {"ccxt_extract.ws_auth", :scoped},
     {"ccxt_extract.ws_subscribe", :scoped},
+    {"ccxt_extract.ws_dispatch", :scoped},
     {"ccxt_extract.interface_signatures", :scoped},
     {"ccxt_extract.pagination", :scoped},
     {"ccxt_extract.unified_endpoints", :scoped},

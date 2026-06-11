@@ -49,6 +49,7 @@ defmodule CcxtExtract.ContractTest do
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.TestnetUrls
   alias CcxtExtract.WsAuth
+  alias CcxtExtract.WsDispatch
   alias CcxtExtract.WsHeartbeat
   alias CcxtExtract.WsSubscribe
 
@@ -76,6 +77,7 @@ defmodule CcxtExtract.ContractTest do
     {"websocket_heartbeat_shape_valid", :check_websocket_heartbeat_shape_valid},
     {"websocket_auth_shape_valid", :check_websocket_auth_shape_valid},
     {"websocket_subscribe_shape_valid", :check_websocket_subscribe_shape_valid},
+    {"websocket_dispatch_shape_valid", :check_websocket_dispatch_shape_valid},
     {"error_class_hierarchy_shape_valid", :check_error_class_hierarchy_shape_valid},
     {"error_classes_covered_by_hierarchy", :check_error_classes_covered_by_hierarchy},
     {"error_class_hierarchy_content_equals_baseline", :check_error_class_hierarchy_content_equals_baseline},
@@ -1443,6 +1445,156 @@ defmodule CcxtExtract.ContractTest do
       exchange: id,
       invariant: "websocket_subscribe_shape_valid",
       path: "websocket/subscribe",
+      message: message
+    }
+  end
+
+  @doc """
+  `websocket.dispatch` must carry exactly the `WsDispatch` key set with
+  closed-vocabulary `kind` / `source` / `unresolved_reason` values, valid
+  `entries` / `unresolved` element shapes, and satisfy the cross-field honesty
+  rule JSV cannot express: the no-dispatch, routed, and opaque states must
+  agree across `kind`, `source`, `handle_message_defined`, `entries`,
+  `resolved_from`, and `unresolved_reason`. REST-only exchanges carry the
+  honest-empty record.
+  """
+  @spec check_websocket_dispatch_shape_valid(map(), map()) :: [finding()]
+  def check_websocket_dispatch_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    ws_dispatch_record_findings(id, get_in(exchange, ["websocket", "dispatch"]))
+  end
+
+  defp ws_dispatch_record_findings(id, record) when is_map(record) do
+    missing = WsDispatch.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- WsDispatch.required_keys()
+
+    missing_findings = Enum.map(missing, &ws_dispatch_finding(id, "missing required key #{inspect(&1)}"))
+    extra_findings = Enum.map(extra, &ws_dispatch_finding(id, "unexpected key #{inspect(&1)}"))
+
+    consistency_findings =
+      case missing do
+        [] -> ws_dispatch_consistency_findings(id, record)
+        _ -> []
+      end
+
+    missing_findings ++ extra_findings ++ consistency_findings
+  end
+
+  defp ws_dispatch_record_findings(id, _record) do
+    [ws_dispatch_finding(id, "websocket.dispatch must be a map")]
+  end
+
+  defp ws_dispatch_consistency_findings(id, record) do
+    vocab_findings =
+      [
+        ws_dispatch_vocab_finding(id, record, "kind", WsDispatch.kinds()),
+        ws_dispatch_vocab_finding(id, record, "source", WsDispatch.sources()),
+        ws_dispatch_vocab_finding(id, record, "unresolved_reason", [nil | WsDispatch.unresolved_reasons()])
+      ]
+
+    element_findings = ws_dispatch_element_findings(id, record)
+
+    Enum.reject(vocab_findings ++ element_findings ++ ws_dispatch_honesty_findings(id, record), &is_nil/1)
+  end
+
+  defp ws_dispatch_vocab_finding(id, record, key, allowed) do
+    value = Map.get(record, key)
+
+    if value in allowed do
+      nil
+    else
+      ws_dispatch_finding(id, "#{key} must be one of #{inspect(allowed)}, got #{inspect(value)}")
+    end
+  end
+
+  # entries are {channel, handler} string pairs; unresolved reasons are
+  # drawn from the closed per-shape vocabulary. JSV enforces the same shape,
+  # but the invariant double-guards a build/2 regression that emits a list
+  # element JSV can't reach (e.g. a stray atom-keyed map in a unit fixture).
+  defp ws_dispatch_element_findings(id, record) do
+    entry_findings =
+      record |> Map.get("entries", []) |> List.wrap() |> Enum.flat_map(&ws_dispatch_entry_findings(id, &1))
+
+    unresolved_findings =
+      record |> Map.get("unresolved", []) |> List.wrap() |> Enum.flat_map(&ws_dispatch_unresolved_findings(id, &1))
+
+    entry_findings ++ unresolved_findings
+  end
+
+  defp ws_dispatch_entry_findings(id, %{"channel" => channel, "handler" => handler}) do
+    cond do
+      not is_binary(channel) -> [ws_dispatch_finding(id, "entry channel must be a string, got #{inspect(channel)}")]
+      not is_binary(handler) -> [ws_dispatch_finding(id, "entry handler must be a string, got #{inspect(handler)}")]
+      true -> []
+    end
+  end
+
+  defp ws_dispatch_entry_findings(id, other) do
+    [ws_dispatch_finding(id, "entry must carry channel + handler, got #{inspect(other)}")]
+  end
+
+  defp ws_dispatch_unresolved_findings(id, %{"reason" => reason}) do
+    if reason in WsDispatch.unresolved_entry_reasons() do
+      []
+    else
+      [ws_dispatch_finding(id, "unresolved reason must be one of #{inspect(WsDispatch.unresolved_entry_reasons())}, got #{inspect(reason)}")]
+    end
+  end
+
+  defp ws_dispatch_unresolved_findings(id, other) do
+    [ws_dispatch_finding(id, "unresolved entry must carry a reason, got #{inspect(other)}")]
+  end
+
+  # The honesty rule JSV cannot express: the three classification states
+  # must agree across every field that encodes them, so a build/2 regression
+  # can't emit an internally-contradictory record that still passes
+  # structural validation.
+  defp ws_dispatch_honesty_findings(id, record) do
+    kind = Map.get(record, "kind")
+    none? = kind == "none"
+
+    [
+      ws_dispatch_coherence(
+        id,
+        none? == (Map.get(record, "handle_message_defined") == false),
+        "kind=none must agree with handle_message_defined=false"
+      ),
+      ws_dispatch_coherence(
+        id,
+        none? == (Map.get(record, "source") == "none"),
+        "kind=none must agree with source=none"
+      ),
+      ws_dispatch_coherence(
+        id,
+        none? == Map.get(record, "unresolved_reason") in ["no_ws_support", "no_ws_dispatch"],
+        "kind=none must agree with unresolved_reason no_ws_support/no_ws_dispatch"
+      ),
+      ws_dispatch_coherence(
+        id,
+        none? == is_nil(Map.get(record, "resolved_from")),
+        "kind=none must agree with resolved_from=null"
+      ),
+      ws_dispatch_coherence(
+        id,
+        kind == "routed" == (Map.get(record, "entries", []) != []),
+        "kind=routed must agree with a non-empty entries list"
+      ),
+      ws_dispatch_coherence(
+        id,
+        kind == "opaque" == (Map.get(record, "unresolved_reason") == "dispatch_not_classifiable"),
+        "kind=opaque must agree with unresolved_reason=dispatch_not_classifiable"
+      )
+    ]
+  end
+
+  defp ws_dispatch_coherence(_id, true, _message), do: nil
+  defp ws_dispatch_coherence(id, false, message), do: ws_dispatch_finding(id, message)
+
+  defp ws_dispatch_finding(id, message) do
+    %Finding{
+      exchange: id,
+      invariant: "websocket_dispatch_shape_valid",
+      path: "websocket/dispatch",
       message: message
     }
   end

@@ -63,7 +63,7 @@ Every per-exchange JSON file has exactly these top-level keys (**all required, n
 | `errors` | object | `handle_errors`, `class_hierarchy`, `status_map`, `retry_classification`, `dispatch` |
 | `rate_limits` | object | `buckets`, `per_endpoint_cost`, `endpoint_cost_binding` |
 | `normalization` | object | `parse_methods_digest`, `field_maps`, `response_envelopes` |
-| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93); `auth` — WebSocket connection auth flow (Task 92); `subscribe` — subscribe/unsubscribe frame envelope + channel templates (Task 91); `dispatch` — channel → parse-handler routing table (Task 94); `trades_semantics` — trades-channel append/snapshot semantics (Task 95b) |
+| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93); `auth` — WebSocket connection auth flow (Task 92); `subscribe` — subscribe/unsubscribe frame envelope + channel templates (Task 91); `dispatch` — channel → parse-handler routing table (Task 94); `trades_semantics` — trades-channel append/snapshot semantics (Task 95b); `ohlcv_semantics` — OHLCV (candle) channel replace-latest-then-append semantics (Task 95c) |
 | `markets` | object | `symbols_index`, `patterns`, `currencies` (Task 97), `precision_mode` (Task 98) |
 | `testnet` | object | Structured testnet / sandbox URL catalog |
 | `raw` | object | Raw passthroughs — `describe`, `url_templates`, `class_info`, `method_inventory`, `overrides_meta` |
@@ -640,6 +640,12 @@ Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, defaul
 **Honest-empty record** — a REST-only exchange emits `update_model: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`, with null/false/empty values for the remaining fields. A Pro class with no public trades handler emits `unresolved_reason: "no_ws_trades"`. A handler whose update model is not statically classifiable emits `update_model: "unknown"` and `unresolved_reason: "trades_not_classifiable"`.
 
 `websocket` is the designated growth point for Phase 15 WS-derived sub-sections; sibling tasks add keys to it additively.
+
+### `websocket.ohlcv_semantics` — shape (Task 95c)
+
+`ohlcv_semantics` describes how a Pro class updates its candle cache from `handleOHLCV` frames (replace-latest on same-timestamp ticks, append on bucket rollover via `ArrayCacheByTimestamp`). The timeframe dimension key (e.g. binance kline `'i'`) and closed/confirm signal (binance `'x'`, bybit `'confirm'`) are extracted from literal `safe*` arguments when present. It is **always emitted** — REST-only exchanges carry the honest-empty record.
+
+**Honest-empty record** — a REST-only exchange emits `update_model: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`. A Pro class with no `handleOHLCV` emits `unresolved_reason: "no_ws_ohlcv"`. An unclassifiable handler shape emits `update_model: "unknown"` and `unresolved_reason: "ohlcv_not_classifiable"`.
 
 ---
 

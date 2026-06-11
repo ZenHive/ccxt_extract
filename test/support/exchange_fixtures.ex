@@ -115,7 +115,8 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "auth" => CcxtExtract.WsAuth.none_record(),
         "subscribe" => CcxtExtract.WsSubscribe.none_record(),
         "dispatch" => CcxtExtract.WsDispatch.none_record(),
-        "trades_semantics" => CcxtExtract.WsTradesSemantics.none_record()
+        "trades_semantics" => CcxtExtract.WsTradesSemantics.none_record(),
+        "ohlcv_semantics" => CcxtExtract.WsOhlcvSemantics.none_record()
       },
       "markets" => %{
         "symbols_index" => nil,

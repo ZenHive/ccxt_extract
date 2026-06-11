@@ -51,6 +51,7 @@ defmodule CcxtExtract.ContractTest do
   alias CcxtExtract.WsAuth
   alias CcxtExtract.WsDispatch
   alias CcxtExtract.WsHeartbeat
+  alias CcxtExtract.WsOhlcvSemantics
   alias CcxtExtract.WsSubscribe
   alias CcxtExtract.WsTradesSemantics
 
@@ -80,6 +81,7 @@ defmodule CcxtExtract.ContractTest do
     {"websocket_subscribe_shape_valid", :check_websocket_subscribe_shape_valid},
     {"websocket_dispatch_shape_valid", :check_websocket_dispatch_shape_valid},
     {"websocket_trades_semantics_shape_valid", :check_websocket_trades_semantics_shape_valid},
+    {"websocket_ohlcv_semantics_shape_valid", :check_websocket_ohlcv_semantics_shape_valid},
     {"error_class_hierarchy_shape_valid", :check_error_class_hierarchy_shape_valid},
     {"error_classes_covered_by_hierarchy", :check_error_classes_covered_by_hierarchy},
     {"error_class_hierarchy_content_equals_baseline", :check_error_class_hierarchy_content_equals_baseline},
@@ -1765,6 +1767,145 @@ defmodule CcxtExtract.ContractTest do
       exchange: id,
       invariant: "websocket_trades_semantics_shape_valid",
       path: "websocket/trades_semantics",
+      message: message
+    }
+  end
+
+  @doc """
+  `websocket.ohlcv_semantics` must carry exactly the `WsOhlcvSemantics` key set
+  with closed-vocabulary `update_model` / `source` / `unresolved_reason` values,
+  valid unresolved reason elements, and an honest-empty record for exchanges
+  with no WS OHLCV channel.
+  """
+  @spec check_websocket_ohlcv_semantics_shape_valid(map(), map()) :: [finding()]
+  def check_websocket_ohlcv_semantics_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    ws_ohlcv_semantics_record_findings(id, get_in(exchange, ["websocket", "ohlcv_semantics"]))
+  end
+
+  defp ws_ohlcv_semantics_record_findings(id, record) when is_map(record) do
+    missing = WsOhlcvSemantics.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- WsOhlcvSemantics.required_keys()
+
+    missing_findings = Enum.map(missing, &ws_ohlcv_semantics_finding(id, "missing required key #{inspect(&1)}"))
+    extra_findings = Enum.map(extra, &ws_ohlcv_semantics_finding(id, "unexpected key #{inspect(&1)}"))
+
+    consistency_findings =
+      case missing do
+        [] -> ws_ohlcv_semantics_consistency_findings(id, record)
+        _ -> []
+      end
+
+    missing_findings ++ extra_findings ++ consistency_findings
+  end
+
+  defp ws_ohlcv_semantics_record_findings(id, _record) do
+    [ws_ohlcv_semantics_finding(id, "websocket.ohlcv_semantics must be a map")]
+  end
+
+  defp ws_ohlcv_semantics_consistency_findings(id, record) do
+    vocab_findings =
+      [
+        ws_ohlcv_semantics_vocab_finding(id, record, "update_model", WsOhlcvSemantics.update_models()),
+        ws_ohlcv_semantics_vocab_finding(id, record, "source", WsOhlcvSemantics.sources()),
+        ws_ohlcv_semantics_vocab_finding(
+          id,
+          record,
+          "unresolved_reason",
+          [nil | WsOhlcvSemantics.unresolved_reasons()]
+        )
+      ]
+
+    element_findings = ws_ohlcv_semantics_element_findings(id, record)
+
+    Enum.reject(vocab_findings ++ element_findings ++ ws_ohlcv_semantics_honesty_findings(id, record), &is_nil/1)
+  end
+
+  defp ws_ohlcv_semantics_vocab_finding(id, record, key, allowed) do
+    value = Map.get(record, key)
+
+    if value in allowed do
+      nil
+    else
+      ws_ohlcv_semantics_finding(id, "#{key} must be one of #{inspect(allowed)}, got #{inspect(value)}")
+    end
+  end
+
+  defp ws_ohlcv_semantics_element_findings(id, record) do
+    unresolved = Map.get(record, "unresolved", [])
+
+    unresolved
+    |> Enum.flat_map(&ws_ohlcv_semantics_unresolved_findings(id, &1))
+  end
+
+  defp ws_ohlcv_semantics_unresolved_findings(id, %{"reason" => reason}) do
+    if reason in WsOhlcvSemantics.unresolved_entry_reasons() do
+      []
+    else
+      [
+        ws_ohlcv_semantics_finding(
+          id,
+          "unresolved reason must be one of #{inspect(WsOhlcvSemantics.unresolved_entry_reasons())}, got #{inspect(reason)}"
+        )
+      ]
+    end
+  end
+
+  defp ws_ohlcv_semantics_unresolved_findings(id, other) do
+    [ws_ohlcv_semantics_finding(id, "unresolved entry must carry a reason, got #{inspect(other)}")]
+  end
+
+  defp ws_ohlcv_semantics_honesty_findings(id, record) do
+    defined = Map.get(record, "ohlcv_defined")
+    update_model = Map.get(record, "update_model")
+    unresolved_reason = Map.get(record, "unresolved_reason")
+    source = Map.get(record, "source")
+    resolved_from = Map.get(record, "resolved_from")
+
+    [
+      ws_ohlcv_semantics_coherence(
+        id,
+        is_boolean(defined),
+        "ohlcv_defined must be boolean"
+      ),
+      ws_ohlcv_semantics_coherence(
+        id,
+        (defined == true and update_model in ["replace_latest_then_append", "unknown"]) or
+          (defined == false and update_model == "none"),
+        "ohlcv_defined must agree with update_model"
+      ),
+      ws_ohlcv_semantics_coherence(
+        id,
+        (update_model == "none") == (source == "none"),
+        "update_model=none must agree with source=none"
+      ),
+      ws_ohlcv_semantics_coherence(
+        id,
+        (update_model == "none" and unresolved_reason in ["no_ws_support", "no_ws_ohlcv"]) or
+          (update_model != "none" and unresolved_reason not in ["no_ws_support", "no_ws_ohlcv"]),
+        "update_model=none must pair with no_ws_support or no_ws_ohlcv; non-none must not"
+      ),
+      ws_ohlcv_semantics_coherence(
+        id,
+        update_model == "unknown" == (unresolved_reason == "ohlcv_not_classifiable"),
+        "update_model=unknown must agree with unresolved_reason=ohlcv_not_classifiable"
+      ),
+      ws_ohlcv_semantics_coherence(
+        id,
+        (defined == true and is_binary(resolved_from)) or (defined == false and is_nil(resolved_from)),
+        "resolved_from must be self/ancestor when ohlcv_defined, nil otherwise"
+      )
+    ]
+  end
+
+  defp ws_ohlcv_semantics_coherence(_id, true, _message), do: nil
+  defp ws_ohlcv_semantics_coherence(id, false, message), do: ws_ohlcv_semantics_finding(id, message)
+
+  defp ws_ohlcv_semantics_finding(id, message) do
+    %Finding{
+      exchange: id,
+      invariant: "websocket_ohlcv_semantics_shape_valid",
+      path: "websocket/ohlcv_semantics",
       message: message
     }
   end

@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 95c — WS OHLCV snapshot/delta semantics
+
+Added the `websocket.ohlcv_semantics` section to the v4 WebSocket group. A new OXC extractor (`mix ccxt_extract.ws_ohlcv_semantics`) scans CCXT Pro `handleOHLCV` methods for structurally-resolvable candle update semantics: the `replace_latest_then_append` model (via `ArrayCacheByTimestamp`), timeframe dimension key (e.g. `'i'`), closed/confirm signal field (binance `'x'`, bybit `'confirm'`), and `OHLCVLimit` cache-limit read. Pipeline assembly resolves `extends`-chain inheritance and emits an always-present record with provenance at `/websocket/ohlcv_semantics`, JSON Schema coverage, and a `websocket_ohlcv_semantics_shape_valid` contract invariant. REST-only exchanges carry an honest-empty `none_record`; Pro classes without OHLCV handlers carry `unresolved_reason: "no_ws_ohlcv"`; unclassified handlers carry `update_model: "unknown"` plus unresolved reasons. Mix task uses `TaskScope.parse_and_resolve!/2` (per Task 144). Unit, `:extraction` integration, cached, and contract tests added; `mix ccxt_extract.determinism_check` and `validate` (110/110) green.
+
 ### Task 95b — WS trades snapshot/delta semantics
 
 Added the `websocket.trades_semantics` section to the v4 WebSocket group. A new OXC extractor (`mix ccxt_extract.ws_trades_semantics`) scans CCXT Pro `handleTrade(s)` / `handleMyTrade(s)` methods for structurally-resolvable trade cache semantics: append/replace/snapshot update model, cache constructor, safeString trade-id key, `tradesLimit` / `myTradesLimit` reads, and private myTrades presence. Pipeline assembly resolves `extends`-chain inheritance and emits an always-present record with provenance at `/websocket/trades_semantics`, JSON Schema coverage, and a `websocket_trades_semantics_shape_valid` contract invariant. REST-only exchanges carry an honest-empty `none_record`; Pro classes without trades handlers carry `unresolved_reason: "no_ws_trades"`; unclassified handlers carry `update_model: "unknown"` plus unresolved reasons.

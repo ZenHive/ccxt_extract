@@ -63,6 +63,7 @@ defmodule CcxtExtract.DiscoveryLoader do
     {ws_subscribe, stats} = load_exchange_lookup(dir, "ws_subscribe.json", expected_ids, stats)
     {ws_dispatch, stats} = load_exchange_lookup(dir, "ws_dispatch.json", expected_ids, stats)
     {ws_trades_semantics, stats} = load_exchange_lookup(dir, "ws_trades_semantics.json", expected_ids, stats)
+    {ws_ohlcv_semantics, stats} = load_exchange_lookup(dir, "ws_ohlcv_semantics.json", expected_ids, stats)
     {overrides, stats} = load_overrides(dir, expected_ids, stats)
 
     %{
@@ -83,6 +84,7 @@ defmodule CcxtExtract.DiscoveryLoader do
       ws_subscribe: ws_subscribe,
       ws_dispatch: ws_dispatch,
       ws_trades_semantics: ws_trades_semantics,
+      ws_ohlcv_semantics: ws_ohlcv_semantics,
       interface_signatures: interface_signatures,
       pagination: pagination,
       unified_endpoints: unified_endpoints,

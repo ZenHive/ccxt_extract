@@ -559,7 +559,8 @@
         "auth",
         "subscribe",
         "dispatch",
-        "trades_semantics"
+        "trades_semantics",
+        "ohlcv_semantics"
       ],
       "additionalProperties": false,
       "properties": {
@@ -582,6 +583,10 @@
         "trades_semantics": {
           "$ref": "#/$defs/WebsocketTradesSemantics",
           "description": "Per-exchange trades-channel update semantics derived from handleTrade(s) / handleMyTrade(s) methods (Task 95b)."
+        },
+        "ohlcv_semantics": {
+          "$ref": "#/$defs/WebsocketOhlcvSemantics",
+          "description": "Per-exchange OHLCV (candle) channel update semantics derived from handleOHLCV method (Task 95c)."
         }
       }
     },
@@ -758,6 +763,81 @@
         "unresolved_reason": {
           "enum": ["no_ws_support", "no_ws_trades", "trades_not_classifiable", null],
           "description": "Honesty tag. 'no_ws_support': the exchange has no WebSocket Pro class. 'no_ws_trades': a Pro class exists but no trades handler resolved. 'trades_not_classifiable': a trades handler exists but its update model was not statically classifiable. Null when the record is resolved."
+        }
+      }
+    },
+    "WebsocketOhlcvSemantics": {
+      "type": "object",
+      "description": "OHLCV (candle) channel update semantics, derived structurally from the Pro class handleOHLCV method (Task 95c). CCXT updates the latest candle in place and appends on bucket rollover using ArrayCacheByTimestamp capped by OHLCVLimit (default 1000); the timeframe dimension and closed/confirm signal (when exposed) are read via literal safe* keys. Unrecognized handler shapes are emitted unresolved rather than guessed. Always emitted — REST-only exchanges carry the honest-empty record (update_model 'none', unresolved_reason 'no_ws_support').",
+      "required": [
+        "update_model",
+        "ohlcv_defined",
+        "timeframe_key",
+        "closed_signal",
+        "cache_type",
+        "cache_limit_field",
+        "cache_limit_default",
+        "unresolved",
+        "resolved_from",
+        "source",
+        "unresolved_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "update_model": {
+          "enum": ["replace_latest_then_append", "unknown", "none"],
+          "description": "How incoming kline/candle frames update the cache. 'replace_latest_then_append': handler uses ArrayCacheByTimestamp (in-place latest replace + append on rollover). 'unknown': a handler exists but cache shape was not classifiable. 'none': no WebSocket OHLCV handler resolved."
+        },
+        "ohlcv_defined": {
+          "type": "boolean",
+          "description": "True when the Pro class (or an ancestor via the extends chain) defines handleOHLCV()."
+        },
+        "timeframe_key": {
+          "type": ["string", "null"],
+          "description": "Literal key read via safeString/safeValue to obtain the timeframe/interval dimension (e.g. 'i' from kline object). Null when no such literal key is statically visible."
+        },
+        "closed_signal": {
+          "type": ["string", "null"],
+          "description": "Literal field name carrying the candle-closed/confirm flag when the exchange exposes one in the frame (e.g. binance kline 'x', bybit 'confirm'). Null when not statically visible."
+        },
+        "cache_type": {
+          "type": ["string", "null"],
+          "description": "Literal cache constructor name: 'ArrayCacheByTimestamp' when detected. Null when no OHLCV handler or cache constructor is not classifiable."
+        },
+        "cache_limit_field": {
+          "enum": ["OHLCVLimit", null],
+          "description": "Literal options field read for the OHLCV cache limit."
+        },
+        "cache_limit_default": {
+          "type": ["number", "null"],
+          "description": "Literal numeric default for the OHLCV cache limit (typically 1000)."
+        },
+        "unresolved": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["reason"],
+            "additionalProperties": false,
+            "properties": {
+              "reason": {
+                "enum": ["cache_not_classifiable", "timeframe_key_not_classifiable", "closed_signal_not_classifiable"],
+                "description": "Why a structurally relevant OHLCV handler fact could not be resolved."
+              }
+            }
+          },
+          "description": "Per-shape unresolved findings for the OHLCV handler. Empty when supported facts resolved."
+        },
+        "resolved_from": {
+          "type": ["string", "null"],
+          "description": "Where handleOHLCV resolved: 'self' (own Pro class) or an ancestor exchange id. Null when no OHLCV handler resolved."
+        },
+        "source": {
+          "enum": ["pro_handle_ohlcv", "none"],
+          "description": "Origin of the record. 'pro_handle_ohlcv': a handleOHLCV method (own or inherited). 'none': no OHLCV handler."
+        },
+        "unresolved_reason": {
+          "enum": ["no_ws_support", "no_ws_ohlcv", "ohlcv_not_classifiable", null],
+          "description": "Honesty tag. 'no_ws_support': the exchange has no WebSocket Pro class. 'no_ws_ohlcv': a Pro class exists but no OHLCV handler resolved. 'ohlcv_not_classifiable': a handler exists but its cache/timeframe/closed shape was not statically classifiable. Null when the record is resolved."
         }
       }
     },

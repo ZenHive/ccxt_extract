@@ -36,6 +36,7 @@ defmodule CcxtExtract.Pipeline do
   alias CcxtExtract.WsAuth
   alias CcxtExtract.WsDispatch
   alias CcxtExtract.WsHeartbeat
+  alias CcxtExtract.WsOhlcvSemantics
   alias CcxtExtract.WsSubscribe
 
   require Logger
@@ -500,6 +501,7 @@ defmodule CcxtExtract.Pipeline do
     ws_subscribe_lookup = Map.get(data, :ws_subscribe, %{})
     ws_dispatch_lookup = Map.get(data, :ws_dispatch, %{})
     ws_trades_semantics_lookup = Map.get(data, :ws_trades_semantics, %{})
+    ws_ohlcv_semantics_lookup = Map.get(data, :ws_ohlcv_semantics, %{})
 
     websocket = %{
       "heartbeat" => WsHeartbeat.build(Map.get(ws_heartbeat_lookup, id), ws_heartbeat_lookup),
@@ -510,6 +512,11 @@ defmodule CcxtExtract.Pipeline do
         CcxtExtract.WsTradesSemantics.build(
           Map.get(ws_trades_semantics_lookup, id),
           ws_trades_semantics_lookup
+        ),
+      "ohlcv_semantics" =>
+        WsOhlcvSemantics.build(
+          Map.get(ws_ohlcv_semantics_lookup, id),
+          ws_ohlcv_semantics_lookup
         )
     }
 

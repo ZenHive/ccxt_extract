@@ -6,8 +6,8 @@ defmodule CcxtExtract.DriftAudit do
   can decide on override or derivation updates.
 
   Categories:
-  - stale_override: override present for a path whose final value or underlying raw
-    differs from the baseline snapshot.
+  - stale_override: override present for a path whose final value differs from the
+    baseline snapshot.
   - flipped_derived: a field whose current provenance is "derived" and whose value
     differs from (or is absent in) the baseline.
   - new_raw: a key/subtree appears under "raw" in current that was absent from the
@@ -168,9 +168,9 @@ defmodule CcxtExtract.DriftAudit do
       base_val = safe_get(baseline, ptr)
       curr_val = safe_get(current, ptr)
 
-      raw_delta = raw_backing_delta(id, ptr, current, baseline)
-
-      if base_val != curr_val or raw_delta do
+      if base_val == curr_val do
+        []
+      else
         [
           %{
             category: :stale_override,
@@ -180,26 +180,12 @@ defmodule CcxtExtract.DriftAudit do
             after: curr_val,
             details: %{
               "override_reason" => ov["reason"],
-              "raw_delta" => raw_delta,
               "translated_from" => if(raw_path == ptr, do: nil, else: raw_path)
             }
           }
         ]
-      else
-        []
       end
     end)
-  end
-
-  # Heuristic: if the exchange has a "raw" section in both, and they differ at all
-  # under keys that typically feed derivation for overridden paths, call it raw change.
-  # Keeps the impl small; a full per-path raw provenance is future work.
-  defp raw_backing_delta(_id, _ptr, _current, baseline) when not is_map(baseline), do: false
-
-  defp raw_backing_delta(_id, _ptr, current, baseline) do
-    c_raw = Map.get(current, "raw", %{})
-    b_raw = Map.get(baseline, "raw", %{})
-    c_raw != b_raw
   end
 
   # --- category (b) ---

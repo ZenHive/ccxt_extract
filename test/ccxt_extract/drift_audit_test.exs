@@ -51,7 +51,17 @@ defmodule CcxtExtract.DriftAuditTest do
       assert f.before == ["public"]
       assert f.after == ["private"]
       assert f.details["override_reason"] == "test"
-      assert f.details["raw_delta"] == true
+    end
+
+    test "does not classify stale_override for unrelated raw drift alone" do
+      baseline = put_in(@baseline, ["auth", "authenticated_sections"], ["private"])
+      current = put_in(@current, ["auth", "authenticated_sections"], ["private"])
+
+      findings = DriftAudit.classify_maps("synthex", current, baseline, @overrides)
+      stale = Enum.filter(findings, &(&1.category == :stale_override))
+
+      assert stale == []
+      assert Enum.any?(findings, &(&1.category == :new_raw))
     end
 
     test "classifies flipped_derived for a provenance=derived path whose value changed" do
@@ -112,6 +122,19 @@ defmodule CcxtExtract.DriftAuditTest do
       [ex] = report["exchanges"]
       assert ex["baseline_load_error"] =~ "git_show_failed"
       assert ex["findings"] == []
+    end
+  end
+
+  describe "write!/2" do
+    test "writes pretty JSON report and creates parent directories" do
+      tmp = Path.join(System.tmp_dir!(), "drift_audit_write_test_#{System.unique_integer([:positive])}")
+      path = Path.join([tmp, "nested", "report.json"])
+
+      on_exit(fn -> File.rm_rf!(tmp) end)
+
+      report = %{"summary" => %{"total_findings" => 0}}
+      assert :ok = DriftAudit.write!(report, path)
+      assert {:ok, ^report} = Jason.decode(File.read!(path))
     end
   end
 end

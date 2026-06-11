@@ -337,7 +337,7 @@
       "id": 127,
       "phase": 0,
       "bundle": "maintenance",
-      "status": "in_progress",
+      "status": "done",
       "title": "Position-aware paths_rw_split sinks + variable-level sanitization",
       "scores": {
         "d": 5,
@@ -361,9 +361,14 @@
         "lib/ccxt_extract/contract_test.ex",
         "lib/ccxt_extract/pipeline.ex"
       ],
+      "shipped_in": "a27d8b17b0e710c8ba0da27ff925e2917c1ed385",
       "body": "Task 112's `paths_rw_split` invariant lists `File.cp!`/`cp_r!`/`cp`/`cp_r`/`rename` in `@file_writer_fns` position-unaware, so `File.cp!(Paths.priv(...), target)` trips it even though the writer target is unrelated. Two band-aids were applied (rewriting `File.cp!` as write+read in `pipeline.ex`, broadening `@file_reader_fns`); both mask-bleed into a theoretical false negative. Proper fix: (a) position-aware sinks distinguishing write-position args from read-position args, likely via a registry keyed on `{function, arity, write_arg_indices}`; (b) variable-level sanitization so Reach sanitizes the specific variable passing through a reader, not every node on the chop — likely needs a Reach-side change. Once either lands: narrow `@file_reader_fns` back to content readers, restore `File.cp!` in `pipeline.ex`, delete both TODO blocks. Discovered 2026-04-24 during staged-review of the paths_rw_split sanitizer-broadening change.\n",
       "started_at": "2026-06-11",
+      "done_at": "2026-06-11",
       "scored_at": "2026-05-14",
+      "implemented": "Landed by cursor via merge-train; reviewer-approved (run run-1781141160987-2821d07a, a27d8b17b0e710c8ba0da27ff925e2917c1ed385).",
+      "delivered_by": "cursor",
+      "verified": true,
       "cross_repo": []
     },
     {

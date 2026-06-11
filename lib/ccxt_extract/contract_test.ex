@@ -1731,18 +1731,18 @@ defmodule CcxtExtract.ContractTest do
       ),
       ws_trades_semantics_coherence(
         id,
-        none? == is_nil(Map.get(record, "cache_type")),
-        "update_model=none must agree with cache_type=null"
+        not none? or is_nil(Map.get(record, "cache_type")),
+        "update_model=none requires cache_type=null"
       ),
       ws_trades_semantics_coherence(
         id,
-        none? == is_nil(Map.get(record, "dedup_key")),
-        "update_model=none must agree with dedup_key=null"
+        not none? or is_nil(Map.get(record, "dedup_key")),
+        "update_model=none requires dedup_key=null"
       ),
       ws_trades_semantics_coherence(
         id,
-        none? == is_nil(Map.get(record, "cache_limit_field")),
-        "update_model=none must agree with cache_limit_field=null"
+        not none? or is_nil(Map.get(record, "cache_limit_field")),
+        "update_model=none requires cache_limit_field=null"
       ),
       ws_trades_semantics_coherence(
         id,

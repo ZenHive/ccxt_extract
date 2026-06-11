@@ -44,6 +44,34 @@ defmodule CcxtExtract.WsTradesSemanticsContractTest do
       assert ContractTest.check_websocket_trades_semantics_shape_valid(exchange, @base_observed) == []
     end
 
+    test "no findings on an append record with unresolved (null) dedup_key" do
+      entry = %{
+        "id" => "binance",
+        "extends" => "binanceRest",
+        "trades" => %{
+          "defined" => true,
+          "update_model" => "append",
+          "cache_type" => "ArrayCache",
+          "dedup_key" => nil,
+          "cache_limit_field" => "tradesLimit",
+          "cache_limit_default" => nil,
+          "unresolved" => [%{"reason" => "dedup_key_not_classifiable"}]
+        },
+        "my_trades" => %{
+          "defined" => false,
+          "update_model" => nil,
+          "cache_type" => nil,
+          "dedup_key" => nil,
+          "cache_limit_field" => nil,
+          "cache_limit_default" => nil,
+          "unresolved" => []
+        }
+      }
+
+      exchange = ws_exchange("binance", WsTradesSemantics.build(entry, %{"binance" => entry}))
+      assert ContractTest.check_websocket_trades_semantics_shape_valid(exchange, @base_observed) == []
+    end
+
     test "non-map trades_semantics is flagged" do
       [finding] =
         ContractTest.check_websocket_trades_semantics_shape_valid(
@@ -104,7 +132,7 @@ defmodule CcxtExtract.WsTradesSemanticsContractTest do
           @base_observed
         )
 
-      assert finding.message =~ "update_model=none must agree with cache_type=null"
+      assert finding.message =~ "update_model=none requires cache_type=null"
     end
 
     test "update_model=unknown must agree with unresolved_reason" do

@@ -1834,8 +1834,7 @@ defmodule CcxtExtract.ContractTest do
   defp ws_ohlcv_semantics_element_findings(id, record) do
     unresolved = Map.get(record, "unresolved", [])
 
-    unresolved
-    |> Enum.flat_map(&ws_ohlcv_semantics_unresolved_findings(id, &1))
+    Enum.flat_map(unresolved, &ws_ohlcv_semantics_unresolved_findings(id, &1))
   end
 
   defp ws_ohlcv_semantics_unresolved_findings(id, %{"reason" => reason}) do
@@ -1870,19 +1869,17 @@ defmodule CcxtExtract.ContractTest do
       ),
       ws_ohlcv_semantics_coherence(
         id,
-        (defined == true and update_model in ["replace_latest_then_append", "unknown"]) or
-          (defined == false and update_model == "none"),
+        ohlcv_defined_agrees_model?(defined, update_model),
         "ohlcv_defined must agree with update_model"
       ),
       ws_ohlcv_semantics_coherence(
         id,
-        (update_model == "none") == (source == "none"),
+        update_model == "none" == (source == "none"),
         "update_model=none must agree with source=none"
       ),
       ws_ohlcv_semantics_coherence(
         id,
-        (update_model == "none" and unresolved_reason in ["no_ws_support", "no_ws_ohlcv"]) or
-          (update_model != "none" and unresolved_reason not in ["no_ws_support", "no_ws_ohlcv"]),
+        ohlcv_none_reason_coherent?(update_model, unresolved_reason),
         "update_model=none must pair with no_ws_support or no_ws_ohlcv; non-none must not"
       ),
       ws_ohlcv_semantics_coherence(
@@ -1892,10 +1889,26 @@ defmodule CcxtExtract.ContractTest do
       ),
       ws_ohlcv_semantics_coherence(
         id,
-        (defined == true and is_binary(resolved_from)) or (defined == false and is_nil(resolved_from)),
+        ohlcv_resolved_from_coherent?(defined, resolved_from),
         "resolved_from must be self/ancestor when ohlcv_defined, nil otherwise"
       )
     ]
+  end
+
+  @ohlcv_none_reasons ["no_ws_support", "no_ws_ohlcv"]
+
+  defp ohlcv_defined_agrees_model?(defined, update_model) do
+    (defined == true and update_model in ["replace_latest_then_append", "unknown"]) or
+      (defined == false and update_model == "none")
+  end
+
+  defp ohlcv_none_reason_coherent?(update_model, unresolved_reason) do
+    (update_model == "none" and unresolved_reason in @ohlcv_none_reasons) or
+      (update_model != "none" and unresolved_reason not in @ohlcv_none_reasons)
+  end
+
+  defp ohlcv_resolved_from_coherent?(defined, resolved_from) do
+    (defined == true and is_binary(resolved_from)) or (defined == false and is_nil(resolved_from))
   end
 
   defp ws_ohlcv_semantics_coherence(_id, true, _message), do: nil

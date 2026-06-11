@@ -149,16 +149,17 @@ defmodule CcxtExtract.WsOhlcvSemantics do
   end
 
   @spec timeframe_key(map()) :: String.t() | nil
-  defp timeframe_key(fn_expr) do
+  defp timeframe_key(fn_expr), do: first_safe_literal(fn_expr, @timeframe_keys)
+
+  @spec closed_signal(map()) :: String.t() | nil
+  defp closed_signal(fn_expr), do: first_safe_literal(fn_expr, @closed_signal_keys)
+
+  @spec first_safe_literal(map(), [String.t()]) :: String.t() | nil
+  defp first_safe_literal(fn_expr, allowed) do
     fn_expr
     |> OXC.collect(fn
       %{type: :call_expression, callee: callee, arguments: [_first, key | _rest]} ->
-        if safe_callee?(callee) do
-          v = string_literal_value(key)
-          if v in @timeframe_keys, do: {:keep, v}, else: :skip
-        else
-          :skip
-        end
+        keyed_literal(callee, key, allowed)
 
       _ ->
         :skip
@@ -167,23 +168,10 @@ defmodule CcxtExtract.WsOhlcvSemantics do
     |> List.first()
   end
 
-  @spec closed_signal(map()) :: String.t() | nil
-  defp closed_signal(fn_expr) do
-    fn_expr
-    |> OXC.collect(fn
-      %{type: :call_expression, callee: callee, arguments: [_first, key | _rest]} ->
-        if safe_callee?(callee) do
-          v = string_literal_value(key)
-          if v in @closed_signal_keys, do: {:keep, v}, else: :skip
-        else
-          :skip
-        end
-
-      _ ->
-        :skip
-    end)
-    |> Enum.reject(&is_nil/1)
-    |> List.first()
+  @spec keyed_literal(map(), map(), [String.t()]) :: {:keep, String.t()} | :skip
+  defp keyed_literal(callee, key, allowed) do
+    value = string_literal_value(key)
+    if safe_callee?(callee) and value in allowed, do: {:keep, value}, else: :skip
   end
 
   @spec unresolved(String.t(), String.t() | nil, String.t() | nil, String.t() | nil) :: [map()]
@@ -199,7 +187,7 @@ defmodule CcxtExtract.WsOhlcvSemantics do
   end
 
   @spec method_named?(map(), String.t()) :: boolean()
-  defp method_named?(%{type: :method_definition, key: %{name: name}}, name), do: name == name
+  defp method_named?(%{type: :method_definition, key: %{name: name}}, name), do: true
   defp method_named?(_member, _name), do: false
 
   @spec safe_callee?(map()) :: boolean()
@@ -285,8 +273,7 @@ defmodule CcxtExtract.WsOhlcvSemantics do
 
   @spec empty_record(String.t(), [map()]) :: map()
   defp empty_record(reason, _chain) do
-    none_record()
-    |> Map.put("unresolved_reason", reason)
+    Map.put(none_record(), "unresolved_reason", reason)
   end
 
   @doc """

@@ -769,7 +769,6 @@ assignee = "grok"
 body = """
 Compare current derivation + overrides against the last-released output. Flags: (a) overrides whose underlying raw data changed (stale override), (b) derived fields that flipped value or disappeared, (c) new raw fields not yet derived. Report only; humans decide.
 """
-started_at = "2026-06-11"
 scored_at = "2026-05-14"
 
 # ── Phase 9 · bundle 9-pipeline ───────────────────────────────────────────

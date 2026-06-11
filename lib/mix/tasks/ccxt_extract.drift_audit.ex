@@ -69,12 +69,10 @@ defmodule Mix.Tasks.CcxtExtract.DriftAudit do
     report_path = opts[:report] || default_report_path()
 
     run_opts =
-      [
-        output_dir: output_dir,
-        baseline_tag: opts[:baseline_tag],
-        baseline_dir: opts[:baseline_dir]
-      ]
-      |> maybe_put_exchange_ids(opts)
+      maybe_put_exchange_ids(
+        [output_dir: output_dir, baseline_tag: opts[:baseline_tag], baseline_dir: opts[:baseline_dir]],
+        opts
+      )
 
     Mix.shell().info("Drift audit against #{describe_baseline(opts)} (current: #{output_dir})...")
     start = System.monotonic_time(:millisecond)
@@ -154,12 +152,10 @@ defmodule Mix.Tasks.CcxtExtract.DriftAudit do
   defp format_value(v) when is_number(v) or is_boolean(v), do: inspect(v)
 
   defp format_value(v) when is_map(v) or is_list(v) do
-    try do
-      bin = Jason.encode!(v)
-      if byte_size(bin) > 120, do: String.slice(bin, 0, 117) <> "...", else: bin
-    rescue
-      _ -> inspect(v, limit: 5)
-    end
+    bin = Jason.encode!(v)
+    if byte_size(bin) > 120, do: String.slice(bin, 0, 117) <> "...", else: bin
+  rescue
+    _ -> inspect(v, limit: 5)
   end
 
   defp format_value(v), do: inspect(v, limit: 5)

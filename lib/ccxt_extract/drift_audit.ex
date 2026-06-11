@@ -70,33 +70,22 @@ defmodule CcxtExtract.DriftAudit do
     :ok
   end
 
+  @doc false
+  @spec classify_maps(String.t(), map(), map() | term(), list()) :: [finding()]
+  def classify_maps(id, current, baseline, overrides) do
+    id
+    |> stale_override_findings(current, baseline, overrides)
+    |> maybe_append_flipped(id, current, baseline)
+    |> maybe_append_new_raw(id, current, baseline)
+  end
+
   # --- per-exchange ---
 
   defp audit_one(id, output_dir, baseline_tag, baseline_dir) do
     current = load_current(output_dir, id)
     baseline = load_baseline(baseline_tag, baseline_dir, id)
     overrides = load_overrides(id)
-
-    findings = []
-
-    # (a) stale overrides
-    findings = findings ++ stale_override_findings(id, current, baseline, overrides)
-
-    # (b) flipped/disappeared derived (only when we have a usable baseline map)
-    findings =
-      if is_map(baseline) do
-        findings ++ flipped_derived_findings(id, current, baseline)
-      else
-        findings
-      end
-
-    # (c) new raw fields
-    findings =
-      if is_map(baseline) do
-        findings ++ new_raw_findings(id, current, baseline)
-      else
-        findings
-      end
+    findings = classify_maps(id, current, baseline, overrides)
 
     %{
       "exchange" => id,
@@ -104,6 +93,18 @@ defmodule CcxtExtract.DriftAudit do
       "findings" => Enum.map(findings, &finding_to_map/1)
     }
   end
+
+  defp maybe_append_flipped(findings, id, current, baseline) when is_map(baseline) do
+    findings ++ flipped_derived_findings(id, current, baseline)
+  end
+
+  defp maybe_append_flipped(findings, _id, _current, _baseline), do: findings
+
+  defp maybe_append_new_raw(findings, id, current, baseline) when is_map(baseline) do
+    findings ++ new_raw_findings(id, current, baseline)
+  end
+
+  defp maybe_append_new_raw(findings, _id, _current, _baseline), do: findings
 
   defp load_current(output_dir, id) do
     path = Path.join(output_dir, "#{id}.json")
@@ -180,7 +181,7 @@ defmodule CcxtExtract.DriftAudit do
             details: %{
               "override_reason" => ov["reason"],
               "raw_delta" => raw_delta,
-              "translated_from" => if(raw_path != ptr, do: raw_path, else: nil)
+              "translated_from" => if(raw_path == ptr, do: nil, else: raw_path)
             }
           }
         ]
@@ -212,7 +213,9 @@ defmodule CcxtExtract.DriftAudit do
       base_val = safe_get(baseline, ptr)
       curr_val = safe_get(current, ptr)
 
-      if base_val != curr_val do
+      if base_val == curr_val do
+        []
+      else
         [
           %{
             category: :flipped_derived,
@@ -223,8 +226,6 @@ defmodule CcxtExtract.DriftAudit do
             details: %{}
           }
         ]
-      else
-        []
       end
     end)
   end
@@ -325,30 +326,7 @@ defmodule CcxtExtract.DriftAudit do
   # --- report ---
 
   defp build_report(exchanges, baseline_tag, baseline_dir) do
-    all_findings =
-      exchanges
-      |> Enum.flat_map(& &1["findings"])
-      |> Enum.map(fn f ->
-        # findings inside exchanges are already string-key maps (from finding_to_map)
-        # or atom maps from internal collectors; normalize here.
-        cat =
-          case f do
-            %{category: c} when is_atom(c) -> Atom.to_string(c)
-            %{"category" => c} when is_binary(c) -> c
-            %{"category" => c} when is_atom(c) -> Atom.to_string(c)
-            _ -> "unknown"
-          end
-
-        %{
-          "category" => cat,
-          "exchange" => f["exchange"] || f[:exchange],
-          "path" => f["path"] || f[:path],
-          "before" => f["before"] || f[:before],
-          "after" => f["after"] || f[:after],
-          "details" => f["details"] || f[:details] || %{}
-        }
-      end)
-
+    all_findings = Enum.flat_map(exchanges, & &1["findings"])
     by_cat = Enum.group_by(all_findings, & &1["category"])
 
     summary = %{

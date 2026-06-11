@@ -967,7 +967,6 @@
         "Exits non-zero only on errors, not on findings (so CI can gate it separately if desired)"
       ],
       "body": "Compare current derivation + overrides against the last-released output. Flags: (a) overrides whose underlying raw data changed (stale override), (b) derived fields that flipped value or disappeared, (c) new raw fields not yet derived. Report only; humans decide.\n",
-      "started_at": "2026-06-11",
       "scored_at": "2026-05-14",
       "cross_repo": []
     },

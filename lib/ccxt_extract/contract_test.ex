@@ -96,59 +96,52 @@ defmodule CcxtExtract.ContractTest do
 
   @paths_read_helpers [:priv, :priv_dir, :discoveries, :ts_src, :bundle, :version_file]
 
-  # Functions that consume a filesystem path as input and return a non-path
-  # value (content, boolean, stat map, file handle). Once a path flows through
-  # one of these, downstream data is no longer a path, so further use in a
-  # writer is legitimate — e.g. reading a committed JSON schema and writing
-  # its contents into the output dir, or branching on `File.exists?/1` before
-  # writing unrelated data via the `out_*` helpers.
+  # Content readers: functions that consume a filesystem path and return file
+  # CONTENT (bytes, a stream, a handle) rather than a path. Once a path flows
+  # through one of these the downstream value is no longer a path, so feeding
+  # it to a writer is legitimate — e.g. reading a committed JSON schema and
+  # writing its bytes into the output dir. Used as taint sanitizers.
   #
-  # TODO(Task 127): Reach marks a flow sanitized if any sanitizer node
-  # appears anywhere on the source→sink chop. That means a path-inspection
-  # (`exists?`/`stat`/`ls`) in the same function as a LATER `File.write!` to
-  # an unrelated `out_*` path currently sanitizes a false positive (e.g.
-  # `ccxt_extract.setup.ex:254-287`), but would ALSO sanitize a genuine leak
-  # of the form `if File.exists?(p), do: File.write!(p, data)` where the
-  # sink's target IS the inspected path. A tighter fix would be
-  # position-aware sinks (`File.cp!` arg 0 is read-only) plus variable-level
-  # (not chop-level) sanitization. Narrowing to only content-readers
-  # (`read`/`read!`/`stream!`/`open`/`open!`) re-exposes the setup.ex false
-  # positive and trips the baseline-green contract test — verified
-  # 2026-04-24. See CHANGELOG entry under the paths_rw_split fix.
-  @file_reader_fns [
-    :read,
-    :read!,
-    :stream!,
-    :exists?,
-    :regular?,
-    :dir?,
-    :stat,
-    :stat!,
-    :lstat,
-    :lstat!,
-    :ls,
-    :ls!,
-    :open,
-    :open!
-  ]
+  # Narrowed to content readers only: path-inspection probes
+  # (`exists?`/`stat`/`ls`) are deliberately NOT sanitizers. The
+  # "inspect a path, then write somewhere unrelated" pattern is handled by the
+  # position-aware sink registry below (the inspected path never reaches the
+  # writer's write-position argument), so it no longer needs a chop-level
+  # sanitizer that would also mask a genuine `File.write!(inspected_path, …)`.
+  @file_reader_fns [:read, :read!, :stream!, :open, :open!]
 
-  @file_writer_fns [
-    :write,
-    :write!,
-    :mkdir_p,
-    :mkdir_p!,
-    :cp,
-    :cp!,
-    :cp_r,
-    :cp_r!,
-    :rm,
-    :rm!,
-    :rm_rf,
-    :rm_rf!,
-    :rename,
-    :touch,
-    :touch!
-  ]
+  # Position-aware writer-sink registry, keyed on `{function, arity}` → the
+  # argument indices that name a WRITE target. A `File` call is a paths_rw sink
+  # only when its `{function, arity}` is a key here, and a flow is a leak only
+  # when a read-helper path reaches one of the listed write-position arguments.
+  # This distinguishes `File.cp!/2` arg 0 (the read source — legitimate for a
+  # `Paths.priv(...)` path) from arg 1 (the write destination). `File.rename/2`
+  # mutates both its source (removed) and destination, so both are writes.
+  @writer_sinks %{
+    {:write, 2} => [0],
+    {:write, 3} => [0],
+    {:write!, 2} => [0],
+    {:write!, 3} => [0],
+    {:mkdir_p, 1} => [0],
+    {:mkdir_p!, 1} => [0],
+    {:cp, 2} => [1],
+    {:cp, 3} => [1],
+    {:cp!, 2} => [1],
+    {:cp!, 3} => [1],
+    {:cp_r, 2} => [1],
+    {:cp_r, 3} => [1],
+    {:cp_r!, 2} => [1],
+    {:cp_r!, 3} => [1],
+    {:rm, 1} => [0],
+    {:rm!, 1} => [0],
+    {:rm_rf, 1} => [0],
+    {:rm_rf!, 1} => [0],
+    {:rename, 2} => [0, 1],
+    {:touch, 1} => [0],
+    {:touch, 2} => [0],
+    {:touch!, 1} => [0],
+    {:touch!, 2} => [0]
+  }
 
   @doc """
   Load every `priv/output/<exchange>.json` (skipping `_*.json` manifests),
@@ -2664,12 +2657,19 @@ defmodule CcxtExtract.ContractTest do
   `File` writer (`write*`, `mkdir_p*`, `cp*`, `rm*`, `rename`, `touch*`).
 
   Uses `Reach.Project.taint_analysis/2` over `lib/**/*.ex` and filters to
-  same-file, unsanitized flows. Cross-module flows are conservatively
-  dropped — Reach's source frontend over-approximates through function
-  boundaries (e.g. `FixtureParity.check(fixtures_dir)` taints an unrelated
-  `File.write!` inside the callee), and dynamic-dispatch writers
-  (`writer.(dest)`) are invisible to the source frontend. This is a
-  best-effort guard against the common direct-call leak pattern.
+  same-file, unsanitized flows that reach a **write-position** argument of the
+  sink (per the `{function, arity} => write_arg_indices` registry). The
+  position filter distinguishes `File.cp!/2` arg 0 (a read source — a
+  `Paths.priv(...)` path there is fine) from arg 1 (the write destination), and
+  drops control-only reaches such as `if File.exists?(p), do: File.write!(other, …)`
+  without relying on a path-inspection sanitizer. Content readers
+  (`read`/`read!`/`stream!`/`open`/`open!`) remain sanitizers so a path that has
+  become file content can flow into a writer freely. Cross-module flows are
+  conservatively dropped — Reach's source frontend over-approximates through
+  function boundaries (e.g. `FixtureParity.check(fixtures_dir)` taints an
+  unrelated `File.write!` inside the callee), and dynamic-dispatch writers
+  (`writer.(dest)`) are invisible to the source frontend. This is a best-effort
+  guard against the common direct-call leak pattern.
 
   ## Options
 
@@ -2716,10 +2716,10 @@ defmodule CcxtExtract.ContractTest do
   defp paths_rw_sink?(node) do
     node.type == :call and
       node.meta[:module] == File and
-      node.meta[:function] in @file_writer_fns
+      Map.has_key?(@writer_sinks, {node.meta[:function], node.meta[:arity]})
   end
 
-  # Once a path has been consumed by a File reader, the downstream value is
+  # Once a path has been consumed by a content reader, the downstream value is
   # file CONTENT, not a path — so further flow into a writer is legitimate
   # (reading a committed artifact and writing its bytes into the output dir).
   # Prevents false positives on `Paths.priv → File.read! → ... → File.write!`.
@@ -2729,14 +2729,44 @@ defmodule CcxtExtract.ContractTest do
       node.meta[:function] in @file_reader_fns
   end
 
-  # Keep only unsanitized, same-file flows. See module doc on check_paths_rw_split/1.
+  # Keep only unsanitized, same-file flows whose read-helper path reaches a
+  # WRITE-position argument of the sink. See module doc on check_paths_rw_split/1.
   defp paths_rw_reportable?(%{sanitized: true}), do: false
 
-  defp paths_rw_reportable?(%{source: %{source_span: s}, sink: %{source_span: k}}) when not is_nil(s) and not is_nil(k) do
-    s.file == k.file
+  defp paths_rw_reportable?(%{source: %{source_span: s}, sink: %{source_span: k}} = flow)
+       when not is_nil(s) and not is_nil(k) do
+    s.file == k.file and reaches_write_position?(flow)
   end
 
   defp paths_rw_reportable?(_), do: false
+
+  # True when the read-helper source flows into (or *is*) a write-position
+  # argument of the sink — not a read-position arg (e.g. `File.cp!/2` arg 0)
+  # and not a control-only reach (e.g. `if File.exists?(p), do: File.write!(other, …)`,
+  # where `p` reaches the sink node through a control edge but never its
+  # write-position argument subtree). For a remote `File.<fn>` call the receiver
+  # contributes no child node, so `sink.children` is the positional argument
+  # list and child index == argument index. The source node is excluded from the
+  # chop `path`, so it is folded back in to catch `File.write!(Paths.priv(…), x)`
+  # where the source IS the write-position argument.
+  defp reaches_write_position?(%{source: source, sink: sink, path: path}) do
+    indices = Map.get(@writer_sinks, {sink.meta[:function], sink.meta[:arity]}, [])
+    reachable = MapSet.new([source.id | path])
+
+    sink.children
+    |> Enum.with_index()
+    |> Enum.any?(fn {arg, index} ->
+      index in indices and subtree_intersects?(arg, reachable)
+    end)
+  end
+
+  defp subtree_intersects?(node, reachable) do
+    node |> subtree_ids([]) |> Enum.any?(&MapSet.member?(reachable, &1))
+  end
+
+  defp subtree_ids(%{id: id, children: children}, acc) do
+    Enum.reduce(children, [id | acc], &subtree_ids/2)
+  end
 
   defp paths_rw_to_finding(%{source: source, sink: sink}) do
     src_fn = "#{inspect(source.meta.module)}.#{source.meta.function}/#{source.meta.arity}"

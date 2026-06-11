@@ -468,6 +468,71 @@ defmodule CcxtExtract.ContractTestTest do
 
       assert ContractTest.check_paths_rw_split(glob: Path.join(tmp, "**/*.ex")) == []
     end
+
+    # Position-aware sinks (Task 127): `File.cp!/2` arg 0 is a read source, not
+    # a write target, so a `Paths.priv(...)` path there is legitimate.
+    test "does not flag a read-helper path in File.cp!/2 arg 0 (read position)", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "cp.ex"), """
+      defmodule Fixture.Copy do
+        def run(dest) do
+          src = CcxtExtract.Paths.priv("schema/exchange.json")
+          File.cp!(src, dest)
+        end
+      end
+      """)
+
+      assert ContractTest.check_paths_rw_split(glob: Path.join(tmp, "**/*.ex")) == []
+    end
+
+    # The destination arg (write position) IS flagged when a read-helper path
+    # lands there.
+    test "flags a read-helper path in File.cp!/2 arg 1 (write position)", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "cp_dest.ex"), """
+      defmodule Fixture.CopyDest do
+        def run(src) do
+          dest = CcxtExtract.Paths.priv("schema/exchange.json")
+          File.cp!(src, dest)
+        end
+      end
+      """)
+
+      assert [finding] = ContractTest.check_paths_rw_split(glob: Path.join(tmp, "**/*.ex"))
+      assert finding.message =~ "File.cp!"
+    end
+
+    # Variable-level precision (Task 127): inspecting a read-helper path and then
+    # writing to an UNRELATED target must not flag — the path reaches the writer
+    # only through a control edge, never its write-position argument.
+    test "does not flag File.exists? on a read-helper path before an unrelated write", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "probe.ex"), """
+      defmodule Fixture.Probe do
+        def run(out) do
+          probe = CcxtExtract.Paths.priv("ts/exchanges.json")
+
+          if File.exists?(probe) do
+            File.write!(out, "data")
+          end
+        end
+      end
+      """)
+
+      assert ContractTest.check_paths_rw_split(glob: Path.join(tmp, "**/*.ex")) == []
+    end
+
+    # Content readers stay sanitizers: a path that has become file content may
+    # flow into a writer freely.
+    test "does not flag a read-helper path consumed by File.read! before a write", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "roundtrip.ex"), """
+      defmodule Fixture.Roundtrip do
+        def run(out) do
+          content = File.read!(CcxtExtract.Paths.priv("schema/exchange.json"))
+          File.write!(out, content)
+        end
+      end
+      """)
+
+      assert ContractTest.check_paths_rw_split(glob: Path.join(tmp, "**/*.ex")) == []
+    end
   end
 
   describe "check_sign_recipe_honesty_valid/2 (Task 69)" do

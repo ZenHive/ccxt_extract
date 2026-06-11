@@ -52,6 +52,7 @@ defmodule CcxtExtract.ContractTest do
   alias CcxtExtract.WsDispatch
   alias CcxtExtract.WsHeartbeat
   alias CcxtExtract.WsSubscribe
+  alias CcxtExtract.WsTradesSemantics
 
   @type finding :: Finding.t()
 
@@ -78,6 +79,7 @@ defmodule CcxtExtract.ContractTest do
     {"websocket_auth_shape_valid", :check_websocket_auth_shape_valid},
     {"websocket_subscribe_shape_valid", :check_websocket_subscribe_shape_valid},
     {"websocket_dispatch_shape_valid", :check_websocket_dispatch_shape_valid},
+    {"websocket_trades_semantics_shape_valid", :check_websocket_trades_semantics_shape_valid},
     {"error_class_hierarchy_shape_valid", :check_error_class_hierarchy_shape_valid},
     {"error_classes_covered_by_hierarchy", :check_error_classes_covered_by_hierarchy},
     {"error_class_hierarchy_content_equals_baseline", :check_error_class_hierarchy_content_equals_baseline},
@@ -1600,6 +1602,169 @@ defmodule CcxtExtract.ContractTest do
       exchange: id,
       invariant: "websocket_dispatch_shape_valid",
       path: "websocket/dispatch",
+      message: message
+    }
+  end
+
+  @doc """
+  `websocket.trades_semantics` must carry exactly the
+  `WsTradesSemantics` key set with closed-vocabulary `update_model` /
+  `source` / `unresolved_reason` values, valid unresolved reason elements,
+  and an honest-empty record for exchanges with no WS trades channel.
+  """
+  @spec check_websocket_trades_semantics_shape_valid(map(), map()) :: [finding()]
+  def check_websocket_trades_semantics_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    ws_trades_semantics_record_findings(id, get_in(exchange, ["websocket", "trades_semantics"]))
+  end
+
+  defp ws_trades_semantics_record_findings(id, record) when is_map(record) do
+    missing = WsTradesSemantics.required_keys() -- Map.keys(record)
+    extra = Map.keys(record) -- WsTradesSemantics.required_keys()
+
+    missing_findings = Enum.map(missing, &ws_trades_semantics_finding(id, "missing required key #{inspect(&1)}"))
+    extra_findings = Enum.map(extra, &ws_trades_semantics_finding(id, "unexpected key #{inspect(&1)}"))
+
+    consistency_findings =
+      case missing do
+        [] -> ws_trades_semantics_consistency_findings(id, record)
+        _ -> []
+      end
+
+    missing_findings ++ extra_findings ++ consistency_findings
+  end
+
+  defp ws_trades_semantics_record_findings(id, _record) do
+    [ws_trades_semantics_finding(id, "websocket.trades_semantics must be a map")]
+  end
+
+  defp ws_trades_semantics_consistency_findings(id, record) do
+    vocab_findings =
+      [
+        ws_trades_semantics_vocab_finding(id, record, "update_model", WsTradesSemantics.update_models()),
+        ws_trades_semantics_vocab_finding(id, record, "source", WsTradesSemantics.sources()),
+        ws_trades_semantics_vocab_finding(
+          id,
+          record,
+          "unresolved_reason",
+          [nil | WsTradesSemantics.unresolved_reasons()]
+        )
+      ]
+
+    element_findings = ws_trades_semantics_element_findings(id, record)
+
+    Enum.reject(vocab_findings ++ element_findings ++ ws_trades_semantics_honesty_findings(id, record), &is_nil/1)
+  end
+
+  defp ws_trades_semantics_vocab_finding(id, record, key, allowed) do
+    value = Map.get(record, key)
+
+    if value in allowed do
+      nil
+    else
+      ws_trades_semantics_finding(id, "#{key} must be one of #{inspect(allowed)}, got #{inspect(value)}")
+    end
+  end
+
+  defp ws_trades_semantics_element_findings(id, record) do
+    unresolved_findings =
+      record
+      |> Map.get("unresolved", [])
+      |> List.wrap()
+      |> Enum.flat_map(&ws_trades_semantics_unresolved_findings(id, &1))
+
+    my_trades_findings(id, Map.get(record, "my_trades")) ++ unresolved_findings
+  end
+
+  defp ws_trades_semantics_unresolved_findings(id, %{"reason" => reason}) do
+    if reason in WsTradesSemantics.unresolved_entry_reasons() do
+      []
+    else
+      [
+        ws_trades_semantics_finding(
+          id,
+          "unresolved reason must be one of #{inspect(WsTradesSemantics.unresolved_entry_reasons())}, got #{inspect(reason)}"
+        )
+      ]
+    end
+  end
+
+  defp ws_trades_semantics_unresolved_findings(id, other) do
+    [ws_trades_semantics_finding(id, "unresolved entry must carry a reason, got #{inspect(other)}")]
+  end
+
+  defp my_trades_findings(id, %{"defined" => defined} = record) when is_boolean(defined) do
+    fields = ~w(cache_type dedup_key cache_limit_field cache_limit_default)
+    required = ["defined" | fields]
+    missing = required -- Map.keys(record)
+    extra = Map.keys(record) -- required
+
+    key_findings =
+      Enum.map(missing, &ws_trades_semantics_finding(id, "my_trades missing required key #{inspect(&1)}")) ++
+        Enum.map(extra, &ws_trades_semantics_finding(id, "my_trades unexpected key #{inspect(&1)}"))
+
+    null_findings =
+      if defined do
+        []
+      else
+        fields
+        |> Enum.reject(&is_nil(Map.get(record, &1)))
+        |> Enum.map(&ws_trades_semantics_finding(id, "my_trades.#{&1} must be null when defined=false"))
+      end
+
+    key_findings ++ null_findings
+  end
+
+  defp my_trades_findings(id, other) do
+    [ws_trades_semantics_finding(id, "my_trades must carry defined boolean, got #{inspect(other)}")]
+  end
+
+  defp ws_trades_semantics_honesty_findings(id, record) do
+    update_model = Map.get(record, "update_model")
+    none? = update_model == "none"
+
+    [
+      ws_trades_semantics_coherence(
+        id,
+        none? == (Map.get(record, "trades_defined") == false),
+        "update_model=none must agree with trades_defined=false"
+      ),
+      ws_trades_semantics_coherence(
+        id,
+        none? == is_nil(Map.get(record, "cache_type")),
+        "update_model=none must agree with cache_type=null"
+      ),
+      ws_trades_semantics_coherence(
+        id,
+        none? == is_nil(Map.get(record, "dedup_key")),
+        "update_model=none must agree with dedup_key=null"
+      ),
+      ws_trades_semantics_coherence(
+        id,
+        none? == is_nil(Map.get(record, "cache_limit_field")),
+        "update_model=none must agree with cache_limit_field=null"
+      ),
+      ws_trades_semantics_coherence(
+        id,
+        none? == is_nil(Map.get(record, "resolved_from")),
+        "update_model=none must agree with resolved_from=null"
+      ),
+      ws_trades_semantics_coherence(
+        id,
+        update_model == "unknown" == (Map.get(record, "unresolved_reason") == "trades_not_classifiable"),
+        "update_model=unknown must agree with unresolved_reason=trades_not_classifiable"
+      )
+    ]
+  end
+
+  defp ws_trades_semantics_coherence(_id, true, _message), do: nil
+  defp ws_trades_semantics_coherence(id, false, message), do: ws_trades_semantics_finding(id, message)
+
+  defp ws_trades_semantics_finding(id, message) do
+    %Finding{
+      exchange: id,
+      invariant: "websocket_trades_semantics_shape_valid",
+      path: "websocket/trades_semantics",
       message: message
     }
   end

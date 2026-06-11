@@ -114,7 +114,8 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
         "heartbeat" => CcxtExtract.WsHeartbeat.none_record(),
         "auth" => CcxtExtract.WsAuth.none_record(),
         "subscribe" => CcxtExtract.WsSubscribe.none_record(),
-        "dispatch" => CcxtExtract.WsDispatch.none_record()
+        "dispatch" => CcxtExtract.WsDispatch.none_record(),
+        "trades_semantics" => CcxtExtract.WsTradesSemantics.none_record()
       },
       "markets" => %{
         "symbols_index" => nil,

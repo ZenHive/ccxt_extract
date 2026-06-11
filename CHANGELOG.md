@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 95b — WS trades snapshot/delta semantics
+
+Added the `websocket.trades_semantics` section to the v4 WebSocket group. A new OXC extractor (`mix ccxt_extract.ws_trades_semantics`) scans CCXT Pro `handleTrade(s)` / `handleMyTrade(s)` methods for structurally-resolvable trade cache semantics: append/replace/snapshot update model, cache constructor, safeString trade-id key, `tradesLimit` / `myTradesLimit` reads, and private myTrades presence. Pipeline assembly resolves `extends`-chain inheritance and emits an always-present record with provenance at `/websocket/trades_semantics`, JSON Schema coverage, and a `websocket_trades_semantics_shape_valid` contract invariant. REST-only exchanges carry an honest-empty `none_record`; Pro classes without trades handlers carry `unresolved_reason: "no_ws_trades"`; unclassified handlers carry `update_model: "unknown"` plus unresolved reasons.
+
 ### Task 94 — WS channel → parse handler dispatch tables
 
 Added the `websocket.dispatch` section to the v4 WebSocket group. A new OXC extractor (`mix ccxt_extract.ws_dispatch`) scans CCXT Pro `handleMessage()` methods for structurally-resolvable channel → `handle*` parse-handler routing, including object-literal handler maps, if-chains, and switch cases with fall-through aliases. Pipeline assembly resolves `extends`-chain inheritance and emits an always-present record with `kind`, `handle_message_defined`, `discriminators`, `entries`, `unresolved`, `resolved_from`, `source`, provenance at `/websocket/dispatch`, JSON Schema coverage, and a `websocket_dispatch_shape_valid` contract invariant. REST-only exchanges carry an honest-empty `none_record`, while Pro classes whose `handleMessage()` cannot be statically classified carry `kind: "opaque"` plus `unresolved_reason: "dispatch_not_classifiable"`.

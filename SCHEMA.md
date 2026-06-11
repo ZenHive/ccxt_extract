@@ -63,7 +63,7 @@ Every per-exchange JSON file has exactly these top-level keys (**all required, n
 | `errors` | object | `handle_errors`, `class_hierarchy`, `status_map`, `retry_classification`, `dispatch` |
 | `rate_limits` | object | `buckets`, `per_endpoint_cost`, `endpoint_cost_binding` |
 | `normalization` | object | `parse_methods_digest`, `field_maps`, `response_envelopes` |
-| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93); `auth` — WebSocket connection auth flow (Task 92); `subscribe` — subscribe/unsubscribe frame envelope + channel templates (Task 91); `dispatch` — channel → parse-handler routing table (Task 94) |
+| `websocket` | object | `heartbeat` — WebSocket ping/pong keep-alive (Task 93); `auth` — WebSocket connection auth flow (Task 92); `subscribe` — subscribe/unsubscribe frame envelope + channel templates (Task 91); `dispatch` — channel → parse-handler routing table (Task 94); `trades_semantics` — trades-channel append/snapshot semantics (Task 95b) |
 | `markets` | object | `symbols_index`, `patterns`, `currencies` (Task 97), `precision_mode` (Task 98) |
 | `testnet` | object | Structured testnet / sandbox URL catalog |
 | `raw` | object | Raw passthroughs — `describe`, `url_templates`, `class_info`, `method_inventory`, `overrides_meta` |
@@ -594,6 +594,50 @@ Carries the `_unresolved_reason` key INSTEAD of the `{key, fallback_keys, defaul
 | `unresolved_reason` | enum \| null | `no_ws_support`, `no_ws_dispatch`, `dispatch_not_classifiable`, or `null` when fully routed. |
 
 **Honest-empty record** — a REST-only exchange emits `kind: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`. A Pro class with no `handleMessage()` emits `kind: "none"`, `unresolved_reason: "no_ws_dispatch"`.
+
+### `websocket.trades_semantics` — shape (Task 95b)
+
+`trades_semantics` describes how a Pro class updates its trades cache from `handleTrade(s)` frames. It is derived structurally from cache constructors, `safeString` trade id reads, cache-limit option reads, and append/replace/snapshot calls. It is **always emitted** — REST-only exchanges carry the honest-empty record.
+
+```json
+"websocket": {
+  "trades_semantics": {
+    "update_model": "append",
+    "trades_defined": true,
+    "cache_type": "ArrayCacheBySymbolById",
+    "dedup_key": "id",
+    "cache_limit_field": "tradesLimit",
+    "cache_limit_default": 1000,
+    "my_trades": {
+      "defined": true,
+      "cache_type": "ArrayCacheBySymbolById",
+      "dedup_key": "id",
+      "cache_limit_field": "myTradesLimit",
+      "cache_limit_default": 1000
+    },
+    "unresolved": [],
+    "resolved_from": "self",
+    "source": "pro_handle_trades",
+    "unresolved_reason": null
+  }
+}
+```
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `update_model` | enum | `append`, `replace`, `snapshot`, `unknown`, or `none`. |
+| `trades_defined` | boolean | Whether `handleTrade()` / `handleTrades()` resolved in the Pro extends chain. |
+| `cache_type` | `string \| null` | Literal cache constructor such as `ArrayCacheBySymbolById`. |
+| `dedup_key` | `string \| null` | Literal trade id field read by `safeString`. |
+| `cache_limit_field` | enum \| null | `tradesLimit`, `myTradesLimit`, or `null`; public trades normally use `tradesLimit`. |
+| `cache_limit_default` | number \| null | Literal numeric default from the cache-limit safe accessor. |
+| `my_trades` | object | Private myTrades channel presence plus its own cache type, id key, and limit. |
+| `unresolved` | object[] | Closed-vocabulary per-shape findings: `cache_not_classifiable`, `dedup_key_not_classifiable`, `update_model_not_classifiable`. |
+| `resolved_from` | `string \| null` | `self`, an ancestor exchange id, or `null` when no public trades handler resolved. |
+| `source` | enum | `pro_handle_trades` or `none`. |
+| `unresolved_reason` | enum \| null | `no_ws_support`, `no_ws_trades`, `trades_not_classifiable`, or `null` when resolved. |
+
+**Honest-empty record** — a REST-only exchange emits `update_model: "none"`, `source: "none"`, `unresolved_reason: "no_ws_support"`, with null/false/empty values for the remaining fields. A Pro class with no public trades handler emits `unresolved_reason: "no_ws_trades"`. A handler whose update model is not statically classifiable emits `update_model: "unknown"` and `unresolved_reason: "trades_not_classifiable"`.
 
 `websocket` is the designated growth point for Phase 15 WS-derived sub-sections; sibling tasks add keys to it additively.
 

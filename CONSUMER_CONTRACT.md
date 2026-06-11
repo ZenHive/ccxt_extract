@@ -117,6 +117,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 | WS auth flow (sign-in message / header / query param) | ✅ | `websocket.auth` (Task 92) — structural `mechanism` (`sign_in_message` / `url_param` / `unknown` / `none`), decoded sign-in `message` (`op` / `method` discriminant + keys), `credentials`, inheritance-resolved via the `extends` chain |
 | Heartbeat / ping-pong pattern | ✅ | `websocket.heartbeat` (Task 93) — structural ping strategy (`ping_kind`), decoded payload, inheritance-resolved `keep_alive_ms`, `has_pong_handler` |
 | Channel → parse handler dispatch tables | ✅ | `websocket.dispatch` (Task 94) — structural channel → `handle*` entries, discriminator fields, inheritance-resolved `resolved_from`, and honest `opaque` / `none` states |
+| Trades snapshot/delta semantics | ✅ | `websocket.trades_semantics` (Task 95b) — structural `update_model`, cache constructor, trade id dedup key, `tradesLimit` / `myTradesLimit`, private myTrades presence, and honest `unknown` / `none` states |
 | Snapshot vs delta semantics — orderbook | ⬜ | Phase 15 — Task 95a |
 | Snapshot vs delta semantics — trades | ⬜ | Phase 15 — Task 95b |
 | Snapshot vs delta semantics — OHLCV | ⬜ | Phase 15 — Task 95c |

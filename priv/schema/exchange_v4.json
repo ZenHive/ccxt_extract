@@ -558,7 +558,8 @@
         "heartbeat",
         "auth",
         "subscribe",
-        "dispatch"
+        "dispatch",
+        "trades_semantics"
       ],
       "additionalProperties": false,
       "properties": {
@@ -577,6 +578,10 @@
         "dispatch": {
           "$ref": "#/$defs/WebsocketDispatch",
           "description": "Per-exchange channel → parse-handler dispatch table derived from the Pro class handleMessage() method (Task 94)."
+        },
+        "trades_semantics": {
+          "$ref": "#/$defs/WebsocketTradesSemantics",
+          "description": "Per-exchange trades-channel update semantics derived from handleTrade(s) / handleMyTrade(s) methods (Task 95b)."
         }
       }
     },
@@ -655,6 +660,104 @@
         "unresolved_reason": {
           "enum": ["no_ws_support", "no_ws_dispatch", "dispatch_not_classifiable", null],
           "description": "Honesty tag. 'no_ws_support': the exchange has no WebSocket (Pro) class. 'no_ws_dispatch': a Pro class exists but defines no handleMessage() anywhere in its chain. 'dispatch_not_classifiable': handleMessage() is defined but no entry was structurally resolvable (kind is 'opaque'). Null when the table is routed."
+        }
+      }
+    },
+    "WebsocketTradesSemantics": {
+      "type": "object",
+      "description": "Trades-channel update semantics, derived structurally from the Pro class handleTrade(s) and handleMyTrade(s) methods (Task 95b). CCXT normally appends parsed trades into a bounded ArrayCacheBySymbolById-style cache; unrecognized handler shapes are emitted as unknown/unresolved rather than guessed. Always emitted — REST-only exchanges carry the honest-empty record (update_model 'none', unresolved_reason 'no_ws_support').",
+      "required": [
+        "update_model",
+        "trades_defined",
+        "cache_type",
+        "dedup_key",
+        "cache_limit_field",
+        "cache_limit_default",
+        "my_trades",
+        "unresolved",
+        "resolved_from",
+        "source",
+        "unresolved_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "update_model": {
+          "enum": ["append", "replace", "snapshot", "unknown", "none"],
+          "description": "How incoming trade frames update the cache. 'append': handler calls append on the trade cache. 'replace'/'snapshot': reserved for structurally detected replacement paths. 'unknown': a trades handler exists but no known update path was classifiable. 'none': no WebSocket trades handler resolved."
+        },
+        "trades_defined": {
+          "type": "boolean",
+          "description": "True when the Pro class (or an ancestor via the extends chain) defines handleTrade() or handleTrades()."
+        },
+        "cache_type": {
+          "type": ["string", "null"],
+          "description": "Literal cache constructor name, such as ArrayCacheBySymbolById. Null when no trades handler/cache exists or the cache constructor is not statically classifiable."
+        },
+        "dedup_key": {
+          "type": ["string", "null"],
+          "description": "Literal trade id field read by safeString inside the handler. Null when no such literal key is statically visible."
+        },
+        "cache_limit_field": {
+          "enum": ["tradesLimit", "myTradesLimit", null],
+          "description": "Literal options field read for the public trades cache limit. Public trades normally use tradesLimit."
+        },
+        "cache_limit_default": {
+          "type": ["number", "null"],
+          "description": "Literal numeric default passed to the cache-limit safe accessor, when present."
+        },
+        "my_trades": {
+          "type": "object",
+          "required": ["defined", "cache_type", "dedup_key", "cache_limit_field", "cache_limit_default"],
+          "additionalProperties": false,
+          "properties": {
+            "defined": {
+              "type": "boolean",
+              "description": "True when a private myTrades handler resolves in the extends chain."
+            },
+            "cache_type": {
+              "type": ["string", "null"],
+              "description": "Private myTrades cache constructor name, when statically visible."
+            },
+            "dedup_key": {
+              "type": ["string", "null"],
+              "description": "Private myTrades trade id field read by safeString, when statically visible."
+            },
+            "cache_limit_field": {
+              "enum": ["tradesLimit", "myTradesLimit", null],
+              "description": "Literal options field read for the private myTrades cache limit. Private handlers normally use myTradesLimit."
+            },
+            "cache_limit_default": {
+              "type": ["number", "null"],
+              "description": "Literal numeric default passed to the private cache-limit safe accessor, when present."
+            }
+          }
+        },
+        "unresolved": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["reason"],
+            "additionalProperties": false,
+            "properties": {
+              "reason": {
+                "enum": ["cache_not_classifiable", "dedup_key_not_classifiable", "update_model_not_classifiable"],
+                "description": "Why a structurally relevant handler fact could not be resolved."
+              }
+            }
+          },
+          "description": "Per-shape unresolved findings for the public trades handler. Empty when all supported facts resolved."
+        },
+        "resolved_from": {
+          "type": ["string", "null"],
+          "description": "Where handleTrade(s) resolved: 'self' (own Pro class) or an ancestor exchange id. Null when no trades handler resolved."
+        },
+        "source": {
+          "enum": ["pro_handle_trades", "none"],
+          "description": "Origin of the record. 'pro_handle_trades': a trades handler (own or inherited). 'none': no trades handler."
+        },
+        "unresolved_reason": {
+          "enum": ["no_ws_support", "no_ws_trades", "trades_not_classifiable", null],
+          "description": "Honesty tag. 'no_ws_support': the exchange has no WebSocket Pro class. 'no_ws_trades': a Pro class exists but no trades handler resolved. 'trades_not_classifiable': a trades handler exists but its update model was not statically classifiable. Null when the record is resolved."
         }
       }
     },

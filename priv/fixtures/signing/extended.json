@@ -2,47 +2,52 @@
   "cases": [
     {
       "input": {
-        "api": "public",
+        "api": [
+          "v1",
+          "public"
+        ],
         "body": null,
         "headers": null,
         "method": "GET",
         "params": {},
-        "path": "v3/markets"
+        "path": "info/markets"
       },
       "name": "public_get_ticker",
       "output": {
         "body": null,
         "headers": null,
         "method": "GET",
-        "url": "https://api.ox.fun/v3/markets"
+        "url": "https://api.starknet.extended.exchange/api/v1/info/markets"
       }
     },
     {
       "input": {
-        "api": "private",
+        "api": [
+          "v1",
+          "private"
+        ],
         "body": null,
         "headers": null,
         "method": "GET",
         "params": {},
-        "path": "v3/account"
+        "path": "user/accounts"
       },
       "name": "private_get_balance",
       "output": {
         "body": null,
         "headers": {
-          "AccessKey": "account-TEST_API_KEY",
-          "Content-Type": "application/json",
-          "Nonce": "1700000000",
-          "Signature": "u2sHQVK6eh5ogq5hye8OWbPeWIVZPSicMhcHyGYk89s=",
-          "Timestamp": "2023-11-14T22:13:20"
+          "X-Api-Key": "account-TEST_API_KEY"
         },
         "method": "GET",
-        "url": "https://api.ox.fun/v3/account"
+        "url": "https://api.starknet.extended.exchange/api/v1/user/accounts"
       }
     },
     {
       "input": {
-        "api": "private",
+        "api": [
+          "v1",
+          "private"
+        ],
         "body": null,
         "headers": null,
         "method": "POST",
@@ -53,35 +58,33 @@
           "symbol": "BTC/USDT",
           "type": "limit"
         },
-        "path": "v3/orders/place"
+        "path": "user/order"
       },
       "name": "private_post_order",
       "output": {
         "body": "{\"symbol\":\"BTC/USDT\",\"type\":\"limit\",\"side\":\"buy\",\"amount\":1,\"price\":1}",
         "headers": {
-          "AccessKey": "account-TEST_API_KEY",
           "Content-Type": "application/json",
-          "Nonce": "1700000000",
-          "Signature": "IVaBcmWm/ULpXywbYP9YlHJS79EiGMlKzy6xycQ0vk8=",
-          "Timestamp": "2023-11-14T22:13:20"
+          "X-Api-Key": "account-TEST_API_KEY"
         },
         "method": "POST",
-        "url": "https://api.ox.fun/v3/orders/place"
+        "url": "https://api.starknet.extended.exchange/api/v1/user/order"
       }
     }
   ],
-  "ccxt_version": "4.5.55",
+  "ccxt_version": "4.5.56",
   "credentials": {
     "apiKey": "account-TEST_API_KEY",
     "password": null,
+    "privateKey": "0000000000000000000000000000000000000000000000000000000000000001",
     "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
     "uid": null
   },
-  "exchange": "oxfun",
+  "exchange": "extended",
   "frozen": {
     "nonce": 1700000000,
     "timestamp_ms": 1700000000000
   },
-  "generated_at": "2026-06-10T09:19:02.008281Z",
+  "generated_at": "2026-06-11T06:33:19.139255Z",
   "skipped": []
 }

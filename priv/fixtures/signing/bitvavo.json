@@ -7,14 +7,14 @@
         "headers": null,
         "method": "GET",
         "params": {},
-        "path": "markets"
+        "path": "ticker/price"
       },
       "name": "public_get_ticker",
       "output": {
         "body": null,
         "headers": null,
         "method": "GET",
-        "url": "https://api.bitvavo.com/v2/markets"
+        "url": "https://api.bitvavo.com/v2/ticker/price"
       }
     },
     {
@@ -69,7 +69,7 @@
       }
     }
   ],
-  "ccxt_version": "4.5.55",
+  "ccxt_version": "4.5.56",
   "credentials": {
     "apiKey": "account-TEST_API_KEY",
     "password": null,
@@ -81,6 +81,6 @@
     "nonce": 1700000000,
     "timestamp_ms": 1700000000000
   },
-  "generated_at": "2026-06-10T09:19:02.008281Z",
+  "generated_at": "2026-06-11T06:33:19.139255Z",
   "skipped": []
 }

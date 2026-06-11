@@ -38,7 +38,8 @@ defmodule CcxtExtract.ClassesIntegrationTest do
   ]
 
   # {alias_id, parent_id}
-  @alias_inheritance [{"huobi", "htx"}, {"gateio", "gate"}]
+  # CCXT 4.5.57 retired the `gateio` alias; `gate` is now standalone.
+  @alias_inheritance [{"huobi", "htx"}, {"coinbaseadvanced", "coinbase"}]
 
   # Run extraction once for the module — OXC parsing ~189 files takes a few seconds
   setup_all do

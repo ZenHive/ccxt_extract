@@ -22,7 +22,7 @@ defmodule CcxtExtract.ValidateOverridesCachedTest do
     assert s["errors"] == 0
     assert s["warnings"] == 0
 
-    # gateio may lack describe discovery under scoped corpus — allow informational unverified
+    # Alias exchanges may lack describe discovery under a scoped corpus — allow informational unverified
     strict_unverified =
       report["exchanges"]
       |> Enum.flat_map(& &1["entries"])

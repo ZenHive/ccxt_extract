@@ -183,7 +183,7 @@ defmodule CcxtExtract.Integration.Cached.CoverageReportCachedTest do
     end
 
     test "known aliases have inapplicable describe", %{by_id: by_id} do
-      for alias_id <- ~w(huobi gateio) do
+      for alias_id <- ~w(huobi coinbaseadvanced) do
         if Map.has_key?(by_id, alias_id) do
           exchange = by_id[alias_id]
           assert exchange["is_alias"] == true, "#{alias_id} should be an alias"

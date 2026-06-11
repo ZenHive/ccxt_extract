@@ -30,7 +30,8 @@ defmodule CcxtExtract.Integration.Cached.ClassesCachedTest do
   ]
 
   # {alias_id, parent_id}
-  @alias_inheritance [{"huobi", "htx"}, {"gateio", "gate"}]
+  # CCXT 4.5.57 retired the `gateio` alias; `gate` is now standalone.
+  @alias_inheritance [{"huobi", "htx"}]
 
   setup_all do
     data = @discovery_path |> File.read!() |> Jason.decode!()

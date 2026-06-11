@@ -225,14 +225,16 @@ defmodule CcxtExtract.HandleErrorsIntegrationTest do
     end
 
     test "scoped run with alias in family does not raise on missing alias describe file" do
-      # Regression: `--tier1 --tier2 --dex` pulls `gateio`/`huobi` (aliases)
+      # Regression: `--tier1 --tier2 --dex` pulls aliases like `huobi`
       # into scope via family inheritance, but the describe extractor skips
       # aliases so those files never exist. The guard must skip them too.
       #
-      # We use `--exchange gate,gateio` to reproduce the exact asymmetry with
-      # a minimal scope that doesn't depend on tier composition.
+      # We use `--exchange htx,huobi` to reproduce the exact asymmetry with
+      # a minimal scope that doesn't depend on tier composition (`huobi` is the
+      # alias of `htx`; CCXT 4.5.57 retired the `gate`/`gateio` pair used here
+      # previously).
       output =
-        run_task_capturing_output(Mix.Tasks.CcxtExtract.HandleErrors, ["--exchange", "gate,gateio"])
+        run_task_capturing_output(Mix.Tasks.CcxtExtract.HandleErrors, ["--exchange", "htx,huobi"])
 
       assert output =~ "Done."
       refute output =~ "Missing describe files"

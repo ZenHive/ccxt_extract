@@ -18,15 +18,15 @@ defmodule CcxtExtract.AliasesTest do
         path,
         Jason.encode!(%{
           "exchanges" => [
-            %{"id" => "gate", "alias" => false},
-            %{"id" => "gateio", "alias" => true},
+            %{"id" => "coinbase", "alias" => false},
+            %{"id" => "coinbaseadvanced", "alias" => true},
             %{"id" => "htx", "alias" => false},
             %{"id" => "huobi", "alias" => true}
           ]
         })
       )
 
-      assert Aliases.alias_ids!(path) == MapSet.new(~w(gateio huobi))
+      assert Aliases.alias_ids!(path) == MapSet.new(~w(coinbaseadvanced huobi))
     end
 
     test "returns empty MapSet when no aliases present", %{tmp: tmp} do
@@ -53,10 +53,11 @@ defmodule CcxtExtract.AliasesTest do
       end
     end
 
-    test "happy path against the committed exchanges.json includes gateio + huobi" do
+    test "happy path against the committed exchanges.json includes coinbaseadvanced + huobi" do
       # Smoke test the real artifact — documents the current CCXT alias set.
+      # CCXT 4.5.57 retired the deprecated `gateio` alias; `gate` is now standalone.
       ids = Aliases.alias_ids!()
-      assert MapSet.member?(ids, "gateio")
+      assert MapSet.member?(ids, "coinbaseadvanced")
       assert MapSet.member?(ids, "huobi")
     end
   end
@@ -67,10 +68,10 @@ defmodule CcxtExtract.AliasesTest do
     end
 
     test "MapSet scope: subtracts alias ids from scope" do
-      # Uses the committed exchanges.json — gateio + huobi are known aliases.
-      scope = MapSet.new(~w(gate gateio htx huobi binance))
+      # Uses the committed exchanges.json — coinbaseadvanced + huobi are known aliases.
+      scope = MapSet.new(~w(gate coinbaseadvanced htx huobi binance))
       filtered = Aliases.exclude_aliases(scope)
-      refute MapSet.member?(filtered, "gateio")
+      refute MapSet.member?(filtered, "coinbaseadvanced")
       refute MapSet.member?(filtered, "huobi")
       assert MapSet.member?(filtered, "gate")
       assert MapSet.member?(filtered, "htx")

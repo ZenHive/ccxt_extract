@@ -19,7 +19,7 @@ defmodule CcxtExtract.Integration.Cached.FamilyAnalysisCachedTest do
     {"okx", ~w(myokx okxus), []},
     {"kucoin", ~w(kucoinfutures), []},
     {"coinbase", [], ~w(coinbaseadvanced)},
-    {"gate", [], ~w(gateio)},
+    # CCXT 4.5.57 retired the `gateio` alias, so `gate` is now a standalone family.
     {"htx", [], ~w(huobi)}
   ]
 

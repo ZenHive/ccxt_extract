@@ -11,15 +11,19 @@ defmodule CcxtExtract.SummaryIntegrationTest do
   @families_with_variants [
     {"binance", "binanceus", 3},
     {"okx", "okxus", 1},
-    {"kucoin", "kucoinfutures", 1}
+    {"kucoin", "kucoinfutures", 1},
+    {"bybit", "bybiteu", 1}
   ]
 
   # {family_root, expected_alias}
-  @families_with_aliases [{"htx", "huobi"}, {"gate", "gateio"}]
+  # CCXT 4.5.57 retired the `gate`/`gateio` pair; `coinbase`/`coinbaseadvanced`
+  # is the second still-live alias family.
+  @families_with_aliases [{"htx", "huobi"}, {"coinbase", "coinbaseadvanced"}]
 
-  @standalone_exchanges ~w(bybit deribit coinbaseexchange kraken bitmex)
+  # `bybit` carries the `bybiteu` variant, so it is a variant family, not standalone.
+  @standalone_exchanges ~w(deribit coinbaseexchange kraken bitmex)
   @dex_exchanges ~w(hyperliquid aster lighter)
-  @non_orphan_aliases ~w(huobi gateio)
+  @non_orphan_aliases ~w(huobi coinbaseadvanced)
 
   # Generate discovery files once for the module.
   # Runs both exchanges (QuickBEAM ~13s) and classes (OXC ~2s) extractions.

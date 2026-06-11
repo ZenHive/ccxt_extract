@@ -102,15 +102,16 @@ defmodule Mix.Tasks.CcxtExtract.OxcScopeFlagsTest do
     end
 
     test "exclude_aliases: true drops CCXT aliases before existence check" do
-      # gate is a real non-alias; gateio + huobi are real aliases per
+      # gate is a real non-alias; coinbaseadvanced + huobi are real aliases per
       # priv/discoveries/exchanges.json. With the file on disk only for gate,
-      # the default guard flags gateio/huobi as missing; with :exclude_aliases
-      # they are filtered out and the result is [].
+      # the default guard flags coinbaseadvanced/huobi as missing; with
+      # :exclude_aliases they are filtered out and the result is [].
+      # (CCXT 4.5.57 retired the `gateio` alias previously used here.)
       File.write!(Path.join(@tmp_describe_dir, "gate.json"), "{}")
-      scope = MapSet.new(~w(gate gateio huobi))
+      scope = MapSet.new(~w(gate coinbaseadvanced huobi))
 
       assert CcxtExtract.TaskScope.scoped_ids_missing_file(scope, @tmp_describe_dir) ==
-               ~w(gateio huobi)
+               ~w(coinbaseadvanced huobi)
 
       assert CcxtExtract.TaskScope.scoped_ids_missing_file(scope, @tmp_describe_dir, exclude_aliases: true) == []
     end
@@ -119,7 +120,7 @@ defmodule Mix.Tasks.CcxtExtract.OxcScopeFlagsTest do
       # binance is not an alias, so its absence must still surface even with
       # exclude_aliases: true — the opt narrows the filter, not the check.
       File.write!(Path.join(@tmp_describe_dir, "gate.json"), "{}")
-      scope = MapSet.new(~w(gate gateio binance))
+      scope = MapSet.new(~w(gate huobi binance))
 
       assert CcxtExtract.TaskScope.scoped_ids_missing_file(scope, @tmp_describe_dir, exclude_aliases: true) == ~w(binance)
     end

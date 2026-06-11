@@ -75,7 +75,6 @@ defmodule CcxtExtract.TiersTest do
       assert "kucoin" in members
       assert "kucoinfutures" in members
       assert "gate" in members
-      assert "gateio" in members
       assert "htx" in members
       assert "huobi" in members
     end
@@ -130,8 +129,9 @@ defmodule CcxtExtract.TiersTest do
     end
 
     test "aliases inherit the family root's tier" do
+      # `gateio` (root `gate`, tier3) was retired by CCXT 4.5.57; `huobi`
+      # (root `htx`, tier3) still exercises alias tier inheritance.
       assert Tiers.get_priority_tier("huobi") == :tier3
-      assert Tiers.get_priority_tier("gateio") == :tier3
     end
 
     test "returns :unclassified for unknown ids" do

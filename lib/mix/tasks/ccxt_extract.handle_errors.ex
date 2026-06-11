@@ -31,7 +31,7 @@ defmodule Mix.Tasks.CcxtExtract.HandleErrors do
   `httpExceptions` to each entry. For scoped runs, every non-alias in-scope
   exchange must already have a describe file on disk; missing files fail
   loudly (run `mix ccxt_extract.describe` with the same scope first).
-  CCXT aliases (e.g. `gateio`, `huobi`) are excluded from the guard — the
+  CCXT aliases (e.g. `coinbaseadvanced`, `huobi`) are excluded from the guard — the
   describe extractor skips them by design (`!d.alias`), so their per-exchange
   files legitimately never exist. Mirrors the "legitimately absent, reason:
   alias" precedent in `CcxtExtract.CoverageReport`. Full-universe runs
@@ -68,7 +68,7 @@ defmodule Mix.Tasks.CcxtExtract.HandleErrors do
   end
 
   # Scoped runs require describe files for every non-alias in-scope ID.
-  # Aliases (gateio, huobi, etc.) are skipped by the describe extractor itself
+  # Aliases (coinbaseadvanced, huobi, etc.) are skipped by the describe extractor itself
   # (`!d.alias`), so their per-id files never exist — `:exclude_aliases`
   # honours that asymmetry. `--all` tolerates missing describe files across
   # the board (full-universe runs legitimately include exchanges with no

@@ -3,7 +3,7 @@ defmodule CcxtExtract.Aliases do
   Read-side helper for CCXT alias membership.
 
   An "alias" exchange is a thin TypeScript re-export with `'alias': true`
-  in its `describe()` (e.g. `gateio extends gate`, `huobi extends htx`).
+  in its `describe()` (e.g. `coinbaseadvanced extends coinbase`, `huobi extends htx`).
   Aliases carry no independent `describe()` data — CCXT's JS runtime answers
   with the parent's resolved describe. The QuickBEAM-backed extractors
   (`describe`, `url_templates`, `signing_fixtures`, `load_markets`)
@@ -12,7 +12,7 @@ defmodule CcxtExtract.Aliases do
 
   That asymmetry collides with tier-based scope expansion: `CcxtExtract.Tiers`
   pulls in the whole family from `class_hierarchy.json`, so scopes like
-  `--tier1 --tier3 --dex` include `gateio` and `huobi` — ids whose per-exchange
+  `--tier1 --tier3 --dex` include `coinbaseadvanced` and `huobi` — ids whose per-exchange
   files legitimately never exist. Stage-3 guards that probe for those files
   must know which ids are aliases so they don't fail loudly on legitimately
   absent output.
@@ -31,8 +31,8 @@ defmodule CcxtExtract.Aliases do
 
       alias CcxtExtract.Aliases
 
-      Aliases.alias_ids!()          # => #MapSet<["gateio", "huobi"]>
-      Aliases.alias?("gateio")      # => true
+      Aliases.alias_ids!()          # => #MapSet<["coinbaseadvanced", "huobi"]>
+      Aliases.alias?("coinbaseadvanced") # => true
       Aliases.exclude_aliases(scope) # => scope with aliases removed
   """
 
@@ -59,7 +59,7 @@ defmodule CcxtExtract.Aliases do
 
       Run `mix ccxt_extract.exchanges` (or `mix ccxt_extract.setup` followed by
       `mix ccxt_extract.update`) to regenerate it. Alias-aware scope checks
-      require this file because CCXT aliases (e.g. gateio, huobi) have no
+      require this file because CCXT aliases (e.g. coinbaseadvanced, huobi) have no
       per-exchange describe/url_templates/signing_fixtures/load_markets
       output on disk.
       """)

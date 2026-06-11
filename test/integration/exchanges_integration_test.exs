@@ -9,7 +9,8 @@ defmodule CcxtExtract.ExchangesIntegrationTest do
 
   # Reference exchange sets from CLAUDE.md
   @all_reference ~w(binance bybit okx deribit coinbaseexchange kraken kucoin gate htx bitmex hyperliquid aster lighter)
-  @known_aliases [{"huobi", "htx"}, {"gateio", "gate"}]
+  # CCXT 4.5.57 retired the `gateio` alias; `gate` is now standalone.
+  @known_aliases [{"huobi", "htx"}, {"coinbaseadvanced", "coinbase"}]
   @known_variants ~w(binanceus binancecoinm binanceusdm okxus kucoinfutures)
 
   # Run extraction once for the module — QuickBEAM boot is ~13s

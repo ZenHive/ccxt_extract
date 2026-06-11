@@ -23,7 +23,10 @@ defmodule CcxtExtract.Integration.Cached.ValidationCachedTest do
   @tier2 ~w(kraken kucoin gate htx bitmex)
   @dex ~w(hyperliquid)
   @all_reference @tier1 ++ @tier2 ++ @dex
-  @audit_aliases ~w(coinbaseadvanced gateio huobi)
+  # CCXT renamed `gateio` → `gate` upstream; `gateio` is no longer a registered
+  # exchange/alias (no TS source, no class_hierarchy entry, no emitted output), so
+  # it must not appear here or the widened audit matrix counts a phantom exchange.
+  @audit_aliases ~w(coinbaseadvanced huobi)
   @audit_roots ~w(binance bybit okx)
   @audit_derived ~w(bequant binanceusdm okxus)
   @audit_dex ~w(hyperliquid apex aftermath)

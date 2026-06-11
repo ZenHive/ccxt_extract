@@ -12,7 +12,7 @@ defmodule CcxtExtract.Tiers do
       root via `priv/discoveries/class_hierarchy.json`. Variants
       (`binance` → `binanceus`, `binancecoinm`, `binanceusdm`; `okx` →
       `okxus`, `myokx`; `kucoin` → `kucoinfutures`) and aliases
-      (`htx` → `huobi`; `gate` → `gateio`) inherit their root's tier.
+      (`htx` → `huobi`; `coinbase` → `coinbaseadvanced`) inherit their root's tier.
 
   Inheritance is **provable** from the class graph, not guessed — this
   respects the Honesty Rule. The four member buckets are:

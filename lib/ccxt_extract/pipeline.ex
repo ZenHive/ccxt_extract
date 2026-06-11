@@ -571,7 +571,7 @@ defmodule CcxtExtract.Pipeline do
   # --- Data Mapping (pure functions) ---
 
   # Describe: read the "describe" key from the per-exchange file.
-  # Alias exchanges (e.g. coinbaseadvanced, gateio, huobi) have no own describe data —
+  # Alias exchanges (e.g. coinbaseadvanced, huobi) have no own describe data —
   # fall back to parent exchange's describe via class hierarchy.
   defp get_describe(id, data) do
     case Map.get(data.describe, id) do
@@ -694,7 +694,7 @@ defmodule CcxtExtract.Pipeline do
   end
 
   # URL templates: extract the url_templates inner map.
-  # Alias exchanges (e.g. coinbaseadvanced, gateio, huobi) have no own url_templates data —
+  # Alias exchanges (e.g. coinbaseadvanced, huobi) have no own url_templates data —
   # fall back to parent exchange's url_templates via class hierarchy.
   defp get_url_templates(id, data) do
     case Map.get(data.url_templates, id) do

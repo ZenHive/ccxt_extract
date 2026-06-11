@@ -16,23 +16,7 @@
         "method": "GET",
         "url": "https://fapi.asterdex.com/fapi/v1/ticker/24hr"
       }
-    }
-  ],
-  "ccxt_version": "4.5.55",
-  "credentials": {
-    "apiKey": "account-TEST_API_KEY",
-    "password": null,
-    "privateKey": "0000000000000000000000000000000000000000000000000000000000000001",
-    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
-    "uid": null
-  },
-  "exchange": "aster",
-  "frozen": {
-    "nonce": 1700000000,
-    "timestamp_ms": 1700000000000
-  },
-  "generated_at": "2026-06-10T09:19:02.008281Z",
-  "skipped": [
+    },
     {
       "input": {
         "api": "fapiPrivate",
@@ -43,7 +27,12 @@
         "path": "v2/balance"
       },
       "name": "private_get_balance",
-      "reason": "c: aster requires signerAddress in options when use v3 api"
+      "output": {
+        "body": null,
+        "headers": null,
+        "method": "GET",
+        "url": "https://fapi.asterdex.com/fapi/v2/balance?nonce=1700000000000000&user=0x7e5f4552091a69125d5dfcb7b8c2659029395bdf&signer=0x7e5f4552091a69125d5dfcb7b8c2659029395bdf&signature=0x373f8f71157b3d2f18c05a79e7c13d86bc0c43cb370192ca3dc631cc934619742f7ec297081465631dbcb69dee54bbee402c0fd12f2367b28039318f122111721c"
+      }
     },
     {
       "input": {
@@ -61,7 +50,29 @@
         "path": "v1/order"
       },
       "name": "private_post_order",
-      "reason": "c: aster requires signerAddress in options when use v3 api"
+      "output": {
+        "body": "nonce=1700000000000000&user=0x7e5f4552091a69125d5dfcb7b8c2659029395bdf&signer=0x7e5f4552091a69125d5dfcb7b8c2659029395bdf&symbol=BTC%2FUSDT&type=limit&side=buy&amount=1&price=1&signature=0x6a0df873e426323bcaa70b721b3bb04ebfedc462dcdf0f0889a5b6b53c983c13173e6585599132fcdeeff5d25dc9c5bfe8a6a3c9c4b72cac4dc588a3b030d4ef1c",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "method": "POST",
+        "url": "https://fapi.asterdex.com/fapi/v1/order"
+      }
     }
-  ]
+  ],
+  "ccxt_version": "4.5.56",
+  "credentials": {
+    "apiKey": "account-TEST_API_KEY",
+    "password": null,
+    "privateKey": "0000000000000000000000000000000000000000000000000000000000000001",
+    "secret": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "uid": null
+  },
+  "exchange": "aster",
+  "frozen": {
+    "nonce": 1700000000,
+    "timestamp_ms": 1700000000000
+  },
+  "generated_at": "2026-06-11T06:33:19.139255Z",
+  "skipped": []
 }

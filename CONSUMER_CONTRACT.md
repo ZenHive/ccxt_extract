@@ -152,7 +152,7 @@ For every `parse*` method, a consumer needs a declarative field map.
 | REST method inventory | ✅ | `raw.method_inventory` — in every per-exchange JSON. |
 | WS method inventory | ➖ | Not in per-exchange JSON. Corpus-wide list lives in `priv/discoveries/methods_ws.json` since schema 3.0.0 / Task 117. Consumers needing WS dispatch read the discovery file directly. |
 | Interface signatures (typed method signatures) | ✅ | `endpoints.interfaces` (Task 30) |
-| Unified-method descriptors | ✅ | `priv/discoveries/method_descriptors.json` (Task 121) — discovery-only TS signature + JSDoc overlay for public unified Promise-returning methods. |
+| Unified-method descriptors | ✅ | `endpoints.descriptors` (Task 122) — TS signature + JSDoc overlay for public unified Promise-returning methods, keyed by method name. |
 | Capability flags (`has.*`) | ✅ | `raw.describe.has` |
 | Base Exchange method catalog | ✅ | `_base_methods.json` (Task 31) |
 | Referral URLs | ✅ | `exchange` / `raw.describe.urls.referral` |

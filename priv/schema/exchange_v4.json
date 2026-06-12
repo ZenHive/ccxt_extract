@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "exchange_v4.json",
   "title": "CCXT Exchange Extraction Output (v4)",
-  "description": "Per-exchange extraction output (schema 4.0.0). Top-level groups are consumer-shaped (endpoints/auth/errors/rate_limits/normalization/websocket/markets/testnet/raw). See SCHEMA.md § 'Version 4.0.0' for the consumer guidance, top-level reshape table from v3, and migration notes.",
+  "description": "Per-exchange extraction output (schema 4.1.0). Top-level groups are consumer-shaped (endpoints/auth/errors/rate_limits/normalization/websocket/markets/testnet/raw). See SCHEMA.md § 'Version 4.0.0' for the consumer guidance, top-level reshape table from v3, and migration notes.",
   "type": "object",
   "required": [
     "schema_version",
@@ -23,7 +23,7 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "4.0.0",
+      "const": "4.1.0",
       "description": "Schema version. v4 is the default published schema. Consumers reading v4 must check this exact const."
     },
     "extracted_at": {
@@ -71,9 +71,10 @@
   "$defs": {
     "Endpoints": {
       "type": "object",
-      "description": "Consumer-shaped endpoint surface. Carries v3 fields under reorganized paths; future tasks add endpoints.descriptors (Task 121), endpoints.raw (implicit from describe.api), and rate_limits.per_endpoint_cost (Task 90). Tasks 88a/88b/88c (handler routing tables) land under `handlers`: error / signing / parse dispatch tables that route requests and responses through the right per-section handler.",
+      "description": "Consumer-shaped endpoint surface. Carries v3 fields under reorganized paths. `descriptors` (Task 122) projects Task 121 unified-method descriptors into a method-name keyed map. Future tasks add endpoints.raw (implicit from describe.api). Tasks 88a/88b/88c (handler routing tables) land under `handlers`: error / signing / parse dispatch tables that route requests and responses through the right per-section handler.",
       "required": [
         "unified",
+        "descriptors",
         "transaction_classification",
         "interfaces",
         "pagination",
@@ -98,6 +99,20 @@
             }
           ],
           "description": "Was structure.unified_endpoints in v3."
+        },
+        "descriptors": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/UnifiedMethodDescriptor"
+              }
+            }
+          ],
+          "description": "Map of CCXT unified method name -> TS signature + JSDoc descriptor. Derived from priv/discoveries/method_descriptors.json."
         },
         "transaction_classification": {
           "oneOf": [
@@ -234,6 +249,163 @@
               "description": "Was structure.parse_dispatch in v3."
             }
           }
+        }
+      }
+    },
+    "UnifiedMethodDescriptor": {
+      "type": "object",
+      "description": "One CCXT unified-method descriptor: raw TS signature plus raw JSDoc overlay. The enclosing endpoints.descriptors map is keyed by this descriptor's `name`.",
+      "required": [
+        "name",
+        "async",
+        "signature",
+        "description",
+        "params_doc",
+        "returns",
+        "errors",
+        "source",
+        "unresolved_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "CCXT unified method name, e.g. fetchTicker. Contract-test invariant requires this to match the map key."
+        },
+        "async": {
+          "type": "boolean"
+        },
+        "signature": {
+          "$ref": "#/$defs/UnifiedMethodSignature"
+        },
+        "description": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ],
+          "description": "JSDoc @description text, or null when absent/unresolved."
+        },
+        "params_doc": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "oneOf": [
+                  { "type": "null" },
+                  { "type": "string" }
+                ]
+              }
+            }
+          ],
+          "description": "Map of JSDoc @param name -> prose. Null only when no JSDoc block was recoverable."
+        },
+        "returns": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/UnifiedMethodTypedDoc" }
+          ],
+          "description": "JSDoc @returns/@return typed prose, or null when absent/unresolved."
+        },
+        "errors": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/$defs/UnifiedMethodError" }
+            }
+          ],
+          "description": "JSDoc @throws entries scoped to this method. [] means JSDoc was present and no @throws tags were found; null means the JSDoc block was not recoverable."
+        },
+        "source": {
+          "type": "string",
+          "description": "Byte-for-byte method definition source slice from the CCXT TS file."
+        },
+        "unresolved_reason": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string", "enum": ["no_jsdoc"] }
+          ],
+          "description": "Why the JSDoc overlay fields are null. Null means the overlay was inspected."
+        }
+      }
+    },
+    "UnifiedMethodSignature": {
+      "type": "object",
+      "required": ["params", "return_type"],
+      "additionalProperties": false,
+      "properties": {
+        "params": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/UnifiedMethodParam" },
+          "description": "Ordered TypeScript parameter list from the method signature."
+        },
+        "return_type": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ]
+        }
+      }
+    },
+    "UnifiedMethodParam": {
+      "type": "object",
+      "required": ["name", "type", "optional", "default"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "type": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ]
+        },
+        "optional": { "type": "boolean" },
+        "default": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ],
+          "description": "Raw TypeScript default expression slice, e.g. undefined, {}, [], or null when no default was present."
+        }
+      }
+    },
+    "UnifiedMethodTypedDoc": {
+      "type": "object",
+      "required": ["type", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ]
+        },
+        "description": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ]
+        }
+      }
+    },
+    "UnifiedMethodError": {
+      "type": "object",
+      "required": ["class", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "class": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ],
+          "description": "CCXT exception class from a method-local @throws tag."
+        },
+        "description": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ]
         }
       }
     },

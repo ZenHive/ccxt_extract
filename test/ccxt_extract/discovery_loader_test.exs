@@ -23,7 +23,7 @@ defmodule CcxtExtract.DiscoveryLoaderTest do
       data = DiscoveryLoader.load_all!(tmp_dir, exchanges_json)
 
       expected_keys = ~w(exchanges describe load_markets classes error_class_hierarchy methods_rest
-                        methods_ws sign_methods handle_errors parse_methods
+                        methods_ws sign_methods handle_errors parse_methods method_descriptors
                         ws_methods ws_trades_semantics ws_ohlcv_semantics interface_signatures pagination
                         unified_endpoints request_defaults url_templates request_headers
                         rate_limit_buckets rate_limit_costs overrides
@@ -147,6 +147,7 @@ defmodule CcxtExtract.DiscoveryLoaderTest do
     write_json(Path.join(dir, "sign_methods.json"), empty_global)
     write_json(Path.join(dir, "handle_errors.json"), empty_global)
     write_json(Path.join(dir, "parse_methods.json"), empty_global)
+    write_json(Path.join(dir, "method_descriptors.json"), empty_global)
     write_json(Path.join(dir, "ws_methods.json"), empty_global)
     write_json(Path.join(dir, "ws_trades_semantics.json"), empty_global)
     write_json(Path.join(dir, "ws_ohlcv_semantics.json"), empty_global)

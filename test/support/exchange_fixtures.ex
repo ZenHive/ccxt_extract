@@ -69,6 +69,7 @@ defmodule CcxtExtract.Test.ExchangeFixtures do
       },
       "endpoints" => %{
         "unified" => unified_endpoints,
+        "descriptors" => %{},
         "transaction_classification" => TransactionClassification.derive(unified_endpoints),
         "interfaces" => nil,
         "pagination" => nil,

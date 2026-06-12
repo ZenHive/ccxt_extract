@@ -6,7 +6,7 @@ This document defines the stability promise for ccxt_extract's output format. Co
 
 ## The Contract
 
-Every per-exchange JSON file and `_manifest.json` includes a `schema_version` field (currently `"4.0.0"`). This version follows **semver** (`MAJOR.MINOR.PATCH`):
+Every per-exchange JSON file and `_manifest.json` includes a `schema_version` field (currently `"4.1.0"`). This version follows **semver** (`MAJOR.MINOR.PATCH`):
 
 | Change Type | Version Bump | Consumer Impact |
 |-------------|-------------|-----------------|
@@ -80,6 +80,23 @@ Every per-exchange JSON file has exactly these top-level keys (**all required, n
 | `significant_digits` | `p` is a significant-digit count | no fixed increment — round the value to `p` significant digits |
 
 CCXT rounding directions are constant across exchanges (base `Exchange.ts`): price → ROUND, amount → TRUNCATE, cost → TRUNCATE (cost falls back to price precision when a market carries no `cost` precision). Most exchanges use `tick_size`; the non-default modes are rare (e.g. `bitfinex` / `bithumb` use `significant_digits`, `foxbit` uses `decimal_places`).
+
+`endpoints.descriptors` (Task 122, schema 4.1.0) is a map of unified method name → descriptor, projected from `priv/discoveries/method_descriptors.json`. `null` means the descriptor discovery was missing for that exchange; an empty map means discovery ran and found no public Promise-returning unified methods.
+
+Each descriptor carries:
+
+| Field | Type | Meaning |
+|---|---|---|
+| `name` | string | CCXT unified method name. Must match the enclosing map key. |
+| `async` | boolean | Whether the TypeScript method is async. |
+| `signature.params` | array | Ordered TS params. Each param is `{name, type, optional, default}`. `type` is the raw TS type name or `null`; `default` is the raw default expression slice (`"undefined"`, `"{}"`, `"[]"`, etc.) or `null`. |
+| `signature.return_type` | string \| null | Raw TS return type, typically `Promise<...>`. |
+| `description` | string \| null | JSDoc `@description` text. |
+| `params_doc` | object \| null | JSDoc `@param` prose keyed by parameter name. Values are string or `null` when the tag was malformed/empty. |
+| `returns` | object \| null | JSDoc `@returns` / `@return` as `{type, description}`. |
+| `errors` | array \| null | Method-local JSDoc `@throws` entries, each `{class, description}`. This is scoped to the method's doc block, not `errors.handle_errors` runtime routing. `[]` means JSDoc was present and no throws tags were found. |
+| `source` | string | Byte-for-byte TypeScript method definition slice. |
+| `unresolved_reason` | string \| null | Currently `null` or `"no_jsdoc"`. When `"no_jsdoc"`, `description`, `params_doc`, `returns`, and `errors` are all `null`. |
 
 ### Two-State Optionality
 
@@ -969,6 +986,7 @@ When `describe.urls.test` string leaves contain `{hostname}` templates, they are
 ### Contract invariants
 
 - `testnet_urls_shape_valid` — per-exchange. Fails on: key-set drift, `pattern` not in the closed enum, cross-field inconsistency (e.g. `pattern: "none"` with `urls` non-nil), or any residual `{hostname}` placeholder in a resolved URL string.
+- `unified_method_descriptors_shape_valid` — per-exchange. Fails on: non-map `endpoints.descriptors`, descriptor key/name drift, missing/extra descriptor keys, malformed `signature.params`, malformed method-local `errors`, or JSDoc-null fields that do not agree with `unresolved_reason: "no_jsdoc"`.
 
 ### Provenance
 

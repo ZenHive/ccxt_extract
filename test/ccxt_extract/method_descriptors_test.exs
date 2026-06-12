@@ -282,6 +282,13 @@ defmodule CcxtExtract.MethodDescriptorsTest do
   end
 
   describe "Mix.Tasks.CcxtExtract.MethodDescriptors CLI validation" do
+    test "uses TaskScope for argument parsing" do
+      source = File.read!("lib/mix/tasks/ccxt_extract.method_descriptors.ex")
+
+      assert source =~ "TaskScope.parse_and_resolve!(args)"
+      refute source =~ "OptionParser."
+    end
+
     test "rejects unknown switches" do
       assert_raise Mix.Error, ~r/Unknown option/, fn ->
         MethodDescriptorsTask.run(["--typo"])

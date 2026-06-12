@@ -142,6 +142,24 @@ defmodule CcxtExtract.PipelineTest do
     "statements" => 5
   }
 
+  @method_descriptor %{
+    "name" => "fetchTicker",
+    "async" => true,
+    "signature" => %{
+      "params" => [
+        %{"name" => "symbol", "type" => "string", "optional" => true, "default" => "undefined"},
+        %{"name" => "params", "type" => "object", "optional" => true, "default" => "{}"}
+      ],
+      "return_type" => "Promise<Ticker>"
+    },
+    "description" => "fetches a ticker",
+    "params_doc" => %{"symbol" => "unified symbol", "params" => "extra parameters"},
+    "returns" => %{"type" => "object", "description" => "ticker structure"},
+    "errors" => [%{"class" => "ExchangeError", "description" => "on exchange failure"}],
+    "source" => "async fetchTicker (symbol = undefined, params = {}) { return {}; }",
+    "unresolved_reason" => nil
+  }
+
   # Builds a data lookup with all layers populated for "testex"
   defp full_data do
     %{
@@ -160,6 +178,15 @@ defmodule CcxtExtract.PipelineTest do
       classes: %{"testex" => [@rest_class, @ws_class]},
       methods_rest: %{"testex" => [@method_sig]},
       methods_ws: %{"testex" => [@method_sig]},
+      method_descriptors: %{
+        "testex" => %{
+          "id" => "testex",
+          "class_name" => "testex",
+          "file" => "testex.ts",
+          "descriptor_count" => 1,
+          "descriptors" => [@method_descriptor]
+        }
+      },
       sign_methods: %{"testex" => @sample_method_ast},
       handle_errors: %{
         "testex" => %{
@@ -309,6 +336,7 @@ defmodule CcxtExtract.PipelineTest do
       classes: %{},
       methods_rest: %{},
       methods_ws: %{},
+      method_descriptors: %{},
       sign_methods: %{},
       handle_errors: %{},
       parse_methods: %{},
@@ -351,6 +379,7 @@ defmodule CcxtExtract.PipelineTest do
       refute Map.has_key?(result, "structure")
       refute Map.has_key?(result, "runtime")
       assert result["endpoints"]["interfaces"]["publicGetTicker"]["name"] == "publicGetTicker"
+      assert result["endpoints"]["descriptors"] == %{"fetchTicker" => @method_descriptor}
 
       # Pagination — now under endpoints
       assert result["endpoints"]["pagination"]["fetchTrades"] == [
@@ -1255,6 +1284,7 @@ defmodule CcxtExtract.PipelineTest do
     write_json(Path.join(dir, "sign_methods.json"), empty_global)
     write_json(Path.join(dir, "handle_errors.json"), empty_global)
     write_json(Path.join(dir, "parse_methods.json"), empty_global)
+    write_json(Path.join(dir, "method_descriptors.json"), empty_global)
     write_json(Path.join(dir, "ws_methods.json"), empty_global)
     write_json(Path.join(dir, "ws_heartbeat.json"), empty_global)
     write_json(Path.join(dir, "ws_auth.json"), empty_global)
@@ -1294,6 +1324,35 @@ defmodule CcxtExtract.PipelineTest do
     test "full exchange passes schema validation" do
       result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
       assert :ok = Schema.validate(result)
+      assert :ok = CcxtExtract.Validation.validate_schema(result, CcxtExtract.Validation.build_schema_root())
+    end
+
+    test "schema validation reports non-map inputs and nested section shape errors" do
+      result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
+
+      assert {:error, ["expected a map"]} = Schema.validate("not a map")
+
+      invalid =
+        result
+        |> Map.put("schema_version", "0.0.0")
+        |> put_in(["endpoints", "request"], nil)
+        |> Map.put("markets", "not a map")
+
+      assert {:error, errors} = Schema.validate(invalid)
+      assert "schema_version: expected #{Schema.schema_version()}, got \"0.0.0\"" in errors
+      assert "endpoints.request: missing section" in errors
+      assert "markets: expected a map" in errors
+    end
+
+    test "schema type_name identifies supported JSON-ish values" do
+      assert Schema.type_name("x") == "string"
+      assert Schema.type_name(1) == "integer"
+      assert Schema.type_name(1.0) == "float"
+      assert Schema.type_name(true) == "boolean"
+      assert Schema.type_name([]) == "list"
+      assert Schema.type_name(%{}) == "map"
+      assert Schema.type_name(nil) == "null"
+      assert Schema.type_name(self()) == "unknown"
     end
 
     test "alias exchange passes schema validation" do

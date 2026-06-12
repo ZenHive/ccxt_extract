@@ -107,6 +107,7 @@ defmodule CcxtExtract.Provenance do
     /errors/handle_errors/throw_dispatches
     /errors/class_hierarchy
     /endpoints/unified
+    /endpoints/descriptors
     /endpoints/transaction_classification
     /endpoints/request/defaults
     /rate_limits/buckets
@@ -148,6 +149,12 @@ defmodule CcxtExtract.Provenance do
   @doc "Derived pointers (v4 shape). Exposed for tests and contract invariants."
   @spec derived_pointers() :: [String.t()]
   def derived_pointers, do: @derived_pointers
+
+  @doc "All declared v4 section pointers in deterministic order."
+  @spec section_pointers() :: [String.t()]
+  def section_pointers do
+    Enum.sort(@raw_pointers ++ @derived_pointers)
+  end
 
   @doc """
   Overwrite provenance entries at each given JSON Pointer path with

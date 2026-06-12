@@ -74,11 +74,11 @@ defmodule CcxtExtract.Pipeline do
     with {:ok, exchanges_json} <- CcxtExtract.JsonIO.read_json(exchanges_path) do
       data = DiscoveryLoader.load_all!(dir, exchanges_json)
 
-      # fetch_methods.json (Task 83a) and raw_broadcast.json (Task 73f) are
-      # optional. fetch_methods absence leaves per-fetcher entries flagged
-      # `"no_fetcher_method_body"`; raw_broadcast absence just means no
-      # transaction_classification promotions (name-only base still emits).
-      missing_required = data.missing_files -- ["fetch_methods.json", "raw_broadcast.json"]
+      # fetch_methods.json (Task 83a), raw_broadcast.json (Task 73f), and
+      # method_descriptors.json (Task 121/122) are optional. Absence leaves
+      # their emitted projections null or unpromoted rather than blocking
+      # assembly of the rest of the exchange contract.
+      missing_required = data.missing_files -- ["fetch_methods.json", "raw_broadcast.json", "method_descriptors.json"]
 
       if missing_required != [] do
         raise "Pipeline cannot run — missing required discovery files: #{Enum.join(missing_required, ", ")}"
@@ -471,6 +471,7 @@ defmodule CcxtExtract.Pipeline do
       "interface_signatures" => get_interface_signatures(id, data),
       "pagination" => get_pagination(id, data),
       "unified_endpoints" => get_unified_endpoints(id, data),
+      "method_descriptors" => get_method_descriptors(id, data),
       "raw_broadcast" => get_raw_broadcast(id, data),
       "request_defaults" => get_request_defaults(id, data),
       "overrides" => get_overrides(id, data),
@@ -624,6 +625,20 @@ defmodule CcxtExtract.Pipeline do
         "rest" => rest,
         "ws" => if(ws_present?, do: ws)
       }
+    end
+  end
+
+  defp get_method_descriptors(id, data) do
+    lookup = Map.get(data, :method_descriptors, %{})
+
+    case Map.get(lookup, id) do
+      %{"descriptors" => descriptors} when is_list(descriptors) ->
+        descriptors
+        |> Enum.filter(&(is_map(&1) and is_binary(&1["name"])))
+        |> Map.new(&{&1["name"], &1})
+
+      _ ->
+        nil
     end
   end
 

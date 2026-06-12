@@ -44,13 +44,13 @@ defmodule CcxtExtract.Schema do
   alias CcxtExtract.SignRecipe
   alias CcxtExtract.TransactionClassification
 
-  @schema_version "4.0.0"
+  @schema_version "4.1.0"
   @schema_filename "exchange_v4.json"
 
   @required_exchange_keys ~w(id name alias)
 
   @required_top_keys ~w(schema_version extracted_at ccxt_version exchange endpoints auth errors rate_limits normalization websocket markets testnet raw _provenance)
-  @required_endpoints_keys ~w(unified interfaces pagination request transaction_classification handlers)
+  @required_endpoints_keys ~w(unified descriptors interfaces pagination request transaction_classification handlers)
   @required_endpoints_request_keys ~w(defaults shape)
   @required_endpoints_handlers_keys ~w(error signing parse)
   @required_auth_keys ~w(sign_recipe sign_method authenticated_sections headers)
@@ -136,6 +136,7 @@ defmodule CcxtExtract.Schema do
       "exchange" => build_exchange_section(exchange_meta),
       "endpoints" => %{
         "unified" => structure_data["unified_endpoints"],
+        "descriptors" => structure_data["method_descriptors"],
         "transaction_classification" =>
           TransactionClassification.derive(
             structure_data["unified_endpoints"],

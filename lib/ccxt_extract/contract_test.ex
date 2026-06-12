@@ -76,6 +76,7 @@ defmodule CcxtExtract.ContractTest do
     {"request_shape_keys_match_auth_sections", :check_request_shape_keys_match_auth_sections},
     {"request_shape_valid", :check_request_shape_valid},
     {"request_shape_honesty_valid", :check_request_shape_honesty_valid},
+    {"unified_method_descriptors_shape_valid", :check_unified_method_descriptors_shape_valid},
     {"testnet_urls_shape_valid", :check_testnet_urls_shape_valid},
     {"websocket_heartbeat_shape_valid", :check_websocket_heartbeat_shape_valid},
     {"websocket_auth_shape_valid", :check_websocket_auth_shape_valid},
@@ -539,6 +540,314 @@ defmodule CcxtExtract.ContractTest do
       exchange: id,
       invariant: "sign_recipe_shape_valid",
       path: "auth.sign_recipe.#{section}",
+      message: message
+    }
+  end
+
+  @method_descriptor_keys ~w(async description errors name params_doc returns signature source unresolved_reason)
+  @method_descriptor_signature_keys ~w(params return_type)
+  @method_descriptor_param_keys ~w(default name optional type)
+  @method_descriptor_typed_doc_keys ~w(description type)
+  @method_descriptor_error_keys ~w(class description)
+  @method_descriptor_unresolved_reasons ~w(no_jsdoc)
+
+  @doc """
+  Validate `endpoints.descriptors`, the per-unified-method descriptor map
+  projected from `priv/discoveries/method_descriptors.json`.
+
+  JSON Schema enforces the basic object shape. This invariant catches the
+  cross-field honesty rules: map key matches descriptor name, `errors: null`
+  only occurs with `unresolved_reason: "no_jsdoc"`, and a `no_jsdoc`
+  descriptor keeps every JSDoc-derived field null.
+  """
+  @spec check_unified_method_descriptors_shape_valid(map(), map()) :: [finding()]
+  def check_unified_method_descriptors_shape_valid(exchange, _observed) do
+    id = exchange_id(exchange)
+    descriptors = get_in(exchange, ["endpoints", "descriptors"])
+
+    method_descriptors_findings(id, descriptors)
+  end
+
+  defp method_descriptors_findings(_id, nil), do: []
+
+  defp method_descriptors_findings(id, descriptors) when is_map(descriptors) do
+    descriptors
+    |> Enum.sort_by(fn {method, _descriptor} -> inspect(method) end)
+    |> Enum.flat_map(fn {method, descriptor} ->
+      method_descriptor_findings(id, method, descriptor)
+    end)
+  end
+
+  defp method_descriptors_findings(id, descriptors) do
+    [
+      method_descriptor_finding(
+        id,
+        "endpoints.descriptors",
+        "descriptors must be a map or null, got #{inspect(descriptors)}"
+      )
+    ]
+  end
+
+  defp method_descriptor_findings(id, method, descriptor) when is_binary(method) and is_map(descriptor) do
+    path = "endpoints.descriptors.#{method}"
+    missing = @method_descriptor_keys -- Map.keys(descriptor)
+    extra = Map.keys(descriptor) -- @method_descriptor_keys
+
+    key_findings =
+      Enum.map(missing, &method_descriptor_finding(id, path, "missing required key #{inspect(&1)}")) ++
+        Enum.map(extra, &method_descriptor_finding(id, path, "unexpected key #{inspect(&1)}"))
+
+    value_findings =
+      if missing == [] do
+        [
+          descriptor_name_finding(id, method, descriptor["name"]),
+          descriptor_boolean_finding(id, "#{path}.async", descriptor["async"]),
+          nullable_string_finding(id, "#{path}.description", descriptor["description"]),
+          params_doc_findings(id, "#{path}.params_doc", descriptor["params_doc"]),
+          typed_doc_findings(id, "#{path}.returns", descriptor["returns"], true),
+          descriptor_errors_findings(id, "#{path}.errors", descriptor["errors"], descriptor["unresolved_reason"]),
+          descriptor_source_finding(id, "#{path}.source", descriptor["source"]),
+          descriptor_unresolved_reason_finding(id, "#{path}.unresolved_reason", descriptor["unresolved_reason"])
+        ]
+        |> List.flatten()
+        |> Enum.reject(&is_nil/1)
+        |> Kernel.++(signature_findings(id, "#{path}.signature", descriptor["signature"]))
+        |> Kernel.++(no_jsdoc_consistency_findings(id, path, descriptor))
+      else
+        []
+      end
+
+    key_findings ++ value_findings
+  end
+
+  defp method_descriptor_findings(id, method, descriptor) do
+    method_descriptor_finding(
+      id,
+      "endpoints.descriptors.#{inspect(method)}",
+      "descriptor record must be a map keyed by method name, got #{inspect(descriptor)}"
+    )
+  end
+
+  defp descriptor_name_finding(id, method, name) do
+    cond do
+      name == method ->
+        nil
+
+      is_binary(name) ->
+        method_descriptor_finding(
+          id,
+          "endpoints.descriptors.#{method}.name",
+          "descriptor name #{inspect(name)} must match map key #{inspect(method)}"
+        )
+
+      true ->
+        method_descriptor_finding(
+          id,
+          "endpoints.descriptors.#{method}.name",
+          "name must be a string, got #{inspect(name)}"
+        )
+    end
+  end
+
+  defp descriptor_boolean_finding(_id, _path, value) when is_boolean(value), do: nil
+
+  defp descriptor_boolean_finding(id, path, value) do
+    method_descriptor_finding(id, path, "must be a boolean, got #{inspect(value)}")
+  end
+
+  defp nullable_string_finding(_id, _path, value) when is_binary(value) or is_nil(value), do: nil
+
+  defp nullable_string_finding(id, path, value) do
+    method_descriptor_finding(id, path, "must be a string or null, got #{inspect(value)}")
+  end
+
+  defp params_doc_findings(_id, _path, nil), do: []
+
+  defp params_doc_findings(id, path, docs) when is_map(docs) do
+    docs
+    |> Enum.reject(fn {key, value} -> is_binary(key) and (is_binary(value) or is_nil(value)) end)
+    |> Enum.map(fn {key, value} ->
+      method_descriptor_finding(id, "#{path}.#{inspect(key)}", "param doc must be string or null, got #{inspect(value)}")
+    end)
+  end
+
+  defp params_doc_findings(id, path, value) do
+    [method_descriptor_finding(id, path, "params_doc must be a map or null, got #{inspect(value)}")]
+  end
+
+  defp typed_doc_findings(_id, _path, nil, true), do: []
+
+  defp typed_doc_findings(id, path, doc, _nullable?) when is_map(doc) do
+    missing = @method_descriptor_typed_doc_keys -- Map.keys(doc)
+    extra = Map.keys(doc) -- @method_descriptor_typed_doc_keys
+
+    key_findings =
+      Enum.map(missing, &method_descriptor_finding(id, path, "missing required key #{inspect(&1)}")) ++
+        Enum.map(extra, &method_descriptor_finding(id, path, "unexpected key #{inspect(&1)}"))
+
+    value_findings =
+      Enum.flat_map(@method_descriptor_typed_doc_keys, fn key ->
+        case nullable_string_finding(id, "#{path}.#{key}", Map.get(doc, key)) do
+          nil -> []
+          finding -> [finding]
+        end
+      end)
+
+    key_findings ++ value_findings
+  end
+
+  defp typed_doc_findings(id, path, value, _nullable?) do
+    [method_descriptor_finding(id, path, "typed doc must be a map or null, got #{inspect(value)}")]
+  end
+
+  defp descriptor_errors_findings(_id, _path, nil, "no_jsdoc"), do: []
+
+  defp descriptor_errors_findings(id, path, nil, reason) do
+    [
+      method_descriptor_finding(
+        id,
+        path,
+        "errors may be null only when unresolved_reason=\"no_jsdoc\", got #{inspect(reason)}"
+      )
+    ]
+  end
+
+  defp descriptor_errors_findings(id, path, errors, _reason) when is_list(errors) do
+    errors
+    |> Enum.with_index()
+    |> Enum.flat_map(fn {entry, index} -> descriptor_error_entry_findings(id, "#{path}[#{index}]", entry) end)
+  end
+
+  defp descriptor_errors_findings(id, path, value, _reason) do
+    [method_descriptor_finding(id, path, "errors must be a list or null, got #{inspect(value)}")]
+  end
+
+  defp descriptor_error_entry_findings(id, path, entry) when is_map(entry) do
+    missing = @method_descriptor_error_keys -- Map.keys(entry)
+    extra = Map.keys(entry) -- @method_descriptor_error_keys
+
+    key_findings =
+      Enum.map(missing, &method_descriptor_finding(id, path, "missing required key #{inspect(&1)}")) ++
+        Enum.map(extra, &method_descriptor_finding(id, path, "unexpected key #{inspect(&1)}"))
+
+    value_findings =
+      Enum.flat_map(@method_descriptor_error_keys, fn key ->
+        case nullable_string_finding(id, "#{path}.#{key}", Map.get(entry, key)) do
+          nil -> []
+          finding -> [finding]
+        end
+      end)
+
+    key_findings ++ value_findings
+  end
+
+  defp descriptor_error_entry_findings(id, path, value) do
+    [method_descriptor_finding(id, path, "error entry must be a map, got #{inspect(value)}")]
+  end
+
+  defp descriptor_source_finding(_id, _path, source) when is_binary(source) and byte_size(source) > 0, do: nil
+
+  defp descriptor_source_finding(id, path, source) do
+    method_descriptor_finding(id, path, "source must be a non-empty string, got #{inspect(source)}")
+  end
+
+  defp descriptor_unresolved_reason_finding(_id, _path, nil), do: nil
+
+  defp descriptor_unresolved_reason_finding(id, path, reason) do
+    if reason in @method_descriptor_unresolved_reasons do
+      nil
+    else
+      method_descriptor_finding(id, path, "unresolved_reason must be null or \"no_jsdoc\", got #{inspect(reason)}")
+    end
+  end
+
+  defp signature_findings(id, path, signature) when is_map(signature) do
+    missing = @method_descriptor_signature_keys -- Map.keys(signature)
+    extra = Map.keys(signature) -- @method_descriptor_signature_keys
+
+    key_findings =
+      Enum.map(missing, &method_descriptor_finding(id, path, "missing required key #{inspect(&1)}")) ++
+        Enum.map(extra, &method_descriptor_finding(id, path, "unexpected key #{inspect(&1)}"))
+
+    value_findings =
+      if missing == [] do
+        id
+        |> nullable_string_finding("#{path}.return_type", signature["return_type"])
+        |> List.wrap()
+        |> Enum.reject(&is_nil/1)
+        |> Kernel.++(signature_params_findings(id, "#{path}.params", signature["params"]))
+      else
+        []
+      end
+
+    key_findings ++ value_findings
+  end
+
+  defp signature_findings(id, path, value) do
+    [method_descriptor_finding(id, path, "signature must be a map, got #{inspect(value)}")]
+  end
+
+  defp signature_params_findings(id, path, params) when is_list(params) do
+    params
+    |> Enum.with_index()
+    |> Enum.flat_map(fn {param, index} -> signature_param_findings(id, "#{path}[#{index}]", param) end)
+  end
+
+  defp signature_params_findings(id, path, value) do
+    [method_descriptor_finding(id, path, "params must be a list, got #{inspect(value)}")]
+  end
+
+  defp signature_param_findings(id, path, param) when is_map(param) do
+    missing = @method_descriptor_param_keys -- Map.keys(param)
+    extra = Map.keys(param) -- @method_descriptor_param_keys
+
+    key_findings =
+      Enum.map(missing, &method_descriptor_finding(id, path, "missing required key #{inspect(&1)}")) ++
+        Enum.map(extra, &method_descriptor_finding(id, path, "unexpected key #{inspect(&1)}"))
+
+    value_findings =
+      if missing == [] do
+        Enum.reject(
+          [
+            required_string_finding(id, "#{path}.name", param["name"]),
+            nullable_string_finding(id, "#{path}.type", param["type"]),
+            descriptor_boolean_finding(id, "#{path}.optional", param["optional"]),
+            nullable_string_finding(id, "#{path}.default", param["default"])
+          ],
+          &is_nil/1
+        )
+      else
+        []
+      end
+
+    key_findings ++ value_findings
+  end
+
+  defp signature_param_findings(id, path, value) do
+    [method_descriptor_finding(id, path, "param must be a map, got #{inspect(value)}")]
+  end
+
+  defp required_string_finding(_id, _path, value) when is_binary(value) and byte_size(value) > 0, do: nil
+
+  defp required_string_finding(id, path, value) do
+    method_descriptor_finding(id, path, "must be a non-empty string, got #{inspect(value)}")
+  end
+
+  defp no_jsdoc_consistency_findings(id, path, %{"unresolved_reason" => "no_jsdoc"} = descriptor) do
+    ~w(description params_doc returns errors)
+    |> Enum.reject(&is_nil(descriptor[&1]))
+    |> Enum.map(fn key ->
+      method_descriptor_finding(id, "#{path}.#{key}", "must be null when unresolved_reason=\"no_jsdoc\"")
+    end)
+  end
+
+  defp no_jsdoc_consistency_findings(_id, _path, _descriptor), do: []
+
+  defp method_descriptor_finding(id, path, message) do
+    %Finding{
+      exchange: id,
+      invariant: "unified_method_descriptors_shape_valid",
+      path: path,
       message: message
     }
   end

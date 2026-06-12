@@ -108,6 +108,21 @@ defmodule CcxtExtract.ContractTestTest do
              ) == []
     end
 
+    test "non-map request defaults entries are ignored" do
+      exchange = %{
+        "id" => "malformedex",
+        "endpoints" => %{
+          "unified" => nil,
+          "request" => %{"defaults" => %{"fetchOrphan" => "not a request-defaults body"}}
+        }
+      }
+
+      assert ContractTest.check_request_defaults_resolvable_reachable_from_unified(
+               exchange,
+               @base_observed
+             ) == []
+    end
+
     test "no finding when request_defaults is absent or empty" do
       exchange = %{"id" => "emptyex", "endpoints" => %{"unified" => %{}}}
 
@@ -241,6 +256,18 @@ defmodule CcxtExtract.ContractTestTest do
 
       assert ContractTest.check_authenticated_sections_reachable_in_api(exchange, @base_observed) ==
                []
+    end
+
+    test "finding when authenticated section is not a string" do
+      exchange = %{
+        "id" => "badsectionex",
+        "raw" => %{"describe" => %{"api" => %{}}},
+        "auth" => %{"authenticated_sections" => [:private]}
+      }
+
+      [finding] = ContractTest.check_authenticated_sections_reachable_in_api(exchange, @base_observed)
+      assert finding.path == "auth.authenticated_sections[0]"
+      assert finding.message =~ ":private"
     end
   end
 
@@ -411,6 +438,96 @@ defmodule CcxtExtract.ContractTestTest do
 
       findings = ContractTest.check_provenance_covers_schema(exchange, @base_observed)
       refute Enum.any?(findings, &(&1.path == "/raw/custom_override"))
+    end
+  end
+
+  describe "check_sign_recipe_shape_valid/2" do
+    test "finding when a sign_recipe section is not a map" do
+      exchange = put_in(clean_exchange(), ["auth", "sign_recipe"], %{"private" => "not a recipe"})
+
+      [finding] = ContractTest.check_sign_recipe_shape_valid(exchange, @base_observed)
+      assert finding.invariant == "sign_recipe_shape_valid"
+      assert finding.path == "auth.sign_recipe.private"
+      assert finding.message =~ "recipe record must be a map"
+    end
+
+    test "finding when sign_recipe record has missing and unexpected keys" do
+      exchange =
+        put_in(clean_exchange(), ["auth", "sign_recipe"], %{"private" => %{"crypto_op" => "hmac", "unexpected" => true}})
+
+      findings = ContractTest.check_sign_recipe_shape_valid(exchange, @base_observed)
+      messages = Enum.map(findings, & &1.message)
+
+      assert Enum.any?(messages, &String.contains?(&1, "missing required key"))
+      assert Enum.any?(messages, &String.contains?(&1, "unexpected key \"unexpected\""))
+    end
+  end
+
+  describe "check_unified_method_descriptors_shape_valid/2" do
+    defp valid_method_descriptor do
+      %{
+        "name" => "fetchTicker",
+        "async" => true,
+        "signature" => %{
+          "params" => [
+            %{"name" => "symbol", "type" => "string", "optional" => true, "default" => "undefined"},
+            %{"name" => "params", "type" => "object", "optional" => true, "default" => "{}"}
+          ],
+          "return_type" => "Promise<Ticker>"
+        },
+        "description" => "fetches a ticker",
+        "params_doc" => %{"symbol" => "unified symbol", "params" => "extra params"},
+        "returns" => %{"type" => "object", "description" => "ticker structure"},
+        "errors" => [%{"class" => "ExchangeError", "description" => "exchange rejected request"}],
+        "source" => "async fetchTicker (symbol = undefined, params = {}) { return {}; }",
+        "unresolved_reason" => nil
+      }
+    end
+
+    defp descriptors_exchange(descriptors) do
+      put_in(clean_exchange(), ["endpoints", "descriptors"], descriptors)
+    end
+
+    test "invariant is registered" do
+      assert {"unified_method_descriptors_shape_valid", :check_unified_method_descriptors_shape_valid} in ContractTest.invariants()
+    end
+
+    test "no finding for a valid descriptor map" do
+      exchange = descriptors_exchange(%{"fetchTicker" => valid_method_descriptor()})
+
+      assert ContractTest.check_unified_method_descriptors_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "no finding for honest no_jsdoc partial descriptor" do
+      descriptor =
+        Map.merge(valid_method_descriptor(), %{
+          "description" => nil,
+          "params_doc" => nil,
+          "returns" => nil,
+          "errors" => nil,
+          "unresolved_reason" => "no_jsdoc"
+        })
+
+      exchange = descriptors_exchange(%{"fetchTicker" => descriptor})
+
+      assert ContractTest.check_unified_method_descriptors_shape_valid(exchange, @base_observed) == []
+    end
+
+    test "finding when descriptor map key and descriptor name drift" do
+      exchange = descriptors_exchange(%{"fetchOrder" => valid_method_descriptor()})
+
+      [finding] = ContractTest.check_unified_method_descriptors_shape_valid(exchange, @base_observed)
+      assert finding.invariant == "unified_method_descriptors_shape_valid"
+      assert finding.path == "endpoints.descriptors.fetchOrder.name"
+      assert finding.message =~ "must match"
+    end
+
+    test "finding when errors are nil without no_jsdoc reason" do
+      descriptor = Map.put(valid_method_descriptor(), "errors", nil)
+      exchange = descriptors_exchange(%{"fetchTicker" => descriptor})
+
+      findings = ContractTest.check_unified_method_descriptors_shape_valid(exchange, @base_observed)
+      assert Enum.any?(findings, &(&1.path == "endpoints.descriptors.fetchTicker.errors"))
     end
   end
 

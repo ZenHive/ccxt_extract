@@ -34,7 +34,13 @@ defmodule CcxtExtract.ProvenanceTest do
       assert provenance["/markets/patterns"] == "derived"
       assert provenance["/auth/authenticated_sections"] == "derived"
       assert provenance["/endpoints/unified"] == "derived"
+      assert provenance["/endpoints/descriptors"] == "derived"
       assert provenance["/exchange/tier"] == "derived"
+    end
+
+    test "section_pointers returns the complete declared pointer set" do
+      assert "/endpoints/descriptors" in Provenance.section_pointers()
+      assert Enum.sort(Provenance.section_pointers()) == Provenance.section_pointers()
     end
 
     test "pruned pointers are absent from the default map" do

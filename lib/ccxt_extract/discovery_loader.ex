@@ -47,6 +47,7 @@ defmodule CcxtExtract.DiscoveryLoader do
     {sign_methods, stats} = load_sign_methods(dir, expected_ids, stats)
     {handle_errors, stats} = load_exchange_lookup(dir, "handle_errors.json", expected_ids, stats)
     {parse_methods, stats} = load_exchange_lookup(dir, "parse_methods.json", expected_ids, stats)
+    {method_descriptors, stats} = load_exchange_lookup(dir, "method_descriptors.json", expected_ids, stats)
     {ws_methods, stats} = load_exchange_lookup(dir, "ws_methods.json", expected_ids, stats)
     {interface_signatures, stats} = load_exchange_lookup(dir, "interface_signatures.json", expected_ids, stats)
     {pagination, stats} = load_exchange_lookup(dir, "pagination.json", expected_ids, stats)
@@ -78,6 +79,7 @@ defmodule CcxtExtract.DiscoveryLoader do
       sign_methods: sign_methods,
       handle_errors: handle_errors,
       parse_methods: parse_methods,
+      method_descriptors: method_descriptors,
       fetch_methods: fetch_methods,
       ws_methods: ws_methods,
       ws_heartbeat: ws_heartbeat,
@@ -502,6 +504,17 @@ defmodule CcxtExtract.DiscoveryLoader do
     {:corrupt, "#{filename} invalid exchange entry: expected string id, got #{inspect(entry)}"}
   end
 
+  defp validate_exchange_lookup_entry("method_descriptors.json", %{"id" => id} = entry) when is_binary(id) do
+    with {:ok, descriptors} <- fetch_required_key(entry, "descriptors", id, "method_descriptors.json"),
+         :ok <- validate_required_list_field("method_descriptors.json", id, "descriptors", descriptors) do
+      {:ok, id, entry}
+    end
+  end
+
+  defp validate_exchange_lookup_entry("method_descriptors.json", entry) do
+    {:corrupt, "method_descriptors.json invalid exchange entry: expected string id, got #{inspect(entry)}"}
+  end
+
   defp validate_exchange_lookup_entry("interface_signatures.json", %{"id" => id} = entry) when is_binary(id) do
     with {:ok, sigs} <- fetch_required_key(entry, "interface_signatures", id, "interface_signatures.json"),
          :ok <- validate_required_map_field("interface_signatures.json", id, "interface_signatures", sigs) do
@@ -625,6 +638,12 @@ defmodule CcxtExtract.DiscoveryLoader do
 
   defp validate_required_map_field(filename, id, field, value) do
     {:corrupt, "#{filename}#id=#{inspect(id)} invalid #{field}: expected map, got #{Schema.type_name(value)}"}
+  end
+
+  defp validate_required_list_field(_filename, _id, _field, value) when is_list(value), do: :ok
+
+  defp validate_required_list_field(filename, id, field, value) do
+    {:corrupt, "#{filename}#id=#{inspect(id)} invalid #{field}: expected list, got #{Schema.type_name(value)}"}
   end
 
   defp validate_optional_map_field(_filename, _id, _field, nil), do: :ok

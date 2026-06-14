@@ -2,15 +2,17 @@ defmodule CcxtExtract.Normalization.OHLCV do
   @moduledoc """
   Derive `field_maps["ohlcv"]` from a per-exchange `parse_methods.json` entry.
 
-  Scope (Tasks 78 + 78b + 78e): handles exchanges whose `parseOHLCV` body is a
-  single `ReturnStatement` with an `ArrayExpression` of safe-call elements.
+  Scope (Tasks 78 + 78b + 78c + 78e): handles exchanges whose `parseOHLCV` body
+  is either (a) a single `ReturnStatement` with an `ArrayExpression` of
+  safe-call elements, or (b) a top-level `Array.isArray(ohlcv)` IfStatement
+  with an array return on each arm (if/else or if-then + fallthrough return).
   Both array-input (`safeInteger(ohlcv, 0)`, binance-family) and object-input
   (`safeInteger(ohlcv, 't')`, hyperliquid/lighter/htx/bitmex) bodies are in
-  scope. Hybrid `Array.isArray` and scrambled-coercion shapes remain deferred
-  to Tasks 78c/78d.
+  scope. Scrambled-coercion shapes remain deferred to Task 78d.
 
   ## Output
 
+      # Single-shape body (Tasks 78/78b):
       %{
         "branches" => [
           %{
@@ -21,12 +23,20 @@ defmodule CcxtExtract.Normalization.OHLCV do
               "input_shape" => "array" | "object"
             },
             "shape" => "array",
-            "field_map" => %{
-              "timestamp" => slot(),
-              "open"/"high"/"low"/"close"/"volume" => slot() | discriminated_slot()
-            },
+            "field_map" => field_map(),
             "_unresolved_reason" => nil | String.t()
           }
+        ],
+        "extras" => [],
+        "_unresolved_reason" => nil | String.t()
+      }
+
+      # Hybrid Array.isArray body (Task 78c):
+      %{
+        "discriminator" => %{"call" => "Array.isArray", "variable" => "ohlcv"},
+        "branches" => [
+          %{"guard" => %{"kind" => "array_input"}, "shape" => "array", "field_map" => field_map(), ...},
+          %{"guard" => %{"kind" => "object_input"}, "shape" => "array", "field_map" => field_map(), ...}
         ],
         "extras" => [],
         "_unresolved_reason" => nil | String.t()
@@ -100,12 +110,123 @@ defmodule CcxtExtract.Normalization.OHLCV do
     body_stmts = get_in(ast, ["body", "body"]) || []
     bindings = ASTHelpers.collect_bindings(body_stmts)
 
-    case walk_return_array(body_stmts) do
-      {:array, elements} -> build_branch(elements, bindings)
-      :ambiguous -> unresolved("ambiguous_return_shape")
-      :non_array -> unresolved("non_array_return")
-      :not_found -> unresolved("no_return_array")
+    case try_hybrid_branches(body_stmts) do
+      {:ok, variable, array_elements, object_elements} ->
+        build_hybrid_result(variable, array_elements, object_elements, bindings)
+
+      :not_hybrid ->
+        case walk_return_array(body_stmts) do
+          {:array, elements} -> build_branch(elements, bindings)
+          :ambiguous -> unresolved("ambiguous_return_shape")
+          :non_array -> unresolved("non_array_return")
+          :not_found -> unresolved("no_return_array")
+        end
     end
+  end
+
+  # Top-level `if (Array.isArray(<var>)) { return [...]; } else { return [...]; }`
+  # or the bingx fallthrough variant where the object-input arm is a following
+  # top-level `return [...]`. Requires both arms to return ArrayExpression.
+  @spec try_hybrid_branches([map()]) ::
+          {:ok, String.t(), [map()], [map()]} | :not_hybrid
+  defp try_hybrid_branches([
+         %{
+           "type" => "IfStatement",
+           "test" => test,
+           "consequent" => consequent,
+           "alternate" => alternate
+         }
+         | rest
+       ]) do
+    with {:ok, variable} <- parse_array_is_array_test(test),
+         {:ok, array_elements} <- extract_block_return_array(consequent),
+         {:ok, object_elements} <- extract_object_branch_array(alternate, rest) do
+      {:ok, variable, array_elements, object_elements}
+    else
+      _ -> :not_hybrid
+    end
+  end
+
+  defp try_hybrid_branches(_), do: :not_hybrid
+
+  @spec parse_array_is_array_test(map()) :: {:ok, String.t()} | :error
+  defp parse_array_is_array_test(%{
+         "type" => "CallExpression",
+         "callee" => %{
+           "type" => "MemberExpression",
+           "object" => %{"type" => "Identifier", "name" => "Array"},
+           "property" => %{"type" => "Identifier", "name" => "isArray"}
+         },
+         "arguments" => [%{"type" => "Identifier", "name" => variable} | _]
+       }),
+       do: {:ok, variable}
+
+  defp parse_array_is_array_test(_), do: :error
+
+  @spec extract_block_return_array(term()) :: {:ok, [map()]} | :not_found
+  defp extract_block_return_array(%{"type" => "BlockStatement", "body" => body}) do
+    case walk_return_array(body) do
+      {:array, elements} -> {:ok, elements}
+      _ -> :not_found
+    end
+  end
+
+  defp extract_block_return_array(%{
+         "type" => "ReturnStatement",
+         "argument" => %{"type" => "ArrayExpression", "elements" => elements}
+       })
+       when is_list(elements),
+       do: {:ok, elements}
+
+  defp extract_block_return_array(_), do: :not_found
+
+  @spec extract_object_branch_array(term(), [map()]) :: {:ok, [map()]} | :not_found
+  defp extract_object_branch_array(alternate, rest) do
+    case extract_block_return_array(alternate) do
+      {:ok, _} = ok ->
+        ok
+
+      :not_found ->
+        extract_following_return_array(rest)
+    end
+  end
+
+  @spec extract_following_return_array([map()]) :: {:ok, [map()]} | :not_found
+  defp extract_following_return_array([
+         %{
+           "type" => "ReturnStatement",
+           "argument" => %{"type" => "ArrayExpression", "elements" => elements}
+         }
+         | _
+       ])
+       when is_list(elements),
+       do: {:ok, elements}
+
+  defp extract_following_return_array(_), do: :not_found
+
+  @spec build_hybrid_result(String.t(), [map()], [map()], [{String.t(), map()}]) :: map()
+  defp build_hybrid_result(variable, array_elements, object_elements, bindings) do
+    %{
+      "discriminator" => %{"call" => "Array.isArray", "variable" => variable},
+      "branches" => [
+        build_hybrid_branch(array_elements, bindings, "array_input"),
+        build_hybrid_branch(object_elements, bindings, "object_input")
+      ],
+      "extras" => [],
+      "_unresolved_reason" => nil
+    }
+  end
+
+  @spec build_hybrid_branch([map()], [{String.t(), map()}], String.t()) :: map()
+  defp build_hybrid_branch(elements, bindings, guard_kind) do
+    {field_map, branch_reason} = build_field_map(elements, bindings)
+
+    %{
+      "guard" => %{"kind" => guard_kind},
+      "shape" => "array",
+      "field_map" => field_map,
+      "_unresolved_reason" => branch_reason
+    }
   end
 
   @spec walk_return_array([map()]) :: {:array, [map()]} | :ambiguous | :non_array | :not_found

@@ -220,6 +220,44 @@ Exchanges whose `parseOHLCV` body accesses `ohlcv` by string key (not integer in
 
 **Closed `coercion` vocabulary (extended by Tasks 78b + 78e):** `["safeInteger", "safeInteger2", "safeNumber", "safeNumber2", "parse8601"]`. The addition of `"parse8601"` is signalled by Task 78e; consumers must add an exhaustive match arm for it before consuming bitmex's timestamp slot.
 
+### `normalization.field_maps.ohlcv` — hybrid Array.isArray shape (Task 78c)
+
+Exchanges whose `parseOHLCV` body branches on `Array.isArray(ohlcv)` at the top-level IfStatement emit **two** branches instead of a single `always` branch. Both arms must return an `ArrayExpression` of safe-call elements — either as an if/else pair (gate, bitmart) or as an if-then return followed by a fallthrough return (bingx). The record gains a top-level `discriminator` alongside `branches`:
+
+```json
+{
+  "discriminator": { "call": "Array.isArray", "variable": "ohlcv" },
+  "branches": [
+    {
+      "guard": { "kind": "array_input" },
+      "shape": "array",
+      "field_map": {
+        "timestamp": { "index": 0, "key": null, "coercion": "safeInteger", "format": "ms" },
+        "open":      { "index": 1, "key": null, "coercion": "safeNumber",  "format": null },
+        "...":       "..."
+      },
+      "_unresolved_reason": null
+    },
+    {
+      "guard": { "kind": "object_input" },
+      "shape": "array",
+      "field_map": {
+        "timestamp": { "index": null, "key": "t", "coercion": "safeInteger", "format": "ms" },
+        "open":      { "index": null, "key": "o", "coercion": "safeNumber",  "format": null },
+        "...":       "..."
+      },
+      "_unresolved_reason": null
+    }
+  ],
+  "extras": [],
+  "_unresolved_reason": null
+}
+```
+
+**Closed `guard.kind` vocabulary (this scope):** `["always", "array_input", "object_input"]`. Single-shape bodies (the 110-exchange majority, including binance) continue to emit `"kind": "always"` with optional `"input_shape": "array" | "object"`. Hybrid bodies emit `"array_input"` on the consequent / if-true arm and `"object_input"` on the alternate / fallthrough arm — consumers branch on `discriminator.variable` with `Array.isArray/1` (or equivalent) then select the matching branch by `guard.kind`. Non-`Array.isArray` shape discriminators (e.g. `safeBool`) are not handled here and still emit `ambiguous_return_shape`.
+
+**Verified no-op (binance).** As of the linked CCXT corpus, binance's `parseOHLCV` is a single always-array body with no top-level `Array.isArray` branch — Task 78c adds the schema surface and extractor path without changing binance's emitted record.
+
 ### `normalization.field_maps.ticker` — shape (Task 74)
 
 `field_maps["ticker"]` carries the per-exchange `parseTicker` field map. Unlike OHLCV, parseTicker always reads its input by string key — no integer-index variant exists in the 110-exchange corpus — so the shape is **flat** (no `branches` wrapper).

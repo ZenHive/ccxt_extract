@@ -524,13 +524,11 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
     assert branch["_unresolved_reason"] =~ "unsupported_discriminator"
   end
 
-  # --- 23. hybrid return: one array + one non-array → ambiguous, not silent always-array ---
+  # --- 23. non-Array.isArray hybrid → still ambiguous ---
 
-  test "hybrid `if (Array.isArray()) return [...]; return {...}` → ambiguous_return_shape" do
-    # Codex P2 finding: the deferred Task 78b/c hybrid shape must NOT emit a
-    # fabricated always-array map just because exactly one return happens to
-    # be an ArrayExpression. The walker counts ALL ReturnStatements, so an
-    # array-plus-object body classifies as ambiguous and emits null + reason.
+  test "non-Array.isArray hybrid `if (safeBool) return [...]; return {...}` → ambiguous_return_shape" do
+    # Only the Array.isArray discriminator is handled (Task 78c). Other
+    # shape tests (safeBool, typeof, etc.) still classify as ambiguous.
     array_elements =
       Enum.map(0..5, fn idx ->
         method = if idx == 0, do: "safeInteger", else: "safeNumber"
@@ -561,6 +559,124 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
 
     assert result["branches"] == []
     assert result["_unresolved_reason"] == "ambiguous_return_shape"
+  end
+
+  # --- 23b. Task 78c: Array.isArray if/else hybrid → two guarded branches + discriminator ---
+
+  test "Array.isArray if/else with array returns on both arms → array_input + object_input branches" do
+    array_elements =
+      Enum.map(0..5, fn idx ->
+        method = if idx == 0, do: "safeInteger", else: "safeNumber"
+        safe_call(method, [identifier("ohlcv"), literal(idx)])
+      end)
+
+    object_elements = [
+      safe_call("safeInteger", [identifier("ohlcv"), literal("t")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("o")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("h")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("l")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("c")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("v")])
+    ]
+
+    is_array_test =
+      %{
+        "type" => "CallExpression",
+        "callee" => %{
+          "type" => "MemberExpression",
+          "object" => %{"type" => "Identifier", "name" => "Array"},
+          "property" => %{"type" => "Identifier", "name" => "isArray"}
+        },
+        "arguments" => [identifier("ohlcv")]
+      }
+
+    if_stmt = %{
+      "type" => "IfStatement",
+      "test" => is_array_test,
+      "consequent" => %{"type" => "BlockStatement", "body" => [return_stmt(array_expr(array_elements))]},
+      "alternate" => %{"type" => "BlockStatement", "body" => [return_stmt(array_expr(object_elements))]}
+    }
+
+    entry = wrap_entry([if_stmt])
+    result = OHLCV.derive(entry)
+
+    assert result["_unresolved_reason"] == nil
+
+    assert result["discriminator"] == %{
+             "call" => "Array.isArray",
+             "variable" => "ohlcv"
+           }
+
+    assert [array_branch, object_branch] = result["branches"]
+    assert array_branch["guard"] == %{"kind" => "array_input"}
+    assert object_branch["guard"] == %{"kind" => "object_input"}
+    assert array_branch["field_map"]["timestamp"]["index"] == 0
+    assert array_branch["field_map"]["timestamp"]["key"] == nil
+    assert object_branch["field_map"]["timestamp"]["key"] == "t"
+    assert object_branch["field_map"]["timestamp"]["index"] == nil
+    assert object_branch["field_map"]["volume"]["key"] == "v"
+  end
+
+  # --- 23c. Task 78c: bingx-style if + fallthrough return ---
+
+  test "Array.isArray if with fallthrough return → array_input + object_input branches" do
+    array_elements =
+      Enum.map(0..5, fn idx ->
+        method = if idx == 0, do: "safeInteger", else: "safeNumber"
+        safe_call(method, [identifier("ohlcv"), literal(idx)])
+      end)
+
+    object_elements = [
+      safe_call("safeInteger", [identifier("ohlcv"), literal("time")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("open")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("high")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("low")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("close")]),
+      safe_call("safeNumber", [identifier("ohlcv"), literal("volume")])
+    ]
+
+    is_array_test =
+      %{
+        "type" => "CallExpression",
+        "callee" => %{
+          "type" => "MemberExpression",
+          "object" => %{"type" => "Identifier", "name" => "Array"},
+          "property" => %{"type" => "Identifier", "name" => "isArray"}
+        },
+        "arguments" => [identifier("ohlcv")]
+      }
+
+    if_stmt = %{
+      "type" => "IfStatement",
+      "test" => is_array_test,
+      "consequent" => %{"type" => "BlockStatement", "body" => [return_stmt(array_expr(array_elements))]},
+      "alternate" => nil
+    }
+
+    entry = wrap_entry([if_stmt, return_stmt(array_expr(object_elements))])
+    result = OHLCV.derive(entry)
+
+    assert result["discriminator"]["variable"] == "ohlcv"
+    assert [array_branch, object_branch] = result["branches"]
+    assert array_branch["guard"]["kind"] == "array_input"
+    assert object_branch["guard"]["kind"] == "object_input"
+    assert object_branch["field_map"]["open"]["key"] == "open"
+  end
+
+  # --- 23d. Task 78c verified no-op: binance corpus has no hybrid branch ---
+
+  test "binance parseOHLCV in linked corpus stays single always branch (verified no-op)" do
+    data = Jason.decode!(File.read!("priv/discoveries/parse_methods.json"))
+    entry = Enum.find(data["exchanges"], &(&1["id"] == "binance"))
+
+    result = OHLCV.derive(entry)
+
+    assert is_map(result)
+    refute Map.has_key?(result, "discriminator")
+    assert [branch] = result["branches"]
+    assert branch["guard"]["kind"] == "always"
+    assert branch["guard"]["input_shape"] == "array"
+    assert branch["field_map"]["volume"]["discriminator"] == "market.inverse"
   end
 
   # --- 24. nested function/arrow with its own array return must not pollute ---

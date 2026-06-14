@@ -22,6 +22,10 @@ Added `CcxtExtract.Test.ScopeThresholds.corpus_in_scope?/1`, `in_scope?/2`, and 
 
 Added `mix ccxt_extract.prune` and `CcxtExtract.ScopePrune` to evict out-of-scope per-exchange JSON from discoveries subdirectories and `priv/output/`, then re-sync aggregate envelope files and `_manifest.json` stamps to the declared scope. Dry-run by default; `--force` applies deletions and rewrites. Never touches `class_hierarchy.json`; honors `:priv_write_override` / `--output`.
 
+### Task 78c — parseOHLCV hybrid Array.isArray branch
+
+Added hybrid `Array.isArray(ohlcv)` extraction to `CcxtExtract.Normalization.OHLCV`. Top-level if/else (gate, bitmart) and if-then + fallthrough-return (bingx) patterns now emit a top-level `discriminator: %{"call" => "Array.isArray", "variable" => <arg>}` plus two branches tagged `%{"kind" => "array_input"}` and `%{"kind" => "object_input"}`. Single-shape bodies (binance and the majority) are unchanged — still `%{"kind" => "always", "input_shape" => ...}`. **Verified no-op for binance:** the linked corpus has no hybrid branch on binance's `parseOHLCV`; only tier-3 exchanges (gate, bingx, bitmart) exercise the new path today.
+
 ### Task 104 — Array-index JSON Pointers in OverrideRegistry
 
 `OverrideRegistry.pointer_to_keys/1` now emits `Access.at/1` for numeric RFC 6901 segments so paths like `/structure/sign_method/params/0/name` resolve through lists via `get_in/2` and `put_in/3`. `apply_all/2` and `validate_overrides` dry-run inherit the behavior; SCHEMA.md limits updated.

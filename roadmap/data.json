@@ -1932,7 +1932,7 @@
       "id": 145,
       "phase": 0,
       "bundle": "maintenance",
-      "status": "in_progress",
+      "status": "done",
       "title": "Paths read/write split — tighten read-only writer modules",
       "scores": {
         "d": 3,
@@ -1967,10 +1967,15 @@
         "lib/ccxt_extract/tiers.ex",
         "lib/ccxt_extract/contract_test.ex"
       ],
+      "shipped_in": "327a76d",
       "body": "Several modules use `File.read!` / `File.write!` directly instead of routing through `CcxtExtract.Paths` helpers:\n\n- `lib/ccxt_extract/overrides.ex` — `File.read!`\n- `lib/ccxt_extract/oxc_batch.ex` — `File.read!`\n- `lib/ccxt_extract/error_hierarchy.ex` — `File.read!`\n- `lib/ccxt_extract/base_methods.ex` — `File.read!` + `File.write!`\n- `lib/ccxt_extract/tiers.ex` — `File.read!` (note: compile-time `@external_resource`; may need special handling)\n\nThe `paths_rw_split` contract invariant (Reach taint analysis at `lib/ccxt_extract/contract_test.ex:2285`) catches direct `File.write!` inside read-aware functions but doesn't catch read-only leaks in modules that never write. The gap matters because `--output DIR` and `PrivWriteCase` rely on the `Paths.*` override hooks; direct `File.read!` on hardcoded `priv/...` paths silently bypasses both `:priv_dir_override` and `:priv_write_override`.\n\nRoute all reads through `Paths.priv/1` and writes through `Paths.out/1`. Extend the contract invariant (or add a sibling invariant) to flag direct `File.read!` / `File.write!` literals on `priv/...` paths.\n\nOptional downstream-spec hook: for any pending task that introduces a new module under `lib/ccxt_extract/`, append an acceptance criterion enforcing the same convention. Less strict than Task 144's `depends_on` since the new invariant catches leaks at CI time regardless.\n\nPlan: ~/.claude/plans/task-143-is-already-mellow-crystal.md\n",
       "created_at": "2026-05-19",
       "started_at": "2026-06-14",
+      "done_at": "2026-06-14",
       "scored_at": "2026-05-19",
+      "implemented": "Paths read/write split: added paths_priv_literals Reach-taint contract invariant; Tiers compile-time loads use :code.priv_dir/1; documented Paths-resolved contract on OXCBatch + Overrides.extract_method_bodies/3",
+      "delivered_by": "cursor/composer-2.5-fast (run run-1781439280111-e2e79961)",
+      "verified": true,
       "cross_repo": []
     },
     {

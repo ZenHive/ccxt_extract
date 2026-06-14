@@ -1499,7 +1499,7 @@ scored_at = "2026-05-19"
 id = 145
 phase = 0
 bundle = "maintenance"
-status = "in_progress"
+status = "done"
 title = "Paths read/write split — tighten read-only writer modules"
 scores = { d = 3, b = 3, u = 3 }
 acceptance_criteria = ["All five identified modules use `Paths.*` helpers (or document the exception — `tiers.ex`'s compile-time `@external_resource` may qualify)", "`paths_rw_split` (or sibling) invariant extended to flag read-side leaks on `priv/...` paths", "Existing tests under `CcxtExtract.PrivWriteCase` continue to isolate writes correctly", 'The new contract check fires on a deliberate `File.read!("priv/...")` fixture', "mix ccxt_extract.determinism_check --tier1 byte-identical across two runs", "time mix compile --warnings-as-errors clean; mix dialyzer.json --quiet clean; mix credo --strict --format json clean; mix ccxt_extract.contract_test passes"]
@@ -1524,9 +1524,14 @@ Optional downstream-spec hook: for any pending task that introduces a new module
 
 Plan: ~/.claude/plans/task-143-is-already-mellow-crystal.md
 """
+implemented = "Paths read/write split: added paths_priv_literals Reach-taint contract invariant; Tiers compile-time loads use :code.priv_dir/1; documented Paths-resolved contract on OXCBatch + Overrides.extract_method_bodies/3"
+delivered_by = "cursor/composer-2.5-fast (run run-1781439280111-e2e79961)"
+verified = true
 created_at = "2026-05-19"
 started_at = "2026-06-14"
 scored_at = "2026-05-19"
+done_at = "2026-06-14"
+shipped_in = "327a76d"
 
 [[task]]
 id = 146

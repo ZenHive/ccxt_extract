@@ -98,7 +98,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task 142 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v4 cut — flip default emission and validation to v4 [D:4/B:9/U:9 → Eff:2.25] 🎯 |
 | Task 143 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v3 teardown — delete v3 and all schema_target plumbing [D:3/B:7/U:6 → Eff:2.17] 🎯 |
 | Task 144 | ✅ | 🎁 **scope-hygiene** · 🚀 **feature_complete** · TaskScope.parse_and_resolve! accepts task-specific switches [D:2/B:5/U:6 → Eff:2.75] 🎯 |
-| Task 145 | 🔄 | 🎁 **maintenance** · Paths read/write split — tighten read-only writer modules [D:3/B:3/U:3 → Eff:1.0] 📋 |
+| Task 145 | ✅ | 🎁 **maintenance** · Paths read/write split — tighten read-only writer modules [D:3/B:3/U:3 → Eff:1.0] 📋 |
 | Task 146 | ✅ | 🎁 **maintenance** · 🚀 **feature_complete** · 🐛 Audit-surfaced: ws_heartbeat scoped extraction drops extends-chain ancestors [D:4/B:5/U:4 → Eff:1.12] 📋 |
 <!-- TASKS:END -->
 

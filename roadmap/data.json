@@ -806,7 +806,7 @@
       "id": 138,
       "phase": 0,
       "bundle": "det-contract",
-      "status": "pending",
+      "status": "done",
       "title": "Extract JsonIO.write_json!/2,3 + a deterministic_write contract invariant",
       "scores": {
         "d": 4,
@@ -824,9 +824,14 @@
         "lib/ccxt_extract/json_io.ex",
         "lib/ccxt_extract/contract_test.ex"
       ],
+      "shipped_in": "0d4b1fd",
       "body": "Commit f3ea824 (Task 114) spread the deterministic-emit pattern `File.write!(path, Jason.encode!(AstNormalize.to_encodable(x), pretty: true))` across 15 executable write sites in `lib/` (`exchanges`, `aggregate_writer`, `describe` ×2, `signing_fixtures` ×2, `discovery_writer`, `load_markets` ×2, `base_methods`, `public_exchanges`, `pipeline` ×2, `error_class_hierarchy`, `mix/tasks/ccxt_extract.setup`). `CcxtExtract.JsonIO` already owns the read side (`read_json/1,!`). Scope: add `JsonIO.write_json!/2,3` wrapping `to_encodable` + `Jason.encode!` + `File.write!`, migrate the 15 sites, and add a `deterministic_write` corpus-level invariant to `mix ccxt_extract.contract_test` (mirroring `paths_rw_split`'s `Reach.Project.taint_analysis/2` shape) that fails when a `lib/` write site emits JSON without routing through the helper — so the determinism-emit contract has a single enforcement point and a new write site can't silently break byte-determinism. Discovered 2026-05-14 by staged-review:audit-review on commit f3ea824 — Claude + Codex convergent: both independently resolved \"file as ROADMAP follow-up\" (good abstraction, but corpus-invariant-scale work, not an audit-commit splat). See `.audit/f3ea824-task-114-determinism-audit.md`.\n",
       "started_at": "2026-06-14",
+      "done_at": "2026-06-14",
       "scored_at": "2026-05-14",
+      "implemented": "Added CcxtExtract.JsonIO.write_json!/3 (AstNormalize.to_encodable |> Jason.encode! |> File.write!) and migrated all executable JSON write sites in lib/ to it; added the deterministic_write corpus contract invariant (Reach taint analysis: Jason.encode* -> File.write* bypassing JsonIO) with json_io_test + contract_test_test coverage.",
+      "delivered_by": "codex (impl) + claude-opus (manual cross-family review+land)",
+      "verified": true,
       "cross_repo": []
     },
     {

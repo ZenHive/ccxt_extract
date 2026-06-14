@@ -103,6 +103,7 @@ defmodule CcxtExtract.ContractTest do
   # sorting and reporting treat them as a peer row, not per-exchange noise.
   @corpus_invariants [
     {"paths_rw_split", :check_paths_rw_split},
+    {"paths_priv_literals", :check_paths_priv_literals},
     {"deterministic_write", :check_deterministic_write}
   ]
 
@@ -121,6 +122,9 @@ defmodule CcxtExtract.ContractTest do
   # writer's write-position argument), so it no longer needs a chop-level
   # sanitizer that would also mask a genuine `File.write!(inspected_path, …)`.
   @file_reader_fns [:read, :read!, :stream!, :open, :open!]
+
+  # File calls whose first argument is a filesystem path (read or write).
+  @file_path_io_fns @file_reader_fns ++ [:write, :write!]
 
   # Position-aware writer-sink registry, keyed on `{function, arity}` → the
   # argument indices that name a WRITE target. A `File` call is a paths_rw sink
@@ -3901,6 +3905,117 @@ defmodule CcxtExtract.ContractTest do
         "#{src_fn} (read helper) flows into #{sink_fn} at #{sink.source_span.file}:#{sink.source_span.start_line} — use the matching `out_*` write helper"
     }
   end
+
+  @doc """
+  Flag same-file flows from a literal `priv/...` string into direct `File` I/O.
+
+  Catches read-only modules that never write (outside `paths_rw_split`'s scope)
+  and bypass `:priv_dir_override` / `:priv_write_override`. A path routed through
+  any `CcxtExtract.Paths` call is sanitized. `CcxtExtract.Tiers` is exempt —
+  compile-time `@external_resource` loads cannot honor runtime overrides.
+
+  ## Options
+
+    * `:glob` — override the source glob (default: `"lib/**/*.ex"`). Used
+      by tests to target a narrower module set.
+  """
+  @spec check_paths_priv_literals(keyword()) :: [finding()]
+  def check_paths_priv_literals(opts \\ []) do
+    if Code.ensure_loaded?(Reach.Project) do
+      glob = Keyword.get(opts, :glob, "lib/**/*.ex")
+      # credo:disable-for-next-line Credo.Check.Refactor.Apply
+      project = apply(Reach.Project, :from_glob, [glob])
+
+      project
+      |> paths_priv_literal_findings()
+      |> Enum.filter(&paths_priv_literal_reportable?(&1, project.nodes))
+      |> Enum.map(&paths_priv_literal_to_finding/1)
+      |> Enum.uniq()
+    else
+      []
+    end
+  end
+
+  defp paths_priv_literal_findings(project) do
+    # credo:disable-for-next-line Credo.Check.Refactor.Apply
+    apply(Reach.Project, :taint_analysis, [
+      project,
+      [
+        sources: &paths_priv_literal_source?/1,
+        sinks: &paths_priv_literal_sink?/1,
+        sanitizers: &paths_priv_helper_call?/1
+      ]
+    ])
+  end
+
+  defp paths_priv_literal_source?(%{type: :literal, meta: %{value: value}})
+       when is_binary(value) do
+    String.starts_with?(value, "priv/")
+  end
+
+  defp paths_priv_literal_source?(_), do: false
+
+  defp paths_priv_literal_sink?(node) do
+    node.type == :call and
+      node.meta[:module] == File and
+      node.meta[:function] in @file_path_io_fns
+  end
+
+  defp paths_priv_helper_call?(node) do
+    node.type == :call and node.meta[:module] == CcxtExtract.Paths
+  end
+
+  defp paths_priv_literal_reportable?(%{sanitized: true}, _nodes), do: false
+
+  defp paths_priv_literal_reportable?(%{source: source, sink: sink} = flow, _nodes) do
+    case sink.source_span do
+      %{file: sink_file} ->
+        literal_flow_same_file?(source, sink_file) and
+          paths_priv_literal_reaches_path_arg?(flow)
+
+      _ ->
+        false
+    end
+  end
+
+  defp literal_flow_same_file?(%{source_span: %{file: source_file}}, sink_file),
+    do: source_file == sink_file
+
+  defp literal_flow_same_file?(%{source_span: nil, meta: %{value: value}}, sink_file)
+       when is_binary(value) do
+    case File.read(sink_file) do
+      {:ok, body} -> String.contains?(body, inspect(value))
+      _ -> false
+    end
+  end
+
+  defp literal_flow_same_file?(_, _), do: false
+
+  defp paths_priv_literal_reaches_path_arg?(%{source: source, sink: sink, path: path}) do
+    reachable = MapSet.new([source.id | path])
+
+    case sink.children do
+      [path_arg | _] -> subtree_intersects?(path_arg, reachable)
+      _ -> false
+    end
+  end
+
+  defp paths_priv_literal_to_finding(%{source: source, sink: sink}) do
+    sink_fn = "File.#{sink.meta.function}/#{sink.meta.arity}"
+    location = paths_priv_literal_location(source, sink)
+
+    %Finding{
+      exchange: "_corpus",
+      invariant: "paths_priv_literals",
+      path: location,
+      message:
+        "literal `priv/...` path flows into #{sink_fn} at #{location} — route through `CcxtExtract.Paths.priv/1` or `Paths.out/1`"
+    }
+  end
+
+  defp paths_priv_literal_location(%{source_span: %{file: file, start_line: line}}, _), do: "#{file}:#{line}"
+  defp paths_priv_literal_location(_, %{source_span: %{file: file, start_line: line}}), do: "#{file}:#{line}"
+  defp paths_priv_literal_location(_, _), do: "unknown"
 
   @doc """
   Flag JSON encoder output that reaches `File.write*` without `JsonIO.write_json!`.

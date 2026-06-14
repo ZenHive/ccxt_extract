@@ -8,6 +8,9 @@ defmodule CcxtExtract.OXCBatch do
   behaviour default implementations and directly by modules whose call
   surface doesn't fit the behaviour (multi-arity `extract/1`, dual-dir
   scans, etc.).
+
+  Callers must pass absolute paths from `CcxtExtract.Paths` read helpers
+  (e.g. `Paths.ts_src/0`, `Paths.priv/1`) so `:priv_dir_override` applies.
   """
 
   @type result :: {:ok, map()} | {:skip, String.t()} | {:error, String.t(), term()}

@@ -10,6 +10,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 Added focused `Pipeline.build_exchange_data/3` coverage for `rate_limits.endpoint_cost_binding`: valid bucket wrappers now assert the derived binding reaches emitted v4 JSON, unresolved wrappers emit `null`, and missing child/parent wrappers fall back to the empty bucket record without raising.
 
+### Task 145 — Paths read/write split: tighten read-only writer modules
+
+Added corpus-level `paths_priv_literals` contract invariant (Reach taint from literal `priv/...` strings into direct `File` read/write calls, sanitized by any `CcxtExtract.Paths` helper). `CcxtExtract.Tiers` compile-time loads now join `:code.priv_dir/1` instead of hardcoded `priv/...` read paths (documented exception: compile-time data cannot honor runtime `:priv_dir_override`). Documented the Paths-resolved-path contract on `OXCBatch` and `Overrides.extract_method_bodies/3`.
+
 ### Task 147 — Map drift_audit stale overrides to precise raw dependencies
 
 `CcxtExtract.DriftAudit.OverrideRawSources` maps override v4 pointers to the raw emission fields that feed each curation (e.g. `/auth/authenticated_sections` → `/auth/sign_method` + `/raw/describe/api`). Stale-override findings now fire when any mapped raw source drifts between baseline and current, even if the override-applied final value is unchanged; unrelated `raw` subtree drift still does not mark overrides stale. Report `details` carry `raw_source_pointers` and per-pointer `changed_raw_sources` before/after snapshots.

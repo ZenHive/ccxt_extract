@@ -169,6 +169,9 @@ defmodule CcxtExtract.Overrides do
   full method data only for methods in `method_names`.
 
   Returns `{:ok, methods_map}` or `{:error, reason}`.
+
+  `path` must be an absolute path from a `CcxtExtract.Paths` read helper
+  (typically under `Paths.ts_src/0`).
   """
   @spec extract_method_bodies(String.t(), String.t(), MapSet.t()) ::
           {:ok, %{String.t() => map()}} | {:error, term()}

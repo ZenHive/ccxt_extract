@@ -652,6 +652,67 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_paths_priv_literals/1" do
+    setup do
+      tmp = Path.join(System.tmp_dir!(), "ccxt_paths_priv_literals_#{System.unique_integer([:positive])}")
+      File.mkdir_p!(tmp)
+      on_exit(fn -> File.rm_rf!(tmp) end)
+      {:ok, tmp: tmp}
+    end
+
+    test "returns no findings for real lib/ (baseline green after Task 145)" do
+      assert ContractTest.check_paths_priv_literals() == []
+    end
+
+    test "flags a direct File.read! on a literal priv/... path in a planted fixture", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "leak.ex"), """
+      defmodule Fixture.PrivReadLeak do
+        def run do
+          File.read!("priv/leak.json")
+        end
+      end
+      """)
+
+      assert [finding] = ContractTest.check_paths_priv_literals(glob: Path.join(tmp, "**/*.ex"))
+      assert finding.exchange == "_corpus"
+      assert finding.invariant == "paths_priv_literals"
+      assert finding.path =~ "leak.ex:"
+      assert finding.message =~ "priv/..."
+      assert finding.message =~ "File.read!"
+    end
+
+    test "does not flag File.read! when the path comes from Paths.priv/1", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "ok.ex"), """
+      defmodule Fixture.PrivReadOk do
+        def run do
+          File.read!(CcxtExtract.Paths.priv("leak.json"))
+        end
+      end
+      """)
+
+      assert ContractTest.check_paths_priv_literals(glob: Path.join(tmp, "**/*.ex")) == []
+    end
+
+    test "does not flag cross-module flow (same-file filter)", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "reader.ex"), """
+      defmodule Fixture.PrivLiteralReader do
+        def run do
+          path = "priv/leak.json"
+          Fixture.PrivLiteralWriter.read(path)
+        end
+      end
+      """)
+
+      File.write!(Path.join(tmp, "writer.ex"), """
+      defmodule Fixture.PrivLiteralWriter do
+        def read(path), do: File.read!(path)
+      end
+      """)
+
+      assert ContractTest.check_paths_priv_literals(glob: Path.join(tmp, "**/*.ex")) == []
+    end
+  end
+
   describe "check_deterministic_write/1" do
     setup do
       tmp = Path.join(System.tmp_dir!(), "ccxt_deterministic_write_#{System.unique_integer([:positive])}")

@@ -32,13 +32,20 @@ defmodule CcxtExtract.Tiers do
 
   Loaded at compile time via `@external_resource` so editing either
   `priv/priority_tiers.json` or `priv/discoveries/class_hierarchy.json`
-  triggers a recompile.
+  triggers a recompile. Compile-time reads use `:code.priv_dir/1` (not
+  `Paths.priv/1`) because tier membership is fixed at compile time and
+  cannot honor runtime `:priv_dir_override`.
   """
 
-  @priority_tiers_path "priv/priority_tiers.json"
-  @class_hierarchy_path "priv/discoveries/class_hierarchy.json"
-  @external_resource @priority_tiers_path
-  @external_resource @class_hierarchy_path
+  @priv_dir :ccxt_extract |> :code.priv_dir() |> to_string()
+  @priority_tiers_rel "priority_tiers.json"
+  @class_hierarchy_rel "discoveries/class_hierarchy.json"
+  @priority_tiers_external "priv/priority_tiers.json"
+  @class_hierarchy_external "priv/discoveries/class_hierarchy.json"
+  @external_resource @priority_tiers_external
+  @external_resource @class_hierarchy_external
+  @priority_tiers_path Path.join(@priv_dir, @priority_tiers_rel)
+  @class_hierarchy_path Path.join(@priv_dir, @class_hierarchy_rel)
 
   tiers_data = @priority_tiers_path |> File.read!() |> JSON.decode!()
 
@@ -51,7 +58,7 @@ defmodule CcxtExtract.Tiers do
   # WS entries would introduce self-loops (ws:<id> "extends" rest:<id>).
   if !File.exists?(@class_hierarchy_path) do
     Mix.raise("""
-    #{@class_hierarchy_path} not found. This file is compile-time load-bearing
+    #{@class_hierarchy_external} not found. This file is compile-time load-bearing
     and is the one priv/discoveries/ entry that remains tracked in git.
 
     Fresh clone? Run `mix setup`.

@@ -3948,8 +3948,7 @@ defmodule CcxtExtract.ContractTest do
     ])
   end
 
-  defp paths_priv_literal_source?(%{type: :literal, meta: %{value: value}})
-       when is_binary(value) do
+  defp paths_priv_literal_source?(%{type: :literal, meta: %{value: value}}) when is_binary(value) do
     String.starts_with?(value, "priv/")
   end
 
@@ -3978,11 +3977,9 @@ defmodule CcxtExtract.ContractTest do
     end
   end
 
-  defp literal_flow_same_file?(%{source_span: %{file: source_file}}, sink_file),
-    do: source_file == sink_file
+  defp literal_flow_same_file?(%{source_span: %{file: source_file}}, sink_file), do: source_file == sink_file
 
-  defp literal_flow_same_file?(%{source_span: nil, meta: %{value: value}}, sink_file)
-       when is_binary(value) do
+  defp literal_flow_same_file?(%{source_span: nil, meta: %{value: value}}, sink_file) when is_binary(value) do
     case File.read(sink_file) do
       {:ok, body} -> String.contains?(body, inspect(value))
       _ -> false

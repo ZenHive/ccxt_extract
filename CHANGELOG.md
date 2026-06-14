@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 147 — Map drift_audit stale overrides to precise raw dependencies
+
+`CcxtExtract.DriftAudit.OverrideRawSources` maps override v4 pointers to the raw emission fields that feed each curation (e.g. `/auth/authenticated_sections` → `/auth/sign_method` + `/raw/describe/api`). Stale-override findings now fire when any mapped raw source drifts between baseline and current, even if the override-applied final value is unchanged; unrelated `raw` subtree drift still does not mark overrides stale. Report `details` carry `raw_source_pointers` and per-pointer `changed_raw_sources` before/after snapshots.
+
 ### Task 146 — ws_heartbeat scoped extraction closes extends-chain ancestors
 
 Scoped `--exchange` runs naming a WS variant without its root (e.g. `binanceusdm` without `binance`) now persist every `extends`-chain ancestor from the full `extract/0` result and expand the `AggregateWriter` scope to replace stale on-disk ancestor copies. Fixes silent `base_default` fallback and dishonest `keep_alive_resolved_from` when the parent lookup entry was missing from a fresh corpus.

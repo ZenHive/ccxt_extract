@@ -9,7 +9,7 @@ defmodule Mix.Tasks.CcxtExtract.DriftAudit do
   or from an explicit directory of baseline JSONs. Never mutates overrides or output.
 
   Flags three categories:
-  - stale overrides (override-applied value changed vs baseline)
+  - stale overrides (override-applied value or mapped raw source changed vs baseline)
   - derived fields whose value flipped or disappeared
   - new raw fields that have no derivation yet
 

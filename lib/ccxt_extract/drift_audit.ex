@@ -7,7 +7,8 @@ defmodule CcxtExtract.DriftAudit do
 
   Categories:
   - stale_override: override present for a path whose final value differs from the
-    baseline snapshot.
+    baseline snapshot, or whose mapped raw source field(s) changed (even when the
+    override-applied final value is unchanged).
   - flipped_derived: a field whose current provenance is "derived" and whose value
     differs from (or is absent in) the baseline.
   - new_raw: a key/subtree appears under "raw" in current that was absent from the
@@ -16,6 +17,7 @@ defmodule CcxtExtract.DriftAudit do
   Each finding carries exchange id, RFC 6901 path, before/after values.
   """
 
+  alias CcxtExtract.DriftAudit.OverrideRawSources
   alias CcxtExtract.JsonIO
   alias CcxtExtract.OverrideRegistry
   alias CcxtExtract.Paths
@@ -162,30 +164,51 @@ defmodule CcxtExtract.DriftAudit do
   # --- category (a) ---
 
   defp stale_override_findings(id, current, baseline, overrides) do
-    Enum.flat_map(overrides, fn ov ->
-      raw_path = Map.get(ov, "path", "")
-      ptr = OverrideRegistry.translate_pointer(raw_path)
-      base_val = safe_get(baseline, ptr)
-      curr_val = safe_get(current, ptr)
+    Enum.flat_map(overrides, &stale_override_finding(id, current, baseline, &1))
+  end
 
-      if base_val == curr_val do
+  defp stale_override_finding(id, current, baseline, ov) do
+    raw_path = Map.get(ov, "path", "")
+    ptr = OverrideRegistry.translate_pointer(raw_path)
+    base_val = safe_get(baseline, ptr)
+    curr_val = safe_get(current, ptr)
+    raw_sources = OverrideRawSources.pointers(ptr)
+    changed_raw = changed_raw_sources(raw_sources, current, baseline)
+
+    if base_val == curr_val and changed_raw == [] do
+      []
+    else
+      [stale_override_entry(id, ptr, raw_path, base_val, curr_val, ov, raw_sources, changed_raw)]
+    end
+  end
+
+  defp changed_raw_sources(raw_sources, current, baseline) do
+    Enum.flat_map(raw_sources, fn src ->
+      base_raw = safe_get(baseline, src)
+      curr_raw = safe_get(current, src)
+
+      if base_raw == curr_raw do
         []
       else
-        [
-          %{
-            category: :stale_override,
-            exchange: id,
-            path: ptr,
-            before: base_val,
-            after: curr_val,
-            details: %{
-              "override_reason" => ov["reason"],
-              "translated_from" => if(raw_path == ptr, do: nil, else: raw_path)
-            }
-          }
-        ]
+        [%{"pointer" => src, "before" => base_raw, "after" => curr_raw}]
       end
     end)
+  end
+
+  defp stale_override_entry(id, ptr, raw_path, base_val, curr_val, ov, raw_sources, changed_raw) do
+    %{
+      category: :stale_override,
+      exchange: id,
+      path: ptr,
+      before: base_val,
+      after: curr_val,
+      details: %{
+        "override_reason" => ov["reason"],
+        "translated_from" => if(raw_path == ptr, do: nil, else: raw_path),
+        "raw_source_pointers" => raw_sources,
+        "changed_raw_sources" => changed_raw
+      }
+    }
   end
 
   # --- category (b) ---

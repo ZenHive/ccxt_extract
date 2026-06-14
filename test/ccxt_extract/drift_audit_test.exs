@@ -11,10 +11,13 @@ defmodule CcxtExtract.DriftAuditTest do
       "/raw/describe" => "raw",
       "/raw/new_thing" => "raw"
     },
-    "auth" => %{"authenticated_sections" => ["private"]},
+    "auth" => %{
+      "authenticated_sections" => ["private"],
+      "sign_method" => %{"body" => %{"body" => []}}
+    },
     "endpoints" => %{"public" => %{"foo" => 1}},
     "raw" => %{
-      "describe" => %{"api" => %{}},
+      "describe" => %{"api" => %{"public" => %{}, "private" => %{}}},
       "new_thing" => %{"x" => 42},
       "old_thing" => 7
     }
@@ -27,10 +30,13 @@ defmodule CcxtExtract.DriftAuditTest do
       "/endpoints/public/foo" => "derived",
       "/raw/describe" => "raw"
     },
-    "auth" => %{"authenticated_sections" => ["public"]},
+    "auth" => %{
+      "authenticated_sections" => ["public"],
+      "sign_method" => %{"body" => %{"body" => []}}
+    },
     "endpoints" => %{"public" => %{"foo" => 1}},
     "raw" => %{
-      "describe" => %{"api" => %{}},
+      "describe" => %{"api" => %{"public" => %{}, "private" => %{}}},
       "old_thing" => 7
     }
   }
@@ -51,6 +57,52 @@ defmodule CcxtExtract.DriftAuditTest do
       assert f.before == ["public"]
       assert f.after == ["private"]
       assert f.details["override_reason"] == "test"
+      assert f.details["raw_source_pointers"] == ["/auth/sign_method", "/raw/describe/api"]
+      assert f.details["changed_raw_sources"] == []
+    end
+
+    test "classifies stale_override when mapped raw source changes but override value is unchanged" do
+      baseline =
+        @baseline
+        |> put_in(["auth", "authenticated_sections"], ["private"])
+        |> put_in(["auth", "sign_method"], %{"body" => %{"body" => [%{"type" => "baseline"}]}})
+
+      current =
+        @current
+        |> put_in(["auth", "authenticated_sections"], ["private"])
+        |> put_in(["auth", "sign_method"], %{"body" => %{"body" => [%{"type" => "current"}]}})
+
+      findings = DriftAudit.classify_maps("synthex", current, baseline, @overrides)
+      stale = Enum.filter(findings, &(&1.category == :stale_override))
+
+      assert length(stale) == 1
+      f = hd(stale)
+      assert f.before == ["private"]
+      assert f.after == ["private"]
+      assert f.details["raw_source_pointers"] == ["/auth/sign_method", "/raw/describe/api"]
+
+      assert [%{"pointer" => "/auth/sign_method", "before" => before_raw, "after" => after_raw}] =
+               f.details["changed_raw_sources"]
+
+      assert before_raw == %{"body" => %{"body" => [%{"type" => "baseline"}]}}
+      assert after_raw == %{"body" => %{"body" => [%{"type" => "current"}]}}
+    end
+
+    test "does not classify stale_override when mapped raw sources are unchanged" do
+      baseline =
+        @baseline
+        |> put_in(["auth", "authenticated_sections"], ["private"])
+        |> put_in(["raw", "describe", "api"], %{"public" => %{}, "private" => %{}})
+
+      current =
+        @current
+        |> put_in(["auth", "authenticated_sections"], ["private"])
+        |> put_in(["raw", "describe", "api"], %{"public" => %{}, "private" => %{}})
+
+      findings = DriftAudit.classify_maps("synthex", current, baseline, @overrides)
+      stale = Enum.filter(findings, &(&1.category == :stale_override))
+
+      assert stale == []
     end
 
     test "does not classify stale_override for unrelated raw drift alone" do

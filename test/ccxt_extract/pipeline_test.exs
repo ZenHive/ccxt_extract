@@ -353,6 +353,27 @@ defmodule CcxtExtract.PipelineTest do
     }
   end
 
+  defp rate_limit_buckets_wrapper(overrides \\ %{}) do
+    Map.merge(
+      %{
+        "buckets" => [
+          %{
+            "axes" => ["request", "private"],
+            "rate_limit_ms" => 50.0,
+            "refill_per_sec" => 20.0,
+            "max_size" => 1.0,
+            "cost_default" => 1.0,
+            "algorithm" => "leakyBucket",
+            "rolling_window_ms" => 0.0
+          }
+        ],
+        "source" => "describe",
+        "unresolved_reason" => nil
+      },
+      overrides
+    )
+  end
+
   describe "build_exchange_data/3" do
     test "assembles full exchange with all layers" do
       result = Pipeline.build_exchange_data(full_meta(), full_data(), @schema_opts)
@@ -898,6 +919,62 @@ defmodule CcxtExtract.PipelineTest do
       priv_eps = get_in(shape, ["private", "endpoints"]) || []
       dead_in_shape = Enum.any?(priv_eps, fn e -> String.starts_with?(e["path_template"] || "", "spot/v3/private/") end)
       refute dead_in_shape, "dead spot/v3/private paths must be pruned from request.shape"
+    end
+
+    test "propagates endpoint_cost_binding from a valid rate_limit_buckets wrapper" do
+      wrapper = rate_limit_buckets_wrapper()
+
+      data =
+        Map.put(full_data(), :rate_limit_buckets, %{
+          "testex" => %{"id" => "testex", "rate_limit_buckets" => wrapper}
+        })
+
+      result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
+
+      assert result["rate_limits"]["buckets"] == wrapper
+
+      assert result["rate_limits"]["endpoint_cost_binding"] == %{
+               "bucket_index" => 0,
+               "axes" => ["request", "private"]
+             }
+    end
+
+    test "emits null endpoint_cost_binding when bucket wrapper is unresolved" do
+      wrapper = rate_limit_buckets_wrapper(%{"unresolved_reason" => "rate_limit_unset"})
+
+      data =
+        Map.put(full_data(), :rate_limit_buckets, %{
+          "testex" => %{"id" => "testex", "rate_limit_buckets" => wrapper}
+        })
+
+      result = Pipeline.build_exchange_data(full_meta(), data, @schema_opts)
+
+      assert result["rate_limits"]["buckets"] == wrapper
+      assert result["rate_limits"]["endpoint_cost_binding"] == nil
+    end
+
+    test "emits null endpoint_cost_binding when child and parent bucket wrappers are missing" do
+      alias_class = %{
+        "node_key" => "rest:aliasex",
+        "class_name" => "aliasex",
+        "type" => "rest",
+        "extends_resolved" => "testex",
+        "parent_key" => "rest:testex",
+        "file" => "aliasex.ts",
+        "method_count" => 0,
+        "methods" => [],
+        "method_details" => []
+      }
+
+      data =
+        empty_data()
+        |> Map.put(:classes, %{"aliasex" => [alias_class], "testex" => [@rest_class]})
+        |> Map.put(:rate_limit_buckets, %{})
+
+      result = Pipeline.build_exchange_data(alias_meta(), data, @schema_opts)
+
+      assert result["rate_limits"]["buckets"] == CcxtExtract.RateLimitBuckets.empty_record()
+      assert result["rate_limits"]["endpoint_cost_binding"] == nil
     end
   end
 

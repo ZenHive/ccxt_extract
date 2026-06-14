@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 140 — endpoint_cost_binding pipeline propagation tests
+
+Added focused `Pipeline.build_exchange_data/3` coverage for `rate_limits.endpoint_cost_binding`: valid bucket wrappers now assert the derived binding reaches emitted v4 JSON, unresolved wrappers emit `null`, and missing child/parent wrappers fall back to the empty bucket record without raising.
+
 ### Task 147 — Map drift_audit stale overrides to precise raw dependencies
 
 `CcxtExtract.DriftAudit.OverrideRawSources` maps override v4 pointers to the raw emission fields that feed each curation (e.g. `/auth/authenticated_sections` → `/auth/sign_method` + `/raw/describe/api`). Stale-override findings now fire when any mapped raw source drifts between baseline and current, even if the override-applied final value is unchanged; unrelated `raw` subtree drift still does not mark overrides stale. Report `details` carry `raw_source_pointers` and per-pointer `changed_raw_sources` before/after snapshots.

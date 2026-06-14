@@ -795,7 +795,7 @@ id = 104
 phase = 9
 bundle = "9-pipeline"
 milestone = "feature_complete"
-status = "in_progress"
+status = "done"
 title = "Array-index JSON Pointers in OverrideRegistry"
 scores = { d = 2, b = 3, u = 2 }
 assignee = "cursor"
@@ -803,8 +803,13 @@ model = "composer-2.5-fast"
 body = """
 Extend `pointer_to_keys/1` to emit `Access.at/1` for numeric segments so paths like `/structure/sign_method/params/0/name` resolve to deep list elements. Currently raises loudly with a TODO marker — fine while every shipped override file uses shallow string-key pointers. Unblock when a real override file needs `/path/0/...`.
 """
+implemented = "Landed by cursor via merge-train; reviewer-approved (run run-1781419800430-7430abbe, fef4b82ad15476298e67e18f96031835a804d54a)."
+delivered_by = "cursor"
+verified = true
 started_at = "2026-06-14"
 scored_at = "2026-05-14"
+done_at = "2026-06-14"
+shipped_in = "fef4b82ad15476298e67e18f96031835a804d54a"
 
 # ── Phase 11 · bundle 11-shape ────────────────────────────────────────────
 

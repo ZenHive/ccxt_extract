@@ -1146,7 +1146,7 @@
       "phase": 12,
       "bundle": "parse-ohlcv",
       "milestone": "feature_complete",
-      "status": "blocked",
+      "status": "done",
       "title": "parseOHLCV hybrid Array.isArray branch (binance options-fallback)",
       "scores": {
         "d": 5,
@@ -1168,10 +1168,14 @@
         "Discriminator (the Array.isArray callsite + LHS variable) emitted alongside the branch entries so a consumer can dispatch on input shape",
         "Existing non-hybrid parseOHLCV entries continue to render unchanged (no regression in the single-shape majority)"
       ],
+      "shipped_in": "9e282c8",
       "body": "Non-gating Phase 12 edge case. Adds `array_input`/`object_input` guard kinds + IfStatement-discriminated branches to the parseOHLCV field map for binance, which may branch on `Array.isArray` in an options-fallback path. Narrowed 2026-05-20: gate dropped (demoted to tier3); if binance has no hybrid branch the task closes as a verified no-op. May ship post-v4-cut.\n",
       "started_at": "2026-06-14",
+      "done_at": "2026-06-14",
       "scored_at": "2026-05-14",
-      "blocked_reason": "land-cap exhausted after conflict x2 (task 78c, last run run-1781420592970-d949ff06)",
+      "implemented": "parseOHLCV hybrid Array.isArray discrimination in Normalization.OHLCV: array_input/object_input guard kinds + discriminator; verified no-op for binance (no hybrid branch), exercises gate/bingx/bitmart",
+      "delivered_by": "cursor (impl+review), manual ff-land (CHANGELOG union)",
+      "verified": true,
       "cross_repo": []
     },
     {

@@ -169,7 +169,7 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 |------|--------|-------|
 | Task 121 | ✅ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Extract unified-method descriptors from CCXT TS — TS signature + JSDoc overlay [D:6/B:7/U:8 → Eff:1.25?] 📋 |
 | Task 122 | ✅ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Schema block + unified_method_descriptors_shape_valid contract-test invariant [D:3/B:4/U:5 → Eff:1.5?] 🚀 |
-| Task 78c `[P]` | 🔶 | 🎁 **parse-ohlcv** · 🚀 **feature_complete** · parseOHLCV hybrid Array.isArray branch (binance options-fallback) [D:5/B:4/U:4 → Eff:0.8?] ⚠️ ⛔ land-cap exhausted after conflict x2 (task 78c, last run run-1781420592970-d949ff06) |
+| Task 78c `[P]` | ✅ | 🎁 **parse-ohlcv** · 🚀 **feature_complete** · parseOHLCV hybrid Array.isArray branch (binance options-fallback) [D:5/B:4/U:4 → Eff:0.8?] ⚠️ |
 | Task 78d `[P]` | ⛔ | 🎁 **parse-ohlcv** · parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin) [D:5/B:4/U:4 → Eff:0.8?] ⚠️ |
 | Task 78f `[P]` | ✅ | 🎁 **parse-ohlcv** · 🚀 **feature_complete** · parseOHLCV discriminator vocabulary beyond market.inverse [D:3/B:4/U:4 → Eff:1.33?] 📋 |
 | Task 135 | ✅ | 🎁 **ticker-normalization** · 🚀 **feature_complete** · ticker.ex normalization-vocab alignment [D:2/B:4/U:5 → Eff:2.25?] 🎯 |

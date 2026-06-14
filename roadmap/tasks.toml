@@ -629,7 +629,7 @@ Renumbered from legacy ROADMAP Task 133 (audit-surfaced copy) at migration to re
 id = 138
 phase = 0
 bundle = "det-contract"
-status = "in_progress"
+status = "pending"
 title = "Extract JsonIO.write_json!/2,3 + a deterministic_write contract invariant"
 scores = { d = 4, b = 4, u = 3 }
 files_to_modify = ["lib/ccxt_extract/json_io.ex", "lib/ccxt_extract/contract_test.ex"]

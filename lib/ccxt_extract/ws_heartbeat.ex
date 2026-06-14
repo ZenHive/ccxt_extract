@@ -62,6 +62,7 @@ defmodule CcxtExtract.WsHeartbeat do
   use CcxtExtract.OXCExtractor, output_file: "ws_heartbeat.json"
 
   alias CcxtExtract.RequestDefaults
+  alias CcxtExtract.Scope
 
   # base/ws/Client.ts constructor defaults (lines ~97-98). See @moduledoc
   # "Base defaults" for why these are pinned rather than read from source.
@@ -338,6 +339,28 @@ defmodule CcxtExtract.WsHeartbeat do
     closed = close_ancestor_entries(scoped_entries, all_entries)
     expanded = expand_scope_with_ancestors(scope, scoped_entries, all_entries)
     {closed, expanded}
+  end
+
+  @doc """
+  Merge newly added ancestor ids into the aggregate `tier_scope` stamp.
+
+  Tier-based scopes already include family ancestors, so this only adds
+  explicit `exchange:<id>` entries for ancestors that were not in the caller's
+  original scope.
+  """
+  @spec expand_tier_scope_with_ancestors(Scope.manifest_value(), :all | MapSet.t(), :all | MapSet.t()) ::
+          Scope.manifest_value()
+  def expand_tier_scope_with_ancestors(tier_scope, :all, _expanded_scope), do: tier_scope
+
+  def expand_tier_scope_with_ancestors(tier_scope, %MapSet{} = original_scope, %MapSet{} = expanded_scope) do
+    added =
+      expanded_scope
+      |> MapSet.difference(original_scope)
+      |> MapSet.to_list()
+      |> Enum.sort()
+      |> Enum.map(&"exchange:#{&1}")
+
+    Scope.merge_manifest_values(tier_scope, added)
   end
 
   # Parent Pro-class ids along the WS `extends` chain (excludes `entry` itself).

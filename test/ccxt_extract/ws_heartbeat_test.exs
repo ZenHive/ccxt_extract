@@ -104,6 +104,20 @@ defmodule CcxtExtract.WsHeartbeatTest do
       assert WsHeartbeat.close_scoped_extraction([child], all, :all) == {[child], :all}
     end
 
+    test "expand_tier_scope_with_ancestors adds only newly closed ancestors" do
+      original = MapSet.new(["binanceusdm"])
+      expanded = MapSet.new(["binance", "binanceusdm"])
+
+      assert WsHeartbeat.expand_tier_scope_with_ancestors(["exchange:binanceusdm"], original, expanded) ==
+               ["exchange:binance", "exchange:binanceusdm"]
+
+      tier_scope = ["tier1"]
+      tier_scope_ids = MapSet.new(["binance", "binanceusdm"])
+
+      assert WsHeartbeat.expand_tier_scope_with_ancestors(tier_scope, tier_scope_ids, tier_scope_ids) ==
+               tier_scope
+    end
+
     test "scoped extraction enables correct build/2 inheritance after closure" do
       parent = entry("binance", %{"streaming" => streaming(keep_alive_ms: 180_000)})
       child = entry("binanceusdm", %{"extends" => "binance"})

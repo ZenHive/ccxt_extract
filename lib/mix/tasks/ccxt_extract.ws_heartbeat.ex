@@ -45,8 +45,13 @@ defmodule Mix.Tasks.CcxtExtract.WsHeartbeat do
     {:ok, all_exchanges, stats} = CcxtExtract.WsHeartbeat.extract()
     scoped = TaskScope.filter_entries(all_exchanges, scope, "id")
 
+    original_scope = scope
+
     {exchanges, scope} =
-      CcxtExtract.WsHeartbeat.close_scoped_extraction(scoped, all_exchanges, scope)
+      CcxtExtract.WsHeartbeat.close_scoped_extraction(scoped, all_exchanges, original_scope)
+
+    tier_scope =
+      CcxtExtract.WsHeartbeat.expand_tier_scope_with_ancestors(tier_scope, original_scope, scope)
 
     CcxtExtract.WsHeartbeat.write!(exchanges, scope: scope, tier_scope: tier_scope)
 

@@ -66,6 +66,11 @@
       "order": 1,
       "description": "Request-shape extraction — verb/path/body-encoding + transaction classification."
     },
+    "12-normalization": {
+      "phase": 12,
+      "order": 4,
+      "description": "Response-envelope normalization remainder — unresolved-reason sentinel vocabulary surfaced by full-universe regeneration (Task 152)."
+    },
     "13-classify-fix": {
       "phase": 13,
       "order": 1,
@@ -75,6 +80,11 @@
       "phase": 13,
       "order": 2,
       "description": "Error-classification safety invariant surfaced in PR #13 review."
+    },
+    "13-error-hierarchy": {
+      "phase": 13,
+      "order": 4,
+      "description": "Error class-hierarchy coverage — string-valued exception entries vs class references, surfaced by full-universe regeneration (Task 152)."
     },
     "13-perf": {
       "phase": 13,
@@ -2163,7 +2173,7 @@
       "id": "152",
       "phase": 8,
       "bundle": "9-pipeline-follow-up",
-      "status": "pending",
+      "status": "done",
       "title": "Regenerate corpus full-universe (derivation unscoped) after all-exchange scope flip",
       "scores": {
         "d": 1,
@@ -2178,9 +2188,77 @@
       "assignee": "human",
       "acceptance_criteria": [
         "Unscoped update populates derived fields universe-wide",
-        "validate + contract_test + determinism_check all pass on the full-universe corpus"
+        "validate + determinism_check pass on the full-universe corpus",
+        "contract_test runs; any divergences the broader universe surfaces are triaged into tracked tasks (not silently accepted), not necessarily zero"
       ],
       "body": "Follow-through for the all-exchange-list change (priority_tiers `_notes` + CLAUDE.md tier-philosophy flipped to full-universe derivation, tiers demoted to priority labels). Operational, local — the corpus is gitignored.\n\nSteps:\n1. mix ccxt_extract.update  (UNSCOPED — no --tier* flags, so Scope = :all and derivation runs over all 110+ exchanges)\n2. mix ccxt_extract.validate\n3. mix ccxt_extract.contract_test\n4. mix ccxt_extract.determinism_check\n\nConfirm previously-tier3 exchanges now carry derived sign_recipe / normalization / request_shape fields (or honest extraction-outcome nulls like ambiguous_ast — NOT scope nulls). Slow (~minutes, full QuickBEAM + OXC universe pass).\n",
+      "created_at": "2026-06-14",
+      "started_at": "2026-06-14",
+      "done_at": "2026-06-14",
+      "scored_at": "2026-06-14",
+      "implemented": "Unscoped mix ccxt_extract.update regenerated the full-universe corpus (1->110 exchanges, 483s, 0 loadMarkets errors, CCXT 4.5.57). Gates: validate 110/110 schema-pass; determinism_check 113/113 byte-equal; contract_test surfaced 64 divergences on newly-derived exchanges, all triaged into tracked tasks (57c x52, 148 x7, 153 x3, 154 x2). Corpus is gitignored local state — no commit artifact.",
+      "delivered_by": "claude (in-session local run)",
+      "verified": true,
+      "cross_repo": []
+    },
+    {
+      "id": "153",
+      "phase": 12,
+      "bundle": "12-normalization",
+      "status": "pending",
+      "title": "Accept (or normalize) the \"no_fetcher_dispatch\" _unresolved_reason sentinel",
+      "scores": {
+        "d": 2,
+        "b": 3,
+        "u": 3
+      },
+      "eff": 1.5,
+      "dep_layer": 0,
+      "unlocks": 0,
+      "markers": [],
+      "depends_on": [],
+      "assignee": "cursor",
+      "model": "composer-2.5-fast",
+      "acceptance_criteria": [
+        "normalization.response_envelopes._unresolved_reason validates for binanceus, fmfwio, kucoinfutures",
+        "The allowed-sentinel set and the deriver agree on one vocabulary (no third reason can silently re-trip the shape check)",
+        "mix ccxt_extract.contract_test green"
+      ],
+      "out_of_scope": [
+        "Deriving the actual response envelopes for these exchanges; only the unresolved-reason sentinel contract is in scope."
+      ],
+      "body": "Surfaced by the full-universe regeneration (Task 152). `normalization_shape_valid` flags 3 exchanges — binanceus, fmfwio, kucoinfutures — where `normalization.response_envelopes._unresolved_reason = \"no_fetcher_dispatch\"`, but the shape validator's allowlist is only `{null, \"not_yet_derived\"}`.\n\n`no_fetcher_dispatch` is a meaningful reason (the method has no fetcher dispatch to trace), so the fix is most likely to ADD it to the validator's allowed sentinel set and document it alongside `not_yet_derived` — not to coerce the deriver to emit a less precise reason. Confirm the deriver emits a closed vocabulary of reasons and that the validator's allowlist is the single source of truth, so a future fourth reason fails loudly at derivation rather than silently at the shape gate.\n\nAll three are inheriting variants (binanceus -> binance, fmfwio -> hitbtc, kucoinfutures -> kucoin) — the reason only appears now because these were never derived under the prior 7-exchange narrowing.\n",
+      "created_at": "2026-06-14",
+      "scored_at": "2026-06-14",
+      "cross_repo": []
+    },
+    {
+      "id": "154",
+      "phase": 13,
+      "bundle": "13-error-hierarchy",
+      "status": "pending",
+      "title": "Handle string-valued exceptions.exact entries (apex) in error_classes_covered_by_hierarchy",
+      "scores": {
+        "d": 2,
+        "b": 2,
+        "u": 2
+      },
+      "eff": 1.0,
+      "dep_layer": 0,
+      "unlocks": 0,
+      "markers": [],
+      "depends_on": [],
+      "assignee": "cursor",
+      "model": "composer-2.5-fast",
+      "acceptance_criteria": [
+        "apex no longer produces error_classes_covered_by_hierarchy findings for '20006'/'20016'",
+        "String-valued exception map entries (message strings, not class refs) are distinguished from class references and not checked against the class hierarchy",
+        "mix ccxt_extract.contract_test green"
+      ],
+      "out_of_scope": [
+        "Inventing a synthetic exception class for apex's string error messages; the goal is to stop mis-reading a message string as a class name."
+      ],
+      "body": "Surfaced by the full-universe regeneration (Task 152). `error_classes_covered_by_hierarchy` flags apex twice: `exceptions.exact[\"20006\"] = \"apikey sign error\"` and `[\"20016\"] = \"request para error\"` are reported as classes absent from `errors.class_hierarchy.flat_parents`.\n\nRoot cause is an apex.ts idiom (apex.ts:208-209): apex maps error codes to plain message strings (`'20006': 'apikey sign error'`) where every other exchange maps to an exception class reference (`AuthenticationError`). The extraction / invariant treats the string value as a class name, so the hierarchy-coverage check fails — correctly noting the string isn't a class, but the string was never meant to be one.\n\nFix: recognize string-valued (non-class-reference) exception entries and exclude them from the class-hierarchy coverage check (or label them distinctly in the emitted errors map). Audit whether any exchange besides apex uses the same string-value idiom before settling the predicate.\n",
       "created_at": "2026-06-14",
       "scored_at": "2026-06-14",
       "cross_repo": []

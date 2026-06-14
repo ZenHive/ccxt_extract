@@ -117,7 +117,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task 57c | ⬜ | 🎁 **9-pipeline-follow-up** · unified_endpoints/has drift triage — Pattern C honest fix [D:3/B:5/U:5 → Eff:1.67?] 🚀 |
 | Task 148 | ⬜ | 🎁 **9-pipeline-follow-up** · authenticated_sections reachability — walk class inheritance + intersect [D:3/B:4/U:4 → Eff:1.33] 📋 |
 | Task 149 | ⬜ | 🎁 **9-pipeline-follow-up** · Load overrides once in contract_test run_all/1, thread through observed [D:2/B:2/U:2 → Eff:1.0] 📋 |
-| Task 152 | ⬜ | 🎁 **9-pipeline-follow-up** · Regenerate corpus full-universe (derivation unscoped) after all-exchange scope flip [D:1/B:5/U:5 → Eff:5.0] 🎯 |
+| Task 152 | ✅ | 🎁 **9-pipeline-follow-up** · Regenerate corpus full-universe (derivation unscoped) after all-exchange scope flip [D:1/B:5/U:5 → Eff:5.0] 🎯 |
 <!-- TASKS:END -->
 
 Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG.md).
@@ -178,6 +178,7 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 | Task 78d `[P]` | ⛔ | 🎁 **parse-ohlcv** · parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin) [D:5/B:4/U:4 → Eff:0.8?] ⚠️ |
 | Task 78f `[P]` | ✅ | 🎁 **parse-ohlcv** · 🚀 **feature_complete** · parseOHLCV discriminator vocabulary beyond market.inverse [D:3/B:4/U:4 → Eff:1.33?] 📋 |
 | Task 135 | ✅ | 🎁 **ticker-normalization** · 🚀 **feature_complete** · ticker.ex normalization-vocab alignment [D:2/B:4/U:5 → Eff:2.25?] 🎯 |
+| Task 153 | ⬜ | 🎁 **12-normalization** · Accept (or normalize) the "no_fetcher_dispatch" _unresolved_reason sentinel [D:2/B:3/U:3 → Eff:1.5] 🚀 |
 <!-- TASKS:END -->
 
 Type-coercion tables fold into each per-type task (not standalone) — one task covers its type's field map + coercion + enums together so it fits in a session.
@@ -195,6 +196,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 | Task 132 | ✅ | 🎁 **13-classify-fix** · 🚀 **feature_complete** · Split predicate_kind http_status_in into eq vs range [D:3/B:5/U:5 → Eff:1.67?] 🚀 |
 | Task 133 | ✅ | 🎁 **13-classify-safety** · 🚀 **feature_complete** · Explicit error_class_hierarchy content-equality invariant in contract_test [D:2/B:4/U:3 → Eff:1.75?] 🚀 |
 | Task 134 | ✅ | 🎁 **13-perf** · 🚀 **feature_complete** · Thread precomputed error_dispatch through http_status_map/1 and retryable_buckets/1 [D:3/B:3/U:2 → Eff:0.83?] ⚠️ |
+| Task 154 | ⬜ | 🎁 **13-error-hierarchy** · Handle string-valued exceptions.exact entries (apex) in error_classes_covered_by_hierarchy [D:2/B:2/U:2 → Eff:1.0] 📋 |
 <!-- TASKS:END -->
 
 ---

@@ -163,8 +163,7 @@ defmodule CcxtExtract.SignRecipe.PreSignTransforms do
            "object" => %{"type" => "ThisExpression"},
            "property" => %{"type" => "Identifier", "name" => "hmac"}
          }
-       }),
-       do: true
+       }), do: true
 
   defp hmac_call?(_), do: false
 
@@ -252,8 +251,7 @@ defmodule CcxtExtract.SignRecipe.PreSignTransforms do
            "object" => %{"type" => "ThisExpression"},
            "property" => %{"type" => "Identifier", "name" => "json"}
          }
-       }),
-       do: true
+       }), do: true
 
   # JSON.stringify(...) — raw JS fallback.
   defp json_encoder_call?(%{
@@ -263,8 +261,7 @@ defmodule CcxtExtract.SignRecipe.PreSignTransforms do
            "object" => %{"type" => "Identifier", "name" => "JSON"},
            "property" => %{"type" => "Identifier", "name" => "stringify"}
          }
-       }),
-       do: true
+       }), do: true
 
   defp json_encoder_call?(_), do: false
 

@@ -164,7 +164,7 @@ defmodule CcxtExtract.JsonDiff do
 
   defp first_diff_position(a, b, i) do
     case {a, b} do
-      {<<_::binary-size(i), x, _::binary>>, <<_::binary-size(i), y, _::binary>>} when x == y ->
+      {<<_::binary-size(^i), x, _::binary>>, <<_::binary-size(^i), y, _::binary>>} when x == y ->
         first_diff_position(a, b, i + 1)
 
       _ ->

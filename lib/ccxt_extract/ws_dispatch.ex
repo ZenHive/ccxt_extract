@@ -424,8 +424,7 @@ defmodule CcxtExtract.WsDispatch do
          computed: false,
          object: %{type: :this_expression},
          property: %{type: :identifier, name: name}
-       }),
-       do: String.starts_with?(name, "safe")
+       }), do: String.starts_with?(name, "safe")
 
   defp safe_callee?(_node), do: false
 

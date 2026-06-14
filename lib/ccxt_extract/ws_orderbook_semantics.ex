@@ -373,8 +373,7 @@ defmodule CcxtExtract.WsOrderbookSemantics do
          computed: false,
          object: %{type: :this_expression},
          property: %{type: :identifier, name: name}
-       }),
-       do: name in @integer_accessors
+       }), do: name in @integer_accessors
 
   defp integer_accessor?(_node), do: false
 
@@ -384,8 +383,7 @@ defmodule CcxtExtract.WsOrderbookSemantics do
          computed: false,
          object: %{type: :this_expression},
          property: %{type: :identifier, name: name}
-       }),
-       do: String.starts_with?(name, "safe")
+       }), do: String.starts_with?(name, "safe")
 
   defp safe_callee?(_node), do: false
 

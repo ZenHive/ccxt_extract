@@ -174,8 +174,7 @@ defmodule CcxtExtract.Normalization.Market do
            "property" => %{"type" => "Identifier", "name" => "safeMarketStructure"}
          },
          "arguments" => [%{"type" => "ObjectExpression", "properties" => properties} | _]
-       }),
-       do: {:ok, properties}
+       }), do: {:ok, properties}
 
   # `return {...}` (direct ObjectExpression)
   defp classify_return_argument(%{"type" => "ObjectExpression", "properties" => properties}), do: {:ok, properties}
@@ -188,8 +187,7 @@ defmodule CcxtExtract.Normalization.Market do
            "object" => %{"type" => "ThisExpression"},
            "property" => %{"type" => "Identifier", "name" => callee_name}
          }
-       }),
-       do: {:error, "non_safe_market_return:#{callee_name}"}
+       }), do: {:error, "non_safe_market_return:#{callee_name}"}
 
   # `return someIdentifier;` — a pre-built variable, not an inline ObjectExpression.
   defp classify_return_argument(%{"type" => "Identifier"}), do: {:error, "identifier_return"}

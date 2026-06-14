@@ -133,8 +133,7 @@ defmodule CcxtExtract.Normalization.Ticker do
            "property" => %{"type" => "Identifier", "name" => "safeTicker"}
          },
          "arguments" => [%{"type" => "ObjectExpression", "properties" => properties} | _]
-       }),
-       do: {:ok, properties}
+       }), do: {:ok, properties}
 
   # Bare ObjectExpression return (defensive; some parsers return the object directly)
   defp classify_return_argument(%{"type" => "ObjectExpression", "properties" => properties}), do: {:ok, properties}
@@ -147,8 +146,7 @@ defmodule CcxtExtract.Normalization.Ticker do
            "object" => %{"type" => "ThisExpression"},
            "property" => %{"type" => "Identifier", "name" => callee_name}
          }
-       }),
-       do: {:error, "non_safe_ticker_return:#{callee_name}"}
+       }), do: {:error, "non_safe_ticker_return:#{callee_name}"}
 
   # `return someIdentifier;` — pre-built variable, not an inline object
   defp classify_return_argument(%{"type" => "Identifier"}), do: {:error, "identifier_return"}

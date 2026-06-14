@@ -128,8 +128,7 @@ defmodule CcxtExtract.Normalization.OHLCV do
   defp collect_returns(%{"type" => "ReturnStatement", "argument" => arg}), do: [arg]
 
   defp collect_returns(%{"type" => type})
-       when type in ["FunctionDeclaration", "FunctionExpression", "ArrowFunctionExpression"],
-       do: []
+       when type in ["FunctionDeclaration", "FunctionExpression", "ArrowFunctionExpression"], do: []
 
   defp collect_returns(node) when is_map(node) do
     node |> Map.values() |> Enum.flat_map(&collect_returns/1)
@@ -439,8 +438,7 @@ defmodule CcxtExtract.Normalization.OHLCV do
          },
          _bindings,
          _seen
-       ),
-       do: "market.inverse"
+       ), do: "market.inverse"
 
   defp discriminator_for_test(
          %{
@@ -457,8 +455,7 @@ defmodule CcxtExtract.Normalization.OHLCV do
          },
          _bindings,
          _seen
-       ),
-       do: "market.inverse"
+       ), do: "market.inverse"
 
   # market.spot via type === 'spot' / == 'spot' (okx multi-market-type gating for volume)
   defp discriminator_for_test(
@@ -471,8 +468,7 @@ defmodule CcxtExtract.Normalization.OHLCV do
          _bindings,
          _seen
        )
-       when op in ["===", "=="],
-       do: "market.spot"
+       when op in ["===", "=="], do: "market.spot"
 
   defp discriminator_for_test(
          %{
@@ -484,8 +480,7 @@ defmodule CcxtExtract.Normalization.OHLCV do
          _bindings,
          _seen
        )
-       when op in ["===", "=="],
-       do: "market.spot"
+       when op in ["===", "=="], do: "market.spot"
 
   defp discriminator_for_test(%{"type" => "Identifier", "name" => name}, bindings, seen) do
     if MapSet.member?(seen, name) do

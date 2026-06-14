@@ -276,8 +276,7 @@ defmodule CcxtExtract.Normalization.Position do
            "property" => %{"name" => "toLowerCase"}
          },
          "arguments" => []
-       }),
-       do: safe_call?(inner)
+       }), do: safe_call?(inner)
 
   defp to_lower_chain?(_), do: false
 
@@ -289,8 +288,7 @@ defmodule CcxtExtract.Normalization.Position do
            "property" => %{"type" => "Identifier", "name" => method}
          }
        })
-       when method in @scalar_vocab,
-       do: true
+       when method in @scalar_vocab, do: true
 
   defp safe_call?(_), do: false
 
@@ -406,8 +404,7 @@ defmodule CcxtExtract.Normalization.Position do
          "computed" => true,
          "property" => %{"type" => "Literal", "value" => v}
        })
-       when is_number(v),
-       do: true
+       when is_number(v), do: true
 
   defp array_index?(_), do: false
 

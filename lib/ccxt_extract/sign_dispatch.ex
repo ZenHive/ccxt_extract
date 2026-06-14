@@ -126,12 +126,10 @@ defmodule CcxtExtract.SignDispatch do
   defp walk_matches(_, acc), do: acc
 
   defp eq_literal(%{"type" => "Identifier", "name" => name}, %{"type" => "Literal", "value" => v})
-       when is_binary(v) and is_binary(name),
-       do: {name, v}
+       when is_binary(v) and is_binary(name), do: {name, v}
 
   defp eq_literal(%{"type" => "Literal", "value" => v}, %{"type" => "Identifier", "name" => name})
-       when is_binary(v) and is_binary(name),
-       do: {name, v}
+       when is_binary(v) and is_binary(name), do: {name, v}
 
   defp eq_literal(_, _), do: :no
 

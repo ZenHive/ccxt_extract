@@ -79,13 +79,11 @@ defmodule CcxtExtract.ParseDispatch do
 
   # String-keyed (post-normalize) shape
   defp method_def(%{"type" => "MethodDefinition", "key" => %{"name" => name}, "value" => %{"body" => body}})
-       when is_binary(name) and is_map(body),
-       do: {:ok, name, body}
+       when is_binary(name) and is_map(body), do: {:ok, name, body}
 
   # Atom-keyed (raw OXC) shape
   defp method_def(%{type: :method_definition, key: %{name: name}, value: %{body: body}})
-       when is_binary(name) and is_map(body),
-       do: {:ok, name, body}
+       when is_binary(name) and is_map(body), do: {:ok, name, body}
 
   defp method_def(_), do: :no
 

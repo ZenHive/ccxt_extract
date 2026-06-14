@@ -156,8 +156,7 @@ defmodule CcxtExtract.Normalization.Trade do
            "object" => %{"name" => "Array"},
            "property" => %{"name" => "isArray"}
          }
-       }),
-       do: true
+       }), do: true
 
   # '<lit>' in <var>
   defp discriminator_test?(%{
@@ -166,8 +165,7 @@ defmodule CcxtExtract.Normalization.Trade do
          "left" => %{"type" => "Literal", "value" => v},
          "right" => %{"type" => "Identifier"}
        })
-       when is_binary(v),
-       do: true
+       when is_binary(v), do: true
 
   # typeof <var> ===/!== '<str>' (either side)
   defp discriminator_test?(%{
@@ -175,16 +173,14 @@ defmodule CcxtExtract.Normalization.Trade do
          "operator" => op,
          "left" => %{"type" => "UnaryExpression", "operator" => "typeof"}
        })
-       when op in ["===", "!==", "==", "!="],
-       do: true
+       when op in ["===", "!==", "==", "!="], do: true
 
   defp discriminator_test?(%{
          "type" => "BinaryExpression",
          "operator" => op,
          "right" => %{"type" => "UnaryExpression", "operator" => "typeof"}
        })
-       when op in ["===", "!==", "==", "!="],
-       do: true
+       when op in ["===", "!==", "==", "!="], do: true
 
   defp discriminator_test?(_), do: false
 
@@ -360,8 +356,7 @@ defmodule CcxtExtract.Normalization.Trade do
            "property" => %{"name" => "toLowerCase"}
          },
          "arguments" => []
-       }),
-       do: safe_call?(inner)
+       }), do: safe_call?(inner)
 
   defp to_lower_chain?(_), do: false
 
@@ -374,8 +369,7 @@ defmodule CcxtExtract.Normalization.Trade do
            "property" => %{"type" => "Identifier", "name" => method}
          }
        })
-       when method in @scalar_vocab,
-       do: true
+       when method in @scalar_vocab, do: true
 
   defp safe_call?(_), do: false
 
@@ -503,8 +497,7 @@ defmodule CcxtExtract.Normalization.Trade do
          "computed" => true,
          "property" => %{"type" => "Literal", "value" => v}
        })
-       when is_number(v),
-       do: true
+       when is_number(v), do: true
 
   defp array_index?(_), do: false
 

@@ -100,10 +100,10 @@ defmodule CcxtExtract.RequestShape do
   @type unresolved_reason :: nil | String.t()
 
   @typedoc "A single per-section request shape record. See moduledoc."
-  @type record :: %{required(String.t()) => term()}
+  @type section_record :: %{required(String.t()) => term()}
 
   @typedoc "`section_name => record` map, shape of `structure.request_shape`."
-  @type record_map :: %{optional(String.t()) => record()}
+  @type record_map :: %{optional(String.t()) => section_record()}
 
   @initial_unresolved_reason "not_yet_derived"
 
@@ -232,7 +232,7 @@ defmodule CcxtExtract.RequestShape do
   default value for every authenticated section before Phase 11
   derivation flips fields into place.
   """
-  @spec null_record() :: record()
+  @spec null_record() :: section_record()
   def null_record do
     %{
       "endpoints" => nil,

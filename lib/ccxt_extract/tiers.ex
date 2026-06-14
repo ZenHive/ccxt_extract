@@ -206,8 +206,12 @@ defmodule CcxtExtract.Tiers do
   def tier1?(exchange_id), do: get_priority_tier(exchange_id) == :tier1
 
   @doc "True when `exchange_id` is a Tier 2 member (root or variant/alias)."
+  # Tested against `@tier2_members` (not `get_priority_tier/1`) because tier2 is
+  # intentionally empty: the type checker proves `get_priority_tier/1` can never
+  # return `:tier2`, so `== :tier2` would warn as an always-false comparison.
+  # `in []` compiles to `false`; re-adding a tier2 root makes this work on recompile.
   @spec tier2?(String.t()) :: boolean()
-  def tier2?(exchange_id), do: get_priority_tier(exchange_id) == :tier2
+  def tier2?(exchange_id), do: exchange_id in @tier2_members
 
   @doc "True when `exchange_id` is a Tier 3 member (root or variant/alias)."
   @spec tier3?(String.t()) :: boolean()

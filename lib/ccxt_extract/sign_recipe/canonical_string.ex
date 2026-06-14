@@ -229,8 +229,7 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
            "object" => %{"type" => "ThisExpression"},
            "property" => %{"type" => "Identifier", "name" => "hmac"}
          }
-       }),
-       do: true
+       }), do: true
 
   defp hmac_call?(_), do: false
 
@@ -253,8 +252,7 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
            "property" => %{"type" => "Identifier", "name" => "encode"}
          },
          "arguments" => [inner | _]
-       }),
-       do: inner
+       }), do: inner
 
   defp peel_encode(other), do: other
 
@@ -291,8 +289,7 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
          %{"type" => "VariableDeclarator", "id" => %{"type" => "Identifier", "name" => n}, "init" => init},
          n
        )
-       when not is_nil(init),
-       do: init
+       when not is_nil(init), do: init
 
   defp find_var_decl_init(node, name) when is_map(node) do
     Enum.find_value(Map.values(node), &find_var_decl_init(&1, name))
@@ -610,8 +607,7 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
            "property" => %{"type" => "Identifier", "name" => "apiKey"}
          },
          _reassigned
-       ),
-       do: {:ok, %{"source" => "api_key"}}
+       ), do: {:ok, %{"source" => "api_key"}}
 
   # this.milliseconds() / this.iso8601(...) / this.urlencode(...) / this.json(...)
   defp classify_piece(
@@ -652,8 +648,7 @@ defmodule CcxtExtract.SignRecipe.CanonicalString do
          },
          _reassigned
        )
-       when fn_name in ["toUpperCase", "toLowerCase"],
-       do: {:ok, %{"source" => "method"}}
+       when fn_name in ["toUpperCase", "toLowerCase"], do: {:ok, %{"source" => "method"}}
 
   # String literal
   defp classify_piece(%{"type" => "Literal", "value" => v}, _reassigned) when is_binary(v),

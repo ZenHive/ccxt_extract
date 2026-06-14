@@ -190,8 +190,7 @@ defmodule CcxtExtract.ErrorDispatch do
            "property" => %{"type" => "Identifier", "name" => "indexOf"}
          }
        })
-       when obj in ["body", "message", "url", "reason"],
-       do: true
+       when obj in ["body", "message", "url", "reason"], do: true
 
   defp body_indexof_call?(_), do: false
 
@@ -206,8 +205,7 @@ defmodule CcxtExtract.ErrorDispatch do
            "arguments" => [%{"type" => "Literal", "value" => v} | _]
          }
        })
-       when obj in ["body", "message", "url", "reason"] and is_binary(v),
-       do: [v]
+       when obj in ["body", "message", "url", "reason"] and is_binary(v), do: [v]
 
   defp body_contains_values(_), do: nil
 

@@ -35,6 +35,8 @@ Per `~/.claude/setup-guide.md` § Selective-Load Philosophy (Opus 4.8): eager-lo
 @~/.claude/includes/critical-rules.md
 @~/.claude/includes/harness-workflow.md
 
+**Cloud-agent delegation — retired in this repo.** `[CSR]` / `[CX]` Linear/Cursor/Codex cloud flows are no longer used — see ROADMAP.md § Notes. Do not re-`@`-import `linear-workflow.md`, `delegation-rules.md`, or `agent-dispatch.md` into this repo's eager floor; any cloud-delegation prose inlined from shared portfolio includes is reference-only, not actionable guidance here. **Active workflow:** harness implement → review → land (`harness-workflow` above).
+
 Everything this repo previously eager-imported is now reachable as an auto-synced skill with a byte-identical body — `@`-importing one **and** enabling its sibling skill pays twice for the same tokens. The mapping:
 
 - **Roadmap / workflow** → `tasks:rmap`, `tasks:roadmap-planning`, `tasks:task-writing`, `workflow:workflow-philosophy`, `workflow:git-worktrees`, `elixir:web-command`

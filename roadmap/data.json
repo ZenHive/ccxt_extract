@@ -1971,7 +1971,7 @@
       "phase": 0,
       "bundle": "maintenance",
       "milestone": "feature_complete",
-      "status": "pending",
+      "status": "done",
       "title": "Audit-surfaced: ws_heartbeat scoped extraction drops extends-chain ancestors",
       "scores": {
         "d": 4,
@@ -1998,9 +1998,14 @@
         "lib/mix/tasks/ccxt_extract.ws_heartbeat.ex",
         "lib/ccxt_extract/ws_heartbeat.ex"
       ],
+      "shipped_in": "f43d4ab1b93830ba8355a2eee76116a7ee60e04f",
       "body": "WsHeartbeat.build/2 resolves keep_alive_ms, ping_kind, and has_pong_handler through the WS-class `extends` chain via the discovery lookup. A scoped extractor run that names a variant without its WS root — e.g. `mix ccxt_extract.ws_heartbeat --exchange binanceusdm` (or `mix ccxt_extract.update --exchange binanceusdm`) against a fresh corpus with no prior ws_heartbeat.json — writes only the child entry. build/2 then cannot find the binance parent in the lookup, treats the chain as ending at the child, falls back to the base client default, and emits keep_alive_ms 30000 with source / keep_alive_resolved_from \"base_default\" — a silently wrong value AND a dishonest provenance claim (the truth is binance's inherited keepAlive 180000). This violates the project's \"every value is provable or explicitly unprovable — no silent guesses\" rule.\n\nTier-flag scoping is unaffected: tier flags expand to whole families via class_hierarchy.json, so --tier1 already pulls binance + binanceusdm together. The trigger is an explicit --exchange naming a child variant without its WS root, on a corpus where the root's ws_heartbeat entry is not already on disk (a fresh worktree before link_corpus, or a fresh --output directory).\n\nFix direction: close the scoped entry set over its extends-chain ancestors before write. Add a WsHeartbeat ancestor-closure helper that pulls every missing ancestor from the full extract/0 result, and expand the scope MapSet passed to AggregateWriter.write! to include the ancestor ids — without that expansion the scoped merge keeps the stale on-disk ancestor copy AND appends the fresh one, producing duplicate entries.\n\nCorroborated by 3 reasoners in the post-merge audit of commit 4dce59c (Task 93): the Codex GitHub-bot review flagged it P1 on PR #32, the audit-review Codex second-opinion dispatch flagged it P8, and Claude confirmed it. Filed by audit-review on 2026-05-21; see .audit/4dce59c-task-93-websocket-heartbeat-ne.md.\n",
       "created_at": "2026-05-21",
+      "done_at": "2026-06-14",
       "scored_at": "2026-05-21",
+      "implemented": "Landed by cursor via merge-train; reviewer-approved (run run-1781433844647-abc2f80c, f43d4ab1b93830ba8355a2eee76116a7ee60e04f).",
+      "delivered_by": "cursor",
+      "verified": true,
       "cross_repo": []
     },
     {

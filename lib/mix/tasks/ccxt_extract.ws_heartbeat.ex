@@ -43,7 +43,11 @@ defmodule Mix.Tasks.CcxtExtract.WsHeartbeat do
     Mix.shell().info("Extracting WebSocket heartbeat config from WS exchanges...")
 
     {:ok, all_exchanges, stats} = CcxtExtract.WsHeartbeat.extract()
-    exchanges = TaskScope.filter_entries(all_exchanges, scope, "id")
+    scoped = TaskScope.filter_entries(all_exchanges, scope, "id")
+
+    {exchanges, scope} =
+      CcxtExtract.WsHeartbeat.close_scoped_extraction(scoped, all_exchanges, scope)
+
     CcxtExtract.WsHeartbeat.write!(exchanges, scope: scope, tier_scope: tier_scope)
 
     with_ping = Enum.count(exchanges, &get_in(&1, ["ping", "defined"]))

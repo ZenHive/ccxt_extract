@@ -44,6 +44,116 @@ defmodule CcxtExtract.WsHeartbeatTest do
   defp object_ping(value, kind),
     do: %{"defined" => true, "shape" => "object", "return_value" => %{"value" => value, "kind" => kind, "reason" => nil}}
 
+  describe "close_ancestor_entries/2" do
+    test "pulls missing WS extends-chain ancestors from the full extract result" do
+      parent = entry("binance", %{"streaming" => streaming(keep_alive_ms: 180_000)})
+      child = entry("binanceusdm", %{"extends" => "binance"})
+      all = [parent, child]
+
+      closed = WsHeartbeat.close_ancestor_entries([child], all)
+
+      assert Enum.sort(Enum.map(closed, & &1["id"])) == ["binance", "binanceusdm"]
+    end
+
+    test "does not duplicate entries already in the scoped set" do
+      parent = entry("binance", %{"streaming" => streaming(keep_alive_ms: 180_000)})
+      child = entry("binanceusdm", %{"extends" => "binance"})
+      all = [parent, child]
+
+      closed = WsHeartbeat.close_ancestor_entries([parent, child], all)
+
+      assert length(closed) == 2
+      assert Enum.sort(Enum.map(closed, & &1["id"])) == ["binance", "binanceusdm"]
+    end
+
+    test "walks multi-level WS chains" do
+      root = entry("root", %{"streaming" => streaming(keep_alive_ms: 60_000)})
+      mid = entry("mid", %{"extends" => "root"})
+      leaf = entry("leaf", %{"extends" => "mid"})
+      all = [root, mid, leaf]
+
+      closed = WsHeartbeat.close_ancestor_entries([leaf], all)
+
+      assert Enum.sort(Enum.map(closed, & &1["id"])) == ["leaf", "mid", "root"]
+    end
+
+    test "stops when extends names a class outside the WS lookup" do
+      child = entry("variant", %{"extends" => "variantRest"})
+      all = [child]
+
+      assert WsHeartbeat.close_ancestor_entries([child], all) == [child]
+    end
+  end
+
+  describe "expand_scope_with_ancestors/3 and close_scoped_extraction/3" do
+    test "expand_scope_with_ancestors unions ancestor ids into the write scope" do
+      parent = entry("binance", %{"streaming" => streaming(keep_alive_ms: 180_000)})
+      child = entry("binanceusdm", %{"extends" => "binance"})
+      all = [parent, child]
+      scope = MapSet.new(["binanceusdm"])
+
+      expanded = WsHeartbeat.expand_scope_with_ancestors(scope, [child], all)
+
+      assert MapSet.equal?(expanded, MapSet.new(["binance", "binanceusdm"]))
+    end
+
+    test "close_scoped_extraction/3 is a no-op for :all scope" do
+      child = entry("binanceusdm", %{"extends" => "binance"})
+      all = [entry("binance"), child]
+
+      assert WsHeartbeat.close_scoped_extraction([child], all, :all) == {[child], :all}
+    end
+
+    test "scoped extraction enables correct build/2 inheritance after closure" do
+      parent = entry("binance", %{"streaming" => streaming(keep_alive_ms: 180_000)})
+      child = entry("binanceusdm", %{"extends" => "binance"})
+      all = [parent, child]
+
+      {closed, _scope} = WsHeartbeat.close_scoped_extraction([child], all, MapSet.new(["binanceusdm"]))
+      lookup = Map.new(closed, &{&1["id"], &1})
+      r = WsHeartbeat.build(child, lookup)
+
+      assert r["keep_alive_ms"] == 180_000
+      assert r["keep_alive_resolved_from"] == "binance"
+      refute r["source"] == "base_default"
+    end
+
+    test "scoped merge with expanded scope does not duplicate ancestor entries" do
+      alias CcxtExtract.AggregateWriter
+
+      tmp = Path.join(System.tmp_dir!(), "ws_hb_scope_#{:erlang.unique_integer([:positive])}")
+      File.mkdir_p!(tmp)
+      on_exit(fn -> File.rm_rf!(tmp) end)
+
+      file = Path.join(tmp, "ws_heartbeat.json")
+      parent = entry("binance", %{"streaming" => streaming(keep_alive_ms: 180_000)})
+      child = entry("binanceusdm", %{"extends" => "binance"})
+      stale_parent = Map.put(parent, "streaming", streaming(keep_alive_ms: 999))
+      all = [parent, child]
+
+      writer_opts = [
+        entry_key: "exchanges",
+        id_key: "id",
+        stats_fn: &WsHeartbeat.write_stats/1,
+        extracted_at: "2026-06-14T12:00:00Z"
+      ]
+
+      AggregateWriter.write!(file, [stale_parent, child], Keyword.merge(writer_opts, scope: :all, tier_scope: "all"))
+
+      {closed, scope} =
+        WsHeartbeat.close_scoped_extraction([child], all, MapSet.new(["binanceusdm"]))
+
+      AggregateWriter.write!(file, closed, Keyword.merge(writer_opts, scope: scope, tier_scope: ["exchange:binanceusdm"]))
+
+      data = file |> File.read!() |> Jason.decode!()
+      binance_rows = Enum.filter(data["exchanges"], &(&1["id"] == "binance"))
+
+      assert length(binance_rows) == 1
+      assert hd(binance_rows)["streaming"]["keep_alive_ms"] == 180_000
+      assert data["count"] == length(data["exchanges"])
+    end
+  end
+
   describe "build/2 — no WebSocket class" do
     test "nil entry yields the honest none_record" do
       assert WsHeartbeat.build(nil, %{}) == WsHeartbeat.none_record()

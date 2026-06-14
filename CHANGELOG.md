@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 146 — ws_heartbeat scoped extraction closes extends-chain ancestors
+
+Scoped `--exchange` runs naming a WS variant without its root (e.g. `binanceusdm` without `binance`) now persist every `extends`-chain ancestor from the full `extract/0` result and expand the `AggregateWriter` scope to replace stale on-disk ancestor copies. Fixes silent `base_default` fallback and dishonest `keep_alive_resolved_from` when the parent lookup entry was missing from a fresh corpus.
+
 ### Task 139 — Reconcile AGENTS.md with retired cloud-agent delegation
 
 Added a repo-specific retired-delegation callout to `CLAUDE.md` (slim eager floor stays `critical-rules` + `harness-workflow` only — no `linear-workflow.md` / `delegation-rules.md` re-import). Regenerated `AGENTS.md` from the sync script. New `CcxtExtract.AgentsMd` guard + tests fail if active cloud-agent guidance (`Push-Back-vs-Fix-Locally Matrix`, `@`-imports of retired includes, etc.) re-enters the reviewer bundle.

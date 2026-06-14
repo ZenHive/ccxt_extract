@@ -279,6 +279,76 @@ defmodule CcxtExtract.WsHeartbeat do
     end
   end
 
+  # --- Scoped extraction: extends-chain ancestor closure ---
+
+  @doc """
+  Augment scoped entries with missing WS `extends`-chain ancestors.
+
+  A scoped run naming a variant without its WS root (e.g. `--exchange
+  binanceusdm`) must still persist every ancestor `build/2` walks — otherwise
+  inheritance resolution falls back to `base_default` with dishonest provenance.
+  Pulls missing ancestors from the full `extract/0` result; already-scoped
+  entries are left untouched.
+  """
+  @spec close_ancestor_entries([map()], [map()]) :: [map()]
+  def close_ancestor_entries(scoped_entries, all_entries) when is_list(scoped_entries) and is_list(all_entries) do
+    lookup = Map.new(all_entries, &{&1["id"], &1})
+    scoped_ids = MapSet.new(scoped_entries, & &1["id"])
+
+    missing =
+      scoped_entries
+      |> Enum.flat_map(&ws_ancestor_ids(&1, lookup))
+      |> Enum.reject(&MapSet.member?(scoped_ids, &1))
+      |> Enum.uniq()
+      |> Enum.map(&Map.fetch!(lookup, &1))
+
+    Enum.uniq_by(scoped_entries ++ missing, & &1["id"])
+  end
+
+  @doc """
+  Union a scoped `MapSet` with the WS `extends`-chain ancestor ids of
+  `scoped_entries`.
+
+  Required alongside `close_ancestor_entries/2` so `AggregateWriter` replaces
+  stale on-disk ancestor copies instead of appending duplicates.
+  """
+  @spec expand_scope_with_ancestors(MapSet.t(), [map()], [map()]) :: MapSet.t()
+  def expand_scope_with_ancestors(%MapSet{} = scope, scoped_entries, all_entries)
+      when is_list(scoped_entries) and is_list(all_entries) do
+    lookup = Map.new(all_entries, &{&1["id"], &1})
+
+    ancestor_ids =
+      scoped_entries
+      |> Enum.flat_map(&ws_ancestor_ids(&1, lookup))
+      |> MapSet.new()
+
+    MapSet.union(scope, ancestor_ids)
+  end
+
+  @doc """
+  Close scoped entries and expand the write scope over WS ancestors.
+
+  No-op when `scope` is `:all`.
+  """
+  @spec close_scoped_extraction([map()], [map()], :all | MapSet.t()) ::
+          {[map()], :all | MapSet.t()}
+  def close_scoped_extraction(scoped_entries, _all_entries, :all), do: {scoped_entries, :all}
+
+  def close_scoped_extraction(scoped_entries, all_entries, %MapSet{} = scope) do
+    closed = close_ancestor_entries(scoped_entries, all_entries)
+    expanded = expand_scope_with_ancestors(scope, scoped_entries, all_entries)
+    {closed, expanded}
+  end
+
+  # Parent Pro-class ids along the WS `extends` chain (excludes `entry` itself).
+  @spec ws_ancestor_ids(map(), %{String.t() => map()}) :: [String.t()]
+  defp ws_ancestor_ids(entry, lookup) do
+    entry
+    |> ancestry_chain(lookup)
+    |> Enum.drop(1)
+    |> Enum.map(& &1["id"])
+  end
+
   # --- Derivation ---
 
   @doc """

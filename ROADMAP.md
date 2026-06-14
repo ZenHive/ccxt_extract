@@ -68,33 +68,33 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 <!-- TASKS:BEGIN phase=0 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 105 | ✅ | 🎁 **maintenance** · Port super.*() delegation coverage off coincatch [D:2/B:3/U:2 → Eff:1.25] 📋 |
-| Task 106 | ✅ | 🎁 **maintenance** · Drifted-override fixture for override_paths_present_in_output [D:2/B:3/U:3 → Eff:1.5] 🚀 |
-| Task 109 | ✅ | 🎁 **maintenance** · Promote finding() map type to a %Finding{} struct [D:2/B:2/U:2 → Eff:1.0] 📋 |
-| Task 110 | ✅ | 🎁 **maintenance** · Triage 32 request_defaults_resolvable_reachable_from_unified findings [D:4/B:4/U:4 → Eff:1.0] 📋 |
-| Task 124 | ✅ | 🎁 **maintenance** · Prune Bybit discontinued spot/v3/private/* endpoints from extracted spec [D:4/B:4/U:4 → Eff:1.0] 📋 |
-| Task 127 | ✅ | 🎁 **maintenance** · Position-aware paths_rw_split sinks + variable-level sanitization [D:5/B:3/U:3 → Eff:0.6] ⚠️ |
-| Task 136 | ✅ | 🎁 **maintenance** · Re-track priv/output/ now that extraction is byte-deterministic [D:3/B:4/U:5 → Eff:1.5] 🚀 |
-| Task 137 | ✅ | 🎁 **maintenance** · Retrofit Pattern B timestamp writers to accept an :extracted_at opt [D:4/B:3/U:3 → Eff:0.75] ⚠️ |
+| Task 105 | ✅ | 🎁 **maintenance** · Port super.*() delegation coverage off coincatch [D:2/B:3/U:2 → Eff:1.25?] 📋 |
+| Task 106 | ✅ | 🎁 **maintenance** · Drifted-override fixture for override_paths_present_in_output [D:2/B:3/U:3 → Eff:1.5?] 🚀 |
+| Task 109 | ✅ | 🎁 **maintenance** · Promote finding() map type to a %Finding{} struct [D:2/B:2/U:2 → Eff:1.0?] 📋 |
+| Task 110 | ✅ | 🎁 **maintenance** · Triage 32 request_defaults_resolvable_reachable_from_unified findings [D:4/B:4/U:4 → Eff:1.0?] 📋 |
+| Task 124 | ✅ | 🎁 **maintenance** · Prune Bybit discontinued spot/v3/private/* endpoints from extracted spec [D:4/B:4/U:4 → Eff:1.0?] 📋 |
+| Task 127 | ✅ | 🎁 **maintenance** · Position-aware paths_rw_split sinks + variable-level sanitization [D:5/B:3/U:3 → Eff:0.6?] ⚠️ |
+| Task 136 | ✅ | 🎁 **maintenance** · Re-track priv/output/ now that extraction is byte-deterministic [D:3/B:4/U:5 → Eff:1.5?] 🚀 |
+| Task 137 | ✅ | 🎁 **maintenance** · Retrofit Pattern B timestamp writers to accept an :extracted_at opt [D:4/B:3/U:3 → Eff:0.75?] ⚠️ |
 | Task 141 | ✅ | 🎁 **maintenance** · Author real specs for WS milestone tasks 94 + 95a/95b/95c [D:3/B:3/U:3 → Eff:1.0] 📋 |
-| Task 113 | 🔶 | 🎁 **10-sign-extend** · Track indirect signature placement via request-like object construction [D:4/B:3/U:3 → Eff:0.75] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
-| Task 66e | 🔶 | 🎁 **10-sign-extend** · Expand canonical_string component vocabulary [D:4/B:7/U:7 → Eff:1.75] 🚀 ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
-| Task 66f | 🔶 | 🎁 **10-sign-extend** · Key-format disambiguation for Binance/Bybit HMAC branches [D:5/B:6/U:6 → Eff:1.2] 📋 ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
-| Task 66g | 🔶 | 🎁 **10-sign-extend** · Sub-verb expansion (POST vs PUT vs DELETE vs PATCH) in canonical_string [D:3/B:3/U:3 → Eff:1.0] 📋 ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
-| Task 66h | 🔶 | 🎁 **10-sign-extend** · Trace conditionally-reassigned body alias variables (kucoin endpart, coinbase payload) [D:5/B:4/U:4 → Eff:0.8] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
-| Task 128 | 🔶 | 🎁 **10-sign-extend** · Multi-hop body alias resolution in pre_sign_transforms body-encoding detector [D:4/B:3/U:3 → Eff:0.75] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
-| Task 126 | 🔶 | 🎁 **sibling-emit** · Secondary OpenAPI 3.1 emitter for REST exchanges [D:6/B:7/U:5 → Eff:1.0] 📋 ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
-| Task 125 | 🔶 | 🎁 **sibling-emit** · Secondary OpenRPC emitter for JSON-RPC exchanges (Deribit first) [D:3/B:3/U:2 → Eff:0.83] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
-| Task 119 | ⬜ | 🎁 **scope-hygiene** · mix ccxt_extract.prune — evict out-of-scope local state [D:4/B:5/U:4 → Eff:1.12] 📋 |
-| Task 120 | ⬜ | 🎁 **scope-hygiene** · Tier-scope-aware skip for authenticated_sections + sign_recipe cached tests [D:3/B:3/U:3 → Eff:1.0] 📋 |
-| Task 139 | ⬜ | 🎁 **docs-drift** · Reconcile AGENTS.md cloud-agent guidance with retired [CSR]/[CX] strategy [D:2/B:3/U:3 → Eff:1.5] 🚀 |
-| Task 140 | ⬜ | 🎁 **test-coverage** · Add pipeline-level integration tests for endpoint_cost_binding propagation [D:3/B:4/U:4 → Eff:1.33] 📋 |
-| Task 138 | ⬜ | 🎁 **det-contract** · Extract JsonIO.write_json!/2,3 + a deterministic_write contract invariant [D:4/B:4/U:3 → Eff:0.88] ⚠️ |
-| Task 66c | 🔶 | 🎁 **10-exotic** · Canonical string recipe — JWT / RSA / Ed25519 family [D:5/B:4/U:3 → Eff:0.7] ⚠️ ⛔ No Tier 1/2/DEX exchange uses JWT/RSA/Ed25519 signing schemes; revisit if the priority list expands. |
-| Task 66d | 🔶 | 🎁 **10-exotic** · Canonical string recipe — custom / outlier family [D:5/B:3/U:3 → Eff:0.6] ⚠️ ⛔ Tail-only; per the Three-Strikes Rule, migrate to overrides when a priority exchange needs custom signing. |
-| Task 24 | 🔶 | 🎁 **superseded** · Parity.Compare for richer diffs [D:3/B:3/U:2 → Eff:0.83] ⚠️ ⛔ Adds a sibling-project path dependency; improve diffs inline if needed. |
-| Task 36 | ⛔ | 🎁 **superseded** · Schema migration framework [D:6/B:4/U:3 → Eff:0.58] ⚠️ |
-| Task rate-limit-headers | 🔶 | 🎁 **superseded** · Rate-limit header extraction [D:7/B:3/U:3 → Eff:0.43] ⚠️ ⛔ Confirmed not observable from static analysis or describe() — headers are response behavior scattered across handler code. Consumer-side heuristics stay (ccxt_client Task 50). Revisit only if a simpler observation method surfaces. |
+| Task 113 | 🔶 | 🎁 **10-sign-extend** · Track indirect signature placement via request-like object construction [D:4/B:3/U:3 → Eff:0.75?] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
+| Task 66e | 🔶 | 🎁 **10-sign-extend** · Expand canonical_string component vocabulary [D:4/B:7/U:7 → Eff:1.75?] 🚀 ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
+| Task 66f | 🔶 | 🎁 **10-sign-extend** · Key-format disambiguation for Binance/Bybit HMAC branches [D:5/B:6/U:6 → Eff:1.2?] 📋 ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
+| Task 66g | 🔶 | 🎁 **10-sign-extend** · Sub-verb expansion (POST vs PUT vs DELETE vs PATCH) in canonical_string [D:3/B:3/U:3 → Eff:1.0?] 📋 ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
+| Task 66h | 🔶 | 🎁 **10-sign-extend** · Trace conditionally-reassigned body alias variables (kucoin endpart, coinbase payload) [D:5/B:4/U:4 → Eff:0.8?] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
+| Task 128 | 🔶 | 🎁 **10-sign-extend** · Multi-hop body alias resolution in pre_sign_transforms body-encoding detector [D:4/B:3/U:3 → Eff:0.75?] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
+| Task 126 | 🔶 | 🎁 **sibling-emit** · Secondary OpenAPI 3.1 emitter for REST exchanges [D:6/B:7/U:5 → Eff:1.0?] 📋 ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
+| Task 125 | 🔶 | 🎁 **sibling-emit** · Secondary OpenRPC emitter for JSON-RPC exchanges (Deribit first) [D:3/B:3/U:2 → Eff:0.83?] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
+| Task 119 | ⬜ | 🎁 **scope-hygiene** · mix ccxt_extract.prune — evict out-of-scope local state [D:4/B:5/U:4 → Eff:1.12?] 📋 |
+| Task 120 | ⬜ | 🎁 **scope-hygiene** · Tier-scope-aware skip for authenticated_sections + sign_recipe cached tests [D:3/B:3/U:3 → Eff:1.0?] 📋 |
+| Task 139 | ⬜ | 🎁 **docs-drift** · Reconcile AGENTS.md cloud-agent guidance with retired [CSR]/[CX] strategy [D:2/B:3/U:3 → Eff:1.5?] 🚀 |
+| Task 140 | ⬜ | 🎁 **test-coverage** · Add pipeline-level integration tests for endpoint_cost_binding propagation [D:3/B:4/U:4 → Eff:1.33?] 📋 |
+| Task 138 | ⬜ | 🎁 **det-contract** · Extract JsonIO.write_json!/2,3 + a deterministic_write contract invariant [D:4/B:4/U:3 → Eff:0.88?] ⚠️ |
+| Task 66c | 🔶 | 🎁 **10-exotic** · Canonical string recipe — JWT / RSA / Ed25519 family [D:5/B:4/U:3 → Eff:0.7?] ⚠️ ⛔ No Tier 1/2/DEX exchange uses JWT/RSA/Ed25519 signing schemes; revisit if the priority list expands. |
+| Task 66d | 🔶 | 🎁 **10-exotic** · Canonical string recipe — custom / outlier family [D:5/B:3/U:3 → Eff:0.6?] ⚠️ ⛔ Tail-only; per the Three-Strikes Rule, migrate to overrides when a priority exchange needs custom signing. |
+| Task 24 | 🔶 | 🎁 **superseded** · Parity.Compare for richer diffs [D:3/B:3/U:2 → Eff:0.83?] ⚠️ ⛔ Adds a sibling-project path dependency; improve diffs inline if needed. |
+| Task 36 | ⛔ | 🎁 **superseded** · Schema migration framework [D:6/B:4/U:3 → Eff:0.58?] ⚠️ |
+| Task rate-limit-headers | 🔶 | 🎁 **superseded** · Rate-limit header extraction [D:7/B:3/U:3 → Eff:0.43?] ⚠️ ⛔ Confirmed not observable from static analysis or describe() — headers are response behavior scattered across handler code. Consumer-side heuristics stay (ccxt_client Task 50). Revisit only if a simpler observation method surfaces. |
 | Task 142 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v4 cut — flip default emission and validation to v4 [D:4/B:9/U:9 → Eff:2.25] 🎯 |
 | Task 143 | ✅ | 🎁 **maintenance** · 🚀 **v4** · v3 teardown — delete v3 and all schema_target plumbing [D:3/B:7/U:6 → Eff:2.17] 🎯 |
 | Task 144 | ✅ | 🎁 **scope-hygiene** · 🚀 **feature_complete** · TaskScope.parse_and_resolve! accepts task-specific switches [D:2/B:5/U:6 → Eff:2.75] 🎯 |
@@ -112,7 +112,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 <!-- TASKS:BEGIN phase=8 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 57c | 🔶 | 🎁 **9-pipeline-follow-up** · unified_endpoints/has drift triage — Pattern C honest fix [D:3/B:5/U:5 → Eff:1.67] 🚀 ⛔ Self-deferred until a Tier 1/2/DEX exchange surfaces a Pattern C failure — no priority consumer today. Unpinned from feature_complete 2026-06-10 (roadmap hygiene review): a defer-until-need task can't gate a closable milestone. |
+| Task 57c | 🔶 | 🎁 **9-pipeline-follow-up** · unified_endpoints/has drift triage — Pattern C honest fix [D:3/B:5/U:5 → Eff:1.67?] 🚀 ⛔ Self-deferred until a Tier 1/2/DEX exchange surfaces a Pattern C failure — no priority consumer today. Unpinned from feature_complete 2026-06-10 (roadmap hygiene review): a defer-until-need task can't gate a closable milestone. |
 <!-- TASKS:END -->
 
 Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG.md).
@@ -129,9 +129,10 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 <!-- TASKS:BEGIN phase=9 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 62 | ✅ | 🎁 **9-audit** · 🚀 **feature_complete** · mix ccxt_extract.validate_overrides [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 63 | ✅ | 🎁 **9-audit** · 🚀 **feature_complete** · mix ccxt_extract.drift_audit [D:5/B:7/U:6 → Eff:1.3] 📋 |
-| Task 104 | ⬜ | 🎁 **9-pipeline** · 🚀 **feature_complete** · Array-index JSON Pointers in OverrideRegistry [D:2/B:3/U:2 → Eff:1.25] 📋 |
+| Task 62 | ✅ | 🎁 **9-audit** · 🚀 **feature_complete** · mix ccxt_extract.validate_overrides [D:4/B:7/U:7 → Eff:1.75?] 🚀 |
+| Task 63 | ✅ | 🎁 **9-audit** · 🚀 **feature_complete** · mix ccxt_extract.drift_audit [D:5/B:7/U:6 → Eff:1.3?] 📋 |
+| Task 104 | ⬜ | 🎁 **9-pipeline** · 🚀 **feature_complete** · Array-index JSON Pointers in OverrideRegistry [D:2/B:3/U:2 → Eff:1.25?] 📋 |
+| Task 147 | ⬜ | 🎁 **9-audit** · 🚀 **feature_complete** · Map drift_audit stale overrides to precise raw dependencies [D:4/B:5/U:4 → Eff:1.12] 📋 |
 <!-- TASKS:END -->
 
 ---
@@ -144,8 +145,8 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 <!-- TASKS:BEGIN phase=11 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 73f | ✅ | 🎁 **11-shape** · 🚀 **feature_complete** · Extend transaction_classification to non-unified raw broadcast endpoints [D:5/B:7/U:7 → Eff:1.4] 📋 |
-| Task 73e | 🔶 | 🎁 **11+14** · OXC-side extractor for sign-method-constructed User-Agent and runtime header mutations [D:5/B:3/U:3 → Eff:0.6] ⚠️ ⛔ Self-deferred — affects 2 known exchanges, low consumer impact, high OXC complexity; body says 'file but defer until a priority consumer surfaces a concrete need'. Unpinned from feature_complete 2026-06-10 (roadmap hygiene review). |
+| Task 73f | ✅ | 🎁 **11-shape** · 🚀 **feature_complete** · Extend transaction_classification to non-unified raw broadcast endpoints [D:5/B:7/U:7 → Eff:1.4?] 📋 |
+| Task 73e | 🔶 | 🎁 **11+14** · OXC-side extractor for sign-method-constructed User-Agent and runtime header mutations [D:5/B:3/U:3 → Eff:0.6?] ⚠️ ⛔ Self-deferred — affects 2 known exchanges, low consumer impact, high OXC complexity; body says 'file but defer until a priority consumer surfaces a concrete need'. Unpinned from feature_complete 2026-06-10 (roadmap hygiene review). |
 <!-- TASKS:END -->
 
 > **Three-Strikes escalation for Task 73c:** If the request-object derivation is patched three times to handle new shapes (conditional keys, spread elaboration, reassignment tracking, etc.), the Three-Strikes Rule requires a replacement tier — surfacing a bounded mechanics-AST subtree per CLAUDE.md's mechanics carve-out rather than continuing to stretch the derivation. No task created yet; this is a placeholder for when/if the patch counter reaches 3/3.
@@ -166,12 +167,12 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 <!-- TASKS:BEGIN phase=12 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 121 | ✅ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Extract unified-method descriptors from CCXT TS — TS signature + JSDoc overlay [D:6/B:7/U:8 → Eff:1.25] 📋 |
-| Task 122 | ✅ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Schema block + unified_method_descriptors_shape_valid contract-test invariant [D:3/B:4/U:5 → Eff:1.5] 🚀 |
-| Task 78c `[P]` | ⬜ | 🎁 **parse-ohlcv** · 🚀 **feature_complete** · parseOHLCV hybrid Array.isArray branch (binance options-fallback) [D:5/B:4/U:4 → Eff:0.8] ⚠️ |
-| Task 78d `[P]` | ⛔ | 🎁 **parse-ohlcv** · parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin) [D:5/B:4/U:4 → Eff:0.8] ⚠️ |
-| Task 78f `[P]` | ✅ | 🎁 **parse-ohlcv** · 🚀 **feature_complete** · parseOHLCV discriminator vocabulary beyond market.inverse [D:3/B:4/U:4 → Eff:1.33] 📋 |
-| Task 135 | ✅ | 🎁 **ticker-normalization** · 🚀 **feature_complete** · ticker.ex normalization-vocab alignment [D:2/B:4/U:5 → Eff:2.25] 🎯 |
+| Task 121 | ✅ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Extract unified-method descriptors from CCXT TS — TS signature + JSDoc overlay [D:6/B:7/U:8 → Eff:1.25?] 📋 |
+| Task 122 | ✅ | 🎁 **method-descriptors** · 🚀 **feature_complete** · Schema block + unified_method_descriptors_shape_valid contract-test invariant [D:3/B:4/U:5 → Eff:1.5?] 🚀 |
+| Task 78c `[P]` | ⬜ | 🎁 **parse-ohlcv** · 🚀 **feature_complete** · parseOHLCV hybrid Array.isArray branch (binance options-fallback) [D:5/B:4/U:4 → Eff:0.8?] ⚠️ |
+| Task 78d `[P]` | ⛔ | 🎁 **parse-ohlcv** · parseOHLCV scrambled-coercion + heuristic exchanges (coinbaseexchange, kraken, kucoin) [D:5/B:4/U:4 → Eff:0.8?] ⚠️ |
+| Task 78f `[P]` | ✅ | 🎁 **parse-ohlcv** · 🚀 **feature_complete** · parseOHLCV discriminator vocabulary beyond market.inverse [D:3/B:4/U:4 → Eff:1.33?] 📋 |
+| Task 135 | ✅ | 🎁 **ticker-normalization** · 🚀 **feature_complete** · ticker.ex normalization-vocab alignment [D:2/B:4/U:5 → Eff:2.25?] 🎯 |
 <!-- TASKS:END -->
 
 Type-coercion tables fold into each per-type task (not standalone) — one task covers its type's field map + coercion + enums together so it fits in a session.
@@ -186,9 +187,9 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 <!-- TASKS:BEGIN phase=13 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 132 | ✅ | 🎁 **13-classify-fix** · 🚀 **feature_complete** · Split predicate_kind http_status_in into eq vs range [D:3/B:5/U:5 → Eff:1.67] 🚀 |
-| Task 133 | ✅ | 🎁 **13-classify-safety** · 🚀 **feature_complete** · Explicit error_class_hierarchy content-equality invariant in contract_test [D:2/B:4/U:3 → Eff:1.75] 🚀 |
-| Task 134 | ⬜ | 🎁 **13-perf** · 🚀 **feature_complete** · Thread precomputed error_dispatch through http_status_map/1 and retryable_buckets/1 [D:3/B:3/U:2 → Eff:0.83] ⚠️ |
+| Task 132 | ✅ | 🎁 **13-classify-fix** · 🚀 **feature_complete** · Split predicate_kind http_status_in into eq vs range [D:3/B:5/U:5 → Eff:1.67?] 🚀 |
+| Task 133 | ✅ | 🎁 **13-classify-safety** · 🚀 **feature_complete** · Explicit error_class_hierarchy content-equality invariant in contract_test [D:2/B:4/U:3 → Eff:1.75?] 🚀 |
+| Task 134 | ⬜ | 🎁 **13-perf** · 🚀 **feature_complete** · Thread precomputed error_dispatch through http_status_map/1 and retryable_buckets/1 [D:3/B:3/U:2 → Eff:0.83?] ⚠️ |
 <!-- TASKS:END -->
 
 ---
@@ -201,14 +202,14 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 <!-- TASKS:BEGIN phase=15 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 91 `[P]` | ✅ | 🎁 **15-msg** · 🚀 **feature_complete** · WS subscribe / unsubscribe message shape per channel [D:5/B:8/U:8 → Eff:1.6] 🚀 |
-| Task 92 `[P]` | ✅ | 🎁 **15-msg** · 🚀 **feature_complete** · WS auth flow (sign-in msg / header / query param) [D:4/B:7/U:8 → Eff:1.88] 🚀 |
-| Task 93 `[P]` | ✅ | 🎁 **15-msg** · 🚀 **feature_complete** · Heartbeat / ping-pong pattern per exchange [D:3/B:6/U:7 → Eff:2.17] 🎯 |
-| Task 94 `[P]` | ✅ | 🎁 **15-dispatch** · 🚀 **feature_complete** · Channel → parse handler dispatch tables [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 95a `[P]` | ✅ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — orderbook [D:5/B:8/U:8 → Eff:1.6] 🚀 |
-| Task 95b `[P]` | ✅ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — trades [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 95c `[P]` | ✅ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — OHLCV [D:4/B:7/U:7 → Eff:1.75] 🚀 |
-| Task 96 | 🔶 | 🎁 **15-reconnect** · Reconnect triggers + backoff policy hints [D:3/B:6/U:6 → Eff:2.0] 🎯 ⛔ Priority exchanges already handle reconnect behavior in the consumer; no derived recipe needed until proven. |
+| Task 91 `[P]` | ✅ | 🎁 **15-msg** · 🚀 **feature_complete** · WS subscribe / unsubscribe message shape per channel [D:5/B:8/U:8 → Eff:1.6?] 🚀 |
+| Task 92 `[P]` | ✅ | 🎁 **15-msg** · 🚀 **feature_complete** · WS auth flow (sign-in msg / header / query param) [D:4/B:7/U:8 → Eff:1.88?] 🚀 |
+| Task 93 `[P]` | ✅ | 🎁 **15-msg** · 🚀 **feature_complete** · Heartbeat / ping-pong pattern per exchange [D:3/B:6/U:7 → Eff:2.17?] 🎯 |
+| Task 94 `[P]` | ✅ | 🎁 **15-dispatch** · 🚀 **feature_complete** · Channel → parse handler dispatch tables [D:4/B:7/U:7 → Eff:1.75?] 🚀 |
+| Task 95a `[P]` | ✅ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — orderbook [D:5/B:8/U:8 → Eff:1.6?] 🚀 |
+| Task 95b `[P]` | ✅ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — trades [D:4/B:7/U:7 → Eff:1.75?] 🚀 |
+| Task 95c `[P]` | ✅ | 🎁 **15-semantics** · 🚀 **feature_complete** · Snapshot/delta semantics — OHLCV [D:4/B:7/U:7 → Eff:1.75?] 🚀 |
+| Task 96 | 🔶 | 🎁 **15-reconnect** · Reconnect triggers + backoff policy hints [D:3/B:6/U:6 → Eff:2.0?] 🎯 ⛔ Priority exchanges already handle reconnect behavior in the consumer; no derived recipe needed until proven. |
 <!-- TASKS:END -->
 
 ---
@@ -221,10 +222,10 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 <!-- TASKS:BEGIN phase=16 -->
 | Task | Status | Notes |
 |------|--------|-------|
-| Task 97 | ✅ | 🎁 **16-currency** · 🚀 **feature_complete** · Currency aliases (commonCurrencies) + network info [D:3/B:7/U:8 → Eff:2.5] 🎯 |
-| Task 98 | ✅ | 🎁 **16-currency** · 🚀 **feature_complete** · Precision mode + tick/step derivation semantics [D:3/B:6/U:7 → Eff:2.17] 🎯 |
-| Task 99 | 🔶 | 🎁 **16-fees** · Tiered fee schedules + VIP level mapping [D:4/B:4/U:3 → Eff:0.88] ⚠️ ⛔ Tiered fee schedules not required by priority consumers. |
-| Task 99b | 🔶 | 🎁 **16-fees** · Funding / withdrawal / deposit fee catalog [D:4/B:4/U:3 → Eff:0.88] ⚠️ ⛔ Withdrawal/deposit fees not required by priority consumers. |
+| Task 97 | ✅ | 🎁 **16-currency** · 🚀 **feature_complete** · Currency aliases (commonCurrencies) + network info [D:3/B:7/U:8 → Eff:2.5?] 🎯 |
+| Task 98 | ✅ | 🎁 **16-currency** · 🚀 **feature_complete** · Precision mode + tick/step derivation semantics [D:3/B:6/U:7 → Eff:2.17?] 🎯 |
+| Task 99 | 🔶 | 🎁 **16-fees** · Tiered fee schedules + VIP level mapping [D:4/B:4/U:3 → Eff:0.88?] ⚠️ ⛔ Tiered fee schedules not required by priority consumers. |
+| Task 99b | 🔶 | 🎁 **16-fees** · Funding / withdrawal / deposit fee catalog [D:4/B:4/U:3 → Eff:0.88?] ⚠️ ⛔ Withdrawal/deposit fees not required by priority consumers. |
 <!-- TASKS:END -->
 
 ---

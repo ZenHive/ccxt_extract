@@ -130,13 +130,7 @@ defmodule CcxtExtract.Normalization.OHLCV do
   @spec try_hybrid_branches([map()]) ::
           {:ok, String.t(), [map()], [map()]} | :not_hybrid
   defp try_hybrid_branches([
-         %{
-           "type" => "IfStatement",
-           "test" => test,
-           "consequent" => consequent,
-           "alternate" => alternate
-         }
-         | rest
+         %{"type" => "IfStatement", "test" => test, "consequent" => consequent, "alternate" => alternate} | rest
        ]) do
     with {:ok, variable} <- parse_array_is_array_test(test),
          {:ok, array_elements} <- extract_block_return_array(consequent),
@@ -158,8 +152,7 @@ defmodule CcxtExtract.Normalization.OHLCV do
            "property" => %{"type" => "Identifier", "name" => "isArray"}
          },
          "arguments" => [%{"type" => "Identifier", "name" => variable} | _]
-       }),
-       do: {:ok, variable}
+       }), do: {:ok, variable}
 
   defp parse_array_is_array_test(_), do: :error
 
@@ -175,8 +168,7 @@ defmodule CcxtExtract.Normalization.OHLCV do
          "type" => "ReturnStatement",
          "argument" => %{"type" => "ArrayExpression", "elements" => elements}
        })
-       when is_list(elements),
-       do: {:ok, elements}
+       when is_list(elements), do: {:ok, elements}
 
   defp extract_block_return_array(_), do: :not_found
 
@@ -193,14 +185,9 @@ defmodule CcxtExtract.Normalization.OHLCV do
 
   @spec extract_following_return_array([map()]) :: {:ok, [map()]} | :not_found
   defp extract_following_return_array([
-         %{
-           "type" => "ReturnStatement",
-           "argument" => %{"type" => "ArrayExpression", "elements" => elements}
-         }
-         | _
+         %{"type" => "ReturnStatement", "argument" => %{"type" => "ArrayExpression", "elements" => elements}} | _
        ])
-       when is_list(elements),
-       do: {:ok, elements}
+       when is_list(elements), do: {:ok, elements}
 
   defp extract_following_return_array(_), do: :not_found
 

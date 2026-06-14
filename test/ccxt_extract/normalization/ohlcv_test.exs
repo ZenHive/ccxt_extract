@@ -663,22 +663,6 @@ defmodule CcxtExtract.Normalization.OHLCVTest do
     assert object_branch["field_map"]["open"]["key"] == "open"
   end
 
-  # --- 23d. Task 78c verified no-op: binance corpus has no hybrid branch ---
-
-  test "binance parseOHLCV in linked corpus stays single always branch (verified no-op)" do
-    data = Jason.decode!(File.read!("priv/discoveries/parse_methods.json"))
-    entry = Enum.find(data["exchanges"], &(&1["id"] == "binance"))
-
-    result = OHLCV.derive(entry)
-
-    assert is_map(result)
-    refute Map.has_key?(result, "discriminator")
-    assert [branch] = result["branches"]
-    assert branch["guard"]["kind"] == "always"
-    assert branch["guard"]["input_shape"] == "array"
-    assert branch["field_map"]["volume"]["discriminator"] == "market.inverse"
-  end
-
   # --- 24. nested function/arrow with its own array return must not pollute ---
 
   test "nested ArrowFunctionExpression with array return is not counted as parseOHLCV's return" do

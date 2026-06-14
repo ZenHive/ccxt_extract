@@ -34,6 +34,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
   # Separate scope so the binance/deribit/okx test (which asserts integer-locator
   # behavior) doesn't have to dispatch on a wider exchange set.
   @ohlcv_object_scope MapSet.new(["htx", "bitmex", "hyperliquid", "lighter"])
+  @ohlcv_hybrid_scope MapSet.new(["gate", "bingx", "bitmart"])
 
   setup do
     discoveries_dir = StagedDiscoveries.stage!(Paths.priv("discoveries"))
@@ -168,6 +169,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
         case id do
           "binance" ->
             assert is_map(ohlcv), "binance has a parseOHLCV override → field_maps.ohlcv populated"
+            refute Map.has_key?(ohlcv, "discriminator")
             assert [branch] = ohlcv["branches"]
             assert branch["guard"]["kind"] == "always"
             assert branch["shape"] == "array"
@@ -192,6 +194,61 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
             # parse_methods has no override — honest signal is null at
             # the carrier slot, not a fabricated shape.
             assert ohlcv == nil
+        end
+      end
+    end
+
+    test "Task 78c — hybrid Array.isArray parseOHLCV emits guarded branches for tier-3 exchanges",
+         %{discoveries_dir: discoveries_dir} do
+      {:ok, exchanges, _stats} =
+        Pipeline.extract(
+          discoveries_dir: discoveries_dir,
+          ccxt_version: "4.5.45",
+          extracted_at: "2026-05-08T00:00:00Z",
+          scope: @ohlcv_hybrid_scope,
+          schema_target: 4
+        )
+
+      assert MapSet.new(Enum.map(exchanges, &get_in(&1, ["exchange", "id"]))) ==
+               @ohlcv_hybrid_scope,
+             "expected exactly the 78c hybrid scope #{inspect(MapSet.to_list(@ohlcv_hybrid_scope))}"
+
+      v4_root = Validation.build_schema_root()
+
+      for exchange <- exchanges do
+        id = get_in(exchange, ["exchange", "id"])
+
+        case Validation.validate_schema(exchange, v4_root) do
+          :ok ->
+            :ok
+
+          {:error, findings} ->
+            paths =
+              findings
+              |> Enum.take(5)
+              |> Enum.map_join("\n  ", fn f -> "#{f["path"]}: #{f["message"]}" end)
+
+            flunk("""
+            v4 schema validation failed for #{id} after hybrid Array.isArray derivation (#{length(findings)} findings, first 5):
+              #{paths}
+            """)
+        end
+
+        ohlcv = get_in(exchange, ["normalization", "field_maps", "ohlcv"])
+
+        assert ohlcv["discriminator"] == %{"call" => "Array.isArray", "variable" => "ohlcv"}
+        assert [array_branch, object_branch] = ohlcv["branches"]
+        assert array_branch["guard"] == %{"kind" => "array_input"}
+        assert object_branch["guard"] == %{"kind" => "object_input"}
+
+        for branch <- [array_branch, object_branch] do
+          assert branch["field_map"] |> Map.keys() |> Enum.sort() ==
+                   ~w(close high low open timestamp volume)
+        end
+
+        if id == "bingx" do
+          assert array_branch["field_map"]["timestamp"]["index"] == 0
+          assert is_binary(object_branch["field_map"]["timestamp"]["key"])
         end
       end
     end

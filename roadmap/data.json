@@ -2013,7 +2013,7 @@
       "phase": 9,
       "bundle": "9-audit",
       "milestone": "feature_complete",
-      "status": "in_progress",
+      "status": "done",
       "title": "Map drift_audit stale overrides to precise raw dependencies",
       "scores": {
         "d": 4,
@@ -2033,10 +2033,15 @@
         "Report details identify the raw source pointer(s) used for the decision",
         "Unit tests cover changed mapped raw, unchanged mapped raw, and unrelated raw drift"
       ],
+      "shipped_in": "c9296a036a5fa40ce9ac8eb2a4a105cd12b4b272",
       "body": "Extend `mix ccxt_extract.drift_audit` so stale-override detection can compare the raw source fields that actually feed each override, without flagging unrelated changes elsewhere under `raw`. Preserve the current report-only behavior and avoid broad exchange-level raw diffs.\n",
       "created_at": "2026-06-11",
       "started_at": "2026-06-14",
+      "done_at": "2026-06-14",
       "scored_at": "2026-06-11",
+      "implemented": "Landed by cursor via merge-train; reviewer-approved (run run-1781435602759-01c40399, c9296a036a5fa40ce9ac8eb2a4a105cd12b4b272).",
+      "delivered_by": "cursor",
+      "verified": true,
       "cross_repo": []
     }
   ]

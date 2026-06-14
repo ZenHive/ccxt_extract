@@ -2025,6 +2025,8 @@
       "unlocks": 0,
       "markers": [],
       "depends_on": [],
+      "assignee": "cursor",
+      "model": "composer-2.5-fast",
       "acceptance_criteria": [
         "Stale-override findings are emitted when an override's mapped raw source changes even if the override-applied final value is unchanged",
         "Unrelated raw subtree changes do not produce stale-override findings for existing overrides",

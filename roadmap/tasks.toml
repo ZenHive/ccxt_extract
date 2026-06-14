@@ -1557,6 +1557,8 @@ phase = 9
 bundle = "9-audit"
 milestone = "feature_complete"
 status = "pending"
+assignee = "cursor"
+model = "composer-2.5-fast"
 title = "Map drift_audit stale overrides to precise raw dependencies"
 scores = { d = 4, b = 5, u = 4 }
 acceptance_criteria = ["Stale-override findings are emitted when an override's mapped raw source changes even if the override-applied final value is unchanged", "Unrelated raw subtree changes do not produce stale-override findings for existing overrides", "Report details identify the raw source pointer(s) used for the decision", "Unit tests cover changed mapped raw, unchanged mapped raw, and unrelated raw drift"]

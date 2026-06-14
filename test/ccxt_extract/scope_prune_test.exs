@@ -146,6 +146,30 @@ defmodule CcxtExtract.ScopePruneTest do
       assert describe_ids == envelope_ids
       assert describe_ids == ["binance", "bybit", "okx"]
     end
+
+    test "overrides envelope keeps same-id REST and WS siblings sorted by node_key", %{discoveries: discoveries} do
+      write_json(
+        Path.join(discoveries, "overrides.json"),
+        overrides_envelope([
+          override_entry("binance", "ws"),
+          override_entry("binance", "rest"),
+          override_entry("kraken", "rest")
+        ])
+      )
+
+      assert {:ok, _result} =
+               ScopePrune.run(in_scope: MapSet.new(["binance"]), tier_scope: ["tier1"], force: true)
+
+      node_keys =
+        discoveries
+        |> Path.join("overrides.json")
+        |> File.read!()
+        |> Jason.decode!()
+        |> Map.fetch!("exchanges")
+        |> Enum.map(& &1["node_key"])
+
+      assert node_keys == ["rest:binance", "ws:binance"]
+    end
   end
 
   describe "per_exchange_subdirs/1" do
@@ -173,6 +197,27 @@ defmodule CcxtExtract.ScopePruneTest do
       },
       stats
     )
+  end
+
+  defp overrides_envelope(exchanges) do
+    %{
+      "extracted_at" => "2026-01-01T00:00:00Z",
+      "count" => length(exchanges),
+      "tier_scope" => "all",
+      "exchanges" => exchanges,
+      "with_overrides" => length(exchanges),
+      "total_overrides" => length(exchanges),
+      "total_new_methods" => 0
+    }
+  end
+
+  defp override_entry(id, type) do
+    %{
+      "id" => id,
+      "node_key" => "#{type}:#{id}",
+      "override_count" => 1,
+      "new_method_count" => 0
+    }
   end
 
   defp write_json(path, data) do

@@ -30,6 +30,7 @@ defmodule CcxtExtract.ScopePrune do
           required(:entry_key) => String.t(),
           required(:filter_key) => String.t(),
           required(:stats_fn) => AggregateWriter.stats_fn(),
+          optional(:id_key) => String.t(),
           optional(:extra_from) => String.t() | nil,
           optional(:post_filter) => (map() -> boolean()) | nil
         }
@@ -315,7 +316,7 @@ defmodule CcxtExtract.ScopePrune do
   defp rewrite_envelope!(path, filtered, spec, tier_scope, extra) do
     AggregateWriter.write!(path, filtered,
       entry_key: spec.entry_key,
-      id_key: spec.filter_key,
+      id_key: Map.get(spec, :id_key, spec.filter_key),
       scope: :all,
       stats_fn: spec.stats_fn,
       tier_scope: tier_scope,
@@ -498,6 +499,7 @@ defmodule CcxtExtract.ScopePrune do
         relative: "discoveries/overrides.json",
         entry_key: "exchanges",
         filter_key: "id",
+        id_key: "node_key",
         stats_fn: &CcxtExtract.Overrides.write_stats/1
       },
       %{

@@ -792,17 +792,18 @@ shipped_in = "39f5ab1db92c70e622da894645843868baf01c5d"
 
 [[task]]
 id = 104
-assignee = "cursor"
-model = "composer-2.5-fast"
 phase = 9
 bundle = "9-pipeline"
 milestone = "feature_complete"
-status = "pending"
+status = "in_progress"
 title = "Array-index JSON Pointers in OverrideRegistry"
 scores = { d = 2, b = 3, u = 2 }
+assignee = "cursor"
+model = "composer-2.5-fast"
 body = """
 Extend `pointer_to_keys/1` to emit `Access.at/1` for numeric segments so paths like `/structure/sign_method/params/0/name` resolve to deep list elements. Currently raises loudly with a TODO marker — fine while every shipped override file uses shallow string-key pointers. Unblock when a real override file needs `/path/0/...`.
 """
+started_at = "2026-06-14"
 scored_at = "2026-05-14"
 
 # ── Phase 11 · bundle 11-shape ────────────────────────────────────────────

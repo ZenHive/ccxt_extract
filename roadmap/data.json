@@ -640,7 +640,7 @@
       "id": 119,
       "phase": 0,
       "bundle": "scope-hygiene",
-      "status": "pending",
+      "status": "in_progress",
       "title": "mix ccxt_extract.prune — evict out-of-scope local state",
       "scores": {
         "d": 4,
@@ -655,6 +655,7 @@
       "assignee": "cursor",
       "model": "composer-2.5-fast",
       "body": "`AggregateWriter.merge/2` is intentionally additive so scoped runs accumulate — which means `priv/discoveries/` per-exchange subdirs and envelope aggregates drift out of sync with the declared scope (e.g. `priv/output/` held 23 priority files while `describe/` held 107). Everything except `class_hierarchy.json` is gitignored, so the safety rail never fires. Scope: a new mix task accepting the same `--tier*/--all/--exchange ID` / `Paths.out(...)` plumbing, computing the in-scope ID set via `Tiers.members_for_tier/1` + class_hierarchy, deleting out-of-scope per-exchange files in all `priv/discoveries/<subdir>/` (plus matching `priv/output/<id>.json`), then re-aggregating every envelope file from only the surviving in-scope files — never touch `class_hierarchy.json`. Honor `:priv_write_override`. `--dry-run` by default, `--force` to actually delete. Success: post-run ID sets in `priv/discoveries/describe/`, `priv/output/`, and envelope `by_exchange_id` stamps all match. Discovered 2026-04-20 from a scope-drift report.\n",
+      "started_at": "2026-06-14",
       "scored_at": "2026-05-14",
       "cross_repo": []
     },

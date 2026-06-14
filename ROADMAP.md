@@ -85,7 +85,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task 128 | 🔶 | 🎁 **10-sign-extend** · Multi-hop body alias resolution in pre_sign_transforms body-encoding detector [D:4/B:3/U:3 → Eff:0.75?] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
 | Task 126 | 🔶 | 🎁 **sibling-emit** · Secondary OpenAPI 3.1 emitter for REST exchanges [D:6/B:7/U:5 → Eff:1.0?] 📋 ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
 | Task 125 | 🔶 | 🎁 **sibling-emit** · Secondary OpenRPC emitter for JSON-RPC exchanges (Deribit first) [D:3/B:3/U:2 → Eff:0.83?] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
-| Task 119 | ⬜ | 🎁 **scope-hygiene** · mix ccxt_extract.prune — evict out-of-scope local state [D:4/B:5/U:4 → Eff:1.12?] 📋 |
+| Task 119 | 🔄 | 🎁 **scope-hygiene** · mix ccxt_extract.prune — evict out-of-scope local state [D:4/B:5/U:4 → Eff:1.12?] 📋 |
 | Task 120 | ⬜ | 🎁 **scope-hygiene** · Tier-scope-aware skip for authenticated_sections + sign_recipe cached tests [D:3/B:3/U:3 → Eff:1.0?] 📋 |
 | Task 139 | ⬜ | 🎁 **docs-drift** · Reconcile AGENTS.md cloud-agent guidance with retired [CSR]/[CX] strategy [D:2/B:3/U:3 → Eff:1.5?] 🚀 |
 | Task 140 | ⬜ | 🎁 **test-coverage** · Add pipeline-level integration tests for endpoint_cost_binding propagation [D:3/B:4/U:4 → Eff:1.33?] 📋 |

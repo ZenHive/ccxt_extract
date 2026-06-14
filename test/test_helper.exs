@@ -47,4 +47,4 @@ if System.get_env("CCXT_EXTRACT_SKIP_CORPUS_CHECK") != "1" do
   end
 end
 
-ExUnit.start(exclude: [:extraction, :tier3_corpus, :flaky])
+ExUnit.start(exclude: [:extraction, :flaky])

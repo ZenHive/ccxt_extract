@@ -33,4 +33,55 @@ defmodule CcxtExtract.Test.ScopeThresholdsTest do
       assert ScopeThresholds.proportional(0, 0.75) == 0
     end
   end
+
+  describe "in_scope?/2" do
+    test "all scope includes every exchange" do
+      assert ScopeThresholds.in_scope?("bitget", "all")
+      assert ScopeThresholds.in_scope?("binance", "all")
+    end
+
+    test "tier list resolves via Tiers.members_for_tier/1" do
+      assert ScopeThresholds.in_scope?("binance", ["tier1", "dex"])
+      assert ScopeThresholds.in_scope?("hyperliquid", ["tier1", "dex"])
+      refute ScopeThresholds.in_scope?("bitget", ["tier1", "dex"])
+      refute ScopeThresholds.in_scope?("kucoin", ["tier1", "dex"])
+    end
+
+    test "exchange: entries add explicit IDs" do
+      assert ScopeThresholds.in_scope?("bitget", ["exchange:bitget"])
+      refute ScopeThresholds.in_scope?("binance", ["exchange:bitget"])
+    end
+
+    test "implicit scope uses on-disk output files" do
+      on_disk =
+        "output"
+        |> CcxtExtract.Paths.priv()
+        |> CcxtExtract.TaskScope.rebuild_manifest_exchanges()
+
+      for id <- on_disk do
+        assert ScopeThresholds.in_scope?(id, :implicit)
+      end
+
+      refute ScopeThresholds.in_scope?("definitely_not_in_fixture_scope_xyz", :implicit)
+    end
+  end
+
+  describe "corpus_in_scope?/1" do
+    test "reads output manifest tier_scope at runtime" do
+      # Linked corpus: output manifest lacks tier_scope → implicit on-disk scope.
+      # binance is always present (test_helper sentinel); bitget is tier3 and absent.
+      assert ScopeThresholds.corpus_in_scope?("binance")
+      refute ScopeThresholds.corpus_in_scope?("bitget")
+    end
+  end
+
+  describe "skip_unless_corpus_in_scope!/1" do
+    test "returns :proceed for in-scope exchanges" do
+      assert ScopeThresholds.skip_unless_corpus_in_scope!("binance") == :proceed
+    end
+
+    test "returns :skip for out-of-scope exchanges" do
+      assert ScopeThresholds.skip_unless_corpus_in_scope!("bitget") == :skip
+    end
+  end
 end

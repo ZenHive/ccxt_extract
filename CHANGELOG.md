@@ -10,6 +10,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 Added a repo-specific retired-delegation callout to `CLAUDE.md` (slim eager floor stays `critical-rules` + `harness-workflow` only — no `linear-workflow.md` / `delegation-rules.md` re-import). Regenerated `AGENTS.md` from the sync script. New `CcxtExtract.AgentsMd` guard + tests fail if active cloud-agent guidance (`Push-Back-vs-Fix-Locally Matrix`, `@`-imports of retired includes, etc.) re-enters the reviewer bundle.
 
+### Task 120 — Tier-scope-aware skip for authenticated_sections + sign_recipe cached tests
+
+Added `CcxtExtract.Test.ScopeThresholds.corpus_in_scope?/1`, `in_scope?/2`, and `skip_unless_corpus_in_scope!/1` — they read `priv/output/_manifest.json`'s `tier_scope`, resolve tier entries via `Tiers.members_for_tier/1` plus `exchange:` IDs, and fall back to the on-disk output file set when the manifest stamp is absent. `authenticated_sections_integration_test` now flags overrides whose output JSON is missing only when the exchange is honestly in scope; `sign_recipe_cached_test`'s bitget case skips via the helper instead of `@tag :tier3_corpus`. Dropped the default `:tier3_corpus` ExUnit exclude from `test_helper.exs`.
+
 ### Task 134 — Thread precomputed error_dispatch through http_status_map/1 and retryable_buckets/1
 
 `CcxtExtract.HandleErrors.http_status_map/2` and `retryable_buckets/2` now accept an optional precomputed `error_dispatch` (second argument) and use it directly for the dispatch-predicate and class-collection paths instead of re-calling `ErrorDispatch.derive/1` on the method AST. `Pipeline.build_exchange_data/3` now computes the dispatch once (after `get_handle_errors/2` so alias inheritance is honored) and threads it, eliminating the duplicate AST walk. 1-arity calls (direct from unit tests) continue to work via default `nil` (falls back to on-demand derive). Added/updated unit tests exercising the threaded path; behavior and emitted shape unchanged.

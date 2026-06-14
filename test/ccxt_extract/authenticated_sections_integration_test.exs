@@ -21,6 +21,8 @@ defmodule CcxtExtract.AuthenticatedSectionsIntegrationTest do
   """
   use ExUnit.Case, async: true
 
+  import CcxtExtract.Test.ScopeThresholds
+
   @output_dir Path.join([File.cwd!(), "priv", "output"])
   @overrides_dir Path.join([File.cwd!(), "priv", "overrides"])
 
@@ -127,13 +129,11 @@ defmodule CcxtExtract.AuthenticatedSectionsIntegrationTest do
     if File.exists?(output_path) do
       compare_derived_to_override(id, output_path)
     else
-      # Any exchange not present in the current corpus has a dormant (not
-      # dead) override. The corpus is regenerated per session with variable
-      # scope (priority tiers by default, full universe on `--all`); a tier3
-      # or unclassified exchange simply isn't extracted under priority-only
-      # scope. Without the derived output we can't evaluate whether the
-      # override is redundant — skip instead of flagging.
-      []
+      if corpus_in_scope?(id) do
+        ["#{id}: override present but priv/output/#{id}.json missing (exchange is in corpus scope)"]
+      else
+        []
+      end
     end
   end
 

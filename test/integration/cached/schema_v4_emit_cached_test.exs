@@ -22,6 +22,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
   alias CcxtExtract.Normalization.Market
   alias CcxtExtract.Paths
   alias CcxtExtract.Pipeline
+  alias CcxtExtract.Schema
   alias CcxtExtract.Test.StagedDiscoveries
   alias CcxtExtract.Validation
 
@@ -62,7 +63,7 @@ defmodule CcxtExtract.Integration.Cached.SchemaV4EmitCachedTest do
       for exchange <- exchanges do
         id = get_in(exchange, ["exchange", "id"])
 
-        assert exchange["schema_version"] == "4.0.0"
+        assert exchange["schema_version"] == Schema.schema_version()
 
         # Top-level shape: producer-shaped sections gone, consumer-shaped present.
         refute Map.has_key?(exchange, "runtime"), "v4 emit must drop /runtime for #{id}"

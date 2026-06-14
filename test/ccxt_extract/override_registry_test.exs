@@ -175,10 +175,14 @@ defmodule CcxtExtract.OverrideRegistryTest do
       assert OverrideRegistry.pointer_to_keys("/") == [""]
     end
 
-    test "raises on numeric segment (array index pending)" do
-      assert_raise RuntimeError, ~r/array index segment.*not yet supported/i, fn ->
-        OverrideRegistry.pointer_to_keys("/items/0/name")
-      end
+    test "numeric segment resolves to Access.at/1" do
+      assert OverrideRegistry.pointer_to_keys("/items/0/name") ==
+               ["items", Access.at(0), "name"]
+    end
+
+    test "multiple numeric segments" do
+      assert OverrideRegistry.pointer_to_keys("/a/1/b/2/c") ==
+               ["a", Access.at(1), "b", Access.at(2), "c"]
     end
 
     test "raises when pointer does not start with /" do
@@ -256,13 +260,42 @@ defmodule CcxtExtract.OverrideRegistryTest do
       assert OverrideRegistry.apply_all(exchange, overrides) == %{"a" => 10, "b" => 20}
     end
 
-    test "raises on numeric segment in pointer" do
+    test "replaces deep list element via numeric segment" do
       exchange = %{"items" => [%{"name" => "a"}]}
-      overrides = [%{"path" => "/items/0/name", "value" => "b", "reason" => "r"}]
 
-      assert_raise RuntimeError, ~r/array index segment/i, fn ->
-        OverrideRegistry.apply_all(exchange, overrides)
-      end
+      overrides = [
+        %{"path" => "/items/0/name", "value" => "b", "reason" => "r"}
+      ]
+
+      assert OverrideRegistry.apply_all(exchange, overrides) ==
+               %{"items" => [%{"name" => "b"}]}
+    end
+
+    test "translates v3 prefix then applies array-index path" do
+      exchange = %{
+        "auth" => %{
+          "sign_method" => %{
+            "params" => [%{"name" => "derived"}]
+          }
+        }
+      }
+
+      overrides = [
+        %{
+          "path" => "/structure/sign_method/params/0/name",
+          "value" => "override",
+          "reason" => "r"
+        }
+      ]
+
+      assert OverrideRegistry.apply_all(exchange, overrides) ==
+               %{
+                 "auth" => %{
+                   "sign_method" => %{
+                     "params" => [%{"name" => "override"}]
+                   }
+                 }
+               }
     end
   end
 

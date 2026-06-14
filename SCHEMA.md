@@ -842,7 +842,7 @@ Alias exchanges (e.g. `gateio` → `gate`, `huobi` → `htx`) inherit their pare
 
 ### Current limits
 
-Shallow string-key pointers only. Numeric/array-index segments (e.g. `/path/0/name`) raise until **Task 104** lands. Invalid override applications are rescued and logged at the callsite so one corrupt file cannot brick the full build; the `override_paths_present_in_output` contract-test invariant surfaces drift (override value absent at its pointer path) at build-check time. For strict pointer/apply failures before assembly, use `mix ccxt_extract.validate_overrides --strict`.
+String-key and numeric array-index segments (e.g. `/path/0/name` via `Access.at/1`). Invalid override applications are rescued and logged at the callsite so one corrupt file cannot brick the full build; the `override_paths_present_in_output` contract-test invariant surfaces drift (override value absent at its pointer path) at build-check time. For strict pointer/apply failures before assembly, use `mix ccxt_extract.validate_overrides --strict`.
 
 **Provenance tagging.** Override-applied paths get their `_provenance` entry flipped from `"derived"` (or `"raw"`) to `"override"` at the tail of `Pipeline.extract/1`.
 

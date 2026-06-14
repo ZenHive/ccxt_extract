@@ -3370,8 +3370,8 @@ defmodule CcxtExtract.ContractTest do
   end
 
   # Findings are this invariant's native reporting channel — a raise from
-  # pointer_to_keys/1 (Task 104: unsupported numeric segment) or
-  # get_in/2 on a mis-typed path must surface as a finding, not bubble
+  # pointer_to_keys/1 or get_in/2 on a mis-typed path must surface as a
+  # finding, not bubble
   # up and abort sibling entries in the same file. The enumerated
   # exception list is deliberate; unrelated exceptions (e.g. SystemLimit)
   # still propagate.

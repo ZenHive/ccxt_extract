@@ -160,14 +160,14 @@ defmodule CcxtExtract.ValidateOverridesTest do
       assert entry["probe"] == "url_templates"
     end
 
-    test "error on unsupported pointer segment", %{tmp: tmp} do
-      id = "bad_ptr"
+    test "parses array-index pointer segments", %{tmp: tmp} do
+      id = "array_ptr"
 
       write_override(tmp, id, [
         %{
           "path" => "/structure/sign_recipe/sections/0",
           "value" => "x",
-          "reason" => "array index not supported yet"
+          "reason" => "array index override"
         }
       ])
 
@@ -179,8 +179,9 @@ defmodule CcxtExtract.ValidateOverridesTest do
                )
 
       [entry] = exchange_entries(report, id)
-      assert entry["status"] == "error"
-      assert entry["probe"] == "pointer"
+      assert entry["status"] == "unverified"
+      assert entry["probe"] == "none"
+      assert entry["reason"] == "no_probe_for_path"
     end
   end
 

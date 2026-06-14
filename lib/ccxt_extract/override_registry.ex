@@ -159,13 +159,8 @@ defmodule CcxtExtract.OverrideRegistry do
   (`Pipeline.resolve_auth_override/3`) did `Enum.sort(Enum.uniq/1)` on
   `authenticated_sections`; `apply_all/2` does not.
 
-  ## Depth limitation
-
-  Only string-key segments are supported today. Segments that look like
-  array indices (non-negative integers) raise — array handling with
-  `Access.at/1` lands when a real override file needs a deep pointer.
-  All current (Task 60) override files use shallow paths like
-  `/structure/authenticated_sections`.
+  Numeric RFC 6901 segments (e.g. `/items/0/name`) resolve via
+  `Access.at/1` so `put_in/3` can reach deep list elements.
   """
   @spec apply_all(map(), [map()]) :: map()
   def apply_all(exchange_map, overrides) when is_map(exchange_map) and is_list(overrides) do
@@ -205,10 +200,11 @@ defmodule CcxtExtract.OverrideRegistry do
   Parse an RFC 6901 JSON Pointer into a list of string keys usable with
   `Kernel.get_in/2` and `Kernel.put_in/3`.
 
-  Raises on pointers that don't start with `/` or that contain a
-  numeric segment (array indices are pending — see `apply_all/2`).
+  Raises on pointers that don't start with `/`.
 
-  Handles the two RFC 6901 escape sequences in the mandated order:
+  Numeric segments become `Access.at/1` keys for list traversal; all
+  other segments are unescaped string keys. Handles the two RFC 6901
+  escape sequences in the mandated order:
   `~1` → `/` first, then `~0` → `~`. This ensures `~01` correctly
   round-trips to the literal string `~1`.
 
@@ -216,28 +212,26 @@ defmodule CcxtExtract.OverrideRegistry do
   (it points at the `""` member of the root object). No shipped override
   file uses this form, but it parses without error.
   """
-  @spec pointer_to_keys(String.t()) :: [String.t()]
+  @spec pointer_to_keys(String.t()) :: [String.t() | Access.t()]
   def pointer_to_keys("/" <> rest) do
     rest
     |> String.split("/")
-    |> Enum.map(&unescape_segment/1)
+    |> Enum.map(&segment_to_key/1)
   end
 
   def pointer_to_keys(other) do
     raise "Invalid JSON Pointer #{inspect(other)}: must start with '/'"
   end
 
-  defp unescape_segment(segment) do
+  defp segment_to_key(segment) do
     if numeric_segment?(segment) do
-      # TODO(Task 104): extend to Access.at/1 when a real override file
-      # needs deep-pointer array indexing. Shallow string-key pointers
-      # cover every shipped override as of 2026-04-16.
-      raise """
-      Invalid JSON Pointer segment #{inspect(segment)}: array index segment \
-      is not yet supported. See ROADMAP.md Task 104.
-      """
+      Access.at(String.to_integer(segment))
+    else
+      unescape_segment(segment)
     end
+  end
 
+  defp unescape_segment(segment) do
     segment
     |> String.replace("~1", "/")
     |> String.replace("~0", "~")

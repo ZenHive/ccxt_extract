@@ -6,6 +6,10 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Task 104 — Array-index JSON Pointers in OverrideRegistry
+
+`OverrideRegistry.pointer_to_keys/1` now emits `Access.at/1` for numeric RFC 6901 segments so paths like `/structure/sign_method/params/0/name` resolve through lists via `get_in/2` and `put_in/3`. `apply_all/2` and `validate_overrides` dry-run inherit the behavior; SCHEMA.md limits updated.
+
 ### Task 122 — Unified-method descriptors schema surface
 
 Promoted Task 121's unified-method descriptor discovery into the v4 per-exchange schema as `endpoints.descriptors` (schema `4.1.0`): a method-name keyed map carrying raw TS signature params/return type, JSDoc description/params/returns/method-local `@throws`, byte-exact source, and `unresolved_reason: "no_jsdoc"` for honest partials. Added the JSON Schema `$defs`, pipeline/DiscoveryLoader wiring, `/endpoints/descriptors` provenance, and the `unified_method_descriptors_shape_valid` contract invariant. The method-descriptor mix task remains on `TaskScope.parse_and_resolve!/2`; tests lock that no direct `OptionParser` parsing is reintroduced.

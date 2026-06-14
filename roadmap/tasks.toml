@@ -1556,14 +1556,15 @@ id = "147"
 phase = 9
 bundle = "9-audit"
 milestone = "feature_complete"
-status = "pending"
-assignee = "cursor"
-model = "composer-2.5-fast"
+status = "in_progress"
 title = "Map drift_audit stale overrides to precise raw dependencies"
 scores = { d = 4, b = 5, u = 4 }
 acceptance_criteria = ["Stale-override findings are emitted when an override's mapped raw source changes even if the override-applied final value is unchanged", "Unrelated raw subtree changes do not produce stale-override findings for existing overrides", "Report details identify the raw source pointer(s) used for the decision", "Unit tests cover changed mapped raw, unchanged mapped raw, and unrelated raw drift"]
+assignee = "cursor"
+model = "composer-2.5-fast"
 body = """
 Extend `mix ccxt_extract.drift_audit` so stale-override detection can compare the raw source fields that actually feed each override, without flagging unrelated changes elsewhere under `raw`. Preserve the current report-only behavior and avoid broad exchange-level raw diffs.
 """
 created_at = "2026-06-11"
+started_at = "2026-06-14"
 scored_at = "2026-06-11"

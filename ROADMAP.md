@@ -132,7 +132,7 @@ Completed tasks (56, 56b, 57, 57b, 57d, 58, 59) — see [CHANGELOG.md](CHANGELOG
 | Task 62 | ✅ | 🎁 **9-audit** · 🚀 **feature_complete** · mix ccxt_extract.validate_overrides [D:4/B:7/U:7 → Eff:1.75?] 🚀 |
 | Task 63 | ✅ | 🎁 **9-audit** · 🚀 **feature_complete** · mix ccxt_extract.drift_audit [D:5/B:7/U:6 → Eff:1.3?] 📋 |
 | Task 104 | ✅ | 🎁 **9-pipeline** · 🚀 **feature_complete** · Array-index JSON Pointers in OverrideRegistry [D:2/B:3/U:2 → Eff:1.25?] 📋 |
-| Task 147 | ⬜ | 🎁 **9-audit** · 🚀 **feature_complete** · Map drift_audit stale overrides to precise raw dependencies [D:4/B:5/U:4 → Eff:1.12] 📋 |
+| Task 147 | 🔄 | 🎁 **9-audit** · 🚀 **feature_complete** · Map drift_audit stale overrides to precise raw dependencies [D:4/B:5/U:4 → Eff:1.12] 📋 |
 <!-- TASKS:END -->
 
 ---

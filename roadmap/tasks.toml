@@ -873,7 +873,7 @@ id = "78c"
 phase = 12
 bundle = "parse-ohlcv"
 milestone = "feature_complete"
-status = "in_progress"
+status = "blocked"
 title = "parseOHLCV hybrid Array.isArray branch (binance options-fallback)"
 scores = { d = 5, b = 4, u = 4 }
 markers = ["parallel"]
@@ -885,6 +885,7 @@ acceptance_criteria = [
 ]
 assignee = "cursor"
 model = "composer-2.5-fast"
+blocked_reason = "land-cap exhausted after conflict x2 (task 78c, last run run-1781420592970-d949ff06)"
 body = """
 Non-gating Phase 12 edge case. Adds `array_input`/`object_input` guard kinds + IfStatement-discriminated branches to the parseOHLCV field map for binance, which may branch on `Array.isArray` in an options-fallback path. Narrowed 2026-05-20: gate dropped (demoted to tier3); if binance has no hybrid branch the task closes as a verified no-op. May ship post-v4-cut.
 """

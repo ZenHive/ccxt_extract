@@ -761,7 +761,7 @@
       "id": 139,
       "phase": 0,
       "bundle": "docs-drift",
-      "status": "pending",
+      "status": "in_progress",
       "title": "Reconcile AGENTS.md cloud-agent guidance with retired [CSR]/[CX] strategy",
       "scores": {
         "d": 2,
@@ -776,6 +776,7 @@
       "assignee": "cursor",
       "model": "composer-2.5-fast",
       "body": "Renumbered from legacy ROADMAP Task 132 (audit-surfaced copy) at migration to resolve the duplicate-ID collision with the Phase 13 Task 132. `AGENTS.md` (generated from `~/.claude/includes/*.md` per the bundled-include workflow) ships ~15 references to cloud-agent flows (`[CSR]`, `[CX]`, \"Cursor Delegation Flow\", \"Push-Back-vs-Fix-Locally Matrix\") that contradict ROADMAP § Notes (\"cloud-agent delegation retired\"). Generator-side fix: either (a) drop the `linear-workflow.md` + `delegation-rules.md` includes from this repo's bundle, (b) regenerate from a slimmer include set, or (c) add a top-of-file callout that cloud-agent sections are reference-only here. Discovered 2026-05-09 by staged-review:audit-review on commit 28166a2 (Codex C3).\n",
+      "started_at": "2026-06-14",
       "scored_at": "2026-05-14",
       "cross_repo": []
     },

@@ -87,7 +87,7 @@ Full command list in [CLAUDE.md](CLAUDE.md).
 | Task 125 | 🔶 | 🎁 **sibling-emit** · Secondary OpenRPC emitter for JSON-RPC exchanges (Deribit first) [D:3/B:3/U:2 → Eff:0.83?] ⚠️ ⛔ No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands. |
 | Task 119 | 🔄 | 🎁 **scope-hygiene** · mix ccxt_extract.prune — evict out-of-scope local state [D:4/B:5/U:4 → Eff:1.12?] 📋 |
 | Task 120 | 🔄 | 🎁 **scope-hygiene** · Tier-scope-aware skip for authenticated_sections + sign_recipe cached tests [D:3/B:3/U:3 → Eff:1.0?] 📋 |
-| Task 139 | ⬜ | 🎁 **docs-drift** · Reconcile AGENTS.md cloud-agent guidance with retired [CSR]/[CX] strategy [D:2/B:3/U:3 → Eff:1.5?] 🚀 |
+| Task 139 | 🔄 | 🎁 **docs-drift** · Reconcile AGENTS.md cloud-agent guidance with retired [CSR]/[CX] strategy [D:2/B:3/U:3 → Eff:1.5?] 🚀 |
 | Task 140 | ⬜ | 🎁 **test-coverage** · Add pipeline-level integration tests for endpoint_cost_binding propagation [D:3/B:4/U:4 → Eff:1.33?] 📋 |
 | Task 138 | ⬜ | 🎁 **det-contract** · Extract JsonIO.write_json!/2,3 + a deterministic_write contract invariant [D:4/B:4/U:3 → Eff:0.88?] ⚠️ |
 | Task 66c | 🔶 | 🎁 **10-exotic** · Canonical string recipe — JWT / RSA / Ed25519 family [D:5/B:4/U:3 → Eff:0.7?] ⚠️ ⛔ No Tier 1/2/DEX exchange uses JWT/RSA/Ed25519 signing schemes; revisit if the priority list expands. |

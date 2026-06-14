@@ -334,6 +334,7 @@ defmodule CcxtExtract.HandleErrorsTest do
 
       # Both 1-arity (derive inside) and 2-arity (precomputed) produce identical output
       dispatch = ErrorDispatch.derive(method)
+
       assert HandleErrors.http_status_map(handle_errors) == %{
                "429" => [%{"class" => "RateLimitExceeded", "source" => "throw_dispatch_predicate"}]
              }

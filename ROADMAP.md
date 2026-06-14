@@ -189,7 +189,7 @@ Type-coercion tables fold into each per-type task (not standalone) — one task 
 |------|--------|-------|
 | Task 132 | ✅ | 🎁 **13-classify-fix** · 🚀 **feature_complete** · Split predicate_kind http_status_in into eq vs range [D:3/B:5/U:5 → Eff:1.67?] 🚀 |
 | Task 133 | ✅ | 🎁 **13-classify-safety** · 🚀 **feature_complete** · Explicit error_class_hierarchy content-equality invariant in contract_test [D:2/B:4/U:3 → Eff:1.75?] 🚀 |
-| Task 134 | ⬜ | 🎁 **13-perf** · 🚀 **feature_complete** · Thread precomputed error_dispatch through http_status_map/1 and retryable_buckets/1 [D:3/B:3/U:2 → Eff:0.83?] ⚠️ |
+| Task 134 | 🔄 | 🎁 **13-perf** · 🚀 **feature_complete** · Thread precomputed error_dispatch through http_status_map/1 and retryable_buckets/1 [D:3/B:3/U:2 → Eff:0.83?] ⚠️ |
 <!-- TASKS:END -->
 
 ---

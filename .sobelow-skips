@@ -825,3 +825,7 @@ Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/contra
 Traversal.FileModule: Directory Traversal in `File.read!`,lib/ccxt_extract/overrides.ex:179,677A69F
 Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/contract_test.ex:236,7116481
 Traversal.FileModule: Directory Traversal in `File.mkdir_p!`,lib/ccxt_extract/drift_audit.ex:70,85A278
+Traversal.FileModule: Directory Traversal in `File.cp!`,lib/ccxt_extract/pipeline.ex:1253,45EC705
+Traversal.FileModule: Directory Traversal in `File.read`,lib/ccxt_extract/contract_test.ex:3984,5477C56
+Traversal.FileModule: Directory Traversal in `File.rm`,lib/ccxt_extract/pipeline.ex:1255,6BE522F
+Traversal.FileModule: Directory Traversal in `File.cp!`,lib/ccxt_extract/pipeline.ex:1242,D55419

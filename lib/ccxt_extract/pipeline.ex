@@ -995,8 +995,9 @@ defmodule CcxtExtract.Pipeline do
   # Filter unified_endpoints map: keep only endpoint names that exist in interface_signatures.
   # Removes unified methods that end up with empty endpoint lists after filtering.
   defp filter_unified_endpoints(nil, _valid), do: nil
-  # TODO: All 110 exchanges should have interface_signatures (Task 30). If this fires,
-  # investigate why signatures are missing rather than silently discarding endpoints.
+  # NOTE: interface_signatures extraction shipped (legacy Task 30). This clause is a
+  # runtime guard — if it fires, an exchange is missing signatures; investigate why
+  # rather than silently discarding endpoints.
   defp filter_unified_endpoints(endpoints, nil), do: endpoints
 
   defp filter_unified_endpoints(endpoints, valid_endpoints) do

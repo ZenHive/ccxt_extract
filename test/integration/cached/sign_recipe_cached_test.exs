@@ -278,7 +278,7 @@ defmodule CcxtExtract.Integration.Cached.SignRecipeCachedTest do
       assert record["nonce"] == nil
     end
 
-    # TODO(Task 67+N): kucoin.private has a `this.extend({...}, headers)`
+    # TODO(Task 151): kucoin.private has a `this.extend({...}, headers)`
     # header init shape + a conditional `if (this.options['partner'])`
     # block with unclassified HMAC-passphrase + partner-signature
     # references. The `this.extend(ObjectExpression, _)` shape isn't yet

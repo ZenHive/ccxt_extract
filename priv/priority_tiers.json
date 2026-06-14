@@ -6,8 +6,8 @@
            "hashkey", "woo", "dydx", "paradex", "apex", "woofipro", "modetrade"],
   "dex":   ["hyperliquid", "derive"],
   "_notes": {
-    "scope": "Derivation scope narrowed 2026-05-20 to the 7-exchange option-seller set: binance (+ binanceusdm variant), bybit, okx, deribit (tier1) + hyperliquid, derive (dex). Raw extraction still runs full-universe; everything outside the 7 receives null + reason for derived fields.",
-    "tier2_empty": "Tier 2 is intentionally empty — kept as the staging bucket for re-adding exchanges in matching family groups. Its former members (kraken, kucoin, gate, htx, bitmex, bitfinex) were demoted to tier3 on 2026-05-20.",
+    "scope": "Derivation runs FULL-UNIVERSE as of 2026-06-14 (feature_complete closed). The 2026-05-20 narrowing to the 7-exchange option-seller set is RETIRED. These tier lists are now priority/ordering labels (driving --tierN dispatch scoping + the schema 'tier' stamp), NOT a derivation cap — there is no derivation code-gate on tier. Run an unscoped `mix ccxt_extract.update` to populate derived fields for all 110+ exchanges (Task 152). Derived fields are null+reason only on extraction-outcome failures (ambiguous_ast etc.), never 'out of priority scope'.",
+    "tier2_empty": "Tier 2 is intentionally empty — kept as the staging bucket for promoting a root's PRIORITY label (its former members kraken, kucoin, gate, htx, bitmex, bitfinex were demoted to tier3 on 2026-05-20). Post-2026-06-14 a promotion changes priority/ordering only; derivation already covers every exchange.",
     "prior_curation": "The pre-narrow full tier curation (frozen 2026-05-20) and the re-add procedure are recorded in CLAUDE.md, section 'Tier-based scoping (philosophy)'.",
     "paradex": "tier3 today. Candidate for promotion to the dex bucket if an option-seller consumer needs derived recipes — StarkNet L2 with perps + options.",
     "aevo": "Requested for option-seller coverage but NOT in CCXT (no priv/ccxt/ts/src/aevo.ts). Cannot classify until CCXT ships an aevo module upstream."

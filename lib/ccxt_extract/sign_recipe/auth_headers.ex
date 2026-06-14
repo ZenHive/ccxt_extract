@@ -82,10 +82,9 @@ defmodule CcxtExtract.SignRecipe.AuthHeaders do
 
   @terminal_reasons SignRecipe.terminal_reasons()
 
-  # TODO(Task 67+N): Transport-level headers frequently colocated with
-  # auth headers in sign() bodies. Filter at collection time so they
-  # don't reach the classifier. Match case-insensitively to cover
-  # `Content-Type` vs `content-type` vs `Content-type`.
+  # NOTE: transport-level headers colocated with auth headers in sign() bodies are
+  # filtered at collection time (case-insensitively) so they don't reach the
+  # classifier — see the reject below at the candidate-collection site.
   #
   # Known allowlist growth risk: exchanges that add new transport headers
   # (e.g. `x-forwarded-for`, `origin`, `referer`) will cause `:abort` and

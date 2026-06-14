@@ -417,8 +417,9 @@ defmodule CcxtExtract.ContractTest do
   Flag `authenticated_sections` entries that aren't reachable in
   `raw.describe.api` at any nesting depth.
   """
-  # TODO(Task 57d): Tokocrypto findings show inherited sign() gates pointing
-  # at parent-class api sections. Walk inheritance + intersect in 57d.
+  # TODO(Task 148): Tokocrypto findings show inherited sign() gates pointing
+  # at parent-class api sections. Walk inheritance (class_hierarchy ancestors)
+  # + intersect parent api sections before flagging unreachable.
   @spec check_authenticated_sections_reachable_in_api(map(), map()) :: [finding()]
   def check_authenticated_sections_reachable_in_api(exchange, _observed) do
     id = exchange_id(exchange)
@@ -3361,7 +3362,7 @@ defmodule CcxtExtract.ContractTest do
   def check_override_paths_present_in_output(exchange, _observed) do
     id = exchange_id(exchange)
 
-    # TODO(Task 61a): load overrides once in run_all/1 and thread through
+    # TODO(Task 149): load overrides once in run_all/1 and thread through
     # `observed` instead of re-reading per invariant. Negligible at 14 files
     # today; revisit when override count grows or invariant set expands.
     case CcxtExtract.OverrideRegistry.load(id) do

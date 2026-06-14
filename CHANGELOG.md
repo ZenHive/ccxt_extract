@@ -6,6 +6,12 @@ Completed roadmap tasks. For upcoming work, see [ROADMAP.md](ROADMAP.md).
 
 ## [Unreleased]
 
+### Derivation scope: full-universe (7-exchange narrowing retired)
+
+With `feature_complete` (24/24) and `v4` both closed, the 2026-05-20 narrowing of derivation to the 7-exchange option-seller set is **retired**. Derivation now runs **full-universe by default** — an unscoped `mix ccxt_extract.update` (`Scope = :all`) populates derived fields for all 110+ exchanges. Key finding: **there was no derivation code-gate on tier** — the only `get_priority_tier/1` consumer is `schema.ex` (which stamps the `tier` label), so the narrowing was purely operational (the corpus was last regenerated with `--tier1 --dex`). The priority tiers in `priv/priority_tiers.json` survive as **priority/ordering labels** (driving `--tierN` dispatch scoping + the schema `tier` stamp), not a derivation cap. Updated `CLAUDE.md` § "Tier-based scoping (philosophy)" and `priv/priority_tiers.json` `_notes`. Full-universe corpus regeneration is tracked as **Task 152**.
+
+**Roadmap hygiene (same pass):** unblocked 16 demand-gated tasks (`113, 66c–h, 128, 126, 125, 57c, 73e, 96, 99, 99b, 24`) `blocked → pending` — their `blocked_reason`s ("no priority consumer / scope-narrowed") expired when the milestone closed; `rate-limit-headers` stays blocked (technical infeasibility, not demand). Pinned models on `57c` (cursor/composer-2.5-fast) and `73e` (grok/grok-build) so they could leave `blocked`. Filed the in-code TODO tail that survived the rmap migration as tracked tasks **148–151** (authenticated_sections inheritance walk; per-invariant override reload; non-literal digest resolution; kucoin `this.extend` header shape) and re-pointed each TODO at its live number. Retagged three stale `TODO`s as `NOTE` (mechanism already shipped or pure runtime guard): `auth_headers.ex` transport-header filter, `pipeline.ex` interface_signatures guard, `describe_key_analysis` test floor. Clears the 10 credo `TagTODO` findings down to live-tracked references only.
+
 ### Task 140 — endpoint_cost_binding pipeline propagation tests
 
 Added focused `Pipeline.build_exchange_data/3` coverage for `rate_limits.endpoint_cost_binding`: valid bucket wrappers now assert the derived binding reaches emitted v4 JSON, unresolved wrappers emit `null`, and missing child/parent wrappers fall back to the empty bucket record without raising.

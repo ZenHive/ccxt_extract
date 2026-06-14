@@ -403,11 +403,10 @@ shipped_in = "fbe2962e13982aacdf9637d856a0ef8cf19f5cbb"
 id = 113
 phase = 0
 bundle = "10-sign-extend"
-status = "blocked"
+status = "pending"
 title = "Track indirect signature placement via request-like object construction"
 scores = { d = 4, b = 3, u = 3 }
 scored_at = "2026-05-14"
-blocked_reason = "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands."
 body = """
 htx (and likely others) build `const request = {..., Signature: signature}` then `url += '?' + this.urlencode(request)`. The placement is genuinely `query` with key `Signature`, but Task 65 derivation only tracks direct `query = ...` / `headers['K'] = ...` / `body = this.json({...})` assignments. Add an object-level propagation step: when an ObjectExpression with a sig-referencing property is bound to a variable, follow the variable into subsequent `url += '?' + this.urlencode(<var>)` / `body = this.urlencode(<var>)` statements and attribute the placement. Discovered during Task 65 (htx.private ships `signature_placement: null` until this lands). Distinct from the retired LFS Task 113 (corpus untracking) — same number in legacy ROADMAP, resolved separately.
 """
@@ -416,11 +415,10 @@ htx (and likely others) build `const request = {..., Signature: signature}` then
 id = "66e"
 phase = 0
 bundle = "10-sign-extend"
-status = "blocked"
+status = "pending"
 title = "Expand canonical_string component vocabulary"
 scores = { d = 4, b = 7, u = 7 }
 scored_at = "2026-05-14"
-blocked_reason = "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands."
 body = """
 Add `source: \"nonce\"` (Deribit uses both a wall-clock timestamp AND a per-request nonce), `source: \"hostname\"` (HTX v1 signs method+hostname+path+query), `source: \"expiry\"` (Phemex signs an expiryString field), and an `encoding: \"delimited\"` mode with explicit separator handling (Gate/HTX/Deribit use `.join`). Also consider a nested-op component source for Kraken's `binaryConcat(encode(url), hash(encode(nonce + body)))` and Gate's SHA512(body) slot. Discovered 2026-04-19 during Task 66a — those priority exchanges currently emit null `canonical_string` with `unresolved_reason: \"not_yet_derived\"`.
 """
@@ -429,11 +427,10 @@ Add `source: \"nonce\"` (Deribit uses both a wall-clock timestamp AND a per-requ
 id = "66f"
 phase = 0
 bundle = "10-sign-extend"
-status = "blocked"
+status = "pending"
 title = "Key-format disambiguation for Binance/Bybit HMAC branches"
 scores = { d = 5, b = 6, u = 6 }
 scored_at = "2026-05-14"
-blocked_reason = "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands."
 body = """
 Both exchanges route `if (secret.indexOf('PRIVATE KEY') > -1) { rsa/eddsa } else { this.hmac }`. Task 65 correctly emits `crypto_op: null` with `unresolved_reason: \"ambiguous_ast\"` because no single crypto_op is truthful. A future pass could disambiguate by credential format: two alternative recipes, or a per-key-format discriminator. Likely overrides territory under the Three-Strikes Rule rather than a derivation extension. Discovered 2026-04-19 during Task 66a; not urgent because priority consumers use HMAC keys exclusively.
 """
@@ -442,11 +439,10 @@ Both exchanges route `if (secret.indexOf('PRIVATE KEY') > -1) { rsa/eddsa } else
 id = "66g"
 phase = 0
 bundle = "10-sign-extend"
-status = "blocked"
+status = "pending"
 title = "Sub-verb expansion (POST vs PUT vs DELETE vs PATCH) in canonical_string"
 scores = { d = 3, b = 3, u = 3 }
 scored_at = "2026-05-14"
-blocked_reason = "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands."
 files_to_modify = ["lib/ccxt_extract/sign_recipe/canonical_string.ex"]
 body = """
 `CanonicalString.flip_verb/1` currently maps the else-of-GET branch to `\"POST\"` for every non-GET verb. Consumers applying the POST recipe to PUT/DELETE/PATCH get the right canonical today because no priority exchange distinguishes those verbs inside sign(). Expand only when a sign() method actually tests `method === 'PUT'` / `'DELETE'` / `'PATCH'` distinctly. Discovered 2026-04-21 during Task 66b. TODO marker above the `flip_verb/1` clauses.
@@ -456,11 +452,10 @@ body = """
 id = "66h"
 phase = 0
 bundle = "10-sign-extend"
-status = "blocked"
+status = "pending"
 title = "Trace conditionally-reassigned body alias variables (kucoin endpart, coinbase payload)"
 scores = { d = 5, b = 4, u = 4 }
 scored_at = "2026-05-14"
-blocked_reason = "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands."
 body = """
 kucoin's `let endpart = ''; if (method !== 'GET') endpart = body; auth += endpart` and coinbaseexchange's `let payload = ''; if (method !== 'GET') payload = this.json(body); auth += payload`. Both emit `canonical_string: null` at recipe level — Task 66b's `@body_names` exemption is deliberately narrow (identifier `body`/`bodyPayload` by name only). A future pass would walk conditionally-reassigned identifiers whose RHS in each branch is a recognized body-shaped expression, propagating the source tag per-verb. Risk: over-permissive tracing could mistag an unrelated identifier. Safer to ship overrides under the Three-Strikes Rule if a priority consumer needs kucoin/coinbase POST canonicals first. Discovered 2026-04-21 during Task 66b.
 """
@@ -469,11 +464,10 @@ kucoin's `let endpart = ''; if (method !== 'GET') endpart = body; auth += endpar
 id = 128
 phase = 0
 bundle = "10-sign-extend"
-status = "blocked"
+status = "pending"
 title = "Multi-hop body alias resolution in pre_sign_transforms body-encoding detector"
 scores = { d = 4, b = 3, u = 3 }
 scored_at = "2026-05-14"
-blocked_reason = "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands."
 files_to_modify = ["lib/ccxt_extract/sign_recipe/pre_sign_transforms.ex"]
 body = """
 Task 68's `PreSignTransforms.body_reached_by_crypto?/2` resolves a single alias hop (catches okx `auth += body`, bitfinex `const auth = ... + body`). It does NOT catch multi-hop chains like `payload = body; auth += payload; this.hmac(auth, ...)` or fixed-point fan-in. Scope: extend the tracer to a bounded fixed-point — visit each crypto-arg identifier, expand its 1-hop set, recurse, with a max-depth guard (3–4) and a visited-set for cycles. Honest non-convergence leaves the field empty. Don't conflate with Task 66h (canonical_string concat-chain resolution) — they share the alias-hop primitive but target different consumer fields. Discovered 2026-04-26 during Task 68 staged-review. TODO reference at `lib/ccxt_extract/sign_recipe/pre_sign_transforms.ex` (comment block on `body_reached_by_crypto?/2`).
@@ -485,11 +479,10 @@ Task 68's `PreSignTransforms.body_reached_by_crypto?/2` resolves a single alias 
 id = 126
 phase = 0
 bundle = "sibling-emit"
-status = "blocked"
+status = "pending"
 title = "Secondary OpenAPI 3.1 emitter for REST exchanges"
 scores = { d = 6, b = 7, u = 5 }
 scored_at = "2026-05-14"
-blocked_reason = "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands."
 depends_on = [121]
 body = """
 Emit a sibling `priv/output/<id>.openapi.json` (OpenAPI 3.1) alongside the core `<id>.json` for every REST exchange. A new emitter (conceptually `CcxtExtract.OpenApi`) projects already-extracted data — `url_templates` → servers + paths, `describe.api` verb families → operations, Task 121 descriptors → parameters/requestBody/responses, `@throws` → response error codes, `handle_errors` → `x-ccxt-error-routes`. Exchange-specific concerns land in namespaced extensions (`x-ccxt-sign` as a reference, `x-ccxt-rate-limit`, `x-ccxt-sandbox-servers`, `x-ccxt-nonce`). Non-goals: don't replace the core schema, don't duplicate payloads (emit references), don't fabricate response schemas. Verify via `openapi-generator validate` + Swagger Editor round-trip; the Mix task fails the emit on invalid output. This is the primary companion-artifact emitter; shared emitter infrastructure lands here first. Discovered 2026-04-23 during a scope conversation.
@@ -499,11 +492,10 @@ Emit a sibling `priv/output/<id>.openapi.json` (OpenAPI 3.1) alongside the core 
 id = 125
 phase = 0
 bundle = "sibling-emit"
-status = "blocked"
+status = "pending"
 title = "Secondary OpenRPC emitter for JSON-RPC exchanges (Deribit first)"
 scores = { d = 3, b = 3, u = 2 }
 scored_at = "2026-05-14"
-blocked_reason = "No priority consumer — deferred per tier-scoping philosophy (scope-creep audit 2026-05-14). Revisit if the priority list expands."
 depends_on = [126]
 body = """
 Emit an OpenRPC 1.3 document alongside `priv/output/<id>.json` only for exchanges whose transport is JSON-RPC 2.0 (Deribit is canonical; likely ≤3 exchanges). Reuse Task 126's shared emitter scaffolding: unified method names → `methods[]`, Task 121 TS-signature params → `params[].schema`, `@throws` → `errors[]`, parse-method shape → `result.schema`. Gate on an `openrpc_eligible` classifier from `runtime.describe` evidence, not a hardcoded allowlist. Non-goals: don't shoehorn REST exchanges into OpenRPC, don't replace the core schema. U:2 reflects structural reach, not a demand claim — the JSON-RPC transport constraint makes this inapplicable to the REST majority regardless of consumer interest. Discovered 2026-04-23 during a scope conversation.
@@ -676,11 +668,10 @@ shipped_in = "0d4b1fd"
 id = "66c"
 phase = 0
 bundle = "10-exotic"
-status = "blocked"
+status = "pending"
 title = "Canonical string recipe — JWT / RSA / Ed25519 family"
 scores = { d = 5, b = 4, u = 3 }
 scored_at = "2026-05-14"
-blocked_reason = "No Tier 1/2/DEX exchange uses JWT/RSA/Ed25519 signing schemes; revisit if the priority list expands."
 body = """
 PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.
 
@@ -691,11 +682,10 @@ Canonical-string recipe derivation for the JWT / RSA / Ed25519 signing family. N
 id = "66d"
 phase = 0
 bundle = "10-exotic"
-status = "blocked"
+status = "pending"
 title = "Canonical string recipe — custom / outlier family"
 scores = { d = 5, b = 3, u = 3 }
 scored_at = "2026-05-14"
-blocked_reason = "Tail-only; per the Three-Strikes Rule, migrate to overrides when a priority exchange needs custom signing."
 body = """
 PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.
 
@@ -708,11 +698,10 @@ Canonical-string recipe derivation for the custom / outlier signing family. Tail
 id = 24
 phase = 0
 bundle = "superseded"
-status = "blocked"
+status = "pending"
 title = "Parity.Compare for richer diffs"
 scores = { d = 3, b = 3, u = 2 }
 scored_at = "2026-05-14"
-blocked_reason = "Adds a sibling-project path dependency; improve diffs inline if needed."
 body = """
 PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.
 
@@ -754,12 +743,12 @@ Extract per-exchange rate-limit response headers. Confirmed not observable from 
 [[task]]
 id = "57c"
 assignee = "cursor"
+model = "composer-2.5-fast"
 phase = 8
 bundle = "9-pipeline-follow-up"
-status = "blocked"
+status = "pending"
 title = "unified_endpoints/has drift triage — Pattern C honest fix"
 scores = { d = 3, b = 5, u = 5 }
-blocked_reason = "Self-deferred until a Tier 1/2/DEX exchange surfaces a Pattern C failure — no priority consumer today. Unpinned from feature_complete 2026-06-10 (roadmap hygiene review): a defer-until-need task can't gate a closable milestone."
 body = """
 Pattern A/B fixed (341 → 53 findings). Provenance now lands (Task 61a, 2026-04-17) so the honest Pattern C fix is unblocked — tag `has`-confirmed entries as `\"derived\"` at the provenance tier rather than silently filtering. Still deferred until a Tier 1/2/DEX exchange surfaces a Pattern C failure. The legacy ROADMAP listed this task twice (Phase 8 row + a "Next Up" preview row) — the preview was a view; rmap's FOCUS block replaces it, so this is a single row.
 """
@@ -875,12 +864,12 @@ shipped_in = "5147dfb776d317ca8fd306002af5f7fe69752274"
 [[task]]
 id = "73e"
 assignee = "grok"
+model = "grok-build"
 phase = 11
 bundle = "11+14"
-status = "blocked"
+status = "pending"
 title = "OXC-side extractor for sign-method-constructed User-Agent and runtime header mutations"
 scores = { d = 5, b = 3, u = 3 }
-blocked_reason = "Self-deferred — affects 2 known exchanges, low consumer impact, high OXC complexity; body says 'file but defer until a priority consumer surfaces a concrete need'. Unpinned from feature_complete 2026-06-10 (roadmap hygiene review)."
 body = """
 Captures two QuickBEAM blind spots Task 73b can't reach because the values aren't in resolved `describe()`: (1) `bigone.ts` constructs `User-Agent` inside sign() as `'ccxt/' + this.id + '-' + this.version`; (2) `okx.ts` mutates `this.headers` at runtime via `setSandboxMode(true)` to inject `x-simulated-trading: 1`. Both need an OXC pass over sign-method bodies to detect (a) string-concat assignments to a `headers['User-Agent']` LHS, (b) `setSandboxMode`-equivalent runtime mutations on `this.headers`. Output would extend `runtime.request_headers` (or a sibling) with sign-time / sandbox-time variants. Score is low — affects 2 known exchanges, low consumer impact, high OXC complexity. File but defer until a priority consumer surfaces a concrete need. Discovered 2026-05-07 during Task 73b.
 """
@@ -1289,11 +1278,10 @@ shipped_in = "4fa83af1f93ae098196934598c86d70a6c7494a5"
 id = 96
 phase = 15
 bundle = "15-reconnect"
-status = "blocked"
+status = "pending"
 title = "Reconnect triggers + backoff policy hints"
 scores = { d = 3, b = 6, u = 6 }
 scored_at = "2026-05-14"
-blocked_reason = "Priority exchanges already handle reconnect behavior in the consumer; no derived recipe needed until proven."
 body = """
 WS reconnect triggers + backoff policy hints. Deferred — priority exchanges already handle reconnect behavior in the consumer; no derived recipe needed until a concrete need is proven.
 """
@@ -1361,11 +1349,10 @@ done_at = "2026-05-21"
 id = 99
 phase = 16
 bundle = "16-fees"
-status = "blocked"
+status = "pending"
 title = "Tiered fee schedules + VIP level mapping"
 scores = { d = 4, b = 4, u = 3 }
 scored_at = "2026-05-14"
-blocked_reason = "Tiered fee schedules not required by priority consumers."
 body = """
 PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.
 
@@ -1376,11 +1363,10 @@ Tiered fee schedules + VIP level mapping per exchange. Deferred — not required
 id = "99b"
 phase = 16
 bundle = "16-fees"
-status = "blocked"
+status = "pending"
 title = "Funding / withdrawal / deposit fee catalog"
 scores = { d = 4, b = 4, u = 3 }
 scored_at = "2026-05-14"
-blocked_reason = "Withdrawal/deposit fees not required by priority consumers."
 body = """
 PROPOSED SCORES — no D/B/U in source; flagged in CHANGELOG for reviewer confirmation.
 
@@ -1585,3 +1571,100 @@ started_at = "2026-06-14"
 scored_at = "2026-06-11"
 done_at = "2026-06-14"
 shipped_in = "c9296a036a5fa40ce9ac8eb2a4a105cd12b4b272"
+
+[[task]]
+id = "148"
+phase = 8
+bundle = "9-pipeline-follow-up"
+status = "pending"
+title = "authenticated_sections reachability — walk class inheritance + intersect"
+scores = { d = 3, b = 4, u = 4 }
+acceptance_criteria = ["Inherited authenticated_sections resolve through the ancestor api tree, not just the flat one", "The Tokocrypto-class inherited-gate case no longer produces a finding", "mix ccxt_extract.contract_test green"]
+out_of_scope = ["Changing the authenticated_sections derivation itself; only the contract-test reachability invariant changes."]
+assignee = "cursor"
+model = "composer-2.5-fast"
+body = """
+`contract_test.ex` `check_authenticated_sections_reachable_in_api/2` (~line 416) flags an `auth.authenticated_sections` entry as unreachable when it isn't present in the FLAT `raw.describe.api` tree. Inherited `sign()` gates point at parent-class api sections (e.g. the Tokocrypto finding), so they false-flag.
+
+Walk the class inheritance chain via `priv/discoveries/class_hierarchy.json` `ancestors` and intersect each ancestor's api sections before flagging. This is the reachability work originally deferred under the label "57d" — the task that actually shipped as 57d was a different scope (the three-tier override carrier), so this slice fell through the rmap migration and survived only as an in-code TODO.
+
+Now higher-value: derivation runs full-universe (exchange-list limit removed), so more exchanges carry inherited api gates that this check would false-flag.
+"""
+created_at = "2026-06-14"
+scored_at = "2026-06-14"
+
+[[task]]
+id = "149"
+phase = 8
+bundle = "9-pipeline-follow-up"
+status = "pending"
+title = "Load overrides once in contract_test run_all/1, thread through observed"
+scores = { d = 2, b = 2, u = 2 }
+acceptance_criteria = ["OverrideRegistry.load is called once per exchange in run_all/1, not per invariant", "mix ccxt_extract.contract_test green"]
+assignee = "cursor"
+model = "composer-2.5-fast"
+body = """
+`contract_test.ex` re-reads overrides per invariant: `check_override_paths_present_in_output/2` (~line 3360) and its sibling each call `OverrideRegistry.load(id)`. Load once in `run_all/1` and thread the result through the `observed` map. Negligible today (small override count); do opportunistically when touching contract_test. Honest low score — filed so it stops living as a dangling TODO with a dead task number.
+"""
+created_at = "2026-06-14"
+scored_at = "2026-06-14"
+
+[[task]]
+id = "150"
+phase = 0
+bundle = "10-exotic"
+status = "pending"
+title = "Resolve non-literal digest identifiers in pre_sign_transforms via local bindings"
+scores = { d = 4, b = 3, u = 4 }
+acceptance_criteria = ["Identifier/MemberExpression digest args resolved through local bindings where the binding RHS is a recognized literal", "Unresolvable cases still return nil honestly (no guessing)", "mix ccxt_extract.contract_test green"]
+assignee = "grok"
+model = "grok-build"
+body = """
+`pre_sign_transforms.ex` `digest_op_for/1` (~line 184) resolves only literal digest args (`"hex"` -> hex_encode, `"base64"` -> base64_encode) and returns `nil` for `Identifier` / `MemberExpression` digest arguments. Resolve those through local `const`/`let` bindings in the sign() body so digest ops on indirected identifiers populate instead of skipping.
+
+Was gated under the Three-Strikes Rule "until a priority exchange surfaces the pattern" — now in-scope because derivation runs full-universe.
+"""
+created_at = "2026-06-14"
+scored_at = "2026-06-14"
+
+[[task]]
+id = "151"
+phase = 0
+bundle = "10-exotic"
+status = "pending"
+title = "AuthHeaders: support this.extend(ObjectExpression, _) header init shape"
+scores = { d = 4, b = 3, u = 4 }
+acceptance_criteria = ["this.extend(ObjectExpression, _) header init feeds the classifier", "kucoin.private auth_headers populates; cached test updated to assert the populated list", "mix ccxt_extract.contract_test green"]
+out_of_scope = ["Broader this.extend support beyond header init; conditional partner-signature branches stay as a separate concern."]
+assignee = "codex"
+model = "gpt-5.5"
+body = """
+`auth_headers.ex` matches header init only as `headers = ObjectExpression` (AssignmentExpression-right / VariableDeclarator-init). `kucoin.private` builds headers via `this.extend({...}, headers)`, an unhandled `CallExpression`, so the auth_headers list aborts to null (documented at `sign_recipe_cached_test.exs:281`). Add handling for `this.extend(ObjectExpression, _)` header construction so the ObjectExpression properties reach the classifier.
+
+Update the kucoin cached-test assertion (currently asserts `auth_headers == nil`) once the list populates.
+"""
+created_at = "2026-06-14"
+scored_at = "2026-06-14"
+
+[[task]]
+id = "152"
+phase = 8
+bundle = "9-pipeline-follow-up"
+status = "pending"
+title = "Regenerate corpus full-universe (derivation unscoped) after all-exchange scope flip"
+scores = { d = 1, b = 5, u = 5 }
+acceptance_criteria = ["Unscoped update populates derived fields universe-wide", "validate + contract_test + determinism_check all pass on the full-universe corpus"]
+assignee = "human"
+body = """
+Follow-through for the all-exchange-list change (priority_tiers `_notes` + CLAUDE.md tier-philosophy flipped to full-universe derivation, tiers demoted to priority labels). Operational, local — the corpus is gitignored.
+
+Steps:
+1. mix ccxt_extract.update  (UNSCOPED — no --tier* flags, so Scope = :all and derivation runs over all 110+ exchanges)
+2. mix ccxt_extract.validate
+3. mix ccxt_extract.contract_test
+4. mix ccxt_extract.determinism_check
+
+Confirm previously-tier3 exchanges now carry derived sign_recipe / normalization / request_shape fields (or honest extraction-outcome nulls like ambiguous_ast — NOT scope nulls). Slow (~minutes, full QuickBEAM + OXC universe pass).
+"""
+created_at = "2026-06-14"
+scored_at = "2026-06-14"

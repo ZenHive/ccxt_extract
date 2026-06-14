@@ -181,10 +181,9 @@ defmodule CcxtExtract.SignRecipe.PreSignTransforms do
         "base64_encode"
 
       # Non-literal digest (Identifier, MemberExpression) — honestly skip.
-      # TODO: resolve non-literal digest identifiers (Identifier /
-      # MemberExpression) through local bindings. Until a priority
-      # exchange surfaces that pattern, skipping is the honest answer
-      # under the Three-Strikes Rule.
+      # TODO(Task 150): resolve non-literal digest identifiers (Identifier /
+      # MemberExpression) through local bindings. Skipping stays the honest
+      # answer until resolved.
       _ ->
         nil
     end

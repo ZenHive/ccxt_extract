@@ -663,7 +663,7 @@
       "id": 120,
       "phase": 0,
       "bundle": "scope-hygiene",
-      "status": "pending",
+      "status": "in_progress",
       "title": "Tier-scope-aware skip for authenticated_sections + sign_recipe cached tests",
       "scores": {
         "d": 3,
@@ -678,6 +678,7 @@
       "assignee": "cursor",
       "model": "composer-2.5-fast",
       "body": "Two tests paper over scope drift with blunt skips: (a) `authenticated_sections_integration_test.exs` returns `[]` unconditionally for any override whose `priv/output/<id>.json` is absent, losing regression detection on full-universe runs; (b) `sign_recipe_cached_test.exs` uses `@tag :tier3_corpus` + default-exclude to bypass bitget. Replace both with a scope-aware helper that reads `_manifest.json`'s `tier_scope`, resolves it via `Tiers.members_for_tier/1` + `class_hierarchy.json`, and only skips when the target exchange is honestly out of scope. Drop the `:tier3_corpus` exclusion and `@tag` once the helper lands. Discovered 2026-04-20 during Task 117 code review.\n",
+      "started_at": "2026-06-14",
       "scored_at": "2026-05-14",
       "cross_repo": []
     },

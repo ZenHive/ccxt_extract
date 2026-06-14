@@ -14,7 +14,6 @@ defmodule CcxtExtract.ScopePrune do
   """
 
   alias CcxtExtract.AggregateWriter
-  alias CcxtExtract.AstNormalize
   alias CcxtExtract.JsonIO
   alias CcxtExtract.Paths
   alias CcxtExtract.Schema
@@ -225,10 +224,7 @@ defmodule CcxtExtract.ScopePrune do
 
     File.mkdir_p!(Path.dirname(manifest_path))
 
-    File.write!(
-      manifest_path,
-      Jason.encode!(AstNormalize.to_encodable(manifest), pretty: true)
-    )
+    JsonIO.write_json!(manifest_path, manifest, pretty: true)
   end
 
   defp write_output_manifest!(manifest_path, ids, tier_scope) do
@@ -252,10 +248,7 @@ defmodule CcxtExtract.ScopePrune do
 
     File.mkdir_p!(Path.dirname(manifest_path))
 
-    File.write!(
-      manifest_path,
-      Jason.encode!(AstNormalize.to_encodable(manifest), pretty: true)
-    )
+    JsonIO.write_json!(manifest_path, manifest, pretty: true)
   end
 
   defp reaggregate_envelope(spec, in_scope, tier_scope, dry_run?) do

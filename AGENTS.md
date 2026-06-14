@@ -34,6 +34,8 @@ Per `~/.claude/setup-guide.md` § Selective-Load Philosophy (Opus 4.8): eager-lo
 - **`critical-rules`** — hard guardrails that must stay ambient every session (a guardrail the model invokes "when relevant" fails exactly when it doesn't realize the rule applies).
 - **`harness-workflow`** — this repo is **harness-registered with auto-land**, so the implement → review → land loop and its delegation roster (cursor / codex / grok first, **opus only if needed** — opus tokens are precious) are load-bearing every session, not on-demand reference. (The `harness.yml` GitHub Action is the separate deterministic CI gate that auto-land's merge waits on.)
 
+**Cloud-agent delegation — retired in this repo.** `[CSR]` / `[CX]` Linear/Cursor/Codex cloud flows are no longer used — see ROADMAP.md § Notes. Do not re-`@`-import `linear-workflow.md`, `delegation-rules.md`, or `agent-dispatch.md` into this repo's eager floor; any cloud-delegation prose inlined from shared portfolio includes is reference-only, not actionable guidance here. **Active workflow:** harness implement → review → land (`harness-workflow` include below).
+
 <!-- @-import: ~/.claude/includes/critical-rules.md -->
 ## 🚨 ANSWER IN SHORT TEXT — ALWAYS
 
@@ -472,8 +474,6 @@ Conflict / push-rejected retains the branch for repair — never lands red. Witn
 | D/B/U scoring, task writing | `task-prioritization.md`, `task-writing.md` |
 | Manual session/PR/audit chain | `dev-lifecycle.md`, `worktree-workflow.md` |
 
-
-**Cloud-agent delegation — retired in this repo.** `[CSR]` / `[CX]` Linear/Cursor/Codex cloud flows are no longer used — see ROADMAP.md § Notes. Do not re-`@`-import `linear-workflow.md`, `delegation-rules.md`, or `agent-dispatch.md` into this repo's eager floor; any cloud-delegation prose inlined from shared portfolio includes is reference-only, not actionable guidance here. **Active workflow:** harness implement → review → land (`harness-workflow` above).
 
 Everything this repo previously eager-imported is now reachable as an auto-synced skill with a byte-identical body — `@`-importing one **and** enabling its sibling skill pays twice for the same tokens. The mapping:
 

@@ -799,7 +799,7 @@
       "id": 140,
       "phase": 0,
       "bundle": "test-coverage",
-      "status": "in_progress",
+      "status": "done",
       "title": "Add pipeline-level integration tests for endpoint_cost_binding propagation",
       "scores": {
         "d": 3,
@@ -813,9 +813,14 @@
       "depends_on": [],
       "assignee": "codex",
       "model": "gpt-5.5",
+      "shipped_in": "13f380581209d878a4b03430906c0e92e0bdf005",
       "body": "Renumbered from legacy ROADMAP Task 133 (audit-surfaced copy) at migration to resolve the duplicate-ID collision with the Phase 13 Task 133. Task 90 shipped unit-level coverage on `RateLimitCostBinding.derive/1`. Pipeline-level gap: end-to-end propagation through `Pipeline.build_exchange_data/3` → `Schema.build_exchange/4` → `priv/output/<id>.json` is only validated implicitly via `cached_test` suites. Add 3 focused tests against synthetic `rate_limit_buckets` fixtures: (a) wrapper with valid first bucket → `rate_limits.endpoint_cost_binding` populated correctly; (b) wrapper with `unresolved_reason != nil` → emits null; (c) wrapper missing entirely → parent fallback emits null without raising. Lives in `test/ccxt_extract/pipeline_test.exs`. Discovered 2026-05-09 by staged-review:audit-review on commit 28166a2 (Codex C5). Task body refreshed 2026-05-19 by `audit-review` on commit fa64144 — original referenced `Schema.build_exchange_v3/v4` and \"both v3 and v4 paths\" which are obsolete post-Task-143.\n",
       "started_at": "2026-06-14",
+      "done_at": "2026-06-14",
       "scored_at": "2026-05-14",
+      "implemented": "Landed by codex via merge-train; reviewer-approved (run run-1781439125367-bf998fe8, 13f380581209d878a4b03430906c0e92e0bdf005).",
+      "delivered_by": "codex",
+      "verified": true,
       "cross_repo": []
     },
     {

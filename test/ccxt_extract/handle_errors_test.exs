@@ -1,6 +1,7 @@
 defmodule CcxtExtract.HandleErrorsTest do
   use ExUnit.Case, async: true
 
+  alias CcxtExtract.ErrorDispatch
   alias CcxtExtract.HandleErrors
   alias Mix.Tasks.CcxtExtract.HandleErrors, as: HandleErrorsTask
 
@@ -278,7 +279,9 @@ defmodule CcxtExtract.HandleErrorsTest do
       }
 
       handle_errors = %{"method" => method, "http_exceptions" => %{"418" => "DDoSProtection"}, "exceptions" => nil}
-      result = HandleErrors.http_status_map(handle_errors)
+      # Thread precomputed dispatch (the optimized path exercised by Pipeline)
+      dispatch = ErrorDispatch.derive(method)
+      result = HandleErrors.http_status_map(handle_errors, dispatch)
 
       entries = result["418"]
       assert is_list(entries)
@@ -329,7 +332,13 @@ defmodule CcxtExtract.HandleErrorsTest do
 
       handle_errors = %{"method" => method, "http_exceptions" => nil, "exceptions" => nil}
 
+      # Both 1-arity (derive inside) and 2-arity (precomputed) produce identical output
+      dispatch = ErrorDispatch.derive(method)
       assert HandleErrors.http_status_map(handle_errors) == %{
+               "429" => [%{"class" => "RateLimitExceeded", "source" => "throw_dispatch_predicate"}]
+             }
+
+      assert HandleErrors.http_status_map(handle_errors, dispatch) == %{
                "429" => [%{"class" => "RateLimitExceeded", "source" => "throw_dispatch_predicate"}]
              }
     end
@@ -465,6 +474,52 @@ defmodule CcxtExtract.HandleErrorsTest do
       result = HandleErrors.retryable_buckets(handle_errors)
 
       assert result["rate_limit"] == ["DDoSProtection", "RateLimitExceeded"]
+    end
+
+    test "buckets classes from precomputed error_dispatch (threaded path)" do
+      # Minimal method AST that yields two throws for different buckets
+      method = %{
+        "body" => %{
+          "body" => [
+            %{
+              "type" => "IfStatement",
+              "test" => %{"type" => "Identifier", "name" => "foo"},
+              "consequent" => %{
+                "type" => "BlockStatement",
+                "body" => [
+                  %{
+                    "type" => "ThrowStatement",
+                    "argument" => %{
+                      "type" => "NewExpression",
+                      "callee" => %{"type" => "Identifier", "name" => "DDoSProtection"}
+                    }
+                  }
+                ]
+              }
+            },
+            %{
+              "type" => "ThrowStatement",
+              "argument" => %{
+                "type" => "NewExpression",
+                "callee" => %{"type" => "Identifier", "name" => "AuthenticationError"}
+              }
+            }
+          ]
+        }
+      }
+
+      handle_errors = %{"method" => method, "http_exceptions" => nil, "exceptions" => nil}
+      dispatch = ErrorDispatch.derive(method)
+      # Sanity: derive produced the two classes
+      assert length(dispatch) == 2
+
+      # Threaded path (dispatch precomputed) and 1-arity path agree
+      result_threaded = HandleErrors.retryable_buckets(handle_errors, dispatch)
+      result_derive = HandleErrors.retryable_buckets(handle_errors)
+
+      assert result_threaded == result_derive
+      assert "DDoSProtection" in result_threaded["rate_limit"]
+      assert "AuthenticationError" in result_threaded["auth"]
     end
 
     test "recurses into market-type-nested exceptions (binance / bybit / okx variants)" do

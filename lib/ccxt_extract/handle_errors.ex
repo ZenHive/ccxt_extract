@@ -141,8 +141,11 @@ defmodule CcxtExtract.HandleErrors do
   Derive a per-exchange HTTP-status → exception-class map from the
   assembled `handle_errors` data.
 
+  When the caller supplies the precomputed `error_dispatch` (second arg),
+  the dispatch channel is a pure projection (no re-walk of the AST).
   Two source channels are consulted; both are honest projections of
-  already-extracted data (no new AST work):
+  already-extracted data (no new AST work when precomputed dispatch
+  is threaded):
 
     1. `http_exceptions` — the static `describe().httpExceptions` map
        lifted into `handle_errors.http_exceptions` by Pipeline. Each
@@ -171,10 +174,11 @@ defmodule CcxtExtract.HandleErrors do
   empty map (`%{}`) when channels exist but contain no status entries
   — an honest "we looked, found nothing" signal.
   """
-  @spec http_status_map(map() | nil) :: %{String.t() => [map()]} | nil
-  def http_status_map(nil), do: nil
+  @spec http_status_map(map() | nil, [map()] | nil) :: %{String.t() => [map()]} | nil
+  def http_status_map(a, b \\ nil)
+  def http_status_map(nil, _dispatch), do: nil
 
-  def http_status_map(%{} = handle_errors) do
+  def http_status_map(%{} = handle_errors, dispatch) do
     method = handle_errors["method"]
     http_exceptions = handle_errors["http_exceptions"]
 
@@ -182,7 +186,7 @@ defmodule CcxtExtract.HandleErrors do
       nil
     else
       from_http = http_exceptions_entries(http_exceptions)
-      from_dispatch = predicate_status_entries(method)
+      from_dispatch = predicate_status_entries(method, dispatch)
 
       from_http
       |> Kernel.++(from_dispatch)
@@ -193,7 +197,7 @@ defmodule CcxtExtract.HandleErrors do
     end
   end
 
-  def http_status_map(_), do: nil
+  def http_status_map(_, _), do: nil
 
   @spec http_exceptions_entries(term()) :: [%{String.t() => String.t()}]
   defp http_exceptions_entries(http_exceptions) when is_map(http_exceptions) do
@@ -234,8 +238,12 @@ defmodule CcxtExtract.HandleErrors do
 
   defp normalize_class_name(_), do: nil
 
-  @spec predicate_status_entries(term()) :: [%{String.t() => String.t()}]
-  defp predicate_status_entries(method) when is_map(method) do
+  @spec predicate_status_entries(term(), [map()] | nil) :: [%{String.t() => String.t()}]
+  defp predicate_status_entries(_method, dispatch) when is_list(dispatch) do
+    Enum.flat_map(dispatch, &dispatch_status_entry/1)
+  end
+
+  defp predicate_status_entries(method, nil) when is_map(method) do
     case ErrorDispatch.derive(method) do
       nil ->
         []
@@ -245,7 +253,7 @@ defmodule CcxtExtract.HandleErrors do
     end
   end
 
-  defp predicate_status_entries(_), do: []
+  defp predicate_status_entries(_, _), do: []
 
   @spec dispatch_status_entry(term()) :: [%{String.t() => String.t()}]
   defp dispatch_status_entry(%{
@@ -282,7 +290,9 @@ defmodule CcxtExtract.HandleErrors do
   classes referenced in `handle_errors`.
 
   Walks every class name surfaced by the four channels Pipeline has
-  already populated:
+  already populated. When the caller threads a precomputed `error_dispatch`
+  (second arg), the `error_dispatch[].exception_class` contribution is taken
+  directly without re-deriving:
 
     * `http_exceptions` values (e.g. `"RateLimitExceeded"`)
     * `exceptions` values (broad/exact tables, plus market-type-
@@ -314,11 +324,12 @@ defmodule CcxtExtract.HandleErrors do
   empty-buckets shape (`%{"rate_limit" => [], ...}`) when handle_errors
   is non-nil but no exception class names are present.
   """
-  @spec retryable_buckets(map() | nil) :: %{String.t() => [String.t()]} | nil
-  def retryable_buckets(nil), do: nil
+  @spec retryable_buckets(map() | nil, [map()] | nil) :: %{String.t() => [String.t()]} | nil
+  def retryable_buckets(a, b \\ nil)
+  def retryable_buckets(nil, _dispatch), do: nil
 
-  def retryable_buckets(%{} = handle_errors) do
-    classes = collect_referenced_classes(handle_errors)
+  def retryable_buckets(%{} = handle_errors, dispatch) do
+    classes = collect_referenced_classes(handle_errors, dispatch)
 
     empty = Map.new(ErrorHierarchy.buckets(), &{&1, []})
 
@@ -330,13 +341,13 @@ defmodule CcxtExtract.HandleErrors do
     |> Map.new(fn {bucket, list} -> {bucket, list |> Enum.uniq() |> Enum.sort()} end)
   end
 
-  def retryable_buckets(_), do: nil
+  def retryable_buckets(_, _), do: nil
 
-  @spec collect_referenced_classes(map()) :: [String.t()]
-  defp collect_referenced_classes(handle_errors) do
+  @spec collect_referenced_classes(map(), [map()] | nil) :: [String.t()]
+  defp collect_referenced_classes(handle_errors, dispatch) do
     from_http_exceptions(handle_errors["http_exceptions"]) ++
       from_exceptions(handle_errors["exceptions"]) ++
-      from_dispatch(handle_errors["method"])
+      from_dispatch(handle_errors["method"], dispatch)
   end
 
   @spec from_http_exceptions(term()) :: [String.t()]
@@ -381,13 +392,17 @@ defmodule CcxtExtract.HandleErrors do
     end
   end
 
-  @spec from_dispatch(term()) :: [String.t()]
-  defp from_dispatch(method) when is_map(method) do
+  @spec from_dispatch(term(), [map()] | nil) :: [String.t()]
+  defp from_dispatch(_method, dispatch) when is_list(dispatch) do
+    dispatch |> Enum.map(& &1["exception_class"]) |> Enum.filter(&is_binary/1)
+  end
+
+  defp from_dispatch(method, nil) when is_map(method) do
     case ErrorDispatch.derive(method) do
       nil -> []
       entries -> entries |> Enum.map(& &1["exception_class"]) |> Enum.filter(&is_binary/1)
     end
   end
 
-  defp from_dispatch(_), do: []
+  defp from_dispatch(_, _), do: []
 end

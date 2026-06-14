@@ -456,6 +456,8 @@ defmodule CcxtExtract.Pipeline do
 
     handle_errors = get_handle_errors(id, data)
 
+    error_dispatch = get_error_dispatch(handle_errors)
+
     rl_buckets = get_rate_limit_buckets(id, data)
     rl_costs = get_rate_limit_costs(id, data)
     cost_binding = RateLimitCostBinding.derive(rl_buckets)
@@ -475,14 +477,14 @@ defmodule CcxtExtract.Pipeline do
       "raw_broadcast" => get_raw_broadcast(id, data),
       "request_defaults" => get_request_defaults(id, data),
       "overrides" => get_overrides(id, data),
-      "error_dispatch" => get_error_dispatch(handle_errors),
+      "error_dispatch" => error_dispatch,
       "sign_dispatch" => get_sign_dispatch(effective_sign),
       "parse_dispatch" => get_parse_dispatch(id, data),
       "rate_limit_buckets" => rl_buckets,
       "rate_limit_costs" => rl_costs,
       "endpoint_cost_binding" => cost_binding,
-      "error_status_map" => CcxtExtract.HandleErrors.http_status_map(handle_errors),
-      "error_retryable" => CcxtExtract.HandleErrors.retryable_buckets(handle_errors)
+      "error_status_map" => CcxtExtract.HandleErrors.http_status_map(handle_errors, error_dispatch),
+      "error_retryable" => CcxtExtract.HandleErrors.retryable_buckets(handle_errors, error_dispatch)
     }
 
     # v4-only path (Task 143). Normalization carrier is always populated for v4.

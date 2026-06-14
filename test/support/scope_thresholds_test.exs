@@ -68,20 +68,31 @@ defmodule CcxtExtract.Test.ScopeThresholdsTest do
 
   describe "corpus_in_scope?/1" do
     test "reads output manifest tier_scope at runtime" do
-      # Linked corpus: output manifest lacks tier_scope → implicit on-disk scope.
-      # binance is always present (test_helper sentinel); bitget is tier3 and absent.
-      assert ScopeThresholds.corpus_in_scope?("binance")
-      refute ScopeThresholds.corpus_in_scope?("bitget")
+      in_scope_id =
+        "output"
+        |> CcxtExtract.Paths.priv()
+        |> CcxtExtract.TaskScope.rebuild_manifest_exchanges()
+        |> hd()
+
+      assert ScopeThresholds.corpus_in_scope?(in_scope_id)
+      refute ScopeThresholds.corpus_in_scope?("definitely_not_in_fixture_scope_xyz")
     end
   end
 
   describe "skip_unless_corpus_in_scope!/1" do
     test "returns :proceed for in-scope exchanges" do
-      assert ScopeThresholds.skip_unless_corpus_in_scope!("binance") == :proceed
+      in_scope_id =
+        "output"
+        |> CcxtExtract.Paths.priv()
+        |> CcxtExtract.TaskScope.rebuild_manifest_exchanges()
+        |> hd()
+
+      assert ScopeThresholds.skip_unless_corpus_in_scope!(in_scope_id) == :proceed
     end
 
     test "returns :skip for out-of-scope exchanges" do
-      assert ScopeThresholds.skip_unless_corpus_in_scope!("bitget") == :skip
+      assert ScopeThresholds.skip_unless_corpus_in_scope!("definitely_not_in_fixture_scope_xyz") ==
+               :skip
     end
   end
 end

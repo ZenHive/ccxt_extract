@@ -862,24 +862,25 @@ scored_at = "2026-05-14"
 
 [[task]]
 id = "78c"
-assignee = "cursor"
-model = "composer-2.5-fast"
 phase = 12
 bundle = "parse-ohlcv"
 milestone = "feature_complete"
-status = "pending"
+status = "in_progress"
 title = "parseOHLCV hybrid Array.isArray branch (binance options-fallback)"
 scores = { d = 5, b = 4, u = 4 }
 markers = ["parallel"]
-body = """
-Non-gating Phase 12 edge case. Adds `array_input`/`object_input` guard kinds + IfStatement-discriminated branches to the parseOHLCV field map for binance, which may branch on `Array.isArray` in an options-fallback path. Narrowed 2026-05-20: gate dropped (demoted to tier3); if binance has no hybrid branch the task closes as a verified no-op. May ship post-v4-cut.
-"""
 acceptance_criteria = [
   "parseOHLCV field-map schema accepts array_input and object_input guard kinds, with each branch entry tagged by the kind that selected it",
   "binance options-fallback IfStatement-discriminated branches are preserved if present; if binance has no hybrid branch, the task closes as a verified no-op",
   "Discriminator (the Array.isArray callsite + LHS variable) emitted alongside the branch entries so a consumer can dispatch on input shape",
   "Existing non-hybrid parseOHLCV entries continue to render unchanged (no regression in the single-shape majority)",
 ]
+assignee = "cursor"
+model = "composer-2.5-fast"
+body = """
+Non-gating Phase 12 edge case. Adds `array_input`/`object_input` guard kinds + IfStatement-discriminated branches to the parseOHLCV field map for binance, which may branch on `Array.isArray` in an options-fallback path. Narrowed 2026-05-20: gate dropped (demoted to tier3); if binance has no hybrid branch the task closes as a verified no-op. May ship post-v4-cut.
+"""
+started_at = "2026-06-14"
 scored_at = "2026-05-14"
 
 [[task]]

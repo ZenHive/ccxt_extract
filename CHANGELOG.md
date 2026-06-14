@@ -14,6 +14,10 @@ Added a repo-specific retired-delegation callout to `CLAUDE.md` (slim eager floo
 
 `CcxtExtract.HandleErrors.http_status_map/2` and `retryable_buckets/2` now accept an optional precomputed `error_dispatch` (second argument) and use it directly for the dispatch-predicate and class-collection paths instead of re-calling `ErrorDispatch.derive/1` on the method AST. `Pipeline.build_exchange_data/3` now computes the dispatch once (after `get_handle_errors/2` so alias inheritance is honored) and threads it, eliminating the duplicate AST walk. 1-arity calls (direct from unit tests) continue to work via default `nil` (falls back to on-demand derive). Added/updated unit tests exercising the threaded path; behavior and emitted shape unchanged.
 
+### Task 119 — mix ccxt_extract.prune scope hygiene
+
+Added `mix ccxt_extract.prune` and `CcxtExtract.ScopePrune` to evict out-of-scope per-exchange JSON from discoveries subdirectories and `priv/output/`, then re-sync aggregate envelope files and `_manifest.json` stamps to the declared scope. Dry-run by default; `--force` applies deletions and rewrites. Never touches `class_hierarchy.json`; honors `:priv_write_override` / `--output`.
+
 ### Task 104 — Array-index JSON Pointers in OverrideRegistry
 
 `OverrideRegistry.pointer_to_keys/1` now emits `Access.at/1` for numeric RFC 6901 segments so paths like `/structure/sign_method/params/0/name` resolve through lists via `get_in/2` and `put_in/3`. `apply_all/2` and `validate_overrides` dry-run inherit the behavior; SCHEMA.md limits updated.

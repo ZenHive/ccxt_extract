@@ -1014,7 +1014,7 @@ id = 134
 phase = 13
 bundle = "13-perf"
 milestone = "feature_complete"
-status = "in_progress"
+status = "done"
 title = "Thread precomputed error_dispatch through http_status_map/1 and retryable_buckets/1"
 scores = { d = 3, b = 3, u = 2 }
 assignee = "grok"
@@ -1022,8 +1022,13 @@ model = "grok-build"
 body = """
 Surfaced during PR #13 review. Both helpers re-walk the handle_errors AST when the caller already has the predicate-classified dispatch list — thread the precomputed `error_dispatch` through `http_status_map/1` and `retryable_buckets/1` instead.
 """
+implemented = "Landed by grok via merge-train; reviewer-approved (run run-1781420554446-911de97e, de4d1e34d98b1e251a79eff8d61f2b0cbda02fef)."
+delivered_by = "grok"
+verified = true
 started_at = "2026-06-14"
 scored_at = "2026-05-14"
+done_at = "2026-06-14"
+shipped_in = "de4d1e34d98b1e251a79eff8d61f2b0cbda02fef"
 
 # ── Phase 15 · bundle 15-msg ──────────────────────────────────────────────
 

@@ -102,7 +102,8 @@ defmodule CcxtExtract.ContractTest do
   # Findings use `exchange: "_corpus"` as a stable sentinel so downstream
   # sorting and reporting treat them as a peer row, not per-exchange noise.
   @corpus_invariants [
-    {"paths_rw_split", :check_paths_rw_split}
+    {"paths_rw_split", :check_paths_rw_split},
+    {"deterministic_write", :check_deterministic_write}
   ]
 
   @paths_read_helpers [:priv, :priv_dir, :discoveries, :ts_src, :bundle, :version_file]
@@ -153,6 +154,15 @@ defmodule CcxtExtract.ContractTest do
     {:touch!, 1} => [0],
     {:touch!, 2} => [0]
   }
+
+  @json_file_write_sinks %{
+    {:write, 2} => [1],
+    {:write, 3} => [1],
+    {:write!, 2} => [1],
+    {:write!, 3} => [1]
+  }
+
+  @json_encoder_fns [:encode, :encode!, :encode_to_iodata, :encode_to_iodata!]
 
   @doc """
   Load every `priv/output/<exchange>.json` (skipping `_*.json` manifests),
@@ -220,7 +230,7 @@ defmodule CcxtExtract.ContractTest do
   @spec write!(report(), Path.t()) :: :ok
   def write!(report, path) do
     File.mkdir_p!(Path.dirname(path))
-    File.write!(path, Jason.encode_to_iodata!(report, pretty: true))
+    JsonIO.write_json!(path, report, pretty: true)
     :ok
   end
 
@@ -3889,6 +3899,93 @@ defmodule CcxtExtract.ContractTest do
       path: "#{source.source_span.file}:#{source.source_span.start_line}",
       message:
         "#{src_fn} (read helper) flows into #{sink_fn} at #{sink.source_span.file}:#{sink.source_span.start_line} — use the matching `out_*` write helper"
+    }
+  end
+
+  @doc """
+  Flag JSON encoder output that reaches `File.write*` without `JsonIO.write_json!`.
+
+  `JsonIO.write_json!/2,3` is the single deterministic emit path: it runs
+  `AstNormalize.to_encodable/1`, then `Jason.encode!/2`, then `File.write!/2`.
+  This invariant catches executable `lib/` sites that bypass that helper.
+
+  ## Options
+
+    * `:glob` — override the source glob (default: `"lib/**/*.ex"`). Used
+      by tests to target a narrower module set.
+  """
+  @spec check_deterministic_write(keyword()) :: [finding()]
+  def check_deterministic_write(opts \\ []) do
+    if Code.ensure_loaded?(Reach.Project) do
+      glob = Keyword.get(opts, :glob, "lib/**/*.ex")
+      # credo:disable-for-next-line Credo.Check.Refactor.Apply
+      project = apply(Reach.Project, :from_glob, [glob])
+
+      project
+      |> deterministic_write_findings()
+      |> Enum.filter(&deterministic_write_reportable?/1)
+      |> Enum.map(&deterministic_write_to_finding/1)
+      |> Enum.uniq()
+    else
+      []
+    end
+  end
+
+  defp deterministic_write_findings(project) do
+    # credo:disable-for-next-line Credo.Check.Refactor.Apply
+    apply(Reach.Project, :taint_analysis, [
+      project,
+      [
+        sources: &json_encoder_source?/1,
+        sinks: &json_file_write_sink?/1
+      ]
+    ])
+  end
+
+  defp json_encoder_source?(node) do
+    node.type == :call and
+      node.meta[:module] == Jason and
+      node.meta[:function] in @json_encoder_fns
+  end
+
+  defp json_file_write_sink?(node) do
+    node.type == :call and
+      node.meta[:module] == File and
+      Map.has_key?(@json_file_write_sinks, {node.meta[:function], node.meta[:arity]})
+  end
+
+  defp deterministic_write_reportable?(%{sanitized: true}), do: false
+
+  defp deterministic_write_reportable?(%{source: %{source_span: s}, sink: %{source_span: k}} = flow)
+       when not is_nil(s) and not is_nil(k) do
+    s.file == k.file and
+      not String.ends_with?(s.file, "lib/ccxt_extract/json_io.ex") and
+      reaches_json_write_position?(flow)
+  end
+
+  defp deterministic_write_reportable?(_), do: false
+
+  defp reaches_json_write_position?(%{source: source, sink: sink, path: path}) do
+    indices = Map.get(@json_file_write_sinks, {sink.meta[:function], sink.meta[:arity]}, [])
+    reachable = MapSet.new([source.id | path])
+
+    sink.children
+    |> Enum.with_index()
+    |> Enum.any?(fn {arg, index} ->
+      index in indices and subtree_intersects?(arg, reachable)
+    end)
+  end
+
+  defp deterministic_write_to_finding(%{source: source, sink: sink}) do
+    src_fn = "#{inspect(source.meta.module)}.#{source.meta.function}/#{source.meta.arity}"
+    sink_fn = "File.#{sink.meta.function}/#{sink.meta.arity}"
+
+    %Finding{
+      exchange: "_corpus",
+      invariant: "deterministic_write",
+      path: "#{source.source_span.file}:#{source.source_span.start_line}",
+      message:
+        "#{src_fn} flows into #{sink_fn} at #{sink.source_span.file}:#{sink.source_span.start_line}; use CcxtExtract.JsonIO.write_json!/2,3 for deterministic JSON writes"
     }
   end
 

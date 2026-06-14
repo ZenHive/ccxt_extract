@@ -652,6 +652,60 @@ defmodule CcxtExtract.ContractTestTest do
     end
   end
 
+  describe "check_deterministic_write/1" do
+    setup do
+      tmp = Path.join(System.tmp_dir!(), "ccxt_deterministic_write_#{System.unique_integer([:positive])}")
+      File.mkdir_p!(tmp)
+      on_exit(fn -> File.rm_rf!(tmp) end)
+      {:ok, tmp: tmp}
+    end
+
+    test "flags direct Jason.encode! flowing into File.write!", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "direct.ex"), """
+      defmodule Fixture.DirectJsonWrite do
+        def run(path, payload) do
+          File.write!(path, Jason.encode!(payload, pretty: true))
+        end
+      end
+      """)
+
+      findings = ContractTest.check_deterministic_write(glob: Path.join(tmp, "**/*.ex"))
+
+      assert [finding] = findings
+      assert finding.exchange == "_corpus"
+      assert finding.invariant == "deterministic_write"
+      assert finding.path =~ "direct.ex:"
+      assert finding.message =~ "Jason.encode!"
+      assert finding.message =~ "File.write!"
+      assert finding.message =~ "CcxtExtract.JsonIO.write_json!"
+    end
+
+    test "flags Jason.encode! stored in a variable before File.write!", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "variable.ex"), """
+      defmodule Fixture.VariableJsonWrite do
+        def run(path, payload) do
+          json = Jason.encode!(payload, pretty: true)
+          File.write!(path, json)
+        end
+      end
+      """)
+
+      assert [_finding] = ContractTest.check_deterministic_write(glob: Path.join(tmp, "**/*.ex"))
+    end
+
+    test "does not flag writes routed through JsonIO", %{tmp: tmp} do
+      File.write!(Path.join(tmp, "helper.ex"), """
+      defmodule Fixture.HelperJsonWrite do
+        def run(path, payload) do
+          CcxtExtract.JsonIO.write_json!(path, payload, pretty: true)
+        end
+      end
+      """)
+
+      assert ContractTest.check_deterministic_write(glob: Path.join(tmp, "**/*.ex")) == []
+    end
+  end
+
   describe "check_sign_recipe_honesty_valid/2 (Task 69)" do
     alias CcxtExtract.SignRecipe
 

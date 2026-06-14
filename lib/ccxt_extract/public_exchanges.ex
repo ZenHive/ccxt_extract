@@ -92,7 +92,7 @@ defmodule CcxtExtract.PublicExchanges do
     stamped = Map.put(analysis, "tier_scope", tier_scope)
 
     File.mkdir_p!(Path.dirname(output_path))
-    File.write!(output_path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(stamped), pretty: true))
+    CcxtExtract.JsonIO.write_json!(output_path, stamped, pretty: true)
     :ok
   end
 

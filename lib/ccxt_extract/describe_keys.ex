@@ -113,8 +113,7 @@ defmodule CcxtExtract.DescribeKeys do
       "exchanges" => exchanges
     }
 
-    json = Jason.encode!(output, pretty: true)
-    File.write!(output_path, json)
+    CcxtExtract.JsonIO.write_json!(output_path, output, pretty: true)
     :ok
   end
 

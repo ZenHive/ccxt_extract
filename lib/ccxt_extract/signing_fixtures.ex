@@ -458,7 +458,7 @@ defmodule CcxtExtract.SigningFixtures do
       id = fixture["exchange"]
       path = Path.join(output_dir, "#{id}.json")
       stamped = Map.put(fixture, "generated_at", generated_at)
-      File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(stamped), pretty: true))
+      CcxtExtract.JsonIO.write_json!(path, stamped, pretty: true)
     end)
 
     if scope == :all do
@@ -483,7 +483,7 @@ defmodule CcxtExtract.SigningFixtures do
       "exchanges" => manifest_ids
     }
 
-    File.write!(manifest_path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(manifest), pretty: true))
+    CcxtExtract.JsonIO.write_json!(manifest_path, manifest, pretty: true)
     :ok
   end
 end

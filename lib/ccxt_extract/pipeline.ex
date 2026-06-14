@@ -164,12 +164,12 @@ defmodule CcxtExtract.Pipeline do
     for exchange <- exchanges do
       id = exchange["exchange"]["id"]
       path = Path.join(output_dir, "#{id}.json")
-      File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(exchange), pretty: pretty?))
+      CcxtExtract.JsonIO.write_json!(path, exchange, pretty: pretty?)
     end
 
     manifest = build_manifest(exchanges, opts)
     manifest_path = Path.join(output_dir, "_manifest.json")
-    File.write!(manifest_path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(manifest), pretty: true))
+    CcxtExtract.JsonIO.write_json!(manifest_path, manifest, pretty: true)
     copy_schema!(output_dir)
     copy_base_methods!(output_dir, discoveries_dir)
 

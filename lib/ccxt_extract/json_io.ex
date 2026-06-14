@@ -1,6 +1,6 @@
 defmodule CcxtExtract.JsonIO do
   @moduledoc """
-  Canonical helper for reading and decoding JSON files.
+  Canonical helper for reading, decoding, and writing JSON files.
 
   Replaces seven private `read_json/1` copies (three behavioral shapes) that
   were scattered across pipeline, analysis, and loader modules. Callers that
@@ -54,4 +54,21 @@ defmodule CcxtExtract.JsonIO do
   # sobelow_skip ["Traversal.FileModule"]
   @spec read_json!(Path.t()) :: term()
   def read_json!(path), do: path |> File.read!() |> Jason.decode!()
+
+  @doc """
+  Encode and write a JSON file with deterministic map ordering.
+
+  The payload is normalized through `CcxtExtract.AstNormalize.to_encodable/1`
+  before encoding so every executable JSON write site emits byte-stable keys.
+  """
+  # sobelow_skip ["Traversal.FileModule"]
+  @spec write_json!(Path.t(), term(), [Jason.encode_opt()]) :: :ok
+  def write_json!(path, payload, opts \\ []) do
+    encoded =
+      payload
+      |> CcxtExtract.AstNormalize.to_encodable()
+      |> Jason.encode!(opts)
+
+    File.write!(path, encoded)
+  end
 end

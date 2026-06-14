@@ -111,7 +111,7 @@ defmodule CcxtExtract.Describe do
         "describe" => result["describe"]
       }
 
-      File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(output), pretty: true))
+      CcxtExtract.JsonIO.write_json!(path, output, pretty: true)
     end
 
     if scope == :all do
@@ -129,7 +129,7 @@ defmodule CcxtExtract.Describe do
       "exchanges" => manifest_ids
     }
 
-    File.write!(manifest_path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(manifest), pretty: true))
+    CcxtExtract.JsonIO.write_json!(manifest_path, manifest, pretty: true)
     :ok
   end
 end

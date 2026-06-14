@@ -129,7 +129,7 @@ defmodule CcxtExtract.ErrorClassHierarchy do
       })
 
     File.mkdir_p!(Path.dirname(output_path))
-    File.write!(output_path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(envelope), pretty: true))
+    CcxtExtract.JsonIO.write_json!(output_path, envelope, pretty: true)
     :ok
   end
 

@@ -160,7 +160,7 @@ defmodule CcxtExtract.FixtureParity do
   @spec write!(map(), String.t()) :: :ok
   def write!(report, path) do
     path |> Path.dirname() |> File.mkdir_p!()
-    File.write!(path, Jason.encode!(report, pretty: true))
+    JsonIO.write_json!(path, report, pretty: true)
     :ok
   end
 end

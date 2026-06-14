@@ -193,7 +193,7 @@ defmodule CcxtExtract.LoadMarkets do
         "currencies" => result["currencies"]
       }
 
-      File.write!(path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(output), pretty: true))
+      CcxtExtract.JsonIO.write_json!(path, output, pretty: true)
     end
 
     if scope == :all do
@@ -224,7 +224,7 @@ defmodule CcxtExtract.LoadMarkets do
       "failed" => merged_failed
     }
 
-    File.write!(manifest_path, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(manifest), pretty: true))
+    CcxtExtract.JsonIO.write_json!(manifest_path, manifest, pretty: true)
     :ok
   end
 

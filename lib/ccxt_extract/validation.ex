@@ -170,7 +170,7 @@ defmodule CcxtExtract.Validation do
   @spec write!(map(), String.t()) :: :ok
   def write!(report, output_path \\ Paths.out(@output_file)) do
     File.mkdir_p!(Path.dirname(output_path))
-    File.write!(output_path, Jason.encode!(report, pretty: true))
+    JsonIO.write_json!(output_path, report, pretty: true)
     :ok
   end
 

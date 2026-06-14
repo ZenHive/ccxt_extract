@@ -489,7 +489,7 @@ defmodule Mix.Tasks.CcxtExtract.Setup do
     }
 
     version_file = CcxtExtract.Paths.out_version_file()
-    File.write!(version_file, Jason.encode!(CcxtExtract.AstNormalize.to_encodable(versions), pretty: true))
+    CcxtExtract.JsonIO.write_json!(version_file, versions, pretty: true)
     Mix.shell().info("\nVersions recorded to #{version_file}")
     versions
   end

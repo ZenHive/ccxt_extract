@@ -56,4 +56,24 @@ defmodule CcxtExtract.JsonIOTest do
       assert_raise Jason.DecodeError, fn -> JsonIO.read_json!(path) end
     end
   end
+
+  describe "write_json!/2" do
+    @tag :tmp_dir
+    test "normalizes map keys before writing deterministic JSON", %{tmp_dir: tmp_dir} do
+      path = Path.join(tmp_dir, "out.json")
+
+      assert :ok = JsonIO.write_json!(path, %{b: 2, a: 1})
+
+      assert File.read!(path) == ~s({"a":1,"b":2})
+    end
+
+    @tag :tmp_dir
+    test "passes Jason encoding options through", %{tmp_dir: tmp_dir} do
+      path = Path.join(tmp_dir, "pretty.json")
+
+      assert :ok = JsonIO.write_json!(path, %{b: 2, a: 1}, pretty: true)
+
+      assert File.read!(path) == ~s({\n  "a": 1,\n  "b": 2\n})
+    end
+  end
 end

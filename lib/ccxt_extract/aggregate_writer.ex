@@ -74,7 +74,6 @@ defmodule CcxtExtract.AggregateWriter do
       )
   """
 
-  alias CcxtExtract.AstNormalize
   alias CcxtExtract.JsonIO
   alias CcxtExtract.Scope
 
@@ -152,7 +151,7 @@ defmodule CcxtExtract.AggregateWriter do
       |> Map.put("tier_scope", tier_scope)
 
     File.mkdir_p!(Path.dirname(path))
-    File.write!(path, Jason.encode!(AstNormalize.to_encodable(envelope), pretty: true))
+    JsonIO.write_json!(path, envelope, pretty: true)
     :ok
   end
 
